@@ -1279,6 +1279,12 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition ) => null;
+
+    #endregion
+
     #region Custom
 
     public string Casing( CharacterCasing characterCasing ) => null;
@@ -1408,6 +1414,8 @@ class EmptyClassProvider : IClassProvider
     public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
 
     public string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
+
+    public string ToObjectFitType( ObjectFitType objectFitType ) => null;
 
     #endregion
 

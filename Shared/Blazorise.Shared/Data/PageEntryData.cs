@@ -182,6 +182,7 @@ public class PageEntryData
             new PageEntry( "docs/helpers/enums/validation", "Enums: Validation" ),
             new PageEntry( "docs/helpers/localization", "Localization" ),
             new PageEntry( "docs/helpers/sizes", "Sizes" ),
+            new PageEntry( "docs/helpers/utilities/object-fit", "Object Fit", "Use the object fit utilities to modify how the content of a replaced element, such as an <img> or <video>, should be resized to fit its container." ),
             new PageEntry( "docs/helpers/utilities/position", "Position" ),
             new PageEntry( "docs/helpers/utilities", "Utilities" ),
 

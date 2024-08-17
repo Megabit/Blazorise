@@ -7113,6 +7113,111 @@ td:focus {
   height: auto;
 }
 
+.ant-object-fit-contain {
+  object-fit: contain !important;
+}
+
+.ant-object-fit-cover {
+  object-fit: cover !important;
+}
+
+.ant-object-fit-fill {
+  object-fit: fill !important;
+}
+
+.ant-object-fit-scale {
+  object-fit: scale-down !important;
+}
+
+.ant-object-fit-none {
+  object-fit: none !important;
+}
+
+@media (min-width: 576px) {
+  .ant-object-fit-xs-contain {
+    object-fit: contain !important;
+  }
+  .ant-object-fit-xs-cover {
+    object-fit: cover !important;
+  }
+  .ant-object-fit-xs-fill {
+    object-fit: fill !important;
+  }
+  .ant-object-fit-xs-scale {
+    object-fit: scale-down !important;
+  }
+  .ant-object-fit-xs-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .ant-object-fit-sm-contain {
+    object-fit: contain !important;
+  }
+  .ant-object-fit-sm-cover {
+    object-fit: cover !important;
+  }
+  .ant-object-fit-sm-fill {
+    object-fit: fill !important;
+  }
+  .ant-object-fit-sm-scale {
+    object-fit: scale-down !important;
+  }
+  .ant-object-fit-sm-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .ant-object-fit-md-contain {
+    object-fit: contain !important;
+  }
+  .ant-object-fit-md-cover {
+    object-fit: cover !important;
+  }
+  .ant-object-fit-md-fill {
+    object-fit: fill !important;
+  }
+  .ant-object-fit-md-scale {
+    object-fit: scale-down !important;
+  }
+  .ant-object-fit-md-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ant-object-fit-lg-contain {
+    object-fit: contain !important;
+  }
+  .ant-object-fit-lg-cover {
+    object-fit: cover !important;
+  }
+  .ant-object-fit-lg-fill {
+    object-fit: fill !important;
+  }
+  .ant-object-fit-lg-scale {
+    object-fit: scale-down !important;
+  }
+  .ant-object-fit-lg-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 1600px) {
+  .ant-object-fit-xl-contain {
+    object-fit: contain !important;
+  }
+  .ant-object-fit-xl-cover {
+    object-fit: cover !important;
+  }
+  .ant-object-fit-xl-fill {
+    object-fit: fill !important;
+  }
+  .ant-object-fit-xl-scale {
+    object-fit: scale-down !important;
+  }
+  .ant-object-fit-xl-none {
+    object-fit: none !important;
+  }
+}
 .ant-overflow-auto {
   overflow: auto !important;
 }

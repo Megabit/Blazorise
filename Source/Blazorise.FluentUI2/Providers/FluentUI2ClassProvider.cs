@@ -1690,6 +1690,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"fui-ObjectFit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"fui-ObjectFit-{ToObjectFitType( objectFitType )}";
+    }
+
+    #endregion
+
     #region Elements
 
     public override string UnorderedList() => "unordered-list";
