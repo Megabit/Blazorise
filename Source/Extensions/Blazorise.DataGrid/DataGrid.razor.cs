@@ -3870,7 +3870,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets currently selected cell.
     /// </summary>
     /// <remarks>
-    /// NavigationMode <see cref="DataGridNavigationMode.Cell"/> must be active.
+    /// NavigationMode must be set to <see cref="DataGridNavigationMode.Cell"/>.
     /// </remarks>
     [Parameter] public DataGridCellInfo<TItem> SelectedCell { get; set; }
 
