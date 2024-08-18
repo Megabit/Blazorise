@@ -10666,6 +10666,48 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string TreeViewResourcesExample = @"<link href=""_content/Blazorise.TreeView/blazorise.treeview.css"" rel=""stylesheet"" />";
 
+        public const string TreeViewVirtualizationExample = @"<TreeView Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          @bind-SelectedNode=""selectedNode""
+          @bind-ExpandedNodes=""expandedNodes""
+          Virtualize
+          Height=""Height.Px(300)""
+          Overflow=""Overflow.Scroll"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@code {
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        Items = Enumerable.Range( 1, 4 ).Select( rootIndex => new Item
+        {
+            Text = $""Root Node {rootIndex}"",
+            Children = Enumerable.Range( 1, 100 ).Select( childIndex => new Item
+            {
+                Text = $""Root {rootIndex} - Child {childIndex}"",
+                Children = Enumerable.Empty<Item>() // No children for the child nodes in this example
+            } )
+        } ).ToList();
+
+        base.OnInitialized();
+    }
+
+    IEnumerable<Item> Items;
+
+    IList<Item> expandedNodes = new List<Item>();
+    Item selectedNode;
+}";
+
         public const string BasicVideoExample = @"<Video Source=""@(""http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"")"" />";
 
         public const string DRMVideoExample = @"<Video Source=""@(""https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd"")""

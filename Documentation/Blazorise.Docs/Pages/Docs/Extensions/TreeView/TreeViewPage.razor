@@ -159,6 +159,33 @@
     <DocsPageSectionSource Code="TreeViewContextMenuExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Virtualization">
+        <Paragraph>
+            This example demonstrates how to use virtualization in a Blazorise <Code Tag>TreeView</Code> component to efficiently render large hierarchical data sets. Virtualization improves performance by only rendering the visible nodes in the viewport, rather than all nodes in the tree. This is particularly useful when dealing with large numbers of nodes, as it reduces the DOM size and enhances responsiveness.
+        </Paragraph>
+        <Paragraph>
+            For virtualization to function correctly, it is essential to specify both the <Strong>Height</Strong> and <Strong>Overflow</Strong> properties
+        </Paragraph>
+        <OrderedList>
+            <OrderedListItem>
+                <Paragraph>
+                    <Strong>Height</Strong>: Defines the fixed height of the TreeView component. Without a specified height, the tree would expand indefinitely, defeating the purpose of virtualization since all nodes would be rendered at once.
+                </Paragraph>
+            </OrderedListItem>
+            <OrderedListItem>
+                <Paragraph>
+                    <Strong>Overflow</Strong>: Ensures that the tree's content is scrollable. This scrollable area allows for dynamic loading of nodes as the user scrolls, effectively utilizing virtualization to render only the nodes currently in view.
+                </Paragraph>
+            </OrderedListItem>
+        </OrderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TreeViewVirtualizationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TreeViewVirtualizationExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
