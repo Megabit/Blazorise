@@ -26,6 +26,11 @@
             <Strong>Optimizations:</Strong> Optimized the internals of class providers.
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Object Fit:</Strong> flexible options for element scaling and positioning.
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -66,13 +71,36 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Object Fit Utility
+</Heading>
+
+<Paragraph>
+    We are pleased to introduce the Object Fit Utility, designed to give developers precise control over how elements fit within their containers. This release includes a new ObjectFit fluent utility with options such as Default, None, Contain, Cover, Fill, and Scale, allowing for flexible adaptation of content while maintaining or adjusting aspect ratios. Additionally, a fluent interface, IFluentObjectFit, is provided for easier configuration and application of these styles. This utility ensures responsive design and performance improvements, making it easier to achieve consistent and adaptable layouts across different devices and screen sizes.
+</Paragraph>
+
+<Paragraph>
+    The Object Fit Utility works exceptionally well with HTML <Anchor To="https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element">replaced element</Anchor> such as <Code Tag>img</Code>, <Code Tag>video</Code>, <Code Tag>iframe</Code>. These elements often contain content with intrinsic dimensions, making them ideal candidates for using the ObjectFit utility. By applying ObjectFit options to these replaced elements, developers can control how the content scales and fits within its container, ensuring that images, videos, and other media maintain the desired aspect ratio or fill the container appropriately. This approach helps to achieve more consistent and visually appealing layouts, especially in responsive designs.
+</Paragraph>
+
+<Paragraph>
+    Be sure to update your projects to incorporate these new capabilities and refer to the <Anchor To="docs/helpers/utilities/object-fit">updated documentation</Anchor> for guidance on implementation.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Tooltip Delay
+</Heading>
+
+<Paragraph>
+    Added an option to delay the tooltip show and hide events. This can be useful if you want to prevent the tooltip from showing immediately after the trigger event.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Datagrid
 </Heading>
 
 <Paragraph>
     Added <Code>SelectedCell</Code> and <Code>SelectedCellChanged</Code> parameters, you can now listen to the cell selection changes when the <Code>Datagrid.NavigationMode</Code> is set to <Code>NavigationMode.Cell</Code>
 </Paragraph>
-
 
 <Heading Size="HeadingSize.Is3">
     Optimizations
@@ -84,6 +112,18 @@
 
 <Paragraph>
     So, what did we do. We have changed the signatures of many of IClassProvider methods to make them accept extra attribites. This allows for more customization since now every CSS provider can decide for itsels how it will assign the classname, and how it will render.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Text Decoration
+</Heading>
+
+<Paragraph>
+    The latest update introduces flexible text decoration options in Blazorise. You can now easily apply underline, line-through, and overline styles to text, or remove decorations altogether with the none option. These enhancements allow for more refined text styling and improved design flexibility in your applications.
+</Paragraph>
+
+<Paragraph>
+    For more details and examples, visit the <Anchor To="docs/components/typography" Title="Link to Text Decoration documentation">Text Decoration documentation</Anchor>.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />

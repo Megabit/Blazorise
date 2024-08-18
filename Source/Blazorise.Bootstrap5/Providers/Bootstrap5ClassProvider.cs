@@ -1194,6 +1194,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
 
+    public override string TextDecoration( TextDecoration textDecoration ) => $"text-decoration-{ToTextDecoration( textDecoration )}";
+
     public override string TextWeight( TextWeight textWeight ) => $"fw-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
@@ -1542,6 +1544,21 @@ public class Bootstrap5ClassProvider : ClassProvider
             sb.Append( " translate-" ).Append( ToPositionTranslateType( translateType ) );
 
         return sb.ToString();
+    }
+
+    #endregion
+
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"object-fit-{ToObjectFitType( objectFitType )}";
     }
 
     #endregion
