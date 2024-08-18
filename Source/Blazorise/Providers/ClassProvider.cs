@@ -1056,6 +1056,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TextTransform( TextTransform textTransform );
 
+    public abstract string TextDecoration( TextDecoration textDecoration );
+
     public abstract string TextWeight( TextWeight textWeight );
 
     public abstract string TextOverflow( TextOverflow textOverflow );
@@ -1277,6 +1279,12 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public abstract string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition );
+
+    #endregion
+
     #region Custom
 
     public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -1447,6 +1455,19 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.TextTransform.Lowercase => "lowercase",
             Blazorise.TextTransform.Uppercase => "uppercase",
             Blazorise.TextTransform.Capitalize => "capitalize",
+            _ => null,
+        };
+    }
+
+    public virtual string ToTextDecoration( TextDecoration textDecoration )
+    {
+        return textDecoration switch
+        {
+            Blazorise.TextDecoration.None => "none",
+            Blazorise.TextDecoration.Underline => "underline",
+            Blazorise.TextDecoration.Overline => "overline",
+            Blazorise.TextDecoration.LineThrough => "line-through",
+            Blazorise.TextDecoration.Inherit => "inherit",
             _ => null,
         };
     }
@@ -2076,6 +2097,19 @@ public abstract class ClassProvider : IClassProvider
         {
             TableColumnFixedPosition.Start => "start",
             TableColumnFixedPosition.End => "end",
+            _ => null,
+        };
+    }
+
+    public virtual string ToObjectFitType( ObjectFitType objectFitType )
+    {
+        return objectFitType switch
+        {
+            ObjectFitType.None => "none",
+            ObjectFitType.Contain => "contain",
+            ObjectFitType.Cover => "cover",
+            ObjectFitType.Fill => "fill",
+            ObjectFitType.Scale => "scale",
             _ => null,
         };
     }
