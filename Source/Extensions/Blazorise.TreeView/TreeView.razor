@@ -12,7 +12,6 @@
                            ExpandedNodesChanged="@ExpandedNodesChanged"
                            Expanded
                            AutoExpandAll="@AutoExpandAll"
-                           Virtualize="@Virtualize"
                            HasChildNodes="@HasChildNodes"
                            IsDisabled="@IsDisabled"
                            HasChildNodesAsync="@HasChildNodesAsync"
@@ -51,7 +50,8 @@
                            CollapseIconStyle="@CollapseIconStyle"
                            CollapseIconSize="@CollapseIconSize"
                            ContextMenu="@NodeContextMenu"
-                           ContextMenuPreventDefault="@NodeContextMenuPreventDefault">
+                           ContextMenuPreventDefault="@NodeContextMenuPreventDefault"
+                           Virtualize="@Virtualize">
             </_TreeViewNode>
         </div>
     </CascadingValue>

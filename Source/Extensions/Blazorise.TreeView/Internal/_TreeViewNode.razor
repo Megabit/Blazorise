@@ -5,15 +5,15 @@
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @if ( NodeStates is not null )
         {
-            @if ( Virtualize && NodeStates is ICollection<TreeViewNodeState<TNode>> collectionableData )
+            @if ( Virtualize )
             {
-                <Virtualize TItem="TreeViewNodeState<TNode>" Context="node" Items="@collectionableData">
+                <Virtualize TItem="TreeViewNodeState<TNode>" Context="node" Items="@NodeStates.ToList()">
                     @nodeFragment( node )
                 </Virtualize>
             }
             else
             {
-                @foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+                @foreach ( var nodeState in NodeStates )
                 {
                     @nodeFragment( nodeState )
                 }
@@ -71,7 +71,8 @@
                                CollapseIconStyle="@CollapseIconStyle"
                                SelectionMode="@SelectionMode"
                                ContextMenu="@ContextMenu"
-                               ContextMenuPreventDefault="@ContextMenuPreventDefault" />
+                               ContextMenuPreventDefault="@ContextMenuPreventDefault"
+                               Virtualize="@Virtualize" />
             }
         </div>
     };
