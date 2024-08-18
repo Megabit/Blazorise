@@ -8,7 +8,7 @@
             @if ( Virtualize && NodeStates is ICollection<TreeViewNodeState<TNode>> collectionableData )
             {
                 <Virtualize TItem="TreeViewNodeState<TNode>" Context="node" Items="@collectionableData">
-                    @nodeFragment(node)
+                    @nodeFragment( node )
                 </Virtualize>
             }
             else
@@ -23,18 +23,19 @@
 </CascadingValue>
 
 @code {
-    protected RenderFragment<TreeViewNodeState<TNode>> nodeFragment => nodeState => __builder => {
+    protected RenderFragment<TreeViewNodeState<TNode>> nodeFragment => nodeState => __builder =>
+    {
         <div @key="@nodeState.Key" @oncontextmenu="@((eventArgs)=>OnContextMenuHandler(nodeState, eventArgs))" @oncontextmenu:stopPropagation @oncontextmenu:preventDefault="@ContextMenuPreventDefault">
             @if ( nodeState.HasChildren )
             {
                 <span class="b-tree-view-node-icon" @onclick="@(()=>ToggleNode(nodeState))">
                     @if ( nodeState.Expanded )
                     {
-                        <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize"/>
+                        <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize" />
                     }
                     else
                     {
-                        <Icon Name="@ExpandIconName" IconStyle="@ExpandIconStyle" IconSize="@ExpandIconSize"/>
+                        <Icon Name="@ExpandIconName" IconStyle="@ExpandIconStyle" IconSize="@ExpandIconSize" />
                     }
                 </span>
             }
@@ -44,7 +45,7 @@
                                   SelectionMode="@SelectionMode"
                                   SelectedNodeStyling="@SelectedNodeStyling"
                                   DisabledNodeStyling="@DisabledNodeStyling">
-                @NodeContent(nodeState.Node)
+                @NodeContent( nodeState.Node )
             </_TreeViewNodeContent>
 
             @if ( nodeState.Expanded && nodeState.HasChildren )
@@ -70,7 +71,7 @@
                                CollapseIconStyle="@CollapseIconStyle"
                                SelectionMode="@SelectionMode"
                                ContextMenu="@ContextMenu"
-                               ContextMenuPreventDefault="@ContextMenuPreventDefault"/>
+                               ContextMenuPreventDefault="@ContextMenuPreventDefault" />
             }
         </div>
     };
