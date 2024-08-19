@@ -83,6 +83,7 @@
                                   @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
                                   @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
                                   @onkeydown="@(args => ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? HandleCellKeyDown(args, column) : default)"
+                                  @onfocus="@(args => ParentDataGrid.IsCellNavigable ? HandleCellFocus(args, column) : default)"
                                   tabindex="@(ParentDataGrid.IsCellNavigable ? 0 : null)"
                                   ClickStopPropagation=@column.PreventRowClick
                                   TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"

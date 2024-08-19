@@ -1,0 +1,25 @@
+﻿@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .fui-ObjectFit#{$infix}-contain {
+            object-fit: contain !important;
+        }
+
+        .fui-ObjectFit#{$infix}-cover {
+            object-fit: cover !important;
+        }
+
+        .fui-ObjectFit#{$infix}-fill {
+            object-fit: fill !important;
+        }
+
+        .fui-ObjectFit#{$infix}-scale {
+            object-fit: scale-down !important;
+        }
+
+        .fui-ObjectFit#{$infix}-none {
+            object-fit: none !important;
+        }
+    }
+}

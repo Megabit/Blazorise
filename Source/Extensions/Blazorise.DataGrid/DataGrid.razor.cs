@@ -2179,6 +2179,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
+    internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column )
+    {
+        SelectedCell = new( item, rowInfo, column, column.ToColumnInfo( SortByColumns ), ResolveItemIndex( item ) );
+
+        await SelectedCellChanged.InvokeAsync( SelectedCell );
+    }
+
     protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null ) =>
         HandleSortColumn( column, changeSortDirection, sortDirection, false );
 
@@ -2647,6 +2654,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         return filteredData;
     }
+
 
     private Task SelectRow( TItem item, bool forceSelect = false )
     {
@@ -3857,6 +3865,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the Table's responsive mode.
     /// </summary>
     [Parameter] public TableResponsiveMode ResponsiveMode { get; set; }
+
+    /// <summary>
+    /// Gets or sets the currently selected cell in the data grid.
+    /// </summary>
+    /// <remarks>
+    /// This property is only applicable when <see cref="NavigationMode"/> is set to <see cref="DataGridNavigationMode.Cell"/>.
+    /// </remarks>
+    [Parameter] public DataGridCellInfo<TItem> SelectedCell { get; set; }
+
+    /// <summary>
+    /// Occurs after the selected cell has changed in the data grid.
+    /// </summary>
+    /// <remarks>
+    /// This event is triggered when <see cref="NavigationMode"/> is set to <see cref="DataGridNavigationMode.Cell"/>, indicating that cell-level navigation is enabled.
+    /// Make sure to handle this event if you need to respond to cell selection changes.
+    /// </remarks>
+    [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
 
     #endregion
 }

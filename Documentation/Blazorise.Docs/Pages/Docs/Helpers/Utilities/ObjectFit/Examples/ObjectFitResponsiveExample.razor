@@ -1,0 +1,17 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Row" Overflow="Overflow.Auto" Gap="Gap.Is3">
+    <Image Source="@imageSrc" Text="Placeholder : Contain on xs" ObjectFit="ObjectFit.Contain.OnMobile" Border="@border" Width="@width" Height="@height" />
+    <Image Source="@imageSrc" Text="Placeholder : Contain on sm" ObjectFit="ObjectFit.Contain.OnTablet" Border="@border" Width="@width" Height="@height" />
+    <Image Source="@imageSrc" Text="Placeholder : Contain on md" ObjectFit="ObjectFit.Contain.OnDesktop" Border="@border" Width="@width" Height="@height" />
+    <Image Source="@imageSrc" Text="Placeholder : Contain on lg" ObjectFit="ObjectFit.Contain.OnWidescreen" Border="@border" Width="@width" Height="@height" />
+    <Image Source="@imageSrc" Text="Placeholder : Contain on xl" ObjectFit="ObjectFit.Contain.OnFullHD" Border="@border" Width="@width" Height="@height" />
+    <Image Source="@imageSrc" Text="Placeholder : Contain on xxl" ObjectFit="ObjectFit.Contain.OnQuadHD" Border="@border" Width="@width" Height="@height" />
+</Div>
+
+@code {
+    IFluentSizing width = Width.Px( 140 );
+    IFluentSizing height = Height.Px( 80 );
+    IFluentBorder border = Border.Is1.Rounded;
+    string imageSrc = "_content/Blazorise.Docs/assets/img/photo/mountain.jpg";
+}
