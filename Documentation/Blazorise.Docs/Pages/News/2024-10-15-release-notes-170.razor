@@ -31,6 +31,11 @@
             <Strong>Object Fit:</Strong> flexible options for element scaling and positioning.
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>SelectedCell API:</Strong> listen to the cell selection changes while navigating through DataGrid.
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -92,6 +97,18 @@
 
 <Paragraph>
     Added an option to delay the tooltip show and hide events. This can be useful if you want to prevent the tooltip from showing immediately after the trigger event.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Heading Size="HeadingSize.Is3">
+    SelectedCell API
+</Heading>
+
+<Paragraph>
+    Added <Code>SelectedCell</Code> and <Code>SelectedCellChanged</Code> parameters, you can now listen to the cell selection changes when the <Code>Datagrid.NavigationMode</Code> is set to <Code>NavigationMode.Cell</Code>
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">

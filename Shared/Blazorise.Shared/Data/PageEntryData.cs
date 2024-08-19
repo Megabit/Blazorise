@@ -125,6 +125,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
                 new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),
                 new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Multiple Selection", "Select and manage multiple rows of data with ease using the Blazorise DataGrid's multiple selection feature. Select rows by clicking on them or programmatically, and access the selected data for further use." ),
+                new PageEntry( "docs/extensions/datagrid/selection/cell", "DataGrid Cell Selection", "Easily select and manage a single cell with the Blazorise DataGrid's cell selection feature." ),
                 new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Custom Row Colors", "Easily color code your data with the Blazorise DataGrid's custom row color feature." ),
 
                 new PageEntry( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
