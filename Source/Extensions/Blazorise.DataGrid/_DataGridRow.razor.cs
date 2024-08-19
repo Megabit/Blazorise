@@ -176,7 +176,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         if ( !ParentDataGrid.IsCellNavigable )
             return;
 
-        await ParentDataGrid.HandleSelectedCell(Item, RowInfo, column );
+        await ParentDataGrid.HandleSelectedCell( Item, RowInfo, column );
     }
 
     protected bool BindMouseLeave()

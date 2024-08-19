@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -2180,9 +2179,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
-    internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column  )
+    internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column )
     {
-        SelectedCell = new( item, rowInfo, column, column.ToColumnInfo(SortByColumns), ResolveItemIndex(item) );
+        SelectedCell = new( item, rowInfo, column, column.ToColumnInfo( SortByColumns ), ResolveItemIndex( item ) );
+
         await SelectedCellChanged.InvokeAsync( SelectedCell );
     }
 
@@ -3867,18 +3867,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public TableResponsiveMode ResponsiveMode { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected cell.
+    /// Gets or sets the currently selected cell in the data grid.
     /// </summary>
     /// <remarks>
-    /// NavigationMode must be set to <see cref="DataGridNavigationMode.Cell"/>.
+    /// This property is only applicable when <see cref="NavigationMode"/> is set to <see cref="DataGridNavigationMode.Cell"/>.
     /// </remarks>
     [Parameter] public DataGridCellInfo<TItem> SelectedCell { get; set; }
 
     /// <summary>
-    /// Occurs after the selected cell has changed.
+    /// Occurs after the selected cell has changed in the data grid.
     /// </summary>
     /// <remarks>
-    /// NavigationMode <see cref="DataGridNavigationMode.Cell"/> must be active.
+    /// This event is triggered when <see cref="NavigationMode"/> is set to <see cref="DataGridNavigationMode.Cell"/>, indicating that cell-level navigation is enabled.
+    /// Make sure to handle this event if you need to respond to cell selection changes.
     /// </remarks>
     [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
 

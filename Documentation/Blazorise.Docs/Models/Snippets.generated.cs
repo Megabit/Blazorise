@@ -7158,7 +7158,7 @@ Install-Package Blazorise.Chart.Zoom";
     </Column>
 </Row>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;

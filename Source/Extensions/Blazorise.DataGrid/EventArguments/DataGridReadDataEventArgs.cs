@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.DataGrid;
