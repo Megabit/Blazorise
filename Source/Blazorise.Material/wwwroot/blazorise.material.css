@@ -4146,6 +4146,111 @@ ol.ordered-list-upper-roman {
   overflow: scroll scroll !important;
 }
 
+.object-fit-contain {
+  object-fit: contain !important;
+}
+
+.object-fit-cover {
+  object-fit: cover !important;
+}
+
+.object-fit-fill {
+  object-fit: fill !important;
+}
+
+.object-fit-scale {
+  object-fit: scale-down !important;
+}
+
+.object-fit-none {
+  object-fit: none !important;
+}
+
+@media (min-width: 576px) {
+  .object-fit-sm-contain {
+    object-fit: contain !important;
+  }
+  .object-fit-sm-cover {
+    object-fit: cover !important;
+  }
+  .object-fit-sm-fill {
+    object-fit: fill !important;
+  }
+  .object-fit-sm-scale {
+    object-fit: scale-down !important;
+  }
+  .object-fit-sm-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .object-fit-md-contain {
+    object-fit: contain !important;
+  }
+  .object-fit-md-cover {
+    object-fit: cover !important;
+  }
+  .object-fit-md-fill {
+    object-fit: fill !important;
+  }
+  .object-fit-md-scale {
+    object-fit: scale-down !important;
+  }
+  .object-fit-md-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .object-fit-lg-contain {
+    object-fit: contain !important;
+  }
+  .object-fit-lg-cover {
+    object-fit: cover !important;
+  }
+  .object-fit-lg-fill {
+    object-fit: fill !important;
+  }
+  .object-fit-lg-scale {
+    object-fit: scale-down !important;
+  }
+  .object-fit-lg-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .object-fit-xl-contain {
+    object-fit: contain !important;
+  }
+  .object-fit-xl-cover {
+    object-fit: cover !important;
+  }
+  .object-fit-xl-fill {
+    object-fit: fill !important;
+  }
+  .object-fit-xl-scale {
+    object-fit: scale-down !important;
+  }
+  .object-fit-xl-none {
+    object-fit: none !important;
+  }
+}
+@media (min-width: 1400px) {
+  .object-fit-xxl-contain {
+    object-fit: contain !important;
+  }
+  .object-fit-xxl-cover {
+    object-fit: cover !important;
+  }
+  .object-fit-xxl-fill {
+    object-fit: fill !important;
+  }
+  .object-fit-xxl-scale {
+    object-fit: scale-down !important;
+  }
+  .object-fit-xxl-none {
+    object-fit: none !important;
+  }
+}
 .top-0 {
   top: 0 !important;
 }
@@ -5173,6 +5278,19 @@ h6.card-title,
 }
 .font-weight-semibold {
   font-weight: 600 !important;
+}
+
+.text-decoration-underline {
+  text-decoration: underline !important;
+}
+.text-decoration-overline {
+  text-decoration: overline !important;
+}
+.text-decoration-line-through {
+  text-decoration: line-through !important;
+}
+.text-decoration-inherit {
+  text-decoration: inherit !important;
 }
 
 .flatpickr-months {

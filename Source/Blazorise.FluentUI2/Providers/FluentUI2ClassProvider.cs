@@ -1334,6 +1334,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"fui-TextTransform-{ToTextTransform( textTransform )}";
 
+    public override string TextDecoration( TextDecoration textDecoration ) => $"fui-TextDecoration-{ToTextDecoration( textDecoration )}";
+
     public override string TextWeight( TextWeight textWeight ) => $"fui-TextWeight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"fui-TextOverflow-{ToTextOverflow( textOverflow )}";
@@ -1696,6 +1698,21 @@ public class FluentUI2ClassProvider : ClassProvider
             sb.Append( " fui-Translate-" ).Append( ToPositionTranslateType( translateType ) );
 
         return sb.ToString();
+    }
+
+    #endregion
+
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"fui-ObjectFit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"fui-ObjectFit-{ToObjectFitType( objectFitType )}";
     }
 
     #endregion

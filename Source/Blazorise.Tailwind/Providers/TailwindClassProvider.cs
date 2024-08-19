@@ -1789,6 +1789,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => ToTextTransform( textTransform );
 
+    public override string TextDecoration( TextDecoration textDecoration ) => ToTextDecoration( textDecoration );
+
     public override string TextWeight( TextWeight textWeight ) => $"font-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow )
@@ -2215,6 +2217,21 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"{ToBreakpoint( objectFitDefinition.Breakpoint )}:object-{ToObjectFitType( objectFitType )}";
+
+        return $"object-{ToObjectFitType( objectFitType )}";
+    }
+
+    #endregion
+
     #region Elements
 
     public override string UnorderedList() => "unordered-list";
@@ -2466,7 +2483,33 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string ToTextDecoration( TextDecoration textDecoration )
+    {
+        return textDecoration switch
+        {
+            Blazorise.TextDecoration.None => "no-underline",
+            Blazorise.TextDecoration.Underline => "underline",
+            Blazorise.TextDecoration.Overline => "overline",
+            Blazorise.TextDecoration.LineThrough => "line-through",
+            Blazorise.TextDecoration.Inherit => "inherit",
+            _ => null,
+        };
+    }
+
     public override string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
+
+    public override string ToObjectFitType( ObjectFitType objectFitType )
+    {
+        return objectFitType switch
+        {
+            ObjectFitType.None => "none",
+            ObjectFitType.Contain => "contain",
+            ObjectFitType.Cover => "cover",
+            ObjectFitType.Fill => "fill",
+            ObjectFitType.Scale => "scale-down",
+            _ => null,
+        };
+    }
 
     #endregion
 

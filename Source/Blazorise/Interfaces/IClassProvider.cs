@@ -1054,6 +1054,8 @@ public interface IClassProvider
 
     string TextTransform( TextTransform textTransform );
 
+    string TextDecoration( TextDecoration textDecoration );
+
     string TextWeight( TextWeight textWeight );
 
     string TextOverflow( TextOverflow textOverflow );
@@ -1284,6 +1286,12 @@ public interface IClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition );
+
+    #endregion
+
     #region Custom
 
     string Casing( CharacterCasing characterCasing );
@@ -1418,6 +1426,8 @@ public interface IClassProvider
     string ToPositionTranslateType( PositionTranslateType positionTranslateType );
 
     string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition );
+
+    string ToObjectFitType( ObjectFitType objectFitType );
 
     string ToSkeletonAnimation( SkeletonAnimation animation );
 

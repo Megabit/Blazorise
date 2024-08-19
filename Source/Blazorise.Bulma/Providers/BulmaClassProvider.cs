@@ -1203,6 +1203,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"is-{ToTextTransform( textTransform )}";
 
+    public override string TextDecoration( TextDecoration textDecoration ) => $"has-text-decoration-{ToTextDecoration( textDecoration )}";
+
     public override string TextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"has-text-{ToTextOverflow( textOverflow )}";
@@ -1569,6 +1571,21 @@ public class BulmaClassProvider : ClassProvider
             sb.Append( " is-translate-" ).Append( ToPositionTranslateType( translateType ) );
 
         return sb.ToString();
+    }
+
+    #endregion
+
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"is-object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"is-object-fit-{ToObjectFitType( objectFitType )}";
     }
 
     #endregion

@@ -1200,6 +1200,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"ant-typography-{ToTextTransform( textTransform )}";
 
+    public override string TextDecoration( TextDecoration textDecoration ) => $"ant-typography-decoration-{ToTextDecoration( textDecoration )}";
+
     public override string TextWeight( TextWeight textWeight ) => $"ant-font-weight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
@@ -1561,6 +1563,21 @@ public class AntDesignClassProvider : ClassProvider
             sb.Append( " ant-translate-" ).Append( ToPositionTranslateType( translateType ) );
 
         return sb.ToString();
+    }
+
+    #endregion
+
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"ant-object-fit-{ToObjectFitType( objectFitType )}";
     }
 
     #endregion
