@@ -41,8 +41,8 @@ public partial class Badge : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Badge() );
-        builder.Append( ClassProvider.BadgeColor( Color ), Color != Color.Default );
-        builder.Append( ClassProvider.BadgePill(), Pill );
+        builder.Append( ClassProvider.BadgeColor( Color ) );
+        builder.Append( ClassProvider.BadgePill( Pill ) );
 
         base.BuildClasses( builder );
     }
@@ -54,7 +54,7 @@ public partial class Badge : BaseComponent
     private void BuildCloseClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BadgeClose() );
-        builder.Append( ClassProvider.BadgeColor( Color ) );
+        builder.Append( ClassProvider.BadgeCloseColor( Color ) );
     }
 
     /// <summary>

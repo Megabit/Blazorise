@@ -1,18 +1,4 @@
-﻿$utilities: map-merge(
-  $utilities,
-  (
-    "font-size": map-merge(
-      map-get($utilities, "font-size"),
-      (
-        responsive: true,
-        values: map-merge(
-          map-get(map-get($utilities, "font-size"), "values"),
-          (xs: 0.75rem, sm: 0.925rem, md: 1.125rem, lg: 1.25rem, xl: 1.5rem),
-        ),
-      ),
-    ),
-  )
-);
+﻿$utilities: map-merge( $utilities, ( "font-size": map-merge( map-get($utilities, "font-size"), ( responsive: true, values: map-merge( map-get(map-get($utilities, "font-size"), "values"), (xs: 0.75rem, sm: 0.925rem, md: 1.125rem, lg: 1.25rem, xl: 1.5rem), ), ), ), ) );
 
 // Loop over each breakpoint
 @each $breakpoint in map-keys($grid-breakpoints) {
@@ -30,5 +16,15 @@
                 }
             }
         }
+    }
+}
+
+.text-decoration {
+    &-overline {
+        text-decoration: overline !important;
+    }
+
+    &-inherit {
+        text-decoration: inherit !important;
     }
 }

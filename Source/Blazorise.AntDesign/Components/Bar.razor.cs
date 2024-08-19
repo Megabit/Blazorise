@@ -9,7 +9,7 @@ public partial class Bar : Blazorise.Bar
 {
     #region Members
 
-    private BarMode initalMode = BarMode.Horizontal;
+    private BarMode initialMode = BarMode.Horizontal;
 
     #endregion
 
@@ -17,7 +17,7 @@ public partial class Bar : Blazorise.Bar
 
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.BarCollapsed( initalMode ), !Visible );
+        builder.Append( ClassProvider.BarCollapsed( initialMode, Visible ) );
 
         base.BuildClasses( builder );
     }
@@ -37,7 +37,7 @@ public partial class Bar : Blazorise.Bar
                 return;
 
             base.Mode = !value && CollapseMode == BarCollapseMode.Small ?
-                BarMode.VerticalSmall : initalMode;
+                BarMode.VerticalSmall : initialMode;
 
             base.Visible = value;
         }
@@ -49,10 +49,10 @@ public partial class Bar : Blazorise.Bar
         get => base.Mode;
         set
         {
-            if ( value == initalMode )
+            if ( value == initialMode )
                 return;
 
-            initalMode = value;
+            initialMode = value;
 
             base.Mode = value;
         }

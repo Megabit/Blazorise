@@ -38,8 +38,8 @@ public partial class Layout : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Layout() );
-        builder.Append( ClassProvider.LayoutHasSider(), Sider );
-        builder.Append( ClassProvider.LayoutRoot(), ParentLayout is null );
+        builder.Append( ClassProvider.LayoutHasSider( Sider ) );
+        builder.Append( ClassProvider.LayoutRoot( ParentLayout is null ) );
 
         base.BuildClasses( builder );
     }
@@ -50,7 +50,9 @@ public partial class Layout : BaseComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     protected void BuildLoadingClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.LayoutLoading(), string.IsNullOrEmpty( LoadingClass ) );
+        if ( string.IsNullOrEmpty( LoadingClass ) )
+            builder.Append( ClassProvider.LayoutLoading() );
+
         builder.Append( LoadingClass );
     }
 

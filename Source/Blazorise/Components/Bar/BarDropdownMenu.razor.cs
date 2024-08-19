@@ -36,7 +36,7 @@ public partial class BarDropdownMenu : BaseComponent
     {
         builder.Append( ClassProvider.BarDropdownMenu( ParentDropdownState.Mode ) );
         builder.Append( ClassProvider.BarDropdownMenuVisible( ParentDropdownState.Mode, ParentDropdownState.Visible ) );
-        builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), ParentDropdownState.RightAligned );
+        builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode, ParentDropdownState.RightAligned ) );
 
         base.BuildClasses( builder );
     }
@@ -48,7 +48,7 @@ public partial class BarDropdownMenu : BaseComponent
     protected virtual void BuildContainerClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarDropdownMenuContainer( ParentDropdownState.Mode ) );
-        builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), ParentDropdownState.RightAligned );
+        builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode, ParentDropdownState.RightAligned ) );
     }
 
     /// <inheritdoc/>
