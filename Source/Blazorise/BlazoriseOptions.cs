@@ -124,5 +124,23 @@ public class BlazoriseOptions
     /// </summary>
     public bool SafeJsInvoke { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the options used to configure the behavior of the Tooltip. This allows you to customize the Tooltip's appearance and timing.
+    /// </summary>
+    public BlazoriseTooltipOptions TooltipOptions { get; set; }
+
     #endregion
+}
+
+/// <summary>
+/// Represents the options available for configuring the behavior of a Tooltip in Blazorise.
+/// </summary>
+public class BlazoriseTooltipOptions
+{
+    /// <summary>
+    /// Specifies the delay in milliseconds (ms) after a trigger event before a Tooltip is shown or hidden.
+    /// The delay is defined as a tuple where the first value represents the delay before showing the Tooltip,
+    /// and the second value represents the delay before hiding it. Default is (0, 0) for no delay.
+    /// </summary>
+    public (int Show, int Hide)? Delay { get; set; }
 }
