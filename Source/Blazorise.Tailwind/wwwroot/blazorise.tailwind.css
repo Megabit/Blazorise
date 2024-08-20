@@ -1,4 +1,7 @@
-﻿:root {
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
   --b-bar-horizontal-height: 88px;
 }
 
