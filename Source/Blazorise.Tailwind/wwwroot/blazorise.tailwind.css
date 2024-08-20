@@ -434,9 +434,6 @@ td:focus {
     border-bottom: 1px solid;
   }
 }
-.b-toast {
-  display: none;
-}
 .b-toast.b-toast-fade.flex {
   animation: toast-slidein var(--toast-animation-duration, 300ms) linear;
 }
