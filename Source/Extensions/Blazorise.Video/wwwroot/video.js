@@ -478,11 +478,11 @@ function registerToEvents(dotNetAdapter, player) {
     });
 
     player.addEventListener('seeking', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeking");
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeking", event.detail || 0);
     });
 
     player.addEventListener('seeked', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeked");
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeked", event.detail || 0);
     });
 
     player.addEventListener('rate-change', (event) => {

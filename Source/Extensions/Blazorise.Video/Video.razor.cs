@@ -366,12 +366,13 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Notifies the video component that the media is in seeking mode. Should not be called directly by the user!
     /// </summary>
+    /// <param name="currentTime">Current time in seconds.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
-    public Task NotifySeeking()
+    public Task NotifySeeking( double currentTime )
     {
         if ( Seeking != null )
-            return Seeking.Invoke();
+            return Seeking.Invoke( currentTime );
 
         return Task.CompletedTask;
     }
@@ -379,12 +380,13 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Notifies the video component that the media has ended seeking. Should not be called directly by the user!
     /// </summary>
+    /// <param name="currentTime">Current time in seconds.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
-    public Task NotifySeeked()
+    public Task NotifySeeked( double currentTime )
     {
         if ( Seeked != null )
-            return Seeked.Invoke();
+            return Seeked.Invoke( currentTime );
 
         return Task.CompletedTask;
     }
@@ -728,12 +730,12 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Sent when a seek operation begins.
     /// </summary>
-    [Parameter] public Func<Task> Seeking { get; set; }
+    [Parameter] public Func<double, Task> Seeking { get; set; }
 
     /// <summary>
     /// Sent when a seek operation completes.
     /// </summary>
-    [Parameter] public Func<Task> Seeked { get; set; }
+    [Parameter] public Func<double, Task> Seeked { get; set; }
 
     /// <summary>
     /// Sent when the playback speed changes.
