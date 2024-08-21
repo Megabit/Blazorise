@@ -4,29 +4,56 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Chart options configuration.
+/// </summary>
 public class ChartOptions
 {
+    /// <summary>
+    /// Configuration for chart scales.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartScales Scales { get; set; }
 
+    /// <summary>
+    /// Configuration for chart animation.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartAnimation Animation { get; set; }
 
+    /// <summary>
+    /// Configuration for chart plugins.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartPlugins Plugins { get; set; }
 
+    /// <summary>
+    /// Configuration for chart interactions.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartInteractions Interactions { get; set; }
+    public ChartInteraction Interaction { get; set; }
 
+    /// <summary>
+    /// Configuration for chart parsing.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartParsing Parsing { get; set; }
 
+    /// <summary>
+    /// Configuration for chart elements.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartElements Elements { get; set; }
 
+    /// <summary>
+    /// Configuration for chart layout.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartLayout Layout { get; set; }
 
+    /// <summary>
+    /// Index axis for the chart.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string IndexAxis { get; set; }
 
@@ -50,13 +77,13 @@ public class ChartOptions
     public double? AspectRatio { get; set; }
 
     /// <summary>
-    /// Delay the resize update by give amount of milliseconds. This can ease the resize process by debouncing update of the elements.
+    /// Delay the resize update by given amount of milliseconds. This can ease the resize process by debouncing update of the elements.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? ResizeDelay { get; set; }
 
     /// <summary>
-    /// A string with a BCP 47 language tag, leveraging on <see href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat">INTL NumberFormat</see>
+    /// A string with a BCP 47 language tag, leveraging on <Anchor To="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat" />
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Locale { get; set; }

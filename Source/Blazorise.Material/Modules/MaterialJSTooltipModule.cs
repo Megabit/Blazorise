@@ -5,8 +5,8 @@ namespace Blazorise.Material.Modules;
 
 internal class MaterialJSTooltipModule : JSTooltipModule
 {
-    public MaterialJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public MaterialJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

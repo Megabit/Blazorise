@@ -18,7 +18,7 @@ public static class Config
         serviceCollection.AddSingleton<IClassProvider>( classProvider );
         serviceCollection.AddSingleton<IStyleProvider, FluentUI2StyleProvider>();
         serviceCollection.AddSingleton<IBehaviourProvider, FluentUI2BehaviourProvider>();
-        serviceCollection.AddSingleton<IThemeGenerator, FluentUI2ThemeGenerator>();
+        serviceCollection.AddScoped<IThemeGenerator, FluentUI2ThemeGenerator>();
 
         foreach ( var mapping in ComponentMap )
         {
@@ -34,7 +34,7 @@ public static class Config
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
         { typeof( Blazorise.AccordionToggle ), typeof( Components.AccordionToggle ) },
-        { typeof( Blazorise.Addon ), typeof( Components.Addon ) },        
+        { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
         { typeof( Blazorise.Alert ), typeof( Components.Alert ) },
         { typeof( Blazorise.AlertDescription ), typeof( Components.AlertDescription ) },
         { typeof( Blazorise.AlertMessage ), typeof( Components.AlertMessage ) },
@@ -56,7 +56,7 @@ public static class Config
         { typeof( Blazorise.Divider ), typeof( Components.Divider ) },
         { typeof( Blazorise.DatePicker<> ), typeof( Components.DatePicker<> ) },
         { typeof( Blazorise.DropdownHeader ), typeof( Components.DropdownHeader ) },
-        { typeof( Blazorise.DropdownItem ), typeof( Components.DropdownItem ) },        
+        { typeof( Blazorise.DropdownItem ), typeof( Components.DropdownItem ) },
         { typeof( Blazorise.DropdownMenu ), typeof( Components.DropdownMenu ) },
         { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
         { typeof( Blazorise.Field ), typeof( Components.Field ) },

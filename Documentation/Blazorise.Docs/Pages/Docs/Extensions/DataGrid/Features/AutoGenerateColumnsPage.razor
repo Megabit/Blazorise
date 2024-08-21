@@ -17,6 +17,29 @@
 <DocsPageParagraph>
     If no columns are defined, the DataGrid will automatically generate columns based on the TItem type.
 </DocsPageParagraph>
+<DocsPageParagraph>
+    An attribute based API is provided to specify additional metadata that is used to specify how the columns will be built.
+</DocsPageParagraph>
+<DocsPageUnorderedList>
+    <DocsPageUnorderedListItem>
+        <Code>[DisplayAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the caption.
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        <Code>[OrderAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the order in which they should be displayed or edited.
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        <Code>[IgnoreFieldAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify they should not be automatically generated.
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        <Code>[SelectAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify additional metadata for a select component.
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        <Code>[NumericAttribute]</Code> - Represents an attribute that can be applied to numeric properties or fields to specify additional metadata.
+    </DocsPageUnorderedListItem>
+    <DocsPageUnorderedListItem>
+        <Code>[DateAttribute]</Code> - Represents an attribute that can be applied to date properties or fields to specify additional metadata.
+    </DocsPageUnorderedListItem>
+</DocsPageUnorderedList>
 
 <DocsPageSubtitle>
     Example

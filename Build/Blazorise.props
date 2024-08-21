@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.5.1</Version>
-		<PackageVersion>1.5.1</PackageVersion>
+		<Version>1.6.0</Version>
+		<PackageVersion>1.6.0</PackageVersion>
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
@@ -17,7 +17,7 @@
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>

@@ -36,6 +36,10 @@ public partial class DocsMethods
 
     [Parameter] public bool Ordered { get; set; } = true;
 
+    [Parameter] public bool ShowReturnType { get; set; } = true;
+
+    [Parameter] public bool ShowParameters { get; set; } = true;
+
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     public List<DocsMethodsItem> DocsMethodsItems { get; set; } = new();

@@ -1,10 +1,13 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -16,8 +19,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
-    protected readonly Lazy<Func<Type>> valueTypeGetter;
-    protected readonly Lazy<Func<object>> defaultValueByType;
+    protected readonly Lazy<Func<TItem, Type>> valueTypeGetter;
     protected readonly Lazy<Func<TItem, object>> valueGetter;
     protected readonly Lazy<Action<TItem, object>> valueSetter;
     protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
@@ -35,18 +37,73 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     public DataGridColumn()
     {
-        // TODO: move this to cached FunctionCompiler so it doesn't get compiled every time
-        valueTypeGetter = new( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
-        defaultValueByType = new( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
-        valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
-        valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
-        sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
-    }
 
+        if ( typeof( TItem ) == typeof( ExpandoObject ) )
+        {
+            valueTypeGetter = new( ExpandoObjectTypeGetter );
+
+            valueGetter = new( ExpandoObjectValueGetter );
+            valueSetter = new( ExpandoObjectValueSetter );
+            sortFieldGetter = new( ExpandoObjectSortGetter() );
+        }
+        else
+        {
+            // TODO: move this to cached FunctionCompiler so it doesn't get compiled every time
+            valueTypeGetter = new( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
+            valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
+            valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
+            sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
+        }
+    }
 
     #endregion
 
     #region Methods
+
+    internal DataGridColumnInfo ToColumnInfo( IList<DataGridColumn<TItem>> sortByColumns )
+    {
+        return new DataGridColumnInfo(
+            Field,
+            Filter?.SearchValue,
+            CurrentSortDirection,
+            sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( this ) )?.SortOrder ?? -1,
+            ColumnType,
+            GetFieldToSort(),
+            GetFilterMethod() ?? GetDataGridFilterMethodAsColumn() );
+    }
+
+    private Func<TItem, Type> ExpandoObjectTypeGetter()
+    {
+        return ( item ) => item is null
+            ? typeof( object )
+            : ( item as ExpandoObject ).FirstOrDefault( x => x.Key == Field ).Value?.GetType() ?? typeof( object );
+    }
+
+    private Func<TItem, object> ExpandoObjectSortGetter()
+    {
+        return ( item ) => ( item as ExpandoObject ).FirstOrDefault( x => x.Key == SortField ).Value;
+    }
+
+    private Action<TItem, object> ExpandoObjectValueSetter()
+    {
+        return ( item, value ) =>
+        {
+            var expandoAsDictionary = ( item as IDictionary<string, object> );
+            if ( expandoAsDictionary.ContainsKey( Field ) )
+            {
+                expandoAsDictionary[Field] = value;
+            }
+            else
+            {
+                expandoAsDictionary.TryAdd( Field, value );
+            }
+        };
+    }
+
+    private Func<TItem, object> ExpandoObjectValueGetter()
+    {
+        return ( item ) => ( item as ExpandoObject ).FirstOrDefault( x => x.Key == Field ).Value;
+    }
 
     /// <summary>
     /// Initializes the default values for this column.
@@ -133,17 +190,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Gets the typeof() of the value associated with this column field.
     /// </summary>
     /// <returns></returns>
-    internal Type GetValueType()
+    internal Type GetValueType( TItem item )
         => !string.IsNullOrEmpty( Field )
-            ? valueTypeGetter.Value()
+            ? valueTypeGetter.Value( item )
             : default;
-
-    /// <summary>
-    /// Gets default value based on the typeof() of the value associated with this column field.
-    /// </summary>
-    /// <returns></returns>
-    internal object GetDefaultValueByType()
-        => defaultValueByType.Value();
 
     /// <summary>
     /// Gets the current value for the field in the supplied model.

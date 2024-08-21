@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseDraggableComponent
-<td @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" 
+<td @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
     @onclick="@OnClickHandler"
     @onclick:preventDefault="@ClickPreventDefault"
     @onclick:stopPropagation="@ClickStopPropagation"
@@ -18,6 +18,7 @@
     @ondrop:preventDefault="@DropPreventDefault"
     @oncontextmenu="@OnContextMenuHandler"
     @oncontextmenu:preventDefault="@ContextMenuPreventDefault"
+    data-caption="@MobileModeCaption"
     @attributes="@Attributes">
     @ChildContent
 </td>

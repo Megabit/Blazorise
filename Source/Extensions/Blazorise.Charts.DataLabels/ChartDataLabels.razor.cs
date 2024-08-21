@@ -61,7 +61,7 @@ public partial class ChartDataLabels<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( JSModule == null )
         {
-            JSModule = new JSChartDataLabelsModule( JSRuntime, VersionProvider );
+            JSModule = new JSChartDataLabelsModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
             ExecuteAfterRender( async () =>
             {
@@ -111,6 +111,11 @@ public partial class ChartDataLabels<TItem> : BaseComponent, IAsyncDisposable
     /// Gets or sets the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// List of datalabels to apply to the parent chart.

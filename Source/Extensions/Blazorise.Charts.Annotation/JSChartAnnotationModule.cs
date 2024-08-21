@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.JSInterop;
@@ -15,8 +14,9 @@ public class JSChartAnnotationModule : BaseJSModule
     /// </summary>
     /// <param name="jsRuntime">JavaScript runtime instance.</param>
     /// <param name="versionProvider">Version provider.</param>
-    public JSChartAnnotationModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    /// <param name="options">Blazorise options.</param>
+    public JSChartAnnotationModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

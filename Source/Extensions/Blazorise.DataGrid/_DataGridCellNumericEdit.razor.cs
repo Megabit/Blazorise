@@ -23,7 +23,7 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        valueType = Column.GetValueType();
+        valueType = Column.GetValueType( default );
         elementId = IdGenerator.Generate;
         base.OnInitialized();
     }
@@ -37,8 +37,20 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         {
             if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
             {
+                var cellValue = ParentDataGrid.ReadCellEditValue( Column.Field )?.ToString();
+                var columnValue = Column.GetValue( ParentDataGrid.editItem )?.ToString();
+                var valueHasChanged = cellValue != columnValue;
+
                 await Task.Yield();
-                await Focus();
+                if ( ParentDataGrid.IsCellEditSelectTextOnEdit && !valueHasChanged )
+                {
+                    await Select();
+                }
+                else
+                {
+                    await Focus();
+                }
+
             }
         }
         await base.OnAfterRenderAsync( firstRender );
@@ -49,6 +61,10 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         await JSUtilitiesModule.Focus( default, elementId, true );
     }
 
+    public async Task Select()
+    {
+        await JSUtilitiesModule.Select( default, elementId, true );
+    }
 
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 

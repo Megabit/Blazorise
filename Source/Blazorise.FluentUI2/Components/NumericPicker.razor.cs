@@ -5,7 +5,7 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.FluentUI2;
+namespace Blazorise.FluentUI2.Components;
 
 public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 {
@@ -57,7 +57,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
     private void BuildNumericWrapperClasses( ClassBuilder builder )
     {
         builder.Append( "fui-SpinButton" );
-        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         if ( numericWrapperWidth != null )
         {

@@ -33,10 +33,14 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        var datesUsed = parameters.TryGetValue( nameof( Dates ), out IReadOnlyList<TValue> paramDates );
+
         if ( Rendered )
         {
-            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !Date.Equals( paramDate );
-            var datesChanged = parameters.TryGetValue( nameof( Dates ), out IEnumerable<TValue> paramDates ) && !Dates.AreEqual( paramDates );
+            var dateUsed = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate );
+
+            var dateChanged = dateUsed && !Date.Equals( paramDate );
+            var datesChanged = datesUsed && !Dates.AreEqual( paramDates );
             var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
             var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
@@ -46,6 +50,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
             var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
+            var disabledDaysChanged = parameters.TryGetValue( nameof( DisabledDays ), out IEnumerable<DayOfWeek> paramDisabledDays ) && !DisabledDays.AreEqual( paramDisabledDays );
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
             var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
@@ -75,6 +80,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || disabledChanged
                  || readOnlyChanged
                  || disabledDatesChanged
+                 || disabledDaysChanged
                  || selectionModeChanged
                  || inlineChanged
                  || disableMobileChanged
@@ -92,6 +98,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Disabled = new { Changed = disabledChanged, Value = paramDisabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
                     DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
+                    DisabledDays = new { Changed = disabledDaysChanged, Value = paramDisabledDays?.Select( x => (int)x ) },
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                     Inline = new { Changed = inlineChanged, Value = paramInline },
                     DisableMobile = new { Changed = disableMobileChanged, Value = paramDisableMobile },
@@ -106,17 +113,29 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( datesUsed )
             {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
-                    ? new TValue[] { inDate }
-                    : InternalValue;
+                if ( parameters.TryGetValue<Expression<Func<IReadOnlyList<TValue>>>>( nameof( DatesExpression ), out var datesExpression ) )
+                    await ParentValidation.InitializeInputExpression( datesExpression );
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+                {
+                    await ParentValidation.InitializeInputPattern( pattern, paramDates );
+                }
+            }
+            else // fallback to default behavior
+            {
+                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var dateExpression ) )
+                    await ParentValidation.InitializeInputExpression( dateExpression );
+
+                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+                {
+                    var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
+                        ? new TValue[] { inDate }
+                        : InternalValue;
+
+                    await ParentValidation.InitializeInputPattern( pattern, value );
+                }
             }
 
             await InitializeValidation();
@@ -157,6 +176,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             Disabled,
             ReadOnly,
             DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
+            DisabledDays = DisabledDays?.Select( x => (int)x ),
             Localization = GetLocalizationObject(),
             Inline,
             DisableMobile,
@@ -194,7 +214,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         builder.Append( ClassProvider.DatePicker( Plaintext ) );
         builder.Append( ClassProvider.DatePickerSize( ThemeSize ) );
         builder.Append( ClassProvider.DatePickerColor( Color ) );
-        builder.Append( ClassProvider.DatePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.DatePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -457,6 +477,17 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     protected override bool IsSameAsInternalValue( IReadOnlyList<TValue> value ) => value.AreEqual( InternalValue );
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( DateExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( DateExpression )
+            : ExpressionFormatter.FormatLambda( DateExpression );
+    }
+
     #endregion
 
     #region Properties
@@ -600,6 +631,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// List of disabled dates that the user should not be able to pick.
     /// </summary>
     [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
+
+    /// <summary>
+    /// List of disabled days in a week that the user should not be able to pick.
+    /// </summary>
+    [Parameter] public IEnumerable<DayOfWeek> DisabledDays { get; set; }
 
     /// <summary>
     /// Display the calendar in an always-open state with the inline option.

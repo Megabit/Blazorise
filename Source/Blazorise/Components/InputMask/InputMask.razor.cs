@@ -71,7 +71,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
             Alias,
             InputFormat,
             OutputFormat,
-            Placeholder,
+            MaskPlaceholder,
             ShowMaskOnFocus,
             ShowMaskOnHover,
             NumericInput,
@@ -110,7 +110,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
         builder.Append( ClassProvider.InputMask( Plaintext ) );
         builder.Append( ClassProvider.InputMaskSize( ThemeSize ) );
         builder.Append( ClassProvider.InputMaskColor( Color ) );
-        builder.Append( ClassProvider.InputMaskValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.InputMaskValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -182,6 +182,17 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
         return Cleared.InvokeAsync();
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( ValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
+    }
+
     #endregion
 
     #region Properties
@@ -216,6 +227,11 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     /// The mask to use for the input.
     /// </summary>
     [Parameter] public string Mask { get; set; }
+
+    /// <summary>
+    /// The placeholder that will be used for the mask.
+    /// </summary>
+    [Parameter] public string MaskPlaceholder { get; set; }
 
     /// <summary>
     /// Use a regular expression as a mask.

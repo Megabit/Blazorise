@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
@@ -21,8 +22,9 @@ public class JSVideoModule : BaseJSModule,
     /// </summary>
     /// <param name="jsRuntime">JavaScript runtime instance.</param>
     /// <param name="versionProvider">Version provider.</param>
-    public JSVideoModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    /// <param name="options">Blazorise options.</param>
+    public JSVideoModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 
@@ -161,6 +163,34 @@ public class JSVideoModule : BaseJSModule,
         var moduleInstance = await Module;
 
         await moduleInstance.InvokeVoidAsync( "toggleControls", elementRef, elementId );
+    }
+
+    public virtual async ValueTask ShowTextTrack( ElementReference elementRef, string elementId, int textTrackId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "showTextTrack", elementRef, elementId, textTrackId );
+    }
+
+    public virtual async ValueTask HideTextTrack( ElementReference elementRef, string elementId, int textTrackId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "hideTextTrack", elementRef, elementId, textTrackId );
+    }
+
+    public virtual async ValueTask AddTextTrack( ElementReference elementRef, string elementId, VideoTrack track )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "addTextTrack", elementRef, elementId, track );
+    }
+
+    public virtual async ValueTask ClearTextTracks( ElementReference elementRef, string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "clearTextTracks", elementRef, elementId );
     }
 
     #endregion

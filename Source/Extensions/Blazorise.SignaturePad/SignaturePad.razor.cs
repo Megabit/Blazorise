@@ -77,7 +77,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-            JSModule = new JSSignaturePadModule( JSRuntime, VersionProvider );
+            JSModule = new JSSignaturePadModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
             {
@@ -260,6 +260,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// Gets or sets the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     ///<summary>
     /// Gets or sets value for the signature pad.

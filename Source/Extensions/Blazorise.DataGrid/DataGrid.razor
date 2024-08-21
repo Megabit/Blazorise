@@ -22,7 +22,7 @@
         {
             <_DataGridColumnDropZone TItem="TItem" Columns="@groupableColumns" ColumnRemoved="@RemoveGroupColumn" ColumnAdded="@AddGroupColumn" />
         }
-        <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedColumns="@FixedColumns" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" @attributes="@Attributes">
+        <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedColumns="@FixedColumns" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" ResponsiveMode="@ResponsiveMode" @attributes="@Attributes">
             <TableHeader ThemeContrast="HeaderThemeContrast">
                 @if ( IsGroupHeaderCaptionsEnabled )
                 {
@@ -126,7 +126,7 @@
                                             }
                                         }
 
-                                        @if ( Filterable && column.Filterable && (( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ))
+                                        @if ( Filterable && column.Filterable && ( ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ) )
                                         {
                                             <_DataGridMenuFilter Column="column" />
                                         }
@@ -181,21 +181,7 @@
                                     }
                                     else
                                     {
-                                        //If this grows, move to a seperate component.
-                                        if ( column is DataGridNumericColumn<TItem> numericColumn )
-                                        {
-                                            <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@(numericColumn.Filter.SearchValue)" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellNumericEdit>
-
-                                        }
-                                        else if ( column is DataGridSelectColumn<TItem> selectColumn )
-                                        {
-                                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
-
-                                        }
-                                        else
-                                        {
-                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
-                                        }
+                                        <_DataGridCellFilter Column="column" OnFilterChanged="@((newValue) => OnFilterChanged(column, newValue))" />
                                     }
                                 </TableHeaderCell>
                             }
@@ -275,7 +261,7 @@
                 @if ( IsLoadingTemplateVisible )
                 {
                     <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
-                         @LoadingTemplate
+                        @LoadingTemplate
 
                     </_DataGridFullColumnSpanRow>
                 }

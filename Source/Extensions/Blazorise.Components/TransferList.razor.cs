@@ -39,8 +39,8 @@ public partial class TransferList<TItem> : ComponentBase
         if ( bothListsEmpty )
         {
             // If both lists are empty, then we just start with the items in the start list.
-            ItemsStart = Items;
-            ItemsStartChanged.InvokeAsync( Items );
+            ItemsStart = Items.ToList();
+            ItemsStartChanged.InvokeAsync( ItemsStart );
         }
         else if ( startNotEmptyButEndEmpty )
         {

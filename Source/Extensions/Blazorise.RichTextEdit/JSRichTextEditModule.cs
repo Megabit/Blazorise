@@ -25,8 +25,8 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     /// <summary>
     /// Creates a new RichTextEditJsInterop
     /// </summary>
-    public JSRichTextEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, RichTextEditOptions options )
-        : base( jsRuntime, versionProvider )
+    public JSRichTextEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions blazoriseOptions, RichTextEditOptions options )
+        : base( jsRuntime, versionProvider, blazoriseOptions )
     {
         this.options = options;
     }

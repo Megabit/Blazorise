@@ -56,11 +56,11 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Switch() );
-        builder.Append( ClassProvider.SwitchColor( Color ), Color != Color.Default );
-        builder.Append( ClassProvider.SwitchSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.SwitchColor( Color ) );
+        builder.Append( ClassProvider.SwitchSize( ThemeSize ) );
         builder.Append( ClassProvider.SwitchChecked( IsChecked ) );
-        builder.Append( ClassProvider.SwitchCursor( Cursor ), Cursor != Cursor.Default );
-        builder.Append( ClassProvider.SwitchValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.SwitchCursor( Cursor ) );
+        builder.Append( ClassProvider.SwitchValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

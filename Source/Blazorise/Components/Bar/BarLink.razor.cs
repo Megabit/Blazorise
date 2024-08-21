@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -25,7 +26,7 @@ public partial class BarLink : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarLink( ParentBarItemState?.Mode ?? BarMode.Horizontal ) );
-        builder.Append( ClassProvider.BarLinkDisabled( ParentBarItemState?.Mode ?? BarMode.Horizontal ), ParentBarItemState?.Disabled ?? false );
+        builder.Append( ClassProvider.BarLinkDisabled( ParentBarItemState?.Mode ?? BarMode.Horizontal, ParentBarItemState?.Disabled ?? false ) );
 
         base.BuildClasses( builder );
     }
@@ -39,6 +40,14 @@ public partial class BarLink : BaseComponent
     {
         return Clicked.InvokeAsync( eventArgs );
     }
+
+    /// <summary>
+    /// Gets the rel attribute value.
+    /// </summary>
+    /// <returns>
+    /// Returns "noopener noreferrer" if the <see cref="Target"/> is set to <see cref="Target.Blank"/>.
+    /// </returns>
+    protected string GetRel() => Target == Target.Blank ? "noopener noreferrer" : null;
 
     #endregion
 
@@ -63,6 +72,11 @@ public partial class BarLink : BaseComponent
     /// URL matching behavior for a link.
     /// </summary>
     [Parameter] public Match Match { get; set; } = Match.All;
+
+    /// <summary>
+    /// A callback function that is used to compare current uri with the user defined uri. Must enable <see cref="Match.Custom"/> to be used.
+    /// </summary>
+    [Parameter] public Func<string, bool> CustomMatch { get; set; }
 
     /// <summary>
     /// Specify extra information about the element.

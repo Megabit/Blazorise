@@ -31,7 +31,7 @@ public record Color : Enumeration<Color>
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.
     /// </summary>
-    public static readonly Color Default = new( (string)null );
+    public static readonly Color Default = new( null );
 
     /// <summary>
     /// Primary color.

@@ -1,0 +1,23 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Blazorise.ThemeProvider Theme="@theme">
+    <Router AppAssembly="typeof(App).Assembly">
+        <Found>...</Found>
+        <NotFound>...</NotFound>
+    </Router>
+</Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = new Theme
+    {
+        BodyOptions = new ThemeBodyOptions
+        {
+            BackgroundColor = "#dbdbdb",
+            FontOptions = new ThemeFontOptions
+            {
+                Family = "Arial, Helvetica, sans-serif",
+                Size = "1.25rem",
+            }
+        }
+    };
+}

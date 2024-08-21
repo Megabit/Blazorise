@@ -36,7 +36,7 @@ public partial class TableRowCell : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableRowCell() );
-        builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.TableRowCellColor( Color ) );
         builder.Append( ClassProvider.TableRowCellFixed( FixedPosition ) );
 
         base.BuildClasses( builder );
@@ -155,6 +155,11 @@ public partial class TableRowCell : BaseDraggableComponent
     /// Used to stop progation of the click action event.
     /// </summary>
     [Parameter] public bool ClickStopPropagation { get; set; }
+
+    /// <summary>
+    /// When the <see cref="Table.ResponsiveMode"/> is set to <see cref="TableResponsiveMode.Mobile"/>, this caption will be used for the row.
+    /// </summary>
+    [Parameter] public string MobileModeCaption { get; set; }
 
     #endregion
 }

@@ -148,6 +148,37 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
+    protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
+    {
+        if ( !ParentDataGrid.IsCellEdit )
+            return;
+
+        var isKeyboardKeyText = args.IsTextKey();
+        if ( !args.IsModifierKey() )
+        {
+            if ( isKeyboardKeyText )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), args.Key );
+            }
+            else if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), null );
+            }
+            else if ( args.Code == "Backspace" )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), string.Empty );
+            }
+        }
+    }
+
+    protected async Task HandleCellFocus( FocusEventArgs args, DataGridColumn<TItem> column )
+    {
+        if ( !ParentDataGrid.IsCellNavigable )
+            return;
+
+        await ParentDataGrid.HandleSelectedCell( Item, RowInfo, column );
+    }
+
     protected bool BindMouseLeave()
         => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 
@@ -167,6 +198,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
     protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
     {
+        var multiSelectPreventRowClick = clickFromMultiSelectCheck && ( ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false );
         if ( !clickFromMultiSelectCheck )
             await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
@@ -180,7 +212,10 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             await HandleMultiSelectClick( eventArgs );
         }
 
-        await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
+        if ( !multiSelectPreventRowClick )
+        {
+            await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
+        }
 
         clickFromMultiSelectCheck = false;
     }
@@ -246,6 +281,11 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected Task OnMultiSelectCheckClicked()
     {
         clickFromMultiSelectCheck = true;
+
+        if ( ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false ) // MultiSelectColumn was prevented from propagating RowClick however we still want to process parts of it.
+        {
+            return HandleClick( new BLMouseEventArgs( MouseButton.Left, 1, System.Drawing.Point.Empty, System.Drawing.Point.Empty, false, false, false, false ) );
+        }
 
         return Task.CompletedTask;
     }

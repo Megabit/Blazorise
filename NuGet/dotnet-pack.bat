@@ -19,6 +19,7 @@ dotnet pack ../Source/Extensions/Blazorise.Charts.Annotation/Blazorise.Charts.An
 dotnet pack ../Source/Extensions/Blazorise.Charts.DataLabels/Blazorise.Charts.DataLabels.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Charts.Streaming/Blazorise.Charts.Streaming.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Charts.Trendline/Blazorise.Charts.Trendline.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Charts.Zoom/Blazorise.Charts.Zoom.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Components/Blazorise.Components.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Cropper/Blazorise.Cropper.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg

@@ -86,3 +86,44 @@ tr {
         }
     }
 }
+
+td:focus {
+    outline: -webkit-focus-ring-color auto 1px;
+}
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+
+    .is-table-mobile {
+
+        [data-caption]:before {
+            content: attr(data-caption);
+        }
+        /* Force table to not be like tables anymore */
+        thead, tbody, th, td, tr {
+            display: block;
+        }
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+        td, th {
+            /* Behave  like a "row" */
+            position: relative;
+            padding-top: 1.5rem !important;
+
+            &:before {
+                position: absolute;
+                top: 0;
+                white-space: nowrap;
+                font-weight: bold;
+            }
+        }
+
+        &:not(.is-borderless) tr {
+            border-bottom: 1px solid;
+        }
+    }
+}

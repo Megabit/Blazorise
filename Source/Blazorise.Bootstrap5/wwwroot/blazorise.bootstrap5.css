@@ -893,6 +893,10 @@ input[readonly=readonly][type=range]::-ms-thumb {
   color: var(--b-theme-danger, #dc3545);
 }
 
+.form-group.row > label + div:has(> .flatpickr-wrapper) {
+  position: relative;
+}
+
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;
@@ -1759,6 +1763,41 @@ tr.table-row-selectable:focus[tabindex="0"] {
   border-inline-start-width: 1px;
 }
 
+td:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  .table-mobile {
+    /* Force table to not be like tables anymore */
+    /* Hide table headers (but not display: none;, for accessibility) */
+  }
+  .table-mobile [data-caption]:before {
+    content: attr(data-caption);
+  }
+  .table-mobile thead, .table-mobile tbody, .table-mobile th, .table-mobile td, .table-mobile tr {
+    display: block;
+  }
+  .table-mobile thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .table-mobile td, .table-mobile th {
+    /* Behave  like a "row" */
+    position: relative;
+    padding-top: 1.5rem !important;
+  }
+  .table-mobile td:before, .table-mobile th:before {
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  .table-mobile:not(.table-borderless) tr {
+    border-bottom: 1px solid;
+  }
+}
 .snackbar-stack {
   z-index: 1069 !important;
 }
@@ -4430,6 +4469,13 @@ ol.ordered-list-upper-roman {
     font-size: calc(1.275rem + 0.3vw) !important;
   }
 }
+.text-decoration-overline {
+  text-decoration: overline !important;
+}
+.text-decoration-inherit {
+  text-decoration: inherit !important;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }

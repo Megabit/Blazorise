@@ -110,7 +110,7 @@ public record VideoSource
     /// and similar for the French version. Booleans are converted to HTML5 value-less attributes.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ValueEqualityList<VideoMedia> Tracks { get; set; }
+    public ValueEqualityList<VideoTrack> Tracks { get; set; }
 
     #endregion
 }

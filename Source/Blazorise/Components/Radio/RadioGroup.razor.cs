@@ -63,8 +63,8 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.RadioGroup( Buttons, Orientation ) );
-        builder.Append( ClassProvider.RadioGroupSize( Buttons, Orientation, ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.RadioGroupValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status > ValidationStatus.None );
+        builder.Append( ClassProvider.RadioGroupSize( Buttons, Orientation, ThemeSize ) );
+        builder.Append( ClassProvider.RadioGroupValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -114,6 +114,17 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
         // Since radios validation works little different when placed in radio group we need
         // to notify them to re-render when validation changes.
         RadioCheckedChanged?.Invoke( this, new( CheckedValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( CheckedValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( CheckedValueExpression )
+            : ExpressionFormatter.FormatLambda( CheckedValueExpression );
     }
 
     #endregion

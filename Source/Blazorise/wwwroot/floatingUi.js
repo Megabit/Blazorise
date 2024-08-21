@@ -1,4 +1,4 @@
-import { computePosition, autoUpdate, flip, shift, limitShift } from './vendors/floating-ui.js?v=1.5.1.0';
+import { computePosition, autoUpdate, flip, shift, limitShift } from './vendors/floating-ui.js?v=1.6.0.0';
 
 const DIRECTION_DEFAULT = 'Default'
 const DIRECTION_DOWN = 'Down'

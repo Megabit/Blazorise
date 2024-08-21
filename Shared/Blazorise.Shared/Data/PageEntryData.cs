@@ -91,6 +91,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/chart-datalabels", "Chart DataLabels", "Display labels on data for any type of charts." ),
                 new PageEntry( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),
                 new PageEntry( "docs/extensions/chart-trendline", "Chart Trendline", "This plugin draws an linear trendline in your Chart." ),
+                new PageEntry( "docs/extensions/chart-zoom", "Chart Zoom", "Zoom and pan the chart with the zoom plugin." ),
                 new PageEntry( "docs/extensions/datagrid/aggregates", "DataGrid Aggregates" ),
 
                 new PageEntry( "docs/extensions/datagrid/getting-started", "DataGrid", "The DataGrid component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection." ),
@@ -100,6 +101,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/binding-data/large-data", "DataGrid Binding Data : Large Data", "The DataGrid Read Data feature allows you to handle Large Data by providing you with a centralized ReadData Method that allows you to query your data by pages." ),
                 new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "Optimize performance for large data sets with the Blazorise DataGrid's virtualization feature. By only rendering the data currently visible on the screen, virtualization reduces the amount of DOM elements, resulting in improved performance and load times." ),
                 new PageEntry( "docs/extensions/datagrid/binding-data/observable", "DataGrid Binding Data : Observable Data", "The DataGrid can bind observable data, so whenever the underlying collection is changed the DataGrid is automatically updated." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/dynamic", "DataGrid Binding Data : Dynamic", "The DataGrid can bind to your dynamic data, allowing for greater flexibility." ),
 
                 new PageEntry( "docs/extensions/datagrid/columns", "DataGrid Columns", "Learn to use and work with the Blazorise DataGrid Columns to customize and configure the columns in a data grid. Explore various column types, such as text, numeric, date, and boolean, to display and manipulate data effectively. Utilize column-specific features like sorting, filtering, and formatting to enhance the presentation and functionality of your data grid. Gain expertise in creating custom columns to meet specific requirements and provide tailored data visualization options." ),
 
@@ -117,11 +119,13 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
                 new PageEntry( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
                 new PageEntry( "docs/extensions/datagrid/features/state-management", "DataGrid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
+                new PageEntry( "docs/extensions/datagrid/features/mobile-mode", "DataGrid Mobile Mode", "The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other." ),
 
 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
                 new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),
                 new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Multiple Selection", "Select and manage multiple rows of data with ease using the Blazorise DataGrid's multiple selection feature. Select rows by clicking on them or programmatically, and access the selected data for further use." ),
+                new PageEntry( "docs/extensions/datagrid/selection/cell", "DataGrid Cell Selection", "Easily select and manage a single cell with the Blazorise DataGrid's cell selection feature." ),
                 new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Custom Row Colors", "Easily color code your data with the Blazorise DataGrid's custom row color feature." ),
 
                 new PageEntry( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
@@ -179,6 +183,7 @@ public class PageEntryData
             new PageEntry( "docs/helpers/enums/validation", "Enums: Validation" ),
             new PageEntry( "docs/helpers/localization", "Localization" ),
             new PageEntry( "docs/helpers/sizes", "Sizes" ),
+            new PageEntry( "docs/helpers/utilities/object-fit", "Object Fit", "Use the object fit utilities to modify how the content of a replaced element, such as an <img> or <video>, should be resized to fit its container." ),
             new PageEntry( "docs/helpers/utilities/position", "Position" ),
             new PageEntry( "docs/helpers/utilities", "Utilities" ),
 

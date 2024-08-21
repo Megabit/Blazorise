@@ -16,6 +16,7 @@ public partial class TablesPage
     private bool resizable = true;
 
     private TableResizeMode resizeMode;
+    private TableResponsiveMode responsiveMode;
 
     private Task ScrollToRow()
         => tableRef.ScrollToRow( scrollToValue ).AsTask();

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -352,7 +353,7 @@ public class FluentSizing :
                         ? "width"
                         : "height";
 
-                    builder.Append( $"{sizingTypeName}:{styleRule.Size:G29}{styleRule.Unit}" );
+                    builder.Append( $"{sizingTypeName}:{styleRule.Size.ToString( "G29", CultureInfo.InvariantCulture )}{styleRule.Unit}" );
                 }
             }
 
