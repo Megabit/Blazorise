@@ -3,6 +3,70 @@
 </DocsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
+    Events
+</Heading>
+
+<DocsAttributes ShowDefaults="false">
+    <DocsAttributesItem Name="Progress" Type="Func<double, Task>">
+        Sent periodically to inform interested parties of progress downloading the media. Information about the current amount of the media that has been downloaded is available in the media element's buffered attribute.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Playing" Type="Func<Task>">
+        Sent when the media begins to play (either for the first time, after having been paused, or after ending and then restarting).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Played" Type="Func<Task>">
+        Sent when playback of the media starts after having been paused; that is, when playback is resumed after a prior pause event.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Paused" Type="Func<Task>">
+        Sent when playback is paused.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TimeUpdate" Type="Func<double, Task>">
+        The time indicated by the element's currentTime attribute has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VolumeChange" Type="Func<double, bool, Task>">
+        Sent when the audio volume changes (both when the volume is set and when the muted state is changed).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Seeking" Type="Func<double, Task>">
+        Sent when a seek operation begins.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Seeked" Type="Func<double, Task>">
+        Sent when a seek operation completes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RateChange" Type="Func<double, Task>">
+        Sent when the playback speed changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ended" Type="Func<Task>">
+        Sent when playback completes. Note: This does not fire if autoplay is true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullScreenEntered" Type="Func<Task>">
+        Sent when the player enters fullscreen mode (either the proper fullscreen or full-window fallback for older browsers).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullScreenExited" Type="Func<Task>">
+        Sent when the player exits fullscreen mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaptionsEnabled" Type="Func<Task>">
+        Sent when captions are enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaptionsDisabled" Type="Func<Task>">
+        Sent when captions are disabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LanguageChange" Type="Func<string, Task>">
+        Sent when the caption language is changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ControlsHidden" Type="Func<Task>">
+        Sent when the controls are hidden.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ControlsShown" Type="Func<Task>">
+        Sent when the controls are shown.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ready" Type="Func<Task>">
+        Triggered when the instance is ready for API calls.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="QualityChanged" Type="Func<int?, Task>">
+        The quality of playback has changed.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
     Attributes
 </Heading>
 
