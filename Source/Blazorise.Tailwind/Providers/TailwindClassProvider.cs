@@ -1396,7 +1396,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ToastFade( bool visible, bool showing, bool hiding ) => showing || hiding ? "b-toast-fade" : null;
 
-    public override string ToastVisible( bool visible ) => visible ? "flex" : null;
+    public override string ToastVisible( bool visible ) => visible ? "flex" : "hidden";
 
     public override string ToastHeader() => "flex items-center mb-1 text-sm font-semibold text-gray-900 dark:text-white";
 

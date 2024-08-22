@@ -1,4 +1,7 @@
-﻿:root {
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
   --b-bar-horizontal-height: 88px;
 }
 
@@ -430,9 +433,6 @@ td:focus {
   .b-table-mobile:not(.b-table-borderless) tr {
     border-bottom: 1px solid;
   }
-}
-.b-toast {
-  display: none;
 }
 .b-toast.b-toast-fade.flex {
   animation: toast-slidein var(--toast-animation-duration, 300ms) linear;
