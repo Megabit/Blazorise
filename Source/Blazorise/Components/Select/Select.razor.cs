@@ -76,9 +76,9 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Select() );
-        builder.Append( ClassProvider.SelectMultiple( Multiple ) );
+        builder.Append( ClassProvider.SelectMultiple(), Multiple );
         builder.Append( ClassProvider.SelectSize( ThemeSize ) );
-        builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
     }

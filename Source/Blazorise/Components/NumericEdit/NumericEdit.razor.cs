@@ -99,7 +99,7 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
         builder.Append( ClassProvider.NumericEdit( Plaintext ) );
         builder.Append( ClassProvider.NumericEditSize( ThemeSize ) );
         builder.Append( ClassProvider.NumericEditColor( Color ) );
-        builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
     }
@@ -220,16 +220,6 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// Gets the string representation of the <see cref="Max"/> value.
     /// </summary>
     protected string MaxString => Max.ToCultureInvariantString();
-
-    /// <summary>
-    /// Gets the min value if defined, otherwise null.
-    /// </summary>
-    protected object MinValue => minDefined ? Min : null;
-
-    /// <summary>
-    /// Gets the max value if defined, otherwise null.
-    /// </summary>
-    protected object MaxValue => maxDefined ? Max : null;
 
     /// <summary>
     /// Gets the culture info defined on the input field.

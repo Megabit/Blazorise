@@ -23,12 +23,12 @@ public partial class Control : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.ControlCheck( Role ) );
-        builder.Append( ClassProvider.ControlRadio( Role ) );
-        builder.Append( ClassProvider.ControlSwitch( Role ) );
-        builder.Append( ClassProvider.ControlFile( Role ) );
-        builder.Append( ClassProvider.ControlText( Role ) );
-        builder.Append( ClassProvider.ControlInline( Role, Inline ) );
+        builder.Append( ClassProvider.ControlCheck(), Role == ControlRole.Check );
+        builder.Append( ClassProvider.ControlRadio(), Role == ControlRole.Radio );
+        builder.Append( ClassProvider.ControlSwitch(), Role == ControlRole.Switch );
+        builder.Append( ClassProvider.ControlFile(), Role == ControlRole.File );
+        builder.Append( ClassProvider.ControlText(), Role == ControlRole.Text );
+        builder.Append( ClassProvider.CheckInline(), Inline );
 
         base.BuildClasses( builder );
     }

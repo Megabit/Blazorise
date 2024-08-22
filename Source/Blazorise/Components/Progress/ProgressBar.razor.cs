@@ -39,10 +39,10 @@ public partial class ProgressBar : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ProgressBar() );
-        builder.Append( ClassProvider.ProgressBarColor( Color ) );
+        builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.Default );
         builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
-        builder.Append( ClassProvider.ProgressBarStriped( Striped ) );
-        builder.Append( ClassProvider.ProgressBarAnimated( Animated ) );
+        builder.Append( ClassProvider.ProgressBarStriped(), Striped );
+        builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
 
         if ( ParentProgress?.ThemeSize != Size.Default )
             builder.Append( ClassProvider.ProgressBarSize( ParentProgress.ThemeSize ) );

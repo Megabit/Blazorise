@@ -64,7 +64,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
     }

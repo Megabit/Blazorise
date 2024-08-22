@@ -25,8 +25,7 @@ public class Button : Blazorise.Button
             if ( ParentCollapseHeader.ParentCollapse.InsideAccordion )
                 builder.Append( "accordion-button" );
 
-            if ( !CollapseVisible )
-                builder.Append( "collapsed" );
+            builder.Append( "collapsed", !CollapseVisible );
         }
 
         base.BuildClasses( builder );

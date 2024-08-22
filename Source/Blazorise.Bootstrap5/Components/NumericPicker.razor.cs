@@ -57,7 +57,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
     private void BuildNumericWrapperClasses( ClassBuilder builder )
     {
         builder.Append( "b-numeric" );
-        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         if ( numericWrapperWidth != null )
         {

@@ -56,7 +56,7 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
         builder.Append( ClassProvider.TimeEdit( Plaintext ) );
         builder.Append( ClassProvider.TimeEditSize( ThemeSize ) );
         builder.Append( ClassProvider.TimeEditColor( Color ) );
-        builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
     }

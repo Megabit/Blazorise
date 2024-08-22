@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -52,7 +53,14 @@ public class DataGridReadDataEventArgs<TItem> : EventArgs
     {
         Page = page;
         PageSize = pageSize;
-        Columns = columns?.Select( x => x.ToColumnInfo( sortByColumns ) );
+        Columns = columns?.Select( x => new DataGridColumnInfo(
+            x.Field,
+            x.Filter?.SearchValue,
+            x.CurrentSortDirection,
+            sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( x ) )?.SortOrder ?? -1,
+            x.ColumnType,
+            x.GetFieldToSort(),
+            x.GetFilterMethod() ?? x.GetDataGridFilterMethodAsColumn() ) );
         CancellationToken = cancellationToken;
         VirtualizeOffset = virtualizeOffset;
         VirtualizeCount = virtualizeCount;

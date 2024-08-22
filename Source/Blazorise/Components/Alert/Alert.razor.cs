@@ -40,12 +40,12 @@ public partial class Alert : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Alert() );
-        builder.Append( ClassProvider.AlertColor( Color ) );
-        builder.Append( ClassProvider.AlertDismisable( Dismisable ) );
-        builder.Append( ClassProvider.AlertFade( Dismisable ) );
-        builder.Append( ClassProvider.AlertShow( Dismisable, Visible ) );
-        builder.Append( ClassProvider.AlertHasMessage( hasMessage ) );
-        builder.Append( ClassProvider.AlertHasDescription( hasDescription ) );
+        builder.Append( ClassProvider.AlertColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.AlertDismisable(), Dismisable );
+        builder.Append( ClassProvider.AlertFade(), Dismisable );
+        builder.Append( ClassProvider.AlertShow(), Dismisable && Visible );
+        builder.Append( ClassProvider.AlertHasMessage(), hasMessage );
+        builder.Append( ClassProvider.AlertHasDescription(), hasDescription );
 
         base.BuildClasses( builder );
     }

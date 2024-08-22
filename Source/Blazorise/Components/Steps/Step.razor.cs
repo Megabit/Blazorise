@@ -64,7 +64,7 @@ public partial class Step : BaseComponent, IDisposable
         builder.Append( ClassProvider.StepItem() );
         builder.Append( ClassProvider.StepItemActive( Active ) );
         builder.Append( ClassProvider.StepItemCompleted( Completed ) );
-        builder.Append( ClassProvider.StepItemColor( Color ) );
+        builder.Append( ClassProvider.StepItemColor( Color ), Color != Color.Default );
 
         base.BuildClasses( builder );
     }

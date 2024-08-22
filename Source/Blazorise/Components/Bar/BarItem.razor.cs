@@ -95,9 +95,9 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarItem( State.Mode, HasDropdown ) );
-        builder.Append( ClassProvider.BarItemActive( State.Mode, State.Active ) );
-        builder.Append( ClassProvider.BarItemDisabled( State.Mode, State.Disabled ) );
-        builder.Append( ClassProvider.BarItemHasDropdown( State.Mode, HasDropdown ) );
+        builder.Append( ClassProvider.BarItemActive( State.Mode ), State.Active );
+        builder.Append( ClassProvider.BarItemDisabled( State.Mode ), State.Disabled );
+        builder.Append( ClassProvider.BarItemHasDropdown( State.Mode ), HasDropdown );
 
         base.BuildClasses( builder );
     }

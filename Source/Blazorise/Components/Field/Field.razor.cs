@@ -79,9 +79,9 @@ public partial class Field : BaseColumnComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Field() );
-        builder.Append( ClassProvider.FieldHorizontal( Horizontal ) );
-        builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ) );
-        builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.FieldHorizontal(), Horizontal );
+        builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ), JustifyContent != JustifyContent.Default );
+        builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation is not null );
 
         base.BuildClasses( builder );
     }

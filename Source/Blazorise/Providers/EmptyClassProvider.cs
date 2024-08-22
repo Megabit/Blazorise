@@ -35,7 +35,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Select() => null;
 
-    public string SelectMultiple( bool multiple ) => null;
+    public string SelectMultiple() => null;
 
     public string SelectSize( Size size ) => null;
 
@@ -149,7 +149,7 @@ class EmptyClassProvider : IClassProvider
 
     public string CheckSize( Size size ) => null;
 
-    public string CheckInline( bool inline ) => null;
+    public string CheckInline() => null;
 
     public string CheckCursor( Cursor cursor ) => null;
 
@@ -237,6 +237,8 @@ class EmptyClassProvider : IClassProvider
 
     #region Label
 
+    public string Label() => null;
+
     public string LabelType( LabelType labelType ) => null;
 
     public string LabelCursor( Cursor cursor ) => null;
@@ -281,7 +283,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Field() => null;
 
-    public string FieldHorizontal( bool horizontal ) => null;
+    public string FieldHorizontal() => null;
 
     public string FieldColumn() => null;
 
@@ -298,8 +300,6 @@ class EmptyClassProvider : IClassProvider
     public string FieldLabel( bool horizontal ) => null;
 
     public string FieldLabelRequiredIndicator( bool requiredIndicator ) => null;
-
-    public string FieldLabelScreenreader( Screenreader screenreader ) => null;
 
     #endregion
 
@@ -323,17 +323,15 @@ class EmptyClassProvider : IClassProvider
 
     #region Control
 
-    public string ControlCheck( ControlRole role ) => null;
+    public string ControlCheck() => null;
 
-    public string ControlRadio( ControlRole role ) => null;
+    public string ControlRadio() => null;
 
-    public string ControlSwitch( ControlRole role ) => null;
+    public string ControlSwitch() => null;
 
-    public string ControlFile( ControlRole role ) => null;
+    public string ControlFile() => null;
 
-    public string ControlText( ControlRole role ) => null;
-
-    public string ControlInline( ControlRole role, bool inline ) => null;
+    public string ControlText() => null;
 
     #endregion
 
@@ -367,13 +365,13 @@ class EmptyClassProvider : IClassProvider
 
     public string ButtonSize( Size size, bool outline ) => null;
 
-    public string ButtonBlock( bool outline, bool block ) => null;
+    public string ButtonBlock( bool outline ) => null;
 
-    public string ButtonActive( bool outline, bool active ) => null;
+    public string ButtonActive( bool outline ) => null;
 
-    public string ButtonDisabled( bool outline, bool disabled ) => null;
+    public string ButtonDisabled( bool outline ) => null;
 
-    public string ButtonLoading( bool outline, bool loading ) => null;
+    public string ButtonLoading( bool outline ) => null;
 
     public string ButtonStretchedLink( bool stretched ) => null;
 
@@ -397,15 +395,15 @@ class EmptyClassProvider : IClassProvider
 
     public string Dropdown( bool isDropdownSubmenu ) => null;
 
-    public string DropdownDisabled( bool disabled ) => null;
+    public string DropdownDisabled() => null;
 
-    public string DropdownGroup( bool group ) => null;
+    public string DropdownGroup() => null;
 
     public string DropdownObserverShow() => null;
 
-    public string DropdownShow( bool show ) => null;
+    public string DropdownShow() => null;
 
-    public string DropdownRight( bool rightAligned ) => null;
+    public string DropdownRight() => null;
 
     public string DropdownItem() => null;
 
@@ -425,11 +423,11 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenuSelector() => null;
 
-    public string DropdownMenuScrollable( bool scrollable ) => null;
+    public string DropdownMenuScrollable() => null;
 
     public string DropdownMenuVisible( bool visible ) => null;
 
-    public string DropdownMenuRight( bool rightAligned ) => null;
+    public string DropdownMenuRight() => null;
 
     public string DropdownToggle( bool isDropdownSubmenu, bool outline ) => null;
 
@@ -451,13 +449,13 @@ class EmptyClassProvider : IClassProvider
 
     public string Tabs( bool pills ) => null;
 
-    public string TabsCards( bool cards ) => null;
+    public string TabsCards() => null;
 
-    public string TabsFullWidth( bool fullWidth ) => null;
+    public string TabsFullWidth() => null;
 
-    public string TabsJustified( bool justified ) => null;
+    public string TabsJustified() => null;
 
-    public string TabsVertical( bool vertical ) => null;
+    public string TabsVertical() => null;
 
     public string TabItem( TabPosition tabPosition ) => null;
 
@@ -557,7 +555,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Card() => null;
 
-    public string CardWhiteText( bool whiteText ) => null;
+    public string CardWhiteText() => null;
 
     public string CardActions() => null;
 
@@ -597,7 +595,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupItem() => null;
 
-    public string ListGroupItemSelectable( bool selectable ) => null;
+    public string ListGroupItemSelectable() => null;
 
     public string ListGroupItemActive( bool active ) => null;
 
@@ -611,7 +609,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Layout() => null;
 
-    public string LayoutHasSider( bool hasSider ) => null;
+    public string LayoutHasSider() => null;
 
     public string LayoutBody() => null;
 
@@ -619,11 +617,11 @@ class EmptyClassProvider : IClassProvider
 
     public string LayoutHeader() => null;
 
-    public string LayoutHeaderFixed( bool @fixed ) => null;
+    public string LayoutHeaderFixed() => null;
 
     public string LayoutFooter() => null;
 
-    public string LayoutFooterFixed( bool @fixed ) => null;
+    public string LayoutFooterFixed() => null;
 
     public string LayoutSider() => null;
 
@@ -631,7 +629,7 @@ class EmptyClassProvider : IClassProvider
 
     public string LayoutLoading() => null;
 
-    public string LayoutRoot( bool root ) => null;
+    public string LayoutRoot() => null;
 
     #endregion
 
@@ -659,15 +657,17 @@ class EmptyClassProvider : IClassProvider
 
     public string BarItem( BarMode mode, bool hasDropdown ) => null;
 
-    public string BarItemActive( BarMode mode, bool active ) => null;
+    public string BarItemActive( BarMode mode ) => null;
 
-    public string BarItemDisabled( BarMode mode, bool disabled ) => null;
+    public string BarItemDisabled( BarMode mode ) => null;
 
-    public string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
+    public string BarItemHasDropdown( BarMode mode ) => null;
+
+    public string BarItemHasDropdownShow( BarMode mode ) => null;
 
     public string BarLink( BarMode mode ) => null;
 
-    public string BarLinkDisabled( BarMode mode, bool disabled ) => null;
+    public string BarLinkDisabled( BarMode mode ) => null;
 
     public string BarBrand( BarMode mode ) => null;
 
@@ -677,7 +677,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BarMenu( BarMode mode ) => null;
 
-    public string BarMenuShow( BarMode mode, bool show ) => null;
+    public string BarMenuShow( BarMode mode ) => null;
 
     public string BarStart( BarMode mode ) => null;
 
@@ -685,7 +685,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => null;
 
-    public string BarDropdownShow( BarMode mode, bool show ) => null;
+    public string BarDropdownShow( BarMode mode ) => null;
 
     public string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => null;
 
@@ -701,11 +701,11 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdownMenuVisible( BarMode mode, bool visible ) => null;
 
-    public string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => null;
+    public string BarDropdownMenuRight( BarMode mode ) => null;
 
     public string BarDropdownMenuContainer( BarMode mode ) => null;
 
-    public string BarCollapsed( BarMode mode, bool visible ) => null;
+    public string BarCollapsed( BarMode mode ) => null;
 
     public string BarLabel( BarMode mode ) => null;
 
@@ -793,15 +793,15 @@ class EmptyClassProvider : IClassProvider
 
     public string AlertColor( Color color ) => null;
 
-    public string AlertDismisable( bool dismissable ) => null;
+    public string AlertDismisable() => null;
 
-    public string AlertFade( bool dismissable ) => null;
+    public string AlertFade() => null;
 
-    public string AlertShow( bool dismissable, bool visible ) => null;
+    public string AlertShow() => null;
 
-    public string AlertHasMessage( bool hasMessage ) => null;
+    public string AlertHasMessage() => null;
 
-    public string AlertHasDescription( bool hasDescription ) => null;
+    public string AlertHasDescription() => null;
 
     public string AlertMessage() => null;
 
@@ -897,10 +897,6 @@ class EmptyClassProvider : IClassProvider
 
     public string PaginationSize( Size size ) => null;
 
-    public string PaginationAlignment( Alignment alignment ) => null;
-
-    public string PaginationBackgroundColor( Background background ) => null;
-
     public string PaginationItem() => null;
 
     public string PaginationItemActive( bool active ) => null;
@@ -925,11 +921,11 @@ class EmptyClassProvider : IClassProvider
 
     public string ProgressColor( Color color ) => null;
 
-    public string ProgressStriped( bool stripped ) => null;
+    public string ProgressStriped() => null;
 
-    public string ProgressAnimated( bool animated ) => null;
+    public string ProgressAnimated() => null;
 
-    public string ProgressIndeterminate( bool indeterminate ) => null;
+    public string ProgressIndeterminate() => null;
 
     public string ProgressWidth( int width ) => null;
 
@@ -939,11 +935,11 @@ class EmptyClassProvider : IClassProvider
 
     public string ProgressBarColor( Color color ) => null;
 
-    public string ProgressBarStriped( bool striped ) => null;
+    public string ProgressBarStriped() => null;
 
-    public string ProgressBarAnimated( bool animated ) => null;
+    public string ProgressBarAnimated() => null;
 
-    public string ProgressBarIndeterminate( bool indeterminate ) => null;
+    public string ProgressBarIndeterminate() => null;
 
     public string ProgressBarWidth( int width ) => null;
 
@@ -965,17 +961,17 @@ class EmptyClassProvider : IClassProvider
 
     public string Table() => null;
 
-    public string TableFullWidth( bool fullWidth ) => null;
+    public string TableFullWidth() => null;
 
-    public string TableStriped( bool striped ) => null;
+    public string TableStriped() => null;
 
-    public string TableHoverable( bool hoverable ) => null;
+    public string TableHoverable() => null;
 
-    public string TableBordered( bool bordered ) => null;
+    public string TableBordered() => null;
 
-    public string TableNarrow( bool narrow ) => null;
+    public string TableNarrow() => null;
 
-    public string TableBorderless( bool borderless ) => null;
+    public string TableBorderless() => null;
 
     public string TableHeader() => null;
 
@@ -995,9 +991,9 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowColor( Color color ) => null;
 
-    public string TableRowHoverCursor( Cursor cursor ) => null;
+    public string TableRowHoverCursor() => null;
 
-    public string TableRowIsSelected( bool selected ) => null;
+    public string TableRowIsSelected() => null;
 
     public string TableRowHeader() => null;
 
@@ -1031,11 +1027,9 @@ class EmptyClassProvider : IClassProvider
 
     public string BadgeColor( Color color ) => null;
 
-    public string BadgePill( bool pill ) => null;
+    public string BadgePill() => null;
 
     public string BadgeClose() => null;
-
-    public string BadgeCloseColor( Color color ) => null;
 
     #endregion
 
@@ -1059,15 +1053,13 @@ class EmptyClassProvider : IClassProvider
 
     public string TextTransform( TextTransform textTransform ) => null;
 
-    public string TextDecoration( TextDecoration textDecoration ) => null;
-
     public string TextWeight( TextWeight textWeight ) => null;
 
     public string TextOverflow( TextOverflow textOverflow ) => null;
 
     public string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition ) => null;
 
-    public string TextItalic( bool italic ) => null;
+    public string TextItalic() => null;
 
     #endregion
 
@@ -1119,7 +1111,7 @@ class EmptyClassProvider : IClassProvider
 
     public string FigureImage() => null;
 
-    public string FigureImageRounded( bool rounded ) => null;
+    public string FigureImageRounded() => null;
 
     public string FigureCaption() => null;
 
@@ -1139,7 +1131,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BreadcrumbItem() => null;
 
-    public string BreadcrumbItemActive( bool active ) => null;
+    public string BreadcrumbItemActive() => null;
 
     public string BreadcrumbLink() => null;
 
@@ -1151,13 +1143,13 @@ class EmptyClassProvider : IClassProvider
 
     public string TooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
-    public string TooltipMultiline( bool multiline ) => null;
+    public string TooltipMultiline() => null;
 
-    public string TooltipAlwaysActive( bool alwaysActive ) => null;
+    public string TooltipAlwaysActive() => null;
 
-    public string TooltipFade( bool fade ) => null;
+    public string TooltipFade() => null;
 
-    public string TooltipInline( bool inline ) => null;
+    public string TooltipInline() => null;
 
     #endregion
 
@@ -1231,6 +1223,8 @@ class EmptyClassProvider : IClassProvider
 
     public string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions ) => null;
 
+    public string FlexAlignment( Alignment alignment ) => null;
+
     #endregion
 
     #region Sizing
@@ -1278,12 +1272,6 @@ class EmptyClassProvider : IClassProvider
     public string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType ) => null;
 
     public string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType ) => null;
-
-    #endregion
-
-    #region ObjectFit
-
-    public string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition ) => null;
 
     #endregion
 
@@ -1416,8 +1404,6 @@ class EmptyClassProvider : IClassProvider
     public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
 
     public string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
-
-    public string ToObjectFitType( ObjectFitType objectFitType ) => null;
 
     #endregion
 

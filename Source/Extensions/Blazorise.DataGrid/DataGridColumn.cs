@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
-using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -59,18 +58,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     #endregion
 
     #region Methods
-
-    internal DataGridColumnInfo ToColumnInfo( IList<DataGridColumn<TItem>> sortByColumns )
-    {
-        return new DataGridColumnInfo(
-            Field,
-            Filter?.SearchValue,
-            CurrentSortDirection,
-            sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( this ) )?.SortOrder ?? -1,
-            ColumnType,
-            GetFieldToSort(),
-            GetFilterMethod() ?? GetDataGridFilterMethodAsColumn() );
-    }
 
     private Func<TItem, Type> ExpandoObjectTypeGetter()
     {

@@ -40,9 +40,9 @@ public partial class TableRow : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableRow( ParentTable.Striped, ParentTable.Hoverable ) );
-        builder.Append( ClassProvider.TableRowColor( Color ) );
-        builder.Append( ClassProvider.TableRowIsSelected( Selected ) );
-        builder.Append( ClassProvider.TableRowHoverCursor( HoverCursor ) );
+        builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.TableRowIsSelected(), Selected );
+        builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
         base.BuildClasses( builder );
     }

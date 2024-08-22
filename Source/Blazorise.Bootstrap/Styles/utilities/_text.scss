@@ -13,21 +13,3 @@
 .font-weight-semibold {
     font-weight: 600 !important;
 }
-
-.text-decoration {
-    &-underline {
-        text-decoration: underline !important;
-    }
-
-    &-overline {
-        text-decoration: overline !important;
-    }
-
-    &-line-through {
-        text-decoration: line-through !important;
-    }
-
-    &-inherit {
-        text-decoration: inherit !important;
-    }
-}

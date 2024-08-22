@@ -97,10 +97,10 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Bar( Mode ) );
-        builder.Append( ClassProvider.BarInitial( Mode, initial ) );
-        builder.Append( ClassProvider.BarThemeContrast( Mode, ThemeContrast ) );
-        builder.Append( ClassProvider.BarBreakpoint( Mode, Breakpoint ) );
-        builder.Append( ClassProvider.BarAlignment( Mode, Alignment ) );
+        builder.Append( ClassProvider.BarInitial( Mode, initial && Mode != BarMode.Horizontal ) );
+        builder.Append( ClassProvider.BarThemeContrast( Mode, ThemeContrast ), ThemeContrast != ThemeContrast.None );
+        builder.Append( ClassProvider.BarBreakpoint( Mode, Breakpoint ), Breakpoint != Breakpoint.None );
+        builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.Default );
         builder.Append( ClassProvider.BarMode( Mode ) );
 
         base.BuildClasses( builder );

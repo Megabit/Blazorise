@@ -5,18 +5,17 @@ using System.Collections.Generic;
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Represents information about a row in a data grid.
+/// Holds the basic information about the datagrid row.
 /// </summary>
-/// <typeparam name="TItem">The type of the item represented by the row.</typeparam>
 public class DataGridRowInfo<TItem>
 {
     private bool hasDetailRow;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataGridRowInfo{TItem}"/> class.
+    /// Initializes a new instance of row info.
     /// </summary>
-    /// <param name="item">The item associated with the row.</param>
-    /// <param name="columns">The collection of columns in the row.</param>
+    /// <param name="item">Row Item</param>
+    /// <param name="columns">Row Columns</param>
     public DataGridRowInfo( TItem item, IEnumerable<DataGridColumn<TItem>> columns )
     {
         Item = item;
@@ -24,43 +23,42 @@ public class DataGridRowInfo<TItem>
     }
 
     /// <summary>
-    /// Gets the collection of columns in the row.
+    /// Gets the list of columns.
     /// </summary>
     public IEnumerable<DataGridColumn<TItem>> Columns { get; }
 
     /// <summary>
-    /// Gets the table row associated with this row info.
+    /// The Table Row
     /// </summary>
     public TableRow TableRow { get; private set; }
 
     /// <summary>
-    /// Gets the item associated with the row.
+    /// Holds the Row's Item
     /// </summary>
     public TItem Item { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the row has a detail row.
+    /// Whether Row should display DetailRow
     /// </summary>
     public bool HasDetailRow => hasDetailRow;
 
     /// <summary>
-    /// Sets the detail row for the current row.
+    /// Sets whether Row should display DetailRow
     /// </summary>
-    /// <param name="hasDetailRow">Indicates whether the detail row is present.</param>
-    /// <param name="toggleable">Indicates whether the detail row can be toggled.</param>
+    /// <param name="hasDetailRow">DetailRow evaluation result.</param>
+    /// <param name="toggleable">If true toggles the detail row.</param>
     public void SetRowDetail( bool hasDetailRow, bool toggleable )
         => this.hasDetailRow = ( toggleable && !this.hasDetailRow & hasDetailRow ) || ( !toggleable && hasDetailRow );
 
     /// <summary>
-    /// Toggles the visibility of the detail row.
+    /// Toggles the DetailRow
     /// </summary>
     public void ToggleDetailRow()
         => hasDetailRow = !hasDetailRow;
 
     /// <summary>
-    /// Sets the table row associated with this row info.
+    /// Sets the Table Row Reference
     /// </summary>
-    /// <param name="tableRow">The table row to associate with this row info.</param>
     internal void SetTableRow( TableRow tableRow )
         => TableRow = tableRow;
 }

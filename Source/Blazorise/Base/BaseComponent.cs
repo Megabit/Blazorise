@@ -55,15 +55,11 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private TextTransform textTransform = TextTransform.Default;
 
-    private TextDecoration textDecoration = TextDecoration.Default;
-
     private TextWeight textWeight = TextWeight.Default;
 
     private TextOverflow textOverflow = TextOverflow.Default;
 
     private IFluentTextSize textSize;
-
-    private IFluentObjectFit objectFit;
 
     private VerticalAlignment verticalAlignment = VerticalAlignment.Default;
 
@@ -205,9 +201,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( Overflow is not null )
             builder.Append( Overflow.Class( ClassProvider ) );
 
-        if ( ObjectFit is not null )
-            builder.Append( ObjectFit.Class( ClassProvider ) );
-
         if ( Float != Float.Default )
             builder.Append( ClassProvider.Float( Float ) );
 
@@ -237,9 +230,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( TextTransform != TextTransform.Default )
             builder.Append( ClassProvider.TextTransform( TextTransform ) );
-
-        if ( TextDecoration != TextDecoration.Default )
-            builder.Append( ClassProvider.TextDecoration( TextDecoration ) );
 
         if ( TextWeight != TextWeight.Default )
             builder.Append( ClassProvider.TextWeight( TextWeight ) );
@@ -701,24 +691,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the text decoration.
-    /// </summary>
-    [Parameter]
-    public TextDecoration TextDecoration
-    {
-        get => textDecoration;
-        set
-        {
-            if ( textDecoration == value )
-                return;
-
-            textDecoration = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
     /// Gets or sets the text weight.
     /// </summary>
     [Parameter]
@@ -761,27 +733,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
                 return;
 
             textSize = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the object fit configuration, which specifies how an object should fit within its container.
-    /// </summary>
-    /// <remarks>
-    /// Changing this property will update the CSS classes related to object fit styling.
-    /// </remarks>
-    [Parameter]
-    public IFluentObjectFit ObjectFit
-    {
-        get => objectFit;
-        set
-        {
-            if ( objectFit == value )
-                return;
-
-            objectFit = value;
 
             DirtyClasses();
         }

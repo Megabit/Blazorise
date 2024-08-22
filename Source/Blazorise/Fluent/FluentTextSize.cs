@@ -143,7 +143,7 @@ public class FluentTextSize :
 {
     #region Members
 
-    private TextSizeDefinition currentTextSizeDefinition;
+    private TextSizeDefinition currentTextSizeDefintion;
 
     private readonly Dictionary<TextSizeType, TextSizeDefinition> rules = new();
 
@@ -194,7 +194,7 @@ public class FluentTextSize :
 
         rules.Add( textSize, textSizeDefinition );
 
-        currentTextSizeDefinition = textSizeDefinition;
+        currentTextSizeDefintion = textSizeDefinition;
         Dirty();
 
         return this;
@@ -207,7 +207,7 @@ public class FluentTextSize :
     /// <returns>Next rule reference.</returns>
     public IFluentTextSizeWithSize WithBreakpoint( Breakpoint breakpoint )
     {
-        currentTextSizeDefinition.Breakpoint = breakpoint;
+        currentTextSizeDefintion.Breakpoint = breakpoint;
         Dirty();
 
         return this;

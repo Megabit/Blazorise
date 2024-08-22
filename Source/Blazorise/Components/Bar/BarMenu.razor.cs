@@ -23,7 +23,7 @@ public partial class BarMenu : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarMenu( ParentBarState?.Mode ?? BarMode.Horizontal ) );
-        builder.Append( ClassProvider.BarMenuShow( ParentBarState?.Mode ?? BarMode.Horizontal, ParentBarState?.Visible ?? false ) );
+        builder.Append( ClassProvider.BarMenuShow( ParentBarState?.Mode ?? BarMode.Horizontal ), ParentBarState?.Visible ?? false );
 
         base.BuildClasses( builder );
     }
