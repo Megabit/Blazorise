@@ -74,12 +74,12 @@ public partial class Table : BaseDraggableComponent
 
         builder.Append( ClassProvider.Table() );
         builder.Append( ClassProvider.TableResponsiveMode( ResponsiveMode ) );
-        builder.Append( ClassProvider.TableFullWidth( FullWidth ) );
-        builder.Append( ClassProvider.TableStriped( Striped ) );
-        builder.Append( ClassProvider.TableBordered( Bordered ) );
-        builder.Append( ClassProvider.TableHoverable( Hoverable ) );
-        builder.Append( ClassProvider.TableNarrow( Narrow ) );
-        builder.Append( ClassProvider.TableBorderless( Borderless ) );
+        builder.Append( ClassProvider.TableFullWidth(), FullWidth );
+        builder.Append( ClassProvider.TableStriped(), Striped );
+        builder.Append( ClassProvider.TableBordered(), Bordered );
+        builder.Append( ClassProvider.TableHoverable(), Hoverable );
+        builder.Append( ClassProvider.TableNarrow(), Narrow );
+        builder.Append( ClassProvider.TableBorderless(), Borderless );
 
         base.BuildClasses( builder );
     }

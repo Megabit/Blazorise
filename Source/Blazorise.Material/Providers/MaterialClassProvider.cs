@@ -1,5 +1,4 @@
 ﻿using Blazorise.Bootstrap.Providers;
-using Blazorise.Extensions;
 
 namespace Blazorise.Material.Providers;
 
@@ -15,7 +14,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "done" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
 
     public override string StepItemMarkerColor( Color color, bool active ) => null;
 
@@ -34,6 +33,8 @@ public class MaterialClassProvider : BootstrapClassProvider
     public override string TabPanel() => "tab-pane fade";
 
     public override string Bar( BarMode mode ) => "navbar navbar-full";
+
+    public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : null;
 
     public override string AccordionToggle() => "btn btn-link btn-block text-left";
 

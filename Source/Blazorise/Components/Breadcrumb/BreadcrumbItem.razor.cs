@@ -27,7 +27,7 @@ public partial class BreadcrumbItem : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BreadcrumbItem() );
-        builder.Append( ClassProvider.BreadcrumbItemActive( Active ) );
+        builder.Append( ClassProvider.BreadcrumbItemActive(), Active );
 
         base.BuildClasses( builder );
     }

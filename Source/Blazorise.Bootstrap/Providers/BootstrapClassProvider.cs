@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
-using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Bootstrap.Providers;
@@ -16,7 +14,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TextEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -28,7 +26,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string MemoEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -36,11 +34,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
-    public override string SelectMultiple( bool multiple ) => null;
+    public override string SelectMultiple() => null;
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -50,9 +48,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string NumericEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string NumericEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -62,9 +60,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DateEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DateEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -74,9 +72,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TimeEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TimeEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -94,9 +92,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -106,9 +104,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -126,9 +124,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -138,9 +136,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -148,13 +146,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-    public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
+    public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
 
-    public override string CheckInline( bool inline ) => inline ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline" : null;
+    public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
-    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
+    public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -164,17 +162,11 @@ public class BootstrapClassProvider : ClassProvider
         ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
         : null;
 
-    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size )
-    {
-        if ( size == Size.Default )
-            return null;
+    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => buttons
+        ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
+        : null;
 
-        return buttons
-            ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
-            : null;
-    }
-
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -182,15 +174,15 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"{Radio( button )}-{ToSize( size )}" : null;
+    public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
     public override string RadioInline( bool inline ) => inline
         ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}" : null;
+    public override string RadioCursor( Cursor cursor ) => $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}";
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -198,15 +190,15 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
 
-    public override string SwitchSize( Size size ) => size != Size.Default ? $"custom-control-input-{ToSize( size )}" : null;
+    public override string SwitchSize( Size size ) => $"custom-control-input-{ToSize( size )}";
 
     public override string SwitchChecked( bool @checked ) => null;
 
-    public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Switch()}-{ToCursor( cursor )}" : null;
+    public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -216,7 +208,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -226,7 +218,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -240,7 +232,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"rating-item-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -250,14 +242,19 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Label
 
-    public override string LabelType( LabelType labelType ) => labelType switch
-    {
-        Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => UseCustomInputStyles ? "custom-control-label" : "form-check-label",
-        Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
-        _ => null,
-    };
+    public override string Label() => null;
 
-    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}" : null;
+    public override string LabelType( LabelType labelType )
+    {
+        return labelType switch
+        {
+            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => UseCustomInputStyles ? "custom-control-label" : "form-check-label",
+            Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
+            _ => null,
+        };
+    }
+
+    public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
 
     #endregion
 
@@ -299,7 +296,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Field() => "form-group";
 
-    public override string FieldHorizontal( bool horizontal ) => horizontal ? "row" : null;
+    public override string FieldHorizontal() => "row";
 
     public override string FieldColumn() => "col";
 
@@ -319,8 +316,6 @@ public class BootstrapClassProvider : ClassProvider
         => requiredIndicator
             ? "form-label-required"
             : null;
-
-    public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 
@@ -344,17 +339,15 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check" : null;
+    public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
 
-    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? UseCustomInputStyles ? "custom-control custom-radio" : "form-check" : null;
+    public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
 
-    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? UseCustomInputStyles ? "custom-control custom-switch" : "form-check" : null;
+    public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
 
-    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? UseCustomInputStyles ? "custom-file" : "form-group" : null;
+    public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
-    public override string ControlText( ControlRole role ) => null;
-
-    public override string ControlInline( ControlRole role, bool inline ) => ( role == ControlRole.Check || role == ControlRole.Radio || role == ControlRole.Switch ) && inline ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline" : null;
+    public override string ControlText() => null;
 
     #endregion
 
@@ -393,18 +386,18 @@ public class BootstrapClassProvider : ClassProvider
     public override string Button( bool outline ) => "btn";
 
     public override string ButtonColor( Color color, bool outline ) => outline
-        ? color.IsNotNullOrDefault() ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
-        : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
+        ? color != Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
+        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline, bool block ) => block ? $"{Button( outline )}-block" : null;
+    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
 
-    public override string ButtonActive( bool outline, bool active ) => active ? "active" : null;
+    public override string ButtonActive( bool outline ) => "active";
 
-    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "disabled" : null;
+    public override string ButtonDisabled( bool outline ) => "disabled";
 
-    public override string ButtonLoading( bool outline, bool loading ) => null;
+    public override string ButtonLoading( bool outline ) => null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "stretched-link" : null;
 
@@ -423,7 +416,7 @@ public class BootstrapClassProvider : ClassProvider
         return "btn-group";
     }
 
-    public override string ButtonsSize( Size size ) => size != Size.Default ? $"btn-group-{ToSize( size )}" : null;
+    public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
 
     #endregion
 
@@ -437,15 +430,15 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
-    public override string DropdownDisabled( bool disabled ) => disabled ? "dropdown-disabled" : null;
+    public override string DropdownDisabled() => "dropdown-disabled";
 
-    public override string DropdownGroup( bool group ) => group ? "btn-group" : null;
+    public override string DropdownGroup() => "btn-group";
 
-    public override string DropdownObserverShow() => Show();
+    public override string DropdownObserverShow() => DropdownShow();
 
-    public override string DropdownShow( bool show ) => show ? Show() : null;
+    public override string DropdownShow() => Show();
 
-    public override string DropdownRight( bool rightAligned ) => null;
+    public override string DropdownRight() => null;
 
     public override string DropdownItem() => "dropdown-item";
 
@@ -467,19 +460,19 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "dropdown-menu";
 
-    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "dropdown-menu-scrollable" : null;
+    public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
 
     public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "dropdown-menu-right" : null;
+    public override string DropdownMenuRight() => "dropdown-menu-right";
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
-        : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
+        ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
+        : color != Color.Default ? $"btn-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
         => size != Size.Default ? $"btn-{ToSize( size )}" : null;
@@ -502,13 +495,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
 
-    public override string TabsCards( bool cards ) => cards ? "card-header-tabs" : null;
+    public override string TabsCards() => "card-header-tabs";
 
-    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "nav-fill" : null;
+    public override string TabsFullWidth() => "nav-fill";
 
-    public override string TabsJustified( bool justified ) => justified ? "nav-justified" : null;
+    public override string TabsJustified() => "nav-justified";
 
-    public override string TabsVertical( bool vertical ) => vertical ? "flex-column" : null;
+    public override string TabsVertical() => "flex-column";
 
     public override string TabItem( TabPosition tabPosition ) => "nav-item";
 
@@ -540,7 +533,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
 
     public override string StepItemMarker() => "step-circle";
 
@@ -592,7 +585,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Jumbotron() => "jumbotron";
 
-    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"jumbotron-{ToBackground( background )}" : null;
+    public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
@@ -608,7 +601,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Card() => "card";
 
-    public override string CardWhiteText( bool whiteText ) => whiteText ? "text-white" : null;
+    public override string CardWhiteText() => "text-white";
 
     public override string CardActions() => "card-actions";
 
@@ -648,7 +641,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ListGroupItem() => "list-group-item";
 
-    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "list-group-item-action" : null;
+    public override string ListGroupItemSelectable() => "list-group-item-action";
 
     public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 
@@ -671,11 +664,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Bar( BarMode mode ) => "navbar";
 
-    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
 
-    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}" : null;
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
     public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
@@ -687,15 +680,17 @@ public class BootstrapClassProvider : ClassProvider
             : "nav-item"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode, bool active ) => active ? Active() : null;
+    public override string BarItemActive( BarMode mode ) => Active();
 
-    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
+    public override string BarItemDisabled( BarMode mode ) => Disabled();
 
-    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
+    public override string BarItemHasDropdown( BarMode mode ) => null;
+
+    public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link" : "b-bar-link";
 
-    public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
+    public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
@@ -706,7 +701,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "collapse navbar-collapse" : "b-bar-menu";
 
-    public override string BarMenuShow( BarMode mode, bool show ) => show ? Show() : null;
+    public override string BarMenuShow( BarMode mode ) => Show();
 
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav mr-auto" : "b-bar-start";
 
@@ -716,7 +711,7 @@ public class BootstrapClassProvider : ClassProvider
         ? "dropdown"
         : "b-bar-dropdown";
 
-    public override string BarDropdownShow( BarMode mode, bool show ) => show ? Show() : null;
+    public override string BarDropdownShow( BarMode mode ) => Show();
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
@@ -737,11 +732,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned ? mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right" : null;
+    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right";
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 
-    public override string BarCollapsed( BarMode mode, bool visible ) => null;
+    public override string BarCollapsed( BarMode mode ) => null;
 
     public override string BarLabel( BarMode mode ) => "b-bar-label";
 
@@ -866,17 +861,17 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Alert() => "alert";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => $"{Alert()}-{ToColor( color )}";
 
-    public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
+    public override string AlertDismisable() => "alert-dismissible";
 
-    public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
+    public override string AlertFade() => Fade();
 
-    public override string AlertShow( bool dismissable, bool visible ) => dismissable && visible ? Show() : null;
+    public override string AlertShow() => Show();
 
-    public override string AlertHasMessage( bool hasMessage ) => null;
+    public override string AlertHasMessage() => null;
 
-    public override string AlertHasDescription( bool hasDescription ) => null;
+    public override string AlertHasDescription() => null;
 
     public override string AlertMessage() => null;
 
@@ -1008,11 +1003,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Pagination() => "pagination";
 
-    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
-
-    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
-
-    public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"bg-{ToBackground( background )}" : null;
+    public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
     public override string PaginationItem() => "page-item";
 
@@ -1034,15 +1025,15 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Progress() => "progress";
 
-    public override string ProgressSize( Size size ) => size != Size.Default ? $"progress-{ToSize( size )}" : null;
+    public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped( bool stripped ) => null;
+    public override string ProgressStriped() => null;
 
-    public override string ProgressAnimated( bool animated ) => null;
+    public override string ProgressAnimated() => null;
 
-    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "progress-indeterminate" : null;
+    public override string ProgressIndeterminate() => "progress-indeterminate";
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1050,13 +1041,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
 
-    public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
+    public override string ProgressBarStriped() => "progress-bar-striped";
 
-    public override string ProgressBarAnimated( bool animated ) => animated ? "progress-bar-animated" : null;
+    public override string ProgressBarAnimated() => "progress-bar-animated";
 
-    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "progress-bar-indeterminate" : null;
+    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1078,21 +1069,21 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Table() => "table";
 
-    public override string TableFullWidth( bool fullWidth ) => null;
+    public override string TableFullWidth() => null;
 
-    public override string TableStriped( bool striped ) => striped ? "table-striped" : null;
+    public override string TableStriped() => "table-striped";
 
-    public override string TableHoverable( bool hoverable ) => hoverable ? "table-hover" : null;
+    public override string TableHoverable() => "table-hover";
 
-    public override string TableBordered( bool bordered ) => bordered ? "table-bordered" : null;
+    public override string TableBordered() => "table-bordered";
 
-    public override string TableNarrow( bool narrow ) => narrow ? "table-sm" : null;
+    public override string TableNarrow() => "table-sm";
 
-    public override string TableBorderless( bool borderless ) => borderless ? "table-borderless" : null;
+    public override string TableBorderless() => "table-borderless";
 
     public override string TableHeader() => null;
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"table-thead-theme thead-{ToThemeContrast( themeContrast )}" : null;
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-thead-theme thead-{ToThemeContrast( themeContrast )}";
 
     public override string TableHeaderCell() => null;
 
@@ -1114,11 +1105,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => null;
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
 
-    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
+    public override string TableRowHoverCursor() => "table-row-selectable";
 
-    public override string TableRowIsSelected( bool selected ) => selected ? "selected" : null;
+    public override string TableRowIsSelected() => "selected";
 
     public override string TableRowHeader() => null;
 
@@ -1134,7 +1125,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRowCell() => null;
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1166,13 +1157,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Badge() => "badge";
 
-    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
+    public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
 
-    public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
+    public override string BadgePill() => $"{Badge()}-pill";
 
     public override string BadgeClose() => "badge-close";
-
-    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
 
     #endregion
 
@@ -1196,8 +1185,6 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
 
-    public override string TextDecoration( TextDecoration textDecoration ) => $"text-decoration-{ToTextDecoration( textDecoration )}";
-
     public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
@@ -1213,7 +1200,7 @@ public class BootstrapClassProvider : ClassProvider
         return $"fs-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic( bool italic ) => italic ? "font-italic" : null;
+    public override string TextItalic() => "font-italic";
 
     #endregion
 
@@ -1261,11 +1248,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Figure() => "figure";
 
-    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"figure-is-{ToFigureSize( figureSize )}" : null;
+    public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
 
     public override string FigureImage() => "figure-img img-fluid";
 
-    public override string FigureImageRounded( bool rounded ) => rounded ? "rounded" : null;
+    public override string FigureImageRounded() => "rounded";
 
     public override string FigureCaption() => "figure-caption";
 
@@ -1285,7 +1272,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BreadcrumbItem() => "breadcrumb-item";
 
-    public override string BreadcrumbItemActive( bool active ) => active ? Active() : null;
+    public override string BreadcrumbItemActive() => Active();
 
     public override string BreadcrumbLink() => null;
 
@@ -1297,13 +1284,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipMultiline( bool multiline ) => multiline ? "b-tooltip-multiline" : null;
+    public override string TooltipMultiline() => "b-tooltip-multiline";
 
-    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "b-tooltip-active" : null;
+    public override string TooltipAlwaysActive() => "b-tooltip-active";
 
-    public override string TooltipFade( bool fade ) => fade ? "b-tooltip-fade" : null;
+    public override string TooltipFade() => "b-tooltip-fade";
 
-    public override string TooltipInline( bool inline ) => inline ? "b-tooltip-inline" : null;
+    public override string TooltipInline() => "b-tooltip-inline";
 
     #endregion
 
@@ -1455,6 +1442,8 @@ public class BootstrapClassProvider : ClassProvider
         return sb.ToString();
     }
 
+    public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
+
     #endregion
 
     #region Sizing
@@ -1550,21 +1539,6 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
-    #region ObjectFit
-
-    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
-    {
-        if ( objectFitType == ObjectFitType.Default )
-            return null;
-
-        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
-
-        return $"object-fit-{ToObjectFitType( objectFitType )}";
-    }
-
-    #endregion
-
     #region Elements
 
     public override string UnorderedList() => "unordered-list";
@@ -1575,7 +1549,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
 
-    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"ordered-list-{ToOrderedListType( orderedListType )}" : null;
+    public override string OrderedListType( OrderedListType orderedListType ) => $"ordered-list-{ToOrderedListType( orderedListType )}";
 
     public override string DescriptionList() => null;
 

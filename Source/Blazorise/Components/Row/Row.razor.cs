@@ -34,7 +34,7 @@ public partial class Row : BaseRowComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( StyleProvider.RowGutter( GutterState ) );
+        builder.Append( StyleProvider.RowGutter( GutterState ), GutterState != default );
 
         base.BuildStyles( builder );
     }

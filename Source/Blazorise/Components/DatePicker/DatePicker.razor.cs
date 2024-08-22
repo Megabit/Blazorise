@@ -214,7 +214,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         builder.Append( ClassProvider.DatePicker( Plaintext ) );
         builder.Append( ClassProvider.DatePickerSize( ThemeSize ) );
         builder.Append( ClassProvider.DatePickerColor( Color ) );
-        builder.Append( ClassProvider.DatePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.DatePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
     }

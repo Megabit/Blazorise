@@ -59,9 +59,9 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Check() );
-        builder.Append( ClassProvider.CheckSize( ThemeSize ) );
-        builder.Append( ClassProvider.CheckCursor( Cursor ) );
-        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.CheckSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.CheckCursor( Cursor ), Cursor != Cursor.Default );
+        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
     }

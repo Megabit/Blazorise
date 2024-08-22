@@ -26,7 +26,7 @@ public partial class BarLink : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarLink( ParentBarItemState?.Mode ?? BarMode.Horizontal ) );
-        builder.Append( ClassProvider.BarLinkDisabled( ParentBarItemState?.Mode ?? BarMode.Horizontal, ParentBarItemState?.Disabled ?? false ) );
+        builder.Append( ClassProvider.BarLinkDisabled( ParentBarItemState?.Mode ?? BarMode.Horizontal ), ParentBarItemState?.Disabled ?? false );
 
         base.BuildClasses( builder );
     }

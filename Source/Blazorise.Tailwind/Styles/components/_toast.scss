@@ -1,4 +1,6 @@
 ﻿.b-toast {
+    display: none;
+
     &.b-toast-fade {
         &.flex {
             animation: toast-slidein var(--toast-animation-duration, 300ms) linear;

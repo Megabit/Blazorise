@@ -97,11 +97,11 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Dropdown( IsDropdownSubmenu ) );
-        builder.Append( ClassProvider.DropdownGroup( IsGroup ) );
-        builder.Append( ClassProvider.DropdownShow( Visible ) );
-        builder.Append( ClassProvider.DropdownRight( RightAligned ) );
-        builder.Append( ClassProvider.DropdownDisabled( Disabled ) );
-        builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ) );
+        builder.Append( ClassProvider.DropdownGroup(), IsGroup );
+        builder.Append( ClassProvider.DropdownShow(), Visible );
+        builder.Append( ClassProvider.DropdownRight(), RightAligned );
+        builder.Append( ClassProvider.DropdownDisabled(), Disabled );
+        builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ), Direction != Direction.Down );
 
         base.BuildClasses( builder );
     }

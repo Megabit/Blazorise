@@ -51,9 +51,9 @@ public partial class Pagination : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Pagination() );
-        builder.Append( ClassProvider.PaginationSize( ThemeSize ) );
-        builder.Append( ClassProvider.PaginationAlignment( Alignment ) );
-        builder.Append( ClassProvider.PaginationBackgroundColor( Background ) );
+        builder.Append( ClassProvider.PaginationSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.Default );
+        builder.Append( ClassProvider.BackgroundColor( Background ), Background != Background.Default );
 
         base.BuildClasses( builder );
     }

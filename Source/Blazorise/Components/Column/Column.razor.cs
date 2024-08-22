@@ -27,7 +27,7 @@ public partial class Column : BaseColumnComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( StyleProvider.ColumnGutter( Gutter ) );
+        builder.Append( StyleProvider.ColumnGutter( Gutter ), Gutter != default );
 
         base.BuildStyles( builder );
     }

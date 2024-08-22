@@ -23,7 +23,7 @@ public partial class LayoutHeader : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.LayoutHeader() );
-        builder.Append( ClassProvider.LayoutHeaderFixed( Fixed ) );
+        builder.Append( ClassProvider.LayoutHeaderFixed(), Fixed );
 
         base.BuildClasses( builder );
     }

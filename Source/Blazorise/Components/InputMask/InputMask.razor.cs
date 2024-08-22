@@ -110,7 +110,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
         builder.Append( ClassProvider.InputMask( Plaintext ) );
         builder.Append( ClassProvider.InputMaskSize( ThemeSize ) );
         builder.Append( ClassProvider.InputMaskColor( Color ) );
-        builder.Append( ClassProvider.InputMaskValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.InputMaskValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
     }

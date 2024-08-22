@@ -36,7 +36,7 @@ public partial class TableRowCell : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableRowCell() );
-        builder.Append( ClassProvider.TableRowCellColor( Color ) );
+        builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.Default );
         builder.Append( ClassProvider.TableRowCellFixed( FixedPosition ) );
 
         base.BuildClasses( builder );
