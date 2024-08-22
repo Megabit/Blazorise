@@ -1,0 +1,111 @@
+﻿@page "/news/release-notes/161"
+
+<Seo Canonical="news/release-notes/161" Title="Blazorise v1.6.1" Description="We are pleased to announce the release of version 1.6.1, which includes important bug fixes and enhancements. This release focuses on improving stability and addressing key issues identified by our user community." ImageUrl="img/news/160/v161.png" />
+
+<NewsPageImage Source="img/news/160/v161.png" Text="Blazorise v1.6.1" />
+
+<NewsPageTitle>
+    Maintenance release: Blazorise 1.6.1
+</NewsPageTitle>
+
+<Paragraph>
+    One month ago we have released Blazorise 1.6 which came with many new features and improvements. Today we are pleased to announce the release of version 1.6.1, which includes important bug fixes and enhancements. This release focuses on improving stability and addressing key issues identified by our user community. We are grateful for the feedback and contributions that have helped us make Blazorise better with each update.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Major Improvements in 1.6.1
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    FileEdit Button Text
+</Heading>
+
+<Paragraph>
+    Fixed an issue where the FileEdit button text displayed the selected file name after selection. The fix was present only on Bootstrap 5, and the issue was fixed by changing the HTML structure of the FileEdit component. The button text now correctly displays the selected file name after selection.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Datagrid Detail Row Click
+</Heading>
+
+<Paragraph>
+    Addressed the issue of disabling row clicks on the DataGrid's multi-selection checkbox. The solution involves using <Code>ClickStopPropagation</Code> to prevent click events from propagating when clicking near the checkbox. When the checkbox is actually clicked, the <Code>OnMultiSelectCheckClicked</Code> event is used to manually invoke <Code>HandleClick</Code>. To maintain the necessary functionality, a <Code>multiSelectPreventRowClick</Code> option was added to prevent triggering the DetailRow, while allowing other actions to continue as expected.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete with Cropper
+</Heading>
+
+<Paragraph>
+    Resolved issues with <Code>Autocomplete</Code> when used alongside Cropper. The problem was that cropper events were not properly disposed of, leading to conflicts with input elements that were listening for <Code>+</Code> and <Code>-</Code> keys. We have reported the issue to the Cropper team, who then fixed it. The Blazorise was subsequently updated to incorporate this fix.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Additional Improvements
+</NewsPageSubtitle>
+
+<Paragraph>
+    Along with the major fixes, we have addressed several other bugs and made minor improvements to enhance the overall user experience and functionality of Blazorise. We appreciate your patience and continuous support as we work to make Blazorise better with each update.
+</Paragraph>
+
+<Paragraph>
+    We encourage you to update to version 1.6.1 to benefit from these fixes and improvements. As always, please report any issues or provide feedback to help us continue improving.
+</Paragraph>
+
+<NewsPageList>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5639" Alt="Link to GitHub issue" ToText="#5639">
+        [Bug]: FileEdit button text shows selected file name after selection
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5647" Alt="Link to GitHub issue" ToText="#5647">
+        [Bug]: NullReferenceException thrown in BaseChart::LimitDataSets method
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5614" Alt="Link to GitHub issue" ToText="#5614">
+        [Bug]: headergroupcaption and displayable not working properly together
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5631" Alt="Link to GitHub issue" ToText="#5631">
+        TransferList binding to Items
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5679" Alt="Link to GitHub issue" ToText="#5679">
+        [Bug]: Cannot seem to disable the detail row click on the datagrid multi selection checkbox
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5677" Alt="Link to GitHub issue" ToText="#5677">
+        [Bug]: Autocomplete issues when Cropper is used
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/pull/5692" Alt="Link to GitHub pull request" ToText="#5692">
+        Remove validator APIs that are not supported
+    </NewsPageListItem>
+</NewsPageList>
+
+<NewsPageSubtitle>
+    Feedback
+</NewsPageSubtitle>
+
+<Paragraph>
+    Your feedback is essential to us, and we appreciate your continued support and contributions to Blazorise. If you have any questions, suggestions, or feedback, please feel free to reach out to us on.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Known incompatibilities
+</NewsPageSubtitle>
+
+<Paragraph>
+    As of now, there are no known incompatibilities with the previous Blazorise <Strong>1.5.x</Strong> releases. We encourage all users to upgrade to <Strong>1.6.1</Strong>.
+</Paragraph>
+
+<Paragraph>
+    If you experience any unexpected behavior change in your projects after upgrading to 1.6.1, please <Anchor To="https://github.com/Megabit/Blazorise/issues">file an issue on GitHub</Anchor>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Commercial Support
+</NewsPageSubtitle>
+
+<Paragraph>
+    Blazorise, as an open-source project, relies on the support and contributions of our user community. We offer commercial licenses to help fund the ongoing development and maintenance of Blazorise. Your support is essential to ensuring the continued growth and success of Blazorise.
+</Paragraph>
+
+<Paragraph>
+    With a commercial license, you will have access to premium forum support, private repositories and community-licensed themes. To learn more about commercial licenses, please visit our website at <Anchor To="https://blazorise.com/commercial" Target="Target.Blank">Blazorise Commercial</Anchor>.
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="April 22nd, 2024" Read="3 min" />
