@@ -27,6 +27,7 @@ Now use any tailwind class. And it will just work.
   Hello Blazor and Tailwind
 </div>
 ```
+
 ![hello](img/blog/2024-08-18/img.png)
 
 ## TailwindCSS CDN is Not for Production
@@ -94,7 +95,7 @@ You can download the TailwindCSS standalone executable [here](https://github.com
 
 On Windows, you can install it with a single command using winget :
 
-```sh
+```bash
 winget install TailwindLabs.TailwindCSS
 ```
 
@@ -102,7 +103,7 @@ Afterward, you'll need to reload the PATH (simply by closing and reopening the t
 
 On Linux, use the following commands:
 
-```sh
+```bash
 mkdir -p ~/.local/bin
 wget https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 -O ~/.local/bin/tailwindcss
 chmod +x ~/.local/bin/tailwindcss
@@ -110,7 +111,7 @@ chmod +x ~/.local/bin/tailwindcss
 
 Then, test the installation with:
 
-```sh
+```bash
 tailwindcss
 ```
 Now, you should see the TailwindCSS CLI is working.
@@ -121,7 +122,7 @@ I will describe the scenario where you have a .NET 8 Blazor Web App, building on
 
 First, navigate to the root of your Blazor project (where the `.csproj` file is located. If you also have the WASM client part, navigate to the server project) and:
 
-```sh
+```bash
 tailwindcss init
 ```
 
@@ -156,13 +157,13 @@ Then, go to your `wwwroot/app.css` and add this to the top of the file:
 
 Now run `tailwindcss` in your terminal. It will scan through your Razor files, find Tailwind classes, and create a new CSS file called `app.min.css`:
 
-```sh
+```bash
 tailwindcss -i wwwroot/app.css -o wwwroot/app.min.css -w
 ```
 
 You will get output similar to this:
 
-```sh
+```bash
 Rebuilding...
 
 Done in 187ms.
@@ -196,7 +197,7 @@ Now that TailwindCSS is set up, what's the best workflow for using it?
 
 From my experience, the most efficient workflow is to open the terminal in the directory where `tailwind.config.js` resides and run the following command:
 
-```sh
+```bash
 tailwindcss -i wwwroot/app.css -o wwwroot/app.min.css -w
 ```
 
@@ -204,7 +205,7 @@ The `-w` parameter stands for `watch`, which keeps the program running. Every ti
 
 You can simplify this command to just two letters (`tw`) by editing your PowerShell profile:
 
-```sh
+```bash
 code $Profile # opens powershell profile with vscode
 ```
 
@@ -216,13 +217,13 @@ function tw {tailwindcss -i .\wwwroot\app.css -o .\wwwroot\app.min.css -w}
 
 For Linux:
 
-```sh
+```bash
 nano ~/.bashrc
 ```
 
 Add the alias:
 
-```sh
+```bash
 alias tw='tailwindcss -i ./wwwroot/app.css -o ./wwwroot/app.min.css -w'
 ```
 
@@ -253,7 +254,7 @@ If you have any ideas on how to streamline this process further, feel free to sh
 
 As mentioned earlier, the generated `app.min.css` file should not be included in your git repository. To ensure this, add the following line to your `.gitignore` file:
 
-```sh
+```bash
 YourProject/wwwroot/app.min.css
 ```
 
@@ -357,6 +358,7 @@ module.exports = {
   prefix: 'tw-',
 }
 ```
+
 Then, update all your Tailwind classes like this:
 
 ```html
@@ -366,6 +368,3 @@ Then, update all your Tailwind classes like this:
 ## Conclusion
 
 With this guide, you should be well-equipped to start leveraging the advantages of Blazor and TailwindCSS combo. You can see these in action in the [BlazorAndTailwind repository](https://github.com/tesar-tech/BlazorAndTailwind), which includes the full build pipeline, additional tips, and useful links.
-
-
-
