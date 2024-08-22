@@ -338,6 +338,12 @@
     <DocsAttributesItem Name="ResponsiveMode" Type="TableResponsiveMode" Default="TableResponsiveMode.Default">
         Gets or sets the Table's responsive mode.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedCell" Type="DataGridCellInfo<TItem>">
+        Gets or sets the currently selected cell in the data grid. <Code>NavigationMode</Code> must be set to <Code>DataGridNavigationMode.Cell</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedCellChanged" Type="EventCallback<DataGridCellInfo<TItem>>">
+        Occurs after the selected cell has changed in the data grid. <Code>NavigationMode</Code> must be set to <Code>DataGridNavigationMode.Cell</Code>.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="DataGrid Templates">
