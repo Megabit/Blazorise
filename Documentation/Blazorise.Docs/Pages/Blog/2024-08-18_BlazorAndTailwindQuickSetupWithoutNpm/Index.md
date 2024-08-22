@@ -276,7 +276,78 @@ This script mirrors the Linux command I described earlier, with the added step o
 
 There are several ways to integrate Tailwind into a project that uses Blazorise components.
 
-First, there is the [Tailwind provider](https://blazorise.com/docs/usage/tailwind/) for Blazorise, which utilizes Flowbite components under the hood and makes all the Tailwind classes available via CDN with no extra setup required. You can add your Tailwind classes, and they will render correctly. However, since it uses the CDN, this solution is not production-ready. A production version is currently under development.
+First, there is the [Tailwind provider](https://blazorise.com/docs/usage/tailwind/) for Blazorise, which utilizes Flowbite components under the hood.
+
+There are three ways to work with the Tailwind provider and your custom classes.
+
+### Tailwind CDN for Quick Testing
+
+To get started quickly, just add the following to your `<head>` tag:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css" />
+<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
+
+<!-- CDN to enable Tailwind classes -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Config for custom Tailwind classes, e.g., primary, secondary, success, etc. -->
+<script src="_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.6.0.0"></script>
+
+<!-- Custom CSS shared among all style providers, usually classes with 'b-' prefix (like '.b-input-color-picker') -->
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+
+<!-- Specific classes related to Tailwind -->
+<link href="_content/Blazorise.Tailwind/blazorise.tailwind.css" rel="stylesheet" />
+```
+
+This allows you to add your own classes, with the CDN handling them. However, as mentioned earlier, this is not suitable for production.
+
+### Production-Ready CSS
+
+For a production environment, simply update the links in your `<head>` tag. I'll comment on the changes from the previous code block:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css" />
+<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+
+<!-- Bundled CSS using tailwind.config.js, blazorise.tailwind.css, 
+     and all Tailwind classes used for Blazorise components (no need for Tailwind CDN) -->
+<link href="_content/Blazorise.Tailwind/blazorise.tailwind.prod.css" rel="stylesheet" />
+```
+
+All the classes that describe Blazorise components are bundled in `blazorise.tailwind.prod.css`.
+
+With production-ready CSS, you achieve the same setup as using a provider like Bootstrap—just a few links to ensure everything works.
+
+### Production-Ready CSS + Additional Tailwind Classes
+
+If you need additional Tailwind classes, follow the general Blazor & Tailwind guide mentioned earlier. You'll end up with `tailwind.config.js` in your project root and a build action to generate your final CSS, which you'll also add to the `<head>` tag (`<link rel="stylesheet" href="app.min.css"/>`). Some classes might be duplicated in `blazorise.tailwind.prod.css` and your `app.min.css`, which isn't an issue for running the app but might affect your goal of minimizing payload size.
+
+### Production-Ready CSS + Additional Tailwind Classes in One Bundle
+
+For this approach, you'll need some extra configuration. First, download the following files to your project root:
+
+- [Class Safelist](https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise.Tailwind/wwwroot/tailwind.safelist.config.js) containing the classes used by Blazorise components.
+- [Tailwind Config](https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise.Tailwind/wwwroot/tailwind.config.js) which uses the safelisted classes and includes settings to ensure all necessary css is generated.
+
+Use the `tailwind.config.js` as your main config file. Don't forget to update the 'content' section to fit your project's needs.
+
+The final HTML inside your `<head>` tag will look like this:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css" />
+<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Tailwind/blazorise.tailwind.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="app.min.css"/>
+```
+
+### Using Tailwind with Different Style Providers
 
 You can also use Tailwind with different style providers by following the guide above. In this case, I recommend using a prefix for your Tailwind classes to avoid conflicts with classes from other frameworks (e.g., Bootstrap).
 
@@ -286,13 +357,11 @@ module.exports = {
   prefix: 'tw-',
 }
 ```
-
 Then, update all your Tailwind classes like this:
 
 ```html
 <div class="tw-bg-blue-500 tw-p-4">Hello!</div>
 ```
-
 
 ## Conclusion
 
