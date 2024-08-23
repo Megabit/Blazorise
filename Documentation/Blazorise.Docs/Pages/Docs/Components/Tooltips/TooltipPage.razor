@@ -135,7 +135,10 @@
     <DocsAttributesItem Name="AppendTo" Type="string" Default="body">
         The element to append the tooltip to. If <Code>Interactive = true</Code>, the default behavior is appendTo: "parent".
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Delay" Type="(int Show, int Hide)?" Default="(0, 0)">
-        Specifies the delay in ms once a trigger event is fired before a Tooltip shows or hides.
+    <DocsAttributesItem Name="ShowDelay" Type="int?" Default="null">
+        Specifies the delay in ms once a trigger event is fired before a Tooltip shows.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HideDelay" Type="int?" Default="null">
+        Specifies the delay in ms once a trigger event is fired before a Tooltip hides.
     </DocsAttributesItem>
 </DocsAttributes>

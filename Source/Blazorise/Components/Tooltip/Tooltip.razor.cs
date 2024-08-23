@@ -89,8 +89,8 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
                 appendTo = AppendTo,
                 delay = new
                 {
-                    show = ( Delay?.Show ?? Options?.TooltipOptions?.Delay?.Show ) ?? 0,
-                    hide = ( Delay?.Hide ?? Options?.TooltipOptions?.Delay?.Hide ) ?? 0,
+                    show = ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0,
+                    hide = ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0,
                 }
             } );
         } );
@@ -312,9 +312,14 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Specifies the delay in ms once a trigger event is fired before a Tooltip shows or hides.
+    /// Specifies the delay in ms once a trigger event is fired before a Tooltip shows.
     /// </summary>
-    [Parameter] public (int Show, int Hide)? Delay { get; set; }
+    [Parameter] public int? ShowDelay { get; set; }
+
+    /// <summary>
+    /// Specifies the delay in ms once a trigger event is fired before a Tooltip hides.
+    /// </summary>
+    [Parameter] public int? HideDelay { get; set; }
 
     /// <summary>
     /// Cascaded theme settings.

@@ -138,9 +138,12 @@ public class BlazoriseOptions
 public class BlazoriseTooltipOptions
 {
     /// <summary>
-    /// Specifies the delay in milliseconds (ms) after a trigger event before a Tooltip is shown or hidden.
-    /// The delay is defined as a tuple where the first value represents the delay before showing the Tooltip,
-    /// and the second value represents the delay before hiding it. Default is (0, 0) for no delay.
+    /// Specifies the delay in milliseconds (ms) after a trigger event before a Tooltip is shown. Default is <c>null</c> for no delay.
     /// </summary>
-    public (int Show, int Hide)? Delay { get; set; }
+    public int? ShowDelay { get; set; }
+
+    /// <summary>
+    /// Specifies the delay in milliseconds (ms) after a trigger event before a Tooltip is hidden. Default is <c>null</c> for no delay.
+    /// </summary>
+    public int? HideDelay { get; set; }
 }
