@@ -358,7 +358,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     [Parameter] public bool AutoExpandAll { get; set; }
 
     /// <summary>
-    /// Controls if the child nodes, which are currently not expanded, are visible.<para></para>
+    /// Controls if the child nodes, which are currently not expanded, are visible.
     /// This is useful for optimizing large TreeViews. See <see href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization">Docs for virtualization</see> for more info.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }
