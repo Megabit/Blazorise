@@ -144,12 +144,16 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Optimizations
+    TreeView Virtualization
 </Heading>
 
 <Paragraph>
-    We added options for Virtualized rendering to the TreeView component. This should help with large TreeViews.
+    We have added the ability to virtualize the TreeView component. This can be useful when you have a large number of nodes and you want to improve the performance of the TreeView component. The virtualization feature allows you to render only the visible nodes, which can significantly reduce the number of DOM elements and improve the overall performance of the TreeView component.
 </Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Optimizations
+</Heading>
 
 <Paragraph>
     We made many optimization internally to make Blazorise more easier for customizations. This changes are not easily visible unless you plan to implement your own CSS provider, or your custom design system.
