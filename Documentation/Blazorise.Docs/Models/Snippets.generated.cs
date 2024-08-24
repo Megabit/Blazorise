@@ -10732,9 +10732,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
           HasChildNodes=""@(item => item.Children?.Any() == true)""
           @bind-SelectedNode=""selectedNode""
           @bind-ExpandedNodes=""expandedNodes""
-          Virtualize
-          Height=""Height.Px(300)""
-          Overflow=""Overflow.Scroll"">
+          Virtualize>
     <NodeContent>
         <Icon Name=""IconName.Folder"" />
         @context.Text

@@ -37,6 +37,22 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         bool nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
         bool selectedNodeChanged = parameters.TryGetValue<TNode>( nameof( SelectedNode ), out var paramSelectedNode ) && !paramSelectedNode.IsEqual( treeViewState.SelectedNode );
         bool selectedNodesChanged = parameters.TryGetValue<IList<TNode>>( nameof( SelectedNodes ), out var paramSelectedNodes ) && !paramSelectedNodes.AreEqual( treeViewState.SelectedNodes );
+        bool virtualizeChanged = parameters.TryGetValue<bool>( nameof( Virtualize ), out var paramVirtualize ) && !paramVirtualize.IsEqual( Virtualize );
+
+        if ( virtualizeChanged && paramVirtualize )
+        {
+            // If virtualize is enabled, but the height is not set, then set the default height to 300px.
+            if ( !parameters.TryGetValue<IFluentSizing>( nameof( Height ), out _ ) )
+            {
+                Height = Blazorise.Height.Px( 300 );
+            }
+
+            // If virtualize is enabled, but the overflow is not set, then set the default overflow to scroll.
+            if ( !parameters.TryGetValue<IFluentOverflow>( nameof( Overflow ), out _ ) )
+            {
+                Overflow = Blazorise.Overflow.Scroll;
+            }
+        }
 
         if ( selectedNodeChanged )
         {
