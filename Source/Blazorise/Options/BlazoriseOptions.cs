@@ -124,5 +124,10 @@ public class BlazoriseOptions
     /// </summary>
     public bool SafeJsInvoke { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the options used to configure the behavior of the Tooltip. This allows you to customize the Tooltip's appearance and timing.
+    /// </summary>
+    public BlazoriseTooltipOptions TooltipOptions { get; set; }
+
     #endregion
 }

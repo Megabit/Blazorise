@@ -4740,7 +4740,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Button Color=""Color.Primary"">Hover me</Button>
 </Tooltip>";
 
-        public const string TooltipDelayExample = @"<Tooltip Text=""I'm a Blazorise Tooltip!"" Delay=""(1000, 500)"">
+        public const string TooltipDelayExample = @"<Tooltip Text=""I'm a Blazorise Tooltip!"" ShowDelay=""1000"" HideDelay=""500"">
     <Button Color=""Color.Primary"">Delay: (1000, 500)</Button>
 </Tooltip>";
 
