@@ -1,0 +1,179 @@
+@page "/blog/how-to-style-blazorise-components"
+
+<Seo Canonical="/blog/how-to-style-blazorise-components" Title="How to style Blazorise components" Description="Discover" ImageUrl="/img/blog/2024-08-25/how-to-style-blazorise-components.png" />
+
+<BlogPageImage Source="/img/blog/2024-08-25/how-to-style-blazorise-components.png" Text="How to style Blazorise components" />
+
+<BlogPageTitle>
+    Styling Blazorise components
+</BlogPageTitle>
+
+<BlogPageParagraph>
+    Learn how to use CSS with Blazor, how to style Blazorise components, and the limitations of CSS isolation.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Blazorise is an amazing component library that, is not really tied to any front-end framework. This means we have a lot of options when it comes to choosing which framework we want to use, for example: Bootstrap, Tailwind, Material and many others. check out the full list <Anchor To="https://blazorise.com/docs/usage/tailwind/" Title="Link to here">here</Anchor>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You can check out our <Anchor To="https://blazorise.com/docs/start" Title="Link to quick start">quick start</Anchor> guide, to get started with Blazorise.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    So let's dive into the topics and explore our options when it comes to styling Blazorise components.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    How does CSS work with Blazorise?
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Blazorise supports every CSS property that is supported by the browser. There are no special CSS properties that only apply to Blazor or Blazorise.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Inline styling
+</Heading>
+
+<BlogPageParagraph>
+    Inline CSS styling can be applied to any Blazor element directly.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_InlineClass" />
+
+<BlogPageParagraph>
+    Just like regular html elements, Blazor elements can receive all attributes such as <Code>style</Code>, <Code>class</Code>, <Code>type</Code>, and so on.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    CSS classes
+</Heading>
+
+<BlogPageParagraph>
+    Let's take a look at how we can use CSS classes to style our Blazor app.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    First we should create a <Code>styles.css</Code> file inside the <Code>wwwroot</Code> folder and link it inside <Code>App.razor</Code> like so:
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Create styles.css
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_StylesCss" />
+
+<BlogPageParagraph>
+    Insert the link tag inside App.razor
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_AppRazor" />
+
+<BlogPageParagraph>
+    After adding this, we can use these classes like usual with our Blazor elements.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Let's see an example:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_UseClassesCss" />
+
+<BlogPageParagraph>
+    The class will be applied to our div element, and we will see the background change to red.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This is pretty much all the basics covered for plain Blazor.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    How to style Blazorise components
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Styling Blazorise components is really straightforward.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    There are some options on how to go about this:
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Inline styling
+</Heading>
+
+<BlogPageParagraph>
+    Here is a small example that shows how we can use inline styles with Blazorise.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_BlazoriseInlineStylesExample" />
+
+<BlogPageParagraph>
+    If we take look at <Anchor To="https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise/Base/BaseComponent.cs#L379" Title="Link to Blazorise/Base/BaseComponent.razor">Blazorise/Base/BaseComponent.razor</Anchor>, we can see that all Blazorise components have Class, Style, and other parameters that we can use. Those values will get added directly to the underlying html elements.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    CSS classes
+</Heading>
+
+<BlogPageParagraph>
+    Applying CSS classes to Blazorise is as straight forward as plain Blazor - we just supply the class parameter, like so:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_BlazoriseCSSExample" />
+
+<BlogPageParagraph>
+    <Blockquote>
+        Notice that the parameter is spelled in Uppercase, that is because it is a Blazor parameter!
+    </Blockquote>
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    CSS Isolation
+</Heading>
+
+<BlogPageParagraph>
+    To use CSS isolation, we can create a CSS file with the same name as our Blazor component.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    So if our component here is named <Code>Alert.razor</Code>:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_IsolationComponent" />
+
+<BlogPageParagraph>
+    The scoped CSS file for it would be <Code>Alert.razor.css</Code>
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_IsolationComponentCss" />
+
+<BlogPageParagraph>
+    To link these classes to our HTML document, we should reference out <Code>{ASSEMBLY NAME}.styles.css</Code> in <Code>App.razor</Code>
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_BlazorHtmlStylesLink" />
+
+<Heading Size="HeadingSize.Is3">
+    Theming
+</Heading>
+
+<BlogPageParagraph>
+    Blazorise has support for themes. You can customize Blazorise with your own theme! Change the colors, the typography and much more using themes.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Using Blazorise themes, you can easily change the colors of your application programmatically. Rebuild the default stylesheet, customize various aspects of the framework for your particular needs, and much, much more.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    To learn more about theming, head over to the <Anchor To="https://blazorise.com/docs/theming" Title="Link to documentation page">documentation page</Anchor>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Thank you for reading! we expect you in the next blog post!
+</BlogPageParagraph>
+
+<BlogPagePostInto UserName="Giorgi" ImageName="giorgi" PostedOn="Aug 25th, 2024" Read="7 min" />
