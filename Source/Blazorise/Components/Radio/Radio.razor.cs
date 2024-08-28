@@ -71,9 +71,9 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Radio( AsButton ) );
-        builder.Append( ClassProvider.RadioSize( AsButton, ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.RadioCursor( Cursor ), Cursor != Cursor.Default );
-        builder.Append( ClassProvider.RadioValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.RadioSize( AsButton, ThemeSize ) );
+        builder.Append( ClassProvider.RadioCursor( Cursor ) );
+        builder.Append( ClassProvider.RadioValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

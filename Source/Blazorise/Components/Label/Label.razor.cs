@@ -23,9 +23,8 @@ public partial class Label : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Label(), Type == LabelType.None );
-        builder.Append( ClassProvider.LabelType( Type ), Type != LabelType.None );
-        builder.Append( ClassProvider.LabelCursor( Cursor ), Cursor != Cursor.Default );
+        builder.Append( ClassProvider.LabelType( Type ) );
+        builder.Append( ClassProvider.LabelCursor( Cursor ) );
 
         base.BuildClasses( builder );
     }

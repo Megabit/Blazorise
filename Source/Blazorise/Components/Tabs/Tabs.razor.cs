@@ -53,10 +53,10 @@ public partial class Tabs : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Tabs( Pills ) );
-        builder.Append( ClassProvider.TabsCards(), IsCards );
-        builder.Append( ClassProvider.TabsFullWidth(), FullWidth );
-        builder.Append( ClassProvider.TabsJustified(), Justified );
-        builder.Append( ClassProvider.TabsVertical(), TabPosition == TabPosition.Start || TabPosition == TabPosition.End );
+        builder.Append( ClassProvider.TabsCards( IsCards ) );
+        builder.Append( ClassProvider.TabsFullWidth( FullWidth ) );
+        builder.Append( ClassProvider.TabsJustified( Justified ) );
+        builder.Append( ClassProvider.TabsVertical( TabPosition == TabPosition.Start || TabPosition == TabPosition.End ) );
 
         base.BuildClasses( builder );
     }

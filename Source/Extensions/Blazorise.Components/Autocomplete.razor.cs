@@ -496,7 +496,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
         else
         {
-            if ( !IsSelectedvalue( GetItemValue( Search ) ) )
+            var itemValues = GetItemValues( Search );
+            if ( itemValues.IsNullOrEmpty() || !itemValues.Any( IsSelectedvalue ) )
             {
                 if ( !FreeTyping )
                 {
@@ -862,7 +863,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+        var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetAutocompleteRowsLimit( LicenseChecker );
 
         if ( maxRowsLimit.HasValue )
         {
@@ -1060,6 +1061,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         return FreeTyping ? Search?.ToString() : SelectedValue?.ToString();
     }
 
+    /// <summary>
+    /// Gets the text of the <typeparamref name="TValue"/>.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     private string GetItemText( TValue value )
     {
         var item = GetItemByValue( value );
@@ -1069,6 +1075,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             : GetItemText( item );
     }
 
+    /// <summary>
+    /// Gets the text of the <typeparamref name="TItem"/>.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
     private string GetItemText( TItem item )
     {
         if ( item is null )
@@ -1077,6 +1088,27 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         return TextField?.Invoke( item ) ?? string.Empty;
     }
 
+
+
+    /// <summary>
+    /// Gets multiple values from <see cref="Data"/> by using the provided <see cref="TextField"/> and <see cref="ValueField"/>.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    private IEnumerable<TValue> GetItemValues( string text )
+    {
+        var items = GetItemsByText( text );
+
+        return items.IsNullOrEmpty()
+            ? Array.Empty<TValue>()
+            : items.Select( GetItemValue );
+    }
+
+    /// <summary>
+    /// Gets a <typeparamref name="TValue"/> from <see cref="Data"/> by using the provided <see cref="TextField"/>.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     private TValue GetItemValue( string text )
     {
         var item = GetItemByText( text );
@@ -1086,6 +1118,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             : GetItemValue( item );
     }
 
+    /// <summary>
+    /// Gets a <typeparamref name="TValue"/> from <see cref="Data"/> by using the provided <see cref="ValueField"/>.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
     private TValue GetItemValue( TItem item )
     {
         if ( item is null || ValueField == null )
@@ -1113,6 +1150,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         => Data is not null
                ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
                : default;
+
+    /// <summary>
+    /// Gets multiple items from <see cref="Data"/> by using the provided <see cref="TextField"/>.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public IEnumerable<TItem> GetItemsByText( string text )
+        => Data is not null
+               ? Data.Where( x => TextField( x ).IsEqual( text ) )
+               : Array.Empty<TItem>();
 
     /// <summary>
     /// Gets a <typeparamref name="TValue"/> from <see cref="SelectedValues"/> by using the provided <see cref="TextField"/> and <see cref="ValueField"/>.

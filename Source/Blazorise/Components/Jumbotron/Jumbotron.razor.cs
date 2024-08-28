@@ -16,7 +16,7 @@ public partial class Jumbotron : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Jumbotron() );
-        builder.Append( ClassProvider.JumbotronBackground( Background ), Background != Background.Default );
+        builder.Append( ClassProvider.JumbotronBackground( Background ) );
 
         base.BuildClasses( builder );
     }

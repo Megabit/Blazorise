@@ -27,7 +27,7 @@ public partial class OrderedList : BaseTypographyComponent
     {
         builder.Append( ClassProvider.OrderedList() );
         builder.Append( ClassProvider.OrderedListUnstyled( Unstyled ) );
-        builder.Append( ClassProvider.OrderedListType( ListType ), ListType != OrderedListType.Default );
+        builder.Append( ClassProvider.OrderedListType( ListType ) );
 
         base.BuildClasses( builder );
     }

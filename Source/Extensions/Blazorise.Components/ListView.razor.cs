@@ -21,7 +21,7 @@ public partial class ListView<TItem> : ComponentBase
 
     private IEnumerable<TItem> GetData()
     {
-        var maxRowsLimit = LicenseChecker.GetListViewRowsLimit();
+        var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetListViewRowsLimit( LicenseChecker );
 
         if ( maxRowsLimit.HasValue )
         {

@@ -17,7 +17,8 @@ public partial class Addon : Blazorise.Addon
 
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "ant-input-group-addon-dropdown", hasDropdown );
+        if ( hasDropdown )
+            builder.Append( "ant-input-group-addon-dropdown" );
 
         base.BuildClasses( builder );
     }

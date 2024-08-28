@@ -19,7 +19,7 @@ public static class Config
         serviceCollection.AddSingleton<IClassProvider>( classProvider );
         serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
         serviceCollection.AddSingleton<IBehaviourProvider, BulmaBehaviourProvider>();
-        serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
+        serviceCollection.AddScoped<IThemeGenerator, BulmaThemeGenerator>();
 
         foreach ( var mapping in ComponentMap )
         {

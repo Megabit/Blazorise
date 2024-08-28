@@ -737,7 +737,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             VirtualizeOptions ??= new();
 
             if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && VirtualizeOptions.ScrollRowOnEdit )
-                virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
+                virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor( Cursor.Pointer ) );
         }
         else
         {
@@ -2179,6 +2179,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
+    internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column )
+    {
+        SelectedCell = new( item, rowInfo, column, column.ToColumnInfo( SortByColumns ), ResolveItemIndex( item ) );
+
+        await SelectedCellChanged.InvokeAsync( SelectedCell );
+    }
+
     protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null ) =>
         HandleSortColumn( column, changeSortDirection, sortDirection, false );
 
@@ -2357,7 +2364,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        var maxRowsLimit = LicenseChecker.GetDataGridRowsLimit();
+        var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetDataGridRowsLimit( LicenseChecker );
 
         if ( maxRowsLimit.HasValue )
         {
@@ -2648,6 +2655,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return filteredData;
     }
 
+
     private Task SelectRow( TItem item, bool forceSelect = false )
     {
         if ( editState != DataGridEditState.None && !forceSelect )
@@ -2805,16 +2813,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 .Where( x => x.IsDisplayable || x.Displaying )
                 .OrderBy( x => x.DisplayOrder );
 
+
             if ( !IsGroupHeaderCaptionsEnabled )
-                return orderedDisplayColumns;
+            {
+                foreach ( var orderedDisplayColumn in orderedDisplayColumns )
+                {
+                    yield return orderedDisplayColumn;
+
+                }
+                yield break;
+            }
 
             var orderedDisplayColumnsAsList = orderedDisplayColumns.ToList();
-            var newOrderedDisplayColumns = new List<DataGridColumn<TItem>>();
 
             for ( int i = 0; i < orderedDisplayColumnsAsList.Count; i++ )
             {
                 var displayColumn = orderedDisplayColumnsAsList[i];
-                newOrderedDisplayColumns.Add( displayColumn );
+                yield return displayColumn;
 
                 if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumnsAsList.Count > i + 1 )
                 {
@@ -2824,7 +2839,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     {
                         if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
                         {
-                            newOrderedDisplayColumns.Add( remainingDisplayColumn );
+                            yield return remainingDisplayColumn;
                             toRemove.Add( remainingDisplayColumn );
                         }
                     }
@@ -2832,8 +2847,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     orderedDisplayColumnsAsList.RemoveAll( x => toRemove.Contains( x ) );
                 }
             }
-
-            return newOrderedDisplayColumns;
         }
     }
 
@@ -2849,7 +2862,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 .OrderBy( x => x.DisplayOrder )
                 .ToList();
 
-            var newOrderedDisplayColumns = new List<(DataGridColumn<TItem> col, int colSpan)>();
 
             for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
             {
@@ -2872,10 +2884,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
                 }
 
-                newOrderedDisplayColumns.Add( (displayColumn, colSpan) );
+                yield return ( (displayColumn, colSpan) );
             }
 
-            return newOrderedDisplayColumns;
         }
     }
 
@@ -3854,6 +3865,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the Table's responsive mode.
     /// </summary>
     [Parameter] public TableResponsiveMode ResponsiveMode { get; set; }
+
+    /// <summary>
+    /// Gets or sets the currently selected cell in the data grid.
+    /// </summary>
+    /// <remarks>
+    /// This property is only applicable when <see cref="NavigationMode"/> is set to <see cref="DataGridNavigationMode.Cell"/>.
+    /// </remarks>
+    [Parameter] public DataGridCellInfo<TItem> SelectedCell { get; set; }
+
+    /// <summary>
+    /// Occurs after the selected cell has changed in the data grid.
+    /// </summary>
+    /// <remarks>
+    /// This event is triggered when <see cref="NavigationMode"/> is set to <see cref="DataGridNavigationMode.Cell"/>, indicating that cell-level navigation is enabled.
+    /// Make sure to handle this event if you need to respond to cell selection changes.
+    /// </remarks>
+    [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
 
     #endregion
 }

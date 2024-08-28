@@ -24,7 +24,7 @@ public abstract class BaseTypographyComponent : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TextItalic(), Italic );
+        builder.Append( ClassProvider.TextItalic( Italic ) );
 
         base.BuildClasses( builder );
     }

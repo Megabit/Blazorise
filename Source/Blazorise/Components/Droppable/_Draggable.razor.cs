@@ -28,8 +28,12 @@ public partial class _Draggable<TItem> : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-drop-zone-draggable" );
-        builder.Append( DisabledClass, Disabled );
-        builder.Append( DraggingClass, dragging );
+
+        if ( Disabled )
+            builder.Append( DisabledClass );
+
+        if ( dragging )
+            builder.Append( DraggingClass );
 
         base.BuildClasses( builder );
     }

@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowMultiSelect<TItem>
-<TableRowCell @onclick:preventDefault="BehaviourProvider.DataGridRowMultiSelectPreventClick" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
+<TableRowCell ClickStopPropagation="@(ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false)" @onclick:preventDefault="BehaviourProvider.DataGridRowMultiSelectPreventClick" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
     @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
         <Label @onclick="@OnCheckedClicked">
