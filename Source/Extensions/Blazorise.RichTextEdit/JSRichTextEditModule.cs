@@ -41,10 +41,13 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         List<string> styles = new();
 
         if ( options.UseBubbleTheme )
-            styles.Add( "bubble" );
+            styles.Add( "quill.bubble" );
 
         if ( options.UseShowTheme )
-            styles.Add( "snow" );
+            styles.Add( "quill.snow" );
+
+        if ( options.UseTables )
+            styles.Add( "quill-better-table" );
 
         if ( styles.Count > 0 )
         {

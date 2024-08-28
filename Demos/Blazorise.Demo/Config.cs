@@ -24,6 +24,7 @@ public static class Config
             {
                 options.UseBubbleTheme = true;
                 options.UseShowTheme = true;
+                options.UseTables = true;
             } )
             .AddLoadingIndicator()
             .AddBlazoriseFluentValidation()

@@ -11,14 +11,19 @@ namespace Blazorise.RichTextEdit;
 public sealed class RichTextEditOptions
 {
     /// <summary>
-    /// Load the QuillJs snow theme related resources
+    /// Load the QuillJs snow theme related resources.
     /// </summary>
     public bool UseShowTheme { get; set; } = true;
 
     /// <summary>
-    /// Load the QuillJs bubble theme related resources
+    /// Load the QuillJs bubble theme related resources.
     /// </summary>
     public bool UseBubbleTheme { get; set; }
+
+    /// <summary>
+    /// Load the QuillJs table related resources.
+    /// </summary>
+    public bool UseTables { get; set; }
 
     /// <summary>
     /// The QuillJs version to load
