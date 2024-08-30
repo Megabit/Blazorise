@@ -47,7 +47,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
             styles.Add( "quill.snow" );
 
         if ( options.UseTables )
-            styles.Add( "quill-better-table" );
+            styles.Add( "quill-table-better" );
 
         if ( styles.Count > 0 )
         {

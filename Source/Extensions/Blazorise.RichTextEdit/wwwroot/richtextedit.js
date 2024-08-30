@@ -1,7 +1,12 @@
 import "./vendors/quill.js?v=1.6.1.0";
+import "./vendors/quill-table-better.js?v=1.6.1.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.6.1.0";
 
 var rteSheetsLoaded = false;
+
+Quill.register({
+    'modules/table-better': QuillTableBetter
+}, true);
 
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
