@@ -63,15 +63,15 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     {
         var dotNetRef = DotNetObjectReference.Create( richTextEdit );
 
-        await InvokeSafeVoidAsync( "initialize",
-            dotNetRef,
-            richTextEdit.ElementRef,
-            richTextEdit.ElementId,
-            richTextEdit.ReadOnly,
-            richTextEdit.PlaceHolder,
-            richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
-            richTextEdit.SubmitOnEnter,
-            richTextEdit.ConfigureQuillJsMethod );
+        await InvokeSafeVoidAsync( "initialize", dotNetRef, richTextEdit.ElementRef, richTextEdit.ElementId, new RichTextEditJSOptions
+        {
+            ReadOnly = richTextEdit.ReadOnly,
+            Placeholder = richTextEdit.PlaceHolder,
+            Theme = richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
+            SubmitOnEnter = richTextEdit.SubmitOnEnter,
+            ConfigureQuillJsMethod = richTextEdit.ConfigureQuillJsMethod,
+            UseTables = options.UseTables,
+        } );
 
         return AsyncDisposable.Create( async () =>
         {

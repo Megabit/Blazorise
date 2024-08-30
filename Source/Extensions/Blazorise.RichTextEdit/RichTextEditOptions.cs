@@ -21,7 +21,7 @@ public sealed class RichTextEditOptions
     public bool UseBubbleTheme { get; set; }
 
     /// <summary>
-    /// Load the QuillJs table related resources.
+    /// If true enables the QuillJs table module.
     /// </summary>
     public bool UseTables { get; set; }
 
