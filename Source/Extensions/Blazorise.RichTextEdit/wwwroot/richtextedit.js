@@ -36,9 +36,9 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             'table-better': {
                 toolbarTable: true
             },
-            //keyboard: {
-            //    bindings: QuillTableBetter.keyboardBindings
-            //}
+            keyboard: {
+                bindings: QuillTableBetter.keyboardBindings
+            }
         },
         bounds: element,
         placeholder: options.placeholder,

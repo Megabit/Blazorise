@@ -21,7 +21,7 @@ public sealed class RichTextEditOptions
     public bool UseBubbleTheme { get; set; }
 
     /// <summary>
-    /// If true enables the QuillJs table module.
+    /// If true enables the QuillJs table module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.
     /// </summary>
     public bool UseTables { get; set; }
 
