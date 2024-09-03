@@ -87,7 +87,11 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
                 zIndex = ZIndex,
                 interactive = Interactive,
                 appendTo = AppendTo,
-                delay = new { show = Delay.Show, hide = Delay.Hide }
+                delay = new
+                {
+                    show = ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0,
+                    hide = ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0,
+                }
             } );
         } );
 
@@ -122,6 +126,11 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Holds the information about the Blazorise global options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions Options { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IJSTooltipModule"/> instance.
@@ -303,9 +312,14 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Specifies the delay in ms once a trigger event is fired before a Tooltip shows or hides.
+    /// Specifies the delay in ms once a trigger event is fired before a Tooltip shows.
     /// </summary>
-    [Parameter] public (int Show, int Hide) Delay { get; set; } = (0, 0);
+    [Parameter] public int? ShowDelay { get; set; }
+
+    /// <summary>
+    /// Specifies the delay in ms once a trigger event is fired before a Tooltip hides.
+    /// </summary>
+    [Parameter] public int? HideDelay { get; set; }
 
     /// <summary>
     /// Cascaded theme settings.
