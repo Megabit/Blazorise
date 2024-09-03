@@ -1,0 +1,123 @@
+﻿<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Events
+</Heading>
+
+<DocsAttributes ShowDefaults="false">
+    <DocsAttributesItem Name="ContentChanged" Type="EventCallback">
+        Occurs when the content within the editor changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EnterPressed" Type="EventCallback">
+        Occurs when the <Strong>ENTER</Strong> key is pressed within the editor. This event is triggered only when <Code>SubmitOnEnter</Code> is enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EditorFocus" Type="EventCallback">
+        Occurs when the editor gains focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EditorBlur" Type="EventCallback">
+        Occurs when the editor loses focus.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
+
+<DocsMethods>
+    <DocsMethodsItem Name="SetHtmlAsync" ReturnType="ValueTask" Parameters="string html">
+        Sets the editor content as HTML asynchronously.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetHtmlAsync" ReturnType="ValueTask<string>">
+        Gets the editor content as HTML asynchronously.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="SetDeltaAsync" ReturnType="ValueTask" Parameters="string deltaJson">
+        Sets the editor content as a Quill Delta JSON asynchronously.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetDeltaAsync" ReturnType="ValueTask<string>">
+        Gets the editor content as a Quill Delta JSON asynchronously.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="SetTextAsync" ReturnType="ValueTask" Parameters="string text">
+        Sets the editor content as plain text asynchronously.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetTextAsync" ReturnType="ValueTask<string>">
+        Gets the editor content as plain text asynchronously.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ClearAsync" ReturnType="ValueTask">
+        Clears the editor content asynchronously.
+    </DocsMethodsItem>
+</DocsMethods>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="RichTextEdit">
+    <DocsAttributesItem Name="Toolbar" Type="markup">
+        The custom toolbar definition.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Editor" Type="markup">
+        The editor content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
+        Editor read-only flag.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Theme" Type="RichTextEditTheme" Default="Snow">
+        The editor theme.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PlaceHolder" Type="string">
+        Placeholder text for empty editor.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ToolbarPosition" Type="Placement" Default="Top">
+        Toolbar position (top or bottom).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SubmitOnEnter" Type="bool" Default="false">
+        Call EnterPressed event when pressing ENTER key.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ConfigureQuillJSMethod" Type="string">
+        The JavaScript method to call to configure additional QuillJS modules and or add custom bindings.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="RichTextEditToolbarGroup">
+    <DocsAttributesItem Name="Float" Type="float">
+        The float position on the toolbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="markup">
+        The group content.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="RichTextEditToolbarButton">
+    <DocsAttributesItem Name="Action" Type="RichTextEditAction?">
+        The QuillJS action associated with the select.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Value" Type="string">
+        The QuillJS action selected value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="markup">
+        The custom markup/text to display.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="RichTextEditToolbarSelect">
+    <DocsAttributesItem Name="Action" Type="RichTextEditAction?">
+        The QuillJS action associated with the select.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="markup">
+        The RichTextEditToolbarSelectItem items.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="RichTextEditToolbarSelectItem">
+    <DocsAttributesItem Name="Value" Type="string">
+        The QuillJS action selected value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Selected" Type="bool" Default="false">
+        Is the select item selected.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="markup">
+        The custom markup/text to display.
+    </DocsAttributesItem>
+</DocsAttributes>

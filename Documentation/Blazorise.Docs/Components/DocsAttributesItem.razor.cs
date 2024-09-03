@@ -69,6 +69,8 @@ public partial class DocsAttributesItem : IDisposable
 
     [Parameter] public string Default { get; set; }
 
+    [Parameter] public string ObsoleteMessage { get; set; }
+
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

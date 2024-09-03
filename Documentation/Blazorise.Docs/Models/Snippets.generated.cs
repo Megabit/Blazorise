@@ -9881,6 +9881,32 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
 
+        public const string RichTextEditTableExample = @"<RichTextEdit>
+    <Editor>My example content</Editor>
+    <Toolbar>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Bold"" />
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Italic"" />
+            <RichTextEditToolbarSelect Action=""RichTextEditAction.Size"">
+                <RichTextEditToolbarSelectItem Value=""small"" />
+                <RichTextEditToolbarSelectItem Selected />
+                <RichTextEditToolbarSelectItem Value=""large"" />
+                <RichTextEditToolbarSelectItem Value=""huge"">Very Big</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""ordered"" />
+            <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""bullet"" />
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Table"" />
+        </RichTextEditToolbarGroup>
+    </Toolbar>
+</RichTextEdit>";
+
+        public const string RichTextEditTableStartupExample = @".AddBlazoriseRichTextEdit( options =>
+{
+    options.UseTables = true;
+} )";
+
         public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""
             Data=""@IndexedCountries""
