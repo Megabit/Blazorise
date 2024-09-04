@@ -34,19 +34,20 @@ public class EventCallbackSubscribable<T>
     }
 
     /// <summary>
-    /// Don't call this directly - it gets called by EventCallbackSubscription.
+    /// Subscribes a generic event callback for the specified owner.
     /// </summary>
-    /// <param name="owner"></param>
-    /// <param name="callback"></param>
-    public void Subscribe( EventCallbackSubscriber<T> owner, EventCallback<T> callback )
+    /// <param name="owner">The subscriber that owns the callback, with a generic parameter <typeparamref name="T"/>.</param>
+    /// <param name="callback">The generic callback method to be subscribed, with a parameter of type <typeparamref name="T"/>.</param>
+    internal void Subscribe( EventCallbackSubscriber<T> owner, EventCallback<T> callback )
         => callbacks.Add( owner, callback );
 
     /// <summary>
-    /// Don't call this directly - it gets called by EventCallbackSubscription.
+    /// Unsubscribes the generic event callback for the specified owner.
     /// </summary>
-    /// <param name="owner"></param>
-    public void Unsubscribe( EventCallbackSubscriber<T> owner )
+    /// <param name="owner">The subscriber whose generic callback is to be unsubscribed, with a generic parameter <typeparamref name="T"/>.</param>
+    internal void Unsubscribe( EventCallbackSubscriber<T> owner )
         => callbacks.Remove( owner );
+
 
     #endregion
 }

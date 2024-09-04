@@ -33,19 +33,20 @@ public class EventCallbackSubscribable
     }
 
     /// <summary>
-    /// Don't call this directly - it gets called by EventCallbackSubscription.
+    /// Subscribes an event callback for the specified owner.
     /// </summary>
-    /// <param name="owner"></param>
-    /// <param name="callback"></param>
-    public void Subscribe( EventCallbackSubscriber owner, EventCallback callback )
+    /// <param name="owner">The subscriber that owns the callback.</param>
+    /// <param name="callback">The callback method to be subscribed.</param>
+    internal void Subscribe( EventCallbackSubscriber owner, EventCallback callback )
         => callbacks.Add( owner, callback );
 
     /// <summary>
-    /// Don't call this directly - it gets called by EventCallbackSubscription.
+    /// Unsubscribes the event callback for the specified owner.
     /// </summary>
-    /// <param name="owner"></param>
-    public void Unsubscribe( EventCallbackSubscriber owner )
+    /// <param name="owner">The subscriber whose callback is to be unsubscribed.</param>
+    internal void Unsubscribe( EventCallbackSubscriber owner )
         => callbacks.Remove( owner );
+
 
     #endregion
 }
