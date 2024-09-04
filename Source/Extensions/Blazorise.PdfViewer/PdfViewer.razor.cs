@@ -70,13 +70,19 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
                 || scaleChanged
                 || orientationChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () =>
                 {
-                    source = new { changed = sourceChanged, value = paramSource },
-                    pageNumber = new { changed = pageNumberChanged, value = paramPageNumber },
-                    scale = new { changed = scaleChanged, value = paramScale },
-                    rotation = new { changed = orientationChanged, value = paramOrientation.ToRotation() },
-                } ) );
+                    if ( JSModule is not null )
+                    {
+                        await JSModule.UpdateOptions( ElementRef, ElementId, new
+                        {
+                            source = new { changed = sourceChanged, value = paramSource },
+                            pageNumber = new { changed = pageNumberChanged, value = paramPageNumber },
+                            scale = new { changed = scaleChanged, value = paramScale },
+                            rotation = new { changed = orientationChanged, value = paramOrientation.ToRotation() },
+                        } );
+                    }
+                } );
             }
         }
 
@@ -101,13 +107,16 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     {
         if ( firstRender )
         {
-            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
+            if ( JSModule is not null )
             {
-                source = Source,
-                pageNumber = PageNumber,
-                scale = Scale,
-                rotation = Orientation.ToRotation(),
-            } );
+                await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
+                {
+                    source = Source,
+                    pageNumber = PageNumber,
+                    scale = Scale,
+                    rotation = Orientation.ToRotation(),
+                } );
+            }
         }
 
         await base.OnAfterRenderAsync( firstRender );
@@ -118,17 +127,20 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     {
         if ( disposing && Rendered )
         {
-            nextPageSubscriber.Dispose();
-            prevPageSubscriber.Dispose();
-            goToPageSubscriber.Dispose();
-            setScaleSubscriber.Dispose();
-            printSubscriber.Dispose();
+            nextPageSubscriber?.Dispose();
+            prevPageSubscriber?.Dispose();
+            goToPageSubscriber?.Dispose();
+            setScaleSubscriber?.Dispose();
+            printSubscriber?.Dispose();
 
-            await JSModule.SafeDestroy( ElementRef, ElementId );
+            if ( JSModule is not null )
+            {
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
-            await JSModule.SafeDisposeAsync();
+                await JSModule.SafeDisposeAsync();
+            }
 
-            if ( DotNetObjectRef != null )
+            if ( DotNetObjectRef is not null )
             {
                 DotNetObjectRef.Dispose();
                 DotNetObjectRef = null;
@@ -144,7 +156,10 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task PreviousPage()
     {
-        await JSModule.PreviousPage( ElementRef, ElementId );
+        if ( JSModule is not null )
+        {
+            await JSModule.PreviousPage( ElementRef, ElementId );
+        }
     }
 
     /// <summary>
@@ -153,7 +168,10 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task NextPage()
     {
-        await JSModule.NextPage( ElementRef, ElementId );
+        if ( JSModule is not null )
+        {
+            await JSModule.NextPage( ElementRef, ElementId );
+        }
     }
 
     /// <summary>
@@ -163,7 +181,10 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task GoToPage( int pageNumber )
     {
-        await JSModule.GoToPage( ElementRef, ElementId, pageNumber );
+        if ( JSModule is not null )
+        {
+            await JSModule.GoToPage( ElementRef, ElementId, pageNumber );
+        }
     }
 
     /// <summary>
@@ -175,7 +196,10 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetScale( double scale )
     {
-        await JSModule.SetScale( ElementRef, ElementId, scale );
+        if ( JSModule is not null )
+        {
+            await JSModule.SetScale( ElementRef, ElementId, scale );
+        }
     }
 
     /// <summary>
@@ -187,7 +211,10 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         if ( string.IsNullOrEmpty( Source ) )
             return;
 
-        await JSModule.Print( Source );
+        if ( JSModule is not null )
+        {
+            await JSModule.Print( Source );
+        }
     }
 
     /// <summary>
