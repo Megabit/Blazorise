@@ -1,5 +1,9 @@
 ﻿@namespace Blazorise.PdfViewer
 @inherits BaseComponent
 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-   @ChildContent
+    <CascadingValue Value="@this" IsFixed>
+        <CascadingValue Value="@state">
+            @ChildContent
+        </CascadingValue>
+    </CascadingValue>
 </div>

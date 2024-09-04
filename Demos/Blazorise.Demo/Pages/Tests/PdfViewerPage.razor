@@ -7,8 +7,8 @@
             </CardHeader>
             <CardBody>
                 <PdfViewerContainer Height="Height.Rem(50)">
-                    <PdfViewerToolbar ViewerState="@State" />
-                    <PdfViewer ViewerState="@State" Source="@source" />
+                    <PdfViewerToolbar />
+                    <PdfViewer Source="@source" />
                 </PdfViewerContainer>
             </CardBody>
         </Card>
@@ -38,7 +38,6 @@
 </Row>
 @code {
     string source = "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf";
-    PdfViewerState State = new();
     PdfViewer standalonePdfViewerRef;
     int pageNumber = 2;
     double scale = 1;

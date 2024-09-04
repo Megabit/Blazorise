@@ -9794,12 +9794,9 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 }";
 
         public const string PdfViewerToolbarExample = @"<PdfViewerContainer Height=""Height.Rem(35)"">
-    <PdfViewerToolbar ViewerState=""@State"" />
-    <PdfViewer ViewerState=""@State"" Source=""https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"" />
-</PdfViewerContainer>
-@code {
-    PdfViewerState State = new();
-}";
+    <PdfViewerToolbar />
+    <PdfViewer Source=""https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"" />
+</PdfViewerContainer>";
 
         public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 

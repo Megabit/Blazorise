@@ -208,7 +208,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
 
         await Loaded.InvokeAsync( new PdfLoadedEventArgs( PageNumber, TotalPages ) );
 
-        if ( ViewerState != null )
+        if ( ViewerState?.PdfInitialized is not null )
         {
             await ViewerState.PdfInitialized.InvokeCallbackAsync( model );
         }
@@ -242,7 +242,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             await ScaleChanged.InvokeAsync( Scale );
         }
 
-        if ( ViewerState != null )
+        if ( ViewerState?.PdfChanged is not null )
         {
             await ViewerState.PdfChanged.InvokeCallbackAsync( model );
         }
@@ -289,6 +289,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
+    /// Gets or sets the state of the PDF viewer.
+    /// </summary>
+    [CascadingParameter] public PdfViewerState ViewerState { get; set; }
+
+    /// <summary>
     /// Gets or sets the source URL or path of the PDF document to be loaded.
     /// </summary>
     [Parameter] public string Source { get; set; }
@@ -325,11 +330,6 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// The default value is <see cref="PdfOrientation.Portrait"/>.
     /// </summary>
     [Parameter] public PdfOrientation Orientation { get; set; } = PdfOrientation.Portrait;
-
-    /// <summary>
-    /// Gets or sets the state of the PDF viewer.
-    /// </summary>
-    [Parameter] public PdfViewerState ViewerState { get; set; }
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.

@@ -10,6 +10,15 @@ namespace Blazorise.PdfViewer;
 /// </summary>
 public partial class PdfViewerContainer : BaseComponent
 {
+    #region Members
+
+    /// <summary>
+    /// Provides the state of the <see cref="PdfViewerContainer"/> component.
+    /// </summary>
+    private PdfViewerState state = new();
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -24,6 +33,11 @@ public partial class PdfViewerContainer : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the reference to state object for this <see cref="PdfViewerContainer"/> component.
+    /// </summary>
+    protected internal PdfViewerState State => state;
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.

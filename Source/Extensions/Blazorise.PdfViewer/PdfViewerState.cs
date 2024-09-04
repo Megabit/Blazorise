@@ -8,7 +8,7 @@ namespace Blazorise.PdfViewer;
 /// Manages the state and events for the PDF viewer component.
 /// Provides event callbacks for various actions such as initialization, page changes, and scaling.
 /// </summary>
-public class PdfViewerState
+public record PdfViewerState
 {
     /// <summary>
     /// Gets the event callback that is triggered when the PDF is initialized.

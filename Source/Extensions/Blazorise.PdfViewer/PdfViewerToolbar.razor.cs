@@ -103,12 +103,18 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
 
     private async Task OnPreviousPageClicked()
     {
-        await ViewerState.PrevPageRequested.InvokeCallbackAsync();
+        if ( ViewerState?.PrevPageRequested is not null )
+        {
+            await ViewerState.PrevPageRequested.InvokeCallbackAsync();
+        }
     }
 
     private async Task OnNextPageClicked()
     {
-        await ViewerState.NextPageRequested.InvokeCallbackAsync();
+        if ( ViewerState?.NextPageRequested is not null )
+        {
+            await ViewerState.NextPageRequested.InvokeCallbackAsync();
+        }
     }
 
     private async Task OnPageNumberChanged( int value )
@@ -120,7 +126,10 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
         else
             pageNumber = value;
 
-        await ViewerState.GoToPageRequested.InvokeCallbackAsync( pageNumber );
+        if ( ViewerState?.GoToPageRequested is not null )
+        {
+            await ViewerState.GoToPageRequested.InvokeCallbackAsync( pageNumber );
+        }
     }
 
     private async Task OnZoomInClicked()
@@ -129,7 +138,10 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
             return;
 
         zoomLevelIndex++;
-        await ViewerState.SetScaleRequested.InvokeCallbackAsync( zoomLevels[zoomLevelIndex] / 100.0 );
+        if ( ViewerState?.SetScaleRequested is not null )
+        {
+            await ViewerState.SetScaleRequested.InvokeCallbackAsync( zoomLevels[zoomLevelIndex] / 100.0 );
+        }
     }
 
     private async Task OnZoomOutClicked()
@@ -138,12 +150,18 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
             return;
 
         zoomLevelIndex--;
-        await ViewerState.SetScaleRequested.InvokeCallbackAsync( zoomLevels[zoomLevelIndex] / 100.0 );
+        if ( ViewerState?.SetScaleRequested is not null )
+        {
+            await ViewerState.SetScaleRequested.InvokeCallbackAsync( zoomLevels[zoomLevelIndex] / 100.0 );
+        }
     }
 
     private async Task OnPrintClicked()
     {
-        await ViewerState.PrintRequested.InvokeCallbackAsync();
+        if ( ViewerState?.PrintRequested is not null )
+        {
+            await ViewerState.PrintRequested.InvokeCallbackAsync();
+        }
     }
 
     #endregion
@@ -154,6 +172,11 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
     /// Defines if the toolbar should be displayed.
     /// </summary>
     protected bool ShowToolbar => ShowPaging || ShowZooming || ShowPrinting;
+
+    /// <summary>
+    /// Gets or sets the viewer state.
+    /// </summary>
+    [CascadingParameter] public PdfViewerState ViewerState { get; set; }
 
     /// <summary>
     /// Defines if the paging buttons should be displayed.
@@ -169,11 +192,6 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
     /// Defines if the print button should be displayed.
     /// </summary>
     [Parameter] public bool ShowPrinting { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets the viewer state.
-    /// </summary>
-    [Parameter] public PdfViewerState ViewerState { get; set; }
 
     #endregion
 }

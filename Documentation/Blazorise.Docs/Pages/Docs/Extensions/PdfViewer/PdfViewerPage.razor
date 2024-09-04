@@ -15,7 +15,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    This documentation covers the integration of a PDF viewer with a toolbar in a Blazor application using the <Strong>PdfViewerContainer</Strong>, <Strong>PdfViewerToolbar</Strong>, and <Strong>PdfViewer</Strong> components. The <Strong>PdfViewerState</Strong> class is utilized to manage the state and events associated with the PDF viewer. This setup provides a complete solution for displaying and interacting with PDF documents.
+    This documentation covers the integration of a PDF viewer with a toolbar in a Blazor application using the <Strong>PdfViewerContainer</Strong>, <Strong>PdfViewerToolbar</Strong>, and <Strong>PdfViewer</Strong> components. This setup provides a complete solution for displaying and interacting with PDF documents.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -28,7 +28,7 @@
             <Code Tag>PdfViewerContainer</Code>: Acts as the main container for both the toolbar and the PDF viewer. It ensures proper layout and scrolling if needed.
         </UnorderedListItem>
         <UnorderedListItem>
-            <Code Tag>PdfViewerToolbar</Code>: A toolbar component is included within the container, bound to the same <Code>PdfViewerState</Code> as the viewer.
+            <Code Tag>PdfViewerToolbar</Code>: A toolbar component is included within the container.
         </UnorderedListItem>
         <UnorderedListItem>
             <Code Tag>PdfViewer</Code>: The main component for displaying the PDF document.
@@ -81,7 +81,7 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="With Toolbar">
         <Paragraph>
-            This example illustrates how to use the <Strong>PdfViewerContainer</Strong> to integrate both a toolbar and a viewer component for displaying and interacting with a PDF document. The <Strong>PdfViewerState</Strong> manages the state and events for the PDF viewer.
+            This example illustrates how to use the <Strong>PdfViewerContainer</Strong> to integrate both a toolbar and a viewer component for displaying and interacting with a PDF document.
         </Paragraph>
         <Paragraph>
             <UnorderedList>
@@ -89,10 +89,10 @@
                     <Strong>PdfViewerContainer</Strong>: Acts as the main container for both the toolbar and the PDF viewer. It ensures proper layout and scrolling if needed.
                 </UnorderedListItem>
                 <UnorderedListItem>
-                    <Strong>PdfViewerToolbar</Strong>: A toolbar component is included within the container, bound to the same <Code>PdfViewerState</Code> as the viewer. This toolbar typically provides controls for interacting with the PDF, such as navigation and scaling.
+                    <Strong>PdfViewerToolbar</Strong>: A toolbar component is included within the container. This toolbar typically provides controls for interacting with the PDF, such as navigation and scaling.
                 </UnorderedListItem>
                 <UnorderedListItem>
-                    <Strong>PdfViewer</Strong>: The main component for displaying the PDF document. It is configured with the Source attribute to load a sample PDF from the provided URL. It also uses the shared <Code>PdfViewerState</Code> to synchronize with the toolbar.
+                    <Strong>PdfViewer</Strong>: The main component for displaying the PDF document. It is configured with the Source attribute to load a sample PDF from the provided URL.
                 </UnorderedListItem>
             </UnorderedList>
         </Paragraph>
@@ -155,15 +155,9 @@
     <DocsAttributesItem Name="Orientation" Type="PdfOrientation" Default="Portrait">
         Gets or sets the orientation of the PDF document.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ViewerState" Type="PdfViewerState" Default="null">
-        Gets or sets the state of the PDF viewer.
-    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="PdfViewerToolbar">
-    <DocsAttributesItem Name="ViewerState" Type="PdfViewerState" Default="null">
-        Gets or sets the state of the PDF viewer.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="ShowPaging" Type="bool" Default="true">
         Defines if the paging buttons should be displayed.
     </DocsAttributesItem>
