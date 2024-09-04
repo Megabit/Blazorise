@@ -9784,13 +9784,16 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string PdfViewerNugetInstallExample = @"Install-Package Blazorise.PdfViewer";
 
-        public const string PdfViewerPagingExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>pdfViewerRef.PreviousPage())"">Prev</Button>
-<Button Color=""Color.Primary"" Clicked=""@(()=>pdfViewerRef.NextPage())"">Next</Button>
+        public const string PdfViewerPagingExample = @"<Button Color=""Color.Primary"" Clicked=""@OnPreviousPageClicked"">Prev</Button>
+<Button Color=""Color.Primary"" Clicked=""@OnNextPageClicked"">Next</Button>
 
 <PdfViewer @ref=""@pdfViewerRef"" Source=""https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"" />
 
 @code {
     PdfViewer pdfViewerRef;
+
+    Task OnPreviousPageClicked() => pdfViewerRef.PreviousPage();
+    Task OnNextPageClicked() => pdfViewerRef.NextPage();
 }";
 
         public const string PdfViewerToolbarExample = @"<PdfViewerContainer Height=""Height.Rem(35)"">
