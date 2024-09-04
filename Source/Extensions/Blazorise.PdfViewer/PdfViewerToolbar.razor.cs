@@ -75,8 +75,8 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            pdfInitializedSubscriber.Dispose();
-            pdfChangedSubscriber.Dispose();
+            pdfInitializedSubscriber?.Dispose();
+            pdfChangedSubscriber?.Dispose();
         }
 
         base.Dispose( disposing );
