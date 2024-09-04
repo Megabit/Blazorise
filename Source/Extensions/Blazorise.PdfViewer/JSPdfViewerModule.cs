@@ -38,11 +38,11 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
     }
 
-    public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
+    public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
     {
         var moduleInstance = await Module;
 
-        await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
+        await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
     }
 
     public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
