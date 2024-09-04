@@ -63,10 +63,42 @@
     </OrderedListItem>
     <OrderedListItem>
         <Paragraph>
-            Enjoy the latest features without any breaking changes to the API.
+            Blazorise should now work withut any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
         </Paragraph>
     </OrderedListItem>
 </OrderedList>
+
+<NewsPageSubtitle>
+    Migration 🛠
+</NewsPageSubtitle>
+
+<Paragraph>
+    The latest release includes several enhancements and optimizations to improve the overall performance and functionality of Blazorise. While these changes are designed to enhance the user experience and provide more customization options, they may require some adjustments when upgrading from previous versions. Here are some key points to consider when migrating from 1.6.x to 1.7:
+</Paragraph>
+
+<Paragraph>
+    <OrderedList>
+        <OrderedListItem>
+            <Paragraph>
+                <Paragraph>
+                    <Code Tag>Video</Code> component API changes
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code>Seeking</Code>: event changed from <Code>Func&lt;Task&gt;</Code> to <Code>Func&lt;double, Task&gt;</Code>
+                        </Paragraph>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code>Seeked</Code>: event changed from <Code>Func&lt;Task&gt;</Code> to <Code>Func&lt;double, Task&gt;</Code>
+                        </Paragraph>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </Paragraph>
+        </OrderedListItem>
+    </OrderedList>
+</Paragraph>
 
 <NewsPageSubtitle>
     New Features & Enhancements 🚀
@@ -102,6 +134,10 @@
 
 <Paragraph>
     Added an option to delay the tooltip show and hide events. This can be useful if you want to prevent the tooltip from showing immediately after the trigger event.
+</Paragraph>
+
+<Paragraph>
+    Along with the options to define delay on each individual Tooltip, we have also added a global options to define the delay for all tooltips. This can be done by setting the <Code>TooltipOptions</Code> property in the <Code>.AddBlazorise()</Code> during the application start process.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
