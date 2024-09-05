@@ -125,6 +125,9 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     /// <inheritdoc/>
     protected override string TrueValueName => Value?.ToString();
 
+    /// <inheritdoc/>
+    protected override bool IsDisabled => ParentRadioGroup?.Disabled == true || base.IsDisabled;
+
     /// <summary>
     /// True if radio belongs to the <see cref="RadioGroup{TValue}"/>.
     /// </summary>

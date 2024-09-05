@@ -455,6 +455,11 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
+    /// Gets the value indicating if the input is disabled.
+    /// </summary>
+    protected virtual bool IsDisabled => Disabled;
+
+    /// <summary>
     /// Holds the field prefix for the input.
     /// </summary>
     [CascadingParameter] protected HtmlFieldPrefix HtmlFieldPrefix { get; set; }
