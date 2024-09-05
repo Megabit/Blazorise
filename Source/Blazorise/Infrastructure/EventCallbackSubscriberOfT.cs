@@ -44,7 +44,7 @@ public class EventCallbackSubscriber<T> : IDisposable
     /// existing one will still be unsubscribed.
     /// </summary>
     /// <param name="subscribable"></param>
-    public void SubscribeOrMove( EventCallbackSubscribable<T> subscribable )
+    public void SubscribeOrReplace( EventCallbackSubscribable<T> subscribable )
     {
         if ( subscribable != existingSubscription )
         {

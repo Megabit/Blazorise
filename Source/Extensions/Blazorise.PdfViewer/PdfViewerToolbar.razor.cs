@@ -64,8 +64,8 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override Task OnParametersSetAsync()
     {
-        pdfInitializedSubscriber.SubscribeOrMove( ViewerState?.PdfInitialized );
-        pdfChangedSubscriber.SubscribeOrMove( ViewerState?.PdfChanged );
+        pdfInitializedSubscriber.SubscribeOrReplace( ViewerState?.PdfInitialized );
+        pdfChangedSubscriber.SubscribeOrReplace( ViewerState?.PdfChanged );
 
         return base.OnParametersSetAsync();
     }

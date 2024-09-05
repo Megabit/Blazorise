@@ -46,11 +46,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override Task OnParametersSetAsync()
     {
-        nextPageSubscriber.SubscribeOrMove( ViewerState?.NextPageRequested );
-        prevPageSubscriber.SubscribeOrMove( ViewerState?.PrevPageRequested );
-        goToPageSubscriber.SubscribeOrMove( ViewerState?.GoToPageRequested );
-        setScaleSubscriber.SubscribeOrMove( ViewerState?.SetScaleRequested );
-        printSubscriber.SubscribeOrMove( ViewerState?.PrintRequested );
+        nextPageSubscriber.SubscribeOrReplace( ViewerState?.NextPageRequested );
+        prevPageSubscriber.SubscribeOrReplace( ViewerState?.PrevPageRequested );
+        goToPageSubscriber.SubscribeOrReplace( ViewerState?.GoToPageRequested );
+        setScaleSubscriber.SubscribeOrReplace( ViewerState?.SetScaleRequested );
+        printSubscriber.SubscribeOrReplace( ViewerState?.PrintRequested );
 
         return base.OnParametersSetAsync();
     }
