@@ -508,6 +508,9 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
         get => disabled;
         set
         {
+            if ( disabled == value )
+                return;
+
             disabled = value;
 
             DirtyClasses();
