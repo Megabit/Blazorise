@@ -321,7 +321,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     [CascadingParameter] public PdfViewerState ViewerState { get; set; }
 
     /// <summary>
-    /// Gets or sets the source URL of the PDF document to be loaded.
+    /// Gets or sets the source URL or base64 formated string of the PDF document to be loaded.
     /// </summary>
     [Parameter] public string Source { get; set; }
 
