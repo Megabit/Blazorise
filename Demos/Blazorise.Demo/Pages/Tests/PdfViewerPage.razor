@@ -1,0 +1,44 @@
+﻿@page "/tests/pdfviewer"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>PdfViewer</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <PdfViewerContainer Height="Height.Rem(50)">
+                    <PdfViewerToolbar />
+                    <PdfViewer Source="@source" />
+                </PdfViewerContainer>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>As a standalone PdfViewer</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>standalonePdfViewerRef.PreviousPage())">Previous page</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>standalonePdfViewerRef.NextPage())">Next page</Button>
+                <Button Color="Color.Secondary" Clicked="@(()=>pageNumber = 5)">Go to Page 5</Button>
+                <Button Color="Color.Secondary" Clicked="@(()=>scale = 1)">Set Scale 1</Button>
+                <Button Color="Color.Secondary" Clicked="@(()=>scale = 2)">Set Scale 2</Button>
+                <Button Color="Color.Dark" Clicked="@(()=>standalonePdfViewerRef.Print())">Print</Button>
+            </CardBody>
+            <CardBody>
+                <Div Height="Height.Rem(50)" Overflow="Overflow.Auto">
+                    <PdfViewer @ref="@standalonePdfViewerRef" Source="@source" @bind-PageNumber="@pageNumber" @bind-Scale="@scale" />
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    string source = "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf";
+    PdfViewer standalonePdfViewerRef;
+    int pageNumber = 2;
+    double scale = 1;
+}

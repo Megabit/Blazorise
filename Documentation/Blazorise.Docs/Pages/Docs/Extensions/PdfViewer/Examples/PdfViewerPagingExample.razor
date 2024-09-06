@@ -1,0 +1,13 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="@OnPreviousPageClicked">Prev</Button>
+<Button Color="Color.Primary" Clicked="@OnNextPageClicked">Next</Button>
+
+<PdfViewer @ref="@pdfViewerRef" Source="https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf" />
+
+@code {
+    PdfViewer pdfViewerRef;
+
+    Task OnPreviousPageClicked() => pdfViewerRef.PreviousPage();
+    Task OnNextPageClicked() => pdfViewerRef.NextPage();
+}
