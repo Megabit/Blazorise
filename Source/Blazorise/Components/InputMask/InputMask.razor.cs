@@ -50,7 +50,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
                 // make sure we get the newest value
                 var value = parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
                     ? paramValue
-                    : InternalValue;
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( pattern, value );
             }
@@ -200,28 +200,10 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    /// <inheritdoc/>
-    protected override string InternalValue { get => Value; set => Value = value; }
-
     /// <summary>
     /// Gets or sets the <see cref="IJSInputMaskModule"/> instance.
     /// </summary>
     [Inject] public IJSInputMaskModule JSModule { get; set; }
-
-    /// <summary>
-    /// Gets or sets the input time value.
-    /// </summary>
-    [Parameter] public string Value { get; set; }
-
-    /// <summary>
-    /// Occurs when the time has changed.
-    /// </summary>
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the time field.
-    /// </summary>
-    [Parameter] public Expression<Func<string>> ValueExpression { get; set; }
 
     /// <summary>
     /// The mask to use for the input.

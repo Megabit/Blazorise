@@ -13,7 +13,7 @@ namespace Blazorise;
 /// Radio buttons allow the user to select one option from a set.
 /// </summary>
 /// <typeparam name="TValue">Checked value type.</typeparam>
-public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
+public partial class Radio<TValue> : BaseRadioComponent<TValue>, IDisposable
 {
     #region Members
 
@@ -123,9 +123,6 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     #region Properties
 
     /// <inheritdoc/>
-    protected override string TrueValueName => Value?.ToString();
-
-    /// <inheritdoc/>
     protected override bool IsDisabled => ParentRadioGroup?.Disabled == true || base.IsDisabled;
 
     /// <summary>
@@ -157,11 +154,6 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the radio value.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
 
     /// <summary>
     /// Radio group in which this radio is placed.

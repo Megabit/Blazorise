@@ -132,7 +132,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                 {
                     var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
                         ? new TValue[] { inDate }
-                        : InternalValue;
+                        : Value;
 
                     await ParentValidation.InitializeInputPattern( pattern, value );
                 }
@@ -475,7 +475,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
 
     /// <inheritdoc/>
-    protected override bool IsSameAsInternalValue( IReadOnlyList<TValue> value ) => value.AreEqual( InternalValue );
+    protected override bool IsSameAsInternalValue( IReadOnlyList<TValue> value ) => value.AreEqual( Value );
 
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
@@ -496,7 +496,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     protected override bool ShouldAutoGenerateId => true;
 
     /// <inheritdoc/>
-    protected override IReadOnlyList<TValue> InternalValue
+    public override IReadOnlyList<TValue> Value
     {
         get => SelectionMode != DateInputSelectionMode.Single ? Dates : new TValue[] { Date };
         set

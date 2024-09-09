@@ -41,7 +41,7 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
                 // make sure we get the newest value
                 var value = parameters.TryGetValue<TValue>( nameof( Time ), out var inTime )
                     ? inTime
-                    : InternalValue;
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( pattern, value );
             }
@@ -140,23 +140,21 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Time; set => Time = value; }
 
     /// <summary>
     /// Gets or sets the input time value.
     /// </summary>
-    [Parameter] public TValue Time { get; set; }
+    [Parameter] public TValue Time { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the time has changed.
     /// </summary>
-    [Parameter] public EventCallback<TValue> TimeChanged { get; set; }
+    [Parameter] public EventCallback<TValue> TimeChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the time field.
     /// </summary>
-    [Parameter] public Expression<Func<TValue>> TimeExpression { get; set; }
+    [Parameter] public Expression<Func<TValue>> TimeExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// The earliest time to accept.

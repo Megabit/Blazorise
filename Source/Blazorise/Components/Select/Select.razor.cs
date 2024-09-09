@@ -232,14 +232,14 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
         get
         {
             if ( Multiple )
-                return InternalValue;
+                return Value;
             else
-                return InternalValue is null ? default : InternalValue.FirstOrDefault();
+                return Value is null ? default : Value.FirstOrDefault();
         }
     }
 
     /// <inheritdoc/>
-    protected override IReadOnlyList<TValue> InternalValue
+    public override IReadOnlyList<TValue> Value
     {
         get => Multiple ? SelectedValues : new TValue[] { SelectedValue };
         set

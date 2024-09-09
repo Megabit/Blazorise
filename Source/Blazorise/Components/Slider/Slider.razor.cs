@@ -126,9 +126,6 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Value; set => Value = value; }
-
     /// <summary>
     /// Gets the string representation of the <see cref="Step"/> value.
     /// </summary>
@@ -158,24 +155,6 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     /// Specifies the interval between valid values.
     /// </summary>
     [Parameter] public TValue Step { get; set; }
-
-    /// <summary>
-    /// Gets or sets the value inside the input field.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
-
-    /// <summary>
-    /// Occurs after the value has changed.
-    /// </summary>
-    /// <remarks>
-    /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
-    /// </remarks>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the checked value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// The minimum value to accept for this input.

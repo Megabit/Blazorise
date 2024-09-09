@@ -225,9 +225,6 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// </summary>
     protected virtual string ColorValueElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value";
 
-    /// <inheritdoc/>
-    protected override string InternalValue { get => Color; set => Color = value; }
-
     /// <summary>
     /// Gets or sets the <see cref="IJSColorPickerModule"/> instance.
     /// </summary>
@@ -246,17 +243,17 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// <summary>
     /// Gets or sets the input color value.
     /// </summary>
-    [Parameter] public string Color { get; set; } = "#000000";
+    [Parameter] public string Color { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the color has changed.
     /// </summary>
-    [Parameter] public EventCallback<string> ColorChanged { get; set; }
+    [Parameter] public EventCallback<string> ColorChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the color value.
     /// </summary>
-    [Parameter] public Expression<Func<string>> ColorExpression { get; set; }
+    [Parameter] public Expression<Func<string>> ColorExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// List a colors below the colorpicker to make it convenient for users to choose from

@@ -160,7 +160,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
                 // make sure we get the newest value
                 var value = parameters.TryGetValue<TValue>( nameof( Value ), out var inValue )
                     ? inValue
-                    : InternalValue;
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( pattern, value );
             }
@@ -474,9 +474,6 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Value; set => Value = value; }
-
     /// <summary>
     /// True if spin buttons can be shown.
     /// </summary>
@@ -520,24 +517,6 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// Gets or sets the <see cref="IJSNumericPickerModule"/> instance.
     /// </summary>
     [Inject] public IJSNumericPickerModule JSModule { get; set; }
-
-    /// <summary>
-    /// Gets or sets the value inside the input field.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
-
-    /// <summary>
-    /// Occurs after the value has changed.
-    /// </summary>
-    /// <remarks>
-    /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
-    /// </remarks>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// Specifies the interval between valid values.

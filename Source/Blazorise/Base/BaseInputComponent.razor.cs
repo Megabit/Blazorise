@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -237,7 +238,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     /// <param name="value">Value to check against the internal value.</param>
     /// <returns>True if the internal value matched the supplied value.</returns>
-    protected virtual bool IsSameAsInternalValue( TValue value ) => value.IsEqual( InternalValue );
+    protected virtual bool IsSameAsInternalValue( TValue value ) => value.IsEqual( Value );
 
     /// <summary>
     /// Raises and event that handles the edit value of Text, Date, Numeric etc.
@@ -374,7 +375,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     public virtual object ValidationValue => CustomValidationValue is not null
         ? CustomValidationValue.Invoke()
-        : InternalValue;
+        : Value;
 
     /// <summary>
     /// Returns true if input belong to a <see cref="FieldBody"/>.
@@ -390,15 +391,6 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Returns the default value for the <typeparamref name="TValue"/> type.
     /// </summary>
     protected virtual TValue DefaultValue => default;
-
-    /// <summary>
-    /// Gets or sets the internal edit value.
-    /// </summary>
-    /// <remarks>
-    /// The reason for this to be abstract is so that input components can have
-    /// their own specialized parameters that can be binded(Text, Date, Value etc.)
-    /// </remarks>
-    protected abstract TValue InternalValue { get; set; }
 
     /// <summary>
     /// Gets the value to be used for the input's "name" attribute.
@@ -421,12 +413,12 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     protected TValue CurrentValue
     {
-        get => InternalValue;
+        get => Value;
         set
         {
             if ( !IsSameAsInternalValue( value ) )
             {
-                InternalValue = value;
+                Value = value;
                 InvokeAsync( () => OnInternalValueChanged( value ) );
             }
         }
@@ -473,6 +465,21 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Holds the information about the Blazorise global options.
     /// </summary>
     [Inject] protected BlazoriseOptions Options { get; set; }
+
+    /// <summary>
+    /// Gets or sets the value inside the input field.
+    /// </summary>
+    [Parameter] public virtual TValue Value { get; set; }
+
+    /// <summary>
+    /// Occurs after value has changed.
+    /// </summary>
+    [Parameter] public virtual EventCallback<TValue> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the input value.
+    /// </summary>
+    [Parameter] public virtual Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// Sets the size of the input control.

@@ -41,7 +41,7 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
                 // make sure we get the newest value
                 var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
                     ? inDate
-                    : InternalValue;
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( pattern, value );
             }
@@ -131,9 +131,6 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Date; set => Date = value; }
-
     /// <summary>
     /// Gets the string representation of the input mode.
     /// </summary>
@@ -152,17 +149,17 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// <summary>
     /// Gets or sets the input date value.
     /// </summary>
-    [Parameter] public TValue Date { get; set; }
+    [Parameter] public TValue Date { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the date has changed.
     /// </summary>
-    [Parameter] public EventCallback<TValue> DateChanged { get; set; }
+    [Parameter] public EventCallback<TValue> DateChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the date value.
     /// </summary>
-    [Parameter] public Expression<Func<TValue>> DateExpression { get; set; }
+    [Parameter] public Expression<Func<TValue>> DateExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// The earliest date to accept.

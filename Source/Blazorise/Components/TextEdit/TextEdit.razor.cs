@@ -41,7 +41,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
                 // make sure we get the newest value
                 var value = parameters.TryGetValue<string>( nameof( Text ), out var paramText )
                     ? paramText
-                    : InternalValue;
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( pattern, value );
             }
@@ -118,9 +118,6 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     protected string Mode => InputMode.ToTextInputMode();
 
     /// <inheritdoc/>
-    protected override string InternalValue { get => Text; set => Text = value; }
-
-    /// <inheritdoc/>
     protected override string DefaultValue => string.Empty;
 
     /// <summary>
@@ -141,17 +138,17 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     /// <summary>
     /// Gets or sets the text inside the input field.
     /// </summary>
-    [Parameter] public string Text { get; set; }
+    [Parameter] public string Text { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs after text has changed.
     /// </summary>
-    [Parameter] public EventCallback<string> TextChanged { get; set; }
+    [Parameter] public EventCallback<string> TextChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the text value.
     /// </summary>
-    [Parameter] public Expression<Func<string>> TextExpression { get; set; }
+    [Parameter] public Expression<Func<string>> TextExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// A string representing a edit mask expression.

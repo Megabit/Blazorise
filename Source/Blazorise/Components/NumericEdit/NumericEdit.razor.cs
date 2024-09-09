@@ -84,7 +84,7 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
                 // make sure we get the newest value
                 var value = parameters.TryGetValue<TValue>( nameof( Value ), out var inValue )
                     ? inValue
-                    : InternalValue;
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( pattern, value );
             }
@@ -203,9 +203,6 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Value; set => Value = value; }
-
     /// <summary>
     /// Gets the string representation of the <see cref="Step"/> value.
     /// </summary>
@@ -251,24 +248,6 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// Gets the correct inputmode for the input element, based in the TValue.
     /// </summary>
     protected string InputMode => inputMode;
-
-    /// <summary>
-    /// Gets or sets the value inside the input field.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
-
-    /// <summary>
-    /// Occurs after the value has changed.
-    /// </summary>
-    /// <remarks>
-    /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
-    /// </remarks>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// Specifies the interval between valid values.

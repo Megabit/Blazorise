@@ -131,9 +131,6 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
 
     #region Properties
 
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => CheckedValue; set => CheckedValue = value; }
-
     /// <summary>
     /// True of radio elements should be inlined.
     /// </summary>
@@ -192,17 +189,17 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     /// <summary>
     /// Gets or sets the checked value.
     /// </summary>
-    [Parameter] public TValue CheckedValue { get; set; }
+    [Parameter] public TValue CheckedValue { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the checked value is changed.
     /// </summary>
-    [Parameter] public EventCallback<TValue> CheckedValueChanged { get; set; }
+    [Parameter] public EventCallback<TValue> CheckedValueChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the checked value.
     /// </summary>
-    [Parameter] public Expression<Func<TValue>> CheckedValueExpression { get; set; }
+    [Parameter] public Expression<Func<TValue>> CheckedValueExpression { get => ValueExpression; set => ValueExpression = value; }
 
     #endregion
 }

@@ -99,23 +99,20 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
 
     #region Properties
 
-    /// <inheritdoc/>
-    protected override string InternalValue { get => Color; set => Color = value; }
-
     /// <summary>
     /// Gets or sets the input color value.
     /// </summary>
-    [Parameter] public string Color { get; set; }
+    [Parameter] public string Color { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the color has changed.
     /// </summary>
-    [Parameter] public EventCallback<string> ColorChanged { get; set; }
+    [Parameter] public EventCallback<string> ColorChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the color value.
     /// </summary>
-    [Parameter] public Expression<Func<string>> ColorExpression { get; set; }
+    [Parameter] public Expression<Func<string>> ColorExpression { get => ValueExpression; set => ValueExpression = value; }
 
     #endregion
 }
