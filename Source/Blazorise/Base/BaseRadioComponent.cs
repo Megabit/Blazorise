@@ -80,16 +80,19 @@ public abstract class BaseRadioComponent<TValue> : BaseInputComponent<TValue>
     /// <summary>
     /// Gets or sets the checked flag.
     /// </summary>
+    [Obsolete( "The 'Checked' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
     [Parameter] public bool Checked { get; set; }
 
     /// <summary>
     /// Occurs when the check state is changed.
     /// </summary>
+    [Obsolete( "The 'CheckedChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the checked value.
     /// </summary>
+    [Obsolete( "The 'CheckedExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
     [Parameter] public Expression<Func<bool>> CheckedExpression { get; set; }
 
     /// <summary>

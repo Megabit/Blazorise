@@ -570,16 +570,19 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <summary>
     /// Gets or sets the input date value.
     /// </summary>
+    [Obsolete( "The 'Date' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
     [Parameter] public TValue Date { get; set; }
 
     /// <summary>
     /// Occurs when the date has changed.
     /// </summary>
+    [Obsolete( "The 'DateChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
     [Parameter] public EventCallback<TValue> DateChanged { get; set; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the date value.
     /// </summary>
+    [Obsolete( "The 'DateExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
     [Parameter] public Expression<Func<TValue>> DateExpression { get; set; }
 
     /// <summary>

@@ -313,16 +313,19 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <summary>
     /// Gets or sets the input time value.
     /// </summary>
+    [Obsolete( "The 'Time' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
     [Parameter] public TValue Time { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the time has changed.
     /// </summary>
+    [Obsolete( "The 'TimeChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
     [Parameter] public EventCallback<TValue> TimeChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the time field.
     /// </summary>
+    [Obsolete( "The 'TimeExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
     [Parameter] public Expression<Func<TValue>> TimeExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>

@@ -138,16 +138,19 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     /// <summary>
     /// Gets or sets the text inside the input field.
     /// </summary>
+    [Obsolete( "The 'Text' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
     [Parameter] public string Text { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs after text has changed.
     /// </summary>
+    [Obsolete( "The 'TextChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
     [Parameter] public EventCallback<string> TextChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the text value.
     /// </summary>
+    [Obsolete( "The 'TextExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
     [Parameter] public Expression<Func<string>> TextExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>

@@ -102,16 +102,19 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     /// <summary>
     /// Gets or sets the input color value.
     /// </summary>
+    [Obsolete( "The 'Color' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
     [Parameter] public string Color { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the color has changed.
     /// </summary>
+    [Obsolete( "The 'ColorChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
     [Parameter] public EventCallback<string> ColorChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the color value.
     /// </summary>
+    [Obsolete( "The 'ColorExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
     [Parameter] public Expression<Func<string>> ColorExpression { get => ValueExpression; set => ValueExpression = value; }
 
     #endregion

@@ -189,16 +189,19 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     /// <summary>
     /// Gets or sets the checked value.
     /// </summary>
+    [Obsolete( "The 'CheckedValue' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
     [Parameter] public TValue CheckedValue { get => Value; set => Value = value; }
 
     /// <summary>
     /// Occurs when the checked value is changed.
     /// </summary>
+    [Obsolete( "The 'CheckedValueChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
     [Parameter] public EventCallback<TValue> CheckedValueChanged { get => ValueChanged; set => ValueChanged = value; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the checked value.
     /// </summary>
+    [Obsolete( "The 'CheckedValueExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
     [Parameter] public Expression<Func<TValue>> CheckedValueExpression { get => ValueExpression; set => ValueExpression = value; }
 
     #endregion
