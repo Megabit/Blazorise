@@ -23,7 +23,8 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     {
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime ) && !paramTime.IsEqual( Time ) )
+            if ( ( parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime ) && !paramTime.IsEqual( Time ) )
+                || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -36,14 +37,16 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Time ), out var inTime )
-                    ? inTime
-                    : Value;
+                var newValue = parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime )
+                    ? paramTime
+                    : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                        ? paramValue
+                        : Value;
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();

@@ -36,8 +36,7 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue>, IDisposable
 
         await base.SetParametersAsync( parameters );
 
-        // Individual Radio can have validation ONLY of it's not placed inside
-        // of a RadioGroup
+        // Individual Radio can have validation ONLY if it's not placed inside of a RadioGroup
         if ( ParentValidation is not null && ParentRadioGroup is null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )

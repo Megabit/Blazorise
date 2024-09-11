@@ -23,7 +23,8 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !paramDate.IsEqual( Date ) )
+            if ( ( parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !paramDate.IsEqual( Date ) )
+                || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -35,15 +36,19 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
+            else if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
 
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
-                    ? inDate
-                    : Value;
+                var newValue = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate )
+                    ? paramDate
+                    : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                        ? paramValue
+                        : Value;
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();

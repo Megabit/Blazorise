@@ -28,7 +28,8 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
     {
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+            if ( ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+                || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -39,6 +40,8 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
         if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+            else if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             await InitializeValidation();

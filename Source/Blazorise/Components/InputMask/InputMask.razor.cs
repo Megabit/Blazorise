@@ -45,14 +45,14 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var value = parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
+                var newValue = parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
                     ? paramValue
                     : Value;
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();

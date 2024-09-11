@@ -33,14 +33,14 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var datesUsed = parameters.TryGetValue( nameof( Dates ), out IReadOnlyList<TValue> paramDates );
+        var datesDefined = parameters.TryGetValue( nameof( Dates ), out IReadOnlyList<TValue> paramDates );
 
         if ( Rendered )
         {
-            var dateUsed = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate );
+            var dateDefined = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate );
 
-            var dateChanged = dateUsed && !Date.Equals( paramDate );
-            var datesChanged = datesUsed && !Dates.AreEqual( paramDates );
+            var dateChanged = dateDefined && !Date.Equals( paramDate );
+            var datesChanged = datesDefined && !Dates.AreEqual( paramDates );
             var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
             var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
@@ -113,14 +113,14 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
 
         if ( ParentValidation is not null )
         {
-            if ( datesUsed )
+            if ( datesDefined )
             {
                 if ( parameters.TryGetValue<Expression<Func<IReadOnlyList<TValue>>>>( nameof( DatesExpression ), out var datesExpression ) )
                     await ParentValidation.InitializeInputExpression( datesExpression );
 
-                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
                 {
-                    await ParentValidation.InitializeInputPattern( pattern, paramDates );
+                    await ParentValidation.InitializeInputPattern( paramPattern, paramDates );
                 }
             }
             else // fallback to default behavior
@@ -128,13 +128,15 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var dateExpression ) )
                     await ParentValidation.InitializeInputExpression( dateExpression );
 
-                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
                 {
-                    var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
-                        ? new TValue[] { inDate }
-                        : Value;
+                    var newValue = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate )
+                        ? new TValue[] { paramDate }
+                        : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                            ? new TValue[] { paramValue }
+                            : Value;
 
-                    await ParentValidation.InitializeInputPattern( pattern, value );
+                    await ParentValidation.InitializeInputPattern( paramPattern, newValue );
                 }
             }
 

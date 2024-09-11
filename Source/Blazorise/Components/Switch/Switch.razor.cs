@@ -28,7 +28,8 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     {
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+            if ( ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+                || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
             {
                 ExecuteAfterRender( async () =>
                 {

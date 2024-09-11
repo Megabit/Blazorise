@@ -136,7 +136,8 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
             }
         }
 
-        var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
+        var valueDefined = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue );
+        var valueChanged = valueDefined && !Value.IsEqual( paramValue );
 
         if ( valueChanged )
         {
@@ -155,14 +156,14 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Value ), out var inValue )
-                    ? inValue
+                var newValue = valueDefined
+                    ? paramValue
                     : Value;
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();

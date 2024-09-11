@@ -79,14 +79,14 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Value ), out var inValue )
-                    ? inValue
+                var newValue = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                    ? paramValue
                     : Value;
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();

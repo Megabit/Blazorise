@@ -6,7 +6,6 @@ using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
 namespace Blazorise;
@@ -23,7 +22,8 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     {
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+            if ( ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+                || ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -35,15 +35,19 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
+            else if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
 
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var value = parameters.TryGetValue<string>( nameof( Text ), out var paramText )
+                var newValue = parameters.TryGetValue<string>( nameof( Text ), out var paramText )
                     ? paramText
-                    : Value;
+                    : parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
+                        ? paramValue
+                        : Value;
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();

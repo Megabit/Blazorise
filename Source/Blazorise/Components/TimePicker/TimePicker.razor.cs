@@ -26,6 +26,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         var timeChanged = parameters.TryGetValue( nameof( Time ), out TValue time ) && !Time.IsEqual( time );
+        var valueChanged = parameters.TryGetValue( nameof( Value ), out TValue value ) && !Value.IsEqual( value );
         var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
         var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
         var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
@@ -39,6 +40,17 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         if ( timeChanged )
         {
             var timeString = FormatValueAsString( time );
+
+            await CurrentValueHandler( timeString );
+
+            if ( Rendered )
+            {
+                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, timeString ) );
+            }
+        }
+        else if ( valueChanged )
+        {
+            var timeString = FormatValueAsString( value );
 
             await CurrentValueHandler( timeString );
 
@@ -80,14 +92,16 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Time ), out var inTime )
-                    ? inTime
-                    : Value;
+                var newValue = parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime )
+                    ? paramTime
+                    : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                        ? paramValue
+                        : Value;
 
-                await ParentValidation.InitializeInputPattern( pattern, value );
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();

@@ -25,7 +25,8 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     {
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<string>( nameof( Color ), out var paramColor ) && !paramColor.IsEqual( Color ) )
+            if ( ( parameters.TryGetValue<string>( nameof( Color ), out var paramColor ) && !paramColor.IsEqual( Color ) )
+                || ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -36,6 +37,8 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
         if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+            else if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             await InitializeValidation();

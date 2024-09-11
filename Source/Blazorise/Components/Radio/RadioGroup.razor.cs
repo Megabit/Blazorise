@@ -43,7 +43,8 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) && !CheckedValue.IsEqual( result ) )
+        if ( ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) && !CheckedValue.IsEqual( result ) )
+            || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
         {
             await CurrentValueHandler( result?.ToString() );
         }
@@ -53,6 +54,8 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
         if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+            else if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             await InitializeValidation();
