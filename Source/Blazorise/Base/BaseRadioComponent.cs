@@ -51,10 +51,12 @@ public abstract class BaseRadioComponent<TValue> : BaseInputComponent<TValue>
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
+    protected override async Task OnInternalValueChanged( TValue value )
     {
         Checked = value?.ToString() == bool.TrueString;
-        return CheckedChanged.InvokeAsync( Checked );
+        await CheckedChanged.InvokeAsync( Checked );
+
+        await ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
