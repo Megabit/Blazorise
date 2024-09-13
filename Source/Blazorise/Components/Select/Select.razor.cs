@@ -98,12 +98,14 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( IReadOnlyList<TValue> value )
+    protected override async Task OnInternalValueChanged( IReadOnlyList<TValue> value )
     {
         if ( Multiple )
-            return SelectedValuesChanged.InvokeAsync( value );
+            await SelectedValuesChanged.InvokeAsync( value );
         else
-            return SelectedValueChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
+            await SelectedValueChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
+
+        await ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>

@@ -238,12 +238,14 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( IReadOnlyList<TValue> value )
+    protected override async Task OnInternalValueChanged( IReadOnlyList<TValue> value )
     {
         if ( SelectionMode != DateInputSelectionMode.Single )
-            return DatesChanged.InvokeAsync( value );
+            await DatesChanged.InvokeAsync( value );
         else
-            return DateChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
+            await DateChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
+
+        await ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -590,16 +592,19 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <summary>
     /// Gets or sets the input date value.
     /// </summary>
+    [Obsolete( "The 'Date' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
     [Parameter] public IReadOnlyList<TValue> Dates { get; set; }
 
     /// <summary>
     /// Occurs when the date has changed.
     /// </summary>
+    [Obsolete( "The 'DateChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
     [Parameter] public EventCallback<IReadOnlyList<TValue>> DatesChanged { get; set; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the date value.
     /// </summary>
+    [Obsolete( "The 'DateExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
     [Parameter] public Expression<Func<IReadOnlyList<TValue>>> DatesExpression { get; set; }
 
     /// <summary>
