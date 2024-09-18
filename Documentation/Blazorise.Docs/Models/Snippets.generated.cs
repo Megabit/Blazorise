@@ -1803,19 +1803,19 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     }
 }";
 
-        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
+        public const string ColorEditDisabledExample = @"<ColorEdit Value=""#888888"" Disabled />";
 
-        public const string ColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
+        public const string ColorEditExample = @"<ColorEdit @bind-Value=""@colorValue"" />
 
 @code {
     string colorValue = ""#ff0000"";
 }";
 
         public const string ColorEditSizeExample = @"<Field>
-    <ColorEdit Color=""#888888"" Size=""Size.Small"" />
+    <ColorEdit Value=""#888888"" Size=""Size.Small"" />
 </Field>
 <Field>
-    <ColorEdit Color=""#444444"" Size=""Size.Large"" />
+    <ColorEdit Value=""#444444"" Size=""Size.Large"" />
 </Field>";
 
         public const string ColorPickerExample = @"<ColorPicker @bind-Color=""@colorValue"" />

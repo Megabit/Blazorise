@@ -14,10 +14,6 @@ namespace Blazorise;
 /// </summary>
 public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponent
 {
-    #region Members
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc/>
@@ -25,8 +21,7 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     {
         if ( Rendered )
         {
-            if ( ( parameters.TryGetValue<string>( nameof( Color ), out var paramColor ) && !paramColor.IsEqual( Color ) )
-                || ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
+            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -36,9 +31,7 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-            else if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out expression ) )
+            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             await InitializeValidation();
@@ -66,7 +59,7 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     /// <inheritdoc/>
     protected override Task OnInternalValueChanged( string value )
     {
-        return ColorChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -90,35 +83,13 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( ColorExpression is null )
+        if ( ValueExpression is null )
             return null;
 
         return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ColorExpression )
-            : ExpressionFormatter.FormatLambda( ColorExpression );
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the input color value.
-    /// </summary>
-    [Obsolete( "The 'Color' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public string Color { get => Value; set => Value = value; }
-
-    /// <summary>
-    /// Occurs when the color has changed.
-    /// </summary>
-    [Obsolete( "The 'ColorChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<string> ColorChanged { get => ValueChanged; set => ValueChanged = value; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the color value.
-    /// </summary>
-    [Obsolete( "The 'ColorExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<string>> ColorExpression { get => ValueExpression; set => ValueExpression = value; }
 
     #endregion
 }
