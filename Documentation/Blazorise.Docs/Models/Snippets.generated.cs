@@ -4599,13 +4599,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
 
-        public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" />
+        public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" />
 
 @code {
     TimeSpan? value;
 }";
 
-        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" Inline />
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" Inline />
 
 @code {
     TimeSpan? value;
@@ -4630,12 +4630,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     TimeSpan? selectedTime;
 }";
 
-        public const string TimeEditWithEventExample = @"<TimeEdit TValue=""TimeSpan?"" Value=""@selectedTime"" ValueChanged=""@OnTimeChanged"" />
+        public const string TimeEditWithEventExample = @"<TimeEdit TValue=""TimeSpan?"" Value=""@selectedTime"" ValueChanged=""@OnValueChanged"" />
 
 @code{
     TimeSpan? selectedTime;
 
-    Task OnTimeChanged( TimeSpan? Time )
+    Task OnValueChanged(TimeSpan? Time)
     {
         selectedTime = Time;
 
@@ -4643,13 +4643,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" StaticPicker=""false"" />
+        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" StaticPicker=""false"" />
 
 @code {
     TimeSpan? value;
 }";
 
-        public const string TimePickerWithDateTimeExample = @"<TimePicker TValue=""DateTime?"" @bind-Time=""@value"" />
+        public const string TimePickerWithDateTimeExample = @"<TimePicker TValue=""DateTime?"" @bind-Value=""@value"" />
 
 @code {
     DateTime? value;
@@ -4657,7 +4657,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TimePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" @bind-Time=""@value"" />
+        <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" @bind-Value=""@value"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Light"" Clicked=""@(()=>timePicker.ToggleAsync())"">

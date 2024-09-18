@@ -25,7 +25,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var timeChanged = parameters.TryGetValue( nameof( Time ), out TValue time ) && !Time.IsEqual( time );
         var valueChanged = parameters.TryGetValue( nameof( Value ), out TValue value ) && !Value.IsEqual( value );
         var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
         var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
@@ -37,18 +36,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
         var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
-        if ( timeChanged )
-        {
-            var timeString = FormatValueAsString( time );
-
-            await CurrentValueHandler( timeString );
-
-            if ( Rendered )
-            {
-                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, timeString ) );
-            }
-        }
-        else if ( valueChanged )
+        if ( valueChanged )
         {
             var timeString = FormatValueAsString( value );
 
@@ -89,17 +77,15 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var newValue = parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime )
-                    ? paramTime
-                    : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
-                        ? paramValue
-                        : Value;
+                var newValue = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                    ? paramValue
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
@@ -123,7 +109,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         {
             DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
             TimeAs24hr,
-            Default = FormatValueAsString( Time ),
+            Default = FormatValueAsString( Value ),
             Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
             Max = Max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
             Disabled,
@@ -182,7 +168,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <inheritdoc/>
     protected override Task OnInternalValueChanged( TValue value )
     {
-        return TimeChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -289,12 +275,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( TimeExpression is null )
+        if ( ValueExpression is null )
             return null;
 
         return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( TimeExpression )
-            : ExpressionFormatter.FormatLambda( TimeExpression );
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
 
     #endregion
@@ -323,24 +309,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// Converts the supplied time format into the internal time format.
     /// </summary>
     [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
-
-    /// <summary>
-    /// Gets or sets the input time value.
-    /// </summary>
-    [Obsolete( "The 'Time' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public TValue Time { get => Value; set => Value = value; }
-
-    /// <summary>
-    /// Occurs when the time has changed.
-    /// </summary>
-    [Obsolete( "The 'TimeChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<TValue> TimeChanged { get => ValueChanged; set => ValueChanged = value; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the time field.
-    /// </summary>
-    [Obsolete( "The 'TimeExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<TValue>> TimeExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// The earliest time to accept.
