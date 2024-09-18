@@ -1818,13 +1818,13 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     <ColorEdit Value=""#444444"" Size=""Size.Large"" />
 </Field>";
 
-        public const string ColorPickerExample = @"<ColorPicker @bind-Color=""@colorValue"" />
+        public const string ColorPickerExample = @"<ColorPicker @bind-Value=""@colorValue"" />
 
 @code {
     string colorValue = ""#ff0000"";
 }";
 
-        public const string ColorPickerShowHueExample = @"<ColorPicker @bind-Color=""@colorValue"" ShowHueSlider />
+        public const string ColorPickerShowHueExample = @"<ColorPicker @bind-Value=""@colorValue"" ShowHueSlider />
 
 @code {
     string colorValue = ""#ff00ff"";

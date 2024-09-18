@@ -22,7 +22,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        In this Blazorise example, a <Code>ColorPicker</Code> component is bound to a colorValue variable using the <Code>@@bind-Color</Code> directive. Initially set to red (<Strong>#ff0000</Strong>), the <Code>colorValue</Code> updates automatically when a user selects a new color through the <Code>ColorPicker</Code>, demonstrating an interactive color selection tool in a Blazor application.
+        In this Blazorise example, a <Code>ColorPicker</Code> component is bound to a colorValue variable using the <Code>@@bind-Value</Code> directive. Initially set to red (<Strong>#ff0000</Strong>), the <Code>colorValue</Code> updates automatically when a user selects a new color through the <Code>ColorPicker</Code>, demonstrating an interactive color selection tool in a Blazor application.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ColorPickerExample />
@@ -49,10 +49,10 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Color" Type="string" Default="null">
+    <DocsAttributesItem Name="Value" Type="string" Default="null">
         Gets or sets the input color value in hex format.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ColorChanged" Type="EventCallback<string>">
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<string>">
         Occurs when the color has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Palette" Type="string[]">
