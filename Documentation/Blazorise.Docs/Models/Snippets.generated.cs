@@ -1853,13 +1853,13 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     DateEdit<DateTime> dateEditRef;
 }";
 
-        public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
+        public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Value=""@selectedDate"" />
 
 @code{
     DateTime? selectedDate;
 }";
 
-        public const string DateEditWithEventExample = @"<DateEdit TValue=""DateTime?"" Date=""@selectedDate"" DateChanged=""@OnDateChanged"" />
+        public const string DateEditWithEventExample = @"<DateEdit TValue=""DateTime?"" Value=""@selectedDate"" ValueChanged=""@OnDateChanged"" />
 
 @code{
     DateTime? selectedDate;
@@ -4627,13 +4627,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     TimeEdit<DateTime> timeEditRef;
 }";
 
-        public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
+        public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Value=""@selectedTime"" />
 
 @code{
     TimeSpan? selectedTime;
 }";
 
-        public const string TimeEditWithEventExample = @"<TimeEdit TValue=""TimeSpan?"" Time=""@selectedTime"" TimeChanged=""@OnTimeChanged"" />
+        public const string TimeEditWithEventExample = @"<TimeEdit TValue=""TimeSpan?"" Value=""@selectedTime"" ValueChanged=""@OnTimeChanged"" />
 
 @code{
     TimeSpan? selectedTime;

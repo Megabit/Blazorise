@@ -23,8 +23,7 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
         if ( Rendered )
         {
-            if ( ( parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !paramDate.IsEqual( Date ) )
-                || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
+            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -34,19 +33,15 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-            else if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out expression ) )
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var newValue = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate )
-                    ? paramDate
-                    : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
-                        ? paramValue
-                        : Value;
+                var newValue = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                    ? paramValue
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
@@ -75,7 +70,7 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     protected override Task OnInternalValueChanged( TValue value )
     {
-        return DateChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -121,12 +116,12 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( DateExpression is null )
+        if ( ValueExpression is null )
             return null;
 
         return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( DateExpression )
-            : ExpressionFormatter.FormatLambda( DateExpression );
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
 
     #endregion
@@ -150,24 +145,6 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.
     /// </summary>
     [Parameter] public DateInputMode InputMode { get; set; } = DateInputMode.Date;
-
-    /// <summary>
-    /// Gets or sets the input date value.
-    /// </summary>
-    [Obsolete( "The 'Date' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public TValue Date { get => Value; set => Value = value; }
-
-    /// <summary>
-    /// Occurs when the date has changed.
-    /// </summary>
-    [Obsolete( "The 'DateChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<TValue> DateChanged { get => ValueChanged; set => ValueChanged = value; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the date value.
-    /// </summary>
-    [Obsolete( "The 'DateExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<TValue>> DateExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// The earliest date to accept.

@@ -23,8 +23,7 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     {
         if ( Rendered )
         {
-            if ( ( parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime ) && !paramTime.IsEqual( Time ) )
-                || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
+            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -34,17 +33,15 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var newValue = parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime )
-                    ? paramTime
-                    : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
-                        ? paramValue
-                        : Value;
+                var newValue = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
+                    ? paramValue
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
@@ -73,7 +70,7 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     protected override Task OnInternalValueChanged( TValue value )
     {
-        return TimeChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -128,12 +125,12 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( TimeExpression is null )
+        if ( ValueExpression is null )
             return null;
 
         return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( TimeExpression )
-            : ExpressionFormatter.FormatLambda( TimeExpression );
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
 
     #endregion
@@ -142,25 +139,6 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-
-    /// <summary>
-    /// Gets or sets the input time value.
-    /// </summary>
-    [Obsolete( "The 'Time' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public TValue Time { get => Value; set => Value = value; }
-
-    /// <summary>
-    /// Occurs when the time has changed.
-    /// </summary>
-    [Obsolete( "The 'TimeChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<TValue> TimeChanged { get => ValueChanged; set => ValueChanged = value; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the time field.
-    /// </summary>
-    [Obsolete( "The 'TimeExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<TValue>> TimeExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// The earliest time to accept.
