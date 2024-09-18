@@ -161,7 +161,7 @@ namespace Company.WebApplication1
                     <Field ColumnSize=""ColumnSize.IsHalf"">
                         <FieldLabel>Gender</FieldLabel>
                         <FieldBody>
-                            <Select @bind-SelectedValue=""@EmployeeModel.Gender"">
+                            <Select @bind-Value=""@EmployeeModel.Gender"">
                                 <ChildContent>
                                     <SelectItem TValue=""string""></SelectItem>
                                     @foreach ( var g in Gender.GetGenders() )
@@ -194,7 +194,7 @@ namespace Company.WebApplication1
                     <Field ColumnSize=""ColumnSize.IsHalf"">
                         <FieldLabel>City</FieldLabel>
                         <FieldBody>
-                            <Select @bind-SelectedValue=""@EmployeeModel.Address.City"">
+                            <Select @bind-Value=""@EmployeeModel.Address.City"">
                                 <ChildContent>
                                     <SelectItem TValue=""string""></SelectItem>
                                     @foreach ( var c in City.GetCities() )
@@ -226,7 +226,7 @@ namespace Company.WebApplication1
                 <Field>
                     <FieldLabel>Country</FieldLabel>
                     <FieldBody>
-                        <Select @bind-SelectedValue=""@EmployeeModel.Address.Country"">
+                        <Select @bind-Value=""@EmployeeModel.Address.Country"">
                             <ChildContent>
                                 <SelectItem TValue=""string""></SelectItem>
                                 @foreach ( var c in Country.GetCountries() )
@@ -385,7 +385,7 @@ public class Gender
         public const string UsingTheSelectComponent_SelectComponentWithComplexTypeExample = @"<Row>
     <Column>
         <Field>
-            <Select TValue=""int"" SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
+            <Select TValue=""int"" ValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
                 @foreach ( var employee in employeeData )
                 {
                     <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
@@ -429,7 +429,7 @@ public class Gender
 <Row>
     <Column>
         <Field>
-            <Select TValue=""Day"" @bind-SelectedValue=""@selectedDay"">
+            <Select TValue=""Day"" @bind-Value=""@selectedDay"">
                 @foreach ( var enumValue in Enum.GetValues<Day>() )
                 {
                     <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
@@ -465,7 +465,7 @@ public class Gender
         public const string UsingTheSelectComponent_SelectComponentWithNullableTypeExample = @"<Row>
     <Column>
         <Field>
-            <Select TValue=""int?"" @bind-SelectedValue=""@selectedEmployeeId"">
+            <Select TValue=""int?"" @bind-Value=""@selectedEmployeeId"">
                 <SelectItem Value=""(int?)null""></SelectItem>
                 <SelectItem Value=""11500"">John</SelectItem>
                 <SelectItem Value=""11566"">Julia</SelectItem>
@@ -566,7 +566,7 @@ public class Gender
         public const string HowToEnhanceDataGridMenuFilter_FilterMenuTemplateExample = @"<FilterMenuTemplate>
     <Row>
         <Column ColumnSize=""ColumnSize.Is4"">
-            <Select TValue=""MyFilter"" SelectedValue=""@_filterTracker.GetColumnFilterValue(context.Column.Field)"" SelectedValueChanged=""e => { _filterTracker.SetColumnFilter(context.Column, e); }"">
+            <Select TValue=""MyFilter"" Value=""@_filterTracker.GetColumnFilterValue(context.Column.Field)"" ValueChanged=""e => { _filterTracker.SetColumnFilter(context.Column, e); }"">
                 <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Contains"">Contains</SelectItem>
                 <SelectItem TValue=""MyFilter"" Value=""@MyFilter.StartsWith"">Starts With</SelectItem>
                 <SelectItem TValue=""MyFilter"" Value=""@MyFilter.EndsWith"">Ends With</SelectItem>
@@ -3750,7 +3750,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <SelectItem Value=""4"">Four</SelectItem>
 </Select>";
 
-        public const string SelectWithBindExample = @"<Select @bind-SelectedValue=""@selectedValue"">
+        public const string SelectWithBindExample = @"<Select @bind-Value=""@selectedValue"">
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
@@ -3761,7 +3761,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     int selectedValue;
 }";
 
-        public const string SelectWithEventExample = @"<Select TValue=""int"" SelectedValue=""@selectedValue"" SelectedValueChanged=""@OnSelectedValueChanged"">
+        public const string SelectWithEventExample = @"<Select TValue=""int"" Value=""@selectedValue"" ValueChanged=""@OnSelectedValueChanged"">
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
@@ -5228,7 +5228,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.6.1.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
-    <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+    <Select TValue=""string"" ValueChanged=""@OnSelectedAnimationChanged"">
         @foreach ( var availableAnimation in Animations.GetNames() )
         {
             <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
@@ -6992,7 +6992,7 @@ Install-Package Blazorise.Chart.Zoom";
         Edit Mode
     </FieldLabel>
     <FieldBody>
-        <Select @bind-SelectedValue=""@editMode"">
+        <Select @bind-Value=""@editMode"">
             <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
             <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
             <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
@@ -7703,7 +7703,7 @@ Install-Package Blazorise.Chart.Zoom";
         Edit Mode
     </FieldLabel>
     <FieldBody>
-        <Select @bind-SelectedValue=""@editMode"">
+        <Select @bind-Value=""@editMode"">
             <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
             <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
             <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
@@ -7913,7 +7913,7 @@ Install-Package Blazorise.Chart.Zoom";
      <FilterMenuTemplate>
          <Row>
              <Column ColumnSize=""ColumnSize.Is4"">
-                 <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+                 <Select TValue=""DataGridColumnFilterMethod"" Value=""@context.GetFilterMethod()"" ValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
                     @{
                         var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
                     }
@@ -8057,7 +8057,7 @@ Install-Package Blazorise.Chart.Zoom";
             <SelectList Data=""@dataGridRef?.DisplayGroupedData""
                         TItem=""GroupContext<Employee>"" TValue=""string""
                         TextField=""x=> x.Key"" ValueField=""x=> x.Key""
-            @bind-SelectedValue=""selectedGroupKey""></SelectList>
+                        @bind-SelectedValue=""selectedGroupKey""></SelectList>
         </FieldLabel>
         <FieldBody>
             <Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ExpandGroups(selectedGroupKey))"">Expand Selected Group</Button>
@@ -8524,7 +8524,7 @@ Install-Package Blazorise.Chart.Zoom";
     <TotalItemsShortTemplate><Badge Color=""Color.Success"">@context.TotalItems</Badge></TotalItemsShortTemplate>
     <ItemsPerPageTemplate></ItemsPerPageTemplate>
     <PageSelectorTemplate>
-        <Select TextColor=""TextColor.Success"" @bind-SelectedValue=""@context.CurrentPage"" Size=""Size.Small"">
+        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.CurrentPage"" Size=""Size.Small"">
             @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
             {
                 var pageNumber = i;
@@ -8533,7 +8533,7 @@ Install-Package Blazorise.Chart.Zoom";
         </Select>
     </PageSelectorTemplate>
     <PageSizesTemplate>
-        <Select TextColor=""TextColor.Success"" @bind-SelectedValue=""@context.CurrentPageSize"" Size=""Size.Small"">
+        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.CurrentPageSize"" Size=""Size.Small"">
             @foreach ( var curPageSize in context.PageSizes )
             {
                 <SelectItem Value=""@curPageSize"">@curPageSize</SelectItem>
@@ -8610,7 +8610,7 @@ Install-Package Blazorise.Chart.Zoom";
         Resize Mode
     </FieldLabel>
     <FieldBody>
-        <Select @bind-SelectedValue=""@resizeMode"">
+        <Select @bind-Value=""@resizeMode"">
             <SelectItem Value=""TableResizeMode.Header"">Header</SelectItem>
             <SelectItem Value=""TableResizeMode.Columns"">Columns</SelectItem>
         </Select>

@@ -40,7 +40,7 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        Value type must be known. When using member variable on <Code>bind-*</Code> or <Code>SelectedValue</Code> attributes, the value type
+        Value type must be known. When using member variable on <Code>bind-*</Code> or <Code>Value</Code> attributes, the value type
         will be recognized automatically. Otherwise you must use TValue to define it eg (TValue=”int”).
     </UnorderedListItem>
     <UnorderedListItem>
@@ -96,9 +96,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    The process is basically the same for the single and for multiple select. The only difference is that
-    <Code>SelectedValue</Code> attribute is used for single select mode, and <Code>SelectedValues</Code> attribute
-    is used for multi-selection. Keep in mind that <Code>Multiple</Code> must be set to true for multi-selection to work properly.
+    The process is basically the same for the single and for multiple select.
 </DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
@@ -119,7 +117,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Manual event binding">
-        When using the event <Code>SelectedValueChanged</Code>, you also must define the <Code>SelectedValue</Code> attribute.
+        When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> attribute.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SelectWithEventExample />
@@ -157,19 +155,13 @@
 
 <DocsAttributes Title="Select">
     <DocsAttributesItem Name="TValue" Type="generic">
-        <Code>SelectedValue</Code> or <Code>SelectedValues</Code> data type.
+        <Code>Value</Code> data type.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValue" Type="TValue" Default="default">
+    <DocsAttributesItem Name="Value" Type="TValue" Default="default">
         Selected item value when in single edit mode.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValues" Type="IReadOnlyList<TValue>" Default="default">
-        Selected item value when in multi edit mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<TValue>">
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<TValue>">
         Occurs when the selected item value has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValuesChanged" Type="EventCallback<IReadOnlyList<TValue>>">
-        Occurs when the selected items value has changed (only when <Code>Multiple</Code>).
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxVisibleItems" Type="int?" Default="null">
         Specifies how many options should be shown at once.

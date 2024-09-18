@@ -107,7 +107,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <Select @bind-SelectedValue="@JobRole">
+                                                    <Select @bind-Value="@JobRole">
                                                         @foreach ( var jobRole in JobRoles )
                                                         {
                                                             <SelectItem TValue="string" Value="@jobRole">@jobRole</SelectItem>
@@ -129,7 +129,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <Select @bind-SelectedValue="@Product">
+                                                    <Select @bind-Value="@Product">
                                                         @foreach ( var product in Products )
                                                         {
                                                             <SelectItem TValue="string" Value="@product">@product</SelectItem>

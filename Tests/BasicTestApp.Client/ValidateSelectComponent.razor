@@ -21,7 +21,7 @@
 <p id="validate-string-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateStringSelect">
-        <Select @bind-SelectedValue="@stringWithBindInitiallyBlank">
+        <Select @bind-Value="@stringWithBindInitiallyBlank">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
@@ -38,7 +38,7 @@
 <p id="validate-string-with-bind-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateStringSelect">
-        <Select @bind-SelectedValue="@stringWithBindInitiallySelected">
+        <Select @bind-Value="@stringWithBindInitiallySelected">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
@@ -57,7 +57,7 @@
 <p id="validate-string-with-event-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateStringSelect">
-        <Select TValue="string" SelectedValue="@stringWithEventInitiallyBlank" SelectedValueChanged="@((v)=> { stringWithEventInitiallyBlank = v; })">
+        <Select TValue="string" Value="@stringWithEventInitiallyBlank" ValueChanged="@((v)=> { stringWithEventInitiallyBlank = v; })">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
@@ -74,7 +74,7 @@
 <p id="validate-string-with-event-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateStringSelect">
-        <Select TValue="string" SelectedValue="@stringWithEventInitiallySelected" SelectedValueChanged="@((v)=> { stringWithEventInitiallySelected = v; })">
+        <Select TValue="string" Value="@stringWithEventInitiallySelected" ValueChanged="@((v)=> { stringWithEventInitiallySelected = v; })">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
@@ -111,7 +111,7 @@
 <p id="validate-int-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateIntSelect">
-        <Select @bind-SelectedValue="@intWithBindInitiallyBlank">
+        <Select @bind-Value="@intWithBindInitiallyBlank">
             <ChildContent>
                 <SelectItem Value="0"></SelectItem>
                 <SelectItem Value="1">1</SelectItem>
@@ -128,7 +128,7 @@
 <p id="validate-int-with-bind-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateIntSelect">
-        <Select @bind-SelectedValue="@intWithBindInitiallySelected">
+        <Select @bind-Value="@intWithBindInitiallySelected">
             <ChildContent>
                 <SelectItem Value="0"></SelectItem>
                 <SelectItem Value="1">1</SelectItem>
@@ -147,7 +147,7 @@
 <p id="validate-multi-string-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateMultiStringSelect">
-        <Select @ref="selectMultipleStrings" TValue="string" Multiple>
+        <Select @ref="selectMultipleStrings" TValue="string[]" Multiple>
             <ChildContent>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
                 <SelectItem Value="@("Harry")">Harry</SelectItem>
@@ -182,7 +182,7 @@
 <p id="validate-enum-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateEnumSelect">
-        <Select @bind-SelectedValue="@enumWithBindInitiallyBlank">
+        <Select @bind-Value="@enumWithBindInitiallyBlank">
             <ChildContent>
                 <SelectItem Value="SelectableValues.None"></SelectItem>
                 <SelectItem Value="SelectableValues.First">First</SelectItem>
@@ -198,7 +198,7 @@
 <p id="validate-enum-with-bind-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateEnumSelect">
-        <Select @bind-SelectedValue="@enumWithBindInitiallySelected">
+        <Select @bind-Value="@enumWithBindInitiallySelected">
             <ChildContent>
                 <SelectItem Value="SelectableValues.None"></SelectItem>
                 <SelectItem Value="SelectableValues.First">First</SelectItem>
@@ -245,7 +245,7 @@
     int intWithBindInitiallyBlank;
     int intWithBindInitiallySelected = 1;
 
-    public Select<string> selectMultipleStrings;
+    public Select<string[]> selectMultipleStrings;
 
     enum SelectableValues { None, First, Second, Last };
     SelectableValues enumWithBindInitiallyBlank;

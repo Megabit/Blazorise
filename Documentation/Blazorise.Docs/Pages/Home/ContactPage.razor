@@ -85,7 +85,7 @@
                                                 </AddonLabel>
                                             </Addon>
                                             <Addon AddonType="AddonType.Body">
-                                                <Select @bind-SelectedValue="@MessageSubject">
+                                                <Select @bind-Value="@MessageSubject">
                                                     @foreach ( var subject in Subjects )
                                                     {
                                                         <SelectItem TValue="string" Value="@subject">@subject</SelectItem>

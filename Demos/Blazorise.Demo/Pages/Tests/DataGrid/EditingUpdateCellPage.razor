@@ -11,7 +11,7 @@
                         Edit Mode
                     </FieldLabel>
                     <FieldBody>
-                        <Select @bind-SelectedValue="@editMode">
+                        <Select @bind-Value="@editMode">
                             <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                             <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                             <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
@@ -43,7 +43,7 @@
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description">
 
                             <EditTemplate>
-                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
+                                <Select TValue="string" Value="@((string)( context.CellValue ))" ValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
                                     <SelectItem Value="(string)null"></SelectItem>
                                     <SelectItem Value="@("M")">Male</SelectItem>
                                     <SelectItem Value="@("F")">Female</SelectItem>

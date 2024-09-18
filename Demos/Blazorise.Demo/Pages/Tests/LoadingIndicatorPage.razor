@@ -24,13 +24,13 @@
                 Width (null, 1% .. 100%) <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
                 Height (null, 1% .. 100%)<Slider Min="0" Max="100" @bind-Value="spinnerHeight" />
                 Horizontal Placement
-                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerHorizontal">
+                <Select TValue="LoadingIndicatorPlacement" @bind-Value="spinnerHorizontal">
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Start">Start</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.End">End</SelectItem>
                 </Select>
                 Vertical Placement
-                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerVertical">
+                <Select TValue="LoadingIndicatorPlacement" @bind-Value="spinnerVertical">
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Top">Top</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Bottom">Bottom</SelectItem>

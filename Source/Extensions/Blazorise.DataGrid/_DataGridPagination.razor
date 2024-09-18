@@ -236,7 +236,7 @@
                     }
                     else
                     {
-                        <Select @bind-SelectedValue="@PaginationContext.CurrentPage" Size="GetSize()">
+                        <Select @bind-Value="@PaginationContext.CurrentPage" Size="GetSize()">
                             @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                             {
                                 var pageNumber = i;
@@ -278,7 +278,7 @@
                         }
                         else
                         {
-                            <Select Size="@GetSize()" @bind-SelectedValue="@PaginationContext.CurrentPageSize">
+                            <Select Size="@GetSize()" @bind-Value="@PaginationContext.CurrentPageSize">
                                 @foreach ( var curPageSize in PaginationContext.PageSizes )
                                 {
                                     <SelectItem Value="@curPageSize">@curPageSize</SelectItem>

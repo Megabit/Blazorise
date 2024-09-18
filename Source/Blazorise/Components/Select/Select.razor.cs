@@ -1,11 +1,12 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -13,10 +14,35 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
+/// Defines methods for managing selectable items and checking their values.
+/// </summary>
+public interface ISelect
+{
+    /// <summary>
+    /// Adds a selectable item to the collection.
+    /// </summary>
+    /// <param name="selectItem">The item to add to the selection.</param>
+    void AddSelectItem( ISelectItem selectItem );
+
+    /// <summary>
+    /// Removes a selectable item from the collection.
+    /// </summary>
+    /// <param name="selectItem">The item to remove from the selection.</param>
+    void RemoveSelectItem( ISelectItem selectItem );
+
+    /// <summary>
+    /// Checks if the collection contains a specified value.
+    /// </summary>
+    /// <param name="value">The value to check for in the selection.</param>
+    /// <returns><c>true</c> if the collection contains the value; otherwise, <c>false</c>.</returns>
+    bool ContainsValue( object value );
+}
+
+/// <summary>
 /// The browser built-in select dropdown.
 /// </summary>
-/// <typeparam name="TValue">The type of the <see cref="SelectedValue"/>.</typeparam>
-public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
+/// <typeparam name="TValue">The type of the <see cref="BaseInputComponent{TValue}.Value"/>.</typeparam>
+public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
 {
     #region Members
 
@@ -24,9 +50,12 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
     private bool loading;
 
-    private readonly List<ISelectItem<TValue>> selectItems = new();
+    private readonly List<ISelectItem> selectItems = new();
 
-    private const string MULTIPLE_DELIMITER = "|~|";
+    /// <summary>
+    /// The internal value used by the select component.
+    /// </summary>
+    protected const string MULTIPLE_DELIMITER = "|~|";
 
     #endregion
 
@@ -37,19 +66,9 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         if ( Rendered )
         {
-            if ( Multiple )
+            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
             {
-                if ( parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues ) )
-                {
-                    ExecuteAfterRender( Revalidate );
-                }
-            }
-            else
-            {
-                if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !paramSelectedValue.IsEqual( SelectedValue ) )
-                {
-                    ExecuteAfterRender( Revalidate );
-                }
+                ExecuteAfterRender( Revalidate );
             }
         }
 
@@ -57,16 +76,8 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
         if ( ParentValidation is not null )
         {
-            if ( Multiple )
-            {
-                if ( parameters.TryGetValue<Expression<Func<IReadOnlyList<TValue>>>>( nameof( SelectedValuesExpression ), out var expression ) )
-                    await ParentValidation.InitializeInputExpression( expression );
-            }
-            else
-            {
-                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( SelectedValueExpression ), out var expression ) )
-                    await ParentValidation.InitializeInputExpression( expression );
-            }
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
 
             await InitializeValidation();
         }
@@ -98,74 +109,57 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     }
 
     /// <inheritdoc/>
-    protected override async Task OnInternalValueChanged( IReadOnlyList<TValue> value )
+    protected override Task OnInternalValueChanged( TValue value )
     {
-        if ( Multiple )
-            await SelectedValuesChanged.InvokeAsync( value );
-        else
-            await SelectedValueChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
-
-        await ValueChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
-    protected override object PrepareValueForValidation( IReadOnlyList<TValue> value )
-    {
-        if ( Multiple )
-            return value;
-        else
-            return value is null ? default : value.FirstOrDefault();
-    }
-
-    /// <inheritdoc/>
-    protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
+    protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
         if ( string.IsNullOrEmpty( value ) )
-            return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
+            return Task.FromResult( ParseValue<TValue>.Empty );
 
         if ( Multiple )
         {
-            var multipleValues = value.Split( MULTIPLE_DELIMITER ).Select( value =>
-            {
-                if ( Converters.TryChangeType<TValue>( value, out var newValue ) )
-                    return newValue;
+            var readOnlyList = Converters.ConvertCsvToReadOnlyList<TValue>( value, MULTIPLE_DELIMITER );
 
-                return default;
-            } ).ToArray();
-
-            return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, multipleValues, null ) );
+            return Task.FromResult( new ParseValue<TValue>( true, readOnlyList, null ) );
         }
         else
         {
             if ( Converters.TryChangeType<TValue>( value, out var result ) )
             {
-                return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, new TValue[] { result }, null ) );
+                return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
             }
             else
             {
-                return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
+                return Task.FromResult( ParseValue<TValue>.Empty );
             }
         }
     }
 
     /// <inheritdoc/>
-    protected override string FormatValueAsString( IReadOnlyList<TValue> value )
+    protected override string FormatValueAsString( TValue value )
     {
-        if ( value is null || value.Count == 0 )
+        if ( value is null )
             return string.Empty;
 
-        if ( Multiple )
+        // Blazor expects the arrays as JSON formatted string
+        if ( value is IEnumerable<TValue> values )
         {
-            // Make use of .NET BindConverter that will convert our array into valid JSON string.
-            return BindConverter.FormatValue( CurrentValue?.ToArray() ?? new TValue[] { } )?.ToString();
+            return Multiple
+                ? JsonSerializer.Serialize( values.Select( x => x?.ToString() ) )
+                : JsonSerializer.Serialize( values.FirstOrDefault()?.ToString() );
         }
-        else
+        else if ( value is IEnumerable objects && CurrentValue is not string  )
         {
-            if ( value[0] is null )
-                return string.Empty;
+            return Multiple
+                ? JsonSerializer.Serialize( objects.Cast<object>().Select( x => x?.ToString() ) )
+                : JsonSerializer.Serialize( objects.Cast<object>().FirstOrDefault()?.ToString() );
+        }
 
-            return value[0].ToString();
-        }
+        return value?.ToString();
     }
 
     /// <summary>
@@ -173,21 +167,28 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     /// </summary>
     /// <param name="value">Item value.</param>
     /// <returns>True if value is found.</returns>
-    public bool ContainsValue( TValue value )
+    public bool ContainsValue( object value )
     {
-        var currentValue = CurrentValue;
+        if ( CurrentValue is null )
+            return false;
 
-        if ( currentValue is not null )
+        if ( CurrentValue is IEnumerable<TValue> values )
         {
-            var result = currentValue.Any( x => x.IsEqual( value ) );
-
-            return result;
+            return values.Any( x => x.IsEqual( value ) );
+        }
+        else if ( CurrentValue is IEnumerable objects && CurrentValue is not string  )
+        {
+            return objects.Cast<object>().Any( x => x.IsEqual( value ) );
         }
 
-        return false;
+        return CurrentValue.IsEqual( value );
     }
 
-    internal void NotifySelectItemInitialized( ISelectItem<TValue> selectItem )
+    /// <summary>
+    /// Notifies the <see cref="ISelectItem"/> that it has been initialized.
+    /// </summary>
+    /// <param name="selectItem">The select item that has been initialized.</param>
+    public void AddSelectItem( ISelectItem selectItem )
     {
         if ( selectItem is null )
             return;
@@ -196,7 +197,11 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
             selectItems.Add( selectItem );
     }
 
-    internal void NotifySelectItemRemoved( ISelectItem<TValue> selectItem )
+    /// <summary>
+    /// Notifies the <see cref="ISelectItem"/> that it has been removed.
+    /// </summary>
+    /// <param name="selectItem">The select item that has been removed.</param>
+    public void RemoveSelectItem( ISelectItem selectItem )
     {
         if ( selectItem is null )
             return;
@@ -208,17 +213,11 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( Multiple && SelectedValuesExpression is not null )
+        if ( ValueExpression is not null )
         {
             return HtmlFieldPrefix is not null
-                ? HtmlFieldPrefix.GetFieldName( SelectedValuesExpression )
-                : ExpressionFormatter.FormatLambda( SelectedValuesExpression );
-        }
-        else if ( SelectedValueExpression is not null )
-        {
-            return HtmlFieldPrefix is not null
-                ? HtmlFieldPrefix.GetFieldName( SelectedValueExpression )
-                : ExpressionFormatter.FormatLambda( SelectedValueExpression );
+                ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+                : ExpressionFormatter.FormatLambda( ValueExpression );
         }
 
         return null;
@@ -228,39 +227,10 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
     #region Properties
 
-    /// <inheritdoc/>
-    public override object ValidationValue
-    {
-        get
-        {
-            if ( Multiple )
-                return Value;
-            else
-                return Value is null ? default : Value.FirstOrDefault();
-        }
-    }
-
-    /// <inheritdoc/>
-    public override IReadOnlyList<TValue> Value
-    {
-        get => Multiple ? SelectedValues : new TValue[] { SelectedValue };
-        set
-        {
-            if ( Multiple )
-            {
-                SelectedValues = value;
-            }
-            else
-            {
-                SelectedValue = value is null ? default : value.FirstOrDefault();
-            }
-        }
-    }
-
     /// <summary>
     /// Gets the list of all select items inside of this select component.
     /// </summary>
-    protected IEnumerable<ISelectItem<TValue>> SelectItems => selectItems;
+    protected IEnumerable<ISelectItem> SelectItems => selectItems;
 
     /// <summary>
     /// Specifies that multiple items can be selected.
@@ -276,36 +246,6 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the selected item value.
-    /// </summary>
-    [Parameter] public TValue SelectedValue { get; set; }
-
-    /// <summary>
-    /// Gets or sets the multiple selected item values.
-    /// </summary>
-    [Parameter] public IReadOnlyList<TValue> SelectedValues { get; set; }
-
-    /// <summary>
-    /// Occurs when the selected item value has changed.
-    /// </summary>
-    [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
-
-    /// <summary>
-    /// Occurs when the selected items value has changed (only when <see cref="Multiple"/>==true).
-    /// </summary>
-    [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the selected value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the selected value.
-    /// </summary>
-    [Parameter] public Expression<Func<IReadOnlyList<TValue>>> SelectedValuesExpression { get; set; }
 
     /// <summary>
     /// Specifies how many options should be shown at once.

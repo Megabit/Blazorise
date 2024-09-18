@@ -25,7 +25,7 @@
                                 <Field ColumnSize="ColumnSize.Is8.OnDesktop">
                                     <FieldLabel>Product</FieldLabel>
                                     <FieldBody>
-                                        <Select TValue="string" @bind-SelectedValue="@InputModel.Product">
+                                        <Select TValue="string" @bind-Value="@InputModel.Product">
                                             <ChildContent>
                                                 <SelectItem TValue="string" Value="null"></SelectItem>
                                                 @foreach ( var productName in SupportedProductNames )
@@ -203,7 +203,7 @@
                             <Field ColumnSize="ColumnSize.Is12">
                                 <FieldLabel>Preferred Payment Type</FieldLabel>
                                 <FieldBody>
-                                    <Select TValue="string" @bind-SelectedValue="@InputModel.PaymentType">
+                                    <Select TValue="string" @bind-Value="@InputModel.PaymentType">
                                         <SelectItem TValue="string" Value="null"></SelectItem>
                                         @foreach ( var paymantType in SupportedPaymentTypes )
                                         {

@@ -1,26 +1,40 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise;
 
 /// <summary>
-/// Basic type for all <see cref="SelectItem{TValue}"/> components.
+/// Interface for all <see cref="SelectItem{TValue}"/> components.
 /// </summary>
-/// <typeparam name="TValue"></typeparam>
-public interface ISelectItem<TValue>
+public interface ISelectItem
 {
     /// <summary>
-    /// Gets or sets the item value.
+    /// Checks if the value is equal to the item value.
     /// </summary>
-    TValue Value { get; set; }
+    /// <param name="value">The value to compare.</param>
+    /// <returns>A <see cref="bool"/> value indicating whether the value is equal to the item value.</returns>
+    bool CompareTo( object value );
 
     /// <summary>
     /// Gets or sets the item render fragment.
     /// </summary>
     RenderFragment ChildContent { get; set; }
+}
+
+/// <summary>
+/// Basic type for all <see cref="SelectItem{TValue}"/> components.
+/// </summary>
+/// <typeparam name="TValue"></typeparam>
+public interface ISelectItem<TValue> : ISelectItem
+{
+    /// <summary>
+    /// Gets or sets the item value.
+    /// </summary>
+    TValue Value { get; set; }
 }
 
 /// <summary>
@@ -34,7 +48,7 @@ public partial class SelectItem<TValue> : BaseComponent, ISelectItem<TValue>, ID
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
-        ParentSelect?.NotifySelectItemInitialized( this );
+        ParentSelect?.AddSelectItem( this );
 
         return base.OnInitializedAsync();
     }
@@ -44,10 +58,16 @@ public partial class SelectItem<TValue> : BaseComponent, ISelectItem<TValue>, ID
     {
         if ( disposing )
         {
-            ParentSelect?.NotifySelectItemRemoved( this );
+            ParentSelect?.RemoveSelectItem( this );
         }
 
         base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    public bool CompareTo( object value )
+    {
+        return Value?.IsEqual( value ) ?? false;
     }
 
     #endregion

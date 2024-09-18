@@ -123,7 +123,7 @@
                                     Selection mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@selectionMode">
+                                    <Select @bind-Value="@selectionMode">
                                         <SelectItem Value="@DataGridSelectionMode.Single">Single</SelectItem>
                                         <SelectItem Value="@DataGridSelectionMode.Multiple">Multiple</SelectItem>
                                     </Select>
@@ -134,7 +134,7 @@
                                     Edit Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@editMode">
+                                    <Select @bind-Value="@editMode">
                                         <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                         <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                                         <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
@@ -146,7 +146,7 @@
                                     Resizable Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@resizableMode">
+                                    <Select @bind-Value="@resizableMode">
                                         <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
                                         <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
                                     </Select>
@@ -157,7 +157,7 @@
                                     Command Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@commandsMode">
+                                    <Select @bind-Value="@commandsMode">
                                         <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
                                         <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
                                         <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
@@ -175,7 +175,7 @@
                                     Sort mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@sortMode">
+                                    <Select @bind-Value="@sortMode">
                                         <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
                                         <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
                                     </Select>
@@ -186,7 +186,7 @@
                                     Filter mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@filterMode">
+                                    <Select @bind-Value="@filterMode">
                                         <SelectItem Value="@DataGridFilterMode.Default">Default</SelectItem>
                                         <SelectItem Value="@DataGridFilterMode.Menu">Menu</SelectItem>
                                     </Select>
@@ -197,7 +197,7 @@
                                     Responsive mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@responsiveMode">
+                                    <Select @bind-Value="@responsiveMode">
                                         <SelectItem Value="@TableResponsiveMode.Default">Default</SelectItem>
                                         <SelectItem Value="@TableResponsiveMode.Mobile">Mobile</SelectItem>
                                     </Select>
@@ -338,7 +338,7 @@
                             <FilterTemplate>
                                 @{
                                     selectedCityFilter = @context.SearchValue?.ToString() ?? "";
-                                    <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
+                                    <Select TValue="string" Value="@selectedCityFilter" ValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
                                         <SelectItem Value="@("")">All</SelectItem>
                                         @foreach ( var item in dataModels )
                                         {

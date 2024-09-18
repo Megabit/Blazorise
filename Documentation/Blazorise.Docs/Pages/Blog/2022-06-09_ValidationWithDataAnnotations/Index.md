@@ -240,7 +240,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Gender</FieldLabel>
                         <FieldBody>
-                            <Select @bind-SelectedValue="@EmployeeModel.Gender">
+                            <Select @bind-Value="@EmployeeModel.Gender">
                                 <ChildContent>
                                     <SelectItem TValue="string"></SelectItem>
                                     @foreach ( var g in Gender.GetGenders() )
@@ -273,7 +273,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>City</FieldLabel>
                         <FieldBody>
-                            <Select @bind-SelectedValue="@EmployeeModel.Address.City">
+                            <Select @bind-Value="@EmployeeModel.Address.City">
                                 <ChildContent>
                                     <SelectItem TValue="string"></SelectItem>
                                     @foreach ( var c in City.GetCities() )
@@ -305,7 +305,7 @@ Refer to the following code example.
                 <Field>
                     <FieldLabel>Country</FieldLabel>
                     <FieldBody>
-                        <Select @bind-SelectedValue="@EmployeeModel.Address.Country">
+                        <Select @bind-Value="@EmployeeModel.Address.Country">
                             <ChildContent>
                                 <SelectItem TValue="string"></SelectItem>
                                 @foreach ( var c in Country.GetCountries() )

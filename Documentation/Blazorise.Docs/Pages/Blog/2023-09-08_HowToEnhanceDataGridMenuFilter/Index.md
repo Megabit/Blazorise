@@ -140,7 +140,7 @@ Now we need to update the UI so it uses our custom implementation, let's use the
 <FilterMenuTemplate>
     <Row>
         <Column ColumnSize="ColumnSize.Is4">
-            <Select TValue="MyFilter" SelectedValue="@_filterTracker.GetColumnFilterValue(context.Column.Field)" SelectedValueChanged="e => { _filterTracker.SetColumnFilter(context.Column, e); }">
+            <Select TValue="MyFilter" Value="@_filterTracker.GetColumnFilterValue(context.Column.Field)" ValueChanged="e => { _filterTracker.SetColumnFilter(context.Column, e); }">
                 <SelectItem TValue="MyFilter" Value="@MyFilter.Contains">Contains</SelectItem>
                 <SelectItem TValue="MyFilter" Value="@MyFilter.StartsWith">Starts With</SelectItem>
                 <SelectItem TValue="MyFilter" Value="@MyFilter.EndsWith">Ends With</SelectItem>
