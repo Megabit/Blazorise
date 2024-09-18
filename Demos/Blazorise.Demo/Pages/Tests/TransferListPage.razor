@@ -63,7 +63,7 @@
                     <Field>
                         <FieldLabel>Items</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@(listStart != null ? string.Join( ',', listStart ) : "")"></TextEdit>
+                            <TextEdit ReadOnly Value="@(listStart != null ? string.Join( ',', listStart ) : "")"></TextEdit>
                          </FieldBody>
                      </Field>
                  </Fields>
@@ -80,7 +80,7 @@
                      <Field>
                          <FieldLabel>Items</FieldLabel>
                          <FieldBody>
-                             <TextEdit ReadOnly Text="@(listEnd != null ? string.Join( ',', listEnd ) : "")"></TextEdit>
+                            <TextEdit ReadOnly Value="@(listEnd != null ? string.Join( ',', listEnd ) : "")"></TextEdit>
                          </FieldBody>
                      </Field>
                  </Fields>

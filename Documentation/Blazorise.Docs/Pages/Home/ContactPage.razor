@@ -35,7 +35,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
+                                                    <TextEdit @bind-Value="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
                                                 </Addon>
                                             </Addons>
                                         </FieldBody>
@@ -52,7 +52,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
+                                                    <TextEdit @bind-Value="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
                                                 </Addon>
                                             </Addons>
                                         </FieldBody>
@@ -69,7 +69,7 @@
                                                     <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Envelope" />
                                                 </AddonLabel>
                                             </Addon>
-                                            <TextEdit @bind-Text="@User.Email" name="email" Role="TextRole.Email" Placeholder="Email Here..." aria-label="Last Name..." />
+                                            <TextEdit @bind-Value="@User.Email" name="email" Role="TextRole.Email" Placeholder="Email Here..." aria-label="Last Name..." />
                                         </Addons>
                                     </FieldBody>
                                 </Field>
@@ -100,7 +100,7 @@
                                 <Field>
                                     <FieldLabel RequiredIndicator>What would you like to discuss?</FieldLabel>
                                     <FieldBody>
-                                        <MemoEdit @bind-Text="@MessageBody" name="message" Rows="6" />
+                                        <MemoEdit @bind-Value="@MessageBody" name="message" Rows="6" />
                                     </FieldBody>
                                 </Field>
                             </Validation>

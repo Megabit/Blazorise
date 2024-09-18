@@ -154,7 +154,7 @@ Now we need to update the UI so it uses our custom implementation, let's use the
             </Select>
         </Column>
         <Column ColumnSize="ColumnSize.Is4">
-            <TextEdit Text="@_filterTracker.GetColumnSearchValue(context.Column.Field)" TextChanged="@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))" />
+            <TextEdit Value="@_filterTracker.GetColumnSearchValue(context.Column.Field)" ValueChanged="@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))" />
         </Column>
 
         <Column ColumnSize="ColumnSize.Is4">

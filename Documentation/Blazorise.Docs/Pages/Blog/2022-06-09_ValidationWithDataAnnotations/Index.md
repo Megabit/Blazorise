@@ -176,7 +176,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.FirstName">
+                            <TextEdit @bind-Value="@EmployeeModel.FirstName">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -188,7 +188,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Last Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.LastName">
+                            <TextEdit @bind-Value="@EmployeeModel.LastName">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -202,7 +202,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Email Address</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.Email" Role="TextRole.Email">
+                            <TextEdit @bind-Value="@EmployeeModel.Email" Role="TextRole.Email">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -260,7 +260,7 @@ Refer to the following code example.
                 <Field>
                     <FieldLabel>Address</FieldLabel>
                     <FieldBody>
-                        <TextEdit @bind-Text="@EmployeeModel.Address.Street">
+                        <TextEdit @bind-Value="@EmployeeModel.Address.Street">
                             <Feedback>
                                 <ValidationError />
                             </Feedback>
@@ -292,7 +292,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Zip</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.Address.Zip">
+                            <TextEdit @bind-Value="@EmployeeModel.Address.Zip">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>

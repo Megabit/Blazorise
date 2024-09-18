@@ -22,8 +22,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     {
         if ( Rendered )
         {
-            if ( ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
-                || ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
+            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -33,19 +32,15 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-            else if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out expression ) )
+            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
                 // make sure we get the newest value
-                var newValue = parameters.TryGetValue<string>( nameof( Text ), out var paramText )
-                    ? paramText
-                    : parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
-                        ? paramValue
-                        : Value;
+                var newValue = parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
+                    ? paramValue
+                    : Value;
 
                 await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
@@ -87,7 +82,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     protected override Task OnInternalValueChanged( string value )
     {
-        return TextChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -99,12 +94,12 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( TextExpression is null )
+        if ( ValueExpression is null )
             return null;
 
         return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( TextExpression )
-            : ExpressionFormatter.FormatLambda( TextExpression );
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
 
     #endregion
@@ -138,24 +133,6 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.
     /// </summary>
     [Parameter] public TextInputMode InputMode { get; set; } = TextInputMode.None;
-
-    /// <summary>
-    /// Gets or sets the text inside the input field.
-    /// </summary>
-    [Obsolete( "The 'Text' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public string Text { get => Value; set => Value = value; }
-
-    /// <summary>
-    /// Occurs after text has changed.
-    /// </summary>
-    [Obsolete( "The 'TextChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<string> TextChanged { get => ValueChanged; set => ValueChanged = value; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the text value.
-    /// </summary>
-    [Obsolete( "The 'TextExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<string>> TextExpression { get => ValueExpression; set => ValueExpression = value; }
 
     /// <summary>
     /// A string representing a edit mask expression.

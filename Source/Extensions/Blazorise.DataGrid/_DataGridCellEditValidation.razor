@@ -3,7 +3,7 @@
 @inherits _DataGridCellEdit<TItem>
 @if ( ValueType == typeof( string ) )
 {
-    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" TextExpression="@stringExpression" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+    <TextEdit ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ValueExpression="@stringExpression" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -256,7 +256,7 @@ else if ( ValueType == typeof( TimeOnly? ) )
 }
 else
 {
-    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+    <TextEdit ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
         <Feedback>
             @if ( ShowValidationFeedback )
             {

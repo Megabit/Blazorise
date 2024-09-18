@@ -2,7 +2,7 @@
     <Validation Validator="ValidationRule.IsEmail">
         <Field>
             <FieldLabel>Email</FieldLabel>
-            <TextEdit @bind-Text="@email" Placeholder="Enter email...">
+            <TextEdit @bind-Value="@email" Placeholder="Enter email...">
                 <Feedback>
                     <ValidationNone>Please Enter Your Email. </ValidationNone>
                     <ValidationSuccess>Email is good</ValidationSuccess>
@@ -14,7 +14,7 @@
     <Validation Validator="ValidationRule.IsNotEmpty">
         <Field>
             <FieldLabel>Password</FieldLabel>
-            <TextEdit @bind-Text="@password" Placeholder="Enter Password.." />
+            <TextEdit @bind-Value="@password" Placeholder="Enter Password.." />
         </Field>
     </Validation>
     <Field>

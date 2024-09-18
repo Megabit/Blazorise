@@ -11,7 +11,7 @@
         <BlogCategorySelect Categories="@NewsEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
     </Column>
     <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
-        <TextEdit Placeholder="Search..." @bind-Text="@search" />
+        <TextEdit Placeholder="Search..." @bind-Value="@search" />
     </Column>
 </Row>
 

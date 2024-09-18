@@ -38,7 +38,7 @@
             </Column>
 
             <Column ColumnSize="ColumnSize.Is4">
-                <TextEdit Text="@context.GetSearchValue()?.ToString()" TextChanged="@((newValue) => context.Column.Filter.SearchValue = newValue)" />
+                <TextEdit Value="@context.GetSearchValue()?.ToString()" ValueChanged="@((newValue) => context.Column.Filter.SearchValue = newValue)" />
             </Column>
 
             <Column ColumnSize="ColumnSize.Is4">

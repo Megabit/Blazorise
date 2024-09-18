@@ -97,7 +97,7 @@ namespace Company.WebApplication1
                     <Field ColumnSize=""ColumnSize.IsHalf"">
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.FirstName"">
+                            <TextEdit @bind-Value=""@EmployeeModel.FirstName"">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -109,7 +109,7 @@ namespace Company.WebApplication1
                     <Field ColumnSize=""ColumnSize.IsHalf"">
                         <FieldLabel>Last Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.LastName"">
+                            <TextEdit @bind-Value=""@EmployeeModel.LastName"">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -123,7 +123,7 @@ namespace Company.WebApplication1
                     <Field ColumnSize=""ColumnSize.IsHalf"">
                         <FieldLabel>Email Address</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.Email"" Role=""TextRole.Email"">
+                            <TextEdit @bind-Value=""@EmployeeModel.Email"" Role=""TextRole.Email"">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -181,7 +181,7 @@ namespace Company.WebApplication1
                 <Field>
                     <FieldLabel>Address</FieldLabel>
                     <FieldBody>
-                        <TextEdit @bind-Text=""@EmployeeModel.Address.Street"">
+                        <TextEdit @bind-Value=""@EmployeeModel.Address.Street"">
                             <Feedback>
                                 <ValidationError />
                             </Feedback>
@@ -213,7 +213,7 @@ namespace Company.WebApplication1
                     <Field ColumnSize=""ColumnSize.IsHalf"">
                         <FieldLabel>Zip</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.Address.Zip"">
+                            <TextEdit @bind-Value=""@EmployeeModel.Address.Zip"">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -580,7 +580,7 @@ public class Gender
             </Select>
         </Column>
         <Column ColumnSize=""ColumnSize.Is4"">
-            <TextEdit Text=""@_filterTracker.GetColumnSearchValue(context.Column.Field)"" TextChanged=""@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))"" />
+            <TextEdit Value=""@_filterTracker.GetColumnSearchValue(context.Column.Field)"" ValueChanged=""@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))"" />
         </Column>
 
         <Column ColumnSize=""ColumnSize.Is4"">
@@ -715,7 +715,7 @@ public class Gender
     <Validation>
         <Field>
             <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+            <TextEdit @bind-Value=""@_model.PhoneCountryCode"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
@@ -747,7 +747,7 @@ public class Gender
     <Validation MessageLocalizer=""MessageLocalizer.Localize"">
         <Field>
             <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+            <TextEdit @bind-Value=""@_model.PhoneCountryCode"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
@@ -990,7 +990,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     <Validation>
         <Field>
             <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+            <TextEdit @bind-Value=""@_model.PhoneCountryCode"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
@@ -1476,19 +1476,19 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>First name</FieldLabel>
         <FieldBody>
-            <TextEdit Text=""John"" />
+            <TextEdit Value=""John"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>Last name</FieldLabel>
         <FieldBody>
-            <TextEdit Text=""Smith"" />
+            <TextEdit Value=""Smith"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull"">
         <FieldLabel>Email address</FieldLabel>
         <FieldBody>
-            <TextEdit Text=""john.smith@example.com"" />
+            <TextEdit Value=""john.smith@example.com"" />
         </FieldBody>
     </Field>
     <Field Flex=""Flex.JustifyContent.Between"">
@@ -1504,19 +1504,19 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>First name</FieldLabel>
         <FieldBody>
-            <TextEdit Text=""John"" />
+            <TextEdit Value=""John"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>Last name</FieldLabel>
         <FieldBody>
-            <TextEdit Text=""Smith"" />
+            <TextEdit Value=""Smith"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull"">
         <FieldLabel>Email address</FieldLabel>
         <FieldBody>
-            <TextEdit Text=""john.smith@example.com"" />
+            <TextEdit Value=""john.smith@example.com"" />
         </FieldBody>
     </Field>
     <Field>
@@ -2223,7 +2223,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
         public const string FieldWithDisabledExample = @"<Field>
     <FieldLabel>Disabled</FieldLabel>
-    <TextEdit Text=""Value"" Disabled />
+    <TextEdit Value=""Value"" Disabled />
 </Field>";
 
         public const string FieldWithHelpExample = @"<Fields>
@@ -2248,7 +2248,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
         public const string FieldWithReadOnlyExample = @"<Field>
     <FieldLabel>Read-Only</FieldLabel>
-    <TextEdit Text=""Value"" ReadOnly />
+    <TextEdit Value=""Value"" ReadOnly />
 </Field>";
 
         public const string HorizontalFieldExample = @"<Field Horizontal>
@@ -2675,7 +2675,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         public const string BasicHighlighterExample = @"<Field>
     <FieldLabel>Search value</FieldLabel>
     <FieldBody>
-        <TextEdit @bind-Text=""@searchValue"" />
+        <TextEdit @bind-Value=""@searchValue"" />
     </FieldBody>
 </Field>
 
@@ -2702,7 +2702,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     <Field>
         <FieldLabel>Search value</FieldLabel>
         <FieldBody>
-            <TextEdit @bind-Text=""@searchValue"" />
+            <TextEdit @bind-Value=""@searchValue"" />
         </FieldBody>
     </Field>
     <Field>
@@ -2981,7 +2981,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
         public const string BasicMemoEditExample = @"<MemoEdit Rows=""5"" />";
 
-        public const string MemoEditAutoSizeExample = @"<MemoEdit Text=""@loremipsum"" AutoSize />
+        public const string MemoEditAutoSizeExample = @"<MemoEdit Value=""@loremipsum"" AutoSize />
 
 @code {
     string loremipsum = @""Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
@@ -3010,13 +3010,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string MemoEditWithBindExample = @"<MemoEdit @bind-Text=""@description"" />
+        public const string MemoEditWithBindExample = @"<MemoEdit @bind-Value=""@description"" />
 
 @code{
     string description;
 }";
 
-        public const string MemoEditWithEventExample = @"<MemoEdit Text=""@description"" TextChanged=""@OnDescriptionChanged"" />
+        public const string MemoEditWithEventExample = @"<MemoEdit Value=""@description"" ValueChanged=""@OnDescriptionChanged"" />
 
 @code{
     string description;
@@ -3860,7 +3860,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <StepPanel Name=""2"">
             <Field>
                 <FieldLabel>Email address</FieldLabel>
-                <TextEdit @bind-Text=""email"" Placeholder=""Enter email"">
+                <TextEdit @bind-Value=""email"" Placeholder=""Enter email"">
                     <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
                 </TextEdit>
             </Field>
@@ -4501,13 +4501,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string TextEditWithBindExample = @"<TextEdit @bind-Text=""@name"" />
+        public const string TextEditWithBindExample = @"<TextEdit @bind-Value=""@name"" />
 
 @code{
     string name;
 }";
 
-        public const string TextEditWithEventExample = @"<TextEdit Text=""@name"" TextChanged=""@OnNameChanged"" />
+        public const string TextEditWithEventExample = @"<TextEdit Value=""@name"" ValueChanged=""@OnNameChanged"" />
 
 @code{
     string name;
@@ -5000,7 +5000,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Full Name</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Placeholder=""First and last name"" @bind-Text=""@user.Name"">
+                <TextEdit Placeholder=""First and last name"" @bind-Value=""@user.Name"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -5012,7 +5012,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Email</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Placeholder=""Enter email"" @bind-Text=""@user.Email"">
+                <TextEdit Placeholder=""Enter email"" @bind-Value=""@user.Email"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -5024,7 +5024,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Password</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Role=""TextRole.Password"" Placeholder=""Password"" @bind-Text=""@user.Password"">
+                <TextEdit Role=""TextRole.Password"" Placeholder=""Password"" @bind-Value=""@user.Password"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -5036,7 +5036,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Re Password</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Role=""TextRole.Password"" Placeholder=""Retype password"" @bind-Text=""@user.ConfirmPassword"">
+                <TextEdit Role=""TextRole.Password"" Placeholder=""Retype password"" @bind-Value=""@user.ConfirmPassword"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -7139,18 +7139,18 @@ Install-Package Blazorise.Chart.Zoom";
                     <Field>
                         <FieldLabel>Row Index</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text=""@selectedCell?.RowIndex.ToString()""></TextEdit>
+                            <TextEdit ReadOnly Value=""@selectedCell?.RowIndex.ToString()""></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Field</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text=""@selectedCell?.ColumnInfo?.Field""></TextEdit>
+                            <TextEdit ReadOnly Value=""@selectedCell?.ColumnInfo?.Field""></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Value</FieldLabel>
-                        <TextEdit ReadOnly Text=""@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)""></TextEdit>
+                        <TextEdit ReadOnly Value=""@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)""></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>
@@ -7398,7 +7398,7 @@ Install-Package Blazorise.Chart.Zoom";
 
 }";
 
-        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit Text=""@customFilterValue"" TextChanged=""@OnCustomFilterValueChanged""></TextEdit>
+        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit Value=""@customFilterValue"" ValueChanged=""@OnCustomFilterValueChanged""></TextEdit>
 
 <DataGrid @ref=""dataGrid""
           TItem=""Employee""
@@ -7937,7 +7937,7 @@ Install-Package Blazorise.Chart.Zoom";
             </Column>
 
             <Column ColumnSize=""ColumnSize.Is4"">
-                <TextEdit Text=""@context.GetSearchValue()?.ToString()"" TextChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
+                <TextEdit Value=""@context.GetSearchValue()?.ToString()"" ValueChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
             </Column>
 
             <Column ColumnSize=""ColumnSize.Is4"">
@@ -9053,7 +9053,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable>
         <EditTemplate>
             <Validation Validator=""@CheckName"">
-                <TextEdit Text=""@((string)context.CellValue)"" TextChanged=""(value => context.CellValue = value)"">
+                <TextEdit Value=""@((string)context.CellValue)"" ValueChanged=""(value => context.CellValue = value)"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -9210,7 +9210,7 @@ Install-Package Blazorise.Chart.Zoom";
     <Validation>
         <Field>
             <FieldLabel>First name</FieldLabel>
-            <TextEdit Placeholder=""Enter first name..."" @bind-Text=""@person.FirstName"">
+            <TextEdit Placeholder=""Enter first name..."" @bind-Value=""@person.FirstName"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
@@ -9220,7 +9220,7 @@ Install-Package Blazorise.Chart.Zoom";
     <Validation>
         <Field>
             <FieldLabel>Last name</FieldLabel>
-            <TextEdit Placeholder=""Enter last name..."" @bind-Text=""@person.LastName"">
+            <TextEdit Placeholder=""Enter last name..."" @bind-Value=""@person.LastName"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
@@ -11661,14 +11661,14 @@ builder.Services
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextEdit @bind-Text=""model.FirstName""></TextEdit>
+            <TextEdit @bind-Value=""model.FirstName""></TextEdit>
         </FieldBody>
     </Field>
 
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextEdit @bind-Text=""model.Email""></TextEdit>
+            <TextEdit @bind-Value=""model.Email""></TextEdit>
         </FieldBody>
     </Field>
 
@@ -11724,7 +11724,7 @@ builder.Services
         public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-        <TextEdit @bind-Text=""userName""></TextEdit>
+        <TextEdit @bind-Value=""userName""></TextEdit>
     </FieldBody>
 </Field>
 

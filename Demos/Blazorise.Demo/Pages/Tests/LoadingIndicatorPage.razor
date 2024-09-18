@@ -65,7 +65,7 @@
             <CardBody>
                 Message
                 <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
-                    <TextEdit Disabled="textEditIndicator.Visible" Text="disabled when busy" />
+                    <TextEdit Disabled="textEditIndicator.Visible" Value="disabled when busy" />
                 </LoadingIndicator>
                 <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send</Button>
             </CardBody>

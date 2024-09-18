@@ -108,11 +108,11 @@ After creating the tabs component, we have to fill it with content. Since we are
 ```html
 <Field>
     <FieldLabel>Email</FieldLabel>
-    <TextEdit @bind-Text="@email" Placeholder="Enter email..." />
+    <TextEdit @bind-Value="@email" Placeholder="Enter email..." />
 </Field>
 <Field>
     <FieldLabel>Password</FieldLabel>
-    <TextEdit @bind-Text="@password" Placeholder="Enter Password.." />
+    <TextEdit @bind-Value="@password" Placeholder="Enter Password.." />
 </Field>
 <Field>
     <Check TValue="bool" @bind-Checked="@rememberMe">Remember Me</Check>
@@ -142,7 +142,7 @@ The code snippet below illustrates how you can validate the email field using th
     <Validation Validator="ValidationRule.IsEmail">
         <Field>
             <FieldLabel>Email</FieldLabel>
-            <TextEdit @bind-Text="@email" Placeholder="Enter email...">
+            <TextEdit @bind-Value="@email" Placeholder="Enter email...">
                 <Feedback>
                     <ValidationNone>Please Enter Your Email. </ValidationNone>
                     <ValidationSuccess>Email is good</ValidationSuccess>
@@ -154,7 +154,7 @@ The code snippet below illustrates how you can validate the email field using th
     <Validation Validator="ValidationRule.IsNotEmpty">
         <Field>
             <FieldLabel>Password</FieldLabel>
-            <TextEdit @bind-Text="@password" Placeholder="Enter Password.." />
+            <TextEdit @bind-Value="@password" Placeholder="Enter Password.." />
         </Field>
     </Validation>
     <Field>
@@ -201,7 +201,7 @@ And the full code that includes a register page.
                         <Validation Validator="ValidationRule.IsEmail">
                             <Field>
                                 <FieldLabel>Email</FieldLabel>
-                                <TextEdit @bind-Text="@email" Placeholder="Enter email...">
+                                <TextEdit @bind-Value="@email" Placeholder="Enter email...">
                                     <Feedback>
                                         <ValidationNone>Please Enter Your Email. </ValidationNone>
                                         <ValidationSuccess>Email is good</ValidationSuccess>
@@ -213,7 +213,7 @@ And the full code that includes a register page.
                         <Validation Validator="ValidationRule.IsNotEmpty">
                             <Field>
                                 <FieldLabel>Password</FieldLabel>
-                                <TextEdit @bind-Text="@password" Placeholder="Enter Password.." />
+                                <TextEdit @bind-Value="@password" Placeholder="Enter Password.." />
                             </Field>
                         </Validation>
                         <Field>
@@ -239,13 +239,13 @@ And the full code that includes a register page.
                         <Validation Validator="ValidationRule.IsNotEmpty">
                             <Field>
                                 <FieldLabel>Name</FieldLabel>
-                                <TextEdit @bind-Text="@name" Placeholder="Enter Your Name" />
+                                <TextEdit @bind-Value="@name" Placeholder="Enter Your Name" />
                             </Field>
                         </Validation>
                         <Validation Validator="ValidationRule.IsEmail">
                             <Field>
                                 <FieldLabel>Email</FieldLabel>
-                                <TextEdit @bind-Text="@email" Placeholder="Enter Your Email">
+                                <TextEdit @bind-Value="@email" Placeholder="Enter Your Email">
                                     <Feedback>
                                         <ValidationNone>Please Enter your email.</ValidationNone>
                                         <ValidationSuccess>Email is valid</ValidationSuccess>
@@ -257,7 +257,7 @@ And the full code that includes a register page.
                         <Validation Validator="ValidationRule.IsNotEmpty">
                             <Field>
                                 <FieldLabel>Password</FieldLabel>
-                                <TextEdit @bind-Text="@password" Placeholder="Enter Password" />
+                                <TextEdit @bind-Value="@password" Placeholder="Enter Password" />
                                 <FieldHelp>Password Strength: <Text TextColor="TextColor.Danger">Strong</Text></FieldHelp>
                             </Field>
                         </Validation>
