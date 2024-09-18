@@ -115,7 +115,7 @@ After creating the tabs component, we have to fill it with content. Since we are
     <TextEdit @bind-Value="@password" Placeholder="Enter Password.." />
 </Field>
 <Field>
-    <Check TValue="bool" @bind-Checked="@rememberMe">Remember Me</Check>
+    <Check TValue="bool" @bind-Value="@rememberMe">Remember Me</Check>
 </Field>
 ```
 
@@ -158,7 +158,7 @@ The code snippet below illustrates how you can validate the email field using th
         </Field>
     </Validation>
     <Field>
-        <Check TValue="bool" @bind-Checked="@rememberMe">Remember Me</Check>
+        <Check TValue="bool" @bind-Value="@rememberMe">Remember Me</Check>
     </Field>
 </Validations>
 ```
@@ -217,7 +217,7 @@ And the full code that includes a register page.
                             </Field>
                         </Validation>
                         <Field>
-                            <Check TValue="bool" @bind-Checked="@rememberMe">Remember Me</Check>
+                            <Check TValue="bool" @bind-Value="@rememberMe">Remember Me</Check>
                         </Field>
                     </Validations>
                 </CardBody>

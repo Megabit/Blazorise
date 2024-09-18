@@ -17,8 +17,8 @@
             </CardBody>
             <CardBody>
                 <Button Clicked="() => lineChartIndicator.Show()" Color="Color.Primary" Margin="Margin.Is2.OnX">Set Visible</Button>
-                <Check TValue="bool" @bind-Checked="lineChartBusy" Inline>Visible</Check>
-                <Check TValue="bool" @bind-Checked="lineChartInitializing" Inline>Initializing</Check>
+                <Check TValue="bool" @bind-Value="lineChartBusy" Inline>Visible</Check>
+                <Check TValue="bool" @bind-Value="lineChartInitializing" Inline>Initializing</Check>
             </CardBody>
             <CardBody>
                 Width (null, 1% .. 100%) <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
@@ -35,7 +35,7 @@
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Bottom">Bottom</SelectItem>
                 </Select>
-                <Check TValue="bool" @bind-Checked="usePadding" Inline>Use IndicatorPadding</Check>
+                <Check TValue="bool" @bind-Value="usePadding" Inline>Use IndicatorPadding</Check>
                 @if ( usePadding )
                 {
                     <style>
@@ -45,7 +45,7 @@
                         }
                     </style>
                 }
-                <Check TValue="bool" @bind-Checked="showBorder" Inline>Show border</Check>
+                <Check TValue="bool" @bind-Value="showBorder" Inline>Show border</Check>
                 @if ( showBorder )
                 {
                     <style>

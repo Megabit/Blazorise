@@ -9,6 +9,6 @@
 else
 {
     <Label @onclick:stopPropagation>
-        <Check TValue="bool" Indeterminate="IsIndeterminate" Checked="IsChecked" CheckedExpression="()=> IsChecked" CheckedChanged="IsCheckedChanged" @onclick:stopPropagation></Check>
+        <Check TValue="bool" Indeterminate="IsIndeterminate" Value="IsChecked" ValueChanged="IsCheckedChanged" ValueExpression="()=> IsChecked" @onclick:stopPropagation></Check>
     </Label>
 }

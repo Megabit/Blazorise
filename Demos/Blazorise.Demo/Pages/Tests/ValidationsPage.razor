@@ -334,7 +334,7 @@
                      <Validation>
                          <Field Horizontal JustifyContent="JustifyContent.End">
                              <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
-                                 <Check @bind-Checked="@user.TermsAndConditions">
+                                 <Check @bind-Value="@user.TermsAndConditions">
                                      <ChildContent>
                                          Terms and Conditions
                                      </ChildContent>
@@ -432,7 +432,7 @@
                      <Validation>
                          <Field Horizontal JustifyContent="JustifyContent.End">
                              <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
-                                 <Check @bind-Checked="@manualUser.TermsAndConditions">
+                                 <Check @bind-Value="@manualUser.TermsAndConditions">
                                      <ChildContent>
                                          Terms and Conditions
                                      </ChildContent>
@@ -587,7 +587,7 @@
                         </Field>
                     </Validation>
                     <Field>
-                        <Switch @bind-Checked="@Company.UseAlphaCode">Use AlphaCode</Switch>
+                        <Switch @bind-Value="@Company.UseAlphaCode">Use AlphaCode</Switch>
                     </Field>
                     <Fields>
                         <Validation>

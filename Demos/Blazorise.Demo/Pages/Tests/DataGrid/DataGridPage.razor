@@ -19,7 +19,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@editable">Editable</Check>
+                                    <Check @bind-Value="@editable">Editable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -29,7 +29,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue="bool" @bind-Checked="@fixedHeader">Fixed Header</Check>
+                                    <Check TValue="bool" @bind-Value="@fixedHeader">Fixed Header</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -39,7 +39,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@OnVirtualizeChanged">Virtualize</Check>
+                                    <Check TValue="bool" Value="@virtualize" ValueChanged="@OnVirtualizeChanged">Virtualize</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -49,7 +49,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@resizable">Resizable</Check>
+                                    <Check @bind-Value="@resizable">Resizable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -59,7 +59,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@sortable">Sortable</Check>
+                                    <Check @bind-Value="@sortable">Sortable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -69,7 +69,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@filterable">Filterable</Check>
+                                    <Check @bind-Value="@filterable">Filterable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -79,7 +79,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showPager">Show Pager</Check>
+                                    <Check @bind-Value="@showPager">Show Pager</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -89,7 +89,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                                    <Check @bind-Value="@showPageSizes">Show Page sizes</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -99,7 +99,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                                    <Check @bind-Value="@showButtonRow">Show Button Row</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -109,7 +109,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue=bool Checked="@readDataMode" CheckedChanged="OnReadDataModeChanged">Large Data</Check>
+                                    <Check TValue=bool Value="@readDataMode" ValueChanged="OnReadDataModeChanged">Large Data</Check>
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -290,7 +290,7 @@
                                 </Button>
                             </FilterTemplate>
                             <MultiSelectTemplate>
-                                <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
+                                <Check TValue="bool" Value="@context.IsSelected" ValueExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" ValueChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                             <AggregateTemplate>
                                 <Span TextWeight="TextWeight.Bold">@(selectedEmployees?.Count ?? 0)</Span>

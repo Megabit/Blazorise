@@ -47,11 +47,11 @@ else if ( ValueType == typeof( long? ) )
 }
 else if ( ValueType == typeof( bool ) )
 {
-    <Check ElementId="@elementId" TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <Check ElementId="@elementId" TValue="bool" Value="@((bool)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( bool? ) )
 {
-    <Check ElementId="@elementId" TValue="bool?" Checked="@((bool?)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <Check ElementId="@elementId" TValue="bool?" Value="@((bool?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( DateTime ) )
 {

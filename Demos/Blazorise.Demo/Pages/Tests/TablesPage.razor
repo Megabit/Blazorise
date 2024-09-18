@@ -596,7 +596,7 @@
                         <Field>
                             <Row>
                                 <Column>
-                                    <Switch @bind-Checked="@fixedHeader">Fixed header</Switch>
+                                    <Switch @bind-Value="@fixedHeader">Fixed header</Switch>
                                 </Column>
                             </Row>
                             <Row>
@@ -618,24 +618,24 @@
                             </Row>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@stripped">Stripped</Switch>
+                            <Switch @bind-Value="@stripped">Stripped</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@bordered">Bordered</Switch>
+                            <Switch @bind-Value="@bordered">Bordered</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@borderless">Borderless</Switch>
+                            <Switch @bind-Value="@borderless">Borderless</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@hoverable">Hoverable</Switch>
+                            <Switch @bind-Value="@hoverable">Hoverable</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@small">Narrow rows</Switch>
+                            <Switch @bind-Value="@small">Narrow rows</Switch>
                         </Field>
                         <Field>
                             <Row>
                                 <Column>
-                                    <Switch @bind-Checked="@resizable">Resizable</Switch>
+                                    <Switch @bind-Value="@resizable">Resizable</Switch>
                                 </Column>
                                 @if ( resizable )
                                 {

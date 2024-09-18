@@ -10,7 +10,7 @@
                     <Fields>
                         <Column ColumnSize="ColumnSize.Is1">
                             <Field>
-                                <Check TValue="bool" Checked="@Todos.All(x=>x.Completed)" CheckedChanged="@OnCheckAll">All</Check>
+                                <Check TValue="bool" Value="@Todos.All(x=>x.Completed)" ValueChanged="@OnCheckAll">All</Check>
                             </Field>
                         </Column>
                         <Column ColumnSize="ColumnSize.Is11">

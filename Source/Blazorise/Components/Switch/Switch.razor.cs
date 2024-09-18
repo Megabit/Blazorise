@@ -28,8 +28,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     {
         if ( Rendered )
         {
-            if ( ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
-                || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
+            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
             {
                 ExecuteAfterRender( async () =>
                 {
@@ -46,7 +45,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             await InitializeValidation();
@@ -76,7 +75,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     /// <summary>
     /// Returns true id switch is in checked state.
     /// </summary>
-    protected bool IsChecked => string.Compare( Checked?.ToString(), TrueValueName, StringComparison.InvariantCultureIgnoreCase ) == 0;
+    protected bool IsChecked => string.Compare( Value?.ToString(), TrueValueName, StringComparison.InvariantCultureIgnoreCase ) == 0;
 
     /// <summary>
     /// Defines the switch named color.
