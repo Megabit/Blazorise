@@ -51,7 +51,7 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue>, IDisposable
     {
         if ( ParentRadioGroup is not null )
         {
-            Checked = ParentRadioGroup.CheckedValue.IsEqual( Value );
+            Checked = ParentRadioGroup.Value.IsEqual( Value );
 
             // TODO: possibly memory leak in Blazor server-side with prerendering mode!
             ParentRadioGroup.RadioCheckedChanged += OnRadioChanged;

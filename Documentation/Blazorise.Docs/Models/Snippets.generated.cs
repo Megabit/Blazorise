@@ -3630,7 +3630,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
-        public const string RadioGroupWithBindExample = @"<RadioGroup TValue=""string"" Name=""colors"" @bind-CheckedValue=""@checkedValue"">
+        public const string RadioGroupWithBindExample = @"<RadioGroup TValue=""string"" Name=""colors"" @bind-Value=""@checkedValue"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
     <Radio Value=""@(""blue"")"">Blue</Radio>
@@ -3640,10 +3640,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     string checkedValue = ""green"";
 }";
 
-        public const string RadioGroupWithEventExample = @"<RadioGroup TValue=""string""
-            Name=""colors""
-            CheckedValue=""@checkedValue""
-            CheckedValueChanged=""@OnCheckedValueChanged"">
+        public const string RadioGroupWithEventExample = @"<RadioGroup TValue=""string"" Name=""colors"" Value=""@checkedValue"" ValueChanged=""@OnValueChanged"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
     <Radio Value=""@(""blue"")"">Blue</Radio>
@@ -3652,7 +3649,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 @code{
     string checkedValue = ""green"";
 
-    Task OnCheckedValueChanged( string value )
+    Task OnValueChanged(string value)
     {
         checkedValue = value;
 

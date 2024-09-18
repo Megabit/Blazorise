@@ -43,19 +43,16 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) && !CheckedValue.IsEqual( result ) )
-            || ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) ) )
+        if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
         {
-            await CurrentValueHandler( result?.ToString() );
+            await CurrentValueHandler( paramValue?.ToString() );
         }
 
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-            else if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out expression ) )
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
 
             await InitializeValidation();
@@ -94,7 +91,7 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
         // notify child radios they need to update their states
         RadioCheckedChanged?.Invoke( this, new( value ) );
 
-        return CheckedValueChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <summary>
@@ -116,18 +113,18 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
 
         // Since radios validation works little different when placed in radio group we need
         // to notify them to re-render when validation changes.
-        RadioCheckedChanged?.Invoke( this, new( CheckedValue ) );
+        RadioCheckedChanged?.Invoke( this, new( Value ) );
     }
 
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( CheckedValueExpression is null )
+        if ( ValueExpression is null )
             return null;
 
         return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( CheckedValueExpression )
-            : ExpressionFormatter.FormatLambda( CheckedValueExpression );
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
 
     #endregion
@@ -188,24 +185,6 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the checked value.
-    /// </summary>
-    [Obsolete( "The 'CheckedValue' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public TValue CheckedValue { get => Value; set => Value = value; }
-
-    /// <summary>
-    /// Occurs when the checked value is changed.
-    /// </summary>
-    [Obsolete( "The 'CheckedValueChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<TValue> CheckedValueChanged { get => ValueChanged; set => ValueChanged = value; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the checked value.
-    /// </summary>
-    [Obsolete( "The 'CheckedValueExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<TValue>> CheckedValueExpression { get => ValueExpression; set => ValueExpression = value; }
 
     #endregion
 }
