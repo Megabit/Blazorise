@@ -66,7 +66,7 @@ public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
     {
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
+            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !IsSameAsInternalValue( paramValue ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -152,7 +152,7 @@ public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
                 ? JsonSerializer.Serialize( values.Select( x => x?.ToString() ) )
                 : JsonSerializer.Serialize( values.FirstOrDefault()?.ToString() );
         }
-        else if ( value is IEnumerable objects && CurrentValue is not string  )
+        else if ( value is IEnumerable objects && CurrentValue is not string )
         {
             return Multiple
                 ? JsonSerializer.Serialize( objects.Cast<object>().Select( x => x?.ToString() ) )
@@ -176,7 +176,7 @@ public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
         {
             return values.Any( x => x.IsEqual( value ) );
         }
-        else if ( CurrentValue is IEnumerable objects && CurrentValue is not string  )
+        else if ( CurrentValue is IEnumerable objects && CurrentValue is not string )
         {
             return objects.Cast<object>().Any( x => x.IsEqual( value ) );
         }
@@ -208,6 +208,21 @@ public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
 
         if ( selectItems.Contains( selectItem ) )
             selectItems.Remove( selectItem );
+    }
+
+    /// <inheritdoc/>
+    protected override bool IsSameAsInternalValue( TValue value )
+    {
+        if ( value is IEnumerable<TValue> values1 && Value is IEnumerable<TValue> values2 )
+        {
+            return values1.AreEqual( values2 );
+        }
+        else if ( value is IEnumerable objects1 && Value is IEnumerable objects2 )
+        {
+            return objects1.AreEqual( objects2 );
+        }
+
+        return value.IsEqual( Value );
     }
 
     /// <inheritdoc/>
