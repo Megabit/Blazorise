@@ -50,12 +50,6 @@ public abstract class BaseCheckComponent<TValue> : BaseInputComponent<TValue>
         }
     }
 
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
     #endregion
 
     #region Properties

@@ -160,12 +160,6 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( string value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override string FormatValueAsString( string value )
     {
         return value;

@@ -283,12 +283,6 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
         if ( Converters.TryChangeType<TValue>( value, out var result, CurrentCultureInfo ) )

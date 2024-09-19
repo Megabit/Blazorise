@@ -166,12 +166,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override string FormatValueAsString( TValue value )
     {
         return value switch

@@ -84,12 +84,6 @@ public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
         if ( string.IsNullOrEmpty( value ) )

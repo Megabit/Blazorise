@@ -69,12 +69,6 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
         if ( Converters.TryChangeType<TValue>( value, out var result, CultureInfo.InvariantCulture ) )

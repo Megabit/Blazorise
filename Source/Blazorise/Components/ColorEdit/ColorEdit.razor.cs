@@ -57,12 +57,6 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( string value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override string FormatValueAsString( string value )
     {
         return value;

@@ -136,12 +136,6 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( string value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
     {
         return Task.FromResult( new ParseValue<string>( true, value, null ) );

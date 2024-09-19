@@ -68,12 +68,6 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override string FormatValueAsString( TValue value )
     {
         return value switch

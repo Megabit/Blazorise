@@ -244,7 +244,10 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Raises and event that handles the edit value of Text, Date, Numeric etc.
     /// </summary>
     /// <param name="value">New edit value.</param>
-    protected abstract Task OnInternalValueChanged( TValue value );
+    protected virtual Task OnInternalValueChanged( TValue value )
+    {
+        return ValueChanged.InvokeAsync( value );
+    }
 
     /// <inheritdoc/>
     public virtual Task Focus( bool scrollToElement = true )
