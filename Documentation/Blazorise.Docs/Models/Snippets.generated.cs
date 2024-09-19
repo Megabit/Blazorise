@@ -135,7 +135,7 @@ namespace Company.WebApplication1
                     <Field ColumnSize=""ColumnSize.IsHalf"">
                         <FieldLabel>Date of Birth</FieldLabel>
                         <FieldBody>
-                            <DatePicker @bind-Date=""@EmployeeModel.DateOfBirth"">
+                            <DatePicker @bind-Value=""@EmployeeModel.DateOfBirth"">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -1832,7 +1832,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 
-        public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" />
+        public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" />
 
 @code {
     DateTime? value;
@@ -1896,13 +1896,13 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
 </Field>";
 
-        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />
+        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />
 
 @code {
     DateTime? value;
 }";
 
-        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" StaticPicker=""false"" />
+        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" StaticPicker=""false"" />
 
 @code {
     DateTime? value;
@@ -1910,7 +1910,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" @bind-Date=""@value"" />
+        <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" @bind-Value=""@value"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Light"" Clicked=""@(()=>datePicker.ToggleAsync())"">
@@ -1924,19 +1924,19 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     DateTime? value;
 }";
 
-        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" Inline />
+        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" Inline />
 
 @code {
     DateTime? value;
 }";
 
-        public const string MultipleDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />
+        public const string MultipleDatePickerExample = @"<DatePicker @bind-Value=""selectedDates"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />
 
 @code{
     IReadOnlyList<DateTime?> selectedDates;
 }";
 
-        public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Dates=""selectedDates"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
+        public const string RangeDatePickerExample = @"<DatePicker @bind-Value=""selectedDates"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
 
 @code {
     IReadOnlyList<DateTime?> selectedDates;

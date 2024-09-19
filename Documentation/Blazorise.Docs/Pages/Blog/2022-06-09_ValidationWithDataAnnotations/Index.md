@@ -214,7 +214,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Date of Birth</FieldLabel>
                         <FieldBody>
-                            <DatePicker @bind-Date="@EmployeeModel.DateOfBirth">
+                            <DatePicker @bind-Value="@EmployeeModel.DateOfBirth">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>

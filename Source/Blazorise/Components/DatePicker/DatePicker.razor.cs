@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -20,11 +21,16 @@ namespace Blazorise;
 /// An editor that displays a date value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="DatePicker{TValue}"/> property.</typeparam>
-public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable, IDatePicker
+public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposable, IDatePicker
 {
     #region Members
 
     private DotNetObjectReference<DatePickerAdapter> dotNetObjectRef;
+
+    /// <summary>
+    /// The internal value used to separate dates.
+    /// </summary>
+    protected const string MULTIPLE_DELIMITER = ", ";
 
     #endregion
 
@@ -33,14 +39,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var datesDefined = parameters.TryGetValue( nameof( Dates ), out IReadOnlyList<TValue> paramDates );
+        var valueDefined = parameters.TryGetValue( nameof( Value ), out TValue paramValue );
 
         if ( Rendered )
         {
-            var dateDefined = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate );
-
-            var dateChanged = dateDefined && !Date.Equals( paramDate );
-            var datesChanged = datesDefined && !Dates.AreEqual( paramDates );
+            var valueChanged = !IsSameAsInternalValue( paramValue );
             var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
             var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
@@ -57,11 +60,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
             var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
-            if ( dateChanged || datesChanged )
+            if ( valueChanged )
             {
-                var formatedDateString = SelectionMode != DateInputSelectionMode.Single
-                    ? FormatValueAsString( paramDates?.ToArray() )
-                    : FormatValueAsString( new TValue[] { paramDate } );
+                var formatedDateString = FormatValueAsString( paramValue );
 
                 await CurrentValueHandler( formatedDateString );
 
@@ -97,7 +98,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Max = new { Changed = maxChanged, Value = paramMax?.ToString( DateFormat ) },
                     Disabled = new { Changed = disabledChanged, Value = paramDisabled },
                     ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
-                    DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
+                    DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( x ) ) },
                     DisabledDays = new { Changed = disabledDaysChanged, Value = paramDisabledDays?.Select( x => (int)x ) },
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                     Inline = new { Changed = inlineChanged, Value = paramInline },
@@ -113,31 +114,16 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
 
         if ( ParentValidation is not null )
         {
-            if ( datesDefined )
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
             {
-                if ( parameters.TryGetValue<Expression<Func<IReadOnlyList<TValue>>>>( nameof( DatesExpression ), out var datesExpression ) )
-                    await ParentValidation.InitializeInputExpression( datesExpression );
+                var newValue = valueDefined
+                    ? paramValue
+                    : Value;
 
-                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-                {
-                    await ParentValidation.InitializeInputPattern( paramPattern, paramDates );
-                }
-            }
-            else // fallback to default behavior
-            {
-                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var dateExpression ) )
-                    await ParentValidation.InitializeInputExpression( dateExpression );
-
-                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-                {
-                    var newValue = parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate )
-                        ? new TValue[] { paramDate }
-                        : parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
-                            ? new TValue[] { paramValue }
-                            : Value;
-
-                    await ParentValidation.InitializeInputPattern( paramPattern, newValue );
-                }
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
             }
 
             await InitializeValidation();
@@ -156,13 +142,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     protected override async Task OnFirstAfterRenderAsync()
     {
         dotNetObjectRef ??= CreateDotNetObjectRef( new DatePickerAdapter( this ) );
-        object defaultDate = null;
-
-        // for multiple mode default dates must be set as array
-        if ( SelectionMode != DateInputSelectionMode.Single )
-            defaultDate = Dates?.Select( x => FormatValueAsString( new TValue[] { x } ) )?.ToArray();
-        else
-            defaultDate = FormatValueAsString( new TValue[] { Date } );
+        object defaultDate = FormatValueAsString( Value );
 
         await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
         {
@@ -177,7 +157,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             Max = Max?.ToString( DateFormat ),
             Disabled,
             ReadOnly,
-            DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
+            DisabledDates = DisabledDates?.Select( x => FormatValueAsString( x ) ),
             DisabledDays = DisabledDays?.Select( x => (int)x ),
             Localization = GetLocalizationObject(),
             Inline,
@@ -238,75 +218,64 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
 
     /// <inheritdoc/>
-    protected override async Task OnInternalValueChanged( IReadOnlyList<TValue> value )
+    protected override Task OnInternalValueChanged( TValue value )
     {
-        if ( SelectionMode != DateInputSelectionMode.Single )
-            await DatesChanged.InvokeAsync( value );
-        else
-            await DateChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
-
-        await ValueChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
-    protected override string FormatValueAsString( IReadOnlyList<TValue> values )
+    protected override string FormatValueAsString( TValue value )
     {
-        if ( values is null || values.Count == 0 )
+        if ( value is null )
             return null;
 
         if ( SelectionMode != DateInputSelectionMode.Single )
         {
             var results = new List<string>();
 
-            foreach ( var value in values )
+            if ( value is IEnumerable<TValue> values )
             {
-                results.Add( Formaters.FormatDateValueAsString( value, DateFormat ) );
+                foreach ( var val in values )
+                {
+                    results.Add( Formaters.FormatDateValueAsString( val, DateFormat ) );
+                }
+            }
+            else if ( value is IEnumerable objects )
+            {
+                foreach ( var val in objects )
+                {
+                    results.Add( Formaters.FormatDateValueAsString( val, DateFormat ) );
+                }
             }
 
-            return string.Join( SelectionMode == DateInputSelectionMode.Multiple ? ", " : CurrentRangeSeparator, results );
-        }
-        else
-        {
-            if ( values[0] is null )
-                return null;
+            var delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
 
-            return Formaters.FormatDateValueAsString( values[0], DateFormat );
+            return string.Join( delimiter, results );
         }
+
+        return Formaters.FormatDateValueAsString( value, DateFormat );
     }
 
     /// <inheritdoc/>
-    protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
+    protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
         if ( SelectionMode != DateInputSelectionMode.Single )
         {
-            var values = value?.Split( SelectionMode == DateInputSelectionMode.Multiple ? ", " : CurrentRangeSeparator );
+            var delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
 
-            if ( values?.Length > 0 )
-            {
-                var result = new List<TValue>();
+            var readOnlyList = Parsers.ParseCsvDatesToReadOnlyList<TValue>( value, delimiter, InputMode );
 
-                foreach ( var part in values )
-                {
-                    if ( Parsers.TryParseDate<TValue>( part, InputMode, out var resultValue ) )
-                    {
-                        result.Add( resultValue );
-                    }
-                }
-
-                return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, result.ToArray(), null ) );
-            }
-
-            return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( false, new TValue[] { default, default }, null ) );
+            return Task.FromResult( new ParseValue<TValue>( true, readOnlyList, null ) );
         }
         else
         {
             if ( Parsers.TryParseDate<TValue>( value, InputMode, out var result ) )
             {
-                return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, new TValue[] { result }, null ) );
+                return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
             }
             else
             {
-                return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( false, new TValue[] { default }, null ) );
+                return Task.FromResult( new ParseValue<TValue>( false, default, null ) );
             }
         }
     }
@@ -479,17 +448,29 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
 
     /// <inheritdoc/>
-    protected override bool IsSameAsInternalValue( IReadOnlyList<TValue> value ) => value.AreEqual( Value );
+    protected override bool IsSameAsInternalValue( TValue value )
+    {
+        if ( value is IEnumerable<TValue> values1 && Value is IEnumerable<TValue> values2 )
+        {
+            return values1.AreEqual( values2 );
+        }
+        else if ( value is IEnumerable objects1 && Value is IEnumerable objects2 )
+        {
+            return objects1.AreEqual( objects2 );
+        }
+
+        return value.IsEqual( Value );
+    }
 
     /// <inheritdoc/>
     protected override string GetFormatedValueExpression()
     {
-        if ( DateExpression is null )
+        if ( ValueExpression is null )
             return null;
 
         return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( DateExpression )
-            : ExpressionFormatter.FormatLambda( DateExpression );
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
 
     #endregion
@@ -498,23 +479,6 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    public override IReadOnlyList<TValue> Value
-    {
-        get => SelectionMode != DateInputSelectionMode.Single ? Dates : new TValue[] { Date };
-        set
-        {
-            if ( SelectionMode != DateInputSelectionMode.Single )
-            {
-                Dates = value;
-            }
-            else
-            {
-                Date = value is null ? default : value.FirstOrDefault();
-            }
-        }
-    }
 
     /// <summary>
     /// Gets the range separator based on the current locale settings.
@@ -570,42 +534,6 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// Overrides the range separator that is used to separate date values when <see cref="SelectionMode"/> is set to <see cref="DateInputSelectionMode.Range"/>.
     /// </summary>
     [Parameter] public string RangeSeparator { get; set; }
-
-    /// <summary>
-    /// Gets or sets the input date value.
-    /// </summary>
-    [Obsolete( "The 'Date' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public TValue Date { get; set; }
-
-    /// <summary>
-    /// Occurs when the date has changed.
-    /// </summary>
-    [Obsolete( "The 'DateChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<TValue> DateChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the date value.
-    /// </summary>
-    [Obsolete( "The 'DateExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<TValue>> DateExpression { get; set; }
-
-    /// <summary>
-    /// Gets or sets the input date value.
-    /// </summary>
-    [Obsolete( "The 'Date' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public IReadOnlyList<TValue> Dates { get; set; }
-
-    /// <summary>
-    /// Occurs when the date has changed.
-    /// </summary>
-    [Obsolete( "The 'DateChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<IReadOnlyList<TValue>> DatesChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the date value.
-    /// </summary>
-    [Obsolete( "The 'DateExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<IReadOnlyList<TValue>>> DatesExpression { get; set; }
 
     /// <summary>
     /// The earliest date to accept.

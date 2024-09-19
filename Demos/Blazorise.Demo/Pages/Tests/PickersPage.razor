@@ -7,39 +7,39 @@
             </CardHeader>
             <CardBody>
                 <Field Horizontal>
-                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date</FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date Single</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateOnly?" @bind-Date="@d1" Placeholder="Select date..." />
+                        <DatePicker @bind-Value="@d1" Placeholder="Select date..." />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date & Time</FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date & Time Single</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateTime?" @bind-Date="@dt1" Placeholder="Select date and time..." InputMode="DateInputMode.DateTime" />
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date Range</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateOnly?" @bind-Dates="@d2" Placeholder="Select range..." SelectionMode="DateInputSelectionMode.Range" />
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date & Time Range</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateTime?" @bind-Dates="@dt2" Placeholder="Select date and time range..." InputMode="DateInputMode.DateTime" SelectionMode="DateInputSelectionMode.Range" />
+                        <DatePicker @bind-Value="@dt1" Placeholder="Select date and time..." InputMode="DateInputMode.DateTime" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date Range</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateOnly?" @bind-Dates="@d3" Placeholder="Select multiple date..." SelectionMode="DateInputSelectionMode.Multiple" />
+                        <DatePicker @bind-Value="@d2" Placeholder="Select range..." SelectionMode="DateInputSelectionMode.Range" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date & Time Range</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <DatePicker TValue="DateTime?" @bind-Dates="@dt3" Placeholder="Select multiple date and time..." InputMode="DateInputMode.DateTime" SelectionMode="DateInputSelectionMode.Multiple" />
+                        <DatePicker @bind-Value="@dt2" Placeholder="Select date and time range..." InputMode="DateInputMode.DateTime" SelectionMode="DateInputSelectionMode.Range" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date Multi</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                        <DatePicker @bind-Value="@d3" Placeholder="Select multiple date..." SelectionMode="DateInputSelectionMode.Multiple" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date & Time Multi</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                        <DatePicker @bind-Value="@dt3" Placeholder="Select multiple date and time..." InputMode="DateInputMode.DateTime" SelectionMode="DateInputSelectionMode.Multiple" />
                     </FieldBody>
                 </Field>
             </CardBody>
