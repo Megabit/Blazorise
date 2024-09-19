@@ -80,16 +80,5 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
         return JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-            : ExpressionFormatter.FormatLambda( ValueExpression );
-    }
-
     #endregion
 }

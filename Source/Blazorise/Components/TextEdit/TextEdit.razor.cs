@@ -91,17 +91,6 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
         return Task.FromResult( new ParseValue<string>( true, value, null ) );
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-            : ExpressionFormatter.FormatLambda( ValueExpression );
-    }
-
     #endregion
 
     #region Properties

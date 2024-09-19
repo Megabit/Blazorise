@@ -108,17 +108,6 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
         };
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-            : ExpressionFormatter.FormatLambda( ValueExpression );
-    }
-
     #endregion
 
     #region Properties

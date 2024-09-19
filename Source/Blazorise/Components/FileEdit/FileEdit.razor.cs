@@ -262,12 +262,6 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        return null;
-    }
-
     #endregion
 
     #region Properties

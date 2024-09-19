@@ -363,7 +363,15 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Gets the formatted value expression for the input component.
     /// </summary>
     /// <returns>Returns the formatted value expression for the input component</returns>
-    protected abstract string GetFormatedValueExpression();
+    protected virtual string GetFormatedValueExpression()
+    {
+        if ( ValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
+    }
 
     #endregion
 

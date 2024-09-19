@@ -200,19 +200,6 @@ public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
         return value.IsEqual( Value );
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is not null )
-        {
-            return HtmlFieldPrefix is not null
-                ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-                : ExpressionFormatter.FormatLambda( ValueExpression );
-        }
-
-        return null;
-    }
-
     #endregion
 
     #region Properties
