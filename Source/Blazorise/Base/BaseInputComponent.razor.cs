@@ -126,6 +126,16 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        await OnBeforeSetParametersAsync( parameters );
+
+        await base.SetParametersAsync( parameters );
+
+        await OnAfterSetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         if ( Theme is not null )
