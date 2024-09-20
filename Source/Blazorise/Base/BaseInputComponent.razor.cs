@@ -72,10 +72,8 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     /// <param name="parameters">The parameters that will be passed to the component.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
+    protected virtual Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
-        await base.OnBeforeSetParametersAsync( parameters );
-
         InitializeParameters();
 
         if ( Rendered )
@@ -85,6 +83,8 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
                 ExecuteAfterRender( Revalidate );
             }
         }
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -92,7 +92,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     /// <param name="parameters">The parameters that have been set on the component.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
+    protected virtual async Task OnAfterSetParametersAsync( ParameterView parameters )
     {
         if ( ParentValidation is not null )
         {
@@ -123,8 +123,6 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
                 ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
             }
         }
-
-        await base.OnAfterSetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
