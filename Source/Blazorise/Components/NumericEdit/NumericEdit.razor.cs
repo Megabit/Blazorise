@@ -57,14 +57,14 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     #region Methods
 
     /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        await base.OnBeforeSetParametersAsync( parameters );
+
         // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
         // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
         minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
         maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
-
-        return base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
