@@ -28,36 +28,36 @@ internal class Program
         var outputFile = @"<path to FontAwesome metadata folder>\icons_export.txt";
 
         var values = JsonSerializer.Deserialize<Dictionary<string, FontAwesomeIcon>>(
-            File.ReadAllText(sourceFile),
-            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            File.ReadAllText( sourceFile ),
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true } );
 
-        var resultsWithNames = (from v in values
-                                select new
-                                {
-                                    DisplayName = GetDisplayName(v.Key),
-                                    Key = $"fa-{v.Key}",
-                                }).ToList();
+        var resultsWithNames = ( from v in values
+                                 select new
+                                 {
+                                     DisplayName = GetDisplayName( v.Key ),
+                                     Key = $"fa-{v.Key}",
+                                 } ).ToList();
 
-        var resultsWithAliases = (from v in values
-                                  where v.Value?.Aliases?.Names?.Count > 0
-                                  from a in v.Value.Aliases.Names
-                                  select new
-                                  {
-                                      DisplayName = GetDisplayName(a),
-                                      Key = $"fa-{v.Key}",
-                                  }).ToList();
+        var resultsWithAliases = ( from v in values
+                                   where v.Value?.Aliases?.Names?.Count > 0
+                                   from a in v.Value.Aliases.Names
+                                   select new
+                                   {
+                                       DisplayName = GetDisplayName( a ),
+                                       Key = $"fa-{v.Key}",
+                                   } ).ToList();
 
-        var result = resultsWithNames.Concat(resultsWithAliases).OrderBy(x => x.DisplayName).ToList();
+        var result = resultsWithNames.Concat( resultsWithAliases ).OrderBy( x => x.DisplayName ).ToList();
 
-        File.WriteAllLines(outputFile,
-            result.Select(x => $"public const string {x.DisplayName} = \"{x.Key}\";"));
+        File.WriteAllLines( outputFile,
+            result.Select( x => $"public const string {x.DisplayName} = \"{x.Key}\";" ) );
     }
 
-    static string GetDisplayName(string value)
+    static string GetDisplayName( string value )
     {
-        var pascalCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value).Replace("-", "");
+        var pascalCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase( value ).Replace( "-", "" );
 
-        if (char.IsDigit(pascalCase.First()))
+        if ( char.IsDigit( pascalCase.First() ) )
         {
             return $"_{pascalCase}";
         }
