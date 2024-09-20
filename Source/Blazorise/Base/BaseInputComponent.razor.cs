@@ -58,16 +58,49 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     protected string formattedValueExpression;
 
+    /// <summary>
+    /// Holds the value of the input field.
+    /// </summary>
+    protected ComponentParameterInfo<TValue> paramValue;
+
     #endregion
 
     #region Methods
 
-    /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    /// <summary>
+    /// Method called before setting the parameters.
+    /// </summary>
+    /// <param name="parameters">The parameters that will be passed to the component.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        await base.OnBeforeSetParametersAsync( parameters );
+
         InitializeParameters();
 
-        await base.SetParametersAsync( parameters );
+        if ( Rendered )
+        {
+            if ( parameters.TryGetParameter( nameof( Value ), Value, out paramValue ) && paramValue.Changed )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Method called after the parameters are set.
+    /// </summary>
+    /// <param name="parameters">The parameters that have been set on the component.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        if ( ParentValidation is not null )
+        {
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+
+            await InitializeValidation();
+        }
 
         // For modals we need to make sure that autofocus is applied every time the modal is opened.
         if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var paramAutofocus ) && autofocus != paramAutofocus )
@@ -90,6 +123,8 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
                 ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
             }
         }
+
+        await base.OnAfterSetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>

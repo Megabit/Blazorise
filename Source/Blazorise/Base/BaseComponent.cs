@@ -88,8 +88,22 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     #region Methods
 
+    /// <summary>
+    /// Method called before setting the parameters.
+    /// </summary>
+    /// <param name="parameters">The parameters that will be passed to the component.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task OnBeforeSetParametersAsync( ParameterView parameters ) => Task.CompletedTask;
+
+    /// <summary>
+    /// Method called after the parameters are set.
+    /// </summary>
+    /// <param name="parameters">The parameters that have been set on the component.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task OnAfterSetParametersAsync( ParameterView parameters ) => Task.CompletedTask;
+
     /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
         object heightAttribute = null;
 
@@ -117,10 +131,22 @@ public abstract class BaseComponent : BaseAfterRenderComponent
                 Attributes.Add( "height", heightAttribute );
             }
 
-            return base.SetParametersAsync( ParameterView.FromDictionary( parametersDictionary ) );
+            var newParameters = ParameterView.FromDictionary( parametersDictionary );
+
+            await OnBeforeSetParametersAsync( newParameters );
+
+            await base.SetParametersAsync( newParameters );
+
+            await OnAfterSetParametersAsync( newParameters );
+
+            return;
         }
 
-        return base.SetParametersAsync( parameters );
+        await OnBeforeSetParametersAsync( parameters );
+
+        await base.SetParametersAsync( parameters );
+
+        await OnAfterSetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
