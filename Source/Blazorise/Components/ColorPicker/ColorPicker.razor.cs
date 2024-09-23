@@ -29,18 +29,19 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
-        var valueChanged = parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
+        await base.OnBeforeSetParametersAsync( parameters );
+
         var paletteChanged = parameters.TryGetValue( nameof( Palette ), out string[] paramPalette ) && !Palette.AreEqual( paramPalette );
         var showPaletteChanged = parameters.TryGetValue( nameof( ShowPalette ), out bool paramShowPalette ) && ShowPalette != paramShowPalette;
         var hideAfterPaletteSelectChanged = parameters.TryGetValue( nameof( HideAfterPaletteSelect ), out bool paramHideAfterPaletteSelect ) && HideAfterPaletteSelect != paramHideAfterPaletteSelect;
         var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
         var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
 
-        if ( valueChanged )
+        if ( paramValue.Changed )
         {
-            await CurrentValueHandler( paramValue );
+            await CurrentValueHandler( paramValue.Value );
 
             if ( Rendered )
             {
@@ -62,16 +63,6 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
                 Disabled = new { Changed = disabledChanged, Value = paramDisabled },
                 ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
             } ) );
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            await InitializeValidation();
         }
     }
 

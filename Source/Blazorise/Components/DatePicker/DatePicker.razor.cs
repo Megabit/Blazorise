@@ -37,13 +37,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
-        var valueDefined = parameters.TryGetValue( nameof( Value ), out TValue paramValue );
+        await base.OnBeforeSetParametersAsync( parameters );
 
         if ( Rendered )
         {
-            var valueChanged = !IsSameAsInternalValue( paramValue );
             var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
             var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
@@ -60,9 +59,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
             var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
-            if ( valueChanged )
+            if ( paramValue.Changed )
             {
-                var formatedDateString = FormatValueAsString( paramValue );
+                var formatedDateString = FormatValueAsString( paramValue.Value );
 
                 await CurrentValueHandler( formatedDateString );
 
@@ -107,26 +106,6 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                     StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
                 } ) );
             }
-        }
-
-        // Let blazor do its thing!
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-            {
-                var newValue = valueDefined
-                    ? paramValue
-                    : Value;
-
-                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
-            }
-
-            await InitializeValidation();
         }
     }
 

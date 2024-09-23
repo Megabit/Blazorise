@@ -77,8 +77,10 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        await base.OnBeforeSetParametersAsync( parameters );
+
         if ( Rendered )
         {
             var decimalsChanged = isIntegerType ? false : parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
@@ -136,10 +138,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
             }
         }
 
-        var valueDefined = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue );
-        var valueChanged = valueDefined && !Value.IsEqual( paramValue );
-
-        if ( valueChanged )
+        if ( paramValue.Changed )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
         }
@@ -147,27 +146,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
         // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
         MinDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
-        MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-            {
-                // make sure we get the newest value
-                var newValue = valueDefined
-                    ? paramValue
-                    : Value;
-
-                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
-            }
-
-            await InitializeValidation();
-        }
+        MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );       
     }
 
     /// <inheritdoc/>

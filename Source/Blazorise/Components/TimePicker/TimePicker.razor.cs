@@ -23,9 +23,10 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
-        var valueChanged = parameters.TryGetValue( nameof( Value ), out TValue value ) && !Value.IsEqual( value );
+        await base.OnBeforeSetParametersAsync( parameters );
+
         var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
         var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
         var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
@@ -36,9 +37,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
         var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
-        if ( valueChanged )
+        if ( paramValue.Changed )
         {
-            var timeString = FormatValueAsString( value );
+            var timeString = FormatValueAsString( paramValue.Value );
 
             await CurrentValueHandler( timeString );
 
@@ -70,27 +71,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
                 StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
             } ) );
-        }
-
-        // Let blazor do its thing!
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-            {
-                // make sure we get the newest value
-                var newValue = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue )
-                    ? paramValue
-                    : Value;
-
-                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
-            }
-
-            await InitializeValidation();
         }
     }
 

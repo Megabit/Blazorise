@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -16,38 +15,6 @@ namespace Blazorise;
 public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
 {
     #region Methods
-
-    /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-            {
-                // make sure we get the newest value
-                var newValue = parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
-                    ? paramValue
-                    : Value;
-
-                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
-            }
-
-            await InitializeValidation();
-        }
-    }
 
     /// <inheritdoc/>
     protected async override Task OnFirstAfterRenderAsync()

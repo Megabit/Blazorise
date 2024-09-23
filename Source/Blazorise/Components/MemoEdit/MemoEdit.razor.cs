@@ -25,8 +25,10 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        await base.OnBeforeSetParametersAsync( parameters );
+
         var replaceTabChanged = parameters.TryGetValue( nameof( ReplaceTab ), out bool paramReplaceTab ) && ReplaceTab != paramReplaceTab;
         var tabSizeChanged = parameters.TryGetValue( nameof( TabSize ), out int paramTabSize ) && TabSize != paramTabSize;
         var softTabsChanged = parameters.TryGetValue( nameof( SoftTabs ), out bool paramSoftTabs ) && SoftTabs != paramSoftTabs;
@@ -60,26 +62,6 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
                     }
                 } );
             }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-            {
-                // make sure we get the newest value
-                var newValue = parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
-                    ? paramValue
-                    : Value;
-
-                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
-            }
-
-            await InitializeValidation();
         }
     }
 
