@@ -5,7 +5,7 @@
 {
     <label for="@ElementId" class="@ButtonLabelClassNames">
         @ChildContent
-        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@ButtonInputStyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@ButtonInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@Checked" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
     </label>
     @Feedback
 }
@@ -56,7 +56,7 @@ else
 
     protected RenderFragment RadioFragment => __builder =>
     {
-        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@Checked" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
         <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
         @Feedback
     };

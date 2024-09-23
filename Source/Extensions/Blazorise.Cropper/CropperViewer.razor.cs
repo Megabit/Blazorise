@@ -35,7 +35,7 @@ namespace Blazorise.Cropper
         /// <inheritdoc/>
         protected override Task OnParametersSetAsync()
         {
-            cropperInitialized.SubscribeOrMove( CropperState?.CropperInitialized );
+            cropperInitialized.SubscribeOrReplace( CropperState?.CropperInitialized );
 
             return base.OnParametersSetAsync();
         }

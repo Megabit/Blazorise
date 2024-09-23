@@ -350,9 +350,9 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.Wifi, FontAwesomeIcons.Wifi },
         { IconName.WineBottle, FontAwesomeIcons.WineBottle },
         { IconName.Wrench, FontAwesomeIcons.Wrench },
-        { IconName.Zoom, FontAwesomeIcons.Search },
-        { IconName.ZoomIn, FontAwesomeIcons.SearchMinus },
-        { IconName.ZoomOut, FontAwesomeIcons.SearchPlus },
+        { IconName.Zoom, FontAwesomeIcons.MagnifyingGlass },
+        { IconName.ZoomIn, FontAwesomeIcons.MagnifyingGlassPlus },
+        { IconName.ZoomOut, FontAwesomeIcons.MagnifyingGlassMinus },
     };
 
     private static Dictionary<IconStyle, string> styles = new()
