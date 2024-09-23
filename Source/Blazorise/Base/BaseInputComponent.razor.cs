@@ -78,7 +78,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
 
         if ( Rendered )
         {
-            if ( parameters.TryGetParameter( nameof( Value ), Value, out paramValue ) && paramValue.Changed )
+            if ( parameters.TryGetParameter( nameof( Value ), Value, IsSameAsInternalValue, out paramValue ) && paramValue.Changed )
             {
                 ExecuteAfterRender( Revalidate );
             }

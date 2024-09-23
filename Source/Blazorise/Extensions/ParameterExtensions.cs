@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Extensions;
 
@@ -8,6 +11,8 @@ namespace Blazorise.Extensions;
 /// </summary>
 public static class ParameterViewExtensions
 {
+    #region Methods
+
     /// <summary>
     /// Gets the value of the parameter with the specified name.
     /// </summary>
@@ -31,4 +36,29 @@ public static class ParameterViewExtensions
 
         return result.Defined;
     }
+
+    /// <summary>
+    /// Gets the value of the parameter with the specified name.
+    /// </summary>
+    /// <typeparam name="T">The type of the value.</typeparam>
+    /// <param name="parameters">Dictionary of all component paremeters.</param>
+    /// <param name="parameterName">The name of the parameter.</param>
+    /// <param name="comparer">The custom comparer function.</param>
+    /// <param name="currentValue">Last known parameter value.</param>
+    /// <param name="result">Receives the result, if any.</param>
+    public static bool TryGetParameter<T>( this ParameterView parameters, string parameterName, T currentValue, Func<T, bool> comparer, out ComponentParameterInfo<T> result )
+    {
+        if ( parameters.TryGetValue<T>( parameterName, out var paramNewValue ) )
+        {
+            var changed = comparer( paramNewValue );
+
+            result = new ComponentParameterInfo<T>( paramNewValue, true, changed );
+        }
+        else
+            result = new ComponentParameterInfo<T>( default );
+
+        return result.Defined;
+    }
+
+    #endregion
 }
