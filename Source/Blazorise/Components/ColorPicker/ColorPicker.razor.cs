@@ -1,7 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -9,7 +7,6 @@ using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -32,22 +29,23 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
-        var colorChanged = parameters.TryGetValue<string>( nameof( Color ), out var color ) && !Color.IsEqual( color );
-        var paletteChanged = parameters.TryGetValue( nameof( Palette ), out string[] palette ) && !Palette.AreEqual( palette );
-        var showPaletteChanged = parameters.TryGetValue( nameof( ShowPalette ), out bool showPalette ) && ShowPalette != showPalette;
-        var hideAfterPaletteSelectChanged = parameters.TryGetValue( nameof( HideAfterPaletteSelect ), out bool hideAfterPaletteSelect ) && HideAfterPaletteSelect != hideAfterPaletteSelect;
-        var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
-        var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
+        await base.OnBeforeSetParametersAsync( parameters );
 
-        if ( colorChanged )
+        var paletteChanged = parameters.TryGetValue( nameof( Palette ), out string[] paramPalette ) && !Palette.AreEqual( paramPalette );
+        var showPaletteChanged = parameters.TryGetValue( nameof( ShowPalette ), out bool paramShowPalette ) && ShowPalette != paramShowPalette;
+        var hideAfterPaletteSelectChanged = parameters.TryGetValue( nameof( HideAfterPaletteSelect ), out bool paramHideAfterPaletteSelect ) && HideAfterPaletteSelect != paramHideAfterPaletteSelect;
+        var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
+        var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
+
+        if ( paramValue.Changed )
         {
-            await CurrentValueHandler( color );
+            await CurrentValueHandler( paramValue.Value );
 
             if ( Rendered )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, color ) );
+                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
             }
         }
 
@@ -59,22 +57,12 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
             {
-                Palette = new { Changed = paletteChanged, Value = palette },
-                ShowPalette = new { Changed = showPaletteChanged, Value = showPalette },
-                HideAfterPaletteSelect = new { Changed = hideAfterPaletteSelectChanged, Value = hideAfterPaletteSelect },
-                Disabled = new { Changed = disabledChanged, Value = disabled },
-                ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
+                Palette = new { Changed = paletteChanged, Value = paramPalette },
+                ShowPalette = new { Changed = showPaletteChanged, Value = paramShowPalette },
+                HideAfterPaletteSelect = new { Changed = hideAfterPaletteSelectChanged, Value = paramHideAfterPaletteSelect },
+                Disabled = new { Changed = disabledChanged, Value = paramDisabled },
+                ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
             } ) );
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            await InitializeValidation();
         }
     }
 
@@ -109,7 +97,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
 
         await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
         {
-            Default = Color,
+            Default = Value,
             Palette,
             ShowPalette,
             HideAfterPaletteSelect,
@@ -163,12 +151,6 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( string value )
-    {
-        return ColorChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override string FormatValueAsString( string value )
     {
         return value;
@@ -194,21 +176,10 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     [JSInvokable]
     public Task SetValue( string value )
     {
-        if ( Color.IsEqual( value ) )
+        if ( Value.IsEqual( value ) )
             return Task.CompletedTask;
 
         return CurrentValueHandler( value );
-    }
-
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ColorExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ColorExpression )
-            : ExpressionFormatter.FormatLambda( ColorExpression );
     }
 
     #endregion
@@ -225,9 +196,6 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// </summary>
     protected virtual string ColorValueElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value";
 
-    /// <inheritdoc/>
-    protected override string InternalValue { get => Color; set => Color = value; }
-
     /// <summary>
     /// Gets or sets the <see cref="IJSColorPickerModule"/> instance.
     /// </summary>
@@ -242,21 +210,6 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// Gets or sets the DI registered <see cref="ITextLocalizer{ColorPicker}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<ColorPicker> Localizer { get; set; }
-
-    /// <summary>
-    /// Gets or sets the input color value.
-    /// </summary>
-    [Parameter] public string Color { get; set; } = "#000000";
-
-    /// <summary>
-    /// Occurs when the color has changed.
-    /// </summary>
-    [Parameter] public EventCallback<string> ColorChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the color value.
-    /// </summary>
-    [Parameter] public Expression<Func<string>> ColorExpression { get; set; }
 
     /// <summary>
     /// List a colors below the colorpicker to make it convenient for users to choose from

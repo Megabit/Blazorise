@@ -19,38 +19,6 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime ) && !paramTime.IsEqual( Time ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
-            {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Time ), out var inTime )
-                    ? inTime
-                    : InternalValue;
-
-                await ParentValidation.InitializeInputPattern( pattern, value );
-            }
-
-            await InitializeValidation();
-        }
-    }
-
-    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TimeEdit( Plaintext ) );
@@ -65,12 +33,6 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     protected override Task OnChangeHandler( ChangeEventArgs e )
     {
         return CurrentValueHandler( e?.Value?.ToString() );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return TimeChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -122,41 +84,12 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( TimeExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( TimeExpression )
-            : ExpressionFormatter.FormatLambda( TimeExpression );
-    }
-
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Time; set => Time = value; }
-
-    /// <summary>
-    /// Gets or sets the input time value.
-    /// </summary>
-    [Parameter] public TValue Time { get; set; }
-
-    /// <summary>
-    /// Occurs when the time has changed.
-    /// </summary>
-    [Parameter] public EventCallback<TValue> TimeChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the time field.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> TimeExpression { get; set; }
 
     /// <summary>
     /// The earliest time to accept.

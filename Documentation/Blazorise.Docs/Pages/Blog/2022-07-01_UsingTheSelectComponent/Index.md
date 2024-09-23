@@ -65,7 +65,7 @@ Here's an example of how to properly handle an enumeration type, by configuring 
 <Row>
     <Column>
         <Field>
-            <Select TValue="Day" @bind-SelectedValue="@selectedDay">
+            <Select TValue="Day" @bind-Value="@selectedDay">
                 @foreach ( var enumValue in Enum.GetValues<Day>() )
                 {
                     <SelectItem @key="enumValue" Value="@enumValue">@enumValue</SelectItem>
@@ -115,7 +115,7 @@ Let's look at how a dropdown list with four employees would look, now with actua
 <Row>
     <Column>
         <Field>
-            <Select TValue="int" SelectedValueChanged="@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))">
+            <Select TValue="int" ValueChanged="@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))">
                 @foreach ( var employee in employeeData )
                 {
                     <SelectItem @key="employee.Id" Value="@employee.Id">@employee.Name</SelectItem>
@@ -169,7 +169,7 @@ So the option should be left empty, let's see this in action with a nullable typ
 <Row>
     <Column>
         <Field>
-            <Select TValue="int?" @bind-SelectedValue="@selectedEmployeeId">
+            <Select TValue="int?" @bind-Value="@selectedEmployeeId">
                 <SelectItem Value="(int?)null"></SelectItem>
                 <SelectItem Value="11500">John</SelectItem>
                 <SelectItem Value="11566">Julia</SelectItem>

@@ -10,7 +10,7 @@
     else
     {
         <Label @onclick="@OnCheckedClicked">
-            <Check TValue="bool" Checked="@Checked" CheckedChanged="@OnCheckedChanged" CheckedExpression="@(()=> Checked)"></Check>
+            <Check TValue="bool" Value="@Checked" ValueChanged="@OnCheckedChanged" ValueExpression="@(()=> Checked)"></Check>
         </Label>
     }
 </TableRowCell>

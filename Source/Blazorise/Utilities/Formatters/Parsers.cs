@@ -1,6 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 #endregion
 
 namespace Blazorise.Utilities;
@@ -231,5 +234,123 @@ public static class Parsers
         result = default;
 
         return false;
+    }
+
+    /// <summary>
+    /// Tries to parse a string value into a date or date-related type based on the specified conversion type and input mode.
+    /// </summary>
+    /// <param name="value">The string value to parse.</param>
+    /// <param name="conversionType">The type to which the string should be converted.</param>
+    /// <param name="inputMode">The date input mode that determines the supported date formats.</param>
+    /// <param name="result">The parsed result, or the default value if parsing fails.</param>
+    /// <returns>True if parsing is successful; otherwise, false.</returns>
+    public static bool TryParseDate( string value, Type conversionType, DateInputMode inputMode, out object result )
+    {
+        if ( string.IsNullOrWhiteSpace( value ) )
+        {
+            result = default;
+            return false;
+        }
+
+        var supportedParseFormats = GetSupportedParseDateFormats( inputMode );
+
+        var type = Nullable.GetUnderlyingType( conversionType ) ?? conversionType;
+
+        if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, supportedParseFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDt ) )
+        {
+            result = parsedDt;
+            return true;
+        }
+
+        if ( type == typeof( DateTime ) && DateTimeOffset.TryParse( value, out var parsedDto ) )
+        {
+            result = parsedDto.DateTime;
+            return true;
+        }
+
+        if ( type == typeof( DateOnly ) && DateOnly.TryParse( value, out var parsedDto3 ) )
+        {
+            result = parsedDto3;
+            return true;
+        }
+
+        if ( type == typeof( DateTimeOffset ) && DateTimeOffset.TryParse( value, out var parsedDto2 ) )
+        {
+            result = parsedDto2;
+            return true;
+        }
+
+        result = default;
+
+        return false;
+    }
+
+    /// <summary>
+    /// Parses a comma-separated string of dates into a readonly list or array of the specified type.
+    /// </summary>
+    /// <typeparam name="TValue">The target type, either an array or IReadOnlyList.</typeparam>
+    /// <param name="csv">A string containing the date values separated by the specified delimiter.</param>
+    /// <param name="delimiter">The delimiter used to separate the values in the string.</param>
+    /// <param name="inputMode">The date input mode to determine supported date formats.</param>
+    /// <returns>A readonly list or array containing the parsed date values.</returns>
+    /// <exception cref="ArgumentException">Thrown if the target type is not an array or IReadOnlyList.</exception>
+    public static TValue ParseCsvDatesToReadOnlyList<TValue>( string csv, string delimiter, DateInputMode inputMode )
+    {
+        var targetType = typeof( TValue );
+
+        Type elementType;
+        bool isArray = false;
+
+        if ( targetType.IsArray )
+        {
+            isArray = true;
+            elementType = targetType.GetElementType();
+        }
+        else if ( targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof( IReadOnlyList<> ) )
+        {
+            elementType = targetType.GetGenericArguments().Single();
+        }
+        else
+        {
+            throw new ArgumentException( "The target type must be either an array or a generic IReadOnlyList.", nameof( targetType ) );
+        }
+
+        var multipleValues = csv
+            .Split( delimiter, StringSplitOptions.None )
+            .Select( val =>
+            {
+                if ( TryParseDate( val, elementType, inputMode, out var newValue ) )
+                    return newValue;
+
+                return Activator.CreateInstance( elementType );
+            } ).ToList();
+
+        if ( isArray )
+        {
+            var array = Array.CreateInstance( elementType, multipleValues.Count );
+            for ( int i = 0; i < multipleValues.Count; i++ )
+            {
+                array.SetValue( multipleValues[i], i );
+            }
+
+            return (TValue)(object)array;
+        }
+        else
+        {
+            var castedValues = typeof( Enumerable )
+                .GetMethod( "Cast" )
+                .MakeGenericMethod( elementType )
+                .Invoke( null, new object[] { multipleValues } );
+
+            var typedList = typeof( Enumerable )
+                .GetMethod( "ToList" )
+                .MakeGenericMethod( elementType )
+                .Invoke( null, new object[] { castedValues } );
+
+            var readOnlyListType = typeof( ReadOnlyCollection<> ).MakeGenericType( elementType );
+            var readOnlyList = Activator.CreateInstance( readOnlyListType, typedList );
+
+            return (TValue)readOnlyList;
+        }
     }
 }

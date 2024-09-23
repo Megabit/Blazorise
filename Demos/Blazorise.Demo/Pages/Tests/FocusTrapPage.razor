@@ -11,7 +11,7 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Switch TValue="bool" Checked="@focusTrapActive" CheckedChanged="@OnFocusTrapActiveChanged">Active</Switch>
+                <Switch TValue="bool" Value="@focusTrapActive" ValueChanged="@OnFocusTrapActiveChanged">Active</Switch>
             </CardBody>
             <CardBody>
                 <FocusTrap @ref="focusTrapRef" Active="@focusTrapActive">

@@ -11,7 +11,7 @@
             <SelectList Data="@dataGridRef?.DisplayGroupedData"
                         TItem="GroupContext<Employee>" TValue="string"
                         TextField="x=> x.Key" ValueField="x=> x.Key"
-            @bind-SelectedValue="selectedGroupKey"></SelectList>
+                        @bind-SelectedValue="selectedGroupKey"></SelectList>
         </FieldLabel>
         <FieldBody>
             <Button Color="Color.Primary" Clicked="@(() => dataGridRef.ExpandGroups(selectedGroupKey))">Expand Selected Group</Button>

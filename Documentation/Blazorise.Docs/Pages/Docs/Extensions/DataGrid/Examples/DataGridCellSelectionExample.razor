@@ -29,18 +29,18 @@
                     <Field>
                         <FieldLabel>Row Index</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedCell?.RowIndex.ToString()"></TextEdit>
+                            <TextEdit ReadOnly Value="@selectedCell?.RowIndex.ToString()"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Field</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedCell?.ColumnInfo?.Field"></TextEdit>
+                            <TextEdit ReadOnly Value="@selectedCell?.ColumnInfo?.Field"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Value</FieldLabel>
-                        <TextEdit ReadOnly Text="@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)"></TextEdit>
+                        <TextEdit ReadOnly Value="@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)"></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>

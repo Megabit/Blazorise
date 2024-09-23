@@ -11,7 +11,7 @@
             {
                 <Column ColumnSize="ColumnSize.Is12">
                     <Field>
-                        <Select TValue="DataGridColumnFilterMethod" SelectedValue="@(Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn())" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
+                        <Select TValue="DataGridColumnFilterMethod" Value="@(Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn())" ValueChanged="e => { Column.SetFilterMethod(e); }">
                             @if ( Column.ColumnType == DataGridColumnType.Numeric || Column.ColumnType == DataGridColumnType.Date )
                             {
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>

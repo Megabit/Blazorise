@@ -6,8 +6,8 @@
     Initially blank:
     <Select TValue="string"
                 Class="my-5"
-                SelectedValue="@(model.GetValue())"
-                SelectedValueChanged="@((e) => model.SetValue(e))">
+                Value="@(model.GetValue())"
+                ValueChanged="@((e) => model.SetValue(e))">
         <SelectItem TValue="string" Value="@("one")">One</SelectItem>
         <SelectItem TValue="string" Value="@("two")">Two</SelectItem>
         <SelectItem TValue="string" Value="@("three")">Three</SelectItem>

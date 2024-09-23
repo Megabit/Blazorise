@@ -4,7 +4,7 @@
 <Row>
     <Column>
         <Field>
-            <Select TValue="Day" @bind-SelectedValue="@selectedDay">
+            <Select TValue="Day" @bind-Value="@selectedDay">
                 @foreach ( var enumValue in Enum.GetValues<Day>() )
                 {
                     <SelectItem @key="enumValue" Value="@enumValue">@enumValue</SelectItem>

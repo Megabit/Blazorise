@@ -11,13 +11,13 @@
                     <Field>
                         <FieldLabel>Background Color</FieldLabel>
                         <FieldBody>
-                            <ColorPicker @bind-Color="@backgroundColor" />
+                            <ColorPicker @bind-Value="@backgroundColor" />
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Pen Color</FieldLabel>
                         <FieldBody>
-                            <ColorPicker @bind-Color="@penColor" />
+                            <ColorPicker @bind-Value="@penColor" />
                         </FieldBody>
                     </Field>
                     <Field>
@@ -59,7 +59,7 @@
                     <Field>
                         <FieldLabel>Read only</FieldLabel>
                         <FieldBody>
-                            <Check @bind-Checked="@readOnly" />
+                            <Check @bind-Value="@readOnly" />
                         </FieldBody>
                     </Field>
                 </Fields>

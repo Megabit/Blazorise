@@ -36,7 +36,7 @@ internal class MockDatePicker<T> : DatePicker<T>
         base.IdGenerator = mockIdGenerator.Object;
 
         base.ParentValidation = validation;
-        base.DateExpression = dateExpression;
+        base.ValueExpression = dateExpression;
 
         this.OnInitialized();
     }
@@ -48,7 +48,7 @@ internal class MockDatePicker<T> : DatePicker<T>
 
     public string ClickedId { get; private set; }
 
-    public async Task<ParseValue<IReadOnlyList<T>>> ParseValueAsync( string value )
+    public async Task<ParseValue<T>> ParseValueAsync( string value )
     {
         return await base.ParseValueFromStringAsync( value );
     }

@@ -19,7 +19,7 @@
                         <FieldBody>
                             <Addons>
                                 <Addon AddonType="AddonType.Body">
-                                    <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Text="@email">
+                                    <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
                                     </TextEdit>
                                 </Addon>
                                 <Addon AddonType="AddonType.End">
@@ -58,7 +58,7 @@ else
                         <Validation Validator="ValidationRule.IsEmail">
                             <Field>
                                 <FieldBody>
-                                    <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Text="@email">
+                                    <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
                                         <Feedback>
                                             <ValidationError Style="font-size: .8rem;">Please complete this required field.</ValidationError>
                                         </Feedback>

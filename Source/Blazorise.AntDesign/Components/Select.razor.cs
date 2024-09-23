@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -13,12 +14,17 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.AntDesign.Components;
 
-public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator, IAsyncDisposable
+public interface IAntSelect
+{
+    Task NotifySelectValueChanged( object selectValue );
+}
+
+public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator, IAsyncDisposable, IAntSelect
 {
     #region Members
 
     private string selectorElementId;
-    
+
     private string inputElementId;
 
     /// <summary>
@@ -31,12 +37,6 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     /// when the user leaves the component bounds.
     /// </summary>
     private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
-
-
-    /// <summary>
-    /// Internal string separator for selected values when Multiple mode is used.
-    /// </summary>
-    private const string MultipleValuesSeparator = ";"; // Let's hope ";" will be enough to distinguish the values!
 
     #endregion
 
@@ -112,35 +112,24 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
 
     private void ClearSelectedItems()
     {
-        SelectedValue = default;
-        SelectedValues = default;
+        Value = default;
     }
 
-    protected Task OnMultipleValueClickHandler( TValue selectValue )
+    public async Task NotifySelectValueChanged( object selectValue )
     {
-        var list = new List<TValue>( SelectedValues ?? Enumerable.Empty<TValue>() );
-
-        if ( list.Contains( selectValue ) )
-            list.Remove( selectValue );
-
-        return CurrentValueHandler( string.Join( MultipleValuesSeparator, list ) );
-    }
-
-    internal async Task NotifySelectValueChanged( TValue selectValue )
-    {
-        // We cuold just set SelectedValue(s) directly but that would skip validation process
+        // We could just set SelectedValue(s) directly but that would skip validation process
         // and we would also need to handle event handlers.
         // Thats why we need to call CurrentValueHandler that will trigger all that is required.
-        if ( Multiple )
+        if ( Multiple && Value is IEnumerable<TValue> values )
         {
-            var list = new List<TValue>( SelectedValues ?? Enumerable.Empty<TValue>() );
+            var list = new List<object>( values?.Select( x => (object)x ) ?? Enumerable.Empty<object>() );
 
-            if ( list.Contains( selectValue ) )
+            if ( list.Any( x => x.IsEqual( selectValue ) ) )
                 list.Remove( selectValue );
             else
                 list.Add( selectValue );
 
-            await CurrentValueHandler( string.Join( MultipleValuesSeparator, list ) );
+            await CurrentValueHandler( string.Join( MULTIPLE_DELIMITER, list ) );
         }
         else
         {
@@ -152,36 +141,36 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
         await InvokeAsync( StateHasChanged );
     }
 
-    protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
-    {
-        if ( string.IsNullOrEmpty( value ) )
-            return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
+    //protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
+    //{
+    //    if ( string.IsNullOrEmpty( value ) )
+    //        return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
 
-        if ( Multiple )
-        {
-            // AntDesign does not use regular select element so there is no reason to call javascript like for
-            // other css frameworks. That's why we only need to parse the string that we have used previously.
-            return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, ParseMultipleValues( value ).ToList(), null ) );
-        }
-        else
-        {
-            if ( Converters.TryChangeType<TValue>( value, out var result ) )
-            {
-                return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, new TValue[] { result }, null ) );
-            }
-            else
-            {
-                return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
-            }
-        }
-    }
+    //    if ( Multiple )
+    //    {
+    //        // AntDesign does not use regular select element so there is no reason to call javascript like for
+    //        // other css frameworks. That's why we only need to parse the string that we have used previously.
+    //        return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, ParseMultipleValues( value ).ToList(), null ) );
+    //    }
+    //    else
+    //    {
+    //        if ( Converters.TryChangeType<TValue>( value, out var result ) )
+    //        {
+    //            return Task.FromResult( new ParseValue<IReadOnlyList<TValue>>( true, new TValue[] { result }, null ) );
+    //        }
+    //        else
+    //        {
+    //            return Task.FromResult( ParseValue<IReadOnlyList<TValue>>.Empty );
+    //        }
+    //    }
+    //}
 
     static IEnumerable<TValue> ParseMultipleValues( string csv )
     {
         if ( string.IsNullOrEmpty( csv ) )
             yield break;
 
-        foreach ( var value in csv.Split( MultipleValuesSeparator ) )
+        foreach ( var value in csv.Split( MULTIPLE_DELIMITER ) )
         {
             if ( Converters.TryChangeType<TValue>( value, out var result ) )
             {
@@ -242,13 +231,16 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     {
         get
         {
-            foreach ( var selectedValue in SelectedValues )
+            if ( Value is IEnumerable<TValue> values )
             {
-                var item = SelectItems.FirstOrDefault( i => Convert.ToString( i.Value ) == Convert.ToString( selectedValue ) );
-
-                if ( item != null )
+                foreach ( var selectedValue in values )
                 {
-                    yield return item.ChildContent;
+                    var item = SelectItems.FirstOrDefault( i => i.CompareTo( selectedValue ) );
+
+                    if ( item != null )
+                    {
+                        yield return item.ChildContent;
+                    }
                 }
             }
         }
@@ -261,9 +253,9 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     {
         get
         {
-            if ( SelectedValue != null )
+            if ( Value is not null )
             {
-                var item = SelectItems.FirstOrDefault( i => Convert.ToString( i.Value ) == Convert.ToString( SelectedValue ) );
+                var item = SelectItems.FirstOrDefault( i => i.CompareTo( Value ) );
 
                 return item?.ChildContent;
             }

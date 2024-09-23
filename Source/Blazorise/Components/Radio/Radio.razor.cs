@@ -13,7 +13,7 @@ namespace Blazorise;
 /// Radio buttons allow the user to select one option from a set.
 /// </summary>
 /// <typeparam name="TValue">Checked value type.</typeparam>
-public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
+public partial class Radio<TValue> : BaseRadioComponent<TValue>, IDisposable
 {
     #region Members
 
@@ -36,8 +36,7 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
 
         await base.SetParametersAsync( parameters );
 
-        // Individual Radio can have validation ONLY of it's not placed inside
-        // of a RadioGroup
+        // Individual Radio can have validation ONLY if it's not placed inside of a RadioGroup
         if ( ParentValidation is not null && ParentRadioGroup is null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
@@ -52,7 +51,7 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     {
         if ( ParentRadioGroup is not null )
         {
-            Checked = ParentRadioGroup.CheckedValue.IsEqual( Value );
+            Checked = ParentRadioGroup.Value.IsEqual( Value );
 
             // TODO: possibly memory leak in Blazor server-side with prerendering mode!
             ParentRadioGroup.RadioCheckedChanged += OnRadioChanged;
@@ -123,9 +122,6 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     #region Properties
 
     /// <inheritdoc/>
-    protected override string TrueValueName => Value?.ToString();
-
-    /// <inheritdoc/>
     protected override bool IsDisabled => ParentRadioGroup?.Disabled == true || base.IsDisabled;
 
     /// <summary>
@@ -157,11 +153,6 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the radio value.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
 
     /// <summary>
     /// Radio group in which this radio is placed.

@@ -57,7 +57,7 @@ public class DropdownComponentTest : TestContext
         comp.WaitForAssertion( () =>
         {
             var checkComp = comp.FindComponent<Check<bool>>();
-            checkComp.Instance.Checked.Should().BeFalse();
+            checkComp.Instance.Value.Should().BeFalse();
         } );
     }
 
@@ -81,7 +81,7 @@ public class DropdownComponentTest : TestContext
         comp.WaitForAssertion( () =>
         {
             var checkComp = comp.FindComponent<Check<bool>>();
-            checkComp.Instance.Checked.Should().BeTrue();
+            checkComp.Instance.Value.Should().BeTrue();
         } );
     }
 

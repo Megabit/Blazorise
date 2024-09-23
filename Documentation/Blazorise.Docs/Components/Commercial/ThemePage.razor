@@ -25,7 +25,7 @@
                     </Row>
                     <Form>
                         <Field>
-                            <RadioGroup TValue="int" Class="license-options" @bind-CheckedValue="@checkedProductId">
+                            <RadioGroup TValue="int" Class="license-options" @bind-Value="@checkedProductId">
                                 @foreach ( var product in Products )
                                 {
                                     <Radio TValue="int" Value="@product.Id">

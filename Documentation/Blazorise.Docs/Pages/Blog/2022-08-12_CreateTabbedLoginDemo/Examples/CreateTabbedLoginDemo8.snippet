@@ -16,7 +16,7 @@
                         <Validation Validator="ValidationRule.IsEmail">
                             <Field>
                                 <FieldLabel>Email</FieldLabel>
-                                <TextEdit @bind-Text="@email" Placeholder="Enter email...">
+                                <TextEdit @bind-Value="@email" Placeholder="Enter email...">
                                     <Feedback>
                                         <ValidationNone>Please Enter Your Email. </ValidationNone>
                                         <ValidationSuccess>Email is good</ValidationSuccess>
@@ -28,11 +28,11 @@
                         <Validation Validator="ValidationRule.IsNotEmpty">
                             <Field>
                                 <FieldLabel>Password</FieldLabel>
-                                <TextEdit @bind-Text="@password" Placeholder="Enter Password.." />
+                                <TextEdit @bind-Value="@password" Placeholder="Enter Password.." />
                             </Field>
                         </Validation>
                         <Field>
-                            <Check TValue="bool" @bind-Checked="@rememberMe">Remember Me</Check>
+                            <Check TValue="bool" @bind-Value="@rememberMe">Remember Me</Check>
                         </Field>
                     </Validations>
                 </CardBody>
@@ -54,13 +54,13 @@
                         <Validation Validator="ValidationRule.IsNotEmpty">
                             <Field>
                                 <FieldLabel>Name</FieldLabel>
-                                <TextEdit @bind-Text="@name" Placeholder="Enter Your Name" />
+                                <TextEdit @bind-Value="@name" Placeholder="Enter Your Name" />
                             </Field>
                         </Validation>
                         <Validation Validator="ValidationRule.IsEmail">
                             <Field>
                                 <FieldLabel>Email</FieldLabel>
-                                <TextEdit @bind-Text="@email" Placeholder="Enter Your Email">
+                                <TextEdit @bind-Value="@email" Placeholder="Enter Your Email">
                                     <Feedback>
                                         <ValidationNone>Please Enter your email.</ValidationNone>
                                         <ValidationSuccess>Email is valid</ValidationSuccess>
@@ -72,7 +72,7 @@
                         <Validation Validator="ValidationRule.IsNotEmpty">
                             <Field>
                                 <FieldLabel>Password</FieldLabel>
-                                <TextEdit @bind-Text="@password" Placeholder="Enter Password" />
+                                <TextEdit @bind-Value="@password" Placeholder="Enter Password" />
                                 <FieldHelp>Password Strength: <Text TextColor="TextColor.Danger">Strong</Text></FieldHelp>
                             </Field>
                         </Validation>

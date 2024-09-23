@@ -5,7 +5,7 @@
     <Validation>
         <Field>
             <FieldLabel>First name</FieldLabel>
-            <TextEdit Placeholder="Enter first name..." @bind-Text="@person.FirstName">
+            <TextEdit Placeholder="Enter first name..." @bind-Value="@person.FirstName">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
@@ -15,7 +15,7 @@
     <Validation>
         <Field>
             <FieldLabel>Last name</FieldLabel>
-            <TextEdit Placeholder="Enter last name..." @bind-Text="@person.LastName">
+            <TextEdit Placeholder="Enter last name..." @bind-Value="@person.LastName">
                 <Feedback>
                     <ValidationError />
                 </Feedback>

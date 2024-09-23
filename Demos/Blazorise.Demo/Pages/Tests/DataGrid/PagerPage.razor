@@ -33,7 +33,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
@@ -50,7 +50,7 @@
                     <TotalItemsShortTemplate><Badge Color="Color.Success">@context.TotalItems</Badge></TotalItemsShortTemplate>
                     <ItemsPerPageTemplate></ItemsPerPageTemplate>
                     <PageSelectorTemplate>
-                        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPage" Size="Size.Small">
+                        <Select TextColor="TextColor.Success" @bind-Value="@context.CurrentPage" Size="Size.Small">
                             @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
                             {
                                 var pageNumber = i;
@@ -59,7 +59,7 @@
                         </Select>
                     </PageSelectorTemplate>
                     <PageSizesTemplate>
-                        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPageSize" Size="Size.Small">
+                        <Select TextColor="TextColor.Success" @bind-Value="@context.CurrentPageSize" Size="Size.Small">
                             @foreach ( var curPageSize in context.PageSizes )
                             {
                                 <SelectItem Value="@curPageSize">@curPageSize</SelectItem>

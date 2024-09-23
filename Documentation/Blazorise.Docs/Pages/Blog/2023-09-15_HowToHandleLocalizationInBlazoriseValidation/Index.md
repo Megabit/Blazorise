@@ -27,7 +27,7 @@ We want to validate this property and display a localized error message if the v
     <Validation>
         <Field>
             <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text="@_model.PhoneCountryCode">
+            <TextEdit @bind-Value="@_model.PhoneCountryCode">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
@@ -136,7 +136,7 @@ The following shows a full example of how this would work:
     <Validation MessageLocalizer="MessageLocalizer.Localize">
         <Field>
             <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text="@_model.PhoneCountryCode">
+            <TextEdit @bind-Value="@_model.PhoneCountryCode">
                 <Feedback>
                     <ValidationError />
                 </Feedback>

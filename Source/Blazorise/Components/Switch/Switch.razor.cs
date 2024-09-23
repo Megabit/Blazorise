@@ -24,31 +24,21 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        await base.OnBeforeSetParametersAsync( parameters );
+
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+            if ( paramValue.Changed )
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await Revalidate();
-
                     // Some providers may require that we define classname based on a switch state so we need to reset classes.
                     DirtyClasses();
                     await InvokeAsync( StateHasChanged );
                 } );
             }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            await InitializeValidation();
         }
     }
 
@@ -75,7 +65,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     /// <summary>
     /// Returns true id switch is in checked state.
     /// </summary>
-    protected bool IsChecked => string.Compare( Checked?.ToString(), TrueValueName, StringComparison.InvariantCultureIgnoreCase ) == 0;
+    protected bool IsChecked => string.Compare( Value?.ToString(), TrueValueName, StringComparison.InvariantCultureIgnoreCase ) == 0;
 
     /// <summary>
     /// Defines the switch named color.

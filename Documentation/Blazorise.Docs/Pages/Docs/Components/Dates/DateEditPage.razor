@@ -46,7 +46,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Manual event binding">
-        When using the event <Code>DateChanged</Code>, you also must define the <Code>Date</Code> value attribute.
+        When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <DateEditWithEventExample />
@@ -107,10 +107,10 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Date" Type="TValue" Default="default">
+    <DocsAttributesItem Name="Value" Type="TValue" Default="default">
         Gets or sets the input date value.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DateChanged" Type="@("EventCallback<TValue>")">
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<TValue>">
         Occurs when the date has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="InputMode" Type="DateInputMode" Default="Date">

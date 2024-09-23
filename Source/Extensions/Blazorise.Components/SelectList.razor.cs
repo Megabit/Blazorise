@@ -44,13 +44,6 @@ public partial class SelectList<TItem, TValue> : ComponentBase
         return SelectedValueChanged.InvokeAsync( value );
     }
 
-    protected Task HandleSelectedValuesChanged( IReadOnlyList<TValue> value )
-    {
-        SelectedValues = value;
-
-        return SelectedValuesChanged.InvokeAsync( value );
-    }
-
     /// <summary>
     /// Sets focus on the input element, if it can be focused.
     /// </summary>

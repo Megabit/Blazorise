@@ -50,49 +50,14 @@ public abstract class BaseCheckComponent<TValue> : BaseInputComponent<TValue>
         }
     }
 
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return CheckedChanged.InvokeAsync( Checked );
-    }
-
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( CheckedExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( CheckedExpression )
-            : ExpressionFormatter.FormatLambda( CheckedExpression );
-    }
-
     #endregion
 
     #region Properties
-
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Checked; set => Checked = value; }
 
     /// <summary>
     /// Gets the string value that represents the checked state.
     /// </summary>
     protected abstract string TrueValueName { get; }
-
-    /// <summary>
-    /// Gets or sets the checked flag.
-    /// </summary>
-    [Parameter] public TValue Checked { get; set; }
-
-    /// <summary>
-    /// Occurs when the check state is changed.
-    /// </summary>
-    [Parameter] public EventCallback<TValue> CheckedChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the checked value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> CheckedExpression { get; set; }
 
     /// <summary>
     /// Group checkboxes or radios on the same horizontal row.

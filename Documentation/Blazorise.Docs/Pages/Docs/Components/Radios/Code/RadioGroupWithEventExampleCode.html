@@ -1,9 +1,6 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">RadioGroup</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">colors</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">CheckedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>checkedValue</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">CheckedValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCheckedValueChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">RadioGroup</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">colors</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>checkedValue</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnValueChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Radio</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(&quot;red&quot;)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Red<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Radio</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Radio</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(&quot;green&quot;)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Green<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Radio</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Radio</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(&quot;blue&quot;)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Blue<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Radio</span><span class="htmlTagDelimiter">&gt;</span>
@@ -13,7 +10,7 @@
 <span class="atSign">&#64;</span>code{
     <span class="keyword">string</span> checkedValue = <span class="string">&quot;green&quot;</span>;
 
-    Task OnCheckedValueChanged( <span class="keyword">string</span> value )
+    Task OnValueChanged(<span class="keyword">string</span> value)
     {
         checkedValue = value;
 

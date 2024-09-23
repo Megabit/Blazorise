@@ -3,7 +3,7 @@
 <Row>
     <Column>
         <Field>
-            <Select TValue="int" SelectedValueChanged="@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))">
+            <Select TValue="int" ValueChanged="@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))">
                 @foreach ( var employee in employeeData )
                 {
                     <SelectItem @key="employee.Id" Value="@employee.Id">@employee.Name</SelectItem>

@@ -12,7 +12,7 @@ public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
 
     protected Task OnClickHandler()
     {
-        if ( ParentSelect != null && ParentSelect is AntDesign.Components.Select<TValue> select )
+        if ( ParentSelect != null && ParentSelect is IAntSelect select )
         {
             return select.NotifySelectValueChanged( Value );
         }

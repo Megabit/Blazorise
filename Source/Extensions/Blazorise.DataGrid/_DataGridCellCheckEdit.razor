@@ -13,13 +13,13 @@
         var type = typeof( Check<> ).MakeGenericType( new[] { valueType } );
 
         builder.OpenComponent( 0, type );
-        builder.AddAttribute( 1, nameof( Check<object>.Checked ), valueType switch
+        builder.AddAttribute( 1, nameof( Check<object>.Value ), valueType switch
         {
             Type typeBool when typeBool == typeof( bool ) => (bool)( CellValue ?? (bool)default ),
             Type typeBoolNull when typeBoolNull == typeof( bool? ) => (bool?)( CellValue ?? (bool?)default ),
             _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
         } );
-        builder.AddAttribute( 2, nameof( Check<object>.CheckedChanged ), valueType switch
+        builder.AddAttribute( 2, nameof( Check<object>.ValueChanged ), valueType switch
         {
             Type typeBool when typeBool == typeof( bool ) => EventCallback.Factory.Create<bool>( this, ( OnCellValueChanged<bool> ) ),
             Type typeBoolNull when typeBoolNull == typeof( bool? ) => EventCallback.Factory.Create<bool?>( this, ( OnCellValueChanged<bool?> ) ),

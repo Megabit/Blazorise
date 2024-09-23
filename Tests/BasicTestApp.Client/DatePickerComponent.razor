@@ -1,14 +1,14 @@
 ﻿<h3>DatePicker - DateTime</h3>
 
 <p id="date-event-initially-undefined">
-    <DatePicker id="date-control" TValue="DateTime" Date="@DateValue" DateChanged="@((v)=> { DateValue = v; } )" />
+    <DatePicker id="date-control" TValue="DateTime" Value="@DateValue" ValueChanged="@((v)=> { DateValue = v; } )" />
 
     <span>The Value should update automatically as you edit in the date field</span>
 
     <span id="date-event-initially-undefined-result">@DateValue</span>
 </p>
 <p id="nullable-date-event-initially-null">
-    <DatePicker id="nullable-date-control" TValue="DateTime?" Date="@NullableDateValue" DateChanged="@((v)=> { NullableDateValue = v; } )" />
+    <DatePicker id="nullable-date-control" TValue="DateTime?" Value="@NullableDateValue" ValueChanged="@((v)=> { NullableDateValue = v; } )" />
 
     <span>The Value should update automatically as you type in the date field</span>
 
@@ -18,14 +18,14 @@
 <h3>DatePicker - DateOnly</h3>
 
 <p id="date-only-event-initially-undefined">
-    <DatePicker id="date-only-control" TValue="DateOnly" Date="@DateOnlyValue" DateChanged="@((v)=> { DateOnlyValue = v; } )" />
+    <DatePicker id="date-only-control" TValue="DateOnly" Value="@DateOnlyValue" ValueChanged="@((v)=> { DateOnlyValue = v; } )" />
 
     <span>The Value should update automatically as you edit in the date field</span>
 
     <span id="date-only-event-initially-undefined-result">@DateOnlyValue</span>
 </p>
 <p id="nullable-date-only-event-initially-null">
-    <DatePicker id="nullable-date-only-control" TValue="DateOnly?" Date="@NullableDateOnlyValue" DateChanged="@((v)=> { NullableDateOnlyValue = v; } )" />
+    <DatePicker id="nullable-date-only-control" TValue="DateOnly?" Value="@NullableDateOnlyValue" ValueChanged="@((v)=> { NullableDateOnlyValue = v; } )" />
 
     <span>The Value should update automatically as you type in the date field</span>
 
@@ -35,14 +35,14 @@
 <h3>DatePicker - DateTimeOffset</h3>
 
 <p id="date-offset-event-initially-undefined">
-    <DatePicker id="date-offset-control" TValue="DateTimeOffset" Date="@OffsetValue" DateChanged="@((v)=> { OffsetValue = v; } )" />
+    <DatePicker id="date-offset-control" TValue="DateTimeOffset" Value="@OffsetValue" ValueChanged="@((v)=> { OffsetValue = v; } )" />
 
     <span>The Value should update automatically as you edit in the date field</span>
 
     <span id="date-offset-event-initially-undefined-result">@OffsetValue</span>
 </p>
 <p id="nullable-date-offset-event-initially-null">
-    <DatePicker id="nullable-date-offset-control" TValue="DateTimeOffset?" Date="@NullableOffsetValue" DateChanged="@((v)=> { NullableOffsetValue = v; } )" />
+    <DatePicker id="nullable-date-offset-control" TValue="DateTimeOffset?" Value="@NullableOffsetValue" ValueChanged="@((v)=> { NullableOffsetValue = v; } )" />
 
     <span>The Value should update automatically as you type in the date field</span>
 
@@ -54,7 +54,7 @@
 <p id="validation-initially-undefined">
     <Validations>
         <Validation Validator="@ValidationRule.IsNotEmpty">
-            <DatePicker id="date-validation-control" TValue="DateTime" Date="@DateValue" DateChanged="@((v)=> { DateValue = v; } )" />
+            <DatePicker id="date-validation-control" TValue="DateTime" Value="@DateValue" ValueChanged="@((v)=> { DateValue = v; } )" />
         </Validation>
     </Validations>
 

@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @typeparam TValue
-@inherits BaseCheckComponent<bool>
-<input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+@inherits BaseRadioComponent<TValue>
+<input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@Checked" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
 @ChildContent
 @Feedback

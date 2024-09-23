@@ -19,38 +19,6 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !paramDate.IsEqual( Date ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
-            {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
-                    ? inDate
-                    : InternalValue;
-
-                await ParentValidation.InitializeInputPattern( pattern, value );
-            }
-
-            await InitializeValidation();
-        }
-    }
-
-    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DateEdit( Plaintext ) );
@@ -65,12 +33,6 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     protected override Task OnChangeHandler( ChangeEventArgs e )
     {
         return CurrentValueHandler( e?.Value?.ToString() );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return DateChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -113,26 +75,12 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( DateExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( DateExpression )
-            : ExpressionFormatter.FormatLambda( DateExpression );
-    }
-
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Date; set => Date = value; }
 
     /// <summary>
     /// Gets the string representation of the input mode.
@@ -148,21 +96,6 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.
     /// </summary>
     [Parameter] public DateInputMode InputMode { get; set; } = DateInputMode.Date;
-
-    /// <summary>
-    /// Gets or sets the input date value.
-    /// </summary>
-    [Parameter] public TValue Date { get; set; }
-
-    /// <summary>
-    /// Occurs when the date has changed.
-    /// </summary>
-    [Parameter] public EventCallback<TValue> DateChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the date value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> DateExpression { get; set; }
 
     /// <summary>
     /// The earliest date to accept.

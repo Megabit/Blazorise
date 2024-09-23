@@ -23,7 +23,7 @@
     }
     else
     {
-        <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => FilterChanged(newValue))" />
+        <TextEdit Value="@Column.Filter.SearchValue?.ToString()" ValueChanged="@((newValue) => FilterChanged(newValue))" />
     }
 }
 @code {

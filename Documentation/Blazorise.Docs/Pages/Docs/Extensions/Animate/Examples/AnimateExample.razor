@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Field>
-    <Select TValue="string" SelectedValueChanged="@OnSelectedAnimationChanged">
+    <Select TValue="string" ValueChanged="@OnSelectedAnimationChanged">
         @foreach ( var availableAnimation in Animations.GetNames() )
         {
             <SelectItem Value="@availableAnimation">@availableAnimation</SelectItem>
