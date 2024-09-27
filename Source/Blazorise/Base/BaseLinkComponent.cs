@@ -128,7 +128,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
             return true;
         }
 
-        if ( Match == Match.Custom && CustomMatch is not null && CustomMatch.Invoke( currentUriAbsolute ) )
+        if ( CustomMatch is not null && CustomMatch.Invoke( currentUriAbsolute ) )
         {
             return true;
         }
@@ -268,7 +268,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     [Parameter] public Match Match { get; set; }
 
     /// <summary>
-    /// A callback function that is used to compare current uri with the user defined uri. Must enable <see cref="Match.Custom"/> to be used.
+    /// A callback function that is used to compare current uri with the user defined uri. If defined, the <see cref="Match"/> parameter will be ignored.
     /// </summary>
     [Parameter] public Func<string, bool> CustomMatch { get; set; }
 

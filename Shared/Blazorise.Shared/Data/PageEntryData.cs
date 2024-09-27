@@ -146,6 +146,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/cropper", "Cropper", "A component used to crop images." ),
                 new PageEntry( "docs/extensions/loadingindicator", "LoadingIndicator", "A wrapper component used to add loading indocators UI to other components." ),
                 new PageEntry( "docs/extensions/markdown", "Markdown", "The Markdown component allows you to edit markdown strings." ),
+                new PageEntry( "docs/extensions/pdfviewer", "PdfViewer", "A PdfViewer component used to display a regular PDF document." ),
                 new PageEntry( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a ‘WYSIWYG’ rich text editor." ),
                 new PageEntry( "docs/extensions/selectlist", "SelectList", "The SelectList component allows you to select a value from a list of predefined items." ),
                 new PageEntry( "docs/extensions/sidebar", "Sidebar", "The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage." ),
