@@ -15329,7 +15329,7 @@ code {
 }
 
 .flatpickr-day {
-  max-width: 28px;
+  flex: 1 0 14.2857142857%;
   height: 28px;
   line-height: 28px;
   border-radius: 0%;
@@ -15338,14 +15338,38 @@ code {
   font-weight: var(--fontWeightRegular);
 }
 .flatpickr-day.today {
+  position: relative;
+  color: var(--colorNeutralForegroundOnBrand);
+  border-color: inherit;
+}
+.flatpickr-day.today:not(:hover)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5px;
+  width: 26px;
+  height: 26px;
   background-color: var(--colorBrandBackground);
   border-color: var(--colorBrandBackground);
   color: var(--colorNeutralForegroundOnBrand);
   border-radius: 50%;
+  z-index: -1;
 }
 .flatpickr-day.today:hover {
-  background: var(--colorBrandBackgroundHover);
-  border-color: var(--colorBrandBackgroundHover);
+  background-color: var(--colorBrandBackgroundInvertedHover);
+  border-color: rgba(0, 0, 0, 0);
+  color: inherit;
+}
+.flatpickr-day.today:hover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5px;
+  width: 26px;
+  height: 26px;
+  border-color: var(--colorBrandBackground);
+  border-radius: 50%;
+  z-index: 1;
 }
 .flatpickr-day:hover {
   background-color: var(--colorBrandBackgroundInvertedHover);
