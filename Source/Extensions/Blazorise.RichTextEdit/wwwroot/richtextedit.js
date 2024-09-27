@@ -1,22 +1,24 @@
 import "./vendors/quill.js?v=1.6.1.0";
+import "./vendors/quill-table-better.js?v=1.6.1.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.6.1.0";
 
 var rteSheetsLoaded = false;
+
+Quill.register({
+    'modules/table-better': QuillTableBetter
+}, true);
 
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
 
     styles.forEach(sheet => {
-        var link = "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit/vendors/quill.{sheet}.css?v={version}\"/>";
-        link = link.replace("{sheet}", sheet).replace("{version}", version);
-
-        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", link);
+        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="_content/Blazorise.RichTextEdit/vendors/${sheet}.css?v=${version}"/>`);
     });
 
     rteSheetsLoaded = true;
 }
 
-export function initialize(dotnetAdapter, element, elementId, readOnly, placeholder, theme, bindEnter, configureQuillJsMethod) {
+export function initialize(dotnetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -26,18 +28,26 @@ export function initialize(dotnetAdapter, element, elementId, readOnly, placehol
     const toolbarRef = element.getElementsByClassName("rte-toolbar")[0];
     const contentRef = element.getElementsByClassName("rte-content")[0];
 
-    let options = {
+    let quillOptions = {
         modules: {
             toolbar: toolbarRef,
-            keyboard: undefined
+            keyboard: undefined,
+            table: false,
+            'table-better': {
+                toolbarTable: true
+            },
+            keyboard: {
+                bindings: QuillTableBetter.keyboardBindings
+            }
         },
         bounds: element,
-        placeholder: placeholder,
-        readOnly: readOnly,
-        theme: theme
+        placeholder: options.placeholder,
+        readOnly: options.readOnly,
+        theme: options.theme
     };
-    if (bindEnter === true) {
-        options.modules.keyboard = {
+
+    if (options.submitOnEnter === true) {
+        quillOptions.modules.keyboard = {
             bindings: {
                 enter: {
                     key: 'Enter',
@@ -53,15 +63,15 @@ export function initialize(dotnetAdapter, element, elementId, readOnly, placehol
             }
         };
     }
-    if (configureQuillJsMethod) {
+    if (options.configureQuillJsMethod) {
         try {
-            configure(configureQuillJsMethod, window, [options]);
+            configure(options.configureQuillJsMethod, window, [quillOptions]);
         } catch (err) {
             console.error(err);
         }
     }
     var contentUpdating = false;
-    const quill = new Quill(editorRef, options);
+    const quill = new Quill(editorRef, quillOptions);
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
             contentUpdating = true;

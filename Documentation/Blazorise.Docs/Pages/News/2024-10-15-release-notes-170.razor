@@ -41,6 +41,11 @@
             <Strong>SelectedCell API:</Strong> listen to the cell selection changes while navigating through DataGrid.
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>RichTextEdit:</Strong> Table support
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -206,6 +211,22 @@
 
 <Paragraph>
     This change was made by our community member <Anchor To="https://github.com/mtbayley" Title="Link to mtbayley">mtbayley</Anchor>. We are grateful for his contribution and we are looking forward to more contributions from him.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit Table Support
+</Heading>
+
+<Paragraph>
+    Implementing table support in the RichTextEdit component proved to be more challenging than initially anticipated. At first glance, it seemed like a straightforward task, but as we delved deeper, it became clear that tables in RichTextEdit are minimally supported and still largely experimental.
+</Paragraph>
+
+<Paragraph>
+    Given these limitations, we explored alternative solutions. We discovered a community-developed table module that, while unofficial, offered a viable workaround. After integrating this module into Blazorise's RichTextEdit, we achieved a satisfactory outcome.
+</Paragraph>
+
+<Paragraph>
+    However, since this module is not officially supported, we are marking this feature as experimental. This designation will remain until an official table module is released by the Quill.js team.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />
