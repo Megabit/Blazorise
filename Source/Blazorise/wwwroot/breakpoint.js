@@ -2,11 +2,11 @@
 const breakpointComponents = [];
 let lastBreakpoint = getBreakpoint();
 
-//https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
+
 if (isDocumentReady()) {
     bindWindowResizedBreakpointHandler();
 }
-else if (document.readyState === "loading") {
+else if (document.readyState === "loading") { //https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
     document.addEventListener("DOMContentLoaded", bindWindowResizedBreakpointHandler);
 }
 
