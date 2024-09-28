@@ -1,21 +1,28 @@
 ﻿// holds the list of components that are triggers to breakpoint
 const breakpointComponents = [];
-let lastBreakpoint = null;
+let lastBreakpoint = getBreakpoint();
 
-if (document.readyState === 'interactive' || document.readyState === 'complete') {
-    // Recalculate breakpoint on resize
+//https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
+if (isDocumentReady()) {
+    bindWindowResizedBreakpointHandler();
+}
+else if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindWindowResizedBreakpointHandler);
+}
+
+function bindWindowResizedBreakpointHandler() {
     if (window.attachEvent) {
-        window.attachEvent('onresize', windowResized);
+        window.attachEvent('onresize', windowResizedBreakpointHandler);
     }
     else if (window.addEventListener) {
-        window.addEventListener('resize', windowResized, true);
+        window.addEventListener('resize', windowResizedBreakpointHandler, true);
     }
     else {
         //The browser does not support Javascript event binding
     }
 }
 
-function windowResized() {
+function windowResizedBreakpointHandler() {
     if (breakpointComponents && breakpointComponents.length > 0) {
         var currentBreakpoint = getBreakpoint();
 
@@ -31,12 +38,16 @@ function windowResized() {
     }
 }
 
-// Set initial breakpoint
-lastBreakpoint = getBreakpoint();
+function isDocumentReady() {
+    return document.readyState === 'interactive' || document.readyState === 'complete';
+}
 
-// Get the current breakpoint
+function onBreakpoint(dotnetAdapter, currentBreakpoint) {
+    dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
+}
+
 export function getBreakpoint() {
-    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    if (isDocumentReady()) {
         return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
     }
     return "";
@@ -66,10 +77,6 @@ export function isBreakpointComponent(elementId) {
     }
 
     return false;
-}
-
-function onBreakpoint(dotnetAdapter, currentBreakpoint) {
-    dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
 }
 
 export function registerBreakpointComponent(dotnetAdapter, elementId) {
