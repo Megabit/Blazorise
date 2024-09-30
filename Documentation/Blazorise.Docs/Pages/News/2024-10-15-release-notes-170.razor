@@ -46,6 +46,11 @@
             <Strong>RichTextEdit:</Strong> Table support
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Chart:</Strong> Tooltip callbacks
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -227,6 +232,18 @@
 
 <Paragraph>
     However, since this module is not officially supported, we are marking this feature as experimental. This designation will remain until an official table module is released by the Quill.js team.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Tooltip Callbacks
+</Heading>
+
+<Paragraph>
+    Added <Code>Callbacks</Code> parameter to the <Code>ChartTooltip</Code> options. This allows you to define custom callbacks for the tooltip, and can be useful if you want to customize the tooltip content or appearance based on the data point.
+</Paragraph>
+
+<Paragraph>
+    Please be aware that this feature is still experimental. The way how the callbacks works is that we convert C# lambda into JS function and then pass it to the Chart.js. This can be a bit tricky since the JS function can't access the C# context, so you need to be careful when using this feature.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />
