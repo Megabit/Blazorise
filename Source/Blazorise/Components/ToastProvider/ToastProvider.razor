@@ -6,7 +6,9 @@
         @foreach ( var toastInstance in toastInstances ?? Enumerable.Empty<ToastInstance>() )
         {
             <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"
+                   Opening="@toastInstance.Opening"
                    Opened="@toastInstance.Opened"
+                   Closing="@toastInstance.Closing"
                    Closed="@(() => OnToastClosed(toastInstance))"
                    Animated="@toastInstance.Animated"
                    AnimationDuration="@toastInstance.AnimationDuration"
