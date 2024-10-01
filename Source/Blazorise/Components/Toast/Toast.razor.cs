@@ -70,12 +70,15 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     {
         if ( parameters.TryGetValue<bool>( nameof( Visible ), out var paramVisible ) && state.Visible != paramVisible )
         {
-            if ( paramVisible && await IsSafeToOpen() )
+            parameters.TryGetValue<Func<ToastOpeningEventArgs, Task>>( nameof( Opening ), out var paramOpening );
+            parameters.TryGetValue<Func<ToastClosingEventArgs, Task>>( nameof( Closing ), out var paramClosing );
+
+            if ( paramVisible && await IsSafeToOpen( paramOpening ) )
             {
                 await base.SetParametersAsync( parameters );
                 await SetVisibleState( true );
             }
-            else if ( !paramVisible && await IsSafeToClose() )
+            else if ( !paramVisible && await IsSafeToClose( paramClosing ) )
             {
                 await base.SetParametersAsync( parameters );
                 await SetVisibleState( false );
@@ -150,7 +153,7 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
         if ( state.Visible )
             return;
 
-        if ( await IsSafeToOpen() )
+        if ( await IsSafeToOpen( Opening ) )
         {
             await SetVisibleState( true );
 
@@ -185,7 +188,7 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
 
         this.closeReason = closeReason;
 
-        if ( await IsSafeToClose() )
+        if ( await IsSafeToClose( Closing ) )
         {
             await SetVisibleState( false );
 
@@ -204,16 +207,17 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     /// <summary>
     /// Determines if toast can be opened.
     /// </summary>
+    /// <param name="opening">Callback for handling the opening of the Toast.</param>
     /// <returns>True if toast can be opened.</returns>
-    private async Task<bool> IsSafeToOpen()
+    private async Task<bool> IsSafeToOpen( Func<ToastOpeningEventArgs, Task> opening )
     {
         var safeToOpen = true;
 
-        if ( Opening is not null )
+        if ( opening is not null )
         {
             var eventArgs = new ToastOpeningEventArgs( false );
 
-            await Opening.Invoke( eventArgs );
+            await opening.Invoke( eventArgs );
 
             if ( eventArgs.Cancel )
             {
@@ -227,16 +231,17 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     /// <summary>
     /// Determines if toast can be closed.
     /// </summary>
+    /// <param name="closing">Callback for handling the closing of the Toast.</param>
     /// <returns>True if toast can be closed.</returns>
-    private async Task<bool> IsSafeToClose()
+    private async Task<bool> IsSafeToClose( Func<ToastClosingEventArgs, Task> closing )
     {
         var safeToClose = true;
 
-        if ( Closing is not null )
+        if ( closing is not null )
         {
             var eventArgs = new ToastClosingEventArgs( false, closeReason );
 
-            await Closing.Invoke( eventArgs );
+            await closing.Invoke( eventArgs );
 
             if ( eventArgs.Cancel )
             {
