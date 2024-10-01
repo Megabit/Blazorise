@@ -12046,6 +12046,8 @@ builder.Services
         toastInstanceOptions.AnimationDuration = 300;
         toastInstanceOptions.Autohide = true;
         toastInstanceOptions.AutohideDelay = 3000;
+        toastInstanceOptions.Closing = ( e ) => { Console.WriteLine(""Closing""); return Task.CompletedTask; };
+        toastInstanceOptions.Opening = ( e ) => { Console.WriteLine(""Opening""); return Task.CompletedTask; };
     }
 }";
 
