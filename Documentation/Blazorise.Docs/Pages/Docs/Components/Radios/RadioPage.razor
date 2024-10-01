@@ -75,6 +75,16 @@
     <DocsPageSectionSource Code="RadioGroupButtonsExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Button Colors">
+        Changing the color of the radio buttons is as simple as setting the <Code>Color</Code> attribute on a <Code>Radio</Code> component.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RadioGroupButtonColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RadioGroupButtonColorsExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Binding
 </DocsPageSubtitle>
@@ -147,5 +157,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Cursor" Type="Cursor" Default="Default">
         Defines the mouse cursor based on the behavior by the current CSS framework.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="Secondary">
+        Defines the color of a radio button(only when <Code>RadioGroup.Buttons</Code> is true).
     </DocsAttributesItem>
 </DocsAttributes>
