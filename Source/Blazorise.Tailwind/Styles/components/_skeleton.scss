@@ -4,27 +4,14 @@
     }
 
     &.animate-wave {
-        .b-skeleton-item {
-            background-color: var(--colorNeutralStencil1);
-
-            &::after {
-                transform: translate(-100%);
-                background-image: linear-gradient(to right, var(--colorNeutralStencil1) 0%, var(--colorNeutralStencil2) 50%, var(--colorNeutralStencil1) 100%);
-                animation-name: skeleton-wave-anim;
-                animation-timing-function: ease-in-out;
-                animation-duration: 3s;
-                animation-iteration-count: infinite;
-                position: absolute;
-                display: block;
-                content: "";
-                inset: 0px;
-            }
-        }
+        mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, (1 - 0.2)) 75%, #000 95%);
+        mask-size: 200% 100%;
+        animation: skeleton-wave-anim 2s linear infinite;
     }
 }
 
 @keyframes skeleton-wave-anim {
     100% {
-        transform: translate(100%);
+        mask-position: -200% 0%;
     }
 }

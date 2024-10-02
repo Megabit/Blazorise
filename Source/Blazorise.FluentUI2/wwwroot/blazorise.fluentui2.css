@@ -3012,6 +3012,9 @@ button {
 .fui-Card .fui-CardBody + .fui-CardBody {
   padding-top: 0;
 }
+.fui-Card .fui-CardBody .fui-CardText {
+  margin-bottom: var(--fui-Card--size);
+}
 .fui-Card:not(.fui-CardGroup .fui-Card) {
   box-shadow: var(--shadow4);
 }
@@ -6338,15 +6341,21 @@ input::file-selector-button {
   font-size: 28px;
 }
 
+.fui-Skeleton {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.fui-Skeleton:not(.fui-Skeleton-pulse) .fui-SkeletonItem {
+  background-color: var(--colorNeutralStencil1);
+}
 .fui-Skeleton .fui-SkeletonItem {
   position: relative;
   height: 16px;
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
-}
-.fui-Skeleton-wave .fui-SkeletonItem {
-  background-color: var(--colorNeutralStencil1);
 }
 .fui-Skeleton-wave .fui-SkeletonItem::after {
   transform: translate(-100%);

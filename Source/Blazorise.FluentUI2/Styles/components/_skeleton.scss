@@ -1,4 +1,15 @@
 ﻿.fui-Skeleton {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    &:not(.fui-Skeleton-pulse) {
+        .fui-SkeletonItem {
+            background-color: var(--colorNeutralStencil1);
+        }
+    }
+
     .fui-SkeletonItem {
         position: relative;
         height: 16px;
@@ -9,8 +20,6 @@
 
     &-wave {
         .fui-SkeletonItem {
-            background-color: var(--colorNeutralStencil1);
-
             &::after {
                 transform: translate(-100%);
                 background-image: linear-gradient(to right, var(--colorNeutralStencil1) 0%, var(--colorNeutralStencil2) 50%, var(--colorNeutralStencil1) 100%);
