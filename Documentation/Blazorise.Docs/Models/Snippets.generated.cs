@@ -3780,6 +3780,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string SkeletonBasicExample = @"<Skeleton>
+    <SkeletonItem ColumnSize=""ColumnSize.Is6"" />
+</Skeleton>";
+
+        public const string SkeletonPulseAnimationExample = @"<Skeleton Animation=""SkeletonAnimation.Pulse"">
+    <SkeletonItem ColumnSize=""ColumnSize.Is7"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is4"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is4"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is6"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is8"" />
+</Skeleton>";
+
+        public const string SkeletonWaveAnimationExample = @"<Skeleton Animation=""SkeletonAnimation.Wave"">
+    <SkeletonItem ColumnSize=""ColumnSize.Is7"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is4"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is4"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is6"" />
+    <SkeletonItem ColumnSize=""ColumnSize.Is8"" />
+</Skeleton>";
+
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
 
         public const string SliderMinMaxExample = @"<Paragraph>
