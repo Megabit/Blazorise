@@ -48,4 +48,41 @@
     <DocsPageSectionSource Code="SkeletonWaveAnimationExample" />
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Do
+</Heading>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Use <Code>Skeleton</Code> to help ease a UI transition when we know the service will potentially take a longer amount of time to retrieve the data.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Provide size for each of the <Code>Skeleton</Code> elements you used to build a skeleton layout looking as close as possible to real content it is replacing.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use <Code>Skeleton</Code> if you know the UI loading time is longer than 1 second.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Don't
+</Heading>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Build Skeleton UI with a lot of details. Circles and rectangles are really as detailed as you want to get. Adding more detail will result in confusion once the UI loads.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use <Code>Skeleton</Code> if you are confident that the UI will take less than a second to load.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
 <SkeletonApi />
