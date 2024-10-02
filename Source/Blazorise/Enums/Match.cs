@@ -1,4 +1,8 @@
-﻿namespace Blazorise;
+﻿#region Using directives
+using System;
+#endregion
+
+namespace Blazorise;
 
 /// <summary>
 /// Modifies the URL matching behavior for a link.
@@ -18,5 +22,6 @@ public enum Match
     /// <summary>
     /// Specifies that the link should be active when it matches the supplied <see cref="BaseLinkComponent.CustomMatch"/> method callback.
     /// </summary>
+    [Obsolete( "Custom match is obsolete and should be removed in future versions." )]
     Custom,
 }

@@ -23,7 +23,12 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Optimizations:</Strong> Optimized the internals of class providers.
+            <Strong>Optimizations</Strong>: Optimized the internals of class providers.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>PdfViewer</Strong>: Added a new PdfViewer component for rendering PDF documents.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -34,6 +39,11 @@
     <UnorderedListItem>
         <Paragraph>
             <Strong>SelectedCell API:</Strong> listen to the cell selection changes while navigating through DataGrid.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>RichTextEdit:</Strong> Table support
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -58,10 +68,42 @@
     </OrderedListItem>
     <OrderedListItem>
         <Paragraph>
-            Enjoy the latest features without any breaking changes to the API.
+            Blazorise should now work withut any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
         </Paragraph>
     </OrderedListItem>
 </OrderedList>
+
+<NewsPageSubtitle>
+    Migration 🛠
+</NewsPageSubtitle>
+
+<Paragraph>
+    The latest release includes several enhancements and optimizations to improve the overall performance and functionality of Blazorise. While these changes are designed to enhance the user experience and provide more customization options, they may require some adjustments when upgrading from previous versions. Here are some key points to consider when migrating from 1.6.x to 1.7:
+</Paragraph>
+
+<Paragraph>
+    <OrderedList>
+        <OrderedListItem>
+            <Paragraph>
+                <Paragraph>
+                    <Code Tag>Video</Code> component API changes
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code>Seeking</Code>: event changed from <Code>Func&lt;Task&gt;</Code> to <Code>Func&lt;double, Task&gt;</Code>
+                        </Paragraph>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code>Seeked</Code>: event changed from <Code>Func&lt;Task&gt;</Code> to <Code>Func&lt;double, Task&gt;</Code>
+                        </Paragraph>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </Paragraph>
+        </OrderedListItem>
+    </OrderedList>
+</Paragraph>
 
 <NewsPageSubtitle>
     New Features & Enhancements 🚀
@@ -99,6 +141,10 @@
     Added an option to delay the tooltip show and hide events. This can be useful if you want to prevent the tooltip from showing immediately after the trigger event.
 </Paragraph>
 
+<Paragraph>
+    Along with the options to define delay on each individual Tooltip, we have also added a global options to define the delay for all tooltips. This can be done by setting the <Code>TooltipOptions</Code> property in the <Code>.AddBlazorise()</Code> during the application start process.
+</Paragraph>
+
 <Heading Size="HeadingSize.Is3">
     DataGrid
 </Heading>
@@ -133,6 +179,54 @@
 
 <Paragraph>
     For more details and examples, visit the <Anchor To="docs/components/typography" Title="Link to Text Decoration documentation">Text Decoration documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    PdfViewer
+</Heading>
+
+<Paragraph>
+    We are excited to introduce the new PdfViewer component in version 1.7. This component provides a powerful and flexible solution for rendering PDF documents within your application. With this release, you can now easily integrate PDF viewing capabilities directly into your projects, using a simple and intuitive API. The PdfViewer supports a variety of features, including zooming and page navigation, and can be used both standalone or in conjunction with other components like PdfViewerToolbar.
+</Paragraph>
+
+<Paragraph>
+    In this initial release, the PdfViewer supports read-only mode, allowing users to view and navigate through PDF files. We are planning to add text selection and other interactive features in future updates.
+</Paragraph>
+
+<Paragraph>
+    For detailed usage instructions and integration examples, please visit the <Anchor To="docs/extensions/pdfviewer">PdfViewer documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Updated Icons
+</Heading>
+
+<Paragraph>
+    All icons are now updated to use <Code>public const string</Code> instead of <Code>public static readonly string</Code>. This change should not affect the usage of the icons, but it will make the code cleaner and more readable. And it will also allow the usage of named icons in the attributes.
+</Paragraph>
+
+<Paragraph>
+    Also, FontAwesome icons are now updated to version 6.6.0. This update brings new icons and fixes some of the existing ones.
+</Paragraph>
+
+<Paragraph>
+    This change was made by our community member <Anchor To="https://github.com/mtbayley" Title="Link to mtbayley">mtbayley</Anchor>. We are grateful for his contribution and we are looking forward to more contributions from him.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit Table Support
+</Heading>
+
+<Paragraph>
+    Implementing table support in the RichTextEdit component proved to be more challenging than initially anticipated. At first glance, it seemed like a straightforward task, but as we delved deeper, it became clear that tables in RichTextEdit are minimally supported and still largely experimental.
+</Paragraph>
+
+<Paragraph>
+    Given these limitations, we explored alternative solutions. We discovered a community-developed table module that, while unofficial, offered a viable workaround. After integrating this module into Blazorise's RichTextEdit, we achieved a satisfactory outcome.
+</Paragraph>
+
+<Paragraph>
+    However, since this module is not officially supported, we are marking this feature as experimental. This designation will remain until an official table module is released by the Quill.js team.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />

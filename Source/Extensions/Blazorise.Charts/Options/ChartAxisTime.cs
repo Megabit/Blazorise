@@ -13,7 +13,7 @@ public class ChartAxisTime
     /// Sets how different time units are displayed.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartAxisTimeDisplayFormat DisplayFormat { get; set; }
+    public ChartAxisTimeDisplayFormat DisplayFormats { get; set; }
 
     /// <summary>
     /// If boolean and true and the unit is set to 'week', then the first day of the week will be Monday. Otherwise, it will be Sunday. If number, the index of the first day of the week (0 - Sunday, 6 - Saturday)

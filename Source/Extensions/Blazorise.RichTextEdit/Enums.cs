@@ -24,7 +24,8 @@ public enum RichTextEditAction
     Align,
     Clean,
     Link,
-    Image
+    Image,
+    Table,
 }
 
 /// <summary>

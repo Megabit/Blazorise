@@ -74,7 +74,7 @@ public partial class BarLink : BaseComponent
     [Parameter] public Match Match { get; set; } = Match.All;
 
     /// <summary>
-    /// A callback function that is used to compare current uri with the user defined uri. Must enable <see cref="Match.Custom"/> to be used.
+    /// A callback function that is used to compare current uri with the user defined uri. If defined, the <see cref="Match"/> parameter will be ignored.
     /// </summary>
     [Parameter] public Func<string, bool> CustomMatch { get; set; }
 

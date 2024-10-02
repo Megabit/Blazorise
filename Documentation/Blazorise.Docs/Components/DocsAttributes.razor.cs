@@ -36,6 +36,8 @@ public partial class DocsAttributes
 
     [Parameter] public bool Ordered { get; set; } = true;
 
+    [Parameter] public bool ShowDefaults { get; set; } = true;
+
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     public List<DocsAttributesItem> DocsAttributesItems { get; set; } = new();

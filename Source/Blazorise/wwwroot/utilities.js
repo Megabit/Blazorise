@@ -1,5 +1,5 @@
-import "./vendors/jsencrypt.js?v=1.6.0.0";
-import "./vendors/sha512.js?v=1.6.0.0";
+import "./vendors/jsencrypt.js?v=1.6.1.0";
+import "./vendors/sha512.js?v=1.6.1.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -319,4 +319,8 @@ export function createEvent(name) {
 
 export function coalesce(value, defaultValue) {
     return value === null || value === undefined ? defaultValue : value;
+}
+
+export function insertCSSIntoDocumentHead(url) {
+    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel=\"stylesheet\" href=\"${url}\" />`);
 }
