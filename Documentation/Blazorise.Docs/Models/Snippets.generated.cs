@@ -3624,6 +3624,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
+        public const string RadioGroupButtonColorsExample = @"<RadioGroup TValue=""string"" Name=""side"" Buttons>
+    <Radio Value=""@(""left"")"" Color=""Color.Danger"">Left</Radio>
+    <Radio Value=""@(""middle"")"" Color=""Color.Warning"">Middle</Radio>
+    <Radio Value=""@(""right"")"" Color=""Color.Success"">Right</Radio>
+</RadioGroup>";
+
         public const string RadioGroupButtonsExample = @"<RadioGroup TValue=""string"" Name=""colors"" Buttons>
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
