@@ -68,6 +68,8 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        var baseSetCalled = false;
+
         if ( parameters.TryGetValue<bool>( nameof( Visible ), out var paramVisible ) && state.Visible != paramVisible )
         {
             parameters.TryGetValue<Func<ToastOpeningEventArgs, Task>>( nameof( Opening ), out var paramOpening );
@@ -76,22 +78,26 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
             if ( paramVisible && await IsSafeToOpen( paramOpening ) )
             {
                 await base.SetParametersAsync( parameters );
+                baseSetCalled = true;
                 await SetVisibleState( true );
             }
             else if ( !paramVisible && await IsSafeToClose( paramClosing ) )
             {
                 await base.SetParametersAsync( parameters );
+                baseSetCalled = true;
                 await SetVisibleState( false );
             }
 
             if ( Rendered )
                 await InvokeAsync( StateHasChanged );
         }
-        else
+
+        if ( !baseSetCalled )
         {
             await base.SetParametersAsync( parameters );
         }
     }
+
 
     /// <inheritdoc/>
     protected override void OnInitialized()
