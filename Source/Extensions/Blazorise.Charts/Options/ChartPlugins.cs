@@ -19,7 +19,7 @@ public class ChartPlugins
     /// Configuration for the chart tooltips.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartTooltips Tooltips { get; set; }
+    public ChartTooltip Tooltip { get; set; }
 
     /// <summary>
     /// Configuration for the chart title.

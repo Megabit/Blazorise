@@ -45,6 +45,22 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
         options = optionsObject;
     }
 
+    function processTooltipCallbacks(callbacks) {
+        if (callbacks && typeof callbacks === 'object') {
+            const newCallbacks = {};
+
+            Object.keys(callbacks).forEach(key => {
+                if (typeof callbacks[key] === 'string') {
+                    newCallbacks[key] = eval(`(${callbacks[key]})`);
+                } else {
+                    newCallbacks[key] = callbacks[key];
+                }
+            });
+
+            Object.assign(callbacks, newCallbacks);
+        }
+    }
+
     function processTicksCallback(scales, axis) {
         if (scales && Array.isArray(scales[axis])) {
             scales[axis].forEach(a => {
@@ -63,6 +79,10 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
     if (options && options.scales) {
         processTicksCallback(options.scales, 'x');
         processTicksCallback(options.scales, 'y');
+    }
+
+    if (options && options.plugins && options.plugins.tooltip && options.plugins.tooltip.callbacks) {
+        processTooltipCallbacks(options.plugins.tooltip.callbacks);
     }
 
     // search for canvas element
