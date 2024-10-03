@@ -10,6 +10,15 @@ namespace Blazorise;
 /// </summary>
 public partial class Skeleton : BaseComponent
 {
+    #region Members
+
+    /// <summary>
+    /// The animation style applied to the skeleton.
+    /// </summary>
+    private SkeletonAnimation animation;
+
+    #endregion
+
     #region Methods
 
     /// <summary>
@@ -35,7 +44,20 @@ public partial class Skeleton : BaseComponent
     /// <value>
     /// A <see cref="SkeletonAnimation"/> value that determines the animation style.
     /// </value>
-    [Parameter] public SkeletonAnimation Animation { get; set; }
+    [Parameter]
+    public SkeletonAnimation Animation
+    {
+        get => animation;
+        set
+        {
+            if ( animation == value )
+                return;
+
+            animation = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the child content to be rendered inside the skeleton component.
