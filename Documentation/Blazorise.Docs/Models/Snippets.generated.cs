@@ -3798,6 +3798,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <SkeletonItem ColumnSize=""ColumnSize.Is8"" />
 </Skeleton>";
 
+        public const string SkeletonTableExample = @"<SkeletonTable Rows=""5"" Columns=""4"" />";
+
         public const string SkeletonWaveAnimationExample = @"<Skeleton Animation=""SkeletonAnimation.Wave"">
     <SkeletonItem ColumnSize=""ColumnSize.Is7"" />
     <SkeletonItem ColumnSize=""ColumnSize.Is4"" />

@@ -6,29 +6,26 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise;
 
+/// <summary>
+/// A skeleton table that can be used to represent a skeleton of a table.
+/// </summary>
 public partial class SkeletonTable : BaseComponent
 {
-    #region Members
-
-    private IFluentColumn columnSize;
-
-    #endregion
-
-    #region Methods
-
-    /// <inheritdoc/>
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-
-        base.BuildClasses( builder );
-    }
-
-    #endregion
-
     #region Properties
 
+    /// <summary>
+    /// Defined the animation style applied to the skeleton.
+    /// </summary>
+    [Parameter] public SkeletonAnimation Animation { get; set; }
+
+    /// <summary>
+    /// Specifies the number of rows to be rendered. Default is 3.
+    /// </summary>
     [Parameter] public int Rows { get; set; } = 3;
 
+    /// <summary>
+    /// Specifies the number of columns to be rendered. Default is 5.
+    /// </summary>
     [Parameter] public int Columns { get; set; } = 5;
 
     /// <summary>

@@ -6,7 +6,7 @@
             @for ( int c = 0; c < Columns; ++c )
             {
                 <TableHeaderCell @key="@c">
-                    <Skeleton>
+                    <Skeleton Animation="@Animation">
                         <SkeletonItem Width="Blazorise.Width.Is100" />
                     </Skeleton>
                 </TableHeaderCell>
@@ -20,7 +20,7 @@
                 @for ( int c = 0; c < Columns; ++c )
                 {
                     <TableRowCell @key="@c">
-                        <Skeleton>
+                        <Skeleton Animation="@Animation">
                             <SkeletonItem Width="Blazorise.Width.Is75" />
                         </Skeleton>
                     </TableRowCell>
