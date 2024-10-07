@@ -405,3 +405,19 @@ input[readonly="readonly"][type=range] {
     content: " *";
     color: var(--b-theme-danger, $danger);
 }
+
+.form-group {
+    &:not(.row) {
+        .btn-group.btn-group-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+            width: max-content;
+
+            .btn {
+                flex: 0 1 auto;
+            }
+        }
+    }
+}

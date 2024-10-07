@@ -66,9 +66,9 @@
     <DocsPageSectionSource Code="RichTextEditStartupExample"></DocsPageSectionSource>
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    Configuration options
-</DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    Options
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="UseShowTheme" Type="bool" Default="true">
@@ -77,21 +77,53 @@
     <DocsAttributesItem Name="UseBubbleTheme" Type="bool" Default="false">
         Load the QuillJS bubble theme related resources.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="QuillJSVersion" Type="string" Default="1.3.7">
+    <DocsAttributesItem Name="UseTables" Type="bool" Default="false">
+        If true enables the QuillJs table module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="QuillJSVersion" Type="string" Default="2.0.0" ObsoleteMessage="Dynamic loading no longer used.">
         The QuillJS version to load.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DynamicLoadReferences" Type="bool" Default="true">
+    <DocsAttributesItem Name="DynamicLoadReferences" Type="bool" Default="true" ObsoleteMessage="Dynamic loading no longer used.">
         Load the RichTextEdit scripts and stylesheets on demand.
     </DocsAttributesItem>
 </DocsAttributes>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic example">
+    <DocsPageSectionHeader Title="Basic">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <RichTextEditExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="RichTextEditExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Tables">
+        <Paragraph>
+            To enable table support within the RichTextEdit component, you need to configure it in your <Strong>Startup.cs</Strong> file as follows:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RichTextEditTableStartupExample" />
+
+    <DocsPageSectionHeader>
+        <Paragraph>
+            Once enabled, you can create tables within the RichTextEdit component using the following code:
+        </Paragraph>
+        <Paragraph>
+            <Alert Color="Color.Warning" Visible>
+                <AlertMessage>Note:</AlertMessage>
+                <AlertDescription>This feature is currently marked as experimental. While it provides basic table functionality, some advanced features may be limited or not fully supported. We recommend using it with caution until an official module is released by the Quill.js team.</AlertDescription>
+            </Alert>
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RichTextEditTableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RichTextEditTableExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -128,85 +160,4 @@
     <DocsPageSectionSource Code="RichTextEditConfigurationExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes Title="RichTextEdit">
-    <DocsAttributesItem Name="Toolbar" Type="markup">
-        The custom toolbar definition.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Editor" Type="markup">
-        The editor content.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
-        Editor read-only flag.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Theme" Type="RichTextEditTheme" Default="Snow">
-        The editor theme.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="PlaceHolder" Type="string">
-        Placeholder text for empty editor.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ToolbarPosition" Type="Placement" Default="Top">
-        Toolbar position (top or bottom).
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SubmitOnEnter" Type="bool" Default="false">
-        Call EnterPressed event when pressing ENTER key.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ContentChanged" Type="EventCallback">
-        Occurs when the content changes.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EnterPressed" Type="EventCallback">
-        Occurs when ENTER key is pressed and SubmitOnEnter.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ConfigureQuillJSMethod" Type="string">
-        The JavaScript method to call to configure additional QuillJS modules and or add custom bindings.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="RichTextEditToolbarGroup">
-    <DocsAttributesItem Name="Float" Type="float">
-        The float position on the toolbar.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ChildContent" Type="markup">
-        The group content.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="RichTextEditToolbarButton">
-    <DocsAttributesItem Name="Action" Type="RichTextEditAction?">
-        The QuillJS action associated with the select.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Value" Type="string">
-        The QuillJS action selected value.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ChildContent" Type="markup">
-        The custom markup/text to display.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="RichTextEditToolbarSelect">
-    <DocsAttributesItem Name="Action" Type="RichTextEditAction?">
-        The QuillJS action associated with the select.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ChildContent" Type="markup">
-        The RichTextEditToolbarSelectItem items.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="RichTextEditToolbarSelectItem">
-    <DocsAttributesItem Name="Value" Type="string">
-        The QuillJS action selected value.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Selected" Type="bool" Default="false">
-        Is the select item selected.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ChildContent" Type="markup">
-        The custom markup/text to display.
-    </DocsAttributesItem>
-</DocsAttributes>
+<RichTextEditApi />

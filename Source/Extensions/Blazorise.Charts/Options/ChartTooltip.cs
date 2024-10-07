@@ -7,7 +7,7 @@ namespace Blazorise.Charts;
 /// <summary>
 /// Tooltip Configuration
 /// </summary>
-public class ChartTooltips
+public class ChartTooltip
 {
     /// <summary>
     /// Are on-canvas tooltips enabled.
@@ -32,6 +32,13 @@ public class ChartTooltips
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Position { get; set; }
+
+    /// <summary>
+    /// Tooltip callbacks.
+    /// </summary>
+    [JsonPropertyName( "callbacks" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public ChartTooltipCallbacks Callbacks { get; set; }
 
     /// <summary>
     /// Background color of the tooltip.

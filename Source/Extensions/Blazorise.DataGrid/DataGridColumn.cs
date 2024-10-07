@@ -408,6 +408,36 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
        => FilterTextAlignment ?? TextAlignment;
 
     /// <summary>
+    /// Gets the text transformation for the filter cell.
+    /// </summary>
+    internal TextTransform FilterCellTextTransform
+        => FilterTextTransform ?? TextTransform;
+
+    /// <summary>
+    /// Gets the text decoration for the filter cell.
+    /// </summary>
+    internal TextDecoration FilterCellTextDecoration
+        => FilterTextDecoration ?? TextDecoration;
+
+    /// <summary>
+    /// Gets the text weight for the filter cell.
+    /// </summary>
+    internal TextWeight FilterCellTextWeight
+        => FilterTextWeight ?? TextWeight;
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the filter cell.
+    /// </summary>
+    internal TextOverflow FilterCellTextOverflow
+        => FilterTextOverflow ?? TextOverflow;
+
+    /// <summary>
+    /// Determines the font size of an element for the filter cell.
+    /// </summary>
+    internal IFluentTextSize FilterCellTextSize
+        => FilterTextSize ?? TextSize;
+
+    /// <summary>
     /// Determines the vertical alignment for the filter cell.
     /// </summary>
     /// <returns>Vertical alignment value.</returns>
@@ -449,6 +479,36 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns>Text alignment value.</returns>
     internal TextAlignment HeaderCellTextAlignment
        => HeaderTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Gets the text transformation for the header cell.
+    /// </summary>
+    internal TextTransform HeaderCellTextTransform
+        => HeaderTextTransform ?? TextTransform;
+
+    /// <summary>
+    /// Gets the text decoration for the header cell.
+    /// </summary>
+    internal TextDecoration HeaderCellTextDecoration
+        => HeaderTextDecoration ?? TextDecoration;
+
+    /// <summary>
+    /// Gets the text weight for the header cell.
+    /// </summary>
+    internal TextWeight HeaderCellTextWeight
+        => HeaderTextWeight ?? TextWeight;
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the header cell.
+    /// </summary>
+    internal TextOverflow HeaderCellTextOverflow
+        => HeaderTextOverflow ?? TextOverflow;
+
+    /// <summary>
+    /// Determines the font size of an element for the header cell.
+    /// </summary>
+    internal IFluentTextSize HeaderCellTextSize
+        => HeaderTextSize ?? TextSize;
 
     /// <summary>
     /// Determines the vertical alignment for the header cell.
@@ -494,6 +554,36 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns>Text alignment value.</returns>
     internal TextAlignment AggregateCellTextAlignment
        => AggregateTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Gets the text transformation for the aggregate cell.
+    /// </summary>
+    internal TextTransform AggregateCellTextTransform
+        => AggregateTextTransform ?? TextTransform;
+
+    /// <summary>
+    /// Gets the text transformation for the aggregate cell.
+    /// </summary>
+    internal TextDecoration AggregateCellTextDecoration
+        => AggregateTextDecoration ?? TextDecoration;
+
+    /// <summary>
+    /// Gets the text decoration for the aggregate cell.
+    /// </summary>
+    internal TextWeight AggregateCellTextWeight
+        => AggregateTextWeight ?? TextWeight;
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the aggregate cell.
+    /// </summary>
+    internal TextOverflow AggregateCellTextOverflow
+        => AggregateTextOverflow ?? TextOverflow;
+
+    /// <summary>
+    /// Determines the font size of an element for the aggregate cell.
+    /// </summary>
+    internal IFluentTextSize AggregateCellTextSize
+        => AggregateTextSize ?? TextSize;
 
     /// <summary>
     /// Determines the vertical alignment for the aggregate cell.
@@ -603,9 +693,34 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column filter cell.
+    /// Defines the alignment for column filter cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? FilterTextAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text transformation for column filter cell. If not set, it will fallback to the TextTransform.
+    /// </summary>
+    [Parameter] public TextTransform? FilterTextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for column filter cell. If not set, it will fallback to the TextDecoration.
+    /// </summary>
+    [Parameter] public TextDecoration? FilterTextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for column filter cell. If not set, it will fallback to the TextWeight.
+    /// </summary>
+    [Parameter] public TextWeight? FilterTextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for column filter cell. If not set, it will fallback to the TextOverflow.
+    /// </summary>
+    [Parameter] public TextOverflow? FilterTextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for column filter cell. If not set, it will fallback to the TextSize.
+    /// </summary>
+    [Parameter] public IFluentTextSize FilterTextSize { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column filter cell.
@@ -643,12 +758,37 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
 
     /// <summary>
-    /// Defines the alignment for display cell.
+    /// Defines the alignment for the table cell.
     /// </summary>
     [Parameter] public TextAlignment TextAlignment { get; set; }
 
     /// <summary>
-    /// Defines the vertical alignment for display cell.
+    /// Gets or sets the text transformation for the table cell.
+    /// </summary>
+    [Parameter] public TextTransform TextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for the table cell.
+    /// </summary>
+    [Parameter] public TextDecoration TextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for the table cell.
+    /// </summary>
+    [Parameter] public TextWeight TextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the table cell.
+    /// </summary>
+    [Parameter] public TextOverflow TextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for the table cell.
+    /// </summary>
+    [Parameter] public IFluentTextSize TextSize { get; set; }
+
+    /// <summary>
+    /// Defines the vertical alignment for the table cell.
     /// </summary>
     [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
@@ -668,9 +808,34 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentGap Gap { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column header cell.
+    /// Defines the alignment for column header cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? HeaderTextAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text transformation for column header cell. If not set, it will fallback to the TextTransform.
+    /// </summary>
+    [Parameter] public TextTransform? HeaderTextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for column header cell. If not set, it will fallback to the TextDecoration.
+    /// </summary>
+    [Parameter] public TextDecoration? HeaderTextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for column header cell. If not set, it will fallback to the TextWeight.
+    /// </summary>
+    [Parameter] public TextWeight? HeaderTextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.
+    /// </summary>
+    [Parameter] public TextOverflow? HeaderTextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.
+    /// </summary>
+    [Parameter] public IFluentTextSize HeaderTextSize { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column header cell.
@@ -815,9 +980,34 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public string AggregateCellStyle { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column the aggregate cell.
+    /// Defines the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.
+    /// </summary>
+    [Parameter] public TextTransform? AggregateTextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.
+    /// </summary>
+    [Parameter] public TextDecoration? AggregateTextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.
+    /// </summary>
+    [Parameter] public TextWeight? AggregateTextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.
+    /// </summary>
+    [Parameter] public TextOverflow? AggregateTextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.
+    /// </summary>
+    [Parameter] public IFluentTextSize AggregateTextSize { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column the aggregate cell.

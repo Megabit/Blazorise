@@ -73,7 +73,7 @@
 }
 
 .flatpickr-day {
-    max-width: 28px;
+    flex: 1 0 14.28571428571429%;
     height: 28px;
     line-height: 28px;
     border-radius: 0%;
@@ -82,14 +82,42 @@
     font-weight: var(--fontWeightRegular);
 
     &.today {
-        background-color: var(--colorBrandBackground);
-        border-color: var(--colorBrandBackground);
+        position: relative;
         color: var(--colorNeutralForegroundOnBrand);
-        border-radius: 50%;
+        border-color: inherit;
+
+        &:not(:hover) {
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 5px;
+                width: 26px;
+                height: 26px;
+                background-color: var(--colorBrandBackground);
+                border-color: var(--colorBrandBackground);
+                color: var(--colorNeutralForegroundOnBrand);
+                border-radius: 50%;
+                z-index: -1;
+            }
+        }
 
         &:hover {
-            background: var(--colorBrandBackgroundHover);
-            border-color: var(--colorBrandBackgroundHover);
+            background-color: var(--colorBrandBackgroundInvertedHover);
+            border-color: rgba(0, 0, 0, 0);
+            color: inherit;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 5px;
+                width: 26px;
+                height: 26px;
+                border-color: var(--colorBrandBackground);
+                border-radius: 50%;
+                z-index: +1;
+            }
         }
     }
 

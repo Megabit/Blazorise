@@ -189,10 +189,17 @@
   --colorBrandBackground2: #ebf3fc;
   --colorBrandBackground2Hover: #cfe4fa;
   --colorBrandBackground2Pressed: #96c6fa;
+  --colorBrandBackground3Static: #0f548c;
+  --colorBrandBackground4Static: #0c3b5e;
   --colorBrandBackgroundInverted: #ffffff;
   --colorBrandBackgroundInvertedHover: #ebf3fc;
   --colorBrandBackgroundInvertedPressed: #b4d6fa;
   --colorBrandBackgroundInvertedSelected: #cfe4fa;
+  --colorNeutralCardBackground: #fafafa;
+  --colorNeutralCardBackgroundHover: #ffffff;
+  --colorNeutralCardBackgroundPressed: #f5f5f5;
+  --colorNeutralCardBackgroundSelected: #ebebeb;
+  --colorNeutralCardBackgroundDisabled: #f0f0f0;
   --colorNeutralStrokeAccessible: #616161;
   --colorNeutralStrokeAccessibleHover: #575757;
   --colorNeutralStrokeAccessiblePressed: #4d4d4d;
@@ -414,6 +421,8 @@
   --colorStatusDangerBorderActive: #c50f1f;
   --colorStatusDangerBorder1: #eeacb2;
   --colorStatusDangerBorder2: #c50f1f;
+  --colorStatusDangerBackground3Hover: #b10e1c;
+  --colorStatusDangerBackground3Pressed: #960b18;
   --shadow2: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
   --shadow4: 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14);
   --shadow8: 0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14);
@@ -15329,7 +15338,7 @@ code {
 }
 
 .flatpickr-day {
-  max-width: 28px;
+  flex: 1 0 14.2857142857%;
   height: 28px;
   line-height: 28px;
   border-radius: 0%;
@@ -15338,14 +15347,38 @@ code {
   font-weight: var(--fontWeightRegular);
 }
 .flatpickr-day.today {
+  position: relative;
+  color: var(--colorNeutralForegroundOnBrand);
+  border-color: inherit;
+}
+.flatpickr-day.today:not(:hover)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5px;
+  width: 26px;
+  height: 26px;
   background-color: var(--colorBrandBackground);
   border-color: var(--colorBrandBackground);
   color: var(--colorNeutralForegroundOnBrand);
   border-radius: 50%;
+  z-index: -1;
 }
 .flatpickr-day.today:hover {
-  background: var(--colorBrandBackgroundHover);
-  border-color: var(--colorBrandBackgroundHover);
+  background-color: var(--colorBrandBackgroundInvertedHover);
+  border-color: rgba(0, 0, 0, 0);
+  color: inherit;
+}
+.flatpickr-day.today:hover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5px;
+  width: 26px;
+  height: 26px;
+  border-color: var(--colorBrandBackground);
+  border-radius: 50%;
+  z-index: 1;
 }
 .flatpickr-day:hover {
   background-color: var(--colorBrandBackgroundInvertedHover);

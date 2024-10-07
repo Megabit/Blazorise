@@ -11,14 +11,19 @@ namespace Blazorise.RichTextEdit;
 public sealed class RichTextEditOptions
 {
     /// <summary>
-    /// Load the QuillJs snow theme related resources
+    /// Load the QuillJs snow theme related resources.
     /// </summary>
     public bool UseShowTheme { get; set; } = true;
 
     /// <summary>
-    /// Load the QuillJs bubble theme related resources
+    /// Load the QuillJs bubble theme related resources.
     /// </summary>
     public bool UseBubbleTheme { get; set; }
+
+    /// <summary>
+    /// If true enables the QuillJs table module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.
+    /// </summary>
+    public bool UseTables { get; set; }
 
     /// <summary>
     /// The QuillJs version to load

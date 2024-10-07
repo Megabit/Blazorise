@@ -3624,6 +3624,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
+        public const string RadioGroupButtonColorsExample = @"<RadioGroup TValue=""string"" Name=""side"" Buttons>
+    <Radio Value=""@(""left"")"" Color=""Color.Danger"">Left</Radio>
+    <Radio Value=""@(""middle"")"" Color=""Color.Warning"">Middle</Radio>
+    <Radio Value=""@(""right"")"" Color=""Color.Success"">Right</Radio>
+</RadioGroup>";
+
         public const string RadioGroupButtonsExample = @"<RadioGroup TValue=""string"" Name=""colors"" Buttons>
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
@@ -5138,6 +5144,107 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     void ValidateCheck( ValidatorEventArgs e )
     {
         // ...
+    }
+}";
+
+        public const string ValidationIValidatableObjectExample = @"@using System.ComponentModel.DataAnnotations
+
+<Validations Model=""@Company"" Mode=""ValidationMode.Auto"">
+    <Validation>
+        <Field>
+            <FieldLabel>Name</FieldLabel>
+            <FieldBody>
+                <TextEdit @bind-Text=""@Company.Name"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Description</FieldLabel>
+            <FieldBody>
+                <TextEdit @bind-Text=""@Company.Description"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Field>
+        <Switch @bind-Checked=""@Company.UseAlphaCode"">Use AlphaCode</Switch>
+    </Field>
+    <Fields>
+        <Validation>
+            <Field>
+                <FieldLabel>AlphaCode</FieldLabel>
+                <FieldBody>
+                    <TextEdit @bind-Text=""@Company.AlphaCode"">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>BetaCode</FieldLabel>
+                <FieldBody>
+                    <TextEdit @bind-Text=""@Company.BetaCode"">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+    </Fields>
+</Validations>
+
+@code {
+    CompanyInfo Company = new CompanyInfo()
+    {
+        UseAlphaCode = true,
+    };
+
+    public class CompanyInfo : IValidatableObject
+    {
+        [Required( ErrorMessage = ""Name is required"" )]
+        public string Name { get; set; }
+
+        [Required( ErrorMessage = ""Description is required"" )]
+        public string Description { get; set; }
+
+        public bool UseAlphaCode { get; set; }
+
+        public string AlphaCode { get; set; }
+
+        public string BetaCode { get; set; }
+
+        [Range( 0, 999.99 )]
+        public decimal Price { get; set; }
+
+        public IEnumerable<ValidationResult> Validate( ValidationContext validationContext )
+        {
+            if ( UseAlphaCode )
+            {
+                if ( String.IsNullOrWhiteSpace( AlphaCode ) )
+                {
+                    yield return new ValidationResult( ""AlphaCode is required"", new[] { ""AlphaCode"" } );
+                }
+            }
+            else
+            {
+                if ( String.IsNullOrWhiteSpace( BetaCode ) )
+                {
+                    yield return new ValidationResult( ""BetaCode is required"", new[] { ""BetaCode"" } );
+                }
+            }
+        }
     }
 }";
 
@@ -9909,6 +10016,32 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
+
+        public const string RichTextEditTableExample = @"<RichTextEdit>
+    <Editor>My example content</Editor>
+    <Toolbar>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Bold"" />
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Italic"" />
+            <RichTextEditToolbarSelect Action=""RichTextEditAction.Size"">
+                <RichTextEditToolbarSelectItem Value=""small"" />
+                <RichTextEditToolbarSelectItem Selected />
+                <RichTextEditToolbarSelectItem Value=""large"" />
+                <RichTextEditToolbarSelectItem Value=""huge"">Very Big</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""ordered"" />
+            <RichTextEditToolbarButton Action=""RichTextEditAction.List"" Value=""bullet"" />
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Table"" />
+        </RichTextEditToolbarGroup>
+    </Toolbar>
+</RichTextEdit>";
+
+        public const string RichTextEditTableStartupExample = @".AddBlazoriseRichTextEdit( options =>
+{
+    options.UseTables = true;
+} )";
 
         public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""
