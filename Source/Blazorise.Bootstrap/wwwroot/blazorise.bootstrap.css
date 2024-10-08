@@ -760,6 +760,17 @@ input[readonly=readonly][type=range]::-ms-thumb {
   color: var(--b-theme-danger, #dc3545);
 }
 
+.form-group:not(.row) .btn-group.btn-group-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: max-content;
+}
+.form-group:not(.row) .btn-group.btn-group-toggle .btn {
+  flex: 0 1 auto;
+}
+
 .jumbotron.jumbotron-primary {
   background-color: #007bff;
   color: #fff;
@@ -1435,6 +1446,51 @@ li.list-group-item-action {
   border-bottom-right-radius: 0.4rem;
 }
 
+.placeholder {
+  display: inline-block;
+  min-height: 1em;
+  vertical-align: middle;
+  cursor: wait;
+  background-color: currentcolor;
+  opacity: 0.5;
+}
+.placeholder.btn::before {
+  display: inline-block;
+  content: "";
+}
+
+.placeholder-xs {
+  min-height: 0.6em;
+}
+
+.placeholder-sm {
+  min-height: 0.8em;
+}
+
+.placeholder-lg {
+  min-height: 1.2em;
+}
+
+.placeholder-glow .placeholder {
+  animation: placeholder-glow 2s ease-in-out infinite;
+}
+
+@keyframes placeholder-glow {
+  50% {
+    opacity: 0.2;
+  }
+}
+.placeholder-wave {
+  mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
+  mask-size: 200% 100%;
+  animation: placeholder-wave 2s linear infinite;
+}
+
+@keyframes placeholder-wave {
+  100% {
+    mask-position: -200% 0%;
+  }
+}
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
   background-color: #007bff;
 }

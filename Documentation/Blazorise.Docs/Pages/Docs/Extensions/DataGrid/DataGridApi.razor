@@ -480,17 +480,77 @@
     <DocsAttributesItem Name="ReverseSorting" Type="bool" Default="false">
         Whether the sort direction will be reversed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment?" Default="Default">
-        Defines the alignment for display cell.
+    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="Default">
+        Defines the alignment for the table cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextTransform" Type="TextTransform" Default="Default">
+        Gets or sets the text transformation for the table cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextDecoration" Type="TextDecoration" Default="Default">
+        Gets or sets the text decoration for the table cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextWeight" Type="TextWeight" Default="Default">
+        Gets or sets the text weight for the table cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextOverflow" Type="TextOverflow" Default="Default">
+        Determines how the text will behave when it is larger than a parent container for the table cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextSize" Type="IFluentTextSize" Default="null">
+        Determines the font size of an element for the table cell.
     </DocsAttributesItem>
     <DocsAttributesItem Name="HeaderTextAlignment" Type="TextAlignment?" Default="null">
-        Defines the alignment for column header cell.
+        Defines the alignment for column header cell. If undefined, the <Code>TextAlignment</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderTextTransform" Type="TextTransform?" Default="null">
+        Gets or sets the text transformation for column header cell. If undefined, the <Code>TextTransform</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderTextDecoration" Type="TextDecoration?" Default="null">
+        Gets or sets the text decoration for column header cell. If undefined, the <Code>TextDecoration</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderTextWeight" Type="TextWeight?" Default="null">
+        Gets or sets the text weight for column header cell. If undefined, the <Code>TextWeight</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderTextOverflow" Type="TextOverflow?" Default="null">
+        Determines how the text will behave when it is larger than a parent container for column header cell. If undefined, the <Code>TextOverflow</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderTextSize" Type="IFluentTextSize" Default="null">
+        Determines the font size of an element for column header cell. If undefined, the <Code>TextSize</Code> will be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="FilterTextAlignment" Type="TextAlignment?" Default="null">
-        Defines the alignment for column filter cell.
+        Defines the alignment for column filter cell. If undefined, the <Code>TextAlignment</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterTextTransform" Type="TextTransform?" Default="null">
+        Gets or sets the text transformation for column filter cell. If undefined, the <Code>TextTransform</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterTextDecoration" Type="TextDecoration?" Default="null">
+        Gets or sets the text decoration for column filter cell. If undefined, the <Code>TextDecoration</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterTextWeight" Type="TextWeight?" Default="null">
+        Gets or sets the text weight for column filter cell. If undefined, the <Code>TextWeight</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterTextOverflow" Type="TextOverflow?" Default="null">
+        Determines how the text will behave when it is larger than a parent container for column filter cell. If undefined, the <Code>TextOverflow</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterTextSize" Type="IFluentTextSize" Default="null">
+        Determines the font size of an element for column filter cell. If undefined, the <Code>TextSize</Code> will be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="AggregateTextAlignment" Type="TextAlignment?" Default="null">
-        Defines the alignment for column the aggregate cell.
+        Defines the alignment for column the aggregate cell. If undefined, the <Code>TextAlignment</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateTextTransform" Type="TextTransform?" Default="null">
+        Gets or sets the text transformation for column aggregate cell. If undefined, the <Code>TextTransform</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateTextDecoration" Type="TextDecoration?" Default="null">
+        Gets or sets the text decoration for column aggregate cell. If undefined, the <Code>TextDecoration</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateTextWeight" Type="TextWeight?" Default="null">
+        Gets or sets the text weight for column aggregate cell. If undefined, the <Code>TextWeight</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateTextOverflow" Type="TextOverflow?" Default="null">
+        Determines how the text will behave when it is larger than a parent container for column aggregate cell. If undefined, the <Code>TextOverflow</Code> will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateTextSize" Type="IFluentTextSize" Default="null">
+        Determines the font size of an element for column aggregate cell. If undefined, the <Code>TextSize</Code> will be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Editable" Type="bool" Default="false">
         Whether users can edit cell values under this column.

@@ -53,17 +53,16 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the editor content as html asynchronous.
+    /// Sets the editor content as HTML asynchronously.
     /// </summary>
     /// <remarks>
-    /// Improper handling of HTML can lead to cross site scripting (XSS) make sure the html has been sanitized.
+    /// Improper handling of HTML can lead to cross-site scripting (XSS). Ensure that the HTML content is properly sanitized before setting it in the editor.
     /// </remarks>
     public async ValueTask SetHtmlAsync( string html )
     {
         if ( Rendered )
         {
             await JSModule.SetHtmlAsync( EditorRef, html );
-
             return;
         }
 
@@ -71,8 +70,9 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets the editor content as html asynchronous.
+    /// Gets the editor content as HTML asynchronously.
     /// </summary>
+    /// <returns>A <see cref="ValueTask{TResult}"/> representing the asynchronous operation, containing the HTML content of the editor.</returns>
     public async ValueTask<string> GetHtmlAsync()
     {
         if ( Rendered )
@@ -84,15 +84,18 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the editor content as Quill delta json asynchronous.
+    /// Sets the editor content as a Quill Delta JSON asynchronously.
     /// </summary>
+    /// <param name="deltaJson">The Delta JSON string representing the editor's content.</param>
+    /// <remarks>
+    /// The Quill Delta format is a rich text format used by the Quill editor. See the official Quill.js documentation for more details.
+    /// </remarks>
     /// <seealso href="https://quilljs.com/docs/delta/"/>
     public async ValueTask SetDeltaAsync( string deltaJson )
     {
         if ( Rendered )
         {
             await JSModule.SetDeltaAsync( EditorRef, deltaJson );
-
             return;
         }
 
@@ -100,8 +103,9 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets the editor content as Quill delta asynchronous.
+    /// Gets the editor content as a Quill Delta JSON asynchronously.
     /// </summary>
+    /// <returns>A <see cref="ValueTask{TResult}"/> representing the asynchronous operation, containing the Delta JSON string of the editor's content.</returns>
     /// <seealso href="https://quilljs.com/docs/delta/"/>
     public async ValueTask<string> GetDeltaAsync()
     {
@@ -114,8 +118,9 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the editor plain text asynchronous.
+    /// Sets the editor content as plain text asynchronously.
     /// </summary>
+    /// <param name="text">The plain text to set in the editor.</param>
     public async ValueTask SetTextAsync( string text )
     {
         if ( Rendered )
@@ -129,9 +134,9 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets the editor plain text asynchronous.
+    /// Gets the editor content as plain text asynchronously.
     /// </summary>
-    /// <seealso href="https://quilljs.com/docs/delta/"/>
+    /// <returns>A <see cref="ValueTask{TResult}"/> representing the asynchronous operation, containing the plain text of the editor's content.</returns>
     public async ValueTask<string> GetTextAsync()
     {
         if ( Rendered )
@@ -143,13 +148,14 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Clears the editor content asynchronous.
+    /// Clears the editor content asynchronously.
     /// </summary>
     public async ValueTask ClearAsync()
     {
         await InvokeAsync( () => ExecuteAfterRender( async () =>
         {
             await JSModule.ClearAsync( EditorRef );
+
             await OnContentChanged();
         } ) );
     }
@@ -245,25 +251,25 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public bool SubmitOnEnter { get; set; } = false;
 
     /// <summary>
-    /// Occurs when the content changes.
+    /// Occurs when the content within the editor changes.
     /// </summary>
     [Parameter] public EventCallback ContentChanged { get; set; }
 
     /// <summary>
-    /// Occurs when the enter key is pressed.
+    /// Occurs when the enter key is pressed within the editor.
     /// </summary>
     /// <remarks>
-    /// Only active when <see cref="SubmitOnEnter"/>
+    /// This event is triggered only when <see cref="SubmitOnEnter"/> is enabled.
     /// </remarks>
     [Parameter] public EventCallback EnterPressed { get; set; }
 
     /// <summary>
-    /// Occurs when the editor get focus.
+    /// Occurs when the editor gains focus.
     /// </summary>
     [Parameter] public EventCallback EditorFocus { get; set; }
 
     /// <summary>
-    /// Occurs when the editor get focus.
+    /// Occurs when the editor loses focus.
     /// </summary>
     [Parameter] public EventCallback EditorBlur { get; set; }
 

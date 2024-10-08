@@ -53,7 +53,10 @@ public class Startup
             } )
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons()
-            .AddBlazoriseRichTextEdit()
+            .AddBlazoriseRichTextEdit( options =>
+            {
+                options.UseTables = true;
+            } )
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] );
 

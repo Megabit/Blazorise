@@ -1305,6 +1305,16 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public override string Skeleton() => null;
+
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"placeholder-{ToSkeletonAnimation( animation )}" : null;
+
+    public override string SkeletonItem() => "placeholder";
+
+    #endregion
+
     #region Divider
 
     public override string Divider() => "divider";
@@ -1678,6 +1688,16 @@ public class Bootstrap5ClassProvider : ClassProvider
             Blazorise.Screenreader.Only => "visually-hidden",
             Blazorise.Screenreader.OnlyFocusable => "visually-hidden-focusable",
             _ => null,
+        };
+    }
+
+    public override string ToSkeletonAnimation( SkeletonAnimation animation )
+    {
+        return animation switch
+        {
+            Blazorise.SkeletonAnimation.Wave => "wave",
+            Blazorise.SkeletonAnimation.Pulse => "glow",
+            _ => null
         };
     }
 

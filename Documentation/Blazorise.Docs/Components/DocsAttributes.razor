@@ -25,7 +25,13 @@
         @foreach ( var docsAttributesItem in DocsAttributesItems )
         {
             <TableRow @key="@docsAttributesItem">
-                <TableRowCell>
+                <TableRowCell TextOverflow="TextOverflow.NoWrap">
+                    @if ( !string.IsNullOrEmpty( docsAttributesItem.ObsoleteMessage ) )
+                    {
+                        <Tooltip Text="@docsAttributesItem.ObsoleteMessage" Inline>
+                            <Icon Name="IconName.ExclamationTriangle" TextColor="TextColor.Warning" />
+                        </Tooltip>
+                    }
                     <Code>@docsAttributesItem.Name</Code>
                 </TableRowCell>
                 <TableRowCell>
