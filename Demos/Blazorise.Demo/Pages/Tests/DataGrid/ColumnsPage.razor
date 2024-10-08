@@ -38,7 +38,7 @@
                         <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
                         <DataGridColumn Editable Field="@nameof(Employee.FirstName)" Caption="First Name"></DataGridColumn>
                         <DataGridNumericColumn Editable Field="@nameof(Employee.Salary)" Caption="Salary"></DataGridNumericColumn>
-                        <DataGridDateColumn Editable Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth"></DataGridDateColumn>
+                        <DataGridDateColumn DateDisplayFormat="dd.MM.yyyy" DisplayFormat="{0:dd.MM.yyyy}" Editable Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth"></DataGridDateColumn>
                         <DataGridCheckColumn Editable Field="@nameof(Employee.IsActive)" Caption="Active"></DataGridCheckColumn>
                         <DataGridSelectColumn Caption="Gender" Field="@nameof(Employee.Gender)" Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" Editable />
                     </DataGridColumns>

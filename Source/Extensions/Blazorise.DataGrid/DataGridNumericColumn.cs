@@ -47,4 +47,9 @@ public class DataGridNumericColumn<TItem> : DataGridColumn<TItem>
     /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
     /// </summary>
     [Parameter] public bool? EnableStep { get; set; }
+
+    /// <summary>
+    /// Renders the native based input <see cref="NumericEdit{TValue}"/> instead of the <see cref="NumericPicker{TValue}"/>.
+    /// </summary>
+    [Parameter] public bool NativeInputMode { get; set; }
 }

@@ -11,7 +11,7 @@ namespace Blazorise.DataGrid;
 /// Internal component for editing the row item cell value.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public partial class _DataGridCellDateEdit<TItem> : ComponentBase
+public partial class _DataGridCellDatePicker<TItem> : ComponentBase
 {
     protected string elementId;
 

@@ -38,7 +38,7 @@ else
             }
             else if ( Column is DataGridDateColumn<TItem> dateColumn )
             {
-                <_DataGridCellDateEdit Column="@dateColumn" CellValue="@CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
+                <_DataGridCellDatePicker Column="@dateColumn" CellValue="@CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
             }
             else if ( Column is DataGridSelectColumn<TItem> selectColumn )
             {
