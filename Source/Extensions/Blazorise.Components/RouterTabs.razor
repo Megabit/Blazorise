@@ -1,0 +1,22 @@
+﻿@using Blazorise.Extensions
+
+@if ( !RouterTabsService.Tabs.IsNullOrEmpty() )
+{
+    <Tabs>
+        <Items>
+            @foreach ( var routerTab in RouterTabsService.Tabs )
+            {
+                <Tab Name="@routerTab.TypeName">@routerTab.TypeName</Tab>
+            }
+        </Items>
+        <Content>
+            @foreach ( var routerTab in RouterTabsService.Tabs )
+            {
+                <TabPanel Name="@routerTab.TypeName">
+                    @routerTab.Body
+                </TabPanel>
+            }
+        </Content>
+    </Tabs>
+}
+

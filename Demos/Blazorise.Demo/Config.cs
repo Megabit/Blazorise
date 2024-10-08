@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using Blazored.LocalStorage;
 using Blazorise.Captcha.ReCaptcha;
+using Blazorise.Components;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
 using Blazorise.RichTextEdit;
@@ -32,7 +33,7 @@ public static class Config
             {
                 options.SiteKey = reCaptchaSiteKey;
             } );
-
+        services.AddScoped<RouterTabsService>();
         services.AddBlazoredLocalStorage();
 
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
