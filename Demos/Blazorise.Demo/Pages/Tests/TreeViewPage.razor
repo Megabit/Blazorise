@@ -26,6 +26,7 @@
                         </Field>
                     </Column>
                     <Column ColumnSize="ColumnSize.IsAuto">
+                        <Button Color="Color.Primary" Clicked="AddNode">Add</Button>
                         <Button Color="Color.Primary" Clicked="ForceReload">Force Reload</Button>
                         <Button Color="Color.Primary" Clicked="DisableRandomNode">Disable Random</Button>
                         <Button Color="Color.Primary" Clicked="DisableAll">Disable All</Button>
@@ -41,12 +42,16 @@
                             <Button Color="Color.Secondary" Clicked="@(()=>selectedNodes = Nodes.Take(3).ToList())">Select multiple nodes</Button>
                         }
                     </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Switch @bind-Checked=virtualize>Virtualize</Switch>
+                    </Column>
                 </Row>
             </CardBody>
             <CardBody>
                 <TreeView @ref="@treeViewRef"
                           TNode="NodeInfo"
                           Nodes="Nodes"
+                          Virtualize="@virtualize"
                           SelectionMode="@selectionMode"
                           @bind-SelectedNode="selectedNode"
                           @bind-ExpandedNodes="expandedNodes"

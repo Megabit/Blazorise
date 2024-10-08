@@ -37,6 +37,22 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         bool nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
         bool selectedNodeChanged = parameters.TryGetValue<TNode>( nameof( SelectedNode ), out var paramSelectedNode ) && !paramSelectedNode.IsEqual( treeViewState.SelectedNode );
         bool selectedNodesChanged = parameters.TryGetValue<IList<TNode>>( nameof( SelectedNodes ), out var paramSelectedNodes ) && !paramSelectedNodes.AreEqual( treeViewState.SelectedNodes );
+        bool virtualizeChanged = parameters.TryGetValue<bool>( nameof( Virtualize ), out var paramVirtualize ) && !paramVirtualize.IsEqual( Virtualize );
+
+        if ( virtualizeChanged && paramVirtualize )
+        {
+            // If virtualize is enabled, but the height is not set, then set the default height to 300px.
+            if ( !parameters.TryGetValue<IFluentSizing>( nameof( Height ), out _ ) )
+            {
+                Height = Blazorise.Height.Px( 300 );
+            }
+
+            // If virtualize is enabled, but the overflow is not set, then set the default overflow to scroll.
+            if ( !parameters.TryGetValue<IFluentOverflow>( nameof( Overflow ), out _ ) )
+            {
+                Overflow = Blazorise.Overflow.Scroll;
+            }
+        }
 
         if ( selectedNodeChanged )
         {
@@ -340,6 +356,12 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
     /// </summary>
     [Parameter] public bool AutoExpandAll { get; set; }
+
+    /// <summary>
+    /// Controls if the child nodes, which are currently not expanded, are visible.
+    /// This is useful for optimizing large TreeViews. See <see href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization">Docs for virtualization</see> for more info.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
     /// List of currently expanded TreeView items (child nodes).
