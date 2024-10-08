@@ -1314,6 +1314,16 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public override string Skeleton() => "skeleton-lines";
+
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"skeleton-lines-{ToSkeletonAnimation( animation )}" : null;
+
+    public override string SkeletonItem() => "skeleton-line";
+
+    #endregion
+
     #region Divider
 
     public override string Divider() => "divider";
