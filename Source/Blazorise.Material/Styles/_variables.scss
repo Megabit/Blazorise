@@ -505,3 +505,8 @@ $print-body-min-width: map-get($grid-breakpoints, 'lg') !default;
 // Position
 
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
+
+// Placeholders
+
+$placeholder-opacity-max: .5 !default;
+$placeholder-opacity-min: .2 !default;

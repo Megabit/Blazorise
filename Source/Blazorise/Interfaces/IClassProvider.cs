@@ -1156,6 +1156,16 @@ public interface IClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    string Skeleton();
+
+    string SkeletonAnimation( SkeletonAnimation animation );
+
+    string SkeletonItem();
+
+    #endregion
+
     #region Divider
 
     string Divider();
@@ -1418,6 +1428,8 @@ public interface IClassProvider
     string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition );
 
     string ToObjectFitType( ObjectFitType objectFitType );
+
+    string ToSkeletonAnimation( SkeletonAnimation animation );
 
     #endregion
 

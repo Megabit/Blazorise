@@ -340,6 +340,20 @@
     transform: translateX(100%) scaleX(0.5);
   }
 }
+.b-skeleton .b-skeleton-item {
+  position: relative;
+}
+.b-skeleton.animate-wave {
+  mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
+  mask-size: 200% 100%;
+  animation: skeleton-wave-anim 2s linear infinite;
+}
+
+@keyframes skeleton-wave-anim {
+  100% {
+    mask-position: -200% 0%;
+  }
+}
 .b-steps .b-step-item:not(:first-child) .b-step-item-head:before {
   flex: 1;
   height: 1px;

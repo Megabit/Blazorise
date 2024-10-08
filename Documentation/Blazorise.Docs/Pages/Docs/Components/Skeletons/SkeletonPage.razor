@@ -1,0 +1,98 @@
+﻿@page "/docs/components/skeleton"
+
+<Seo Canonical="/docs/components/skeleton" Title="Blazorise Skeleton system" Description="Learn to use and work with the Blazorise Skeleton component, loading placeholders for your components or pages to indicate something may still be loading." />
+
+<DocsPageTitle Path="Components/Skeleton">
+    Blazorise Skeleton component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Use loading placeholders for your components or pages to indicate something may still be loading.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Skeletons can be used to enhance the experience of your application. They are used to indicate that something is still loading or that the content is not yet available.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        The most basic skeleton example.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SkeletonBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SkeletonBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Pulse Animation">
+        A skeleton with a pulse animation to better convey the perception of something being actively loaded.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SkeletonPulseAnimationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SkeletonPulseAnimationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Wave Animation">
+        A skeleton with a wave animation to better convey the perception of something being actively loaded.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SkeletonWaveAnimationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SkeletonWaveAnimationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Table">
+        <Code>SkeletonTable</Code> allows you to scaffold a basic table structure by utilizing the <Code>Rows</Code> and <Code>Columns</Code> parameters to define the size of the table.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SkeletonTableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SkeletonTableExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Do
+</Heading>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Use <Code>Skeleton</Code> to help ease a UI transition when we know the service will potentially take a longer amount of time to retrieve the data.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Provide size for each of the <Code>Skeleton</Code> elements you used to build a skeleton layout looking as close as possible to real content it is replacing.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use <Code>Skeleton</Code> if you know the UI loading time is longer than 1 second.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Don't
+</Heading>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Build Skeleton UI with a lot of details. Circles and rectangles are really as detailed as you want to get. Adding more detail will result in confusion once the UI loads.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use <Code>Skeleton</Code> if you are confident that the UI will take less than a second to load.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<SkeletonApi />

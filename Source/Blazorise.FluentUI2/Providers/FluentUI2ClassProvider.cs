@@ -1445,6 +1445,16 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public override string Skeleton() => "fui-Skeleton";
+
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"fui-Skeleton-{ToSkeletonAnimation( animation )}" : null;
+
+    public override string SkeletonItem() => "fui-SkeletonItem";
+
+    #endregion
+
     #region Divider
 
     public override string Divider() => "fui-Divider";
