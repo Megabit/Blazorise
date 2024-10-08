@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿#region Using directives
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -66,6 +70,16 @@ public class ToastInstance
     /// Sets the options for ToastProvider.
     /// </summary>
     public ToastInstanceOptions ToastInstanceOptions { get; private set; }
+
+    /// <summary>
+    /// Occurs before the toast is opened.
+    /// </summary>
+    public Func<ToastOpeningEventArgs, Task> Opening => ToastInstanceOptions?.Opening ?? ToastProvider.Opening;
+
+    /// <summary>
+    /// Occurs before the toast is closed.
+    /// </summary>
+    public Func<ToastClosingEventArgs, Task> Closing => ToastInstanceOptions?.Closing ?? ToastProvider.Closing;
 
     /// <summary>
     /// Occurs after the toast has opened.
