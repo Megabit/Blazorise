@@ -68,4 +68,9 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
+
+    /// <summary>
+    /// Renders the native based input <see cref="Blazorise.DateEdit{TValue}"/> instead of the <see cref="Blazorise.DatePicker{TValue}"/>.
+    /// </summary>
+    [Parameter] public bool NativeInputMode { get; set; }
 }

@@ -4,11 +4,18 @@
 
 @if ( TypeHelper.IsDate( valueType ) )
 {
-    @dateFragment
+    @if ( Column.NativeInputMode )
+    {
+        @dateEditFragment
+    }
+    else
+    {
+        @datePickerFragment
+    }
 }
 
 @code {
-    private RenderFragment dateFragment => builder =>
+    private RenderFragment datePickerFragment => builder =>
     {
         var type = typeof( DatePicker<> ).MakeGenericType( new[] { valueType } );
 
@@ -46,6 +53,39 @@
         builder.AddAttribute( 13, nameof( DatePicker<object>.DisableMobile ), Column.DisableMobile );
         builder.AddAttribute( 14, nameof( DatePicker<object>.StaticPicker ), Column.StaticPicker );
         builder.AddAttribute( 15, nameof( DatePicker<object>.DisplayFormat ), Column.DateDisplayFormat );
+        builder.CloseComponent();
+    };
+
+    private RenderFragment dateEditFragment => builder =>
+    {
+        var type = typeof( DateEdit<> ).MakeGenericType( new[] { valueType } );
+
+        builder.OpenComponent( 0, type );
+        builder.AddAttribute( 1, nameof( DateEdit<object>.Date ), valueType switch
+        {
+            Type typeDateTime when typeDateTime == typeof( DateTime ) => (DateTime)( CellValue ?? (DateTime)default ),
+            Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => (DateTime?)( CellValue ?? (DateTime?)default ),
+            Type typeDateOnly when typeDateOnly == typeof( DateOnly ) => (DateOnly)( CellValue ?? (DateOnly)default ),
+            Type typeDateOnlyNull when typeDateOnlyNull == typeof( DateOnly? ) => (DateOnly?)( CellValue ?? (DateOnly?)default ),
+            Type typeDateTimeOffset when typeDateTimeOffset == typeof( DateTimeOffset ) => (DateTimeOffset)( CellValue ?? (DateTimeOffset)default ),
+            Type typeDateTimeOffsetNull when typeDateTimeOffsetNull == typeof( DateTimeOffset? ) => (DateTimeOffset?)( CellValue ?? (DateTimeOffset?)default ),
+            _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
+        } );
+        builder.AddAttribute( 2, nameof( DateEdit<object>.DateChanged ), valueType switch
+        {
+            Type typeDateTime when typeDateTime == typeof( DateTime ) => EventCallback.Factory.Create<DateTime>( this, ( OnCellValueChanged<DateTime> ) ),
+            Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => EventCallback.Factory.Create<DateTime?>( this, ( OnCellValueChanged<DateTime?> ) ),
+            Type typeDateOnly when typeDateOnly == typeof( DateOnly ) => EventCallback.Factory.Create<DateOnly>( this, ( OnCellValueChanged<DateOnly> ) ),
+            Type typeDateOnlyNull when typeDateOnlyNull == typeof( DateOnly? ) => EventCallback.Factory.Create<DateOnly?>( this, ( OnCellValueChanged<DateOnly?> ) ),
+            Type typeDateTimeOffset when typeDateTimeOffset == typeof( DateTimeOffset ) => EventCallback.Factory.Create<DateTimeOffset>( this, ( OnCellValueChanged<DateTimeOffset> ) ),
+            Type typeDateTimeOffsetNull when typeDateTimeOffsetNull == typeof( DateTimeOffset? ) => EventCallback.Factory.Create<DateTimeOffset?>( this, ( OnCellValueChanged<DateTimeOffset?> ) ),
+            _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
+        } );
+        builder.AddAttribute( 3, nameof( BaseInputComponent<object>.ReadOnly ), Column.Readonly );
+        builder.AddAttribute( 4, nameof( DateEdit<object>.Pattern ), Column.ValidationPattern );
+        builder.AddAttribute( 5, nameof( DateEdit<object>.InputMode ), Column.InputMode );
+        builder.AddAttribute( 6, nameof( DateEdit<object>.Min ), Column.Min );
+        builder.AddAttribute( 7, nameof( DateEdit<object>.Max ), Column.Max );
         builder.CloseComponent();
     };
 }
