@@ -27,6 +27,7 @@ public interface IFluentFlex
 public interface IFluentFlexAll :
     IFluentFlex,
     IFluentFlexBreakpoint,
+    IFluentFlexType,
     IFluentFlexDirection,
     IFluentFlexJustifyContent,
     IFluentFlexAlignItems,
@@ -78,21 +79,28 @@ public interface IFluentFlexBreakpoint :
 }
 
 /// <summary>
+/// Allowed rules for flex type.
+/// </summary>
+public interface IFluentFlexType :
+    IFluentFlex
+{
+    /// <summary>
+    /// Displays an element as a block-level flex container.
+    /// </summary>
+    IFluentFlexAll Flex { get; }
+
+    /// <summary>
+    /// Displays an element as an inline-level flex container.
+    /// </summary>
+    IFluentFlexAll InlineFlex { get; }
+}
+
+/// <summary>
 /// Allowed rules for flex direction.
 /// </summary>
 public interface IFluentFlexDirection :
     IFluentFlex
 {
-    /// <summary>
-    /// Default value. The flexible items are displayed horizontally, as a row.
-    /// </summary>
-    IFluentFlexAll Flex { get; }
-
-    /// <summary>
-    ///  
-    /// </summary>
-    IFluentFlexAll InlineFlex { get; }
-
     /// <summary>
     /// Default value. The flexible items are displayed horizontally, as a row.
     /// </summary>
@@ -611,6 +619,7 @@ public record FlexDefinition
 public class FluentFlex :
     IFluentFlex,
     IFluentFlexBreakpoint,
+    IFluentFlexType,
     IFluentFlexDirection,
     IFluentFlexJustifyContent,
     IFluentFlexJustifyContentPositions,
