@@ -1456,7 +1456,24 @@ public class Bootstrap5ClassProvider : ClassProvider
         var sb = new StringBuilder();
 
         if ( flexType != FlexType.Default )
-            sb.Append( $"d-{ToFlexType( flexType )}" ).Append( ' ' );
+        {
+            var dist = flexDefinitions
+                .Where( x => x.Breakpoint != Breakpoint.None && x.Breakpoint != Breakpoint.Mobile )
+                .Select( x => x.Breakpoint )
+                .Distinct()
+                .ToList();
+
+            if ( dist.Count > 0 )
+            {
+                sb.Append( string.Join( ' ', dist.Select( x => $"d-{ToBreakpoint( x )}-{ToFlexType( flexType )}" ) ) );
+            }
+            else
+            {
+                sb.Append( $"d-{ToFlexType( flexType )}" );
+            }
+
+            sb.Append( ' ' );
+        }
 
         sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
 
