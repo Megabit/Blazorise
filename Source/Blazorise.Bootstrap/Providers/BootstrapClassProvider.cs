@@ -1453,31 +1453,21 @@ public class BootstrapClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+    public override string Flex( FlexRule flexRule )
     {
         var sb = new StringBuilder();
 
-        if ( flexType != FlexType.Default )
+        if ( flexRule.FlexType != FlexType.Default )
         {
-            var dist = flexDefinitions
-                .Where( x => x.Breakpoint != Breakpoint.None && x.Breakpoint != Breakpoint.Mobile && !x.RulesDefined )
-                .Select( x => x.Breakpoint )
-                .Distinct()
-                .ToList();
-
-            if ( dist.Count > 0 )
-            {
-                sb.Append( string.Join( ' ', dist.Select( x => $"d-{ToBreakpoint( x )}-{ToFlexType( flexType )}" ) ) );
-            }
+            if ( flexRule.Breakpoint > Breakpoint.Mobile )
+                sb.Append( $"d-{ToBreakpoint( flexRule.Breakpoint )}-{ToFlexType( flexRule.FlexType )}" );
             else
-            {
-                sb.Append( $"d-{ToFlexType( flexType )}" );
-            }
+                sb.Append( $"d-{ToFlexType( flexRule.FlexType )}" );
 
             sb.Append( ' ' );
         }
 
-        sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+        sb.Append( string.Join( ' ', flexRule.Definitions.Where( x => x.Condition ?? true ).Select( x => Flex( x ) ) ) );
 
         return sb.ToString();
     }

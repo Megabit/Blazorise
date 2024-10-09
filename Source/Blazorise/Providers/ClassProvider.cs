@@ -1237,7 +1237,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Flex( FlexDefinition flexDefinition );
 
-    public abstract string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+    public abstract string Flex( FlexRule flexRule );
 
     #endregion
 

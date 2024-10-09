@@ -524,6 +524,11 @@ public record FlexRule
     public FlexType FlexType { get; set; }
 
     /// <summary>
+    /// Defines the flex breakpoint rule.
+    /// </summary>
+    public Breakpoint Breakpoint { get; set; }
+
+    /// <summary>
     /// Gets or sets the flex definition.
     /// </summary>
     public List<FlexDefinition> Definitions { get; set; }
@@ -598,21 +603,6 @@ public record FlexDefinition
     /// If condition is true the rule will will be applied.
     /// </summary>
     public bool? Condition { get; set; }
-
-    /// <summary>
-    /// Indicates if any of the definition rules are defined(except for Breakpoint).
-    /// </summary>
-    public bool RulesDefined =>
-        Direction != FlexDirection.Default ||
-        JustifyContent != FlexJustifyContent.Default ||
-        AlignItems != FlexAlignItems.Default ||
-        AlignSelf != FlexAlignSelf.Default ||
-        AlignContent != FlexAlignContent.Default ||
-        GrowShrink != FlexGrowShrink.Default ||
-        GrowShrinkSize != FlexGrowShrinkSize.Default ||
-        Wrap != FlexWrap.Default ||
-        Order != FlexOrder.Default ||
-        Fill;
 }
 
 /// <summary>
@@ -686,7 +676,7 @@ public class FluentFlex :
                 {
                     foreach ( var rule in rules.Where( x => x.Definitions?.Count > 0 ) )
                     {
-                        builder.Append( classProvider.Flex( rule.FlexType, rule.Definitions.Where( x => x.Condition ?? true ).Select( v => v ) ) );
+                        builder.Append( classProvider.Flex( rule ) );
                     }
                 }
                 else if ( currentFlexDefinition is not null && currentFlexDefinition != FlexDefinition.Empty && ( currentFlexDefinition.Condition ?? true ) )
@@ -802,6 +792,13 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( currentFlexDefinition is null )
+        {
+            // If there is still no definition then we need to apply breakpoint to the flex rule.
+            currentFlexRule = GetRule();
+            currentFlexRule.Breakpoint = breakpoint;
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.Breakpoint = breakpoint;
         Dirty();
