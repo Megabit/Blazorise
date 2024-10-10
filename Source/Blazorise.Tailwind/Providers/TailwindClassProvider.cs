@@ -2109,14 +2109,21 @@ public class TailwindClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+    public override string Flex( FlexRule flexRule )
     {
         var sb = new StringBuilder();
 
-        if ( flexType != FlexType.Default )
-            sb.Append( $"{ToFlexType( flexType )}" ).Append( ' ' );
+        if ( flexRule.FlexType != FlexType.Default )
+        {
+            if ( flexRule.Breakpoint > Breakpoint.None )
+                sb.Append( $"{ToBreakpoint( flexRule.Breakpoint )}:{ToFlexType( flexRule.FlexType )}" );
+            else
+                sb.Append( $"{ToFlexType( flexRule.FlexType )}" );
 
-        sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+            sb.Append( ' ' );
+        }
+
+        sb.Append( string.Join( ' ', flexRule.Definitions.Where( x => x.Condition ?? true ).Select( x => Flex( x ) ) ) );
 
         return sb.ToString();
     }

@@ -6,6 +6,8 @@ using Blazorise.Utilities;
 
 namespace Blazorise;
 
+#region Interfaces
+
 /// <summary>
 /// Base interface for all fluent flex builders.
 /// </summary>
@@ -25,6 +27,7 @@ public interface IFluentFlex
 public interface IFluentFlexAll :
     IFluentFlex,
     IFluentFlexBreakpoint,
+    IFluentFlexType,
     IFluentFlexDirection,
     IFluentFlexJustifyContent,
     IFluentFlexAlignItems,
@@ -73,6 +76,23 @@ public interface IFluentFlexBreakpoint :
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
     IFluentFlexAll OnQuadHD { get; }
+}
+
+/// <summary>
+/// Allowed rules for flex type.
+/// </summary>
+public interface IFluentFlexType :
+    IFluentFlex
+{
+    /// <summary>
+    /// Displays an element as a block-level flex container.
+    /// </summary>
+    IFluentFlexAll Flex { get; }
+
+    /// <summary>
+    /// Displays an element as an inline-level flex container.
+    /// </summary>
+    IFluentFlexAll InlineFlex { get; }
 }
 
 /// <summary>
@@ -499,6 +519,29 @@ public interface IFluentFlexCondition :
     IFluentFlexAll If( bool condition );
 }
 
+#endregion
+
+/// <summary>
+/// Holds the flex type and the definition.
+/// </summary>
+public record FlexRule
+{
+    /// <summary>
+    /// Gets or sets the flex type.
+    /// </summary>
+    public FlexType FlexType { get; set; }
+
+    /// <summary>
+    /// Defines the flex breakpoint rule.
+    /// </summary>
+    public Breakpoint Breakpoint { get; set; }
+
+    /// <summary>
+    /// Gets or sets the flex definition.
+    /// </summary>
+    public List<FlexDefinition> Definitions { get; set; }
+}
+
 /// <summary>
 /// Holds the build information for current flex rules.
 /// </summary>
@@ -576,6 +619,7 @@ public record FlexDefinition
 public class FluentFlex :
     IFluentFlex,
     IFluentFlexBreakpoint,
+    IFluentFlexType,
     IFluentFlexDirection,
     IFluentFlexJustifyContent,
     IFluentFlexJustifyContentPositions,
@@ -599,7 +643,12 @@ public class FluentFlex :
     /// <summary>
     /// Currently used display type.
     /// </summary>
-    private FlexType currentFlexType /*= DisplayType.Flex*/;
+    private FlexType currentFlexType;
+
+    /// <summary>
+    /// Currently used flex rule.
+    /// </summary>
+    private FlexRule currentFlexRule;
 
     /// <summary>
     /// Currently used flex rules.
@@ -607,9 +656,9 @@ public class FluentFlex :
     private FlexDefinition currentFlexDefinition;
 
     /// <summary>
-    /// List of all flex rules to build.
+    /// Holds the flex rules.
     /// </summary>
-    private Dictionary<FlexType, List<FlexDefinition>> rules;
+    private List<FlexRule> rules = new();
 
     /// <summary>
     /// Indicates if the rules have changed.
@@ -632,9 +681,12 @@ public class FluentFlex :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules is not null && rules.Count > 0 )
+                if ( rules is not null && rules.Count > 0 && rules.Any( x => x.Definitions?.Count > 0 ) )
                 {
-                    builder.Append( rules.Select( r => classProvider.Flex( r.Key, r.Value.Where( x => x.Condition ?? true ).Select( v => v ) ) ) );
+                    foreach ( var rule in rules.Where( x => x.Definitions?.Count > 0 ) )
+                    {
+                        builder.Append( classProvider.Flex( rule ) );
+                    }
                 }
                 else if ( currentFlexDefinition is not null && currentFlexDefinition != FlexDefinition.Empty && ( currentFlexDefinition.Condition ?? true ) )
                 {
@@ -673,10 +725,41 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithFlexType( FlexType flexType )
     {
-        currentFlexType = flexType;
-        Dirty();
+        if ( currentFlexType != flexType )
+        {
+            currentFlexType = flexType;
+            currentFlexRule = CreateRule();
+            currentFlexDefinition = null;
+
+            Dirty();
+        }
 
         return this;
+    }
+
+    /// <summary>
+    /// Gets the current flex rule.
+    /// </summary>
+    /// <returns>Current rule or new if none was found.</returns>
+    private FlexRule GetRule()
+    {
+        if ( currentFlexRule is null )
+            currentFlexRule = CreateRule();
+
+        return currentFlexRule;
+    }
+
+    /// <summary>
+    /// Starts the new flex rule.
+    /// </summary>
+    /// <returns>Next rule reference.</returns>
+    private FlexRule CreateRule()
+    {
+        var rule = new FlexRule { FlexType = currentFlexType, Definitions = new() };
+
+        rules.Add( rule );
+
+        return rule;
     }
 
     /// <summary>
@@ -697,14 +780,16 @@ public class FluentFlex :
     /// <returns>The newly created flex definition.</returns>
     private FlexDefinition CreateDefinition()
     {
-        rules ??= new();
+        var rule = GetRule();
+
+        if ( rule.Definitions is null )
+        {
+            rule.Definitions = new List<FlexDefinition>();
+        }
 
         var flexDefinition = new FlexDefinition();
 
-        if ( rules.TryGetValue( currentFlexType, out var rule ) )
-            rule.Add( flexDefinition );
-        else
-            rules.Add( currentFlexType, new() { flexDefinition } );
+        rule.Definitions.Add( flexDefinition );
 
         return flexDefinition;
     }
@@ -716,6 +801,13 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( currentFlexDefinition is null )
+        {
+            // If there is still no definition then we need to apply breakpoint to the flex rule.
+            currentFlexRule = GetRule();
+            currentFlexRule.Breakpoint = breakpoint;
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.Breakpoint = breakpoint;
         Dirty();
@@ -958,6 +1050,12 @@ public class FluentFlex :
     public IFluentFlexAll OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     /// <inheritdoc/>
+    public IFluentFlexAll Flex => WithFlexType( FlexType.Flex );
+
+    /// <inheritdoc/>
+    public IFluentFlexAll InlineFlex => WithFlexType( FlexType.InlineFlex );
+
+    /// <inheritdoc/>
     public IFluentFlexAll Row => WithDirection( FlexDirection.Row );
 
     /// <inheritdoc/>
@@ -1129,6 +1227,11 @@ public static class Flex
     /// I have added this option. It is named as "_" because "Flex" cannot be used(Compiler Error CS0542).
     /// </remarks>
     public static IFluentFlexAll _ => new FluentFlex().WithFlexType( FlexType.Flex );
+
+    /// <summary>
+    /// Explicitly starts the new set of rules for flex display.
+    /// </summary>
+    public static IFluentFlexAll Default => new FluentFlex().WithFlexType( FlexType.Flex );
 
     /// <summary>
     /// Starts the new set of rules for inline-flex display.

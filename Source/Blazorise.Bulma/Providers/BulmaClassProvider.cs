@@ -1460,14 +1460,21 @@ public class BulmaClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+    public override string Flex( FlexRule flexRule )
     {
         var sb = new StringBuilder();
 
-        if ( flexType != FlexType.Default )
-            sb.Append( $"is-{ToFlexType( flexType )}" ).Append( ' ' );
+        if ( flexRule.FlexType != FlexType.Default )
+        {
+            if ( flexRule.Breakpoint > Breakpoint.Mobile )
+                sb.Append( $"is-{ToFlexType( flexRule.FlexType )}-{ToBreakpoint( flexRule.Breakpoint )}" );
+            else
+                sb.Append( $"is-{ToFlexType( flexRule.FlexType )}" );
 
-        sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+            sb.Append( ' ' );
+        }
+
+        sb.Append( string.Join( ' ', flexRule.Definitions.Where( x => x.Condition ?? true ).Select( x => Flex( x ) ) ) );
 
         return sb.ToString();
     }
