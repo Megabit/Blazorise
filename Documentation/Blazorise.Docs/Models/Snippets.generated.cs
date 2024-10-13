@@ -7620,6 +7620,23 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
+        public const string DataGridDateColumnNativeExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+    <DataGridDateColumn Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable NativeInputMode />
+        <DataGridCommandColumn />
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridDetailRowTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -8573,6 +8590,23 @@ Install-Package Blazorise.Chart.Zoom";
 
         public const string DataGridNumericColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
         <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable />
+    <DataGridCommandColumn />
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridNumericColumnNativeExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable NativeInputMode />
     <DataGridCommandColumn />
 </DataGrid>
 
