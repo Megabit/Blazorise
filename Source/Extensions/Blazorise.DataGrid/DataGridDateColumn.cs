@@ -15,11 +15,6 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public DateInputMode InputMode { get; set; }
 
     /// <summary>
-    /// Gets the date format based on the current <see cref="InputMode"/> settings.
-    /// </summary>
-    [Parameter] public string DateDisplayFormat { get; set; }
-
-    /// <summary>
     /// The earliest date to accept.
     /// </summary>
     [Parameter] public DateTimeOffset? Min { get; set; }

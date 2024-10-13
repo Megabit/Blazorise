@@ -6,16 +6,16 @@
 {
     @if ( Column.NativeInputMode )
     {
-        @dateEditFragment
+        @DateEditFragment
     }
     else
     {
-        @datePickerFragment
+        @DatePickerFragment
     }
 }
 
 @code {
-    private RenderFragment datePickerFragment => builder =>
+    private RenderFragment DatePickerFragment => builder =>
     {
         var type = typeof( DatePicker<> ).MakeGenericType( new[] { valueType } );
 
@@ -52,11 +52,11 @@
         builder.AddAttribute( 12, nameof( DatePicker<object>.Inline ), Column.Inline );
         builder.AddAttribute( 13, nameof( DatePicker<object>.DisableMobile ), Column.DisableMobile );
         builder.AddAttribute( 14, nameof( DatePicker<object>.StaticPicker ), Column.StaticPicker );
-        builder.AddAttribute( 15, nameof( DatePicker<object>.DisplayFormat ), Column.DateDisplayFormat );
+        builder.AddAttribute( 15, nameof( DatePicker<object>.DisplayFormat ), Column.DisplayFormat );
         builder.CloseComponent();
     };
 
-    private RenderFragment dateEditFragment => builder =>
+    private RenderFragment DateEditFragment => builder =>
     {
         var type = typeof( DateEdit<> ).MakeGenericType( new[] { valueType } );
 
