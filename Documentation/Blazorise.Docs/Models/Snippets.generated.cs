@@ -7021,18 +7021,18 @@ Install-Package Blazorise.Chart.Zoom";
           Responsive
           Sortable
           SortMode=""DataGridSortMode.Multiple""
-          ShowPager=""true"" >
+          ShowPager=""true"">
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name""  />
-    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name""  />
-    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email""  />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" />
-    <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens""/>
+    <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" />
     <DataGridColumn Field=""@nameof(Employee.Gender)"" Caption=""Gender"" />
 </DataGrid>
 
-@code{
+@code {
     [Inject] public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
     private DataGrid<Employee> dataGrid;
@@ -7301,7 +7301,7 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridCheckColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
-        <DataGridCheckColumn Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable />
+    <DataGridCheckColumn Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable />
     <DataGridCommandColumn />
 </DataGrid>
 
@@ -7367,8 +7367,8 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
-        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-        <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridCommandColumn />
 </DataGrid>
 
 @code {
@@ -7391,7 +7391,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
 </DataGrid>
 
-@code{
+@code {
     private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 }";
@@ -7604,8 +7604,8 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridDateColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
-        <DataGridDateColumn Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable />
-        <DataGridCommandColumn />
+    <DataGridDateColumn Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable />
+    <DataGridCommandColumn />
 </DataGrid>
 
 @code {
@@ -7622,7 +7622,7 @@ Install-Package Blazorise.Chart.Zoom";
 
         public const string DataGridDateColumnNativeExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridDateColumn Field=""@nameof(Employee.DateOfBirth)"" Caption=""Date Of Birth"" Editable NativeInputMode />
-        <DataGridCommandColumn />
+    <DataGridCommandColumn />
 </DataGrid>
 
 @code {
@@ -8589,7 +8589,7 @@ Install-Package Blazorise.Chart.Zoom";
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
 
         public const string DataGridNumericColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
-        <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable />
+    <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable />
     <DataGridCommandColumn />
 </DataGrid>
 
@@ -8606,7 +8606,7 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridNumericColumnNativeExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
-        <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable NativeInputMode />
+    <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" Editable NativeInputMode />
     <DataGridCommandColumn />
 </DataGrid>
 
