@@ -70,30 +70,33 @@ public partial class Video : BaseComponent, IAsyncDisposable
     {
         if ( firstRender )
         {
-            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
+            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new VideoJSOptions
             {
-                Controls,
-                ControlsList,
-                SettingsList,
-                AutomaticallyHideControls,
-                AutoPlay,
-                AutoPause,
-                Muted,
-                Source,
-                Poster,
-                Thumbnails,
+                Controls = Controls,
+                ControlsList = ControlsList,
+                SettingsList = SettingsList,
+                AutomaticallyHideControls = AutomaticallyHideControls,
+                AutoPlay = AutoPlay,
+                AutoPause = AutoPause,
+                Muted = Muted,
+                Source = Source,
+                Poster = Poster,
+                Thumbnails = Thumbnails,
                 StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
-                SeekTime,
-                CurrentTime,
-                Volume,
-                ClickToPlay,
-                DisableContextMenu,
-                ResetOnEnd,
+                SeekTime = SeekTime,
+                CurrentTime = CurrentTime,
+                Volume = Volume,
+                ClickToPlay = ClickToPlay,
+                DisableContextMenu = DisableContextMenu,
+                ResetOnEnd = ResetOnEnd,
                 AspectRatio = VideoParsers.ParseAspectRatio( Ratio ),
-                InvertTime,
-                DefaultQuality = new { Height = DefaultQuality },
-                AvailableQualities = AvailableQualities?.Select( x => new { Height = x } ),
-                Protection = ProtectionType != VideoProtectionType.None ? new
+                InvertTime = InvertTime,
+                DefaultQuality = new VideoJSQualityOptions
+                {
+                    Height = DefaultQuality
+                },
+                AvailableQualities = AvailableQualities?.Select( x => new VideoJSQualityOptions { Height = x } )?.ToArray(),
+                Protection = ProtectionType != VideoProtectionType.None ? new VideoJSProtectionOptions
                 {
                     Data = ProtectionData,
                     Type = ProtectionType.ToVideoProtectionType(),
