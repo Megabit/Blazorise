@@ -1234,7 +1234,7 @@ public interface IClassProvider
 
     string Flex( FlexDefinition flexDefinition );
 
-    string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+    string Flex( FlexRule flexRule );
 
     #endregion
 

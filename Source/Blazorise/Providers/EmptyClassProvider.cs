@@ -1239,7 +1239,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Flex( FlexDefinition flexDefinition ) => null;
 
-    public string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions ) => null;
+    public string Flex( FlexRule flexRule ) => null;
 
     #endregion
 
