@@ -45,6 +45,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         controls: false, // setting this to false because we are using custom controls
         quality: options.defaultQuality || 576,
         layout: layout,
+        canFullscreen: options.canFullscreen,
     });
 
     instance.player = player;

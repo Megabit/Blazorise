@@ -103,7 +103,8 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     ServerUrl = ProtectionServerUrl,
                     ServerCertificateUrl = ProtectionServerCertificateUrl,
                     HttpRequestHeaders = ProtectionHttpRequestHeaders
-                } : null
+                } : null,
+                CanFullscreen = CanFullscreen,
             } );
         }
 
@@ -797,6 +798,12 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// </para>
     /// </summary>
     [Parameter] public Func<int?, Task> QualityChanged { get; set; }
+
+    /// <summary>
+    /// Whether the native browser Fullscreen API is available, or the current provider can toggle fullscreen mode.
+    /// This does not mean that the operation is guaranteed to be successful, only that it can be attempted.
+    /// </summary>
+    [Parameter] public bool CanFullscreen { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Video"/>.
