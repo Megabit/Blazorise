@@ -31,6 +31,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         seekTime: options.seekTime || 10,
         invertTime: options.invertTime || true,
         controls: options.controlsList,
+        clickToFullscreen: options.clickToFullscreen,
     });
 
     const player = await VidstackPlayer.create({
@@ -45,7 +46,6 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         controls: false, // setting this to false because we are using custom controls
         quality: options.defaultQuality || 576,
         layout: layout,
-        canFullscreen: options.canFullscreen,
     });
 
     instance.player = player;
