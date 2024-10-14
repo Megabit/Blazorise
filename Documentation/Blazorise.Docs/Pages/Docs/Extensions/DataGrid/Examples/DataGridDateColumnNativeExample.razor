@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <DataGrid TItem="Employee" Data="@employeeList" PageSize="5" Responsive Editable Filterable>
-    <DataGridDateColumn Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable />
+    <DataGridDateColumn Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable NativeInputMode />
     <DataGridCommandColumn />
 </DataGrid>
 

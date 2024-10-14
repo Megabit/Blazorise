@@ -18,7 +18,7 @@
     }
     else if ( Column is DataGridDateColumn<TItem> dateColumn )
     {
-        <_DataGridCellDateEdit Column="@dateColumn" CellValue="@dateColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellDateEdit>
+        <_DataGridCellDatePicker Column="@dateColumn" CellValue="@dateColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellDatePicker>
 
     }
     else
