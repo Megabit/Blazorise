@@ -1,0 +1,66 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+name: Build and deploy .NET application to Azure Container App using GHCR
+on:
+  push:
+    branches:
+      - master
+
+env:
+  CONTAINER_APP_NAME: azurecontainerapptest3 # name we set up in azure portal
+  RESOURCE_GROUP: testingRG # azure resource group
+  CONTAINER_REGISTRY_SERVER: ghcr.io # using github container registry
+  DOCKER_FILE_PATH: ./Dockerfile # where our docker file is located
+  PACKAGE_NAME: azurecontainerapptest/containertest #package name on ghcr.io.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write #need to setup the permission to create packages
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout<span class="atSign">&#64;</span>v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action<span class="atSign">&#64;</span>v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action<span class="atSign">&#64;</span>v3
+        with:
+          registry: ${{ env.CONTAINER_REGISTRY_SERVER }}
+          username: ${{ github.actor }} #github username
+          password: ${{ secrets.GITHUB_TOKEN }} # github token from secrets
+
+      - name: Build and push container image to GHCR
+        uses: docker/build-push-action<span class="atSign">&#64;</span>v5
+        with:
+          push: true
+          tags: ${{ env.CONTAINER_REGISTRY_SERVER }}/${{ github.actor }}/${{ env.PACKAGE_NAME }}:${{ github.sha }} 
+          file: ${{ env.DOCKER_FILE_PATH }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+   
+      - name: Azure Login
+        uses: azure/login<span class="atSign">&#64;</span>v2
+        with:
+          creds: ${{ secrets.AZURECONTAINERAPPTEST3_SPN }} # Stored secret for Azure login
+
+      - name: Update container app
+        uses: azure/CLI<span class="atSign">&#64;</span>v2
+        with:
+            inlineScript: |
+                az config set extension.use_dynamic_install=yes_without_prompt 
+
+                az containerapp update --name ${{ env.CONTAINER_APP_NAME }} \ 
+                --resource-group ${{ env.RESOURCE_GROUP }} \
+                --image ${{ env.CONTAINER_REGISTRY_SERVER }}/${{ github.actor }}/${{ env.PACKAGE_NAME }}:${{ github.sha }} \
+
+      - name: Logout
+        run: az logout
+</pre></div>
+</div>
