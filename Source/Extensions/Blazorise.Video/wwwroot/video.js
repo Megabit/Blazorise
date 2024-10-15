@@ -31,6 +31,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         seekTime: options.seekTime || 10,
         invertTime: options.invertTime || true,
         controls: options.controlsList,
+        clickToFullscreen: options.doubleClickToFullscreen,
     });
 
     const player = await VidstackPlayer.create({
