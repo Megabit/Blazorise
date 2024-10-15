@@ -1,8 +1,8 @@
-import { NumericMaskValidator } from "./validators/NumericMaskValidator.js?v=1.6.1.0";
-import { DateTimeMaskValidator } from "./validators/DateTimeMaskValidator.js?v=1.6.1.0";
-import { RegExMaskValidator } from "./validators/RegExMaskValidator.js?v=1.6.1.0";
-import { NoValidator } from "./validators/NoValidator.js?v=1.6.1.0";
-import { getRequiredElement } from "./utilities.js?v=1.6.1.0";
+import { NumericMaskValidator } from "./validators/NumericMaskValidator.js?v=1.6.2.0";
+import { DateTimeMaskValidator } from "./validators/DateTimeMaskValidator.js?v=1.6.2.0";
+import { RegExMaskValidator } from "./validators/RegExMaskValidator.js?v=1.6.2.0";
+import { NoValidator } from "./validators/NoValidator.js?v=1.6.2.0";
+import { getRequiredElement } from "./utilities.js?v=1.6.2.0";
 
 let _instances = [];
 
