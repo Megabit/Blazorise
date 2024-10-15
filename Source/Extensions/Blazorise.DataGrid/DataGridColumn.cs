@@ -344,9 +344,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         var sb = new StringBuilder();
 
-#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
         var result = CellStyle?.Invoke( item );
-#pragma warning restore CS0618 // Type or member is obsolete
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
@@ -930,12 +928,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
     /// </summary>
-    [Obsolete( "DataGridColumn: The CellClass parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellClass { get; set; }
+    [Parameter] public Func<TItem, string> CellClass { get; set; }
 
     /// <summary>
     /// Custom style handler for cell based on the current row item.
     /// </summary>
-    [Obsolete( "DataGridColumn: The CellStyle parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellStyle { get; set; }
+    [Parameter] public Func<TItem, string> CellStyle { get; set; }
 
     /// <summary>
     /// Custom classname for header cell.
