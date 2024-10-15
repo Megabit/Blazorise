@@ -91,19 +91,16 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 ResetOnEnd = ResetOnEnd,
                 AspectRatio = VideoParsers.ParseAspectRatio( Ratio ),
                 InvertTime = InvertTime,
-                DefaultQuality = new VideoJSQualityOptions
-                {
-                    Height = DefaultQuality
-                },
-                AvailableQualities = AvailableQualities?.Select( x => new VideoJSQualityOptions { Height = x } )?.ToArray(),
+                DefaultQuality = new VideoJSQualityOptions( DefaultQuality ),
+                AvailableQualities = AvailableQualities?.Select( x => new VideoJSQualityOptions( x ) )?.ToArray(),
                 Protection = ProtectionType != VideoProtectionType.None ? new VideoJSProtectionOptions
-                {
-                    Data = ProtectionData,
-                    Type = ProtectionType.ToVideoProtectionType(),
-                    ServerUrl = ProtectionServerUrl,
-                    ServerCertificateUrl = ProtectionServerCertificateUrl,
-                    HttpRequestHeaders = ProtectionHttpRequestHeaders
-                } : null,
+                (
+                    data: ProtectionData,
+                    type: ProtectionType.ToVideoProtectionType(),
+                    serverUrl: ProtectionServerUrl,
+                    serverCertificateUrl: ProtectionServerCertificateUrl,
+                    httpRequestHeaders: ProtectionHttpRequestHeaders
+                ) : null,
                 ClickToFullscreen = ClickToFullscreen,
             } );
         }

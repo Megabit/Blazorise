@@ -76,12 +76,34 @@ internal class VideoJSOptions
 
 internal class VideoJSQualityOptions
 {
+    public VideoJSQualityOptions()
+    {
+    }
+
+    public VideoJSQualityOptions( int? height )
+    {
+        Height = height;
+    }
+
     [JsonPropertyName( "height" )]
     public int? Height { get; set; }
 }
 
 internal class VideoJSProtectionOptions
 {
+    public VideoJSProtectionOptions()
+    {
+    }
+
+    public VideoJSProtectionOptions( object data, string type, string serverUrl, string serverCertificateUrl, string httpRequestHeaders )
+    {
+        Data = data;
+        Type = type;
+        ServerUrl = serverUrl;
+        ServerCertificateUrl = serverCertificateUrl;
+        HttpRequestHeaders = httpRequestHeaders;
+    }
+
     [JsonPropertyName( "data" )]
     public object Data { get; set; }
 
