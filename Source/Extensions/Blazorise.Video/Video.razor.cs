@@ -101,7 +101,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     serverCertificateUrl: ProtectionServerCertificateUrl,
                     httpRequestHeaders: ProtectionHttpRequestHeaders
                 ) : null,
-                ClickToFullscreen = ClickToFullscreen,
+                DoubleClickToFullscreen = DoubleClickToFullscreen,
             } );
         }
 
@@ -797,9 +797,9 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public Func<int?, Task> QualityChanged { get; set; }
 
     /// <summary>
-    /// Double-press the video container to toggle fullscreen.
+    /// If defined the player will go fullscreen when the video is double-clicked.
     /// </summary>
-    [Parameter] public bool ClickToFullscreen { get; set; } = true;
+    [Parameter] public bool DoubleClickToFullscreen { get; set; } = true;
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Video"/>.

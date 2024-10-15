@@ -70,8 +70,8 @@ internal class VideoJSOptions
     [JsonPropertyName( "protection" )]
     public VideoJSProtectionOptions Protection { get; set; }
 
-    [JsonPropertyName( "clickToFullscreen" )]
-    public bool ClickToFullscreen { get; set; }
+    [JsonPropertyName( "doubleClickToFullscreen" )]
+    public bool DoubleClickToFullscreen { get; set; }
 }
 
 internal class VideoJSQualityOptions
