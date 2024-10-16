@@ -171,7 +171,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         {
             await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
             {
-                nodeState.Children.Add( childNodeState );
+                if ( !nodeState.Children.Exists( x => x.Node.IsEqual( childNodeState.Node ) ) )
+                    nodeState.Children.Add( childNodeState );
             }
         }
         else if ( e.Action == NotifyCollectionChangedAction.Remove )
