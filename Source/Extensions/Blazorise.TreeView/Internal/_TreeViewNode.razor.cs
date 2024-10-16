@@ -132,10 +132,10 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
                 ? GetChildNodes( nodeState.Node )
                 : null;
 
-        NotifyCollectionChangedEventHandler childrenChangedHandler = ( ( sender, e ) =>
+        NotifyCollectionChangedEventHandler childrenChangedHandler = ( sender, e ) =>
         {
             OnChildrenChanged( sender, e, nodeState, childNodes );
-        } );
+        };
 
         if ( childNodes is INotifyCollectionChanged observableCollection )
         {
