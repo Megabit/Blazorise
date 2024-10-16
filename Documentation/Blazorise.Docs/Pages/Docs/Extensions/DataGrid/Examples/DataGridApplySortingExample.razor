@@ -9,18 +9,18 @@
           Responsive
           Sortable
           SortMode="DataGridSortMode.Multiple"
-          ShowPager="true" >
+          ShowPager="true">
     <DataGridCommandColumn />
     <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
-    <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name"  />
-    <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name"  />
-    <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email"  />
+    <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" />
+    <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name" />
+    <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" />
     <DataGridColumn Field="@nameof(Employee.Salary)" Caption="Salary" />
-    <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens"/>
+    <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" />
     <DataGridColumn Field="@nameof(Employee.Gender)" Caption="Gender" />
 </DataGrid>
 
-@code{
+@code {
     [Inject] public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
     private DataGrid<Employee> dataGrid;

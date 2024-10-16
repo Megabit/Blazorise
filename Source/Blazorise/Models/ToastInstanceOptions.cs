@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿#region Using directives
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -7,6 +11,16 @@ namespace Blazorise;
 /// </summary>
 public class ToastInstanceOptions
 {
+    /// <summary>
+    /// Occurs before the toast is opened.
+    /// </summary>
+    public Func<ToastOpeningEventArgs, Task> Opening { get; set; }
+
+    /// <summary>
+    /// Occurs before the toast is closed.
+    /// </summary>
+    public Func<ToastClosingEventArgs, Task> Closing { get; set; }
+
     /// <summary>
     /// Occurs after the toast has opened.
     /// </summary>

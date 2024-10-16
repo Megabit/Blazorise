@@ -8,7 +8,7 @@
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false" FilterMethod="DataGridColumnFilterMethod.StartsWith"></DataGridColumn>
 </DataGrid>
 
-@code{
+@code {
     private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "MLaden" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
 }

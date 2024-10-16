@@ -11,21 +11,37 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Field</Code> is a container for <Code>TextEdit</Code>, <Code>Select</Code>, <Code>DateEdit</Code>,
+    The <Code Tag>Field</Code> is a container for inpot components such as <Code>TextEdit</Code>, <Code>Select</Code>, <Code>DateEdit</Code>,
     <Code>Check</Code>, <Code>MemoEdit</Code>, and optionally for <Code>Button</Code>. Structure is very simple:
 </DocsPageParagraph>
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code Tag>Field</Code> the main container
+        <Paragraph>
+            <Code Tag>Field</Code> the main container.
+        </Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code Tag>FieldLabel</Code> a field label</UnorderedListItem>
-            <UnorderedListItem><Code Tag>FieldBody</Code> used only for horizontal fields</UnorderedListItem>
-            <UnorderedListItem><Code Tag>FieldHelp</Code> small text bellow the field</UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>FieldLabel</Code> used for the label of the field.
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>FieldBody</Code> the container for the input control.
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>FieldHelp</Code> used for the help text.
+                </Paragraph>
+            </UnorderedListItem>
         </UnorderedList>
     </UnorderedListItem>
     <UnorderedListItem>
-        <Code Tag>Fields</Code> container used to group several <Code>Field</Code> components
+        <Paragraph>
+            <Code Tag>Fields</Code> container used to group several <Code>Field</Code> components
+        </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
 
@@ -141,6 +157,40 @@
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="RequiredIndicatorExample" />
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Do
+</Heading>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Use Field to add a label and validation message to form controls.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use Field to label other unlabeled controls like ProgressBar.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Don't
+</Heading>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Avoid including both a validation message and hint text.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Don't add multiple controls as a child of a single Field. The label is only associated with one control.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     API

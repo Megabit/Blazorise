@@ -151,7 +151,16 @@
             flexGrow: {
                 '0': 0,
                 '1': 1
-            }
+            },
+            //keyframes: {
+            //    wave: {
+            //        '0%': { transform: 'translateX(-100%)' },
+            //        '100%': { transform: 'translateX(100%)' },
+            //    },
+            //},
+            //animation: {
+            //    wave: 'wave 1.5s ease-in-out infinite',
+            //},
         }
     },
     plugins: [

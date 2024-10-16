@@ -70,37 +70,38 @@ public partial class Video : BaseComponent, IAsyncDisposable
     {
         if ( firstRender )
         {
-            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
+            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new VideoJSOptions
             {
-                Controls,
-                ControlsList,
-                SettingsList,
-                AutomaticallyHideControls,
-                AutoPlay,
-                AutoPause,
-                Muted,
-                Source,
-                Poster,
-                Thumbnails,
+                Controls = Controls,
+                ControlsList = ControlsList,
+                SettingsList = SettingsList,
+                AutomaticallyHideControls = AutomaticallyHideControls,
+                AutoPlay = AutoPlay,
+                AutoPause = AutoPause,
+                Muted = Muted,
+                Source = Source,
+                Poster = Poster,
+                Thumbnails = Thumbnails,
                 StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
-                SeekTime,
-                CurrentTime,
-                Volume,
-                ClickToPlay,
-                DisableContextMenu,
-                ResetOnEnd,
+                SeekTime = SeekTime,
+                CurrentTime = CurrentTime,
+                Volume = Volume,
+                ClickToPlay = ClickToPlay,
+                DisableContextMenu = DisableContextMenu,
+                ResetOnEnd = ResetOnEnd,
                 AspectRatio = VideoParsers.ParseAspectRatio( Ratio ),
-                InvertTime,
-                DefaultQuality = new { Height = DefaultQuality },
-                AvailableQualities = AvailableQualities?.Select( x => new { Height = x } ),
-                Protection = ProtectionType != VideoProtectionType.None ? new
-                {
-                    Data = ProtectionData,
-                    Type = ProtectionType.ToVideoProtectionType(),
-                    ServerUrl = ProtectionServerUrl,
-                    ServerCertificateUrl = ProtectionServerCertificateUrl,
-                    HttpRequestHeaders = ProtectionHttpRequestHeaders
-                } : null
+                InvertTime = InvertTime,
+                DefaultQuality = new VideoJSQualityOptions( DefaultQuality ),
+                AvailableQualities = AvailableQualities?.Select( x => new VideoJSQualityOptions( x ) )?.ToArray(),
+                Protection = ProtectionType != VideoProtectionType.None ? new VideoJSProtectionOptions
+                (
+                    data: ProtectionData,
+                    type: ProtectionType.ToVideoProtectionType(),
+                    serverUrl: ProtectionServerUrl,
+                    serverCertificateUrl: ProtectionServerCertificateUrl,
+                    httpRequestHeaders: ProtectionHttpRequestHeaders
+                ) : null,
+                DoubleClickToFullscreen = DoubleClickToFullscreen,
             } );
         }
 
@@ -794,6 +795,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// </para>
     /// </summary>
     [Parameter] public Func<int?, Task> QualityChanged { get; set; }
+
+    /// <summary>
+    /// If defined the player will go fullscreen when the video is double-clicked.
+    /// </summary>
+    [Parameter] public bool DoubleClickToFullscreen { get; set; } = true;
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Video"/>.

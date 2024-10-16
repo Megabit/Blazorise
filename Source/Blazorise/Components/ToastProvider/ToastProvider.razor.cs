@@ -197,6 +197,16 @@ public partial class ToastProvider : BaseComponent, IDisposable
     [Parameter] public EventCallback Closed { get; set; }
 
     /// <summary>
+    /// Occurs before the toast is opened. Global Option.
+    /// </summary>
+    [Parameter] public Func<ToastOpeningEventArgs, Task> Opening { get; set; }
+
+    /// <summary>
+    /// Occurs before the toast is closed. Global Option.
+    /// </summary>
+    [Parameter] public Func<ToastClosingEventArgs, Task> Closing { get; set; }
+
+    /// <summary>
     /// Specifies whether the Toast should have an animated transition.
     /// </summary>
     [Parameter] public bool Animated { get; set; } = true;
