@@ -364,6 +364,16 @@ export function clearTextTracks(element, elementId) {
     }
 }
 
+export function setPlaybackRate(element, elementId, rate) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        const remote = instance.player.remoteControl;
+
+        remote.changePlaybackRate(rate);
+    }
+}
+
 function extractSingleSourceUrl(source) {
     if (!source)
         return null;

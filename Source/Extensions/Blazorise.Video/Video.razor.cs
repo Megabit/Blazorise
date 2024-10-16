@@ -280,6 +280,13 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ClearTextTracks() => JSModule.ClearTextTracks( ElementRef, ElementId ).AsTask();
 
+    /// <summary>
+    /// Dispatch an event to change the media playback rate.
+    /// </summary>
+    /// <param name="playbackRate">A double representing the new playback rate. A value of 1.0 represents normal speed, 0.5 is half speed, and 2.0 is double speed.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task SetPlaybackRate( double playbackRate ) => JSModule.SetPlaybackRate( ElementRef, ElementId, playbackRate ).AsTask();
+
     #region Events
 
     /// <summary>
