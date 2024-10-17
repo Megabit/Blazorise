@@ -1,0 +1,8 @@
+uses: azure/CLI@v2
+with:
+    inlineScript: |
+        az config set extension.use_dynamic_install=yes_without_prompt 
+
+        az containerapp update --name ${{ env.CONTAINER_APP_NAME }} \ 
+        --resource-group ${{ env.RESOURCE_GROUP }} \
+        --image ${{ env.CONTAINER_REGISTRY_SERVER }}/${{ github.actor }}/${{ env.PACKAGE_NAME }}:${{ github.sha }} \
