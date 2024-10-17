@@ -38,7 +38,7 @@ public class ComponentRenderingTest : TestContext
         var comp = RenderComponent<ButtonOnlyComponent>();
 
         // validate
-        this.JSInterop.VerifyInvoke( "initialize" );
+        this.JSInterop.VerifyNotInvoke( "initialize" );
         Assert.Contains( buttonOpen, comp.Markup );
         Assert.Contains( buttonClose, comp.Markup );
         Assert.Contains( buttonType, comp.Markup );
@@ -60,7 +60,7 @@ public class ComponentRenderingTest : TestContext
         button.Click();
 
         // validate
-        this.JSInterop.VerifyInvoke( "initialize" );
+        this.JSInterop.VerifyNotInvoke( "initialize" );
         Assert.Equal( before, date.GetAttribute( "id" ) );
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using System.Text;
+@using Blazorise.Extensions;
 @inherits Blazorise.Progress
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
@@ -38,7 +39,7 @@
         {
             var sb = new StringBuilder( "text-xs font-medium text-center p-0.5 leading-none rounded-full" );
 
-            if ( Color != Color.Default )
+            if ( Color.IsNotNullOrDefault() )
             {
                 sb.Append( " " ).Append( ClassProvider.ProgressBarColor( Color ) );
             }

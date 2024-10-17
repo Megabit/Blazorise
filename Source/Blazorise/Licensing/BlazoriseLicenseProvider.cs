@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using Blazorise.Licensing.Signing;
-using Blazorise.Modules;
 using Microsoft.JSInterop;
 #endregion
 
@@ -15,6 +14,11 @@ namespace Blazorise.Licensing;
 public sealed class BlazoriseLicenseProvider
 {
     #region Members
+    internal const int DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS = 1000;
+    internal const int DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS = 1000;
+    internal const int DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS = 10;
+    internal const int DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS = 1000;
+    internal const int DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS = 100;
 
     private static readonly Assembly CurrentAssembly = typeof( BlazoriseLicenseProvider ).Assembly;
 
@@ -45,7 +49,7 @@ public sealed class BlazoriseLicenseProvider
     #region Constructors
 
     /// <summary>
-    ///
+    /// A default <see cref="BlazoriseLicenseProvider"/> constructor.
     /// </summary>
     /// <param name="options"></param>
     /// <param name="jsRuntime"></param>
@@ -90,7 +94,7 @@ public sealed class BlazoriseLicenseProvider
         {
             if ( IsWebAssembly )
             {
-                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey );
+                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, options, PublicKey );
                 var license = await wasmLicenseVerifier.Load( options.ProductToken, true );
 
                 if ( wasmLicenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
@@ -102,6 +106,8 @@ public sealed class BlazoriseLicenseProvider
                 {
                     Result = BlazoriseLicenseResult.Unlicensed;
                 }
+
+                PrintResult = ResolveBlazoriseLicensePrintResult( license );
             }
             else
             {
@@ -117,6 +123,8 @@ public sealed class BlazoriseLicenseProvider
                 {
                     Result = BlazoriseLicenseResult.Unlicensed;
                 }
+
+                PrintResult = ResolveBlazoriseLicensePrintResult( license );
             }
         }
         catch
@@ -127,6 +135,34 @@ public sealed class BlazoriseLicenseProvider
         {
             initialized = true;
         }
+    }
+
+    /// <summary>
+    /// Resolves the print result of the license validation by checking the license type and whether it is expired by checking against the actual internal resolved License Result state.
+    /// </summary>
+    /// <param name="license"></param>
+    /// <returns></returns>
+    private static BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult( License license )
+    {
+        var licenseResult = ResolveBlazoriseLicenseResult( license );
+
+        if ( licenseResult == BlazoriseLicenseResult.Unlicensed )
+            return BlazoriseLicensePrintResult.InvalidProductToken;
+
+        if ( licenseResult == BlazoriseLicenseResult.Community )
+        {
+            return Result == BlazoriseLicenseResult.Community ? BlazoriseLicensePrintResult.Community : BlazoriseLicensePrintResult.CommunityExpired;
+        }
+
+        if ( licenseResult == BlazoriseLicenseResult.Licensed )
+        {
+            return Result == BlazoriseLicenseResult.Licensed ? BlazoriseLicensePrintResult.Licensed : BlazoriseLicensePrintResult.LicensedExpired;
+        }
+
+        if ( licenseResult == BlazoriseLicenseResult.Trial )
+            return BlazoriseLicensePrintResult.Trial;
+
+        return BlazoriseLicensePrintResult.None;
     }
 
     private static BlazoriseLicenseResult ResolveBlazoriseLicenseResult( License license )
@@ -174,7 +210,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsDataGridMaxRows = 1000;
+            limitsDataGridMaxRows = DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS;
         }
 
         return limitsDataGridMaxRows;
@@ -202,7 +238,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsAutocompleteMaxRows = 1000;
+            limitsAutocompleteMaxRows = DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS;
         }
 
         return limitsAutocompleteMaxRows;
@@ -230,7 +266,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsChartsMaxRows = 10;
+            limitsChartsMaxRows = DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS;
         }
 
         return limitsChartsMaxRows;
@@ -258,7 +294,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsListViewMaxRows = 1000;
+            limitsListViewMaxRows = DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS;
         }
 
         return limitsListViewMaxRows;
@@ -286,7 +322,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsTreeViewMaxRows = 100;
+            limitsTreeViewMaxRows = DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS;
         }
 
         return limitsTreeViewMaxRows;
@@ -307,19 +343,14 @@ public sealed class BlazoriseLicenseProvider
     internal static BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
 
     /// <summary>
+    /// Gets the print result of the license validation.
+    /// </summary>
+    internal static BlazoriseLicensePrintResult PrintResult { get; private set; } = BlazoriseLicensePrintResult.None;
+
+    /// <summary>
     /// Indicates if the current app is running in WebAssembly mode.
     /// </summary>
     private bool IsWebAssembly => jsRuntime is IJSInProcessRuntime;
 
     #endregion
-}
-
-internal static class WebAssemblyRsaExtensions
-{
-    public static IVerifier_LoadAndVerify WithWebAssemblyRsaPublicKey( this IVerifier_WithVerifier signer, IJSRuntime jsRuntime, IVersionProvider versionProvider, string base64EncodedCsbBlobKey )
-    {
-        var rsaVerifier = new WebAssemblyRsaVerifier( jsRuntime, versionProvider, base64EncodedCsbBlobKey );
-        signer.WithVerifier( rsaVerifier );
-        return signer as IVerifier_LoadAndVerify;
-    }
 }

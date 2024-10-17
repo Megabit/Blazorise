@@ -45,7 +45,7 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
     {
         if ( JSModule == null )
         {
-            JSModule = new JSChartStreamingModule( JSRuntime, VersionProvider );
+            JSModule = new JSChartStreamingModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
             ExecuteAfterRender( async () =>
             {
@@ -151,6 +151,11 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
 

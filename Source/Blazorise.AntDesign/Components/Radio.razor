@@ -2,7 +2,7 @@
 @inherits Blazorise.Radio<TValue>
 <label class="@WrapperClassNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
         <span class="@InnerClassNames"></span>
     </span>
     <span>

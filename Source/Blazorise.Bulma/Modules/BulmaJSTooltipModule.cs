@@ -5,8 +5,8 @@ namespace Blazorise.Bulma.Modules;
 
 internal class BulmaJSTooltipModule : JSTooltipModule
 {
-    public BulmaJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public BulmaJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

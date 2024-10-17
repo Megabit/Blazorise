@@ -100,7 +100,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
 
         if ( firstRender )
         {
-            JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
+            JSModule ??= new JSCropperModule( JSRuntime, VersionProvider, BlazoriseOptions );
             adapter ??= DotNetObjectReference.Create( new CropperAdapter( this ) );
 
             await JSModule.Initialize( adapter, ElementRef, ElementId, new
@@ -283,6 +283,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;

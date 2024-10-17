@@ -18,8 +18,9 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     /// </summary>
     /// <param name="jsRuntime">JavaScript runtime instance.</param>
     /// <param name="versionProvider">Version provider.</param>
-    public JSUtilitiesModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    /// <param name="options">Blazorise options.</param>
+    public JSUtilitiesModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 
@@ -53,11 +54,11 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
 
     /// <inheritdoc/>
     public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
-        => InvokeSafeVoidAsync( "focus", elementRef.Context is null ? null : elementRef, elementId, scrollToElement );
+        => InvokeSafeVoidAsync( "focus", ResolveElementReference( elementRef ), elementId, scrollToElement );
 
     /// <inheritdoc/>
     public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
-        => InvokeSafeVoidAsync( "select", elementRef, elementId, focus );
+        => InvokeSafeVoidAsync( "select", ResolveElementReference( elementRef ), elementId, focus );
 
     /// <inheritdoc/>
     public virtual ValueTask ShowPicker( ElementReference elementRef, string elementId )
@@ -102,6 +103,9 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     /// <inheritdoc/>
     public ValueTask Log( string message, params string[] args )
         => InvokeSafeVoidAsync( "log", message, args );
+
+    private ElementReference? ResolveElementReference( ElementReference elementReference )
+        => elementReference.Context is null ? null : elementReference;
 
     #endregion
 

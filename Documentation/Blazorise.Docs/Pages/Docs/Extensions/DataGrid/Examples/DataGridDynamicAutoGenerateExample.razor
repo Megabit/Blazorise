@@ -1,0 +1,51 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.Dynamic
+
+<DataGrid TItem="ExpandoObject"
+          Data="inMemoryData"
+          Responsive
+          ShowPager
+          ShowPageSizes
+          PageSize="5"
+          Editable
+          EditMode="DataGridEditMode.Inline"
+          NewItemCreator="NewItemCreator" />
+
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<ExpandoObject> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = new();
+        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+
+        foreach ( var item in data )
+        {
+
+            IDictionary<string, object> expando = new ExpandoObject();
+
+            foreach ( var property in typeof( Employee ).GetProperties() )
+            {
+                expando.Add( property.Name, property.GetValue( item ) );
+            }
+            inMemoryData.Add( (ExpandoObject)expando );
+        }
+
+
+        await base.OnInitializedAsync();
+    }
+
+    private ExpandoObject NewItemCreator()
+    {
+        IDictionary<string, object> expando = new ExpandoObject();
+
+        foreach ( var property in typeof( Employee ).GetProperties() )
+        {
+            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+        }
+
+        return (ExpandoObject)expando;
+    }
+}

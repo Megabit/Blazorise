@@ -32,7 +32,7 @@ public interface IClassProvider
 
     string Select();
 
-    string SelectMultiple();
+    string SelectMultiple( bool multiple );
 
     string SelectSize( Size size );
 
@@ -146,7 +146,7 @@ public interface IClassProvider
 
     string CheckSize( Size size );
 
-    string CheckInline();
+    string CheckInline( bool inline );
 
     string CheckCursor( Cursor cursor );
 
@@ -234,8 +234,6 @@ public interface IClassProvider
 
     #region Label
 
-    string Label();
-
     string LabelType( LabelType labelType );
 
     string LabelCursor( Cursor cursor );
@@ -280,7 +278,7 @@ public interface IClassProvider
 
     string Field();
 
-    string FieldHorizontal();
+    string FieldHorizontal( bool horizontal );
 
     string FieldColumn();
 
@@ -297,6 +295,8 @@ public interface IClassProvider
     string FieldLabel( bool horizontal );
 
     string FieldLabelRequiredIndicator( bool requiredIndicator );
+
+    string FieldLabelScreenreader( Screenreader screenreader );
 
     #endregion
 
@@ -320,15 +320,17 @@ public interface IClassProvider
 
     #region Control
 
-    string ControlCheck();
+    string ControlCheck( ControlRole role );
 
-    string ControlRadio();
+    string ControlRadio( ControlRole role );
 
-    string ControlSwitch();
+    string ControlSwitch( ControlRole role );
 
-    string ControlFile();
+    string ControlFile( ControlRole role );
 
-    string ControlText();
+    string ControlText( ControlRole role );
+
+    string ControlInline( ControlRole role, bool inline );
 
     #endregion
 
@@ -362,13 +364,13 @@ public interface IClassProvider
 
     string ButtonSize( Size size, bool outline );
 
-    string ButtonBlock( bool outline );
+    string ButtonBlock( bool outline, bool block );
 
-    string ButtonActive( bool outline );
+    string ButtonActive( bool outline, bool active );
 
-    string ButtonDisabled( bool outline );
+    string ButtonDisabled( bool outline, bool disabled );
 
-    string ButtonLoading( bool outline );
+    string ButtonLoading( bool outline, bool loading );
 
     string ButtonStretchedLink( bool stretched );
 
@@ -392,15 +394,15 @@ public interface IClassProvider
 
     string Dropdown( bool isDropdownSubmenu );
 
-    string DropdownDisabled();
+    string DropdownDisabled( bool disabled );
 
-    string DropdownGroup();
+    string DropdownGroup( bool group );
 
     string DropdownObserverShow();
 
-    string DropdownShow();
+    string DropdownShow( bool show );
 
-    string DropdownRight();
+    string DropdownRight( bool rightAligned );
 
     string DropdownItem();
 
@@ -420,11 +422,11 @@ public interface IClassProvider
 
     string DropdownMenuSelector();
 
-    string DropdownMenuScrollable();
+    string DropdownMenuScrollable( bool scrollable );
 
     string DropdownMenuVisible( bool visible );
 
-    string DropdownMenuRight();
+    string DropdownMenuRight( bool rightAligned );
 
     string DropdownToggle( bool isDropdownSubmenu, bool outline );
 
@@ -446,13 +448,13 @@ public interface IClassProvider
 
     string Tabs( bool pills );
 
-    string TabsCards();
+    string TabsCards( bool cards );
 
-    string TabsFullWidth();
+    string TabsFullWidth( bool fullWidth );
 
-    string TabsJustified();
+    string TabsJustified( bool justified );
 
-    string TabsVertical();
+    string TabsVertical( bool vertical );
 
     string TabItem( TabPosition tabPosition );
 
@@ -552,7 +554,7 @@ public interface IClassProvider
 
     string Card();
 
-    string CardWhiteText();
+    string CardWhiteText( bool whiteText );
 
     string CardActions();
 
@@ -592,7 +594,7 @@ public interface IClassProvider
 
     string ListGroupItem();
 
-    string ListGroupItemSelectable();
+    string ListGroupItemSelectable( bool selectable );
 
     string ListGroupItemActive( bool active );
 
@@ -606,17 +608,17 @@ public interface IClassProvider
 
     string Layout();
 
-    string LayoutHasSider();
+    string LayoutHasSider( bool hasSider );
 
     string LayoutContent();
 
     string LayoutHeader();
 
-    string LayoutHeaderFixed();
+    string LayoutHeaderFixed( bool @fixed );
 
     string LayoutFooter();
 
-    string LayoutFooterFixed();
+    string LayoutFooterFixed( bool @fixed );
 
     string LayoutSider();
 
@@ -624,7 +626,7 @@ public interface IClassProvider
 
     string LayoutLoading();
 
-    string LayoutRoot();
+    string LayoutRoot( bool root );
 
     #endregion
 
@@ -652,17 +654,15 @@ public interface IClassProvider
 
     string BarItem( BarMode mode, bool hasDropdown );
 
-    string BarItemActive( BarMode mode );
+    string BarItemActive( BarMode mode, bool active );
 
-    string BarItemDisabled( BarMode mode );
+    string BarItemDisabled( BarMode mode, bool disabled );
 
-    string BarItemHasDropdown( BarMode mode );
-
-    string BarItemHasDropdownShow( BarMode mode );
+    string BarItemHasDropdown( BarMode mode, bool hasDropdown );
 
     string BarLink( BarMode mode );
 
-    string BarLinkDisabled( BarMode mode );
+    string BarLinkDisabled( BarMode mode, bool disabled );
 
     string BarBrand( BarMode mode );
 
@@ -672,7 +672,7 @@ public interface IClassProvider
 
     string BarMenu( BarMode mode );
 
-    string BarMenuShow( BarMode mode );
+    string BarMenuShow( BarMode mode, bool show );
 
     string BarStart( BarMode mode );
 
@@ -680,7 +680,7 @@ public interface IClassProvider
 
     string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
-    string BarDropdownShow( BarMode mode );
+    string BarDropdownShow( BarMode mode, bool show );
 
     string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
@@ -696,11 +696,11 @@ public interface IClassProvider
 
     string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-    string BarDropdownMenuRight( BarMode mode );
+    string BarDropdownMenuRight( BarMode mode, bool rightAligned );
 
     string BarDropdownMenuContainer( BarMode mode );
 
-    string BarCollapsed( BarMode mode );
+    string BarCollapsed( BarMode mode, bool visible );
 
     string BarLabel( BarMode mode );
 
@@ -788,15 +788,15 @@ public interface IClassProvider
 
     string AlertColor( Color color );
 
-    string AlertDismisable();
+    string AlertDismisable( bool dismissable );
 
-    string AlertFade();
+    string AlertFade( bool dismissable );
 
-    string AlertShow();
+    string AlertShow( bool dismissable, bool visible );
 
-    string AlertHasMessage();
+    string AlertHasMessage( bool hasMessage );
 
-    string AlertHasDescription();
+    string AlertHasDescription( bool hasDescription );
 
     string AlertMessage();
 
@@ -892,6 +892,10 @@ public interface IClassProvider
 
     string PaginationSize( Size size );
 
+    string PaginationAlignment( Alignment alignment );
+
+    string PaginationBackgroundColor( Background background );
+
     string PaginationItem();
 
     string PaginationItemActive( bool active );
@@ -916,11 +920,11 @@ public interface IClassProvider
 
     string ProgressColor( Color color );
 
-    string ProgressStriped();
+    string ProgressStriped( bool stripped );
 
-    string ProgressAnimated();
+    string ProgressAnimated( bool animated );
 
-    string ProgressIndeterminate();
+    string ProgressIndeterminate( bool indeterminate );
 
     string ProgressWidth( int width );
 
@@ -930,11 +934,11 @@ public interface IClassProvider
 
     string ProgressBarColor( Color color );
 
-    string ProgressBarStriped();
+    string ProgressBarStriped( bool striped );
 
-    string ProgressBarAnimated();
+    string ProgressBarAnimated( bool animated );
 
-    string ProgressBarIndeterminate();
+    string ProgressBarIndeterminate( bool indeterminate );
 
     string ProgressBarWidth( int width );
 
@@ -956,17 +960,17 @@ public interface IClassProvider
 
     string Table();
 
-    string TableFullWidth();
+    string TableFullWidth( bool fullWidth );
 
-    string TableStriped();
+    string TableStriped( bool striped );
 
-    string TableHoverable();
+    string TableHoverable( bool hoverable );
 
-    string TableBordered();
+    string TableBordered( bool bordered );
 
-    string TableNarrow();
+    string TableNarrow( bool narrow );
 
-    string TableBorderless();
+    string TableBorderless( bool borderless );
 
     string TableHeader();
 
@@ -986,9 +990,9 @@ public interface IClassProvider
 
     string TableRowColor( Color color );
 
-    string TableRowHoverCursor();
+    string TableRowHoverCursor( Cursor cursor );
 
-    string TableRowIsSelected();
+    string TableRowIsSelected( bool selected );
 
     string TableRowHeader();
 
@@ -1012,6 +1016,8 @@ public interface IClassProvider
 
     string TableFixedColumns( bool fixedColumns );
 
+    string TableResponsiveMode( TableResponsiveMode responsiveMode );
+
     #endregion
 
     #region Badge
@@ -1020,9 +1026,11 @@ public interface IClassProvider
 
     string BadgeColor( Color color );
 
-    string BadgePill();
+    string BadgePill( bool pill );
 
     string BadgeClose();
+
+    string BadgeCloseColor( Color color );
 
     #endregion
 
@@ -1046,13 +1054,15 @@ public interface IClassProvider
 
     string TextTransform( TextTransform textTransform );
 
+    string TextDecoration( TextDecoration textDecoration );
+
     string TextWeight( TextWeight textWeight );
 
     string TextOverflow( TextOverflow textOverflow );
 
     string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
-    string TextItalic();
+    string TextItalic( bool italic );
 
     #endregion
 
@@ -1104,7 +1114,7 @@ public interface IClassProvider
 
     string FigureImage();
 
-    string FigureImageRounded();
+    string FigureImageRounded( bool rounded );
 
     string FigureCaption();
 
@@ -1124,7 +1134,7 @@ public interface IClassProvider
 
     string BreadcrumbItem();
 
-    string BreadcrumbItemActive();
+    string BreadcrumbItemActive( bool active );
 
     string BreadcrumbLink();
 
@@ -1136,13 +1146,23 @@ public interface IClassProvider
 
     string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
-    string TooltipMultiline();
+    string TooltipMultiline( bool multiline );
 
-    string TooltipAlwaysActive();
+    string TooltipAlwaysActive( bool alwaysActive );
 
-    string TooltipFade();
+    string TooltipFade( bool fade );
 
-    string TooltipInline();
+    string TooltipInline( bool inline );
+
+    #endregion
+
+    #region Skeleton
+
+    string Skeleton();
+
+    string SkeletonAnimation( SkeletonAnimation animation );
+
+    string SkeletonItem();
 
     #endregion
 
@@ -1214,9 +1234,7 @@ public interface IClassProvider
 
     string Flex( FlexDefinition flexDefinition );
 
-    string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
-
-    string FlexAlignment( Alignment alignment );
+    string Flex( FlexRule flexRule );
 
     #endregion
 
@@ -1265,6 +1283,12 @@ public interface IClassProvider
     string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
 
     string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
+
+    #endregion
+
+    #region ObjectFit
+
+    string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition );
 
     #endregion
 
@@ -1402,6 +1426,20 @@ public interface IClassProvider
     string ToPositionTranslateType( PositionTranslateType positionTranslateType );
 
     string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition );
+
+    string ToObjectFitType( ObjectFitType objectFitType );
+
+    string ToSkeletonAnimation( SkeletonAnimation animation );
+
+    #endregion
+
+    #region Extensions
+
+    #region Autocomplete
+
+    string AutocompleteItemFocus( bool focus );
+
+    #endregion
 
     #endregion
 

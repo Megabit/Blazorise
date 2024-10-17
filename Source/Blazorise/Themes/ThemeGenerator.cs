@@ -109,6 +109,23 @@ public abstract class ThemeGenerator : IThemeGenerator
         {
             Variables[ThemeVariables.BodyTextColor] = ToHex( ParseColor( theme.BodyOptions.TextColor ) );
         }
+
+        if ( theme.BodyOptions?.FontOptions is not null )
+        {
+            var fontOptions = theme.BodyOptions.FontOptions;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Family ) )
+                Variables[ThemeVariables.BodyFontFamily] = fontOptions.Family;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Style ) )
+                Variables[ThemeVariables.BodyFontStyle] = fontOptions.Style;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Size ) )
+                Variables[ThemeVariables.BodyFontSize] = fontOptions.Size;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Weight ) )
+                Variables[ThemeVariables.BodyFontWeight] = fontOptions.Weight;
+        }
     }
 
     /// <summary>
@@ -708,9 +725,17 @@ public abstract class ThemeGenerator : IThemeGenerator
     {
         var backgroundColor = Var( ThemeVariables.BodyBackgroundColor );
         var textColor = Var( ThemeVariables.BodyTextColor );
+        var fontFamily = Var( ThemeVariables.BodyFontFamily );
+        var fontStyle = Var( ThemeVariables.BodyFontStyle );
+        var fontSize = Var( ThemeVariables.BodyFontSize );
+        var fontWeight = Var( ThemeVariables.BodyFontWeight );
 
         if ( !string.IsNullOrEmpty( backgroundColor )
-             || !string.IsNullOrEmpty( textColor ) )
+             || !string.IsNullOrEmpty( textColor )
+             || !string.IsNullOrEmpty( fontFamily )
+             || !string.IsNullOrEmpty( fontStyle )
+             || !string.IsNullOrEmpty( fontSize )
+             || !string.IsNullOrEmpty( fontWeight ) )
         {
             sb.Append( $"body" ).Append( "{" );
 
@@ -719,6 +744,18 @@ public abstract class ThemeGenerator : IThemeGenerator
 
             if ( !string.IsNullOrEmpty( textColor ) )
                 sb.Append( $"color: var({ThemeVariables.BodyTextColor});" );
+
+            if ( !string.IsNullOrEmpty( fontFamily ) )
+                sb.Append( $"font-family: var({ThemeVariables.BodyFontFamily});" );
+
+            if ( !string.IsNullOrEmpty( fontStyle ) )
+                sb.Append( $"font-style: var({ThemeVariables.BodyFontStyle});" );
+
+            if ( !string.IsNullOrEmpty( fontSize ) )
+                sb.Append( $"font-size: var({ThemeVariables.BodyFontSize});" );
+
+            if ( !string.IsNullOrEmpty( fontWeight ) )
+                sb.Append( $"font-weight: var({ThemeVariables.BodyFontWeight});" );
 
             sb.AppendLine( "}" );
         }

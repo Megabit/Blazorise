@@ -20,4 +20,9 @@ public record ThemeBodyOptions
     /// If defined it will also override any <see cref="TextColor.Body"/>.
     /// </remarks>
     public string TextColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the body font options.
+    /// </summary>
+    public ThemeFontOptions FontOptions { get; set; }
 }

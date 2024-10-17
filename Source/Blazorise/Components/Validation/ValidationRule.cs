@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 #endregion
 

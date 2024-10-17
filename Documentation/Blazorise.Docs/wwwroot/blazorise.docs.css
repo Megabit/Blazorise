@@ -357,7 +357,6 @@ html, body * {
 }
 .b-docs-page .b-docs-page-section-content {
   padding: 20px;
-  border-radius: 4px 4px 0 0;
   margin-bottom: 40px;
   background-color: white;
   margin: auto;
@@ -836,6 +835,10 @@ div.developers-picker button {
 div.developers-picker button:hover {
   background-color: var(--b-theme-primary);
   color: var(--b-theme-white);
+}
+
+.text-price-color-community {
+  color: #787878;
 }
 
 a.toc-link {

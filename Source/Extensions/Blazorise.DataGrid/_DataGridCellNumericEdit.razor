@@ -3,9 +3,16 @@
 @typeparam TItem
 @inherits ComponentBase
 
-@if ( TypeHelper.IsNumeric(valueType) )
+@if ( TypeHelper.IsNumeric( valueType ) )
 {
-    @NumericPickerFragment
+    @if ( Column.NativeInputMode )
+    {
+        @NumericEditFragment
+    }
+    else
+    {
+        @NumericPickerFragment
+    }
 }
 
 @code {
@@ -50,6 +57,46 @@
         builder.AddAttribute( 8, nameof( NumericPicker<object>.ShowStepButtons ), Column.ShowStepButtons );
         builder.AddAttribute( 9, nameof( NumericPicker<object>.EnableStep ), Column.EnableStep );
         builder.AddAttribute( 10, nameof( NumericPicker<object>.ElementId ), elementId );
+        builder.CloseComponent();
+    };
+
+    private RenderFragment NumericEditFragment => builder =>
+    {
+        var type = typeof( NumericEdit<> ).MakeGenericType( new[] { valueType } );
+
+        builder.OpenComponent( 0, type );
+        builder.AddAttribute( 1, nameof( NumericEdit<object>.Value ), valueType switch
+        {
+            Type typeDecimal when typeDecimal == typeof( Decimal ) => (Decimal)( CellValue ?? (Decimal)default ),
+            Type typeDecimalNull when typeDecimalNull == typeof( Decimal? ) => (Decimal?)( CellValue ?? (Decimal?)default ),
+            Type typeDouble when typeDouble == typeof( Double ) => (Double)( CellValue ?? (Double)default ),
+            Type typeDoubleNull when typeDoubleNull == typeof( Double? ) => (Double?)( CellValue ?? (Double?)default ),
+            Type typeFloat when typeFloat == typeof( Single ) => (Single)( CellValue ?? (Single)default ),
+            Type typeFloatNull when typeFloatNull == typeof( Single? ) => (Single?)( CellValue ?? (Single?)default ),
+            Type typeInt when typeInt == typeof( Int32 ) => (Int32)( CellValue ?? (Int32)default ),
+            Type typeIntNull when typeIntNull == typeof( Int32? ) => (Int32?)( CellValue ?? (Int32?)default ),
+            Type typeLong when typeLong == typeof( Int64 ) => (Int64)( CellValue ?? (Int64)default ),
+            Type typeLongNull when typeLongNull == typeof( Int64? ) => (Int64?)( CellValue ?? (Int64?)default ),
+            _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
+        } );
+        builder.AddAttribute( 2, nameof( NumericEdit<object>.ValueChanged ), valueType switch
+        {
+            Type typeDecimal when typeDecimal == typeof( decimal ) => EventCallback.Factory.Create<decimal>( this, ( OnCellValueChanged<decimal> ) ),
+            Type typeDecimalNull when typeDecimalNull == typeof( decimal? ) => EventCallback.Factory.Create<decimal?>( this, ( OnCellValueChanged<decimal?> ) ),
+            Type typeDouble when typeDouble == typeof( double ) => EventCallback.Factory.Create<double>( this, ( OnCellValueChanged<double> ) ),
+            Type typeDoubleNull when typeDoubleNull == typeof( double? ) => EventCallback.Factory.Create<double?>( this, ( OnCellValueChanged<double?> ) ),
+            Type typeFloat when typeFloat == typeof( float ) => EventCallback.Factory.Create<float>( this, ( OnCellValueChanged<float> ) ),
+            Type typeFloatNull when typeFloatNull == typeof( float? ) => EventCallback.Factory.Create<float?>( this, ( OnCellValueChanged<float?> ) ),
+            Type typeInt when typeInt == typeof( int ) => EventCallback.Factory.Create<int>( this, ( OnCellValueChanged<int> ) ),
+            Type typeIntNull when typeIntNull == typeof( int? ) => EventCallback.Factory.Create<int?>( this, ( OnCellValueChanged<int?> ) ),
+            Type typeLong when typeLong == typeof( long ) => EventCallback.Factory.Create<long>( this, ( OnCellValueChanged<long> ) ),
+            Type typeLongNull when typeLongNull == typeof( long? ) => EventCallback.Factory.Create<long?>( this, ( OnCellValueChanged<long?> ) ),
+            _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
+        } );
+        builder.AddAttribute( 3, nameof( BaseInputComponent<object>.ReadOnly ), Column.Readonly );
+        builder.AddAttribute( 4, nameof( NumericEdit<object>.Step ), Column.Step );
+        builder.AddAttribute( 5, nameof( NumericEdit<object>.Culture ), Column.Culture );
+        builder.AddAttribute( 6, nameof( NumericEdit<object>.ElementId ), elementId );
         builder.CloseComponent();
     };
 }

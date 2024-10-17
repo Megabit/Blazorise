@@ -17,7 +17,7 @@ else
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
 
         <div aria-hidden="true" class="fui-Switch__indicator">
             <svg fill="currentColor" class="fui-Switch__indicator__icon" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z" fill="currentColor"></path></svg>

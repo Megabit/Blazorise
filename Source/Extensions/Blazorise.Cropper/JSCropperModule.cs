@@ -9,8 +9,8 @@ namespace Blazorise.Cropper;
 
 internal class JSCropperModule : BaseJSModule, IJSDestroyableModule
 {
-    public JSCropperModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public JSCropperModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

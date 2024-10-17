@@ -16,8 +16,9 @@ public class JSDataGridModule : BaseJSModule
     /// </summary>
     /// <param name="jsRuntime">JavaScript runtime instance.</param>
     /// <param name="versionProvider">Version provider.</param>
-    public JSDataGridModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    /// <param name="options">Blazorise options.</param>
+    public JSDataGridModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 
@@ -30,6 +31,22 @@ public class JSDataGridModule : BaseJSModule
         var moduleInstance = await Module;
 
         await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId );
+    }
+
+    /// <inheritdoc/>
+    public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
+    {
+        if ( IsUnsafe )
+            return;
+
+        await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+    }
+
+    public virtual async ValueTask InitializeTableCellNavigation( ElementReference elementRef, string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "initializeTableCellNavigation", elementRef, elementId );
     }
 
 

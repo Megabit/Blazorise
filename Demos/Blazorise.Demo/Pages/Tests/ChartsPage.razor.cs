@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Charts;
@@ -21,7 +20,20 @@ public partial class ChartsPage
 
     ChartOptions chartOptions = new()
     {
-        AspectRatio = 1.5
+        AspectRatio = 1.5,
+        Plugins = new ChartPlugins()
+        {
+            Tooltip = new ChartTooltip()
+            {
+                Enabled = true,
+                UsePointStyle = true,
+                Callbacks = new ChartTooltipCallbacks
+                {
+                    Title = ( items ) => "Custom title: " + items[0].Parsed,
+                    Label = ( item ) => "Custom label: " + item.Parsed,
+                }
+            }
+        }
     };
 
     LineChartOptions lineChartOptions = new()

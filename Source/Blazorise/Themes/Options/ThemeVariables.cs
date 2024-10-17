@@ -26,6 +26,26 @@ public static class ThemeVariables
     public const string BodyTextColor = "--b-theme-body-text-color";
 
     /// <summary>
+    /// Gets the body body font family variable name.
+    /// </summary>
+    public const string BodyFontFamily = "--b-theme-body-font-family";
+
+    /// <summary>
+    /// Gets the body body font style variable name.
+    /// </summary>
+    public const string BodyFontStyle = "--b-theme-body-font-style";
+
+    /// <summary>
+    /// Gets the body body font size variable name.
+    /// </summary>
+    public const string BodyFontSize = "--b-theme-body-font-size";
+
+    /// <summary>
+    /// Gets the body body font size variable name.
+    /// </summary>
+    public const string BodyFontWeight = "--b-theme-body-font-weight";
+
+    /// <summary>
     /// Gets the theme color variable name.
     /// </summary>
     /// <param name="variant">Color variant name.</param>

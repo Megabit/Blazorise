@@ -20,10 +20,14 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code Tag>RadioGroup</Code>
+        <Paragraph>
+            <Code Tag>RadioGroup</Code> main component for grouping radios.
+        </Paragraph>
         <UnorderedList>
             <UnorderedListItem>
-                <Code Tag>Radio</Code>
+                <Paragraph>
+                    <Code Tag>Radio</Code> radio button, which can be grouped or standalone.
+                </Paragraph>
             </UnorderedListItem>
         </UnorderedList>
     </UnorderedListItem>
@@ -44,6 +48,17 @@
     <DocsPageSectionSource Code="BasicRadioGroupExample" />
 </DocsPageSection>
 
+<Paragraph>
+    <Alert Color="Color.Warning" Visible>
+        <AlertMessage>
+            Important Note:
+        </AlertMessage>
+        <AlertDescription>
+            For the <Code>RadioGroup</Code> and <Code>Radio</Code> components to work correctly, the <Code>TValue</Code> type must match across both. This is especially important when using nullable types, as mismatched types can lead to unexpected behavior.
+        </AlertDescription>
+    </Alert>
+</Paragraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Standalone Radio">
         <Code>Radio</Code> can also be used standalone, without the <Code>RadioGroup</Code> wrapper.
@@ -62,6 +77,16 @@
         <RadioGroupButtonsExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="RadioGroupButtonsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Button Colors">
+        Changing the color of the radio buttons is as simple as setting the <Code>Color</Code> attribute on a <Code>Radio</Code> component.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RadioGroupButtonColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RadioGroupButtonColorsExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -136,5 +161,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Cursor" Type="Cursor" Default="Default">
         Defines the mouse cursor based on the behavior by the current CSS framework.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="Color" Default="Secondary">
+        Defines the color of a radio button(only when <Code>RadioGroup.Buttons</Code> is true).
     </DocsAttributesItem>
 </DocsAttributes>

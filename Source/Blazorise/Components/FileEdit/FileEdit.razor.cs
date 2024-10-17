@@ -11,7 +11,6 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using static System.Net.WebRequestMethods;
 #endregion
 
 namespace Blazorise;
@@ -82,7 +81,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FileEdit() );
-        builder.Append( ClassProvider.FileEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.FileEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -261,6 +260,12 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     public Task ShowPicker()
     {
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        return null;
     }
 
     #endregion

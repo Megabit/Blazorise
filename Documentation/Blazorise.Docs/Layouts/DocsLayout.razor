@@ -39,13 +39,26 @@
                         </BarItem>
                         <BarItem>
                             <BarLink To="docs/start">
-                                <BarIcon IconName="IconName.Directions" /> Start
+                                <BarIcon IconName="IconName.Directions" /> Quick Start
                             </BarLink>
                         </BarItem>
                         <BarItem>
-                            <BarLink To="docs/usage">
-                                <BarIcon IconName="IconName.BookReader" /> Usage
-                            </BarLink>
+                            <BarDropdown @bind-Visible="@sideBarIntegrationsMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.BookReader" /> Integrations
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/usage/ant-design/">Ant Design</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bootstrap4/">Bootstrap 4</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bootstrap5/">Bootstrap 5</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bulma/">Bulma</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/fluent2/" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Fluent 2</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/material/">Material</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/tailwind/">Tailwind</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
                         </BarItem>
                         <BarItem>
                             <BarLink To="docs/testing">
@@ -102,13 +115,10 @@
                                     <BarDropdownItem To="docs/components/layout">Layout</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/list-group">List Group</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/input-mask">Mask</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/input-mask">Input Mask</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/memo">Memo Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/offcanvas" Flex="Flex.JustifyContent.Between">
-                                        <Span>Offcanvas</Span>
-                                        <Span Background="Background.Dark" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/offcanvas">Offcanvas</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric">Numeric Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric-picker">Numeric Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
@@ -117,6 +127,9 @@
                                     <BarDropdownItem To="docs/components/rating">Rating</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/repeater">Repeater</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/select">Select</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/skeleton" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Skeleton</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/slider">Slider</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/step">Step</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/switch">Switch</BarDropdownItem>
@@ -125,8 +138,7 @@
                                     <BarDropdownItem To="docs/components/time">Time Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/time-picker">Time Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/toast" Flex="Flex.JustifyContent.Between">
-                                        <Span>Toast</Span>
-                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                        <DocsNewFeatureBadge>Toast</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/tooltip">Tooltip</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/text">Text Edit</BarDropdownItem>
@@ -143,9 +155,8 @@
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/animate">Animate</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/captcha">
-                                        <Span>Captcha</Span>
-                                        <Span Background="Background.Dark" TextColor="TextColor.Primary" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    <BarDropdownItem To="docs/extensions/captcha" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Captcha</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
@@ -155,6 +166,7 @@
                                             <BarDropdownItem To="docs/extensions/chart-datalabels">DataLabels</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-zoom">Zoom</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdown>
@@ -169,6 +181,7 @@
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">From an External Source</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/virtualize">Virtualize</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/observable">Observable Collections</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/dynamic">Dynamic</BarDropdownItem>
                                                 </BarDropdownMenu>
                                             </BarDropdown>
 
@@ -181,7 +194,9 @@
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/paging">Paging</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/sorting">Sorting</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/editing">Editing</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/editing" Flex="Flex.JustifyContent.Between">
+                                                        <DocsNewFeatureBadge>Editing</DocsNewFeatureBadge>
+                                                    </BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/filtering">Filtering</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/resizing">Resizing</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/auto-generate-columns">Auto Generate Columns</BarDropdownItem>
@@ -192,6 +207,9 @@
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/grouping">Grouping</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/header-group">Header Group</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/state-management">State Management</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/mobile-mode" Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                                                        <DocsNewFeatureBadge>Mobile Mode</DocsNewFeatureBadge>
+                                                    </BarDropdownItem>
                                                 </BarDropdownMenu>
                                             </BarDropdown>
 
@@ -200,6 +218,7 @@
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/cell">Cell</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">Custom Row Colors</BarDropdownItem>
                                                 </BarDropdownMenu>
                                             </BarDropdown>
@@ -235,24 +254,18 @@
                                     <BarDropdownItem To="docs/extensions/lottie-animation">LottieAnimation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pdfviewer" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>PdfViewer</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/signaturepad" Flex="Flex.JustifyContent.Between">
-                                        <Span>SignaturePad</Span>
-                                        <Span Background="Background.Dark" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/signaturepad">SignaturePad</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/snackbar">Snackbar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/spinkit">SpinKit</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/splitter" Flex="Flex.JustifyContent.Between">
-                                        <Span>Splitter</Span>
-                                        <Span Background="Background.Dark" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/splitter">Splitter</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/transferlist" Flex="Flex.JustifyContent.Between">
-                                        <Span>TransferList</Span>
-                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/transferlist">TransferList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
@@ -268,8 +281,7 @@
                                     <BarDropdownItem To="docs/services/notification-provider">Notification Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/page-progress-provider">PageProgress Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/toast-provider" Flex="Flex.JustifyContent.Between">
-                                        <Span>Toast Provider</Span>
-                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                        <DocsNewFeatureBadge>Toast Provider</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
@@ -283,8 +295,7 @@
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/css-grid" Flex="Flex.JustifyContent.Between">
-                                        <Span>CSS Grid</Span>
-                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                        <DocsNewFeatureBadge>CSS Grid</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
                                     <BarDropdown>
@@ -310,6 +321,9 @@
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdownItem To="docs/helpers/localization">Localization</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/object-fit" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Object Fit</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/position">Position</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/sizes">Sizes</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities">Utilities</BarDropdownItem>

@@ -1,18 +1,15 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise.Captcha;
-using Blazorise.Docs.Domain;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 #endregion
 
 namespace Blazorise.Docs.Pages.Home.Components;
@@ -67,7 +64,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -126,6 +123,17 @@ public partial class CaptchaInput : BaseInputComponent<bool>
             eventArgs.ErrorText = null;
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( ValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
+    }
+
     #endregion
 
     #region Properties
@@ -145,6 +153,4 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     [Parameter] public Expression<Func<bool>> ValueExpression { get; set; }
 
     #endregion
-
-
 }

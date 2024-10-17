@@ -2,7 +2,7 @@
 @inherits Blazorise.Check<TValue>
 <label class="@WrapperClassNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@Name" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         <span class="@InnerClassNames"></span>
     </span>
     <span>

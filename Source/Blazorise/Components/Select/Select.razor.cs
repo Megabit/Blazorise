@@ -76,9 +76,9 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Select() );
-        builder.Append( ClassProvider.SelectMultiple(), Multiple );
+        builder.Append( ClassProvider.SelectMultiple( Multiple ) );
         builder.Append( ClassProvider.SelectSize( ThemeSize ) );
-        builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -201,6 +201,25 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
         if ( selectItems.Contains( selectItem ) )
             selectItems.Remove( selectItem );
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( Multiple && SelectedValuesExpression is not null )
+        {
+            return HtmlFieldPrefix is not null
+                ? HtmlFieldPrefix.GetFieldName( SelectedValuesExpression )
+                : ExpressionFormatter.FormatLambda( SelectedValuesExpression );
+        }
+        else if ( SelectedValueExpression is not null )
+        {
+            return HtmlFieldPrefix is not null
+                ? HtmlFieldPrefix.GetFieldName( SelectedValueExpression )
+                : ExpressionFormatter.FormatLambda( SelectedValueExpression );
+        }
+
+        return null;
     }
 
     #endregion

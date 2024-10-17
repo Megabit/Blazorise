@@ -63,7 +63,7 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Slider() );
-        builder.Append( ClassProvider.SliderValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.SliderValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -106,6 +106,17 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
             ulong @ulong => Converters.FormatValue( @ulong, CultureInfo.InvariantCulture ),
             _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
         };
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( ValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
     }
 
     #endregion

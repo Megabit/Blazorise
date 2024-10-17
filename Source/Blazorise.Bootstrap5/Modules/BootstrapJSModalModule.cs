@@ -5,8 +5,8 @@ namespace Blazorise.Bootstrap5.Modules;
 
 internal class BootstrapJSModalModule : JSModalModule
 {
-    public BootstrapJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public BootstrapJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

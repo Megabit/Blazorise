@@ -15,7 +15,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -27,7 +27,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string MemoEditSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Textarea__input-{ToValidationStatus( validationStatus )}";
+    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Textarea__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -35,11 +35,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Select() => "fui-Select__select";
 
-    public override string SelectMultiple() => null;
+    public override string SelectMultiple( bool multiple ) => null;
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Select__select-{ToValidationStatus( validationStatus )}";
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Select__select-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -49,9 +49,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -61,9 +61,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DateEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -73,9 +73,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -93,9 +93,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -105,9 +105,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -125,9 +125,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-SpinButton__input-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-SpinButton-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -137,9 +137,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -147,13 +147,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Check() => "fui-Checkbox__input";
 
-    public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+    public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
-    public override string CheckInline() => "fui-Checkbox__input-inline";
+    public override string CheckInline( bool inline ) => inline ? "fui-Checkbox__input-inline" : null;
 
-    public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
+    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -173,7 +173,7 @@ public class FluentUI2ClassProvider : ClassProvider
             : orientation == Orientation.Horizontal ? $"fui-RadioGroup__horizontal-{ToSize( size )}" : $"fui-RadioGroup-{ToSize( size )}";
     }
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-RadioGroup-{ToValidationStatus( validationStatus )}";
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-RadioGroup-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -181,15 +181,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Radio( bool button ) => "fui-Radio__input";
 
-    public override string RadioSize( bool button, Size size ) => $"fui-Radio__input-{ToSize( size )}";
+    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"fui-Radio__input-{ToSize( size )}" : null;
 
     public override string RadioInline( bool inline ) => inline
         ? "fui-Radio__input-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"fui-Radio__input-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"fui-Radio__input-{ToCursor( cursor )}" : null;
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Radio__input-{ToValidationStatus( validationStatus )}";
+    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Radio__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -197,15 +197,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Switch() => "fui-Switch__input";
 
-    public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
-    public override string SwitchSize( Size size ) => $"fui-Switch__input-{ToSize( size )}";
+    public override string SwitchSize( Size size ) => size != Size.Default ? $"fui-Switch__input-{ToSize( size )}" : null;
 
     public override string SwitchChecked( bool @checked ) => null;
 
-    public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+    public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Switch()}-{ToCursor( cursor )}" : null;
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Switch__input-{ToValidationStatus( validationStatus )}";
+    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Switch__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -215,7 +215,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -225,7 +225,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string SliderColor( Color color ) => $"fui-Slider__input-{ToColor( color )}";
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Slider__input-{ToValidationStatus( validationStatus )}";
+    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Slider__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -239,7 +239,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string RatingItem() => "fui-RatingItem";
 
-    public override string RatingItemColor( Color color ) => $"fui-RatingItem-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-RatingItem-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "fui-RatingItem-selected" : null;
 
@@ -249,19 +249,14 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => "fui-Label";
-
-    public override string LabelType( LabelType labelType )
+    public override string LabelType( LabelType labelType ) => labelType switch
     {
-        return labelType switch
-        {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "fui-Checkbox__label",
-            Blazorise.LabelType.File => "fui-File__label",
-            _ => null,
-        };
-    }
+        Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "fui-Checkbox__label",
+        Blazorise.LabelType.File => "fui-File__label",
+        _ => "fui-Label",
+    };
 
-    public override string LabelCursor( Cursor cursor ) => $"fui-Label-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"fui-Label-{ToCursor( cursor )}" : null;
 
     #endregion
 
@@ -303,7 +298,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Field() => "fui-Field";
 
-    public override string FieldHorizontal() => "fui-FieldHorizontal";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "fui-FieldHorizontal" : null;
 
     public override string FieldColumn() => "fui-Column";
 
@@ -323,6 +318,8 @@ public class FluentUI2ClassProvider : ClassProvider
         => requiredIndicator
             ? "fui-Label__required"
             : null;
+
+    public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 
@@ -346,15 +343,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => null;
+    public override string ControlCheck( ControlRole role ) => null;
 
-    public override string ControlRadio() => null;
+    public override string ControlRadio( ControlRole role ) => null;
 
-    public override string ControlSwitch() => null;
+    public override string ControlSwitch( ControlRole role ) => null;
 
-    public override string ControlFile() => null;
+    public override string ControlFile( ControlRole role ) => null;
 
-    public override string ControlText() => null;
+    public override string ControlText( ControlRole role ) => null;
+
+    public override string ControlInline( ControlRole role, bool inline ) => ( role == ControlRole.Check || role == ControlRole.Radio || role == ControlRole.Switch ) && inline ? "fui-Checkbox__input-inline" : null;
 
     #endregion
 
@@ -393,18 +392,18 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Button( bool outline ) => "fui-Button";
 
     public override string ButtonColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"{Button( outline )}Outline-{ToColor( color )}" : $"{Button( outline )}Outline"
-        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"{Button( outline )}Outline-{ToColor( color )}" : $"{Button( outline )}Outline"
+        : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"fui-Button-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
+    public override string ButtonBlock( bool outline, bool block ) => block ? $"{Button( outline )}-block" : null;
 
-    public override string ButtonActive( bool outline ) => "fui-Button-active";
+    public override string ButtonActive( bool outline, bool active ) => active ? "fui-Button-active" : null;
 
-    public override string ButtonDisabled( bool outline ) => "fui-Button-disabled";
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "fui-Button-disabled" : null;
 
-    public override string ButtonLoading( bool outline ) => "fui-Button-loading";
+    public override string ButtonLoading( bool outline, bool loading ) => loading ? "fui-Button-loading" : null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "fui-Button-link-stretched" : null;
 
@@ -423,7 +422,7 @@ public class FluentUI2ClassProvider : ClassProvider
         return "fui-ButtonGroup";
     }
 
-    public override string ButtonsSize( Size size ) => $"fui-ButtonGroup-{ToSize( size )}";
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"fui-ButtonGroup-{ToSize( size )}" : null;
 
     #endregion
 
@@ -437,15 +436,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "fui-Menu";
 
-    public override string DropdownDisabled() => "fui-MenuButton-disabled";
+    public override string DropdownDisabled( bool disabled ) => disabled ? "fui-MenuButton-disabled" : null;
 
-    public override string DropdownGroup() => "fui-ButtonGroup";
+    public override string DropdownGroup( bool group ) => group ? "fui-ButtonGroup" : null;
 
-    public override string DropdownObserverShow() => DropdownShow();
+    public override string DropdownObserverShow() => "fui-MenuButton-show";
 
-    public override string DropdownShow() => "fui-MenuButton-show";
+    public override string DropdownShow( bool show ) => show ? "fui-MenuButton-show" : null;
 
-    public override string DropdownRight() => null;
+    public override string DropdownRight( bool rightAligned ) => null;
 
     public override string DropdownItem() => "fui-MenuItem";
 
@@ -467,11 +466,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "fui-MenuPopover";
 
-    public override string DropdownMenuScrollable() => "fui-MenuPopover-scrollable";
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "fui-MenuPopover-scrollable" : null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 
-    public override string DropdownMenuRight() => "fui-MenuPopover-right";
+    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "fui-MenuPopover-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
         ? "fui-MenuItem"
@@ -482,11 +481,11 @@ public class FluentUI2ClassProvider : ClassProvider
         : "fui-Button fui-MenuButton";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"fui-ButtonOutline-{ToColor( color )}" : $"fui-ButtonOutline"
-        : color != Color.Default ? $"fui-Button-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"fui-ButtonOutline-{ToColor( color )}" : $"fui-ButtonOutline"
+        : color.IsNotNullOrDefault() ? $"fui-Button-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
-        => size != Size.Default ? $"btn-{ToSize( size )}" : null;
+        => size != Size.Default ? $"fui-MenuButton-{ToSize( size )}" : null;
 
     public override string DropdownToggleSplit( bool split ) => split ? "fui-SplitButton__menuButton" : null;
 
@@ -549,8 +548,8 @@ public class FluentUI2ClassProvider : ClassProvider
     //public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "fui-Dropdown__button";
 
     //public override string DropdownToggleColor( Color color, bool outline ) => outline
-    //    ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
-    //    : color != Color.Default ? $"btn-{ToColor( color )}" : null;
+    //    ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
+    //    : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
 
     //public override string DropdownToggleSize( Size size, bool outline )
     //    => size != Size.Default ? $"btn-{ToSize( size )}" : null;
@@ -573,13 +572,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Tabs( bool pills ) => "fui-TabList";
 
-    public override string TabsCards() => null;
+    public override string TabsCards( bool cards ) => null;
 
-    public override string TabsFullWidth() => "fui-TabList-fill";
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "fui-TabList-fill" : null;
 
-    public override string TabsJustified() => "fui-TabList-justified";
+    public override string TabsJustified( bool justified ) => justified ? "fui-TabList-justified" : null;
 
-    public override string TabsVertical() => null;
+    public override string TabsVertical( bool vertical ) => null;
 
     public override string TabItem( TabPosition tabPosition )
     {
@@ -620,7 +619,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "fui-Step-completed" : null;
 
-    public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "fui-Step__circle";
 
@@ -672,7 +671,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Jumbotron() => "fui-Jumbotron";
 
-    public override string JumbotronBackground( Background background ) => $"fui-Jumbotron-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"fui-Jumbotron-{ToBackground( background )}" : null;
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"fui-Jumbotron__title-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
@@ -688,7 +687,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Card() => "fui-Card";
 
-    public override string CardWhiteText() => "fui-TextColor-white";
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "fui-TextColor-white" : null;
 
     public override string CardActions() => "fui-CardActions";
 
@@ -728,13 +727,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ListGroupItem() => "fui-ListGroupItem";
 
-    public override string ListGroupItemSelectable() => "fui-ListGroupItem-action";
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "fui-ListGroupItem-action" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? "fui-ListGroupItem-active" : null;
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? "fui-ListGroupItem-disabled" : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color.IsNullOrDefault() ? null : $"{ListGroupItem()}-{base.ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{base.ToColor( color )}" : null;
 
     #endregion
 
@@ -751,17 +750,29 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Bar( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "fui-NavigationBar" : "navbar";
 
-    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"fui-JustifyContent-{ToAlignment( alignment )}" : null;
 
-    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => mode == Blazorise.BarMode.Horizontal
-        ? $"fui-NavigationBar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}"
-        : $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast )
+    {
+        if ( themeContrast == ThemeContrast.None )
+            return null;
 
-    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => mode == Blazorise.BarMode.Horizontal
-        ? breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-NavigationBar-expand-{ToBreakpoint( breakpoint )}" : null
-        : breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+        return mode == Blazorise.BarMode.Horizontal
+            ? $"fui-NavigationBar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}"
+            : $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    }
+
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint )
+    {
+        if ( breakpoint == Breakpoint.None )
+            return null;
+
+        return mode == Blazorise.BarMode.Horizontal
+            ? breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-NavigationBar-expand-{ToBreakpoint( breakpoint )}" : null
+            : breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+    }
 
     public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? $"fui-NavigationBar-{ToBarMode( mode )}"
@@ -773,21 +784,21 @@ public class FluentUI2ClassProvider : ClassProvider
             : "fui-NavigationBar__item"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode ) => "fui-NavigationBar__item-active";
+    public override string BarItemActive( BarMode mode, bool active ) => active ? "fui-NavigationBar__item-active" : null;
 
-    public override string BarItemDisabled( BarMode mode ) => "fui-NavigationBar__item-disabled";
+    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? "fui-NavigationBar__item-disabled" : null;
 
-    public override string BarItemHasDropdown( BarMode mode ) => null;
-
-    public override string BarItemHasDropdownShow( BarMode mode ) => null;
+    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__link"
         : "b-bar-link";
 
-    public override string BarLinkDisabled( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__link-disabled"
-        : Disabled();
+    public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__link-disabled"
+            : Disabled()
+        : null;
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__brand"
@@ -806,9 +817,11 @@ public class FluentUI2ClassProvider : ClassProvider
         ? "fui-NavigationBar__menu"
         : "b-bar-menu";
 
-    public override string BarMenuShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__menu-show"
-        : Show();
+    public override string BarMenuShow( BarMode mode, bool show ) => show
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__menu-show"
+            : Show()
+        : null;
 
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__start"
@@ -822,9 +835,11 @@ public class FluentUI2ClassProvider : ClassProvider
         ? isBarDropDownSubmenu ? "fui-NavigationBar__subdropdown" : "fui-NavigationBar__dropdown"
         : "b-bar-dropdown";
 
-    public override string BarDropdownShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__dropdown-show"
-        : Show();
+    public override string BarDropdownShow( BarMode mode, bool show ) => show
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__dropdown-show"
+            : Show()
+        : null;
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
@@ -856,15 +871,17 @@ public class FluentUI2ClassProvider : ClassProvider
         ? visible ? "fui-NavigationBar__dropdown-menu-show" : null
         : visible ? "dropdown-menu-show" : null;
 
-    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__dropdown-right"
-        : "b-bar-right";
+    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__dropdown-right"
+            : "b-bar-right"
+        : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ?
         null :
         "b-bar-dropdown-menu-container";
 
-    public override string BarCollapsed( BarMode mode ) => null;
+    public override string BarCollapsed( BarMode mode, bool visible ) => null;
 
     public override string BarLabel( BarMode mode ) => "b-bar-label";
 
@@ -989,17 +1006,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Alert() => "fui-MessageBar";
 
-    public override string AlertColor( Color color ) => $"fui-MessageBar-{ToColor( color )}";
+    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-MessageBar-{ToColor( color )}" : null;
 
-    public override string AlertDismisable() => "fui-MessageBar-closable";
+    public override string AlertDismisable( bool dismissable ) => dismissable ? "fui-MessageBar-closable" : null;
 
-    public override string AlertFade() => "fui-MessageBar-fade";
+    public override string AlertFade( bool dismissable ) => dismissable ? "fui-MessageBar-fade" : null;
 
-    public override string AlertShow() => "fui-MessageBar-show";
+    public override string AlertShow( bool dismissable, bool visible ) => dismissable && visible ? "fui-MessageBar-show" : null;
 
-    public override string AlertHasMessage() => null;
+    public override string AlertHasMessage( bool hasMessage ) => null;
 
-    public override string AlertHasDescription() => null;
+    public override string AlertHasDescription( bool hasDescription ) => null;
 
     public override string AlertMessage() => "fui-MessageBar__message";
 
@@ -1129,7 +1146,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Pagination() => "fui-Pagination";
 
-    public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
+    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
+
+    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"fui-JustifyContent-{ToAlignment( alignment )}" : null;
+
+    public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"fui-Background-{ToBackground( background )}" : null;
 
     public override string PaginationItem() => "fui-PaginationItem";
 
@@ -1151,15 +1172,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Progress() => "fui-ProgressBar";
 
-    public override string ProgressSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar-{ToSize( size )}";
+    public override string ProgressSize( Size size ) => size != Size.Default ? $"fui-ProgressBar-{ToSize( size )}" : null;
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped() => null;
+    public override string ProgressStriped( bool stripped ) => null;
 
-    public override string ProgressAnimated() => null;
+    public override string ProgressAnimated( bool animated ) => null;
 
-    public override string ProgressIndeterminate() => null;
+    public override string ProgressIndeterminate( bool indeterminate ) => null;
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1167,13 +1188,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar__bar-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => $"fui-ProgressBar__bar-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-ProgressBar__bar-{ToColor( color )}" : null;
 
-    public override string ProgressBarStriped() => "fui-ProgressBar__bar-striped";
+    public override string ProgressBarStriped( bool striped ) => striped ? "fui-ProgressBar__bar-striped" : null;
 
-    public override string ProgressBarAnimated() => "fui-ProgressBar__bar-animated";
+    public override string ProgressBarAnimated( bool animated ) => animated ? "fui-ProgressBar__bar-animated" : null;
 
-    public override string ProgressBarIndeterminate() => "fui-ProgressBar__bar-indeterminate";
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "fui-ProgressBar__bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1195,21 +1216,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Table() => "fui-Table";
 
-    public override string TableFullWidth() => "fui-Table-fullwidth";
+    public override string TableFullWidth( bool fullWidth ) => fullWidth ? "fui-Table-fullwidth" : null;
 
-    public override string TableStriped() => "fui-Table-striped";
+    public override string TableStriped( bool striped ) => striped ? "fui-Table-striped" : null;
 
-    public override string TableHoverable() => "fui-Table-hoverable";
+    public override string TableHoverable( bool hoverable ) => hoverable ? "fui-Table-hoverable" : null;
 
-    public override string TableBordered() => "fui-Table-bordered";
+    public override string TableBordered( bool bordered ) => bordered ? "fui-Table-bordered" : null;
 
-    public override string TableNarrow() => "fui-Table-narrow";
+    public override string TableNarrow( bool narrow ) => narrow ? "fui-Table-narrow" : null;
 
-    public override string TableBorderless() => "fui-Table-borderless";
+    public override string TableBorderless( bool borderless ) => borderless ? "fui-Table-borderless" : null;
 
     public override string TableHeader() => "fui-TableHeader";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"fui-TableHeader__theme fui-TableHeader__theme-{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"fui-TableHeader__theme fui-TableHeader__theme-{ToThemeContrast( themeContrast )}" : null;
 
     public override string TableHeaderCell() => "fui-TableHeaderCell";
 
@@ -1231,11 +1252,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "fui-TableRow";
 
-    public override string TableRowColor( Color color ) => $"fui-TableRow-{ToColor( color )}";
+    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableRow-{ToColor( color )}" : null;
 
-    public override string TableRowHoverCursor() => "fui-TableRow-selectable";
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "fui-TableRow-selectable" : null;
 
-    public override string TableRowIsSelected() => "fui-TableRow-selected";
+    public override string TableRowIsSelected( bool selected ) => selected ? "fui-TableRow-selected" : null;
 
     public override string TableRowHeader() => "fui-TableRowHeader";
 
@@ -1251,7 +1272,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRowCell() => "fui-TableCell";
 
-    public override string TableRowCellColor( Color color ) => $"fui-TableCell-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableCell-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1275,17 +1296,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "fui-Table-fixed-columns" : null;
 
+    public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "fui-Table-mobile" : null;
+
     #endregion
 
     #region Badge
 
     public override string Badge() => "fui-Badge";
 
-    public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
+    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
 
-    public override string BadgePill() => $"{Badge()}-pill";
+    public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "fui-Badge__close";
+
+    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
 
     #endregion
 
@@ -1309,6 +1334,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"fui-TextTransform-{ToTextTransform( textTransform )}";
 
+    public override string TextDecoration( TextDecoration textDecoration ) => $"fui-TextDecoration-{ToTextDecoration( textDecoration )}";
+
     public override string TextWeight( TextWeight textWeight ) => $"fui-TextWeight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"fui-TextOverflow-{ToTextOverflow( textOverflow )}";
@@ -1324,7 +1351,7 @@ public class FluentUI2ClassProvider : ClassProvider
         return $"fui-TextSize-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "fui-Text-italic";
+    public override string TextItalic( bool italic ) => italic ? "fui-Text-italic" : null;
 
     #endregion
 
@@ -1372,11 +1399,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Figure() => "fui-Figure";
 
-    public override string FigureSize( FigureSize figureSize ) => $"fui-Figure-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"fui-Figure-{ToFigureSize( figureSize )}" : null;
 
     public override string FigureImage() => "fui-Figure__image";
 
-    public override string FigureImageRounded() => "fui-Figure-rounded";
+    public override string FigureImageRounded( bool rounded ) => rounded ? "fui-Figure-rounded" : null;
 
     public override string FigureCaption() => "fui-Figure__caption";
 
@@ -1396,7 +1423,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string BreadcrumbItem() => "fui-BreadcrumbItem";
 
-    public override string BreadcrumbItemActive() => "fui-BreadcrumbItem-active";
+    public override string BreadcrumbItemActive( bool active ) => active ? "fui-BreadcrumbItem-active" : null;
 
     public override string BreadcrumbLink() => "fui-BreadcrumbButton";
 
@@ -1408,13 +1435,23 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"fui-Tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipMultiline() => "fui-Tooltip-multiline";
+    public override string TooltipMultiline( bool multiline ) => multiline ? "fui-Tooltip-multiline" : null;
 
-    public override string TooltipAlwaysActive() => "fui-Tooltip-active";
+    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "fui-Tooltip-active" : null;
 
-    public override string TooltipFade() => "fui-Tooltip-fade";
+    public override string TooltipFade( bool fade ) => fade ? "fui-Tooltip-fade" : null;
 
-    public override string TooltipInline() => "fui-Tooltip-inline";
+    public override string TooltipInline( bool inline ) => inline ? "fui-Tooltip-inline" : null;
+
+    #endregion
+
+    #region Skeleton
+
+    public override string Skeleton() => "fui-Skeleton";
+
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"fui-Skeleton-{ToSkeletonAnimation( animation )}" : null;
+
+    public override string SkeletonItem() => "fui-SkeletonItem";
 
     #endregion
 
@@ -1558,19 +1595,24 @@ public class FluentUI2ClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+    public override string Flex( FlexRule flexRule )
     {
         var sb = new StringBuilder();
 
-        if ( flexType != FlexType.Default )
-            sb.Append( $"fui-{ToFlexType( flexType )}" ).Append( ' ' );
+        if ( flexRule.FlexType != FlexType.Default )
+        {
+            if ( flexRule.Breakpoint > Breakpoint.Mobile )
+                sb.Append( $"fui-{ToBreakpoint( flexRule.Breakpoint )}-{ToFlexType( flexRule.FlexType )}" );
+            else
+                sb.Append( $"fui-{ToFlexType( flexRule.FlexType )}" );
 
-        sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+            sb.Append( ' ' );
+        }
+
+        sb.Append( string.Join( ' ', flexRule.Definitions.Where( x => x.Condition ?? true ).Select( x => Flex( x ) ) ) );
 
         return sb.ToString();
     }
-
-    public override string FlexAlignment( Alignment alignment ) => $"fui-JustifyContent-{ToAlignment( alignment )}";
 
     #endregion
 
@@ -1667,6 +1709,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"fui-ObjectFit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"fui-ObjectFit-{ToObjectFitType( objectFitType )}";
+    }
+
+    #endregion
+
     #region Elements
 
     public override string UnorderedList() => "unordered-list";
@@ -1677,7 +1734,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
 
-    public override string OrderedListType( OrderedListType orderedListType ) => $"ordered-list-{ToOrderedListType( orderedListType )}";
+    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"ordered-list-{ToOrderedListType( orderedListType )}" : null;
 
     public override string DescriptionList() => null;
 

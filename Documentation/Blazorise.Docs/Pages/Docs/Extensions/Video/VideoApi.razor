@@ -1,0 +1,219 @@
+﻿<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Events
+</Heading>
+
+<DocsAttributes ShowDefaults="false">
+    <DocsAttributesItem Name="Progress" Type="Func<double, Task>">
+        Sent periodically to inform interested parties of progress downloading the media. Information about the current amount of the media that has been downloaded is available in the media element's buffered attribute.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Playing" Type="Func<Task>">
+        Sent when the media begins to play (either for the first time, after having been paused, or after ending and then restarting).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Played" Type="Func<Task>">
+        Sent when playback of the media starts after having been paused; that is, when playback is resumed after a prior pause event.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Paused" Type="Func<Task>">
+        Sent when playback is paused.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TimeUpdate" Type="Func<double, Task>">
+        The time indicated by the element's currentTime attribute has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VolumeChange" Type="Func<double, bool, Task>">
+        Sent when the audio volume changes (both when the volume is set and when the muted state is changed).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Seeking" Type="Func<double, Task>">
+        Sent when a seek operation begins.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Seeked" Type="Func<double, Task>">
+        Sent when a seek operation completes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RateChange" Type="Func<double, Task>">
+        Sent when the playback speed changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ended" Type="Func<Task>">
+        Sent when playback completes. Note: This does not fire if autoplay is true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullScreenEntered" Type="Func<Task>">
+        Sent when the player enters fullscreen mode (either the proper fullscreen or full-window fallback for older browsers).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullScreenExited" Type="Func<Task>">
+        Sent when the player exits fullscreen mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaptionsEnabled" Type="Func<Task>">
+        Sent when captions are enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaptionsDisabled" Type="Func<Task>">
+        Sent when captions are disabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LanguageChange" Type="Func<string, Task>">
+        Sent when the caption language is changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ControlsHidden" Type="Func<Task>">
+        Sent when the controls are hidden.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ControlsShown" Type="Func<Task>">
+        Sent when the controls are shown.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ready" Type="Func<Task>">
+        Triggered when the instance is ready for API calls.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="QualityChanged" Type="Func<int?, Task>">
+        The quality of playback has changed.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
+
+<DocsMethods>
+    <DocsMethodsItem Name="Play" ReturnType="Task">
+        Starts playback.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Pause" ReturnType="Task">
+        Pauses playback.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="TogglePlay" ReturnType="Task">
+        Toggles playback based on current status if no parameters are passed.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Stop" ReturnType="Task">
+        Stops playback and resets to the start.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Restart" ReturnType="Task">
+        Restarts playback.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Rewind" ReturnType="Task" Parameters="double seekTime">
+        Rewinds playback by the specified seek time.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Forward" ReturnType="Task" Parameters="double seekTime">
+        Fast forwards playback by the specified seek time.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IncreaseVolume" ReturnType="Task" Parameters="double step">
+        Increases volume by the specified step.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="DecreaseVolume" ReturnType="Task" Parameters="double step">
+        Decreases volume by the specified step.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleCaptions" ReturnType="Task">
+        Toggles captions display.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="EnterFullscreen" ReturnType="Task">
+        Enters fullscreen or falls back to full window/viewport if not supported.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ExitFullscreen" ReturnType="Task">
+        Exits fullscreen.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleFullscreen" ReturnType="Task">
+        Toggles fullscreen mode.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Airplay" ReturnType="Task">
+        Triggers the AirPlay dialog on supported devices.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleControls" ReturnType="Task">
+        Toggles the video controls, with optional parameter to force on/off.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ShowTextTrack" ReturnType="Task" Parameters="int textTrackId">
+        Shows a text track by its index from the list of tracks.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="HideTextTrack" ReturnType="Task" Parameters="int textTrackId">
+        Hides a text track by its index from the list of tracks.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="AddTextTrack" ReturnType="Task" Parameters="VideoTrack track">
+        Adds a new text track to the list of tracks.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ClearTextTracks" ReturnType="Task">
+        Clears all text tracks from the list.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="SetPlaybackRate" ReturnType="Task" Parameters="double playbackRate">
+        Changes the media playback rate. A value of 1.0 represents normal speed, 0.5 is half speed, and 2.0 is double speed.
+    </DocsMethodsItem>
+</DocsMethods>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Controls" Type="bool" Default="true">
+        Gets or sets the controls visibility of the player.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ControlsList" Type="string[]" Default="null">
+        Gets or sets the list of controls that are rendered by the player. Possible list of values are contained in <Code>VideoControlsType</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutomaticallyHideControls" Type="bool" Default="false">
+        Hide video controls automatically after 2s of no mouse or focus movement, on control element blur (tab out), on playback start or entering fullscreen. As soon as the mouse is moved, a control element is focused or playback is paused, the controls reappear instantly.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoPlay" Type="bool" Default="false">
+        Gets or sets the autoplay state of the player.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoPause" Type="bool" Default="true">
+        Only allow one player playing at once.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Muted" Type="bool" Default="false">
+        Whether to start playback muted.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Source" Type="string" Default="null">
+        Gets or sets the current source for the player.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Poster" Type="string" Default="null">
+        Gets or sets the the URL of media poster or thumbnail image, generally before playback begins.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Thumbnails" Type="string" Default="null">
+        Gets or sets the URL of thumbnails which will be used to display preview images when interacting with the time slider and in the chapters menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="StreamingLibrary" Type="StreamingLibrary" Default="Html5">
+        If defined the video will run in streaming mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SeekTime" Type="int" Default="10">
+        The time, in seconds, to seek when a user hits fast forward or rewind.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Volume" Type="double" Default="1">
+        A number, between 0 and 1, representing the initial volume of the player.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClickToPlay" Type="bool" Default="true">
+        Click (or tap) of the video container will toggle play/pause.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisableContextMenu" Type="bool" Default="true">
+        Disable right click menu on video to help as very primitive obfuscation to prevent downloads of content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResetOnEnd" Type="bool" Default="false">
+        Reset the playback to the start once playback is complete.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ratio" Type="string" Default="null">
+        Force an aspect ratio for all videos. The format is 'w:h' - e.g. '16:9' or '4:3'. If this is not specified then the default for HTML5 and Vimeo is to use the native resolution of the video. As dimensions are not available from YouTube via SDK, 16:9 is forced as a sensible default.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="InvertTime" Type="bool" Default="true">
+        Display the current time as a countdown rather than an incremental counter.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionType" Type="VideoProtectionType" Default="None">
+        Defines the encoding type used for the DRM protection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionData" Type="object" Default="null">
+        Defines the manual structure of the protection data. If defined, it will override the usage of <Code>ProtectionServerUrl</Code> and <Code>ProtectionHttpRequestHeaders</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionServerUrl" Type="string" Default="null">
+        Defines the server url of the DRM protection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionServerCertificateUrl" Type="string" Default="null">
+        Defines the server certificate url of the DRM protection (currently used only with FairPlay).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionHttpRequestHeaders" Type="string" Default="null">
+        Defines the protection token for the http header that is sent to the server. The request headers are optional; if left out, the server will not receive them.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DefaultQuality" Type="int?" Default="null">
+        Gets or sets the default quality for the player. Defaults to <Code>576</Code> if unspecified.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AvailableQualities" Type="string" Default="null">
+        Defines the list of available quality options. Defaults to <Code>[4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]</Code> if unspecified.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SettingsList" Type="VideoSettingsType[]" Default="Captions, Quality, Speed, Loop">
+        If the default controls are used, you can specify which settings to show in the menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DoubleClickToFullscreen" Type="bool" Default="true">
+        If defined the player will go fullscreen when the video is double-clicked.
+    </DocsAttributesItem>
+</DocsAttributes>

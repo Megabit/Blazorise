@@ -447,3 +447,28 @@ input[readonly="readonly"][type=range] {
     content: " *";
     color: var(--b-theme-danger, $danger);
 }
+
+.form-group {
+    // when flatpickr-wrapper is inside a form-group, make sure the calendar dropdown is positioned correctly
+    &.row {
+        > label {
+            + div:has( > .flatpickr-wrapper) {
+                position: relative;
+            }
+        }
+    }
+
+    &:not(.row) {
+        .btn-group.btn-group-toggle {
+           display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+            width: max-content;
+
+            .btn {
+                flex: 0 1 auto;
+            }
+        }
+    }
+}

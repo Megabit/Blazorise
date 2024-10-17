@@ -26,8 +26,12 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic Example">
+    <DocsPageSectionHeader Title="Basic Mask">
         To start you only need to define the <Code>Mask</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -36,18 +40,28 @@
     <DocsPageSectionSource Code="BasicInputMaskExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    Default masking definitions
-</DocsPageSubtitle>
-
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Alias Example">
+    <DocsPageSectionHeader Title="With Alias">
         Instead of masking an input element, it is also possible to use the inputmask for formatting given values.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AliasInputMaskExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="AliasInputMaskExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Other examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Placeholder">
+        You can control the placeholder that will be used for the mask. The <Code>Placeholder</Code> will be used when the mask is not defined. And the <Code>MaskPlaceholder</Code> will be used when the mask is defined for extra information to the user about the valid input format.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <InputMaskPlaceholderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="InputMaskPlaceholderExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -64,6 +78,12 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ValueChanged" Type="@("EventCallback<string>")">
         Occurs after the value has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Mask" Type="string" Default="null">
+        The mask to use for the input.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaskPlaceholder" Type="string" Default="null">
+        The placeholder that will be used for the mask.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Plaintext" Type="bool" Default="false">
         Remove the default form field styling and preserve the correct margin and padding.

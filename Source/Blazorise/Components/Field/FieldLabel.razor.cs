@@ -23,7 +23,7 @@ public partial class FieldLabel : BaseSizableFieldComponent
     {
         builder.Append( ClassProvider.FieldLabel( IsHorizontal ) );
         builder.Append( ClassProvider.FieldLabelRequiredIndicator( RequiredIndicator ) );
-        builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
+        builder.Append( ClassProvider.FieldLabelScreenreader( Screenreader ) );
 
         base.BuildClasses( builder );
     }

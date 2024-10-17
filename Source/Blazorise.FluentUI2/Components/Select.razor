@@ -20,7 +20,7 @@
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <select @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
             @ChildContent
         </select>
         @if ( !Multiple )

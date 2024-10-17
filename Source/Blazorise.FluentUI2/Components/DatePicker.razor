@@ -18,6 +18,6 @@ else
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <input @ref="@ElementRef" id="@ElementId" type="text" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utilities.Parsers.InternalDateFormat)" max="@Max?.ToString(Utilities.Parsers.InternalDateFormat)" tabindex="@TabIndex" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utilities.Parsers.InternalDateFormat)" max="@Max?.ToString(Utilities.Parsers.InternalDateFormat)" tabindex="@TabIndex" @attributes="@Attributes" />
     };
 }

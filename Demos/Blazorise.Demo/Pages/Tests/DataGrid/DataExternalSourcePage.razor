@@ -1,4 +1,5 @@
-﻿@page "/tests/datagrid/data/read-data"
+﻿@using Blazorise.DataGrid.Extensions;
+@page "/tests/datagrid/data/read-data"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -10,6 +11,14 @@
                     In this demo, the Blazorise DataGrid is simulating a connection to an external datasets.
                     Navigate between grid pages, sort data, or filter data to experience our DataGrid’s responsiveness
                     and performance capabilities when binding to large datasets.
+                </Paragraph>
+                <Paragraph>
+                    Additionally we provide an extension method you can use to build an OData Query, <Code>ToODataString</Code>. For demo purposes we are writing the generated query below.
+                </Paragraph>
+                <Paragraph>
+                    <Code>
+                        @oDataQuery
+                    </Code>
                 </Paragraph>
             </CardBody>
             <CardBody>
@@ -53,7 +62,7 @@
 @code {
 
     [Inject] EmployeeData EmployeeData { get; set; }
-
+    private string oDataQuery;
     private IEnumerable<Employee> data;
     int totalEmployees;
     Random random = new();
@@ -87,6 +96,9 @@
     /// <returns></returns>
     private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
+        oDataQuery = e.ToODataString( "https://services.odata.org/V4/Northwind/Northwind.svc/Employees" );
+        Console.WriteLine( oDataQuery );
+
         if ( !e.CancellationToken.IsCancellationRequested )
         {
             IEnumerable<Employee> response = ( await GetDataFromExternalSource( e.Page, e.PageSize ) );

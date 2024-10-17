@@ -16,31 +16,51 @@
                     <Button Color="Color.Primary" Clicked="@(()=>videoRef.Stop())">
                         <Icon Name="IconName.Stop" />
                     </Button>
+                    <Button Color="Color.Primary" Clicked="@(()=>videoRef.TogglePlay())">
+                        <Icon Name="IconName.PlayCircle" />
+                    </Button>
                 </Buttons>
                 <Button Color="Color.Primary" Clicked="@OnChangeVideoUrl">Change Video</Button>
                 <Button Color="Color.Primary" Clicked="@OnChangeCurrentTime">Go to 20 seconds</Button>
-                <Button Color="Color.Secondary" Clicked="@OnChangeQuality">Change Quality to 1080</Button>
+                <Button Color="Color.Primary" Clicked="@OnChangeSpeed2">Speed 2x</Button>
             </CardBody>
             <CardBody>
-                <Video @ref="@videoRef" Source="@videoSource" CurrentTime="@currentTime" DefaultQuality="@quality" />
+                <Video @ref="@videoRef" Source="@videoSource" Thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt" CurrentTime="@currentTime" DefaultQuality="@defaultQuality" />
             </CardBody>
         </Card>
     </Column>
 </Row>
 @code {
     Video videoRef;
+    // VideoSource videoSource = new VideoSource()
+    // {
+    //     Medias = new ValueEqualityList<VideoMedia>
+    //     {
+    //         new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4", "video/mp4", 1024, 576),
+    //         new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4", "video/mp4", 1280, 720),
+    //         new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4", "video/mp4", 1920, 1080),
+    //     },
+    //     Tracks = new ValueEqualityList<VideoTrack>
+    //     {
+    //         new VideoTrack("_content/Blazorise.Demo/subtitles/View_From_A_Blue_Moon_Trailer-HD.en.vtt", "en-US"){ Kind = "subtitles", Label = "English", Default = true },
+    //         new VideoTrack("_content/Blazorise.Demo/subtitles/View_From_A_Blue_Moon_Trailer-HD.fr.vtt", "fr-FR"){ Kind = "subtitles", Label = "French" },
+    //     }
+    // };
     VideoSource videoSource = new VideoSource()
     {
         Medias = new ValueEqualityList<VideoMedia>
         {
-            new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4", "video/mp4", 576),
-            new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4", "video/mp4", 720),
-            new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4", "video/mp4", 1080),
+            new VideoMedia("https://files.vidstack.io/sprite-fight/720p.mp4", "video/mp4", 1280, 720),
+        },
+        Tracks = new ValueEqualityList<VideoTrack>
+        {
+            new VideoTrack("_content/Blazorise.Demo/subtitles/sprite-fight.en.vtt", "en-US"){ Kind = "subtitles", Label = "English", Default = true },
+            new VideoTrack("_content/Blazorise.Demo/subtitles/sprite-fight.es.vtt", "es-ES"){ Kind = "subtitles", Label = "Spanish" },
         }
     };
 
     double currentTime = 10;
-    int quality = 576;
+    int defaultQuality = 720;
 
     Task OnChangeVideoUrl()
     {
@@ -57,10 +77,8 @@
         return Task.CompletedTask;
     }
 
-    Task OnChangeQuality()
+    Task OnChangeSpeed2()
     {
-        quality = 1080;
-
-        return Task.CompletedTask;
+        return videoRef.SetPlaybackRate( 2 );
     }
 }

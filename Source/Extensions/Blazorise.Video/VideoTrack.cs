@@ -10,7 +10,33 @@ namespace Blazorise.Video;
 public record VideoTrack
 {
     /// <summary>
-    /// Gets or sets the track type, eg. "captions".
+    ///  Default constructor for the track source information.
+    /// </summary>
+    /// <param name="source">Track source address.</param>
+    public VideoTrack( string source )
+    {
+        Source = source;
+    }
+
+    /// <summary>
+    ///  Default constructor for the track source information.
+    /// </summary>
+    /// <param name="source">Track source address.</param>
+    /// <param name="language">Track language.</param>
+    public VideoTrack( string source, string language )
+        : this( source )
+    {
+        Language = language;
+    }
+
+    /// <summary>
+    /// Gets or sets the track type, eg. "vtt".
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public string Type { get; set; }
+
+    /// <summary>
+    /// Gets or sets the track kind, eg. 'metadata' | 'captions' | 'chapters' | 'descriptions' | 'subtitles'.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Kind { get; set; }
@@ -24,7 +50,6 @@ public record VideoTrack
     /// <summary>
     /// Gets or sets the track language.
     /// </summary>
-    [JsonPropertyName( "srclang" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Language { get; set; }
 

@@ -25,8 +25,8 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     /// <summary>
     /// Creates a new RichTextEditJsInterop
     /// </summary>
-    public JSRichTextEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, RichTextEditOptions options )
-        : base( jsRuntime, versionProvider )
+    public JSRichTextEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions blazoriseOptions, RichTextEditOptions options )
+        : base( jsRuntime, versionProvider, blazoriseOptions )
     {
         this.options = options;
     }
@@ -41,10 +41,13 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         List<string> styles = new();
 
         if ( options.UseBubbleTheme )
-            styles.Add( "bubble" );
+            styles.Add( "quill.bubble" );
 
         if ( options.UseShowTheme )
-            styles.Add( "snow" );
+            styles.Add( "quill.snow" );
+
+        if ( options.UseTables )
+            styles.Add( "quill-table-better" );
 
         if ( styles.Count > 0 )
         {
@@ -60,15 +63,15 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     {
         var dotNetRef = DotNetObjectReference.Create( richTextEdit );
 
-        await InvokeSafeVoidAsync( "initialize",
-            dotNetRef,
-            richTextEdit.ElementRef,
-            richTextEdit.ElementId,
-            richTextEdit.ReadOnly,
-            richTextEdit.PlaceHolder,
-            richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
-            richTextEdit.SubmitOnEnter,
-            richTextEdit.ConfigureQuillJsMethod );
+        await InvokeSafeVoidAsync( "initialize", dotNetRef, richTextEdit.ElementRef, richTextEdit.ElementId, new RichTextEditJSOptions
+        {
+            ReadOnly = richTextEdit.ReadOnly,
+            Placeholder = richTextEdit.PlaceHolder,
+            Theme = richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
+            SubmitOnEnter = richTextEdit.SubmitOnEnter,
+            ConfigureQuillJsMethod = richTextEdit.ConfigureQuillJsMethod,
+            UseTables = options.UseTables,
+        } );
 
         return AsyncDisposable.Create( async () =>
         {

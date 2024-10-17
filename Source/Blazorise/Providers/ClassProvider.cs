@@ -33,7 +33,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Select();
 
-    public abstract string SelectMultiple();
+    public abstract string SelectMultiple( bool multiple );
 
     public abstract string SelectSize( Size size );
 
@@ -147,7 +147,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CheckSize( Size size );
 
-    public abstract string CheckInline();
+    public abstract string CheckInline( bool inline );
 
     public abstract string CheckCursor( Cursor cursor );
 
@@ -235,8 +235,6 @@ public abstract class ClassProvider : IClassProvider
 
     #region Label
 
-    public abstract string Label();
-
     public abstract string LabelType( LabelType labelType );
 
     public abstract string LabelCursor( Cursor cursor );
@@ -281,7 +279,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Field();
 
-    public abstract string FieldHorizontal();
+    public abstract string FieldHorizontal( bool horizontal );
 
     public abstract string FieldColumn();
 
@@ -298,6 +296,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string FieldLabel( bool horizontal );
 
     public abstract string FieldLabelRequiredIndicator( bool requiredIndicator );
+
+    public abstract string FieldLabelScreenreader( Screenreader screenreader );
 
     #endregion
 
@@ -321,15 +321,17 @@ public abstract class ClassProvider : IClassProvider
 
     #region Control
 
-    public abstract string ControlCheck();
+    public abstract string ControlCheck( ControlRole role );
 
-    public abstract string ControlRadio();
+    public abstract string ControlRadio( ControlRole role );
 
-    public abstract string ControlSwitch();
+    public abstract string ControlSwitch( ControlRole role );
 
-    public abstract string ControlFile();
+    public abstract string ControlFile( ControlRole role );
 
-    public abstract string ControlText();
+    public abstract string ControlText( ControlRole role );
+
+    public abstract string ControlInline( ControlRole role, bool inline );
 
     #endregion
 
@@ -363,13 +365,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ButtonSize( Size size, bool outline );
 
-    public abstract string ButtonBlock( bool outline );
+    public abstract string ButtonBlock( bool outline, bool block );
 
-    public abstract string ButtonActive( bool outline );
+    public abstract string ButtonActive( bool outline, bool active );
 
-    public abstract string ButtonDisabled( bool outline );
+    public abstract string ButtonDisabled( bool outline, bool disabled );
 
-    public abstract string ButtonLoading( bool outline );
+    public abstract string ButtonLoading( bool outline, bool loading );
 
     public abstract string ButtonStretchedLink( bool stretched );
 
@@ -393,15 +395,15 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Dropdown( bool isDropdownSubmenu );
 
-    public abstract string DropdownDisabled();
+    public abstract string DropdownDisabled( bool disabled );
 
-    public abstract string DropdownGroup();
+    public abstract string DropdownGroup( bool group );
 
     public abstract string DropdownObserverShow();
 
-    public abstract string DropdownShow();
+    public abstract string DropdownShow( bool show );
 
-    public abstract string DropdownRight();
+    public abstract string DropdownRight( bool rightAligned );
 
     public abstract string DropdownItem();
 
@@ -421,11 +423,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenuSelector();
 
-    public abstract string DropdownMenuScrollable();
+    public abstract string DropdownMenuScrollable( bool scrollable );
 
     public abstract string DropdownMenuVisible( bool visible );
 
-    public abstract string DropdownMenuRight();
+    public abstract string DropdownMenuRight( bool rightAligned );
 
     public abstract string DropdownToggle( bool isDropdownSubmenu, bool outline );
 
@@ -447,13 +449,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Tabs( bool pills );
 
-    public abstract string TabsCards();
+    public abstract string TabsCards( bool cards );
 
-    public abstract string TabsFullWidth();
+    public abstract string TabsFullWidth( bool fullWidth );
 
-    public abstract string TabsJustified();
+    public abstract string TabsJustified( bool justified );
 
-    public abstract string TabsVertical();
+    public abstract string TabsVertical( bool vertical );
 
     public abstract string TabItem( TabPosition tabPosition );
 
@@ -553,7 +555,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Card();
 
-    public abstract string CardWhiteText();
+    public abstract string CardWhiteText( bool whiteText );
 
     public abstract string CardActions();
 
@@ -593,7 +595,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ListGroupItem();
 
-    public abstract string ListGroupItemSelectable();
+    public abstract string ListGroupItemSelectable( bool selectable );
 
     public abstract string ListGroupItemActive( bool active );
 
@@ -607,17 +609,17 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string Layout() => "b-layout";
 
-    public virtual string LayoutHasSider() => "b-layout-has-sider";
+    public virtual string LayoutHasSider( bool hasSider ) => hasSider ? "b-layout-has-sider" : null;
 
     public virtual string LayoutContent() => "b-layout-content";
 
     public virtual string LayoutHeader() => "b-layout-header";
 
-    public virtual string LayoutHeaderFixed() => "b-layout-header-fixed";
+    public virtual string LayoutHeaderFixed( bool @fixed ) => @fixed ? "b-layout-header-fixed" : null;
 
     public virtual string LayoutFooter() => "b-layout-footer";
 
-    public virtual string LayoutFooterFixed() => "b-layout-footer-fixed";
+    public virtual string LayoutFooterFixed( bool @fixed ) => @fixed ? "b-layout-footer-fixed" : null;
 
     public virtual string LayoutSider() => "b-layout-sider";
 
@@ -625,7 +627,7 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string LayoutLoading() => "b-layout-loading";
 
-    public virtual string LayoutRoot() => "b-layout-root";
+    public virtual string LayoutRoot( bool root ) => root ? "b-layout-root" : null;
 
     #endregion
 
@@ -653,17 +655,15 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarItem( BarMode mode, bool hasDropdown );
 
-    public abstract string BarItemActive( BarMode mode );
+    public abstract string BarItemActive( BarMode mode, bool active );
 
-    public abstract string BarItemDisabled( BarMode mode );
+    public abstract string BarItemDisabled( BarMode mode, bool disabled );
 
-    public abstract string BarItemHasDropdown( BarMode mode );
-
-    public abstract string BarItemHasDropdownShow( BarMode mode );
+    public abstract string BarItemHasDropdown( BarMode mode, bool hasDropdown );
 
     public abstract string BarLink( BarMode mode );
 
-    public abstract string BarLinkDisabled( BarMode mode );
+    public abstract string BarLinkDisabled( BarMode mode, bool disabled );
 
     public abstract string BarBrand( BarMode mode );
 
@@ -673,7 +673,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarMenu( BarMode mode );
 
-    public abstract string BarMenuShow( BarMode mode );
+    public abstract string BarMenuShow( BarMode mode, bool show );
 
     public abstract string BarStart( BarMode mode );
 
@@ -681,7 +681,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
-    public abstract string BarDropdownShow( BarMode mode );
+    public abstract string BarDropdownShow( BarMode mode, bool show );
 
     public abstract string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
@@ -697,11 +697,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-    public abstract string BarDropdownMenuRight( BarMode mode );
+    public abstract string BarDropdownMenuRight( BarMode mode, bool rightAligned );
 
     public abstract string BarDropdownMenuContainer( BarMode mode );
 
-    public abstract string BarCollapsed( BarMode mode );
+    public abstract string BarCollapsed( BarMode mode, bool visible );
 
     public abstract string BarLabel( BarMode mode );
 
@@ -790,15 +790,15 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string AlertColor( Color color );
 
-    public abstract string AlertDismisable();
+    public abstract string AlertDismisable( bool dismissable );
 
-    public abstract string AlertFade();
+    public abstract string AlertFade( bool dismissable );
 
-    public abstract string AlertShow();
+    public abstract string AlertShow( bool dismissable, bool visible );
 
-    public abstract string AlertHasMessage();
+    public abstract string AlertHasMessage( bool hasMessage );
 
-    public abstract string AlertHasDescription();
+    public abstract string AlertHasDescription( bool hasDescription );
 
     public abstract string AlertMessage();
 
@@ -894,6 +894,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string PaginationSize( Size size );
 
+    public abstract string PaginationAlignment( Alignment alignment );
+
+    public abstract string PaginationBackgroundColor( Background background );
+
     public abstract string PaginationItem();
 
     public abstract string PaginationItemActive( bool active );
@@ -918,11 +922,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ProgressColor( Color color );
 
-    public abstract string ProgressStriped();
+    public abstract string ProgressStriped( bool stripped );
 
-    public abstract string ProgressAnimated();
+    public abstract string ProgressAnimated( bool animated );
 
-    public abstract string ProgressIndeterminate();
+    public abstract string ProgressIndeterminate( bool indeterminate );
 
     public abstract string ProgressWidth( int width );
 
@@ -932,11 +936,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ProgressBarColor( Color color );
 
-    public abstract string ProgressBarStriped();
+    public abstract string ProgressBarStriped( bool striped );
 
-    public abstract string ProgressBarAnimated();
+    public abstract string ProgressBarAnimated( bool animated );
 
-    public abstract string ProgressBarIndeterminate();
+    public abstract string ProgressBarIndeterminate( bool indeterminate );
 
     public abstract string ProgressBarWidth( int width );
 
@@ -958,17 +962,17 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Table();
 
-    public abstract string TableFullWidth();
+    public abstract string TableFullWidth( bool fullWidth );
 
-    public abstract string TableStriped();
+    public abstract string TableStriped( bool striped );
 
-    public abstract string TableHoverable();
+    public abstract string TableHoverable( bool hoverable );
 
-    public abstract string TableBordered();
+    public abstract string TableBordered( bool bordered );
 
-    public abstract string TableNarrow();
+    public abstract string TableNarrow( bool narrow );
 
-    public abstract string TableBorderless();
+    public abstract string TableBorderless( bool borderless );
 
     public abstract string TableHeader();
 
@@ -988,9 +992,9 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowColor( Color color );
 
-    public abstract string TableRowHoverCursor();
+    public abstract string TableRowHoverCursor( Cursor cursor );
 
-    public abstract string TableRowIsSelected();
+    public abstract string TableRowIsSelected( bool selected );
 
     public abstract string TableRowHeader();
 
@@ -1014,6 +1018,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableFixedColumns( bool fixedColumns );
 
+    public abstract string TableResponsiveMode( TableResponsiveMode responsiveMode );
+
     #endregion
 
     #region Badge
@@ -1022,9 +1028,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BadgeColor( Color color );
 
-    public abstract string BadgePill();
+    public abstract string BadgePill( bool pill );
 
     public abstract string BadgeClose();
+
+    public abstract string BadgeCloseColor( Color color );
 
     #endregion
 
@@ -1048,13 +1056,15 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TextTransform( TextTransform textTransform );
 
+    public abstract string TextDecoration( TextDecoration textDecoration );
+
     public abstract string TextWeight( TextWeight textWeight );
 
     public abstract string TextOverflow( TextOverflow textOverflow );
 
     public abstract string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
-    public abstract string TextItalic();
+    public abstract string TextItalic( bool italic );
 
     #endregion
 
@@ -1106,7 +1116,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string FigureImage();
 
-    public abstract string FigureImageRounded();
+    public abstract string FigureImageRounded( bool rounded );
 
     public abstract string FigureCaption();
 
@@ -1126,7 +1136,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BreadcrumbItem();
 
-    public abstract string BreadcrumbItemActive();
+    public abstract string BreadcrumbItemActive( bool active );
 
     public abstract string BreadcrumbLink();
 
@@ -1138,13 +1148,23 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
-    public abstract string TooltipMultiline();
+    public abstract string TooltipMultiline( bool multiline );
 
-    public abstract string TooltipAlwaysActive();
+    public abstract string TooltipAlwaysActive( bool alwaysActive );
 
-    public abstract string TooltipFade();
+    public abstract string TooltipFade( bool fade );
 
-    public abstract string TooltipInline();
+    public abstract string TooltipInline( bool inline );
+
+    #endregion
+
+    #region Skeleton
+
+    public abstract string Skeleton();
+
+    public abstract string SkeletonAnimation( SkeletonAnimation animation );
+
+    public abstract string SkeletonItem();
 
     #endregion
 
@@ -1217,9 +1237,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Flex( FlexDefinition flexDefinition );
 
-    public abstract string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
-
-    public abstract string FlexAlignment( Alignment alignment );
+    public abstract string Flex( FlexRule flexRule );
 
     #endregion
 
@@ -1268,6 +1286,12 @@ public abstract class ClassProvider : IClassProvider
     public abstract string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
 
     public abstract string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
+
+    #endregion
+
+    #region ObjectFit
+
+    public abstract string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition );
 
     #endregion
 
@@ -1441,6 +1465,19 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.TextTransform.Lowercase => "lowercase",
             Blazorise.TextTransform.Uppercase => "uppercase",
             Blazorise.TextTransform.Capitalize => "capitalize",
+            _ => null,
+        };
+    }
+
+    public virtual string ToTextDecoration( TextDecoration textDecoration )
+    {
+        return textDecoration switch
+        {
+            Blazorise.TextDecoration.None => "none",
+            Blazorise.TextDecoration.Underline => "underline",
+            Blazorise.TextDecoration.Overline => "overline",
+            Blazorise.TextDecoration.LineThrough => "line-through",
+            Blazorise.TextDecoration.Inherit => "inherit",
             _ => null,
         };
     }
@@ -2073,6 +2110,39 @@ public abstract class ClassProvider : IClassProvider
             _ => null,
         };
     }
+
+    public virtual string ToObjectFitType( ObjectFitType objectFitType )
+    {
+        return objectFitType switch
+        {
+            ObjectFitType.None => "none",
+            ObjectFitType.Contain => "contain",
+            ObjectFitType.Cover => "cover",
+            ObjectFitType.Fill => "fill",
+            ObjectFitType.Scale => "scale",
+            _ => null,
+        };
+    }
+
+    public virtual string ToSkeletonAnimation( SkeletonAnimation animation )
+    {
+        return animation switch
+        {
+            Blazorise.SkeletonAnimation.Wave => "wave",
+            Blazorise.SkeletonAnimation.Pulse => "pulse",
+            _ => null
+        };
+    }
+
+    #endregion
+
+    #region Extensions
+
+    #region Autocomplete
+
+    public virtual string AutocompleteItemFocus( bool focus ) => focus ? "focus" : null;
+
+    #endregion
 
     #endregion
 

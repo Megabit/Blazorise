@@ -5,8 +5,8 @@ namespace Blazorise.Bulma.Modules;
 
 internal class BulmaJSModalModule : JSModalModule
 {
-    public BulmaJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public BulmaJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

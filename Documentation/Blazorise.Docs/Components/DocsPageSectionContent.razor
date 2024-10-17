@@ -1,5 +1,36 @@
-﻿<Div Class="@ClassNames">
+﻿@if ( !string.IsNullOrWhiteSpace( FrameUrl ) )
+{
+    <Div Flex="Flex.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is3" Padding="Padding.Is3" Border="Border.Is0.OnBottom.Is1.OnTop.Is1.RoundedTop.OnStart.Is1.OnEnd">
+        <Tooltip Text="Desktop View" Inline>
+            <Button Clicked="@OnDesktopViewClicked">
+                <Icon Name="IconName.Laptop" />
+            </Button>
+        </Tooltip>
+        <Tooltip Text="Tablet View" Inline>
+            <Button Clicked="@OnTabletViewClicked">
+                <Icon Name="IconName.Tablet" />
+            </Button>
+        </Tooltip>
+        <Tooltip Text="Mobile View" Inline>
+            <Button Clicked="@OnMobileViewClicked">
+                <Icon Name="IconName.Smartphone" />
+            </Button>
+        </Tooltip>
+    </Div>
+}
+<Div Class="@ClassNames" Border="@(Outlined ? ShowFrame ? Border.Is1.OnAll : Border.Is1.RoundedTop : null)">
     <Div Class="b-docs-page-section-content-inner">
-        @ChildContent
+        @if ( FrameView == "desktop" )
+        {
+            @ChildContent
+        }
+        else
+        {
+            <Div Height="Height.Px(500)" Background="Background.Light">
+                <iframe src="@FrameUrl" style="@FrameStyle" />
+            </Div>
+        }
     </Div>
 </Div>
+
+

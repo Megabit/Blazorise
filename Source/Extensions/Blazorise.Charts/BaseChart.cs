@@ -79,7 +79,7 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
         if ( datasets.IsNullOrEmpty() )
             return;
 
-        var chartsRowLimit = LicenseChecker.GetChartsRowsLimit();
+        var chartsRowLimit = BlazoriseLicenseLimitsHelper.GetChartsRowsLimit( LicenseChecker );
 
         if ( !chartsRowLimit.HasValue )
             return;
@@ -92,7 +92,7 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
 
     private List<TItem> LimitData( List<TItem> data )
     {
-        var chartsRowLimit = LicenseChecker.GetChartsRowsLimit();
+        var chartsRowLimit = BlazoriseLicenseLimitsHelper.GetChartsRowsLimit( LicenseChecker );
 
         if ( !chartsRowLimit.HasValue )
             return data;

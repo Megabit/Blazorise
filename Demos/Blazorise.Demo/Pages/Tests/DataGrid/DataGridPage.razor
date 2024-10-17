@@ -109,7 +109,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@largeDataMode">Large Data</Check>
+                                    <Check TValue=bool Checked="@readDataMode" CheckedChanged="OnReadDataModeChanged">Large Data</Check>
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -164,6 +164,12 @@
                                     </Select>
                                 </FieldBody>
                             </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Fields>
                             <Field>
                                 <FieldLabel>
                                     Sort mode
@@ -188,6 +194,17 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
+                                    Responsive mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@responsiveMode">
+                                        <SelectItem Value="@TableResponsiveMode.Default">Default</SelectItem>
+                                        <SelectItem Value="@TableResponsiveMode.Mobile">Mobile</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
@@ -201,9 +218,9 @@
             <CardBody>
                 <DataGrid @ref="dataGrid"
                           TItem="Employee"
-                          ReadData="@(largeDataMode ? OnReadData : null)"
-                          Data="@(largeDataMode ? employeeList : dataModels)"
-                          TotalItems="@(largeDataMode ? totalEmployees : null)"
+                          ReadData="@(readDataMode ? OnReadData : null)"
+                          Data="@(readDataMode ? employeeList : dataModels)"
+                          TotalItems="@(readDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
                           FixedHeader="@fixedHeader"
@@ -243,7 +260,8 @@
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation
                           SortChanged="@OnSortChanged"
-                          HeaderThemeContrast="@ThemeContrast.Light">
+                          HeaderThemeContrast="@ThemeContrast.Light"
+                          ResponsiveMode="@responsiveMode">
                     <EmptyTemplate>
                         <Span>
                             <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromEnd" />

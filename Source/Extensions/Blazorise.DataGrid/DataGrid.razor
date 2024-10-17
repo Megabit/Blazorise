@@ -22,7 +22,7 @@
         {
             <_DataGridColumnDropZone TItem="TItem" Columns="@groupableColumns" ColumnRemoved="@RemoveGroupColumn" ColumnAdded="@AddGroupColumn" />
         }
-        <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedColumns="@FixedColumns" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" @attributes="@Attributes">
+        <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedColumns="@FixedColumns" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" ResponsiveMode="@ResponsiveMode" @attributes="@Attributes">
             <TableHeader ThemeContrast="HeaderThemeContrast">
                 @if ( IsGroupHeaderCaptionsEnabled )
                 {
@@ -39,7 +39,7 @@
                             }
                             else
                             {
-                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                     @if ( HeaderGroupCaptionTemplate is null )
                                     {
                                         @column.HeaderGroupCaption
@@ -65,7 +65,7 @@
                             {
                                 @if ( IsCommandVisible || ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Cell ) )
                                 {
-                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                         {
                                             <_DataGridNewCommand TItem="TItem" New="@New" />
@@ -82,14 +82,14 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                         <_DataGridMultiSelectAll TItem="TItem" IsIndeterminate="@IsMultiSelectAllIndeterminate" IsChecked="@IsMultiSelectAllChecked"></_DataGridMultiSelectAll>
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                     <Div Display="Display.InlineFlex">
                                         @if ( IsGroupableByColumn && column.Groupable )
                                         {
@@ -126,7 +126,7 @@
                                             }
                                         }
 
-                                        @if ( Filterable && column.Filterable && (( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ))
+                                        @if ( Filterable && column.Filterable && ( ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ) )
                                         {
                                             <_DataGridMenuFilter Column="column" />
                                         }
@@ -148,7 +148,7 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" TextTransform="@column.FilterCellTextTransform" TextDecoration="@column.FilterCellTextDecoration" TextWeight="@column.FilterCellTextWeight" TextOverflow="@column.FilterCellTextOverflow" TextSize="@column.FilterCellTextSize" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                         @if ( column.FilterTemplate != null && column.Filterable )
                                         {
                                             @(column.FilterTemplate( column.Filter ))
@@ -158,7 +158,7 @@
                             }
                             else if ( !column.Filterable )
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"></TableHeaderCell>
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" TextTransform="@column.FilterCellTextTransform" TextDecoration="@column.FilterCellTextDecoration" TextWeight="@column.FilterCellTextWeight" TextOverflow="@column.FilterCellTextOverflow" TextSize="@column.FilterCellTextSize" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"></TableHeaderCell>
                                 continue;
                             }
                             else if ( column.ColumnType == DataGridColumnType.Command )
@@ -166,7 +166,7 @@
                                 @if ( IsCommandVisible )
                                 {
                                     // since Clear Filter is located in the command column it can be visible only when Edit is enabled
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" TextTransform="@column.FilterCellTextTransform" TextDecoration="@column.FilterCellTextDecoration" TextWeight="@column.FilterCellTextWeight" TextOverflow="@column.FilterCellTextOverflow" TextSize="@column.FilterCellTextSize" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                         <_DataGridClearFilterCommand TItem="TItem" />
                                     </TableHeaderCell>
                                 }
@@ -174,34 +174,20 @@
                             else if ( ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Default ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Default ) )
                             {
 
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" TextTransform="@column.FilterCellTextTransform" TextDecoration="@column.FilterCellTextDecoration" TextWeight="@column.FilterCellTextWeight" TextOverflow="@column.FilterCellTextOverflow" TextSize="@column.FilterCellTextSize" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                     @if ( column.FilterTemplate != null )
                                     {
                                         @(column.FilterTemplate( column.Filter ))
                                     }
                                     else
                                     {
-                                        //If this grows, move to a seperate component.
-                                        if ( column is DataGridNumericColumn<TItem> numericColumn )
-                                        {
-                                            <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@(numericColumn.Filter.SearchValue)" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellNumericEdit>
-
-                                        }
-                                        else if ( column is DataGridSelectColumn<TItem> selectColumn )
-                                        {
-                                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
-
-                                        }
-                                        else
-                                        {
-                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
-                                        }
+                                        <_DataGridCellFilter Column="column" OnFilterChanged="@((newValue) => OnFilterChanged(column, newValue))" />
                                     }
                                 </TableHeaderCell>
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"></TableHeaderCell>
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" TextTransform="@column.FilterCellTextTransform" TextDecoration="@column.FilterCellTextDecoration" TextWeight="@column.FilterCellTextWeight" TextOverflow="@column.FilterCellTextOverflow" TextSize="@column.FilterCellTextSize" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"></TableHeaderCell>
                             }
                         }
                     </TableRow>
@@ -275,7 +261,7 @@
                 @if ( IsLoadingTemplateVisible )
                 {
                     <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
-                         @LoadingTemplate
+                        @LoadingTemplate
 
                     </_DataGridFullColumnSpanRow>
                 }

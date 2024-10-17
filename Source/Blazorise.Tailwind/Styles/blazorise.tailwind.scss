@@ -1,4 +1,8 @@
-﻿@import "components/variables";
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "components/variables";
 
 @import "components/accordion";
 @import "components/addon";
@@ -10,6 +14,7 @@
 @import "components/modal";
 @import "components/pagination";
 @import "components/progress";
+@import "components/skeleton";
 @import "components/step";
 @import "components/table";
 @import "components/toast";

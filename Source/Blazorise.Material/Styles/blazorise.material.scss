@@ -32,6 +32,7 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "components/modal";
 @import "components/offcanvas";
 @import "components/pagination";
+@import "components/placeholder";
 @import "components/progress";
 @import "components/rating";
 @import "components/spinner";
@@ -51,6 +52,7 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "utilities/grid";
 @import "utilities/list";
 @import "utilities/overflow";
+@import "utilities/object-fit";
 @import "utilities/position";
 @import "utilities/sizing";
 @import "utilities/spacing";

@@ -16,52 +16,81 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code Tag>Bar</Code> main container
+        <Paragraph>
+            <Code Tag>Bar</Code> the main container.
+        </Paragraph>
         <UnorderedList>
             <UnorderedListItem>
-                <Code Tag>BarBrand</Code> <strong>Horizontal</strong>: the left side, always visible. <strong>Vertical</strong>: top of Bar branding.
+                <Paragraph>
+                    <Code Tag>BarBrand</Code> <strong>Horizontal</strong>: the left side, always visible. <strong>Vertical</strong>: top of Bar branding.
+                </Paragraph>
             </UnorderedListItem>
             <UnorderedListItem>
-                <Code Tag>BarToggler</Code> <strong>Horizontal</strong>: toggles the bar. <strong>Vertical</strong>: read more below.
+                <Paragraph>
+                    <Code Tag>BarToggler</Code> <strong>Horizontal</strong>: toggles the bar. <strong>Vertical</strong>: read more below.
+                </Paragraph>
             </UnorderedListItem>
             <UnorderedListItem>
-                <Code Tag>BarMenu</Code> <strong>Horizontal</strong>: the right side, hidden on breakpoint. <strong>Vertical</strong>: contains the core menu elements.
+                <Paragraph>
+                    <Code Tag>BarMenu</Code> <strong>Horizontal</strong>: the right side, hidden on breakpoint. <strong>Vertical</strong>: contains the core menu elements.
+                </Paragraph>
                 <UnorderedList>
                     <UnorderedListItem>
-                        <Code Tag>BarStart</Code> <strong>Horizontal</strong>: left side menu. <strong>Vertical</strong>: sticky top menu.
+                        <Paragraph>
+                            <Code Tag>BarStart</Code> <strong>Horizontal</strong>: left side menu. <strong>Vertical</strong>: sticky top menu.
+                        </Paragraph>
                     </UnorderedListItem>
                     <UnorderedListItem>
-                        <Code Tag>BarEnd</Code> <strong>Horizontal</strong>: right side menu. <strong>Vertical</strong>: sticky bottom menu.
+                        <Paragraph>
+                            <Code Tag>BarEnd</Code> <strong>Horizontal</strong>: right side menu. <strong>Vertical</strong>: sticky bottom menu.
+                        </Paragraph>
                         <UnorderedList>
                             <UnorderedListItem>
-                                <Code Tag>BarItem </Code> each single item of the bar menu
+                                <Paragraph>
+                                    <Code Tag>BarItem </Code> each single item of the bar menu
+                                </Paragraph>
                                 <UnorderedList>
                                     <UnorderedListItem>
-                                        <Code Tag>BarLink</Code> item link or button
+                                        <Paragraph>
+                                            <Code Tag>BarLink</Code> item link or button
+                                        </Paragraph>
                                         <UnorderedList>
                                             <UnorderedListItem>
-                                                <Code Tag>BarIcon</Code> icon for Bar item (required for BarMode.VerticalSmall)
+                                                <Paragraph>
+                                                    <Code Tag>BarIcon</Code> icon for Bar item (required for BarMode.VerticalSmall)
+                                                </Paragraph>
                                             </UnorderedListItem>
                                         </UnorderedList>
                                     </UnorderedListItem>
                                     <UnorderedListItem>
-                                        <Code Tag>BarDropdown</Code> dropdown container (or popout for BarMode.VerticalPopout)
+                                        <Paragraph>
+                                            <Code Tag>BarDropdown</Code> dropdown container (or popout for BarMode.VerticalPopout)
+                                        </Paragraph>
                                         <UnorderedList>
                                             <UnorderedListItem>
-                                                <Code Tag>BarDropdownToggle</Code> dropdown trigger
+                                                <Paragraph>
+                                                    <Code Tag>BarDropdownToggle</Code> dropdown trigger
+                                                </Paragraph>
                                             </UnorderedListItem>
                                             <UnorderedListItem>
-                                                <Code Tag>BarDropdownMenu</Code> the dropdown menu, which can include bar items and dividers
-                                                for BarMode.VerticalPopout)
+                                                <Paragraph>
+                                                    <Code Tag>BarDropdownMenu</Code> the dropdown menu, which can include bar items and dividers for BarMode.VerticalPopout)
+                                                </Paragraph>
                                                 <UnorderedList>
                                                     <UnorderedListItem>
-                                                        <Code Tag>BarDropdownItem</Code> each single item of the dropdown menu
+                                                        <Paragraph>
+                                                            <Code Tag>BarDropdownItem</Code> each single item of the dropdown menu
+                                                        </Paragraph>
                                                     </UnorderedListItem>
                                                     <UnorderedListItem>
-                                                        <Code Tag>BarDropdownDivider</Code> Divider that can be placed between <Code>BarDropdownItem</Code>’s.
+                                                        <Paragraph>
+                                                            <Code Tag>BarDropdownDivider</Code> Divider that can be placed between <Code>BarDropdownItem</Code>’s.
+                                                        </Paragraph>
                                                     </UnorderedListItem>
                                                     <UnorderedListItem>
-                                                        <Code Tag>BarDropdown</Code> by adding this again inside the menu, you will create nested dropdowns
+                                                        <Paragraph>
+                                                            <Code Tag>BarDropdown</Code> by adding this again inside the menu, you will create nested dropdowns
+                                                        </Paragraph>
                                                     </UnorderedListItem>
                                                 </UnorderedList>
                                             </UnorderedListItem>
@@ -69,9 +98,7 @@
                                     </UnorderedListItem>
                                 </UnorderedList>
                             </UnorderedListItem>
-
                         </UnorderedList>
-
                     </UnorderedListItem>
                 </UnorderedList>
             </UnorderedListItem>
@@ -239,7 +266,7 @@
     <DocsAttributesItem Name="Target" Type="Target" Default="Default">
         The target attribute specifies where to open the linked document.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Match" Type="bool" Default="All">
+    <DocsAttributesItem Name="Match" Type="Match" Default="All">
         URL matching behavior for a link.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Title" Type="string" Default="null">

@@ -93,19 +93,19 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>ToastService.Show("This is a toast message from the toast provider.", "Default message"))">
+                <Button Color="Color.Primary" Clicked="@(()=>ToastService.Show("This is a toast message from the toast provider.", "Default message", BuildToastInstanceOptions))">
                     Default
                 </Button>
-                <Button Color="Color.Info" Clicked="@(()=>ToastService.Info("This is a toast message from the toast provider.", "Info message"))">
+                <Button Color="Color.Info" Clicked="@(()=>ToastService.Info("This is a toast message from the toast provider.", "Info message", BuildToastInstanceOptions))">
                     Info
                 </Button>
-                <Button Color="Color.Success" Clicked="@(()=>ToastService.Success("This is a toast message from the toast provider.", "Success message"))">
+                <Button Color="Color.Success" Clicked="@(()=>ToastService.Success("This is a toast message from the toast provider.", "Success message", BuildToastInstanceOptions))">
                     Success
                 </Button>
-                <Button Color="Color.Warning" Clicked="@(()=>ToastService.Warning("This is a toast message from the toast provider.", "Warning message"))">
+                <Button Color="Color.Warning" Clicked="@(()=>ToastService.Warning("This is a toast message from the toast provider.", "Warning message", BuildToastInstanceOptions))">
                     Warning
                 </Button>
-                <Button Color="Color.Danger" Clicked="@(()=>ToastService.Error("This is a toast message from the toast provider.", "Error message"))">
+                <Button Color="Color.Danger" Clicked="@(()=>ToastService.Error("This is a toast message from the toast provider.", "Error message", BuildToastInstanceOptions))">
                     Error
                 </Button>
             </CardBody>
@@ -124,4 +124,12 @@
     private int animationDuration = 300;
     private bool autohide = true;
     private int autohideDelay = 5000;
+
+    private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
+    {
+        toastInstanceOptions.Animated = animation;
+        toastInstanceOptions.AnimationDuration = animationDuration;
+        toastInstanceOptions.Autohide = autohide;
+        toastInstanceOptions.AutohideDelay = autohideDelay;
+    }
 }

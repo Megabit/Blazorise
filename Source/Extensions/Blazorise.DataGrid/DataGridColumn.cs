@@ -1,10 +1,13 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -16,8 +19,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
-    protected readonly Lazy<Func<Type>> valueTypeGetter;
-    protected readonly Lazy<Func<object>> defaultValueByType;
+    protected readonly Lazy<Func<TItem, Type>> valueTypeGetter;
     protected readonly Lazy<Func<TItem, object>> valueGetter;
     protected readonly Lazy<Action<TItem, object>> valueSetter;
     protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
@@ -35,18 +37,73 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     public DataGridColumn()
     {
-        // TODO: move this to cached FunctionCompiler so it doesn't get compiled every time
-        valueTypeGetter = new( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
-        defaultValueByType = new( () => FunctionCompiler.CreateDefaultValueByType<TItem>( Field ) );
-        valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
-        valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
-        sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
-    }
 
+        if ( typeof( TItem ) == typeof( ExpandoObject ) )
+        {
+            valueTypeGetter = new( ExpandoObjectTypeGetter );
+
+            valueGetter = new( ExpandoObjectValueGetter );
+            valueSetter = new( ExpandoObjectValueSetter );
+            sortFieldGetter = new( ExpandoObjectSortGetter() );
+        }
+        else
+        {
+            // TODO: move this to cached FunctionCompiler so it doesn't get compiled every time
+            valueTypeGetter = new( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
+            valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
+            valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
+            sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
+        }
+    }
 
     #endregion
 
     #region Methods
+
+    internal DataGridColumnInfo ToColumnInfo( IList<DataGridColumn<TItem>> sortByColumns )
+    {
+        return new DataGridColumnInfo(
+            Field,
+            Filter?.SearchValue,
+            CurrentSortDirection,
+            sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( this ) )?.SortOrder ?? -1,
+            ColumnType,
+            GetFieldToSort(),
+            GetFilterMethod() ?? GetDataGridFilterMethodAsColumn() );
+    }
+
+    private Func<TItem, Type> ExpandoObjectTypeGetter()
+    {
+        return ( item ) => item is null
+            ? typeof( object )
+            : ( item as ExpandoObject ).FirstOrDefault( x => x.Key == Field ).Value?.GetType() ?? typeof( object );
+    }
+
+    private Func<TItem, object> ExpandoObjectSortGetter()
+    {
+        return ( item ) => ( item as ExpandoObject ).FirstOrDefault( x => x.Key == SortField ).Value;
+    }
+
+    private Action<TItem, object> ExpandoObjectValueSetter()
+    {
+        return ( item, value ) =>
+        {
+            var expandoAsDictionary = ( item as IDictionary<string, object> );
+            if ( expandoAsDictionary.ContainsKey( Field ) )
+            {
+                expandoAsDictionary[Field] = value;
+            }
+            else
+            {
+                expandoAsDictionary.TryAdd( Field, value );
+            }
+        };
+    }
+
+    private Func<TItem, object> ExpandoObjectValueGetter()
+    {
+        return ( item ) => ( item as ExpandoObject ).FirstOrDefault( x => x.Key == Field ).Value;
+    }
 
     /// <summary>
     /// Initializes the default values for this column.
@@ -88,8 +145,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( displayableChanged )
         {
-            //TODO : v1.6 Use SetDisplaying
-            Displaying = Displayable;
+            await SetDisplaying( Displayable );
         }
     }
 
@@ -134,17 +190,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Gets the typeof() of the value associated with this column field.
     /// </summary>
     /// <returns></returns>
-    internal Type GetValueType()
+    internal Type GetValueType( TItem item )
         => !string.IsNullOrEmpty( Field )
-            ? valueTypeGetter.Value()
+            ? valueTypeGetter.Value( item )
             : default;
-
-    /// <summary>
-    /// Gets default value based on the typeof() of the value associated with this column field.
-    /// </summary>
-    /// <returns></returns>
-    internal object GetDefaultValueByType()
-        => defaultValueByType.Value();
 
     /// <summary>
     /// Gets the current value for the field in the supplied model.
@@ -218,6 +267,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
                  || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
     }
 
+    /// <summary>
+    /// Sets whether the column is displaying.
+    /// </summary>
+    /// <param name="displaying">The displaying value</param>
+    /// <returns></returns>
+    public async Task SetDisplaying( bool displaying )
+    {
+        Displaying = displaying;
+        await ParentDataGrid.ColumnDisplayingChanged.InvokeAsync( new ColumnDisplayChangedEventArgs<TItem>( this, displaying ) );
+        await ParentDataGrid.Refresh();
+    }
+
     internal string BuildHeaderCellClass()
     {
         var sb = new StringBuilder();
@@ -283,9 +344,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         var sb = new StringBuilder();
 
-#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
         var result = CellStyle?.Invoke( item );
-#pragma warning restore CS0618 // Type or member is obsolete
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
@@ -332,7 +391,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Gets or sets whether column is displaying.
     /// </summary>
-    public bool Displaying { get; internal set; }
+    public bool Displaying { get; private set; }
 
     /// <summary>
     /// Whether the cell is currently being edited.
@@ -345,6 +404,36 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns>Text alignment value.</returns>
     internal TextAlignment FilterCellTextAlignment
        => FilterTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Gets the text transformation for the filter cell.
+    /// </summary>
+    internal TextTransform FilterCellTextTransform
+        => FilterTextTransform ?? TextTransform;
+
+    /// <summary>
+    /// Gets the text decoration for the filter cell.
+    /// </summary>
+    internal TextDecoration FilterCellTextDecoration
+        => FilterTextDecoration ?? TextDecoration;
+
+    /// <summary>
+    /// Gets the text weight for the filter cell.
+    /// </summary>
+    internal TextWeight FilterCellTextWeight
+        => FilterTextWeight ?? TextWeight;
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the filter cell.
+    /// </summary>
+    internal TextOverflow FilterCellTextOverflow
+        => FilterTextOverflow ?? TextOverflow;
+
+    /// <summary>
+    /// Determines the font size of an element for the filter cell.
+    /// </summary>
+    internal IFluentTextSize FilterCellTextSize
+        => FilterTextSize ?? TextSize;
 
     /// <summary>
     /// Determines the vertical alignment for the filter cell.
@@ -390,6 +479,36 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
        => HeaderTextAlignment ?? TextAlignment;
 
     /// <summary>
+    /// Gets the text transformation for the header cell.
+    /// </summary>
+    internal TextTransform HeaderCellTextTransform
+        => HeaderTextTransform ?? TextTransform;
+
+    /// <summary>
+    /// Gets the text decoration for the header cell.
+    /// </summary>
+    internal TextDecoration HeaderCellTextDecoration
+        => HeaderTextDecoration ?? TextDecoration;
+
+    /// <summary>
+    /// Gets the text weight for the header cell.
+    /// </summary>
+    internal TextWeight HeaderCellTextWeight
+        => HeaderTextWeight ?? TextWeight;
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the header cell.
+    /// </summary>
+    internal TextOverflow HeaderCellTextOverflow
+        => HeaderTextOverflow ?? TextOverflow;
+
+    /// <summary>
+    /// Determines the font size of an element for the header cell.
+    /// </summary>
+    internal IFluentTextSize HeaderCellTextSize
+        => HeaderTextSize ?? TextSize;
+
+    /// <summary>
     /// Determines the vertical alignment for the header cell.
     /// </summary>
     /// <returns>Vertical alignment value.</returns>
@@ -433,6 +552,36 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns>Text alignment value.</returns>
     internal TextAlignment AggregateCellTextAlignment
        => AggregateTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Gets the text transformation for the aggregate cell.
+    /// </summary>
+    internal TextTransform AggregateCellTextTransform
+        => AggregateTextTransform ?? TextTransform;
+
+    /// <summary>
+    /// Gets the text transformation for the aggregate cell.
+    /// </summary>
+    internal TextDecoration AggregateCellTextDecoration
+        => AggregateTextDecoration ?? TextDecoration;
+
+    /// <summary>
+    /// Gets the text decoration for the aggregate cell.
+    /// </summary>
+    internal TextWeight AggregateCellTextWeight
+        => AggregateTextWeight ?? TextWeight;
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the aggregate cell.
+    /// </summary>
+    internal TextOverflow AggregateCellTextOverflow
+        => AggregateTextOverflow ?? TextOverflow;
+
+    /// <summary>
+    /// Determines the font size of an element for the aggregate cell.
+    /// </summary>
+    internal IFluentTextSize AggregateCellTextSize
+        => AggregateTextSize ?? TextSize;
 
     /// <summary>
     /// Determines the vertical alignment for the aggregate cell.
@@ -542,9 +691,34 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column filter cell.
+    /// Defines the alignment for column filter cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? FilterTextAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text transformation for column filter cell. If not set, it will fallback to the TextTransform.
+    /// </summary>
+    [Parameter] public TextTransform? FilterTextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for column filter cell. If not set, it will fallback to the TextDecoration.
+    /// </summary>
+    [Parameter] public TextDecoration? FilterTextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for column filter cell. If not set, it will fallback to the TextWeight.
+    /// </summary>
+    [Parameter] public TextWeight? FilterTextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for column filter cell. If not set, it will fallback to the TextOverflow.
+    /// </summary>
+    [Parameter] public TextOverflow? FilterTextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for column filter cell. If not set, it will fallback to the TextSize.
+    /// </summary>
+    [Parameter] public IFluentTextSize FilterTextSize { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column filter cell.
@@ -582,12 +756,37 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
 
     /// <summary>
-    /// Defines the alignment for display cell.
+    /// Defines the alignment for the table cell.
     /// </summary>
     [Parameter] public TextAlignment TextAlignment { get; set; }
 
     /// <summary>
-    /// Defines the vertical alignment for display cell.
+    /// Gets or sets the text transformation for the table cell.
+    /// </summary>
+    [Parameter] public TextTransform TextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for the table cell.
+    /// </summary>
+    [Parameter] public TextDecoration TextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for the table cell.
+    /// </summary>
+    [Parameter] public TextWeight TextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for the table cell.
+    /// </summary>
+    [Parameter] public TextOverflow TextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for the table cell.
+    /// </summary>
+    [Parameter] public IFluentTextSize TextSize { get; set; }
+
+    /// <summary>
+    /// Defines the vertical alignment for the table cell.
     /// </summary>
     [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
@@ -607,9 +806,34 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentGap Gap { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column header cell.
+    /// Defines the alignment for column header cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? HeaderTextAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text transformation for column header cell. If not set, it will fallback to the TextTransform.
+    /// </summary>
+    [Parameter] public TextTransform? HeaderTextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for column header cell. If not set, it will fallback to the TextDecoration.
+    /// </summary>
+    [Parameter] public TextDecoration? HeaderTextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for column header cell. If not set, it will fallback to the TextWeight.
+    /// </summary>
+    [Parameter] public TextWeight? HeaderTextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.
+    /// </summary>
+    [Parameter] public TextOverflow? HeaderTextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.
+    /// </summary>
+    [Parameter] public IFluentTextSize HeaderTextSize { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column header cell.
@@ -704,12 +928,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
     /// </summary>
-    [Obsolete( "DataGridColumn: The CellClass parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellClass { get; set; }
+    [Parameter] public Func<TItem, string> CellClass { get; set; }
 
     /// <summary>
     /// Custom style handler for cell based on the current row item.
     /// </summary>
-    [Obsolete( "DataGridColumn: The CellStyle parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellStyle { get; set; }
+    [Parameter] public Func<TItem, string> CellStyle { get; set; }
 
     /// <summary>
     /// Custom classname for header cell.
@@ -754,9 +978,34 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public string AggregateCellStyle { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column the aggregate cell.
+    /// Defines the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.
+    /// </summary>
+    [Parameter] public TextTransform? AggregateTextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.
+    /// </summary>
+    [Parameter] public TextDecoration? AggregateTextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.
+    /// </summary>
+    [Parameter] public TextWeight? AggregateTextWeight { get; set; }
+
+    /// <summary>
+    /// Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.
+    /// </summary>
+    [Parameter] public TextOverflow? AggregateTextOverflow { get; set; }
+
+    /// <summary>
+    /// Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.
+    /// </summary>
+    [Parameter] public IFluentTextSize AggregateTextSize { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column the aggregate cell.

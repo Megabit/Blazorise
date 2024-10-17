@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿#region Using directives
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +12,16 @@ namespace Blazorise;
 public class ToastInstanceOptions
 {
     /// <summary>
+    /// Occurs before the toast is opened.
+    /// </summary>
+    public Func<ToastOpeningEventArgs, Task> Opening { get; set; }
+
+    /// <summary>
+    /// Occurs before the toast is closed.
+    /// </summary>
+    public Func<ToastClosingEventArgs, Task> Closing { get; set; }
+
+    /// <summary>
     /// Occurs after the toast has opened.
     /// </summary>
     public EventCallback? Opened { get; set; }
@@ -16,6 +30,26 @@ public class ToastInstanceOptions
     /// Occurs after the toast has closed.
     /// </summary>
     public EventCallback? Closed { get; set; }
+
+    /// <summary>
+    /// Specifies whether the Toast should have an animated transition.
+    /// </summary>
+    public bool? Animated { get; set; }
+
+    /// <summary>
+    /// The duration of the animation in milliseconds.
+    /// </summary>
+    public int? AnimationDuration { get; set; }
+
+    /// <summary>
+    /// Automatically hide the toast after the delay.
+    /// </summary>
+    public bool? Autohide { get; set; }
+
+    /// <summary>
+    /// Delay in milliseconds before hiding the toast.
+    /// </summary>
+    public double? AutohideDelay { get; set; }
 
     /// <summary>
     /// Creates the default toast options.

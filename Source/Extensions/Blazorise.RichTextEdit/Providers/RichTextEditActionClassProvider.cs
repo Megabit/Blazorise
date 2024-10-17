@@ -30,6 +30,7 @@ public sealed class RichTextEditActionClassProvider
             RichTextEditAction.Clean => "ql-clean",
             RichTextEditAction.Link => "ql-link",
             RichTextEditAction.Image => "ql-image",
+            RichTextEditAction.Table => "ql-table-better",
             null => "",
             _ => $"ql-{action.ToString().ToLower()}"
         };

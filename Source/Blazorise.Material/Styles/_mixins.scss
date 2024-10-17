@@ -204,3 +204,26 @@
         margin-left: 0;
     }
 }
+
+@mixin form-validation-state-selector($state) {
+    @if ($state == "valid" or $state == "invalid") {
+        .was-validated #{if(&, "&", "")}:#{$state},
+        #{if(&, "&", "")}.is-#{$state} {
+            @content;
+        }
+    }
+    @else {
+        #{if(&, "&", "")}.is-#{$state} {
+            @content;
+        }
+    }
+}
+
+@mixin form-validation-state($state, $color, $icon) {
+    @include form-validation-state-selector($state) {
+        ~ .#{$state}-feedback,
+        ~ .#{$state}-tooltip {
+            display: block;
+        }
+    }
+}

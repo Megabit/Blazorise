@@ -16,35 +16,53 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code Tag>Table</Code> the main <Code>container</Code>
+        <Paragraph>
+            <Code Tag>Table</Code> the main container.
+        </Paragraph>
         <UnorderedList>
             <UnorderedListItem>
-                <Code Tag>TableHeader</Code> the optional <Strong>top</Strong> part of the table
+                <Paragraph>
+                    <Code Tag>TableHeader</Code> the optional <Strong>top</Strong> part of the table.
+                </Paragraph>
                 <UnorderedList>
                     <UnorderedListItem>
-                        <Code Tag>TableRow</Code> header <Strong>row</Strong>
+                        <Paragraph>
+                            <Code Tag>TableRow</Code> header <Strong>row</Strong>.
+                        </Paragraph>
                         <UnorderedList>
-                            <li>
-                                <Code Tag>TableHeaderCell</Code> a header <Strong>cell</Strong>
-                            </li>
+                            <UnorderedListItem>
+                                <Paragraph>
+                                    <Code Tag>TableHeaderCell</Code> a header <Strong>cell</Strong>.
+                                </Paragraph>
+                            </UnorderedListItem>
                         </UnorderedList>
                     </UnorderedListItem>
                 </UnorderedList>
             </UnorderedListItem>
             <UnorderedListItem>
-                <Code Tag>TableFooter</Code> the optional <Strong>bottom</Strong> part of the table
+                <Paragraph>
+                    <Code Tag>TableFooter</Code> the optional <Strong>bottom</Strong> part of the table.
+                </Paragraph>
             </UnorderedListItem>
             <UnorderedListItem>
-                <Code Tag>TableBody</Code> the main <Strong>content</Strong> of the table
+                <Paragraph>
+                    <Code Tag>TableBody</Code> the main <Strong>content</Strong> of the table.
+                </Paragraph>
                 <UnorderedList>
                     <UnorderedListItem>
-                        <Code Tag>TableRow</Code> each table <Strong>row</Strong>
+                        <Paragraph>
+                            <Code Tag>TableRow</Code> each table <Strong>row</Strong>.
+                        </Paragraph>
                         <UnorderedList>
                             <UnorderedListItem>
-                                <Code Tag>TableRowHeader</Code> a table cell <Strong>heading</Strong>
+                                <Paragraph>
+                                    <Code Tag>TableRowHeader</Code> a table cell <Strong>heading</Strong>.
+                                </Paragraph>
                             </UnorderedListItem>
                             <UnorderedListItem>
-                                <Code Tag>TableRowCell</Code> a table <Strong>cell</Strong>
+                                <Paragraph>
+                                    <Code Tag>TableRowCell</Code> a table <Strong>cell</Strong>.
+                                </Paragraph>
                             </UnorderedListItem>
                         </UnorderedList>
                     </UnorderedListItem>
@@ -128,6 +146,21 @@
         <TableDarkHeaderExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TableDarkHeaderExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Mobile Mode">
+        The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other.
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Strong>Note:</Strong> In this mode the table may have limited functionality.
+            </AlertDescription>
+        </Alert>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth FrameUrl="docs/components/table/mobile-mode-iframe">
+        <BasicMobileTableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicMobileTableExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -249,6 +282,9 @@
     <DocsAttributesItem Name="ResizeMode" Type="TableResizeMode" Default="Header">
         Defines the resize mode of the Table’s columns.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ResponsiveMode" Type="TableResponsiveMode" Default="Default">
+        Gets or sets the Table's responsive mode.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="TableRowGroup">
@@ -299,5 +335,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ClickStopPropagation" Type="bool" Default="false">
         Used to stop progation of the click action event.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MobileModeCaption" Type="string">
+        When the Table.ResponsiveMode is set to TableResponsiveMode.Mobile, this caption will be used for the row.
     </DocsAttributesItem>
 </DocsAttributes>

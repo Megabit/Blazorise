@@ -1,7 +1,7 @@
 ﻿@if ( ShowHeader )
 {
     <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
-        Frequently Asked Questions
+        Blazorise licensing FAQ
     </Paragraph>
 }
 
@@ -36,6 +36,15 @@
 
     private List<FaqInfo> faqInfos = new List<FaqInfo>
     {
+        new FaqInfo {
+            Title = "How does Blazorise license software?",
+            Body = (__builder) => {
+                <Paragraph>
+                    We license on a per-developer basis. All members of a development team using our products will need a license. We do not charge run-time, royalty, or deployment fees. For additional details on our licensing, please refer to our pricing and plan details.
+                </Paragraph>
+            }
+        },
+
         new FaqInfo {
             Title = "Is subscription renewal automatic?",
             Body = (__builder) => {
@@ -173,6 +182,69 @@
                 </Paragraph>
                 <Paragraph>
                     In essence, while Blazorise provides the foundational components and tools, Blazorise Blocks offer higher-level, more specialized modules that are based on those foundational components for specific use cases.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is indemnification?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Enterprise customers receive additional protection against possible copyright or intellectual property right (IPR) claims related to any project that uses Blazorise. Indemnification options can be customized to suit an organization or project.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is escrow service?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Blazorise offers third-party escrow services if your company policy requires you to use them for continuity purposes. In practice, we can store the required source code in an escrow service and make this available to you. In this way, if something unforeseen happens, you can continue developing based on the stored source code. The service is optional and available for Enterprise subscribers.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "Can I really have unlimited tickets with the Enterprise Plus tier?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Yes, the enterprise tier does offer unlimited support tickets. However, this is subject to a fair use policy. Our goal is to provide comprehensive support to all our enterprise customers. Should we notice an unusually high volume of tickets from a single agreement indicative of misuse, we reserve the right to limit the number of tickets in line with our fair use policy. This ensures all our customers receive timely and efficient support.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is the process for requesting new features or enhancements?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Feature requests fall outside the scope of developer support, though we're happy to quote for development services.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "Do you have a refund policy?",
+            Body = (__builder) => {
+                <Paragraph>
+                    You can request a refund within 30 days of your license purchase. The Professional and Enterprise license types have source-code download options; therefore, we provide a 60% refund within 30 days for Professional and Enterprise licenses. In addition, no refunds are made for renewals and second license purchases.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "How can I obtain a copy of your latest software license agreement?",
+            Body = (__builder) => {
+                <Paragraph>
+                    To obtain a copy of our latest software license agreement, please go to our <Anchor To="license">license page</Anchor> download the PDV version.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "Why do you require a LinkedIn for the Community License?",
+            Body = (__builder) => {
+                <Paragraph>
+                    We must confirm your eligibility before offering a Community License at no cost. We can accomplish that and save time by using LinkedIn, an established website. Here at Blazorise, we value your privacy. Your profile will only be verified in read-only mode, and LinkedIn won't be able to follow your Blazorise activity.
                 </Paragraph>
             }
         },

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -28,10 +29,10 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     public static object Sum( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
     {
-        if ( Data == null )
+        if ( Data.IsNullOrEmpty() )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType( Data.FirstOrDefault() ) ) )
             return 0;
 
         return ( from item in Data
@@ -44,10 +45,10 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     public static object Min( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
     {
-        if ( Data == null )
+        if ( Data.IsNullOrEmpty() )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType( Data.FirstOrDefault() ) ) )
             return 0;
 
         return ( from item in Data
@@ -60,10 +61,10 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     public static object Max( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
     {
-        if ( Data == null )
+        if ( Data.IsNullOrEmpty() )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType( Data.FirstOrDefault() ) ) )
             return 0;
 
         return ( from item in Data
@@ -76,10 +77,10 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     public static object Average( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
     {
-        if ( Data == null )
+        if ( Data.IsNullOrEmpty() )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType( Data.FirstOrDefault() ) ) )
             return 0;
 
         return ( from item in Data
@@ -92,7 +93,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     public static object Count( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
     {
-        if ( Data == null )
+        if ( Data.IsNullOrEmpty() )
             return 0;
 
         return Data.Count( x => column.GetValue( x ) != null );
@@ -103,10 +104,10 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     public static object TrueCount( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
     {
-        if ( Data == null )
+        if ( Data.IsNullOrEmpty() )
             return 0;
 
-        if ( !ValidBooleanTypes.Contains( column.GetValueType() ) )
+        if ( !ValidBooleanTypes.Contains( column.GetValueType( Data.FirstOrDefault() ) ) )
             return 0;
 
         return ( from item in Data
@@ -120,10 +121,10 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     public static object FalseCount( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
     {
-        if ( Data == null )
+        if ( Data.IsNullOrEmpty() )
             return 0;
 
-        if ( !ValidBooleanTypes.Contains( column.GetValueType() ) )
+        if ( !ValidBooleanTypes.Contains( column.GetValueType( Data.FirstOrDefault() ) ) )
             return 0;
 
         return ( from item in Data

@@ -27,17 +27,18 @@
     </Breadcrumb>
 }
 
-@if ( Display )
+@if ( !string.IsNullOrEmpty( AddedVersion ) )
 {
-    <DisplayHeading ElementId="b-docs-page-title" Class="b-docs-page-title" Size="DisplayHeadingSize.Is1">
-        @ChildContent
-    </DisplayHeading>
+    <Div Flex="Flex.Default.OnDesktop.Flex.ReverseRow.OnDesktop.JustifyContent.Between.AlignItems.Center">
+        <Alert Visible Flex="Flex.InlineFlex" Color="Color.Success" Padding="Padding.Is2.OnX.Is1.OnY" TextWeight="TextWeight.SemiBold">
+            @AddedVersion
+        </Alert>
+        @HeadingFragment
+    </Div>
 }
 else
 {
-    <Heading ElementId="b-docs-page-title" Class="b-docs-page-title" Size="HeadingSize.Is1">
-        @ChildContent
-    </Heading>
+    @HeadingFragment
 }
 
 @code {
@@ -45,5 +46,23 @@ else
 
     [Parameter] public string Path { get; set; }
 
+    [Parameter] public string AddedVersion { get; set; }
+
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private RenderFragment HeadingFragment => __builder =>
+    {
+        @if ( Display )
+        {
+            <DisplayHeading ElementId="b-docs-page-title" Class="b-docs-page-title" Size="DisplayHeadingSize.Is1">
+                @ChildContent
+            </DisplayHeading>
+        }
+        else
+        {
+            <Heading ElementId="b-docs-page-title" Class="b-docs-page-title" Size="HeadingSize.Is1">
+                @ChildContent
+            </Heading>
+        }
+    };
 }

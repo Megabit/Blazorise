@@ -53,7 +53,10 @@ public class Startup
             } )
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons()
-            .AddBlazoriseRichTextEdit()
+            .AddBlazoriseRichTextEdit( options =>
+            {
+                options.UseTables = true;
+            } )
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] );
 
@@ -133,5 +136,6 @@ public class Startup
         app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
+        app.MapGet( "/feed.rss", SeoGenerator.GenerateRssFeed );
     }
 }

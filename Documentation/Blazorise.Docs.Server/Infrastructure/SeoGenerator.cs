@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -57,6 +58,31 @@ public class SeoGenerator
                  select new XElement( "url",
                      new XElement( "loc", url ),
                      new XElement( "lastmod", DateTime.UtcNow.ToString( "yyyy-MM-ddTHH:mm:ssZ" ) ) ) );
+
+        await context.Response.WriteAsync( sitemap.ToString() );
+    }
+
+    public static async Task GenerateRssFeed( HttpContext context )
+    {
+        var baseUrl = GetBaseUrl( context );
+        var pages = Pages.News.Index.NewsEntries.Concat( Pages.Blog.Index.BlogEntries );
+
+        var sitemap = new XElement( "rss",
+                 new XAttribute( XNamespace.Xmlns + "atom", "http://www.w3.org/2005/Atom" ),
+                 new XAttribute( "version", "2.0" ),
+                 new XElement( "channel",
+                     new XElement( "title", "Blazorise News" ),
+                     new XElement( "link", baseUrl ),
+                     new XElement( "description", "Blazorise News Feed" ),
+                     new XElement( "language", "en" ),
+                     new XElement( "lastBuildDate", DateTime.UtcNow.ToString( "R" ) ),
+                     from p in pages
+                     orderby p.PostedOn descending
+                     select new XElement( "item",
+                         new XElement( "title", p.Text ),
+                         new XElement( "link", $"{baseUrl}/{p.Url}" ),
+                         new XElement( "description", p.Description ),
+                         new XElement( "pubDate", DateTime.TryParse( p.PostedOn, CultureInfo.InvariantCulture, out var dt ) ? dt.ToString( "R" ) : null ) ) ) );
 
         await context.Response.WriteAsync( sitemap.ToString() );
     }

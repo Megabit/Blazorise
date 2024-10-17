@@ -24,6 +24,16 @@
     <DocsPageSectionSource Code="CheckExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With name">
+        This example showcases two Blazorise checkboxes linked to the same identifier, <Strong>CheckMeOut</Strong>. Both checkboxes contribute to the same data field upon submission when included in a form. This setup is ideal for grouping related choices under one name but requires careful data handling to distinguish between the choices on the server side.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CheckWithNameExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CheckWithNameExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Usage
 </DocsPageSubtitle>
@@ -72,5 +82,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Cursor" Type="Cursor" Default="Default">
         Defines the mouse cursor based on the behavior by the current CSS framework.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Name" Type="Cursor" Default="Default">
+        Defines the name attribute of a checkbox. The name attribute is used to identify form data after it has been submitted to the server, or to reference form data using JavaScript on the client side.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -56,7 +56,7 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
         builder.Append( ClassProvider.TimeEdit( Plaintext ) );
         builder.Append( ClassProvider.TimeEditSize( ThemeSize ) );
         builder.Append( ClassProvider.TimeEditColor( Color ) );
-        builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -120,6 +120,17 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     public Task ShowPicker()
     {
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( TimeExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( TimeExpression )
+            : ExpressionFormatter.FormatLambda( TimeExpression );
     }
 
     #endregion

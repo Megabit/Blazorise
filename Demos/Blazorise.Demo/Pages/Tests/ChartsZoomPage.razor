@@ -1,0 +1,28 @@
+﻿@page "/tests/charts/zoom"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Line</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions">
+                    <ChartZoom TItem="double" Options="@lineChartZoomOptions" />
+                </LineChart>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Bar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <BarChart @ref="barChart" TItem="double" Options="@barChartOptions">
+                    <ChartDataLabels TItem="double" Datasets="@barDataLabelsDatasets" Options="@barDataLabelsOptions" />
+                    <ChartZoom TItem="double" Options="@barChartZoomOptions" />
+                </BarChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

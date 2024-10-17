@@ -8,7 +8,17 @@
 
     Task ShowToast()
     {
-        <span class="keyword">return</span> ToastService.Info( <span class="string">&quot;This is a simple toast message!&quot;</span>, <span class="string">&quot;Hello&quot;</span> );
+        <span class="keyword">return</span> ToastService.Info( <span class="string">&quot;This is a simple toast message!&quot;</span>, <span class="string">&quot;Hello&quot;</span>, BuildToastInstanceOptions );
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
+    {
+        toastInstanceOptions.Animated = <span class="keyword">true</span>;
+        toastInstanceOptions.AnimationDuration = <span class="number">300</span>;
+        toastInstanceOptions.Autohide = <span class="keyword">true</span>;
+        toastInstanceOptions.AutohideDelay = <span class="number">3000</span>;
+        toastInstanceOptions.Closing = ( e ) =&gt; { Console.WriteLine(<span class="string">&quot;Closing&quot;</span>); <span class="keyword">return</span> Task.CompletedTask; };
+        toastInstanceOptions.Opening = ( e ) =&gt; { Console.WriteLine(<span class="string">&quot;Opening&quot;</span>); <span class="keyword">return</span> Task.CompletedTask; };
     }
 }
 </pre></div>

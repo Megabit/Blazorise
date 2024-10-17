@@ -2,7 +2,7 @@
 @inherits Blazorise.Select<TValue>
 @using Blazorise.Extensions
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" @attributes="@Attributes">
         <div @ref="@ElementRef" id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
             @if ( Multiple )
             {
@@ -29,7 +29,7 @@
             else
             {
                 <span class="ant-select-selection-search">
-                    <input @ref="@ElementRef" id="@InputElementId" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="@InputAriaExpanded" autocomplete="off" aria-autocomplete="list" unselectable="on">
+                    <input @ref="@ElementRef" id="@InputElementId" name="@NameAttributeValue" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="@InputAriaExpanded" autocomplete="off" aria-autocomplete="list" unselectable="on">
                 </span>
                 <span class="ant-select-selection-item">
                     @SelectedItem

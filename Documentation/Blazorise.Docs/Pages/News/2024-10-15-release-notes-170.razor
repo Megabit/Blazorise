@@ -1,0 +1,343 @@
+﻿@page "/news/release-notes/170"
+
+<Seo Canonical="news/release-notes/170" Title="Blazorise v1.7" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.7 release." ImageUrl="img/news/170/v170.png" />
+
+<NewsPageImage Source="img/news/170/v170.png" Text="Blazorise v1.7" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.7 - Adriatic
+</NewsPageTitle>
+
+<Paragraph>
+    Welcome to the October 2024 Blazorise 1.7 update!
+</Paragraph>
+
+<NewsPageSubtitle>
+    Key Blazorise 1.7 Highlights 💡
+</NewsPageSubtitle>
+
+<Paragraph>
+    Here's a summary of what's new in this release:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Optimizations</Strong>: Optimized the internals of class providers.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>PdfViewer</Strong>: Added a new PdfViewer component for rendering PDF documents.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Object Fit:</Strong> flexible options for element scaling and positioning.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>SelectedCell API:</Strong> listen to the cell selection changes while navigating through DataGrid.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>RichTextEdit:</Strong> Table support
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Chart:</Strong> Tooltip callbacks
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Skeleton:</Strong> Added a new Skeleton component for loading placeholders.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    Dive into each section for a comprehensive overview of these features and learn how they can enhance your projects. We value your feedback and encourage you to share your thoughts as we continue to refine and improve Blazorise.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Upgrading from 1.6.x to 1.7 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    Upgrade your Blazorise application seamlessly with the following steps:
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.7</Strong>.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Blazorise should now work withut any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<NewsPageSubtitle>
+    Migration 🛠
+</NewsPageSubtitle>
+
+<Paragraph>
+    The latest release includes several enhancements and optimizations to improve the overall performance and functionality of Blazorise. While these changes are designed to enhance the user experience and provide more customization options, they may require some adjustments when upgrading from previous versions. Here are some key points to consider when migrating from 1.6.x to 1.7:
+</Paragraph>
+
+<Paragraph>
+    <OrderedList>
+        <OrderedListItem>
+            <Paragraph>
+                <Paragraph>
+                    <Code Tag>Video</Code> component API changes
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code>Seeking</Code>: event changed from <Code>Func&lt;Task&gt;</Code> to <Code>Func&lt;double, Task&gt;</Code>
+                        </Paragraph>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code>Seeked</Code>: event changed from <Code>Func&lt;Task&gt;</Code> to <Code>Func&lt;double, Task&gt;</Code>
+                        </Paragraph>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </Paragraph>
+        </OrderedListItem>
+    </OrderedList>
+</Paragraph>
+
+<NewsPageSubtitle>
+    New Features & Enhancements 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete
+</Heading>
+
+<Paragraph>
+    There was a limitation where the Autocomplete would not handle Texts that were repeated correctly. The Autocomplete should now allow you to have repeated Texts, it is of note that the values should still be unique and it should work as expected.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Object Fit Utility
+</Heading>
+
+<Paragraph>
+    We are pleased to introduce the Object Fit Utility, designed to give developers precise control over how elements fit within their containers. This release includes a new ObjectFit fluent utility with options such as Default, None, Contain, Cover, Fill, and Scale, allowing for flexible adaptation of content while maintaining or adjusting aspect ratios. Additionally, a fluent interface, IFluentObjectFit, is provided for easier configuration and application of these styles. This utility ensures responsive design and performance improvements, making it easier to achieve consistent and adaptable layouts across different devices and screen sizes.
+</Paragraph>
+
+<Paragraph>
+    The Object Fit Utility works exceptionally well with HTML <Anchor To="https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element">replaced element</Anchor> such as <Code Tag>img</Code>, <Code Tag>video</Code>, <Code Tag>iframe</Code>. These elements often contain content with intrinsic dimensions, making them ideal candidates for using the ObjectFit utility. By applying ObjectFit options to these replaced elements, developers can control how the content scales and fits within its container, ensuring that images, videos, and other media maintain the desired aspect ratio or fill the container appropriately. This approach helps to achieve more consistent and visually appealing layouts, especially in responsive designs.
+</Paragraph>
+
+<Paragraph>
+    Be sure to update your projects to incorporate these new capabilities and refer to the <Anchor To="docs/helpers/utilities/object-fit">updated documentation</Anchor> for guidance on implementation.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Tooltip Delay
+</Heading>
+
+<Paragraph>
+    Added an option to delay the tooltip show and hide events. This can be useful if you want to prevent the tooltip from showing immediately after the trigger event.
+</Paragraph>
+
+<Paragraph>
+    Along with the options to define delay on each individual Tooltip, we have also added a global options to define the delay for all tooltips. This can be done by setting the <Code>TooltipOptions</Code> property in the <Code>.AddBlazorise()</Code> during the application start process.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    SelectedCell API
+</Heading>
+
+<Paragraph>
+    Added <Code>SelectedCell</Code> and <Code>SelectedCellChanged</Code> parameters, you can now listen to the cell selection changes when the <Code>Datagrid.NavigationMode</Code> is set to <Code>NavigationMode.Cell</Code>
+</Paragraph>
+
+
+<Heading Size="HeadingSize.Is3">
+    DataGridDateColumn
+</Heading>
+
+<Paragraph>
+    Replaced the rendered <Code>DateEdit</Code> component by a <Code>DatePicker</Code>. This change provides you with improved flexibility over the limitations of the <Code>DateEdit</Code>. You will find new <Code>DatePicker</Code> parameters in the <Code>DataGridDateColumn</Code> to further customize how your date behaves.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Column Text Styling
+</Heading>
+
+<Paragraph>
+    Added <Code>TextTransform</Code>, <Code>TextDecoration</Code>, <Code>TextWeight</Code>, <Code>TextOverflow</Code>, and <Code>TextSize</Code> parameters to the <Code>DataGridColumn</Code> component. This will allow you to easily style the text in the DataGrid.
+</Paragraph>
+
+<Paragraph>
+    All the new text styling parameters are also available for headers, filter, and aggregate cells of the DataGrid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Undeprecate CellClass and CellStyle
+</Heading>
+
+<Paragraph>
+    After our community has convinced us that these parameters are still useful, we have decided to undeprecate them. We have undeprecated the <Code>CellClass</Code> and <Code>CellStyle</Code> parameters in the <Code>DataGridColumn</Code> component. These parameters allow you to define the class and style for the cell based on the cell item value.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Optimizations
+</Heading>
+
+<Paragraph>
+    We made many optimization internally to make Blazorise more easier for customizations. This changes are not easily visible unless you plan to implement your own CSS provider, or your custom design system.
+</Paragraph>
+
+<Paragraph>
+    So, what did we do. We have changed the signatures of many of IClassProvider methods to make them accept extra attribites. This allows for more customization since now every CSS provider can decide for itsels how it will assign the classname, and how it will render.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Text Decoration
+</Heading>
+
+<Paragraph>
+    The latest update introduces flexible text decoration options in Blazorise. You can now easily apply underline, line-through, and overline styles to text, or remove decorations altogether with the none option. These enhancements allow for more refined text styling and improved design flexibility in your applications.
+</Paragraph>
+
+<Paragraph>
+    For more details and examples, visit the <Anchor To="docs/components/typography" Title="Link to Text Decoration documentation">Text Decoration documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    PdfViewer
+</Heading>
+
+<Paragraph>
+    We are excited to introduce the new PdfViewer component in version 1.7. This component provides a powerful and flexible solution for rendering PDF documents within your application. With this release, you can now easily integrate PDF viewing capabilities directly into your projects, using a simple and intuitive API. The PdfViewer supports a variety of features, including zooming and page navigation, and can be used both standalone or in conjunction with other components like PdfViewerToolbar.
+</Paragraph>
+
+<Paragraph>
+    In this initial release, the PdfViewer supports read-only mode, allowing users to view and navigate through PDF files. We are planning to add text selection and other interactive features in future updates.
+</Paragraph>
+
+<Paragraph>
+    For detailed usage instructions and integration examples, please visit the <Anchor To="docs/extensions/pdfviewer">PdfViewer documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Updated Icons
+</Heading>
+
+<Paragraph>
+    All icons are now updated to use <Code>public const string</Code> instead of <Code>public static readonly string</Code>. This change should not affect the usage of the icons, but it will make the code cleaner and more readable. And it will also allow the usage of named icons in the attributes.
+</Paragraph>
+
+<Paragraph>
+    Also, FontAwesome icons are now updated to version 6.6.0. This update brings new icons and fixes some of the existing ones.
+</Paragraph>
+
+<Paragraph>
+    This change was made by our community member <Anchor To="https://github.com/mtbayley" Title="Link to mtbayley">mtbayley</Anchor>. We are grateful for his contribution and we are looking forward to more contributions from him.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit Table Support
+</Heading>
+
+<Paragraph>
+    Implementing table support in the RichTextEdit component proved to be more challenging than initially anticipated. At first glance, it seemed like a straightforward task, but as we delved deeper, it became clear that tables in RichTextEdit are minimally supported and still largely experimental.
+</Paragraph>
+
+<Paragraph>
+    Given these limitations, we explored alternative solutions. We discovered a community-developed table module that, while unofficial, offered a viable workaround. After integrating this module into Blazorise's RichTextEdit, we achieved a satisfactory outcome.
+</Paragraph>
+
+<Paragraph>
+    However, since this module is not officially supported, we are marking this feature as experimental. This designation will remain until an official table module is released by the Quill.js team.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Radio Group Button Colors
+</Heading>
+
+<Paragraph>
+    It is now possible to set the color of the RadioGroup buttons. This can be done by setting the <Code>Color</Code> property on the <Code>Radio</Code> component.
+</Paragraph>
+
+<Paragraph>
+    This feature will allow you to easily distinguish between different options in the RadioGroup, and it will make your forms more visually appealing.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Tooltip Callbacks
+</Heading>
+
+<Paragraph>
+    Added <Code>Callbacks</Code> parameter to the <Code>ChartTooltip</Code> options. This allows you to define custom callbacks for the tooltip, and can be useful if you want to customize the tooltip content or appearance based on the data point.
+</Paragraph>
+
+<Paragraph>
+    Please be aware that this feature is still experimental. The way how the callbacks works is that we convert C# lambda into JS function and then pass it to the Chart.js. This can be a bit tricky since the JS function can't access the C# context, so you need to be careful when using this feature.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    ToastProvider Improvements
+</Heading>
+
+<Paragraph>
+    We have made some improvements to the ToastProvider component. The ToastProvider is a powerful helper component built on top of the Toast component and is used for showing simple alerts and notifications. The ToastProvider now includes a new option to to handle Opening and Closing events. This can be useful if you want to perform some actions before the toast is shown or hidden.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Skeleton
+</Heading>
+
+<Paragraph>
+    The new Skeleton component is designed to enhance the user experience by providing loading placeholders for components or pages. These placeholders indicate that content is still loading or not yet available, helping to manage user expectations and improve perceived performance. The Skeleton component is highly customizable and can be easily integrated into your projects to create a more polished and professional appearance.
+</Paragraph>
+
+<Paragraph>
+    For more information on how to use the Skeleton component and customize loading placeholders, refer to the <Anchor To="docs/components/skeleton">Skeleton documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Improved Flex Utilities
+</Heading>
+
+<Paragraph>
+    We have improved the way how our Fluent Flex utilities work. Previously it was not possible to define a breakpoint on per-flex rule, which made it hard to define different flex rules for different breakpoints. Now you can define the flex rules for each breakpoint separately, and you can also define the order of the flex rules.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Video Improvements
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Disable Fullscreen Mode
+</Heading>
+
+<Paragraph>
+    Added <Code>DoubleClickToFullscreen</Code> parameter to the <Code Tag>Video</Code> component. This parameter allows you to enable or disable the fullscreen mode when the video is double-clicked.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Set Playback Rate
+</Heading>
+
+<Paragraph>
+    Added <Code>SetPlaybackRate</Code> method to the <Code Tag>Video</Code> component. This method allows you to manually set the playback rate of the video. This can be useful if you want to speed up or slow down the video playback.
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />

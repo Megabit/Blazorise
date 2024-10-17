@@ -15,31 +15,43 @@
             <TableHeaderCell>Name</TableHeaderCell>
             <TableHeaderCell>Description</TableHeaderCell>
             <TableHeaderCell>Type</TableHeaderCell>
-            <TableHeaderCell>Default</TableHeaderCell>
+            @if ( ShowDefaults )
+            {
+                <TableHeaderCell>Default</TableHeaderCell>
+            }
         </TableRow>
     </TableHeader>
     <TableBody>
-        @foreach ( var DocsAttributesItem in DocsAttributesItems )
+        @foreach ( var docsAttributesItem in DocsAttributesItems )
         {
-            <TableRow>
-                <TableRowCell>
-                    <Code>@DocsAttributesItem.Name</Code>
-                </TableRowCell>
-                <TableRowCell>
-                    @DocsAttributesItem.ChildContent
-                </TableRowCell>
-                <TableRowCell>
-                    @if ( !string.IsNullOrWhiteSpace( DocsAttributesItem.Type ) )
+            <TableRow @key="@docsAttributesItem">
+                <TableRowCell TextOverflow="TextOverflow.NoWrap">
+                    @if ( !string.IsNullOrEmpty( docsAttributesItem.ObsoleteMessage ) )
                     {
-                        <Code Tag="@DocsAttributesItem.TypeTag">@DocsAttributesItem.Type</Code>
+                        <Tooltip Text="@docsAttributesItem.ObsoleteMessage" Inline>
+                            <Icon Name="IconName.ExclamationTriangle" TextColor="TextColor.Warning" />
+                        </Tooltip>
+                    }
+                    <Code>@docsAttributesItem.Name</Code>
+                </TableRowCell>
+                <TableRowCell>
+                    @docsAttributesItem.ChildContent
+                </TableRowCell>
+                <TableRowCell>
+                    @if ( !string.IsNullOrWhiteSpace( docsAttributesItem.Type ) )
+                    {
+                        <Code Tag="@docsAttributesItem.TypeTag">@docsAttributesItem.Type</Code>
                     }
                 </TableRowCell>
-                <TableRowCell Class="@DocsAttributesItem.DefaultClassNames">
-                    @if ( @DocsAttributesItem.Default != null )
-                    {
-                        <Code>@DocsAttributesItem.Default</Code>
-                    }
-                </TableRowCell>
+                @if ( ShowDefaults )
+                {
+                    <TableRowCell Class="@docsAttributesItem.DefaultClassNames">
+                        @if ( docsAttributesItem.Default != null )
+                        {
+                            <Code>@docsAttributesItem.Default</Code>
+                        }
+                    </TableRowCell>
+                }
             </TableRow>
         }
     </TableBody>

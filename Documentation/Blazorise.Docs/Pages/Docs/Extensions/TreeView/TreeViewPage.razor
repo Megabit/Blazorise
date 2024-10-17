@@ -122,6 +122,9 @@
         <Paragraph>
             When using Observable Lists in the Blazorise TreeView component, any modifications to the underlying data source, such as adding, removing, or updating nodes, will automatically trigger the necessary updates in the TreeView component. This ensures that the TreeView always reflects the most up-to-date state of the data.
         </Paragraph>
+        <Paragraph>
+            It is of note that the <Code>Nodes</Code> parameter is a one way bound collection and as such, if you want to add and remove items, it is recommended that it is used as an <Code>ObservableCollection</Code> in order to keep the TreeView properly synced across refreshes.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TreeViewObservableExample />

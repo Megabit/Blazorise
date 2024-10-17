@@ -1,0 +1,35 @@
+﻿@page "/docs/extensions/datagrid/binding-data/dynamic"
+
+<Seo Canonical="/docs/extensions/datagrid/binding-data/dynamic" Title="Blazorise DataGrid Binding Dynamic data" Description="The Blazorise DataGrid component offers the ability to bind to dynamic data, providing enhanced flexibility for various applications." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Binding-Data/Dynamic">
+    Blazorise DataGrid: Dynamic Data Binding
+</DocsPageTitle>
+
+<DocsPageLead>
+    The Blazorise <Code>DataGrid</Code> component offers the ability to bind to dynamic data, providing enhanced flexibility for various applications.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+        To ensure the <Code>DataGrid</Code> correctly interprets the structure and type of your dynamic data during specific operations, such as creating new items or aggregating data, you need to define a representation within the <Code>NewItemCreator</Code> function. Below is an illustrative example.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridDynamicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDynamicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Auto Generate Columns Example">
+        The Blazorise DataGrid also supports auto-generating columns based on the data structure. This feature simplifies the process of displaying data by automatically creating columns that match the properties of the bound data objects.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridDynamicAutoGenerateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDynamicAutoGenerateExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

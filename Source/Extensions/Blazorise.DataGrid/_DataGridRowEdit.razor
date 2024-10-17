@@ -117,12 +117,18 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                         <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)"
                                       Style="@column.BuildCellStyle(Item)"
                                       TextAlignment="@column.TextAlignment"
+                                      TextTransform="@column.TextTransform"
+                                      TextDecoration="@column.TextDecoration"
+                                      TextWeight="@column.TextWeight"
+                                      TextOverflow="@column.TextOverflow"
+                                      TextSize="@column.TextSize"
                                       VerticalAlignment="@column.VerticalAlignment"
                                       Display="@column.Display"
                                       Flex="@column.Flex"
                                       Gap="@column.Gap"
                                       FixedPosition="@column.FixedPosition"
-                                      Width="@column.BuildCellFluentSizing()">
+                                      Width="@column.BuildCellFluentSizing()"
+                                      MobileModeCaption="@column.Caption">
                         </TableRowCell>
                     }
                 }
@@ -130,8 +136,11 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 {
                     <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
                                   @onkeydown="@(ParentDataGrid.IsCellEdit ? async (args) =>  await HandleCellKeyDown(args, column) : default)"
-                                  @onclick=@(ParentDataGrid.IsCellEdit && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
-                                  TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                  @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
+                                  @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
+                                  TextAlignment="@column.TextAlignment" TextTransform="@column.TextTransform" TextDecoration="@column.TextDecoration" TextWeight="@column.TextWeight" TextOverflow="@column.TextOverflow" TextSize="@column.TextSize"
+                                  VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"
+                                  MobileModeCaption="@column.Caption">
                         @if ( column.CellValueIsEditable )
                         {
                             <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />

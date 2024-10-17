@@ -17,8 +17,7 @@
 <DocsPageParagraph>
     <Alert Color="Color.Info" Visible>
         <AlertDescription>
-            <Strong>Note:</Strong> Before continuing please make sure that you already have a Blazor project created.
-            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
+            <Strong>Note:</Strong> Before proceeding, ensure you have already created a Blazor project. If not, the simplest way to start with Blazorise is by using our <Blazorise.Link To="docs/templates" Title="Link to templates">Templates</Blazorise.Link>.
         </AlertDescription>
     </Alert>
 </DocsPageParagraph>
@@ -45,9 +44,35 @@
     Add Static Files
 </DocsPageSubtitle>
 
+<DocsPageParagraph>
+    Modify your project's HTML template to include the necessary CSS files. The files you add depend on whether you're working with a WebAssembly or Server project:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <DocsPageUnorderedList>
+        <DocsPageUnorderedListItem>
+            For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
+        </DocsPageUnorderedListItem>
+    </DocsPageUnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Using in Development
+</Heading>
+
+<DocsPageParagraph>
+    For development, you should use the JIT version of the CSS files. We have already included the necessary files in the <Strong>Blazorise.Tailwind</Strong> package.
+</DocsPageParagraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader>
-        Add the following to your HTML head section. Depending on whether you're running WebAssembly or Server, it's either <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code>.
+        Add these lines inside the <Code Tag>head</Code> section:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TailwindGuideSourceFiles1Example" />
 </DocsPageSection>
@@ -57,6 +82,25 @@
         In the same file add the following. It should be placed just before the default blazor script.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TailwindGuideSourceFiles2Example" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is3">
+    Using in Production
+</Heading>
+
+<DocsPageParagraph>
+    For production, you should use the prebuilt version of the CSS files. We have already included the necessary files in the <Strong>Blazorise.Tailwind</Strong> package.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If you're interested in integrating Tailwind CSS with your Blazor projects, check out our blog post that guides you through the process of <Anchor To="blog/blazor-and-tailwind-quick-setup-without-npm" Title="Link to use Tailwind CSS with Blazorise">using Tailwind CSS with Blazor</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Add these lines inside the <Code Tag>head</Code> section:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideSourceFiles3Example" />
 </DocsPageSection>
 
 <Alert Color="Color.Info" Visible>

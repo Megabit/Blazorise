@@ -130,7 +130,7 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     {
         builder.Append( ClassProvider.MemoEdit( Plaintext ) );
         builder.Append( ClassProvider.MemoEditSize( ThemeSize ) );
-        builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -217,6 +217,17 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     public virtual async Task Select( bool focus = true )
     {
         await JSUtilitiesModule.Select( ElementRef, ElementId, focus );
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( TextExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( TextExpression )
+            : ExpressionFormatter.FormatLambda( TextExpression );
     }
 
     #endregion

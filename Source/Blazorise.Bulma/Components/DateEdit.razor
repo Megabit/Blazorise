@@ -3,18 +3,20 @@
 @if ( ParentIsFieldBody )
 {
     <div class="field">
-        <div class="control">
-            <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
-            @ChildContent
-        </div>
-        @Feedback
+        @InputElement
     </div>
 }
 else
 {
-    <div class="control">
-        <input @ref="@ElementRef" id="@ElementId" type="@Mode" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
-        @ChildContent
-    </div>
-    @Feedback
+    @InputElement
+}
+@code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <div class="control">
+            <input @ref="@ElementRef" id="@ElementId" type="@Mode" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
+            @ChildContent
+        </div>
+        @Feedback
+    };
 }

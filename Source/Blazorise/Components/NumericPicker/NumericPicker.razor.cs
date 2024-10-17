@@ -227,7 +227,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         builder.Append( ClassProvider.NumericPicker( Plaintext ) );
         builder.Append( ClassProvider.NumericPickerSize( ThemeSize ) );
         builder.Append( ClassProvider.NumericPickerColor( Color ) );
-        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -354,15 +354,6 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
 
             await CurrentValueHandler( valueToChangeOnBlur );
         }
-
-        if ( eventArgs.Code == "ArrowUp" )
-        {
-            await OnSpinUpClicked();
-        }
-        else if ( eventArgs.Code == "ArrowDown" )
-        {
-            await OnSpinDownClicked();
-        }
     }
 
     /// <inheritdoc/>
@@ -455,6 +446,17 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// </summary>
     /// <returns>Number of decimals.</returns>
     protected int GetDecimals() => isIntegerType ? 0 : Decimals;
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( ValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
+    }
 
     #endregion
 
