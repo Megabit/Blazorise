@@ -28,6 +28,11 @@ public partial class RouterTabs : ComponentBase, IDisposable
             RouterTabsService.TrySetRouteData( RouteData );
     }
 
+    internal void CloseTab(RouterTabsItem routerTabsItem)
+    {
+        RouterTabsService.CloseRouterTab( routerTabsItem );
+    }
+
     private void OnLocationChanged( object o, LocationChangedEventArgs _ )
     {
         RouterTabsService.TrySetRouteData( RouteData );
