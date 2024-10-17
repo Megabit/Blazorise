@@ -1,0 +1,24 @@
+﻿@using Blazorise.Extensions
+
+@if ( !RouterTabsService.Tabs.IsNullOrEmpty() )
+{
+    <Tabs @bind-SelectedTab=@RouterTabsService.SelectedRouterTab >
+        <Items>
+            @foreach ( var routerTab in RouterTabsService.Tabs )
+            {
+                <Tab @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabCssClass">@routerTab.Name
+                <CloseButton IsAutoClose=false Clicked="@(() => CloseTab(routerTab))" />
+                </Tab>
+            }
+        </Items>
+        <Content>
+            @foreach ( var routerTab in RouterTabsService.Tabs )
+            {
+                <TabPanel @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabPanelCssClass">
+                    @routerTab.Body
+                </TabPanel>
+            }
+        </Content>
+    </Tabs>
+}
+
