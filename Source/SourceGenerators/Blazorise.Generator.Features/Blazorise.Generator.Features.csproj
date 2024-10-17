@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.6.1</Version>
-    <PackageVersion>1.6.1</PackageVersion>
+    <Version>1.6.2</Version>
+    <PackageVersion>1.6.2</PackageVersion>
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
