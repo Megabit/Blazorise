@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
@@ -12,30 +13,31 @@ namespace Blazorise.Demo.Pages.Tests;
 public partial class TreeViewPage : ComponentBase
 {
     TreeView<NodeInfo> treeViewRef;
-    private IList<NodeInfo> expandedNodes = new List<NodeInfo>();
-    private IList<NodeInfo> selectedNodes = new List<NodeInfo>();
+    private IList<NodeInfo> expandedNodes = new ObservableCollection<NodeInfo>();
+    private IList<NodeInfo> selectedNodes = new ObservableCollection<NodeInfo>();
     private NodeInfo selectedNode;
     private TreeViewSelectionMode selectionMode;
+    private bool virtualize;
 
     public class NodeInfo
     {
         public string Text { get; set; }
-        public IEnumerable<NodeInfo> Children { get; set; }
+        public ObservableCollection<NodeInfo> Children { get; set; }
         public bool Disabled { get; set; }
     }
 
-    private IEnumerable<NodeInfo> Nodes = new[]
+    private ObservableCollection<NodeInfo> Nodes = new ObservableCollection<NodeInfo>()
     {
         new NodeInfo { Text = "NodeInfo 1" },
         new NodeInfo
         {
             Text = "NodeInfo 2",
-            Children = new []
+            Children = new ObservableCollection<NodeInfo>()
             {
                 new NodeInfo { Text = "NodeInfo 2.1" },
                 new NodeInfo
                 {
-                    Text = "NodeInfo 2.2", Children = new []
+                    Text = "NodeInfo 2.2", Children = new ObservableCollection<NodeInfo>()
                     {
                         new NodeInfo { Text = "NodeInfo 2.2.1" },
                         new NodeInfo { Text = "NodeInfo 2.2.2" },
@@ -51,12 +53,12 @@ public partial class TreeViewPage : ComponentBase
         new NodeInfo
         {
             Text = "NodeInfo 4",
-            Children = new []
+            Children = new ObservableCollection<NodeInfo>()
             {
                 new NodeInfo { Text = "NodeInfo 4.1" },
                 new NodeInfo
                 {
-                    Text = "NodeInfo 4.2", Children = new []
+                    Text = "NodeInfo 4.2", Children = new ObservableCollection<NodeInfo>()
                     {
                         new NodeInfo { Text = "NodeInfo 4.2.1" },
                         new NodeInfo { Text = "NodeInfo 4.2.2" },
@@ -72,6 +74,17 @@ public partial class TreeViewPage : ComponentBase
         new NodeInfo { Text = "NodeInfo 6" }
     };
 
+
+    int count = 0;
+    private async Task AddNode()
+    {
+        count++;
+        selectedNode.Children ??= new ObservableCollection<NodeInfo>();
+        selectedNode.Children.Add( new NodeInfo()
+        {
+            Text = selectedNode.Text + count,
+        } );
+    }
     private async Task ForceReload()
     {
         await treeViewRef.Reload();

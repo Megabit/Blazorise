@@ -132,10 +132,10 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
                 ? GetChildNodes( nodeState.Node )
                 : null;
 
-        NotifyCollectionChangedEventHandler childrenChangedHandler = ( ( sender, e ) =>
+        NotifyCollectionChangedEventHandler childrenChangedHandler = ( sender, e ) =>
         {
             OnChildrenChanged( sender, e, nodeState, childNodes );
-        } );
+        };
 
         if ( childNodes is INotifyCollectionChanged observableCollection )
         {
@@ -171,7 +171,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         {
             await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
             {
-                nodeState.Children.Add( childNodeState );
+                if ( !nodeState.Children.Exists( x => x.Node.IsEqual( childNodeState.Node ) ) )
+                    nodeState.Children.Add( childNodeState );
             }
         }
         else if ( e.Action == NotifyCollectionChangedAction.Remove )
@@ -304,6 +305,12 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
     /// </summary>
     [Parameter] public bool AutoExpandAll { get; set; }
+
+    /// <summary>
+    /// Controls if the child nodes, which are currently not expanded, are visible.<para></para>
+    /// This is useful for optimizing large TreeViews. See <see href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization">Docs for virtualization</see> for more info.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
     /// Defines the name of the treenode expand icon.
