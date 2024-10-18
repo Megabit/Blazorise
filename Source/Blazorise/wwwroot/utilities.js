@@ -24,6 +24,14 @@ export function toggleClass(element, classname) {
     }
 }
 
+export function addAttribute(element, attribute, value) {
+    element.setAttribute(attribute, value);
+}
+
+export function removeAttribute(element, attribute) {
+    element.removeAttribute(attribute);
+}
+
 // adds a classname to the body element
 export function addClassToBody(classname) {
     addClass(document.body, classname);
@@ -32,6 +40,16 @@ export function addClassToBody(classname) {
 // removes a classname from the body element
 export function removeClassFromBody(classname) {
     removeClass(document.body, classname);
+}
+
+// adds an attribute to the body element
+export function addAttributeToBody(attribute, value) {
+    addAttribute(document.body, attribute, value);
+}
+
+// removes an attribute from the body element
+export function removeAttributeFromBody(attribute) {
+    removeAttribute(document.body, attribute);
 }
 
 // sets the input focuses to the given element
