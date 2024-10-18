@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Components;
 
@@ -12,29 +14,30 @@ internal class RouterTabsItem
     public string TypeName { get; set; }
     public string Url { get; set; }
     public RenderFragment Body { get; set; }
-    public string TabCssClass { get; set; }
-    public string TabPanelCssClass { get; set; }
+    public string TabClass { get; set; }
+    public string TabPanelClass { get; set; }
     public bool Closeable { get; set; } = true;
 
 }
 
 public class RouterTabsService
 {
+    #region Properties
 
-    internal event Action OnStateHasChanged;
+    internal event Action StateHasChanged;
 
-    private string _selectedRouterTab;
-    private List<RouterTabsItem> _tabs = new List<RouterTabsItem>();
+    private string selectedRouterTab;
+    private List<RouterTabsItem> tabs = new List<RouterTabsItem>();
     private readonly NavigationManager navigationManager;
-    internal IReadOnlyCollection<RouterTabsItem> Tabs => _tabs.AsReadOnly();
+    internal IReadOnlyCollection<RouterTabsItem> Tabs => tabs.AsReadOnly();
 
     internal string SelectedRouterTab
     {
-        get => _selectedRouterTab;
+        get => selectedRouterTab;
         set
         {
-            _selectedRouterTab = value;
-            var pageItem = _tabs.FirstOrDefault( r => r.Name == value );
+            selectedRouterTab = value;
+            var pageItem = tabs.FirstOrDefault( r => r.Name == value );
             if ( pageItem != null && ( pageItem.Url != CurrentUrl ) )
             {
                 CurrentUrl = pageItem.Url;
@@ -63,31 +66,35 @@ public class RouterTabsService
         this.navigationManager = navigationManager;
     }
 
+    #endregion
+
+    #region Methods
+
     internal void AddRouterTab( RouterTabsItem routerTabsItem )
     {
-        _tabs.Add( routerTabsItem );
+        tabs.Add( routerTabsItem );
     }
 
     internal void CloseRouterTab( RouterTabsItem routerTabsItem )
     {
         string nextSelected = null;
-        if ( _selectedRouterTab == routerTabsItem.Name && _tabs.Count > 1 )
-            for ( int i = 0; i < _tabs.Count; i++ )
+        if ( selectedRouterTab == routerTabsItem.Name && tabs.Count > 1 )
+            for ( int i = 0; i < tabs.Count; i++ )
             {
-                if ( i > 0 && _tabs[i].Name == _selectedRouterTab )
-                    nextSelected = _tabs[i - 1].Name;
-                if ( i > 0 && _tabs[i - 1].Name == _selectedRouterTab )
-                    nextSelected = _tabs[i].Name;
+                if ( i > 0 && tabs[i].Name == selectedRouterTab )
+                    nextSelected = tabs[i - 1].Name;
+                if ( i > 0 && tabs[i - 1].Name == selectedRouterTab )
+                    nextSelected = tabs[i].Name;
             }
 
-        _tabs.Remove( routerTabsItem );
+        tabs.Remove( routerTabsItem );
         SelectedRouterTab = nextSelected;
-        OnStateHasChanged?.Invoke();
+        StateHasChanged?.Invoke();
     }
 
     internal void TrySetRouteData( RouteData routeData )
     {
-        var routerTabsItem = _tabs?.FirstOrDefault( w => w.Url == CurrentUrl );
+        var routerTabsItem = tabs?.FirstOrDefault( w => w.Url == CurrentUrl );
 
         if ( routerTabsItem is null )
         {
@@ -104,12 +111,12 @@ public class RouterTabsService
         {
             routerTabsItem.Body ??= CreateRouterTabsItemBody( routeData );
             routerTabsItem.TypeName = routeData.PageType.FullName;
-            if ( string.IsNullOrWhiteSpace(routerTabsItem.Name))
+            if ( string.IsNullOrWhiteSpace( routerTabsItem.Name ) )
                 routerTabsItem.Name = routeData.PageType.FullName;
         }
 
         SelectedRouterTab = routerTabsItem.Name;
-        OnStateHasChanged?.Invoke();
+        StateHasChanged?.Invoke();
     }
 
     private RenderFragment CreateRouterTabsItemBody( RouteData routeData )
@@ -126,15 +133,17 @@ public class RouterTabsService
         };
     }
 
-    private void SetRouterTabsItemFromPageAttribute( RouterTabsItem pageItem, Type pageType)
+    private void SetRouterTabsItemFromPageAttribute( RouterTabsItem pageItem, Type pageType )
     {
         var routerTabsPageAttr = pageType.GetCustomAttribute<RouterTabsPageAttribute>();
-        if ( routerTabsPageAttr is not null)
+        if ( routerTabsPageAttr is not null )
         {
             pageItem.Name = routerTabsPageAttr.Title;
-            pageItem.TabCssClass = routerTabsPageAttr.TabCssClass;
-            pageItem.TabPanelCssClass = routerTabsPageAttr.TabPanelCssClass;
+            pageItem.TabClass = routerTabsPageAttr.TabClass;
+            pageItem.TabPanelClass = routerTabsPageAttr.TabPanelClass;
             pageItem.Closeable = routerTabsPageAttr.Closeable;
         }
     }
+
+    #endregion
 }

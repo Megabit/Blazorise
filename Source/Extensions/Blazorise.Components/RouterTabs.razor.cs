@@ -1,8 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 #endregion
@@ -11,6 +8,8 @@ namespace Blazorise.Components;
 
 public partial class RouterTabs : ComponentBase, IDisposable
 {
+    #region Properties
+
     private bool disposedValue;
 
     [CascadingParameter] public RouteData RouteData { get; set; }
@@ -18,21 +17,25 @@ public partial class RouterTabs : ComponentBase, IDisposable
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] public RouterTabsService RouterTabsService { get; set; }
 
+    #endregion
+
+    #region Methods
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        if ( NavigationManager is not null)
+        if ( NavigationManager is not null )
             NavigationManager.LocationChanged += OnLocationChanged;
 
-        if ( RouterTabsService is not null)
-            RouterTabsService.OnStateHasChanged += OnStateHasChanged;
+        if ( RouterTabsService is not null )
+            RouterTabsService.StateHasChanged += OnStateHasChanged;
 
-        if ( RouteData  is not null)
+        if ( RouteData is not null )
             RouterTabsService.TrySetRouteData( RouteData );
     }
 
-    internal void CloseTab(RouterTabsItem routerTabsItem)
+    internal void CloseTab( RouterTabsItem routerTabsItem )
     {
         if ( RouterTabsService is not null )
             RouterTabsService.CloseRouterTab( routerTabsItem );
@@ -56,7 +59,7 @@ public partial class RouterTabs : ComponentBase, IDisposable
             if ( disposing )
             {
                 if ( RouterTabsService is not null )
-                    RouterTabsService.OnStateHasChanged -= OnStateHasChanged;
+                    RouterTabsService.StateHasChanged -= OnStateHasChanged;
                 if ( NavigationManager is not null )
                     NavigationManager.LocationChanged -= OnLocationChanged;
             }
@@ -71,4 +74,6 @@ public partial class RouterTabs : ComponentBase, IDisposable
         Dispose( disposing: true );
         GC.SuppressFinalize( this );
     }
+
+    #endregion
 }

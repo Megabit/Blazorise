@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise.Components;
 /// <summary>
@@ -18,12 +20,12 @@ public class RouterTabsPageAttribute : Attribute
     /// <summary>
     /// Sets the css class of the router tab.
     /// </summary>
-    public string TabCssClass { get; set; }
+    public string TabClass { get; set; }
 
     /// <summary>
     /// Sets the css class of the router tab panel.
     /// </summary>
-    public string TabPanelCssClass { get; set; }
+    public string TabPanelClass { get; set; }
 
     /// <summary>
     /// Whether the router tab is closeable.

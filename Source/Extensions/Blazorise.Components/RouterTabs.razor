@@ -6,7 +6,7 @@
         <Items>
             @foreach ( var routerTab in RouterTabsService.Tabs )
             {
-                <Tab @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabCssClass">@routerTab.Name
+                <Tab @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabClass">@routerTab.Name
                 <CloseButton IsAutoClose=false Clicked="@(() => CloseTab(routerTab))" />
                 </Tab>
             }
@@ -14,7 +14,7 @@
         <Content>
             @foreach ( var routerTab in RouterTabsService.Tabs )
             {
-                <TabPanel @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabPanelCssClass">
+                <TabPanel @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabPanelClass">
                     @routerTab.Body
                 </TabPanel>
             }
