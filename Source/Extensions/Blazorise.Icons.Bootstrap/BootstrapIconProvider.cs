@@ -204,6 +204,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.MinusCircle, BootstrapIcons.DashCircle },
         { IconName.MinusSquare, BootstrapIcons.DashSquare },
         { IconName.MoneyBillAlt, BootstrapIcons.Cash },
+        { IconName.Moon, BootstrapIcons.Moon },
         { IconName.MoreHorizontal, BootstrapIcons.ThreeDots },
         { IconName.MoreVertical, BootstrapIcons.ThreeDotsVertical },
         { IconName.Motorcycle, BootstrapIcons.Bicycle },
