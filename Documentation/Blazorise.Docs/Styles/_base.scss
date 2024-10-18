@@ -22,13 +22,11 @@ body {
     }
 
     &[data-bs-theme="dark"] {
-        code {
-            --b-code-color: #b6afff;
-            --b-code-background-color: #4a4a4a;
-            --b-codeblock-color: inherit;
-            --b-codeblock-background-color: #262d38;
-            --b-codeblock-enum-value-color: #be95ff;
-        }
+        --b-code-color: #b6afff;
+        --b-code-background-color: #4a4a4a;
+        --b-codeblock-color: inherit;
+        --b-codeblock-background-color: #262d38;
+        --b-codeblock-enum-value-color: #be95ff;
     }
 }
 

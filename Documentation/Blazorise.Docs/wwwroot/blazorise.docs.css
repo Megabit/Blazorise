@@ -91,7 +91,7 @@ body:not([data-bs-theme=dark]) {
   --b-codeblock-background-color: #f5f8fd;
   --b-codeblock-enum-value-color: #6823d4;
 }
-body[data-bs-theme=dark] code {
+body[data-bs-theme=dark] {
   --b-code-color: #b6afff;
   --b-code-background-color: #4a4a4a;
   --b-codeblock-color: inherit;
