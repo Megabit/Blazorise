@@ -11,6 +11,8 @@ public class ThemeService
     public Background BarBackground = Background.Light;
     public ThemeContrast BarThemeContrast = ThemeContrast.Light;
 
+    public bool IsDark => CurrentTheme == "Dark";
+
     public void SetTheme( string theme )
     {
         CurrentTheme = theme;
