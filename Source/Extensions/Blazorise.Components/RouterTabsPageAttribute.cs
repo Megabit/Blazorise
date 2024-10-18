@@ -13,9 +13,9 @@ namespace Blazorise.Components;
 public class RouterTabsPageAttribute : Attribute
 {
     /// <summary>
-    /// Sets the title of the router tab.
+    /// Sets the name of the router tab.
     /// </summary>
-    public string Title { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Sets the css class of the router tab.

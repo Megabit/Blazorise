@@ -138,7 +138,7 @@ public class RouterTabsService
         var routerTabsPageAttr = pageType.GetCustomAttribute<RouterTabsPageAttribute>();
         if ( routerTabsPageAttr is not null )
         {
-            pageItem.Name = routerTabsPageAttr.Title;
+            pageItem.Name = routerTabsPageAttr.Name;
             pageItem.TabClass = routerTabsPageAttr.TabClass;
             pageItem.TabPanelClass = routerTabsPageAttr.TabPanelClass;
             pageItem.Closeable = routerTabsPageAttr.Closeable;
