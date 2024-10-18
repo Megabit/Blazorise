@@ -1,8 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@inherits BaseDocsLayout
 
 <Layout Class="b-news">
     <LayoutHeader>
-        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default">
+        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="@BarBackground" ThemeContrast="@BarThemeContrast" Shadow="Shadow.Default">
             <Container>
                 <BarBrand>
                     <BarItem>

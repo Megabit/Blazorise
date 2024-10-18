@@ -1,4 +1,5 @@
-﻿<Container>
+﻿@using Blazorise.Docs.Services
+<Container>
     <Row>
         <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
             <Image Display="Display.Block" Margin="Margin.Is2.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 42px; height: 42px;" />
@@ -17,13 +18,13 @@
                 </Div>
             </Div>
             <Div Flex="Flex._" Margin="Margin.Is3.FromTop">
-                <Anchor TextColor="TextColor.Dark" Margin="Margin.Is3.Is0.FromStart" To="https://github.com/Megabit/Blazorise" Title="GitHub" Target="Target.Blank" Display="Display.InlineBlock">
+                <Anchor TextColor="@IconTextColor" Margin="Margin.Is3.Is0.FromStart" To="https://github.com/Megabit/Blazorise" Title="GitHub" Target="Target.Blank" Display="Display.InlineBlock">
                     <Icon Name="@("fab fa-github")" IconSize="IconSize.Large" />
                 </Anchor>
-                <Anchor TextColor="TextColor.Dark" Margin="Margin.Is3" To="https://twitter.com/Blazorise" Title="Twitter" Target="Target.Blank" Display="Display.InlineBlock">
+                <Anchor TextColor="@IconTextColor" Margin="Margin.Is3" To="https://twitter.com/Blazorise" Title="Twitter" Target="Target.Blank" Display="Display.InlineBlock">
                     <Icon Name="@("fab fa-twitter")" IconSize="IconSize.Large" />
                 </Anchor>
-                <Anchor TextColor="TextColor.Dark" Margin="Margin.Is3" To="https://www.reddit.com/r/Blazorise/" Title="Reddit" Target="Target.Blank" Display="Display.InlineBlock">
+                <Anchor TextColor="@IconTextColor" Margin="Margin.Is3" To="https://www.reddit.com/r/Blazorise/" Title="Reddit" Target="Target.Blank" Display="Display.InlineBlock">
                     <Icon Name="@("fab fa-reddit")" IconSize="IconSize.Large" />
                 </Anchor>
             </Div>
@@ -104,3 +105,25 @@
         </Column>
     </Row>
 </Container>
+@code{
+    [Inject] private ThemeService ThemeService { get; set; }
+
+    private TextColor IconTextColor => ThemeService.CurrentTheme == "Dark" ? TextColor.Light : TextColor.Dark;
+    
+    protected override void OnInitialized()
+    {
+        ThemeService.ThemeChanged += OnThemeChanged;
+
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        ThemeService.ThemeChanged -= OnThemeChanged;
+    }
+
+    async void OnThemeChanged( object sender, string theme )
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+}
