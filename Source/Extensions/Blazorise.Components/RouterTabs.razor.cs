@@ -59,7 +59,11 @@ public partial class RouterTabs : ComponentBase, IDisposable
             if ( disposing )
             {
                 if ( RouterTabsService is not null )
+                {
                     RouterTabsService.StateHasChanged -= OnStateHasChanged;
+                    RouterTabsService.Clear();
+                }
+                    
                 if ( NavigationManager is not null )
                     NavigationManager.LocationChanged -= OnLocationChanged;
             }

@@ -2,12 +2,16 @@
 
 @if ( !RouterTabsService.Tabs.IsNullOrEmpty() )
 {
-    <Tabs @bind-SelectedTab=@RouterTabsService.SelectedRouterTab >
+    <Tabs @bind-SelectedTab=@RouterTabsService.SelectedRouterTab>
         <Items>
             @foreach ( var routerTab in RouterTabsService.Tabs )
             {
-                <Tab @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabClass">@routerTab.Name
-                <CloseButton IsAutoClose=false Clicked="@(() => CloseTab(routerTab))" />
+                <Tab @key=@routerTab.Name Name="@routerTab.Name" Class="@routerTab.TabClass">
+                    @routerTab.Name
+                    @if ( routerTab.Closeable )
+                    {
+                        <CloseButton AutoClose=false Clicked="@(() => CloseTab(routerTab))" />
+                    }
                 </Tab>
             }
         </Items>

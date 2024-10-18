@@ -32,8 +32,9 @@ public static class Config
             .AddBlazoriseGoogleReCaptcha( options =>
             {
                 options.SiteKey = reCaptchaSiteKey;
-            } );
-        services.AddScoped<RouterTabsService>();
+            } )
+            .AddBlazoriseRouterTabs();
+        
         services.AddBlazoredLocalStorage();
 
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );

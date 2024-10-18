@@ -70,6 +70,12 @@ public class RouterTabsService
 
     #region Methods
 
+    internal void Clear()
+    {
+        tabs.Clear();
+        StateHasChanged?.Invoke();
+    }
+
     internal void AddRouterTab( RouterTabsItem routerTabsItem )
     {
         tabs.Add( routerTabsItem );

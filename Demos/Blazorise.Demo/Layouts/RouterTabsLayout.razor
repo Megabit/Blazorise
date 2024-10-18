@@ -1,5 +1,4 @@
-﻿@layout RootLayout
-@inherits LayoutComponentBase
+﻿@inherits MainLayout
 
 @if ( layoutType == "fixed-header" )
 {
@@ -18,7 +17,7 @@
                          @bind-LayoutType="@layoutType" />
             </LayoutHeader>
             <LayoutContent Padding="Padding.Is4.OnX">
-                @Body
+                <RouterTabs />
             </LayoutContent>
         </Layout>
     </Layout>
@@ -34,7 +33,7 @@ else if ( layoutType == "fixed-header-footer-only" )
                      @bind-LayoutType="@layoutType" />
         </LayoutHeader>
         <LayoutContent Padding="Padding.Is4.OnX">
-            @Body
+            <RouterTabs />
         </LayoutContent>
         <LayoutFooter Fixed>
             <FooterMenu></FooterMenu>
@@ -59,7 +58,7 @@ else if ( layoutType == "sider-with-header-on-top" )
             </LayoutSider>
             <Layout>
                 <LayoutContent Padding="Padding.Is4.OnX">
-                    @Body
+                    <RouterTabs />
                 </LayoutContent>
             </Layout>
         </Layout>
