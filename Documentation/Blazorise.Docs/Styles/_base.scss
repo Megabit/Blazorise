@@ -14,6 +14,7 @@
 
 body {
     &:not([data-bs-theme="dark"]) {
+        --b-link-color: #3f4d62;
         --b-code-color: #5748ff;
         --b-code-background-color: #f5f8fd;
         --b-codeblock-color: #3f4d62;
@@ -22,6 +23,7 @@ body {
     }
 
     &[data-bs-theme="dark"] {
+        --b-link-color: inherit;
         --b-code-color: #b6afff;
         --b-code-background-color: #4a4a4a;
         --b-codeblock-color: inherit;

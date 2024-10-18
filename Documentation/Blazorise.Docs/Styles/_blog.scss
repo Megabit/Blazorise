@@ -12,7 +12,7 @@
         }
 
         a {
-            color: inherit;
+            color: var(--b-link-color);
             border-bottom: 2px solid var(--b-theme-primary);
             text-decoration: none;
         }
