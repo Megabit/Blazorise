@@ -58,6 +58,10 @@
         + .fui-CardBody {
             padding-top: 0;
         }
+
+        .fui-CardText {
+            margin-bottom: var(--fui-Card--size);
+        }
     }
 
     &:not(.fui-CardGroup .fui-Card) {

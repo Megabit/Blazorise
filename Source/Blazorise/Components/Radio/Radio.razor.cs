@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Drawing;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -17,7 +18,15 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
 {
     #region Members
 
+    /// <summary>
+    /// Radio group name.
+    /// </summary>
     private string group;
+
+    /// <summary>
+    /// Defines the color of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
+    /// </summary>
+    private Color color;
 
     #endregion
 
@@ -139,9 +148,9 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     protected bool AsButton => ParentRadioGroup?.Buttons == true;
 
     /// <summary>
-    /// Returns the button color.
+    /// Determines the color of the radio button.
     /// </summary>
-    protected Color ButtonColor => ParentRadioGroup?.Color ?? Color.Secondary;
+    protected Color ButtonColor => Color ?? ParentRadioGroup?.Color ?? Color.Secondary;
 
     /// <summary>
     /// Sets the radio group name.
@@ -153,6 +162,21 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
         set
         {
             group = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the color of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
+    /// </summary>
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
+        {
+            color = value;
 
             DirtyClasses();
         }

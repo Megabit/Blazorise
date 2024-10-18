@@ -146,6 +146,9 @@
 .card {
   overflow: initial;
 }
+.card .card-content .card-text {
+  margin-bottom: 1rem;
+}
 
 .card-group {
   display: -ms-flexbox;
@@ -2561,6 +2564,56 @@ li.list-group-item-action {
   opacity: 0.7;
 }
 
+.skeleton-lines {
+  color: transparent !important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  position: relative;
+}
+.skeleton-lines:not(.skeleton-lines-pulse) > .skeleton-line {
+  background-color: hsl(0deg, 0%, 90.2%);
+}
+.skeleton-lines > .skeleton-line {
+  position: relative;
+  min-height: 1rem;
+  overflow: hidden;
+  padding: 0;
+}
+.skeleton-lines-pulse > .skeleton-line {
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: skeleton-wave-pulse;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  background-color: hsl(221deg, 14%, 86%);
+  border-radius: 0.25rem;
+  box-shadow: none;
+  pointer-events: none;
+}
+.skeleton-lines-wave > .skeleton-line::after {
+  transform: translate(-100%);
+  background-image: linear-gradient(to right, hsl(221deg, 14%, 86%) 0%, hsl(0deg, 0%, 90.2%) 50%, hsl(221deg, 14%, 86%) 100%);
+  animation-name: skeleton-wave-anim;
+  animation-timing-function: ease-in-out;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  position: absolute;
+  display: block;
+  content: "";
+  inset: 0px;
+}
+
+@keyframes skeleton-wave-anim {
+  100% {
+    transform: translate(100%);
+  }
+}
+@keyframes skeleton-wave-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
 .steps {
   display: flex;
   flex-wrap: wrap;

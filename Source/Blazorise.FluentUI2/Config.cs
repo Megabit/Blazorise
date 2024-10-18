@@ -78,6 +78,8 @@ public static class Config
         { typeof( Blazorise.RatingItem ), typeof( Components.RatingItem ) },
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },
         { typeof( Blazorise.Slider<> ), typeof( Components.Slider<> ) },
+        { typeof( Blazorise.Skeleton ), typeof( Components.Skeleton ) },
+        { typeof( Blazorise.SkeletonItem ), typeof( Components.SkeletonItem ) },
         { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
         { typeof( Blazorise.Step ), typeof( Components.Step ) },
         { typeof( Blazorise.Tab ), typeof( Components.Tab ) },

@@ -91,6 +91,7 @@ public static class Config
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },
         { typeof( Blazorise.SelectGroup ), typeof( Components.SelectGroup ) },
         { typeof( Blazorise.SelectItem<> ), typeof( Components.SelectItem<> ) },
+        { typeof( Blazorise.SkeletonItem ), typeof( Components.SkeletonItem ) },
         { typeof( Blazorise.Slider<> ), typeof( Components.Slider<> ) },
         { typeof( Blazorise.Step ), typeof( Components.Step ) },
         { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
