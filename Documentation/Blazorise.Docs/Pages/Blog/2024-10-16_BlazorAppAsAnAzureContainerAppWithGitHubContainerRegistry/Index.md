@@ -1,25 +1,23 @@
 ---
-title: Publishing a Blazor App as an Azure Container App with GitHub Container Registry
+title: Publish Blazor App to Azure Container with GitHub Registry
 description: Learn how to deploy a Blazor app on Azure Container Apps using GitHub Container Registry with a seamless CI/CD pipeline.
 permalink: /blog/publishing-blazor-app-azure-container-app-github-container-registry
 canonical: /blog/publishing-blazor-app-azure-container-app-github-container-registry
 image-url: /img/blog/2024-10-16/hero.webp
-image-text: Publishing a Blazor App as an Azure Container App with GitHub Container Registry
+image-text: Publish Blazor App to Azure Container with GitHub Registry
 author-name: Jan Tesař
 author-image: tesy
 posted-on: October 16th, 2024
 read-time: 10 min
 ---
 
-
-# Publishing a Blazor App as an Azure Container App with GitHub Container Registry
+# Publish Blazor App to Azure Container with GitHub Registry
 
 This article aims to guide you through a cost-effective solution for hosting a single ASP.NET Core app on Azure Container Apps. By the end, we will have set up a CI/CD pipeline using GitHub Actions to build the app as a container, push it to the GitHub Container Registry (GHCR), and configure Azure Container Apps to pull and deploy the image.
 
 We will cover all the necessary steps.
 
 There are multiple ways to deploy to Azure. We will discuss a few options but focus primarily on a vendor-agnostic solution—one that does not depend on any specific IDE and can easily be adapted for other cloud providers or hosting environments.
-
 
 ## Creating the App
 
@@ -157,7 +155,6 @@ jobs:
         run: az logout
 ```
 
-
 ### PACKAGE_NAME
 
 ```yml
@@ -186,7 +183,6 @@ In this step, we are specifying the Dockerfile to containerize the Blazor app an
     creds: ${{ secrets.AZURECONTAINERAPPTEST3_SPN }}
 ```
 Here we log in to Azure using credentials stored in GitHub secrets. You must generate these credentials on Azure and then store them in GitHub, as described below.
-
 
 #### Generate secret
 
@@ -247,7 +243,6 @@ This command uses the Azure CLI to update the container app with the newly built
 
 Now, when you push your changes to the GitHub repository, the action will run the pipeline. However, there’s one more thing we need to handle—giving Azure access to the GHCR.
 
-
 ### Allowing Azure to Access GitHub Packages
 
 In order for Azure to pull the container image from GitHub Container Registry (GHCR), we need to grant it access by generating a Personal Access Token (PAT) from GitHub. Azure will use this PAT to authenticate against GHCR and pull the image.
@@ -277,7 +272,6 @@ In this command:
 - `--username` should be your GitHub username.
 - `--password` is the PAT you just generated.
 
-
 #### Verify the Secret in Azure
 
 Once the command is executed, the PAT is stored securely in Azure. You can verify this by navigating to your Azure Container App:
@@ -285,7 +279,6 @@ Once the command is executed, the PAT is stored securely in Azure. You can verif
 2. You should see the registry credentials stored there.
 
 This setup allows Azure to authenticate with GHCR and pull the container image during deployment.
-
 
 
 #### Final Steps to Resolve Port Mismatch
@@ -326,8 +319,3 @@ To configure scaling to 0 replicas:
 By doing this, the app will scale down to 0 replicas during periods of inactivity, and Azure will automatically bring it back online when traffic hits.
 
 This feature is an excellent way to save costs during development or testing phases without affecting the ability to scale back up when necessary.
-
-
-
-
-
