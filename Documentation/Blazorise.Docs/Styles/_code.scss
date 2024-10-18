@@ -127,24 +127,6 @@
         }
     }
 }
-/*
-body {
-    &:not([data-bs-theme="dark"]) {
-        code {
-            color: #5748ff;
-            padding: 0.25em 0.375em;
-            background-color: #f5f8fd;
-        }
-    }
-
-    &[data-bs-theme="dark"] {
-        code {
-            color: var(--bs-code-color);
-            padding: 0.25em 0.375em;
-            background-color: #343434;
-        }
-    }
-}*/
 
 code {
     color: var(--b-code-color);

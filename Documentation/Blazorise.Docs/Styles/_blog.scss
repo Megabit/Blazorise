@@ -67,8 +67,8 @@
         }
 
         :not(pre) > code {
-            background-color: #f5f5f5;
-            color: #ff3860;
+            background-color: var(--b-code-background-color);
+            color: var(--b-code-color);
             font-weight: 400;
         }
     }
