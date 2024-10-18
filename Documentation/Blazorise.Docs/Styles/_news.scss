@@ -12,7 +12,9 @@
         }
 
         a {
-            color: var(--b-theme-primary);
+            color: var(--b-link-color);
+            border-bottom: 2px solid var(--b-theme-primary);
+            text-decoration: none;
         }
 
         p {
@@ -65,15 +67,9 @@
         }
 
         :not(pre) > code {
-            background-color: #f5f5f5;
-            color: #ff3860;
+            background-color: var(--b-code-background-color);
+            color: var(--b-code-color);
             font-weight: 400;
-        }
-
-        a {
-            color: #3f4d62;
-            border-bottom: 2px solid #9317E1;
-            text-decoration: none;
         }
     }
 

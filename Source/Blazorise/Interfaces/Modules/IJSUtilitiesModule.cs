@@ -49,6 +49,21 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask RemoveClassFromBody( string classname );
 
     /// <summary>
+    /// Adds an attribute to the body element.
+    /// </summary>
+    /// <param name="attribute">A string specifying the name of the attribute whose value is to be set.</param>
+    /// <param name="value">A string containing the value to assign to the attribute.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask AddAttributeToBody( string attribute, string value );
+
+    /// <summary>
+    /// Removes an attribute from the body element.
+    /// </summary>
+    /// <param name="attribute">A string specifying the name of the attribute to remove from the element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask RemoveAttributeFromBody( string attribute );
+
+    /// <summary>
     /// Indicates if parent element has a specified classname.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>

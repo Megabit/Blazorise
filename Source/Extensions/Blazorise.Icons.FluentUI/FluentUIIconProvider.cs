@@ -205,6 +205,7 @@ class FluentUIIconProvider : BaseIconProvider
         { IconName.MinusCircle, FluentUIIcons.SubtractCircle },
         { IconName.MinusSquare, FluentUIIcons.SubtractSquare },
         { IconName.MoneyBillAlt, FluentUIIcons.Money },
+        { IconName.Moon, FluentUIIcons.WeatherMoon },
         { IconName.MoreHorizontal, FluentUIIcons.MoreHorizontal },
         { IconName.MoreVertical, FluentUIIcons.MoreVertical },
         { IconName.Motorcycle, FluentUIIcons.VehicleBicycle },

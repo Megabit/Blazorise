@@ -195,6 +195,7 @@ public enum IconName
     MinusCircle,
     MinusSquare,
     MoneyBillAlt,
+    Moon,
     MoreHorizontal,
     MoreVertical,
     Motorcycle,

@@ -41,7 +41,6 @@
     .b-docs-page-section-content {
         padding: 20px;
         margin-bottom: 40px;
-        background-color: white;
         margin: auto;
         display: flex;
         outline: 0;
@@ -119,7 +118,7 @@
         tbody {
             tr {
                 td:first-child code {
-                    color: #1867c0;
+                    color: var(--b-code-color);
                 }
 
                 td:nth-child(2) code {
@@ -147,7 +146,7 @@
         tbody {
             tr {
                 td:first-child code {
-                    color: #1867c0;
+                    color: var(--b-code-color);
                 }
 
                 td:nth-child(2) code {
@@ -250,7 +249,7 @@
     }
 
     a:not(.dropdown-item):not(.page-link):not(.b-bar-link):not(.nav-link):not(.b-bar-toggler-inline):not(.navbar-toggler):not([role=button]) {
-        color: #3f4d62;
+        color: inherit;
         border-bottom: 2px solid var(--b-theme-primary);
         text-decoration: none;
         transition: color 0.5s ease-in-out;

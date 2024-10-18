@@ -205,6 +205,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.MinusCircle, FontAwesomeIcons.MinusCircle },
         { IconName.MinusSquare, FontAwesomeIcons.MinusSquare },
         { IconName.MoneyBillAlt, FontAwesomeIcons.MoneyBillAlt },
+        { IconName.Moon, FontAwesomeIcons.Moon },
         { IconName.MoreHorizontal, FontAwesomeIcons.EllipsisH },
         { IconName.MoreVertical, FontAwesomeIcons.EllipsisV },
         { IconName.Motorcycle, FontAwesomeIcons.Motorcycle },
