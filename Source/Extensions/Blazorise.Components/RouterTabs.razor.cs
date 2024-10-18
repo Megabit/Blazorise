@@ -22,20 +22,26 @@ public partial class RouterTabs : ComponentBase, IDisposable
     {
         base.OnInitialized();
 
-        NavigationManager.LocationChanged += OnLocationChanged;
-        RouterTabsService.OnStateHasChanged += OnStateHasChanged;
+        if ( NavigationManager is not null)
+            NavigationManager.LocationChanged += OnLocationChanged;
+
+        if ( RouterTabsService is not null)
+            RouterTabsService.OnStateHasChanged += OnStateHasChanged;
+
         if ( RouteData  is not null)
             RouterTabsService.TrySetRouteData( RouteData );
     }
 
     internal void CloseTab(RouterTabsItem routerTabsItem)
     {
-        RouterTabsService.CloseRouterTab( routerTabsItem );
+        if ( RouterTabsService is not null )
+            RouterTabsService.CloseRouterTab( routerTabsItem );
     }
 
     private void OnLocationChanged( object o, LocationChangedEventArgs _ )
     {
-        RouterTabsService.TrySetRouteData( RouteData );
+        if ( RouterTabsService is not null )
+            RouterTabsService.TrySetRouteData( RouteData );
     }
 
     private void OnStateHasChanged()
@@ -49,8 +55,10 @@ public partial class RouterTabs : ComponentBase, IDisposable
         {
             if ( disposing )
             {
-                RouterTabsService.OnStateHasChanged -= OnStateHasChanged;
-                NavigationManager.LocationChanged -= OnLocationChanged;
+                if ( RouterTabsService is not null )
+                    RouterTabsService.OnStateHasChanged -= OnStateHasChanged;
+                if ( NavigationManager is not null )
+                    NavigationManager.LocationChanged -= OnLocationChanged;
             }
 
             disposedValue = true;
