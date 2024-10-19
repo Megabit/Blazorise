@@ -1158,6 +1158,16 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public abstract string Skeleton();
+
+    public abstract string SkeletonAnimation( SkeletonAnimation animation );
+
+    public abstract string SkeletonItem();
+
+    #endregion
+
     #region Divider
 
     public abstract string Divider();
@@ -1227,7 +1237,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Flex( FlexDefinition flexDefinition );
 
-    public abstract string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+    public abstract string Flex( FlexRule flexRule );
 
     #endregion
 
@@ -2111,6 +2121,16 @@ public abstract class ClassProvider : IClassProvider
             ObjectFitType.Fill => "fill",
             ObjectFitType.Scale => "scale",
             _ => null,
+        };
+    }
+
+    public virtual string ToSkeletonAnimation( SkeletonAnimation animation )
+    {
+        return animation switch
+        {
+            Blazorise.SkeletonAnimation.Wave => "wave",
+            Blazorise.SkeletonAnimation.Pulse => "pulse",
+            _ => null
         };
     }
 

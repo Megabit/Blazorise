@@ -377,9 +377,8 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// </summary>
     protected string GetCellClass( DataGridColumn<TItem> column, DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
     {
-#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
         var cellClass = column.CellClass?.Invoke( GetCurrentItem() ) ?? string.Empty;
-#pragma warning restore CS0618 // Type or member is obsolete
+
         var classFromStyling = selectedStyling?.Class ?? batchEditStyling?.Class ?? styling.Class;
 
         if ( !string.IsNullOrEmpty( classFromStyling ) )

@@ -189,10 +189,17 @@
   --colorBrandBackground2: #ebf3fc;
   --colorBrandBackground2Hover: #cfe4fa;
   --colorBrandBackground2Pressed: #96c6fa;
+  --colorBrandBackground3Static: #0f548c;
+  --colorBrandBackground4Static: #0c3b5e;
   --colorBrandBackgroundInverted: #ffffff;
   --colorBrandBackgroundInvertedHover: #ebf3fc;
   --colorBrandBackgroundInvertedPressed: #b4d6fa;
   --colorBrandBackgroundInvertedSelected: #cfe4fa;
+  --colorNeutralCardBackground: #fafafa;
+  --colorNeutralCardBackgroundHover: #ffffff;
+  --colorNeutralCardBackgroundPressed: #f5f5f5;
+  --colorNeutralCardBackgroundSelected: #ebebeb;
+  --colorNeutralCardBackgroundDisabled: #f0f0f0;
   --colorNeutralStrokeAccessible: #616161;
   --colorNeutralStrokeAccessibleHover: #575757;
   --colorNeutralStrokeAccessiblePressed: #4d4d4d;
@@ -414,6 +421,8 @@
   --colorStatusDangerBorderActive: #c50f1f;
   --colorStatusDangerBorder1: #eeacb2;
   --colorStatusDangerBorder2: #c50f1f;
+  --colorStatusDangerBackground3Hover: #b10e1c;
+  --colorStatusDangerBackground3Pressed: #960b18;
   --shadow2: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
   --shadow4: 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14);
   --shadow8: 0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14);
@@ -3002,6 +3011,9 @@ button {
 }
 .fui-Card .fui-CardBody + .fui-CardBody {
   padding-top: 0;
+}
+.fui-Card .fui-CardBody .fui-CardText {
+  margin-bottom: var(--fui-Card--size);
 }
 .fui-Card:not(.fui-CardGroup .fui-Card) {
   box-shadow: var(--shadow4);
@@ -6329,6 +6341,62 @@ input::file-selector-button {
   font-size: 28px;
 }
 
+.fui-Skeleton {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.fui-Skeleton:not(.fui-Skeleton-pulse) .fui-SkeletonItem {
+  background-color: var(--colorNeutralStencil1);
+}
+.fui-Skeleton .fui-SkeletonItem {
+  position: relative;
+  height: 16px;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.fui-Skeleton-wave .fui-SkeletonItem::after {
+  transform: translate(-100%);
+  background-image: linear-gradient(to right, var(--colorNeutralStencil1) 0%, var(--colorNeutralStencil2) 50%, var(--colorNeutralStencil1) 100%);
+  animation-name: skeleton-wave-anim;
+  animation-timing-function: ease-in-out;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  position: absolute;
+  display: block;
+  content: "";
+  inset: 0px;
+}
+.fui-Skeleton-pulse .fui-SkeletonItem::after {
+  background-color: var(--colorNeutralStencil1);
+  animation-duration: 1s;
+  animation-name: skeleton-pulse-anim;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  position: absolute;
+  display: block;
+  content: "";
+  inset: 0px;
+}
+
+@keyframes skeleton-wave-anim {
+  100% {
+    transform: translate(100%);
+  }
+}
+@keyframes skeleton-pulse-anim {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .fui-Slider {
   --fui-Slider__thumb--color: var(--colorCompoundBrandBackground);
   --fui-Slider__progress--color: var(--colorCompoundBrandBackground);

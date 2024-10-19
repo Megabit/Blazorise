@@ -1161,6 +1161,16 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public string Skeleton() => null;
+
+    public string SkeletonAnimation( SkeletonAnimation animation ) => null;
+
+    public string SkeletonItem() => null;
+
+    #endregion
+
     #region Divider
 
     public string Divider() => null;
@@ -1229,7 +1239,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Flex( FlexDefinition flexDefinition ) => null;
 
-    public string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions ) => null;
+    public string Flex( FlexRule flexRule ) => null;
 
     #endregion
 
@@ -1418,6 +1428,8 @@ class EmptyClassProvider : IClassProvider
     public string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
 
     public string ToObjectFitType( ObjectFitType objectFitType ) => null;
+
+    public string ToSkeletonAnimation( SkeletonAnimation animation ) => null;
 
     #endregion
 

@@ -1307,6 +1307,16 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public override string Skeleton() => null;
+
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"placeholder-{ToSkeletonAnimation( animation )}" : null;
+
+    public override string SkeletonItem() => "placeholder";
+
+    #endregion
+
     #region Divider
 
     public override string Divider() => "divider";
@@ -1443,14 +1453,21 @@ public class BootstrapClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+    public override string Flex( FlexRule flexRule )
     {
         var sb = new StringBuilder();
 
-        if ( flexType != FlexType.Default )
-            sb.Append( $"d-{ToFlexType( flexType )}" ).Append( ' ' );
+        if ( flexRule.FlexType != FlexType.Default )
+        {
+            if ( flexRule.Breakpoint > Breakpoint.Mobile )
+                sb.Append( $"d-{ToBreakpoint( flexRule.Breakpoint )}-{ToFlexType( flexRule.FlexType )}" );
+            else
+                sb.Append( $"d-{ToFlexType( flexRule.FlexType )}" );
 
-        sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+            sb.Append( ' ' );
+        }
+
+        sb.Append( string.Join( ' ', flexRule.Definitions.Where( x => x.Condition ?? true ).Select( x => Flex( x ) ) ) );
 
         return sb.ToString();
     }
@@ -1582,6 +1599,20 @@ public class BootstrapClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region Enums
+
+    public override string ToSkeletonAnimation( SkeletonAnimation animation )
+    {
+        return animation switch
+        {
+            Blazorise.SkeletonAnimation.Wave => "wave",
+            Blazorise.SkeletonAnimation.Pulse => "glow",
+            _ => null
+        };
+    }
 
     #endregion
 

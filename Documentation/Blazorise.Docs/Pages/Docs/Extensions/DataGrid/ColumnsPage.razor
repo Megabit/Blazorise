@@ -11,8 +11,8 @@
 </DocsPageLead>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="DataGridColumn">
-        Default column template for text editor
+    <DocsPageSectionHeader Title="Default Column">
+        Default column template for text values. In this example, we are using the default column template for the <Code>Employee.Email</Code> property.
     </DocsPageSectionHeader>
 
     <DocsPageSectionContent FullWidth>
@@ -23,7 +23,7 @@
 
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="DataGridCheckColumn">
+    <DocsPageSectionHeader Title="Check Column">
         Column template for boolean values
     </DocsPageSectionHeader>
 
@@ -34,7 +34,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="DataGridDateColumn">
+    <DocsPageSectionHeader Title="Date Column">
         Column template for datetime values
     </DocsPageSectionHeader>
 
@@ -45,10 +45,20 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="DataGridNumericColumn">
-        Column template for numeric values
+    <DocsPageSectionHeader Title="Date Column with Native Mode">
+        Column template for datetime values. Set NativeInputMode if you prefer to use the native html input variant of the date input.
     </DocsPageSectionHeader>
 
+    <DocsPageSectionContent FullWidth>
+        <DataGridDateColumnNativeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDateColumnNativeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Numeric Column">
+        Column template for numeric values
+    </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth>
         <DataGridNumericColumnExample />
     </DocsPageSectionContent>
@@ -56,7 +66,18 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="DataGridSelectColumn">
+    <DocsPageSectionHeader Title="Numeric Column with Native Mode">
+        Column template for numeric values. Set NativeInputMode if you prefer to use the native html input variant of the numeric input.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionContent FullWidth>
+        <DataGridNumericColumnNativeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridNumericColumnNativeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Select Column">
         Column template for selectable values
     </DocsPageSectionHeader>
 

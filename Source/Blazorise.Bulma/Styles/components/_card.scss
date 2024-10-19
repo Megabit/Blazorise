@@ -1,5 +1,11 @@
 ﻿.card {
-    overflow: initial
+    overflow: initial;
+
+    .card-content {
+        .card-text {
+            margin-bottom: 1rem;
+        }
+    }
 }
 
 .card-group {

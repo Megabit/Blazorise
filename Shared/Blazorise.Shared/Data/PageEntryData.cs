@@ -71,6 +71,7 @@ public class PageEntryData
                 new PageEntry( "docs/components/rating", "Rating", "Ratings provide insight regarding others opinions and experiences with a product." ),
                 new PageEntry( "docs/components/repeater", "Repeater", "The repeater component is a helper component that repeats the child content for each element in a collection." ),
                 new PageEntry( "docs/components/select", "Select", "Selects allow you to choose one or more items from a dropdown menu." ),
+                new PageEntry( "docs/components/skeleton", "Skeleton", "Skeletons are used to indicate that something is still loading or that the content is not yet available." ),
                 new PageEntry( "docs/components/slider", "Slider", "Sliders allow users to make selections from a range of values." ),
                 new PageEntry( "docs/components/step", "Step", "The Step component displays progress through numbered steps." ),
                 new PageEntry( "docs/components/switch", "Switch", "Switch is used for switching between two opposing states." ),
