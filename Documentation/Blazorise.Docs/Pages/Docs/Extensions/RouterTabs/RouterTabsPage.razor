@@ -1,0 +1,108 @@
+﻿@page "/docs/extensions/routertabs"
+@layout DocsRouterTabsLayout
+@attribute [RouterTabsPageAttribute( Name: "Router Tabs", Closeable: false )]
+
+<Seo Canonical="/docs/extensions/routertabs" Title="Blazorise RouterTabs component" Description="Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation." />
+
+<DocsPageTitle Path="Extensions/RouterTabs">
+    Blazorise RouterTabs component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Automatically create tabs per each page the user navigates to.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        The RouterTabs extension is part of the <Code>Blazorise.Components</Code> NuGet package.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Step 1. Download from NuGet">
+        Install extension from NuGet:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Step 2. Define Usings">
+        In your main <Code>_Imports.razor</Code> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsImportExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Step 3. Registering Services">
+        Incorporate RouterTabs services by adding the following code to the relevant sections of <Strong>Program.cs</Strong>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RouterTabsRegisterServicesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Step 4. Setting the necessary CascadingValue">
+        Cascade the necessary routeData to be captured by the RouterTabs
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RouterTabsAppExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="@("Step 5. Configure the Layout.")">
+        Replace the Layout @@Body RenderFragment with the RouterTabs component. RouterTabs will handle the page content rendering for you when the page that makes use of this layout is navigated to.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RouterTabsLayoutExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="@("Step 6. Configure the pages as tabs")">
+        Use RouterTabsPageAttribute to configure how your pages will behave when rendered as tabs.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RouterTabsPageAttributeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        This page uses a custom layout with the RouterTabs component, try navigating between these pages, tabs will be created for each one of the navigations.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Anchor To="/docs/extensions/routertabs">Router Tabs</Anchor>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Anchor To="/docs/extensions/routertabs2">Router Tabs 2</Anchor>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Anchor To="/docs/extensions/routertabs3">Router Tabs 3</Anchor>
+            </UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    RouterTabsPageAttribute
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Name" Type="string">
+        Sets the name of the router tab.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabClass" Type="string">
+        Sets the css class of the router tab.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabPanelClass" Type="string">
+        Sets the css class of the router tab panel.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closeable" Type="bool" Default="true">
+        Whether the router tab is closeable.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -110,11 +110,11 @@ public class RouterTabsService
             };
 
             AddRouterTab( routerTabsItem );
-            SetRouterTabsItemFromPageAttribute( routerTabsItem, routeData.PageType );
         }
 
         if ( routeData is not null )
         {
+            SetRouterTabsItemFromPageAttribute( routerTabsItem, routeData.PageType );
             routerTabsItem.Body ??= CreateRouterTabsItemBody( routeData );
             routerTabsItem.TypeName = routeData.PageType.FullName;
             if ( string.IsNullOrWhiteSpace( routerTabsItem.Name ) )

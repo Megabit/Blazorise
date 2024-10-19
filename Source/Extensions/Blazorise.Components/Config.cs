@@ -3,7 +3,7 @@ using Blazorise.Components;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
-namespace Blazorise;
+namespace Blazorise.Components;
 
 /// <summary>
 /// Extension methods for building the blazorise options.
