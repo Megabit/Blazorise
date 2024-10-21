@@ -6,7 +6,7 @@ public class ThemeService
 {
     const string DarkTheme = "Dark";
     const string LightTheme = "Light";
-    const string SytemTheme = "System";
+    const string SystemTheme = "System";
 
     public string CurrentTheme = LightTheme;
 
@@ -24,7 +24,7 @@ public class ThemeService
         => SetTheme( LightTheme );
 
     public void SetSystemTheme()
-        => SetTheme( SytemTheme );
+        => SetTheme( SystemTheme );
 
     public void SetTheme( string theme )
     {
