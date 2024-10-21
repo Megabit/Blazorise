@@ -1,4 +1,5 @@
-﻿using Blazored.LocalStorage;
+﻿using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Blazorise.Docs.Services;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
@@ -18,7 +19,7 @@ public partial class Routes
         base.OnInitialized();
     }
 
-    protected override async void OnAfterRender( bool firstRender )
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
         {
@@ -30,7 +31,7 @@ public partial class Routes
             }
         }
 
-        base.OnAfterRender( firstRender );
+        await base.OnAfterRenderAsync( firstRender );
     }
 
     public void Dispose()
