@@ -20,8 +20,8 @@ public class BaseDocsLayout : LayoutComponentBase, IDisposable
         ThemeService.ThemeChanged -= OnThemeChanged;
     }
 
-    async void OnThemeChanged( object sender, string theme )
+    void OnThemeChanged( object sender, string theme )
     {
-        await InvokeAsync( StateHasChanged );
+        InvokeAsync( StateHasChanged );
     }
 }
