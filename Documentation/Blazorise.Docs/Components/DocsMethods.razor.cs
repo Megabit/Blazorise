@@ -51,7 +51,7 @@ public partial class DocsMethods : IDisposable
 
     #region Properties
 
-    private ThemeContrast ThemeContrast => ThemeService.IsDark ? ThemeContrast.Dark : ThemeContrast.Light;
+    private ThemeContrast ThemeContrast => ThemeService.ShouldDark ? ThemeContrast.Dark : ThemeContrast.Light;
 
     [Inject] private ThemeService ThemeService { get; set; }
 

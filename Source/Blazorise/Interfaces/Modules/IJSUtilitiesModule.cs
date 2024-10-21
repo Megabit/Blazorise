@@ -173,4 +173,10 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <param name="args">Optional parameters.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask Log( string message, params string[] args );
+
+    /// <summary>
+    /// Checks if the current theme is in dark mode.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation. The task result contains true if the theme is in dark mode, otherwise false.</returns>
+    ValueTask<bool> IsDarkMode();
 }

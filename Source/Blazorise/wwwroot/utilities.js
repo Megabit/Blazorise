@@ -348,3 +348,7 @@ export function coalesce(value, defaultValue) {
 export function insertCSSIntoDocumentHead(url) {
     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel=\"stylesheet\" href=\"${url}\" />`);
 }
+
+export function isDarkMode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}

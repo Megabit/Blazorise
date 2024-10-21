@@ -1,4 +1,5 @@
 ﻿@using Blazorise.Docs.Services
+@implements IDisposable
 <BarItem>
     <BarLink To="pricing">Pricing</BarLink>
 </BarItem>
@@ -17,14 +18,28 @@
 <BarItem>
     <BarDropdown RightAligned>
         <BarDropdownToggle>
-            <Icon Name="@(ThemeService.IsDark ? IconName.Moon : IconName.Sun)" />
+            @if ( ThemeService.IsDark )
+            {
+                <Icon Name="IconName.Moon" />
+            }
+            else if ( ThemeService.IsSystem )
+            {
+                <Icon Name="IconName.Adjust" />
+            }
+            else
+            {
+                <Icon Name="IconName.Sun" />
+            }
         </BarDropdownToggle>
         <BarDropdownMenu>
             <BarDropdownItem Clicked="@(()=>ThemeService.SetLightTheme())" Flex="Flex.AlignItems.Center">
-                <Icon Name="IconName.Sun" Margin="Margin.Is2.FromEnd" /> Light <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(!ThemeService.IsDark ? Visibility.Visible : Visibility.Invisible)" />
+                <Icon Name="IconName.Sun" Margin="Margin.Is2.FromEnd" /> Light <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsLight ? Visibility.Visible : Visibility.Invisible)" />
             </BarDropdownItem>
             <BarDropdownItem Clicked="@(()=>ThemeService.SetDarkTheme())" Flex="Flex.AlignItems.Center">
                 <Icon Name="IconName.Moon" Margin="Margin.Is2.FromEnd" /> Dark <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsDark ? Visibility.Visible : Visibility.Invisible)" />
+            </BarDropdownItem>
+            <BarDropdownItem Clicked="@(()=>ThemeService.SetSystemTheme())" Flex="Flex.AlignItems.Center">
+                <Icon Name="IconName.Adjust" Margin="Margin.Is2.FromEnd" /> System <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsSystem ? Visibility.Visible : Visibility.Invisible)" />
             </BarDropdownItem>
         </BarDropdownMenu>
     </BarDropdown>
@@ -37,6 +52,11 @@
         ThemeService.ThemeChanged += OnThemeChanged;
 
         base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        ThemeService.ThemeChanged -= OnThemeChanged;
     }
 
     void OnThemeChanged( object sender, string theme )

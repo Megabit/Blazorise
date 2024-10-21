@@ -50,7 +50,7 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
 
     /// <inheritdoc/>
     public virtual ValueTask AddAttributeToBody( string attribute, string value )
-        => InvokeSafeVoidAsync( "addAttributeToBody", attribute,value );
+        => InvokeSafeVoidAsync( "addAttributeToBody", attribute, value );
 
     /// <inheritdoc/>
     public virtual ValueTask RemoveAttributeFromBody( string attribute )
@@ -114,6 +114,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
 
     private ElementReference? ResolveElementReference( ElementReference elementReference )
         => elementReference.Context is null ? null : elementReference;
+
+    /// <inheritdoc/>
+    public ValueTask<bool> IsDarkMode()
+        => InvokeSafeAsync<bool>( "isDarkMode" );
 
     #endregion
 

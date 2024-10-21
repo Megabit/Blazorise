@@ -24,11 +24,9 @@ public partial class Routes
         if ( firstRender )
         {
             var theme = await LocalStorage.GetItemAsync<string>( "theme" );
+            var systemIsDarkMode = await JSUtilitiesModule.IsDarkMode();
 
-            if ( ThemeService.CurrentTheme != theme )
-            {
-                ThemeService.SetTheme( theme );
-            }
+            ThemeService.SetTheme( theme, systemIsDarkMode );
         }
 
         await base.OnAfterRenderAsync( firstRender );
@@ -41,7 +39,7 @@ public partial class Routes
 
     async void OnThemeChanged( object sender, string theme )
     {
-        if ( ThemeService.IsDark )
+        if ( ThemeService.ShouldDark )
         {
             await JSUtilitiesModule.AddAttributeToBody( "data-bs-theme", "dark" );
         }

@@ -108,7 +108,7 @@
 @code{
     [Inject] private ThemeService ThemeService { get; set; }
 
-    private TextColor IconTextColor => ThemeService.IsDark ? TextColor.Light : TextColor.Dark;
+    private TextColor IconTextColor => ThemeService.ShouldDark ? TextColor.Light : TextColor.Dark;
     
     protected override void OnInitialized()
     {
@@ -122,8 +122,8 @@
         ThemeService.ThemeChanged -= OnThemeChanged;
     }
 
-    async void OnThemeChanged( object sender, string theme )
+    void OnThemeChanged( object sender, string theme )
     {
-        // await InvokeAsync(StateHasChanged);
+        InvokeAsync(StateHasChanged);
     }
 }

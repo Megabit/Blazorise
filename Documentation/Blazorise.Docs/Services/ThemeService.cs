@@ -9,28 +9,36 @@ public class ThemeService
     const string SystemTheme = "System";
 
     public string CurrentTheme = LightTheme;
+    public bool SystemIsDarkMode;
 
     public EventHandler<string> ThemeChanged;
 
     public Background BarBackground = Background.Light;
     public ThemeContrast BarThemeContrast = ThemeContrast.Light;
 
+    public bool ShouldDark => IsDark || ( IsSystem && SystemIsDarkMode );
+
     public bool IsDark => CurrentTheme == DarkTheme;
 
+    public bool IsLight => CurrentTheme == LightTheme;
+
+    public bool IsSystem => CurrentTheme == SystemTheme;
+
     public void SetDarkTheme()
-        => SetTheme( DarkTheme );
+        => SetTheme( DarkTheme, SystemIsDarkMode );
 
     public void SetLightTheme()
-        => SetTheme( LightTheme );
+        => SetTheme( LightTheme, SystemIsDarkMode );
 
     public void SetSystemTheme()
-        => SetTheme( SystemTheme );
+        => SetTheme( SystemTheme, SystemIsDarkMode );
 
-    public void SetTheme( string theme )
+    public void SetTheme( string theme, bool systemIsDarkMode )
     {
         CurrentTheme = theme;
+        SystemIsDarkMode = systemIsDarkMode;
 
-        if ( IsDark )
+        if ( ShouldDark )
         {
             BarBackground = Background.Dark;
             BarThemeContrast = ThemeContrast.Dark;

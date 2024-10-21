@@ -11,7 +11,7 @@ public partial class PlanSwitch : IDisposable
 
     private TextColor GetTextSelectedColor( string value ) => SelectedValue == value
         ? TextColor.White
-        : ThemeService.IsDark ? TextColor.Dark : TextColor.Default;
+        : ThemeService.ShouldDark ? TextColor.Dark : TextColor.Default;
 
     private Task OnClicked( string value )
     {
