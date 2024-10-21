@@ -41,7 +41,7 @@ public partial class Routes
 
     async void OnThemeChanged( object sender, string theme )
     {
-        if ( theme == "Dark" )
+        if ( ThemeService.IsDark )
         {
             await JSUtilitiesModule.AddAttributeToBody( "data-bs-theme", "dark" );
         }
