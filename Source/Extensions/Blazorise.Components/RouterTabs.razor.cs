@@ -6,16 +6,14 @@ using Microsoft.AspNetCore.Components.Routing;
 
 namespace Blazorise.Components;
 
+/// <summary>
+/// Component that manages the router tabs.
+/// </summary>
 public partial class RouterTabs : ComponentBase, IDisposable
 {
-    #region Properties
+    #region Members
 
     private bool disposedValue;
-
-    [CascadingParameter] public RouteData RouteData { get; set; }
-
-    [Inject] public NavigationManager NavigationManager { get; set; }
-    [Inject] public RouterTabsService RouterTabsService { get; set; }
 
     #endregion
 
@@ -49,7 +47,7 @@ public partial class RouterTabs : ComponentBase, IDisposable
 
     private void OnStateHasChanged()
     {
-        StateHasChanged();
+        InvokeAsync( StateHasChanged );
     }
 
     protected virtual void Dispose( bool disposing )
@@ -63,7 +61,7 @@ public partial class RouterTabs : ComponentBase, IDisposable
                     RouterTabsService.StateHasChanged -= OnStateHasChanged;
                     RouterTabsService.Clear();
                 }
-                    
+
                 if ( NavigationManager is not null )
                     NavigationManager.LocationChanged -= OnLocationChanged;
             }
@@ -78,6 +76,16 @@ public partial class RouterTabs : ComponentBase, IDisposable
         Dispose( disposing: true );
         GC.SuppressFinalize( this );
     }
+
+    #endregion
+
+    #region Properties
+
+    [Inject] public NavigationManager NavigationManager { get; set; }
+
+    [Inject] public RouterTabsService RouterTabsService { get; set; }
+
+    [CascadingParameter] public RouteData RouteData { get; set; }
 
     #endregion
 }

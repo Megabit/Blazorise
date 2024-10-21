@@ -20,46 +20,26 @@ internal class RouterTabsItem
 
 }
 
+/// <summary>
+/// Service that manages the router tabs.
+/// </summary>
 public class RouterTabsService
 {
-    #region Properties
+    #region Members
 
     internal event Action StateHasChanged;
 
     private string selectedRouterTab;
+
     private List<RouterTabsItem> tabs = new List<RouterTabsItem>();
+
     private readonly NavigationManager navigationManager;
+
     internal IReadOnlyCollection<RouterTabsItem> Tabs => tabs.AsReadOnly();
 
-    internal string SelectedRouterTab
-    {
-        get => selectedRouterTab;
-        set
-        {
-            selectedRouterTab = value;
-            var pageItem = tabs.FirstOrDefault( r => r.Name == value );
-            if ( pageItem != null && ( pageItem.Url != CurrentUrl ) )
-            {
-                CurrentUrl = pageItem.Url;
-            }
-        }
-    }
+    #endregion
 
-    internal string CurrentUrl
-    {
-        get => "/" + navigationManager.ToBaseRelativePath( navigationManager.Uri );
-        set
-        {
-            try
-            {
-                navigationManager.NavigateTo( value.StartsWith( '/' ) ? value[1..] : value );
-            }
-            catch ( NavigationException )
-            {
-
-            }
-        }
-    }
+    #region Constructors
 
     public RouterTabsService( NavigationManager navigationManager )
     {
@@ -84,14 +64,18 @@ public class RouterTabsService
     internal void CloseRouterTab( RouterTabsItem routerTabsItem )
     {
         string nextSelected = null;
+
         if ( selectedRouterTab == routerTabsItem.Name && tabs.Count > 1 )
+        {
             for ( int i = 0; i < tabs.Count; i++ )
             {
                 if ( i > 0 && tabs[i].Name == selectedRouterTab )
                     nextSelected = tabs[i - 1].Name;
+
                 if ( i > 0 && tabs[i - 1].Name == selectedRouterTab )
                     nextSelected = tabs[i].Name;
             }
+        }
 
         tabs.Remove( routerTabsItem );
         SelectedRouterTab = nextSelected;
@@ -142,12 +126,47 @@ public class RouterTabsService
     private void SetRouterTabsItemFromPageAttribute( RouterTabsItem pageItem, Type pageType )
     {
         var routerTabsPageAttr = pageType.GetCustomAttribute<RouterTabsPageAttribute>();
+
         if ( routerTabsPageAttr is not null )
         {
             pageItem.Name = routerTabsPageAttr.Name;
             pageItem.TabClass = routerTabsPageAttr.TabClass;
             pageItem.TabPanelClass = routerTabsPageAttr.TabPanelClass;
             pageItem.Closeable = routerTabsPageAttr.Closeable;
+        }
+    }
+
+    #endregion
+
+    #region Properties
+
+    internal string SelectedRouterTab
+    {
+        get => selectedRouterTab;
+        set
+        {
+            selectedRouterTab = value;
+            var pageItem = tabs.FirstOrDefault( r => r.Name == value );
+            if ( pageItem != null && ( pageItem.Url != CurrentUrl ) )
+            {
+                CurrentUrl = pageItem.Url;
+            }
+        }
+    }
+
+    internal string CurrentUrl
+    {
+        get => "/" + navigationManager.ToBaseRelativePath( navigationManager.Uri );
+        set
+        {
+            try
+            {
+                navigationManager.NavigateTo( value.StartsWith( '/' ) ? value[1..] : value );
+            }
+            catch ( NavigationException )
+            {
+
+            }
         }
     }
 

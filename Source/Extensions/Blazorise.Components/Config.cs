@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using Blazorise.Components;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -18,6 +17,7 @@ public static class Config
     public static IServiceCollection AddBlazoriseRouterTabs( this IServiceCollection serviceCollection )
     {
         serviceCollection.AddTransient<RouterTabsService>();
+
         return serviceCollection;
     }
 }
