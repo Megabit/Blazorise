@@ -3,19 +3,21 @@ import "./vendors/sha512.js?v=1.6.2.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
-    element.classList.add(classname);
+    if (element && element.classList) {
+        element.classList.add(classname);
+    }
 }
 
 // removes a classname from the specified element
 export function removeClass(element, classname) {
-    if (element.classList.contains(classname)) {
+    if (element && element.classList && element.classList.contains(classname)) {
         element.classList.remove(classname);
     }
 }
 
 // toggles a classname on the given element id
 export function toggleClass(element, classname) {
-    if (element) {
+    if (element && element.classList) {
         if (element.classList.contains(classname)) {
             element.classList.remove(classname);
         } else {
@@ -25,11 +27,15 @@ export function toggleClass(element, classname) {
 }
 
 export function addAttribute(element, attribute, value) {
-    element.setAttribute(attribute, value);
+    if (element) {
+        element.setAttribute(attribute, value);
+    }
 }
 
 export function removeAttribute(element, attribute) {
-    element.removeAttribute(attribute);
+    if (element) {
+        element.removeAttribute(attribute);
+    }
 }
 
 // adds a classname to the body element
