@@ -386,7 +386,13 @@
                 <Container Breakpoint="Breakpoint.Widescreen">
                     <Row>
                         <Column ColumnSize="ColumnSize.Is12.Is10.OnDesktop" Class="b-docs-page">
-                            @Body
+                            @if ( isRouterTabsExample )
+                            {
+                                <RouterTabs />
+                            }
+                            else{
+                                @Body
+                            }
                         </Column>
                         <Column ColumnSize="ColumnSize.Is2.OnDesktop">
                             <Toc />
