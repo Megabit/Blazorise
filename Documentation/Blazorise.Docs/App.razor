@@ -1,7 +1,6 @@
 ﻿@using Blazorise.Components
 @using System.Reflection;
 @using Blazorise.Docs.Layouts;
-@using Blazorise.Docs.Services
 
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +66,7 @@
     <script>(function (w, r) { w._rwq = r; w[r] = w[r] || function () { (w[r].q = w[r].q || []).push(arguments) } })(window, 'rewardful');</script>
     <script async src='https://r.wdfl.co/rw.js' data-rewardful='42a4f3'></script>
 </head>
-<body data-bs-theme="@(ThemeService?.CurrentTheme == "Dark" ? "dark" : null)">
+<body>
     <Routes @rendermode="RenderMode.InteractiveServer" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
@@ -120,18 +119,4 @@
 </html>
 @code {
     RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;
-
-    [Inject] private ThemeService ThemeService { get; set; }
-
-    protected override void OnInitialized()
-    {
-        ThemeService.ThemeChanged += OnThemeChanged;
-
-        base.OnInitialized();
-    }
-
-    void OnThemeChanged(object sender, string theme)
-    {
-        InvokeAsync(StateHasChanged);
-    }
 }
