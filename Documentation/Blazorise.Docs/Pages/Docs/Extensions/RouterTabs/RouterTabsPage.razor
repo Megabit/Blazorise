@@ -2,15 +2,19 @@
 @layout DocsRouterTabsLayout
 @attribute [RouterTabsPageAttribute( Name: "Router Tabs", Closeable: false )]
 
-<Seo Canonical="/docs/extensions/routertabs" Title="Blazorise RouterTabs component" Description="Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation." />
+<Seo Canonical="/docs/extensions/routertabs" Title="Blazorise RouterTabs component" Description="Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation page." />
 
-<DocsPageTitle Path="Extensions/RouterTabs">
+<DocsPageTitle Path="Extensions/RouterTabs" AddedVersion="Added in v1.7">
     Blazorise RouterTabs component
 </DocsPageTitle>
 
 <DocsPageLead>
     Automatically create tabs per each page the user navigates to.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    RouterTabs is a Blazorise extension that allows you to render a tab for each navigation page. This extension is useful when you want to create a tabbed interface for your application.
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     Installation
@@ -36,7 +40,6 @@
     <DocsPageSectionSource Code="ComponentsImportExample"></DocsPageSectionSource>
 </DocsPageSection>
 
-
 <DocsPageSection>
     <DocsPageSectionHeader Title="Step 3. Registering Services">
         Incorporate RouterTabs services by adding the following code to the relevant sections of <Strong>Program.cs</Strong>.
@@ -52,14 +55,14 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="@("Step 5. Configure the Layout.")">
+    <DocsPageSectionHeader Title="Step 5. Configure the Layout.">
         Replace the Layout @@Body RenderFragment with the RouterTabs component. RouterTabs will handle the page content rendering for you when the page that makes use of this layout is navigated to.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RouterTabsLayoutExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="@("Step 6. Configure the pages as tabs")">
+    <DocsPageSectionHeader Title="Step 6. Configure the pages as tabs">
         Use RouterTabsPageAttribute to configure how your pages will behave when rendered as tabs.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RouterTabsPageAttributeExample" />

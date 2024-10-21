@@ -10111,6 +10111,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 </Router>";
 
         public const string RouterTabsLayoutExample = @"@inherits LayoutComponentBase
+
 <Div Class=""layout"">
     <RouterTabs />
 </Div>";
@@ -10120,10 +10121,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string RouterTabsRegisterServicesExample = @"using Blazorise.Components;
 
 builder.Services
-	.AddBlazorise( options =>
-	{
-		options.Immediate = true;
-	} )
+	.AddBlazorise()
 	.AddBlazoriseRouterTabs();";
 
         public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
