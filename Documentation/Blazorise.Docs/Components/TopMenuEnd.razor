@@ -17,14 +17,14 @@
 <BarItem>
     <BarDropdown RightAligned>
         <BarDropdownToggle>
-            <Icon Name="@(ThemeService.CurrentTheme == "Dark" ? IconName.Moon : IconName.Sun)" />
+            <Icon Name="@(ThemeService.IsDark ? IconName.Moon : IconName.Sun)" />
         </BarDropdownToggle>
         <BarDropdownMenu>
             <BarDropdownItem Clicked="@(()=>ThemeService.SetTheme("Light"))" Flex="Flex.AlignItems.Center">
-                <Icon Name="IconName.Sun" Margin="Margin.Is2.FromEnd" /> Light <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.CurrentTheme != "Dark" ? Visibility.Visible : Visibility.Invisible)" />
+                <Icon Name="IconName.Sun" Margin="Margin.Is2.FromEnd" /> Light <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsDark ? Visibility.Visible : Visibility.Invisible)" />
             </BarDropdownItem>
             <BarDropdownItem Clicked="@(()=>ThemeService.SetTheme("Dark"))" Flex="Flex.AlignItems.Center">
-                <Icon Name="IconName.Moon" Margin="Margin.Is2.FromEnd" /> Dark <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.CurrentTheme == "Dark" ? Visibility.Visible : Visibility.Invisible)" />
+                <Icon Name="IconName.Moon" Margin="Margin.Is2.FromEnd" /> Dark <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsDark ? Visibility.Visible : Visibility.Invisible)" />
             </BarDropdownItem>
         </BarDropdownMenu>
     </BarDropdown>

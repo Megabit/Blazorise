@@ -108,7 +108,7 @@
 @code{
     [Inject] private ThemeService ThemeService { get; set; }
 
-    private TextColor IconTextColor => ThemeService.CurrentTheme == "Dark" ? TextColor.Light : TextColor.Dark;
+    private TextColor IconTextColor => ThemeService.IsDark ? TextColor.Light : TextColor.Dark;
     
     protected override void OnInitialized()
     {

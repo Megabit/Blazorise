@@ -51,11 +51,7 @@ public partial class DocsAttributes : IDisposable
 
     #region Properties
 
-    private ThemeContrast ThemeContrast => ThemeService.CurrentTheme switch
-    {
-        "Dark" => ThemeContrast.Dark,
-        _ => ThemeContrast.Light,
-    };
+    private ThemeContrast ThemeContrast => ThemeService.IsDark ? ThemeContrast.Dark : ThemeContrast.Light;
 
     [Inject] private ThemeService ThemeService { get; set; }
 
