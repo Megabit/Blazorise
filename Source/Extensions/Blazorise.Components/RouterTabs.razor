@@ -10,7 +10,7 @@
                     @routerTab.Name
                     @if ( routerTab.Closeable )
                     {
-                        <CloseButton AutoClose=false Clicked="@(() => CloseTab(routerTab))" />
+                        <CloseButton AutoClose=false Clicked="@(() => CloseTab(routerTab))" Margin="Margin.Is2.FromStart" />
                     }
                 </Tab>
             }
