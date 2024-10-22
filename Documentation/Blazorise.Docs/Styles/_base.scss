@@ -10,6 +10,7 @@
     text-transform: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    --scrollbar-thumb-background: #bfbfbf;
 }
 
 body {
@@ -63,7 +64,7 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #bfbfbf;
+    background: var(--scrollbar-thumb-background);
     border-radius: 1px;
 }
 
@@ -72,7 +73,7 @@ a {
 }
 
 html, body * {
-    scrollbar-color: #bfbfbf transparent;
+    scrollbar-color: var(--scrollbar-thumb-background) transparent;
     scrollbar-width: thin;
 }
 
