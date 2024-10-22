@@ -77,6 +77,7 @@ public class Startup
         services.AddSingleton<IEmailOptions>( serviceProvider => emailOptions );
 
         services.AddSingleton<EmailSender>();
+        services.AddScoped<ThemeService>();
 
         services.AddResponseCompression( options =>
         {

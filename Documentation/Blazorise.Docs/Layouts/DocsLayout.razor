@@ -1,9 +1,10 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazorise.Docs.Services
+@inherits BaseDocsLayout
 
 <Layout Sider Class="b-docs">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default"
+            <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="@ThemeService.BarThemeContrast" Shadow="Shadow.Default"
                  Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Hide" MenuToggleBehavior="BarMenuToggleBehavior.AllowSingleMenu">
                 <BarBrand>
                     <BarItem>
@@ -363,7 +364,7 @@
     <Layout>
         <LayoutHeader ElementId="b-docs-layout-header">
             <Bar Class="b-top-bar" @ref="@topBar" @bind-Visible="@topBarVisible"
-                 Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
+                 Breakpoint="Breakpoint.Desktop" Background="@ThemeService.BarBackground" ThemeContrast="@ThemeService.BarThemeContrast">
                 <BarToggler Bar="@sideBar" Border="Border.Is0" />
                 <BarMenu>
                     <BarStart>
@@ -404,5 +405,5 @@
     </Layout>
 </Layout>
 @code {
-    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;
+    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;    
 }

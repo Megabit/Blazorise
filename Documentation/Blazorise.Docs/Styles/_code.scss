@@ -1,6 +1,6 @@
 ﻿.blazorise-codeblock {
     height: 100%;
-    background-color: #f5f8fd;
+    background-color: var(--b-codeblock-background-color);
     border-radius: 0 0 4px 4px;
     padding: 16px;
     font-size: .9rem;
@@ -8,7 +8,7 @@
 
     & pre {
         height: 100%;
-        color: #3f4d62;
+        color: var(--b-codeblock-color);
         padding: 0px;
         font-size: 1em;
         font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -55,7 +55,7 @@
         }
 
         & .enumValue, .sharpVariable {
-            color: #6823d4;
+            color: var(--b-codeblock-enum-value-color);
             background-color: rgba(255,255,255,0.15);
         }
 
@@ -129,7 +129,7 @@
 }
 
 code {
-    color: #5748ff;
-    background-color: #f5f8fd;
+    color: var(--b-code-color);
     padding: 0.25em 0.375em;
+    background-color: var(--b-code-background-color);
 }
