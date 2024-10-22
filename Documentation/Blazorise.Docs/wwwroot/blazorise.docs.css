@@ -79,6 +79,7 @@ body {
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --scrollbar-thumb-background: #bfbfbf;
 }
 body:not([data-bs-theme=dark]) {
   color: #3f4d62;
@@ -127,7 +128,7 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #bfbfbf;
+  background: var(--scrollbar-thumb-background);
   border-radius: 1px;
 }
 
@@ -136,7 +137,7 @@ a {
 }
 
 html, body * {
-  scrollbar-color: #bfbfbf transparent;
+  scrollbar-color: var(--scrollbar-thumb-background) transparent;
   scrollbar-width: thin;
 }
 
@@ -541,6 +542,14 @@ html, body * {
 }
 .b-docs-page a:not(.dropdown-item):not(.page-link):not(.b-bar-link):not(.nav-link):not(.b-bar-toggler-inline):not(.navbar-toggler):not([role=button]):hover {
   color: var(--b-theme-primary);
+}
+
+.b-is-autocomplete::-webkit-scrollbar-track {
+  background: var(--bs-body-bg);
+}
+
+.b-is-autocomplete * {
+  scrollbar-color: var(--scrollbar-thumb-background) var(--bs-body-bg);
 }
 
 .blazorise-codeblock {
