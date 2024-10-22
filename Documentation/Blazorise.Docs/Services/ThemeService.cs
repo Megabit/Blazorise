@@ -9,7 +9,7 @@ public class ThemeService
     const string SystemTheme = "System";
 
     public string CurrentTheme = LightTheme;
-    public bool SystemIsDarkMode;
+    public bool SystemIsDarkMode { get; private set; }
 
     public EventHandler<string> ThemeChanged;
 
