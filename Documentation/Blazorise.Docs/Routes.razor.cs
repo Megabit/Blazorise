@@ -24,7 +24,7 @@ public partial class Routes
         if ( firstRender )
         {
             var theme = await LocalStorage.GetItemAsync<string>( "theme" );
-            var systemIsDarkMode = await JSUtilitiesModule.IsDarkMode();
+            var systemIsDarkMode = await JSUtilitiesModule.IsSystemDarkMode();
 
             ThemeService.SetTheme( theme, systemIsDarkMode );
         }

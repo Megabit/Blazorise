@@ -175,8 +175,8 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask Log( string message, params string[] args );
 
     /// <summary>
-    /// Checks if the current theme is in dark mode.
+    /// Checks if the current system theme is in dark mode.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains true if the theme is in dark mode, otherwise false.</returns>
-    ValueTask<bool> IsDarkMode();
+    ValueTask<bool> IsSystemDarkMode();
 }

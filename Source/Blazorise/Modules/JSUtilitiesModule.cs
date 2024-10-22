@@ -116,8 +116,8 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => elementReference.Context is null ? null : elementReference;
 
     /// <inheritdoc/>
-    public ValueTask<bool> IsDarkMode()
-        => InvokeSafeAsync<bool>( "isDarkMode" );
+    public ValueTask<bool> IsSystemDarkMode()
+        => InvokeSafeAsync<bool>( "isSystemDarkMode" );
 
     #endregion
 
