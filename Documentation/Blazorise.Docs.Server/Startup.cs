@@ -4,6 +4,7 @@ using System.Linq;
 using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Captcha.ReCaptcha;
+using Blazorise.Components;
 using Blazorise.Docs.Core;
 using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
@@ -58,7 +59,8 @@ public class Startup
                 options.UseTables = true;
             } )
             .AddBlazoriseFluentValidation()
-            .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] );
+            .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
+            .AddBlazoriseRouterTabs();
 
         services.Configure<AppSettings>( options => Configuration.Bind( options ) );
         services.AddHttpClient();
@@ -75,6 +77,7 @@ public class Startup
         services.AddSingleton<IEmailOptions>( serviceProvider => emailOptions );
 
         services.AddSingleton<EmailSender>();
+        services.AddScoped<ThemeService>();
 
         services.AddResponseCompression( options =>
         {

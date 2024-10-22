@@ -22,6 +22,7 @@
                 </Buttons>
                 <Button Color="Color.Primary" Clicked="@OnChangeVideoUrl">Change Video</Button>
                 <Button Color="Color.Primary" Clicked="@OnChangeCurrentTime">Go to 20 seconds</Button>
+                <Button Color="Color.Primary" Clicked="@OnChangeSpeed2">Speed 2x</Button>
             </CardBody>
             <CardBody>
                 <Video @ref="@videoRef" Source="@videoSource" Thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt" CurrentTime="@currentTime" DefaultQuality="@defaultQuality" />
@@ -74,5 +75,10 @@
         currentTime = 20;
 
         return Task.CompletedTask;
+    }
+
+    Task OnChangeSpeed2()
+    {
+        return videoRef.SetPlaybackRate( 2 );
     }
 }

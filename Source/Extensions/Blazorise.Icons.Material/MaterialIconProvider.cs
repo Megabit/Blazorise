@@ -205,6 +205,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.MinusCircle, MaterialIcons.RemoveCircle },
         { IconName.MinusSquare, MaterialIcons.IndeterminateCheckBox },
         { IconName.MoneyBillAlt, MaterialIcons.LocalAtm },
+        { IconName.Moon, MaterialIcons.Nightlife },
         { IconName.MoreHorizontal, MaterialIcons.MoreHoriz },
         { IconName.MoreVertical, MaterialIcons.MoreVert },
         { IconName.Motorcycle, MaterialIcons.Motorcycle },

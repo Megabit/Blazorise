@@ -17,8 +17,8 @@
 		<PackageReference Include="Markdig" Version="0.30.4" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.*" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.*" />
-		<PackageReference Include="FluentValidation" Version="11.2.0" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.0" />
+		<PackageReference Include="FluentValidation" Version="11.10.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
 		<PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
 	</ItemGroup>

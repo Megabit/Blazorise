@@ -1,0 +1,20 @@
+﻿@layout RouterTabsLayout
+@page "/tests/routertabs"
+@attribute [RouterTabsPageAttribute( Name: "Router Tabs", Closeable: false )]
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Paragraph>
+            This example uses a custom layout that replaces the body render with the RouterTabs component.
+            Each navigation using this custom layout will render a new tab with the content of the page.
+        </Paragraph>
+        <Paragraph>
+            Use the navigation links below to see the RouterTabs in action.
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Anchor To="/tests/routertabs">Router Tabs Page 1</Anchor></UnorderedListItem>
+            <UnorderedListItem><Anchor To="/tests/routertabs2">Router Tabs Page 2</Anchor></UnorderedListItem>
+            <UnorderedListItem><Anchor To="/tests/routertabs3">Router Tabs Page 3</Anchor></UnorderedListItem>
+        </UnorderedList>
+    </Column>
+</Row>

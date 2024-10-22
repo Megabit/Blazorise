@@ -10099,6 +10099,31 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     options.UseTables = true;
 } )";
 
+        public const string RouterTabsAppExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found Context=""routeData"">
+        <CascadingValue Value=""routeData"">
+            <RouteView RouteData=""routeData"" DefaultLayout=""typeof(MainLayout)"" />
+        </CascadingValue>
+    </Found>
+    <NotFound>
+        <p>Sorry, there's nothing at this address.</p>
+    </NotFound>
+</Router>";
+
+        public const string RouterTabsLayoutExample = @"@inherits LayoutComponentBase
+
+<Div Class=""layout"">
+    <RouterTabs />
+</Div>";
+
+        public const string RouterTabsPageAttributeExample = @"@attribute [RouterTabsPageAttribute( Name: ""Example"", Closeable: true )]";
+
+        public const string RouterTabsRegisterServicesExample = @"using Blazorise.Components;
+
+builder.Services
+	.AddBlazorise()
+	.AddBlazoriseRouterTabs();";
+
         public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""
             Data=""@IndexedCountries""
