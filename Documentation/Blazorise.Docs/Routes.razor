@@ -1,7 +1,9 @@
 ﻿<Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <CascadingValue Value="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            </CascadingValue>
             @* <FocusOnNavigate RouteData="@routeData" Selector="h1" /> *@
         </Found>
         <NotFound>

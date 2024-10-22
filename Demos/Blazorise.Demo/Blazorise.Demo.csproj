@@ -32,6 +32,12 @@
     <ProjectReference Include="..\Apps\TodoApp\TodoApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Tests\RouterTabsPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
   <PropertyGroup>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

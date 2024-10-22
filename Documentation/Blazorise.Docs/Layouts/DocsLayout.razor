@@ -259,6 +259,9 @@
                                         <DocsNewFeatureBadge>PdfViewer</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/routertabs" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>RouterTabs</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/signaturepad">SignaturePad</BarDropdownItem>
@@ -384,7 +387,13 @@
                 <Container Breakpoint="Breakpoint.Widescreen">
                     <Row>
                         <Column ColumnSize="ColumnSize.Is12.Is10.OnDesktop" Class="b-docs-page">
-                            @Body
+                            @if ( isRouterTabsExample )
+                            {
+                                <RouterTabs />
+                            }
+                            else{
+                                @Body
+                            }
                         </Column>
                         <Column ColumnSize="ColumnSize.Is2.OnDesktop">
                             <Toc />

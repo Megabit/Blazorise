@@ -41,6 +41,8 @@ public partial class DocsLayout : IDisposable
 
     public string selectedSearchText { get; set; }
 
+    private bool isRouterTabsExample;
+
     #endregion
 
     #region Methods
@@ -56,6 +58,12 @@ public partial class DocsLayout : IDisposable
 
     private async void OnLocationChanged( object sender, LocationChangedEventArgs e )
     {
+        var isRouterTabsPage = e.Location.Contains( "routertabs" );
+        if (isRouterTabsExample != isRouterTabsPage )
+        {
+            isRouterTabsExample = isRouterTabsPage;
+            StateHasChanged();
+        } 
         await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToTop" );
     }
 

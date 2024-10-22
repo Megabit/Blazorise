@@ -5,7 +5,9 @@
 <Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="typeof(App).Assembly">
         <Found Context="routeData">
-            <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
+            <CascadingValue Value="routeData">
+                <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
+            </CascadingValue>
         </Found>
         <NotFound>
             <p>Sorry, there's nothing at this address.</p>

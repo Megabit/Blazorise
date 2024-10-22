@@ -1,0 +1,16 @@
+﻿@layout RouterTabsLayout
+@page "/tests/routertabs2"
+@attribute [RouterTabsPageAttribute( Name: "Router Tabs 2", Closeable: true )]
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Paragraph>
+            The Router tabs example page 2
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Anchor To="/tests/routertabs">Router Tabs Page 1</Anchor></UnorderedListItem>
+            <UnorderedListItem><Anchor To="/tests/routertabs2">Router Tabs Page 2</Anchor></UnorderedListItem>
+            <UnorderedListItem><Anchor To="/tests/routertabs3">Router Tabs Page 3</Anchor></UnorderedListItem>
+        </UnorderedList>
+    </Column>
+</Row>
