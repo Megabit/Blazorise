@@ -1,15 +1,29 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Docs.Services;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Docs.Components;
 
-public partial class DocsMethods
+public partial class DocsMethods : IDisposable
 {
     #region Methods
+
+    protected override void OnInitialized()
+    {
+        ThemeService.ThemeChanged += OnThemeChanged;
+
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        ThemeService.ThemeChanged -= OnThemeChanged;
+    }
 
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
@@ -28,9 +42,18 @@ public partial class DocsMethods
     internal bool RemoveItem( DocsMethodsItem item )
         => DocsMethodsItems.Remove( item );
 
+    void OnThemeChanged( object sender, string theme )
+    {
+        InvokeAsync( StateHasChanged );
+    }
+
     #endregion
 
     #region Properties
+
+    private ThemeContrast ThemeContrast => ThemeService.ShouldDark ? ThemeContrast.Dark : ThemeContrast.Light;
+
+    [Inject] private ThemeService ThemeService { get; set; }
 
     [Parameter] public string Title { get; set; }
 
