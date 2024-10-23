@@ -40,6 +40,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         src: options.source,
         poster: options.poster,
         hideControlsOnMouseLeave: options.automaticallyHideControls,
+        controlsDelay: options.automaticallyHideControls ? 2000 : 2147483647,
         volume: firstNonNull(options.volume, 1),
         currentTime: firstNonNull(options.currentTime, 0),
         muted: firstNonNull(options.muted, false),
