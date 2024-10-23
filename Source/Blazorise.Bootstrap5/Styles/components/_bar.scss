@@ -1,4 +1,4 @@
-﻿.navbar-nav .nav-item:hover {
+﻿.navbar-nav .nav-item:hover *:not(:has(.disabled)):not(.disabled) {
     cursor: pointer;
 }
 
