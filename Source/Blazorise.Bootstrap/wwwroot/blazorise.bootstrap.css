@@ -16,11 +16,7 @@
   background-color: rgba(10, 10, 10, 0.4);
 }
 
-.navbar-nav .nav-item:hover {
-  cursor: pointer;
-}
-
-.navbar-nav .nav-item:hover:not(.disabled) button:not(:disabled) {
+.navbar-nav .nav-item:hover *:not(:has(.disabled)):not(.disabled) {
   cursor: pointer;
 }
 
