@@ -82,7 +82,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         }
     });
 
-    registerToEvents(dotNetAdapter, instance.player);
+    registerToEvents(dotNetAdapter, instance.player, options);
 
     _instances[elementId] = instance;
 }
@@ -464,7 +464,7 @@ function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
         });
 }
 
-function registerToEvents(dotNetAdapter, player) {
+function registerToEvents(dotNetAdapter, player, options) {
     player.addEventListener('progress', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", event.detail.timeStamp || 0);
     });
@@ -503,6 +503,11 @@ function registerToEvents(dotNetAdapter, player) {
 
     player.addEventListener('ended', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnded");
+
+        if (options.resetOnEnd && player) {
+            player.currentTime = 0;
+            player.play();
+        }
     });
 
     player.addEventListener('enter-fullscreen', (event) => {
