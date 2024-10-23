@@ -73,6 +73,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new VideoJSOptions
             {
                 Controls = Controls,
+                ControlsDelay = ControlsDelay,
                 ControlsList = ControlsList,
                 SettingsList = SettingsList,
                 AutomaticallyHideControls = AutomaticallyHideControls,
@@ -575,6 +576,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// Gets or sets the controls visibility of the player.
     /// </summary>
     [Parameter] public bool Controls { get; set; } = true;
+
+    /// <summary>
+    /// The default amount of delay in milliseconds while media playback is progressing without user activity to indicate an idle state and hide controls.
+    /// </summary>
+    [Parameter] public double ControlsDelay { get; set; } = 2000;
 
     /// <summary>
     /// Hide video controls automatically after 2s of no mouse or focus movement, on control element blur (tab out), on playback
