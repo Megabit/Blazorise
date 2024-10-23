@@ -259,3 +259,11 @@
         }
     }
 }
+
+.b-is-autocomplete::-webkit-scrollbar-track {
+    background: var(--bs-body-bg);
+}
+
+.b-is-autocomplete * {
+    scrollbar-color: var( --b-scrollbar-thumb-background) var(--bs-body-bg);
+}
