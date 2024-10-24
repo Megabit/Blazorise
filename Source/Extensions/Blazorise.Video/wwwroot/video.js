@@ -1,6 +1,6 @@
 import { VidstackPlayer, PlyrLayout } from "./vendors/player.js?v=1.6.2.0";
 
-import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.6.2.0";
+import { getRequiredElement, isString, firstNonNull } from "../Blazorise/utilities.js?v=1.6.2.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/player.css\" />");
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/plyr.css\" />");
@@ -27,11 +27,12 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
 
     const layout = new PlyrLayout({
         thumbnails: options.thumbnails,
-        clickToPlay: options.clickToPlay || true,
-        seekTime: options.seekTime || 10,
-        invertTime: options.invertTime || true,
+        clickToPlay: firstNonNull(options.clickToPlay, true),
+        seekTime: firstNonNull(options.seekTime, 10),
+        invertTime: firstNonNull(options.invertTime, true),
         controls: options.controlsList,
         clickToFullscreen: options.doubleClickToFullscreen,
+        resetOnEnd: options.resetOnEnd,
     });
 
     const player = await VidstackPlayer.create({
@@ -39,12 +40,13 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         src: options.source,
         poster: options.poster,
         hideControlsOnMouseLeave: options.automaticallyHideControls,
-        volume: options.volume || 1,
-        currentTime: options.currentTime || 0,
-        muted: options.muted || false,
+        controlsDelay: options.controlsDelay,
+        volume: firstNonNull(options.volume, 1),
+        currentTime: firstNonNull(options.currentTime, 0),
+        muted: firstNonNull(options.muted, false),
         aspectRatio: options.aspectRatio,
         controls: false, // setting this to false because we are using custom controls
-        quality: options.defaultQuality || 576,
+        quality: firstNonNull(options.defaultQuality, 576),
         layout: layout,
     });
 
@@ -81,7 +83,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         }
     });
 
-    registerToEvents(dotNetAdapter, instance.player);
+    registerToEvents(dotNetAdapter, instance.player, options);
 
     _instances[elementId] = instance;
 }
@@ -463,7 +465,7 @@ function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
         });
 }
 
-function registerToEvents(dotNetAdapter, player) {
+function registerToEvents(dotNetAdapter, player, options) {
     player.addEventListener('progress', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", event.detail.timeStamp || 0);
     });
@@ -502,6 +504,11 @@ function registerToEvents(dotNetAdapter, player) {
 
     player.addEventListener('ended', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnded");
+
+        if (options.resetOnEnd && player) {
+            player.currentTime = 0;
+            player.play();
+        }
     });
 
     player.addEventListener('enter-fullscreen', (event) => {

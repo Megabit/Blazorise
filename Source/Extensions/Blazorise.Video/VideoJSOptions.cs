@@ -7,6 +7,9 @@ internal class VideoJSOptions
     [JsonPropertyName( "controls" )]
     public bool Controls { get; set; }
 
+    [JsonPropertyName( "controlsDelay" )]
+    public double ControlsDelay { get; set; }
+
     [JsonPropertyName( "controlsList" )]
     public string[] ControlsList { get; set; }
 
