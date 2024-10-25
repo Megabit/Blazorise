@@ -16,13 +16,6 @@
   background-color: rgba(10, 10, 10, 0.4);
 }
 
-.navbar-nav .nav-link:hover {
-  cursor: pointer;
-}
-.navbar-nav .nav-link:hover *:not(:has(.disabled)):not(.disabled) {
-  cursor: pointer;
-}
-
 .nav .nav-link:hover {
   cursor: pointer;
 }
