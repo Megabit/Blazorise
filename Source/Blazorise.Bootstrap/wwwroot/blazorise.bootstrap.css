@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.navbar-nav .nav-link:hover {
+  cursor: pointer;
+}
+
 .nav-item {
   position: relative;
 }
