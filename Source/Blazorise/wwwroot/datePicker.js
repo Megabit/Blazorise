@@ -308,7 +308,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.enabledDates.changed) {
-            if (options.enabledDates.value === null) {
+            if (options.enabledDates.value == null) {
                 picker.set("_enable", undefined);
             } else {
                 picker.set("enable", options.enabledDates.value);
