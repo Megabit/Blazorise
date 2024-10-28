@@ -71,7 +71,6 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, formatedDateString ) );
                 }
             }
-            Console.WriteLine( $"Params called enbaled date changesd {enabledDatesChanged}" );
 
             if ( minChanged
                  || maxChanged
@@ -637,12 +636,10 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// </summary>
     [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
 
-    #nullable enable
     /// <summary>
     /// List of enabled dates - user can pick only these.
     /// </summary>
-    [Parameter] public IEnumerable<TValue>? EnabledDates { get; set; }
-    #nullable disable
+    [Parameter] public IEnumerable<TValue> EnabledDates { get; set; }
     /// <summary>
     /// List of disabled days in a week that the user should not be able to pick.
     /// </summary>
