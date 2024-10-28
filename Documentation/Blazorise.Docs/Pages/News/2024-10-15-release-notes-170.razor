@@ -111,6 +111,12 @@
                     </UnorderedListItem>
                 </UnorderedList>
             </Paragraph>
+            
+        </OrderedListItem>
+        <OrderedListItem>
+             <Paragraph>
+                    <Code Tag>BarItem</Code> no longer has the <Code>cursor: pointer</Code> default behavior.
+          </Paragraph>
         </OrderedListItem>
     </OrderedList>
 </Paragraph>
@@ -364,6 +370,18 @@
     We are excited to introduce the new RouterTabs component.
     After properly setting it up, this component automatically creates tabs per each page the user navigates to.  
     Find out more in the oficial docs: <Anchor To="docs/extensions/routertabs" Title="RouterTabs Docs">RouterTabs Docs</Anchor>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    <Code Tag>BarItem</Code> no longer has the <Code>cursor: pointer</Code> default behavior.
+</Heading>
+
+<Paragraph>
+    Previously, hovering over the <Code Tag>BarItem</Code> displayed a pointer cursor by default.
+    However, this behavior led to issues with disabled buttons, where a standard cursor is more appropriate and better aligns with UX principles.
+
+    Buttons and links inside the <Code Tag>BarItem</Code> will still show the pointer cursor as before.
+    If you have a <Code Tag>div</Code> inside a <Code Tag>BarItem</Code>, the default cursor behavior has been updated to reflect these UX improvements.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />
