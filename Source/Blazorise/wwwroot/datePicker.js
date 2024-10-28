@@ -43,6 +43,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     mutationObserver.observe(document.getElementById(elementId), { attributes: true });
 
     const disableDatesOptions = options.disabledDates || [];
+    const enableDatesOptions = options.enabledDates || [];
+
     const disableDaysOptions = options.disabledDays ? [function (date) {
         return options.disabledDays && options.disabledDays.length > 0 && options.disabledDays.includes(date.getDay());
     }] : [];
@@ -78,8 +80,12 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                     input.id = id;
                 }
             }
-        }
+        },
+        
     };
+
+    if (options.enabledDates)
+        defaultOptions.enable = options.enabledDates;
 
     if (options.selectionMode)
         defaultOptions.mode = options.selectionMode;
@@ -299,6 +305,14 @@ export function updateOptions(element, elementId, options) {
             }] : [];
 
             picker.set("disable", disableDatesOptions.concat(disableDaysOptions));
+        }
+
+        if (options.enabledDates.changed) {
+            if (options.enabledDates.value === null) {
+                picker.set("_enable", undefined);
+            } else {
+                picker.set("enable", options.enabledDates.value);
+            }
         }
 
         if (options.selectionMode.changed) {
