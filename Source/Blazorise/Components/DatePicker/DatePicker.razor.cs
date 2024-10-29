@@ -637,7 +637,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
 
     /// <summary>
-    /// List of enabled dates - user can pick only these.
+    /// List of enabled dates that the user should be able to pick.
     /// </summary>
     [Parameter] public IEnumerable<TValue> EnabledDates { get; set; }
     /// <summary>
