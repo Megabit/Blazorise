@@ -309,7 +309,7 @@ export function updateOptions(element, elementId, options) {
 
         if (options.enabledDates.changed) {
             if (options.enabledDates.value == null) {
-                picker.set("_enable", undefined);
+                picker.set("enable", [() => true]);
             } else {
                 picker.set("enable", options.enabledDates.value);
             }
