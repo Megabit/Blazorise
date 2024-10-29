@@ -34,7 +34,6 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             var selectionOptionsChanged = parameters.TryGetValue<CropperSelectionOptions>( nameof( SelectionOptions ), out var paramSelectionOptions ) && paramSelectionOptions != SelectionOptions;
             var gridOptionsChanged = parameters.TryGetValue<CropperGridOptions>( nameof( GridOptions ), out var paramGridOptions ) && paramGridOptions != GridOptions;
             var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
-
             if ( sourceChanged
                 || altChanged
                 || crossoriginChanged
@@ -43,16 +42,20 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 || gridOptionsChanged
                 || enabledChanged )
             {
+                Console.WriteLine( $"Source changed {sourceChanged}. JsModel is null {JSModule ==null}. ElementRef {ElementRef}, ElemeId {ElementId==null} " );
+
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
-                    Source = new { Changed = sourceChanged, Value = paramSource },
+                    
+
+                Source = new { Changed = sourceChanged, Value = paramSource },
                     Alt = new { Changed = altChanged, Value = paramAlt },
                     CrossOrigin = new { Changed = crossoriginChanged, Value = paramCrossOrigin },
                     Image = new
                     {
                         Changed = imageOptionsChanged,
                         Value = new
-                        {
+                        {   
                             Rotatable = paramImageOptions?.Rotatable ?? true,
                             Scalable = paramImageOptions?.Scalable ?? true,
                             Skewable = paramImageOptions?.Skewable ?? true,
@@ -66,7 +69,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                         {
                             AspectRatio = paramSelectionOptions?.AspectRatio.Value,
                             InitialAspectRatio = paramSelectionOptions?.InitialAspectRatio.Value,
-                            InitialCoverage = paramSelectionOptions.InitialCoverage,
+                            InitialCoverage = paramSelectionOptions?.InitialCoverage.Value,
                             Movable = paramSelectionOptions?.Movable ?? false,
                             Resizable = paramSelectionOptions?.Resizable ?? false,
                             Zoomable = paramSelectionOptions?.Zoomable ?? false,
