@@ -1893,7 +1893,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
 @code {
 
-    DateTime?[]? enabledDates = new DateTime?[]{
+    DateTime?[] enabledDates = new DateTime?[]{
         DateTime.Now.AddDays(-1),
         DateTime.Now.AddDays(2),
     };
