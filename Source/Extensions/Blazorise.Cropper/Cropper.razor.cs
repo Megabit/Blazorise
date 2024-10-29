@@ -42,20 +42,16 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 || gridOptionsChanged
                 || enabledChanged )
             {
-                Console.WriteLine( $"Source changed {sourceChanged}. JsModel is null {JSModule ==null}. ElementRef {ElementRef}, ElemeId {ElementId==null} " );
-
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
-                    
-
-                Source = new { Changed = sourceChanged, Value = paramSource },
+                    Source = new { Changed = sourceChanged, Value = paramSource },
                     Alt = new { Changed = altChanged, Value = paramAlt },
                     CrossOrigin = new { Changed = crossoriginChanged, Value = paramCrossOrigin },
                     Image = new
                     {
                         Changed = imageOptionsChanged,
                         Value = new
-                        {   
+                        {
                             Rotatable = paramImageOptions?.Rotatable ?? true,
                             Scalable = paramImageOptions?.Scalable ?? true,
                             Skewable = paramImageOptions?.Skewable ?? true,
