@@ -67,12 +67,82 @@
 </DocsAttributes>
 
 <Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
+
+<DocsMethods>
+    <DocsMethodsItem Name="Play" ReturnType="Task">
+        Starts playback.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Pause" ReturnType="Task">
+        Pauses playback.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="TogglePlay" ReturnType="Task">
+        Toggles playback based on current status if no parameters are passed.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Stop" ReturnType="Task">
+        Stops playback and resets to the start.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Restart" ReturnType="Task">
+        Restarts playback.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Rewind" ReturnType="Task" Parameters="double seekTime">
+        Rewinds playback by the specified seek time.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Forward" ReturnType="Task" Parameters="double seekTime">
+        Fast forwards playback by the specified seek time.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IncreaseVolume" ReturnType="Task" Parameters="double step">
+        Increases volume by the specified step.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="DecreaseVolume" ReturnType="Task" Parameters="double step">
+        Decreases volume by the specified step.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleCaptions" ReturnType="Task">
+        Toggles captions display.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="EnterFullscreen" ReturnType="Task">
+        Enters fullscreen or falls back to full window/viewport if not supported.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ExitFullscreen" ReturnType="Task">
+        Exits fullscreen.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleFullscreen" ReturnType="Task">
+        Toggles fullscreen mode.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Airplay" ReturnType="Task">
+        Triggers the AirPlay dialog on supported devices.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleControls" ReturnType="Task">
+        Toggles the video controls, with optional parameter to force on/off.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ShowTextTrack" ReturnType="Task" Parameters="int textTrackId">
+        Shows a text track by its index from the list of tracks.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="HideTextTrack" ReturnType="Task" Parameters="int textTrackId">
+        Hides a text track by its index from the list of tracks.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="AddTextTrack" ReturnType="Task" Parameters="VideoTrack track">
+        Adds a new text track to the list of tracks.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ClearTextTracks" ReturnType="Task">
+        Clears all text tracks from the list.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="SetPlaybackRate" ReturnType="Task" Parameters="double playbackRate">
+        Changes the media playback rate. A value of 1.0 represents normal speed, 0.5 is half speed, and 2.0 is double speed.
+    </DocsMethodsItem>
+</DocsMethods>
+
+<Heading Size="HeadingSize.Is3">
     Attributes
 </Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Controls" Type="bool" Default="true">
         Gets or sets the controls visibility of the player.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ControlsDelay" Type="double" Default="2000">
+        The default amount of delay in milliseconds while media playback is progressing without user activity to indicate an idle state and hide controls.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ControlsList" Type="string[]" Default="null">
         Gets or sets the list of controls that are rendered by the player. Possible list of values are contained in <Code>VideoControlsType</Code>.
@@ -145,5 +215,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SettingsList" Type="VideoSettingsType[]" Default="Captions, Quality, Speed, Loop">
         If the default controls are used, you can specify which settings to show in the menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DoubleClickToFullscreen" Type="bool" Default="true">
+        If defined the player will go fullscreen when the video is double-clicked.
     </DocsAttributesItem>
 </DocsAttributes>

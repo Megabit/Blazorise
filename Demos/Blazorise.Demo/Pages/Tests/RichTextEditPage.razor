@@ -79,6 +79,7 @@
                             <RichTextEditToolbarGroup>
                                 <RichTextEditToolbarButton Action="RichTextEditAction.Link" />
                                 <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Table" />
                             </RichTextEditToolbarGroup>
                             <RichTextEditToolbarGroup Float="Float.End">
                                 <Button Class="btn-icon" Size="Size.ExtraSmall" onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
@@ -98,7 +99,7 @@
                 <CardTitle>Html Content Preview</CardTitle>
             </CardHeader>
             <CardBody>
-                @((MarkupString) contentAsHtml)
+                @((MarkupString)contentAsHtml)
             </CardBody>
         </Card>
     </Column>
@@ -130,7 +131,7 @@
                 <CardTitle>Bubble theme</CardTitle>
             </CardHeader>
             <CardBody>
-                <Alert Visible>
+                <Alert Color="Color.Info" Visible>
                     <AlertMessage>Note:</AlertMessage>
                     <AlertDescription>Start typing and change format by key bindings or by selecting the text</AlertDescription>
                 </Alert>
@@ -164,7 +165,7 @@
             <CloseButton />
         </ModalHeader>
         <ModalBody>
-            @((MarkupString) savedContent)
+            @((MarkupString)savedContent)
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Primary" Clicked="(() => modalRef.Hide())">Ok</Button>

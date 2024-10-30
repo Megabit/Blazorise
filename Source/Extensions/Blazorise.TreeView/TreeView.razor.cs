@@ -37,6 +37,11 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         bool nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
         bool selectedNodeChanged = parameters.TryGetValue<TNode>( nameof( SelectedNode ), out var paramSelectedNode ) && !paramSelectedNode.IsEqual( treeViewState.SelectedNode );
         bool selectedNodesChanged = parameters.TryGetValue<IList<TNode>>( nameof( SelectedNodes ), out var paramSelectedNodes ) && !paramSelectedNodes.AreEqual( treeViewState.SelectedNodes );
+        bool virtualizeDefined = parameters.TryGetValue<bool>( nameof( Virtualize ), out var paramVirtualize );
+        bool virtualizeChanged = virtualizeDefined && !paramVirtualize.IsEqual( Virtualize );
+
+        bool heightDefined = parameters.TryGetValue<IFluentSizing>( nameof( Height ), out var paramHeight );
+        bool overflowDefined = parameters.TryGetValue<IFluentOverflow>( nameof( Overflow ), out var paramOverflow );
 
         if ( selectedNodeChanged )
         {
@@ -56,6 +61,22 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         }
 
         await base.SetParametersAsync( parameters );
+
+        if ( Rendered && virtualizeChanged )
+        {
+            if ( !heightDefined && paramVirtualize )
+                Height = Blazorise.Height.Px( 300 );
+            else
+                Height = paramHeight;
+
+            if ( !overflowDefined && paramVirtualize )
+                Overflow = Blazorise.Overflow.Auto;
+            else
+                Overflow = paramOverflow;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
 
         if ( nodesChanged )
         {
@@ -340,6 +361,12 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
     /// </summary>
     [Parameter] public bool AutoExpandAll { get; set; }
+
+    /// <summary>
+    /// Controls if the child nodes, which are currently not expanded, are visible.
+    /// This is useful for optimizing large TreeViews. See <see href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization">Docs for virtualization</see> for more info.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
     /// List of currently expanded TreeView items (child nodes).

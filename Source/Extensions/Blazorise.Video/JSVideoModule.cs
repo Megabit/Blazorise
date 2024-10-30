@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
@@ -191,6 +190,13 @@ public class JSVideoModule : BaseJSModule,
         var moduleInstance = await Module;
 
         await moduleInstance.InvokeVoidAsync( "clearTextTracks", elementRef, elementId );
+    }
+
+    public virtual async ValueTask SetPlaybackRate( ElementReference elementRef, string elementId, double playbackRate )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "setPlaybackRate", elementRef, elementId, playbackRate );
     }
 
     #endregion

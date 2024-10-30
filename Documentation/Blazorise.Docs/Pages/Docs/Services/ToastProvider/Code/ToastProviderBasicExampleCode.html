@@ -17,6 +17,8 @@
         toastInstanceOptions.AnimationDuration = <span class="number">300</span>;
         toastInstanceOptions.Autohide = <span class="keyword">true</span>;
         toastInstanceOptions.AutohideDelay = <span class="number">3000</span>;
+        toastInstanceOptions.Closing = ( e ) =&gt; { Console.WriteLine(<span class="string">&quot;Closing&quot;</span>); <span class="keyword">return</span> Task.CompletedTask; };
+        toastInstanceOptions.Opening = ( e ) =&gt; { Console.WriteLine(<span class="string">&quot;Opening&quot;</span>); <span class="keyword">return</span> Task.CompletedTask; };
     }
 }
 </pre></div>

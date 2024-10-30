@@ -20,23 +20,43 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code Tag>Validations</Code> optional container for manual validation
+        <Paragraph>
+            <Code Tag>Validations</Code> container for all validations, it can contain multiple <Code>Validation</Code> components.
+        </Paragraph>
         <UnorderedList>
             <UnorderedListItem>
-                <Code Tag>Validation</Code> input container
+                <Paragraph>
+                    <Code Tag>Validation</Code> component that contains the validation logic.
+                </Paragraph>
                 <UnorderedList>
                     <UnorderedListItem>
-                        <Code Tag>Feedback</Code> messages placeholder
+                        <Paragraph>
+                            <Code Tag>Feedback</Code> component that displays the validation message.
+                        </Paragraph>
                         <UnorderedList>
-                            <UnorderedListItem><Code Tag>ValidationSuccess</Code> success message</UnorderedListItem>
-                            <UnorderedListItem><Code Tag>ValidationError</Code> error message</UnorderedListItem>
-                            <UnorderedListItem><Code Tag>ValidationNone</Code> message when nothing has happened</UnorderedListItem>
+                            <UnorderedListItem>
+                                <Paragraph>
+                                    <Code Tag>ValidationSuccess</Code> success message.
+                                </Paragraph>
+                            </UnorderedListItem>
+                            <UnorderedListItem>
+                                <Paragraph>
+                                    <Code Tag>ValidationError</Code> error message.
+                                </Paragraph>
+                            </UnorderedListItem>
+                            <UnorderedListItem>
+                                <Paragraph>
+                                    <Code Tag>ValidationNone</Code> message when nothing has happened.
+                                </Paragraph>
+                            </UnorderedListItem>
                         </UnorderedList>
                     </UnorderedListItem>
                 </UnorderedList>
             </UnorderedListItem>
             <UnorderedListItem>
-                <Code Tag>ValidationSummary</Code> lists all error messages
+                <Paragraph>
+                    <Code Tag>ValidationSummary</Code> lists all error messages
+                </Paragraph>
             </UnorderedListItem>
         </UnorderedList>
     </UnorderedListItem>
@@ -224,6 +244,16 @@
         <ValidationRulesExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ValidationRulesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="IValidatableObject">
+        This example demonstrates how to implement validation in a Blazor component using the <Code>IValidatableObject</Code> interface for custom logic. The form contains several fields bound to a CompanyInfo model, which is validated automatically using data annotations and custom validation logic.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ValidationIValidatableObjectExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ValidationIValidatableObjectExample" />
 </DocsPageSection>
 
 <DocsPageParagraph>

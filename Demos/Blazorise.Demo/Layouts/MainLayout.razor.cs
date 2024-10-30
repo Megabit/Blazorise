@@ -6,7 +6,7 @@ namespace Blazorise.Demo.Layouts;
 
 public partial class MainLayout
 {
-    string layoutType = "fixed-header";
+    protected string layoutType = "fixed-header";
 
     protected override async Task OnInitializedAsync()
     {
@@ -22,7 +22,7 @@ public partial class MainLayout
         return Task.CompletedTask;
     }
 
-    Task OnThemeEnabledChanged( bool value )
+    protected Task OnThemeEnabledChanged( bool value )
     {
         if ( Theme == null )
             return Task.CompletedTask;
@@ -34,7 +34,7 @@ public partial class MainLayout
         return Task.CompletedTask;
     }
 
-    Task OnThemeGradientChanged( bool value )
+    protected Task OnThemeGradientChanged( bool value )
     {
         if ( Theme == null )
             return Task.CompletedTask;
@@ -51,7 +51,7 @@ public partial class MainLayout
         return Task.CompletedTask;
     }
 
-    Task OnThemeRoundedChanged( bool value )
+    protected Task OnThemeRoundedChanged( bool value )
     {
         if ( Theme == null )
             return Task.CompletedTask;
@@ -63,7 +63,7 @@ public partial class MainLayout
         return Task.CompletedTask;
     }
 
-    Task OnThemeColorChanged( string value )
+    protected Task OnThemeColorChanged( string value )
     {
         if ( Theme == null )
             return Task.CompletedTask;

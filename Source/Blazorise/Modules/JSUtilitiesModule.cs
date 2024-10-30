@@ -49,6 +49,14 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "removeClassFromBody", classname );
 
     /// <inheritdoc/>
+    public virtual ValueTask AddAttributeToBody( string attribute, string value )
+        => InvokeSafeVoidAsync( "addAttributeToBody", attribute, value );
+
+    /// <inheritdoc/>
+    public virtual ValueTask RemoveAttributeFromBody( string attribute )
+        => InvokeSafeVoidAsync( "removeAttributeFromBody", attribute );
+
+    /// <inheritdoc/>
     public virtual ValueTask<bool> ParentHasClass( ElementReference elementRef, string classname )
         => InvokeSafeAsync<bool>( "parentHasClass", elementRef, classname );
 
@@ -106,6 +114,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
 
     private ElementReference? ResolveElementReference( ElementReference elementReference )
         => elementReference.Context is null ? null : elementReference;
+
+    /// <inheritdoc/>
+    public ValueTask<bool> IsSystemDarkMode()
+        => InvokeSafeAsync<bool>( "isSystemDarkMode" );
 
     #endregion
 

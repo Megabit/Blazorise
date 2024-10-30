@@ -1311,6 +1311,16 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public override string Skeleton() => "ant-skeleton ant-skeleton-element";
+
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"ant-skeleton-active ant-skeleton-{ToSkeletonAnimation( animation )}" : null;
+
+    public override string SkeletonItem() => "ant-skeleton-content";
+
+    #endregion
+
     #region Divider
 
     public override string Divider() => "divider";
@@ -1450,14 +1460,21 @@ public class AntDesignClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+    public override string Flex( FlexRule flexRule )
     {
         var sb = new StringBuilder();
 
-        if ( flexType != FlexType.Default )
-            sb.Append( $"ant-display-{ToFlexType( flexType )}" ).Append( ' ' );
+        if ( flexRule.FlexType != FlexType.Default )
+        {
+            if ( flexRule.Breakpoint > Breakpoint.Mobile )
+                sb.Append( $"ant-display-{ToBreakpoint( flexRule.Breakpoint )}-{ToFlexType( flexRule.FlexType )}" );
+            else
+                sb.Append( $"ant-display-{ToFlexType( flexRule.FlexType )}" );
 
-        sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+            sb.Append( ' ' );
+        }
+
+        sb.Append( string.Join( ' ', flexRule.Definitions.Where( x => x.Condition ?? true ).Select( x => Flex( x ) ) ) );
 
         return sb.ToString();
     }

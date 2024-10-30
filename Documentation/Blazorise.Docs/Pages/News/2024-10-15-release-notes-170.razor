@@ -41,6 +41,21 @@
             <Strong>SelectedCell API:</Strong> listen to the cell selection changes while navigating through DataGrid.
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>RichTextEdit:</Strong> Table support
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Chart:</Strong> Tooltip callbacks
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Skeleton:</Strong> Added a new Skeleton component for loading placeholders.
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -96,6 +111,12 @@
                     </UnorderedListItem>
                 </UnorderedList>
             </Paragraph>
+
+        </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
+                <Code Tag>BarItem</Code> no longer has the <Code>cursor: pointer</Code> default behavior.
+            </Paragraph>
         </OrderedListItem>
     </OrderedList>
 </Paragraph>
@@ -144,12 +165,49 @@
     DataGrid
 </Heading>
 
-<Heading Size="HeadingSize.Is3">
+<Heading Size="HeadingSize.Is4">
     SelectedCell API
 </Heading>
 
 <Paragraph>
     Added <Code>SelectedCell</Code> and <Code>SelectedCellChanged</Code> parameters, you can now listen to the cell selection changes when the <Code>Datagrid.NavigationMode</Code> is set to <Code>NavigationMode.Cell</Code>
+</Paragraph>
+
+
+<Heading Size="HeadingSize.Is3">
+    DataGridDateColumn
+</Heading>
+
+<Paragraph>
+    Replaced the rendered <Code>DateEdit</Code> component by a <Code>DatePicker</Code>. This change provides you with improved flexibility over the limitations of the <Code>DateEdit</Code>. You will find new <Code>DatePicker</Code> parameters in the <Code>DataGridDateColumn</Code> to further customize how your date behaves.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Column Text Styling
+</Heading>
+
+<Paragraph>
+    Added <Code>TextTransform</Code>, <Code>TextDecoration</Code>, <Code>TextWeight</Code>, <Code>TextOverflow</Code>, and <Code>TextSize</Code> parameters to the <Code>DataGridColumn</Code> component. This will allow you to easily style the text in the DataGrid.
+</Paragraph>
+
+<Paragraph>
+    All the new text styling parameters are also available for headers, filter, and aggregate cells of the DataGrid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Undeprecate CellClass and CellStyle
+</Heading>
+
+<Paragraph>
+    After our community has convinced us that these parameters are still useful, we have decided to undeprecate them. We have undeprecated the <Code>CellClass</Code> and <Code>CellStyle</Code> parameters in the <Code>DataGridColumn</Code> component. These parameters allow you to define the class and style for the cell based on the cell item value.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    TreeView Virtualization
+</Heading>
+
+<Paragraph>
+    We have added the ability to virtualize the TreeView component. This can be useful when you have a large number of nodes and you want to improve the performance of the TreeView component. The virtualization feature allows you to render only the visible nodes, which can significantly reduce the number of DOM elements and improve the overall performance of the TreeView component.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -206,6 +264,132 @@
 
 <Paragraph>
     This change was made by our community member <Anchor To="https://github.com/mtbayley" Title="Link to mtbayley">mtbayley</Anchor>. We are grateful for his contribution and we are looking forward to more contributions from him.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit Table Support
+</Heading>
+
+<Paragraph>
+    Implementing table support in the RichTextEdit component proved to be more challenging than initially anticipated. At first glance, it seemed like a straightforward task, but as we delved deeper, it became clear that tables in RichTextEdit are minimally supported and still largely experimental.
+</Paragraph>
+
+<Paragraph>
+    Given these limitations, we explored alternative solutions. We discovered a community-developed table module that, while unofficial, offered a viable workaround. After integrating this module into Blazorise's RichTextEdit, we achieved a satisfactory outcome.
+</Paragraph>
+
+<Paragraph>
+    However, since this module is not officially supported, we are marking this feature as experimental. This designation will remain until an official table module is released by the Quill.js team.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Radio Group Button Colors
+</Heading>
+
+<Paragraph>
+    It is now possible to set the color of the RadioGroup buttons. This can be done by setting the <Code>Color</Code> property on the <Code>Radio</Code> component.
+</Paragraph>
+
+<Paragraph>
+    This feature will allow you to easily distinguish between different options in the RadioGroup, and it will make your forms more visually appealing.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Tooltip Callbacks
+</Heading>
+
+<Paragraph>
+    Added <Code>Callbacks</Code> parameter to the <Code>ChartTooltip</Code> options. This allows you to define custom callbacks for the tooltip, and can be useful if you want to customize the tooltip content or appearance based on the data point.
+</Paragraph>
+
+<Paragraph>
+    Please be aware that this feature is still experimental. The way how the callbacks works is that we convert C# lambda into JS function and then pass it to the Chart.js. This can be a bit tricky since the JS function can't access the C# context, so you need to be careful when using this feature.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    ToastProvider Improvements
+</Heading>
+
+<Paragraph>
+    We have made some improvements to the ToastProvider component. The ToastProvider is a powerful helper component built on top of the Toast component and is used for showing simple alerts and notifications. The ToastProvider now includes a new option to to handle Opening and Closing events. This can be useful if you want to perform some actions before the toast is shown or hidden.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Skeleton
+</Heading>
+
+<Paragraph>
+    The new Skeleton component is designed to enhance the user experience by providing loading placeholders for components or pages. These placeholders indicate that content is still loading or not yet available, helping to manage user expectations and improve perceived performance. The Skeleton component is highly customizable and can be easily integrated into your projects to create a more polished and professional appearance.
+</Paragraph>
+
+<Paragraph>
+    For more information on how to use the Skeleton component and customize loading placeholders, refer to the <Anchor To="docs/components/skeleton">Skeleton documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Improved Flex Utilities
+</Heading>
+
+<Paragraph>
+    We have improved the way how our Fluent Flex utilities work. Previously it was not possible to define a breakpoint on per-flex rule, which made it hard to define different flex rules for different breakpoints. Now you can define the flex rules for each breakpoint separately, and you can also define the order of the flex rules.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Video Improvements
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Disable Fullscreen Mode
+</Heading>
+
+<Paragraph>
+    Added <Code>DoubleClickToFullscreen</Code> parameter to the <Code Tag>Video</Code> component. This parameter allows you to enable or disable the fullscreen mode when the video is double-clicked.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Set Playback Rate
+</Heading>
+
+<Paragraph>
+    Added <Code>SetPlaybackRate</Code> method to the <Code Tag>Video</Code> component. This method allows you to manually set the playback rate of the video. This can be useful if you want to speed up or slow down the video playback.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Controls Delay
+</Heading>
+
+<Paragraph>
+    Added <Code>ControlsDelay</Code> parameter to the <Code Tag>Video</Code> component. This parameter allows you to define the delay in milliseconds while media playback is progressing without user activity to indicate an idle state and hide controls.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    New RouterTabs component
+</Heading>
+
+<Paragraph>
+    We are excited to introduce the new RouterTabs component.
+    After properly setting it up, this component automatically creates tabs per each page the user navigates to.
+    Find out more in the oficial docs: <Anchor To="docs/extensions/routertabs" Title="RouterTabs Docs">RouterTabs Docs</Anchor>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    <Code Tag>BarItem</Code> no longer has the <Code>cursor: pointer</Code> default behavior.
+</Heading>
+
+<Paragraph>
+    Previously, hovering over the <Code Tag>BarItem</Code> displayed a pointer cursor by default.
+    However, this behavior led to issues with disabled buttons, where a standard cursor is more appropriate and better aligns with UX principles.
+
+    Buttons and links inside the <Code Tag>BarItem</Code> will still show the pointer cursor as before.
+    If you have a <Code Tag>div</Code> inside a <Code Tag>BarItem</Code>, the default cursor behavior has been updated to reflect these UX improvements.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    <Code>EnabledDates</Code> Property in the <Code Tag>DatePicker</Code> component
+</Heading>
+
+<Paragraph>
+    The <Code>EnabledDates</Code> property in the <Code Tag>DatePicker</Code> component allows you to specify specific dates that users can select from. This feature is useful when you want to restrict the date selection to a predefined set of enabled dates.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />

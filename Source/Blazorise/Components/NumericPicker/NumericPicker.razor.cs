@@ -328,15 +328,6 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
 
             await CurrentValueHandler( valueToChangeOnBlur );
         }
-
-        if ( eventArgs.Code == "ArrowUp" )
-        {
-            await OnSpinUpClicked();
-        }
-        else if ( eventArgs.Code == "ArrowDown" )
-        {
-            await OnSpinDownClicked();
-        }
     }
 
     /// <inheritdoc/>

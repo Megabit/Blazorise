@@ -1,5 +1,5 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.6.1.0";
-import "./vendors/sigpad.js?v=1.6.1.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.6.2.0";
+import "./vendors/sigpad.js?v=1.6.2.0";
 
 const _instances = [];
 
@@ -169,7 +169,7 @@ function registerToEvents(dotNetAdapter, instance) {
     if (instance && instance.sigpad) {
         instance.sigpad.addEventListener("beginStroke", (e) => {
             if (e && e.detail) {
-                dotNetAdapter.invokeMethodAsync("NotifyBeginStroke", e.detail.offsetX, e.detail.offsetY)
+                dotNetAdapter.invokeMethodAsync("NotifyBeginStroke", e.detail.event.offsetX, e.detail.event.offsetY)
             }
         });
 
@@ -177,7 +177,7 @@ function registerToEvents(dotNetAdapter, instance) {
             if (e && e.detail) {
                 const dataURL = getImageDataURL(instance.sigpad, instance.options);
 
-                dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL, e.detail.offsetX, e.detail.offsetY);
+                dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL, e.detail.event.offsetX, e.detail.event.offsetY);
             }
         });
     }

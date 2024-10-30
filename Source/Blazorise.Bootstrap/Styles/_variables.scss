@@ -194,6 +194,12 @@ $step-text-completed-color: $primary !default;
 $step-text-active-color: $primary !default;
 
 
+// Placeholders
+
+$placeholder-opacity-max: .5 !default;
+$placeholder-opacity-min: .2 !default;
+
+
 // Utilities
 
 $overflows: join($overflows, (visible, scroll));
