@@ -33,7 +33,10 @@ public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
 
     #region Properties
 
-    protected bool IsFiltering => !string.IsNullOrEmpty( Column.Filter.SearchValue?.ToString() );
+    protected bool IsFiltering 
+        => !string.IsNullOrEmpty( Column.Filter.SearchValue?.ToString() )
+        || !string.IsNullOrEmpty( Column.Filter.GetSearchValue1()?.ToString() )
+        || !string.IsNullOrEmpty( Column.Filter.GetSearchValue2()?.ToString() );
 
     /// <summary>
     /// Gets or sets the DI registered <see cref="ITextLocalizer"/> for <see cref="DataGrid{TItem}"/> />.
