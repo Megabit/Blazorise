@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using Blazorise.Licensing
 <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
     Compare Plan Features
 </Paragraph>
@@ -302,7 +303,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 DataGrid
             </TableRowHeader>
-            <TableRowCell>10000 rows</TableRowCell>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS rows</TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -311,7 +312,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 Autocomplete
             </TableRowHeader>
-            <TableRowCell>10000 items</TableRowCell>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS items</TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -320,7 +321,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 Charts
             </TableRowHeader>
-            <TableRowCell>100 points</TableRowCell>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS points</TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -329,7 +330,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 ListView
             </TableRowHeader>
-            <TableRowCell>10000 items</TableRowCell>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS items</TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -347,7 +348,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 TreeView
             </TableRowHeader>
-            <TableRowCell>1000 nodes</TableRowCell>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS nodes</TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
