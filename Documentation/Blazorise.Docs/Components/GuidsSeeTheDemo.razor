@@ -1,0 +1,10 @@
+﻿@using Blazorise.Docs.Services
+<Alert Color="Color.Info" Visible>
+    👀 Want to see it in action? Check out the 
+    <Anchor To="@($"https://{CssProvidersService.GetProvider(Provider).SubPage}.blazorise.com/")"
+          Target="Target.Blank" >@CssProvidersService.GetProvider(Provider).TitleDemo here</Anchor>!
+</Alert>
+
+@code {
+    [Parameter, EditorRequired] public CssProvider Provider { get; set; }
+}
