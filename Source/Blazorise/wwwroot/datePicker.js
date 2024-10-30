@@ -81,7 +81,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 }
             }
         },
-        
+
     };
 
     if (options.enabledDates)
@@ -308,7 +308,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.enabledDates.changed) {
-            if (options.enabledDates.value == null) {
+            if (utilities.isNullOrUndefined(options.enabledDates.value)) {
                 picker.set("enable", [() => true]);
             } else {
                 picker.set("enable", options.enabledDates.value);
