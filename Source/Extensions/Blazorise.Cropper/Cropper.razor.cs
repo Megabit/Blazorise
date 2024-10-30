@@ -34,7 +34,6 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             var selectionOptionsChanged = parameters.TryGetValue<CropperSelectionOptions>( nameof( SelectionOptions ), out var paramSelectionOptions ) && paramSelectionOptions != SelectionOptions;
             var gridOptionsChanged = parameters.TryGetValue<CropperGridOptions>( nameof( GridOptions ), out var paramGridOptions ) && paramGridOptions != GridOptions;
             var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
-
             if ( sourceChanged
                 || altChanged
                 || crossoriginChanged
@@ -66,7 +65,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                         {
                             AspectRatio = paramSelectionOptions?.AspectRatio.Value,
                             InitialAspectRatio = paramSelectionOptions?.InitialAspectRatio.Value,
-                            InitialCoverage = paramSelectionOptions.InitialCoverage,
+                            InitialCoverage = paramSelectionOptions?.InitialCoverage.Value,
                             Movable = paramSelectionOptions?.Movable ?? false,
                             Resizable = paramSelectionOptions?.Resizable ?? false,
                             Zoomable = paramSelectionOptions?.Zoomable ?? false,
