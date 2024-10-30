@@ -829,7 +829,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
     {
-        var baseClass = displayDefinition.Breakpoint != Breakpoint.None
+        var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Breakpoint.Mobile
             ? $"ant-display-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
             : $"ant-display-{ToDisplayType( displayType )}";
 
