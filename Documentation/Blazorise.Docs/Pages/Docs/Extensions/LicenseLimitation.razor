@@ -1,0 +1,12 @@
+﻿
+<Alert Color="Color.Warning" Visible>
+    📊 Community license has a limitation of @LimitText.
+    <Anchor To="pricing" Target="Target.Blank" Class="text-decoration-none" >
+        See pricing.
+    </Anchor>
+</Alert>
+
+
+@code {
+    [Parameter, EditorRequired] public string LimitText { get; set; } = "";
+}
