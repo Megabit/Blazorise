@@ -1890,9 +1890,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
         public const string DatePickerEnabledDatesExample = @"<DatePicker TValue=""DateTime?"" EnabledDates=""@enabledDates"" />
 
-
 @code {
-
     DateTime?[] enabledDates = new DateTime?[]{
         DateTime.Now.AddDays(-1),
         DateTime.Now.AddDays(2),
