@@ -52,13 +52,13 @@ public sealed class BlazoriseLicenseProvider
     /// <param name="options"></param>
     /// <param name="jsRuntime"></param>
     /// <param name="versionProvider"></param>
-    public BlazoriseLicenseProvider(BlazoriseOptions options, IJSRuntime jsRuntime, IVersionProvider versionProvider)
+    public BlazoriseLicenseProvider( BlazoriseOptions options, IJSRuntime jsRuntime, IVersionProvider versionProvider )
     {
         this.options = options;
         this.jsRuntime = jsRuntime;
         this.versionProvider = versionProvider;
 
-        if (!initialized)
+        if ( !initialized )
         {
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
@@ -68,11 +68,11 @@ public sealed class BlazoriseLicenseProvider
     #endregion
 
     #region Methods
-    private async void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+    private async void BackgroundWorker_DoWork( object sender, DoWorkEventArgs e )
     {
-        if (initialized)
+        if ( initialized )
         {
-            if (backgroundWorker is not null)
+            if ( backgroundWorker is not null )
             {
                 backgroundWorker.DoWork -= BackgroundWorker_DoWork;
                 backgroundWorker.Dispose();
@@ -80,7 +80,7 @@ public sealed class BlazoriseLicenseProvider
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(options.ProductToken))
+        if ( string.IsNullOrWhiteSpace( options.ProductToken ) )
         {
             Result = BlazoriseLicenseResult.Unlicensed;
             return;
@@ -88,39 +88,45 @@ public sealed class BlazoriseLicenseProvider
 
         try
         {
-            if (IsWebAssembly)
+            if ( IsWebAssembly )
             {
-                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey(jsRuntime, versionProvider, options, PublicKey);
-                var license = await wasmLicenseVerifier.Load(options.ProductToken, true);
+                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, options, PublicKey );
+                var license = await wasmLicenseVerifier.Load( options.ProductToken, true );
 
-                if (wasmLicenseVerifier.Verify(license, new Assembly[] { CurrentAssembly }))
+                if ( wasmLicenseVerifier.Verify( license, new Assembly[]
+                {
+                    CurrentAssembly
+                } ) )
                 {
                     License = license;
-                    Result = ResolveBlazoriseLicenseResult(license);
+                    Result = ResolveBlazoriseLicenseResult( license );
                 }
                 else
                 {
                     Result = BlazoriseLicenseResult.Unlicensed;
                 }
 
-                PrintResult = ResolveBlazoriseLicensePrintResult(license);
+                PrintResult = ResolveBlazoriseLicensePrintResult( license );
             }
             else
             {
-                var licenseVerifier = LicenseVerifier.Create().WithRsaPublicKey(PublicKey);
-                var license = await licenseVerifier.Load(options.ProductToken, true);
+                var licenseVerifier = LicenseVerifier.Create().WithRsaPublicKey( PublicKey );
+                var license = await licenseVerifier.Load( options.ProductToken, true );
 
-                if (licenseVerifier.Verify(license, new Assembly[] { CurrentAssembly }))
+                if ( licenseVerifier.Verify( license, new Assembly[]
+                {
+                    CurrentAssembly
+                } ) )
                 {
                     License = license;
-                    Result = ResolveBlazoriseLicenseResult(license);
+                    Result = ResolveBlazoriseLicenseResult( license );
                 }
                 else
                 {
                     Result = BlazoriseLicenseResult.Unlicensed;
                 }
 
-                PrintResult = ResolveBlazoriseLicensePrintResult(license);
+                PrintResult = ResolveBlazoriseLicensePrintResult( license );
             }
         }
         catch
@@ -138,37 +144,37 @@ public sealed class BlazoriseLicenseProvider
     /// </summary>
     /// <param name="license"></param>
     /// <returns></returns>
-    private static BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult(License license)
+    private static BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult( License license )
     {
-        var licenseResult = ResolveBlazoriseLicenseResult(license);
+        var licenseResult = ResolveBlazoriseLicenseResult( license );
 
-        if (licenseResult == BlazoriseLicenseResult.Unlicensed)
+        if ( licenseResult == BlazoriseLicenseResult.Unlicensed )
             return BlazoriseLicensePrintResult.InvalidProductToken;
 
-        if (licenseResult == BlazoriseLicenseResult.Community)
+        if ( licenseResult == BlazoriseLicenseResult.Community )
         {
             return Result == BlazoriseLicenseResult.Community ? BlazoriseLicensePrintResult.Community : BlazoriseLicensePrintResult.CommunityExpired;
         }
 
-        if (licenseResult == BlazoriseLicenseResult.Licensed)
+        if ( licenseResult == BlazoriseLicenseResult.Licensed )
         {
             return Result == BlazoriseLicenseResult.Licensed ? BlazoriseLicensePrintResult.Licensed : BlazoriseLicensePrintResult.LicensedExpired;
         }
 
-        if (licenseResult == BlazoriseLicenseResult.Trial)
+        if ( licenseResult == BlazoriseLicenseResult.Trial )
             return BlazoriseLicensePrintResult.Trial;
 
         return BlazoriseLicensePrintResult.None;
     }
 
-    private static BlazoriseLicenseResult ResolveBlazoriseLicenseResult(License license)
+    private static BlazoriseLicenseResult ResolveBlazoriseLicenseResult( License license )
     {
-        if (license is null)
+        if ( license is null )
             return BlazoriseLicenseResult.Unlicensed;
 
-        if (license.Properties.TryGetValue(Constants.Properties.LICENSE_TYPE, out var licenseType) && Enum.TryParse<BlazoriseLicenseType>(licenseType, true, out var licenseTypeAsEnum))
+        if ( license.Properties.TryGetValue( Constants.Properties.LICENSE_TYPE, out var licenseType ) && Enum.TryParse<BlazoriseLicenseType>( licenseType, true, out var licenseTypeAsEnum ) )
         {
-            switch (licenseTypeAsEnum)
+            switch ( licenseTypeAsEnum )
             {
                 case BlazoriseLicenseType.Community:
                     return BlazoriseLicenseResult.Community;
@@ -186,25 +192,25 @@ public sealed class BlazoriseLicenseProvider
 
     internal int? GetDataGridRowsLimit()
     {
-        if (limitsDataGridMaxRows.HasValue)
+        if ( limitsDataGridMaxRows.HasValue )
             return limitsDataGridMaxRows;
 
-        if (Result == BlazoriseLicenseResult.Initializing)
+        if ( Result == BlazoriseLicenseResult.Initializing )
             return null;
 
 
-        if (License is not null)
+        if ( License is not null )
         {
-            if (License.Properties.TryGetValue(Constants.Properties.DATAGRID_MAX_ROWS, out var rowsLimitString) && int.TryParse(rowsLimitString, out var rowsLimit))
+            if ( License.Properties.TryGetValue( Constants.Properties.DATAGRID_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsDataGridMaxRows = rowsLimit;
             }
         }
-        else if (Result == BlazoriseLicenseResult.Community)
+        else if ( Result == BlazoriseLicenseResult.Community )
         {
             limitsDataGridMaxRows = 10000;
         }
-        else if (Result == BlazoriseLicenseResult.Unlicensed)
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
             limitsDataGridMaxRows = DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS;
         }
@@ -214,25 +220,25 @@ public sealed class BlazoriseLicenseProvider
 
     internal int? GetAutocompleteRowsLimit()
     {
-        if (limitsAutocompleteMaxRows.HasValue)
+        if ( limitsAutocompleteMaxRows.HasValue )
             return limitsAutocompleteMaxRows;
 
-        if (Result == BlazoriseLicenseResult.Initializing)
+        if ( Result == BlazoriseLicenseResult.Initializing )
             return null;
 
 
-        if (License is not null)
+        if ( License is not null )
         {
-            if (License.Properties.TryGetValue(Constants.Properties.AUTOCOMPLETE_MAX_ROWS, out var rowsLimitString) && int.TryParse(rowsLimitString, out var rowsLimit))
+            if ( License.Properties.TryGetValue( Constants.Properties.AUTOCOMPLETE_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsAutocompleteMaxRows = rowsLimit;
             }
         }
-        else if (Result == BlazoriseLicenseResult.Community)
+        else if ( Result == BlazoriseLicenseResult.Community )
         {
             limitsAutocompleteMaxRows = 10000;
         }
-        else if (Result == BlazoriseLicenseResult.Unlicensed)
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
             limitsAutocompleteMaxRows = DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS;
         }
@@ -242,25 +248,25 @@ public sealed class BlazoriseLicenseProvider
 
     internal int? GetChartsRowsLimit()
     {
-        if (limitsChartsMaxRows.HasValue)
+        if ( limitsChartsMaxRows.HasValue )
             return limitsChartsMaxRows;
 
-        if (Result == BlazoriseLicenseResult.Initializing)
+        if ( Result == BlazoriseLicenseResult.Initializing )
             return null;
 
 
-        if (License is not null)
+        if ( License is not null )
         {
-            if (License.Properties.TryGetValue(Constants.Properties.CHARTS_MAX_ROWS, out var rowsLimitString) && int.TryParse(rowsLimitString, out var rowsLimit))
+            if ( License.Properties.TryGetValue( Constants.Properties.CHARTS_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsChartsMaxRows = rowsLimit;
             }
         }
-        else if (Result == BlazoriseLicenseResult.Community)
+        else if ( Result == BlazoriseLicenseResult.Community )
         {
             limitsChartsMaxRows = 100;
         }
-        else if (Result == BlazoriseLicenseResult.Unlicensed)
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
             limitsChartsMaxRows = DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS;
         }
@@ -270,25 +276,25 @@ public sealed class BlazoriseLicenseProvider
 
     internal int? GetListViewRowsLimit()
     {
-        if (limitsListViewMaxRows.HasValue)
+        if ( limitsListViewMaxRows.HasValue )
             return limitsListViewMaxRows;
 
-        if (Result == BlazoriseLicenseResult.Initializing)
+        if ( Result == BlazoriseLicenseResult.Initializing )
             return null;
 
 
-        if (License is not null)
+        if ( License is not null )
         {
-            if (License.Properties.TryGetValue(Constants.Properties.LISTVIEW_MAX_ROWS, out var rowsLimitString) && int.TryParse(rowsLimitString, out var rowsLimit))
+            if ( License.Properties.TryGetValue( Constants.Properties.LISTVIEW_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsListViewMaxRows = rowsLimit;
             }
         }
-        else if (Result == BlazoriseLicenseResult.Community)
+        else if ( Result == BlazoriseLicenseResult.Community )
         {
             limitsListViewMaxRows = 100000;
         }
-        else if (Result == BlazoriseLicenseResult.Unlicensed)
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
             limitsListViewMaxRows = DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS;
         }
@@ -298,25 +304,25 @@ public sealed class BlazoriseLicenseProvider
 
     internal int? GetTreeViewRowsLimit()
     {
-        if (limitsTreeViewMaxRows.HasValue)
+        if ( limitsTreeViewMaxRows.HasValue )
             return limitsTreeViewMaxRows;
 
-        if (Result == BlazoriseLicenseResult.Initializing)
+        if ( Result == BlazoriseLicenseResult.Initializing )
             return null;
 
 
-        if (License is not null)
+        if ( License is not null )
         {
-            if (License.Properties.TryGetValue(Constants.Properties.TREEVIEW_MAX_ROWS, out var rowsLimitString) && int.TryParse(rowsLimitString, out var rowsLimit))
+            if ( License.Properties.TryGetValue( Constants.Properties.TREEVIEW_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsTreeViewMaxRows = rowsLimit;
             }
         }
-        else if (Result == BlazoriseLicenseResult.Community)
+        else if ( Result == BlazoriseLicenseResult.Community )
         {
             limitsTreeViewMaxRows = 1000;
         }
-        else if (Result == BlazoriseLicenseResult.Unlicensed)
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
             limitsTreeViewMaxRows = DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS;
         }
