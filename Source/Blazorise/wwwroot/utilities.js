@@ -341,6 +341,10 @@ export function createEvent(name) {
     return e;
 }
 
+export function isNullOrUndefined(value) {
+    return value === null || value === undefined;
+}
+
 export function coalesce(value, defaultValue) {
     return value === null || value === undefined ? defaultValue : value;
 }
