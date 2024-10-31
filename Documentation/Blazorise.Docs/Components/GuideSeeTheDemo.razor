@@ -1,10 +1,14 @@
 ﻿@using Blazorise.Docs.Services
 <Alert Color="Color.Info" Visible>
-    👀 Want to see it in action? Check out the 
-    <Anchor To="@($"https://{CssProvidersService.GetProvider(Provider).SubPage}.blazorise.com/")"
-          Target="Target.Blank" >@CssProvidersService.GetProvider(Provider).TitleDemo here</Anchor>!
+    👀 Want to see it in action? Check out the
+    <Anchor To="@($"https://{SubPage}.blazorise.com/")" Title="@($"Link to {TitleDemo}")" Target="Target.Blank">
+        @TitleDemo here
+    </Anchor>!
 </Alert>
 
 @code {
+    string SubPage => CssProvidersService.GetProvider( Provider ).SubPage;
+    string TitleDemo => CssProvidersService.GetProvider( Provider ).TitleDemo;
+
     [Parameter, EditorRequired] public CssProvider Provider { get; set; }
 }
