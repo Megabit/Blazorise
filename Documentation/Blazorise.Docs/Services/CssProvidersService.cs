@@ -15,18 +15,15 @@ public static class CssProvidersService
         { CssProvider.FluentUi2, new ProviderData("fluentuidemo", "fluent2.svg", "Fluent 2 image", "Fluent 2", "fluentui") }
     };
 
-    public static ProviderData GetProvider(CssProvider provider) =>
-        ProvidersData.TryGetValue(provider, out var data) 
-            ? data 
-            : throw new KeyNotFoundException($"Provider data for {provider} was not found.");
+    public static ProviderData GetProvider( CssProvider provider ) => ProvidersData.TryGetValue( provider, out var data )
+        ? data
+        : throw new KeyNotFoundException( $"Provider data for {provider} was not found." );
 }
 
-public record ProviderData(string SubPage, string ImageFileName, string ImageAltText, string Title, string UsageLink)
+public record ProviderData( string SubPage, string ImageFileName, string ImageAltText, string Title, string UsageLink )
 {
-    public string TitleDemo => $"{Title} Demo"; 
+    public string TitleDemo => $"{Title} Demo";
 }
-
-
 
 public enum CssProvider
 {
@@ -38,5 +35,3 @@ public enum CssProvider
     Bulma,
     FluentUi2
 }
-
-
