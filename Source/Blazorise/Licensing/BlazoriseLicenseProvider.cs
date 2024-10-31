@@ -20,7 +20,7 @@ public sealed class BlazoriseLicenseProvider
     public const int DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS = 1000;
     public const int DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS = 100;
 
-    private static readonly Assembly CurrentAssembly = typeof(BlazoriseLicenseProvider).Assembly;
+    private static readonly Assembly CurrentAssembly = typeof( BlazoriseLicenseProvider ).Assembly;
 
     private readonly BlazoriseOptions options;
 
@@ -93,10 +93,7 @@ public sealed class BlazoriseLicenseProvider
                 var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, options, PublicKey );
                 var license = await wasmLicenseVerifier.Load( options.ProductToken, true );
 
-                if ( wasmLicenseVerifier.Verify( license, new Assembly[]
-                {
-                    CurrentAssembly
-                } ) )
+                if ( wasmLicenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
                 {
                     License = license;
                     Result = ResolveBlazoriseLicenseResult( license );
@@ -113,10 +110,7 @@ public sealed class BlazoriseLicenseProvider
                 var licenseVerifier = LicenseVerifier.Create().WithRsaPublicKey( PublicKey );
                 var license = await licenseVerifier.Load( options.ProductToken, true );
 
-                if ( licenseVerifier.Verify( license, new Assembly[]
-                {
-                    CurrentAssembly
-                } ) )
+                if ( licenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
                 {
                     License = license;
                     Result = ResolveBlazoriseLicenseResult( license );
