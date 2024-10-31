@@ -14,6 +14,7 @@ namespace Blazorise.Licensing;
 public sealed class BlazoriseLicenseProvider
 {
     #region Members
+
     public const int DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS = 1000;
     public const int DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS = 1000;
     public const int DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS = 10;
@@ -43,9 +44,11 @@ public sealed class BlazoriseLicenseProvider
     private int? limitsListViewMaxRows;
 
     private int? limitsTreeViewMaxRows;
+
     #endregion
 
     #region Constructors
+
     /// <summary>
     /// A default <see cref="BlazoriseLicenseProvider"/> constructor.
     /// </summary>
@@ -65,9 +68,11 @@ public sealed class BlazoriseLicenseProvider
             backgroundWorker.RunWorkerAsync();
         }
     }
+
     #endregion
 
     #region Methods
+
     private async void BackgroundWorker_DoWork( object sender, DoWorkEventArgs e )
     {
         if ( initialized )
@@ -323,9 +328,11 @@ public sealed class BlazoriseLicenseProvider
 
         return limitsTreeViewMaxRows;
     }
+
     #endregion
 
     #region Properties
+
     /// <summary>
     /// Gets the license.
     /// </summary>
@@ -345,5 +352,6 @@ public sealed class BlazoriseLicenseProvider
     /// Indicates if the current app is running in WebAssembly mode.
     /// </summary>
     private bool IsWebAssembly => jsRuntime is IJSInProcessRuntime;
+
     #endregion
 }
