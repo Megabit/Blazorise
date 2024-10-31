@@ -1628,7 +1628,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in Columns )
         {
             column.Filter.SearchValue = null;
-            column.Filter.SearchValues = null;
         }
 
         return Reload();
@@ -1648,7 +1647,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( fieldNames.Contains( column.Field ) )
             {
                 column.Filter.SearchValue = null;
-                column.Filter.SearchValues = null;
             }
                 
         }
@@ -2343,11 +2341,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     var currentFilterMode = column.GetFilterMethod() ?? column.GetDataGridFilterMethodAsColumn();
                     if ( currentFilterMode == DataGridColumnFilterMethod.Between )
                     {
-                        if ( column.Filter.SearchValues.IsNullOrEmpty() )
+                        var rangeSearchValues = column.Filter.SearchValue as object[];
+                        if ( rangeSearchValues is null || rangeSearchValues.Length < 2)
                             continue;
 
-                        var stringSearchValue1 = column.Filter.GetSearchValue1()?.ToString();
-                        var stringSearchValue2 = column.Filter.GetSearchValue2()?.ToString();
+                        var stringSearchValue1 = rangeSearchValues[0]?.ToString();
+                        var stringSearchValue2 = rangeSearchValues[1]?.ToString();
 
                         query = from item in query
                                 let cellRealValue = column.GetValue( item )

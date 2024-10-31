@@ -3,7 +3,7 @@
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
     <DropdownToggle @onclick:stopPropagation>
-        <Icon Name="@IconName.Filter" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="@(IsFiltering ? TextColor.Primary : TextColor.Default)" />
+        <Icon Name="@IconName.Filter" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="@(IsFiltering() ? TextColor.Primary : TextColor.Default)" />
     </DropdownToggle>
     <DropdownMenu>
         <Row Padding="@Blazorise.Padding.Is3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
@@ -45,8 +45,8 @@
                     <Field @key=filterMethod>
                         @if ( filterMethod == DataGridColumnFilterMethod.Between )
                         {
-                            <_DataGridCellFilter Column="Column" FilterSearchValue="Column.Filter.GetSearchValue1()" OnFilterChanged="@Column.Filter.SetSearchValue1" />
-                            <_DataGridCellFilter Column="Column" FilterSearchValue="Column.Filter.GetSearchValue2()" OnFilterChanged="@Column.Filter.SetSearchValue2" />
+                            <_DataGridCellFilter Column="Column" FilterSearchValue="@GetFilterValue1()" OnFilterChanged="@SetFilterValue1" />
+                            <_DataGridCellFilter Column="Column" FilterSearchValue="@GetFilterValue2()" OnFilterChanged="@SetFilterValue2" />
                         }
                         else
                         {
@@ -72,3 +72,35 @@
         </Row>
     </DropdownMenu>
 </Dropdown>
+
+@code {
+    private object GetFilterValue1()
+    {
+        return ( Column.Filter.SearchValue as object[] )?[0];
+    }
+
+    private object GetFilterValue2()
+    {
+        return ( Column.Filter.SearchValue as object[] )?[1];
+    }
+
+    private void SetFilterValue1( object value1 )
+    {
+        if ( Column.Filter.SearchValue is not object[] )
+        {
+            Column.Filter.SearchValue = new object[2];
+        }
+
+        ( Column.Filter.SearchValue as object[] )[0] = value1;
+    }
+
+    private void SetFilterValue2( object value2 )
+    {
+        if ( Column.Filter.SearchValue is not object[] )
+        {
+            Column.Filter.SearchValue = new object[2];
+        }
+
+        ( Column.Filter.SearchValue as object[] )[1] = value2;
+    }
+}
