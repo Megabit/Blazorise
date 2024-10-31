@@ -14,11 +14,12 @@ namespace Blazorise.Licensing;
 public sealed class BlazoriseLicenseProvider
 {
     #region Members
-    internal const int DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS = 1000;
-    internal const int DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS = 1000;
-    internal const int DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS = 10;
-    internal const int DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS = 1000;
-    internal const int DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS = 100;
+
+    public const int DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS = 1000;
+    public const int DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS = 1000;
+    public const int DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS = 10;
+    public const int DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS = 1000;
+    public const int DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS = 100;
 
     private static readonly Assembly CurrentAssembly = typeof( BlazoriseLicenseProvider ).Assembly;
 
