@@ -57,9 +57,9 @@
 </DocsPageParagraph>
 
 <Row Margin="Margin.Is5.OnY">
-    @foreach (var (_,providerData) in CssProvidersService.ProvidersData)
+    @foreach ( var (_, providerData) in CssProvidersService.ProvidersData )
     {
-        <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
+        <Column @key="@providerData" ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
             <Anchor To="@($"https://{providerData.SubPage}.blazorise.com/")" Target="Target.Blank" Class="text-decoration-none" TextColor="TextColor.Dark">
                 <Card Shadow="Shadow.Small" Border="Border.Is0">
                     <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{providerData.ImageFileName}")" Alt="@providerData.ImageAltText" Style="height:200px;" />

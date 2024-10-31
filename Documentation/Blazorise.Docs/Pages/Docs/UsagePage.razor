@@ -1,7 +1,7 @@
 ﻿@page "/docs/usage"
 @using Blazorise.Docs.Services
 
-<Seo Canonical="/docs/usage" Title="Blazorise Usage" Description="Blazorise is the only Blazor UI components library offering development independent of CSS frameworks, exclusively using C#, with support for CSS frameworks like Bootstrap, Tailwind, Bulma, AntDesign, Fluent 2, and Material."/>
+<Seo Canonical="/docs/usage" Title="Blazorise Usage" Description="Blazorise is the only Blazor UI components library offering development independent of CSS frameworks, exclusively using C#, with support for CSS frameworks like Bootstrap, Tailwind, Bulma, AntDesign, Fluent 2, and Material." />
 
 <DocsPageTitle Path="Usage">
     Blazorise Integration Guides
@@ -36,14 +36,14 @@
 </DocsPageParagraph>
 
 <Row Margin="Margin.Is5.OnY">
-    @foreach(var provider in CssProvidersService.ProvidersData.Values)
+    @foreach ( var providerData in CssProvidersService.ProvidersData.Values )
     {
-        <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-            <Anchor To="@($"docs/usage/{provider.UsageLink}")" Class="text-decoration-none" TextColor="TextColor.Dark">
+        <Column @key="@providerData" ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
+            <Anchor To="@($"docs/usage/{providerData.UsageLink}")" Class="text-decoration-none" TextColor="TextColor.Dark">
                 <Card Shadow="Shadow.Small" Border="Border.Is0">
-                    <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{provider.ImageFileName}")" Alt="@provider.ImageAltText" Style="height:200px;"/>
+                    <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{providerData.ImageFileName}")" Alt="@providerData.ImageAltText" Style="height:200px;" />
                     <CardBody>
-                        <CardTitle Size="5">@provider.Title</CardTitle>
+                        <CardTitle Size="5">@providerData.Title</CardTitle>
                     </CardBody>
                 </Card>
             </Anchor>
@@ -83,7 +83,7 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionSource Code="EmptyProviderExample"/>
+    <DocsPageSectionSource Code="EmptyProviderExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
