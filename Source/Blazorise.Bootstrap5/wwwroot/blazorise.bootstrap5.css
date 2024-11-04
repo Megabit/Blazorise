@@ -4482,6 +4482,10 @@ ol.ordered-list-upper-roman {
   text-decoration: inherit !important;
 }
 
+.text-justify {
+  text-align: justify !important;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }

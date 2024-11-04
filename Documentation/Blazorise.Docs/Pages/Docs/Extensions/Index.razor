@@ -11,13 +11,14 @@
 </DocsPageLead>
 
 <Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
-    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/extensions" ) && !string.IsNullOrEmpty( x.Description ) ) )
+    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/extensions" ) && !string.IsNullOrEmpty( x.Description) ) )
     {
         <Column Margin="Margin.Is3.FromBottom">
             <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
         </Column>
     }
 </Row>
+
 @code {
     public IEnumerable<PageEntry> PageEntries;
 
