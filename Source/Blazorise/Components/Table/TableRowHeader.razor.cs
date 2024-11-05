@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Defines a cell as header of a group of table cells.
 /// </summary>
-public partial class TableRowHeader : BaseDraggableComponent
+public partial class TableRowHeader : BaseDraggableComponent, IDisposable
 {
     #region Members
 
@@ -42,14 +43,29 @@ public partial class TableRowHeader : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionStartOffset.HasValue )
+        if ( FixedPosition == TableColumnFixedPosition.Start )
         {
-            builder.Append( $"left:{fixedPositionStartOffset:G29}px" );
+            if ( ParentTable.FixedColumnsSync )
+            {
+                var startOffset = ParentTableRow.GetTableRowHeaderFixedPositionStartOffset( this );
+                builder.Append( $"left:{startOffset:G29}px" );
+            }
+            else if ( fixedPositionStartOffset.HasValue )
+            {
+                builder.Append( $"left:{fixedPositionStartOffset:G29}px" );
+            }
         }
-
-        if ( FixedPosition == TableColumnFixedPosition.End && fixedPositionEndOffset.HasValue )
+        else if ( FixedPosition == TableColumnFixedPosition.End )
         {
-            builder.Append( $"right:{fixedPositionEndOffset:G29}px" );
+            if ( ParentTable.FixedColumnsSync )
+            {
+                var endOffset = ParentTableRow.GetTableRowHeaderFixedPositionEndOffset( this );
+                builder.Append( $"right:{endOffset:G29}px" );
+            }
+            else if ( fixedPositionEndOffset.HasValue )
+            {
+                builder.Append( $"right:{fixedPositionEndOffset:G29}px" );
+            }
         }
 
         base.BuildStyles( builder );
@@ -93,9 +109,35 @@ public partial class TableRowHeader : BaseDraggableComponent
         DirtyStyles();
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentTableRow?.RemoveTableRowHeader( this );
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentTableRow?.RemoveTableRowHeader( this );
+        }
+        return base.DisposeAsync( disposing );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the cascaded parent table component.
+    /// </summary>
+    [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent table row component.

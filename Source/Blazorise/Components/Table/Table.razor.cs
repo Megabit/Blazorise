@@ -456,5 +456,10 @@ public partial class Table : BaseDraggableComponent
         }
     }
 
+    /// <summary>
+    /// Gets or sets whether the Fixed Columns feature tries to resync the columns constantly.
+    /// <para>This feature might have a performance impact</para>
+    /// </summary>
+    [Parameter] public bool FixedColumnsSync { get; set; }
     #endregion
 }
