@@ -1,4 +1,5 @@
-﻿using Bunit;
+﻿using System.Threading.Tasks;
+using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -16,7 +17,7 @@ public class SelectNavigationComponentTest : TestContext
     }
 
     [Fact]
-    public void TestNavigation()
+    public async Task TestNavigation()
     {
         // setup
         var comp = RenderComponent<SelectNavigationsComponent>();
@@ -29,24 +30,24 @@ public class SelectNavigationComponentTest : TestContext
         Assert.Equal( "two", result.InnerHtml );
 
         // test 1
-        select.Change( "one" );
+        await select.ChangeAsync( "one" );
         Assert.Equal( "one", result.InnerHtml );
 
-        btnOne.Click();
+        await btnOne.ClickAsync();
         Assert.Equal( "one", result.InnerHtml );
 
         // test 2
-        select.Change( "two" );
+        await select.ChangeAsync( "two" );
         Assert.Equal( "two", result.InnerHtml );
 
-        btnTwo.Click();
+        await btnTwo.ClickAsync();
         Assert.Equal( "two", result.InnerHtml );
 
         // test 3
-        btnOne.Click();
+        await btnOne.ClickAsync();
         Assert.Equal( "one", result.InnerHtml );
 
-        btnTwo.Click();
+        await btnTwo.ClickAsync();
         Assert.Equal( "two", result.InnerHtml );
     }
 }

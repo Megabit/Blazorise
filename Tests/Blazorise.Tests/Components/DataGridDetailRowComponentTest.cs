@@ -15,7 +15,7 @@ public class DataGridDetailRowComponentTest : TestContext
     }
 
     [Fact]
-    public async Task DetailRow_DetailRowStartsVisible_True_ShouldRender()
+    public void DetailRow_DetailRowStartsVisible_True_ShouldRender()
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>();
@@ -30,7 +30,7 @@ public class DataGridDetailRowComponentTest : TestContext
     }
 
     [Fact]
-    public async Task DetailRow_DetailRowStartsVisible_False_ShouldNotRender()
+    public void DetailRow_DetailRowStartsVisible_False_ShouldNotRender()
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>(
@@ -72,14 +72,14 @@ public class DataGridDetailRowComponentTest : TestContext
         var rowsBefore = comp.FindAll( "#lblFraction" );
         foreach ( var item in comp.Instance.InMemoryData )
         {
-            comp.Instance.DataGridRef.ToggleDetailRow( item );
+            await comp.Instance.DataGridRef.ToggleDetailRow( item );
         }
 
         var rowsAfter = comp.FindAll( "#lblFraction" );
 
         foreach ( var item in comp.Instance.InMemoryData )
         {
-            comp.Instance.DataGridRef.ToggleDetailRow( item );
+            await comp.Instance.DataGridRef.ToggleDetailRow( item );
         }
 
         var rowsAfter2 = comp.FindAll( "#lblFraction" );
