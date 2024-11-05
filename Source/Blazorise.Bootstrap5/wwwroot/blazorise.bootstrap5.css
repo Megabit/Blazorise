@@ -896,6 +896,16 @@ input[readonly=readonly][type=range]::-ms-thumb {
 .form-group.row > label + div:has(> .flatpickr-wrapper) {
   position: relative;
 }
+.form-group:not(.row) .btn-group.btn-group-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: max-content;
+}
+.form-group:not(.row) .btn-group.btn-group-toggle .btn {
+  flex: 0 1 auto;
+}
 
 .jumbotron {
   padding: 2rem 1rem;

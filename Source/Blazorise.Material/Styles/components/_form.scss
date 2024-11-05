@@ -344,3 +344,19 @@ select[readonly] {
 @each $state, $data in $form-validation-states {
     @include form-validation-state($state, map-get($data, color), map-get($data, icon));
 }
+
+.form-group {
+    &:not(.row) {
+        .btn-group.btn-group-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+            width: max-content;
+
+            .btn {
+                flex: 0 1 auto;
+            }
+        }
+    }
+}

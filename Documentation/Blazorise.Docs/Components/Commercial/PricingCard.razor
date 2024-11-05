@@ -1,0 +1,70 @@
+﻿@using System.Globalization;
+<Card Margin="Margin.Is4.FromBottom" Border="Border.Rounded" Class="pricing-card" Height="Height.Is100" TextAlignment="TextAlignment.Start">
+    <CardBody Flex="Flex.Column.AlignItems.Start" Gap="Gap.Is3" Padding="Padding.Is0.FromBottom">
+        <Heading Size="HeadingSize.Is4" Margin="Margin.Is0" TextWeight="TextWeight.Normal" TextColor="@TextAccentColor">
+            @PlanName
+        </Heading>
+        <Div Width="Width.Is100">
+            <Div Height="Height.Px(50)" Flex="Flex.AlignItems.Baseline" Gap="Gap.Is3">
+                @if ( HigherPlanPrice != null && ShowHigherPlan )
+                {
+                    <Span TextSize="TextSize.Heading3" TextColor="TextColor.Muted" Style="@(ShowDiscount ? "text-decoration: line-through;" : null)">@HigherPlanPrice</Span>
+                    @if ( ShowDiscount )
+                    {
+                        <Span TextSize="TextSize.Heading4" TextColor="TextColor.Success" TextWeight="TextWeight.SemiBold">
+                            <Icon Name="IconName.ArrowDown" />
+                            15%
+                        </Span>
+                    }
+                }
+            </Div>
+            <Div>
+                @if ( PlanPrice != null )
+                {
+                    <Span TextSize="TextSize.Heading2">@PlanPrice</Span>
+
+                    @if ( PlanUnit != null )
+                    {
+                        <Small TextSize="TextSize.Heading3" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@PlanUnit</Small>
+                    }
+                }
+            </Div>
+        </Div>
+        @if ( ButtonContent is not null )
+        {
+            @ButtonContent
+        }
+        <Div Width="Width.Is100">
+            @if ( IncludesContent is not null )
+            {
+                <Div TextSize="TextSize.Default" TextColor="@TextAccentColor">
+                    @IncludesContent
+                </Div>
+                <hr />
+            }
+            @ChildContent
+        </Div>
+    </CardBody>
+</Card>
+
+@code {
+    [Parameter] public string PlanName { get; set; }
+
+    [Parameter] public bool ShowHigherPlan { get; set; }
+
+    [Parameter] public bool ShowDiscount { get; set; }
+
+    [Parameter] public string PlanPrice { get; set; }
+
+    [Parameter] public string HigherPlanPrice { get; set; }
+
+    [Parameter] public string PlanUnit { get; set; }
+
+    [Parameter] public TextColor TextAccentColor { get; set; }
+
+    [Parameter] public RenderFragment ButtonContent { get; set; }
+
+    [Parameter] public RenderFragment IncludesContent { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

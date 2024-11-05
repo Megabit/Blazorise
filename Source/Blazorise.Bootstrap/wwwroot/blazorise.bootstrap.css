@@ -760,6 +760,17 @@ input[readonly=readonly][type=range]::-ms-thumb {
   color: var(--b-theme-danger, #dc3545);
 }
 
+.form-group:not(.row) .btn-group.btn-group-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: max-content;
+}
+.form-group:not(.row) .btn-group.btn-group-toggle .btn {
+  flex: 0 1 auto;
+}
+
 .jumbotron.jumbotron-primary {
   background-color: #007bff;
   color: #fff;
