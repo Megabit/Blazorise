@@ -113,11 +113,16 @@
         }
     };
 
+    IFluentSpacing columnChooserMargin => GetColumnChooserPosition() switch
+    {
+        PagerElementPosition.End => Blazorise.Margin.Is2.OnX.IsAuto.OnY,
+        _ => Blazorise.Margin.Is2.OnX
+    };  
     private RenderFragment columnChooserFragment => __builder =>
     {
         @if ( ShowColumnChooser )
         {
-            <Field Display="Blazorise.Display.InlineBlock" Margin="Blazorise.Margin.Is2.OnX">
+            <Field Display="Blazorise.Display.InlineBlock" Margin="columnChooserMargin">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
                     <DropdownToggle @onclick:stopPropagation>
                         <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
