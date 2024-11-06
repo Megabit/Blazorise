@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
             @buttonRowFragment
@@ -20,7 +20,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center" Margin="Blazorise.Margin.IsAuto.OnX">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row" Margin="Blazorise.Margin.IsAuto.OnX">
         @if ( GetButtonRowPosition() == PagerElementPosition.Center )
         {
             @buttonRowFragment
@@ -117,7 +117,7 @@
     {
         @if ( ShowColumnChooser )
         {
-            <Field Display="Blazorise.Display.InlineBlock" Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart">
+            <Field Display="Blazorise.Display.InlineBlock" Margin="ColumnChooserMargin">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
                     <DropdownToggle @onclick:stopPropagation>
                         <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
