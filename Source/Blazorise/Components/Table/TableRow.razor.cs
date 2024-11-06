@@ -167,7 +167,7 @@ public partial class TableRow : BaseDraggableComponent
         double? fixedStartCellPosition = 0;
         foreach ( var headerCell in tableHeaderCells )
         {
-            if (tableHeaderCell == headerCell )
+            if ( tableHeaderCell == headerCell )
             {
                 break;
             }
@@ -180,7 +180,7 @@ public partial class TableRow : BaseDraggableComponent
     internal double? GetTableHeaderCellFixedPositionEndOffset( TableHeaderCell tableHeaderCell )
     {
         double? fixedEndCellPosition = 0;
-        for ( int i = tableHeaderCells.Count - 1; i >= 0 ; i-- )
+        for ( int i = tableHeaderCells.Count - 1; i >= 0; i-- )
         {
             var headerCell = tableHeaderCells[i];
             if ( tableHeaderCell == headerCell )
