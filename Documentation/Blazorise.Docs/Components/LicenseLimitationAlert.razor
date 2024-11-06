@@ -1,0 +1,10 @@
+﻿<Alert Color="Color.Warning" Visible>
+    📊 The Community License has a limitation of @LimitText. Unlock full access to all features with
+    <Anchor To="pricing" Target="Target.Blank" Title="Link to premium plans" Class="text-decoration-none">
+        our premium plans.
+    </Anchor>
+</Alert>
+
+@code {
+    [Parameter, EditorRequired] public string LimitText { get; set; } = "";
+}

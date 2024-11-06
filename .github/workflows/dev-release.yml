@@ -48,7 +48,7 @@ jobs:
       run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
 
     - name: Upload Blazorise.Components
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Blazorise-Packages
         path: ./Packages/
