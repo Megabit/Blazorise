@@ -110,6 +110,15 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     public RenderFragment<ColumnChooserContext<TItem>> ColumnChooserTemplate
         => ParentDataGrid?.ColumnChooserTemplate;
 
+    /// <summary>
+    /// Gets the margin for the column chooser.
+    /// </summary>
+    IFluentSpacing ColumnChooserMargin => GetColumnChooserPosition() switch
+    {
+        PagerElementPosition.End => Blazorise.Margin.Is2.FromStart.IsAuto.OnY,
+        _ => Blazorise.Margin.Is2.FromEnd
+    };
+
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
