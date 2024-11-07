@@ -77,15 +77,15 @@ public class DataGridComponentTest : TestContext
     }
 
     [Fact]
-    public void SortByField_Should_CorrectlyReorderRows()
+    public async Task SortByField_Should_CorrectlyReorderRows()
     {
         // setup
         var expectedOrderedValues = new[] { "3/4", "1/2", "1/3", "1/4", "1/8" };
         var comp = RenderComponent<DataGridComponent>();
 
         // test
-        comp.Find( "thead tr th:nth-child(2)" )
-            .Click(); // change sort order to descending
+        await comp.Find( "thead tr th:nth-child(2)" )
+            .ClickAsync(); // change sort order to descending
 
         // validate
         comp.FindAll( "tbody tr td:nth-child(2)" )
@@ -109,7 +109,7 @@ public class DataGridComponentTest : TestContext
         // test
         await Task.Factory.StartNew(
             // Note: event handling was implemented using Fire & Forget (async call without await keyword!)
-            () => comp.Find( "thead tr th:nth-child(2)" ).Click(), // change sort order to descending
+            () => comp.Find( "thead tr th:nth-child(2)" ).ClickAsync(), // change sort order to descending
             cancellationToken: CancellationToken.None,
             creationOptions: TaskCreationOptions.None,
             scheduler: new CurrentThreadTaskScheduler()
@@ -143,7 +143,7 @@ public class DataGridComponentTest : TestContext
         // test
         await Task.Factory.StartNew(
             // Note: event handling was implemented using Fire & Forget (async call without await keyword!)
-            action: () => comp.Find( "thead tr th:nth-child(2)" ).Click(), // change sort order to descending
+            action: () => comp.Find( "thead tr th:nth-child(2)" ).ClickAsync(), // change sort order to descending
             cancellationToken: CancellationToken.None,
             creationOptions: TaskCreationOptions.None,
             scheduler: new CurrentThreadTaskScheduler()
@@ -659,7 +659,7 @@ public class DataGridComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void Remove_Should_Invoke_RowRemove_Callbacks( DataGridEditMode editMode )
+    public async Task Remove_Should_Invoke_RowRemove_Callbacks( DataGridEditMode editMode )
     {
         // setup
 
@@ -689,7 +689,7 @@ public class DataGridComponentTest : TestContext
         var startingDataCount = comp.Instance.Data.Count();
 
         // test
-        comp.Click( "#btnDelete" );
+        await comp.Click( "#btnDelete" );
 
         var currentDataCount = comp.Instance.Data.Count();
 
@@ -708,7 +708,7 @@ public class DataGridComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void Edit_Should_UpdateItem( DataGridEditMode editMode )
+    public async Task Edit_Should_UpdateItem( DataGridEditMode editMode )
     {
         // setup
         var updatedName = "RaulFromEdit";
@@ -716,12 +716,12 @@ public class DataGridComponentTest : TestContext
             parameters.Add( x => x.DataGridEditMode, editMode ) );
 
         // test
-        comp.Find( "#btnEdit" ).Click();
+        await comp.Find( "#btnEdit" ).ClickAsync();
 
         comp.Input( "input", updatedName,
             ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
-        comp.Click( "#btnSave" );
+        await comp.Click( "#btnSave" );
 
         var currentName = comp.Instance.Data.ElementAt( 0 ).Name;
 
@@ -733,7 +733,7 @@ public class DataGridComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void Delete_Should_DeleteItem( DataGridEditMode editMode )
+    public async Task Delete_Should_DeleteItem( DataGridEditMode editMode )
     {
         // setup
         var comp = RenderComponent<DataGridComponent>( parameters =>
@@ -741,7 +741,7 @@ public class DataGridComponentTest : TestContext
         var startingDataCount = comp.Instance.Data.Count();
 
         // test
-        comp.Click( "#btnDelete" );
+        await comp.Click( "#btnDelete" );
 
         var currentDataCount = comp.Instance.Data.Count();
 
@@ -749,5 +749,4 @@ public class DataGridComponentTest : TestContext
         var expectedResult = startingDataCount - 1;
         comp.WaitForAssertion( () => Assert.Equal( expectedResult, currentDataCount ), System.TimeSpan.FromSeconds( 3 ) );
     }
-
 }

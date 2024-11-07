@@ -20,9 +20,9 @@ internal static class TestExtensions
         return services;
     }
 
-    public static void Click<T>( this IRenderedComponent<T> comp, string selector ) where T : IComponent
+    public static async Task Click<T>( this IRenderedComponent<T> comp, string selector ) where T : IComponent
     {
-        comp.WaitForElement( selector, WaitTime ).Click();
+        await comp.WaitForElement( selector, WaitTime ).ClickAsync();
     }
 
     public static void Input<T, TInput>( this IRenderedComponent<T> comp, string selector, TInput value, Action<IElement> action = null ) where T : IComponent
