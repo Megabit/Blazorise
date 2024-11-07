@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -48,11 +49,11 @@ public partial class TableRowHeader : BaseDraggableComponent, IDisposable
             if ( ParentTable.FixedColumnsSync )
             {
                 var startOffset = ParentTableRow.GetTableRowHeaderFixedPositionStartOffset( this );
-                builder.Append( $"left:{startOffset:G29}px" );
+                builder.Append( $"left:{startOffset.ToPreciseString()}px" );
             }
             else if ( fixedPositionStartOffset.HasValue )
             {
-                builder.Append( $"left:{fixedPositionStartOffset:G29}px" );
+                builder.Append( $"left:{fixedPositionStartOffset.ToPreciseString()}px" );
             }
         }
         else if ( FixedPosition == TableColumnFixedPosition.End )
@@ -60,11 +61,11 @@ public partial class TableRowHeader : BaseDraggableComponent, IDisposable
             if ( ParentTable.FixedColumnsSync )
             {
                 var endOffset = ParentTableRow.GetTableRowHeaderFixedPositionEndOffset( this );
-                builder.Append( $"right:{endOffset:G29}px" );
+                builder.Append( $"right:{endOffset.ToPreciseString()}px" );
             }
             else if ( fixedPositionEndOffset.HasValue )
             {
-                builder.Append( $"right:{fixedPositionEndOffset:G29}px" );
+                builder.Append( $"right:{fixedPositionEndOffset.ToPreciseString()}px" );
             }
         }
 
