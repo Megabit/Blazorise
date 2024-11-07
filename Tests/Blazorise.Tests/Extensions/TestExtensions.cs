@@ -25,12 +25,12 @@ internal static class TestExtensions
         await comp.WaitForElement( selector, WaitTime ).ClickAsync();
     }
 
-    public static void Input<T, TInput>( this IRenderedComponent<T> comp, string selector, TInput value, Action<IElement> action = null ) where T : IComponent
+    public static async Task Input<T, TInput>( this IRenderedComponent<T> comp, string selector, TInput value, Action<IElement> action = null ) where T : IComponent
     {
         var element = comp.WaitForElement( selector, WaitTime );
         if ( action is not null )
             action( element );
-        element.Input( value );
+        await element.InputAsync( value?.ToString() );
     }
 
     public static Task ClickOnAsync<T>( this IRenderedComponent<T> cut, string selector, MouseEventArgs mouseEventArgs = null ) where T : IComponent

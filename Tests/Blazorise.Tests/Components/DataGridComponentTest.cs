@@ -409,7 +409,7 @@ public class DataGridComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void New_Should_AddNewItem( DataGridEditMode editMode )
+    public async Task New_Should_AddNewItem( DataGridEditMode editMode )
     {
         // setup
         var comp = RenderComponent<DataGridComponent>( parameters =>
@@ -417,8 +417,9 @@ public class DataGridComponentTest : TestContext
         var startingDataCount = comp.Instance.Data.Count();
 
         // test
-        comp.Click( "#btnNew" );
-        comp.Click( "#btnSave" );
+        await comp.Click( "#btnNew" );
+        await comp.Click( "#btnSave" );
+
         var currentDataCount = comp.Instance.Data.Count();
 
         // validate
@@ -430,7 +431,7 @@ public class DataGridComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void New_Should_Invoke_RowInsert_Callbacks( DataGridEditMode editMode )
+    public async Task New_Should_Invoke_RowInsert_Callbacks( DataGridEditMode editMode )
     {
         // setup
         var newName = "RaulFromNew";
@@ -471,9 +472,9 @@ public class DataGridComponentTest : TestContext
         var startingDataCount = comp.Instance.Data.Count();
 
         // test
-        comp.Click( "#btnNew" );
-        comp.Input( "input", newName, ( firstInput ) => firstInput.SetAttribute( "value", newName ) );
-        comp.Click( "#btnSave" );
+        await comp.Click( "#btnNew" );
+        await comp.Input( "input", newName, ( firstInput ) => firstInput.SetAttribute( "value", newName ) );
+        await comp.Click( "#btnSave" );
         var currentDataCount = comp.Instance.Data.Count();
 
         // validate
@@ -546,12 +547,12 @@ public class DataGridComponentTest : TestContext
         } );
 
         // test
-        comp.Click( "#btnEdit" );
+        await comp.Click( "#btnEdit" );
 
-        comp.Input( "input", updatedName,
+        await comp.Input( "input", updatedName,
             ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
-        comp.Click( "#btnSave" );
+        await comp.Click( "#btnSave" );
 
         var dataGridRef = comp.FindComponent<DataGrid<Employee>>();
         await dataGridRef.Instance.Reload();
@@ -580,7 +581,7 @@ public class DataGridComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void Edit_Should_Update_ItemAndUI_WhenObservable( DataGridEditMode editMode )
+    public async Task Edit_Should_Update_ItemAndUI_WhenObservable( DataGridEditMode editMode )
     {
         // setup
         var updatedName = "RaulFromEdit";
@@ -627,12 +628,12 @@ public class DataGridComponentTest : TestContext
         } );
 
         // test
-        comp.Click( "#btnEdit" );
+        await comp.Click( "#btnEdit" );
 
-        comp.Input( "input", updatedName,
+        await comp.Input( "input", updatedName,
             ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
-        comp.Click( "#btnSave" );
+        await comp.Click( "#btnSave" );
 
 
 
@@ -718,7 +719,7 @@ public class DataGridComponentTest : TestContext
         // test
         await comp.Find( "#btnEdit" ).ClickAsync();
 
-        comp.Input( "input", updatedName,
+        await comp.Input( "input", updatedName,
             ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
         await comp.Click( "#btnSave" );
