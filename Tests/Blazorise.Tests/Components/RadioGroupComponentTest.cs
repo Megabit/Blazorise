@@ -1,4 +1,5 @@
-﻿using Bunit;
+﻿using System.Threading.Tasks;
+using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -12,7 +13,7 @@ public class RadioGroupComponentTest : TestContext
     }
 
     [Fact]
-    public void CanCheckString_InitiallyChecked()
+    public async Task CanCheckString_InitiallyChecked()
     {
         // setup
         var comp = RenderComponent<RadioGroupComponent>();
@@ -29,14 +30,14 @@ public class RadioGroupComponentTest : TestContext
         Assert.Null( radioB.GetAttribute( "checked" ) );
 
         // test 2
-        radioR.Change( "red" );
+        await radioR.ChangeAsync( "red" );
 
         Assert.Null( radioG.GetAttribute( "checked" ) );
         Assert.NotNull( radioR.GetAttribute( "checked" ) );
         Assert.Equal( "red", result.InnerHtml );
 
         // test 3
-        radioB.Change( "blue" );
+        await radioB.ChangeAsync( "blue" );
 
         Assert.Null( radioR.GetAttribute( "checked" ) );
         Assert.NotNull( radioB.GetAttribute( "checked" ) );
