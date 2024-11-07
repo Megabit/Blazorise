@@ -59,12 +59,12 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
             || disabledChanged
             || readOnlyChanged ) )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new ColorPickerUpdateJsOptions(
-            new PaletteChange( paletteChanged, palette ),
-            new OptionChange( showPaletteChanged, showPalette ),
-            new OptionChange( hideAfterPaletteSelectChanged, hideAfterPaletteSelect ),
-            new OptionChange( disabledChanged, disabled ),
-            new OptionChange( readOnlyChanged, readOnly )
+            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new(
+            PaletteChange: new JsOptionChange<string[]>( paletteChanged, palette ),
+            ShowPalette: new JsOptionChange<bool>( showPaletteChanged, showPalette ),
+            HideAfterPaletteSelect: new JsOptionChange<bool>( hideAfterPaletteSelectChanged, hideAfterPaletteSelect ),
+            Disabled: new JsOptionChange<bool>( disabledChanged, disabled ),
+            ReadOnly: new JsOptionChange<bool>( readOnlyChanged, readOnly )
             ) ) );
 
         }
@@ -107,23 +107,23 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        dotNetObjectRef ??= CreateDotNetObjectRef( this );
+        dotNetObjectRef ??= CreateDotNetObjectRef( value: this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new ColorPickerJsOptions(
-        Color,
-        Palette,
-        ShowPalette,
-        HideAfterPaletteSelect,
-        ShowClearButton,
-        ShowCancelButton,
-        ShowOpacitySlider,
-        ShowHueSlider,
-        ShowInputField,
-        Disabled,
-        ReadOnly,
-        Localizer.GetStrings(),
-        ColorPreviewElementSelector,
-        ColorValueElementSelector
+        await JSModule.Initialize( dotNetObjectRef: dotNetObjectRef, elementRef: ElementRef, elementId: ElementId, options: new ColorPickerJsOptions(
+        Default: Color,
+        Palette: Palette,
+        ShowPalette: ShowPalette,
+        HideAfterPaletteSelect: HideAfterPaletteSelect,
+        ShowClearButton: ShowClearButton,
+        ShowCancelButton: ShowCancelButton,
+        ShowOpacitySlider: ShowOpacitySlider,
+        ShowHueSlider: ShowHueSlider,
+        ShowInputField: ShowInputField,
+        Disabled: Disabled,
+        ReadOnly: ReadOnly,
+        Localization: Localizer.GetStrings(),
+        ColorPreviewElementSelector: ColorPreviewElementSelector,
+        ColorValueElementSelector: ColorValueElementSelector
         ) );
 
         await base.OnFirstAfterRenderAsync();

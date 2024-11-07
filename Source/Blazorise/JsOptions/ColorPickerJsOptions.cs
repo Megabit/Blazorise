@@ -19,15 +19,13 @@ public record ColorPickerJsOptions(
     string ColorValueElementSelector
     );
 
-public record OptionChange(bool Changed, bool Value);
-public record PaletteChange(bool Changed, string[] Value);
 
 public record ColorPickerUpdateJsOptions(
-    PaletteChange PaletteChange,
-    OptionChange ShowPalette,
-    OptionChange HideAfterPaletteSelect,
-    OptionChange Disabled,
-    OptionChange ReadOnly
+    JsOptionChange<string[]> PaletteChange,
+    JsOptionChange<bool> ShowPalette,
+    JsOptionChange<bool> HideAfterPaletteSelect,
+    JsOptionChange<bool> Disabled,
+    JsOptionChange<bool> ReadOnly
     );
 
 
