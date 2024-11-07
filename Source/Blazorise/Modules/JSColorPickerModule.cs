@@ -29,7 +29,7 @@ public class JSColorPickerModule : BaseJSModule, IJSColorPickerModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+    public virtual ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, ColorPickerJsOptions options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
 
     /// <inheritdoc/>
@@ -45,7 +45,7 @@ public class JSColorPickerModule : BaseJSModule, IJSColorPickerModule
         => InvokeSafeVoidAsync( "updateValue", elementRef, elementId, value );
 
     /// <inheritdoc/>
-    public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, ColorPickerUpdateJsOptions options )
         => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
     /// <inheritdoc/>

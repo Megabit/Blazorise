@@ -20,7 +20,7 @@ public interface IJSColorPickerModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Additional options for the tooltip initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
+    ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, ColorPickerJsOptions options );
 
     /// <summary>
     /// Updates the <see cref="ColorPicker"/> value.
@@ -38,7 +38,7 @@ public interface IJSColorPickerModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Options to update.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
+    ValueTask UpdateOptions( ElementReference elementRef, string elementId, ColorPickerUpdateJsOptions options );
 
     /// <summary>
     /// Updates the <see cref="ColorPicker"/> localization.

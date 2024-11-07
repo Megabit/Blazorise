@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+
 #endregion
 
 namespace Blazorise;
@@ -52,19 +54,19 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
         }
 
         if ( Rendered && ( paletteChanged
-                           || showPaletteChanged
-                           || hideAfterPaletteSelectChanged
-                           || disabledChanged
-                           || readOnlyChanged ) )
+            || showPaletteChanged
+            || hideAfterPaletteSelectChanged
+            || disabledChanged
+            || readOnlyChanged ) )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
-            {
-                Palette = new { Changed = paletteChanged, Value = palette },
-                ShowPalette = new { Changed = showPaletteChanged, Value = showPalette },
-                HideAfterPaletteSelect = new { Changed = hideAfterPaletteSelectChanged, Value = hideAfterPaletteSelect },
-                Disabled = new { Changed = disabledChanged, Value = disabled },
-                ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
-            } ) );
+            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new ColorPickerUpdateJsOptions(
+            new PaletteChange( paletteChanged, palette ),
+            new OptionChange( showPaletteChanged, showPalette ),
+            new OptionChange( hideAfterPaletteSelectChanged, hideAfterPaletteSelect ),
+            new OptionChange( disabledChanged, disabled ),
+            new OptionChange( readOnlyChanged, readOnly )
+            ) ) );
+
         }
 
         await base.SetParametersAsync( parameters );
@@ -107,23 +109,22 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     {
         dotNetObjectRef ??= CreateDotNetObjectRef( this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
-        {
-            Default = Color,
-            Palette,
-            ShowPalette,
-            HideAfterPaletteSelect,
-            ShowClearButton,
-            ShowCancelButton,
-            ShowOpacitySlider,
-            ShowHueSlider,
-            ShowInputField,
-            Disabled,
-            ReadOnly,
-            Localization = Localizer.GetStrings(),
-            ColorPreviewElementSelector,
-            ColorValueElementSelector,
-        } );
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new ColorPickerJsOptions(
+        Color,
+        Palette,
+        ShowPalette,
+        HideAfterPaletteSelect,
+        ShowClearButton,
+        ShowCancelButton,
+        ShowOpacitySlider,
+        ShowHueSlider,
+        ShowInputField,
+        Disabled,
+        ReadOnly,
+        Localizer.GetStrings(),
+        ColorPreviewElementSelector,
+        ColorValueElementSelector
+        ) );
 
         await base.OnFirstAfterRenderAsync();
     }
