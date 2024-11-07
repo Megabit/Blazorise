@@ -5,16 +5,17 @@
           Data="@employeeList"
           Responsive
           Filterable
-           FilterMode="DataGridFilterMode.Menu">
-     <DataGridColumns>
-         <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="false" FilterMethod="DataGridColumnFilterMethod.StartsWith"></DataGridColumn>
-         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="false"></DataGridColumn>
-         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-     </DataGridColumns>
-     <FilterMenuTemplate>
-         <Row>
-             <Column ColumnSize="ColumnSize.Is4">
-                 <Select TValue="DataGridColumnFilterMethod" SelectedValue="@context.GetFilterMethod()" SelectedValueChanged="e => { context.FilterMethodChanged.InvokeAsync(e); }">
+          FilterMode="DataGridFilterMode.Menu">
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="false" FilterMethod="DataGridColumnFilterMethod.StartsWith"></DataGridColumn>
+        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="false"></DataGridColumn>
+        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+        <DataGridNumericColumn Field="@nameof(Employee.Childrens)" Caption="Children" Editable />
+    </DataGridColumns>
+    <FilterMenuTemplate>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is4">
+                <Select TValue="DataGridColumnFilterMethod" SelectedValue="@context.GetFilterMethod()" SelectedValueChanged="e => { context.FilterMethodChanged.InvokeAsync(e); }">
                     @{
                         var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
                     }
@@ -33,12 +34,23 @@
                         <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.GreaterThanOrEqual">Greater Than Or Equal</SelectItem>
                         <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.LessThan">Less Than</SelectItem>
                         <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.LessThanOrEqual">Less Than Or Equal</SelectItem>
+                        <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Between">Between</SelectItem>
                     }
                 </Select>
             </Column>
 
             <Column ColumnSize="ColumnSize.Is4">
-                <TextEdit Text="@context.GetSearchValue()?.ToString()" TextChanged="@((newValue) => context.Column.Filter.SearchValue = newValue)" />
+                <Field @key=context.GetFilterMethod()>
+                    @if ( context.GetFilterMethod() == DataGridColumnFilterMethod.Between )
+                    {
+                        <TextEdit Text="@GetFilterValue1(context)" TextChanged="@((newValue) => SetFilterValue1(context.Column.Filter, newValue))" />
+                        <TextEdit Text="@GetFilterValue2(context)" TextChanged="@((newValue) => SetFilterValue2(context.Column.Filter, newValue))" />
+                    }
+                    else
+                    {
+                        <TextEdit Text="@context.GetSearchValue()?.ToString()" TextChanged="@((newValue) => context.Column.Filter.SearchValue = newValue)" />
+                    }
+                </Field>
             </Column>
 
             <Column ColumnSize="ColumnSize.Is4">
@@ -51,5 +63,35 @@
 
 @code {
     private DataGrid<Employee> dataGrid;
-    private List<Employee> employeeList = new() { new() { FirstName = "David", LastName = "Moreira", Gender = "M" }, new() { FirstName = "MLaden", LastName = "Macanovic", Gender = "M" }, new() { FirstName = "John", LastName = "Doe", Gender = "M" }, new() { FirstName = "Ana", LastName = "Chamberlain", Gender = "F" }, new() { FirstName = "Jessica", LastName = "Winston", Gender = "F" } };
+    private List<Employee> employeeList = new() { new() { FirstName = "David", LastName = "Moreira", Gender = "M", Childrens = 0 }, new() { FirstName = "MLaden", LastName = "Macanovic", Gender = "M", Childrens = 1 }, new() { FirstName = "John", LastName = "Doe", Gender = "M", Childrens = 2 }, new() { FirstName = "Ana", LastName = "Chamberlain", Gender = "F", Childrens = 5 }, new() { FirstName = "Jessica", LastName = "Winston", Gender = "F", Childrens = 2 } };
+
+    private string GetFilterValue1( FilterColumnContext<Employee> context )
+    {
+        return ( context.GetSearchValue() as object[] )?[0]?.ToString();
+    }
+
+    private string GetFilterValue2( FilterColumnContext<Employee> context )
+    {
+        return ( context.GetSearchValue() as object[] )?[1]?.ToString();
+    }
+
+    private void SetFilterValue1( FilterContext<Employee> context, object value1 )
+    {
+        if ( context.SearchValue is not object[] )
+        {
+            context.SearchValue = new object[2];
+        }
+
+        ( context.SearchValue as object[] )[0] = value1;
+    }
+
+    private void SetFilterValue2( FilterContext<Employee> context, object value2 )
+    {
+        if ( context.SearchValue is not object[] )
+        {
+            context.SearchValue = new object[2];
+        }
+
+        ( context.SearchValue as object[] )[1] = value2;
+    }
 }
