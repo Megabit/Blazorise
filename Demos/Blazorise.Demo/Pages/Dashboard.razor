@@ -1,77 +1,185 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
+
+<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.OnY">
+    Blazorise UI Components for Blazor
+</Heading>
+
+<Lead Margin="Margin.Is4.OnY">
+    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://tailwindcss.com/" Target="Target.Blank">Tailwind</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
+</Lead>
+
 <Row>
-    <Column>
-        <Card Margin="Margin.Is4.FromBottom">
-            <CardHeader>
-                <CardTitle>Fixed columns</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <CardText>Use <code>FixedColumns</code> to lock some columns.</CardText> Try to drag the horizontal scrollbar to see it in action.
-                <Field>
-                    <FieldLabel>Add/Remove fixed column</FieldLabel>
-                    <FieldBody><Check @bind-Checked=show /></FieldBody>
-                </Field>
-            </CardBody>
-            <CardBody>
-                <Table Bordered FixedColumns FixedColumnsSync>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell Width="@Width.Px(50)" FixedPosition="TableColumnFixedPosition.Start">#</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed heading</TableHeaderCell>
+    <Column Margin="Margin.Is3.FromBottom">
+        <Paragraph>
+            This demo app is designed to showcase a variety of UI elements and how they behave in different scenarios. With the demo app, you can explore the features and functionality of Blazorise, a component library for building modern web applications with <Anchor To="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" Target="Target.Blank">Blazor</Anchor>. You'll find a range of UI elements, including buttons, forms, tables, and more, all of which are fully interactive and responsive.
+        </Paragraph>
 
-                            @if ( show )
-                            {
-                                <TableHeaderCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed DYNAMIC</TableHeaderCell>
-                            }
-
-                            <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(850)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(330)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
-                            @if ( show )
-                            {
-                                <TableHeaderCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end DYNAMIC</TableHeaderCell>
-                            }
-                            <TableHeaderCell Width="@Width.Px(400)" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        @for ( int i = 1; i <= 3; ++i )
-                        {
-                            var index = i.ToString();
-
-                            <TableRow @key="@index">
-                                <TableRowCell Width="@Width.Px(50)" FixedPosition="TableColumnFixedPosition.Start">@index</TableRowCell>
-                                <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed column</TableRowCell>
-
-                                @if ( show )
-                                {
-                                    <TableRowCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed DYNAMIC</TableRowCell>
-                                }
-
-                                <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(850)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(330)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
-
-                                @if ( show )
-                                {
-                                    <TableRowCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end DYNAMIC</TableRowCell>
-                                }
-
-                                <TableRowCell Width="@Width.Px(400)" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
-                            </TableRow>
-                        }
-                    </TableBody>
-                </Table>
-            </CardBody>
-        </Card>
+        <Paragraph>
+            Whether you're new to Blazorise or an experienced developer, this demo app is a great way to get a feel for how the components work and how they can be used in your own projects. So go ahead and start exploring – we hope you find the demo app useful and informative!
+        </Paragraph>
     </Column>
 </Row>
 
-@code {
-    private bool show;
-}
+<Heading Size="HeadingSize.Is2" Margin="Margin.Is4.OnY">
+    Most popular Blazor components
+</Heading>
+
+<Grid Rows="GridRows.Are2" Columns="GridColumns.Are4.OnDesktop.Are1.OnMobile">
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Dashboard" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/datagrid" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor DataGrid</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        An incredibly quick and responsive grid component that allows users to display and manipulate data in a grid format within a Blazor application.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.ChartPie" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/charts" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Charts</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        The chart component offers various options for presenting data and is efficient and lightweight.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.CalendarDay" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/forms" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Editors</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        UI elements that allow users to enter and submit data in a form, such as text boxes, dropdown lists, and checkboxes.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.FileUpload" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/file-picker" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Upload</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        An intuitive Blazor UI element created to track and control the file upload procedure in real time.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Check" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/validations" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Validation</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Validation is a component that provides support for form validation in Blazor applications.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Expand" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/modals" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Modal</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Displays content in a separate window or overlay on top of the current page, often used to display additional information or to prompt the user for input.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Search" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/autocomplete" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Autocomplete</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Provides suggestions as the user types, based on a pre-defined list of options, in order to help the user quickly find and select the desired item.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Link" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/qrcode" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor QRCode</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Generates and displays a QR code image, which can be scanned by a QR code reader to access information or a website URL.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+</Grid>
+
+<Heading Size="HeadingSize.Is2" Margin="Margin.Is4.OnY">
+    Where can I find the code?
+</Heading>
+
+<Paragraph>
+    Full source code for this demo application can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
+</Paragraph>
+
+<Paragraph>
+    If you wish to learn more about Blazorise please go to the <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">official documentation</Anchor>.
+</Paragraph>
+
+<Row>
+    <Column Margin="Margin.Is4.OnY">
+        <Paragraph>
+            <Strong>Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
+        </Paragraph>
+    </Column>
+</Row>
