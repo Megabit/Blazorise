@@ -83,5 +83,4 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
     {
         return TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteReadDataComponent>();
     }
-
 }

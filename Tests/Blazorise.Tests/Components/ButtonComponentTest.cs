@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 #endregion
@@ -22,8 +23,8 @@ public class ButtonComponentTest : TestContext
         var buttonClose = "</button>";
 
         // test
-        var comp = RenderComponent<Button>(parameters => 
-        parameters.Add(x=> x.PreventDefaultOnSubmit, true));
+        var comp = RenderComponent<Button>( parameters =>
+        parameters.Add( x => x.PreventDefaultOnSubmit, true ) );
 
         // validate
         this.JSInterop.VerifyInvoke( "initialize" );
@@ -56,7 +57,7 @@ public class ButtonComponentTest : TestContext
 
 
     [Fact]
-    public void CanRaiseCallback()
+    public async Task CanRaiseCallback()
     {
         // setup
         var comp = RenderComponent<ButtonComponent>();
@@ -65,10 +66,10 @@ public class ButtonComponentTest : TestContext
         var button = comp.Find( "#basic-button" );
 
         // test
-        button.Click();
+        await button.ClickAsync();
         var result1 = result.InnerHtml;
 
-        button.Click();
+        await button.ClickAsync();
         var result2 = result.InnerHtml;
 
         // validate

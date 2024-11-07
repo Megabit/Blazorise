@@ -21,7 +21,7 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
     }
 
     [Fact]
-    public Task TagTemplate_Should_BeAbleTo_Remove()
+    public async Task TagTemplate_Should_BeAbleTo_Remove()
     {
         var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
         {
@@ -36,15 +36,13 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
             tags.Count.Should().Be( 2 );
         } );
 
-        comp.Find( ".badge .badge-close" ).Click();
+        await comp.Find( ".badge .badge-close" ).ClickAsync();
 
         comp.WaitForAssertion( () =>
         {
             tags.Refresh();
             tags.Count.Should().Be( 1 );
         } );
-
-        return Task.CompletedTask;
     }
 
     [Fact]

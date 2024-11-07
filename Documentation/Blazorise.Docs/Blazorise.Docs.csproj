@@ -36,9 +36,9 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
-    <PackageReference Include="MailKit" Version="4.7.0" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0-rc.2.*" />
-    <PackageReference Include="MimeKit" Version="4.7.1" />
+    <PackageReference Include="MimeKit" Version="4.8.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
   </ItemGroup>
 
@@ -75,10 +75,12 @@
     <EmbeddedResource Include="Pages\**\*.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.37.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Markdig" Version="0.38.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-rc.2.*" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Pages\Docs\Components\Tables\Examples\BasicMobileTableExample.razor">

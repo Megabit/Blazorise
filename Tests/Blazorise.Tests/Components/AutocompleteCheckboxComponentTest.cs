@@ -21,14 +21,14 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     }
 
     [Fact]
-    public void Suggestions_ShouldShow_Checkboxes()
+    public async Task Suggestions_ShouldShow_Checkboxes()
     {
         var comp = RenderComponent<AutocompleteCheckboxComponent>();
 
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        autoComplete.Input( "A" );
-        autoComplete.Focus();
+        await autoComplete.InputAsync( "A" );
+        await autoComplete.FocusAsync( new() );
 
         var suggestions = comp.FindAll( ".b-is-autocomplete-suggestion" );
 

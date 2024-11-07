@@ -51,6 +51,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Enable dates">
+        If you’d like to make only certain dates available for selection, you can assign the <Code>EnabledDates</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerEnabledDatesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerEnabledDatesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Disable days">
         If you’d like to make only certain days in a week unavailable for selection you can assign the <Code>DisabledDays</Code> parameter.
     </DocsPageSectionHeader>
@@ -459,6 +469,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DisabledDates" Type="IEnumerable<TValue>" Default="null">
         List of disabled dates that the user should not be able to pick.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EnabledDates" Type="IEnumerable<TValue>" Default="null">
+        List of enabled dates that the user should be able to pick.
     </DocsAttributesItem>
     <DocsAttributesItem Name="DisabledDays" Type="IEnumerable<DayOfWeek>" Default="null">
         List of disabled days in a week that the user should not be able to pick.

@@ -16,15 +16,11 @@
   background-color: rgba(10, 10, 10, 0.4);
 }
 
-.navbar-nav .nav-item:hover {
+.nav .nav-link:hover {
   cursor: pointer;
 }
 
 .navbar-nav .nav-link:hover {
-  cursor: pointer;
-}
-
-.nav .nav-link:hover {
   cursor: pointer;
 }
 
@@ -4484,6 +4480,10 @@ ol.ordered-list-upper-roman {
 }
 .text-decoration-inherit {
   text-decoration: inherit !important;
+}
+
+.text-justify {
+  text-align: justify !important;
 }
 
 .flatpickr-months {

@@ -246,7 +246,7 @@ public class AutocompleteBaseComponentTest : TestContext
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         await autoComplete.InputAsync( "" );
-        autoComplete.Focus();
+        await autoComplete.FocusAsync( new() );
 
         comp.WaitForAssertion( () => Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) ), TestExtensions.WaitTime );
     }
@@ -260,7 +260,7 @@ public class AutocompleteBaseComponentTest : TestContext
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         await autoComplete.InputAsync( "" );
-        autoComplete.Focus();
+        await autoComplete.FocusAsync( new() );
 
         var options = comp.FindAll( ".b-is-autocomplete-suggestion" );
 
@@ -384,7 +384,7 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         foreach ( var expectedText in expectedTexts )
         {
-            autoComplete.Focus();
+            await autoComplete.FocusAsync( new() );
             await autoComplete.InputAsync( expectedText );
 
             AutocompleteBaseComponentTest.WaitAndClickfirstOption( comp, expectedText, true );
@@ -402,7 +402,7 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         foreach ( var addText in addTexts )
         {
-            autoComplete.Focus();
+            await autoComplete.FocusAsync( new() );
             await autoComplete.InputAsync( addText );
             await autoComplete.KeyDownAsync( Key.Enter );
         }

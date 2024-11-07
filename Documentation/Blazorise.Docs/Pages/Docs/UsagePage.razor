@@ -1,4 +1,5 @@
 ﻿@page "/docs/usage"
+@using Blazorise.Docs.Services
 
 <Seo Canonical="/docs/usage" Title="Blazorise Usage" Description="Blazorise is the only Blazor UI components library offering development independent of CSS frameworks, exclusively using C#, with support for CSS frameworks like Bootstrap, Tailwind, Bulma, AntDesign, Fluent 2, and Material." />
 
@@ -35,78 +36,19 @@
 </DocsPageParagraph>
 
 <Row Margin="Margin.Is5.OnY">
-    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-        <Anchor To="docs/usage/fluent2" Class="text-decoration-none" TextColor="TextColor.Dark">
-            <Card Shadow="Shadow.Small" Border="Border.Is0">
-                <CardImage Source="_content/Blazorise.Docs/assets/img/logos/fluent2.svg" Alt="Tailwind image" Style="height:200px;" />
-                <CardBody>
-                    <CardTitle Size="5">Fluent 2</CardTitle>
-                </CardBody>
-            </Card>
-        </Anchor>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-        <Anchor To="docs/usage/bootstrap4" Class="text-decoration-none" TextColor="TextColor.Dark">
-            <Card Shadow="Shadow.Small" Border="Border.Is0">
-                <CardImage Source="_content/Blazorise.Docs/assets/img/logos/bootstrap-4.svg" Alt="Bootstrap 4 image" Style="height:200px;" />
-                <CardBody>
-                    <CardTitle Size="5">
-                        Bootstrap 4
-                    </CardTitle>
-                </CardBody>
-            </Card>
-        </Anchor>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-        <Anchor To="docs/usage/bootstrap5" Class="text-decoration-none" TextColor="TextColor.Dark">
-            <Card Shadow="Shadow.Small" Border="Border.Is0">
-                <CardImage Source="_content/Blazorise.Docs/assets/img/logos/bootstrap-5.svg" Alt="Bootstrap 5 image" Style="height:200px;" />
-                <CardBody>
-                    <CardTitle Size="5">Bootstrap 5</CardTitle>
-                </CardBody>
-            </Card>
-        </Anchor>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-        <Anchor To="docs/usage/tailwind" Class="text-decoration-none" TextColor="TextColor.Dark">
-            <Card Shadow="Shadow.Small" Border="Border.Is0">
-                <CardImage Source="_content/Blazorise.Docs/assets/img/logos/tailwind.svg" Alt="Tailwind image" Style="height:200px;" />
-                <CardBody>
-                    <CardTitle Size="5">Tailwind</CardTitle>
-                </CardBody>
-            </Card>
-        </Anchor>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-        <Anchor To="docs/usage/material" Class="text-decoration-none" TextColor="TextColor.Dark">
-            <Card Shadow="Shadow.Small" Border="Border.Is0">
-                <CardImage Source="_content/Blazorise.Docs/assets/img/logos/material.svg" Alt="Material image" Style="height:200px;" />
-                <CardBody>
-                    <CardTitle Size="5">Material</CardTitle>
-                </CardBody>
-            </Card>
-        </Anchor>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-        <Anchor To="docs/usage/ant-design" Class="text-decoration-none" TextColor="TextColor.Dark">
-            <Card Shadow="Shadow.Small" Border="Border.Is0">
-                <CardImage Source="_content/Blazorise.Docs/assets/img/logos/ant-design.svg" Alt="AntDesign image" Style="height:200px;" />
-                <CardBody>
-                    <CardTitle Size="5">Ant Design</CardTitle>
-                </CardBody>
-            </Card>
-        </Anchor>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-        <Anchor To="docs/usage/bulma" Class="text-decoration-none" TextColor="TextColor.Dark">
-            <Card Shadow="Shadow.Small" Border="Border.Is0">
-                <CardImage Source="_content/Blazorise.Docs/assets/img/logos/bulma.svg" Alt="Bulma image" Style="height:200px;" />
-                <CardBody>
-                    <CardTitle Size="5">Bulma</CardTitle>
-                </CardBody>
-            </Card>
-        </Anchor>
-    </Column>
+    @foreach ( var providerData in CssProvidersService.ProvidersData.Values )
+    {
+        <Column @key="@providerData" ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
+            <Anchor To="@($"docs/usage/{providerData.UsageLink}")" Class="text-decoration-none" TextColor="TextColor.Dark">
+                <Card Shadow="Shadow.Small" Border="Border.Is0">
+                    <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{providerData.ImageFileName}")" Alt="@providerData.ImageAltText" Style="height:200px;" />
+                    <CardBody>
+                        <CardTitle Size="5">@providerData.Title</CardTitle>
+                    </CardBody>
+                </Card>
+            </Anchor>
+        </Column>
+    }
 </Row>
 
 <DocsPageSubtitle>

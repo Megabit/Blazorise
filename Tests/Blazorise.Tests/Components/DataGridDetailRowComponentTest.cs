@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 #endregion
@@ -43,7 +44,7 @@ public class DataGridDetailRowComponentTest : TestContext
     }
 
     [Fact]
-    public void DetailRow_OnClick_ShouldHide()
+    public async Task DetailRow_OnClick_ShouldHide()
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>();
@@ -52,7 +53,7 @@ public class DataGridDetailRowComponentTest : TestContext
         var rowsFraction = comp.FindAll( "tbody tr.table-row-selectable" );
         foreach ( var row in rowsFraction )
         {
-            row.Click( detail: 1 );
+            await row.ClickAsync( new Microsoft.AspNetCore.Components.Web.MouseEventArgs { Detail = 1 } );
         }
 
         var rows = comp.FindAll( "#lblFraction" );
@@ -62,7 +63,7 @@ public class DataGridDetailRowComponentTest : TestContext
     }
 
     [Fact]
-    public void DetailRow_OnToggleDetailRowTrigger_ShouldTrigger()
+    public async Task DetailRow_OnToggleDetailRowTrigger_ShouldTrigger()
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>();
@@ -71,14 +72,14 @@ public class DataGridDetailRowComponentTest : TestContext
         var rowsBefore = comp.FindAll( "#lblFraction" );
         foreach ( var item in comp.Instance.InMemoryData )
         {
-            comp.Instance.DataGridRef.ToggleDetailRow( item );
+            await comp.Instance.DataGridRef.ToggleDetailRow( item );
         }
 
         var rowsAfter = comp.FindAll( "#lblFraction" );
 
         foreach ( var item in comp.Instance.InMemoryData )
         {
-            comp.Instance.DataGridRef.ToggleDetailRow( item );
+            await comp.Instance.DataGridRef.ToggleDetailRow( item );
         }
 
         var rowsAfter2 = comp.FindAll( "#lblFraction" );
@@ -91,7 +92,7 @@ public class DataGridDetailRowComponentTest : TestContext
 
 
     [Fact]
-    public void DetailRow_OnClick_Single_ToggleableFalse_ShouldTriggerOnlyOne()
+    public async Task DetailRow_OnClick_Single_ToggleableFalse_ShouldTriggerOnlyOne()
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>(
@@ -113,23 +114,23 @@ public class DataGridDetailRowComponentTest : TestContext
         var selectableRows = comp.FindAll( "tr.table-row-selectable" );
 
         //Click First row , validate one detail row shows.
-        selectableRows[0].Click();
+        await selectableRows[0].ClickAsync();
         var checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 1, checkDetailRows.Count );
 
         //Click second row , validate still only one detail row shows.
-        selectableRows[1].Click();
+        await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 1, checkDetailRows.Count );
 
         //Click second row again , validate still only one detail row shows.
-        selectableRows[1].Click();
+        await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 1, checkDetailRows.Count );
     }
 
     [Fact]
-    public void DetailRow_OnClick_Single_ShouldTriggerOnlyOne()
+    public async Task DetailRow_OnClick_Single_ShouldTriggerOnlyOne()
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>(
@@ -151,24 +152,24 @@ public class DataGridDetailRowComponentTest : TestContext
         var selectableRows = comp.FindAll( "tr.table-row-selectable" );
 
         //Click First row , validate one detail row shows.
-        selectableRows[0].Click();
+        await selectableRows[0].ClickAsync();
         var checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 1, checkDetailRows.Count );
 
         //Click second row , validate still only one detail row shows.
-        selectableRows[1].Click();
+        await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 1, checkDetailRows.Count );
 
         //Click second row again , validate that no detail row shows as toggleable is set to true.
-        selectableRows[1].Click();
+        await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 0, checkDetailRows.Count );
     }
 
 
     [Fact]
-    public void DetailRow_OnClick_ToggleableFalse_ShouldNotHide()
+    public async Task DetailRow_OnClick_ToggleableFalse_ShouldNotHide()
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>(
@@ -189,22 +190,22 @@ public class DataGridDetailRowComponentTest : TestContext
         var selectableRows = comp.FindAll( "tr.table-row-selectable" );
 
         //Validate 1 row detail
-        selectableRows[0].Click();
+        await selectableRows[0].ClickAsync();
         var checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 1, checkDetailRows.Count );
 
         //Validate still 1 row detail 
-        selectableRows[0].Click();
+        await selectableRows[0].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 1, checkDetailRows.Count );
 
         //Validate 2 row detail 
-        selectableRows[1].Click();
+        await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 2, checkDetailRows.Count );
 
         //Validate still 2 row detail 
-        selectableRows[1].Click();
+        await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
         Assert.Equal( 2, checkDetailRows.Count );
     }
