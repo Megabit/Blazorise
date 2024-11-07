@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System.Threading.Tasks;
+using AngleSharp.Dom;
 using Bunit;
 using Xunit;
 
@@ -21,7 +22,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     }
 
     [Fact]
-    public void CanAutoValidateName_InitiallyBlank()
+    public async Task CanAutoValidateName_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -30,11 +31,11 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.ClassList );
 
         // test 1
-        edit.Input( "a" );
+        await edit.InputAsync( "a" );
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         var feedback = comp.Find( "#auto-validate-name-initially-blank .invalid-feedback" );
@@ -44,7 +45,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     }
 
     [Fact]
-    public void CanAutoValidateName_InitiallyPopulated()
+    public async Task CanAutoValidateName_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -53,7 +54,7 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         var feedback = comp.Find( "#auto-validate-name-initially-populated .invalid-feedback" );
@@ -62,12 +63,12 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( NameRequired, feedback.TextContent );
 
         // test 2
-        edit.Input( "b" );
+        await edit.InputAsync( "b" );
         Assert.Contains( "is-valid", edit.ClassList );
     }
 
     [Fact]
-    public void CanAutoValidatePassword_InitiallyBlank()
+    public async Task CanAutoValidatePassword_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -76,7 +77,7 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.ClassList );
 
         // test 1
-        edit.Input( "1234" );
+        await edit.InputAsync( "1234" );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         var feedback = comp.Find( "#auto-validate-password-initially-blank .invalid-feedback" );
@@ -84,24 +85,24 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( PasswordLength, feedback.TextContent );
 
         // test 2
-        edit.Input( "12345" );
+        await edit.InputAsync( "12345" );
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 3
-        edit.Input( "12345678" );
+        await edit.InputAsync( "12345678" );
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 4
-        edit.Input( "123456789" );
+        await edit.InputAsync( "123456789" );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         // test 5
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.ClassList );
     }
 
     [Fact]
-    public void CanAutoValidatePassword_InitiallyPopulated()
+    public async Task CanAutoValidatePassword_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -110,7 +111,7 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 1
-        edit.Input( "1234" );
+        await edit.InputAsync( "1234" );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         var feedback = comp.Find( "#auto-validate-password-initially-populated .invalid-feedback" );
@@ -118,24 +119,24 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( PasswordLength, feedback.TextContent );
 
         // test 2
-        edit.Input( "12345" );
+        await edit.InputAsync( "12345" );
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 3
-        edit.Input( "12345678" );
+        await edit.InputAsync( "12345678" );
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 4
-        edit.Input( "123456789" );
+        await edit.InputAsync( "123456789" );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         // test 5
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.ClassList );
     }
 
     [Fact]
-    public void CanAutoValidatePasswordWithDisplay_InitiallyBlank()
+    public async Task CanAutoValidatePasswordWithDisplay_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -144,7 +145,7 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.ClassList );
 
         // test 1
-        edit.Input( "1234" );
+        await edit.InputAsync( "1234" );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         var feedback = comp.Find( "#auto-validate-password-with-display-initially-blank .invalid-feedback" );
@@ -153,7 +154,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     }
 
     [Fact]
-    public void CanManuallyValidateName_InitiallyBlank()
+    public async Task CanManuallyValidateName_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -164,25 +165,25 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.DoesNotContain( "is-valid", edit.ClassList );
 
         // test 1
-        btn.Click();
+        await btn.ClickAsync();
         Assert.Contains( "is-invalid", edit.ClassList );
 
         // test 2
-        edit.Input( "a" );
+        await edit.InputAsync( "a" );
         Assert.Contains( "is-invalid", edit.ClassList );
         Assert.DoesNotContain( "is-valid", edit.ClassList );
-        btn.Click();
+        await btn.ClickAsync();
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 3
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-valid", edit.ClassList );
-        btn.Click();
+        await btn.ClickAsync();
         Assert.Contains( "is-invalid", edit.ClassList );
     }
 
     [Fact]
-    public void CanManuallyValidateName_InitiallyPopulated()
+    public async Task CanManuallyValidateName_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -193,25 +194,25 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.DoesNotContain( "is-valid", edit.ClassList );
 
         // test 1
-        btn.Click();
+        await btn.ClickAsync();
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.DoesNotContain( "is-invalid", edit.ClassList );
         Assert.Contains( "is-valid", edit.ClassList );
-        btn.Click();
+        await btn.ClickAsync();
         Assert.Contains( "is-invalid", edit.ClassList );
 
         // test 3
-        edit.Input( "a" );
+        await edit.InputAsync( "a" );
         Assert.Contains( "is-invalid", edit.ClassList );
-        btn.Click();
+        await btn.ClickAsync();
         Assert.Contains( "is-valid", edit.ClassList );
     }
 
     [Fact]
-    public void CanAutoValidateName_InitiallyPopulated_ErrorOverride()
+    public async Task CanAutoValidateName_InitiallyPopulated_ErrorOverride()
     {
         // setup
         var comp = RenderComponent<ValidateAnnotationsComponent>();
@@ -220,7 +221,7 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( "is-valid", edit.ClassList );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.ClassList );
 
         var feedback = comp.Find( "#auto-validate-name-initially-populated-error-override .invalid-feedback" );
@@ -229,7 +230,7 @@ public class ValidateAnnotationsComponentTest : TestContext
         Assert.Contains( ErrorOverride, feedback.TextContent );
 
         // test 2
-        edit.Input( "b" );
+        await edit.InputAsync( "b" );
         Assert.Contains( "is-valid", edit.ClassList );
     }
 }

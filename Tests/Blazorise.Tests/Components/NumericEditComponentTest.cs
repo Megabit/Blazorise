@@ -1,4 +1,5 @@
-﻿using Bunit;
+﻿using System.Threading.Tasks;
+using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -12,7 +13,7 @@ public class NumericEditComponentTest : TestContext
     }
 
     [Fact]
-    public void CanChangeUndefinedIntegerUsingEvent()
+    public async Task CanChangeUndefinedIntegerUsingEvent()
     {
         // setup
         var comp = RenderComponent<NumericEditComponent>();
@@ -23,16 +24,16 @@ public class NumericEditComponentTest : TestContext
         Assert.Equal( "0", result.InnerHtml );
 
         // test 1
-        numeric.Input( "100" );
+        await numeric.InputAsync( "100" );
         Assert.Equal( "100", result.InnerHtml );
 
         // test 2
-        numeric.Input( "10" );
+        await numeric.InputAsync( "10" );
         Assert.Equal( "10", result.InnerHtml );
     }
 
     [Fact]
-    public void CanChangeNullableIntegerUsingEvent()
+    public async Task CanChangeNullableIntegerUsingEvent()
     {
         // setup
         var comp = RenderComponent<NumericEditComponent>();
@@ -43,16 +44,16 @@ public class NumericEditComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 1
-        numeric.Input( "100" );
+        await numeric.InputAsync( "100" );
         Assert.Equal( "100", result.InnerHtml );
 
         // test 2
-        numeric.Input( "10" );
+        await numeric.InputAsync( "10" );
         Assert.Equal( "10", result.InnerHtml );
     }
 
     [Fact]
-    public void CanChangeUndefinedDecimalUsingEvent()
+    public async Task CanChangeUndefinedDecimalUsingEvent()
     {
         // setup
         var comp = RenderComponent<NumericEditComponent>();
@@ -63,16 +64,16 @@ public class NumericEditComponentTest : TestContext
         Assert.Equal( "0", result.InnerHtml );
 
         // test 1
-        numeric.Input( "200" );
+        await numeric.InputAsync( "200" );
         Assert.Equal( "200", result.InnerHtml );
 
         // test 2
-        numeric.Input( "1" );
+        await numeric.InputAsync( "1" );
         Assert.Equal( "1", result.InnerHtml );
     }
 
     [Fact]
-    public void CanChangeNullableDecimalUsingEvent()
+    public async Task CanChangeNullableDecimalUsingEvent()
     {
         // setup
         var comp = RenderComponent<NumericEditComponent>();
@@ -83,11 +84,11 @@ public class NumericEditComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 1
-        numeric.Input( "1000" );
+        await numeric.InputAsync( "1000" );
         Assert.Equal( "1000", result.InnerHtml );
 
         // test 2
-        numeric.Input( "10" );
+        await numeric.InputAsync( "10" );
         Assert.Equal( "10", result.InnerHtml );
     }
 
@@ -130,7 +131,7 @@ public class NumericEditComponentTest : TestContext
     */
 
     [Fact]
-    public void CanTypeNumberWithDotDecimalSeparator()
+    public async Task CanTypeNumberWithDotDecimalSeparator()
     {
         // setup
         var comp = RenderComponent<NumericEditComponent>();
@@ -141,16 +142,16 @@ public class NumericEditComponentTest : TestContext
         Assert.Equal( "42.5", result.InnerHtml );
 
         // test 1
-        numeric.Input( "42.56" );
+        await numeric.InputAsync( "42.56" );
         Assert.Equal( "42.56", result.InnerHtml );
 
         // test 2
-        numeric.Input( "42.3" );
+        await numeric.InputAsync( "42.3" );
         Assert.Equal( "42.3", result.InnerHtml );
     }
 
     [Fact]
-    public void CanTypeNumberWithCommaDecimalSeparator()
+    public async Task CanTypeNumberWithCommaDecimalSeparator()
     {
         // setup
         var comp = RenderComponent<NumericEditComponent>();
@@ -161,11 +162,11 @@ public class NumericEditComponentTest : TestContext
         Assert.Equal( "42,5", result.InnerHtml );
 
         // test 1
-        numeric.Input( "42,56" );
+        await numeric.InputAsync( "42,56" );
         Assert.Equal( "42,56", result.InnerHtml );
 
         // test 2
-        numeric.Input( "42,3" );
+        await numeric.InputAsync( "42,3" );
         Assert.Equal( "42,3", result.InnerHtml );
     }
 }

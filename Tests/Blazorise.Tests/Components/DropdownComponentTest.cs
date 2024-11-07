@@ -15,7 +15,7 @@ public class DropdownComponentTest : TestContext
     }
 
     [Fact]
-    public void CanShowAndHideDropdownComponent()
+    public async Task CanShowAndHideDropdownComponent()
     {
         // setup
         var comp = RenderComponent<DropdownComponent>();
@@ -24,7 +24,7 @@ public class DropdownComponentTest : TestContext
         var mnuElement = comp.Find( "#dropdown-menu" );
 
         // test
-        btnElement.Click();
+        await btnElement.ClickAsync();
 
         // validate
         Assert.Contains( "show", drpElement.GetAttribute( "class" ) );

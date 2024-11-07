@@ -1,4 +1,5 @@
-﻿using Blazorise.Tests.TestServices;
+﻿using System.Threading.Tasks;
+using Blazorise.Tests.TestServices;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -19,7 +20,7 @@ public class BarLinkComponentTest : TestContext
     }
 
     [Fact]
-    public void CanRaiseClicked_WithoutToParameterSet()
+    public async Task CanRaiseClicked_WithoutToParameterSet()
     {
         // setup
         bool wasClicked = false;
@@ -30,14 +31,14 @@ public class BarLinkComponentTest : TestContext
             builder
                 .Add( p => p.Clicked, testCallback ) );
 
-        comp.Find( "a" ).Click();
+        await comp.Find( "a" ).ClickAsync();
 
         // validate
         Assert.True( wasClicked );
     }
 
     [Fact]
-    public void CanRaiseClicked_WithToParameterSet()
+    public async Task CanRaiseClicked_WithToParameterSet()
     {
         // setup
         bool wasClicked = false;
@@ -50,7 +51,7 @@ public class BarLinkComponentTest : TestContext
                 .Add( p => p.Clicked, testCallback ) );
 
         var link = comp.FindComponent<Link>();
-        link.Find( "a" ).Click();
+        await link.Find( "a" ).ClickAsync();
 
         // validate
         Assert.True( wasClicked );
