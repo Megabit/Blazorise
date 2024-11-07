@@ -18,7 +18,7 @@ public partial class TableRow : BaseDraggableComponent
 {
     #region Members
 
-    private int? elementHashCode;
+    private string elementHashCode;
 
     private List<TableHeaderCell> tableHeaderCells;
     private List<TableRowHeader> tableRowHeaders;
@@ -159,7 +159,7 @@ public partial class TableRow : BaseDraggableComponent
 
     private void RecalculateHashCode()
     {
-        elementHashCode = tableHeaderCells.GetListHash() + tableRowCells.GetListHash() + tableRowHeaders.GetListHash();
+        elementHashCode = ElementId + tableHeaderCells.GetListHash() + tableRowCells.GetListHash() + tableRowHeaders.GetListHash();
     }
 
     internal double? GetTableHeaderCellFixedPositionStartOffset( TableHeaderCell tableHeaderCell )
@@ -323,6 +323,9 @@ public partial class TableRow : BaseDraggableComponent
     /// Gets or sets the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
     /// Gets or sets the row variant color.
