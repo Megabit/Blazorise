@@ -31,7 +31,7 @@ public class DropdownComponentTest : TestContext
         Assert.Contains( "show", mnuElement.GetAttribute( "class" ) );
 
         // test
-        btnElement.Click();
+        await btnElement.ClickAsync();
 
         // validate
         this.JSInterop.VerifyInvoke( "registerClosableComponent" );

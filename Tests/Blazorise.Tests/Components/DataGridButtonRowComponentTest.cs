@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Bunit;
 using Xunit;
@@ -18,7 +19,7 @@ public class DataGridButtonRowComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void New_Should_AddNewItem( DataGridEditMode editMode )
+    public async Task New_Should_AddNewItem( DataGridEditMode editMode )
     {
         // setup
         var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
@@ -27,9 +28,8 @@ public class DataGridButtonRowComponentTest : TestContext
         var startingDataCount = comp.Instance.InMemoryData.Count;
 
         // test
-        comp.Click( "#btnNew" );
-        comp.Click( "#btnSave" );
-
+        await comp.Click( "#btnNew" );
+        await comp.Click( "#btnSave" );
 
         var currentDataCount = comp.Instance.InMemoryData.Count;
 
@@ -42,7 +42,7 @@ public class DataGridButtonRowComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void Edit_Should_UpdateItem( DataGridEditMode editMode )
+    public async Task Edit_Should_UpdateItem( DataGridEditMode editMode )
     {
         // setup
         var updatedName = "RaulFromEdit";
@@ -50,13 +50,13 @@ public class DataGridButtonRowComponentTest : TestContext
             parameters.Add( x => x.DataGridEditMode, editMode ) );
 
         // test
-        comp.Click( "tr.table-row-selectable" );
-        comp.Click( "#btnEdit" );
+        await comp.Click( "tr.table-row-selectable" );
+        await comp.Click( "#btnEdit" );
 
-        comp.Input( "input", updatedName,
+        await comp.Input( "input", updatedName,
             ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
-        comp.Click( "#btnSave" );
+        await comp.Click( "#btnSave" );
 
         var currentName = comp.Instance.InMemoryData[0].Name;
 
@@ -68,7 +68,7 @@ public class DataGridButtonRowComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void Delete_Should_DeleteItem( DataGridEditMode editMode )
+    public async Task Delete_Should_DeleteItem( DataGridEditMode editMode )
     {
         // setup
         var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
@@ -76,8 +76,8 @@ public class DataGridButtonRowComponentTest : TestContext
         var startingDataCount = comp.Instance.InMemoryData.Count;
 
         // test
-        comp.Click( "tr.table-row-selectable" );
-        comp.Click( "#btnDelete" );
+        await comp.Click( "tr.table-row-selectable" );
+        await comp.Click( "#btnDelete" );
 
         var currentDataCount = comp.Instance.InMemoryData.Count;
 

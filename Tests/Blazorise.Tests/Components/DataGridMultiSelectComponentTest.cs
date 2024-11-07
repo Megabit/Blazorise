@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 #endregion
@@ -14,17 +15,17 @@ public class DataGridMultiSelectComponentTest : TestContext
     }
 
     [Fact]
-    public void MultipleSelectAll_Should_Select_Unselect_AllRows()
+    public async Task MultipleSelectAll_Should_Select_Unselect_AllRows()
     {
         var comp = RenderComponent<DataGridMultiSelectComponent>();
-        comp.Find( "input[type=checkbox]:first-child" ).Change( true );
+        await comp.Find( "input[type=checkbox]:first-child" ).ChangeAsync( "true" );
         var allCheckbox = comp.FindAll( "input[type=checkbox]" );
         foreach ( var checkbox in allCheckbox )
         {
             Assert.NotNull( checkbox.GetAttribute( "checked" ) );
         }
 
-        comp.Find( "input[type=checkbox]:first-child" ).Change( false );
+        await comp.Find( "input[type=checkbox]:first-child" ).ChangeAsync( "false" );
         allCheckbox = comp.FindAll( "input[type=checkbox]" );
         foreach ( var checkbox in allCheckbox )
         {
