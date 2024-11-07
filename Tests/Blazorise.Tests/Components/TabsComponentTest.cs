@@ -1,4 +1,5 @@
-﻿using Bunit;
+﻿using System.Threading.Tasks;
+using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -12,7 +13,7 @@ public class TabsComponentTest : TestContext
     }
 
     [Fact]
-    public void CanSelectTabs()
+    public async Task CanSelectTabs()
     {
         // setup
         var comp = RenderComponent<TabsComponent>();
@@ -32,14 +33,14 @@ public class TabsComponentTest : TestContext
         Assert.DoesNotContain( "show", panels[2].GetAttribute( "class" ) );
 
         // test 2
-        links[0].Click();
+        await links[0].ClickAsync();
         panels = comp.FindAll( "a" );
         Assert.Contains( "show", panels[0].GetAttribute( "class" ) );
         Assert.DoesNotContain( "show", panels[1].GetAttribute( "class" ) );
         Assert.DoesNotContain( "show", panels[2].GetAttribute( "class" ) );
 
         // test 3
-        links[2].Click();
+        await links[2].ClickAsync();
         panels = comp.FindAll( "a" );
         Assert.DoesNotContain( "show", panels[0].GetAttribute( "class" ) );
         Assert.DoesNotContain( "show", panels[1].GetAttribute( "class" ) );
