@@ -72,35 +72,3 @@
         </Row>
     </DropdownMenu>
 </Dropdown>
-
-@code {
-    private object GetFilterValue1()
-    {
-        return ( Column.Filter.SearchValue as object[] )?[0];
-    }
-
-    private object GetFilterValue2()
-    {
-        return ( Column.Filter.SearchValue as object[] )?[1];
-    }
-
-    private void SetFilterValue1( object value1 )
-    {
-        if ( Column.Filter.SearchValue is not object[] )
-        {
-            Column.Filter.SearchValue = new object[2];
-        }
-
-        ( Column.Filter.SearchValue as object[] )[0] = value1;
-    }
-
-    private void SetFilterValue2( object value2 )
-    {
-        if ( Column.Filter.SearchValue is not object[] )
-        {
-            Column.Filter.SearchValue = new object[2];
-        }
-
-        ( Column.Filter.SearchValue as object[] )[1] = value2;
-    }
-}
