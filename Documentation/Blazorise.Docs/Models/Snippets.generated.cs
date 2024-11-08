@@ -8059,16 +8059,16 @@ Install-Package Blazorise.Chart.Zoom";
           Data=""@employeeList""
           Responsive
           Filterable
-          FilterMode=""DataGridFilterMode.Menu"">
-    <DataGridColumns>
-        <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
-        <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
-        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-    </DataGridColumns>
-    <FilterMenuTemplate>
-        <Row>
-            <Column ColumnSize=""ColumnSize.Is4"">
-                <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+           FilterMode=""DataGridFilterMode.Menu"">
+     <DataGridColumns>
+         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
+         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+     </DataGridColumns>
+     <FilterMenuTemplate>
+         <Row>
+             <Column ColumnSize=""ColumnSize.Is4"">
+                 <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
                     @{
                         var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
                     }
@@ -8105,14 +8105,7 @@ Install-Package Blazorise.Chart.Zoom";
 
 @code {
     private DataGrid<Employee> dataGrid;
-    private List<Employee> employeeList = new()
-    {
-        new() { FirstName = ""Liam"", LastName = ""Smith"", Gender = ""M"" },
-        new() { FirstName = ""Noah"", LastName = ""Johnson"", Gender = ""M"" },
-        new() { FirstName = ""Ethan"", LastName = ""Brown"", Gender = ""M"" },
-        new() { FirstName = ""Olivia"", LastName = ""Davis"", Gender = ""F"" },
-        new() { FirstName = ""Emma"", LastName = ""Wilson"", Gender = ""F"" }
-    };
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"" } };
 }";
 
         public const string DataGridFixedColumnsExample = @"<DataGrid TItem=""Employee""
