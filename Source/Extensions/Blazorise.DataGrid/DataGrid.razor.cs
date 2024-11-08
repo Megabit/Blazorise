@@ -1648,7 +1648,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 column.Filter.SearchValue = null;
             }
-                
         }
 
         return Reload();
@@ -2339,10 +2338,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 else
                 {
                     var currentFilterMode = column.GetFilterMethod() ?? column.GetDataGridFilterMethodAsColumn();
+
                     if ( currentFilterMode == DataGridColumnFilterMethod.Between )
                     {
                         var rangeSearchValues = column.Filter.SearchValue as object[];
-                        if ( rangeSearchValues is null || rangeSearchValues.Length < 2)
+
+                        if ( rangeSearchValues is null || rangeSearchValues.Length < 2 )
                             continue;
 
                         var stringSearchValue1 = rangeSearchValues[0]?.ToString();
@@ -2353,6 +2354,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                 let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
                                 where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
                                 select item;
+
                         continue;
                     }
 
