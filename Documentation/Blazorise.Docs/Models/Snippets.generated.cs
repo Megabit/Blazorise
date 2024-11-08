@@ -8118,7 +8118,14 @@ Install-Package Blazorise.Chart.Zoom";
 
 @code {
     private DataGrid<Employee> dataGrid;
-    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"", Childrens = 0 }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"", Childrens = 1 }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"", Childrens = 2 }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"", Childrens = 5 }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"", Childrens = 2 } };
+    private List<Employee> employeeList = new()
+    {
+        new() { FirstName = ""Liam"", LastName = ""Smith"", Gender = ""M"" },
+        new() { FirstName = ""Noah"", LastName = ""Johnson"", Gender = ""M"" },
+        new() { FirstName = ""Ethan"", LastName = ""Brown"", Gender = ""M"" },
+        new() { FirstName = ""Olivia"", LastName = ""Davis"", Gender = ""F"" },
+        new() { FirstName = ""Emma"", LastName = ""Wilson"", Gender = ""F"" }
+    };
 
     private string GetFilterValue1( FilterColumnContext<Employee> context )
     {
