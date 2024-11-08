@@ -65,11 +65,11 @@
     private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new()
     {
-        new() { FirstName = "Liam", LastName = "Smith", Gender = "M" },
-        new() { FirstName = "Noah", LastName = "Johnson", Gender = "M" },
-        new() { FirstName = "Ethan", LastName = "Brown", Gender = "M" },
-        new() { FirstName = "Olivia", LastName = "Davis", Gender = "F" },
-        new() { FirstName = "Emma", LastName = "Wilson", Gender = "F" }
+        new() { FirstName = "Liam", LastName = "Smith", Gender = "M", Childrens = 0 },
+        new() { FirstName = "Noah", LastName = "Johnson", Gender = "M", Childrens = 1 },
+        new() { FirstName = "Ethan", LastName = "Brown", Gender = "M", Childrens = 2 },
+        new() { FirstName = "Olivia", LastName = "Davis", Gender = "F", Childrens = 5 },
+        new() { FirstName = "Emma", LastName = "Wilson", Gender = "F", Childrens = 2 },
     };
 
     private string GetFilterValue1( FilterColumnContext<Employee> context )
