@@ -1645,7 +1645,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in Columns )
         {
             if ( fieldNames.Contains( column.Field ) )
+            {
                 column.Filter.SearchValue = null;
+            }
         }
 
         return Reload();
@@ -2335,6 +2337,27 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 }
                 else
                 {
+                    var currentFilterMode = column.GetFilterMethod() ?? column.GetDataGridFilterMethodAsColumn();
+
+                    if ( currentFilterMode == DataGridColumnFilterMethod.Between )
+                    {
+                        var rangeSearchValues = column.Filter.SearchValue as object[];
+
+                        if ( rangeSearchValues is null || rangeSearchValues.Length < 2 )
+                            continue;
+
+                        var stringSearchValue1 = rangeSearchValues[0]?.ToString();
+                        var stringSearchValue2 = rangeSearchValues[1]?.ToString();
+
+                        query = from item in query
+                                let cellRealValue = column.GetValue( item )
+                                let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
+                                where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
+                                select item;
+
+                        continue;
+                    }
+
                     var stringSearchValue = column.Filter.SearchValue?.ToString();
 
                     if ( string.IsNullOrEmpty( stringSearchValue ) )
@@ -2391,6 +2414,54 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Reload( filterCancellationTokenSource.Token );
     }
 
+    private bool CompareFilterRangeValues( string searchValue, string value1, string value2, DataGridColumnFilterMethod? columnFilterMethod, DataGridColumnType columnType, Type columnValueType )
+    {
+        if ( columnFilterMethod is not null )
+        {
+            switch ( columnFilterMethod )
+            {
+                case DataGridColumnFilterMethod.Between:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( value1, out var value1Decimal ) && decimal.TryParse( value2, out var value2Decimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal >= value1Decimal && searchValueDecimal <= value2Decimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( value1, out var value1Double ) && double.TryParse( value2, out var value2Double ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble >= value1Double && searchValueDouble <= value2Double;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( value1, out var value1Float ) && float.TryParse( value2, out var value2Float ) && double.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat >= value1Float && searchValueFloat <= value2Float;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( value1, out var value1Int ) && int.TryParse( value2, out var value2Int ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt >= value1Int && searchValueInt <= value2Int;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( value1, out var value1Short ) && short.TryParse( value2, out var value2Short ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort >= value1Short && searchValueShort <= value2Short;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( value1, out var value1DateTime ) && DateTime.TryParse( value2, out var value2DateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime >= value1DateTime && searchValueDateTime <= value2DateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( value1, out var value1DateTimeOffset ) && DateTimeOffset.TryParse( value2, out var value2DateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset >= value1DateTimeOffset && searchValueDateTimeOffset <= value2DateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( value1, out var value1DateOnly ) && DateOnly.TryParse( value2, out var value2DateOnly ) && DateOnly.TryParse( searchValue, out var searchValueDateOnly ) && searchValueDateOnly >= value1DateOnly && searchValueDateOnly <= value2DateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( value1, out var value1TimeOnly ) && TimeOnly.TryParse( value2, out var value2TimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly >= value1TimeOnly && searchValueTimeOnly <= value2TimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( value1, out var value1TimeSpan ) && TimeSpan.TryParse( value2, out var value2TimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan >= value1TimeSpan && searchValueTimeSpan <= value2TimeSpan;
+                    }
+                    return false;
+            }
+            return false;
+
+        }
+        return false;
+    }
     private bool CompareFilterValues( string searchValue, string compareTo, DataGridColumnFilterMethod? columnFilterMethod, DataGridColumnType columnType, Type columnValueType )
     {
         if ( columnFilterMethod is not null )
