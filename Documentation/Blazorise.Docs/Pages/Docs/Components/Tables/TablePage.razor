@@ -285,9 +285,13 @@
     <DocsAttributesItem Name="ResponsiveMode" Type="TableResponsiveMode" Default="Default">
         Gets or sets the Table's responsive mode.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="FixedColumnsSync" Type="bool" Default="false">
-        Gets or sets whether the FixedColumns feature tries to resync the columns constantly.
-        If enabled, this feature might have a performance impact on your application.
+    <DocsAttributesItem Name="FixedColumnsPositionSync" Type="bool" Default="false">
+        <Paragraph>
+            Gets or sets whether the <Code>FixedColumns</Code> feature automatically resynchronizes the columns positions when they are added or removed.
+        </Paragraph>
+        <Paragraph>
+            Enabling this feature may impact performance due to constant recalculations of fixed column positions.
+        </Paragraph>
     </DocsAttributesItem>
 </DocsAttributes>
 

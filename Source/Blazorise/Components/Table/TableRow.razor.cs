@@ -48,7 +48,7 @@ public partial class TableRow : BaseDraggableComponent
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if ( ParentTable.FixedColumnsSync )
+        if ( ParentTable.FixedColumnsPositionSync )
         {
             tableHeaderCells = new();
             tableRowHeaders = new();
@@ -106,7 +106,7 @@ public partial class TableRow : BaseDraggableComponent
 
     internal void AddTableHeaderCell( TableHeaderCell tableHeaderCell )
     {
-        if ( ParentTable.FixedColumnsSync )
+        if ( ParentTable.FixedColumnsPositionSync )
         {
             tableHeaderCells?.Add( tableHeaderCell );
             RecalculateHashCode();
@@ -124,7 +124,7 @@ public partial class TableRow : BaseDraggableComponent
 
     internal void AddTableRowHeader( TableRowHeader tableRowHeader )
     {
-        if ( ParentTable.FixedColumnsSync )
+        if ( ParentTable.FixedColumnsPositionSync )
         {
             tableRowHeaders?.Add( tableRowHeader );
             RecalculateHashCode();
@@ -142,7 +142,7 @@ public partial class TableRow : BaseDraggableComponent
 
     internal void AddTableRowCell( TableRowCell tableRowCell )
     {
-        if ( ParentTable.FixedColumnsSync )
+        if ( ParentTable.FixedColumnsPositionSync )
         {
             tableRowCells?.Add( tableRowCell );
             RecalculateHashCode();

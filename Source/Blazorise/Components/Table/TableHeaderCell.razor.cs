@@ -49,7 +49,7 @@ public partial class TableHeaderCell : BaseDraggableComponent, IDisposable
     {
         if ( FixedPosition == TableColumnFixedPosition.Start )
         {
-            if ( ParentTable.FixedColumnsSync )
+            if ( ParentTable.FixedColumnsPositionSync )
             {
                 var startOffset = ParentTableRow.GetTableHeaderCellFixedPositionStartOffset( this );
                 builder.Append( $"left:{startOffset.ToPreciseString()}px" );
@@ -61,7 +61,7 @@ public partial class TableHeaderCell : BaseDraggableComponent, IDisposable
         }
         else if ( FixedPosition == TableColumnFixedPosition.End )
         {
-            if ( ParentTable.FixedColumnsSync )
+            if ( ParentTable.FixedColumnsPositionSync )
             {
                 var endOffset = ParentTableRow.GetTableHeaderCellFixedPositionEndOffset( this );
                 builder.Append( $"right:{endOffset.ToPreciseString()}px" );
