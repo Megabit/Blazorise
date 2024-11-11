@@ -3780,9 +3780,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool FixedColumns { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the Fixed Columns feature tries to resync the columns constantly.
-    /// <para>This feature might have a performance impact</para>
+    /// Gets or sets whether the <see cref="FixedColumns"/> feature tries to resync the columns constantly.
     /// </summary>
+    /// <remarks>
+    /// If enabled, this feature might have a performance impact on your application.
+    /// </remarks>
     [Parameter] public bool FixedColumnsSync { get; set; }
 
     /// <summary>
