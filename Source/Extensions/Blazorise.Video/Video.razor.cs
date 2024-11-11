@@ -70,7 +70,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     {
         if ( firstRender )
         {
-            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new VideoJSOptions
+            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new VideoInitializeJSOptions
             {
                 Controls = Controls,
                 ControlsDelay = ControlsDelay,

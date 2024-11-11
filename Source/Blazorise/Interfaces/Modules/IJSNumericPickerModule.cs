@@ -20,7 +20,7 @@ public interface IJSNumericPickerModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Options for numeric edit.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
+    ValueTask Initialize( DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, NumericPickerInitializeJSOptions options );
 
     /// <summary>
     /// Updates the <see cref="NumericPicker{TValue}"/> options.
@@ -29,7 +29,7 @@ public interface IJSNumericPickerModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Options for numeric edit.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
+    ValueTask UpdateOptions( ElementReference elementRef, string elementId, NumericPickerUpdateJSOptions options );
 
     /// <summary>
     /// Updates the <see cref="NumericPicker{TValue}"/> value.

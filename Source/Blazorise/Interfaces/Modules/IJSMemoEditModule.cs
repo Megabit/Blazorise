@@ -18,7 +18,7 @@ public interface IJSMemoEditModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Options to initialize the memoedit.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, object options );
+    ValueTask Initialize( ElementReference elementRef, string elementId, MemoEditInitializeJSOptions options );
 
     /// <summary>
     /// Updates the memo options.
@@ -27,7 +27,7 @@ public interface IJSMemoEditModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">New options to initialize the memoedit.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
+    ValueTask UpdateOptions( ElementReference elementRef, string elementId, MemoEditUpdateJSOptions options );
 
     /// <summary>
     /// Recalculates the textarea height.

@@ -74,7 +74,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
         {
             ExecuteAfterRender( async () =>
             {
-                await JSModule.Initialize( ElementRef, ElementId, new ButtonJsOptions(PreventDefaultOnSubmit));
+                await JSModule.Initialize( ElementRef, ElementId, new ButtonJSOptions {PreventDefaultOnSubmit =PreventDefaultOnSubmit });
             } );
         }
 

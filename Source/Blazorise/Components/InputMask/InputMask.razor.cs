@@ -64,28 +64,29 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     {
         dotNetObjectRef ??= CreateDotNetObjectRef( this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
+        await JSModule.Initialize(dotNetObjectRef, ElementRef, ElementId, new InputMaskInitializeJSOptions
         {
-            Mask,
-            Regex,
-            Alias,
-            InputFormat,
-            OutputFormat,
-            MaskPlaceholder,
-            ShowMaskOnFocus,
-            ShowMaskOnHover,
-            NumericInput,
-            RightAlign,
-            DecimalSeparator,
-            GroupSeparator,
-            Nullable,
-            AutoUnmask,
+            Mask = Mask,
+            Regex = Regex,
+            Alias = Alias,
+            InputFormat = InputFormat,
+            OutputFormat = OutputFormat,
+            MaskPlaceholder = MaskPlaceholder,
+            ShowMaskOnFocus = ShowMaskOnFocus,
+            ShowMaskOnHover = ShowMaskOnHover,
+            NumericInput = NumericInput,
+            RightAlign = RightAlign,
+            DecimalSeparator = DecimalSeparator,
+            GroupSeparator = GroupSeparator,
+            Nullable = Nullable,
+            AutoUnmask = AutoUnmask,
             PositionCaretOnClick = PositionCaretOnClick.ToInputMaskCaretPosition(),
-            ClearMaskOnLostFocus,
-            ClearIncomplete,
-            Disabled,
-            ReadOnly,
-        } );
+            ClearMaskOnLostFocus = ClearMaskOnLostFocus,
+            ClearIncomplete = ClearIncomplete,
+            Disabled = Disabled,
+            ReadOnly = ReadOnly,
+        });
+
 
         await base.OnFirstAfterRenderAsync();
     }

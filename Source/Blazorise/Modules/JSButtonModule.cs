@@ -29,7 +29,7 @@ public class JSButtonModule : BaseJSModule, IJSButtonModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, ButtonJsOptions options )
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, ButtonJSOptions options )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
 
     /// <inheritdoc/>

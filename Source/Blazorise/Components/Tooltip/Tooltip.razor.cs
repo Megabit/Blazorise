@@ -71,28 +71,29 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         // try to detect if inline is needed
         ExecuteAfterRender( async () =>
         {
-            await JSModule.Initialize( ElementRef, ElementId, new
+            await JSModule.Initialize( ElementRef, ElementId, new TooltipInitializeJSOptions
             {
-                text = Text,
-                placement = ClassProvider.ToTooltipPlacement( Placement ),
-                multiline = Multiline,
-                alwaysActive = AlwaysActive,
-                showArrow = ShowArrow,
-                fade = Fade,
-                fadeDuration = FadeDuration,
-                trigger = ToTippyTrigger( Trigger ),
-                triggerTargetId = TriggerTargetId,
-                maxWidth = Theme?.TooltipOptions?.MaxWidth,
-                autodetectInline,
-                zIndex = ZIndex,
-                interactive = Interactive,
-                appendTo = AppendTo,
-                delay = new
+                Text = Text,
+                Placement = ClassProvider.ToTooltipPlacement( Placement ),
+                Multiline = Multiline,
+                AlwaysActive = AlwaysActive,
+                ShowArrow = ShowArrow,
+                Fade = Fade,
+                FadeDuration = FadeDuration,
+                Trigger = ToTippyTrigger( Trigger ),
+                TriggerTargetId = TriggerTargetId,
+                MaxWidth = Theme?.TooltipOptions?.MaxWidth,
+                AutodetectInline = autodetectInline,
+                ZIndex = ZIndex,
+                Interactive = Interactive,
+                AppendTo = AppendTo,
+                Delay = new TooltipDelay
                 {
-                    show = ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0,
-                    hide = ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0,
+                    Show = ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0,
+                    Hide = ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0
                 }
-            } );
+            });
+
         } );
 
         base.OnInitialized();
