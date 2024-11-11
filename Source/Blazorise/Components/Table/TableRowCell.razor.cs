@@ -1,5 +1,7 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// Defines a cell of a table that contains data.
 /// </summary>
-public partial class TableRowCell : BaseDraggableComponent
+public partial class TableRowCell : BaseDraggableComponent, IDisposable
 {
     #region Members
 
@@ -45,14 +47,29 @@ public partial class TableRowCell : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionStartOffset != null )
+        if ( FixedPosition == TableColumnFixedPosition.Start )
         {
-            builder.Append( $"left:{fixedPositionStartOffset:G29}px" );
+            if ( ParentTable.FixedColumnsPositionSync )
+            {
+                var startOffset = ParentTableRow.GetTableRowCellFixedPositionStartOffset( this );
+                builder.Append( $"left:{startOffset.ToPreciseString()}px" );
+            }
+            else if ( fixedPositionStartOffset.HasValue )
+            {
+                builder.Append( $"left:{fixedPositionStartOffset.ToPreciseString()}px" );
+            }
         }
-
-        if ( FixedPosition == TableColumnFixedPosition.End && fixedPositionEndOffset != null )
+        else if ( FixedPosition == TableColumnFixedPosition.End )
         {
-            builder.Append( $"right:{fixedPositionEndOffset:G29}px" );
+            if ( ParentTable.FixedColumnsPositionSync )
+            {
+                var endOffset = ParentTableRow.GetTableRowCellFixedPositionEndOffset( this );
+                builder.Append( $"right:{endOffset.ToPreciseString()}px" );
+            }
+            else if ( fixedPositionEndOffset.HasValue )
+            {
+                builder.Append( $"right:{fixedPositionEndOffset.ToPreciseString()}px" );
+            }
         }
 
         base.BuildStyles( builder );
@@ -97,9 +114,36 @@ public partial class TableRowCell : BaseDraggableComponent
         DirtyStyles();
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentTableRow?.RemoveTableRowCell( this );
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentTableRow?.RemoveTableRowCell( this );
+        }
+
+        return base.DisposeAsync( disposing );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the cascaded parent table component.
+    /// </summary>
+    [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent table row component.

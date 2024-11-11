@@ -3780,6 +3780,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool FixedColumns { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the <see cref="FixedColumns"/> feature automatically resynchronizes the columns positions when they are added or removed.
+    /// </summary>
+    /// <remarks>
+    /// Enabling this feature may impact performance due to constant recalculations of fixed column positions.
+    /// </remarks>
+    [Parameter] public bool FixedColumnsPositionSync { get; set; }
+
+    /// <summary>
     /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
     /// </summary>
     [Parameter] public string FixedHeaderDataGridHeight { get; set; } = "500px";
