@@ -14,4 +14,5 @@ public enum DataGridColumnFilterMethod
     LessThanOrEqual,
     GreaterThan,
     GreaterThanOrEqual,
+    Between,
 }

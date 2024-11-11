@@ -1,4 +1,5 @@
-﻿using Bunit;
+﻿using System.Threading.Tasks;
+using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -12,7 +13,7 @@ public class ValidateSelectComponentTest : TestContext
     }
 
     [Fact]
-    public void CanValidateText_InitiallyBlank()
+    public async Task CanValidateText_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -22,16 +23,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "Harry" );
+        await select.ChangeAsync( "Harry" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateStringWithBind_InitiallyBlank()
+    public async Task CanValidateStringWithBind_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -41,16 +42,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "Harry" );
+        await select.ChangeAsync( "Harry" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateStringWithBind_InitiallySelected()
+    public async Task CanValidateStringWithBind_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -60,16 +61,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "Harry" );
+        await select.ChangeAsync( "Harry" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateStringWithEvent_InitiallyBlank()
+    public async Task CanValidateStringWithEvent_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -79,17 +80,17 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "Harry" );
+        await select.ChangeAsync( "Harry" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
 
     [Fact]
-    public void CanValidateStringWithEvent_InitiallySelected()
+    public async Task CanValidateStringWithEvent_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -99,16 +100,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "Harry" );
+        await select.ChangeAsync( "Harry" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateInt_InitiallyBlank()
+    public async Task CanValidateInt_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -118,16 +119,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "1" );
+        await select.ChangeAsync( "1" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateIntWithBind_InitiallyBlank()
+    public async Task CanValidateIntWithBind_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -137,16 +138,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "1" );
+        await select.ChangeAsync( "1" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateIntWithBind_InitiallySelected()
+    public async Task CanValidateIntWithBind_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -156,16 +157,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "1" );
+        await select.ChangeAsync( "1" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateEnum_InitiallyBlank()
+    public async Task CanValidateEnum_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -175,16 +176,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "First" );
+        await select.ChangeAsync( "First" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateEnumWithBind_InitiallyBlank()
+    public async Task CanValidateEnumWithBind_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -194,16 +195,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "First" );
+        await select.ChangeAsync( "First" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateEnumWithBind_InitiallySelected()
+    public async Task CanValidateEnumWithBind_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -213,17 +214,17 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "First" );
+        await select.ChangeAsync( "First" );
         Assert.Contains( "is-valid", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
     }
 
     //  multiple select validation is failing.
     [Fact]
-    public void CanValidateMultiString_InitiallyBlank()
+    public async Task CanValidateMultiString_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateSelectComponent>();
@@ -233,16 +234,16 @@ public class ValidateSelectComponentTest : TestContext
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 1
-        select.Change( "Oliver" );
-        select.Change( "Jack" );
+        await select.ChangeAsync( "Oliver" );
+        await select.ChangeAsync( "Jack" );
         Assert.Contains( "custom-select", select.GetAttribute( "class" ) );
 
         // test 2
-        select.Change( "" );
+        await select.ChangeAsync( "" );
         Assert.Contains( "is-invalid", select.GetAttribute( "class" ) );
 
         // test 3
-        select.Change( "Oliver" );
+        await select.ChangeAsync( "Oliver" );
         Assert.Contains( "custom-select", select.GetAttribute( "class" ) );
     }
 }

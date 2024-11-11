@@ -181,7 +181,7 @@
                                     }
                                     else
                                     {
-                                        <_DataGridCellFilter Column="column" OnFilterChanged="@((newValue) => OnFilterChanged(column, newValue))" />
+                                        <_DataGridCellFilter Column="column" FilterSearchValue="@column.Filter.SearchValue" OnFilterChanged="@((newValue) => OnFilterChanged(column, newValue))" />
                                     }
                                 </TableHeaderCell>
                             }

@@ -3,27 +3,27 @@
 @{
     if ( Column is DataGridNumericColumn<TItem> numericColumn )
     {
-        <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@(numericColumn.Filter.SearchValue)" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellNumericEdit>
+        <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@FilterSearchValue" CellValueChanged="@OnFilterChanged"></_DataGridCellNumericEdit>
 
     }
     else if ( Column is DataGridSelectColumn<TItem> selectColumn )
     {
-        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellSelectEdit>
+        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@FilterSearchValue" CellValueChanged="@OnFilterChanged"></_DataGridCellSelectEdit>
 
     }
     else if ( Column is DataGridCheckColumn<TItem> checkColumn )
     {
-        <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@checkColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellCheckEdit>
+        <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@FilterSearchValue" CellValueChanged="@OnFilterChanged"></_DataGridCellCheckEdit>
 
     }
     else if ( Column is DataGridDateColumn<TItem> dateColumn )
     {
-        <_DataGridCellDatePicker Column="@dateColumn" CellValue="@dateColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellDatePicker>
+        <_DataGridCellDatePicker Column="@dateColumn" CellValue="@FilterSearchValue" CellValueChanged="@OnFilterChanged"></_DataGridCellDatePicker>
 
     }
     else
     {
-        <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => FilterChanged(newValue))" />
+        <TextEdit Text="@FilterSearchValue?.ToString()" TextChanged="@((value) => OnFilterChanged.InvokeAsync(value))" />
     }
 }
 @code {
@@ -31,9 +31,5 @@
 
     [Parameter] public EventCallback<object> OnFilterChanged { get; set; }
 
-    private Task FilterChanged( object newValue )
-    {
-        return OnFilterChanged.InvokeAsync( newValue );
-    }
-
+    [Parameter] public object FilterSearchValue { get; set; }
 }

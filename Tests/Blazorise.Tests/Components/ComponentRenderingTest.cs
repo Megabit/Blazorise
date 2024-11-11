@@ -1,4 +1,5 @@
-﻿using Bunit;
+﻿using System.Threading.Tasks;
+using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -46,7 +47,7 @@ public class ComponentRenderingTest : TestContext
     }
 
     [Fact]
-    public void CannotChangeElementId()
+    public async Task CannotChangeElementId()
     {
         // setup
         var comp = RenderComponent<ElementIdComponent>();
@@ -57,7 +58,7 @@ public class ComponentRenderingTest : TestContext
 
         // test
         var before = date.GetAttribute( "id" );
-        button.Click();
+        await button.ClickAsync();
 
         // validate
         this.JSInterop.VerifyNotInvoke( "initialize" );

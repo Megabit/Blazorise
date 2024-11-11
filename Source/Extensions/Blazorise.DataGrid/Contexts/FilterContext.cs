@@ -36,7 +36,9 @@ public class FilterContext<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets the filter value.
+    /// Gets or sets the filter value(s). 
+    /// <para>Reprents a single value OR</para>
+    /// <para>Represents the value(s) for filter methods that are range based.</para>
     /// </summary>
     public object SearchValue { get; set; }
 
