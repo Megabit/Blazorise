@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,7 @@ using Blazorise.Markdown.Providers;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+
 #endregion
 
 namespace Blazorise.Markdown;
@@ -85,66 +87,66 @@ public partial class Markdown : BaseComponent,
     {
         dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new MarkdownInitializeJSOptions
         {
-            Value,
-            AutoDownloadFontAwesome,
-            HideIcons,
-            ShowIcons,
-            LineNumbers,
-            LineWrapping,
-            MinHeight,
-            MaxHeight,
-            Placeholder,
-            TabSize,
-            Theme,
-            Direction,
+            Value = Value,
+            AutoDownloadFontAwesome = AutoDownloadFontAwesome,
+            HideIcons = HideIcons,
+            ShowIcons = ShowIcons,
+            LineNumbers = LineNumbers,
+            LineWrapping = LineWrapping,
+            MinHeight = MinHeight,
+            MaxHeight = MaxHeight,
+            Placeholder = Placeholder,
+            TabSize = TabSize,
+            Theme = Theme,
+            Direction = Direction,
             Toolbar = Toolbar != null && toolbarButtons?.Count > 0
                 ? MarkdownActionProvider.Serialize( toolbarButtons )
                 : null,
-            ToolbarTips,
-            UploadImage,
-            ImageMaxSize,
-            ImageAccept,
-            ImageUploadEndpoint,
-            ImagePathAbsolute,
-            ImageCSRFToken,
-            ImageTexts = ImageTexts == null ? null : new
+            ToolbarTips = ToolbarTips,
+            UploadImage = UploadImage,
+            ImageMaxSize = ImageMaxSize,
+            ImageAccept = ImageAccept,
+            ImageUploadEndpoint = ImageUploadEndpoint,
+            ImagePathAbsolute = ImagePathAbsolute,
+            ImageCSRFToken = ImageCSRFToken,
+            ImageTexts = ImageTexts == null ? null : new MarkdownImageTextsOptions
             {
                 SbInit = ImageTexts.Init,
                 SbOnDragEnter = ImageTexts.OnDragEnter,
                 SbOnDrop = ImageTexts.OnDrop,
                 SbProgress = ImageTexts.Progress,
                 SbOnUploaded = ImageTexts.OnUploaded,
-                ImageTexts.SizeUnits,
+                SizeUnits = ImageTexts.SizeUnits,
             },
-            ErrorMessages,
-            Autofocus,
-            AutoRefresh,
-            Autosave,
-            BlockStyles,
-            ForceSync,
-            IndentWithTabs,
-            InputStyle,
-            InsertTexts,
-            NativeSpellcheck,
-            ParsingConfig,
-            PreviewClass,
-            PreviewImagesInEditor,
-            PromptTexts,
-            PromptURLs,
-            RenderingConfig,
-            ScrollbarStyle,
-            Shortcuts,
-            SideBySideFullscreen,
-            SpellChecker,
-            Status,
-            StyleSelectedText,
-            SyncSideBySidePreviewScroll,
-            UnorderedListStyle,
-            ToolbarButtonClassPrefix,
-            UsePreviewRender = PreviewRender != null,
+            ErrorMessages = ErrorMessages,
+            Autofocus = Autofocus,
+            AutoRefresh = AutoRefresh,
+            Autosave = Autosave,
+            BlockStyles = BlockStyles,
+            ForceSync = ForceSync,
+            IndentWithTabs = IndentWithTabs,
+            InputStyle = InputStyle,
+            InsertTexts = InsertTexts,
+            NativeSpellcheck = NativeSpellcheck,
+            ParsingConfig = ParsingConfig,
+            PreviewClass = PreviewClass,
+            PreviewImagesInEditor = PreviewImagesInEditor,
+            PromptTexts = PromptTexts,
+            PromptURLs = PromptURLs,
+            RenderingConfig = RenderingConfig,
+            ScrollbarStyle = ScrollbarStyle,
+            Shortcuts = Shortcuts,
+            SideBySideFullscreen = SideBySideFullscreen,
+            SpellChecker = SpellChecker,
+            Status = Status,
+            StyleSelectedText = StyleSelectedText,
+            SyncSideBySidePreviewScroll = SyncSideBySidePreviewScroll,
+            UnorderedListStyle = UnorderedListStyle,
+            UsePreviewRender = PreviewRender != null
         } );
+
 
         await base.OnFirstAfterRenderAsync();
     }
@@ -276,7 +278,7 @@ public partial class Markdown : BaseComponent,
         file.Owner = (IFileEntryOwner)(object)this;
 
         if ( ImageUploadChanged is not null )
-            await ImageUploadChanged.Invoke( new( file ) );
+            await ImageUploadChanged.Invoke( new(file) );
 
         file.FileUploadEndedCallback.SetResult();
         await InvokeAsync( StateHasChanged );
@@ -291,7 +293,7 @@ public partial class Markdown : BaseComponent,
         Progress = 0;
 
         if ( ImageUploadStarted is not null )
-            return ImageUploadStarted.Invoke( new( fileEntry ) );
+            return ImageUploadStarted.Invoke( new(fileEntry) );
 
         return Task.CompletedTask;
     }
@@ -299,14 +301,14 @@ public partial class Markdown : BaseComponent,
     /// <inheritdoc/>
     public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
     {
-#pragma warning disable CS4014 // We want to let execution complete but wait for TaskCompletionSource on the background.
+#pragma warning disable CS4014// We want to let execution complete but wait for TaskCompletionSource on the background.
         InvokeAsync( async () =>
         {
             if ( fileEntry.FileUploadEndedCallback is not null )
                 await fileEntry.FileUploadEndedCallback.Task;
 
             if ( ImageUploadEnded is not null )
-                await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
+                await ImageUploadEnded.Invoke( new(fileEntry, success, fileInvalidReason) );
 
             if ( !success )
             {
@@ -328,7 +330,7 @@ public partial class Markdown : BaseComponent,
             return Task.CompletedTask;
 
         if ( ImageUploadWritten is not null )
-            return ImageUploadWritten.Invoke( new( fileEntry, position, data ) );
+            return ImageUploadWritten.Invoke( new(fileEntry, position, data) );
 
         return Task.CompletedTask;
     }
@@ -348,7 +350,7 @@ public partial class Markdown : BaseComponent,
             Progress = progress;
 
             if ( ImageUploadProgressed is not null )
-                return ImageUploadProgressed.Invoke( new( fileEntry, Progress ) );
+                return ImageUploadProgressed.Invoke( new(fileEntry, Progress) );
         }
 
         return Task.CompletedTask;
@@ -504,13 +506,21 @@ public partial class Markdown : BaseComponent,
     /// An array of icon names to hide. Can be used to hide specific icons shown by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] HideIcons { get; set; } = new[] { "side-by-side", "fullscreen" };
+    [Parameter] public string[] HideIcons { get; set; } = new[]
+    {
+        "side-by-side",
+        "fullscreen"
+    };
 
     /// <summary>
     /// An array of icon names to show. Can be used to show specific icons hidden by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] ShowIcons { get; set; } = new[] { "code", "table" };
+    [Parameter] public string[] ShowIcons { get; set; } = new[]
+    {
+        "code",
+        "table"
+    };
 
     /// <summary>
     /// [Optional] Gets or sets the content of the toolbar.

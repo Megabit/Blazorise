@@ -31,7 +31,7 @@ public class JSPdfViewerModule : BaseJSModule,
 
     #region Methods
 
-    public virtual async ValueTask Initialize( DotNetObjectReference<PdfViewer> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+    public virtual async ValueTask Initialize( DotNetObjectReference<PdfViewer> dotNetObjectReference, ElementReference elementRef, string elementId, PdfViewerInitializeJSOptions options )
     {
         var moduleInstance = await Module;
 
@@ -45,7 +45,7 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
     }
 
-    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, PdfViewerUpdateJSOptions options )
     {
         var moduleInstance = await Module;
 

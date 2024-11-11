@@ -156,18 +156,17 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     protected virtual async Task SynchronizeAnimation()
     {
         await DisposeAnimation();
-        JSAnimationReference = await JSModule.InitializeAnimation( DotNetObjectRef, ElementRef, ElementId, new
+        JSAnimationReference = await JSModule.InitializeAnimation(DotNetObjectRef, ElementRef, ElementId, new LottieAnimationInitializeJSOptions
         {
-            Path,
-            Loop,
+            Path = Path,
+            Loop = Loop,
             Autoplay = !Paused,
-            Renderer,
-            Direction,
-            Speed,
-            // We only want to send the current frame if someone is listening for updates, otherwise we can skip it to
-            // save on bandwidth
+            Renderer = Renderer,
+            Direction = Direction,
+            Speed = Speed,
             SendCurrentFrame = CurrentFrameChanged.HasDelegate
-        } );
+        });
+
     }
 
     /// <summary>

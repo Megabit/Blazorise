@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Charts.DataLabels;
 using Blazorise.Modules;
 using Microsoft.JSInterop;
 #endregion
@@ -19,7 +20,7 @@ public class JSChartDataLabelsModule : BaseJSModule
     {
     }
 
-    public virtual ValueTask SetDataLabels( string canvasId, object datasets, object options )
+    public virtual ValueTask SetDataLabels( string canvasId, object datasets, ChartDataLabelsOptions options )
         => InvokeSafeVoidAsync( "setDataLabels", canvasId, datasets, options );
 
     /// <inheritdoc/>

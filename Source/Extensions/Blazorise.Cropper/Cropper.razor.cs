@@ -42,26 +42,19 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 || gridOptionsChanged
                 || enabledChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
-                {
-                    Source = new { Changed = sourceChanged, Value = paramSource },
-                    Alt = new { Changed = altChanged, Value = paramAlt },
-                    CrossOrigin = new { Changed = crossoriginChanged, Value = paramCrossOrigin },
-                    Image = new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions(ElementRef, ElementId, new CropperUpdateJSOptions
                     {
-                        Changed = imageOptionsChanged,
-                        Value = new
+                        Source = new(sourceChanged, paramSource),
+                        Alt = new(altChanged, paramAlt),
+                        CrossOrigin = new(crossoriginChanged, paramCrossOrigin),
+                        Image = new(imageOptionsChanged, new CropperImageOptions
                         {
                             Rotatable = paramImageOptions?.Rotatable ?? true,
                             Scalable = paramImageOptions?.Scalable ?? true,
                             Skewable = paramImageOptions?.Skewable ?? true,
                             Translatable = paramImageOptions?.Translatable ?? true,
-                        }
-                    },
-                    Selection = new
-                    {
-                        Changed = selectionOptionsChanged,
-                        Value = new
+                        }),
+                        Selection = new(selectionOptionsChanged, new CropperSelectionJSOptions
                         {
                             AspectRatio = paramSelectionOptions?.AspectRatio.Value,
                             InitialAspectRatio = paramSelectionOptions?.InitialAspectRatio.Value,
@@ -71,21 +64,16 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                             Zoomable = paramSelectionOptions?.Zoomable ?? false,
                             Keyboard = paramSelectionOptions?.Keyboard ?? false,
                             Outlined = paramSelectionOptions?.Outlined ?? false
-                        }
-                    },
-                    Grid = new
-                    {
-                        Changed = gridOptionsChanged,
-                        Value = new
+                        }),
+                        Grid = new(gridOptionsChanged, new CropperGridOptions
                         {
                             Rows = paramGridOptions?.Rows ?? 3,
                             Columns = paramGridOptions?.Columns ?? 3,
                             Bordered = paramGridOptions?.Bordered ?? false,
                             Covered = paramGridOptions?.Covered ?? false,
-                        }
-                    },
-                    Enabled = new { Changed = enabledChanged, Value = paramEnabled },
-                } ) );
+                        }),
+                        Enabled = new(enabledChanged, paramEnabled)
+                    }) );
             }
         }
 
@@ -102,20 +90,20 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             JSModule ??= new JSCropperModule( JSRuntime, VersionProvider, BlazoriseOptions );
             adapter ??= DotNetObjectReference.Create( new CropperAdapter( this ) );
 
-            await JSModule.Initialize( adapter, ElementRef, ElementId, new
+            await JSModule.Initialize(adapter, ElementRef, ElementId, new CropperInitializeJSOptions
             {
-                Source,
-                Alt,
-                Enabled,
-                ShowBackground,
-                Image = new
+                Source = Source,
+                Alt = Alt,
+                Enabled = Enabled,
+                ShowBackground = ShowBackground,
+                Image = new CropperImageOptions
                 {
                     Rotatable = ImageOptions?.Rotatable ?? true,
                     Scalable = ImageOptions?.Scalable ?? true,
                     Skewable = ImageOptions?.Skewable ?? true,
                     Translatable = ImageOptions?.Translatable ?? true,
                 },
-                Selection = new
+                Selection = new CropperSelectionJSOptions
                 {
                     AspectRatio = SelectionOptions?.AspectRatio.Value,
                     InitialAspectRatio = SelectionOptions?.InitialAspectRatio.Value,
@@ -126,14 +114,15 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                     Keyboard = SelectionOptions?.Keyboard ?? false,
                     Outlined = SelectionOptions?.Outlined ?? false
                 },
-                Grid = new
+                Grid = new CropperGridOptions
                 {
                     Rows = GridOptions?.Rows ?? 3,
                     Columns = GridOptions?.Columns ?? 3,
                     Bordered = GridOptions?.Bordered ?? false,
                     Covered = GridOptions?.Covered ?? false,
                 }
-            } );
+            });
+
 
             if ( CropperState is not null )
             {

@@ -14,13 +14,13 @@ internal class JSCropperModule : BaseJSModule, IJSDestroyableModule
     {
     }
 
-    public ValueTask Initialize( DotNetObjectReference<CropperAdapter> adapterReference, ElementReference elementRef, string elementId, object options )
+    public ValueTask Initialize( DotNetObjectReference<CropperAdapter> adapterReference, ElementReference elementRef, string elementId, CropperInitializeJSOptions options )
         => InvokeSafeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
 
     public ValueTask Destroy( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 
-    public ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    public ValueTask UpdateOptions( ElementReference elementRef, string elementId, CropperUpdateJSOptions options )
         => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
     public ValueTask InitializeViewer( ElementReference cropperElementRef, string cropperElementId, ElementReference elementRef, string elementId, object options )

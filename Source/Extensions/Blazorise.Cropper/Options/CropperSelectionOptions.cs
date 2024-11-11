@@ -18,7 +18,7 @@ public record CropperSelectionOptions
     /// <summary>
     /// Indicates the initial coverage of the selection, must a positive number between 0 (0%) and 1 (100%).
     /// </summary>
-    public double? InitialCoverage { get; init; }
+    public bool? InitialCoverage { get; init; }
 
     /// <summary>
     /// Indicates whether the selection is movable.

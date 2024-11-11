@@ -44,7 +44,7 @@ namespace Blazorise.SignaturePad
             await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, elementId );
         }
 
-        public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, SignaturePadUpdateJSOptions options )
         {
             var moduleInstance = await Module;
 

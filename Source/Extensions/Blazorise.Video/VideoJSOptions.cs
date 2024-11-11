@@ -2,7 +2,7 @@
 
 namespace Blazorise.Video;
 
-internal class VideoInitializeJSOptions
+public class VideoInitializeJSOptions
 {
     public bool Controls { get; set; }
 
@@ -53,7 +53,33 @@ internal class VideoInitializeJSOptions
     public bool DoubleClickToFullscreen { get; set; }
 }
 
-internal class VideoJSQualityOptions
+public class VideoUpdateJSOptions
+{
+    public JSOptionChange<VideoSource> Source { get; set; }
+    public JSOptionChange<VideoProtectionType> ProtectionType { get; set; }
+    public JSOptionChange<object> ProtectionData { get; set; }
+    public JSOptionChange<string> ProtectionServerUrl { get; set; }
+    public JSOptionChange<string> ProtectionServerCertificateUrl { get; set; }
+    public JSOptionChange<string> ProtectionHttpRequestHeaders { get; set; }
+    public JSOptionChange<double?> CurrentTime { get; set; }
+    public JSOptionChange<double?> Volume { get; set; }
+}
+
+public class JSOptionChange<T>
+{
+    public bool Changed { get; set; }
+    public T Value { get; set; }
+    
+    public JSOptionChange(bool changed, T value)
+    {
+        Changed = changed;
+        Value = value;
+    }
+}
+
+
+
+public class VideoJSQualityOptions
 {
     public VideoJSQualityOptions()
     {
@@ -67,7 +93,7 @@ internal class VideoJSQualityOptions
     public int? Height { get; set; }
 }
 
-internal class VideoJSProtectionOptions
+public class VideoJSProtectionOptions
 {
     public VideoJSProtectionOptions()
     {

@@ -35,16 +35,16 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
             if ( sourceChanged || currentTimeChanged || volumeChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,  new VideoUpdateJSOptions()
                 {
-                    Source = new { Changed = sourceChanged, Value = paramSource },
-                    ProtectionType = new { Changed = protectionTypeChanged, Value = paramProtectionType },
-                    ProtectionData = new { Changed = protectionDataChanged, Value = paramProtectionData },
-                    ProtectionServerUrl = new { Changed = protectionServerUrlChanged, Value = paramProtectionServerUrl },
-                    ProtectionServerCertificateUrl = new { Changed = protectionServerCertificateUrlChanged, Value = paramProtectionServerCertificateUrl },
-                    ProtectionHttpRequestHeaders = new { Changed = protectionHttpRequestHeadersChanged, Value = paramProtectionHttpRequestHeaders },
-                    CurrentTime = new { Changed = currentTimeChanged, Value = paramCurrentTime },
-                    Volume = new { Changed = volumeChanged, Value = paramVolume },
+                    Source = new JSOptionChange<VideoSource>(sourceChanged, paramSource),
+                    ProtectionType = new JSOptionChange<VideoProtectionType>(protectionTypeChanged, paramProtectionType),
+                    ProtectionData = new JSOptionChange<object>(protectionDataChanged, paramProtectionData),
+                    ProtectionServerUrl = new JSOptionChange<string>(protectionServerUrlChanged, paramProtectionServerUrl),
+                    ProtectionServerCertificateUrl = new JSOptionChange<string>(protectionServerCertificateUrlChanged, paramProtectionServerCertificateUrl),
+                    ProtectionHttpRequestHeaders = new JSOptionChange<string>(protectionHttpRequestHeadersChanged, paramProtectionHttpRequestHeaders),
+                    CurrentTime = new JSOptionChange<double?>(currentTimeChanged, paramCurrentTime),
+                    Volume = new JSOptionChange<double?>(volumeChanged, paramVolume)
                 } ) );
             }
         }
@@ -96,11 +96,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 AvailableQualities = AvailableQualities?.Select( x => new VideoJSQualityOptions( x ) )?.ToArray(),
                 Protection = ProtectionType != VideoProtectionType.None ? new VideoJSProtectionOptions
                 (
-                    data: ProtectionData,
-                    type: ProtectionType.ToVideoProtectionType(),
-                    serverUrl: ProtectionServerUrl,
-                    serverCertificateUrl: ProtectionServerCertificateUrl,
-                    httpRequestHeaders: ProtectionHttpRequestHeaders
+                data: ProtectionData,
+                type: ProtectionType.ToVideoProtectionType(),
+                serverUrl: ProtectionServerUrl,
+                serverCertificateUrl: ProtectionServerCertificateUrl,
+                httpRequestHeaders: ProtectionHttpRequestHeaders
                 ) : null,
                 DoubleClickToFullscreen = DoubleClickToFullscreen,
             } );

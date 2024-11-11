@@ -83,7 +83,7 @@ public partial class QRCode : BaseComponent, IAsyncDisposable
         await JSModule.Update( ElementRef, ElementId, GetOptions() );
     }
 
-    private object GetOptions()
+    private QRCodeInitializeAndUpdateJSOptions GetOptions()
     {
         var eccLevel = EccLevel switch
         {
@@ -94,17 +94,17 @@ public partial class QRCode : BaseComponent, IAsyncDisposable
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        return new
+        return new QRCodeInitializeAndUpdateJSOptions
         {
             Value = Payload?.ToString() ?? Value,
             EccLevel = eccLevel,
-            DarkColor,
-            LightColor,
-            PixelsPerModule,
-            DrawQuietZones,
-            Icon,
-            IconSizePercentage,
-            IconBorderWidth,
+            DarkColor= DarkColor,
+            LightColor = LightColor,
+            PixelsPerModule = PixelsPerModule,
+            DrawQuietZones = DrawQuietZones,
+            Icon = Icon,
+            IconSizePercentage = IconSizePercentage,
+            IconBorderWidth = IconBorderWidth,
         };
     }
 
