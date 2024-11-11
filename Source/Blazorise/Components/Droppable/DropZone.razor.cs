@@ -175,8 +175,13 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
                 {
                     indices[item.Key] = index++;
                 }
+                if ( AllowReorder )
+                {
+                    Reordered?.Invoke( indices );
+                }
             }
         }
+
 
         recalculateItems = true;
         shouldRerender = true;
@@ -300,8 +305,9 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
                     }
 
                     indices.Add( context, newIndex );
-                }
+                } 
             }
+            
         }
         else
         {
@@ -504,6 +510,11 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     /// If true, the reordering of the items will be enabled.
     /// </summary>
     [Parameter] public bool AllowReorder { get; set; }
+    
+    /// <summary>
+    /// The callback that is raised when the order of items changed. Only if <see cref="AllowReorder"/> is enabled.
+    /// </summary>
+    [Parameter] public Func<Dictionary<TItem, int>, Task> Reordered { get; set; }
 
     /// <summary>
     /// If true, will only act as a dropable zone and not render any items.

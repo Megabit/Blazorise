@@ -2048,7 +2048,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         {
             var dropzone = i.ToString();
 
-            <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+            <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Reordered=""indices=> Reordered(indices, dropzone)"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
                 <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">Drop Zone @dropzone</Heading>
             </DropZone>
         }
@@ -2061,6 +2061,11 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         </Card>
     </ItemTemplate>
 </DropContainer>
+
+
+<Div >
+  @reorderStatus
+</Div>
 @code {
     public class DropItem
     {
@@ -2081,6 +2086,14 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
+    }
+
+    string reorderStatus = """";
+    
+    private Task Reordered(Dictionary<DropItem, int> indices, string dropzone)
+    {
+        reorderStatus = $""Order in dropzone {dropzone}: {string.Join("", "", indices.OrderBy(x => x.Value).Select(x => x.Key.Name))}"";
         return Task.CompletedTask;
     }
 }";
