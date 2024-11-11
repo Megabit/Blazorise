@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -182,13 +181,16 @@ public partial class TableRow : BaseDraggableComponent
     internal double? GetTableHeaderCellFixedPositionEndOffset( TableHeaderCell tableHeaderCell )
     {
         double? fixedEndCellPosition = 0;
+
         for ( int i = tableHeaderCells.Count - 1; i >= 0; i-- )
         {
             var headerCell = tableHeaderCells[i];
+
             if ( tableHeaderCell == headerCell )
             {
                 break;
             }
+
             if ( headerCell.FixedPosition == TableColumnFixedPosition.End )
                 fixedEndCellPosition += headerCell.Width?.FixedSize ?? 0;
         }
@@ -199,28 +201,34 @@ public partial class TableRow : BaseDraggableComponent
     internal double? GetTableRowHeaderFixedPositionStartOffset( TableRowHeader tableRowHeader )
     {
         double? fixedStartCellPosition = 0;
+
         foreach ( var rowHeader in tableRowHeaders )
         {
             if ( tableRowHeader == rowHeader )
             {
                 break;
             }
+
             if ( rowHeader.FixedPosition == TableColumnFixedPosition.Start )
                 fixedStartCellPosition += rowHeader.Width?.FixedSize ?? 0;
         }
+
         return fixedStartCellPosition;
     }
 
     internal double? GetTableRowHeaderFixedPositionEndOffset( TableRowHeader tableRowHeader )
     {
         double? fixedEndCellPosition = 0;
+
         for ( int i = tableRowHeaders.Count - 1; i >= 0; i-- )
         {
             var rowHeader = tableRowHeaders[i];
+
             if ( tableRowHeader == rowHeader )
             {
                 break;
             }
+
             if ( rowHeader.FixedPosition == TableColumnFixedPosition.End )
                 fixedEndCellPosition += rowHeader.Width?.FixedSize ?? 0;
         }
@@ -231,28 +239,34 @@ public partial class TableRow : BaseDraggableComponent
     internal double? GetTableRowCellFixedPositionStartOffset( TableRowCell tableRowCell )
     {
         double? fixedStartCellPosition = 0;
+
         foreach ( var rowCell in tableRowCells )
         {
             if ( tableRowCell == rowCell )
             {
                 break;
             }
+
             if ( rowCell.FixedPosition == TableColumnFixedPosition.Start )
                 fixedStartCellPosition += rowCell.Width?.FixedSize ?? 0;
         }
+
         return fixedStartCellPosition;
     }
 
     internal double? GetTableRowCellFixedPositionEndOffset( TableRowCell tableRowCell )
     {
         double? fixedEndCellPosition = 0;
+
         for ( int i = tableRowCells.Count - 1; i >= 0; i-- )
         {
             var rowCell = tableRowCells[i];
+
             if ( tableRowCell == rowCell )
             {
                 break;
             }
+
             if ( rowCell.FixedPosition == TableColumnFixedPosition.End )
                 fixedEndCellPosition += rowCell.Width?.FixedSize ?? 0;
         }

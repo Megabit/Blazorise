@@ -132,6 +132,7 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
         {
             ParentTableRow?.RemoveTableRowCell( this );
         }
+
         return base.DisposeAsync( disposing );
     }
 

@@ -128,6 +128,7 @@ public partial class TableRowHeader : BaseDraggableComponent, IDisposable
         {
             ParentTableRow?.RemoveTableRowHeader( this );
         }
+
         return base.DisposeAsync( disposing );
     }
 
