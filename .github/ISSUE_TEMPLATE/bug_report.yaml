@@ -36,24 +36,24 @@ body:
         - Bulma
         - Material
         - Tailwind
-- type: textarea
-  id: reproduction-link
-  attributes:
-    label: Link to minimal reproduction or a simple code snippet
-    description: |
-      Provide a public GitHub repository (or code snippet). For easy setup, you can use the Blazorise Bug Report Template for each provider: 
-      [Bootstrap4](https://github.com/Blazorise/BugReportBootstrap4),
-      [Bootstrap5](https://github.com/Blazorise/BugReportBootstrap5), 
-      [Tailwind](https://github.com/Blazorise/BugReportTailwind),
-      [Material](https://github.com/Blazorise/BugReportMaterial),
-      [AntDesign](https://github.com/Blazorise/BugReportAntDesign),
-      [Bulma](https://github.com/Blazorise/BugReportBulma), or
-      [FluentUI2](https://github.com/Blazorise/BugReportFluentUI2).
-
-      The reproduction should be **minimal**, containing only the essential code needed to demonstrate the bug.
-    placeholder: Reproduction Link
-  validations:
-    required: true
+  - type: textarea
+    id: reproduction-link
+    attributes:
+      label: Link to minimal reproduction or a simple code snippet
+      description: |
+        Provide a public GitHub repository (or code snippet). For easy setup, you can use the Blazorise Bug Report Template for each provider: 
+        [Bootstrap4](https://github.com/Blazorise/BugReportBootstrap4),
+        [Bootstrap5](https://github.com/Blazorise/BugReportBootstrap5), 
+        [Tailwind](https://github.com/Blazorise/BugReportTailwind),
+        [Material](https://github.com/Blazorise/BugReportMaterial),
+        [AntDesign](https://github.com/Blazorise/BugReportAntDesign),
+        [Bulma](https://github.com/Blazorise/BugReportBulma), or
+        [FluentUI2](https://github.com/Blazorise/BugReportFluentUI2).
+  
+        The reproduction should be **minimal**, containing only the essential code needed to demonstrate the bug.
+      placeholder: Reproduction Link
+    validations:
+      required: true
 
   - type: textarea
     id: steps-to-reproduce
