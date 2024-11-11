@@ -36,7 +36,7 @@ body:
         - Bulma
         - Material
         - Tailwind
-- type: markdown
+- type: textarea
   id: reproduction-link
   attributes:
     label: Link to minimal reproduction or a simple code snippet
