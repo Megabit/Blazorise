@@ -1,6 +1,6 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal class TooltipInitializeJSOptions
+public class TooltipInitializeJSOptions
 {
     public string Text { get; set; }
     public string Placement { get; set; }
@@ -19,7 +19,7 @@ internal class TooltipInitializeJSOptions
     public TooltipDelay Delay { get; set; }
 }
 
-internal class TooltipDelay
+public class TooltipDelay
 {
     public int Show { get; set; }
     public int Hide { get; set; }

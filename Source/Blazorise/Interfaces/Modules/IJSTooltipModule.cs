@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules.JSOptions;
 using Microsoft.AspNetCore.Components;
 #endregion
 

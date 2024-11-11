@@ -1,3 +1,3 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal record JSOptionChange<TValue>(bool Changed, TValue Value);
+public record JSOptionChange<TValue>(bool Changed, TValue Value);

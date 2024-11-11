@@ -1,6 +1,6 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal class DropdownInitializeJSOptions
+public class DropdownInitializeJSOptions
 {
     public string TargetElementId { get; set; }
     public string MenuElementId { get; set; }

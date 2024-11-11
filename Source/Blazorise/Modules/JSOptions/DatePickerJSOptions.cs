@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Blazorise;
+namespace Blazorise.Modules.JSOptions;
 
-internal class DatePickerInitializeJSOptions
+public class DatePickerInitializeJSOptions
 {
     public DateInputMode InputMode { get; set; }
     public string SelectionMode { get; set; }
@@ -26,7 +26,7 @@ internal class DatePickerInitializeJSOptions
     public object ValidationStatus { get; set; }
 }
 
-internal class DatePickerUpdateJSOptions
+public class DatePickerUpdateJSOptions
 {
     public JSOptionChange<int> FirstDayOfWeek { get; set; }
     public JSOptionChange<string> DisplayFormat { get; set; }

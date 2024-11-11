@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Blazorise.Modules.JSOptions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion

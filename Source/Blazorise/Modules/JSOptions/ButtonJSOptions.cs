@@ -1,6 +1,6 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal class ButtonJSOptions
+public class ButtonJSOptions
 {
     public bool PreventDefaultOnSubmit { get; set; }
 }

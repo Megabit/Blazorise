@@ -1,6 +1,6 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal class TimePickerInitializeJSOptions
+public class TimePickerInitializeJSOptions
 {
     public string DisplayFormat { get; set; }
     public bool TimeAs24hr { get; set; }
@@ -15,7 +15,7 @@ internal class TimePickerInitializeJSOptions
     public bool StaticPicker { get; set; }
 }
 
-internal class TimePickerUpdateJSOptions
+public class TimePickerUpdateJSOptions
 {
     public JSOptionChange<string> DisplayFormat { get; set; }
     public JSOptionChange<bool> TimeAs24hr { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal class MemoEditInitializeJSOptions
+public class MemoEditInitializeJSOptions
 {
     public bool ReplaceTab { get; set; }
     public int TabSize { get; set; }
@@ -8,7 +8,7 @@ internal class MemoEditInitializeJSOptions
     public bool AutoSize { get; set; }
 }
 
-internal class MemoEditUpdateJSOptions
+public class MemoEditUpdateJSOptions
 {
     public JSOptionChange<bool> ReplaceTab { get; set; }
     public JSOptionChange<int> TabSize { get; set; }

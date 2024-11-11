@@ -1,6 +1,6 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal class NumericPickerInitializeJSOptions
+public class NumericPickerInitializeJSOptions
 {
     public object Value { get; set; }
     public bool Immediate { get; set; }
@@ -27,7 +27,7 @@ internal class NumericPickerInitializeJSOptions
     public object WheelOn { get; set; }
 }
 
-internal class NumericPickerUpdateJSOptions
+public class NumericPickerUpdateJSOptions
 {
     public JSOptionChange<int> Decimals { get; set; }
     public JSOptionChange<string> DecimalSeparator { get; set; }

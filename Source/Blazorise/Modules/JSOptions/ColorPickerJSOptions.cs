@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Blazorise;
+namespace Blazorise.Modules.JSOptions;
 
-internal class ColorPickerJSOptions
+public class ColorPickerJSOptions
 {
     public string Default { get; set; }
     public string[] Palette { get; set; }
@@ -20,7 +20,7 @@ internal class ColorPickerJSOptions
     public string ColorValueElementSelector { get; set; }
 }
 
-internal class ColorPickerUpdateJsOptions
+public class ColorPickerUpdateJsOptions
 {
     public JSOptionChange<string[]> PaletteChange { get; set; }
     public JSOptionChange<bool> ShowPalette { get; set; }

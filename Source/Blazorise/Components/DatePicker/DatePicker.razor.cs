@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Modules;
+using Blazorise.Modules.JSOptions;
 using Blazorise.Utilities;
 using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;

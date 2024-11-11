@@ -1,6 +1,6 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Modules.JSOptions;
 
-internal class InputMaskInitializeJSOptions
+public class InputMaskInitializeJSOptions
 {
     public string Mask { get; set; }
     public string Regex { get; set; }
