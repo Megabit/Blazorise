@@ -21,7 +21,9 @@ public partial class TableRow : BaseDraggableComponent
     private string elementHashCode;
 
     private List<TableHeaderCell> tableHeaderCells;
+
     private List<TableRowHeader> tableRowHeaders;
+
     private List<TableRowCell> tableRowCells;
 
     private Color color = Color.Default;
@@ -49,9 +51,9 @@ public partial class TableRow : BaseDraggableComponent
         base.OnInitialized();
         if ( ParentTable.FixedColumnsSync )
         {
-            tableHeaderCells = new List<TableHeaderCell>();
-            tableRowHeaders = new List<TableRowHeader>();
-            tableRowCells = new List<TableRowCell>();
+            tableHeaderCells = new();
+            tableRowHeaders = new();
+            tableRowCells = new();
         }
     }
 
