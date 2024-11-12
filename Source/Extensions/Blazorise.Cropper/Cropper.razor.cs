@@ -42,7 +42,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 || gridOptionsChanged
                 || enabledChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new CropperUpdateJSOptions
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
                     Source = new( sourceChanged, paramSource ),
                     Alt = new( altChanged, paramAlt ),
@@ -96,14 +96,14 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 Alt = Alt,
                 Enabled = Enabled,
                 ShowBackground = ShowBackground,
-                Image = new CropperImageOptions
+                Image = new()
                 {
                     Rotatable = ImageOptions?.Rotatable ?? true,
                     Scalable = ImageOptions?.Scalable ?? true,
                     Skewable = ImageOptions?.Skewable ?? true,
                     Translatable = ImageOptions?.Translatable ?? true,
                 },
-                Selection = new CropperSelectionJSOptions
+                Selection = new()
                 {
                     AspectRatio = SelectionOptions?.AspectRatio.Value,
                     InitialAspectRatio = SelectionOptions?.InitialAspectRatio.Value,
@@ -114,7 +114,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                     Keyboard = SelectionOptions?.Keyboard ?? false,
                     Outlined = SelectionOptions?.Outlined ?? false
                 },
-                Grid = new CropperGridOptions
+                Grid = new()
                 {
                     Rows = GridOptions?.Rows ?? 3,
                     Columns = GridOptions?.Columns ?? 3,
@@ -122,7 +122,6 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                     Covered = GridOptions?.Covered ?? false,
                 }
             } );
-
 
             if ( CropperState is not null )
             {

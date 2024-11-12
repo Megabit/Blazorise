@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +9,6 @@ using Blazorise.Markdown.Providers;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-
 #endregion
 
 namespace Blazorise.Markdown;
@@ -301,7 +299,7 @@ public partial class Markdown : BaseComponent,
     /// <inheritdoc/>
     public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
     {
-#pragma warning disable CS4014// We want to let execution complete but wait for TaskCompletionSource on the background.
+#pragma warning disable CS4014 // We want to let execution complete but wait for TaskCompletionSource on the background.
         InvokeAsync( async () =>
         {
             if ( fileEntry.FileUploadEndedCallback is not null )
@@ -506,23 +504,13 @@ public partial class Markdown : BaseComponent,
     /// An array of icon names to hide. Can be used to hide specific icons shown by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter]
-    public string[] HideIcons { get; set; } = new[]
-    {
-        "side-by-side",
-        "fullscreen"
-    };
+    [Parameter] public string[] HideIcons { get; set; } = new[] { "side-by-side", "fullscreen" };
 
     /// <summary>
     /// An array of icon names to show. Can be used to show specific icons hidden by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter]
-    public string[] ShowIcons { get; set; } = new[]
-    {
-        "code",
-        "table"
-    };
+    [Parameter] public string[] ShowIcons { get; set; } = new[] { "code", "table" };
 
     /// <summary>
     /// [Optional] Gets or sets the content of the toolbar.
