@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents JavaScript options for initializing a numeric picker component.
 /// </summary>
-public class NumericPickerInitializeJSOptions
+public class NumericPickerJSOptions
 {
     /// <summary>
     /// Gets or sets the initial value of the numeric picker.

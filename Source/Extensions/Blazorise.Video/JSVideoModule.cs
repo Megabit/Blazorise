@@ -31,7 +31,7 @@ public class JSVideoModule : BaseJSModule,
 
     #region Methods
 
-    public virtual async ValueTask Initialize( DotNetObjectReference<Video> dotNetObjectReference, ElementReference elementRef, string elementId, VideoInitializeJSOptions options )
+    public virtual async ValueTask Initialize( DotNetObjectReference<Video> dotNetObjectReference, ElementReference elementRef, string elementId, VideoJSOptions options )
     {
         var moduleInstance = await Module;
 

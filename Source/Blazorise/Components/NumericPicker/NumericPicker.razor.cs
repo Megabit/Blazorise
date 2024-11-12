@@ -176,7 +176,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         // find the min and max possible value based on the supplied value type
         var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new NumericPickerInitializeJSOptions
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
             Value = Value,
             Immediate = IsImmediate,

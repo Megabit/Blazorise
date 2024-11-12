@@ -64,7 +64,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     {
         dotNetObjectRef ??= CreateDotNetObjectRef( this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new InputMaskInitializeJSOptions
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
             Mask = Mask,
             Regex = Regex,

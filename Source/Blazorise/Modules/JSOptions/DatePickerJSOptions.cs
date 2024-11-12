@@ -5,7 +5,7 @@ namespace Blazorise.Modules;
 /// <summary>
 /// Represents JavaScript options for initializing a date picker component.
 /// </summary>
-public class DatePickerInitializeJSOptions
+public class DatePickerJSOptions
 {
     /// <summary>
     /// Gets or sets the input mode for the date picker (e.g., text input or dropdown).

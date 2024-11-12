@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents JavaScript options for initializing an input mask on a text input field.
 /// </summary>
-public class InputMaskInitializeJSOptions
+public class InputMaskJSOptions
 {
     /// <summary>
     /// Gets or sets the mask pattern that defines the input format.

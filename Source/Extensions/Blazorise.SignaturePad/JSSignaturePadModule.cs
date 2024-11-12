@@ -30,7 +30,7 @@ namespace Blazorise.SignaturePad
 
         #region Methods
 
-        public virtual async ValueTask Initialize( DotNetObjectReference<SignaturePad> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+        public virtual async ValueTask Initialize( DotNetObjectReference<SignaturePad> dotNetObjectReference, ElementReference elementRef, string elementId, SignaturePadJSOptions options )
         {
             var moduleInstance = await Module;
 

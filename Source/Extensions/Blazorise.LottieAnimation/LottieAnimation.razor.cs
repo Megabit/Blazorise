@@ -156,7 +156,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     protected virtual async Task SynchronizeAnimation()
     {
         await DisposeAnimation();
-        JSAnimationReference = await JSModule.InitializeAnimation(DotNetObjectRef, ElementRef, ElementId, new LottieAnimationInitializeJSOptions
+        JSAnimationReference = await JSModule.InitializeAnimation( DotNetObjectRef, ElementRef, ElementId, new()
         {
             Path = Path,
             Loop = Loop,
@@ -165,8 +165,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             Direction = Direction,
             Speed = Speed,
             SendCurrentFrame = CurrentFrameChanged.HasDelegate
-        });
-
+        } );
     }
 
     /// <summary>

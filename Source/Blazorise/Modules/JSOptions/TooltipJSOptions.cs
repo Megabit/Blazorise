@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents JavaScript options for initializing a tooltip component.
 /// </summary>
-public class TooltipInitializeJSOptions
+public class TooltipJSOptions
 {
     /// <summary>
     /// Gets or sets the text content to be displayed within the tooltip.

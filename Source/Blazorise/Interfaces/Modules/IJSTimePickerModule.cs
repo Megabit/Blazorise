@@ -18,7 +18,7 @@ public interface IJSTimePickerModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Additional options for the tooltip initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, TimePickerInitializeJSOptions options );
+    ValueTask Initialize( ElementReference elementRef, string elementId, TimePickerJSOptions options );
 
     /// <summary>
     /// Activates the <see cref="TimePicker{TValue}"/>.

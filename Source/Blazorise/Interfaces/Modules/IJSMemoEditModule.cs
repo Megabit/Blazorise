@@ -18,7 +18,7 @@ public interface IJSMemoEditModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Options to initialize the memoedit.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, MemoEditInitializeJSOptions options );
+    ValueTask Initialize( ElementReference elementRef, string elementId, MemoEditJSOptions options );
 
     /// <summary>
     /// Updates the memo options.

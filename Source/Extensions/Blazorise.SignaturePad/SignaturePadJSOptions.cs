@@ -5,7 +5,7 @@ namespace Blazorise.SignaturePad;
 /// <summary>
 /// Represents JavaScript options for initializing a signature pad component.
 /// </summary>
-public class SignaturePadInitializeJSOptions
+public class SignaturePadJSOptions
 {
     /// <summary>
     /// Gets or sets the initial data URL for the signature image.

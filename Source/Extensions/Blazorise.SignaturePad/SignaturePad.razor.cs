@@ -81,7 +81,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
             JSModule = new JSSignaturePadModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
-            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new SignaturePadInitializeJSOptions
+            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new()
             {
                 DataUrl = GetDataUrl( Value, ImageType ),
                 DotSize = DotSize,

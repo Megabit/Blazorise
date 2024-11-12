@@ -87,7 +87,7 @@ public partial class Markdown : BaseComponent,
     {
         dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new MarkdownInitializeJSOptions
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
             Value = Value,
             AutoDownloadFontAwesome = AutoDownloadFontAwesome,
@@ -278,7 +278,7 @@ public partial class Markdown : BaseComponent,
         file.Owner = (IFileEntryOwner)(object)this;
 
         if ( ImageUploadChanged is not null )
-            await ImageUploadChanged.Invoke( new(file) );
+            await ImageUploadChanged.Invoke( new( file ) );
 
         file.FileUploadEndedCallback.SetResult();
         await InvokeAsync( StateHasChanged );
@@ -293,7 +293,7 @@ public partial class Markdown : BaseComponent,
         Progress = 0;
 
         if ( ImageUploadStarted is not null )
-            return ImageUploadStarted.Invoke( new(fileEntry) );
+            return ImageUploadStarted.Invoke( new( fileEntry ) );
 
         return Task.CompletedTask;
     }
@@ -308,7 +308,7 @@ public partial class Markdown : BaseComponent,
                 await fileEntry.FileUploadEndedCallback.Task;
 
             if ( ImageUploadEnded is not null )
-                await ImageUploadEnded.Invoke( new(fileEntry, success, fileInvalidReason) );
+                await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
 
             if ( !success )
             {
@@ -330,7 +330,7 @@ public partial class Markdown : BaseComponent,
             return Task.CompletedTask;
 
         if ( ImageUploadWritten is not null )
-            return ImageUploadWritten.Invoke( new(fileEntry, position, data) );
+            return ImageUploadWritten.Invoke( new( fileEntry, position, data ) );
 
         return Task.CompletedTask;
     }
@@ -350,7 +350,7 @@ public partial class Markdown : BaseComponent,
             Progress = progress;
 
             if ( ImageUploadProgressed is not null )
-                return ImageUploadProgressed.Invoke( new(fileEntry, Progress) );
+                return ImageUploadProgressed.Invoke( new( fileEntry, Progress ) );
         }
 
         return Task.CompletedTask;
@@ -506,7 +506,8 @@ public partial class Markdown : BaseComponent,
     /// An array of icon names to hide. Can be used to hide specific icons shown by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] HideIcons { get; set; } = new[]
+    [Parameter]
+    public string[] HideIcons { get; set; } = new[]
     {
         "side-by-side",
         "fullscreen"
@@ -516,7 +517,8 @@ public partial class Markdown : BaseComponent,
     /// An array of icon names to show. Can be used to show specific icons hidden by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] ShowIcons { get; set; } = new[]
+    [Parameter]
+    public string[] ShowIcons { get; set; } = new[]
     {
         "code",
         "table"

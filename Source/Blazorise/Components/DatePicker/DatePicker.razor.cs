@@ -165,7 +165,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         else
             defaultDate = FormatValueAsString( new TValue[] { Date } );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new DatePickerInitializeJSOptions
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
             InputMode = InputMode,
             SelectionMode = SelectionMode.ToDateInputSelectionMode(),

@@ -29,7 +29,7 @@ public class JSTimePickerModule : BaseJSModule, IJSTimePickerModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, TimePickerInitializeJSOptions options )
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, TimePickerJSOptions options )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
 
     /// <inheritdoc/>

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents JavaScript options for initializing a time picker component.
 /// </summary>
-public class TimePickerInitializeJSOptions
+public class TimePickerJSOptions
 {
     /// <summary>
     /// Gets or sets the format in which the time is displayed in the picker.

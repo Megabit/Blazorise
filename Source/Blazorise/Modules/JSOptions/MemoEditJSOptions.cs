@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents JavaScript options for initializing a memo edit (multi-line text editor) component.
 /// </summary>
-public class MemoEditInitializeJSOptions
+public class MemoEditJSOptions
 {
     /// <summary>
     /// Gets or sets a value indicating whether the Tab key should be replaced with spaces or used to navigate.

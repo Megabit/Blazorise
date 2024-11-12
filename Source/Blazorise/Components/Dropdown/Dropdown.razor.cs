@@ -69,7 +69,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
             JSModule.Initialize( ElementRef, ElementId,
                 targetElementId: DropdownMenuTargetId ?? childrenDropdownToggles?.FirstOrDefault()?.ElementId ?? childrenButtonList?.FirstOrDefault()?.ElementId,
                 menuElementId: childrenDropdownMenus?.FirstOrDefault()?.ElementId,
-                options: new DropdownInitializeJSOptions()
+                options: new()
                 {
                     Direction = GetDropdownDirection().ToString( "g" ),
                     RightAligned = RightAligned,

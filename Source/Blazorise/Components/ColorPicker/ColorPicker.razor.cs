@@ -108,7 +108,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
         dotNetObjectRef ??= CreateDotNetObjectRef( value: this );
 
         await JSModule.Initialize( dotNetObjectRef: dotNetObjectRef, elementRef: ElementRef, elementId: ElementId,
-        options: new ColorPickerJSOptions
+        options: new()
         {
             Default = Color,
             Palette = Palette,

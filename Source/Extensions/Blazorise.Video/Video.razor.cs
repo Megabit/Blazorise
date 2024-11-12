@@ -35,16 +35,16 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
             if ( sourceChanged || currentTimeChanged || volumeChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,  new VideoUpdateJSOptions()
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new VideoUpdateJSOptions()
                 {
-                    Source = new JSOptionChange<VideoSource>(sourceChanged, paramSource),
-                    ProtectionType = new JSOptionChange<VideoProtectionType>(protectionTypeChanged, paramProtectionType),
-                    ProtectionData = new JSOptionChange<object>(protectionDataChanged, paramProtectionData),
-                    ProtectionServerUrl = new JSOptionChange<string>(protectionServerUrlChanged, paramProtectionServerUrl),
-                    ProtectionServerCertificateUrl = new JSOptionChange<string>(protectionServerCertificateUrlChanged, paramProtectionServerCertificateUrl),
-                    ProtectionHttpRequestHeaders = new JSOptionChange<string>(protectionHttpRequestHeadersChanged, paramProtectionHttpRequestHeaders),
-                    CurrentTime = new JSOptionChange<double?>(currentTimeChanged, paramCurrentTime),
-                    Volume = new JSOptionChange<double?>(volumeChanged, paramVolume)
+                    Source = new JSOptionChange<VideoSource>( sourceChanged, paramSource ),
+                    ProtectionType = new JSOptionChange<VideoProtectionType>( protectionTypeChanged, paramProtectionType ),
+                    ProtectionData = new JSOptionChange<object>( protectionDataChanged, paramProtectionData ),
+                    ProtectionServerUrl = new JSOptionChange<string>( protectionServerUrlChanged, paramProtectionServerUrl ),
+                    ProtectionServerCertificateUrl = new JSOptionChange<string>( protectionServerCertificateUrlChanged, paramProtectionServerCertificateUrl ),
+                    ProtectionHttpRequestHeaders = new JSOptionChange<string>( protectionHttpRequestHeadersChanged, paramProtectionHttpRequestHeaders ),
+                    CurrentTime = new JSOptionChange<double?>( currentTimeChanged, paramCurrentTime ),
+                    Volume = new JSOptionChange<double?>( volumeChanged, paramVolume )
                 } ) );
             }
         }
@@ -70,7 +70,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     {
         if ( firstRender )
         {
-            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new VideoInitializeJSOptions
+            await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new()
             {
                 Controls = Controls,
                 ControlsDelay = ControlsDelay,

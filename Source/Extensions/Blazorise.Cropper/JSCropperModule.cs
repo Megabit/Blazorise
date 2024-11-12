@@ -14,7 +14,7 @@ internal class JSCropperModule : BaseJSModule, IJSDestroyableModule
     {
     }
 
-    public ValueTask Initialize( DotNetObjectReference<CropperAdapter> adapterReference, ElementReference elementRef, string elementId, CropperInitializeJSOptions options )
+    public ValueTask Initialize( DotNetObjectReference<CropperAdapter> adapterReference, ElementReference elementRef, string elementId, CropperJSOptions options )
         => InvokeSafeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
 
     public ValueTask Destroy( ElementReference elementRef, string elementId )

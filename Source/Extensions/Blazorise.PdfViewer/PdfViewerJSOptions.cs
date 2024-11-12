@@ -5,7 +5,7 @@ namespace Blazorise.PdfViewer;
 /// <summary>
 /// Represents JavaScript options for initializing a PDF viewer component.
 /// </summary>
-public class PdfViewerInitializeJSOptions
+public class PdfViewerJSOptions
 {
     /// <summary>
     /// Gets or sets the source URL of the PDF document to be displayed.

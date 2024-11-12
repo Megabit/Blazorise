@@ -31,7 +31,7 @@ public class JSPdfViewerModule : BaseJSModule,
 
     #region Methods
 
-    public virtual async ValueTask Initialize( DotNetObjectReference<PdfViewer> dotNetObjectReference, ElementReference elementRef, string elementId, PdfViewerInitializeJSOptions options )
+    public virtual async ValueTask Initialize( DotNetObjectReference<PdfViewer> dotNetObjectReference, ElementReference elementRef, string elementId, PdfViewerJSOptions options )
     {
         var moduleInstance = await Module;
 

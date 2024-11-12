@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents JavaScript options for initializing a dropdown component.
 /// </summary>
-public class DropdownInitializeJSOptions
+public class DropdownJSOptions
 {
     /// <summary>
     /// Gets or sets the ID of the target element that will trigger the dropdown.

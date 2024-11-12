@@ -50,14 +50,14 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
     {
         JSModule ??= new JSReCaptchaModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
-        await JSModule.Initialize(dotNetObjectReference, ElementRef, ElementId, new ReCaptchaInitializeJSOptions
+        await JSModule.Initialize( dotNetObjectReference, ElementRef, ElementId, new()
         {
             SiteKey = Options.SiteKey,
-            Theme = Options.Theme.ToString("g").ToLowerInvariant(),
-            Size = Options.Size.ToString("g").ToLowerInvariant(),
-            Badge = Options.BadgePosition.ToString("g").ToLowerInvariant(),
+            Theme = Options.Theme.ToString( "g" ).ToLowerInvariant(),
+            Size = Options.Size.ToString( "g" ).ToLowerInvariant(),
+            Badge = Options.BadgePosition.ToString( "g" ).ToLowerInvariant(),
             Language = Options.LanguageCode
-        });
+        } );
 
     }
 

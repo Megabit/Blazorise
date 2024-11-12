@@ -5,7 +5,7 @@ namespace Blazorise.Cropper;
 /// <summary>
 /// Represents JavaScript options for initializing an image cropper component.
 /// </summary>
-public class CropperInitializeJSOptions
+public class CropperJSOptions
 {
     /// <summary>
     /// Gets or sets the source URL of the image to be cropped.

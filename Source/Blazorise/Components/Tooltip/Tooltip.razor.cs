@@ -71,7 +71,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         // try to detect if inline is needed
         ExecuteAfterRender( async () =>
         {
-            await JSModule.Initialize( ElementRef, ElementId, new TooltipInitializeJSOptions
+            await JSModule.Initialize( ElementRef, ElementId, new()
             {
                 Text = Text,
                 Placement = ClassProvider.ToTooltipPlacement( Placement ),

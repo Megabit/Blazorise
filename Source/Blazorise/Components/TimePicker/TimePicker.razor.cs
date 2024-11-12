@@ -104,7 +104,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        await JSModule.Initialize( ElementRef, ElementId, new TimePickerInitializeJSOptions
+        await JSModule.Initialize( ElementRef, ElementId, new()
         {
             DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
             TimeAs24hr = TimeAs24hr,

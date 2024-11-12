@@ -29,7 +29,7 @@ public class JSNumericPickerModule : BaseJSModule, IJSNumericPickerModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, NumericPickerInitializeJSOptions options )
+    public virtual ValueTask Initialize( DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, NumericPickerJSOptions options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
 
     /// <inheritdoc/>

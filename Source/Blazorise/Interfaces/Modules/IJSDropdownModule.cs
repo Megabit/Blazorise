@@ -20,7 +20,7 @@ public interface IJSDropdownModule : IBaseJSModule,
     /// <param name="menuElementId">Dropdown menu element id.</param>
     /// <param name="options">Additional options for the button initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, string menuElementId, DropdownInitializeJSOptions options );
+    ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, string menuElementId, DropdownJSOptions options );
 
     /// <summary>
     /// Shows the dropdown menu.

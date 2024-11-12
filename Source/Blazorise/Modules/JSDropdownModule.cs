@@ -29,7 +29,7 @@ public class JSDropdownModule : BaseJSModule, IJSDropdownModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, string menuElementId, DropdownInitializeJSOptions options )
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, string targetElementId, string menuElementId, DropdownJSOptions options )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, targetElementId, menuElementId, options );
 
     /// <inheritdoc/>

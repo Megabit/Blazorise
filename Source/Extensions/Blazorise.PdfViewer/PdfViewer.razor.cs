@@ -108,7 +108,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         {
             if ( JSModule is not null )
             {
-                await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new PdfViewerInitializeJSOptions
+                await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new()
                 {
                     Source = Source,
                     PageNumber = PageNumber,
