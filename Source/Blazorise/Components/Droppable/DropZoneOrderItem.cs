@@ -1,4 +1,6 @@
-﻿namespace Blazorise;
+﻿#region Using directives
+namespace Blazorise;
+#endregion
 
 /// <summary>
 /// Represents an item in a drop zone along with its order.
