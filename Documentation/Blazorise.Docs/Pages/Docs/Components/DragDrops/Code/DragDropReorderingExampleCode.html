@@ -6,7 +6,7 @@
         {
             var dropzone = i.ToString();
 
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropZone</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DropItem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>dropzone</span><span class="quot">&quot;</span> <span class="htmlAttributeName">AllowReorder</span> <span class="htmlAttributeName">Reordered</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">indices=&gt; Reordered(indices, dropzone)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Margin</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Grow.Is1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropZone</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DropItem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>dropzone</span><span class="quot">&quot;</span> <span class="htmlAttributeName">AllowReorder</span> <span class="htmlAttributeName">Reordered</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Reordered</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Margin</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Grow.Is1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">HeadingSize</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Drop Zone <span class="atSign">&#64;</span>dropzone<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropZone</span><span class="htmlTagDelimiter">&gt;</span>
         }
@@ -22,7 +22,7 @@
 
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlTagDelimiter">&gt;</span>
-  <span class="atSign">&#64;</span>reorderStatus
+    <span class="atSign">&#64;</span>reorderStatus
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
@@ -51,9 +51,9 @@
 
     <span class="keyword">string</span> reorderStatus = <span class="string">&quot;&quot;</span>;
     
-    <span class="keyword">private</span> Task Reordered(Dictionary&lt;DropItem, <span class="keyword">int</span>&gt; indices, <span class="keyword">string</span> dropzone)
+    <span class="keyword">private</span> Task Reordered( DropZoneOrder&lt;DropItem&gt; order )
     {
-        reorderStatus = $<span class="string">&quot;Order in dropzone {dropzone}: {string.Join(&quot;</span>, <span class="string">&quot;, indices.OrderBy(x =&gt; x.Value).Select(x =&gt; x.Key.Name))}&quot;</span>;
+        reorderStatus = $<span class="string">&quot;Order in dropzone {order.DestinationDropZoneName}: {string.Join( &quot;</span>, <span class="string">&quot;, order.OrderedItems.OrderBy( x =&gt; x.Order ).Select( x =&gt; x.Item.Name ) )}&quot;</span>;
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }

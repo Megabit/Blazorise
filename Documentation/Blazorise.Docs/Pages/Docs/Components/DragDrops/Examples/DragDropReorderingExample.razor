@@ -5,7 +5,7 @@
         {
             var dropzone = i.ToString();
 
-            <DropZone TItem="DropItem" Name="@dropzone" AllowReorder Reordered="indices=> Reordered(indices, dropzone)" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+            <DropZone TItem="DropItem" Name="@dropzone" AllowReorder Reordered="@Reordered" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
                 <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Drop Zone @dropzone</Heading>
             </DropZone>
         }
@@ -21,7 +21,7 @@
 
 
 <Div >
-  @reorderStatus
+    @reorderStatus
 </Div>
 @code {
     public class DropItem
@@ -48,9 +48,9 @@
 
     string reorderStatus = "";
     
-    private Task Reordered(Dictionary<DropItem, int> indices, string dropzone)
+    private Task Reordered( DropZoneOrder<DropItem> order )
     {
-        reorderStatus = $"Order in dropzone {dropzone}: {string.Join(", ", indices.OrderBy(x => x.Value).Select(x => x.Key.Name))}";
+        reorderStatus = $"Order in dropzone {order.DestinationDropZoneName}: {string.Join( ", ", order.OrderedItems.OrderBy( x => x.Order ).Select( x => x.Item.Name ) )}";
         return Task.CompletedTask;
     }
 }
