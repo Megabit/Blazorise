@@ -65,7 +65,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     {
         dotNetObjectRef ??= CreateDotNetObjectRef( this );
 
-        await JSModule.Initialize(dotNetObjectRef, ElementRef, ElementId, new InputMaskInitializeJSOptions
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new InputMaskInitializeJSOptions
         {
             Mask = Mask,
             Regex = Regex,
@@ -86,7 +86,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
             ClearIncomplete = ClearIncomplete,
             Disabled = Disabled,
             ReadOnly = ReadOnly,
-        });
+        } );
 
 
         await base.OnFirstAfterRenderAsync();

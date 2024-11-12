@@ -92,22 +92,22 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new DatePickerUpdateJSOptions()
                 {
-                    FirstDayOfWeek = new JSOptionChange<int>(firstDayOfWeekChanged, (int)paramFirstDayOfWeek),
-                    DisplayFormat = new JSOptionChange<string>(displayFormatChanged, DisplayFormatConverter.Convert(paramDisplayFormat)),
-                    InputFormat = new JSOptionChange<string>(inputFormatChanged, InputFormatConverter.Convert(paramInputFormat)),
-                    TimeAs24hr = new JSOptionChange<bool>(timeAs24hrChanged, paramTimeAs24hr),
-                    Min = new JSOptionChange<string>(minChanged, paramMin?.ToString(DateFormat)),
-                    Max = new JSOptionChange<string>(maxChanged, paramMax?.ToString(DateFormat)),
-                    Disabled = new JSOptionChange<bool>(disabledChanged, paramDisabled),
-                    ReadOnly = new JSOptionChange<bool>(readOnlyChanged, paramReadOnly),
-                    DisabledDates = new JSOptionChange<IEnumerable<string>>(disabledDatesChanged, paramDisabledDates?.Select(x => FormatValueAsString(new TValue[] { x }))),
-                    EnabledDates = new JSOptionChange<IEnumerable<string>>(enabledDatesChanged, paramEnabledDates?.Select(x => FormatValueAsString(new TValue[] { x }))),
-                    DisabledDays = new JSOptionChange<IEnumerable<int>>(disabledDaysChanged, paramDisabledDays?.Select(x => (int)x)),
-                    SelectionMode = new JSOptionChange<DateInputSelectionMode>(selectionModeChanged, paramSelectionMode),
-                    Inline = new JSOptionChange<bool>(inlineChanged, paramInline),
-                    DisableMobile = new JSOptionChange<bool>(disableMobileChanged, paramDisableMobile),
-                    Placeholder = new JSOptionChange<string>(placeholderChanged, paramPlaceholder),
-                    StaticPicker = new JSOptionChange<bool>(staticPickerChanged, paramSaticPicker),
+                    FirstDayOfWeek = new JSOptionChange<int>( firstDayOfWeekChanged, (int)paramFirstDayOfWeek ),
+                    DisplayFormat = new JSOptionChange<string>( displayFormatChanged, DisplayFormatConverter.Convert( paramDisplayFormat ) ),
+                    InputFormat = new JSOptionChange<string>( inputFormatChanged, InputFormatConverter.Convert( paramInputFormat ) ),
+                    TimeAs24hr = new JSOptionChange<bool>( timeAs24hrChanged, paramTimeAs24hr ),
+                    Min = new JSOptionChange<string>( minChanged, paramMin?.ToString( DateFormat ) ),
+                    Max = new JSOptionChange<string>( maxChanged, paramMax?.ToString( DateFormat ) ),
+                    Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled ),
+                    ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly ),
+                    DisabledDates = new JSOptionChange<IEnumerable<string>>( disabledDatesChanged, paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) ),
+                    EnabledDates = new JSOptionChange<IEnumerable<string>>( enabledDatesChanged, paramEnabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) ),
+                    DisabledDays = new JSOptionChange<IEnumerable<int>>( disabledDaysChanged, paramDisabledDays?.Select( x => (int)x ) ),
+                    SelectionMode = new JSOptionChange<DateInputSelectionMode>( selectionModeChanged, paramSelectionMode ),
+                    Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
+                    DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile ),
+                    Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
+                    StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramSaticPicker ),
                 } ) );
             }
         }
@@ -166,22 +166,22 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         else
             defaultDate = FormatValueAsString( new TValue[] { Date } );
 
-        await JSModule.Initialize(dotNetObjectRef, ElementRef, ElementId, new DatePickerInitializeJSOptions
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new DatePickerInitializeJSOptions
         {
             InputMode = InputMode,
             SelectionMode = SelectionMode.ToDateInputSelectionMode(),
             FirstDayOfWeek = (int)FirstDayOfWeek,
-            DisplayFormat = DisplayFormatConverter.Convert(DisplayFormat),
-            InputFormat = InputFormatConverter.Convert(InputFormat),
+            DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
+            InputFormat = InputFormatConverter.Convert( InputFormat ),
             TimeAs24hr = TimeAs24hr,
             DefaultDate = defaultDate,
-            Min = Min?.ToString(DateFormat),
-            Max = Max?.ToString(DateFormat),
+            Min = Min?.ToString( DateFormat ),
+            Max = Max?.ToString( DateFormat ),
             Disabled = Disabled,
             ReadOnly = ReadOnly,
-            DisabledDates = DisabledDates?.Select(x => FormatValueAsString(new TValue[] { x })),
-            EnabledDates = EnabledDates?.Select(x => FormatValueAsString(new TValue[] { x })),
-            DisabledDays = DisabledDays?.Select(x => (int)x),
+            DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
+            EnabledDates = EnabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
+            DisabledDays = DisabledDays?.Select( x => (int)x ),
             Localization = GetLocalizationObject(),
             Inline = Inline,
             DisableMobile = DisableMobile,
@@ -189,10 +189,10 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             StaticPicker = StaticPicker,
             ValidationStatus = new
             {
-                SuccessClass = ClassProvider.DatePickerValidation(ValidationStatus.Success),
-                ErrorClass = ClassProvider.DatePickerValidation(ValidationStatus.Error),
+                SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
+                ErrorClass = ClassProvider.DatePickerValidation( ValidationStatus.Error ),
             }
-        });
+        } );
 
 
         await base.OnFirstAfterRenderAsync();
