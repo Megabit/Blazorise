@@ -57,7 +57,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,
             new ColorPickerUpdateJsOptions
             {
-                PaletteChange = new JSOptionChange<string[]>( paletteChanged, palette ),
+                Palette = new JSOptionChange<string[]>( paletteChanged, palette ),
                 ShowPalette = new JSOptionChange<bool>( showPaletteChanged, showPalette ),
                 HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, hideAfterPaletteSelect ),
                 Disabled = new JSOptionChange<bool>( disabledChanged, disabled ),

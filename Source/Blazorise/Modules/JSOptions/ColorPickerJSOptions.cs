@@ -86,7 +86,7 @@ public class ColorPickerUpdateJsOptions
     /// <summary>
     /// Gets or sets the change option for updating the color palette.
     /// </summary>
-    public JSOptionChange<string[]> PaletteChange { get; set; }
+    public JSOptionChange<string[]> Palette { get; set; }
 
     /// <summary>
     /// Gets or sets the change option for showing or hiding the color palette.
