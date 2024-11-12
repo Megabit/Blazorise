@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseDraggableComponent
 <CascadingValue Value="@this" IsFixed>
-    <tr @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler"
+    <tr @ref="@ElementRef" id="@ElementId" @key=elementHashCode class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler"
         draggable="@DraggableString"
         @onmouseover="@(MouseOver.HasDelegate ? OnMouseOverHandler : null)"
         @onmouseover:stopPropagation="@(MouseOver.HasDelegate)"

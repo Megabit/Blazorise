@@ -3,4 +3,8 @@
 "Status: Repro Missing":
   comment: >
     Hello @{issue-author},
-    thank you for your submission. The issue was labeled "Status: Repro Missing", as you have not provided a way to reproduce the issue quickly. Most problems already solve themselves when isolated, but we would like you to provide us with a reproducible code to make it easier to investigate a possible bug.
+    thank you for your submission. The issue was labeled "Status: Repro Missing" because you have not provided a way to reproduce the issue quickly. Most problems can be solved when isolated, but we would like you to provide a reproducible code sample to help us investigate a possible bug more effectively.
+
+    For your convenience, you can use our pre-configured [Bug Report Template repositories](https://github.com/Blazorise/BugReportTemplate) to quickly set up a reproducible environment.
+
+    Once you've provided a minimal reproduction, we can proceed with the investigation. Thank you for helping us improve Blazorise!
