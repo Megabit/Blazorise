@@ -87,7 +87,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
                 ZIndex = ZIndex,
                 Interactive = Interactive,
                 AppendTo = AppendTo,
-                Delay = new TooltipDelay
+                Delay = new()
                 {
                     Show = ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0,
                     Hide = ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0

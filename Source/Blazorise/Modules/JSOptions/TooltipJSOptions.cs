@@ -78,13 +78,13 @@ public class TooltipJSOptions
     /// <summary>
     /// Gets or sets the delay for showing and hiding the tooltip.
     /// </summary>
-    public TooltipDelay Delay { get; set; }
+    public TooltipDelayJSOptions Delay { get; set; }
 }
 
 /// <summary>
 /// Represents the delay settings for showing and hiding a tooltip.
 /// </summary>
-public class TooltipDelay
+public class TooltipDelayJSOptions
 {
     /// <summary>
     /// Gets or sets the delay in milliseconds before the tooltip is shown.
