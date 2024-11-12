@@ -35,7 +35,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
             if ( sourceChanged || currentTimeChanged || volumeChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new VideoUpdateJSOptions()
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
                     Source = new JSOptionChange<VideoSource>( sourceChanged, paramSource ),
                     ProtectionType = new JSOptionChange<VideoProtectionType>( protectionTypeChanged, paramProtectionType ),
