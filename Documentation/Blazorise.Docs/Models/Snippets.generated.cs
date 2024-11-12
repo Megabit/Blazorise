@@ -2062,7 +2062,6 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     </ItemTemplate>
 </DropContainer>
 
-
 <Div >
     @reorderStatus
 </Div>
