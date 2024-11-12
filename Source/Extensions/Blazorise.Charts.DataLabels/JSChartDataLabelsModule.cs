@@ -1,11 +1,10 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Charts.DataLabels;
 using Blazorise.Modules;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Charts.Trendline;
+namespace Blazorise.Charts.DataLabels;
 
 public class JSChartDataLabelsModule : BaseJSModule
 {
