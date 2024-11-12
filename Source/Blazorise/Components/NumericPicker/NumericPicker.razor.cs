@@ -1,14 +1,11 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
-using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
-using Blazorise.Modules.JSOptions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;

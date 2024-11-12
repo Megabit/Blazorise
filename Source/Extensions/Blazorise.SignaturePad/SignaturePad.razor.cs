@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Modules.JSOptions;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -49,22 +49,22 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                 || includeImageBackgroundColorChanged
                 || readOnlyChanged )
             {
-                ExecuteAfterRender(async () => await JSModule.UpdateOptions(ElementRef, ElementId, new SignaturePadUpdateJSOptions
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new SignaturePadUpdateJSOptions
                 {
-                    DataUrl = new JSOptionChange<string>(valueChanged, GetDataUrl(paramValue, paramImageType)),
-                    DotSize = new JSOptionChange<double>(dotSizeChanged, paramDotSize),
-                    MinLineWidth = new JSOptionChange<double>(minLineWidthChanged, paramMinWidth),
-                    MaxLineWidth = new JSOptionChange<double>(maxLineWidthChanged, paramMaxWidth),
-                    Throttle = new JSOptionChange<int>(throttleChanged, paramThrottle),
-                    MinDistance = new JSOptionChange<int>(minDistanceChanged, paramMinDistance),
-                    BackgroundColor = new JSOptionChange<string>(backgroundColorChanged, paramBgColor),
-                    PenColor = new JSOptionChange<string>(penColorChanged, paramPenColor),
-                    VelocityFilterWeight = new JSOptionChange<double>(velocityFilterWeightChanged, paramVelocityFilterWeight),
-                    ImageType = new JSOptionChange<string>(imageTypeChanged, GetImageTypeString(paramImageType)),
-                    ImageQuality = new JSOptionChange<double?>(imageQualityChanged, paramImageQuality),
-                    IncludeImageBackgroundColor = new JSOptionChange<bool>(includeImageBackgroundColorChanged, paramIncludeImageBackgroundColor),
-                    ReadOnly = new JSOptionChange<bool>(readOnlyChanged, paramReadOnly)
-                }));
+                    DataUrl = new JSOptionChange<string>( valueChanged, GetDataUrl( paramValue, paramImageType ) ),
+                    DotSize = new JSOptionChange<double>( dotSizeChanged, paramDotSize ),
+                    MinLineWidth = new JSOptionChange<double>( minLineWidthChanged, paramMinWidth ),
+                    MaxLineWidth = new JSOptionChange<double>( maxLineWidthChanged, paramMaxWidth ),
+                    Throttle = new JSOptionChange<int>( throttleChanged, paramThrottle ),
+                    MinDistance = new JSOptionChange<int>( minDistanceChanged, paramMinDistance ),
+                    BackgroundColor = new JSOptionChange<string>( backgroundColorChanged, paramBgColor ),
+                    PenColor = new JSOptionChange<string>( penColorChanged, paramPenColor ),
+                    VelocityFilterWeight = new JSOptionChange<double>( velocityFilterWeightChanged, paramVelocityFilterWeight ),
+                    ImageType = new JSOptionChange<string>( imageTypeChanged, GetImageTypeString( paramImageType ) ),
+                    ImageQuality = new JSOptionChange<double?>( imageQualityChanged, paramImageQuality ),
+                    IncludeImageBackgroundColor = new JSOptionChange<bool>( includeImageBackgroundColorChanged, paramIncludeImageBackgroundColor ),
+                    ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly )
+                } ) );
 
             }
         }
@@ -83,7 +83,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new SignaturePadInitializeJSOptions
             {
-                DataUrl = GetDataUrl(Value, ImageType),
+                DataUrl = GetDataUrl( Value, ImageType ),
                 DotSize = DotSize,
                 MinLineWidth = MinLineWidth,
                 MaxLineWidth = MaxLineWidth,
@@ -92,11 +92,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                 BackgroundColor = BackgroundColor,
                 PenColor = PenColor,
                 VelocityFilterWeight = VelocityFilterWeight,
-                ImageType = GetImageTypeString(ImageType),
+                ImageType = GetImageTypeString( ImageType ),
                 ImageQuality = ImageQuality,
                 IncludeImageBackgroundColor = IncludeImageBackgroundColor,
                 ReadOnly = ReadOnly
-            });
+            } );
         }
 
         await base.OnAfterRenderAsync( firstRender );

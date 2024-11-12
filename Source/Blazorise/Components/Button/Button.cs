@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Blazorise.Extensions;
 using Blazorise.Modules;
-using Blazorise.Modules.JSOptions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
