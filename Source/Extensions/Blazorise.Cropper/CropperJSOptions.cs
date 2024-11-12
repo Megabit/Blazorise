@@ -102,7 +102,7 @@ public class CropperSelectionJSOptions
     /// <summary>
     /// Gets or sets a value indicating whether the selection should initially cover the entire image.
     /// </summary>
-    public bool? InitialCoverage { get; set; }
+    public double? InitialCoverage { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the selection area is movable within the cropper.
