@@ -73,7 +73,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
                 {
                     if ( JSModule is not null )
                     {
-                        await JSModule.UpdateOptions( ElementRef, ElementId, new PdfViewerUpdateJSOptions
+                        await JSModule.UpdateOptions( ElementRef, ElementId, new()
                         {
                             Source = new( sourceChanged, paramSource ),
                             PageNumber = new( pageNumberChanged, paramPageNumber ),
