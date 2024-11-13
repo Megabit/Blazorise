@@ -1,0 +1,55 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          @bind-SelectedRow="@selectedEmployee"
+          Responsive
+          Sortable
+          SortMode="DataGridSortMode.Single">
+    <DataGridCommandColumn />
+    <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
+    <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="Full Name" Filterable="false" Comparer="new EmployeeNameComparer()">
+        <DisplayTemplate>
+            @($"{context.FirstName} {context.LastName}")
+        </DisplayTemplate>
+    </DataGridNumericColumn>
+    <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
+    <DataGridColumn Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable>
+        <EditTemplate>
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+        </EditTemplate>
+    </DataGridColumn>
+
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+    
+    public  class EmployeeNameComparer : Comparer<Employee>
+    {
+        public override int Compare(Employee x, Employee y)
+        {
+            // Null checks
+            if (x == null && y == null) return 0;
+            if (x == null) return -1;
+            if (y == null) return 1;
+
+            // Compare by length of FirstName
+            int firstNameLengthComparison = x.FirstName.Length.CompareTo(y.FirstName.Length);
+        
+            // If FirstName lengths are the same, compare alphabetically by LastName
+            return firstNameLengthComparison != 0 
+                ? firstNameLengthComparison 
+                : string.CompareOrdinal(x.LastName, y.LastName);
+        }
+    }
+}

@@ -62,6 +62,26 @@
     <DocsPageSectionSource Code="DataGridSortFieldExample" />
 </DocsPageSection>
 
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Comparer">
+        <Paragraph>
+            The <code>Comparer</code> feature allows you to define a custom sorting logic for a column by specifying an <code>IComparer&lt;TItem&gt;</code> implementation.
+            This is useful when you want to sort data based on complex or calculated criteria that go beyond the default alphabetical or numerical order.
+        </Paragraph>
+        <Paragraph>
+            In this example, a custom comparer is applied to sort by the <code>FirstName</code> length, and then, for items with the same first name length, alphabetically by <code>LastName</code>.
+            Sort by <code>Full Name</code> column to see it in action. 
+            This demonstrates how to implement a multi-criteria sorting mechanism in Blazorise's DataGrid.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridComparerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridComparerExample" />
+</DocsPageSection>
+
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="ApplySorting">
         <Paragraph>
