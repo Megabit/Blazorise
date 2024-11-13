@@ -17,6 +17,14 @@ public partial class TableRow : BaseDraggableComponent
 {
     #region Members
 
+    private string elementHashCode;
+
+    private List<TableHeaderCell> tableHeaderCells;
+
+    private List<TableRowHeader> tableRowHeaders;
+
+    private List<TableRowCell> tableRowCells;
+
     private Color color = Color.Default;
 
     private bool selected;
@@ -35,6 +43,18 @@ public partial class TableRow : BaseDraggableComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if ( ParentTable.FixedColumnsPositionSync )
+        {
+            tableHeaderCells = new();
+            tableRowHeaders = new();
+            tableRowCells = new();
+        }
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -84,19 +104,174 @@ public partial class TableRow : BaseDraggableComponent
         return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
     }
 
-    internal void AddTableRowHeader( TableRowHeader tableRowHeader )
-    {
-        SetFixedCellPosition( tableRowHeader.Width, tableRowHeader.FixedPosition, tableRowHeader.SetFixedPositionStartOffset, tableRowHeader.IncreaseFixedPositionEndOffset );
-    }
-
     internal void AddTableHeaderCell( TableHeaderCell tableHeaderCell )
     {
-        SetFixedCellPosition( tableHeaderCell.Width, tableHeaderCell.FixedPosition, tableHeaderCell.SetFixedPositionStartOffset, tableHeaderCell.IncreaseFixedPositionEndOffset );
+        if ( ParentTable.FixedColumnsPositionSync )
+        {
+            tableHeaderCells?.Add( tableHeaderCell );
+            RecalculateHashCode();
+        }
+        else
+        {
+            SetFixedCellPosition( tableHeaderCell.Width, tableHeaderCell.FixedPosition, tableHeaderCell.SetFixedPositionStartOffset, tableHeaderCell.IncreaseFixedPositionEndOffset );
+        }
+    }
+
+    internal void RemoveTableHeaderCell( TableHeaderCell tableHeaderCell )
+    {
+        tableHeaderCells?.Remove( tableHeaderCell );
+    }
+
+    internal void AddTableRowHeader( TableRowHeader tableRowHeader )
+    {
+        if ( ParentTable.FixedColumnsPositionSync )
+        {
+            tableRowHeaders?.Add( tableRowHeader );
+            RecalculateHashCode();
+        }
+        else
+        {
+            SetFixedCellPosition( tableRowHeader.Width, tableRowHeader.FixedPosition, tableRowHeader.SetFixedPositionStartOffset, tableRowHeader.IncreaseFixedPositionEndOffset );
+        }
+    }
+
+    internal void RemoveTableRowHeader( TableRowHeader tableRowHeader )
+    {
+        tableRowHeaders?.Remove( tableRowHeader );
     }
 
     internal void AddTableRowCell( TableRowCell tableRowCell )
     {
-        SetFixedCellPosition( tableRowCell.Width, tableRowCell.FixedPosition, tableRowCell.SetFixedPositionStartOffset, tableRowCell.IncreaseFixedPositionEndOffset );
+        if ( ParentTable.FixedColumnsPositionSync )
+        {
+            tableRowCells?.Add( tableRowCell );
+            RecalculateHashCode();
+        }
+        else
+        {
+            SetFixedCellPosition( tableRowCell.Width, tableRowCell.FixedPosition, tableRowCell.SetFixedPositionStartOffset, tableRowCell.IncreaseFixedPositionEndOffset );
+        }
+    }
+
+    internal void RemoveTableRowCell( TableRowCell tableRowCell )
+    {
+        tableRowCells?.Remove( tableRowCell );
+    }
+
+    private void RecalculateHashCode()
+    {
+        elementHashCode = ElementId + tableHeaderCells.GetListHash() + tableRowCells.GetListHash() + tableRowHeaders.GetListHash();
+    }
+
+    internal double? GetTableHeaderCellFixedPositionStartOffset( TableHeaderCell tableHeaderCell )
+    {
+        double? fixedStartCellPosition = 0;
+        foreach ( var headerCell in tableHeaderCells )
+        {
+            if ( tableHeaderCell == headerCell )
+            {
+                break;
+            }
+            if ( headerCell.FixedPosition == TableColumnFixedPosition.Start )
+                fixedStartCellPosition += headerCell.Width?.FixedSize ?? 0;
+        }
+        return fixedStartCellPosition;
+    }
+
+    internal double? GetTableHeaderCellFixedPositionEndOffset( TableHeaderCell tableHeaderCell )
+    {
+        double? fixedEndCellPosition = 0;
+
+        for ( int i = tableHeaderCells.Count - 1; i >= 0; i-- )
+        {
+            var headerCell = tableHeaderCells[i];
+
+            if ( tableHeaderCell == headerCell )
+            {
+                break;
+            }
+
+            if ( headerCell.FixedPosition == TableColumnFixedPosition.End )
+                fixedEndCellPosition += headerCell.Width?.FixedSize ?? 0;
+        }
+
+        return fixedEndCellPosition;
+    }
+
+    internal double? GetTableRowHeaderFixedPositionStartOffset( TableRowHeader tableRowHeader )
+    {
+        double? fixedStartCellPosition = 0;
+
+        foreach ( var rowHeader in tableRowHeaders )
+        {
+            if ( tableRowHeader == rowHeader )
+            {
+                break;
+            }
+
+            if ( rowHeader.FixedPosition == TableColumnFixedPosition.Start )
+                fixedStartCellPosition += rowHeader.Width?.FixedSize ?? 0;
+        }
+
+        return fixedStartCellPosition;
+    }
+
+    internal double? GetTableRowHeaderFixedPositionEndOffset( TableRowHeader tableRowHeader )
+    {
+        double? fixedEndCellPosition = 0;
+
+        for ( int i = tableRowHeaders.Count - 1; i >= 0; i-- )
+        {
+            var rowHeader = tableRowHeaders[i];
+
+            if ( tableRowHeader == rowHeader )
+            {
+                break;
+            }
+
+            if ( rowHeader.FixedPosition == TableColumnFixedPosition.End )
+                fixedEndCellPosition += rowHeader.Width?.FixedSize ?? 0;
+        }
+
+        return fixedEndCellPosition;
+    }
+
+    internal double? GetTableRowCellFixedPositionStartOffset( TableRowCell tableRowCell )
+    {
+        double? fixedStartCellPosition = 0;
+
+        foreach ( var rowCell in tableRowCells )
+        {
+            if ( tableRowCell == rowCell )
+            {
+                break;
+            }
+
+            if ( rowCell.FixedPosition == TableColumnFixedPosition.Start )
+                fixedStartCellPosition += rowCell.Width?.FixedSize ?? 0;
+        }
+
+        return fixedStartCellPosition;
+    }
+
+    internal double? GetTableRowCellFixedPositionEndOffset( TableRowCell tableRowCell )
+    {
+        double? fixedEndCellPosition = 0;
+
+        for ( int i = tableRowCells.Count - 1; i >= 0; i-- )
+        {
+            var rowCell = tableRowCells[i];
+
+            if ( tableRowCell == rowCell )
+            {
+                break;
+            }
+
+            if ( rowCell.FixedPosition == TableColumnFixedPosition.End )
+                fixedEndCellPosition += rowCell.Width?.FixedSize ?? 0;
+        }
+
+        return fixedEndCellPosition;
     }
 
     private void SetFixedCellPosition( IFluentSizing width, TableColumnFixedPosition fixedPosition, Action<double> cellFixedPositionStartUpdate, Action<double> cellFixedPositionEndUpdate )
@@ -164,6 +339,9 @@ public partial class TableRow : BaseDraggableComponent
     /// Gets or sets the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
     /// Gets or sets the row variant color.

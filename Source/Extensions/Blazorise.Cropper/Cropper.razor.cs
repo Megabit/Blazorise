@@ -42,49 +42,37 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 || gridOptionsChanged
                 || enabledChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
-                    Source = new { Changed = sourceChanged, Value = paramSource },
-                    Alt = new { Changed = altChanged, Value = paramAlt },
-                    CrossOrigin = new { Changed = crossoriginChanged, Value = paramCrossOrigin },
-                    Image = new
+                    Source = new( sourceChanged, paramSource ),
+                    Alt = new( altChanged, paramAlt ),
+                    CrossOrigin = new( crossoriginChanged, paramCrossOrigin ),
+                    Image = new( imageOptionsChanged, new CropperImageOptions
                     {
-                        Changed = imageOptionsChanged,
-                        Value = new
-                        {
-                            Rotatable = paramImageOptions?.Rotatable ?? true,
-                            Scalable = paramImageOptions?.Scalable ?? true,
-                            Skewable = paramImageOptions?.Skewable ?? true,
-                            Translatable = paramImageOptions?.Translatable ?? true,
-                        }
-                    },
-                    Selection = new
+                        Rotatable = paramImageOptions?.Rotatable ?? true,
+                        Scalable = paramImageOptions?.Scalable ?? true,
+                        Skewable = paramImageOptions?.Skewable ?? true,
+                        Translatable = paramImageOptions?.Translatable ?? true,
+                    } ),
+                    Selection = new( selectionOptionsChanged, new CropperSelectionJSOptions
                     {
-                        Changed = selectionOptionsChanged,
-                        Value = new
-                        {
-                            AspectRatio = paramSelectionOptions?.AspectRatio.Value,
-                            InitialAspectRatio = paramSelectionOptions?.InitialAspectRatio.Value,
-                            InitialCoverage = paramSelectionOptions?.InitialCoverage.Value,
-                            Movable = paramSelectionOptions?.Movable ?? false,
-                            Resizable = paramSelectionOptions?.Resizable ?? false,
-                            Zoomable = paramSelectionOptions?.Zoomable ?? false,
-                            Keyboard = paramSelectionOptions?.Keyboard ?? false,
-                            Outlined = paramSelectionOptions?.Outlined ?? false
-                        }
-                    },
-                    Grid = new
+                        AspectRatio = paramSelectionOptions?.AspectRatio.Value,
+                        InitialAspectRatio = paramSelectionOptions?.InitialAspectRatio.Value,
+                        InitialCoverage = paramSelectionOptions?.InitialCoverage.Value,
+                        Movable = paramSelectionOptions?.Movable ?? false,
+                        Resizable = paramSelectionOptions?.Resizable ?? false,
+                        Zoomable = paramSelectionOptions?.Zoomable ?? false,
+                        Keyboard = paramSelectionOptions?.Keyboard ?? false,
+                        Outlined = paramSelectionOptions?.Outlined ?? false
+                    } ),
+                    Grid = new( gridOptionsChanged, new CropperGridOptions
                     {
-                        Changed = gridOptionsChanged,
-                        Value = new
-                        {
-                            Rows = paramGridOptions?.Rows ?? 3,
-                            Columns = paramGridOptions?.Columns ?? 3,
-                            Bordered = paramGridOptions?.Bordered ?? false,
-                            Covered = paramGridOptions?.Covered ?? false,
-                        }
-                    },
-                    Enabled = new { Changed = enabledChanged, Value = paramEnabled },
+                        Rows = paramGridOptions?.Rows ?? 3,
+                        Columns = paramGridOptions?.Columns ?? 3,
+                        Bordered = paramGridOptions?.Bordered ?? false,
+                        Covered = paramGridOptions?.Covered ?? false,
+                    } ),
+                    Enabled = new( enabledChanged, paramEnabled )
                 } ) );
             }
         }
@@ -102,20 +90,20 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             JSModule ??= new JSCropperModule( JSRuntime, VersionProvider, BlazoriseOptions );
             adapter ??= DotNetObjectReference.Create( new CropperAdapter( this ) );
 
-            await JSModule.Initialize( adapter, ElementRef, ElementId, new
+            await JSModule.Initialize( adapter, ElementRef, ElementId, new()
             {
-                Source,
-                Alt,
-                Enabled,
-                ShowBackground,
-                Image = new
+                Source = Source,
+                Alt = Alt,
+                Enabled = Enabled,
+                ShowBackground = ShowBackground,
+                Image = new()
                 {
                     Rotatable = ImageOptions?.Rotatable ?? true,
                     Scalable = ImageOptions?.Scalable ?? true,
                     Skewable = ImageOptions?.Skewable ?? true,
                     Translatable = ImageOptions?.Translatable ?? true,
                 },
-                Selection = new
+                Selection = new()
                 {
                     AspectRatio = SelectionOptions?.AspectRatio.Value,
                     InitialAspectRatio = SelectionOptions?.InitialAspectRatio.Value,
@@ -126,7 +114,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                     Keyboard = SelectionOptions?.Keyboard ?? false,
                     Outlined = SelectionOptions?.Outlined ?? false
                 },
-                Grid = new
+                Grid = new()
                 {
                     Rows = GridOptions?.Rows ?? 3,
                     Columns = GridOptions?.Columns ?? 3,

@@ -37,13 +37,14 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
                            || softTabsChanged
                            || autoSizeChanged ) )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
             {
-                ReplaceTab = new { Changed = replaceTabChanged, Value = paramReplaceTab },
-                TabSize = new { Changed = tabSizeChanged, Value = paramTabSize },
-                SoftTabs = new { Changed = softTabsChanged, Value = paramSoftTabs },
-                AutoSize = new { Changed = autoSizeChanged, Value = paramAutoSize },
+                ReplaceTab = new JSOptionChange<bool>( replaceTabChanged, paramReplaceTab ),
+                TabSize = new JSOptionChange<int>( tabSizeChanged, paramTabSize ),
+                SoftTabs = new JSOptionChange<bool>( softTabsChanged, paramSoftTabs ),
+                AutoSize = new JSOptionChange<bool>( autoSizeChanged, paramAutoSize ),
             } ) );
+
         }
 
         if ( Rendered )
@@ -98,13 +99,14 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// <inheritdoc/>
     protected async override Task OnFirstAfterRenderAsync()
     {
-        await JSModule.Initialize( ElementRef, ElementId, new
+        await JSModule.Initialize( ElementRef, ElementId, new()
         {
-            ReplaceTab,
-            TabSize,
-            SoftTabs,
-            AutoSize,
+            ReplaceTab = ReplaceTab,
+            TabSize = TabSize,
+            SoftTabs = SoftTabs,
+            AutoSize = AutoSize,
         } );
+
 
         await base.OnFirstAfterRenderAsync();
     }

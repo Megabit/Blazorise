@@ -158,4 +158,9 @@ public class DataGridLocalizers
     /// Custom localization handler for FilterMethod 'Less Than or Equal' text.
     /// </summary>
     public TextLocalizerHandler FilterMethodLessThanOrEqualLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Between' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodBetweenLocalizer { get; set; }
 }
