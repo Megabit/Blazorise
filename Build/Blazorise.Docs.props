@@ -9,8 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.0-rc.2.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0-rc.2.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.*" />
 		<PackageReference Include="FluentValidation" Version="11.10.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
 	</ItemGroup>
