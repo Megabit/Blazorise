@@ -2297,22 +2297,39 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 Func<TItem, object> sortFunction = sortByColumn.GetValueForSort;
 
-                if ( firstSort )
+                if (firstSort)
                 {
-                    if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                        query = query.OrderBy( x => sortFunction( x ) );
+                    if (sortByColumn.CurrentSortDirection == SortDirection.Ascending)
+                    {
+                        query = sortByColumn.Comparer == null
+                            ? query.OrderBy(x => sortFunction(x))
+                            : query.OrderBy(x => x, sortByColumn.Comparer);
+                    }
                     else
-                        query = query.OrderByDescending( x => sortFunction( x ) );
+                    {
+                        query = sortByColumn.Comparer == null
+                            ? query.OrderByDescending(x => sortFunction(x))
+                            : query.OrderByDescending(x => x, sortByColumn.Comparer);
+                    }
 
                     firstSort = false;
                 }
                 else
                 {
-                    if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                        query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortFunction( x ) );
+                    if (sortByColumn.CurrentSortDirection == SortDirection.Ascending)
+                    {
+                        query = sortByColumn.Comparer == null
+                            ? (query as IOrderedQueryable<TItem>).ThenBy(x => sortFunction(x))
+                            : (query as IOrderedQueryable<TItem>).ThenBy(x => x, sortByColumn.Comparer);
+                    }
                     else
-                        query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortFunction( x ) );
+                    {
+                        query = sortByColumn.Comparer == null
+                            ? (query as IOrderedQueryable<TItem>).ThenByDescending(x => sortFunction(x))
+                            : (query as IOrderedQueryable<TItem>).ThenByDescending(x => x, sortByColumn.Comparer);
+                    }
                 }
+
             }
 
             if ( CustomFilter != null )
