@@ -27,7 +27,7 @@ public class JSMarkdownModule : BaseJSModule,
 
     #region Methods        
 
-    public async ValueTask Initialize( DotNetObjectReference<Markdown> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+    public async ValueTask Initialize( DotNetObjectReference<Markdown> dotNetObjectRef, ElementReference elementRef, string elementId, MarkdownJSOptions options )
     {
         var moduleInstance = await Module;
 

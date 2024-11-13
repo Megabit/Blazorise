@@ -1,7 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -9,7 +7,6 @@ using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -52,19 +49,22 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
         }
 
         if ( Rendered && ( paletteChanged
-                           || showPaletteChanged
-                           || hideAfterPaletteSelectChanged
-                           || disabledChanged
-                           || readOnlyChanged ) )
+            || showPaletteChanged
+            || hideAfterPaletteSelectChanged
+            || disabledChanged
+            || readOnlyChanged ) )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,
+            new ColorPickerUpdateJsOptions
             {
-                Palette = new { Changed = paletteChanged, Value = palette },
-                ShowPalette = new { Changed = showPaletteChanged, Value = showPalette },
-                HideAfterPaletteSelect = new { Changed = hideAfterPaletteSelectChanged, Value = hideAfterPaletteSelect },
-                Disabled = new { Changed = disabledChanged, Value = disabled },
-                ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
+                Palette = new JSOptionChange<string[]>( paletteChanged, palette ),
+                ShowPalette = new JSOptionChange<bool>( showPaletteChanged, showPalette ),
+                HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, hideAfterPaletteSelect ),
+                Disabled = new JSOptionChange<bool>( disabledChanged, disabled ),
+                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, readOnly )
             } ) );
+
+
         }
 
         await base.SetParametersAsync( parameters );
@@ -105,25 +105,27 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        dotNetObjectRef ??= CreateDotNetObjectRef( this );
+        dotNetObjectRef ??= CreateDotNetObjectRef( value: this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
+        await JSModule.Initialize( dotNetObjectRef: dotNetObjectRef, elementRef: ElementRef, elementId: ElementId,
+        options: new()
         {
             Default = Color,
-            Palette,
-            ShowPalette,
-            HideAfterPaletteSelect,
-            ShowClearButton,
-            ShowCancelButton,
-            ShowOpacitySlider,
-            ShowHueSlider,
-            ShowInputField,
-            Disabled,
-            ReadOnly,
+            Palette = Palette,
+            ShowPalette = ShowPalette,
+            HideAfterPaletteSelect = HideAfterPaletteSelect,
+            ShowClearButton = ShowClearButton,
+            ShowCancelButton = ShowCancelButton,
+            ShowOpacitySlider = ShowOpacitySlider,
+            ShowHueSlider = ShowHueSlider,
+            ShowInputField = ShowInputField,
+            Disabled = Disabled,
+            ReadOnly = ReadOnly,
             Localization = Localizer.GetStrings(),
-            ColorPreviewElementSelector,
-            ColorValueElementSelector,
+            ColorPreviewElementSelector = ColorPreviewElementSelector,
+            ColorValueElementSelector = ColorValueElementSelector
         } );
+
 
         await base.OnFirstAfterRenderAsync();
     }

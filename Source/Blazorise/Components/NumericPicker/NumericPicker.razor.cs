@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
-using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -114,25 +112,26 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
                 || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged
                 || modifyValueOnWheelChanged )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new NumericPickerUpdateJSOptions
                 {
-                    Decimals = new { Changed = decimalsChanged, Value = GetDecimals() },
-                    DecimalSeparator = new { Changed = decimalSeparatorChanged, Value = paramDecimalSeparator },
-                    AlternativeDecimalSeparator = new { Changed = alternativeDecimalSeparatorChanged, Value = paramAlternativeDecimalSeparator },
-                    GroupSeparator = new { Changed = groupSeparatorChanged, Value = paramGroupSeparator },
-                    GroupSpacing = new { Changed = groupSpacingChanged, Value = paramGroupSpacing },
-                    CurrencySymbol = new { Changed = currencySymbolChanged, Value = paramCurrencySymbol },
-                    CurrencySymbolPlacement = new { Changed = currencySymbolPlacementChanged, Value = paramCurrencySymbolPlacement.ToCurrencySymbolPlacement() },
-                    RoundingMethod = new { Changed = roundingMethodChanged, Value = paramRoundingMethod.ToNumericRoundingMethod() },
-                    AllowDecimalPadding = new { Changed = allowDecimalPaddingChanged, Value = paramAllowDecimalPadding.ToNumericDecimalPadding() },
-                    AlwaysAllowDecimalSeparator = new { Changed = alwaysAllowDecimalSeparatorChanged, Value = paramAlwaysAllowDecimalSeparator },
-                    Min = new { Changed = minChanged, Value = paramMin },
-                    Max = new { Changed = maxChanged, Value = paramMax },
-                    MinMaxLimitsOverride = new { Changed = minMaxLimitsOverrideChanged, Value = paramMinMaxLimitsOverride },
-                    SelectAllOnFocus = new { Changed = selectAllOnFocusChanged, Value = paramSelectAllOnFocus },
-                    ModifyValueOnWheel = new { Changed = modifyValueOnWheelChanged, Value = paramModifyValueOnWheel },
-                    WheelOn = new { Changed = wheelOnChanged, Value = paramWheelOn.ToNumericWheelOn() },
+                    Decimals = new JSOptionChange<int>( decimalsChanged, GetDecimals() ),
+                    DecimalSeparator = new JSOptionChange<string>( decimalSeparatorChanged, paramDecimalSeparator ),
+                    AlternativeDecimalSeparator = new JSOptionChange<string>( alternativeDecimalSeparatorChanged, paramAlternativeDecimalSeparator ),
+                    GroupSeparator = new JSOptionChange<string>( groupSeparatorChanged, paramGroupSeparator ),
+                    GroupSpacing = new JSOptionChange<string>( groupSpacingChanged, paramGroupSpacing ),
+                    CurrencySymbol = new JSOptionChange<string>( currencySymbolChanged, paramCurrencySymbol ),
+                    CurrencySymbolPlacement = new JSOptionChange<string>( currencySymbolPlacementChanged, paramCurrencySymbolPlacement.ToCurrencySymbolPlacement() ),
+                    RoundingMethod = new JSOptionChange<string>( roundingMethodChanged, paramRoundingMethod.ToNumericRoundingMethod() ),
+                    AllowDecimalPadding = new JSOptionChange<object>( allowDecimalPaddingChanged, paramAllowDecimalPadding.ToNumericDecimalPadding() ),
+                    AlwaysAllowDecimalSeparator = new JSOptionChange<bool>( alwaysAllowDecimalSeparatorChanged, paramAlwaysAllowDecimalSeparator ),
+                    Min = new JSOptionChange<object>( minChanged, paramMin ),
+                    Max = new JSOptionChange<object>( maxChanged, paramMax ),
+                    MinMaxLimitsOverride = new JSOptionChange<object>( minMaxLimitsOverrideChanged, paramMinMaxLimitsOverride ),
+                    SelectAllOnFocus = new JSOptionChange<bool>( selectAllOnFocusChanged, paramSelectAllOnFocus ),
+                    ModifyValueOnWheel = new JSOptionChange<bool>( modifyValueOnWheelChanged, paramModifyValueOnWheel ),
+                    WheelOn = new JSOptionChange<object>( wheelOnChanged, paramWheelOn.ToNumericWheelOn() ),
                 } ) );
+
             }
         }
 
@@ -177,30 +176,30 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         // find the min and max possible value based on the supplied value type
         var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
-            Value,
+            Value = Value,
             Immediate = IsImmediate,
             Debounce = IsDebounce,
             DebounceInterval = DebounceIntervalValue,
             Decimals = GetDecimals(),
-            DecimalSeparator,
-            AlternativeDecimalSeparator,
-            GroupSeparator,
-            GroupSpacing,
-            CurrencySymbol,
+            DecimalSeparator = DecimalSeparator,
+            AlternativeDecimalSeparator = AlternativeDecimalSeparator,
+            GroupSeparator = GroupSeparator,
+            GroupSpacing = GroupSpacing,
+            CurrencySymbol = CurrencySymbol,
             CurrencySymbolPlacement = CurrencySymbolPlacement.ToCurrencySymbolPlacement(),
             RoundingMethod = RoundingMethod.ToNumericRoundingMethod(),
             AllowDecimalPadding = AllowDecimalPadding.ToNumericDecimalPadding(),
-            AlwaysAllowDecimalSeparator,
+            AlwaysAllowDecimalSeparator = AlwaysAllowDecimalSeparator,
             Min = MinDefined ? (object)Min : null,
             Max = MaxDefined ? (object)Max : null,
             MinMaxLimitsOverride = MinMaxLimitsOverride.ToNumericMinMaxLimitsOverride(),
             TypeMin = minFromType,
             TypeMax = maxFromType,
-            Step,
-            SelectAllOnFocus,
-            ModifyValueOnWheel,
+            Step = Step,
+            SelectAllOnFocus = SelectAllOnFocus,
+            ModifyValueOnWheel = ModifyValueOnWheel,
             WheelOn = WheelOn.ToNumericWheelOn(),
         } );
 

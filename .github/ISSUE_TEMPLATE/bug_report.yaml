@@ -41,17 +41,24 @@ body:
     attributes:
       label: Link to minimal reproduction or a simple code snippet
       description: |
-        The easiest way to provide a reproduction is to provide a link to a public GitHub repository or a tool like [Telerik Repl](https://blazorrepl.telerik.com/).
-
-        The reproduction should be **minimal**. This means it should contain only the bare minimum amount of code needed
-        to run the bug, including all the class definitions, models, services, etc.
+        Provide a public GitHub repository (or code snippet). For easy setup, you can use the Blazorise Bug Report Template for each provider: 
+        [Bootstrap4](https://github.com/Blazorise/BugReportBootstrap4),
+        [Bootstrap5](https://github.com/Blazorise/BugReportBootstrap5), 
+        [Tailwind](https://github.com/Blazorise/BugReportTailwind),
+        [Material](https://github.com/Blazorise/BugReportMaterial),
+        [AntDesign](https://github.com/Blazorise/BugReportAntDesign),
+        [Bulma](https://github.com/Blazorise/BugReportBulma), or
+        [FluentUI2](https://github.com/Blazorise/BugReportFluentUI2).
+  
+        The reproduction should be **minimal**, containing only the essential code needed to demonstrate the bug.
       placeholder: Reproduction Link
     validations:
       required: true
+
   - type: textarea
     id: steps-to-reproduce
     attributes:
-      label: Steps to reproduce
+      label: Steps to reproduce & bug description
       description: |
         What must we do after opening your repro to make the bug happen? Clear and concise reproduction instructions are important for us to be able to triage your issue in a timely manner. Note that you can use [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code) to format lists and code.
       placeholder: Steps to reproduce

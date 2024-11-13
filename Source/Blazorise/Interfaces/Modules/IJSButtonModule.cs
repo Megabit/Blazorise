@@ -18,5 +18,5 @@ public interface IJSButtonModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Additional options for the button initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, object options );
+    ValueTask Initialize( ElementReference elementRef, string elementId, ButtonJSOptions options );
 }

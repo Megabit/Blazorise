@@ -37,14 +37,14 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
     <PackageReference Include="MailKit" Version="4.8.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
     <PackageReference Include="MimeKit" Version="4.8.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->
   <PropertyGroup>
-    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net8.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net9.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
   </PropertyGroup>
 
   <!--Project path for code generator-->
@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.38.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.*" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
   </ItemGroup>
   <ItemGroup>

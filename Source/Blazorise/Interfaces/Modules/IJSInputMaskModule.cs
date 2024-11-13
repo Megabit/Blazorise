@@ -20,7 +20,7 @@ public interface IJSInputMaskModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Additional options for the mask initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( DotNetObjectReference<InputMask> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
+    ValueTask Initialize( DotNetObjectReference<InputMask> dotNetObjectRef, ElementReference elementRef, string elementId, InputMaskJSOptions options );
 
     /// <summary>
     /// Extends the alias options with the custom settings.
