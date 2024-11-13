@@ -45,8 +45,8 @@
                     <Field @key=filterMethod>
                         @if ( filterMethod == DataGridColumnFilterMethod.Between )
                         {
-                            <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.Range1" OnFilterChanged="@SetFilterValue1" />
-                            <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.Range2" OnFilterChanged="@SetFilterValue2" />
+                            <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.RangeFrom" OnFilterChanged="@SetFilterValue1" />
+                            <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.RangeTo" OnFilterChanged="@SetFilterValue2" />
                         }
                         else
                         {

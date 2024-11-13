@@ -5,7 +5,18 @@
 /// </summary>
 public enum DataGridCellFilterType
 {
+    /// <summary>
+    /// Represents a single filter, allowing only one value.
+    /// </summary>
     Single,
-    Range1,
-    Range2
+
+    /// <summary>
+    /// Represents the starting value of a range filter.
+    /// </summary>
+    RangeFrom,
+
+    /// <summary>
+    /// Represents the ending value of a range filter.
+    /// </summary>
+    RangeTo,
 }
