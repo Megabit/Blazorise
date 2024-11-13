@@ -8,7 +8,7 @@
           SortMode="DataGridSortMode.Single">
     <DataGridCommandColumn />
     <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
-    <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="Full Name" Filterable="false" Comparer="new EmployeeNameComparer()">
+    <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="Full Name" Filterable="false" SortComparer="new EmployeeNameComparer()">
         <DisplayTemplate>
             @($"{context.FirstName} {context.LastName}")
         </DisplayTemplate>
@@ -39,9 +39,9 @@
         public override int Compare(Employee x, Employee y)
         {
             // Null checks
-            if (x == null && y == null) return 0;
-            if (x == null) return -1;
-            if (y == null) return 1;
+            if (x is null && y is null) return 0;
+            if (x is null) return -1;
+            if (y is null) return 1;
 
             // Compare by length of FirstName
             int firstNameLengthComparison = x.FirstName.Length.CompareTo(y.FirstName.Length);

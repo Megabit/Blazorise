@@ -2301,15 +2301,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
                     {
-                        query = sortByColumn.Comparer == null
+                        query = sortByColumn.SortComparer == null
                             ? query.OrderBy( x => sortFunction( x ) )
-                            : query.OrderBy( x => x, sortByColumn.Comparer );
+                            : query.OrderBy( x => x, sortByColumn.SortComparer );
                     }
                     else
                     {
-                        query = sortByColumn.Comparer == null
+                        query = sortByColumn.SortComparer == null
                             ? query.OrderByDescending( x => sortFunction( x ) )
-                            : query.OrderByDescending( x => x, sortByColumn.Comparer );
+                            : query.OrderByDescending( x => x, sortByColumn.SortComparer );
                     }
 
                     firstSort = false;
@@ -2318,15 +2318,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
                     {
-                        query = sortByColumn.Comparer == null
+                        query = sortByColumn.SortComparer is null
                             ? ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortFunction( x ) )
-                            : ( query as IOrderedQueryable<TItem> ).ThenBy( x => x, sortByColumn.Comparer );
+                            : ( query as IOrderedQueryable<TItem> ).ThenBy( x => x, sortByColumn.SortComparer );
                     }
                     else
                     {
-                        query = sortByColumn.Comparer == null
+                        query = sortByColumn.SortComparer is null
                             ? ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortFunction( x ) )
-                            : ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => x, sortByColumn.Comparer );
+                            : ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => x, sortByColumn.SortComparer );
                     }
                 }
 
