@@ -744,12 +744,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Gets or sets the column initial sort direction.
     /// </summary>
     [Parameter] public SortDirection SortDirection { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the custom comparer used for sorting the items in this column.
     /// </summary>
     [Parameter] public IComparer<TItem> Comparer { get; set; }
-
 
     /// <summary>
     /// Gets or sets whether the sort direction will be reversed.
