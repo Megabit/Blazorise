@@ -29,7 +29,7 @@ public abstract class JSTooltipModule : BaseJSModule, IJSTooltipModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, TooltipJSOptions options )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
 
     /// <inheritdoc/>

@@ -29,7 +29,7 @@ public class JSDatePickerModule : BaseJSModule, IJSDatePickerModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( DotNetObjectReference<DatePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+    public virtual ValueTask Initialize( DotNetObjectReference<DatePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, DatePickerJSOptions options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
 
     /// <inheritdoc/>
@@ -45,7 +45,7 @@ public class JSDatePickerModule : BaseJSModule, IJSDatePickerModule
         => InvokeSafeVoidAsync( "updateValue", elementRef, elementId, value );
 
     /// <inheritdoc/>
-    public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, DatePickerUpdateJSOptions options )
         => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
     /// <inheritdoc/>

@@ -31,7 +31,7 @@ public class JSVideoModule : BaseJSModule,
 
     #region Methods
 
-    public virtual async ValueTask Initialize( DotNetObjectReference<Video> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+    public virtual async ValueTask Initialize( DotNetObjectReference<Video> dotNetObjectReference, ElementReference elementRef, string elementId, VideoJSOptions options )
     {
         var moduleInstance = await Module;
 
@@ -45,7 +45,7 @@ public class JSVideoModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
     }
 
-    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, VideoUpdateJSOptions options )
     {
         var moduleInstance = await Module;
 

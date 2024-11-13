@@ -94,15 +94,27 @@ export function destroy(element, elementId) {
 
     if (instance) {
         if (instance.player) {
-            instance.player.destroy();
+            try {
+                instance.player.destroy();
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         if (instance.dash) {
-            instance.dash.destroy();
+            try {
+                instance.dash.destroy();
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         if (instance.hls) {
-            instance.hls.destroy();
+            try {
+                instance.hls.destroy();
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         delete instances[elementId];
