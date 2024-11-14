@@ -746,6 +746,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public SortDirection SortDirection { get; set; }
 
     /// <summary>
+    /// Gets or sets the custom comparer used for sorting the items in this column. 
+    /// Note that this comparer can only be used with in-memory data.
+    /// </summary>
+    [Parameter] public IComparer<TItem> SortComparer { get; set; }
+
+    /// <summary>
     /// Gets or sets whether the sort direction will be reversed.
     /// </summary>
     [Parameter] public bool ReverseSorting { get; set; }

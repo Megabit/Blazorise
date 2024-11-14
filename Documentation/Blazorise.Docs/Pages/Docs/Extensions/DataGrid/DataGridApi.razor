@@ -485,6 +485,10 @@
     <DocsAttributesItem Name="SortDirection" Type="SortDirection" Default="Default">
         Column initial sort direction.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SortComparer" Type="IComparer<TItem>" Default="null">
+        Gets or sets the custom comparer used for sorting the items in this column.
+        Note that this comparer can only be used with in-memory data.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="ReverseSorting" Type="bool" Default="false">
         Whether the sort direction will be reversed.
     </DocsAttributesItem>
