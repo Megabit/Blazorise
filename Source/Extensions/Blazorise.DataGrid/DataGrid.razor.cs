@@ -2300,19 +2300,36 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( firstSort )
                 {
                     if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                        query = query.OrderBy( x => sortFunction( x ) );
+                    {
+                        query = sortByColumn.SortComparer == null
+                            ? query.OrderBy( x => sortFunction( x ) )
+                            : query.OrderBy( x => x, sortByColumn.SortComparer );
+                    }
                     else
-                        query = query.OrderByDescending( x => sortFunction( x ) );
+                    {
+                        query = sortByColumn.SortComparer == null
+                            ? query.OrderByDescending( x => sortFunction( x ) )
+                            : query.OrderByDescending( x => x, sortByColumn.SortComparer );
+                    }
 
                     firstSort = false;
                 }
                 else
                 {
                     if ( sortByColumn.CurrentSortDirection == SortDirection.Ascending )
-                        query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortFunction( x ) );
+                    {
+                        query = sortByColumn.SortComparer is null
+                            ? ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortFunction( x ) )
+                            : ( query as IOrderedQueryable<TItem> ).ThenBy( x => x, sortByColumn.SortComparer );
+                    }
                     else
-                        query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortFunction( x ) );
+                    {
+                        query = sortByColumn.SortComparer is null
+                            ? ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortFunction( x ) )
+                            : ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => x, sortByColumn.SortComparer );
+                    }
                 }
+
             }
 
             if ( CustomFilter != null )
