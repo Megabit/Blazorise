@@ -27,6 +27,12 @@ jobs:
       with:
         dotnet-version: '8.0.x'
         include-prerelease: true
+    
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+        include-prerelease: true
 
     - name: Restore NuGet Packages
       run: dotnet restore
@@ -38,7 +44,7 @@ jobs:
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
 
     - name: Prepare E2E Tests Dependencies 
-      run: pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net8.0/playwright.ps1 install --with-deps
+      run: pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net9.0/playwright.ps1 install --with-deps
 
     - name: Run E2E Tests - Release
       run: dotnet test ./Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal

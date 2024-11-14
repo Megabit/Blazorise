@@ -4,7 +4,7 @@ using Blazorise.Modules;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Charts.Trendline;
+namespace Blazorise.Charts.DataLabels;
 
 public class JSChartDataLabelsModule : BaseJSModule
 {
@@ -19,7 +19,7 @@ public class JSChartDataLabelsModule : BaseJSModule
     {
     }
 
-    public virtual ValueTask SetDataLabels( string canvasId, object datasets, object options )
+    public virtual ValueTask SetDataLabels( string canvasId, object datasets, ChartDataLabelsOptions options )
         => InvokeSafeVoidAsync( "setDataLabels", canvasId, datasets, options );
 
     /// <inheritdoc/>

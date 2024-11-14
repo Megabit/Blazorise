@@ -29,7 +29,7 @@ public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, MemoEditJSOptions options )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
 
     /// <inheritdoc/>
@@ -42,7 +42,7 @@ public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
     }
 
     /// <inheritdoc/>
-    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, MemoEditUpdateJSOptions options )
     {
         if ( IsUnsafe )
             return;

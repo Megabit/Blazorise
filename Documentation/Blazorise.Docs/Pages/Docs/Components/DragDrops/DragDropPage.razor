@@ -58,6 +58,7 @@
     <DocsPageSectionHeader Title="Reorder items">
         <Paragraph>
             Items can be reordered inside each dropzone with the <Code>AllowReorder</Code> bool set to true on the dropzone.
+            The <Code>Reordered</Code> function triggers each time the order changes or items are added or removed from the dropzone, providing the current order in a dictionary.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -162,6 +163,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="AllowReorder" Type="bool" Default="false">
         If true, the reordering of the items will be enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Reordered" Type="Func<Dictionary<TItem, int>, Task>">
+        The callback that is raised when the order of items changes. Only if <see cref="AllowReorder"/> is enabled.
     </DocsAttributesItem>
     <DocsAttributesItem Name="OnlyZone" Type="bool" Default="false">
         If true, will only act as a dropable zone and not render any items.
