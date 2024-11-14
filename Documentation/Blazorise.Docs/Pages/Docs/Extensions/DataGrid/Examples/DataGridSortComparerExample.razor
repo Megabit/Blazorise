@@ -19,10 +19,9 @@
             <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
-
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
@@ -33,22 +32,22 @@
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
-    
-    public  class EmployeeNameComparer : Comparer<Employee>
+
+    public class EmployeeNameComparer : Comparer<Employee>
     {
-        public override int Compare(Employee x, Employee y)
+        public override int Compare( Employee x, Employee y )
         {
             // Null checks
-            if (x is null && y is null) return 0;
-            if (x is null) return -1;
-            if (y is null) return 1;
+            if ( x is null && y is null ) return 0;
+            if ( x is null ) return -1;
+            if ( y is null ) return 1;
 
             // Compare by length of FirstName
             int firstNameLengthComparison = x.FirstName.Length.CompareTo(y.FirstName.Length);
-        
+
             // If FirstName lengths are the same, compare alphabetically by LastName
-            return firstNameLengthComparison != 0 
-                ? firstNameLengthComparison 
+            return firstNameLengthComparison != 0
+                ? firstNameLengthComparison
                 : string.CompareOrdinal(x.LastName, y.LastName);
         }
     }

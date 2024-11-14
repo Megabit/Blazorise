@@ -416,7 +416,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     internal TextDecoration FilterCellTextDecoration
         => FilterTextDecoration ?? TextDecoration;
-    
+
     /// <summary>
     /// Gets the text weight for the filter cell.
     /// </summary>
