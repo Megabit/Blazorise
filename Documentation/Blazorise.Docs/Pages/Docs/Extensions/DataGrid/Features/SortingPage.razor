@@ -64,10 +64,11 @@
 
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Sort Comparer">
+    <DocsPageSectionHeader Title="SortComparer">
         <Paragraph>
             The <code>SortComparer</code> feature allows you to define a custom sorting logic for a column by specifying an <code>IComparer&lt;TItem&gt;</code> implementation.
             This is useful when you want to sort data based on complex or calculated criteria that go beyond the default alphabetical or numerical order.
+            Note that this comparer can only be used with in-memory data.
         </Paragraph>
         <Paragraph>
             In this example, a custom comparer is applied to sort by the <code>FirstName</code> length, and then, for items with the same first name length, alphabetically by <code>LastName</code>.
@@ -76,7 +77,7 @@
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
-        <DataGridComparerExample />
+        <DataGridSortComparerExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridSortComparerExample" />
 </DocsPageSection>
