@@ -27,6 +27,12 @@
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
+  <!-- Don't remove this. It is needed for the WASM workloads to publish demo projects. -->
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
     <DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
   </PropertyGroup>
