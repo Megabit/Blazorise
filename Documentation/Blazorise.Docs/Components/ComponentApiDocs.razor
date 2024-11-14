@@ -1,0 +1,28 @@
+﻿
+
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    @if (ApiDocsForComponent?.Properties != null)
+    {
+        foreach (var property in ApiDocsForComponent.Properties.OrderBy(x=>x.Name))
+        {
+            <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.Type" Default="@property.DefaultValue">
+                @((MarkupString)property.Description)
+            </DocsAttributesItem>
+        }
+    }
+</DocsAttributes>
+
+
+@code {
+    [Parameter] public Type ComponentType { get; set; }
+    private ApiDocsForComponent ApiDocsForComponent => ComponentsApiDocsSource.Components.GetValueOrDefault(ComponentType);
+}

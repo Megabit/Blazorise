@@ -157,6 +157,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Zoom", "So
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.PdfViewer", "Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj", "{EAB7EC89-900A-4280-B24A-152B9DD2B503}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.ApiDocsGenerator", "Source\SourceGenerators\Blazorise.ApiDocsGenerator\Blazorise.ApiDocsGenerator.csproj", "{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -411,6 +413,10 @@ Global
 		{EAB7EC89-900A-4280-B24A-152B9DD2B503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAB7EC89-900A-4280-B24A-152B9DD2B503}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAB7EC89-900A-4280-B24A-152B9DD2B503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -481,6 +487,7 @@ Global
 		{2B4FD79A-42E2-4B81-828B-0799E4744ADA} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{045536EC-BD97-409D-BDF7-C148B7C5AAFC} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{EAB7EC89-900A-4280-B24A-152B9DD2B503} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9} = {0538DB67-B4F3-4D00-B969-D3874A52E405}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
