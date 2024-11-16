@@ -1,7 +1,4 @@
-﻿
-
-
-<DocsPageSubtitle>
+﻿<DocsPageSubtitle>
     API
 </DocsPageSubtitle>
 
@@ -9,30 +6,37 @@
     Attributes
 </Heading>
 
-<DocsAttributes>
-    @if (ApiDocsForComponent?.Properties != null)
-    {
-        foreach (var property in ApiDocsForComponent.Properties.OrderBy(x=>x.Name))
+@foreach(ApiDocsForComponent apiDocsForComponent in ComponentTypes.Select(x=> ComponentsApiDocsSource.Components.GetValueOrDefault(x)))
+{
+
+    <DocsAttributes Title="@apiDocsForComponent.Type.Name">
+        @if (apiDocsForComponent?.Properties != null)
         {
-            <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
-                @((MarkupString)property.Description)
-                
-                @if (property.IsBlazoriseEnum)
-                {
-                    <text>Possible values: </text>
-                    for (int i = 0; i < Enum.GetNames(property.Type).Length; i++)
+            foreach(var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
+            {
+                <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
+                    @((MarkupString)property.Description)
+
+                    @if (property.IsBlazoriseEnum)
                     {
-                        int i1 = i;
-                        <Span>@Enum.GetNames(property.Type)[i1]</Span>@(i < Enum.GetNames(property.Type).Length-1? ", ":"")
+                        <text>Possible values: </text>
+                        for (int i = 0; i < Enum.GetNames(property.Type).Length; i++)
+                        {
+                            int i1 = i;
+                            <Span>@Enum.GetNames(property.Type)[i1]</Span>
+                            @(i < Enum.GetNames(property.Type).Length - 1 ? ", " : "")
+                        }
                     }
-                }
-            </DocsAttributesItem>
+                </DocsAttributesItem>
+            }
         }
-    }
-</DocsAttributes>
+    </DocsAttributes>
+}
 
 
 @code {
-    [Parameter] public Type ComponentType { get; set; }
-    private ApiDocsForComponent ApiDocsForComponent => ComponentsApiDocsSource.Components.GetValueOrDefault(ComponentType);
+    [Parameter] public List<Type> ComponentTypes { get; set; } = [];
+
+    [Parameter] public bool HideApiHeadings { get; set; }
+
 }
