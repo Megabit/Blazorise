@@ -14,8 +14,18 @@
     {
         foreach (var property in ApiDocsForComponent.Properties.OrderBy(x=>x.Name))
         {
-            <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.Type" Default="@property.DefaultValue">
+            <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
                 @((MarkupString)property.Description)
+                
+                @if (property.IsBlazoriseEnum)
+                {
+                    <text>Possible values: </text>
+                    for (int i = 0; i < Enum.GetNames(property.Type).Length; i++)
+                    {
+                        int i1 = i;
+                        <Span>@Enum.GetNames(property.Type)[i1]</Span>@(i < Enum.GetNames(property.Type).Length-1? ", ":"")
+                    }
+                }
             </DocsAttributesItem>
         }
     }
