@@ -1,0 +1,180 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis;
+
+namespace Blazorise.ApiDocsGenerator.Helpers;
+
+/// <summary>
+/// Methods that are too small to have their own file
+/// </summary>
+public class OtherHelpers
+{
+    /// <summary>
+    /// Mainly to ensure doubles has invariant culture. 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static string FormatProperly( object value )
+    {
+        string defaultValue;
+        
+        if (value is bool boolValue)
+        {
+            // Explicitly format bool as lowercase true/false
+            defaultValue = boolValue.ToString().ToLowerInvariant();
+            return defaultValue;
+        }
+        if ( value is IFormattable formattable )//ensures doubles has invariant culture.
+        {
+            defaultValue = formattable.ToString( null, CultureInfo.InvariantCulture );
+        }
+        else
+        {
+            
+
+            defaultValue = value.ToString();
+        }
+        return defaultValue;
+    }
+
+
+    public static string TypeToStringDetails( string value)
+    {
+        const string toReplace = "global::";
+        if (value.StartsWith(toReplace))
+        {
+            value = value.Substring(toReplace.Length);
+        }
+        const string toReplace2 = "Blazorise.";
+        if ( value.StartsWith( toReplace2 ) )
+        {
+            value = value.Substring( toReplace2.Length );
+        }
+        return value;
+        
+    }
+
+
+    internal static string ExtractSummaryFromXmlComment( string xmlComment )
+    {
+        if ( string.IsNullOrWhiteSpace( xmlComment ) )
+            return "No documentation available - no XML comment";
+
+        var match = Regex.Match( xmlComment, @"<summary>(.*?)</summary>", RegexOptions.Singleline );
+        if ( !match.Success )
+            return "No summary found";
+        // Sanitize the entire content first to prevent script injection
+        var sanitizedText = SanitizeForHtml( match.Groups[1].Value.Trim() );
+
+        // Replace <see cref> tags with bolded sanitized type names
+        sanitizedText = Regex.Replace( sanitizedText,
+        @"&lt;see\s+cref=&quot;[TPFEMN]:(Blazorise\.)?(.*?)&quot;\s*/&gt;",//also removes the "Blazorise." prefix 
+        m =>
+        {
+            var typeName = m.Groups[2].Value;// Extract the type name
+            return $"<strong>{typeName}</strong>";// Wrap the  type name in <strong>
+        } );
+
+        // Remove line breaks within the summary
+        sanitizedText = sanitizedText.Replace( "\n", " " ).Replace( "\r", "" );
+
+        return sanitizedText;
+
+        string SanitizeForHtml( string input )
+        {
+            // Escape HTML special characters to prevent injection
+            return input
+                .Replace( "&", "&amp;" )
+                .Replace( "<", "&lt;" )
+                .Replace( ">", "&gt;" )
+                .Replace( "\"", "&quot;" )
+                .Replace( "'", "&#39;" );
+        }
+
+
+    }
+
+
+    //just making sure bool is bool and not Boolean...
+    internal static string GetSimplifiedTypeName( ITypeSymbol typeSymbol )
+    {
+        // Mapping for built-in C# types
+
+
+        // Handle nullable types
+        if ( typeSymbol.NullableAnnotation == NullableAnnotation.Annotated && typeSymbol is INamedTypeSymbol namedType )
+        {
+            return $"{GetSimplifiedTypeName( namedType.TypeArguments[0] )}?";
+        }
+
+        // Handle generic types
+        if ( typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType )
+        {
+            var baseName = typeMap.ContainsKey( genericType.Name ) ? typeMap[genericType.Name] : genericType.Name;
+            var typeArguments = string.Join( ", ", genericType.TypeArguments.Select( GetSimplifiedTypeName ) );
+            return $"{baseName}<{typeArguments}>";
+        }
+
+        // Handle arrays
+        if ( typeSymbol is IArrayTypeSymbol arrayType )
+        {
+            return $"{GetSimplifiedTypeName( arrayType.ElementType )}[]";
+        }
+
+        // Use the mapped name if available, otherwise fallback to the simple name
+        return typeMap.TryGetValue( typeSymbol.Name, out var simplifiedName ) ? simplifiedName : typeSymbol.Name;
+    }
+
+
+    static readonly Dictionary<string, string> typeMap = new()
+    {
+        {
+            "Boolean", "bool"
+        },
+        {
+            "Byte", "byte"
+        },
+        {
+            "SByte", "sbyte"
+        },
+        {
+            "Int16", "short"
+        },
+        {
+            "UInt16", "ushort"
+        },
+        {
+            "Int32", "int"
+        },
+        {
+            "UInt32", "uint"
+        },
+        {
+            "Int64", "long"
+        },
+        {
+            "UInt64", "ulong"
+        },
+        {
+            "Single", "float"
+        },
+        {
+            "Double", "double"
+        },
+        {
+            "Decimal", "decimal"
+        },
+        {
+            "String", "string"
+        },
+        {
+            "Char", "char"
+        },
+        {
+            "Object", "object"
+        }
+    };
+}

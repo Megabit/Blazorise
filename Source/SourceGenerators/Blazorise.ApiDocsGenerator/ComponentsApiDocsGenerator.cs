@@ -1,28 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using Microsoft.CodeAnalysis;
+using Blazorise.ApiDocsGenerator.Helpers;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis;
+using System.Collections.Immutable;
 
 namespace Blazorise.ApiDocsGenerator;
-
 
 [Generator]
 public class ComponentsApiDocsGenerator : IIncrementalGenerator
 {
     public void Initialize( IncrementalGeneratorInitializationContext context )
     {
-        var componentProperties = context.CompilationProvider  
-            .Select( ( compilation, _ ) => GetComponentProperties( compilation ).ToImmutableArray() );
-        context.RegisterSourceOutput( componentProperties, ( ctx, components ) =>  
+        var componentProperties = context.CompilationProvider
+            .Select( ( compilation, _ ) => ( compilation, components: GetComponentProperties( compilation ).ToImmutableArray() ) );
+
+        context.RegisterSourceOutput( componentProperties, ( ctx, source ) =>
         {
-            var sourceText = GenerateComponentsApiSource( components ); 
+            Logger.LogAlways( DateTime.Now.ToLongTimeString() );
+
+            var (compilation, components) = source;
+            var sourceText = GenerateComponentsApiSource( compilation, components, ctx );
             ctx.AddSource( "ComponentsApiSource.g.cs", SourceText.From( sourceText, Encoding.UTF8 ) );
+
+            ctx.AddSource( "Log.txt", SourceText.From( Logger.LogMessages, Encoding.UTF8 ) );
+
         } );
     }
+
 
     private static IEnumerable<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> GetComponentProperties( Compilation compilation )
     {
@@ -41,18 +48,19 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         if ( blazoriseNamespace is null )
             yield break;
 
+
+
         foreach ( var type in blazoriseNamespace.GetTypeMembers().OfType<INamedTypeSymbol>() )
         {
-            if ( type.TypeKind == TypeKind.Class && InheritsFrom( type, baseComponentSymbol ) )
-            {
-                var parameterProperties = type
-                    .GetMembers()
-                    .OfType<IPropertySymbol>()
-                    .Where( p => p.DeclaredAccessibility == Accessibility.Public &&
-                        p.GetAttributes().Any( attr => SymbolEqualityComparer.Default.Equals( attr.AttributeClass, parameterAttributeSymbol ) ) );
+            if ( type.TypeKind != TypeKind.Class || !InheritsFrom( type, baseComponentSymbol ) )
+                continue;
+            var parameterProperties = type
+                .GetMembers()
+                .OfType<IPropertySymbol>()
+                .Where( p => p.DeclaredAccessibility == Accessibility.Public &&
+                    p.GetAttributes().Any( attr => SymbolEqualityComparer.Default.Equals( attr.AttributeClass, parameterAttributeSymbol ) ) );
 
-                yield return ( type, parameterProperties );
-            }
+            yield return ( type, parameterProperties );
         }
     }
 
@@ -68,7 +76,9 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static string GenerateComponentsApiSource( ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> components )
+    // private static string GenerateComponentsApiSource( ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> components )
+    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> components, SourceProductionContext ctx )
+
     {
         var componentsData = string.Join( "\n", components.Select( component =>
         {
@@ -82,26 +92,41 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             }
 
             var componentTypeName = componentType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
+            Logger.IsOn = component.ComponentType.Name == "Button";
+            Logger.Log( component.ComponentType.Name );
+
             var propertiesData = string.Join( ",\n", component.Properties.Select( property =>
             {
                 var name = property.Name;
-                var type = GetSimplifiedTypeName(property.Type);
-                var xmlComment = ExtractSummary( property.GetDocumentationCommentXml() );
+                var typeName = OtherHelpers.GetSimplifiedTypeName( property.Type );
+                var xmlComment = OtherHelpers.ExtractSummaryFromXmlComment( property.GetDocumentationCommentXml() );
+                var isBlazoriseEnum = property.Type.TypeKind == TypeKind.Enum && property.Type.ToDisplayString().StartsWith( "Blazorise" );
 
-                string defaultValue = type switch
-                {
-                    "bool" => "false",
-                    "string" => "string.Empty",
-                    "int" => "0",
-                    "double" => "0.0",
-                    _ => null
-                };
+                // Determine default value
+                object defaultValue = DefaultValueHelper.GetDefaultValue( compilation, property );
 
                 
-                var formattedDefaultValue = defaultValue == null ? "null" : $"\"{defaultValue}\"";
+                string defaultValueString =
+                        defaultValue is null 
+                            ? "null" 
+                            :property.Type.Name switch
+                            {
+                                "String" => $""""
+                                             $$"""
+                                             {defaultValue}
+                                             """
+                                             """",
+                                _ => OtherHelpers.FormatProperly( defaultValue )
+                            };
+                string defaultValueAsString = property.Type.Name == "String"? defaultValueString: $""""
+                                               $$"""
+                                               {OtherHelpers.TypeToStringDetails( defaultValueString)}
+                                               """
+                                               """";//lol
+                
 
                 return $"""
-                             new ("{name}", "{type}", {formattedDefaultValue}, "{xmlComment}")
+                             new ("{name}",typeof({property.Type}), "{typeName}", {defaultValueString},{defaultValueAsString}, "{xmlComment}", {( isBlazoriseEnum ? "true" : "false" )})
                         """;
             } ) );
 
@@ -142,109 +167,24 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                  
                          public class ApiDocsForComponentProperty
                          {
-                             public ApiDocsForComponentProperty(string name, string type, string defaultValue, string description)
+                             public ApiDocsForComponentProperty(string name,Type type, string typeName, object defaultValue,string defaultValueString, string description, bool isBlazoriseEnum)
                              {
                                  Name = name;
+                                 TypeName = typeName;
                                  Type = type;
                                  DefaultValue = defaultValue;
                                  Description = description;
+                                 IsBlazoriseEnum = isBlazoriseEnum;
+                                 DefaultValueString = defaultValueString;
                              }
-                 
+                              public bool IsBlazoriseEnum { get; }
                              public string Name { get; }
-                             public string Type { get; }
-                             public string DefaultValue { get; }
+                             public string TypeName { get; }
+                             public Type Type { get; }
+                             public object DefaultValue { get; }
+                             public string DefaultValueString { get; }
                              public string Description { get; }
                          }
                  """;
     }
-
-    private static string ExtractSummary(string xmlComment)
-    {
-        if (string.IsNullOrWhiteSpace(xmlComment))
-            return "No documentation available - no XML comment";
-
-        var match = Regex.Match(xmlComment, @"<summary>(.*?)</summary>", RegexOptions.Singleline);
-        if ( !match.Success )
-            return "No summary found";
-        // Sanitize the entire content first to prevent script injection
-        var sanitizedText = SanitizeForHtml(match.Groups[1].Value.Trim());
-
-        // Replace <see cref> tags with bolded sanitized type names
-        sanitizedText = Regex.Replace(sanitizedText, 
-        @"&lt;see\s+cref=&quot;[TPFEMN]:(Blazorise\.)?(.*?)&quot;\s*/&gt;",//also removes the "Blazorise." prefix 
-        m =>
-        {
-            var typeName = m.Groups[2].Value; // Extract the type name
-            return $"<strong>{typeName}</strong>"; // Wrap the  type name in <strong>
-        });
-
-        // Remove line breaks within the summary
-        sanitizedText = sanitizedText.Replace("\n", " ").Replace("\r", "");
-
-        return sanitizedText;
-
-    }
-
-    private static string SanitizeForHtml(string input)
-    {
-        // Escape HTML special characters to prevent injection
-        return input
-            .Replace("&", "&amp;")
-            .Replace("<", "&lt;")
-            .Replace(">", "&gt;")
-            .Replace("\"", "&quot;")
-            .Replace("'", "&#39;");
-    }
-
-    
-    //just making sure bool is bool and not Boolean...
-    private static string GetSimplifiedTypeName(ITypeSymbol typeSymbol)
-    {
-        // Mapping for built-in C# types
-        var typeMap = new Dictionary<string, string>
-        {
-            { "Boolean", "bool" },
-            { "Byte", "byte" },
-            { "SByte", "sbyte" },
-            { "Int16", "short" },
-            { "UInt16", "ushort" },
-            { "Int32", "int" },
-            { "UInt32", "uint" },
-            { "Int64", "long" },
-            { "UInt64", "ulong" },
-            { "Single", "float" },
-            { "Double", "double" },
-            { "Decimal", "decimal" },
-            { "String", "string" },
-            { "Char", "char" },
-            { "Object", "object" }
-        };
-
-        // Handle nullable types
-        if (typeSymbol.NullableAnnotation == NullableAnnotation.Annotated && typeSymbol is INamedTypeSymbol namedType)
-        {
-            return $"{GetSimplifiedTypeName(namedType.TypeArguments[0])}?";
-        }
-
-        // Handle generic types
-        if (typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType)
-        {
-            var baseName = typeMap.ContainsKey(genericType.Name) ? typeMap[genericType.Name] : genericType.Name;
-            var typeArguments = string.Join(", ", genericType.TypeArguments.Select(GetSimplifiedTypeName));
-            return $"{baseName}<{typeArguments}>";
-        }
-
-        // Handle arrays
-        if (typeSymbol is IArrayTypeSymbol arrayType)
-        {
-            return $"{GetSimplifiedTypeName(arrayType.ElementType)}[]";
-        }
-
-        // Use the mapped name if available, otherwise fallback to the simple name
-        return typeMap.TryGetValue(typeSymbol.Name, out var simplifiedName) ? simplifiedName : typeSymbol.Name;
-    }
-    
-    
-    
-
 }
