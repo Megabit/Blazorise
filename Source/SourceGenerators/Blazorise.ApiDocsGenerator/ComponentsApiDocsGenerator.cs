@@ -22,7 +22,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             Logger.LogAlways( DateTime.Now.ToLongTimeString() );
 
             var (compilation, components) = source;
-            var sourceText = GenerateComponentsApiSource( compilation, components, ctx );
+            var sourceText = GenerateComponentsApiSource( compilation, components );
             ctx.AddSource( "ComponentsApiSource.g.cs", SourceText.From( sourceText, Encoding.UTF8 ) );
 
             ctx.AddSource( "Log.txt", SourceText.From( Logger.LogMessages, Encoding.UTF8 ) );
@@ -47,8 +47,6 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
 
         if ( blazoriseNamespace is null )
             yield break;
-
-
 
         foreach ( var type in blazoriseNamespace.GetTypeMembers().OfType<INamedTypeSymbol>() )
         {
@@ -76,8 +74,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         return false;
     }
 
-    // private static string GenerateComponentsApiSource( ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> components )
-    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> components, SourceProductionContext ctx )
+    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> components )
 
     {
         var componentsData = string.Join( "\n", components.Select( component =>
