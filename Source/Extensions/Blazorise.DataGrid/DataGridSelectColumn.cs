@@ -82,6 +82,12 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
+    /// Specifies that multiple items can be selected.
+    /// </summary>
+    [Parameter]
+    public bool Multiple { get; set; }
+
+    /// <summary>
     /// Captures all the custom attribute that are not part of Blazorise component.
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]

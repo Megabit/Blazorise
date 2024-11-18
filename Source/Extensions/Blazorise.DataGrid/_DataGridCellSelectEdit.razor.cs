@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -73,6 +74,11 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         }
     }
 
+    private async Task OnSelectedValuesChanged( IReadOnlyList<object> values )
+    {
+        await CellValueChanged.InvokeAsync( values?.Select( x => x.ToString() )?.ToArray() );
+    }
+
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
@@ -107,7 +113,8 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     {
         await JSUtilitiesModule.Select( default, elementId, true );
     }
-
+    public object[] GetSelectedValues
+        => CellValue as object[];
     #endregion
 
     #region Properties

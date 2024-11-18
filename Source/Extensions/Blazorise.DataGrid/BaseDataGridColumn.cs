@@ -18,6 +18,11 @@ public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     /// <returns>Formatted display value.</returns>
     public string FormatDisplayValue( object value )
     {
+        if (value is string[] values )
+        {
+            return string.Join( ',', values );
+        }
+
         if ( DisplayFormat != null )
         {
             return string.Format( DisplayFormatProvider ?? CultureInfo.CurrentCulture, DisplayFormat, value );
