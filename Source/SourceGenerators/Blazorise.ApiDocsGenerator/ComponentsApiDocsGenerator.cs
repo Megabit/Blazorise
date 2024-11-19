@@ -6,6 +6,7 @@ using Blazorise.ApiDocsGenerator.Helpers;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
+using Blazorise.ApiDocsGenerator.Dtos;
 
 namespace Blazorise.ApiDocsGenerator;
 
@@ -16,10 +17,12 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
     {
         var componentProperties = context.CompilationProvider
             .Select( ( compilation, _ ) => ( compilation, components: GetComponentProperties( compilation ).ToImmutableArray() ) );
+        
+        
 
         context.RegisterSourceOutput( componentProperties, ( ctx, source ) =>
         {
-            Logger.LogAlways( DateTime.Now.ToLongTimeString() );
+            Logger.LogAlways( DateTime.Now.ToLongTimeString()  ); 
 
             var (compilation, components) = source;
             var sourceText = GenerateComponentsApiSource( compilation, components );
@@ -30,8 +33,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         } );
     }
 
-
-    private static IEnumerable<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> GetComponentProperties( Compilation compilation )
+    private static IEnumerable<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> Methods)> GetComponentProperties( Compilation compilation )
     {
         var parameterAttributeSymbol = compilation.GetTypeByMetadataName( "Microsoft.AspNetCore.Components.ParameterAttribute" );
         if ( parameterAttributeSymbol == null )
@@ -43,7 +45,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
 
         var blazoriseNamespace = compilation.GlobalNamespace
             .GetNamespaceMembers()
-            .FirstOrDefault( ns => ns.Name == "Blazorise" );
+            .FirstOrDefault( ns => ns.Name == "Blazorise" ); 
 
         if ( blazoriseNamespace is null )
             yield break;
@@ -58,7 +60,16 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                 .Where( p => p.DeclaredAccessibility == Accessibility.Public &&
                     p.GetAttributes().Any( attr => SymbolEqualityComparer.Default.Equals( attr.AttributeClass, parameterAttributeSymbol ) ) );
 
-            yield return ( type, parameterProperties );
+            // Retrieve public methods
+            var publicMethods = type
+                .GetMembers()
+                .OfType<IMethodSymbol>()
+                .Where( m => m.DeclaredAccessibility == Accessibility.Public &&
+                    !m.IsImplicitlyDeclared &&
+                    m.MethodKind == MethodKind.Ordinary );
+
+            
+            yield return ( type, parameterProperties, publicMethods );
         }
     }
 
@@ -74,10 +85,11 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties)> components )
+    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> Methods)> components )
 
     {
-        var componentsData = string.Join( "\n", components.Select( component =>
+        Logger.LogAlways( components.Count().ToString());
+        IEnumerable<ApiDocsForComponent> componentsData = components.Select( component =>
         {
             var componentType = component.ComponentType;
 
@@ -85,103 +97,81 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             if ( componentType.IsGenericType && componentType.TypeArguments.Any( ta => ta.TypeKind == TypeKind.TypeParameter ) )
             {
                 // Skip open generic types, or alternatively, you could emit a simplified type name
-                return string.Empty;// or handle as needed, e.g., skipping or special processing
+                return null;// string.Empty;// or handle as needed, e.g., skipping or special processing
             }
 
             var componentTypeName = componentType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
             Logger.IsOn = component.ComponentType.Name == "Button";
             Logger.Log( component.ComponentType.Name );
 
-            var propertiesData = string.Join( ",\n", component.Properties.Select( property =>
+            var propertiesData = component.Properties.Select( property =>
+                InfoExtractor.GetPropertyDetails( compilation, property ) );
+            if(component.Methods.Any()) 
+                Logger.LogAlways($"{component.Methods.Count()} commp . {component.ComponentType.Name}");
+            var methodsData = component.Methods.Select(method => 
+                InfoExtractor.GetMethodDetails( compilation, method ) );
+
+
+
+            ApiDocsForComponent comp = new()
             {
-                var name = property.Name;
-                var typeName = OtherHelpers.GetSimplifiedTypeName( property.Type );
-                var xmlComment = OtherHelpers.ExtractSummaryFromXmlComment( property.GetDocumentationCommentXml() );
-                var isBlazoriseEnum = property.Type.TypeKind == TypeKind.Enum && property.Type.ToDisplayString().StartsWith( "Blazorise" );
+                Type = componentTypeName, Properties = propertiesData,Methods = methodsData
+            };
+            return comp;
+        } );
 
-                // Determine default value
-                object defaultValue = DefaultValueHelper.GetDefaultValue( compilation, property );
 
-                
-                string defaultValueString =
-                        defaultValue is null 
-                            ? "null" 
-                            :property.Type.Name switch
-                            {
-                                "String" => $""""
-                                             $$"""
-                                             {defaultValue}
-                                             """
-                                             """",
-                                _ => OtherHelpers.FormatProperly( defaultValue )
-                            };
-                string defaultValueAsString = property.Type.Name == "String"? defaultValueString: $""""
-                                               $$"""
-                                               {OtherHelpers.TypeToStringDetails( defaultValueString)}
-                                               """
-                                               """";//lol
-                
+        
+        
 
-                return $"""
-                             new ("{name}",typeof({property.Type}), "{typeName}", {defaultValueString},{defaultValueAsString}, "{xmlComment}", {( isBlazoriseEnum ? "true" : "false" )})
-                        """;
-            } ) );
+        return
+            $$"""
+                 using System;
+                 using System.Collections.Generic;
 
-            return $$"""
-                         { typeof({{componentTypeName}}), new ApiDocsForComponent(typeof({{componentTypeName}}), new List<ApiDocsForComponentProperty>
-                         {
-                             {{propertiesData}}
-                         })
-                         },
-                     """;
-        } ) );
+                 namespace Blazorise.Docs;
 
-        return $$"""
-                     using System;
-                     using System.Collections.Generic;
-                 
-                     namespace Blazorise.Docs;
-                 
-                     public static class ComponentsApiDocsSource
+                 public static class ComponentsApiDocsSource
+                 {
+                     public static readonly Dictionary<Type, ApiDocsForComponent> Components = new Dictionary<Type, ApiDocsForComponent>
                      {
-                         public static readonly Dictionary<Type, ApiDocsForComponent> Components = new Dictionary<Type, ApiDocsForComponent>
+                         {{componentsData.Where(comp=>comp is not null ).Select( comp => 
                          {
-                             {{componentsData}}
-                         };
-                     }
-                     
-                     public class ApiDocsForComponent
-                         {
-                             public ApiDocsForComponent(Type type, List<ApiDocsForComponentProperty> properties)
-                             {
-                                 Type = type;
-                                 Properties = properties;
-                             }
-                 
-                             public Type Type { get; }
-                             public List<ApiDocsForComponentProperty> Properties { get; }
-                         }  
-                 
-                         public class ApiDocsForComponentProperty
-                         {
-                             public ApiDocsForComponentProperty(string name,Type type, string typeName, object defaultValue,string defaultValueString, string description, bool isBlazoriseEnum)
-                             {
-                                 Name = name;
-                                 TypeName = typeName;
-                                 Type = type;
-                                 DefaultValue = defaultValue;
-                                 Description = description;
-                                 IsBlazoriseEnum = isBlazoriseEnum;
-                                 DefaultValueString = defaultValueString;
-                             }
-                              public bool IsBlazoriseEnum { get; }
-                             public string Name { get; }
-                             public string TypeName { get; }
-                             public Type Type { get; }
-                             public object DefaultValue { get; }
-                             public string DefaultValueString { get; }
-                             public string Description { get; }
+                             return $$"""
+                                            { typeof({{comp.Type}}), new ApiDocsForComponent(typeof({{comp.Type}}), 
+                                            new List<ApiDocsForComponentProperty>{
+                                                {{
+                                                    comp.Properties.Select( prop =>
+                                                        $"""
+                                                    
+                                                         new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Description}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
+                                                         """).StringJoin("\n")
+                                                }}},
+                                              new List<ApiDocsForComponentMethod>{
+                                              {{
+                                                  comp.Methods.Select( method =>
+                                                      $$"""
+
+                                                       new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Description}}",
+                                                            new List<ApiDocsForComponentMethodParameter>{
+                                                       {{
+                                                        method.Parameters.Select(param => 
+                                                            $"""
+                                                             new ("{param.Name}","{param.TypeName}" ),
+                                                             """
+                                                            ).StringJoin("\n")
+                                                       }} }),
+                                                       """).StringJoin("\n")
+                                              }}
+                                              
+                                              }  
+                                        )},
+
+                                    """;
                          }
+                         ).StringJoin("\n")}}
+                     };
+                 }
                  """;
     }
 }

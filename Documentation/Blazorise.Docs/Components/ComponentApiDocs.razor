@@ -2,19 +2,20 @@
     API
 </DocsPageSubtitle>
 
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
 
-@foreach(ApiDocsForComponent apiDocsForComponent in ComponentTypes.Select(x=> ComponentsApiDocsSource.Components.GetValueOrDefault(x)))
+@foreach(ApiDocsForComponent apiDocsForComponent in ComponentTypes.Select(x => ComponentsApiDocsSource.Components.GetValueOrDefault(x)).Where(x=> x is not null))
 {
-
-    <DocsAttributes Title="@apiDocsForComponent.Type.Name">
+    <Heading Margin="Margin.Is2.FromTop" Size="HeadingSize.Is3">
+        @apiDocsForComponent.Type.Name
+    </Heading>
+   
+    <DocsAttributes Name="Parameter">
         @if (apiDocsForComponent?.Properties != null)
         {
             foreach(var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
             {
-                <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
+                <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName"
+                                    Default="@property.DefaultValueString">
                     @((MarkupString)property.Description)
 
                     @if (property.IsBlazoriseEnum)
@@ -31,12 +32,22 @@
             }
         }
     </DocsAttributes>
+
+    if (apiDocsForComponent.Methods.Any())
+    {
+        <DocsMethods Name="Method">
+            @foreach(ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
+            {
+            <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(',',method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">
+                @method.Description
+            </DocsMethodsItem>
+            }
+        </DocsMethods>
+    }
+    
 }
 
 
 @code {
-    [Parameter] public List<Type> ComponentTypes { get; set; } = [];
-
-    [Parameter] public bool HideApiHeadings { get; set; }
-
+    [Parameter, EditorRequired] public List<Type> ComponentTypes { get; set; } = [];
 }
