@@ -4,7 +4,6 @@
 
 @{
     IEnumerable<ApiDocsForComponent> apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Components.GetValueOrDefault(x)).Where(x => x is not null);
-
     var hasComponentTypes = ComponentTypes.Any();
     var multipleComponentTypes = ComponentTypes.Count > 1;
     var hasMethods = apiDocsForComponents.Any(x => x.Methods.Any());
@@ -18,7 +17,7 @@
 
     @foreach (var apiDocsForComponent in apiDocsForComponents.Where(x => x?.Properties?.Count > 0))
     {
-        <DocsAttributes Name="Parameter" Title="@(multipleComponentTypes ? apiDocsForComponent.Type.Name : null)">
+        <DocsAttributes Name="Parameter" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
             @foreach (var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
             {
                 <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
@@ -55,7 +54,7 @@
 
     @foreach (var apiDocsForComponent in apiDocsForComponents.Where(x => x?.Methods?.Count > 0))
     {
-        <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.Type.Name : null)">
+        <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
             @foreach (ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(", ",method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">

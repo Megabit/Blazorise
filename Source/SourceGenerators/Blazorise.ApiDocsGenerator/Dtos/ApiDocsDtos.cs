@@ -10,11 +10,20 @@ namespace Blazorise.ApiDocsGenerator.Dtos;
 /// </summary>
 public class ApiDocsForComponent
 {
-    
+    public ApiDocsForComponent( string type, string typeName, IEnumerable<ApiDocsForComponentProperty> properties, IEnumerable<ApiDocsForComponentMethod> methods )
+    {
+        Type = type;
+        TypeName = typeName;
+        Properties = properties;
+        Methods = methods;
+    }
+
     //here it is different
     public string Type { get; set; }
-    public IEnumerable<ApiDocsForComponentProperty> Properties { get; set; } = [];
-    public IEnumerable<ApiDocsForComponentMethod> Methods { get; set; } = [];
+    
+    public string TypeName { get; set; }
+    public IEnumerable<ApiDocsForComponentProperty> Properties { get; set; } 
+    public IEnumerable<ApiDocsForComponentMethod> Methods { get; set; } 
 }
 
 public class ApiDocsForComponentProperty

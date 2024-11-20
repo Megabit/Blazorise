@@ -7,13 +7,15 @@ namespace Blazorise;
 /// This almost keeps parity with ApiDocsDtos in sg project.
 public class ApiDocsForComponent
 {
-    public ApiDocsForComponent( Type type, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods )
+    public ApiDocsForComponent( Type type,string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods )
     {
         Type = type;
+        TypeName = typeName;
         Properties = properties;
         Methods = methods;
     }
     public Type Type { get; set; }
+    public string TypeName { get; }
     public List<ApiDocsForComponentProperty> Properties { get; set; } 
     public List<ApiDocsForComponentMethod> Methods { get; set; } 
 
