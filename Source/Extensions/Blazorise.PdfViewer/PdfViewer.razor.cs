@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Infrastructure;
@@ -74,12 +73,12 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
                 {
                     if ( JSModule is not null )
                     {
-                        await JSModule.UpdateOptions( ElementRef, ElementId, new
+                        await JSModule.UpdateOptions( ElementRef, ElementId, new()
                         {
-                            source = new { changed = sourceChanged, value = paramSource },
-                            pageNumber = new { changed = pageNumberChanged, value = paramPageNumber },
-                            scale = new { changed = scaleChanged, value = paramScale },
-                            rotation = new { changed = orientationChanged, value = paramOrientation.ToRotation() },
+                            Source = new( sourceChanged, paramSource ),
+                            PageNumber = new( pageNumberChanged, paramPageNumber ),
+                            Scale = new( scaleChanged, paramScale ),
+                            Rotation = new( orientationChanged, paramOrientation.ToRotation() )
                         } );
                     }
                 } );
@@ -109,13 +108,14 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         {
             if ( JSModule is not null )
             {
-                await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
+                await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new()
                 {
-                    source = Source,
-                    pageNumber = PageNumber,
-                    scale = Scale,
-                    rotation = Orientation.ToRotation(),
+                    Source = Source,
+                    PageNumber = PageNumber,
+                    Scale = Scale,
+                    Rotation = Orientation.ToRotation()
                 } );
+
             }
         }
 

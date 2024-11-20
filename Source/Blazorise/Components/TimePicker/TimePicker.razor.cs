@@ -8,7 +8,6 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -59,17 +58,17 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || placeholderChanged
                            || staticPickerChanged ) )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new TimePickerUpdateJSOptions
             {
-                DisplayFormat = new { Changed = displayFormatChanged, Value = DisplayFormatConverter.Convert( displayFormat ) },
-                TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
-                Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
-                Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
-                Disabled = new { Changed = disabledChanged, Value = disabled },
-                ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
-                Inline = new { Changed = inlineChanged, Value = paramInline },
-                Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
-                StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
+                DisplayFormat = new JSOptionChange<string>( displayFormatChanged, DisplayFormatConverter.Convert( displayFormat ) ),
+                TimeAs24hr = new JSOptionChange<bool>( timeAs24hrChanged, timeAs24hr ),
+                Min = new JSOptionChange<string>( minChanged, min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
+                Max = new JSOptionChange<string>( maxChanged, max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
+                Disabled = new JSOptionChange<bool>( disabledChanged, disabled ),
+                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, readOnly ),
+                Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
+                Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
+                StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramSaticPicker ),
             } ) );
         }
     }
@@ -85,20 +84,21 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        await JSModule.Initialize( ElementRef, ElementId, new
+        await JSModule.Initialize( ElementRef, ElementId, new()
         {
             DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
-            TimeAs24hr,
+            TimeAs24hr = TimeAs24hr,
             Default = FormatValueAsString( Value ),
             Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
             Max = Max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
-            Disabled,
-            ReadOnly,
+            Disabled = Disabled,
+            ReadOnly = ReadOnly,
             Localization = GetLocalizationObject(),
-            Inline,
-            Placeholder,
-            StaticPicker,
+            Inline = Inline,
+            Placeholder = Placeholder,
+            StaticPicker = StaticPicker,
         } );
+
 
         await base.OnFirstAfterRenderAsync();
     }

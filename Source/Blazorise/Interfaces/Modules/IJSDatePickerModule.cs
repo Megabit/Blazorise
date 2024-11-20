@@ -20,7 +20,7 @@ public interface IJSDatePickerModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Additional options for the tooltip initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( DotNetObjectReference<DatePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, object options );
+    ValueTask Initialize( DotNetObjectReference<DatePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, DatePickerJSOptions options );
 
     /// <summary>
     /// Activates the <see cref="DatePicker{TValue}"/>.
@@ -47,7 +47,7 @@ public interface IJSDatePickerModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Options to update.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
+    ValueTask UpdateOptions( ElementReference elementRef, string elementId, DatePickerUpdateJSOptions options );
 
     /// <summary>
     /// Opens the <see cref="DatePicker{TValue}"/> dropdown menu.

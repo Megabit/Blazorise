@@ -50,19 +50,22 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
         }
 
         if ( Rendered && ( paletteChanged
-                           || showPaletteChanged
-                           || hideAfterPaletteSelectChanged
-                           || disabledChanged
-                           || readOnlyChanged ) )
+            || showPaletteChanged
+            || hideAfterPaletteSelectChanged
+            || disabledChanged
+            || readOnlyChanged ) )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,
+            new ColorPickerUpdateJsOptions
             {
-                Palette = new { Changed = paletteChanged, Value = paramPalette },
-                ShowPalette = new { Changed = showPaletteChanged, Value = paramShowPalette },
-                HideAfterPaletteSelect = new { Changed = hideAfterPaletteSelectChanged, Value = paramHideAfterPaletteSelect },
-                Disabled = new { Changed = disabledChanged, Value = paramDisabled },
-                ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
+                Palette = new JSOptionChange<string[]>( paletteChanged, paramPalette ),
+                ShowPalette = new JSOptionChange<bool>( showPaletteChanged, paramShowPalette ),
+                HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, paramHideAfterPaletteSelect ),
+                Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled ),
+                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly )
             } ) );
+
+
         }
     }
 
@@ -93,25 +96,27 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        dotNetObjectRef ??= CreateDotNetObjectRef( this );
+        dotNetObjectRef ??= CreateDotNetObjectRef( value: this );
 
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
+        await JSModule.Initialize( dotNetObjectRef: dotNetObjectRef, elementRef: ElementRef, elementId: ElementId,
+        options: new()
         {
             Default = Value,
-            Palette,
-            ShowPalette,
-            HideAfterPaletteSelect,
-            ShowClearButton,
-            ShowCancelButton,
-            ShowOpacitySlider,
-            ShowHueSlider,
-            ShowInputField,
-            Disabled,
-            ReadOnly,
+            Palette = Palette,
+            ShowPalette = ShowPalette,
+            HideAfterPaletteSelect = HideAfterPaletteSelect,
+            ShowClearButton = ShowClearButton,
+            ShowCancelButton = ShowCancelButton,
+            ShowOpacitySlider = ShowOpacitySlider,
+            ShowHueSlider = ShowHueSlider,
+            ShowInputField = ShowInputField,
+            Disabled = Disabled,
+            ReadOnly = ReadOnly,
             Localization = Localizer.GetStrings(),
-            ColorPreviewElementSelector,
-            ColorValueElementSelector,
+            ColorPreviewElementSelector = ColorPreviewElementSelector,
+            ColorValueElementSelector = ColorValueElementSelector
         } );
+
 
         await base.OnFirstAfterRenderAsync();
     }

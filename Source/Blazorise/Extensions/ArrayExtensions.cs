@@ -100,4 +100,20 @@ public static class ArrayExtensions
     {
         return collection?.Select( ( obj, idx ) => new { obj, idx } )?.FirstOrDefault( x => predicate( x.obj ) )?.idx ?? -1;
     }
+
+    /// <summary>
+    /// Based on https://stackoverflow.com/a/8094931
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="collection"></param>
+    /// <returns></returns>
+    public static int GetListHash<T>( this IEnumerable<T> collection )
+    {
+        int hash = 19;
+        foreach ( var value in collection )
+        {
+            hash = hash * 31 + value.GetHashCode();
+        }
+        return hash;
+    }
 }

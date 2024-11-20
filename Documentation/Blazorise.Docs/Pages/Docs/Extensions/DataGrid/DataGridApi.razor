@@ -181,6 +181,14 @@
     <DocsAttributesItem Name="FixedColumns" Type="bool">
         Makes Datagrid have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedColumnsPositionSync" Type="bool" Default="false">
+        <Paragraph>
+            Gets or sets whether the <Code>FixedColumns</Code> feature automatically resynchronizes the columns positions when they are added or removed.
+        </Paragraph>
+        <Paragraph>
+            Enabling this feature may impact performance due to constant recalculations of fixed column positions.
+        </Paragraph>
+    </DocsAttributesItem>
     <DocsAttributesItem Name="FixedHeaderDataGridHeight" Type="string" Default="500px">
         Sets the Datagrid height when FixedHeader feature is enabled (defaults to 500px).
     </DocsAttributesItem>
@@ -476,6 +484,10 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SortDirection" Type="SortDirection" Default="Default">
         Column initial sort direction.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortComparer" Type="IComparer<TItem>" Default="null">
+        Gets or sets the custom comparer used for sorting the items in this column.
+        Note that this comparer can only be used with in-memory data.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ReverseSorting" Type="bool" Default="false">
         Whether the sort direction will be reversed.

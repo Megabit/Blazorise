@@ -2048,7 +2048,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         {
             var dropzone = i.ToString();
 
-            <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+            <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Reordered=""@Reordered"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
                 <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">Drop Zone @dropzone</Heading>
             </DropZone>
         }
@@ -2061,6 +2061,10 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         </Card>
     </ItemTemplate>
 </DropContainer>
+
+<Div >
+    @reorderStatus
+</Div>
 @code {
     public class DropItem
     {
@@ -2081,6 +2085,14 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
+    }
+
+    string reorderStatus = """";
+    
+    private Task Reordered( DropZoneOrder<DropItem> order )
+    {
+        reorderStatus = $""Order in dropzone {order.DestinationDropZoneName}: {string.Join( "", "", order.OrderedItems.OrderBy( x => x.Order ).Select( x => x.Item.Name ) )}"";
         return Task.CompletedTask;
     }
 }";
@@ -5291,50 +5303,50 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 	.AddBootstrapProviders()
 	.AddEmptyIconProvider();";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.6.2.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.6.2.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.6.2.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.6.2.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.7.0.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.6.2.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.6.2.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.6.2.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=1.6.2.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.7.0.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.6.2.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.7.0.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -5342,15 +5354,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.6.2.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=1.6.2.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.6.2.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.7.0.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.6.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.6.2.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.7.0.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.7.0.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -5360,7 +5372,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.6.2.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.7.0.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" ValueChanged=""@OnSelectedAnimationChanged"">
@@ -5428,7 +5440,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.6.2.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.7.0.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -8044,11 +8056,12 @@ Install-Package Blazorise.Chart.Zoom";
      <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+    <DataGridNumericColumn Field=""@nameof(Employee.Childrens)"" Caption=""Children"" Editable />
 </DataGrid>
 
 @code{
     private DataGrid<Employee> dataGrid;
-    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender=""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender=""F"" } };
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"", Childrens = 0 }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"", Childrens = 1 }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"", Childrens = 2 }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"", Childrens = 5 }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"", Childrens = 2 } };
 }";
 
         public const string DataGridFilterModeColumnTemplateFilteringExample = @"<DataGrid @ref=""dataGrid""
@@ -8056,16 +8069,17 @@ Install-Package Blazorise.Chart.Zoom";
           Data=""@employeeList""
           Responsive
           Filterable
-           FilterMode=""DataGridFilterMode.Menu"">
-     <DataGridColumns>
-         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
-         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
-         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-     </DataGridColumns>
-     <FilterMenuTemplate>
-         <Row>
-             <Column ColumnSize=""ColumnSize.Is4"">
-                 <Select TValue=""DataGridColumnFilterMethod"" Value=""@context.GetFilterMethod()"" ValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+          FilterMode=""DataGridFilterMode.Menu"">
+    <DataGridColumns>
+        <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
+        <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+        <DataGridNumericColumn Field=""@nameof(Employee.Childrens)"" Caption=""Children"" Editable />
+    </DataGridColumns>
+    <FilterMenuTemplate>
+        <Row>
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
                     @{
                         var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
                     }
@@ -8084,12 +8098,23 @@ Install-Package Blazorise.Chart.Zoom";
                         <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.GreaterThanOrEqual"">Greater Than Or Equal</SelectItem>
                         <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThan"">Less Than</SelectItem>
                         <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThanOrEqual"">Less Than Or Equal</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Between"">Between</SelectItem>
                     }
                 </Select>
             </Column>
 
             <Column ColumnSize=""ColumnSize.Is4"">
-                <TextEdit Value=""@context.GetSearchValue()?.ToString()"" ValueChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
+                <Field @key=context.GetFilterMethod()>
+                    @if ( context.GetFilterMethod() == DataGridColumnFilterMethod.Between )
+                    {
+                        <TextEdit Value=""@GetFilterValue1(context)"" ValueChanged=""@((newValue) => SetFilterValue1(context.Column.Filter, newValue))"" />
+                        <TextEdit Value=""@GetFilterValue2(context)"" ValueChanged=""@((newValue) => SetFilterValue2(context.Column.Filter, newValue))"" />
+                    }
+                    else
+                    {
+                        <TextEdit Value=""@context.GetSearchValue()?.ToString()"" ValueChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
+                    }
+                </Field>
             </Column>
 
             <Column ColumnSize=""ColumnSize.Is4"">
@@ -8102,7 +8127,44 @@ Install-Package Blazorise.Chart.Zoom";
 
 @code {
     private DataGrid<Employee> dataGrid;
-    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"" } };
+    private List<Employee> employeeList = new()
+    {
+        new() { FirstName = ""Liam"", LastName = ""Smith"", Gender = ""M"", Childrens = 0 },
+        new() { FirstName = ""Noah"", LastName = ""Johnson"", Gender = ""M"", Childrens = 1 },
+        new() { FirstName = ""Ethan"", LastName = ""Brown"", Gender = ""M"", Childrens = 2 },
+        new() { FirstName = ""Olivia"", LastName = ""Davis"", Gender = ""F"", Childrens = 5 },
+        new() { FirstName = ""Emma"", LastName = ""Wilson"", Gender = ""F"", Childrens = 2 },
+    };
+
+    private string GetFilterValue1( FilterColumnContext<Employee> context )
+    {
+        return ( context.GetSearchValue() as object[] )?[0]?.ToString();
+    }
+
+    private string GetFilterValue2( FilterColumnContext<Employee> context )
+    {
+        return ( context.GetSearchValue() as object[] )?[1]?.ToString();
+    }
+
+    private void SetFilterValue1( FilterContext<Employee> context, object value1 )
+    {
+        if ( context.SearchValue is not object[] )
+        {
+            context.SearchValue = new object[2];
+        }
+
+        ( context.SearchValue as object[] )[0] = value1;
+    }
+
+    private void SetFilterValue2( FilterContext<Employee> context, object value2 )
+    {
+        if ( context.SearchValue is not object[] )
+        {
+            context.SearchValue = new object[2];
+        }
+
+        ( context.SearchValue as object[] )[1] = value2;
+    }
 }";
 
         public const string DataGridFixedColumnsExample = @"<DataGrid TItem=""Employee""
@@ -8974,6 +9036,59 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
+        public const string DataGridSortComparerExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          Sortable
+          SortMode=""DataGridSortMode.Single"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridNumericColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""Full Name"" Filterable=""false"" SortComparer=""new EmployeeNameComparer()"">
+        <DisplayTemplate>
+            @($""{context.FirstName} {context.LastName}"")
+        </DisplayTemplate>
+    </DataGridNumericColumn>
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    public class EmployeeNameComparer : Comparer<Employee>
+    {
+        public override int Compare( Employee x, Employee y )
+        {
+            // Null checks
+            if ( x is null && y is null ) return 0;
+            if ( x is null ) return -1;
+            if ( y is null ) return 1;
+
+            // Compare by length of FirstName
+            int firstNameLengthComparison = x.FirstName.Length.CompareTo(y.FirstName.Length);
+
+            // If FirstName lengths are the same, compare alphabetically by LastName
+            return firstNameLengthComparison != 0
+                ? firstNameLengthComparison
+                : string.CompareOrdinal(x.LastName, y.LastName);
+        }
+    }
+}";
+
         public const string DataGridSortFieldExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -9461,7 +9576,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
 
-        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.6.2.0"" rel=""stylesheet"" />";
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.7.0.0"" rel=""stylesheet"" />";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
@@ -11230,7 +11345,7 @@ builder.Services
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <script src=""https://cdn.tailwindcss.com""></script>
-<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.6.2.0""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.7.0.0""></script>
 
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
@@ -12193,12 +12308,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.6.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.6.2.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.7.0.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.7.0.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.6.2.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.6.2.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.6.2.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.7.0.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.7.0.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.7.0.0""></script>";
 
     }
 }

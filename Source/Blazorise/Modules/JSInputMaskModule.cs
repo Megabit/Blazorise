@@ -29,7 +29,7 @@ public class JSInputMaskModule : BaseJSModule, IJSInputMaskModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( DotNetObjectReference<InputMask> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+    public virtual ValueTask Initialize( DotNetObjectReference<InputMask> dotNetObjectRef, ElementReference elementRef, string elementId, InputMaskJSOptions options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
 
     /// <inheritdoc/>

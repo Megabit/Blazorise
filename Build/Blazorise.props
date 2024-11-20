@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.6.2</Version>
-		<PackageVersion>1.6.2</PackageVersion>
+		<Version>1.7.0</Version>
+		<PackageVersion>1.7.0</PackageVersion>
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
@@ -14,7 +14,7 @@
     <Company>Megabit</Company>
     <Copyright>Copyright 2018-2024 Megabit</Copyright>
 
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
     <LangVersion>11.0</LangVersion>
@@ -27,6 +27,7 @@
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
+  <!-- Don't remove this. It is needed for the WASM workloads to publish demo projects. -->
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <None Include="compilerconfig.json" />
@@ -42,6 +43,10 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
     <DefineConstants>$(DefineConstants);NET8_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
+    <DefineConstants>$(DefineConstants);NET9_0</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
@@ -60,6 +65,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.*" />
   </ItemGroup>
 
   <UsingTask

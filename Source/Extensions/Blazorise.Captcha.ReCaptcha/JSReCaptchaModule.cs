@@ -15,7 +15,7 @@ internal class JSReCaptchaModule : BaseJSModule, IJSDestroyableModule
     {
     }
 
-    public ValueTask Initialize( DotNetObjectReference<ReCaptcha> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+    public ValueTask Initialize( DotNetObjectReference<ReCaptcha> dotNetObjectReference, ElementReference elementRef, string elementId, ReCaptchaJSOptions options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
 
     public ValueTask Destroy( ElementReference elementRef, string elementId )

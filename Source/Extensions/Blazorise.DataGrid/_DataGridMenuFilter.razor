@@ -3,15 +3,16 @@
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
     <DropdownToggle @onclick:stopPropagation>
-        <Icon Name="@IconName.Filter" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="@(IsFiltering ? TextColor.Primary : TextColor.Default)" />
+        <Icon Name="@IconName.Filter" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="@(IsFiltering() ? TextColor.Primary : TextColor.Default)" />
     </DropdownToggle>
     <DropdownMenu>
         <Row Padding="@Blazorise.Padding.Is3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
             @if ( ParentDataGrid.FilterMenuTemplate is null )
             {
+                var filterMethod = Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn();
                 <Column ColumnSize="ColumnSize.Is12">
                     <Field>
-                        <Select TValue="DataGridColumnFilterMethod" Value="@(Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn())" ValueChanged="e => { Column.SetFilterMethod(e); }">
+                        <Select TValue="DataGridColumnFilterMethod" SelectedValue="@filterMethod" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
                             @if ( Column.ColumnType == DataGridColumnType.Numeric || Column.ColumnType == DataGridColumnType.Date )
                             {
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
@@ -21,6 +22,7 @@
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.GreaterThanOrEqual">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodGreaterThanOrEqualLocalizer, "Greater Than or Equal" )</SelectItem>
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.LessThan">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodLessThanLocalizer, "Less Than" )</SelectItem>
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.LessThanOrEqual">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodLessThanOrEqualLocalizer, "Less Than or Equal" )</SelectItem>
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Between">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodBetweenLocalizer, "Between" )</SelectItem>
                             }
                             else if ( Column.ColumnType == DataGridColumnType.Check )
                             {
@@ -40,8 +42,16 @@
                     </Field>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12">
-                    <Field>
-                        <_DataGridCellFilter Column="Column" OnFilterChanged="@((newValue) => Column.Filter.SearchValue = newValue)" />
+                    <Field @key=filterMethod>
+                        @if ( filterMethod == DataGridColumnFilterMethod.Between )
+                        {
+                            <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.RangeFrom" OnFilterChanged="@SetFilterValue1" />
+                            <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.RangeTo" OnFilterChanged="@SetFilterValue2" />
+                        }
+                        else
+                        {
+                            <_DataGridCellFilter Column="Column" OnFilterChanged="@((newValue) => Column.Filter.SearchValue = newValue)" />
+                        }
                     </Field>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12" Flex="Flex.JustifyContent.End.AlignItems.Center" Gap="Gap.Is2">
