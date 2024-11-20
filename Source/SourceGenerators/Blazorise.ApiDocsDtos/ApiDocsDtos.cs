@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-
-
+﻿
 namespace Blazorise;
 
 /// will be removed in package (specified in csproj)

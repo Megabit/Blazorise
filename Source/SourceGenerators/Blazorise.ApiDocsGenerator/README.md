@@ -60,3 +60,13 @@ Moreover, it preserves the exact expression of default values, not just the comp
 [Parameter] public int ComplexValue { get; set; } = 20 * 200; // Output: "20 * 200", not "4000"
 ```
 
+## Where does SG see?
+
+If I add the sg project in docs project (that referenes Blazorise). It can pickup the types, but cannot "read"
+the xml comment. 
+
+> SyntaxTree is not part of the compilation (Parameter 'syntaxTree')
+
+https://stackoverflow.com/a/69307775/1154773
+
+https://github.com/dotnet/roslyn/discussions/50874

@@ -33,18 +33,13 @@
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     <ProjectReference Include="..\SourceGenerators\Blazorise.ApiDocsGenerator\Blazorise.ApiDocsGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <ProjectReference Include="..\SourceGenerators\Blazorise.ApiDocsDtos\Blazorise.ApiDocsDtos.csproj"  PrivateAssets="all" />
     <!-- Exclude the output of source generators from the compilation -->
     <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazorise.Licensing" Version="1.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Models/ApiDocsDtos.cs">
-      <ExcludeFromPackage>true</ExcludeFromPackage>
-    </Compile>
   </ItemGroup>
 
 
