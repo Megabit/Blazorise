@@ -1,6 +1,8 @@
 ﻿using Blazorise.ApiDocsGenerator.Dtos;
 using Microsoft.CodeAnalysis;
 using System.Linq;
+using Blazorise.ApiDocsGenerator.Extensions;
+
 
 namespace Blazorise.ApiDocsGenerator.Helpers;
 
@@ -11,7 +13,9 @@ public class InfoExtractor
     {
         ApiDocsForComponentProperty propertyDetails = new();
         propertyDetails.Name = property.Name;
-        propertyDetails.Type = property.Type.ToString();
+        propertyDetails.Type = property.Type.TypeKind == TypeKind.TypeParameter //with generic arguments:  
+            ? "object" //typeof(TValue) is invalid => typeof(object)
+            : property.Type.ToStringWithGenerics();  //e.g.: typeof(EventCallback<TValue>) => typeof(EventCallback<>) 
         propertyDetails.TypeName = OtherHelpers.GetSimplifiedTypeName( property.Type );
         propertyDetails.Description= OtherHelpers.ExtractSummaryFromXmlComment( property.GetDocumentationCommentXml() );
         propertyDetails.IsBlazoriseEnum = property.Type.TypeKind == TypeKind.Enum && property.Type.ToDisplayString().StartsWith( "Blazorise" );

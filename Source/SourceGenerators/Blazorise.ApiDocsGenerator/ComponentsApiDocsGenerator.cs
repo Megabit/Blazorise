@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using Blazorise.ApiDocsGenerator.Dtos;
+using Blazorise.ApiDocsGenerator.Extensions;
 
 namespace Blazorise.ApiDocsGenerator;
 
@@ -17,12 +18,12 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
     {
         var componentProperties = context.CompilationProvider
             .Select( ( compilation, _ ) => ( compilation, components: GetComponentProperties( compilation ).ToImmutableArray() ) );
-        
-        
+
+
 
         context.RegisterSourceOutput( componentProperties, ( ctx, source ) =>
         {
-            Logger.LogAlways( DateTime.Now.ToLongTimeString()  ); 
+            Logger.LogAlways( DateTime.Now.ToLongTimeString() );
 
             var (compilation, components) = source;
             var sourceText = GenerateComponentsApiSource( compilation, components );
@@ -45,7 +46,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
 
         var blazoriseNamespace = compilation.GlobalNamespace
             .GetNamespaceMembers()
-            .FirstOrDefault( ns => ns.Name == "Blazorise" ); 
+            .FirstOrDefault( ns => ns.Name == "Blazorise" );
 
         if ( blazoriseNamespace is null )
             yield break;
@@ -68,7 +69,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                     !m.IsImplicitlyDeclared &&
                     m.MethodKind == MethodKind.Ordinary );
 
-            
+
             yield return ( type, parameterProperties, publicMethods );
         }
     }
@@ -88,90 +89,82 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
     private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> Methods)> components )
 
     {
-        Logger.LogAlways( components.Count().ToString());
+        Logger.LogAlways( components.Count().ToString() );
         IEnumerable<ApiDocsForComponent> componentsData = components.Select( component =>
         {
-            var componentType = component.ComponentType;
+            // var componentType = component.ComponentType;
 
-            // Check if the component is an open generic type
-            if ( componentType.IsGenericType && componentType.TypeArguments.Any( ta => ta.TypeKind == TypeKind.TypeParameter ) )
-            {
-                // Skip open generic types, or alternatively, you could emit a simplified type name
-                return null;// string.Empty;// or handle as needed, e.g., skipping or special processing
-            }
-
-            var componentTypeName = componentType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
+            string componentType = component.ComponentType.ToStringWithGenerics();
+            string componentTypeName = OtherHelpers.GetSimplifiedTypeName( component.ComponentType );
             Logger.IsOn = component.ComponentType.Name == "Button";
             Logger.Log( component.ComponentType.Name );
 
             var propertiesData = component.Properties.Select( property =>
                 InfoExtractor.GetPropertyDetails( compilation, property ) );
-            if(component.Methods.Any()) 
-                Logger.LogAlways($"{component.Methods.Count()} commp . {component.ComponentType.Name}");
-            var methodsData = component.Methods.Select(method => 
+            if ( component.Methods.Any() )
+                Logger.LogAlways( $"{component.Methods.Count()} commp . {component.ComponentType.Name}" );
+            var methodsData = component.Methods.Select( method =>
                 InfoExtractor.GetMethodDetails( compilation, method ) );
 
-
-
-            ApiDocsForComponent comp = new()
-            {
-                Type = componentTypeName, Properties = propertiesData,Methods = methodsData
-            };
+            ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
+                                        properties: propertiesData, methods: methodsData);
+            
             return comp;
         } );
 
 
-        
-        
+
+
 
         return
             $$"""
-                 using System;
-                 using System.Collections.Generic;
+              using System;
+              using System.Collections.Generic;
 
-                 namespace Blazorise.Docs;
+              namespace Blazorise.Docs;
 
-                 public static class ComponentsApiDocsSource
-                 {
-                     public static readonly Dictionary<Type, ApiDocsForComponent> Components = new Dictionary<Type, ApiDocsForComponent>
-                     {
-                         {{componentsData.Where(comp=>comp is not null ).Select( comp => 
-                         {
-                             return $$"""
-                                            { typeof({{comp.Type}}), new ApiDocsForComponent(typeof({{comp.Type}}), 
-                                            new List<ApiDocsForComponentProperty>{
-                                                {{
-                                                    comp.Properties.Select( prop =>
-                                                        $"""
-                                                    
-                                                         new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Description}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
-                                                         """).StringJoin("\n")
-                                                }}},
-                                              new List<ApiDocsForComponentMethod>{
-                                              {{
-                                                  comp.Methods.Select( method =>
-                                                      $$"""
+              public static class ComponentsApiDocsSource
+              {
+                  public static readonly Dictionary<Type, ApiDocsForComponent> Components = new Dictionary<Type, ApiDocsForComponent>
+                  {
+                      {{componentsData.Where( comp => comp is not null ).Select( comp =>
+                      {
+                          return $$"""
+                                           { typeof({{comp.Type}}),new ApiDocsForComponent(typeof({{comp.Type}}), 
+                                           "{{comp.TypeName}}",
+                                           new List<ApiDocsForComponentProperty>{
+                                               {{
+                                                   comp.Properties.Select( prop =>
+                                                       $"""
+
+                                                        new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Description}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
+                                                        """ ).StringJoin( "\n" )
+                                               }}},
+                                             new List<ApiDocsForComponentMethod>{
+                                             {{
+                                                 comp.Methods.Select( method =>
+                                                     $$"""
 
                                                        new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Description}}",
                                                             new List<ApiDocsForComponentMethodParameter>{
                                                        {{
-                                                        method.Parameters.Select(param => 
-                                                            $"""
-                                                             new ("{param.Name}","{param.TypeName}" ),
-                                                             """
-                                                            ).StringJoin("\n")
+                                                           method.Parameters.Select( param =>
+                                                               $"""
+                                                                new ("{param.Name}","{param.TypeName}" ),
+                                                                """
+                                                           ).StringJoin( "\n" )
                                                        }} }),
-                                                       """).StringJoin("\n")
-                                              }}
-                                              
-                                              }  
-                                        )},
+                                                       """ ).StringJoin( "\n" )
+                                             }}
+                                             
+                                             }  
+                                       )},
 
-                                    """;
-                         }
-                         ).StringJoin("\n")}}
-                     };
-                 }
-                 """;
+                                   """;
+                      }
+                      ).StringJoin( "\n" )}}
+                  };
+              }
+              """;
     }
 }

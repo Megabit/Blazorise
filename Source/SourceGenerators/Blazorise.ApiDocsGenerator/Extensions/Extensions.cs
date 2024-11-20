@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blazorise.ApiDocsGenerator.Helpers;
+using Microsoft.CodeAnalysis;
+
+namespace Blazorise.ApiDocsGenerator.Extensions;  
 
 public static class EnumerableExtensions
 {
@@ -25,3 +28,22 @@ public static class EnumerableExtensions
 
     }
 }
+
+
+
+public static class TypeSymbolExtensions
+{
+    public static string ToStringWithGenerics(this ITypeSymbol componentType)
+    {
+        if (componentType == null) throw new ArgumentNullException(nameof(componentType));
+
+        return
+            componentType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.WithGenericsOptions(SymbolDisplayGenericsOptions.None)) +
+            $"{(componentType is INamedTypeSymbol
+            {
+                IsGenericType: true , //EventCallback<TValue> => EventCallback<> . Good for typeof(EventCallback<>)
+                NullableAnnotation: not NullableAnnotation.Annotated // such as int? is actually generic Nullable<int>, but we want int?, not int<>?
+            } ? "<>" : "")}";
+    }
+}
+
