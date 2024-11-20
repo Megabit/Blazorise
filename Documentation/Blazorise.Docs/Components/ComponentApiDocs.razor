@@ -3,30 +3,36 @@
 </DocsPageSubtitle>
 
 
-@foreach(ApiDocsForComponent apiDocsForComponent in ComponentTypes.Select(x => ComponentsApiDocsSource.Components.GetValueOrDefault(x)).Where(x=> x is not null))
+@foreach (ApiDocsForComponent apiDocsForComponent in ComponentTypes.Select(x => ComponentsApiDocsSource.Components.GetValueOrDefault(x)).Where(x => x is not null))
 {
     <Heading Margin="Margin.Is2.FromTop" Size="HeadingSize.Is3">
         @apiDocsForComponent.Type.Name
     </Heading>
-   
+
     <DocsAttributes Name="Parameter">
         @if (apiDocsForComponent?.Properties != null)
         {
-            foreach(var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
+            foreach (var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
             {
-                <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName"
-                                    Default="@property.DefaultValueString">
-                    @((MarkupString)property.Description)
+                <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
+                    <Paragraph Margin="@(property.IsBlazoriseEnum ? null : Margin.Is0.FromBottom)">
+                        @((MarkupString)property.Description)
+                    </Paragraph>
 
                     @if (property.IsBlazoriseEnum)
                     {
-                        <text>Possible values: </text>
-                        for (int i = 0; i < Enum.GetNames(property.Type).Length; i++)
-                        {
-                            int i1 = i;
-                            <Span>@Enum.GetNames(property.Type)[i1]</Span>
-                            @(i < Enum.GetNames(property.Type).Length - 1 ? ", " : "")
-                        }
+                        var enumNames = Enum.GetNames(property.Type);
+
+                        <Paragraph Margin="Margin.Is0.FromBottom">
+                            <Text>Possible values: </Text>
+                            @for (int i = 0; i < enumNames.Length; i++)
+                            {
+                                int i1 = i;
+
+                                <Code>@enumNames[i1]</Code>
+                                @(i < @enumNames.Length - 1 ? ", " : "")
+                            }
+                        </Paragraph>
                     }
                 </DocsAttributesItem>
             }
@@ -36,17 +42,15 @@
     if (apiDocsForComponent.Methods.Any())
     {
         <DocsMethods Name="Method">
-            @foreach(ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
+            @foreach (ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
             {
-            <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(',',method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">
-                @method.Description
-            </DocsMethodsItem>
+                <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(", ",method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">
+                    @method.Description
+                </DocsMethodsItem>
             }
         </DocsMethods>
     }
-    
 }
-
 
 @code {
     [Parameter, EditorRequired] public List<Type> ComponentTypes { get; set; } = [];
