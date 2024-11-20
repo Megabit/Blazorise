@@ -2,17 +2,24 @@
     API
 </DocsPageSubtitle>
 
+@{
+    IEnumerable<ApiDocsForComponent> apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Components.GetValueOrDefault(x)).Where(x => x is not null);
 
-@foreach (ApiDocsForComponent apiDocsForComponent in ComponentTypes.Select(x => ComponentsApiDocsSource.Components.GetValueOrDefault(x)).Where(x => x is not null))
+    var hasComponentTypes = ComponentTypes.Any();
+    var multipleComponentTypes = ComponentTypes.Count > 1;
+    var hasMethods = apiDocsForComponents.Any(x => x.Methods.Any());
+}
+
+@if (hasComponentTypes)
 {
-    <Heading Margin="Margin.Is2.FromTop" Size="HeadingSize.Is3">
-        @apiDocsForComponent.Type.Name
+    <Heading Margin="Margin.Is2.FromTop.Is3.FromBottom" Size="HeadingSize.Is3">
+        Parameters
     </Heading>
 
-    <DocsAttributes Name="Parameter">
-        @if (apiDocsForComponent?.Properties != null)
-        {
-            foreach (var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
+    @foreach (var apiDocsForComponent in apiDocsForComponents.Where(x => x?.Properties?.Count > 0))
+    {
+        <DocsAttributes Name="Parameter" Title="@(multipleComponentTypes ? apiDocsForComponent.Type.Name : null)">
+            @foreach (var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
             {
                 <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
                     <Paragraph Margin="@(property.IsBlazoriseEnum ? null : Margin.Is0.FromBottom)">
@@ -36,12 +43,19 @@
                     }
                 </DocsAttributesItem>
             }
-        }
-    </DocsAttributes>
+        </DocsAttributes>
+    }
+}
 
-    if (apiDocsForComponent.Methods.Any())
+@if (hasMethods)
+{
+    <Heading Margin="Margin.Is2.FromTop.Is3.FromBottom" Size="HeadingSize.Is3">
+        Methods
+    </Heading>
+
+    @foreach (var apiDocsForComponent in apiDocsForComponents.Where(x => x?.Methods?.Count > 0))
     {
-        <DocsMethods Name="Method">
+        <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.Type.Name : null)">
             @foreach (ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(", ",method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">
