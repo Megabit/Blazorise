@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -18,9 +19,22 @@ public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     /// <returns>Formatted display value.</returns>
     public string FormatDisplayValue( object value )
     {
-        if (value is string[] values )
+        if (value is not string && value is IEnumerable values )
         {
-            return string.Join( ',', values );
+            var collectionDisplayValue = string.Empty;
+            var firstIteration = true;
+            foreach ( var item in values )
+            {
+                if ( firstIteration )
+                {
+                    collectionDisplayValue = item?.ToString();
+                    firstIteration = false;
+                    continue;
+                }
+
+                collectionDisplayValue += $",{item}";
+            }
+            return collectionDisplayValue;
         }
 
         if ( DisplayFormat != null )

@@ -7,18 +7,27 @@
         <Card Margin="Margin.Is4.OnY">
             <CardBody>
                 <DataGrid TItem="Test"
-                Data="inMemoryData"
-                Responsive
-                ShowPager
-                ShowPageSizes
-                Editable
-                EditMode="editMode">
+                          Data="inMemoryData"
+                          Responsive
+                          ShowPager
+                          ShowPageSizes
+                          Editable
+                          EditMode="editMode">
                     <DataGridColumns>
                         <DataGridCommandColumn TItem="Test"></DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Test" Field="@nameof( Test.Id )" Caption="#" Width="60px" />
-                        <DataGridColumn TItem="Test" Field="@nameof( Test.FirstName )" Caption="First Name" Editable />
-                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.Values )" Caption="Genders" 
-                        Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.Gender )" Caption="Gender"
+                                              Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.Values )" Caption="Genders"
+                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.IntValues )" Caption="Genders int"
+                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.ShortValues )" Caption="Genders short"
+                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.DecimalValues )" Caption="Genders decimal"
+                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.FloatValues )" Caption="Genders float"
+                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
                     </DataGridColumns>
                 </DataGrid>
             </CardBody>
@@ -35,13 +44,31 @@
 
     protected override async Task OnInitializedAsync()
     {
-        inMemoryData = (await EmployeeData.GetDataAsync().ConfigureAwait(false)).Take(25).Select(x => new Test() { Id = x.Id, FirstName = x.FirstName, Values = new string[] { "M" } }).ToList();
+        inMemoryData = (await EmployeeData.GetDataAsync().ConfigureAwait(false)).Take(25).Select(x => new Test()
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                Gender = "M",
+                Values = new string[] { "M" },
+                IntValues = new int[] { 2 },
+                ShortValues = new short[] { 2 },
+                DecimalValues = new decimal[] { 2 },
+                DoubleValues = new double[] { 2 },
+                FloatValues = new float[] { 2 }
+            }
+        ).ToList();
         await base.OnInitializedAsync();
     }
     public class Test
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
+        public string Gender { get; set; }
         public string[] Values { get; set; }
+        public int[] IntValues { get; set; }
+        public short[] ShortValues { get; set; }
+        public decimal[] DecimalValues { get; set; }
+        public double[] DoubleValues { get; set; }
+        public float[] FloatValues { get; set; }
     }
 }
