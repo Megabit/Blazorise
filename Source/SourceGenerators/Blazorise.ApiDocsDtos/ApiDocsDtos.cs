@@ -7,17 +7,73 @@ namespace Blazorise;
 /// This almost keeps parity with ApiDocsDtos in sg project.
 public class ApiDocsForComponent
 {
-    public ApiDocsForComponent( Type type,string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods )
+    public ApiDocsForComponent( Type type,string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain)
     {
         Type = type;
         TypeName = typeName;
-        Properties = properties;
-        Methods = methods;
+        OwnProperties = properties;
+        OwnMethods = methods;
+        InheritsFromChain = inheritsFromChain;
     }
     public Type Type { get; set; }
     public string TypeName { get; }
-    public List<ApiDocsForComponentProperty> Properties { get; set; } 
-    public List<ApiDocsForComponentMethod> Methods { get; set; } 
+
+    /// <summary>
+    /// properties form the component and its parents
+    /// </summary>
+    public List<ApiDocsForComponentProperty> Properties
+    {
+        get
+        {
+            if(_properties!=null) return _properties;
+            _properties = new List<ApiDocsForComponentProperty>();
+            _properties.AddRange(OwnProperties);
+            foreach ( Type typeInheritFrom in InheritsFromChain )
+            {
+               bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
+               if(!success || component is null) continue;
+               _properties.AddRange(component.OwnProperties); 
+            }
+            return _properties;
+        }
+    }
+
+    private List<ApiDocsForComponentProperty>? _properties;   
+    
+    /// <summary>
+    /// only properties from the component, not from parents
+    /// </summary>
+    public List<ApiDocsForComponentProperty> OwnProperties { get; set; } 
+    /// <summary>
+    /// Methods from the component and its parents
+    /// </summary>
+    public List<ApiDocsForComponentMethod> Methods
+    {
+        get
+        {
+            if (_methods != null) return _methods;
+            _methods = new List<ApiDocsForComponentMethod>();
+            _methods.AddRange(OwnMethods);
+            foreach (Type typeInheritFrom in InheritsFromChain)
+            {
+                bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
+                if (!success || component is null) continue;
+                _methods.AddRange(component.OwnMethods);
+            }
+            return _methods;
+        }
+    }
+
+    private List<ApiDocsForComponentMethod>? _methods;
+
+    /// <summary>
+    /// Only methods from the component, not from parents
+    /// </summary>
+    public List<ApiDocsForComponentMethod> OwnMethods { get; set; }
+
+    
+    //chain of inherited classes from component to BaseComponent
+    public List<Type> InheritsFromChain { get; set; }
 
 }
 

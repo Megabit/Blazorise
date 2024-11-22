@@ -3,7 +3,7 @@
 </DocsPageSubtitle>
 
 @{
-    IEnumerable<ApiDocsForComponent> apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Components.GetValueOrDefault(x)).Where(x => x is not null);
+    IEnumerable<ApiDocsForComponent> apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault(x)).Where(x => x is not null);
     var hasComponentTypes = ComponentTypes.Any();
     var multipleComponentTypes = ComponentTypes.Count > 1;
     var hasMethods = apiDocsForComponents.Any(x => x.Methods.Any());
@@ -58,7 +58,7 @@
             @foreach (ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(", ",method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">
-                    @method.Description
+                    @((MarkupString)method.Description)
                 </DocsMethodsItem>
             }
         </DocsMethods>

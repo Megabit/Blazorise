@@ -11,22 +11,24 @@ using Blazorise.ApiDocsGenerator.Extensions;
 
 namespace Blazorise.ApiDocsGenerator;
 
+
+
 [Generator]
 public class ComponentsApiDocsGenerator : IIncrementalGenerator
 {
     public void Initialize( IncrementalGeneratorInitializationContext context )
     {
         var componentProperties = context.CompilationProvider
-            .Select( ( compilation, _ ) => ( compilation, components: GetComponentProperties( compilation ).ToImmutableArray() ) );
+            .Select( ( compilation, _ ) => ( compilation, components: GetComponentProperties( compilation,GetNamespaceToSearch( compilation) ).ToImmutableArray() ) );
 
 
 
         context.RegisterSourceOutput( componentProperties, ( ctx, source ) =>
         {
             Logger.LogAlways( DateTime.Now.ToLongTimeString() );
-
             var (compilation, components) = source;
-            var sourceText = GenerateComponentsApiSource( compilation, components );
+            INamespaceSymbol namespaceToSearch = GetNamespaceToSearch( compilation);
+            var sourceText = GenerateComponentsApiSource( compilation, components, namespaceToSearch );
             ctx.AddSource( "ComponentsApiSource.g.cs", SourceText.From( sourceText, Encoding.UTF8 ) );
 
             ctx.AddSource( "Log.txt", SourceText.From( Logger.LogMessages, Encoding.UTF8 ) );
@@ -34,8 +36,27 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         } );
     }
 
-    private static IEnumerable<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> Methods)> GetComponentProperties( Compilation compilation )
+    private INamespaceSymbol GetNamespaceToSearch( Compilation compilation )
     {
+        var blazoriseNamespace = compilation.GlobalNamespace
+            .GetNamespaceMembers()
+            .FirstOrDefault( ns => ns.Name == $"Blazorise" );
+
+
+        if ( blazoriseNamespace is null ) return null;
+            
+        var namespaceToSearch = compilation.Assembly.Name == "Blazorise" ? blazoriseNamespace
+            : blazoriseNamespace.GetNamespaceMembers().FirstOrDefault( ns => ns.Name == compilation.Assembly.Name.Split( '.' ).Last() );
+        
+        return namespaceToSearch;        
+
+    }
+
+    private static IEnumerable< FoundComponent> GetComponentProperties( Compilation compilation, INamespaceSymbol namespaceToSearch )
+    {
+
+        Logger.LogAlways( $"Local Namespace:{compilation.Assembly.Name} " );
+
         var parameterAttributeSymbol = compilation.GetTypeByMetadataName( "Microsoft.AspNetCore.Components.ParameterAttribute" );
         if ( parameterAttributeSymbol == null )
             yield break;
@@ -44,17 +65,20 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         if ( baseComponentSymbol == null )
             yield break;
 
-        var blazoriseNamespace = compilation.GlobalNamespace
-            .GetNamespaceMembers()
-            .FirstOrDefault( ns => ns.Name == "Blazorise" );
-
-        if ( blazoriseNamespace is null )
+        
+        Logger.LogAlways( $"To look for {namespaceToSearch} " );
+        if ( namespaceToSearch is null )
             yield break;
 
-        foreach ( var type in blazoriseNamespace.GetTypeMembers().OfType<INamedTypeSymbol>() )
+        foreach ( var type in namespaceToSearch.GetTypeMembers().OfType<INamedTypeSymbol>() )
         {
-            if ( type.TypeKind != TypeKind.Class || !InheritsFrom( type, baseComponentSymbol ) )
+
+            if ( type.TypeKind != TypeKind.Class )
                 continue;
+            var (inheritsFromBaseComponent, inheritsFromChain) = InheritsFrom( type, baseComponentSymbol ) ;
+            if(!inheritsFromBaseComponent) continue;
+            
+            Logger.LogAlways( $"Type {type.Name} base {type.BaseType}" );
             var parameterProperties = type
                 .GetMembers()
                 .OfType<IPropertySymbol>()
@@ -70,45 +94,52 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                     m.MethodKind == MethodKind.Ordinary );
 
 
-            yield return ( type, parameterProperties, publicMethods );
+            yield return new FoundComponent
+            (
+                Type : type,  
+                PublicMethods : publicMethods,
+                Properties : parameterProperties,
+                InheritsFromChain : inheritsFromChain
+            );
         }
     }
 
-    private static bool InheritsFrom( INamedTypeSymbol type, INamedTypeSymbol baseType )
+    private static (bool, IEnumerable<INamedTypeSymbol>) InheritsFrom( INamedTypeSymbol type, INamedTypeSymbol baseType )
     {
+        List<INamedTypeSymbol> inheritsFromChain = [];
         while ( type != null )
         {
             if ( SymbolEqualityComparer.Default.Equals( type.BaseType, baseType ) )
-                return true;
+                return ( true, inheritsFromChain );
 
             type = type.BaseType;
+            inheritsFromChain.Add( type );
         }
-        return false;
+        return ( false, [] );
     }
 
-    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<(INamedTypeSymbol ComponentType, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> Methods)> components )
-
+    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<FoundComponent> components, INamespaceSymbol namespaceToSearch )
     {
+        
         Logger.LogAlways( components.Count().ToString() );
         IEnumerable<ApiDocsForComponent> componentsData = components.Select( component =>
         {
-            // var componentType = component.ComponentType;
 
-            string componentType = component.ComponentType.ToStringWithGenerics();
-            string componentTypeName = OtherHelpers.GetSimplifiedTypeName( component.ComponentType );
-            Logger.IsOn = component.ComponentType.Name == "Button";
-            Logger.Log( component.ComponentType.Name );
+            string componentType = component.Type.ToStringWithGenerics();
+            string componentTypeName = OtherHelpers.GetSimplifiedTypeName( component.Type );
+            Logger.IsOn = component.Type.Name == "Button";
+            Logger.Log( component.Type.Name );
 
             var propertiesData = component.Properties.Select( property =>
                 InfoExtractor.GetPropertyDetails( compilation, property ) );
-            if ( component.Methods.Any() )
-                Logger.LogAlways( $"{component.Methods.Count()} commp . {component.ComponentType.Name}" );
-            var methodsData = component.Methods.Select( method =>
+
+            var methodsData = component.PublicMethods.Select( method =>
                 InfoExtractor.GetMethodDetails( compilation, method ) );
 
             ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
-                                        properties: propertiesData, methods: methodsData);
-            
+            properties: propertiesData, methods: methodsData,
+            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ) );
+
             return comp;
         } );
 
@@ -123,9 +154,10 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
 
               namespace Blazorise.Docs;
 
-              public static class ComponentsApiDocsSource
+              public class ComponentApiSource_ForNamespace_{{namespaceToSearch.Name}}:IComponentsApiDocsSource
               {
-                  public static readonly Dictionary<Type, ApiDocsForComponent> Components = new Dictionary<Type, ApiDocsForComponent>
+                  public  Dictionary<Type, ApiDocsForComponent> Components { get;  } =  
+                  new Dictionary<Type, ApiDocsForComponent>
                   {
                       {{componentsData.Where( comp => comp is not null ).Select( comp =>
                       {
@@ -138,7 +170,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                                        $"""
 
                                                         new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Description}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
-                                                        """ ).StringJoin( "\n" )
+                                                        """ ).StringJoin( " " )
                                                }}},
                                              new List<ApiDocsForComponentMethod>{
                                              {{
@@ -152,12 +184,14 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                                                $"""
                                                                 new ("{param.Name}","{param.TypeName}" ),
                                                                 """
-                                                           ).StringJoin( "\n" )
+                                                           ).StringJoin( " " )
                                                        }} }),
-                                                       """ ).StringJoin( "\n" )
-                                             }}
-                                             
-                                             }  
+                                                       """ ).StringJoin( " " ) 
+                                             }} 
+                                             }, 
+                                             new List<Type>{  
+                                             {{comp.InheritsFromChain.Select(x=> $"typeof({x})").StringJoin(",") }}
+                                             }
                                        )},
 
                                    """;
@@ -167,4 +201,12 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
               }
               """;
     }
+}
+
+public record FoundComponent( INamedTypeSymbol Type, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> PublicMethods, IEnumerable<INamedTypeSymbol> InheritsFromChain )
+{
+    public INamedTypeSymbol Type { get; } = Type;
+    public IEnumerable<IPropertySymbol> Properties  { get; } = Properties;
+    public IEnumerable<IMethodSymbol> PublicMethods { get; } = PublicMethods;
+    public IEnumerable<INamedTypeSymbol> InheritsFromChain { get; } = InheritsFromChain;
 }

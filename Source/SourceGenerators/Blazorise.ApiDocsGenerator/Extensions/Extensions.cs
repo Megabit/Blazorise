@@ -18,7 +18,7 @@ public static class EnumerableExtensions
     {
         try
         {
-            return source == null ? "" : string.Join(" ", source);
+            return source == null ? "" : string.Join(separator, source);
         }
         catch ( Exception e )
         {
