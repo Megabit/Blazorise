@@ -21,18 +21,18 @@
             </CardBody>
         </Card>
     </Column>
-     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>With custom item content</CardTitle>
             </CardHeader>
             <CardBody>
-               <ListView TItem="Country"
-                        Data="Countries"
-                        TextField="(item) => item.Name"
-                        ValueField="(item) => item.Iso"
-                        Mode="ListGroupMode.Static"
-                        MaxHeight="300px">
+                <ListView TItem="Country"
+                          Data="Countries"
+                          TextField="(item) => item.Name"
+                          ValueField="(item) => item.Iso"
+                          Mode="ListGroupMode.Static"
+                          MaxHeight="300px">
                     <ItemTemplate>
                         <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
                             <Heading Margin="Margin.Is2.FromBottom">@context.Item.Iso</Heading>
@@ -53,17 +53,17 @@
             </CardHeader>
             <CardBody>
                 <ListView TItem="Country"
-                        Data="Countries"
-                        TextField="(item) => item.Name"
-                        ValueField="(item) => item.Iso"
-                        Mode="ListGroupMode.Selectable"
-                        MaxHeight="300px"
-                        ItemTextColor="((item) => Countries.IndexOf( item ) % 2 == 0 ? TextColor.Danger : TextColor.Success)"
-                        ItemBackground="(item) => Background.Default"
-                        ItemPadding="(item) => Padding.Is4"
-                        ItemClass="@((item) => $"country-{item.Iso}")"
-                        ItemStyle="@((item) => "border: 1px solid red")"
-                        @bind-SelectedItem="@selectedListViewItem">
+                          Data="Countries"
+                          TextField="(item) => item.Name"
+                          ValueField="(item) => item.Iso"
+                          Mode="ListGroupMode.Selectable"
+                          MaxHeight="300px"
+                          ItemTextColor="((item) => Countries.IndexOf( item ) % 2 == 0 ? TextColor.Danger : TextColor.Success)"
+                          ItemBackground="(item) => Background.Default"
+                          ItemPadding="(item) => Padding.Is4"
+                          ItemClass="@((item) => $"country-{item.Iso}")"
+                          ItemStyle="@((item) => "border: 1px solid red")"
+                          @bind-SelectedItem="@selectedListViewItem">
                 </ListView>
 
                 <Field Horizontal>
