@@ -28,6 +28,33 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>With Multiple Selections</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <SelectList TItem="Country"
+                                    TValue="string"
+                                    Data="@Countries"
+                                    TextField="@(( item ) => item.Name)"
+                                    ValueField="@((item) => item.Iso)"
+                                    Multiple
+                                    @bind-SelectedValues="@selectedListValues"
+                                    DefaultItemText="Choose your country(s)" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value(s):  @(selectedListValues != null ? string.Join( ',', selectedListValues ) : "")
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 
 @code {
@@ -36,12 +63,11 @@
     public IEnumerable<Country> Countries;
 
     private string selectedListValue { get; set; }
+    IReadOnlyList<string> selectedListValues { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
-
-    
 }
