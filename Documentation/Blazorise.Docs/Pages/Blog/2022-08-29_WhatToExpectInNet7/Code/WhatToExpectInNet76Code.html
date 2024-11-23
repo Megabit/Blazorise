@@ -1,8 +1,8 @@
 <div class="blazorise-codeblock">
 <div class="powershell"><pre>
 <span class="comment"># create a new project and move to its directory</span>
-dotnet new blazorwasm <span class="powershellParameter">-n</span> <span class="powershellCommand">my-container</span><span class="powershellParameter">-app</span>
-cd <span class="powershellCommand">my-container</span><span class="powershellParameter">-app</span>
+dotnet new blazorwasm <span class="powershellOperator">-</span>n my<span class="powershellOperator">-</span>container<span class="powershellOperator">-</span>app
+cd my<span class="powershellOperator">-</span>container<span class="powershellOperator">-</span>app
 
 <span class="comment"># add a reference to a (temporary) package that creates the container</span>
 dotnet add package Microsoft.NET.Build.Containers
@@ -13,6 +13,6 @@ p:PublishProfile<span class="powershellOperator">=</span>DefaultContainer
 
 <span class="comment"># run your app using the new container</span>
 
-docker run <span class="powershellParameter">-it</span> <span class="powershellOperator">--</span>rm 5010:80 <span class="powershellCommand">my-container</span><span class="powershellParameter">-app</span>:1.0:0
+docker run <span class="powershellOperator">-</span>it <span class="powershellOperator">--</span>rm 5010:80 my<span class="powershellOperator">-</span>container<span class="powershellOperator">-</span>app:1.0:0
 </pre></div>
 </div>
