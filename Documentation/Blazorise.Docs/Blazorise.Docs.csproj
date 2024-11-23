@@ -83,6 +83,7 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
+	
 	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
 	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
 		<PropertyGroup>
