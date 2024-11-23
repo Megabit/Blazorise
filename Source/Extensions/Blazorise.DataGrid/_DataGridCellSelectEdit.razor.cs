@@ -1,11 +1,11 @@
 ﻿#region Using directives
-using System.Collections.Generic;
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
-using Blazorise.Extensions;
+
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -25,6 +25,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         public string Text { get; private set; }
         public object Value { get; private set; }
         public bool Disabled { get; private set; }
+
         public SelectItem( string text, object value, bool disabled )
         {
             Text = text;
@@ -98,7 +99,6 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
                 {
                     await Focus();
                 }
-
             }
         }
         await base.OnAfterRenderAsync( firstRender );
@@ -121,6 +121,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
     [Inject] public IIdGenerator IdGenerator { get; set; }
+
     /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
