@@ -1,11 +1,44 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid;
 
 public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
 {
+    #region Methods
+
+    /// <inheritdoc/>
+    public override string FormatDisplayValue( object value )
+    {
+        if ( value is not string && value is IEnumerable values )
+        {
+            var collectionDisplayValueSb = new StringBuilder();
+            var firstIteration = true;
+            foreach ( var item in values )
+            {
+                if ( firstIteration )
+                {
+                    collectionDisplayValueSb.Append( item?.ToString() );
+                    firstIteration = false;
+                    continue;
+                }
+
+                collectionDisplayValueSb.Append( ',' );
+                collectionDisplayValueSb.Append( item?.ToString() );
+            }
+            return base.FormatDisplayValue( collectionDisplayValueSb.ToString() );
+        }
+
+        return base.FormatDisplayValue( value );
+    }
+
+    #endregion Methods
+
+    #region Properties
+
     public override DataGridColumnType ColumnType => DataGridColumnType.Select;
 
     /// <summary>
@@ -92,4 +125,6 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
+
+    #endregion Properties
 }
