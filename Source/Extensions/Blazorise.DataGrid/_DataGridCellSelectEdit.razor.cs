@@ -1,8 +1,11 @@
 ﻿#region Using directives
+using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -39,8 +42,12 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     protected override void OnInitialized()
     {
         elementId = IdGenerator.Generate;
+        base.OnInitialized();
+    }
 
-        if ( Column.Data is not null )
+    protected override void OnParametersSet()
+    {
+        if ( Column?.Data is not null && selectItems?.Count != Column.Data.Count() )
         {
             selectItems = new();
             foreach ( var item in Column.Data )
@@ -51,8 +58,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
                 selectItems.Add( new( text, value, disabled ) );
             }
         }
-
-        base.OnInitialized();
+        base.OnParametersSet();
     }
 
     private void OnSelectedValueChanged( object value )
