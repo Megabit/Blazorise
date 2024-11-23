@@ -8,7 +8,6 @@ public class Employee
 {
     public Employee()
     {
-
     }
 
     public Employee( Employee other )
@@ -86,5 +85,3 @@ public class Employee
 
     private decimal tax;
 }
-
-

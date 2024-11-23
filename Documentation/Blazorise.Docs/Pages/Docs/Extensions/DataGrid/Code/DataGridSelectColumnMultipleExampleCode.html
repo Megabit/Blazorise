@@ -1,0 +1,63 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">EmployeeActivity</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span> <span class="htmlAttributeName">PageSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Responsive</span> <span class="htmlAttributeName">Editable</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridSelectColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">EmployeeActivity</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( EmployeeActivity.Activities )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Activity</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span>
+    <span class="htmlAttributeName">Multiple</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">activities</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(x) =&gt; ((Activity)x).Code</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(x) =&gt; ((Activity)x).Description</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    [Inject]
+    <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">private</span> List&lt;EmployeeActivity&gt; employeeList;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    {
+        employeeList = (<span class="keyword">await</span> EmployeeData.GetDataAsync()).Select(x =&gt; <span class="keyword">new</span> EmployeeActivity(x) { Activities = activities
+                    .OrderBy(x =&gt; Random.Shared.Next())
+                    .Take(Random.Shared.Next(<span class="number">5</span>))
+                    .Select(x =&gt; x.Code).ToArray()
+            }).ToList();
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+    }
+
+    <span class="keyword">private</span> List&lt;Activity&gt; activities = <span class="keyword">new</span> List&lt;Activity&gt;
+    {
+        <span class="keyword">new</span> Activity { Code = <span class="string">&quot;MEET&quot;</span>, Description = <span class="string">&quot;Meeting&quot;</span> },
+        <span class="keyword">new</span> Activity { Code = <span class="string">&quot;TRAIN&quot;</span>, Description = <span class="string">&quot;Training&quot;</span> },
+        <span class="keyword">new</span> Activity { Code = <span class="string">&quot;CODE&quot;</span>, Description = <span class="string">&quot;Coding&quot;</span> },
+        <span class="keyword">new</span> Activity { Code = <span class="string">&quot;R&amp;D&quot;</span>, Description = <span class="string">&quot;Research&quot;</span> },
+        <span class="keyword">new</span> Activity { Code = <span class="string">&quot;TEST&quot;</span>, Description = <span class="string">&quot;Testing&quot;</span> },
+    };
+
+    <span class="keyword">public</span> <span class="keyword">class</span> EmployeeActivity : Employee
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span>[] Activities { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> EmployeeActivity(Employee employee)
+        {
+            <span class="keyword">this</span>.City = employee.City;
+            <span class="keyword">this</span>.Email = employee.Email;
+            <span class="keyword">this</span>.FirstName = employee.FirstName;
+            <span class="keyword">this</span>.LastName = employee.LastName;
+            <span class="keyword">this</span>.Salary = employee.Salary;
+            <span class="keyword">this</span>.DateOfBirth = employee.DateOfBirth;
+            <span class="keyword">this</span>.Gender = employee.Gender;
+            <span class="keyword">this</span>.Childrens = employee.Childrens;
+            <span class="keyword">this</span>.Id = employee.Id;
+            <span class="keyword">this</span>.Zip = employee.Zip;
+            <span class="keyword">this</span>.Tax = employee.Tax;
+            <span class="keyword">this</span>.Salaries = employee.Salaries;
+            <span class="keyword">this</span>.IsActive = employee.IsActive;
+        }
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> Activity
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Code { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> <span class="keyword">string</span> Description { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

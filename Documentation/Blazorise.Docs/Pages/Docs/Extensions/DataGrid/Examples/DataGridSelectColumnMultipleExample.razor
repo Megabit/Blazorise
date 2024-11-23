@@ -1,0 +1,60 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="EmployeeActivity" Data="@employeeList" PageSize="5" Responsive Editable>
+    <DataGridSelectColumn TItem="EmployeeActivity" Field="@nameof( EmployeeActivity.Activities )" Caption="Activity" Editable
+    Multiple Data="activities" ValueField="(x) => ((Activity)x).Code" TextField="(x) => ((Activity)x).Description" />
+    <DataGridCommandColumn />
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<EmployeeActivity> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = (await EmployeeData.GetDataAsync()).Select(x => new EmployeeActivity(x) { Activities = activities
+                    .OrderBy(x => Random.Shared.Next())
+                    .Take(Random.Shared.Next(5))
+                    .Select(x => x.Code).ToArray()
+            }).ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private List<Activity> activities = new List<Activity>
+    {
+        new Activity { Code = "MEET", Description = "Meeting" },
+        new Activity { Code = "TRAIN", Description = "Training" },
+        new Activity { Code = "CODE", Description = "Coding" },
+        new Activity { Code = "R&D", Description = "Research" },
+        new Activity { Code = "TEST", Description = "Testing" },
+    };
+
+    public class EmployeeActivity : Employee
+    {
+        public string[] Activities { get; set; }
+
+        public EmployeeActivity(Employee employee)
+        {
+            this.City = employee.City;
+            this.Email = employee.Email;
+            this.FirstName = employee.FirstName;
+            this.LastName = employee.LastName;
+            this.Salary = employee.Salary;
+            this.DateOfBirth = employee.DateOfBirth;
+            this.Gender = employee.Gender;
+            this.Childrens = employee.Childrens;
+            this.Id = employee.Id;
+            this.Zip = employee.Zip;
+            this.Tax = employee.Tax;
+            this.Salaries = employee.Salaries;
+            this.IsActive = employee.IsActive;
+        }
+    }
+
+    public class Activity
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+}
