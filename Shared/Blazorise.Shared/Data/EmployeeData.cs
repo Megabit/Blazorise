@@ -15,7 +15,6 @@ namespace Blazorise.Shared.Data;
 
 public class Gender
 {
-    public int Id { get; set; }
     public string Code { get; set; }
     public string Description { get; set; }
 }
@@ -37,25 +36,21 @@ public class EmployeeData
     {
         new()
         {
-            Id = 1 ,
             Code = null,
             Description = string.Empty
         },
         new()
         {
-            Id = 2 ,
             Code = "M",
             Description = "Male"
         },
         new()
         {
-            Id = 3 ,
             Code = "F",
             Description = "Female"
         },
         new()
         {
-            Id = 4 ,
             Code = "D",
             Description = "Diverse"
         }

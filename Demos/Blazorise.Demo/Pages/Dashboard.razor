@@ -1,74 +1,185 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
 
+<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.OnY">
+    Blazorise UI Components for Blazor
+</Heading>
+
+<Lead Margin="Margin.Is4.OnY">
+    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://tailwindcss.com/" Target="Target.Blank">Tailwind</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
+</Lead>
 
 <Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardBody>
-                <DataGrid TItem="Test"
-                          Data="inMemoryData"
-                          Responsive
-                          ShowPager
-                          ShowPageSizes
-                          Editable
-                          EditMode="editMode">
-                    <DataGridColumns>
-                        <DataGridCommandColumn TItem="Test"></DataGridCommandColumn>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Test" Field="@nameof( Test.Id )" Caption="#" Width="60px" />
-                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.Gender )" Caption="Gender"
-                                              Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.Values )" Caption="Genders"
-                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.IntValues )" Caption="Genders int"
-                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.ShortValues )" Caption="Genders short"
-                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.DecimalValues )" Caption="Genders decimal"
-                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridSelectColumn TItem="Test" Field="@nameof( Test.FloatValues )" Caption="Genders float"
-                                              Multiple Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Id" TextField="(x) => ((Gender)x).Description" />
-                    </DataGridColumns>
-                </DataGrid>
-            </CardBody>
-        </Card>
+    <Column Margin="Margin.Is3.FromBottom">
+        <Paragraph>
+            This demo app is designed to showcase a variety of UI elements and how they behave in different scenarios. With the demo app, you can explore the features and functionality of Blazorise, a component library for building modern web applications with <Anchor To="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" Target="Target.Blank">Blazor</Anchor>. You'll find a range of UI elements, including buttons, forms, tables, and more, all of which are fully interactive and responsive.
+        </Paragraph>
+
+        <Paragraph>
+            Whether you're new to Blazorise or an experienced developer, this demo app is a great way to get a feel for how the components work and how they can be used in your own projects. So go ahead and start exploring – we hope you find the demo app useful and informative!
+        </Paragraph>
     </Column>
 </Row>
 
-@code {
+<Heading Size="HeadingSize.Is2" Margin="Margin.Is4.OnY">
+    Most popular Blazor components
+</Heading>
 
-    [Inject] EmployeeData EmployeeData { get; set; }
+<Grid Rows="GridRows.Are2" Columns="GridColumns.Are4.OnDesktop.Are1.OnMobile">
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Dashboard" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/datagrid" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor DataGrid</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        An incredibly quick and responsive grid component that allows users to display and manipulate data in a grid format within a Blazor application.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.ChartPie" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/charts" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Charts</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        The chart component offers various options for presenting data and is efficient and lightweight.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.CalendarDay" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/forms" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Editors</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        UI elements that allow users to enter and submit data in a form, such as text boxes, dropdown lists, and checkboxes.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.FileUpload" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/file-picker" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Upload</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        An intuitive Blazor UI element created to track and control the file upload procedure in real time.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Check" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/validations" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Validation</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Validation is a component that provides support for form validation in Blazor applications.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Expand" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/modals" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Modal</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Displays content in a separate window or overlay on top of the current page, often used to display additional information or to prompt the user for input.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Search" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/autocomplete" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor Autocomplete</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Provides suggestions as the user types, based on a pre-defined list of options, in order to help the user quickly find and select the desired item.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+    <Card Height="Height.Is100">
+        <CardBody>
+            <Media>
+                <MediaLeft>
+                    <Icon Name="IconName.Link" IconSize="IconSize.x3" Padding="Padding.Is3" />
+                </MediaLeft>
+                <MediaBody>
+                    <Anchor To="tests/qrcode" Stretched TextColor="TextColor.Body">
+                        <Heading Size="HeadingSize.Is5">Blazor QRCode</Heading>
+                    </Anchor>
+                    <Paragraph>
+                        Generates and displays a QR code image, which can be scanned by a QR code reader to access information or a website URL.
+                    </Paragraph>
+                </MediaBody>
+            </Media>
+        </CardBody>
+    </Card>
+</Grid>
 
-    private List<Test> inMemoryData;
-    private DataGridEditMode editMode = DataGridEditMode.Form;
+<Heading Size="HeadingSize.Is2" Margin="Margin.Is4.OnY">
+    Where can I find the code?
+</Heading>
 
-    protected override async Task OnInitializedAsync()
-    {
-        inMemoryData = (await EmployeeData.GetDataAsync().ConfigureAwait(false)).Take(25).Select(x => new Test()
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                Gender = "M",
-                Values = new string[] { "M" },
-                IntValues = new int[] { 2 },
-                ShortValues = new short[] { 2 },
-                DecimalValues = new decimal[] { 2 },
-                DoubleValues = new double[] { 2 },
-                FloatValues = new float[] { 2 }
-            }
-        ).ToList();
-        await base.OnInitializedAsync();
-    }
-    public class Test
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string Gender { get; set; }
-        public string[] Values { get; set; }
-        public int[] IntValues { get; set; }
-        public short[] ShortValues { get; set; }
-        public decimal[] DecimalValues { get; set; }
-        public double[] DoubleValues { get; set; }
-        public float[] FloatValues { get; set; }
-    }
-}
+<Paragraph>
+    Full source code for this demo application can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
+</Paragraph>
+
+<Paragraph>
+    If you wish to learn more about Blazorise please go to the <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">official documentation</Anchor>.
+</Paragraph>
+
+<Row>
+    <Column Margin="Margin.Is4.OnY">
+        <Paragraph>
+            <Strong>Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
+        </Paragraph>
+    </Column>
+</Row>
