@@ -1,101 +1,109 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-	<Import Project="..\..\Build\Blazorise.Docs.props" />
+  <Import Project="..\..\Build\Blazorise.Docs.props" />
 
-	<ItemGroup>
-		<SupportedPlatform Include="browser" />
-	</ItemGroup>
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
-		<ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha\Blazorise.Captcha.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Trendline\Blazorise.Charts.Trendline.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Zoom\Blazorise.Charts.Zoom.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Video\Blazorise.Video.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.LottieAnimation\Blazorise.LottieAnimation.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
-		<ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
-		<PackageReference Include="MailKit" Version="4.8.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
-		<PackageReference Include="MimeKit" Version="4.8.0" />
-		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
+    <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha\Blazorise.Captcha.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Trendline\Blazorise.Charts.Trendline.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Zoom\Blazorise.Charts.Zoom.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Video\Blazorise.Video.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.LottieAnimation\Blazorise.LottieAnimation.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
+    <PackageReference Include="MimeKit" Version="4.8.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+  </ItemGroup>
 
-	<!--Binary path for the code generator-->
-	<PropertyGroup>
-		<BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net9.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
-	</PropertyGroup>
+  <!--Binary path for the code generator-->
+  <PropertyGroup>
+    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net9.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+  </PropertyGroup>
 
-	<!--Project path for code generator-->
-	<PropertyGroup>
-		<ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
-	</PropertyGroup>
+  <!--Project path for code generator-->
+  <PropertyGroup>
+    <ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
+  </PropertyGroup>
 
-	<!--Execute the code generator-->
-	<Target Name="CompileDocs" BeforeTargets="BeforeBuild">
-		<!--Command-line for the code generator-->
-		<Message Text="Generating Docs and Tests" Importance="high" />
-		<Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
-		<Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
-	</Target>
+  <!--Execute the code generator-->
+  <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
+    <!--Command-line for the code generator-->
+    <Message Text="Generating Docs and Tests" Importance="high" />
+    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
+    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
+  </Target>
 
-	<!--This file contains any ExampleCode that is new and needs including in the build -->
-	<Target Name="ReadFromFile" DependsOnTargets="CompileDocs">
-		<ItemGroup>
-			<NewFiles Include="NewFilesToBuild.txt" />
-		</ItemGroup>
-		<ReadLinesFromFile File="@(NewFiles)">
-			<Output TaskParameter="Lines" ItemName="NewExampleCodeToBuild" />
-		</ReadLinesFromFile>
-	</Target>
+  <!--This file contains any ExampleCode that is new and needs including in the build -->
+  <Target Name="ReadFromFile" DependsOnTargets="CompileDocs">
+    <ItemGroup>
+      <NewFiles Include="NewFilesToBuild.txt" />
+    </ItemGroup>
+    <ReadLinesFromFile File="@(NewFiles)">
+      <Output TaskParameter="Lines" ItemName="NewExampleCodeToBuild" />
+    </ReadLinesFromFile>
+  </Target>
 
-	<!--Update ExampleCode-->
-	<ItemGroup>
-		<EmbeddedResource Include="Pages\**\*.html" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.38.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.*" />
-		<PackageReference Include="SendGrid" Version="9.29.3" />
-	</ItemGroup>
-	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
+  <!--Update ExampleCode-->
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\**\*.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.38.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.*" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Pages\Docs\Components\Tables\Examples\BasicMobileTableExample.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\Docs\Extensions\DataGrid\Examples\DataGridSelectColumnMultipleExample.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
 
-	<!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
-	<Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
-		<PropertyGroup>
-			<CleanGeneratedFiles>false</CleanGeneratedFiles>
-		</PropertyGroup>
-	</Target>
+  <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
+  <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
+    <PropertyGroup>
+      <CleanGeneratedFiles>false</CleanGeneratedFiles>
+    </PropertyGroup>
+  </Target>
 
-	<Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
-		<ItemGroup>
-			<FilesToClean Include="./Pages/**/*ExampleCode.*" />
-			<FilesToClean Include="./NewFilesToBuild.txt" />
-		</ItemGroup>
-		<Delete Files="@(FilesToClean)" />
-	</Target>
+  <Target Name="CleanGeneratedFiles" BeforeTargets="Clean" Condition="'$(CleanGeneratedFiles)' != 'false'">
+    <ItemGroup>
+      <FilesToClean Include="./Pages/**/*ExampleCode.*" />
+      <FilesToClean Include="./NewFilesToBuild.txt" />
+    </ItemGroup>
+    <Delete Files="@(FilesToClean)" />
+  </Target>
 
 </Project>
