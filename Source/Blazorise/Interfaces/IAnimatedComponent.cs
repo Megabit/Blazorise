@@ -20,14 +20,14 @@ public interface IAnimatedComponent : IHideableComponent
     public int AnimationDuration { get; set; }
 
     /// <summary>
-    /// Starts the component animation.
+    /// Starts the component animation. Should only be used internally.
     /// </summary>
     /// <param name="visible">Visibility flag.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task BeginAnimation( bool visible );
 
     /// <summary>
-    /// Ends the component animation.
+    /// Ends the component animation. Should only be used internally.
     /// </summary>
     /// <param name="visible">Visibility flag.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>

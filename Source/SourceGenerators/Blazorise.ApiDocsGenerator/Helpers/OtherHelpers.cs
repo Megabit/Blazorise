@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Blazorise.ApiDocsGenerator.Dtos;
+using Blazorise.ApiDocsGenerator.Extensions;
 using Microsoft.CodeAnalysis;
 
 namespace Blazorise.ApiDocsGenerator.Helpers;
@@ -20,8 +22,8 @@ public class OtherHelpers
     public static string FormatProperly( object value )
     {
         string defaultValue;
-        
-        if (value is bool boolValue)
+
+        if ( value is bool boolValue )
         {
             // Explicitly format bool as lowercase true/false
             defaultValue = boolValue.ToString().ToLowerInvariant();
@@ -33,20 +35,18 @@ public class OtherHelpers
         }
         else
         {
-            
-
             defaultValue = value.ToString();
         }
         return defaultValue;
     }
 
 
-    public static string TypeToStringDetails( string value)
+    public static string TypeToStringDetails( string value )
     {
         const string toReplace = "global::";
-        if (value.StartsWith(toReplace))
+        if ( value.StartsWith( toReplace ) )
         {
-            value = value.Substring(toReplace.Length);
+            value = value.Substring( toReplace.Length );
         }
         const string toReplace2 = "Blazorise.";
         if ( value.StartsWith( toReplace2 ) )
@@ -54,14 +54,21 @@ public class OtherHelpers
             value = value.Substring( toReplace2.Length );
         }
         return value;
-        
+
     }
 
-
-    internal static string ExtractSummaryFromXmlComment( string xmlComment )
+    internal static string ExtractSummaryFromXmlComment( ISymbol iSymbol )
     {
+        string xmlComment = iSymbol.GetDocumentationCommentXml();
+
         if ( string.IsNullOrWhiteSpace( xmlComment ) )
             return "No documentation available - no XML comment";
+
+        // Check if the XML contains <inheritdoc/>
+        if ( xmlComment.Contains( "<inheritdoc" ) )
+        {
+            return GetXmlCommentForInheritdocInterfaces( iSymbol );
+        }
 
         var match = Regex.Match( xmlComment, @"<summary>(.*?)</summary>", RegexOptions.Singleline );
         if ( !match.Success )
@@ -78,7 +85,7 @@ public class OtherHelpers
             return $"<strong>{typeName}</strong>";// Wrap the  type name in <strong>
         } );
 
-        // Remove line breaks within the summary
+// Remove line breaks within the summary
         sanitizedText = sanitizedText.Replace( "\n", " " ).Replace( "\r", "" );
 
         return sanitizedText;
@@ -96,7 +103,23 @@ public class OtherHelpers
 
 
     }
+    private static string GetXmlCommentForInheritdocInterfaces( ISymbol iSymbol )
+    {
+        foreach ( var interfaceSymbol in iSymbol.ContainingType.AllInterfaces.Where( x => x.ToDisplayString().StartsWith( "Blazorise" ) ) )
+        {
+            // Find if the interface has a member matching this symbol
+            var matchingMember = interfaceSymbol.GetMembers()
+                .FirstOrDefault( member => iSymbol.Equals( iSymbol.ContainingType.FindImplementationForInterfaceMember( member ), SymbolEqualityComparer.Default ) );
 
+            if ( matchingMember != null )
+            {
+                return ExtractSummaryFromXmlComment( matchingMember );
+
+            }
+        }
+        return "No documentation available - no XML comment from <inheritdoc>";
+
+    }
 
     //just making sure bool is bool and not Boolean...
     internal static string GetSimplifiedTypeName( ITypeSymbol typeSymbol )
