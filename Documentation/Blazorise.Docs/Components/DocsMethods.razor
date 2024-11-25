@@ -46,7 +46,7 @@
                 @if ( ShowParameters )
                 {
                     <TableRowCell Class="@docsMethodsItem.DefaultClassNames">
-                        @if ( @docsMethodsItem.Parameters != null )
+                        @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.Parameters ) )
                         {
                             <Code>@docsMethodsItem.Parameters</Code>
                         }
