@@ -23,7 +23,7 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
         return base.FormatDisplayValue( value );
     }
 
-    #endregion Methods
+    #endregion
 
     #region Properties
 
@@ -114,5 +114,5 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
 
-    #endregion Properties
+    #endregion
 }
