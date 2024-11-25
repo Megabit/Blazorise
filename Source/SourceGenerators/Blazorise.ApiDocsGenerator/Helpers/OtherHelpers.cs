@@ -57,7 +57,9 @@ public class OtherHelpers
 
     }
 
-    internal static string ExtractSummaryFromXmlComment( ISymbol iSymbol )
+
+
+    internal static string ExtractFromXmlComment( ISymbol iSymbol, ExtractorParts part )
     {
         string xmlComment = iSymbol.GetDocumentationCommentXml();
 
@@ -67,12 +69,12 @@ public class OtherHelpers
         // Check if the XML contains <inheritdoc/>
         if ( xmlComment.Contains( "<inheritdoc" ) )
         {
-            return GetXmlCommentForInheritdocInterfaces( iSymbol );
+            return GetXmlCommentForInheritdocInterfaces( iSymbol,part );
         }
 
-        var match = Regex.Match( xmlComment, @"<summary>(.*?)</summary>", RegexOptions.Singleline );
+        var match = Regex.Match( xmlComment, $"<{part.GetXmlTag()}>(.*?)</{part.GetXmlTag()}>", RegexOptions.Singleline );
         if ( !match.Success )
-            return "No summary found";
+            return  part.GetDefault();
         // Sanitize the entire content first to prevent script injection
         var sanitizedText = SanitizeForHtml( match.Groups[1].Value.Trim() );
 
@@ -84,8 +86,19 @@ public class OtherHelpers
             var typeName = m.Groups[2].Value;// Extract the type name
             return $"<strong>{typeName}</strong>";// Wrap the  type name in <strong>
         } );
+        
+        // Replace <c> tags with <code> tags and sanitize the content inside <c>
+        sanitizedText = Regex.Replace(
+        sanitizedText,
+        @"&lt;c&gt;(.*?)&lt;/c&gt;", // Match the <c> tag content
+        m =>
+        {
+            var codeContent = SanitizeForHtml(m.Groups[1].Value); // Sanitize the inline code content
+            return $"<code>{codeContent}</code>"; // Wrap the content in <code>
+        }
+        );
 
-// Remove line breaks within the summary
+            // Remove line breaks within the summary
         sanitizedText = sanitizedText.Replace( "\n", " " ).Replace( "\r", "" );
 
         return sanitizedText;
@@ -97,13 +110,12 @@ public class OtherHelpers
                 .Replace( "&", "&amp;" )
                 .Replace( "<", "&lt;" )
                 .Replace( ">", "&gt;" )
-                .Replace( "\"", "&quot;" )
-                .Replace( "'", "&#39;" );
+                .Replace( "\"", "&quot;" );
         }
 
 
     }
-    private static string GetXmlCommentForInheritdocInterfaces( ISymbol iSymbol )
+    private static string GetXmlCommentForInheritdocInterfaces( ISymbol iSymbol, ExtractorParts part )
     {
         foreach ( var interfaceSymbol in iSymbol.ContainingType.AllInterfaces.Where( x => x.ToDisplayString().StartsWith( "Blazorise" ) ) )
         {
@@ -113,7 +125,7 @@ public class OtherHelpers
 
             if ( matchingMember != null )
             {
-                return ExtractSummaryFromXmlComment( matchingMember );
+                return ExtractFromXmlComment( matchingMember, part );
 
             }
         }

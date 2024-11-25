@@ -79,7 +79,7 @@ public class ApiDocsForComponent
 
 public class ApiDocsForComponentProperty
 {
-    public ApiDocsForComponentProperty( string name, Type type, string typeName, object defaultValue, string defaultValueString, string description, bool isBlazoriseEnum )
+    public ApiDocsForComponentProperty( string name, Type type, string typeName, object defaultValue, string defaultValueString, string description, string remarks, bool isBlazoriseEnum )
     {
         Name = name;
         Type = type;
@@ -88,6 +88,7 @@ public class ApiDocsForComponentProperty
         DefaultValueString = defaultValueString;
         Description = description;
         IsBlazoriseEnum = isBlazoriseEnum;
+        Remarks = remarks;
     }
     public string Name { get; set; }
     public Type Type { get; set; }
@@ -95,22 +96,27 @@ public class ApiDocsForComponentProperty
     public object DefaultValue { get; set; }
     public string DefaultValueString { get; set; }
     public string Description { get; set; }
+    public string Remarks { get; set; }
+
     public bool IsBlazoriseEnum { get; set; }
 }
 
 public class ApiDocsForComponentMethod
 {
-    public ApiDocsForComponentMethod( string name, string returnTypeName, string description, IReadOnlyList<ApiDocsForComponentMethodParameter> parameters )
+    public ApiDocsForComponentMethod( string name, string returnTypeName, string description,string remarks, IReadOnlyList<ApiDocsForComponentMethodParameter> parameters )
     {
         Name = name;
         ReturnTypeName = returnTypeName;
         Description = description;
+        Remarks = remarks;
         Parameters = parameters;
     }
     public string Name { get; set; }
     // public Type ReturnTypeSymbol { get; set; }
     public string ReturnTypeName { get; set; }
     public string Description { get; set; }
+    public string Remarks { get; set; }
+
     
     public IReadOnlyList<ApiDocsForComponentMethodParameter> Parameters { get; set; }
     // public bool IsStatic { get; set; }

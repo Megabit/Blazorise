@@ -46,6 +46,8 @@ public class ApiDocsForComponentProperty
     public string DefaultValueString { get; set; }
     public string Description { get; set; }
     public bool IsBlazoriseEnum { get; set; }
+    public string Remarks { get; set; }
+
 }
 
 public class ApiDocsForComponentMethod
@@ -54,6 +56,7 @@ public class ApiDocsForComponentMethod
     public string ReturnTypeName { get; set; }
     public string Description { get; set; }
     public IEnumerable<ApiDocsForComponentMethodParameter> Parameters { get; set; }
+    public string Remarks { get; set; }
 }
 
 public class ApiDocsForComponentMethodParameter

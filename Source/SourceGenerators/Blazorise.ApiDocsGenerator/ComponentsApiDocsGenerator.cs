@@ -178,7 +178,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                                    comp.Properties.Select( prop =>
                                                        $"""
 
-                                                        new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Description}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
+                                                        new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Description}","{prop.Remarks}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
                                                         """ ).StringJoin( " " )
                                                }}},
                                              new List<ApiDocsForComponentMethod>{
@@ -186,7 +186,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                                  comp.Methods.Select( method =>
                                                      $$"""
 
-                                                       new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Description}}",
+                                                       new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Description}}" ,"{{method.Remarks}}",
                                                             new List<ApiDocsForComponentMethodParameter>{
                                                        {{
                                                            method.Parameters.Select( param =>

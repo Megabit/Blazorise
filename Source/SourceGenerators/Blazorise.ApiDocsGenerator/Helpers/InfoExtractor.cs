@@ -17,7 +17,8 @@ public class InfoExtractor
             ? "object"//typeof(TValue) is invalid => typeof(object)
             : property.Type.ToStringWithGenerics();//e.g.: typeof(EventCallback<TValue>) => typeof(EventCallback<>) 
         propertyDetails.TypeName = OtherHelpers.GetSimplifiedTypeName( property.Type );
-        propertyDetails.Description = OtherHelpers.ExtractSummaryFromXmlComment( property );
+        propertyDetails.Description = OtherHelpers.ExtractFromXmlComment( property, ExtractorParts.Summary );
+        propertyDetails.Remarks = OtherHelpers.ExtractFromXmlComment( property, ExtractorParts.Remarks );
         propertyDetails.IsBlazoriseEnum = property.Type.TypeKind == TypeKind.Enum && property.Type.ToDisplayString().StartsWith( "Blazorise" );
 
         // Determine default value
@@ -53,7 +54,8 @@ public class InfoExtractor
     {
         var methodName = method.Name;
         var returnTypeName = method.ReturnType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat );
-        var description = OtherHelpers.ExtractSummaryFromXmlComment( method );
+        var description = OtherHelpers.ExtractFromXmlComment( method,ExtractorParts.Summary );
+        var remarks = OtherHelpers.ExtractFromXmlComment( method, ExtractorParts.Remarks );
 
         var parameters = method.Parameters.Select( param => new ApiDocsForComponentMethodParameter
         {
@@ -63,7 +65,7 @@ public class InfoExtractor
 
         var apiMethod = new ApiDocsForComponentMethod()
         {
-            Name = methodName, ReturnTypeName = returnTypeName, Description = description, Parameters = parameters,
+            Name = methodName, ReturnTypeName = returnTypeName, Description = description,Remarks = remarks , Parameters = parameters,
         };
         return apiMethod;
 

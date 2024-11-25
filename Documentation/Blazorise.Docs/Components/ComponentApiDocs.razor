@@ -40,6 +40,7 @@
                             }
                         </Paragraph>
                     }
+                    @remarks(property.Remarks)
                 </DocsAttributesItem>
             }
         </DocsAttributes>
@@ -59,6 +60,7 @@
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(", ",method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">
                     @((MarkupString)method.Description)
+                    @remarks(method.Remarks)
                 </DocsMethodsItem>
             }
         </DocsMethods>
@@ -67,4 +69,16 @@
 
 @code {
     [Parameter, EditorRequired] public List<Type> ComponentTypes { get; set; } = [];
+
+    RenderFragment<string> remarks = value => @<text>
+                                                  @if (!string.IsNullOrEmpty(value))
+                                                  {
+                                                      <details>
+                                                          <summary style="list-style: none; display: inline; cursor: pointer;">
+                                                              <Badge Color="Color.Info">Remarks</Badge>
+                                                          </summary>
+                                                          <Paragraph>@value</Paragraph>
+                                                      </details>
+                                                  }
+                                              </text>;
 }
