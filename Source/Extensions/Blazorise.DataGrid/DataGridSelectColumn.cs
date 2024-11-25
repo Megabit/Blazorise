@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.DataGrid;
 
@@ -15,21 +17,7 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     {
         if ( value is not string && value is IEnumerable values )
         {
-            var collectionDisplayValueSb = new StringBuilder();
-            var firstIteration = true;
-            foreach ( var item in values )
-            {
-                if ( firstIteration )
-                {
-                    collectionDisplayValueSb.Append( item?.ToString() );
-                    firstIteration = false;
-                    continue;
-                }
-
-                collectionDisplayValueSb.Append( ',' );
-                collectionDisplayValueSb.Append( item?.ToString() );
-            }
-            return base.FormatDisplayValue( collectionDisplayValueSb.ToString() );
+            return base.FormatDisplayValue( string.Join( ", ", values.Cast<object>().Select( x => x?.ToString() ) ) );
         }
 
         return base.FormatDisplayValue( value );
