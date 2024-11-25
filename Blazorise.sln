@@ -159,6 +159,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.PdfViewer", "Sour
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.ApiDocsGenerator", "Source\SourceGenerators\Blazorise.ApiDocsGenerator\Blazorise.ApiDocsGenerator.csproj", "{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.ApiDocsDtos", "Source\SourceGenerators\Blazorise.ApiDocsDtos\Blazorise.ApiDocsDtos.csproj", "{8E47E491-B01C-634F-B9A8-6BB9992C2818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -417,6 +419,10 @@ Global
 		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E47E491-B01C-634F-B9A8-6BB9992C2818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E47E491-B01C-634F-B9A8-6BB9992C2818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E47E491-B01C-634F-B9A8-6BB9992C2818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E47E491-B01C-634F-B9A8-6BB9992C2818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -488,6 +494,7 @@ Global
 		{045536EC-BD97-409D-BDF7-C148B7C5AAFC} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{EAB7EC89-900A-4280-B24A-152B9DD2B503} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{DFFE5088-1353-4DDB-A71F-A3D0B177CCC9} = {0538DB67-B4F3-4D00-B969-D3874A52E405}
+		{8E47E491-B01C-634F-B9A8-6BB9992C2818} = {0538DB67-B4F3-4D00-B969-D3874A52E405}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
