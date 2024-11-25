@@ -9002,8 +9002,13 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridSelectColumnMultipleExample = @"<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" PageSize=""5"" Responsive Editable>
-    <DataGridSelectColumn TItem=""EmployeeActivity"" Field=""@nameof( EmployeeActivity.Activities )"" Caption=""Activity"" Editable
-    Multiple Data=""activities"" ValueField=""(x) => ((Activity)x).Code"" TextField=""(x) => ((Activity)x).Description"" />
+    <DataGridSelectColumn TItem=""EmployeeActivity"" Field=""@nameof( EmployeeActivity.Activities )""
+                          Caption=""Activity"" 
+                          Editable
+                          Multiple 
+                          Data=""activities""
+                          ValueField=""(x) => ((Activity)x).Code""
+                          TextField=""(x) => ((Activity)x).Description"" />
     <DataGridCommandColumn />
 </DataGrid>
 
@@ -9014,11 +9019,14 @@ Install-Package Blazorise.Chart.Zoom";
 
     protected override async Task OnInitializedAsync()
     {
-        employeeList = (await EmployeeData.GetDataAsync()).Select(x => new EmployeeActivity(x) { Activities = activities
-                    .OrderBy(x => Random.Shared.Next())
-                    .Take(Random.Shared.Next(5))
-                    .Select(x => x.Code).ToArray()
+        employeeList = (await EmployeeData.GetDataAsync()).Select(x => new EmployeeActivity(x)
+            {
+                Activities = activities
+                        .OrderBy(x => Random.Shared.Next())
+                        .Take(Random.Shared.Next(5))
+                        .Select(x => x.Code).ToArray()
             }).ToList();
+
         await base.OnInitializedAsync();
     }
 

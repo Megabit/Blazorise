@@ -1,9 +1,7 @@
 ﻿#region Using directives
-
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid;

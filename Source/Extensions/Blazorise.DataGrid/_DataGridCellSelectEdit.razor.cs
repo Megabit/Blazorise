@@ -1,11 +1,9 @@
 ﻿#region Using directives
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid;

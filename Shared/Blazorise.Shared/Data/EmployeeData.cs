@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +7,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise.Shared.Models;
 using Microsoft.Extensions.Caching.Memory;
-
 #endregion
 
 namespace Blazorise.Shared.Data;
