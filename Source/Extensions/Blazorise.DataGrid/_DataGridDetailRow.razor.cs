@@ -14,7 +14,7 @@ public abstract class _BaseDataGridDetailRow<TItem> : BaseDataGridComponent
         => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
     protected int ColumnSpan
-        => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
+        => Columns.Where( x => x.Displayable ).Count() - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
     /// <summary>
     /// Item associated with the data set.

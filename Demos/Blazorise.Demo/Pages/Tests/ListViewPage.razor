@@ -1,4 +1,5 @@
 ﻿@page "/tests/listview"
+@using System.Linq
 
 <Row>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
@@ -20,18 +21,71 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>With custom item content</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <ListView TItem="Country"
+                          Data="Countries"
+                          TextField="(item) => item.Name"
+                          ValueField="(item) => item.Iso"
+                          Mode="ListGroupMode.Static"
+                          MaxHeight="300px">
+                    <ItemTemplate>
+                        <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                            <Heading Margin="Margin.Is2.FromBottom">@context.Item.Iso</Heading>
+                            <Small>@context.Item.Capital</Small>
+                        </Div>
+                        <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                    </ItemTemplate>
+                </ListView>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Styling Individual Items</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <ListView TItem="Country"
+                          Data="Countries"
+                          TextField="(item) => item.Name"
+                          ValueField="(item) => item.Iso"
+                          Mode="ListGroupMode.Selectable"
+                          MaxHeight="300px"
+                          ItemTextColor="((item) => Countries.IndexOf( item ) % 2 == 0 ? TextColor.Danger : TextColor.Success)"
+                          ItemBackground="(item) => Background.Default"
+                          ItemPadding="(item) => Padding.Is4"
+                          ItemClass="@((item) => $"country-{item.Iso}")"
+                          ItemStyle="@((item) => "border: 1px solid red")"
+                          @bind-SelectedItem="@selectedListViewItem">
+                </ListView>
+
+                <Field Horizontal>
+                    <FieldBody ColumnSize="ColumnSize.Is12">
+                        Selected Item: @selectedListViewItem?.Name
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 
 @code {
     [Inject]
     public CountryData CountryData { get; set; }
-    public IEnumerable<Country> Countries;
+    public List<Country> Countries;
 
     private Country selectedListViewItem { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Countries = await CountryData.GetDataAsync();
+        Countries = (await CountryData.GetDataAsync()).ToList();
         await base.OnInitializedAsync();
     }
 }
