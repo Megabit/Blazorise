@@ -96,7 +96,7 @@ public partial class Divider : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the text of the divider when it's set as <see cref="DividerType.TextContent"/>.
+    /// Label that will appear between the solid lines when <see cref="DividerType"/> is set as <see cref="DividerType.TextContent"/>.
     /// </summary>
     [Parameter] public string Text { get; set; }
 

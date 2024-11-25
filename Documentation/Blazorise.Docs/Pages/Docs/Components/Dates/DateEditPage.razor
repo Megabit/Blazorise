@@ -79,53 +79,5 @@
     <DocsPageSectionSource Code="DateEditShowPickerExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    Functions
-</DocsPageSubtitle>
 
-<Table>
-    <TableHeader ThemeContrast="ThemeContrast.Light">
-        <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Description</TableHeaderCell>
-        </TableRow>
-    </TableHeader>
-    <TableBody>
-        <TableRow>
-            <TableRowCell><Code>ShowPicker()</Code></TableRowCell>
-            <TableRowCell>Show a browser picker for the date input.</TableRowCell>
-        </TableRow>
-    </TableBody>
-</Table>
-
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="Date" Type="TValue" Default="default">
-        Gets or sets the input date value.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="DateChanged" Type="@("EventCallback<TValue>")">
-        Occurs when the date has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="InputMode" Type="DateInputMode" Default="Date">
-        Hints at the type of data that might be entered by the user while editing the element or its contents.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Min" Type="DateTimeOffset?" Default="null">
-        The earliest date to accept.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Max" Type="DateTimeOffset?" Default="null">
-        The latest date to accept.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Pattern" Type="string" Default="null">
-        The pattern attribute specifies a regular expression that the input element’s value is checked against on form submission.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Step" Type="int" Default="1">
-        The step attribute specifies the legal day intervals to choose from when the user opens the calendar in a date field.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(DateEdit<>)]" />

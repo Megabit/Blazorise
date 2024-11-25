@@ -97,7 +97,7 @@ public partial class BreadcrumbItem : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the item active state.
+    /// If set to true, renders <c>span</c> instead of <c>a</c> element.
     /// </summary>
     [Parameter]
     public bool Active
