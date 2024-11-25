@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -75,6 +76,74 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         {
             CellValueChanged.InvokeAsync( value );
         }
+    }
+
+    private async Task OnSelectedValuesChanged( IReadOnlyList<object> values )
+    {
+        var columnType = Column.GetValueType( default );
+
+        if ( columnType.IsArray )
+        {
+            var valueType = columnType.GetElementType();
+            if ( valueType == typeof( int ) )
+            {
+                await CellValueChanged.InvokeAsync( values?.Select( x => int.Parse( x.ToString() ) )?.ToArray() );
+            }
+            else if ( valueType == typeof( short ) )
+            {
+                await CellValueChanged.InvokeAsync( values?.Select( x => short.Parse( x.ToString() ) )?.ToArray() );
+            }
+            else if ( valueType == typeof( decimal ) )
+            {
+                await CellValueChanged.InvokeAsync( values?.Select( x => decimal.Parse( x.ToString() ) )?.ToArray() );
+            }
+            else if ( valueType == typeof( double ) )
+            {
+                await CellValueChanged.InvokeAsync( values?.Select( x => double.Parse( x.ToString() ) )?.ToArray() );
+            }
+            else if ( valueType == typeof( float ) )
+            {
+                await CellValueChanged.InvokeAsync( values?.Select( x => float.Parse( x.ToString() ) )?.ToArray() );
+            }
+            else
+            {
+                await CellValueChanged.InvokeAsync( values?.Select( x => x.ToString() )?.ToArray() );
+            }
+            return;
+        }
+
+        await CellValueChanged.InvokeAsync( values?.Select( x => x.ToString() )?.ToArray() );
+    }
+
+    public object[] GetSelectedValues()
+    {
+        var columnType = Column.GetValueType( default );
+
+        if ( CellValue is not null && columnType.IsArray )
+        {
+            var valueType = columnType.GetElementType();
+            if ( valueType == typeof( int ) )
+            {
+                return ( CellValue as int[] )?.Select( x => (object)x )?.ToArray();
+            }
+            else if ( valueType == typeof( short ) )
+            {
+                return ( CellValue as short[] )?.Select( x => (object)x )?.ToArray();
+            }
+            else if ( valueType == typeof( decimal ) )
+            {
+                return ( CellValue as decimal[] )?.Select( x => (object)x )?.ToArray();
+            }
+            else if ( valueType == typeof( double ) )
+            {
+                return ( CellValue as double[] )?.Select( x => (object)x )?.ToArray();
+            }
+            else if ( valueType == typeof( float ) )
+            {
+                return ( CellValue as float[] )?.Select( x => (object)x )?.ToArray();
+            }
+        }
+        return CellValue as object[];
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
