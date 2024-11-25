@@ -1,5 +1,5 @@
-import "./vendors/flatpickr.js?v=1.6.2.0";
-import * as utilities from "./utilities.js?v=1.6.2.0";
+import "./vendors/flatpickr.js?v=1.7.0.0";
+import * as utilities from "./utilities.js?v=1.7.0.0";
 
 const _pickers = [];
 

@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.6.2</Version>
-		<PackageVersion>1.6.2</PackageVersion>
+		<Version>1.7.0</Version>
+		<PackageVersion>1.7.0</PackageVersion>
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
@@ -25,6 +25,12 @@
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <!-- Don't remove this. It is needed for the WASM workloads to publish demo projects. -->
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">

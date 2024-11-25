@@ -19,7 +19,8 @@
                           Responsive
                           ShowPager
                           ShowPageSizes
-                          Groupable>
+                          Groupable
+                          GroupBy="x => x.Gender">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
