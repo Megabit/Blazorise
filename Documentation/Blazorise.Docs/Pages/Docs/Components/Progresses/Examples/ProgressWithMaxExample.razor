@@ -1,0 +1,40 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.Timers
+@implements IDisposable
+
+<Field>
+    <FieldBody>
+        <Progress Max="42" Value="@Value" />
+    </FieldBody>
+    <FieldHelp>
+        There have been @Value files downloaded
+    </FieldHelp>
+</Field>
+
+@code {
+    private int Value = 0;
+    private Timer timer;
+
+    private const int IntervalDelay = 100; // milliseconds
+    private const int IntervalIncrement = 1;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(IntervalDelay);
+        timer.Elapsed += OnTimerElapsed;
+        timer.AutoReset = true;
+        timer.Start();
+    }
+
+    private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        Value = Value < 42 ? Value + IntervalIncrement : 0;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+}

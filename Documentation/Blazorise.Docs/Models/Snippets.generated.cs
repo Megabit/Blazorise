@@ -3639,6 +3639,46 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <ProgressBar Color=""Color.Info"" Value=""20"" />
 </Progress>";
 
+        public const string ProgressWithMaxExample = @"@using System.Timers
+@implements IDisposable
+
+<Field>
+    <FieldBody>
+        <Progress Max=""42"" Value=""@Value"" />
+    </FieldBody>
+    <FieldHelp>
+        There have been @Value files downloaded
+    </FieldHelp>
+</Field>
+
+@code {
+    private int Value = 0;
+    private Timer timer;
+
+    private const int IntervalDelay = 100; // milliseconds
+    private const int IntervalIncrement = 1;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(IntervalDelay);
+        timer.Elapsed += OnTimerElapsed;
+        timer.AutoReset = true;
+        timer.Start();
+    }
+
+    private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        Value = Value < 42 ? Value + IntervalIncrement : 0;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+}";
+
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
