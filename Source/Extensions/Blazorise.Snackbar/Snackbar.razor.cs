@@ -333,7 +333,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the interval(in milliseconds) after which the snackbar will be automatically closed.
+    /// Defines the interval (in milliseconds) after which the snackbar will be automatically closed.
     /// </summary>
     [Parameter] public double Interval { get; set; } = Constants.DefaultIntervalBeforeClose;
 
@@ -348,7 +348,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     [Parameter] public bool DelayCloseOnClick { get; set; }
 
     /// <summary>
-    /// Defines the interval(in milliseconds) by which the snackbar will be delayed from closing.
+    /// Defines the interval (in milliseconds) by which the snackbar will be delayed from closing.
     /// </summary>
     [Parameter] public double? DelayCloseOnClickInterval { get; set; }
 
