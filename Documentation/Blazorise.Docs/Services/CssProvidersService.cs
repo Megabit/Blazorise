@@ -12,7 +12,7 @@ public static class CssProvidersService
         { CssProvider.Material, new ProviderData("materialdemo", "material.svg", "Material image", "Material", "material") },
         { CssProvider.AntDesign, new ProviderData("antdesigndemo", "ant-design.svg", "AntDesign image", "Ant Design", "ant-design") },
         { CssProvider.Bulma, new ProviderData("bulmademo", "bulma.svg", "Bulma image", "Bulma", "bulma") },
-        { CssProvider.FluentUi2, new ProviderData("fluentuidemo", "fluent2.svg", "Fluent 2 image", "Fluent 2", "fluentui") }
+        { CssProvider.FluentUi2, new ProviderData("fluentui2demo", "fluent2.svg", "Fluent 2 image", "Fluent 2", "fluent2") }
     };
 
     public static ProviderData GetProvider( CssProvider provider ) => ProvidersData.TryGetValue( provider, out var data )
