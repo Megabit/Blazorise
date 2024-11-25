@@ -22,6 +22,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         public string Text { get; private set; }
         public object Value { get; private set; }
         public bool Disabled { get; private set; }
+
         public SelectItem( string text, object value, bool disabled )
         {
             Text = text;
@@ -39,8 +40,12 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     protected override void OnInitialized()
     {
         elementId = IdGenerator.Generate;
+        base.OnInitialized();
+    }
 
-        if ( Column.Data is not null )
+    protected override void OnParametersSet()
+    {
+        if ( Column?.Data is not null && selectItems?.Count != Column.Data.Count() )
         {
             selectItems = new();
             foreach ( var item in Column.Data )
@@ -51,8 +56,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
                 selectItems.Add( new( text, value, disabled ) );
             }
         }
-
-        base.OnInitialized();
+        base.OnParametersSet();
     }
 
     private void OnSelectedValueChanged( object value )
@@ -92,7 +96,6 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
                 {
                     await Focus();
                 }
-
             }
         }
         await base.OnAfterRenderAsync( firstRender );
@@ -115,6 +118,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
     [Inject] public IIdGenerator IdGenerator { get; set; }
+
     /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
