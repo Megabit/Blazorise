@@ -13,7 +13,7 @@ namespace Blazorise;
 public interface INumericPicker
 {
     /// <summary>
-    /// Updates the <see cref="NumericPicker{TValue}"/> with the new value. Should only be used internally.
+    /// Updates the <see cref="NumericPicker{TValue}"/> with the new value. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
     /// <param name="value">New value.</param>
     /// <returns>Returns awaitable task.</returns>

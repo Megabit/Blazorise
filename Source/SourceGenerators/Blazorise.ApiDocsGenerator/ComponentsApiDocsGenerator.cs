@@ -130,7 +130,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         return ( false, inheritsFromChain.Where( t => t != null ) );
     }
 
-    const string ShouldOnlyBeUsedInternally = "Should only be used internally";
+    const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
     private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<FoundComponent> components, INamespaceSymbol namespaceToSearch )
     {
 

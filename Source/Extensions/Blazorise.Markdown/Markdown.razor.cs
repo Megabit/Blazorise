@@ -263,7 +263,7 @@ public partial class Markdown : BaseComponent,
     }
 
     /// <summary>
-    /// Notifies the component that file input value has changed. Should only be used internally!
+    /// Notifies the component that file input value has changed. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
     /// <param name="file">Changed file.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -383,7 +383,7 @@ public partial class Markdown : BaseComponent,
     }
 
     /// <summary>
-    /// Notifies the component that preview render has being requested. Should only be used internally!
+    /// Notifies the component that preview render has being requested. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
     /// <param name="plainText">Plain text of the markdown value.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
