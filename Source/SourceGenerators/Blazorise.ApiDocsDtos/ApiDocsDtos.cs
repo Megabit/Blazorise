@@ -48,7 +48,7 @@ public class ApiDocsForComponent
                 bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
                 if(!success || component is null) continue;
                 tempList.AddRange(component.OwnProperties.Select(x=> new ApiDocsForComponentProperty(x.Name, x.Type,x.TypeName, x.DefaultValue,x.DefaultValueString,
-                x.Description.Replace(component.TypeName, this.TypeName),
+                x.Summary.Replace(component.TypeName, this.TypeName),
                 x.Remarks.Replace(component.TypeName, this.TypeName),
                 x.IsBlazoriseEnum))); 
             }
@@ -111,14 +111,14 @@ public class ApiDocsForComponent
 
 public class ApiDocsForComponentProperty
 {
-    public ApiDocsForComponentProperty( string name, Type type, string typeName, object defaultValue, string defaultValueString, string description, string remarks, bool isBlazoriseEnum )
+    public ApiDocsForComponentProperty( string name, Type type, string typeName, object defaultValue, string defaultValueString, string summary, string remarks, bool isBlazoriseEnum )
     {
         Name = name;
         Type = type;
         TypeName = typeName;
         DefaultValue = defaultValue;
         DefaultValueString = defaultValueString;
-        Description = description;
+        Summary = summary;
         IsBlazoriseEnum = isBlazoriseEnum;
         Remarks = remarks;
     }
@@ -127,7 +127,7 @@ public class ApiDocsForComponentProperty
     public string TypeName { get; set; }
     public object DefaultValue { get; set; }
     public string DefaultValueString { get; set; }
-    public string Description { get; set; }
+    public string Summary { get; set; }
     public string Remarks { get; set; }
 
     public bool IsBlazoriseEnum { get; set; }
@@ -135,18 +135,18 @@ public class ApiDocsForComponentProperty
 
 public class ApiDocsForComponentMethod
 {
-    public ApiDocsForComponentMethod( string name, string returnTypeName, string description,string remarks, IReadOnlyList<ApiDocsForComponentMethodParameter> parameters )
+    public ApiDocsForComponentMethod( string name, string returnTypeName, string summary,string remarks, IReadOnlyList<ApiDocsForComponentMethodParameter> parameters )
     {
         Name = name;
         ReturnTypeName = returnTypeName;
-        Description = description;
+        Summary = summary;
         Remarks = remarks;
         Parameters = parameters;
     }
     public string Name { get; set; }
     // public Type ReturnTypeSymbol { get; set; }
     public string ReturnTypeName { get; set; }
-    public string Description { get; set; }
+    public string Summary { get; set; }
     public string Remarks { get; set; }
 
     

@@ -34,7 +34,7 @@
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
                                  Parameters="@(string.Join(", ", method.Parameters.Select(x => $"{x.TypeName} {x.Name}")))">
-                    @((MarkupString)method.Description)
+                    @((MarkupString)method.Summary)
                     <ComponentApiDocsRemarks Value="@method.Remarks"/>
                 </DocsMethodsItem>
             }

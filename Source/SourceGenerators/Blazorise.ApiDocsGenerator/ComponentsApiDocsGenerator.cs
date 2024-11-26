@@ -144,10 +144,10 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
 
             var propertiesData = component.Properties.Select( property =>
                 InfoExtractor.GetPropertyDetails( compilation, property ) )
-                .Where(x=>!x.Description.Contains(ShouldOnlyBeUsedInternally));
+                .Where(x=>!x.Summary.Contains(ShouldOnlyBeUsedInternally));
 
             var methodsData = component.PublicMethods.Select( InfoExtractor.GetMethodDetails )
-                .Where(x=>!x.Description.Contains(ShouldOnlyBeUsedInternally)); ;
+                .Where(x=>!x.Summary.Contains(ShouldOnlyBeUsedInternally)); ;
 
             ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
             properties: propertiesData, methods: methodsData,
@@ -178,7 +178,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                                    comp.Properties.Select( prop =>
                                                        $"""
 
-                                                        new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Description}","{prop.Remarks}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
+                                                        new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Summary}","{prop.Remarks}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
                                                         """ ).StringJoin( " " )
                                                }}},
                                              new List<ApiDocsForComponentMethod>{
@@ -186,7 +186,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                                  comp.Methods.Select( method =>
                                                      $$"""
 
-                                                       new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Description}}" ,"{{method.Remarks}}",
+                                                       new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Summary}}" ,"{{method.Remarks}}",
                                                             new List<ApiDocsForComponentMethodParameter>{
                                                        {{
                                                            method.Parameters.Select( param =>

@@ -18,7 +18,7 @@
             <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName"
                                 Default="@property.DefaultValueString">
                 <Paragraph Margin="@(property.IsBlazoriseEnum ? null : Margin.Is0.FromBottom)">
-                    @((MarkupString)property.Description)
+                    @((MarkupString)property.Summary)
                 </Paragraph>
 
                 @if (property.IsBlazoriseEnum)
