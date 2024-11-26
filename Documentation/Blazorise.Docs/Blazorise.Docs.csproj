@@ -2,6 +2,10 @@
 
   <Import Project="..\..\Build\Blazorise.Docs.props" />
 
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
@@ -41,13 +45,11 @@
     <PackageReference Include="MimeKit" Version="4.8.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <ProjectReference Include="..\..\Source\SourceGenerators\Blazorise.ApiDocsDtos\Blazorise.ApiDocsDtos.csproj" />
-    
-</ItemGroup>
+  </ItemGroup>
 
-<!--Binary path for the code generator-->
+  <!--Binary path for the code generator-->
   <PropertyGroup>
     <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net9.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <!--Project path for code generator-->
