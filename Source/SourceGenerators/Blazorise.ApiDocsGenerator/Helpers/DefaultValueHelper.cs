@@ -143,21 +143,6 @@ public static class DefaultValueHelper
         
         string expressionString = QualifyExpressionSyntax(compilation, fieldInitializerValue);
         return new Optional<object>(expressionString);
-
-        var semanticModel = compilation.GetSemanticModel( fieldDeclaration.SyntaxTree );
-
-        // Attempt to get symbol info for the initializer
-        var symbolInfo = semanticModel.GetSymbolInfo( fieldInitializerValue );
-
-        if ( symbolInfo.Symbol != null )
-        {
-            return new Optional<object>( symbolInfo.Symbol.ToString() );//Blazorise.Color.Default
-        }
-        else
-        {
-            var defaultValue = fieldInitializerValue.ToString();
-            return new Optional<object>( defaultValue );//Color.Default
-        }
     }
 
     private static Optional<object> TryToGetConstantValueFromPropertyInitializer( Compilation compilation, PropertyDeclarationSyntax propertySyntax )
