@@ -1,0 +1,59 @@
+﻿
+@if (filteredApiDocsForComponents.Any())
+{
+    <Heading Margin="Margin.Is2.FromTop.Is3.FromBottom" Size="HeadingSize.Is3">
+        @(PropertyType ==PropertyTypes.Events
+             ? "Events"
+            : "Parameters" )
+    </Heading>
+}
+
+@foreach(var apiDocsForComponent in filteredApiDocsForComponents)
+{
+    <DocsAttributes ShowDefaults="@(PropertyType != PropertyTypes.Events)"
+        Name="@(PropertyType == PropertyTypes.Events ? "Event": "Parameter")"
+        Title="@(MultipleComponentTypes ? apiDocsForComponent.TypeName : null)">
+        @foreach(var property in (PropertyType == PropertyTypes.Events? apiDocsForComponent.Events:apiDocsForComponent.Parameters).OrderBy(x => x.Name))
+        {
+            <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName"
+                                Default="@property.DefaultValueString">
+                <Paragraph Margin="@(property.IsBlazoriseEnum ? null : Margin.Is0.FromBottom)">
+                    @((MarkupString)property.Description)
+                </Paragraph>
+
+                @if (property.IsBlazoriseEnum)
+                {
+                    var enumNames = Enum.GetNames(property.Type);
+
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        <Text>Possible values:</Text>
+                        @for (int i = 0; i < enumNames.Length; i++)
+                        {
+                            int i1 = i;
+
+                            <Code>@enumNames[i1]</Code>
+                            @(i < @enumNames.Length - 1 ? ", " : "")
+                        }
+                    </Paragraph>
+                }
+                <ComponentApiDocsRemarks Value="@property.Remarks"/>
+            </DocsAttributesItem>
+        }
+    </DocsAttributes>
+}
+
+@code {
+    [Parameter, EditorRequired] public IEnumerable<ApiDocsForComponent> ApiDocsForComponents { get; set; } = [];
+    [Parameter, EditorRequired] public bool MultipleComponentTypes { get; set; }
+    [Parameter, EditorRequired] public PropertyTypes PropertyType { get; set; }
+
+    IEnumerable<ApiDocsForComponent> filteredApiDocsForComponents = [];
+
+    protected override void OnInitialized()
+    {
+        filteredApiDocsForComponents = ApiDocsForComponents.Where(x => (PropertyType == PropertyTypes.Events? x.Events:x.Parameters).Count > 0);
+    }
+
+    public enum PropertyTypes { Parameters, Events }
+}
+

@@ -18,62 +18,91 @@ public class ApiDocsForComponent
     public Type Type { get; set; }
     public string TypeName { get; }
 
+    
+    private IReadOnlyList<ApiDocsForComponentProperty>? _parameters;
+
     /// <summary>
     /// properties form the component and its parents
     /// </summary>
-    public List<ApiDocsForComponentProperty> Properties
+    public IReadOnlyList<ApiDocsForComponentProperty> Parameters
     {
         get
         {
-            if(_properties!=null) return _properties;
-            _properties = new List<ApiDocsForComponentProperty>();
-            _properties.AddRange(OwnProperties);
-            foreach ( Type typeInheritFrom in InheritsFromChain )
-            {
-               bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
-               if(!success || component is null) continue;
-               _properties.AddRange(component.OwnProperties); 
-            }
-            return _properties;
+            if(_parameters!=null) return _parameters;
+            _parameters = properties.Where( x => !x.Type.IsEventType()).ToList();
+            return _parameters;
         }
     }
 
-    private List<ApiDocsForComponentProperty>? _properties;   
+    private IReadOnlyList<ApiDocsForComponentProperty>? _properties;
+
+    private IReadOnlyList<ApiDocsForComponentProperty> properties
+    {
+        get
+        {
+            if(_properties != null) return _properties;
+            var tempList = new List<ApiDocsForComponentProperty>();
+            tempList.AddRange(OwnProperties);
+            foreach ( Type typeInheritFrom in InheritsFromChain )
+            {
+                bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
+                if(!success || component is null) continue;
+                tempList.AddRange(component.OwnProperties); 
+            }
+            _properties = tempList;
+            return _properties;
+            
+        }
+    }
+
+    private IReadOnlyList<ApiDocsForComponentProperty>? _events;
+    
+    public IReadOnlyList<ApiDocsForComponentProperty> Events
+    {
+        get
+        {
+            if(_events!=null) return _events;
+            _events = properties.Where( x => x.Type.IsEventType()).ToList();
+            return _events;
+        }
+    }
+    
     
     /// <summary>
     /// only properties from the component, not from parents
     /// </summary>
-    public List<ApiDocsForComponentProperty> OwnProperties { get; set; } 
+    public IReadOnlyList<ApiDocsForComponentProperty> OwnProperties { get; set; } 
     /// <summary>
     /// Methods from the component and its parents
     /// </summary>
-    public List<ApiDocsForComponentMethod> Methods
+    public IReadOnlyList<ApiDocsForComponentMethod> Methods
     {
         get
         {
             if (_methods != null) return _methods;
-            _methods = new List<ApiDocsForComponentMethod>();
-            _methods.AddRange(OwnMethods);
+            var tempList = new List<ApiDocsForComponentMethod>();
+            tempList.AddRange(OwnMethods);
             foreach (Type typeInheritFrom in InheritsFromChain)
             {
                 bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
                 if (!success || component is null) continue;
-                _methods.AddRange(component.OwnMethods);
+                tempList.AddRange(component.OwnMethods);
             }
+            _methods = tempList;
             return _methods;
         }
     }
 
-    private List<ApiDocsForComponentMethod>? _methods;
+    private IReadOnlyList<ApiDocsForComponentMethod>? _methods;
 
     /// <summary>
     /// Only methods from the component, not from parents
     /// </summary>
-    public List<ApiDocsForComponentMethod> OwnMethods { get; set; }
+    public IReadOnlyList<ApiDocsForComponentMethod> OwnMethods { get;  }
 
     
     //chain of inherited classes from component to BaseComponent
-    public List<Type> InheritsFromChain { get; set; }
+    public IReadOnlyList<Type> InheritsFromChain { get;  }
 
 }
 
@@ -119,8 +148,7 @@ public class ApiDocsForComponentMethod
 
     
     public IReadOnlyList<ApiDocsForComponentMethodParameter> Parameters { get; set; }
-    // public bool IsStatic { get; set; }
-    // public bool IsAsync { get; set; }
+
 }
 
 public class ApiDocsForComponentMethodParameter
@@ -131,12 +159,8 @@ public class ApiDocsForComponentMethodParameter
         TypeName = typeName;
     }
     public string Name { get; set; }
-    // public Type Type { get; set; }
     public string TypeName { get; set; }
-//     public string Description { get; set; }
-//     public bool IsOptional { get; set; }
-//     public object DefaultValue { get; set; }
-//     public string DefaultValueString { get; set; }
+
 }
 
 

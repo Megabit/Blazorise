@@ -3,7 +3,7 @@
 </DocsPageSubtitle>
 
 @{
-    IEnumerable<ApiDocsForComponent> apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault(x)).Where(x => x is not null);
+    IReadOnlyList<ApiDocsForComponent> apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault(x)).Where(x => x is not null).ToList();
     var hasComponentTypes = ComponentTypes.Any();
     var multipleComponentTypes = ComponentTypes.Count > 1;
     var hasMethods = apiDocsForComponents.Any(x => x.Methods.Any());
@@ -11,40 +11,14 @@
 
 @if (hasComponentTypes)
 {
-    <Heading Margin="Margin.Is2.FromTop.Is3.FromBottom" Size="HeadingSize.Is3">
-        Parameters
-    </Heading>
+    <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
+                              MultipleComponentTypes="multipleComponentTypes"
+                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Parameters"/>
 
-    @foreach (var apiDocsForComponent in apiDocsForComponents.Where(x => x?.Properties?.Count > 0))
-    {
-        <DocsAttributes Name="Parameter" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
-            @foreach (var property in apiDocsForComponent.Properties.OrderBy(x => x.Name))
-            {
-                <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName" Default="@property.DefaultValueString">
-                    <Paragraph Margin="@(property.IsBlazoriseEnum ? null : Margin.Is0.FromBottom)">
-                        @((MarkupString)property.Description)
-                    </Paragraph>
 
-                    @if (property.IsBlazoriseEnum)
-                    {
-                        var enumNames = Enum.GetNames(property.Type);
-
-                        <Paragraph Margin="Margin.Is0.FromBottom">
-                            <Text>Possible values: </Text>
-                            @for (int i = 0; i < enumNames.Length; i++)
-                            {
-                                int i1 = i;
-
-                                <Code>@enumNames[i1]</Code>
-                                @(i < @enumNames.Length - 1 ? ", " : "")
-                            }
-                        </Paragraph>
-                    }
-                    @remarks(property.Remarks)
-                </DocsAttributesItem>
-            }
-        </DocsAttributes>
-    }
+    <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
+                              MultipleComponentTypes="multipleComponentTypes"
+                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Events"/>
 }
 
 @if (hasMethods)
@@ -53,14 +27,15 @@
         Methods
     </Heading>
 
-    @foreach (var apiDocsForComponent in apiDocsForComponents.Where(x => x?.Methods?.Count > 0))
+    @foreach(var apiDocsForComponent in apiDocsForComponents.Where(x => x?.Methods?.Count > 0))
     {
         <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
-            @foreach (ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
+            @foreach(ApiDocsForComponentMethod method in apiDocsForComponent.Methods)
             {
-                <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName" Parameters="@(string.Join(", ",method.Parameters.Select(x=>$"{x.TypeName} {x.Name}") ))">
+                <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
+                                 Parameters="@(string.Join(", ", method.Parameters.Select(x => $"{x.TypeName} {x.Name}")))">
                     @((MarkupString)method.Description)
-                    @remarks(method.Remarks)
+                    <ComponentApiDocsRemarks Value="@method.Remarks"/>
                 </DocsMethodsItem>
             }
         </DocsMethods>
@@ -69,16 +44,4 @@
 
 @code {
     [Parameter, EditorRequired] public List<Type> ComponentTypes { get; set; } = [];
-
-    RenderFragment<string> remarks = value => @<text>
-                                                  @if (!string.IsNullOrEmpty(value))
-                                                  {
-                                                      <details>
-                                                          <summary style="list-style: none; display: inline; cursor: pointer;">
-                                                              <Badge Color="Color.Info">Remarks</Badge>
-                                                          </summary>
-                                                          <Paragraph> @((MarkupString)value)</Paragraph>
-                                                      </details>
-                                                  }
-                                              </text>;
 }
