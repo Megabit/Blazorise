@@ -28,6 +28,7 @@ public partial class DataGridPage
 
     private DataGrid<Employee> dataGrid;
     public int currentPage { get; set; } = 1;
+    public int pageSize { get; set; } = 5;
 
     private bool editable = true;
     private bool fixedHeader = false;
@@ -203,22 +204,25 @@ public partial class DataGridPage
     {
         if ( !e.CancellationToken.IsCancellationRequested )
         {
-            List<Employee> response = null;
 
-            var filteredData = await FilterData( e.Columns );
+            //var filteredData = await FilterData( e.Columns );
+            var query = dataModels.AsQueryable().ApplyDataGridFilter( e.Columns );
+            //Maybe do pagination in a separate method?
+            var queryPaged = dataModels.AsQueryable().ApplyDataGridFilter( e.Columns, e.Page, e.PageSize );
+            var response  = queryPaged.ToList();
 
             // this can be call to anything, in this case we're calling a fictional api
-            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-                response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
-            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
-            else
-                throw new Exception( "Unhandled ReadDataMode" );
+            //if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
+            //    response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+            //else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
+            //    response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+            //else
+            //    throw new Exception( "Unhandled ReadDataMode" );
 
             await Task.Delay( random.Next( 100 ) );
             if ( !e.CancellationToken.IsCancellationRequested )
             {
-                totalEmployees = filteredData.Count;
+                totalEmployees = query.Count();
                 employeeList = new List<Employee>( response ); // an actual data for the current page
             }
         }

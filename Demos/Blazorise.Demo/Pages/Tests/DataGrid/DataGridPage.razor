@@ -244,8 +244,8 @@
                           RowUpdating="@OnRowUpdating"
                           RowRemoving="@OnRowRemoving"
                           UseInternalEditing="false"
-                @bind-SelectedRow="@selectedEmployee"
-                @bind-SelectedRows="@selectedEmployees"
+                          @bind-SelectedRow="@selectedEmployee"
+                          @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
                           DetailRowTrigger="@((e)=> e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"
                           Striped
@@ -254,7 +254,7 @@
                           Responsive
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
-                          PageSize="5"
+                          @bind-PageSize="pageSize"
                           CurrentPage="currentPage"
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
