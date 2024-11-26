@@ -29,14 +29,14 @@ public class ApiDocsForComponent
         get
         {
             if(_parameters!=null) return _parameters;
-            _parameters = properties.Where( x => !x.Type.IsEventType()).ToList();
+            _parameters = Properties.Where( x => !x.Type.IsEventType()).ToList();
             return _parameters;
         }
     }
 
     private IReadOnlyList<ApiDocsForComponentProperty>? _properties;
 
-    private IReadOnlyList<ApiDocsForComponentProperty> properties
+    private IReadOnlyList<ApiDocsForComponentProperty> Properties
     {
         get
         {
@@ -47,7 +47,10 @@ public class ApiDocsForComponent
             {
                 bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
                 if(!success || component is null) continue;
-                tempList.AddRange(component.OwnProperties); 
+                tempList.AddRange(component.OwnProperties.Select(x=> new ApiDocsForComponentProperty(x.Name, x.Type,x.TypeName, x.DefaultValue,x.DefaultValueString,
+                x.Description.Replace(component.TypeName, this.TypeName),
+                x.Remarks.Replace(component.TypeName, this.TypeName),
+                x.IsBlazoriseEnum))); 
             }
             _properties = tempList;
             return _properties;
@@ -62,7 +65,7 @@ public class ApiDocsForComponent
         get
         {
             if(_events!=null) return _events;
-            _events = properties.Where( x => x.Type.IsEventType()).ToList();
+            _events = Properties.Where( x => x.Type.IsEventType()).ToList();
             return _events;
         }
     }
