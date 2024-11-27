@@ -4,14 +4,14 @@
 <CascadingValue Value="@this" IsFixed>
     <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" @attributes="@Attributes">
         <div @ref="@ElementRef" id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
-            @if ( Multiple )
+            @if ( Multiple && Value is IEnumerable<TValue> values )
             {
-                @foreach ( var selectedValue in SelectedValues ?? Enumerable.Empty<TValue>() )
+                @foreach ( var selectedValue in values )
                 {
                     <span class="ant-select-selection-item">
                         <span class="ant-select-selection-item-content">
                             @{
-                                var selectItem = SelectItems.FirstOrDefault( i => i.Value.IsEqual( selectedValue ) );
+                                var selectItem = SelectItems.FirstOrDefault( i => i.CompareTo( selectedValue ) );
 
                                 @selectItem?.ChildContent;
                             }

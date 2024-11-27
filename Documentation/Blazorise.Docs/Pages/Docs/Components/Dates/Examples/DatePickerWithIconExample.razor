@@ -2,7 +2,7 @@
 
 <Addons>
     <Addon AddonType="AddonType.Body">
-        <DatePicker @ref="@datePicker" TValue="DateTime?" @bind-Date="@value" />
+        <DatePicker @ref="@datePicker" TValue="DateTime?" @bind-Value="@value" />
     </Addon>
     <Addon AddonType="AddonType.End">
         <Button Color="Color.Light" Clicked="@(()=>datePicker.ToggleAsync())">

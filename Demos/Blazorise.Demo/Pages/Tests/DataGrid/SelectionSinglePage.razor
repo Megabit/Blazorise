@@ -49,7 +49,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
@@ -70,24 +70,24 @@
                     <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedEmployee?.FirstName"></TextEdit>
+                            <TextEdit ReadOnly Value="@selectedEmployee?.FirstName"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly Text="@selectedEmployee?.LastName"></TextEdit>
+                        <TextEdit ReadOnly Value="@selectedEmployee?.LastName"></TextEdit>
                     </Field>
                 </Fields>
                 <Fields>
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedEmployee?.Email"></TextEdit>
+                            <TextEdit ReadOnly Value="@selectedEmployee?.Email"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly Text="@selectedEmployee?.City"></TextEdit>
+                        <TextEdit ReadOnly Value="@selectedEmployee?.City"></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>

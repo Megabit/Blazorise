@@ -9,7 +9,7 @@
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable>
         <EditTemplate>
             <Validation Validator="@CheckName">
-                <TextEdit Text="@((string)context.CellValue)" TextChanged="(value => context.CellValue = value)">
+                <TextEdit Value="@((string)context.CellValue)" ValueChanged="(value => context.CellValue = value)">
                     <Feedback>
                         <ValidationError />
                     </Feedback>

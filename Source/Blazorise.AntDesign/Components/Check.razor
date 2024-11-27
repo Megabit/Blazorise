@@ -17,7 +17,7 @@
         {
             var sb = new System.Text.StringBuilder( "ant-checkbox-wrapper" );
 
-            if ( Checked?.ToString() == bool.TrueString )
+            if ( Value?.ToString() == bool.TrueString )
             {
                 sb.Append( " ant-checkbox-wrapper-pointer" );
             }
@@ -32,7 +32,7 @@
         {
             var sb = new System.Text.StringBuilder( "ant-checkbox" );
 
-            if ( Checked?.ToString() == bool.TrueString )
+            if ( Value?.ToString() == bool.TrueString )
             {
                 sb.Append( " ant-checkbox-checked" );
             }

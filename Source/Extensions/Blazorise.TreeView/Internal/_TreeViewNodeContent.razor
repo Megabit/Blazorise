@@ -4,7 +4,7 @@
     @if ( ParentTreeViewState.SelectionMode == TreeViewSelectionMode.Multiple )
     {
         <div class="b-tree-view-node-check">
-            <Check TValue="bool" Checked="@Checked" CheckedChanged="@OnCheckedChanged" Disabled="@NodeState.Disabled" />
+            <Check TValue="bool" Value="@Checked" ValueChanged="@OnCheckedChanged" Disabled="@NodeState.Disabled" />
         </div>
     }
     <span class="@ClassNames" style="@(GetCurrentStyle())" @onclick="@OnClick">

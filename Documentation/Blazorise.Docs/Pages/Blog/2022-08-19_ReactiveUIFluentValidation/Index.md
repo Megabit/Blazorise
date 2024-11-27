@@ -58,7 +58,7 @@ And then you're going to need a library.  [BlazoriseFluentValidation](https://gi
                 <Field Horizontal ColumnSize="ColumnSize.Is12">
                     <FieldLabel ColumnSize="ColumnSize.Is2.OnDesktop">Email Address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
-                        <TextEdit Placeholder="Some text value..." @bind-Text="Model.EmailAddress">
+                        <TextEdit Placeholder="Some text value..." @bind-Value="Model.EmailAddress">
                             <Feedback>
                                 <ValidationError/>
                             </Feedback>
@@ -70,7 +70,7 @@ And then you're going to need a library.  [BlazoriseFluentValidation](https://gi
             <Field Horizontal ColumnSize="ColumnSize.Is12">
                 <FieldLabel ColumnSize="ColumnSize.Is2.OnDesktop">Password</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
-                    <TextEdit Role="TextRole.Password" Placeholder="Some text value..." @bind-Text="Model.Password">
+                    <TextEdit Role="TextRole.Password" Placeholder="Some text value..." @bind-Value="Model.Password">
                         <Feedback>
                             <ValidationError/>
                         </Feedback>
@@ -206,7 +206,7 @@ Ah yes, bindings in the View.  Here's the completed markup of the View.
                 <Field Horizontal ColumnSize="ColumnSize.Is12">
                     <FieldLabel ColumnSize="ColumnSize.Is2.OnDesktop">Email Address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
-                        <TextEdit Placeholder="Some text value..." @bind-Text=ViewModel.EmailAddress>
+                        <TextEdit Placeholder="Some text value..." @bind-Value=ViewModel.EmailAddress>
                             <Feedback>
                                 <ValidationError/>
                             </Feedback>
@@ -218,7 +218,7 @@ Ah yes, bindings in the View.  Here's the completed markup of the View.
             <Field Horizontal ColumnSize="ColumnSize.Is12">
                 <FieldLabel ColumnSize="ColumnSize.Is2.OnDesktop">Password</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
-                    <TextEdit Role="TextRole.Password" Placeholder="Some text value..." @bind-Text=ViewModel.Password>
+                    <TextEdit Role="TextRole.Password" Placeholder="Some text value..." @bind-Value=ViewModel.Password>
                         <Feedback>
                             <ValidationError/>
                         </Feedback>

@@ -75,7 +75,7 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
         var type = typeof( DatePicker<> ).MakeGenericType( new[] { valueType } );
 
         builder.OpenComponent( 0, type );
-        builder.AddAttribute( 1, nameof( DatePicker<object>.Date ), valueType switch
+        builder.AddAttribute( 1, nameof( DatePicker<object>.Value ), valueType switch
         {
             Type typeDateTime when typeDateTime == typeof( DateTime ) => (DateTime)( CellValue ?? (DateTime)default ),
             Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => (DateTime?)( CellValue ?? (DateTime?)default ),
@@ -85,7 +85,7 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
             Type typeDateTimeOffsetNull when typeDateTimeOffsetNull == typeof( DateTimeOffset? ) => (DateTimeOffset?)( CellValue ?? (DateTimeOffset?)default ),
             _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
         } );
-        builder.AddAttribute( 2, nameof( DatePicker<object>.DateChanged ), valueType switch
+        builder.AddAttribute( 2, nameof( DatePicker<object>.ValueChanged ), valueType switch
         {
             Type typeDateTime when typeDateTime == typeof( DateTime ) => EventCallback.Factory.Create<DateTime>( this, ( OnCellValueChanged<DateTime> ) ),
             Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => EventCallback.Factory.Create<DateTime?>( this, ( OnCellValueChanged<DateTime?> ) ),
@@ -116,7 +116,7 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
         var type = typeof( DateEdit<> ).MakeGenericType( new[] { valueType } );
 
         builder.OpenComponent( 0, type );
-        builder.AddAttribute( 1, nameof( DateEdit<object>.Date ), valueType switch
+        builder.AddAttribute( 1, nameof( DateEdit<object>.Value ), valueType switch
         {
             Type typeDateTime when typeDateTime == typeof( DateTime ) => (DateTime)( CellValue ?? (DateTime)default ),
             Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => (DateTime?)( CellValue ?? (DateTime?)default ),
@@ -126,7 +126,7 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
             Type typeDateTimeOffsetNull when typeDateTimeOffsetNull == typeof( DateTimeOffset? ) => (DateTimeOffset?)( CellValue ?? (DateTimeOffset?)default ),
             _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
         } );
-        builder.AddAttribute( 2, nameof( DateEdit<object>.DateChanged ), valueType switch
+        builder.AddAttribute( 2, nameof( DateEdit<object>.ValueChanged ), valueType switch
         {
             Type typeDateTime when typeDateTime == typeof( DateTime ) => EventCallback.Factory.Create<DateTime>( this, ( OnCellValueChanged<DateTime> ) ),
             Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => EventCallback.Factory.Create<DateTime?>( this, ( OnCellValueChanged<DateTime?> ) ),

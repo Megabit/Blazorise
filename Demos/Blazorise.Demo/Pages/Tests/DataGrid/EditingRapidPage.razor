@@ -11,7 +11,7 @@
                 </Paragraph>
                 <Field>
                     <FieldBody>
-                        <Switch @bind-Checked="@showCommandColumn" Size="Size.Medium">Show Command Column</Switch>
+                        <Switch @bind-Value="@showCommandColumn" Size="Size.Medium">Show Command Column</Switch>
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -52,7 +52,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>

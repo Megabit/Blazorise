@@ -5,7 +5,7 @@
     Initially blank:
     <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Text="@autoModelForName.Name">
+            <TextEdit @bind-Value="@autoModelForName.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
@@ -17,7 +17,7 @@
     Initially populated:
     <Validations Model="@autoModelForName2" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Text="@autoModelForName2.Name">
+            <TextEdit @bind-Value="@autoModelForName2.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
@@ -31,7 +31,7 @@
     Initially blank:
     <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Text="@autoModelForName.Password">
+            <TextEdit @bind-Value="@autoModelForName.Password">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
@@ -43,7 +43,7 @@
     Initially populated:
     <Validations Model="@autoModelForName2" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Text="@autoModelForName2.Password">
+            <TextEdit @bind-Value="@autoModelForName2.Password">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
@@ -58,7 +58,7 @@
     Initially blank:
     <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation MessageLocalizer="@((m,a)=>a?.Count() > 0 ? string.Format(m,a?.ToArray()) : m)">
-            <TextEdit @bind-Text="@autoModelForName.PasswordWithDisplay">
+            <TextEdit @bind-Value="@autoModelForName.PasswordWithDisplay">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
@@ -73,7 +73,7 @@
     Initially blank:
     <Validations @ref="@manualValidationsNameRef" Model="@manualModelForName" Mode="ValidationMode.Manual" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Text="@manualModelForName.Name">
+            <TextEdit @bind-Value="@manualModelForName.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
@@ -86,7 +86,7 @@
     Initially populated:
     <Validations @ref="@manualValidationsName2Ref" Model="@manualModelForName2" Mode="ValidationMode.Manual" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Text="@manualModelForName2.Name">
+            <TextEdit @bind-Value="@manualModelForName2.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
@@ -101,7 +101,7 @@
     Initially populated:
     <Validations Model="@autoModelForName3" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Text="@autoModelForName3.Name">
+            <TextEdit @bind-Value="@autoModelForName3.Name">
                 <Feedback>
                     <ValidationError>error override message</ValidationError>
                 </Feedback>

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -57,16 +58,49 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     protected string formattedValueExpression;
 
+    /// <summary>
+    /// Holds the value of the input field.
+    /// </summary>
+    protected ComponentParameterInfo<TValue> paramValue;
+
     #endregion
 
     #region Methods
 
-    /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    /// <summary>
+    /// Method called before setting the parameters.
+    /// </summary>
+    /// <param name="parameters">The parameters that will be passed to the component.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
         InitializeParameters();
 
-        await base.SetParametersAsync( parameters );
+        if ( Rendered )
+        {
+            if ( parameters.TryGetParameter( nameof( Value ), Value, IsSameAsInternalValue, out paramValue ) && paramValue.Changed )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Method called after the parameters are set.
+    /// </summary>
+    /// <param name="parameters">The parameters that have been set on the component.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual async Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        if ( ParentValidation is not null )
+        {
+            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+
+            await InitializeValidation();
+        }
 
         // For modals we need to make sure that autofocus is applied every time the modal is opened.
         if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var paramAutofocus ) && autofocus != paramAutofocus )
@@ -89,6 +123,16 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
                 ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
             }
         }
+    }
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        await OnBeforeSetParametersAsync( parameters );
+
+        await base.SetParametersAsync( parameters );
+
+        await OnAfterSetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -237,13 +281,16 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     /// <param name="value">Value to check against the internal value.</param>
     /// <returns>True if the internal value matched the supplied value.</returns>
-    protected virtual bool IsSameAsInternalValue( TValue value ) => value.IsEqual( InternalValue );
+    protected virtual bool IsSameAsInternalValue( TValue value ) => value.IsEqual( Value );
 
     /// <summary>
     /// Raises and event that handles the edit value of Text, Date, Numeric etc.
     /// </summary>
     /// <param name="value">New edit value.</param>
-    protected abstract Task OnInternalValueChanged( TValue value );
+    protected virtual Task OnInternalValueChanged( TValue value )
+    {
+        return ValueChanged.InvokeAsync( value );
+    }
 
     /// <inheritdoc/>
     public virtual Task Focus( bool scrollToElement = true )
@@ -362,7 +409,15 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Gets the formatted value expression for the input component.
     /// </summary>
     /// <returns>Returns the formatted value expression for the input component</returns>
-    protected abstract string GetFormatedValueExpression();
+    protected virtual string GetFormatedValueExpression()
+    {
+        if ( ValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
+    }
 
     #endregion
 
@@ -374,7 +429,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     public virtual object ValidationValue => CustomValidationValue is not null
         ? CustomValidationValue.Invoke()
-        : InternalValue;
+        : Value;
 
     /// <summary>
     /// Returns true if input belong to a <see cref="FieldBody"/>.
@@ -390,15 +445,6 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Returns the default value for the <typeparamref name="TValue"/> type.
     /// </summary>
     protected virtual TValue DefaultValue => default;
-
-    /// <summary>
-    /// Gets or sets the internal edit value.
-    /// </summary>
-    /// <remarks>
-    /// The reason for this to be abstract is so that input components can have
-    /// their own specialized parameters that can be binded(Text, Date, Value etc.)
-    /// </remarks>
-    protected abstract TValue InternalValue { get; set; }
 
     /// <summary>
     /// Gets the value to be used for the input's "name" attribute.
@@ -421,12 +467,12 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     protected TValue CurrentValue
     {
-        get => InternalValue;
+        get => Value;
         set
         {
             if ( !IsSameAsInternalValue( value ) )
             {
-                InternalValue = value;
+                Value = value;
                 InvokeAsync( () => OnInternalValueChanged( value ) );
             }
         }
@@ -473,6 +519,21 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Holds the information about the Blazorise global options.
     /// </summary>
     [Inject] protected BlazoriseOptions Options { get; set; }
+
+    /// <summary>
+    /// Gets or sets the value inside the input field.
+    /// </summary>
+    [Parameter] public virtual TValue Value { get; set; }
+
+    /// <summary>
+    /// Occurs after value has changed.
+    /// </summary>
+    [Parameter] public virtual EventCallback<TValue> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the input value.
+    /// </summary>
+    [Parameter] public virtual Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// Sets the size of the input control.

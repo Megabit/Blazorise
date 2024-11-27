@@ -14,7 +14,7 @@
                     You may also use the ToggleDetailRow API to programatically toggle a row.
                 </Paragraph>
                 <Paragraph>
-                    <Select TValue="int" @bind-SelectedValue="@selectedEmployeeIdForDetailRow">
+                    <Select TValue="int" @bind-Value="@selectedEmployeeIdForDetailRow">
                         <SelectItem Value="0"></SelectItem>
                         @foreach ( var item in inMemoryData )
                         {
@@ -54,7 +54,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>

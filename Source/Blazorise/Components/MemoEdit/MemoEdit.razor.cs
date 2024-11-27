@@ -25,8 +25,10 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        await base.OnBeforeSetParametersAsync( parameters );
+
         var replaceTabChanged = parameters.TryGetValue( nameof( ReplaceTab ), out bool paramReplaceTab ) && ReplaceTab != paramReplaceTab;
         var tabSizeChanged = parameters.TryGetValue( nameof( TabSize ), out int paramTabSize ) && TabSize != paramTabSize;
         var softTabsChanged = parameters.TryGetValue( nameof( SoftTabs ), out bool paramSoftTabs ) && SoftTabs != paramSoftTabs;
@@ -49,7 +51,7 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
 
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
             {
                 ExecuteAfterRender( async () =>
                 {
@@ -61,26 +63,6 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
                     }
                 } );
             }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
-            {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<string>( nameof( Text ), out var paramText )
-                    ? paramText
-                    : InternalValue;
-
-                await ParentValidation.InitializeInputPattern( pattern, value );
-            }
-
-            await InitializeValidation();
         }
     }
 
@@ -135,12 +117,6 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
         builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( string value )
-    {
-        return TextChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -221,23 +197,9 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
         await JSUtilitiesModule.Select( ElementRef, ElementId, focus );
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( TextExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( TextExpression )
-            : ExpressionFormatter.FormatLambda( TextExpression );
-    }
-
     #endregion
 
     #region Properties
-
-    /// <inheritdoc/>
-    protected override string InternalValue { get => Text; set => Text = value; }
 
     /// <inheritdoc/>
     protected override string DefaultValue => string.Empty;
@@ -280,21 +242,6 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// Sets the class to remove the default form field styling and preserve the correct margin and padding.
     /// </summary>
     [Parameter] public bool Plaintext { get; set; }
-
-    /// <summary>
-    /// Gets or sets the text inside the input field.
-    /// </summary>
-    [Parameter] public string Text { get; set; }
-
-    /// <summary>
-    /// Occurs after text has changed.
-    /// </summary>
-    [Parameter] public EventCallback<string> TextChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the text value.
-    /// </summary>
-    [Parameter] public Expression<Func<string>> TextExpression { get; set; }
 
     /// <summary>
     /// Specifies the maximum number of characters allowed in the input element.

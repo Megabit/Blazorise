@@ -125,7 +125,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         // Because of that we're going to skip CurrentValueHandler and implement all the
         // update logic here.
 
-        var updatedFiles = InternalValue?.Where( x => files.Any( file => file.Id == x.Id ) ).ToList() ?? new();
+        var updatedFiles = Value?.Where( x => files.Any( file => file.Id == x.Id ) ).ToList() ?? new();
         foreach ( var file in files )
         {
             if ( !updatedFiles.Any( x => x.Id == file.Id ) )
@@ -140,7 +140,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
             }
         }
 
-        InternalValue = updatedFiles.ToArray();
+        Value = updatedFiles.ToArray();
 
         // send the value to the validation for processing
         if ( ParentValidation is not null )
@@ -262,12 +262,6 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        return null;
-    }
-
     #endregion
 
     #region Properties
@@ -275,13 +269,10 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     /// <summary>
     /// Gets the currently added files.
     /// </summary>
-    public IFileEntry[] Files => InternalValue;
+    public IFileEntry[] Files => Value;
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    protected override IFileEntry[] InternalValue { get => files; set => files = value; }
 
     /// <summary>
     /// Number of processed bytes in current file.
@@ -341,7 +332,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     /// <summary>
     /// Gets the list is selected filename
     /// </summary>
-    protected IEnumerable<string> SelectedFileNames => InternalValue?.Select( x => x.Name ) ?? Enumerable.Empty<string>();
+    protected IEnumerable<string> SelectedFileNames => Value?.Select( x => x.Name ) ?? Enumerable.Empty<string>();
 
     /// <summary>
     /// Enables the multiple file selection.

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -23,6 +24,25 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        if ( ParentValidation is not null )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
+            {
+                // make sure we get the newest value
+                var newValue = paramValue.Defined
+                    ? paramValue.Value
+                    : Value;
+
+                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
+            }
+        }
+
+        await base.OnAfterSetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void OnInitialized()

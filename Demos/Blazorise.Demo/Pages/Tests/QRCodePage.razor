@@ -14,7 +14,7 @@
                                     Value
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="text" />
+                                    <TextEdit @bind-Value="text" />
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -22,7 +22,7 @@
                                     ECC Level
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@eccLevel">
+                                    <Select @bind-Value="@eccLevel">
                                         <SelectItem Value="EccLevel.L">L</SelectItem>
                                         <SelectItem Value="EccLevel.M">M</SelectItem>
                                         <SelectItem Value="EccLevel.Q">Q</SelectItem>
@@ -35,7 +35,7 @@
                                     Dark Color
                                 </FieldLabel>
                                 <FieldBody>
-                                    <ColorPicker @bind-Color="darkColor" />
+                                    <ColorPicker @bind-Value="@darkColor" />
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -43,7 +43,7 @@
                                     Light Color
                                 </FieldLabel>
                                 <FieldBody>
-                                    <ColorPicker @bind-Color="lightColor" />
+                                    <ColorPicker @bind-Value="@lightColor" />
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -59,7 +59,7 @@
                                     As Anchor
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Switch @bind-Checked="asAnchor"></Switch>
+                                    <Switch @bind-Value="asAnchor"></Switch>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -67,7 +67,7 @@
                                     Draw Quiet Zones
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Switch @bind-Checked="drawQuietZones"></Switch>
+                                    <Switch @bind-Value="drawQuietZones"></Switch>
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -81,7 +81,7 @@
                                     Base64 PNG Image
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="base64PngIcon" />
+                                    <TextEdit @bind-Value="base64PngIcon" />
                                 </FieldBody>
                             </Field>
                             <Field>

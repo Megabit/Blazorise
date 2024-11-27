@@ -123,7 +123,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Manual event binding">
-        When using the event <Code>TextChanged</Code>, you also must define the <Code>Text</Code> value attribute.
+        When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TextEditWithEventExample />
@@ -137,8 +137,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Text Changed mode">
-        By default the <Code>TextChanged</Code> event will be raised on every keypress.
-        To override default behavior of <Code>TextChanged</Code> event and to disable the change on every
+        By default the <Code>ValueChanged</Code> event will be raised on every keypress.
+        To override default behavior of <Code>ValueChanged</Code> event and to disable the change on every
         keypress you must set the <Code>Immediate</Code> to <Code>false</Code> on application start.
         After setting it to <Code>false</Code> the event will be raised only after the input loses focus.
     </DocsPageSectionHeader>
@@ -187,10 +187,10 @@
     <DocsAttributesItem Name="Role" Type="TextRole" Default="Text">
         The role of the input text.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Text" Type="string" Default="null">
+    <DocsAttributesItem Name="Value" Type="string" Default="null">
         Input value.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="TextChanged" Type="@("EventCallback<string>")">
+    <DocsAttributesItem Name="ValueChanged" Type="@("EventCallback<string>")">
         Occurs after text has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Plaintext" Type="bool" Default="false">

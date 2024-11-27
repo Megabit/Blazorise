@@ -20,7 +20,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        In this example for Blazorise, the <Code>ColorEdit</Code> component is utilized to provide a color selection interface. It's bound to a <Code>colorValue</Code> variable via the <Code>@@bind-Color</Code> directive. Initially set to red (<Strong>#ff0000</Strong>, this <Code>colorValue</Code> automatically updates to reflect the user's color selection made through the <Code>ColorEdit</Code> component, showcasing a straightforward way to integrate color picking functionality into a Blazor application.
+        In this example for Blazorise, the <Code>ColorEdit</Code> component is utilized to provide a color selection interface. It's bound to a <Code>colorValue</Code> variable via the <Code>@@bind-Value</Code> directive. Initially set to red (<Strong>#ff0000</Strong>, this <Code>colorValue</Code> automatically updates to reflect the user's color selection made through the <Code>ColorEdit</Code> component, showcasing a straightforward way to integrate color picking functionality into a Blazor application.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ColorEditExample />
@@ -57,10 +57,10 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Color" Type="string" Default="null">
+    <DocsAttributesItem Name="Value" Type="string" Default="null">
         Gets or sets the input color value in hex format.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ColorChanged" Type="EventCallback<string>">
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<string>">
         Occurs when the color has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Disabled" Type="bool" Default="false">

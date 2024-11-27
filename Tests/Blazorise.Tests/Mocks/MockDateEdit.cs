@@ -19,7 +19,7 @@ internal class MockDateEdit<T> : DateEdit<T>
         base.IdGenerator = mockIdGenerator.Object;
 
         base.ParentValidation = validation;
-        base.DateExpression = dateExpression;
+        base.ValueExpression = dateExpression;
 
         this.OnInitialized();
     }

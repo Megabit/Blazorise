@@ -6,7 +6,7 @@
         <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
-                <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
+                <TextEdit Placeholder="First and last name" @bind-Value="@user.Name">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -18,7 +18,7 @@
         <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
-                <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
+                <TextEdit Placeholder="Enter email" @bind-Value="@user.Email">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -30,7 +30,7 @@
         <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
-                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
+                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Value="@user.Password">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -42,7 +42,7 @@
         <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
             <FieldBody ColumnSize="ColumnSize.Is10">
-                <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
+                <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Value="@user.ConfirmPassword">
                     <Feedback>
                         <ValidationError />
                     </Feedback>

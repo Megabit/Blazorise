@@ -17,7 +17,7 @@
                         Edit Mode
                     </FieldLabel>
                     <FieldBody>
-                        <Select @bind-SelectedValue="@editMode">
+                        <Select @bind-Value="@editMode">
                             <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                             <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                             <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
@@ -52,7 +52,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>

@@ -19,7 +19,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@editable">Editable</Check>
+                                    <Check @bind-Value="@editable">Editable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -29,7 +29,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue="bool" @bind-Checked="@fixedHeader">Fixed Header</Check>
+                                    <Check TValue="bool" @bind-Value="@fixedHeader">Fixed Header</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -39,7 +39,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@OnVirtualizeChanged">Virtualize</Check>
+                                    <Check TValue="bool" Value="@virtualize" ValueChanged="@OnVirtualizeChanged">Virtualize</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -49,7 +49,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@resizable">Resizable</Check>
+                                    <Check @bind-Value="@resizable">Resizable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -59,7 +59,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@sortable">Sortable</Check>
+                                    <Check @bind-Value="@sortable">Sortable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -69,7 +69,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@filterable">Filterable</Check>
+                                    <Check @bind-Value="@filterable">Filterable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -79,7 +79,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showPager">Show Pager</Check>
+                                    <Check @bind-Value="@showPager">Show Pager</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -89,7 +89,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                                    <Check @bind-Value="@showPageSizes">Show Page sizes</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -99,7 +99,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                                    <Check @bind-Value="@showButtonRow">Show Button Row</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -109,7 +109,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue=bool Checked="@readDataMode" CheckedChanged="OnReadDataModeChanged">Large Data</Check>
+                                    <Check TValue=bool Value="@readDataMode" ValueChanged="OnReadDataModeChanged">Large Data</Check>
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -123,7 +123,7 @@
                                     Selection mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@selectionMode">
+                                    <Select @bind-Value="@selectionMode">
                                         <SelectItem Value="@DataGridSelectionMode.Single">Single</SelectItem>
                                         <SelectItem Value="@DataGridSelectionMode.Multiple">Multiple</SelectItem>
                                     </Select>
@@ -134,7 +134,7 @@
                                     Edit Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@editMode">
+                                    <Select @bind-Value="@editMode">
                                         <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                         <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                                         <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
@@ -146,7 +146,7 @@
                                     Resizable Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@resizableMode">
+                                    <Select @bind-Value="@resizableMode">
                                         <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
                                         <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
                                     </Select>
@@ -157,7 +157,7 @@
                                     Command Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@commandsMode">
+                                    <Select @bind-Value="@commandsMode">
                                         <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
                                         <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
                                         <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
@@ -175,7 +175,7 @@
                                     Sort mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@sortMode">
+                                    <Select @bind-Value="@sortMode">
                                         <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
                                         <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
                                     </Select>
@@ -186,7 +186,7 @@
                                     Filter mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@filterMode">
+                                    <Select @bind-Value="@filterMode">
                                         <SelectItem Value="@DataGridFilterMode.Default">Default</SelectItem>
                                         <SelectItem Value="@DataGridFilterMode.Menu">Menu</SelectItem>
                                     </Select>
@@ -197,7 +197,7 @@
                                     Responsive mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@responsiveMode">
+                                    <Select @bind-Value="@responsiveMode">
                                         <SelectItem Value="@TableResponsiveMode.Default">Default</SelectItem>
                                         <SelectItem Value="@TableResponsiveMode.Mobile">Mobile</SelectItem>
                                     </Select>
@@ -208,7 +208,7 @@
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit Text="@customFilterValue" TextChanged="@OnCustomFilterValueChanged" />
+                                    <TextEdit Value="@customFilterValue" ValueChanged="@OnCustomFilterValueChanged" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -290,7 +290,7 @@
                                 </Button>
                             </FilterTemplate>
                             <MultiSelectTemplate>
-                                <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
+                                <Check TValue="bool" Value="@context.IsSelected" ValueExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" ValueChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                             <AggregateTemplate>
                                 <Span TextWeight="TextWeight.Bold">@(selectedEmployees?.Count ?? 0)</Span>
@@ -322,7 +322,7 @@
                         <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" PreventRowClick />
                         <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable>
                             <FilterTemplate>
-                                <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />
+                                <TextEdit Placeholder="Search name" Value="@context.SearchValue?.ToString()" ValueChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable ValidationPattern="[A-Za-z]{3}" />
@@ -338,7 +338,7 @@
                             <FilterTemplate>
                                 @{
                                     selectedCityFilter = @context.SearchValue?.ToString() ?? "";
-                                    <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
+                                    <Select TValue="string" Value="@selectedCityFilter" ValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
                                         <SelectItem Value="@("")">All</SelectItem>
                                         @foreach ( var item in dataModels )
                                         {
@@ -421,24 +421,24 @@
                     <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedEmployee?.FirstName"></TextEdit>
+                            <TextEdit ReadOnly Value="@selectedEmployee?.FirstName"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly Text="@selectedEmployee?.LastName"></TextEdit>
+                        <TextEdit ReadOnly Value="@selectedEmployee?.LastName"></TextEdit>
                     </Field>
                 </Fields>
                 <Fields>
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedEmployee?.Email"></TextEdit>
+                            <TextEdit ReadOnly Value="@selectedEmployee?.Email"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly Text="@selectedEmployee?.City"></TextEdit>
+                        <TextEdit ReadOnly Value="@selectedEmployee?.City"></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>
@@ -464,24 +464,24 @@
                                 <Field>
                                     <FieldLabel>First Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Text="@employee?.FirstName"></TextEdit>
+                                        <TextEdit ReadOnly Value="@employee?.FirstName"></TextEdit>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>Last Name</FieldLabel>
-                                    <TextEdit ReadOnly Text="@employee?.LastName"></TextEdit>
+                                    <TextEdit ReadOnly Value="@employee?.LastName"></TextEdit>
                                 </Field>
                             </Fields>
                             <Fields>
                                 <Field>
                                     <FieldLabel>Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Text="@employee?.Email"></TextEdit>
+                                        <TextEdit ReadOnly Value="@employee?.Email"></TextEdit>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>City</FieldLabel>
-                                    <TextEdit ReadOnly Text="@employee?.City"></TextEdit>
+                                    <TextEdit ReadOnly Value="@employee?.City"></TextEdit>
                                 </Field>
                             </Fields>
                         </CardBody>
@@ -503,7 +503,7 @@
                             <Field>
                                 <FieldLabel>Quantity</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit ReadOnly Text="@selectedEmployees.Count.ToString()"></TextEdit>
+                                    <TextEdit ReadOnly Value="@selectedEmployees.Count.ToString()"></TextEdit>
                                 </FieldBody>
                             </Field>
                         </Fields>

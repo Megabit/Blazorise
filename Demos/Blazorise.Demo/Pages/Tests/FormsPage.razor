@@ -24,7 +24,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Role="TextRole.Password" Text="password" />
+                        <TextEdit Role="TextRole.Password" Value="password" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -42,19 +42,19 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Readonly</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="Readonly value" ReadOnly />
+                        <TextEdit Value="Readonly value" ReadOnly />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Disabled</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="Disabled value" Disabled />
+                        <TextEdit Value="Disabled value" Disabled />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Static control</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="email@example.com" Plaintext />
+                        <TextEdit Value="email@example.com" Plaintext />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -68,7 +68,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Select SelectedValue="3">
+                        <Select Value="3">
                             <SelectItem Value="1">One</SelectItem>
                             <SelectItem Value="2">Two</SelectItem>
                             <SelectItem Value="3">Three</SelectItem>
@@ -79,7 +79,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Multiple Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Select TValue="int" Multiple>
+                        <Select TValue="int[]" Multiple>
                             <SelectItem Value="1">One</SelectItem>
                             <SelectItem Value="2">Two</SelectItem>
                             <SelectItem Value="3">Three</SelectItem>
@@ -90,7 +90,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select With Group</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Select SelectedValue="3">
+                        <Select Value="3">
                             <SelectGroup Label="first group">
                                 <SelectItem Value="1">One</SelectItem>
                                 <SelectItem Value="2">Two</SelectItem>
@@ -123,7 +123,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Time</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TimeEdit TValue="TimeSpan?" TimeChanged="@((v)=>Console.WriteLine(v))" />
+                        <TimeEdit TValue="TimeSpan?" ValueChanged="@((v)=>Console.WriteLine(v))" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -147,7 +147,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radios</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors" CheckedValue="@("blue")">
+                        <RadioGroup TValue="string" Name="colors" Value="@("blue")">
                             <Radio Value="@("red")">Red</Radio>
                             <Radio Value="@("green")">Green</Radio>
                             <Radio Value="@("blue")">Blue</Radio>
@@ -157,7 +157,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radio buttons</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors2" Buttons CheckedValue="@("green")">
+                        <RadioGroup TValue="string" Name="colors2" Buttons Value="@("green")">
                             <Radio Value="@("red")">Red</Radio>
                             <Radio Value="@("green")">Green</Radio>
                             <Radio Value="@("blue")">Blue</Radio>
@@ -167,7 +167,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Color</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <ColorEdit ColorChanged="@(c=>Console.WriteLine(c))" />
+                        <ColorEdit ValueChanged="@(c=>Console.WriteLine(c))" />
                     </FieldBody>
                 </Field>
             </CardBody>
