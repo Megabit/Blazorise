@@ -181,7 +181,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                                         new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}", {prop.DefaultValue},{prop.DefaultValueString}, "{prop.Summary}","{prop.Remarks}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
                                                         """ ).StringJoin( " " )
                                                }}},
-                                             new List<ApiDocsForComponentMethod>{
+                                             new List<ApiDocsForComponentMethod>{ 
                                              {{
                                                  comp.Methods.Select( method =>
                                                      $$"""
@@ -203,7 +203,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                              }
                                        )},
 
-                                   """;
+                                   """; 
                       }
                       ).StringJoin( "\n" )}}
                   };

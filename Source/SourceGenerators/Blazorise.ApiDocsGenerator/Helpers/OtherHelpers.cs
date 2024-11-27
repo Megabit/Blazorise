@@ -75,45 +75,11 @@ public class OtherHelpers
         var match = Regex.Match( xmlComment, $"<{part.GetXmlTag()}>(.*?)</{part.GetXmlTag()}>", RegexOptions.Singleline );
         if ( !match.Success )
             return  part.GetDefault();
-        // Sanitize the entire content first to prevent script injection
-        var sanitizedText = SanitizeForHtml( match.Groups[1].Value.Trim() );
+        var text = match.Groups[1].Value.Trim();
 
-        // Replace <see cref> tags with bolded sanitized type names
-        sanitizedText = Regex.Replace( sanitizedText,
-        @"&lt;see\s+cref=&quot;[TPFEMN]:(Blazorise\.)?(.*?)&quot;\s*/&gt;",//also removes the "Blazorise." prefix 
-        m =>
-        {
-            var typeName = m.Groups[2].Value;// Extract the type name
-            return $"<strong>{typeName}</strong>";// Wrap the  type name in <strong>
-        } );
-        
-        // Replace <c> tags with <code> tags and sanitize the content inside <c>
-        sanitizedText = Regex.Replace(
-        sanitizedText,
-        @"&lt;c&gt;(.*?)&lt;/c&gt;", // Match the <c> tag content
-        m =>
-        {
-            var codeContent = SanitizeForHtml(m.Groups[1].Value); // Sanitize the inline code content
-            return $"<code>{codeContent}</code>"; // Wrap the content in <code>
-        }
-        );
-
-            // Remove line breaks within the summary
-        sanitizedText = sanitizedText.Replace( "\n", " " ).Replace( "\r", "" );
-
-        return sanitizedText;
-
-        string SanitizeForHtml( string input )
-        {
-            // Escape HTML special characters to prevent injection
-            return input
-                .Replace( "&", "&amp;" )
-                .Replace( "<", "&lt;" )
-                .Replace( ">", "&gt;" )
-                .Replace( "\"", "&quot;" );
-        }
-
-
+        XmlCommentToHtmlConverter converter = new();
+        text = converter.Convert( text );             
+        return text;
     }
     private static string GetXmlCommentForInheritdocInterfaces( ISymbol iSymbol, ExtractorParts part )
     {
