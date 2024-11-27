@@ -16,9 +16,9 @@ public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     /// </summary>
     /// <param name="value">Item the contains the value to format.</param>
     /// <returns>Formatted display value.</returns>
-    public string FormatDisplayValue( object value )
+    public virtual string FormatDisplayValue( object value )
     {
-        if ( DisplayFormat != null )
+        if ( DisplayFormat is not null )
         {
             return string.Format( DisplayFormatProvider ?? CultureInfo.CurrentCulture, DisplayFormat, value );
         }

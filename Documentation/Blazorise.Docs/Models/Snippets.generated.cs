@@ -3639,6 +3639,46 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <ProgressBar Color=""Color.Info"" Value=""20"" />
 </Progress>";
 
+        public const string ProgressWithMaxExample = @"@using System.Timers
+@implements IDisposable
+
+<Field>
+    <FieldBody>
+        <Progress Max=""42"" Value=""@Value"" />
+    </FieldBody>
+    <FieldHelp>
+        There have been @Value files downloaded
+    </FieldHelp>
+</Field>
+
+@code {
+    private int Value = 0;
+    private Timer timer;
+
+    private const int IntervalDelay = 100; // milliseconds
+    private const int IntervalIncrement = 1;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(IntervalDelay);
+        timer.Elapsed += OnTimerElapsed;
+        timer.AutoReset = true;
+        timer.Start();
+    }
+
+    private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        Value = Value < 42 ? Value + IntervalIncrement : 0;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+}";
+
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
@@ -8995,6 +9035,73 @@ Install-Package Blazorise.Chart.Zoom";
     {
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridSelectColumnMultipleExample = @"<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" PageSize=""5"" Responsive Editable>
+    <DataGridSelectColumn TItem=""EmployeeActivity"" Field=""@nameof( EmployeeActivity.Activities )""
+                          Caption=""Activity"" 
+                          Editable
+                          Multiple 
+                          Data=""activities""
+                          ValueField=""(x) => ((Activity)x).Code""
+                          TextField=""(x) => ((Activity)x).Description"" />
+    <DataGridCommandColumn />
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<EmployeeActivity> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = (await EmployeeData.GetDataAsync()).Select(x => new EmployeeActivity(x)
+            {
+                Activities = activities
+                        .OrderBy(x => Random.Shared.Next())
+                        .Take(Random.Shared.Next(5))
+                        .Select(x => x.Code).ToArray()
+            }).ToList();
+
+        await base.OnInitializedAsync();
+    }
+
+    private List<Activity> activities = new List<Activity>
+    {
+        new Activity { Code = ""MEET"", Description = ""Meeting"" },
+        new Activity { Code = ""TRAIN"", Description = ""Training"" },
+        new Activity { Code = ""CODE"", Description = ""Coding"" },
+        new Activity { Code = ""R&D"", Description = ""Research"" },
+        new Activity { Code = ""TEST"", Description = ""Testing"" },
+    };
+
+    public class EmployeeActivity : Employee
+    {
+        public string[] Activities { get; set; }
+
+        public EmployeeActivity(Employee employee)
+        {
+            this.City = employee.City;
+            this.Email = employee.Email;
+            this.FirstName = employee.FirstName;
+            this.LastName = employee.LastName;
+            this.Salary = employee.Salary;
+            this.DateOfBirth = employee.DateOfBirth;
+            this.Gender = employee.Gender;
+            this.Childrens = employee.Childrens;
+            this.Id = employee.Id;
+            this.Zip = employee.Zip;
+            this.Tax = employee.Tax;
+            this.Salaries = employee.Salaries;
+            this.IsActive = employee.IsActive;
+        }
+    }
+
+    public class Activity
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
     }
 }";
 

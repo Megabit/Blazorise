@@ -1,11 +1,32 @@
-﻿using System;
+﻿#region Using directives
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.DataGrid;
 
 public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
 {
+    #region Methods
+
+    /// <inheritdoc/>
+    public override string FormatDisplayValue( object value )
+    {
+        if ( value is not string && value is IEnumerable values )
+        {
+            return base.FormatDisplayValue( string.Join( ", ", values.Cast<object>().Select( x => x?.ToString() ) ) );
+        }
+
+        return base.FormatDisplayValue( value );
+    }
+
+    #endregion
+
+    #region Properties
+
     public override DataGridColumnType ColumnType => DataGridColumnType.Select;
 
     /// <summary>
@@ -82,8 +103,15 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
+    /// Specifies that multiple items can be selected.
+    /// </summary>
+    [Parameter] public bool Multiple { get; set; }
+
+    /// <summary>
     /// Captures all the custom attribute that are not part of Blazorise component.
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
+
+    #endregion
 }

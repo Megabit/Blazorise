@@ -1,7 +1,7 @@
 @typeparam TItem
 @inherits ComponentBase
-<Select TValue="object" ElementId="@elementId" Value="@CellValue" ValueChanged="@OnSelectedValueChanged" ValueExpression="@(() => CellValue )"
-        Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Attributes="@Column.Attributes">
+<Select TValue="object" ElementId="@elementId" SelectedValue="@CellValue" SelectedValueChanged="@OnSelectedValueChanged" SelectedValueExpression="@(() => CellValue )"
+        Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Multiple="@Column.Multiple" Attributes="@Column.Attributes">
     <ChildContent>
         @if ( Column.DefaultItemText is not null )
         {
