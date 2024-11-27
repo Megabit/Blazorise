@@ -3807,7 +3807,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </SelectGroup>
 </Select>";
 
-        public const string MultipleSelectExample = @"<Select TValue=""int"" Multiple>
+        public const string MultipleSelectExample = @"<Select TValue=""int[]"" Multiple>
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
