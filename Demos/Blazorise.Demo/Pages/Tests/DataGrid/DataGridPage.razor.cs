@@ -202,78 +202,33 @@ public partial class DataGridPage
 
     private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
+
+
         if ( !e.CancellationToken.IsCancellationRequested )
         {
+            var query = dataModels.AsQueryable().ApplyDataGridSort( e.Columns ).ApplyDataGridSearch( e.Columns );
 
-            //var filteredData = await FilterData( e.Columns );
-            var query = dataModels.AsQueryable().ApplyDataGridFilter( e.Columns );
-            //Maybe do pagination in a separate method?
-            var queryPaged = dataModels.AsQueryable().ApplyDataGridFilter( e.Columns, e.Page, e.PageSize );
-            var response  = queryPaged.ToList();
+            if ( dataGrid.CustomFilter is not null )
+                query = query.Where( item => item != null && dataGrid.CustomFilter( item ) );
 
-            // this can be call to anything, in this case we're calling a fictional api
-            //if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-            //    response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
-            //else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-            //    response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
-            //else
-            //    throw new Exception( "Unhandled ReadDataMode" );
+            var response = new List<Employee>();
+
+            //this can be call to anything, in this case we're calling a fictional api
+            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
+                response = query.ApplyDataGridPaging( e.VirtualizeOffset + 1, e.VirtualizeCount ).ToList();
+            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
+                response = query.ApplyDataGridPaging( e.Page, e.PageSize ).ToList();
+            else
+                throw new Exception( "Unhandled ReadDataMode" );
 
             await Task.Delay( random.Next( 100 ) );
+
             if ( !e.CancellationToken.IsCancellationRequested )
             {
                 totalEmployees = query.Count();
-                employeeList = new List<Employee>( response ); // an actual data for the current page
+                employeeList = response;
             }
         }
-    }
-
-    /// <summary>
-    /// Simple demo purpose example filter
-    /// </summary>
-    /// <param name="dataGridColumns"></param>
-    /// <returns></returns>
-    public Task<List<Employee>> FilterData( IEnumerable<DataGridColumnInfo> dataGridColumns )
-    {
-        var filteredData = dataModels.ToList();
-        var sortByColumns = dataGridColumns.Where( x => x.SortDirection != SortDirection.Default );
-        var firstSort = true;
-        if ( sortByColumns?.Any() ?? false )
-        {
-            IOrderedEnumerable<Employee> sortedCols = null;
-            foreach ( var sortByColumn in sortByColumns.OrderBy( x => x.SortIndex ) )
-            {
-                var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( sortByColumn.SortField );
-
-                if ( firstSort )
-                {
-                    if ( sortByColumn.SortDirection == SortDirection.Ascending )
-                        sortedCols = dataModels.OrderBy( x => valueGetter( x ) );
-                    else
-                        sortedCols = dataModels.OrderByDescending( x => valueGetter( x ) );
-
-                    firstSort = false;
-                }
-                else
-                {
-                    if ( sortByColumn.SortDirection == SortDirection.Ascending )
-                        sortedCols = sortedCols.ThenBy( x => valueGetter( x ) );
-                    else
-                        sortedCols = sortedCols.ThenByDescending( x => valueGetter( x ) );
-                }
-            }
-            filteredData = sortedCols.ToList();
-        }
-
-        if ( dataGrid.CustomFilter != null )
-            filteredData = filteredData.Where( item => item != null && dataGrid.CustomFilter( item ) ).ToList();
-
-        foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
-        {
-            var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( column.Field );
-            filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
-        }
-        return Task.FromResult( filteredData );
     }
 
     private Task Reset()
@@ -303,24 +258,6 @@ public partial class DataGridPage
             ? string.Empty
             : $" (SortField: {eventArgs.FieldName})";
         Console.WriteLine( $"Sort changed > Field: {eventArgs.ColumnFieldName}{sort}; Direction: {eventArgs.SortDirection};" );
-    }
-
-    private string TitleFromGender( string gender )
-    {
-        return gender switch
-        {
-            "M" => "Mr.",
-            "F" => "Mrs.",
-            _ => string.Empty,
-        };
-    }
-
-    private string TitleToName( string title, object name )
-    {
-        if ( string.IsNullOrEmpty( title ) )
-            return $"{name}";
-
-        return $"{title} {name}";
     }
 
     #endregion

@@ -10,7 +10,7 @@ namespace Blazorise.DataGrid.Utils;
 public static class ExpressionCompiler
 {
     /// <summary>
-    /// Applies the DataGrid filter to the queryable data.
+    /// Applies all the DataGrid filters to the queryable data.
     /// </summary>
     /// <typeparam name="TItem">The TItem</typeparam>
     /// <param name="data">The Data to be queried</param>
@@ -18,11 +18,61 @@ public static class ExpressionCompiler
     /// <param name="page">Optionally provide the page number</param>
     /// <param name="pageSize">Optionally provide the page size</param>
     /// <returns></returns>
-    public static IQueryable<TItem> ApplyDataGridFilter<TItem>( this IQueryable<TItem> data, IEnumerable<DataGridColumnInfo> dataGridColumns, int page = 0, int pageSize = 0 )
+    public static IQueryable<TItem> ApplyDataGridFilters<TItem>( this IQueryable<TItem> data, IEnumerable<DataGridColumnInfo> dataGridColumns, int page = 0, int pageSize = 0 )
+    {
+        return data.ApplyDataGridSort( dataGridColumns ).ApplyDataGridSearch( dataGridColumns ).ApplyDataGridPaging( page, pageSize );
+    }
+
+    /// <summary>
+    /// Applies the search filter to the queryable data.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="data"></param>
+    /// <param name="dataGridColumns"></param>
+    /// <returns></returns>
+    public static IQueryable<TItem> ApplyDataGridSearch<TItem>( this IQueryable<TItem> data, IEnumerable<DataGridColumnInfo> dataGridColumns )
     {
         if ( dataGridColumns.IsNullOrEmpty() )
             return data;
 
+        foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
+        {
+            var filterMethod = column.FilterMethod ?? DataGridColumnFilterMethod.Contains;
+
+            switch ( filterMethod )
+            {
+                case DataGridColumnFilterMethod.Contains:
+                    data = data.Where( GetWhereContainsExpression<TItem>( column.Field, column.SearchValue.ToString() ) );
+                    break;
+                case DataGridColumnFilterMethod.StartsWith:
+                    data = data.Where( GetWhereStartsWithExpression<TItem>( column.Field, column.SearchValue.ToString() ) );
+                    break;
+                case DataGridColumnFilterMethod.EndsWith:
+                    data = data.Where( GetWhereEndsWithExpression<TItem>( column.Field, column.SearchValue.ToString() ) );
+                    break;
+                case DataGridColumnFilterMethod.Equals:
+                    data = data.Where( GetWhereEqualsExpression<TItem>( column.Field, column.SearchValue.ToString() ) );
+                    break;
+                case DataGridColumnFilterMethod.NotEquals:
+                    data = data.Where( GetWhereNotEqualsExpression<TItem>( column.Field, column.SearchValue.ToString() ) );
+                    break;
+            }
+        }
+
+        return data;
+    }
+
+    /// <summary>
+    /// Applies the sort filter to the queryable data.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="data"></param>
+    /// <param name="dataGridColumns"></param>
+    /// <returns></returns>
+    public static IQueryable<TItem> ApplyDataGridSort<TItem>( this IQueryable<TItem> data, IEnumerable<DataGridColumnInfo> dataGridColumns )
+    {
+        if ( dataGridColumns.IsNullOrEmpty() )
+            return data;
 
         var sortByColumns = dataGridColumns.Where( x => x.SortDirection != SortDirection.Default );
         var firstSort = true;
@@ -51,22 +101,22 @@ public static class ExpressionCompiler
                 }
             }
         }
-        foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
-        {
-            var filterMethod = column.FilterMethod ?? DataGridColumnFilterMethod.Contains;
+        return data;
+    }
 
-            switch ( filterMethod )
-            {
-                case DataGridColumnFilterMethod.Contains:
-                    data = data.Where( GetWhereContainsExpression<TItem>( column.Field, column.SearchValue.ToString() ) );
-                    break;
-            }
-
-        }
-
+    /// <summary>
+    /// Applies the paging filter to the queryable data.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="data"></param>
+    /// <param name="page"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
+    public static IQueryable<TItem> ApplyDataGridPaging<TItem>( this IQueryable<TItem> data, int page, int pageSize )
+    {
         if ( page > 0 && pageSize > 0 )
         {
-            data = data.Skip( ( page - 1 ) * pageSize ).Take( pageSize );
+            return data.Skip( ( page - 1 ) * pageSize ).Take( pageSize );
         }
 
         return data;
@@ -204,18 +254,47 @@ public static class ExpressionCompiler
 
     private static Expression ContainsExpression( Expression propertyExpression, string searchValue )
     {
-        var searchValueExpression = Expression.Constant( searchValue );
-        return ContainsExpression( propertyExpression, searchValueExpression );
-    }
-
-    private static Expression ContainsExpression( Expression propertyExpression, Expression searchValueExpression )
-    {
         Expression body = Expression.Call(
             propertyExpression,
             typeof( string ).GetMethod( nameof( string.Contains ), new[] { typeof( string ) } )!,
-            searchValueExpression
+            Expression.Constant( searchValue )
         );
         return body;
+    }
+
+    private static Expression StartsWithExpression( Expression propertyExpression, string searchValue )
+    {
+        Expression body = Expression.Call(
+            propertyExpression,
+            typeof( string ).GetMethod( nameof( string.StartsWith ), new[] { typeof( string ) } )!,
+            Expression.Constant( searchValue )
+        );
+        return body;
+    }
+
+    private static Expression EndsWithExpression( Expression propertyExpression, string searchValue )
+    {
+        Expression body = Expression.Call(
+            propertyExpression,
+            typeof( string ).GetMethod( nameof( string.EndsWith ), new[] { typeof( string ) } )!,
+            Expression.Constant( searchValue )
+        );
+        return body;
+    }
+
+    private static Expression EqualsWithExpression( Expression propertyExpression, string searchValue )
+    {
+        Expression body = Expression.Call(
+            propertyExpression,
+            typeof( string ).GetMethod( nameof( string.Equals ), new[] { typeof( string ) } )!,
+            Expression.Constant( searchValue )
+        );
+        return body;
+    }
+
+    private static Expression NotEqualsWithExpression( Expression propertyExpression, string searchValue )
+    {
+        return Expression.IsFalse( EqualsWithExpression( propertyExpression, searchValue ) );
     }
 
     public static Expression<Func<TItem, bool>> GetWhereContainsExpression<TItem>(
@@ -230,6 +309,53 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
+    public static Expression<Func<TItem, bool>> GetWhereStartsWithExpression<TItem>(
+                         string sourceProperty,
+                         string searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        Expression convert = ConvertExpression( propertyExpression );
+        Expression body = StartsWithExpression( convert, searchValue );
+        return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
+    }
+
+    public static Expression<Func<TItem, bool>> GetWhereEndsWithExpression<TItem>(
+                         string sourceProperty,
+                         string searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        Expression convert = ConvertExpression( propertyExpression );
+        Expression body = EndsWithExpression( convert, searchValue );
+        return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
+    }
+
+    public static Expression<Func<TItem, bool>> GetWhereEqualsExpression<TItem>(
+                     string sourceProperty,
+                     string searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        Expression convert = ConvertExpression( propertyExpression );
+        Expression body = EqualsWithExpression( convert, searchValue );
+        return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
+    }
+
+    public static Expression<Func<TItem, bool>> GetWhereNotEqualsExpression<TItem>(
+                 string sourceProperty,
+                 string searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        Expression convert = ConvertExpression( propertyExpression );
+        Expression body = NotEqualsWithExpression( convert, searchValue );
+        return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
+    }
 
     /// <summary>
     /// Checks if requested type can bu nullable.
