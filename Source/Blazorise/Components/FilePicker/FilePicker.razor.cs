@@ -365,7 +365,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public string Placeholder { get; set; }
 
     /// <summary>
-    /// Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
+    /// Specifies the types of files that the input accepts. <seealso href="https://www.w3schools.com/tags/att_input_accept.asp"/>
     /// </summary>
     [Parameter] public string Filter { get; set; }
 
@@ -453,7 +453,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public bool Directory { get; set; }
 
     /// <summary>
-    /// Add the readonly boolean attribute on an input to prevent modification of the input’s value.
+    /// Add the readonly boolean attribute on an input to prevent modification of the inputï¿½s value.
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 

@@ -575,7 +575,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     [Parameter] public NumericRoundingMethod RoundingMethod { get; set; } = NumericRoundingMethod.HalfUpSymmetric;
 
     /// <summary>
-    /// Allow padding the decimal places with zeros. If set to <c>Floats</c>, padding is only done when there are some decimals.        /// 
+    /// Allow padding the decimal places with zeros. If set to <c>Floats</c>, padding is only done when there are some decimals. 
     /// </summary>
     /// <remarks>
     /// Setting AllowDecimalPadding to 'false' will override the <see cref="Decimals"/> setting.
@@ -591,7 +591,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// Helps define the language of an element.
     /// </summary>
     /// <remarks>
-    /// https://www.w3schools.com/tags/ref_language_codes.asp
+    /// <seealso href="https://www.w3schools.com/tags/ref_language_codes.asp"/>
     /// </remarks>
     [Parameter] public string Culture { get; set; }
 
@@ -611,7 +611,8 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     [Parameter] public NumericMinMaxLimitsOverride MinMaxLimitsOverride { get; set; } = NumericMinMaxLimitsOverride.Ignore;
 
     /// <summary>
-    /// The size attribute specifies the visible width, in characters, of an input element. https://www.w3schools.com/tags/att_input_size.asp
+    /// The size attribute specifies the visible width, in characters, of an input element.
+    /// <seealso href="https://www.w3schools.com/tags/att_input_size.asp"/>
     /// </summary>
     [Parameter] public int? VisibleCharacters { get; set; }
 

@@ -385,16 +385,16 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     [Parameter] public string Placeholder { get; set; }
 
     /// <summary>
-    /// Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
+    /// Specifies the types of files that the input accepts. <seealso href="https://www.w3schools.com/tags/att_input_accept.asp"/> 
     /// </summary>
     [Parameter] public string Filter { get; set; }
 
-    /// <summary>
+    /// <summary>   
     /// Gets or sets the max chunk size when uploading the file.
     /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
     /// </summary>
     /// <remarks>
-    /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
+    /// <seealso href="https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net"/>
     /// </remarks>
     [Parameter] public int MaxChunkSize { get; set; } = 20 * 1024;
 
