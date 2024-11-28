@@ -97,7 +97,7 @@ public partial class BreadcrumbItem : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// If set to true, renders <c>span</c> instead of <c>a</c> element.
+    /// Indicates whether this breadcrumb item is the active (current) item.
     /// </summary>
     [Parameter]
     public bool Active
@@ -112,18 +112,21 @@ public partial class BreadcrumbItem : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the navigation manager.
+    /// Provides access to the navigation manager for handling navigation and URI management.
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BreadcrumbItem"/>.
+    /// Specifies the content to render inside this <see cref="BreadcrumbItem"/> component.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Breadcrumb"/> component.
+    /// A reference to the parent <see cref="Breadcrumb"/> component that contains this breadcrumb item.
     /// </summary>
+    /// <remarks>
+    /// This cascading parameter is used to inherit context and manage the behavior of the breadcrumb item, such as automatic active state detection.
+    /// </remarks>
     [CascadingParameter] protected Breadcrumb ParentBreadcrumb { get; set; }
 
     #endregion
