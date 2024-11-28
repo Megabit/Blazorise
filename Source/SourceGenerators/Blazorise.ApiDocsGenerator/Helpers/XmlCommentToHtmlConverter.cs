@@ -63,9 +63,9 @@ public class XmlCommentToHtmlConverter
 
         if ( !string.IsNullOrEmpty( href ) )
         {
-            return href != null
-                ? $"<a href=\"{href}\">{href}</a>"
-                : string.Empty;
+            var content = ( element.FirstNode as XText )?.Value;
+
+            return $"<a href=\"{href}\">{content ?? href}</a>";
         }
 
         var cref = element.Attribute( "cref" )?.Value;

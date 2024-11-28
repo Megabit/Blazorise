@@ -588,8 +588,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     [Parameter] public bool AlwaysAllowDecimalSeparator { get; set; }
 
     /// <summary>
-    /// Helps define the language of an element.
-    /// <see href="https://www.w3schools.com/tags/ref_language_codes.asp"/>.
+    /// Helps define the language of an element. See <see href="https://www.w3schools.com/tags/ref_language_codes.asp">w3schools.com</see>.
     /// </summary>
     [Parameter] public string Culture { get; set; }
 
@@ -609,8 +608,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     [Parameter] public NumericMinMaxLimitsOverride MinMaxLimitsOverride { get; set; } = NumericMinMaxLimitsOverride.Ignore;
 
     /// <summary>
-    /// The size attribute specifies the visible width, in characters, of an input element.
-    /// <see href="https://www.w3schools.com/tags/att_input_size.asp"/>.
+    /// The size attribute specifies the visible width, in characters, of an input element. See <see href="https://www.w3schools.com/tags/att_input_size.asp">w3schools.com</see>.
     /// </summary>
     [Parameter] public int? VisibleCharacters { get; set; }
 
