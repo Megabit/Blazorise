@@ -40,18 +40,22 @@ public class StringHelpers
         return defaultValue;
     }
 
+    const string toReplace = "global::";
+    const string toReplace2 = "Blazorise.";
 
-    public static string TypeToStringDetails( string value )
+    public static string TypeToStringDetails( string value, string propertyDetailsTypeName )
     {
-        const string toReplace = "global::";
+
         if ( value.StartsWith( toReplace ) )
         {
             value = value.Substring( toReplace.Length );
         }
-        const string toReplace2 = "Blazorise.";
         if ( value.StartsWith( toReplace2 ) )
         {
             value = value.Substring( toReplace2.Length );
+            string propertyDetailsTypeNameWithDot = propertyDetailsTypeName + ".";//From Color.Default => Default
+            if ( value.StartsWith( propertyDetailsTypeNameWithDot ) )
+                value = value.Substring( propertyDetailsTypeNameWithDot.Length );
         }
         return value;
 
@@ -69,16 +73,16 @@ public class StringHelpers
         // Check if the XML contains <inheritdoc/>
         if ( xmlComment.Contains( "<inheritdoc" ) )
         {
-            return GetXmlCommentForInheritdocInterfaces( iSymbol,part );
+            return GetXmlCommentForInheritdocInterfaces( iSymbol, part );
         }
 
         var match = Regex.Match( xmlComment, $"<{part.GetXmlTag()}>(.*?)</{part.GetXmlTag()}>", RegexOptions.Singleline );
         if ( !match.Success )
-            return  part.GetDefault();
+            return part.GetDefault();
         var text = match.Groups[1].Value.Trim();
 
         XmlCommentToHtmlConverter converter = new();
-        text = converter.Convert( text );             
+        text = converter.Convert( text );
         return text;
     }
     private static string GetXmlCommentForInheritdocInterfaces( ISymbol iSymbol, ExtractorParts part )

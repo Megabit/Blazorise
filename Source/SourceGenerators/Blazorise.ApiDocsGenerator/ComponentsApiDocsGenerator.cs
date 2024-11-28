@@ -118,8 +118,6 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         {
             string componentType = component.Type.ToStringWithGenerics();
             string componentTypeName = StringHelpers.GetSimplifiedTypeName( component.Type );
-            Logger.IsOn = component.Type.Name == "Button";
-            Logger.Log( component.Type.Name );
 
             var propertiesData = component.Properties.Select( property =>
                 InfoExtractor.GetPropertyDetails( compilation, property ) )
