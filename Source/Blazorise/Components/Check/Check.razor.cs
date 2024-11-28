@@ -87,6 +87,6 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
     /// The name attribute is used to identify form data after it has been submitted to the server, or to reference form data using JavaScript on the client side.
     /// </remarks>
     [Parameter] public string Name { get; set; }
-    
+
     #endregion
 }

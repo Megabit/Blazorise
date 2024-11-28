@@ -453,7 +453,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public bool Directory { get; set; }
 
     /// <summary>
-    /// Add the readonly boolean attribute on an input to prevent modification of the input�s value.
+    /// Add the readonly boolean attribute on an input to prevent modification of the input value.
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
