@@ -12,7 +12,7 @@ namespace Blazorise.ApiDocsGenerator.Helpers;
 /// <summary>
 /// Methods that are too small to have their own file
 /// </summary>
-public class OtherHelpers
+public class StringHelpers
 {
     /// <summary>
     /// Mainly to ensure doubles has invariant culture. 
@@ -92,7 +92,6 @@ public class OtherHelpers
             if ( matchingMember != null )
             {
                 return ExtractFromXmlComment( matchingMember, part );
-
             }
         }
         return "No documentation available - no XML comment from <inheritdoc>";

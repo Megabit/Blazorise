@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Blazorise.ApiDocsGenerator.Dtos;
 
@@ -22,26 +20,20 @@ public class ApiDocsForComponent
         InheritsFromChain = inheritsFromChain;
     }
 
-    //here it is different
-    public string Type { get; set; }
+    public string Type { get; }
     
-    public string TypeName { get; set; }
-    public IEnumerable<ApiDocsForComponentProperty> Properties { get; set; } 
-    public IEnumerable<ApiDocsForComponentMethod> Methods { get; set; } 
+    public string TypeName { get; }
+    public IEnumerable<ApiDocsForComponentProperty> Properties { get; } 
+    public IEnumerable<ApiDocsForComponentMethod> Methods { get; } 
     
-    public IEnumerable<string> InheritsFromChain { get; set; } 
+    public IEnumerable<string> InheritsFromChain { get; } 
 }
 
 public class ApiDocsForComponentProperty
 {
     public string Name { get; set; }
-    
-    
-    //different 
     public string Type { get; set; }
     public string TypeName { get; set; }
-    
-    // different
     public string DefaultValue { get; set; }
     public string DefaultValueString { get; set; }
     public string Summary { get; set; }

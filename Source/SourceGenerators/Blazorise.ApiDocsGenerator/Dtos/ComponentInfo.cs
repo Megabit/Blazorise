@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Blazorise.ApiDocsGenerator.Dtos;
 
-public record FoundComponent( INamedTypeSymbol Type, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> PublicMethods, IEnumerable<INamedTypeSymbol> InheritsFromChain )
+public record ComponentInfo( INamedTypeSymbol Type, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> PublicMethods, IEnumerable<INamedTypeSymbol> InheritsFromChain )
 {
     public INamedTypeSymbol Type { get; } = Type;
     public IEnumerable<IPropertySymbol> Properties { get; } = Properties;

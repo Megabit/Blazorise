@@ -18,9 +18,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
     {
         var componentProperties = context.CompilationProvider
             .Select( ( compilation, _ ) => ( compilation,
-                components: GetComponentProperties( compilation, GetNamespaceToSearch( compilation ) ).ToImmutableArray() ) );
-
-
+                components: GetComponentInfo( compilation, GetNamespaceToSearch( compilation ) ).ToImmutableArray() ) );
 
         context.RegisterSourceOutput( componentProperties, ( ctx, source ) =>
         {
@@ -28,9 +26,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             INamespaceSymbol namespaceToSearch = GetNamespaceToSearch( compilation );
             var sourceText = GenerateComponentsApiSource( compilation, components, namespaceToSearch );
             ctx.AddSource( "ComponentsApiSource.g.cs", SourceText.From( sourceText, Encoding.UTF8 ) );
-
-            ctx.AddSource( "Log.txt", SourceText.From( Logger.LogMessages, Encoding.UTF8 ) );
-
+            // ctx.AddSource( "Log.txt", SourceText.From( Logger.LogMessages, Encoding.UTF8 ) );
         } );
     }
 
@@ -42,7 +38,6 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             .GetNamespaceMembers()
             .FirstOrDefault( ns => ns.Name == $"Blazorise" );
 
-
         if ( blazoriseNamespace is null ) return null;
 
         var namespaceToSearch = compilation.Assembly.Name == "Blazorise" ? blazoriseNamespace
@@ -52,11 +47,8 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
 
     }
 
-    private static IEnumerable<FoundComponent> GetComponentProperties( Compilation compilation, INamespaceSymbol namespaceToSearch )
+    private static IEnumerable<ComponentInfo> GetComponentInfo( Compilation compilation, INamespaceSymbol namespaceToSearch )
     {
-
-        Logger.LogAlways( $"Local Namespace:{compilation.Assembly.Name} " );
-
         var parameterAttributeSymbol = compilation.GetTypeByMetadataName( "Microsoft.AspNetCore.Components.ParameterAttribute" );
         if ( parameterAttributeSymbol == null )
             yield break;
@@ -65,8 +57,6 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
         if ( baseComponentSymbol == null )
             yield break;
 
-
-        Logger.LogAlways( $"To look for {namespaceToSearch} " );
         if ( namespaceToSearch is null )
             yield break;
 
@@ -95,12 +85,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                     m.MethodKind == MethodKind.Ordinary &&
                     m.OverriddenMethod == null );
 
-            // Logger.LogAlways($"\n------------Class {type.Name}");
-            // Logger.LogAlways($"Properties: {string.Join(", ", parameterProperties.Select(p => $"{p.Name} ({p.Type.ToDisplayString()})"))}");
-            // Logger.LogAlways($"Methods: {string.Join(", ", publicMethods.Select(m => $"{m.Name} ({m.ReturnType.ToDisplayString()})"))}");
-            // Logger.LogAlways($"Inheritance Chain: {string.Join(" -> ", inheritsFromChain.Select(t => t.Name))}");
-
-            yield return new FoundComponent
+            yield return new ComponentInfo
             (
             Type: type,
             PublicMethods: publicMethods,
@@ -119,11 +104,6 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             if ( SymbolEqualityComparer.Default.Equals( type.BaseType, baseType ) )
                 return ( true, inheritsFromChain );
 
-            // // Include interfaces from the specified namespace
-            // var blazoriseInterfaces = type.Interfaces
-            //     .Where( i => i.ContainingNamespace.ToDisplayString().StartsWith( "Blazorise" ) );
-            // inheritsFromChain.AddRange( blazoriseInterfaces );
-
             type = type.BaseType;
             inheritsFromChain.Add( type );
         }
@@ -131,14 +111,13 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
     }
 
     const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
-    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<FoundComponent> components, INamespaceSymbol namespaceToSearch )
+    private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<ComponentInfo> components, INamespaceSymbol namespaceToSearch )
     {
 
         IEnumerable<ApiDocsForComponent> componentsData = components.Select( component =>
         {
-
             string componentType = component.Type.ToStringWithGenerics();
-            string componentTypeName = OtherHelpers.GetSimplifiedTypeName( component.Type );
+            string componentTypeName = StringHelpers.GetSimplifiedTypeName( component.Type );
             Logger.IsOn = component.Type.Name == "Button";
             Logger.Log( component.Type.Name );
 
