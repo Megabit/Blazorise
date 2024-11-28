@@ -47,7 +47,7 @@ class FullyQualifiedNameRewriter( SemanticModel semanticModel ) : CSharpSyntaxRe
             // Parse the fully qualified name into an expression
             var fullyQualifiedExpression = SyntaxFactory.ParseExpression(fullyQualifiedName)
                 .WithTriviaFrom(node);
-
+        
             return fullyQualifiedExpression;
         }
         // Reconstruct the member access expression with updated components

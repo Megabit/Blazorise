@@ -38,7 +38,7 @@ public class InfoExtractor
             };
         string defaultValueAsString = property.Type.Name == "String" ? defaultValueString : $""""
                                                                                              $$"""
-                                                                                             {StringHelpers.TypeToStringDetails( defaultValueString, propertyDetails.TypeName )}
+                                                                                             {StringHelpers.TypeToStringDetails( defaultValueString, propertyDetails.Type )}
                                                                                              """
                                                                                              """";
         propertyDetails.DefaultValueString = defaultValueAsString;

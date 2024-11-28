@@ -112,7 +112,7 @@ public static class DefaultValueHelper
 
         ExpressionSyntax fieldInitializerValue = variableDeclarator.Initializer.Value;
 
-        string expressionString = QualifyExpressionSyntax( compilation, fieldInitializerValue );
+        object expressionString = QualifyExpressionSyntax( compilation, fieldInitializerValue );
         return new Optional<object>( expressionString );
     }
 
@@ -128,16 +128,26 @@ public static class DefaultValueHelper
         // Get the expression representing the initializer value
         ExpressionSyntax initializerValue = propertySyntax.Initializer.Value;
 
-        string expressionString = QualifyExpressionSyntax( compilation, initializerValue );
+        object expressionString = QualifyExpressionSyntax( compilation, initializerValue );
         return new Optional<object>( expressionString );
     }
 
-    private static string QualifyExpressionSyntax( Compilation compilation, ExpressionSyntax expression )
+    private static object QualifyExpressionSyntax( Compilation compilation, ExpressionSyntax expression )
     {
         var semanticModel = compilation.GetSemanticModel( expression.SyntaxTree );
 
         var rewriter = new FullyQualifiedNameRewriter( semanticModel );
         var qualifiedExpression = rewriter.Visit( expression );
+
+        if ( qualifiedExpression.ToString().Contains( "Blazorise" ) )
+        {//this will process constants, but only Blazorise constants. Blazorise.Snackbar.Constants.DefaultIntervalBeforeClose will return value (5000), otherwise the constant name (int.MaxValue)
+            var symbolInfo = semanticModel.GetSymbolInfo( expression );
+            if ( symbolInfo.Symbol is IFieldSymbol { IsConst: true } fieldSymbol )
+            {
+                // If the symbol is a constant field, return its value
+                return fieldSymbol.ConstantValue;
+            }
+        }
 
         return qualifiedExpression.ToString();
     }

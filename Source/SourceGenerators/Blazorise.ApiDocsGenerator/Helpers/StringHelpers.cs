@@ -43,19 +43,33 @@ public class StringHelpers
     const string toReplace = "global::";
     const string toReplace2 = "Blazorise.";
 
-    public static string TypeToStringDetails( string value, string propertyDetailsTypeName )
+    public static string TypeToStringDetails( string value, string propertyDetailsType )
     {
-
+     
         if ( value.StartsWith( toReplace ) )
         {
             value = value.Substring( toReplace.Length );
         }
+
+        if ( value.Contains( toReplace2 ) )
+        {
+            string propertyDetailsTypeNameWithDot = propertyDetailsType.Replace(toReplace,"") + ".";//From Color.Default => Default
+
+            if ( value.Contains( propertyDetailsTypeNameWithDot ) )
+            {
+                value = value.Substring( propertyDetailsTypeNameWithDot.Length );
+                Logger.Log($"Returning {value}");
+
+                return value;
+            }
+        }
+        
         if ( value.StartsWith( toReplace2 ) )
         {
-            value = value.Substring( toReplace2.Length );
-            string propertyDetailsTypeNameWithDot = propertyDetailsTypeName + ".";//From Color.Default => Default
+            string propertyDetailsTypeNameWithDot = propertyDetailsType + ".";//From Color.Default => Default
             if ( value.StartsWith( propertyDetailsTypeNameWithDot ) )
                 value = value.Substring( propertyDetailsTypeNameWithDot.Length );
+            value = value.Substring( toReplace2.Length );
         }
         return value;
 
