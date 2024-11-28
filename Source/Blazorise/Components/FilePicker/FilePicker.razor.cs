@@ -365,7 +365,8 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public string Placeholder { get; set; }
 
     /// <summary>
-    /// Specifies the types of files that the input accepts. <seealso href="https://www.w3schools.com/tags/att_input_accept.asp"/>
+    /// Specifies the types of files that the input accepts.
+    /// <see href="https://www.w3schools.com/tags/att_input_accept.asp"/>
     /// </summary>
     [Parameter] public string Filter { get; set; }
 

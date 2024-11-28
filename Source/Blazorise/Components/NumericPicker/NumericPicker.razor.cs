@@ -589,10 +589,8 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
 
     /// <summary>
     /// Helps define the language of an element.
+    /// <see href="https://www.w3schools.com/tags/ref_language_codes.asp"/>.
     /// </summary>
-    /// <remarks>
-    /// <seealso href="https://www.w3schools.com/tags/ref_language_codes.asp"/>
-    /// </remarks>
     [Parameter] public string Culture { get; set; }
 
     /// <summary>
@@ -612,7 +610,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
 
     /// <summary>
     /// The size attribute specifies the visible width, in characters, of an input element.
-    /// <seealso href="https://www.w3schools.com/tags/att_input_size.asp"/>
+    /// <see href="https://www.w3schools.com/tags/att_input_size.asp"/>.
     /// </summary>
     [Parameter] public int? VisibleCharacters { get; set; }
 

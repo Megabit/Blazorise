@@ -170,7 +170,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
 
     /// <summary>
     /// The size attribute specifies the visible width, in characters, of an input element.
-    /// <seealso href="https://www.w3schools.com/tags/att_input_size.asp"/>
+    /// <see href="https://www.w3schools.com/tags/att_input_size.asp"/>
     /// </summary>
     [Parameter] public int? VisibleCharacters { get; set; }
 

@@ -59,7 +59,17 @@ public class XmlCommentToHtmlConverter
 
     private string ProcessSee( XElement element )
     {
+        var href = element.Attribute( "href" )?.Value;
+
+        if ( !string.IsNullOrEmpty( href ) )
+        {
+            return href != null
+                ? $"<a href=\"{href}\">{href}</a>"
+                : string.Empty;
+        }
+
         var cref = element.Attribute( "cref" )?.Value;
+
         return cref != null
             ? $"<strong>{EditCref( cref )}</strong>"
             : string.Empty;
@@ -87,11 +97,11 @@ public class XmlCommentToHtmlConverter
     private string EditCref( string cref )
     {
         // Remove common prefixes like "T:", "P:", "M:", "E:", etc., and "Blazorise."
-        var edited = prefixes.Any(p => cref.StartsWith($"{p}:")) 
-            ? cref.Substring(2)  
+        var edited = prefixes.Any( p => cref.StartsWith( $"{p}:" ) )
+            ? cref.Substring( 2 )
             : cref;
-        
-        edited = Regex.Replace(edited, @"`\d+", string.Empty);//replaces `1 (type params)
+
+        edited = Regex.Replace( edited, @"`\d+", string.Empty );//replaces `1 (type params)
         return edited.Replace( "Blazorise.", string.Empty );
     }
 }
