@@ -1,7 +1,7 @@
 del *.nupkg
 del *.snupkg
 
-dotnet pack ../Source/Blazorise/Blazorise.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Blazorise/Blazorise.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:IsPack=true
 
 dotnet pack ../Source/Blazorise.AntDesign/Blazorise.AntDesign.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Blazorise.Bootstrap/Blazorise.Bootstrap.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
