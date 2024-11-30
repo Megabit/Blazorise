@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Blazorise.ApiDocsGenerator.Dtos;
+namespace Blazorise.Generator.ApiDocsGenerator.Dtos;
 
 /// <summary>
 /// Easier to gather necessary info.

@@ -8,26 +8,31 @@ namespace Blazorise.Weavers.Fody;
 public class ModuleWeaver : BaseModuleWeaver
 {
     
+    const string GeneratorFeaturesNamespace = "Blazorise.Generator.Features";
     public override void Execute()
     {
-        WriteMessage("-----InExecute", MessageImportance.High);
-
         // Remove attribute usages
-        RemoveAttributeUsages("Blazorise.Generator.Features.GenerateEqualityAttribute");
-         RemoveAttributeUsages("Blazorise.Generator.Features.GenerateIgnoreEqualityAttribute");
-         
-         var isPackValue = Config.Attribute("IsPack")?.Value ?? "false";//get IsPack (see csproj)
-         // Convert the value to a boolean
-         var isPack = bool.TryParse(isPackValue, out var result) && result;
+        RemoveAttributeUsages($"{GeneratorFeaturesNamespace}.GenerateEqualityAttribute");
+        RemoveAttributeUsages($"{GeneratorFeaturesNamespace}.GenerateIgnoreEqualityAttribute");
+        
+        var isPackValue = Config.Attribute("IsPack")?.Value ?? "false"; // get IsPack (set in csproj)
+        var isPack = bool.TryParse(isPackValue, out var result) && result;
+        
+        WriteMessage($"IsPack property value: {isPack}", MessageImportance.High);
+        
+        if (isPack)//remove the ApiDocs code
+        {   
+            // We could place all related code here and perform the removal only during the packing step.
+            // However, always removing Features ensures that we run and test the stripped code consistently.
 
-         // Debug output
-         WriteMessage($"IsPack property value: {isPack}", MessageImportance.High);
-         
-         
-        RemoveReference("Blazorise.Generator.Features");
-        RemoveClassesFromAssembly("Blazorise.ApiDocsDtos");
-        RemoveReference("Blazorise.ApiDocsDtos");
+            // The ApiDocs (generated) code resides in the Blazorise assembly under the Blazorise.ApiDocsSourceGenerated namespace.
+            RemoveClassesFromNamespace("Blazorise.ApiDocsSourceGenerated");
+            
+            // We cannot always remove the reference to GeneratorFeaturesNamespace because the ApiDocs code depends on it.
+            RemoveReference(assemblyReferenceName: GeneratorFeaturesNamespace);
+        }
     }
+
 
     private void RemoveAttributeUsages(string attributeFullName)
     {
@@ -68,47 +73,46 @@ public class ModuleWeaver : BaseModuleWeaver
         }
     }
     
-    /// <summary>
-    /// In case of "forgoten usage", this will act like it removes the reference,
-    /// but opposite is the truth. In other words - it wont let the .dll without
-    /// the reference if it still needs it 
-    /// </summary>
-    /// <param name="referenceName"></param>
-    private void RemoveReference(string referenceName)
+    private void RemoveReference(string assemblyReferenceName)
     {
         var reference = ModuleDefinition.AssemblyReferences
-            .FirstOrDefault(r => r.Name == referenceName);
+            .FirstOrDefault(r => r.Name == assemblyReferenceName);
 
         if (reference != null)
         {
             ModuleDefinition.AssemblyReferences.Remove(reference);
-            WriteMessage($"Removed reference to {referenceName}", MessageImportance.High);
+            WriteMessage($"Removed reference to {assemblyReferenceName}", MessageImportance.High);
         }
         else
         {
-            WriteMessage($"Reference {referenceName} not found", MessageImportance.Low);
+            WriteMessage($"Reference {assemblyReferenceName} not found", MessageImportance.Low);
         }
     }
     
-    private void RemoveClassesFromAssembly(string assemblyName)
+    private void RemoveClassesFromNamespace(string namespaceName)
     {
-        // Iterate through all types in the current module
+        WriteMessage($"Starting removal of classes from namespace: {namespaceName}", MessageImportance.High);
+
+        // Iterate through all types in the current module and filter by namespace
         var typesToRemove = ModuleDefinition.Types
-            .Where(t => t.CustomAttributes
-                .Any(attr => attr.AttributeType.Scope.Name == assemblyName))
+            .Where(t => t.Namespace == namespaceName)
             .ToList();
 
+        WriteMessage($"Found {typesToRemove.Count} types to remove from namespace {namespaceName}", MessageImportance.High);
+
+        // Remove the matching types from the module
         foreach (var type in typesToRemove)
         {
             ModuleDefinition.Types.Remove(type);
-            WriteMessage($"Removed class {type.FullName} from assembly {assemblyName}", MessageImportance.High);
+            WriteMessage($"Removed class {type.FullName} from namespace {namespaceName}", MessageImportance.High);
         }
 
         if (typesToRemove.Count == 0)
         {
-            WriteMessage($"No classes found to remove from assembly {assemblyName}", MessageImportance.Low);
+            WriteMessage($"No classes found to remove from namespace {namespaceName}", MessageImportance.Low);
         }
     }
+
 
     public override IEnumerable<string> GetAssembliesForScanning()
     {

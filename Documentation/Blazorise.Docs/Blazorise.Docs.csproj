@@ -44,7 +44,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
     <PackageReference Include="MimeKit" Version="4.8.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-    <ProjectReference Include="..\..\Source\SourceGenerators\Blazorise.ApiDocsDtos\Blazorise.ApiDocsDtos.csproj" />
+    <ProjectReference Include="..\..\Source\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->

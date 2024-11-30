@@ -13,8 +13,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
-    <ProjectReference Include="..\..\SourceGenerators\Blazorise.ApiDocsGenerator\Blazorise.ApiDocsGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
-    <ProjectReference Include="..\..\SourceGenerators\Blazorise.ApiDocsDtos\Blazorise.ApiDocsDtos.csproj"  PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(IsPack)' != 'true'">
+    <ProjectReference Include="..\..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <ProjectReference Include="..\..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj"  PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

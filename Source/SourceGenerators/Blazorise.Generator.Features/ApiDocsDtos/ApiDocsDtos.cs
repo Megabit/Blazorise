@@ -1,5 +1,10 @@
 ﻿
-namespace Blazorise;
+#nullable enable
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Blazorise.Generator.Features.ApiDocsDtos;
 
 /// will be removed in package (specified in csproj)
 /// Necessary dtos for working with api docs.

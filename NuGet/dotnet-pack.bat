@@ -31,7 +31,7 @@ dotnet pack ../Source/Extensions/Blazorise.QRCode/Blazorise.QRCode.csproj -o . -
 dotnet pack ../Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.SignaturePad/Blazorise.SignaturePad.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
-dotnet pack ../Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:IsPack=true
 dotnet pack ../Source/Extensions/Blazorise.SpinKit/Blazorise.SpinKit.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Splitter/Blazorise.Splitter.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.TreeView/Blazorise.TreeView.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
