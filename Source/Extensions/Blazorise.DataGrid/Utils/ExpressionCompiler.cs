@@ -27,8 +27,8 @@ public static class ExpressionCompiler
     /// Applies the search filter to the queryable data.
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
-    /// <param name="data"></param>
-    /// <param name="dataGridColumns"></param>
+    /// <param name="data">The Data to be queried</param>
+    /// <param name="dataGridColumns">The DataGrid Columns Info</param>
     /// <returns></returns>
     public static IQueryable<TItem> ApplyDataGridSearch<TItem>( this IQueryable<TItem> data, IEnumerable<DataGridColumnInfo> dataGridColumns )
     {
@@ -269,8 +269,8 @@ public static class ExpressionCompiler
     /// Applies the sort filter to the queryable data.
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
-    /// <param name="data"></param>
-    /// <param name="dataGridColumns"></param>
+    /// <param name="data">The Data to be queried</param>
+    /// <param name="dataGridColumns">The DataGrid Columns Info</param>
     /// <returns></returns>
     public static IQueryable<TItem> ApplyDataGridSort<TItem>( this IQueryable<TItem> data, IEnumerable<DataGridColumnInfo> dataGridColumns )
     {
@@ -311,9 +311,9 @@ public static class ExpressionCompiler
     /// Applies the paging filter to the queryable data.
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
-    /// <param name="data"></param>
-    /// <param name="page"></param>
-    /// <param name="pageSize"></param>
+    /// <param name="data">The Data to be queried</param>
+    /// <param name="page">The current page</param>
+    /// <param name="pageSize">The page size</param>
     /// <returns></returns>
     public static IQueryable<TItem> ApplyDataGridPaging<TItem>( this IQueryable<TItem> data, int page, int pageSize )
     {
@@ -321,6 +321,59 @@ public static class ExpressionCompiler
         {
             return data.Skip( ( page - 1 ) * pageSize ).Take( pageSize );
         }
+
+        return data;
+    }
+
+    /// <summary>
+    /// Applies all the DataGrid filters to the queryable data.
+    /// </summary>
+    /// <typeparam name="TItem">The TItem</typeparam>
+    /// <param name="data">The Data to be queried</param>
+    /// <param name="dataGridReadDataEventArgs">The DataGrid Read Data Event Arguments</param>
+    /// <returns></returns>
+    public static IQueryable<TItem> ApplyDataGridFilters<TItem>( this IQueryable<TItem> data, DataGridReadDataEventArgs<TItem> dataGridReadDataEventArgs )
+    {
+        return data.ApplyDataGridSort( dataGridReadDataEventArgs ).ApplyDataGridSearch( dataGridReadDataEventArgs ).ApplyDataGridPaging( dataGridReadDataEventArgs );
+    }
+
+    /// <summary>
+    /// Applies the search filter to the queryable data.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="data">The Data to be queried</param>
+    /// <param name="dataGridReadDataEventArgs">The DataGrid Read Data Event Arguments</param>
+    /// <returns></returns>
+    public static IQueryable<TItem> ApplyDataGridSearch<TItem>( this IQueryable<TItem> data, DataGridReadDataEventArgs<TItem> dataGridReadDataEventArgs  )
+    {
+        return data.ApplyDataGridSearch( dataGridReadDataEventArgs.Columns );
+    }
+
+    /// <summary>
+    /// Applies the sort filter to the queryable data.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="data">The Data to be queried</param>
+    /// <param name="dataGridReadDataEventArgs">The DataGrid Read Data Event Arguments</param>
+    /// <returns></returns>
+    public static IQueryable<TItem> ApplyDataGridSort<TItem>( this IQueryable<TItem> data, DataGridReadDataEventArgs<TItem> dataGridReadDataEventArgs )
+    {
+        return data.ApplyDataGridSort( dataGridReadDataEventArgs.Columns );
+    }
+
+    /// <summary>
+    /// Applies the paging filter to the queryable data.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="data">The Data to be queried</param>
+    /// <param name="dataGridReadDataEventArgs">The DataGrid Read Data Event Arguments</param>
+    /// <returns></returns>
+    public static IQueryable<TItem> ApplyDataGridPaging<TItem>( this IQueryable<TItem> data, DataGridReadDataEventArgs<TItem> dataGridReadDataEventArgs )
+    {
+        if ( dataGridReadDataEventArgs.ReadDataMode is DataGridReadDataMode.Virtualize )
+            data = data.ApplyDataGridPaging( dataGridReadDataEventArgs.VirtualizeOffset + 1, dataGridReadDataEventArgs.VirtualizeCount );
+        else if ( dataGridReadDataEventArgs.ReadDataMode is DataGridReadDataMode.Paging )
+            data = data.ApplyDataGridPaging( dataGridReadDataEventArgs.Page, dataGridReadDataEventArgs.PageSize );
 
         return data;
     }

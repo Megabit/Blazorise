@@ -206,21 +206,13 @@ public partial class DataGridPage
 
         if ( !e.CancellationToken.IsCancellationRequested )
         {
-            var query = dataModels.AsQueryable().ApplyDataGridSort( e.Columns ).ApplyDataGridSearch( e.Columns );
+            var query = dataModels.AsQueryable().ApplyDataGridSort( e ).ApplyDataGridSearch( e );
 
             if ( dataGrid.CustomFilter is not null )
                 query = query.Where( item => item != null && dataGrid.CustomFilter( item ) );
 
             var response = new List<Employee>();
-
-
-
-            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-                response = query.ApplyDataGridPaging( e.VirtualizeOffset + 1, e.VirtualizeCount ).ToList();
-            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = query.ApplyDataGridPaging( e.Page, e.PageSize ).ToList();
-            else
-                throw new Exception( "Unhandled ReadDataMode" );
+            response = query.ApplyDataGridPaging( e ).ToList();
 
             await Task.Delay( random.Next( 100 ) );
 
