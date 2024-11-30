@@ -56,6 +56,162 @@ public static class ExpressionCompiler
                 case DataGridColumnFilterMethod.NotEquals:
                     data = data.Where( GetWhereNotEqualsExpression<TItem>( column.Field, column.SearchValue.ToString() ) );
                     break;
+                case DataGridColumnFilterMethod.LessThan:
+                    if ( column.SearchValue is null )
+                        break;
+
+                    if ( column.ColumnType == DataGridColumnType.Numeric )
+                    {
+                        if ( column.ValueType == typeof( decimal ) || column.ValueType == typeof( decimal? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, decimal>( column.Field, decimal.Parse(column.SearchValue.ToString()) ) );
+
+                        if ( column.ValueType == typeof( double ) || column.ValueType == typeof( double? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, double>( column.Field, double.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( float ) || column.ValueType == typeof( float? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, float>( column.Field, float.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( int ) || column.ValueType == typeof( int? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, int>( column.Field, int.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( short ) || column.ValueType == typeof( short? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, short>( column.Field, short.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    else if ( column.ColumnType == DataGridColumnType.Date )
+                    {
+                        if ( column.ValueType == typeof( DateTime ) || column.ValueType == typeof( DateTime? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, DateTime>( column.Field, DateTime.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateTimeOffset ) || column.ValueType == typeof( DateTimeOffset? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, DateTimeOffset>( column.Field, DateTimeOffset.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateOnly ) || column.ValueType == typeof( DateOnly? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, DateOnly>( column.Field, DateOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeOnly ) || column.ValueType == typeof( TimeOnly? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, TimeOnly>( column.Field, TimeOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeSpan ) || column.ValueType == typeof( TimeSpan? ) )
+                            data = data.Where( GetWhereLessThanExpression<TItem, TimeSpan>( column.Field, TimeSpan.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    break;
+                case DataGridColumnFilterMethod.LessThanOrEqual:
+                    if ( column.SearchValue is null )
+                        break;
+
+                    if ( column.ColumnType == DataGridColumnType.Numeric )
+                    {
+                        if ( column.ValueType == typeof( decimal ) || column.ValueType == typeof( decimal? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, decimal>( column.Field, decimal.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( double ) || column.ValueType == typeof( double? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, double>( column.Field, double.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( float ) || column.ValueType == typeof( float? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, float>( column.Field, float.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( int ) || column.ValueType == typeof( int? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, int>( column.Field, int.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( short ) || column.ValueType == typeof( short? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, short>( column.Field, short.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    else if ( column.ColumnType == DataGridColumnType.Date )
+                    {
+                        if ( column.ValueType == typeof( DateTime ) || column.ValueType == typeof( DateTime? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, DateTime>( column.Field, DateTime.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateTimeOffset ) || column.ValueType == typeof( DateTimeOffset? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, DateTimeOffset>( column.Field, DateTimeOffset.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateOnly ) || column.ValueType == typeof( DateOnly? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, DateOnly>( column.Field, DateOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeOnly ) || column.ValueType == typeof( TimeOnly? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, TimeOnly>( column.Field, TimeOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeSpan ) || column.ValueType == typeof( TimeSpan? ) )
+                            data = data.Where( GetWhereLessThanOrEqualExpression<TItem, TimeSpan>( column.Field, TimeSpan.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    break;
+                case DataGridColumnFilterMethod.GreaterThan:
+                    if ( column.SearchValue is null )
+                        break;
+
+                    if ( column.ColumnType == DataGridColumnType.Numeric )
+                    {
+                        if ( column.ValueType == typeof( decimal ) || column.ValueType == typeof( decimal? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, decimal>( column.Field, decimal.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( double ) || column.ValueType == typeof( double? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, double>( column.Field, double.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( float ) || column.ValueType == typeof( float? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, float>( column.Field, float.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( int ) || column.ValueType == typeof( int? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, int>( column.Field, int.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( short ) || column.ValueType == typeof( short? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, short>( column.Field, short.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    else if ( column.ColumnType == DataGridColumnType.Date )
+                    {
+                        if ( column.ValueType == typeof( DateTime ) || column.ValueType == typeof( DateTime? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, DateTime>( column.Field, DateTime.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateTimeOffset ) || column.ValueType == typeof( DateTimeOffset? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, DateTimeOffset>( column.Field, DateTimeOffset.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateOnly ) || column.ValueType == typeof( DateOnly? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, DateOnly>( column.Field, DateOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeOnly ) || column.ValueType == typeof( TimeOnly? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, TimeOnly>( column.Field, TimeOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeSpan ) || column.ValueType == typeof( TimeSpan? ) )
+                            data = data.Where( GetWhereGreaterThanExpression<TItem, TimeSpan>( column.Field, TimeSpan.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    break;
+                case DataGridColumnFilterMethod.GreaterThanOrEqual:
+                    if ( column.SearchValue is null )
+                        break;
+
+                    if ( column.ColumnType == DataGridColumnType.Numeric )
+                    {
+                        if ( column.ValueType == typeof( decimal ) || column.ValueType == typeof( decimal? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, decimal>( column.Field, decimal.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( double ) || column.ValueType == typeof( double? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, double>( column.Field, double.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( float ) || column.ValueType == typeof( float? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, float>( column.Field, float.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( int ) || column.ValueType == typeof( int? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, int>( column.Field, int.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( short ) || column.ValueType == typeof( short? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, short>( column.Field, short.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    else if ( column.ColumnType == DataGridColumnType.Date )
+                    {
+                        if ( column.ValueType == typeof( DateTime ) || column.ValueType == typeof( DateTime? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, DateTime>( column.Field, DateTime.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateTimeOffset ) || column.ValueType == typeof( DateTimeOffset? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, DateTimeOffset>( column.Field, DateTimeOffset.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( DateOnly ) || column.ValueType == typeof( DateOnly? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, DateOnly>( column.Field, DateOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeOnly ) || column.ValueType == typeof( TimeOnly? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, TimeOnly>( column.Field, TimeOnly.Parse( column.SearchValue.ToString() ) ) );
+
+                        if ( column.ValueType == typeof( TimeSpan ) || column.ValueType == typeof( TimeSpan? ) )
+                            data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, TimeSpan>( column.Field, TimeSpan.Parse( column.SearchValue.ToString() ) ) );
+                    }
+                    break;
             }
         }
 
@@ -216,7 +372,7 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, object>>( Expression.Convert( property, typeof( object ) ), item );
     }
 
-    private static Expression ConvertExpression( Expression property )
+    private static Expression ConvertToStringExpression( Expression property )
     {
         Expression convert;
         var propInfo = (PropertyInfo)( property as MemberExpression ).Member;
@@ -302,10 +458,10 @@ public static class ExpressionCompiler
                              string searchValue )
     {
         var sourceParameterExpression = GetParameterExpression<TItem>();
-        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
 
-        Expression convert = ConvertExpression( propertyExpression );
-        Expression body = ContainsExpression( convert, searchValue );
+        Expression convertSourcePropertyExpression = ConvertToStringExpression( sourcePropertyExpression );
+        Expression body = ContainsExpression( convertSourcePropertyExpression, searchValue );
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
@@ -314,10 +470,10 @@ public static class ExpressionCompiler
                          string searchValue )
     {
         var sourceParameterExpression = GetParameterExpression<TItem>();
-        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
 
-        Expression convert = ConvertExpression( propertyExpression );
-        Expression body = StartsWithExpression( convert, searchValue );
+        Expression convertSourcePropertyExpression = ConvertToStringExpression( sourcePropertyExpression );
+        Expression body = StartsWithExpression( convertSourcePropertyExpression, searchValue );
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
@@ -326,10 +482,10 @@ public static class ExpressionCompiler
                          string searchValue )
     {
         var sourceParameterExpression = GetParameterExpression<TItem>();
-        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
 
-        Expression convert = ConvertExpression( propertyExpression );
-        Expression body = EndsWithExpression( convert, searchValue );
+        Expression convertSourcePropertyExpression = ConvertToStringExpression( sourcePropertyExpression );
+        Expression body = EndsWithExpression( convertSourcePropertyExpression, searchValue );
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
@@ -338,10 +494,10 @@ public static class ExpressionCompiler
                      string searchValue )
     {
         var sourceParameterExpression = GetParameterExpression<TItem>();
-        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
 
-        Expression convert = ConvertExpression( propertyExpression );
-        Expression body = EqualsWithExpression( convert, searchValue );
+        Expression convertSourcePropertyExpression = ConvertToStringExpression( sourcePropertyExpression );
+        Expression body = EqualsWithExpression( convertSourcePropertyExpression, searchValue );
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
@@ -350,12 +506,60 @@ public static class ExpressionCompiler
                  string searchValue )
     {
         var sourceParameterExpression = GetParameterExpression<TItem>();
-        var propertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
-
-        Expression convert = ConvertExpression( propertyExpression );
-        Expression body = NotEqualsWithExpression( convert, searchValue );
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+        
+        Expression convertSourcePropertyExpression = ConvertToStringExpression( sourcePropertyExpression );
+        Expression body = NotEqualsWithExpression( convertSourcePropertyExpression, searchValue );
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
+
+    public static Expression<Func<TItem, bool>> GetWhereLessThanExpression<TItem, TValue>(
+             string sourceProperty,
+             TValue searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        //Note : Another option, would be to not convert and assume the searchValue is of the same type as the source property?
+        var convertSourcePropertyExpression = Expression.Convert( sourcePropertyExpression, typeof( TValue ) );
+        return Expression.Lambda<Func<TItem, bool>>( Expression.LessThan( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
+    }
+
+    public static Expression<Func<TItem, bool>> GetWhereLessThanOrEqualExpression<TItem, TValue>(
+         string sourceProperty,
+         TValue searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        //Note : Another option, would be to not convert and assume the searchValue is of the same type as the source property?
+        var convertSourcePropertyExpression = Expression.Convert( sourcePropertyExpression, typeof( TValue ) );
+        return Expression.Lambda<Func<TItem, bool>>( Expression.LessThanOrEqual( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
+    }
+    public static Expression<Func<TItem, bool>> GetWhereGreaterThanExpression<TItem, TValue>(
+         string sourceProperty,
+         TValue searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        //Note : Another option, would be to not convert and assume the searchValue is of the same type as the source property?
+        var convertSourcePropertyExpression = Expression.Convert( sourcePropertyExpression, typeof( TValue ) );
+        return Expression.Lambda<Func<TItem, bool>>( Expression.GreaterThan( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
+    }
+
+    public static Expression<Func<TItem, bool>> GetWhereGreaterThanOrEqualExpression<TItem, TValue>(
+         string sourceProperty,
+         TValue searchValue )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        //Note : Another option, would be to not convert and assume the searchValue is of the same type as the source property?
+        var convertSourcePropertyExpression = Expression.Convert( sourcePropertyExpression, typeof( TValue ) );
+        return Expression.Lambda<Func<TItem, bool>>( Expression.GreaterThanOrEqual( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
+    }
+
 
     /// <summary>
     /// Checks if requested type can bu nullable.
