@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
-using Blazorise.ApiDocsGenerator.Helpers;
-using Microsoft.CodeAnalysis.Text;
+using Blazorise.Generator.ApiDocsGenerator.Dtos;
+using Blazorise.Generator.ApiDocsGenerator.Extensions;
+using Blazorise.Generator.ApiDocsGenerator.Helpers;
 using Microsoft.CodeAnalysis;
-using System.Collections.Immutable;
-using Blazorise.ApiDocsGenerator.Dtos;
-using Blazorise.ApiDocsGenerator.Extensions;
+using Microsoft.CodeAnalysis.Text;
 
-namespace Blazorise.ApiDocsGenerator;
+namespace Blazorise.Generator.ApiDocsGenerator;
 
 [Generator]
 public class ComponentsApiDocsGenerator : IIncrementalGenerator
@@ -25,10 +25,12 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             var (compilation, components) = source;
             INamespaceSymbol namespaceToSearch = GetNamespaceToSearch( compilation );
             var sourceText = GenerateComponentsApiSource( compilation, components, namespaceToSearch );
-            ctx.AddSource( "ComponentsApiSource.g.cs", SourceText.From( sourceText, Encoding.UTF8 ) );
+            ctx.AddSource( "ApiDocsSourceGenerated/ComponentsApiSource.g.cs", SourceText.From( sourceText, Encoding.UTF8 ) );
             // ctx.AddSource( "Log.txt", SourceText.From( Logger.LogMessages, Encoding.UTF8 ) );
         } );
     }
+
+    private const string ApiDocsSourceNamespace = "ApiDocsSourceGenerated";
 
     private INamespaceSymbol GetNamespaceToSearch( Compilation compilation )
     {
@@ -137,8 +139,10 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             $$"""
               using System;
               using System.Collections.Generic;
+              using Blazorise.Generator.Features.ApiDocsDtos;
+              
 
-              namespace Blazorise.Docs;
+              namespace Blazorise.{{ApiDocsSourceNamespace}};//CHANGING this requires also changes to Blazorise.Weavers.Fody, where the removal is done.
 
               public class ComponentApiSource_ForNamespace_{{namespaceToSearch.Name}}:IComponentsApiDocsSource
               {

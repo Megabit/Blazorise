@@ -1,7 +1,6 @@
-﻿namespace Blazorise.ApiDocsGenerator.Helpers;
+﻿using System.Text;
 
-using System.Text;
-
+namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
 
 /// <summary>
 /// This looks silly, but works surprisingly well.

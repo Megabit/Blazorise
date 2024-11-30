@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Blazorise.ApiDocsGenerator.Helpers;
+using Blazorise.Generator.ApiDocsGenerator.Helpers;
 using Microsoft.CodeAnalysis;
 
-namespace Blazorise.ApiDocsGenerator.Extensions;  
+namespace Blazorise.Generator.ApiDocsGenerator.Extensions;  
 
 public static class EnumerableExtensions
 {

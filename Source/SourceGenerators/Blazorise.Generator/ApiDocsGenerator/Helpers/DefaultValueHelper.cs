@@ -1,13 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Blazorise.ApiDocsGenerator.Helpers;
+namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
 
 public static class DefaultValueHelper
 {

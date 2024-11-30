@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Blazorise.ApiDocsGenerator.Helpers;
+namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
 
 
 /// <summary>

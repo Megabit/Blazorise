@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Blazorise.ApiDocsGenerator.Dtos;
-using Blazorise.ApiDocsGenerator.Extensions;
 using Microsoft.CodeAnalysis;
 
-namespace Blazorise.ApiDocsGenerator.Helpers;
+namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
 
 /// <summary>
 /// Methods that are too small to have their own file

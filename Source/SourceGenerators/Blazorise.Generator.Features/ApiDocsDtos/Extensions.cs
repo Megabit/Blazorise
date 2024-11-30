@@ -1,4 +1,7 @@
-﻿namespace Blazorise;
+﻿using System;
+using System.Linq;
+
+namespace Blazorise.Generator.Features.ApiDocsDtos;
 
 public static class TypeExtensions
 {

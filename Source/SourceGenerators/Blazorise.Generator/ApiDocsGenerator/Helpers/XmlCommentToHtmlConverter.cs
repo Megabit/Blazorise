@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace Blazorise.ApiDocsGenerator.Helpers;
-
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
+
+namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
 
 public class XmlCommentToHtmlConverter
 {

@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Blazorise.ApiDocsGenerator.Dtos;
+﻿using System.Linq;
+using Blazorise.Generator.ApiDocsGenerator.Dtos;
+using Blazorise.Generator.ApiDocsGenerator.Extensions;
 using Microsoft.CodeAnalysis;
-using System.Linq;
-using Blazorise.ApiDocsGenerator.Extensions;
 
-
-namespace Blazorise.ApiDocsGenerator.Helpers;
+namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
 
 public class InfoExtractor
 {
