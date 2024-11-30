@@ -9,6 +9,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
     
     - name: Restore NuGet Packages
       run: dotnet restore
