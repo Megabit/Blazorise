@@ -18,7 +18,7 @@
     <!-- We cannot use: -->
     <!-- <ProjectReference Include="..\Blazorise.Weavers.Fody\Blazorise.Weavers.Fody.csproj" /> -->
     <!-- because it would create package conflicts, as the generated NuGet package is also named Blazorise.Weavers.Fody. -->
-    <Exec Command="dotnet build ..\Blazorise.Weavers.Fody --configuration $(Configuration)"
+    <Exec Command="dotnet build ../Blazorise.Weavers.Fody --configuration $(Configuration)"
           StandardOutputImportance="Normal" />
     <Message Text="Blazorise Weaver built successfully." Importance="High" />
   </Target>
