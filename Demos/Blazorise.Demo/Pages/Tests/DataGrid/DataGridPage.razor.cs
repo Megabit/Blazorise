@@ -213,7 +213,8 @@ public partial class DataGridPage
 
             var response = new List<Employee>();
 
-            //this can be call to anything, in this case we're calling a fictional api
+
+
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
                 response = query.ApplyDataGridPaging( e.VirtualizeOffset + 1, e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
