@@ -63,7 +63,7 @@ public static class ExpressionCompiler
                     if ( column.ColumnType == DataGridColumnType.Numeric )
                     {
                         if ( column.ValueType == typeof( decimal ) || column.ValueType == typeof( decimal? ) )
-                            data = data.Where( GetWhereLessThanExpression<TItem, decimal>( column.Field, decimal.Parse(column.SearchValue.ToString()) ) );
+                            data = data.Where( GetWhereLessThanExpression<TItem, decimal>( column.Field, decimal.Parse( column.SearchValue.ToString() ) ) );
 
                         if ( column.ValueType == typeof( double ) || column.ValueType == typeof( double? ) )
                             data = data.Where( GetWhereLessThanExpression<TItem, double>( column.Field, double.Parse( column.SearchValue.ToString() ) ) );
@@ -212,6 +212,53 @@ public static class ExpressionCompiler
                             data = data.Where( GetWhereGreaterThanOrEqualExpression<TItem, TimeSpan>( column.Field, TimeSpan.Parse( column.SearchValue.ToString() ) ) );
                     }
                     break;
+                case DataGridColumnFilterMethod.Between:
+
+                    if ( column.SearchValue is not object[] rangeSearchValues || rangeSearchValues.Length < 2 )
+                        break;
+
+                    var stringSearchValue1 = rangeSearchValues[0]?.ToString();
+                    var stringSearchValue2 = rangeSearchValues[1]?.ToString();
+
+                    if ( stringSearchValue1 is null || stringSearchValue2 is null )
+                        break;
+
+                    if ( column.ColumnType == DataGridColumnType.Numeric )
+                    {
+                        if ( column.ValueType == typeof( decimal ) || column.ValueType == typeof( decimal? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, decimal>( column.Field, decimal.Parse( stringSearchValue1 ), decimal.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( double ) || column.ValueType == typeof( double? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, double>( column.Field, double.Parse( stringSearchValue1 ), double.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( float ) || column.ValueType == typeof( float? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, float>( column.Field, float.Parse( stringSearchValue1 ), float.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( int ) || column.ValueType == typeof( int? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, int>( column.Field, int.Parse( stringSearchValue1 ), int.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( short ) || column.ValueType == typeof( short? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, short>( column.Field, short.Parse( stringSearchValue1 ), short.Parse( stringSearchValue2 ) ) );
+                    }
+                    else if ( column.ColumnType == DataGridColumnType.Date )
+                    {
+                        if ( column.ValueType == typeof( DateTime ) || column.ValueType == typeof( DateTime? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, DateTime>( column.Field, DateTime.Parse( stringSearchValue1 ), DateTime.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( DateTimeOffset ) || column.ValueType == typeof( DateTimeOffset? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, DateTimeOffset>( column.Field, DateTimeOffset.Parse( stringSearchValue1 ), DateTimeOffset.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( DateOnly ) || column.ValueType == typeof( DateOnly? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, DateOnly>( column.Field, DateOnly.Parse( stringSearchValue1 ), DateOnly.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( TimeOnly ) || column.ValueType == typeof( TimeOnly? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, TimeOnly>( column.Field, TimeOnly.Parse( stringSearchValue1 ), TimeOnly.Parse( stringSearchValue2 ) ) );
+
+                        if ( column.ValueType == typeof( TimeSpan ) || column.ValueType == typeof( TimeSpan? ) )
+                            data = data.Where( GetWhereBetweenExpression<TItem, TimeSpan>( column.Field, TimeSpan.Parse( stringSearchValue1 ), TimeSpan.Parse( stringSearchValue2 ) ) );
+                    }
+
+                    break;
             }
         }
 
@@ -237,7 +284,7 @@ public static class ExpressionCompiler
 
             foreach ( var sortByColumn in sortByColumns.OrderBy( x => x.SortIndex ) )
             {
-                var valueGetterExpression = CreateValueGetterExpression<TItem>( sortByColumn.SortField );
+                var valueGetterExpression = string.IsNullOrWhiteSpace( sortByColumn.SortField ) ? CreateValueGetterExpression<TItem>( sortByColumn.Field ) : CreateValueGetterExpression<TItem>( sortByColumn.SortField );
 
                 if ( firstSort )
                 {
@@ -453,6 +500,13 @@ public static class ExpressionCompiler
         return Expression.IsFalse( EqualsWithExpression( propertyExpression, searchValue ) );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property contains the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereContainsExpression<TItem>(
                              string sourceProperty,
                              string searchValue )
@@ -465,6 +519,13 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property starts with the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereStartsWithExpression<TItem>(
                          string sourceProperty,
                          string searchValue )
@@ -477,6 +538,13 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property ends with the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereEndsWithExpression<TItem>(
                          string sourceProperty,
                          string searchValue )
@@ -489,6 +557,13 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property equals the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereEqualsExpression<TItem>(
                      string sourceProperty,
                      string searchValue )
@@ -501,18 +576,33 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property is not equal to the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereNotEqualsExpression<TItem>(
                  string sourceProperty,
                  string searchValue )
     {
         var sourceParameterExpression = GetParameterExpression<TItem>();
         var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
-        
+
         Expression convertSourcePropertyExpression = ConvertToStringExpression( sourcePropertyExpression );
         Expression body = NotEqualsWithExpression( convertSourcePropertyExpression, searchValue );
         return Expression.Lambda<Func<TItem, bool>>( body, sourceParameterExpression );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property is less than the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereLessThanExpression<TItem, TValue>(
              string sourceProperty,
              TValue searchValue )
@@ -525,6 +615,14 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( Expression.LessThan( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property is less than or equal to the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereLessThanOrEqualExpression<TItem, TValue>(
          string sourceProperty,
          TValue searchValue )
@@ -536,6 +634,15 @@ public static class ExpressionCompiler
         var convertSourcePropertyExpression = Expression.Convert( sourcePropertyExpression, typeof( TValue ) );
         return Expression.Lambda<Func<TItem, bool>>( Expression.LessThanOrEqual( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
     }
+
+    /// <summary>
+    /// Builds a where expression. Where the source property greater than the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereGreaterThanExpression<TItem, TValue>(
          string sourceProperty,
          TValue searchValue )
@@ -548,6 +655,14 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( Expression.GreaterThan( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
     }
 
+    /// <summary>
+    /// Builds a where expression. Where the source property greater than or equal to the searchValue.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue"></param>
+    /// <returns></returns>
     public static Expression<Func<TItem, bool>> GetWhereGreaterThanOrEqualExpression<TItem, TValue>(
          string sourceProperty,
          TValue searchValue )
@@ -558,6 +673,32 @@ public static class ExpressionCompiler
         //Note : Another option, would be to not convert and assume the searchValue is of the same type as the source property?
         var convertSourcePropertyExpression = Expression.Convert( sourcePropertyExpression, typeof( TValue ) );
         return Expression.Lambda<Func<TItem, bool>>( Expression.GreaterThanOrEqual( convertSourcePropertyExpression, Expression.Constant( searchValue ) ), sourceParameterExpression );
+    }
+
+    /// <summary>
+    /// Builds a where expression. Where the source property is between two provided searchValues.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="sourceProperty"></param>
+    /// <param name="searchValue1"></param>
+    /// <param name="searchValue2"></param>
+    /// <returns></returns>
+    public static Expression<Func<TItem, bool>> GetWhereBetweenExpression<TItem, TValue>(
+     string sourceProperty,
+     TValue searchValue1,
+     TValue searchValue2 )
+    {
+        var sourceParameterExpression = GetParameterExpression<TItem>();
+        var sourcePropertyExpression = GetPropertyOrFieldExpression( sourceParameterExpression, sourceProperty );
+
+        //Note : Another option, would be to not convert and assume the searchValue is of the same type as the source property?
+        var convertSourcePropertyExpression = Expression.Convert( sourcePropertyExpression, typeof( TValue ) );
+
+        var value1GreaterThanOrEqualExpression = Expression.GreaterThanOrEqual( convertSourcePropertyExpression, Expression.Constant( searchValue1 ) );
+        var value2LessThanOrEqualExpression = Expression.LessThanOrEqual( convertSourcePropertyExpression, Expression.Constant( searchValue2 ) );
+
+        return Expression.Lambda<Func<TItem, bool>>( Expression.MakeBinary( ExpressionType.AndAlso, value1GreaterThanOrEqualExpression, value2LessThanOrEqualExpression ), sourceParameterExpression );
     }
 
 
