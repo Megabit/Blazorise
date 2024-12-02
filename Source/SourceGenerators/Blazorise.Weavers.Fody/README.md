@@ -6,7 +6,8 @@ Similarly, the `ModuleWeaver` class in `bwf` follows Fody's required naming conv
 ### Purpose of `bw` and `bwf`
 
 - **`Blazorise.Weavers` (bw)**:
-    - Exists solely to create a NuGet package (includes `Fody.Packaging`).
+    - Exists solely to create a NuGet package (includes `Fody.Packaging` which does exactly that).
+    - Created NuGet package is necessary for Fody to work. It works under the hood and is created on build.
     - It acts as a wrapper for `bwf`.
 
 - **`Blazorise.Weavers.Fody` (bwf)**:
@@ -33,10 +34,18 @@ Since `bwf` is not referenced:
 
 ### Future Considerations
 
-Creating a NuGet package for both `bwf` and `bw` would simplify integration.
+Creating and referencing a NuGet package for both `bwf` and `bw` would simplify integration (would remove the Weavers projects).
 However - harder to make changes to the weaver (build package, change package, etc...).
 
 https://github.com/Fody/Home/blob/master/pages/addin-development.md
+
+
+## ModuleWeaver
+
+- `ModuleWeaver.cs` removes:
+  - (Always) - Usages of attributes from `Blazorise.SourceGenerator.Features`. This is done every time (the Blazorise project is built).
+  - (On `IsPack==true`) Source generated files from `Blazorise.ApiDocsSourceGenerated`. This code stays inside the `Blazorise` assembly on simple build without IsPack property (for example when `Blazorise.Docs` is running).
+  - (On `IsPack==true`) Reference to `Blazorise.SourceGenerator.Features`. `Blazorise.ApiDocsSourceGenerated` code uses the dtos from this assembly. 
 
 
 
