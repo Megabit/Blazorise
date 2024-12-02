@@ -16,6 +16,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
 {
     public void Initialize( IncrementalGeneratorInitializationContext context )
     {
+#if ENABLE_APIDOCS_GENERATOR
         var componentProperties = context.CompilationProvider
             .Select( ( compilation, _ ) => ( compilation,
                 components: GetComponentInfo( compilation, GetNamespaceToSearch( compilation ) ).ToImmutableArray() ) );
@@ -28,6 +29,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             ctx.AddSource( "ApiDocsSourceGenerated/ComponentsApiSource.g.cs", SourceText.From( sourceText, Encoding.UTF8 ) );
             // ctx.AddSource( "Log.txt", SourceText.From( Logger.LogMessages, Encoding.UTF8 ) );
         } );
+#endif
     }
 
     private const string ApiDocsSourceNamespace = "ApiDocsSourceGenerated";
@@ -122,11 +124,12 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
             string componentTypeName = StringHelpers.GetSimplifiedTypeName( component.Type );
 
             var propertiesData = component.Properties.Select( property =>
-                InfoExtractor.GetPropertyDetails( compilation, property ) )
-                .Where(x=>!x.Summary.Contains(ShouldOnlyBeUsedInternally));
+                    InfoExtractor.GetPropertyDetails( compilation, property ) )
+                .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) );
 
             var methodsData = component.PublicMethods.Select( InfoExtractor.GetMethodDetails )
-                .Where(x=>!x.Summary.Contains(ShouldOnlyBeUsedInternally)); ;
+                .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) );
+            ;
 
             ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
             properties: propertiesData, methods: methodsData,
@@ -140,7 +143,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
               using System;
               using System.Collections.Generic;
               using Blazorise.Generator.Features.ApiDocsDtos;
-              
+
 
               namespace Blazorise.{{ApiDocsSourceNamespace}};//CHANGING this requires also changes to Blazorise.Weavers.Fody, where the removal is done.
 
@@ -184,7 +187,7 @@ public class ComponentsApiDocsGenerator : IIncrementalGenerator
                                              }
                                        )},
 
-                                   """; 
+                                   """;
                       }
                       ).StringJoin( "\n" )}}
                   };

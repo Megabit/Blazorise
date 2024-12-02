@@ -1,28 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\..\Build\Blazorise.props" />
+    <Import Project="..\..\..\Build\Blazorise.props" />
 
-  <PropertyGroup>
-    <PackageTags>blazorise blazor components snackbar</PackageTags>
-  </PropertyGroup>
+    <PropertyGroup>
+        <PackageTags>blazorise blazor components snackbar</PackageTags>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>1591</NoWarn>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    </ItemGroup>
 
-  <ItemGroup Condition="'$(IsPack)' != 'true'">
-    <ProjectReference Include="..\..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
-    <ProjectReference Include="..\..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" PrivateAssets="all" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+        <ProjectReference Include="..\..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" PrivateAssets="all" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+        <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+    </ItemGroup>
 
 </Project>

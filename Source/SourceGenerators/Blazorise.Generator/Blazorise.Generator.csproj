@@ -15,6 +15,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(EnableApiDocsGenerator)' == 'true'">
+    <DefineConstants>$(DefineConstants);ENABLE_APIDOCS_GENERATOR</DefineConstants>
+  </PropertyGroup>
+
+
   <ItemGroup>
     <ProjectReference Include="..\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" />
   </ItemGroup>

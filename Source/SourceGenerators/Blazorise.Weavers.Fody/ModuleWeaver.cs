@@ -15,12 +15,12 @@ public class ModuleWeaver : BaseModuleWeaver
         RemoveAttributeUsages($"{GeneratorFeaturesNamespace}.GenerateEqualityAttribute");
         RemoveAttributeUsages($"{GeneratorFeaturesNamespace}.GenerateIgnoreEqualityAttribute");
         
-        var isPackValue = Config.Attribute("IsPack")?.Value ?? "false"; // get IsPack (set in csproj)
-        var isPack = bool.TryParse(isPackValue, out var result) && result;
+        string keepApiDocsGeneratedFilesString = Config.Attribute("KeepApiDocsGeneratedFiles")?.Value ?? "false"; // get KeepApiDocsGeneratedFiles (set in csproj)
+        var keepApiDocsGeneratedFiles = bool.TryParse(keepApiDocsGeneratedFilesString, out var result) && result;
         
-        WriteMessage($"IsPack property value: {isPack}", MessageImportance.High);
+        WriteMessage($"KeepApiDocsGeneratedFiles property value: {keepApiDocsGeneratedFiles}", MessageImportance.High);
         
-        if (isPack)//remove the ApiDocs code
+        if (!keepApiDocsGeneratedFiles)//remove the ApiDocs code
         {   
             // We could place all related code here and perform the removal only during the packing step.
             // However, always removing Features ensures that we run and test the stripped code consistently.

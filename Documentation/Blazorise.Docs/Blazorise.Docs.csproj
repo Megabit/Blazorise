@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
-    <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj"
+                      AdditionalProperties="EnableApiDocsGenerator=true"/>
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha\Blazorise.Captcha.csproj" />
@@ -29,7 +30,8 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj"
+                      AdditionalProperties="EnableApiDocsGenerator=true"/>
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
@@ -55,8 +57,8 @@
   <!--Project path for code generator-->
   <PropertyGroup>
     <ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
-  </PropertyGroup>
-
+  </PropertyGroup> 
+  
   <!--Execute the code generator-->
   <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
     <!--Command-line for the code generator-->
