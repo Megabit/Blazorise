@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise;
@@ -37,7 +38,7 @@ public class ComponentActivator : IComponentActivator
 
         if ( instance is null )
         {
-            instance = Activator.CreateInstance( componentType );
+            instance = ActivatorUtilities.CreateInstance( ServiceProvider, componentType );
         }
 
         if ( instance is not IComponent component )
