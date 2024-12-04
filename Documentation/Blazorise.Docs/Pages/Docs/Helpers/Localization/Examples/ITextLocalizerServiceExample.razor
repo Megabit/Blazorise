@@ -12,7 +12,7 @@
                         Data="@LocalizationService.AvailableCultures"
                         TextField="@((item)=>item.IsNeutralCulture ? item.EnglishName : item.Parent.EnglishName)"
                         ValueField="@((item)=>item.Name)"
-                        @bind-SelectedValue="selectedCulture"
+                        @bind-Value="selectedCulture"
                         DefaultItemText="Choose your culture" />
         </Addon>
         <Addon AddonType="AddonType.Body">
