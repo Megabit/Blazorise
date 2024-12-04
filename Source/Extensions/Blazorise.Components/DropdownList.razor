@@ -31,7 +31,7 @@
 
         <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value" Disabled="@disabled"
                       ShowCheckbox="@(SelectionMode == DropdownListSelectionMode.Checkbox)"
-                      Checked="IsSelected(value)"
+                      Checked="@IsSelected(value)"
                       CheckedChanged="@((isChecked) => HandleDropdownItemChecked(isChecked, value))">@text</DropdownItem>
     };
 }
