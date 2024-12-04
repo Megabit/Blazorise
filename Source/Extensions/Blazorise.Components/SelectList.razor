@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @typeparam TValue
-<Select @ref="@selectRef" ElementId="@ElementId" TValue="TValue" Multiple="@Multiple" Value="@SelectedValue" ValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Size="@Size" MaxVisibleItems="@MaxVisibleItems" TabIndex="@TabIndex" Disabled="@Disabled" Attributes="@Attributes">
+<Select @ref="@selectRef" ElementId="@ElementId" TValue="TValue" Multiple="@Multiple" Value="@Value" ValueChanged="@ValueChanged" ValueExpression="@ValueExpression" Class="@Class" Style="@Style" Size="@Size" MaxVisibleItems="@MaxVisibleItems" TabIndex="@TabIndex" Disabled="@Disabled" Attributes="@Attributes">
     <ChildContent>
         @if ( DefaultItemText != null )
         {
