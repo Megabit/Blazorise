@@ -4,7 +4,7 @@
               Data="@Countries"
               TextField="@((item)=>item.Name)"
               ValueField="@((item)=>item.Iso)"
-              @bind-SelectedValue="@selectedDropValue"
+              @bind-Value="@selectedDropValue"
               Color="Color.Primary"
               MaxMenuHeight="200px">
     Select item
@@ -19,7 +19,7 @@
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -31,5 +31,4 @@
     }
 
     string selectedDropValue { get; set; } = "CN";
-
 }

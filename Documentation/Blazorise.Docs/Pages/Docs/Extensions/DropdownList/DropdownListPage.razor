@@ -71,10 +71,10 @@
     <DocsAttributesItem Name="ValueField" Type="Func">
         Selector for the value field.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValue" Type="	object">
+    <DocsAttributesItem Name="Value" Type="	TValue">
         Currently selected value.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<string>">
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<TValue>">
         Raises an event after the selected value has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxMenuHeight" Type="string">
@@ -83,14 +83,8 @@
     <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
         Gets or sets whether the dropdown will use the <Code>Virtualize</Code> functionality.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectionMode" Type="DropdownListSelectionMode" Default="DropdownListSelectionMode.Default">
+    <DocsAttributesItem Name="SelectionMode" Type="DropdownListSelectionMode" Default="Default">
         Gets or sets the <Code>DropdownList</Code> Selection Mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValues" Type="IReadOnlyList<TValue>">
-        Currently selected item values.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValuesChanged" Type="EventCallback<IReadOnlyList<TValue>>">
-        Occurs after the selected item values have changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="DropdownToggleSize " Type="Size" Default="Default">
         Defines the size of toggle button.

@@ -9524,11 +9524,11 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""string""
+        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
               Data=""@Countries""
               TextField=""@((item)=>item.Name)""
               ValueField=""@((item)=>item.Iso)""
-              @bind-SelectedValues=""@selectedDropValues""
+              @bind-Value=""@selectedDropValues""
               SelectionMode=""DropdownListSelectionMode.Checkbox""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
@@ -9546,7 +9546,7 @@ Install-Package Blazorise.Chart.Zoom";
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -9558,14 +9558,13 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
-
 }";
 
         public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@((item)=>item.Name)""
               ValueField=""@((item)=>item.Iso)""
-              @bind-SelectedValue=""@selectedDropValue""
+              @bind-Value=""@selectedDropValue""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
     Select item
@@ -9580,7 +9579,7 @@ Install-Package Blazorise.Chart.Zoom";
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -9592,7 +9591,6 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     string selectedDropValue { get; set; } = ""CN"";
-
 }";
 
         public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
