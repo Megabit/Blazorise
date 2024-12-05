@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Dtos;
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Dtos;
 
 public record ComponentInfo( INamedTypeSymbol Type, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> PublicMethods, IEnumerable<INamedTypeSymbol> InheritsFromChain )
 {

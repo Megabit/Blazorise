@@ -12,8 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
-    <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj"
-                      AdditionalProperties="EnableApiDocsGenerator=true"/>
+    <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha\Blazorise.Captcha.csproj" />
@@ -30,8 +29,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj"
-                      AdditionalProperties="EnableApiDocsGenerator=true"/>
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
@@ -46,7 +44,6 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
     <PackageReference Include="MimeKit" Version="4.8.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-    <ProjectReference Include="..\..\Source\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Blazorise.Generator.Features.ApiDocsDtos;
+namespace Blazorise.Docs.Models.ApiDocsDtos;
 
 public static class TypeExtensions
 {

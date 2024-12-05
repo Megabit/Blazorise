@@ -8,6 +8,8 @@
   <ItemGroup>
     <PackageReference Include="ColorCode.HTML" Version="2.0.15" />
     <PackageReference Include="Markdig" Version="0.38.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.0" />
   </ItemGroup>
 
 </Project>

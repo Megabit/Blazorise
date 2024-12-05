@@ -276,3 +276,6 @@ __SOURCEGENERATED__/
 
 # Fody
 /Source/Blazorise/FodyWeavers.xsd
+
+# "source generator" for api docs
+Documentation/Blazorise.Docs/ApiDocs

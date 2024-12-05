@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using Blazorise.Generator.ApiDocsGenerator.Dtos;
-using Blazorise.Generator.ApiDocsGenerator.Extensions;
+using Blazorise.Docs.Compiler.ApiDocsGenerator.Dtos;
+using Blazorise.Docs.Compiler.ApiDocsGenerator.Extensions;
 using Microsoft.CodeAnalysis;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
 public class InfoExtractor
 {
@@ -40,7 +40,6 @@ public class InfoExtractor
                                                                                              """
                                                                                              """";
         propertyDetails.DefaultValueString = defaultValueAsString;
-        propertyDetails.DefaultValue = defaultValueString;
         return propertyDetails;
     }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
 public enum ExtractorParts
 {

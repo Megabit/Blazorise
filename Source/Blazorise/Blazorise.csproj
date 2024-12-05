@@ -32,7 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj"
-                      AdditionalProperties="EnableApiDocsGenerator=$(EnableApiDocsGenerator)"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
 
     <PackageReference Include="Fody" Version="6.9.1" PrivateAssets="all" />
@@ -46,7 +45,7 @@
   <PropertyGroup>
     <WeaverConfiguration>
       <Weavers>
-        <Blazorise.Weavers KeepApiDocsGeneratedFiles="$(EnableApiDocsGenerator)" />
+        <Blazorise.Weavers  />
       </Weavers>
     </WeaverConfiguration>
   </PropertyGroup>

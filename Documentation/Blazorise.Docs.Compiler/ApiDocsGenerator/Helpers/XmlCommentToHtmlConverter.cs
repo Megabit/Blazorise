@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
 public class XmlCommentToHtmlConverter
 {

@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
 public static class DefaultValueHelper
 {

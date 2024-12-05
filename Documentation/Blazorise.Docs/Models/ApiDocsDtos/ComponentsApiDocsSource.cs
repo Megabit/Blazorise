@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blazorise.Generator.Features.ApiDocsDtos;
 
-namespace Blazorise;
+namespace Blazorise.Docs.Models.ApiDocsDtos;
 
 
 public interface IComponentsApiDocsSource

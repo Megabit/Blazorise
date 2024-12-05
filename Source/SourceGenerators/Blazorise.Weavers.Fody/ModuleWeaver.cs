@@ -13,24 +13,9 @@ public class ModuleWeaver : BaseModuleWeaver
     {
         // Remove attribute usages
         RemoveAttributeUsages($"{GeneratorFeaturesNamespace}.GenerateEqualityAttribute");
-        RemoveAttributeUsages($"{GeneratorFeaturesNamespace}.GenerateIgnoreEqualityAttribute");
+        RemoveAttributeUsages($"{GeneratorFeaturesNamespace}.GenerateIgnoreEqualityAttribute"); 
         
-        string keepApiDocsGeneratedFilesString = Config.Attribute("KeepApiDocsGeneratedFiles")?.Value ?? "false"; // get KeepApiDocsGeneratedFiles (set in csproj)
-        var keepApiDocsGeneratedFiles = bool.TryParse(keepApiDocsGeneratedFilesString, out var result) && result;
-        
-        WriteMessage($"KeepApiDocsGeneratedFiles property value: {keepApiDocsGeneratedFiles}", MessageImportance.High);
-        
-        if (!keepApiDocsGeneratedFiles)//remove the ApiDocs code
-        {   
-            // We could place all related code here and perform the removal only during the packing step.
-            // However, always removing Features ensures that we run and test the stripped code consistently.
-
-            // The ApiDocs (generated) code resides in the Blazorise assembly under the Blazorise.ApiDocsSourceGenerated namespace.
-            RemoveClassesFromNamespace("Blazorise.ApiDocsSourceGenerated");
-            
-            // We cannot always remove the reference to GeneratorFeaturesNamespace because the ApiDocs code depends on it.
-            RemoveReference(assemblyReferenceName: GeneratorFeaturesNamespace);
-        }
+        RemoveReference(assemblyReferenceName: GeneratorFeaturesNamespace);
     }
 
 
@@ -88,31 +73,6 @@ public class ModuleWeaver : BaseModuleWeaver
             WriteMessage($"Reference {assemblyReferenceName} not found", MessageImportance.Low);
         }
     }
-    
-    private void RemoveClassesFromNamespace(string namespaceName)
-    {
-        WriteMessage($"Starting removal of classes from namespace: {namespaceName}", MessageImportance.High);
-
-        // Iterate through all types in the current module and filter by namespace
-        var typesToRemove = ModuleDefinition.Types
-            .Where(t => t.Namespace == namespaceName)
-            .ToList();
-
-        WriteMessage($"Found {typesToRemove.Count} types to remove from namespace {namespaceName}", MessageImportance.High);
-
-        // Remove the matching types from the module
-        foreach (var type in typesToRemove)
-        {
-            ModuleDefinition.Types.Remove(type);
-            WriteMessage($"Removed class {type.FullName} from namespace {namespaceName}", MessageImportance.High);
-        }
-
-        if (typesToRemove.Count == 0)
-        {
-            WriteMessage($"No classes found to remove from namespace {namespaceName}", MessageImportance.Low);
-        }
-    }
-
 
     public override IEnumerable<string> GetAssembliesForScanning()
     {

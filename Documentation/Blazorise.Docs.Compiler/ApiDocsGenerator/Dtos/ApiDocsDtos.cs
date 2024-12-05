@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Dtos;
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Dtos;
 
 /// <summary>
 /// Easier to gather necessary info.
@@ -34,7 +34,6 @@ public class ApiDocsForComponentProperty
     public string Name { get; set; }
     public string Type { get; set; }
     public string TypeName { get; set; }
-    public string DefaultValue { get; set; }
     public string DefaultValueString { get; set; }
     public string Summary { get; set; }
     public bool IsBlazoriseEnum { get; set; }

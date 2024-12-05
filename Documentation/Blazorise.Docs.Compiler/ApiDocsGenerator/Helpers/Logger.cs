@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
-
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
+//todo: remove this, as it served only as the "real" source generator.
 /// <summary>
 /// This looks silly, but works surprisingly well.
 /// I haven't found a way how to log in source generator (without building the context project (Blazorise) - which takes time).

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Blazorise.Generator.Features.ApiDocsDtos;
+namespace Blazorise.Docs.Models.ApiDocsDtos;
 
 /// will be removed in package (specified in csproj)
 /// Necessary dtos for working with api docs.
@@ -52,7 +52,7 @@ public class ApiDocsForComponent
             {
                 bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
                 if(!success || component is null) continue;
-                tempList.AddRange(component.OwnProperties.Select(x=> new ApiDocsForComponentProperty(x.Name, x.Type,x.TypeName, x.DefaultValue,x.DefaultValueString,
+                tempList.AddRange(component.OwnProperties.Select(x=> new ApiDocsForComponentProperty(x.Name, x.Type,x.TypeName,x.DefaultValueString,
                 x.Summary.Replace(component.TypeName, this.TypeName),
                 x.Remarks.Replace(component.TypeName, this.TypeName),
                 x.IsBlazoriseEnum))); 
@@ -116,12 +116,11 @@ public class ApiDocsForComponent
 
 public class ApiDocsForComponentProperty
 {
-    public ApiDocsForComponentProperty( string name, Type type, string typeName, object defaultValue, string defaultValueString, string summary, string remarks, bool isBlazoriseEnum )
+    public ApiDocsForComponentProperty( string name, Type type, string typeName, string defaultValueString, string summary, string remarks, bool isBlazoriseEnum )
     {
         Name = name;
         Type = type;
         TypeName = typeName;
-        DefaultValue = defaultValue;
         DefaultValueString = defaultValueString;
         Summary = summary;
         IsBlazoriseEnum = isBlazoriseEnum;
@@ -130,7 +129,6 @@ public class ApiDocsForComponentProperty
     public string Name { get; set; }
     public Type Type { get; set; }
     public string TypeName { get; set; }
-    public object DefaultValue { get; set; }
     public string DefaultValueString { get; set; }
     public string Summary { get; set; }
     public string Remarks { get; set; }

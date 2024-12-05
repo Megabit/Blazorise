@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 
-namespace Blazorise.Generator.ApiDocsGenerator.Helpers;
+namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
 /// <summary>
 /// Methods that are too small to have their own file
@@ -127,7 +127,10 @@ public class StringHelpers
         }
 
         // Handle generic types
-        if ( typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType )
+        if ( typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType
+            // && 
+            // genericType.ConstructedFrom.Name != "System.Collections.Generic.Dictionary`2"
+            )
         {
             var baseName = typeMap.ContainsKey( genericType.Name ) ? typeMap[genericType.Name] : genericType.Name;
             var typeArguments = string.Join( ", ", genericType.TypeArguments.Select( GetSimplifiedTypeName ) );
