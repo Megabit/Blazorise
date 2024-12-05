@@ -52,7 +52,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
             var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
-            var enabledDatesChanged = parameters.TryGetValue( nameof( EnabledDates ), out IEnumerable<TValue>? paramEnabledDates ) && !EnabledDates.AreEqual( paramEnabledDates );
+            var enabledDatesChanged = parameters.TryGetValue( nameof( EnabledDates ), out IEnumerable<TValue> paramEnabledDates ) && !EnabledDates.AreEqual( paramEnabledDates );
             var disabledDaysChanged = parameters.TryGetValue( nameof( DisabledDays ), out IEnumerable<DayOfWeek> paramDisabledDays ) && !DisabledDays.AreEqual( paramDisabledDays );
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
