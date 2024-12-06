@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -40,6 +41,9 @@ public static class DefaultValueHelper
             {
                 defaultValue = HandleEnums( property, constantValue.Value );
             }
+            // e.g.: Animate.OptionsName  global::Microsoft.Extensions.Options.Options.DefaultName
+            if(defaultValue is string stringValue)
+                defaultValue = Regex.Replace(stringValue, @"^global::", "");
         }
 
         defaultValue ??= GetDefaultValueOfType( property.Type );
