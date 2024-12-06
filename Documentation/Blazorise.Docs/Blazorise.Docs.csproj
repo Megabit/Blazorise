@@ -54,8 +54,8 @@
   <!--Project path for code generator-->
   <PropertyGroup>
     <ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
-  </PropertyGroup> 
-  
+  </PropertyGroup>
+
   <!--Execute the code generator-->
   <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
     <!--Command-line for the code generator-->
