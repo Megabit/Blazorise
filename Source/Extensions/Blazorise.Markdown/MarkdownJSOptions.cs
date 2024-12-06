@@ -73,6 +73,11 @@ public class MarkdownJSOptions
     public IEnumerable<object> Toolbar { get; set; }
 
     /// <summary>
+    /// Gets or sets a prefix to the toolbar button classes when set. For example, a value of `"mde"` results in `"mde-bold"` for the Bold button.
+    /// </summary>
+    public string ToolbarButtonClassPrefix { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether tooltips are shown on the toolbar.
     /// </summary>
     public bool ToolbarTips { get; set; }
