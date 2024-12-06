@@ -102,6 +102,7 @@ public partial class Markdown : BaseComponent,
             Toolbar = Toolbar != null && toolbarButtons?.Count > 0
                 ? MarkdownActionProvider.Serialize( toolbarButtons )
                 : null,
+            ToolbarButtonClassPrefix = ToolbarButtonClassPrefix,
             ToolbarTips = ToolbarTips,
             UploadImage = UploadImage,
             ImageMaxSize = ImageMaxSize,
