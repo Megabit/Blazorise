@@ -21,11 +21,7 @@ public static class DefaultValueHelper
         {
             // Try to get constant value from property initializer
             Optional<object> constantValue = TryToGetConstantValueFromPropertyInitializer( compilation, propertySyntax );
-            if ( constantValue.HasValue && constantValue.Value != null )
-            {
-                Logger.Log( $"Got constant value from property initializer: {constantValue.Value}" );
-            }
-            else
+            if ( constantValue is not { HasValue: true, Value: not null } )
             {
                 // Try to get default value from getter
                 constantValue = TryToGetDefaultValueFromGetter( compilation, propertySyntax );
@@ -159,8 +155,6 @@ public static class DefaultValueHelper
         // If we have an enum value provided, use it; otherwise, default to zero
         object valueToFind = enumValue ?? 0;
 
-        Logger.Log( $"HandleEnums: property '{property.Name}', enumValue: {enumValue}, valueToFind: {valueToFind}" );
-
         // Find the enum member corresponding to the value
         IFieldSymbol enumMember = property.Type.GetMembers().OfType<IFieldSymbol>()
             .FirstOrDefault( f => f.HasConstantValue && Equals( f.ConstantValue, valueToFind ) );
@@ -170,16 +164,11 @@ public static class DefaultValueHelper
             // Get the fully qualified name of the enum member
             var enumMemberName = $"{property.Type}.{enumMember.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat )}";
 
-            Logger.Log( $"Found enum member: {enumMemberName}" );
             return enumMemberName;
         }
-        else
-        {
-            // If no member with the value is found, use default expression
-            var defaultValue = $"default({property.Type.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat )})";
-            Logger.Log( $"No matching enum member found. Returning default value: {defaultValue}" );
-            return defaultValue;
-        }
+        // If no member with the value is found, use default expression
+        var defaultValue = $"default({property.Type.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat )})";
+        return defaultValue;
     }
 
     private static string GetDefaultValueOfType( ITypeSymbol typeSymbol )

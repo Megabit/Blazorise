@@ -58,8 +58,6 @@ public class StringHelpers
             if ( value.Contains( propertyDetailsTypeNameWithDot ) )
             {
                 value = value.Substring( propertyDetailsTypeNameWithDot.Length );
-                Logger.Log( $"Returning {value}" );
-
                 return value;
             }
         }

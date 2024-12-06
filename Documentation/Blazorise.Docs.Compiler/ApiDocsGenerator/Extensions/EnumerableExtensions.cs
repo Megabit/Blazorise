@@ -23,7 +23,7 @@ public static class EnumerableExtensions
         }
         catch ( Exception e )
         {
-            Logger.LogAlways( e.Message );
+            
         }
         return "";
 
