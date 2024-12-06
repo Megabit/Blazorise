@@ -1,5 +1,23 @@
 ﻿# ApiDocsGenerator
 
+## Which Component Does It Pick Up?
+
+Either one of these cases:
+
+- The component is a descendant of `Blazorise.BaseComponent`.
+- The component is a descendant of `ComponentBase`.
+- The component implements `IComponent`.
+
+### Problem with Razor Files
+
+- It doesn't pick up the parameters from Razor files.
+- For inheritance to be "read," it needs to be explicitly specified inside the `.cs` file:
+  - This is especially true for `ComponentBase`, which is inherited by default when creating a `.razor` file.
+    - You need to explicitly declare `SomeComponent : ComponentBase`.
+
+This limitation can be overcome by scanning through the generated files (`SomeComponent.razor.cs`).
+
+
 > Under construction
 
 Things I don't want to miss documenting:
