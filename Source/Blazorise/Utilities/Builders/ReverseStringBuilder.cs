@@ -122,7 +122,7 @@ internal ref struct ReverseStringBuilder
     {
         private readonly char[] _array;
 
-        public SequenceSegment( char[] array, SequenceSegment? next = null )
+        public SequenceSegment( char[] array, SequenceSegment next = null )
         {
             _array = array;
             Memory = array;

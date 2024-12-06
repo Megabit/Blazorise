@@ -46,7 +46,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="With Multiple Selections">
-        Just like with a regular <Code Tag>Select</Code> component, add the <Code>Multiple</Code> parameter to allow more than one option to be selected. Also, bind the <Code>SelectedValues</Code> parameter.
+        Just like with a regular <Code Tag>Select</Code> component, add the <Code>Multiple</Code> parameter to allow more than one option to be selected. Also, bind the <Code>Value</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SelectListMultipleExample />
@@ -81,17 +81,11 @@
     <DocsAttributesItem Name="ItemDisabled" Type="Func<TItem, bool>">
         Selector for disabling list items.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValue" Type="TValue">
+    <DocsAttributesItem Name="Value" Type="TValue">
         Currently selected value.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValues" Type="IReadOnlyList<TValue>" Default="default">
-        Selected item value when in multi edit mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValueChanged" Type="EventCallback<TValue>">
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<TValue>">
         Raises an event after the selected value has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedValuesChanged" Type="EventCallback<IReadOnlyList<TValue>>">
-        Occurs when the selected items value has changed (only when <Code>Multiple</Code>).
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple items can be selected.
@@ -102,7 +96,7 @@
     <DocsAttributesItem Name="DefaultItemText" Type="string" Default="null">
         Display text of the default select item.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DefaultItemValue" Type="TValue" Default="default">
+    <DocsAttributesItem Name="DefaultItemValue" Type="object" Default="null">
         Value of the default select item.
     </DocsAttributesItem>
     <DocsAttributesItem Name="DefaultItemDisabled" Type="bool" Default="false">
