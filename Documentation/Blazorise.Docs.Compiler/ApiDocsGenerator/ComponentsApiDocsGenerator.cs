@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -10,6 +11,7 @@ using Blazorise.Docs.Compiler.ApiDocsGenerator.Extensions;
 using Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+
 #endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator;
@@ -65,13 +67,13 @@ public class ComponentsApiDocsGenerator
 
         foreach ( var inputLocation in inputLocations )
         {
-            string assemblyName = Path.GetFileName( inputLocation );// Use directory name as assembly name
+            string assemblyName = Path.GetFileName( inputLocation ); // Use directory name as assembly name
 
             CSharpCompilation compilation = inputLocation.EndsWith( "Blazorise" )
-                            ? blazoriseCompilation // the case for getting components from Blazorise
-                            : GetCompilation( inputLocation, assemblyName );
+                ? blazoriseCompilation // the case for getting components from Blazorise
+                : GetCompilation( inputLocation, assemblyName );
 
-            INamespaceSymbol namespaceToSearch = FindNamespace( compilation, assemblyName );// e.g. Blazorise.Animate
+            INamespaceSymbol namespaceToSearch = FindNamespace( compilation, assemblyName ); // e.g. Blazorise.Animate
 
             IEnumerable<ComponentInfo> componentInfo = GetComponentsInfo( compilation, namespaceToSearch );
             string sourceText = GenerateComponentsApiSource( compilation, [.. componentInfo], assemblyName );
@@ -115,11 +117,11 @@ public class ComponentsApiDocsGenerator
 
         List<MetadataReference> references =
         [
-            MetadataReference.CreateFromFile( typeof(object).Assembly.Location ),// System.Runtime
-            MetadataReference.CreateFromFile( typeof(Console).Assembly.Location ),// System.Console
-            MetadataReference.CreateFromFile( aspNetCoreComponentsAssembly.Location ),// Microsoft.AspNetCore.Components
+            MetadataReference.CreateFromFile( typeof( object ).Assembly.Location ), // System.Runtime
+            MetadataReference.CreateFromFile( typeof( Console ).Assembly.Location ), // System.Console
+            MetadataReference.CreateFromFile( aspNetCoreComponentsAssembly.Location ), // Microsoft.AspNetCore.Components
         ];
-        if ( !isBlazoriseAssembly )//get Blazorise assembly as reference (for extensions)
+        if ( !isBlazoriseAssembly ) //get Blazorise assembly as reference (for extensions)
             references.Add( blazoriseCompilation.ToMetadataReference() );
 
         var syntaxTrees = sourceFiles.Select( file => CSharpSyntaxTree.ParseText( File.ReadAllText( file ) ) );
@@ -153,7 +155,7 @@ public class ComponentsApiDocsGenerator
             var parameterProperties = type.GetMembers()
                 .OfType<IPropertySymbol>()
                 .Where( p =>
-                    p.DeclaredAccessibility == Accessibility.Public &&// Skip accessibility check for interfaces
+                    p.DeclaredAccessibility == Accessibility.Public && // Skip accessibility check for interfaces
                     p.GetAttributes().Any( attr =>
                         attr.AttributeClass?.ToDisplayString() == "Microsoft.AspNetCore.Components.ParameterAttribute" ) &&
                     p.OverriddenProperty == null );
@@ -177,7 +179,8 @@ public class ComponentsApiDocsGenerator
     }
 
     /// <summary>
-    /// get the chain of inheritance to the BaseComponent
+    /// get the chain of inheritance to the BaseComponent or ComponentBase
+    /// Only return true if implements IComponent (that is the case for all BaseComponent and ComponentBase)
     /// </summary>
     /// <param name="type"></param>
     /// <param name="baseType"></param>
@@ -185,16 +188,20 @@ public class ComponentsApiDocsGenerator
     private static (bool, IEnumerable<INamedTypeSymbol>) InheritsFrom( INamedTypeSymbol type,
         INamedTypeSymbol baseType )
     {
+        if ( !type.AllInterfaces.Any( i => i.Name == "IComponent" ) )
+            return ( false, [] );
+
         List<INamedTypeSymbol> inheritsFromChain = [];
         while ( type != null )
         {
-            if ( SymbolEqualityComparer.Default.Equals( type.BaseType, baseType ) )
-                return (true, inheritsFromChain);
-
             type = type.BaseType;
+            if ( type?.Name.Split( "." ).Last() == "ComponentBase" //for this to work, the inheritance (:ComponentBase) must be specified in .cs file.
+                || SymbolEqualityComparer.Default.Equals( type, baseType )
+                )
+                return ( true, inheritsFromChain );
             inheritsFromChain.Add( type );
         }
-        return (false, inheritsFromChain.Where( t => t != null ));
+        return ( true, [] );
     }
 
     private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<ComponentInfo> components, string assemblyName )
@@ -212,9 +219,9 @@ public class ComponentsApiDocsGenerator
                 .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) );
             ;
 
-            ApiDocsForComponent comp = new( type: componentType, typeName: componentTypeName,
+            ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
             properties: propertiesData, methods: methodsData,
-            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ) );
+            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ));
 
             return comp;
         } );
@@ -226,6 +233,7 @@ public class ComponentsApiDocsGenerator
               using System.Collections.Generic;
               using System.Linq.Expressions;
               using System.Windows.Input;
+              using Microsoft.AspNetCore.Components.Forms;
               using Blazorise.Docs.Models.ApiDocsDtos;
 
               namespace Blazorise.Docs.ApiDocs;
@@ -236,28 +244,28 @@ public class ComponentsApiDocsGenerator
                   new Dictionary<Type, ApiDocsForComponent>
                   {
                       {{componentsData.Where( comp => comp is not null ).Select( comp =>
-            {
-                return $$"""
+                      {
+                          return $$"""
                                            { typeof({{comp.Type}}),new ApiDocsForComponent(typeof({{comp.Type}}), 
                                            "{{comp.TypeName}}",
                                            new List<ApiDocsForComponentProperty>{
                                                {{comp.Properties.Select( prop =>
-                                           $"""
+                                                   $"""
 
-                                                        new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}",{prop.DefaultValueString}, "{prop.Summary}","{prop.Remarks}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
-                                                        """ ).StringJoin( " " )}}},
+                                                    new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}",{prop.DefaultValueString}, "{prop.Summary}","{prop.Remarks}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
+                                                    """ ).StringJoin( " " )}}},
                                              new List<ApiDocsForComponentMethod>{ 
                                              {{comp.Methods.Select( method =>
-                                         $$"""
+                                                 $$"""
 
-                                                       new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Summary}}" ,"{{method.Remarks}}",
-                                                            new List<ApiDocsForComponentMethodParameter>{
-                                                       {{method.Parameters.Select( param =>
-                                                   $"""
-                                                                new ("{param.Name}","{param.TypeName}" ),
-                                                                """
-                                               ).StringJoin( " " )}} }),
-                                                       """ ).StringJoin( " " )}} 
+                                                   new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Summary}}" ,"{{method.Remarks}}",
+                                                        new List<ApiDocsForComponentMethodParameter>{
+                                                   {{method.Parameters.Select( param =>
+                                                       $"""
+                                                        new ("{param.Name}","{param.TypeName}" ),
+                                                        """
+                                                   ).StringJoin( " " )}} }),
+                                                   """ ).StringJoin( " " )}} 
                                              }, 
                                              new List<Type>{  
                                              {{comp.InheritsFromChain.Select( x => $"typeof({x})" ).StringJoin( "," )}}
@@ -265,7 +273,7 @@ public class ComponentsApiDocsGenerator
                                        )},
 
                                    """;
-            }
+                      }
                       ).StringJoin( "\n" )}}
                   };
               }
