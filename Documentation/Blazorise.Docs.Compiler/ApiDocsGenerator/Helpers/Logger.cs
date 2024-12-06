@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿#region Using directives
+using System.Text;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 //todo: remove this, as it served only as the "real" source generator.
@@ -12,7 +14,7 @@ public static class Logger
 {
     private static readonly StringBuilder _logBuilder = new();
 
- 
+
     public static string LogMessages => $"""
                                          /*
                                          {_logBuilder}
@@ -20,15 +22,17 @@ public static class Logger
                                          """;
     public static bool IsOn { get; set; }
 
-    public static void Log(string message)
+    public static void Log( string message )
     {
-        if ( !IsOn ) return;
-        LogAlways(message);
+        if ( !IsOn )
+            return;
+        LogAlways( message );
     }
+
     public static void LogAlways( string message )
     {
-        _logBuilder.AppendLine(message);
-        
+        _logBuilder.AppendLine( message );
+
     }
 }
 

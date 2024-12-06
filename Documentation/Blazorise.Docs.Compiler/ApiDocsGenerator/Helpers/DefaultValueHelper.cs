@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿#region Using directives
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 

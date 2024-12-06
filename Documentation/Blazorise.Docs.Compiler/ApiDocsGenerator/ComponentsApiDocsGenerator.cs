@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -9,14 +10,27 @@ using Blazorise.Docs.Compiler.ApiDocsGenerator.Extensions;
 using Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator;
 
 public class ComponentsApiDocsGenerator
 {
+    #region Members
+
+    private Assembly aspNetCoreComponentsAssembly;
+
+    private CSharpCompilation blazoriseCompilation;
+
+    const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
+
+    #endregion
+
+    #region Constructors
+
     public ComponentsApiDocsGenerator()
     {
-        var aspnetCoreAssemblyName = typeof(Microsoft.AspNetCore.Components.ParameterAttribute).Assembly.GetName().Name;
+        var aspnetCoreAssemblyName = typeof( Microsoft.AspNetCore.Components.ParameterAttribute ).Assembly.GetName().Name;
         aspNetCoreComponentsAssembly = AppDomain.CurrentDomain
             .GetAssemblies()
             .FirstOrDefault( a => a.GetName().Name == aspnetCoreAssemblyName );
@@ -24,8 +38,9 @@ public class ComponentsApiDocsGenerator
         blazoriseCompilation = GetCompilation( Paths.BlazoriseLibRoot, "Blazorise", true );
     }
 
-    private Assembly aspNetCoreComponentsAssembly;
-    private CSharpCompilation blazoriseCompilation;
+    #endregion
+
+    #region Methods
 
     public bool Execute()
     {
@@ -44,51 +59,51 @@ public class ComponentsApiDocsGenerator
             Console.WriteLine( $"Directory for extensions does not exist: {Paths.BlazoriseExtensionsRoot}" );
             return false;
         }
-        
+
         //directories where to load the source code from one by one
-        string [] inputLocations = [ Paths.BlazoriseLibRoot, ..Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )];
-        
+        string[] inputLocations = [Paths.BlazoriseLibRoot, .. Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )];
+
         foreach ( var inputLocation in inputLocations )
         {
             string assemblyName = Path.GetFileName( inputLocation );// Use directory name as assembly name
 
-            CSharpCompilation compilation = inputLocation.EndsWith("Blazorise")
+            CSharpCompilation compilation = inputLocation.EndsWith( "Blazorise" )
                             ? blazoriseCompilation // the case for getting components from Blazorise
                             : GetCompilation( inputLocation, assemblyName );
-           
-            INamespaceSymbol namespaceToSearch = FindNamespace(compilation, assemblyName);// e.g. Blazorise.Animate
+
+            INamespaceSymbol namespaceToSearch = FindNamespace( compilation, assemblyName );// e.g. Blazorise.Animate
 
             IEnumerable<ComponentInfo> componentInfo = GetComponentsInfo( compilation, namespaceToSearch );
-            string sourceText = GenerateComponentsApiSource( compilation, [..componentInfo], assemblyName );
+            string sourceText = GenerateComponentsApiSource( compilation, [.. componentInfo], assemblyName );
 
             if ( !Directory.Exists( Paths.ApiDocsPath ) ) // BlazoriseDocs.ApiDocs
                 Directory.CreateDirectory( Paths.ApiDocsPath );
 
             string outputPath = Path.Join( Paths.ApiDocsPath, $"{assemblyName}.ApiDocs.cs" );
-            
+
             File.WriteAllText( outputPath, sourceText );
             Console.WriteLine( $"API Docs generated for {assemblyName} at {outputPath}. {sourceText.Length} characters." );
         }
         return true;
     }
-    
+
     //namespace are divided in chunks (Blazorise.Animate is under Blazorise...)
-    INamespaceSymbol FindNamespace(Compilation compilation, string namespaceName,INamespaceSymbol? namespaceToSearch  = null)
+    INamespaceSymbol FindNamespace( Compilation compilation, string namespaceName, INamespaceSymbol? namespaceToSearch = null )
     {
-        namespaceToSearch ??=  compilation.GlobalNamespace
+        namespaceToSearch ??= compilation.GlobalNamespace
             .GetNamespaceMembers()
             .FirstOrDefault( ns => ns.Name == "Blazorise" );
-        
-        if(namespaceToSearch is null) 
+
+        if ( namespaceToSearch is null )
             throw new Exception( $"Unable to find namespace {namespaceName}." );
-        
-        if (namespaceToSearch.ToDisplayString() == namespaceName)
+
+        if ( namespaceToSearch.ToDisplayString() == namespaceName )
             return namespaceToSearch;
 
-        foreach (var childNamespace in namespaceToSearch.GetNamespaceMembers())
+        foreach ( var childNamespace in namespaceToSearch.GetNamespaceMembers() )
         {
-            var result = FindNamespace(compilation, namespaceName, childNamespace);
-            if (result != null)
+            var result = FindNamespace( compilation, namespaceName, childNamespace );
+            if ( result != null )
                 return result;
         }
 
@@ -108,7 +123,7 @@ public class ComponentsApiDocsGenerator
             references.Add( blazoriseCompilation.ToMetadataReference() );
 
         var syntaxTrees = sourceFiles.Select( file => CSharpSyntaxTree.ParseText( File.ReadAllText( file ) ) );
-        
+
         var compilation = CSharpCompilation.Create(
         assemblyName,
         syntaxTrees,
@@ -131,7 +146,8 @@ public class ComponentsApiDocsGenerator
                 continue;
 
             var (inheritsFromBaseComponent, inheritsFromChain) = InheritsFrom( type, baseComponentSymbol );
-            if ( !inheritsFromBaseComponent ) continue;
+            if ( !inheritsFromBaseComponent )
+                continue;
 
             // Retrieve properties
             var parameterProperties = type.GetMembers()
@@ -173,15 +189,14 @@ public class ComponentsApiDocsGenerator
         while ( type != null )
         {
             if ( SymbolEqualityComparer.Default.Equals( type.BaseType, baseType ) )
-                return ( true, inheritsFromChain );
+                return (true, inheritsFromChain);
 
             type = type.BaseType;
             inheritsFromChain.Add( type );
         }
-        return ( false, inheritsFromChain.Where( t => t != null ) );
+        return (false, inheritsFromChain.Where( t => t != null ));
     }
 
-    const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
     private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<ComponentInfo> components, string assemblyName )
     {
         IEnumerable<ApiDocsForComponent> componentsData = components.Select( component =>
@@ -197,9 +212,9 @@ public class ComponentsApiDocsGenerator
                 .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) );
             ;
 
-            ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
+            ApiDocsForComponent comp = new( type: componentType, typeName: componentTypeName,
             properties: propertiesData, methods: methodsData,
-            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ));
+            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ) );
 
             return comp;
         } );
@@ -221,34 +236,28 @@ public class ComponentsApiDocsGenerator
                   new Dictionary<Type, ApiDocsForComponent>
                   {
                       {{componentsData.Where( comp => comp is not null ).Select( comp =>
-                      {
-                          return $$"""
+            {
+                return $$"""
                                            { typeof({{comp.Type}}),new ApiDocsForComponent(typeof({{comp.Type}}), 
                                            "{{comp.TypeName}}",
                                            new List<ApiDocsForComponentProperty>{
-                                               {{
-                                                   comp.Properties.Select( prop =>
-                                                       $"""
+                                               {{comp.Properties.Select( prop =>
+                                           $"""
 
                                                         new ("{prop.Name}",typeof({prop.Type}), "{prop.TypeName}",{prop.DefaultValueString}, "{prop.Summary}","{prop.Remarks}", {( prop.IsBlazoriseEnum ? "true" : "false" )}),
-                                                        """ ).StringJoin( " " )
-                                               }}},
+                                                        """ ).StringJoin( " " )}}},
                                              new List<ApiDocsForComponentMethod>{ 
-                                             {{
-                                                 comp.Methods.Select( method =>
-                                                     $$"""
+                                             {{comp.Methods.Select( method =>
+                                         $$"""
 
                                                        new ("{{method.Name}}","{{method.ReturnTypeName}}", "{{method.Summary}}" ,"{{method.Remarks}}",
                                                             new List<ApiDocsForComponentMethodParameter>{
-                                                       {{
-                                                           method.Parameters.Select( param =>
-                                                               $"""
+                                                       {{method.Parameters.Select( param =>
+                                                   $"""
                                                                 new ("{param.Name}","{param.TypeName}" ),
                                                                 """
-                                                           ).StringJoin( " " )
-                                                       }} }),
-                                                       """ ).StringJoin( " " )
-                                             }} 
+                                               ).StringJoin( " " )}} }),
+                                                       """ ).StringJoin( " " )}} 
                                              }, 
                                              new List<Type>{  
                                              {{comp.InheritsFromChain.Select( x => $"typeof({x})" ).StringJoin( "," )}}
@@ -256,10 +265,12 @@ public class ComponentsApiDocsGenerator
                                        )},
 
                                    """;
-                      }
+            }
                       ).StringJoin( "\n" )}}
                   };
               }
               """;
     }
+
+    #endregion
 }

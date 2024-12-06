@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿#region Using directives
+using System.Linq;
 using Blazorise.Docs.Compiler.ApiDocsGenerator.Dtos;
 using Blazorise.Docs.Compiler.ApiDocsGenerator.Extensions;
 using Microsoft.CodeAnalysis;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
@@ -47,19 +49,24 @@ public class InfoExtractor
     {
         var methodName = method.Name;
         var returnTypeName = method.ReturnType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat );
-        var summary = StringHelpers.ExtractFromXmlComment( method,ExtractorParts.Summary );
+        var summary = StringHelpers.ExtractFromXmlComment( method, ExtractorParts.Summary );
         var remarks = StringHelpers.ExtractFromXmlComment( method, ExtractorParts.Remarks );
 
         var parameters = method.Parameters.Select( param => new ApiDocsForComponentMethodParameter
         {
-            Name = param.Name, TypeName = param.Type.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
+            Name = param.Name,
+            TypeName = param.Type.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
         } );
 
         var apiMethod = new ApiDocsForComponentMethod()
         {
-            Name = methodName, ReturnTypeName = returnTypeName, Summary = summary,Remarks = remarks , Parameters = parameters,
+            Name = methodName,
+            ReturnTypeName = returnTypeName,
+            Summary = summary,
+            Remarks = remarks,
+            Parameters = parameters,
         };
-        return apiMethod;
 
+        return apiMethod;
     }
 }

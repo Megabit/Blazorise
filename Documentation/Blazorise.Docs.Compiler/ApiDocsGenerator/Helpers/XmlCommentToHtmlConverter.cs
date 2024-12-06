@@ -1,12 +1,16 @@
-﻿using System.Linq;
+﻿#region Using directives
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
 public class XmlCommentToHtmlConverter
 {
+    readonly string[] prefixes = ["T", "P", "F", "E", "M", "N"];
+
     public string Convert( string xmlComment )
     {
         if ( string.IsNullOrWhiteSpace( xmlComment ) )
@@ -92,7 +96,6 @@ public class XmlCommentToHtmlConverter
         return sb.ToString();
     }
 
-    readonly string[] prefixes = ["T", "P", "F", "E", "M", "N"];
     private string EditCref( string cref )
     {
         // Remove common prefixes like "T:", "P:", "M:", "E:", etc., and "Blazorise."

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region Using directives
+using System;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
@@ -9,19 +11,20 @@ public enum ExtractorParts
 
 public static class ExtractorPartsExtensions
 {
-    public static string GetXmlTag(this ExtractorParts part) =>
+    public static string GetXmlTag( this ExtractorParts part ) =>
         part switch
         {
             ExtractorParts.Summary => "summary",
             ExtractorParts.Remarks => "remarks",
-            _ => throw new ArgumentOutOfRangeException(nameof(part), $"No XML tag defined for {part}")
-        }; 
-    public static string GetDefault(this ExtractorParts part) =>
+            _ => throw new ArgumentOutOfRangeException( nameof( part ), $"No XML tag defined for {part}" )
+        };
+
+    public static string GetDefault( this ExtractorParts part ) =>
         part switch
         {
             ExtractorParts.Summary => "No summary found",
             ExtractorParts.Remarks => string.Empty,
-            _ => throw new ArgumentOutOfRangeException(nameof(part), $"No default value defined for {part}")
+            _ => throw new ArgumentOutOfRangeException( nameof( part ), $"No default value defined for {part}" )
         };
 
 }

@@ -10,4 +10,3 @@ public record ComponentInfo( INamedTypeSymbol Type, IEnumerable<IPropertySymbol>
     public IEnumerable<IMethodSymbol> PublicMethods { get; } = PublicMethods;
     public IEnumerable<INamedTypeSymbol> InheritsFromChain { get; } = InheritsFromChain;
 }
-

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
     <TargetFrameworks>net6;</TargetFrameworks>
     <BuildBlazoriseWeaverDll>true</BuildBlazoriseWeaverDll>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.9.1" PrivateAssets="none" />
     <PackageReference Include="FodyPackaging" Version="6.9.1" PrivateAssets="All" />

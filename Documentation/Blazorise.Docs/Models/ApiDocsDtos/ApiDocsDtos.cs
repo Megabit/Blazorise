@@ -1,8 +1,8 @@
-﻿
-#nullable enable
+﻿#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#endregion
 
 namespace Blazorise.Docs.Models.ApiDocsDtos;
 
@@ -12,7 +12,21 @@ namespace Blazorise.Docs.Models.ApiDocsDtos;
 /// This almost keeps parity with ApiDocsDtos in sg project.
 public class ApiDocsForComponent
 {
-    public ApiDocsForComponent( Type type,string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain)
+    #region Members
+
+    private IReadOnlyList<ApiDocsForComponentMethod> methods;
+
+    private IReadOnlyList<ApiDocsForComponentProperty> properties;
+
+    private IReadOnlyList<ApiDocsForComponentProperty> parameters;
+
+    private IReadOnlyList<ApiDocsForComponentProperty> events;
+
+    #endregion
+
+    #region Constructors
+
+    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain )
     {
         Type = type;
         TypeName = typeName;
@@ -20,11 +34,10 @@ public class ApiDocsForComponent
         OwnMethods = methods;
         InheritsFromChain = inheritsFromChain;
     }
-    public Type Type { get; set; }
-    public string TypeName { get; }
 
-    
-    private IReadOnlyList<ApiDocsForComponentProperty>? _parameters;
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// properties form the component and its parents
@@ -33,53 +46,53 @@ public class ApiDocsForComponent
     {
         get
         {
-            if(_parameters!=null) return _parameters;
-            _parameters = Properties.Where( x => !x.Type.IsEventType()).ToList();
-            return _parameters;
+            if ( parameters != null )
+                return parameters;
+            parameters = Properties.Where( x => !x.Type.IsEventType() ).ToList();
+            return parameters;
         }
     }
 
-    private IReadOnlyList<ApiDocsForComponentProperty>? _properties;
 
     private IReadOnlyList<ApiDocsForComponentProperty> Properties
     {
         get
         {
-            if(_properties != null) return _properties;
+            if ( properties != null )
+                return properties;
             var tempList = new List<ApiDocsForComponentProperty>();
-            tempList.AddRange(OwnProperties);
+            tempList.AddRange( OwnProperties );
             foreach ( Type typeInheritFrom in InheritsFromChain )
             {
-                bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
-                if(!success || component is null) continue;
-                tempList.AddRange(component.OwnProperties.Select(x=> new ApiDocsForComponentProperty(x.Name, x.Type,x.TypeName,x.DefaultValueString,
-                x.Summary.Replace(component.TypeName, this.TypeName),
-                x.Remarks.Replace(component.TypeName, this.TypeName),
-                x.IsBlazoriseEnum))); 
+                bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue( typeInheritFrom, out var component );
+                if ( !success || component is null )
+                    continue;
+                tempList.AddRange( component.OwnProperties.Select( x => new ApiDocsForComponentProperty( x.Name, x.Type, x.TypeName, x.DefaultValueString,
+                x.Summary.Replace( component.TypeName, this.TypeName ),
+                x.Remarks.Replace( component.TypeName, this.TypeName ),
+                x.IsBlazoriseEnum ) ) );
             }
-            _properties = tempList;
-            return _properties;
-            
+            properties = tempList;
+            return properties;
+
         }
     }
 
-    private IReadOnlyList<ApiDocsForComponentProperty>? _events;
-    
     public IReadOnlyList<ApiDocsForComponentProperty> Events
     {
         get
         {
-            if(_events!=null) return _events;
-            _events = Properties.Where( x => x.Type.IsEventType()).ToList();
-            return _events;
+            if ( events != null )
+                return events;
+            events = Properties.Where( x => x.Type.IsEventType() ).ToList();
+            return events;
         }
     }
-    
-    
+
     /// <summary>
     /// only properties from the component, not from parents
     /// </summary>
-    public IReadOnlyList<ApiDocsForComponentProperty> OwnProperties { get; set; } 
+    public IReadOnlyList<ApiDocsForComponentProperty> OwnProperties { get; set; }
     /// <summary>
     /// Methods from the component and its parents
     /// </summary>
@@ -87,89 +100,36 @@ public class ApiDocsForComponent
     {
         get
         {
-            if (_methods != null) return _methods;
+            if ( methods != null )
+                return methods;
             var tempList = new List<ApiDocsForComponentMethod>();
-            tempList.AddRange(OwnMethods);
-            foreach (Type typeInheritFrom in InheritsFromChain)
+            tempList.AddRange( OwnMethods );
+            foreach ( Type typeInheritFrom in InheritsFromChain )
             {
-                bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue(typeInheritFrom, out var component);
-                if (!success || component is null) continue;
-                tempList.AddRange(component.OwnMethods);
+                bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue( typeInheritFrom, out var component );
+                if ( !success || component is null )
+                    continue;
+                tempList.AddRange( component.OwnMethods );
             }
-            _methods = tempList;
-            return _methods;
+            methods = tempList;
+            return methods;
         }
     }
 
-    private IReadOnlyList<ApiDocsForComponentMethod>? _methods;
+    public Type Type { get; set; }
+
+    public string TypeName { get; }
+
+
 
     /// <summary>
     /// Only methods from the component, not from parents
     /// </summary>
-    public IReadOnlyList<ApiDocsForComponentMethod> OwnMethods { get;  }
+    public IReadOnlyList<ApiDocsForComponentMethod> OwnMethods { get; }
 
-    
+
     //chain of inherited classes from component to BaseComponent
-    public IReadOnlyList<Type> InheritsFromChain { get;  }
+    public IReadOnlyList<Type> InheritsFromChain { get; }
 
+    #endregion
 }
-
-public class ApiDocsForComponentProperty
-{
-    public ApiDocsForComponentProperty( string name, Type type, string typeName, string defaultValueString, string summary, string remarks, bool isBlazoriseEnum )
-    {
-        Name = name;
-        Type = type;
-        TypeName = typeName;
-        DefaultValueString = defaultValueString;
-        Summary = summary;
-        IsBlazoriseEnum = isBlazoriseEnum;
-        Remarks = remarks;
-    }
-    public string Name { get; set; }
-    public Type Type { get; set; }
-    public string TypeName { get; set; }
-    public string DefaultValueString { get; set; }
-    public string Summary { get; set; }
-    public string Remarks { get; set; }
-
-    public bool IsBlazoriseEnum { get; set; }
-}
-
-public class ApiDocsForComponentMethod
-{
-    public ApiDocsForComponentMethod( string name, string returnTypeName, string summary,string remarks, IReadOnlyList<ApiDocsForComponentMethodParameter> parameters )
-    {
-        Name = name;
-        ReturnTypeName = returnTypeName;
-        Summary = summary;
-        Remarks = remarks;
-        Parameters = parameters;
-    }
-    public string Name { get; set; }
-    // public Type ReturnTypeSymbol { get; set; }
-    public string ReturnTypeName { get; set; }
-    public string Summary { get; set; }
-    public string Remarks { get; set; }
-
-    
-    public IReadOnlyList<ApiDocsForComponentMethodParameter> Parameters { get; set; }
-
-}
-
-public class ApiDocsForComponentMethodParameter
-{
-    public ApiDocsForComponentMethodParameter( string name, string typeName )
-    {
-        Name = name;
-        TypeName = typeName;
-    }
-    public string Name { get; set; }
-    public string TypeName { get; set; }
-
-}
-
-
-
-
-

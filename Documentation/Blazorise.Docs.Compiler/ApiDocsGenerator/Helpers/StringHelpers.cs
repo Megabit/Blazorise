@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
@@ -38,42 +40,39 @@ public class StringHelpers
         return defaultValue;
     }
 
-    const string toReplace = "global::";
-    const string toReplace2 = "Blazorise.";
+    const string ToReplace = "global::";
+    const string ToReplace2 = "Blazorise.";
 
     public static string TypeToStringDetails( string value, string propertyDetailsType )
     {
-     
-        if ( value.StartsWith( toReplace ) )
+
+        if ( value.StartsWith( ToReplace ) )
         {
-            value = value.Substring( toReplace.Length );
+            value = value.Substring( ToReplace.Length );
         }
 
-        if ( value.Contains( toReplace2 ) )
+        if ( value.Contains( ToReplace2 ) )
         {
-            string propertyDetailsTypeNameWithDot = propertyDetailsType.Replace(toReplace,"") + ".";//From Color.Default => Default
+            string propertyDetailsTypeNameWithDot = propertyDetailsType.Replace( ToReplace, "" ) + ".";//From Color.Default => Default
 
             if ( value.Contains( propertyDetailsTypeNameWithDot ) )
             {
                 value = value.Substring( propertyDetailsTypeNameWithDot.Length );
-                Logger.Log($"Returning {value}");
+                Logger.Log( $"Returning {value}" );
 
                 return value;
             }
         }
-        
-        if ( value.StartsWith( toReplace2 ) )
+
+        if ( value.StartsWith( ToReplace2 ) )
         {
             string propertyDetailsTypeNameWithDot = propertyDetailsType + ".";//From Color.Default => Default
             if ( value.StartsWith( propertyDetailsTypeNameWithDot ) )
                 value = value.Substring( propertyDetailsTypeNameWithDot.Length );
-            value = value.Substring( toReplace2.Length );
+            value = value.Substring( ToReplace2.Length );
         }
         return value;
-
     }
-
-
 
     internal static string ExtractFromXmlComment( ISymbol iSymbol, ExtractorParts part )
     {
@@ -97,6 +96,7 @@ public class StringHelpers
         text = converter.Convert( text );
         return text;
     }
+
     private static string GetXmlCommentForInheritdocInterfaces( ISymbol iSymbol, ExtractorParts part )
     {
         foreach ( var interfaceSymbol in iSymbol.ContainingType.AllInterfaces.Where( x => x.ToDisplayString().StartsWith( "Blazorise" ) ) )
@@ -146,7 +146,6 @@ public class StringHelpers
         // Use the mapped name if available, otherwise fallback to the simple name
         return typeMap.TryGetValue( typeSymbol.Name, out var simplifiedName ) ? simplifiedName : typeSymbol.Name;
     }
-
 
     static readonly Dictionary<string, string> typeMap = new()
     {
