@@ -28,12 +28,11 @@
 
                     <Paragraph Margin="Margin.Is0.FromBottom">
                         <Text>Possible values:</Text>
-                        @for ( int enumValue = 0; enumValue < enumNames.Length; enumValue++ )
+                        @for ( int i = 0; i < enumNames.Length; i++ )
                         {
-                            int i1 = enumValue;
-
-                            <Code>@enumNames[i1]</Code>
-                            @(enumValue < @enumNames.Length - 1 ? ", " : "")
+                            int iLocal = i;
+                            <Code>@enumNames[iLocal]</Code>
+                            @(i < @enumNames.Length - 1 ? ", " : "")
                         }
                     </Paragraph>
                 }
