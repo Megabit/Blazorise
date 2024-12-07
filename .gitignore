@@ -273,3 +273,9 @@ Documentation/Blazorise.Docs.Server/wwwroot/img/blog/.DS_Store
 
 # Source Generation directory
 __SOURCEGENERATED__/
+
+# Fody
+/Source/Blazorise/FodyWeavers.xsd
+
+# "source generator" for api docs
+Documentation/Blazorise.Docs/ApiDocs

@@ -11,7 +11,7 @@ namespace Blazorise.Animate;
 /// <summary>
 /// Runs animations for any content places inside of <see cref="Animate"/>. component.
 /// </summary>
-public partial class Animate
+public partial class Animate:ComponentBase
 {
     #region Members
 

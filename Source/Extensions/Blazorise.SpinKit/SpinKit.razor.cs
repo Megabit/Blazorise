@@ -8,7 +8,7 @@ namespace Blazorise.SpinKit;
 /// <summary>
 /// Simple loading spinner animated with CSS. 
 /// </summary>
-public partial class SpinKit
+public partial class SpinKit : ComponentBase
 {
     #region Methods
 

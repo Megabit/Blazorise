@@ -226,7 +226,7 @@ public partial class SnackbarStack : BaseComponent
     [Parameter] public bool DelayCloseOnClick { get; set; }
 
     /// <summary>
-    /// Defines the interval(in milliseconds) by which the snackbar will be delayed from closing.
+    /// Defines the interval (in milliseconds) by which the snackbar will be delayed from closing.
     /// </summary>
     [Parameter] public double? DelayCloseOnClickInterval { get; set; }
 

@@ -61,43 +61,4 @@
     For optimal Carousel functionality in Blazorise, maintain uniform dimensions across all slides. Inconsistent sizes can cause disruptive resizing during transitions. This can be prevented by defining consistent widths and heights through additional CSS styles. Uniform slide dimensions provide a smoother user experience and a more visually appealing Carousel component.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="Autoplay" Type="bool" Default="true">
-        Autoplays the carousel slides from left to right.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ShowIndicators" Type="bool" Default="true">
-        Specifies whether to show an indicator for each slide.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ShowControls" Type="bool" Default="true">
-        Specifies whether to show the controls that allows the user to navigate to the next or previous slide.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedSlide" Type="string">
-        Gets or sets currently selected slide name.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedSlideChanged" Type="EventCallback<string>">
-        Occurs after the selected slide has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="PreviousButtonLocalizer" Type="TextLocalizerHandler">
-        Function used to handle custom localization for previous button that will override a default ITextLocalizer.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="NextButtonLocalizer" Type="TextLocalizerHandler">
-        Function used to handle custom localization for next button that will override a default ITextLocalizer.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="AutoRepeat" Type="bool" Default="true">
-        Auto-repeats the carousel slides once they reach the end.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Crossfade" Type="bool" Default="false">
-        Animate slides with a fade transition instead of a slide.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Interval" Type="double" Default="2000">
-        Defines the interval(in milliseconds) after which the item will automatically slide.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(Carousel)]" />
