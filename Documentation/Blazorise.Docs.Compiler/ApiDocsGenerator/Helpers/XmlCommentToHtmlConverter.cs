@@ -104,6 +104,7 @@ public class XmlCommentToHtmlConverter
             : cref;
 
         edited = Regex.Replace( edited, @"`\d+", string.Empty );//replaces `1 (type params)
+        edited = Regex.Replace( edited, "!:", string.Empty );//replace !: (not-reference type)
         return edited.Replace( "Blazorise.", string.Empty );
     }
 }
