@@ -39,7 +39,7 @@ public static class DefaultValueHelper
             }
             // e.g.: Animate.OptionsName  global::Microsoft.Extensions.Options.Options.DefaultName
             if(defaultValue is string stringValue)
-                defaultValue = Regex.Replace(stringValue, @"^global::", "");
+                defaultValue = stringValue.Replace( @"global::", "");
         }
 
         defaultValue ??= GetDefaultValueOfType( property.Type );

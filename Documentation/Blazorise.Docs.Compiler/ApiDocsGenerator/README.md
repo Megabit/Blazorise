@@ -17,6 +17,14 @@ Either one of these cases:
 
 This limitation can be overcome by scanning through the generated files (`SomeComponent.razor.cs`).
 
+## System.Runtime
+
+Retrieving XML comments from the `System.Runtime` assembly can be problematic, particularly for the `IDisposable` interface.
+
+When accessing `AllInterfaces` for a class, the `IDisposable` interface is often represented as an `ErrorTypeSymbol`. This means it is not treated as a "normal" reference, and its members, such as the `Dispose` method, are not recognized. As a result, XML comments for `IDisposable` cannot be resolved.
+
+This issue is likely caused by the implicit nature of the reference to `System.Runtime.dll` in modern .NET projects, where it is part of the shared framework and not explicitly included as a standalone reference.
+
 
 > Under construction
 

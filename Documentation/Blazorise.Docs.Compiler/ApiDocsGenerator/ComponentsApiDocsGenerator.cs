@@ -25,6 +25,11 @@ public class ComponentsApiDocsGenerator
     private CSharpCompilation blazoriseCompilation;
 
     private XmlDocumentationProvider aspnetCoreDocumentationProvider;
+    
+    
+    private Assembly systemRuntimeAssembly;   
+    private XmlDocumentationProvider systemRuntimeDocumentationProvider;
+    
 
     const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
 
@@ -39,7 +44,15 @@ public class ComponentsApiDocsGenerator
             .GetAssemblies()
             .FirstOrDefault( a => a.GetName().Name == aspnetCoreAssemblyName );
 
-        if ( aspNetCoreComponentsAssembly != null )
+         systemRuntimeAssembly = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .FirstOrDefault( a => a.GetName().Name == "System.Runtime" );
+         
+         if ( systemRuntimeAssembly is not null )
+         {
+             systemRuntimeDocumentationProvider = XmlDocumentationProvider.CreateFromFile( $"{Path.GetFullPath(".")}/System.Runtime.xml" );
+         }
+         if ( aspNetCoreComponentsAssembly != null )
         {
             // Replace the .dll extension with .xml to get the documentation file path
             string xmlDocumentationPath = Path.ChangeExtension( aspNetCoreComponentsAssembly.Location, ".xml" );
@@ -126,6 +139,7 @@ public class ComponentsApiDocsGenerator
 
         List<MetadataReference> references =
         [
+            MetadataReference.CreateFromFile( systemRuntimeAssembly.Location, documentation:systemRuntimeDocumentationProvider ), // Microsoft.AspNetCore.Components
             MetadataReference.CreateFromFile( aspNetCoreComponentsAssembly.Location, documentation:aspnetCoreDocumentationProvider ), // Microsoft.AspNetCore.Components
         ];
         if ( !isBlazoriseAssembly ) //get Blazorise assembly as reference (for extensions)
