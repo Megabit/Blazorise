@@ -29,32 +29,3 @@
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(Repeater<>)]" />
-
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="TItem" Type="generic">
-        The item type to render.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Items" Type="" Default="null">
-        The items to render. When this is <Code>INotifyCollectionChanged</Code> it will hookup collection change listeners.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Skip" Type="long?" Default="null">
-        The number of items to skip before starting to render.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Take" Type="long?" Default="null">
-        The number of items to render.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ChildContent" Type="RenderFragment<TItem>">
-        The content to render per item.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CollectionChanged" Type="EventCallback<NotifyCollectionChangedEventArgs>">
-        Occurs when the Items collection changes.
-    </DocsAttributesItem>
-</DocsAttributes>
