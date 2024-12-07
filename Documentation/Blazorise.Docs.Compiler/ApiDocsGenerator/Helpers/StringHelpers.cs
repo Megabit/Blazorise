@@ -97,11 +97,11 @@ public class StringHelpers
 
     private static string GetXmlCommentForInheritdocInterfaces( ISymbol iSymbol, ExtractorParts part )
     {
-        foreach ( var interfaceSymbol in iSymbol.ContainingType.AllInterfaces.Where( x => x.ToDisplayString().StartsWith( "Blazorise" ) ) )
+        foreach ( var interfaceSymbol in iSymbol.ContainingType.AllInterfaces )
         {
             // Find if the interface has a member matching this symbol
             var matchingMember = interfaceSymbol.GetMembers()
-                .FirstOrDefault( member => iSymbol.Equals( iSymbol.ContainingType.FindImplementationForInterfaceMember( member ), SymbolEqualityComparer.Default ) );
+                .FirstOrDefault( member => member.Name == iSymbol.Name );
 
             if ( matchingMember != null )
             {

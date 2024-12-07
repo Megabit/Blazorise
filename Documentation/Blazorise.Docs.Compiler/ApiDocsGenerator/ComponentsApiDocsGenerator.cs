@@ -24,6 +24,8 @@ public class ComponentsApiDocsGenerator
 
     private CSharpCompilation blazoriseCompilation;
 
+    private XmlDocumentationProvider aspnetCoreDocumentationProvider;
+
     const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
 
     #endregion
@@ -36,6 +38,13 @@ public class ComponentsApiDocsGenerator
         aspNetCoreComponentsAssembly = AppDomain.CurrentDomain
             .GetAssemblies()
             .FirstOrDefault( a => a.GetName().Name == aspnetCoreAssemblyName );
+
+        if ( aspNetCoreComponentsAssembly != null )
+        {
+            // Replace the .dll extension with .xml to get the documentation file path
+            string xmlDocumentationPath = Path.ChangeExtension( aspNetCoreComponentsAssembly.Location, ".xml" );
+            aspnetCoreDocumentationProvider = XmlDocumentationProvider.CreateFromFile( xmlDocumentationPath );
+        }
         //get the blazorise compilation, it's needed for every extension.
         blazoriseCompilation = GetCompilation( Paths.BlazoriseLibRoot, "Blazorise", true );
     }
@@ -117,9 +126,7 @@ public class ComponentsApiDocsGenerator
 
         List<MetadataReference> references =
         [
-            MetadataReference.CreateFromFile( typeof( object ).Assembly.Location ), // System.Runtime
-            MetadataReference.CreateFromFile( typeof( Console ).Assembly.Location ), // System.Console
-            MetadataReference.CreateFromFile( aspNetCoreComponentsAssembly.Location ), // Microsoft.AspNetCore.Components
+            MetadataReference.CreateFromFile( aspNetCoreComponentsAssembly.Location, documentation:aspnetCoreDocumentationProvider ), // Microsoft.AspNetCore.Components
         ];
         if ( !isBlazoriseAssembly ) //get Blazorise assembly as reference (for extensions)
             references.Add( blazoriseCompilation.ToMetadataReference() );
@@ -233,6 +240,7 @@ public class ComponentsApiDocsGenerator
               using System.Collections.Generic;
               using System.Linq.Expressions;
               using System.Windows.Input;
+              using System.Threading.Tasks;
               using Microsoft.AspNetCore.Components.Forms;
               using Blazorise.Docs.Models.ApiDocsDtos;
 
