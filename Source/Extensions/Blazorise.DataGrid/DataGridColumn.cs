@@ -383,6 +383,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
             : DataGridColumnFilterMethod.Contains;
     }
+    
+    internal void SetWidthToNull()=> Width = null;//to supress BL0005
 
     #endregion
 
