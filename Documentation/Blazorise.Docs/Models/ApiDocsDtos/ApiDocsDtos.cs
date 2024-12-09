@@ -67,9 +67,10 @@ public class ApiDocsForComponent
                 bool success = ComponentsApiDocsSource.Instance.Components.TryGetValue( typeInheritFrom, out var component );
                 if ( !success || component is null )
                     continue;
+                string typeNameWoutGeneric = component.TypeName.Split( '<' ).First();//because inside cref (now inside <strong> it is wout the generic part (SomCom instead of SomCom<TValue>))
                 tempList.AddRange( component.OwnProperties.Select( x => new ApiDocsForComponentProperty( x.Name, x.Type, x.TypeName, x.DefaultValueString,
-                x.Summary.Replace( component.TypeName, this.TypeName ),
-                x.Remarks.Replace( component.TypeName, this.TypeName ),
+                x.Summary.Replace( typeNameWoutGeneric, this.TypeName ),
+                x.Remarks.Replace( typeNameWoutGeneric, this.TypeName ),
                 x.IsBlazoriseEnum ) ) );
             }
             properties = tempList;
