@@ -126,12 +126,24 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public ChartData<TItem> Data { get; set; }
 
+    /// <summary>
+    /// Raised when clicked on data point. 
+    /// </summary>
     [Parameter] public EventCallback<ChartMouseEventArgs> Clicked { get; set; }
 
+    /// <summary>
+    /// Raised when hovered over data point.
+    /// </summary>
     [Parameter] public EventCallback<ChartMouseEventArgs> Hovered { get; set; }
 
+    /// <summary>
+    /// Raised when mouse leaves the chart area.
+    /// </summary>
     [Parameter] public EventCallback<ChartMouseEventArgs> MouseOut { get; set; }
 
+    /// <summary>
+    /// Specifies the content to render inside this <see cref="BaseChart{TItem}"/>.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

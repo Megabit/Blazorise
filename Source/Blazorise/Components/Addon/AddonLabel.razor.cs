@@ -25,7 +25,7 @@ public partial class AddonLabel : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Addon"/>.
+    /// Specifies the content to be rendered inside this <see cref="AddonLabel"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -79,43 +79,4 @@
     <DocsPageSectionSource Code="TimePickerNonStaticExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="Time" Type="TValue" Default="default">
-        Gets or sets the input time value.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="TimeChanged" Type="@("EventCallback<TValue>")">
-        Occurs when the time has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Min" Type="TimeSpan?" Default="null">
-        The earliest time to accept.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Max" Type="TimeSpan?" Default="null">
-        The latest time to accept.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Pattern" Type="string" Default="null">
-        The pattern attribute specifies a regular expression that the input element’s value is checked against on form submission.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
-        Sets the placeholder for the empty time.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="DisplayFormat" Type="string" Default="null">
-        Defines the display format of the time.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="TimeAs24hr" Type="bool" Default="false">
-        Displays time picker in 24 hour mode without AM/PM selection when enabled.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Inline" Type="bool" Default="false">
-        Display the time menu in an always-open state with the inline option.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="StaticPicker" Type="bool" Default="true">
-        If enabled, the time menu will be positioned as static.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(TimePicker<>)]" />

@@ -12,7 +12,7 @@
 <Table Class="b-docs-methods" Responsive Margin="Margin.Is4.FromBottom">
     <TableHeader ThemeContrast="@ThemeContrast">
         <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>@Name</TableHeaderCell>
             <TableHeaderCell>Description</TableHeaderCell>
             @if ( ShowReturnType )
             {
@@ -46,7 +46,7 @@
                 @if ( ShowParameters )
                 {
                     <TableRowCell Class="@docsMethodsItem.DefaultClassNames">
-                        @if ( @docsMethodsItem.Parameters != null )
+                        @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.Parameters ) )
                         {
                             <Code>@docsMethodsItem.Parameters</Code>
                         }

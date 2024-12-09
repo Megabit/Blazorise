@@ -63,6 +63,8 @@ public partial class DocsAttributes : IDisposable
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    [Parameter] public string Name { get; set; } = "Name";
+
     public List<DocsAttributesItem> DocsAttributesItems { get; set; } = new();
 
     #endregion

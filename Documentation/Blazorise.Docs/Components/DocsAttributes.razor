@@ -4,7 +4,7 @@
 
 @if ( Title != null )
 {
-    <Heading Class="b-docs-page-attributes-title" Size="HeadingSize.Is4">
+    <Heading Class="b-docs-page-attributes-title" Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">
         @Title
     </Heading>
 }
@@ -12,7 +12,7 @@
 <Table Class="b-docs-attributes" Responsive Margin="Margin.Is4.FromBottom">
     <TableHeader ThemeContrast="@ThemeContrast">
         <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>@Name</TableHeaderCell>
             <TableHeaderCell>Description</TableHeaderCell>
             <TableHeaderCell>Type</TableHeaderCell>
             @if ( ShowDefaults )

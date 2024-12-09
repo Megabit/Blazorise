@@ -383,7 +383,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Custom css class name.
+    /// Custom CSS class name to apply to the component.
     /// </summary>
     [Parameter]
     public string Class
@@ -398,7 +398,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Custom html style.
+    /// Custom inline styles to apply to the component.
     /// </summary>
     [Parameter]
     public string Style
@@ -413,7 +413,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Floats an element to the defined side.
+    /// Specifies how an element should float within its containing block.
     /// </summary>
     [Parameter]
     public Float Float
@@ -428,7 +428,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Fixes an element's floating children.
+    /// Determines whether to apply clearfix to manage floating children.
     /// </summary>
     [Parameter]
     public bool Clearfix
@@ -443,7 +443,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Controls the visibility, without modifying the display, of elements with visibility utilities.
+    /// Controls the visibility of an element without altering its layout.
     /// </summary>
     [Parameter]
     public Visibility Visibility
@@ -461,7 +461,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defined the sizing for the element width attribute(s).
+    /// Defines the width of the component using responsive sizing utilities.
     /// </summary>
     [Parameter]
     public IFluentSizing Width
@@ -479,7 +479,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defined the sizing for the element height attribute(s).
+    /// Defines the height of the component using responsive sizing utilities.
     /// </summary>
     [Parameter]
     public IFluentSizing Height
@@ -497,7 +497,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defines the element margin spacing.
+    /// Configures the margin spacing for the component.
     /// </summary>
     [Parameter]
     public IFluentSpacing Margin
@@ -515,7 +515,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defines the element padding spacing.
+    /// Configures the padding spacing for the component.
     /// </summary>
     [Parameter]
     public IFluentSpacing Padding
@@ -533,7 +533,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defines the element gap spacing.
+    /// Configures the gap spacing between child elements of the component.
     /// </summary>
     [Parameter]
     public IFluentGap Gap
@@ -551,7 +551,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Specifies the display behavior of an element.
+    /// Specifies the display behavior (e.g., block, inline, flex) of the component.
     /// </summary>
     [Parameter]
     public IFluentDisplay Display
@@ -569,7 +569,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Specifies the border of an element.
+    /// Configures the border properties of the component.
     /// </summary>
     [Parameter]
     public IFluentBorder Border
@@ -587,7 +587,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Specifies flexbox properties of an element.
+    /// Configures the flexbox properties of the component.
     /// </summary>
     [Parameter]
     public IFluentFlex Flex
@@ -605,7 +605,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// The position property specifies the type of positioning method used for an element (static, relative, fixed, absolute or sticky).
+    /// Specifies the positioning method for the component (static, relative, absolute, etc.).
     /// </summary>
     [Parameter]
     public IFluentPosition Position
@@ -623,7 +623,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// The overflow property controls what happens to content that is too big to fit into an area.
+    /// Configures the overflow behavior when content exceeds the component's bounds.
     /// </summary>
     [Parameter]
     public IFluentOverflow Overflow
@@ -641,7 +641,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Changes the character casing of a element.
+    /// Specifies the text casing transformation (e.g., uppercase, lowercase).
     /// </summary>
     [Parameter]
     public CharacterCasing Casing
@@ -656,7 +656,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the text color.
+    /// Defines the text color of the component.
     /// </summary>
     [Parameter]
     public TextColor TextColor
@@ -671,7 +671,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the text alignment.
+    /// Configures the horizontal alignment of text within the component.
     /// </summary>
     [Parameter]
     public TextAlignment TextAlignment
@@ -686,7 +686,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the text transformation.
+    /// Configures the text transformation (e.g., capitalize, none) of the component.
     /// </summary>
     [Parameter]
     public TextTransform TextTransform
@@ -701,7 +701,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the text decoration.
+    /// Defines the text decoration style (e.g., underline, none) for the component.
     /// </summary>
     [Parameter]
     public TextDecoration TextDecoration
@@ -719,7 +719,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the text weight.
+    /// Specifies the font weight of text in the component (e.g., bold, normal).
     /// </summary>
     [Parameter]
     public TextWeight TextWeight
@@ -734,7 +734,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Determines how the text will behave when it is larger than a parent container.
+    /// Configures how text behaves when it overflows its container.
     /// </summary>
     [Parameter]
     public TextOverflow TextOverflow
@@ -749,7 +749,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Determines the font size of an element.
+    /// Sets the font size of the text in the component.
     /// </summary>
     [Parameter]
     public IFluentTextSize TextSize
@@ -767,11 +767,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the object fit configuration, which specifies how an object should fit within its container.
+    /// Configures the object-fit property, which determines how content is resized within its container.
     /// </summary>
-    /// <remarks>
-    /// Changing this property will update the CSS classes related to object fit styling.
-    /// </remarks>
     [Parameter]
     public IFluentObjectFit ObjectFit
     {
@@ -788,7 +785,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Changes the vertical alignment of inline, inline-block, inline-table, and table cell elements.
+    /// Specifies the vertical alignment of inline or table-cell elements.
     /// </summary>
     [Parameter]
     public VerticalAlignment VerticalAlignment
@@ -803,7 +800,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the component background color.
+    /// Sets the background color of the component.
     /// </summary>
     [Parameter]
     public Background Background
@@ -818,7 +815,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets or sets the component shadow box.
+    /// Configures the shadow effect of the component.
     /// </summary>
     [Parameter]
     public Shadow Shadow
@@ -833,10 +830,14 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Captures all the custom attribute that are not part of Blazorise component.
+    /// Captures unmatched HTML attributes for customization.
     /// </summary>
+    /// <remarks>
+    /// These attributes are applied directly to the component's root HTML element.
+    /// </remarks>
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
+
 
     #endregion
 }

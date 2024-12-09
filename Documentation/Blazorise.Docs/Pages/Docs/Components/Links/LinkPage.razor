@@ -103,40 +103,4 @@
     <DocsPageSectionSource Code="LinkDisabledExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="To" Type="string" Default="null">
-        Specifies that multiple files can be selected.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Target" Type="Target" Default="Default">
-        The target attribute specifies where to open the linked document.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Match" Type="Match" Default="Prefix">
-        URL matching behavior for a link.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CustomMatch" Type="Func<string, bool>" Default="null">
-        A callback function that is used to compare current uri with the user defined uri. If defined, the <Code>Match</Code> parameter will be ignored.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Title" Type="string" Default="null">
-        Defines the title of a link, which appears to the user as a tooltip.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Unstyled" Type="bool" Default="false">
-        Removes default color styles from the link.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Clicked" Type="EventCallback">
-        Occurs when the link is clicked.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Stretched" Type="bool" Default="false">
-        Makes any HTML element or component clickable by “stretching” a nested link.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
-        Makes the link look inactive by adding the disabled boolean attribute.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(Link)]" />

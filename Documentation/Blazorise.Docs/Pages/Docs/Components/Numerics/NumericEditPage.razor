@@ -47,37 +47,4 @@
     <DocsPageSectionSource Code="NumericEditGenericExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="TValue" Type="generic">
-        Generic type parameter used for the value attribute.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Value" Type="TValue" Default="default">
-        Gets or sets the value inside the input field.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ValueChanged" Type="@("EventCallback<TValue>")">
-        Occurs after the value has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Step" Type="decimal?" Default="null">
-        Specifies the interval between valid values.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Culture" Type="string" Default="null">
-        Helps define the localization of an element (used for parsing of the value).
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Min" Type="TValue" Default="default">
-        The minimum value to accept for this input.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Max" Type="TValue" Default="default">
-        The maximum value to accept for this input.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Autofocus" Type="bool" Default="false">
-        Set’s the focus to the component after the rendering is done.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(NumericEdit<>)]" />

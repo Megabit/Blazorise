@@ -17,6 +17,7 @@ public partial class Sidebar : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "sidebar" );
@@ -95,6 +96,9 @@ public partial class Sidebar : BaseComponent
     /// </summary>
     [Parameter] public SidebarInfo Data { get; set; }
 
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="Sidebar"/>.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

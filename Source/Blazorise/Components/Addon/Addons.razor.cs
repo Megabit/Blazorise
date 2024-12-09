@@ -131,7 +131,7 @@ public partial class Addons : BaseComponent, IDisposable
     protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
-    /// Changes the size of the elements placed inside of this <see cref="Accordion"/>.
+    /// Changes the size of the elements placed inside of this <see cref="Addons"/>.
     /// </summary>
     [Parameter]
     public Size? Size
@@ -146,7 +146,7 @@ public partial class Addons : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Accordion"/>.
+    /// Specifies the content to be rendered inside this <see cref="Addons"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

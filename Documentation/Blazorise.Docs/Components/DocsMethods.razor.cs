@@ -64,6 +64,8 @@ public partial class DocsMethods : IDisposable
     [Parameter] public bool ShowParameters { get; set; } = true;
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+    
+    [Parameter] public string Name { get; set; } = "Name";
 
     public List<DocsMethodsItem> DocsMethodsItems { get; set; } = new();
 

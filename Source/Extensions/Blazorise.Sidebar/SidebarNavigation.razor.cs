@@ -13,6 +13,7 @@ public partial class SidebarNavigation : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "sidebar-nav" );
@@ -24,6 +25,9 @@ public partial class SidebarNavigation : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="SidebarNavigation"/>.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

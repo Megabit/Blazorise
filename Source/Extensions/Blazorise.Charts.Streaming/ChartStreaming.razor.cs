@@ -84,6 +84,12 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
         await base.DisposeAsync( disposing );
     }
 
+    /// <summary>
+    /// Refreshes the chart with new data.
+    /// </summary>
+    /// <returns>
+    /// A task that represents the asynchronous operation.
+    /// </returns>
     public async Task Refresh()
     {
         if ( !Rendered )
@@ -165,7 +171,7 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
     [Parameter] public bool Vertical { get; set; }
 
     /// <summary>
-    /// Stream options.
+    /// Defines the stream options.
     /// </summary>
     [Parameter] public ChartStreamingOptions Options { get; set; } = new();
 

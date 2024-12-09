@@ -107,7 +107,7 @@ public partial class BreadcrumbLink : BaseComponent
     [Parameter] public string Title { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BreadcrumbLink"/>.
+    /// Specifies the content to be rendered inside this <see cref="BreadcrumbLink"/> component.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

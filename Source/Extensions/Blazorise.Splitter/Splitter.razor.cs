@@ -117,6 +117,10 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Registers a new splitter section. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="splitterSection">The splitter section to register.</param>
     public void RegisterSection( SplitterSection splitterSection )
     {
         splitterSections.Add( splitterSection );
@@ -127,6 +131,10 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
             InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Unregisters a splitter section. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="splitterSection">The splitter section to unregister.</param>
     public void UnregisterSection( SplitterSection splitterSection )
     {
         splitterSections.Remove( splitterSection );
@@ -137,6 +145,10 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
             InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Updates the splitter section. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="splitterSection">The splitter section to update.</param>
     public void UpdateSection( SplitterSection splitterSection )
     {
         recreateInstance = true;

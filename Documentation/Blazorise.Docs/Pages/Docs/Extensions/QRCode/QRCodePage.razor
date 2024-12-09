@@ -101,46 +101,4 @@
     Placing an image within the QRCode can make it unreadable, so it is best to increase the error level(<Strong>EccLevel</Strong>) of the code so that the QR scanners can easily read it.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="Value" Type="string">
-        Value used for QR code generation.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Payload" Type="PayloadGenerator.Payload" Default="null">
-        Custom payload used for QR code generation.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Alt" Type="string" Default="null">
-        Image alt text.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="EccLevel" Type="EccLevel" Default="L">
-        The level of error correction to use.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="DarkColor" Type="" Default="#000000">
-        Color used as dark color.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="LightColor" Type="" Default="#ffffff">
-        Color used as light color.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="PixelsPerModule" Type="int" Default="10">
-        Pixels per module.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="DrawQuietZones" Type="bool" Default="true">
-        Draw quiet zones (blank margins around QR Code image).
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Icon" Type="string" Default="null">
-        The icon that is places in the middle of the QRCode, can be in base64 format or an absolute url.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="IconSizePercentage" Type="int" Default="40">
-        Defines how much space the icon will occupy within the QRCode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="IconBorderWidth" Type="int" Default="0">
-        Defines how large the borders will be for the icon that is placed within the QRCode.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(QRCode)]" />

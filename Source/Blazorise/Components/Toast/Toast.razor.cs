@@ -296,7 +296,11 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
         }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Closes the toast with reason of closing.
+    /// </summary>
+    /// <param name="closeReason"></param>
+    /// <returns></returns>
     public Task Close( CloseReason closeReason )
     {
         return Hide( closeReason );
