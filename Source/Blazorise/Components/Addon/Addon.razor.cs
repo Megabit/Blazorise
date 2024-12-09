@@ -47,7 +47,7 @@ public partial class Addon : BaseComponent
     }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Accordion"/>.
+    /// Specifies the content to be rendered inside this <see cref="Addon"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

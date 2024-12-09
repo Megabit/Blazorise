@@ -533,7 +533,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     [Parameter] public RenderFragment Feedback { get; set; }
 
     /// <summary>
-    /// Input content.
+    /// Specifies the content to be rendered inside this <see cref="BaseInputComponent{TValue}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
