@@ -69,59 +69,6 @@
 
 <ComponentApiDocs ComponentTypes="[typeof(Cropper),typeof(CropperViewer)]" />
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes Title="Cropper">
-    <DocsAttributesItem Name="Ratio" Type="CropperAspectRatio" Default="Is1x1">
-        Defines the aspect ratio of the image cropper.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Source" Type="string" Default="null">
-        The original image source.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Alt" Type="string" Default="null">
-        The alt text of the image.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CropStarted" Type="EventCallback">
-        This event fires when the canvas (image wrapper) or the crop box starts to change.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CropMoved" Type="EventCallback">
-        This event fires when the canvas (image wrapper) or the crop box is changing.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CropEnded" Type="EventCallback">
-        This event fires when the canvas (image wrapper) or the crop box stops changing.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Cropped" Type="EventCallback">
-        This event fires when the canvas (image wrapper) or the crop box changes.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Zoomed" Type="EventCallback">
-        This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Enabled" Type="bool" Default="true">
-        Is the cropper enabled.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CropperState" Type="CropperState" Default="null">
-        Provides a shared state and syncronization context between the cropper and cropper viewer.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CrossOrigin" Type="string" Default="null">
-        The cross-origin attribute of the image.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ImageReady" Type="Func<Task>" Default="null">
-        This event fires when the image is ready / loaded.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="CropperViewer">
-    <DocsAttributesItem Name="CropperState" Type="CropperState">
-        Provides a shared state and syncronization context between the cropper and cropper viewer.
-    </DocsAttributesItem>
-</DocsAttributes>
-
 <DocsAttributes Title="CropperCropOptions">
     <DocsAttributesItem Name="Width" Type="int" Default="0">
         The destination width of the output canvas.

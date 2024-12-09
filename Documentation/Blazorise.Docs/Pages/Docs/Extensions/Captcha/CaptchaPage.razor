@@ -102,43 +102,6 @@
 
 <ComponentApiDocs ComponentTypes="[typeof(Captcha)]" />
 
-
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="State" Type="CaptchaState">
-        The current state of the Captcha.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Solved" Type="EventCallback<CaptchaState>">
-        A Captcha solved event. Provides contextual information about the Captcha state after the user has solved.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Validate" Type="Func<CaptchaState, Task<bool>>">
-        A Captcha validation event. Further validation may be performed here.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Expired" Type="EventCallback">
-        The Captcha expired event.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<Heading Size="HeadingSize.Is3">
-    Methods
-</Heading>
-
-<DocsMethods>
-    <DocsMethodsItem Name="Submit" ReturnType="Task">
-        Submits the Captcha.
-    </DocsMethodsItem>
-    <DocsMethodsItem Name="Reset" ReturnType="Task">
-        Resets the Captcha.
-    </DocsMethodsItem>
-</DocsMethods>
-
 <Heading Size="HeadingSize.Is3">
     ReCaptchaOptions
 </Heading>
