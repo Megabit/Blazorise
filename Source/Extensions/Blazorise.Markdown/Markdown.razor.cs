@@ -256,6 +256,12 @@ public partial class Markdown : BaseComponent,
         toolbarButtons.Remove( toolbarButton );
     }
 
+    /// <summary>
+    /// Notifies the component that custom button has been clicked. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     [JSInvokable]
     public Task NotifyCustomButtonClicked( string name, object value )
     {
@@ -367,6 +373,11 @@ public partial class Markdown : BaseComponent,
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
     }
 
+    /// <summary>
+    /// Notifies the component that an error message has been received. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="errorMessage"></param>
+    /// <returns></returns>
     [JSInvokable]
     public Task NotifyErrorMessage( string errorMessage )
     {
