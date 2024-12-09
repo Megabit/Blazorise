@@ -7,12 +7,12 @@
 {
     <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
                               MultipleComponentTypes="multipleComponentTypes"
-                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Parameters"/>
+                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Parameters" />
 
 
     <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
                               MultipleComponentTypes="multipleComponentTypes"
-                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Events"/>
+                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Events" />
 }
 
 @if (apiDocsForComponentsMethods.Any())
@@ -21,15 +21,15 @@
         Methods
     </Heading>
 
-    @foreach(var apiDocsForComponent in apiDocsForComponentsMethods)
+    @foreach (var apiDocsForComponent in apiDocsForComponentsMethods)
     {
         <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
-            @foreach(var method in apiDocsForComponent.Methods)
+            @foreach (var method in apiDocsForComponent.Methods.Where(m => !SkipMethods.Any(n => n == m.Name)))
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
                                  Parameters="@(string.Join(", ", method.Parameters.Select(x => $"{x.TypeName} {x.Name}")))">
                     @((MarkupString)method.Summary)
-                    <ComponentApiDocsRemarks Value="@method.Remarks"/>
+                    <ComponentApiDocsRemarks Value="@method.Remarks" />
                 </DocsMethodsItem>
             }
         </DocsMethods>
@@ -37,13 +37,15 @@
 }
 
 @code {
+    string[] SkipMethods = new[] { "Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString" };
+
     [Parameter, EditorRequired] public List<Type> ComponentTypes { get; set; } = [];
 
     IReadOnlyList<ApiDocsForComponent> apiDocsForComponents;
     List<ApiDocsForComponent> apiDocsForComponentsMethods;
     bool multipleComponentTypes;
     bool hasComponentTypes;
-    
+
     protected override void OnInitialized()
     {
         apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault(x)).Where(x => x is not null).ToList();
