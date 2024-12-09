@@ -18,23 +18,26 @@
         {
             <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName"
                                 Default="@property.DefaultValueString">
-                <Paragraph Margin="@(property.IsBlazoriseEnum ? null : Margin.Is0.FromBottom)">
+                <Paragraph Margin="Margin.Is0.FromBottom">
                     @((MarkupString)property.Summary)
                 </Paragraph>
 
-                @if (property.IsBlazoriseEnum)
+                @if ( property.IsBlazoriseEnum )
                 {
                     var enumNames = Enum.GetNames(property.Type);
 
-                    <Paragraph Margin="Margin.Is0.FromBottom">
-                        <Text>Possible values:</Text>
-                        @for ( var i = 0; i < enumNames.Length; i++ )
-                        {
-                            int enumIndex = i;
-                            <Code>@enumNames[enumIndex]</Code>
-                            @(i < @enumNames.Length - 1 ? ", " : "")
-                        }
-                    </Paragraph>
+                    @if ( enumNames.Count() <= 30 )
+                    {
+                        <Paragraph Margin="Margin.Is3.FromTop.Is0.FromBottom">
+                            <Text>Possible values:</Text>
+                            @for ( var i = 0; i < enumNames.Length; i++ )
+                            {
+                                int enumIndex = i;
+                                <Code>@enumNames[enumIndex]</Code>
+                                @(i < @enumNames.Length - 1 ? ", " : "")
+                            }
+                        </Paragraph>
+                    }
                 }
                 <ComponentApiDocsRemarks Value="@property.Remarks" />
             </DocsAttributesItem>
