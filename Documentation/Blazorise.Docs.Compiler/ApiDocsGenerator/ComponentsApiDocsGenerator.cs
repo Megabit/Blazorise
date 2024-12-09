@@ -25,11 +25,11 @@ public class ComponentsApiDocsGenerator
     private CSharpCompilation blazoriseCompilation;
 
     private XmlDocumentationProvider aspnetCoreDocumentationProvider;
-    
-    
-    private Assembly systemRuntimeAssembly;   
+
+
+    private Assembly systemRuntimeAssembly;
     private XmlDocumentationProvider systemRuntimeDocumentationProvider;
-    
+
 
     const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
 
@@ -44,15 +44,15 @@ public class ComponentsApiDocsGenerator
             .GetAssemblies()
             .FirstOrDefault( a => a.GetName().Name == aspnetCoreAssemblyName );
 
-         systemRuntimeAssembly = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .FirstOrDefault( a => a.GetName().Name == "System.Runtime" );
-         
-         if ( systemRuntimeAssembly is not null )
-         {
-             systemRuntimeDocumentationProvider = XmlDocumentationProvider.CreateFromFile( $"{Path.GetFullPath(".")}/System.Runtime.xml" );
-         }
-         if ( aspNetCoreComponentsAssembly != null )
+        systemRuntimeAssembly = AppDomain.CurrentDomain
+           .GetAssemblies()
+           .FirstOrDefault( a => a.GetName().Name == "System.Runtime" );
+
+        if ( systemRuntimeAssembly is not null )
+        {
+            systemRuntimeDocumentationProvider = XmlDocumentationProvider.CreateFromFile( $"{Path.GetFullPath( "." )}/System.Runtime.xml" );
+        }
+        if ( aspNetCoreComponentsAssembly != null )
         {
             // Replace the .dll extension with .xml to get the documentation file path
             string xmlDocumentationPath = Path.ChangeExtension( aspNetCoreComponentsAssembly.Location, ".xml" );
@@ -210,7 +210,7 @@ public class ComponentsApiDocsGenerator
         INamedTypeSymbol baseType )
     {
         if ( !type.AllInterfaces.Any( i => i.Name == "IComponent" ) )
-            return ( false, [] );
+            return (false, []);
 
         List<INamedTypeSymbol> inheritsFromChain = [];
         while ( type != null )
@@ -219,10 +219,10 @@ public class ComponentsApiDocsGenerator
             if ( type?.Name.Split( "." ).Last() == "ComponentBase" //for this to work, the inheritance (:ComponentBase) must be specified in .cs file.
                 || SymbolEqualityComparer.Default.Equals( type, baseType )
                 )
-                return ( true, inheritsFromChain );
+                return (true, inheritsFromChain);
             inheritsFromChain.Add( type );
         }
-        return ( true, [] );
+        return (true, []);
     }
 
     private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<ComponentInfo> components, string assemblyName )
@@ -232,17 +232,19 @@ public class ComponentsApiDocsGenerator
             string componentType = component.Type.ToStringWithGenerics();
             string componentTypeName = StringHelpers.GetSimplifiedTypeName( component.Type );
 
+            if ( componentTypeName is not null && componentTypeName.StartsWith( '_' ) )
+                return null;
+
             var propertiesData = component.Properties.Select( property =>
                     InfoExtractor.GetPropertyDetails( compilation, property ) )
                 .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) );
 
             var methodsData = component.PublicMethods.Select( InfoExtractor.GetMethodDetails )
                 .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) );
-            ;
 
-            ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
+            ApiDocsForComponent comp = new( type: componentType, typeName: componentTypeName,
             properties: propertiesData, methods: methodsData,
-            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ));
+            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ) );
 
             return comp;
         } );

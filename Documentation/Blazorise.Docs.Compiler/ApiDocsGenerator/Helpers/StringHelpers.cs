@@ -108,8 +108,8 @@ public class StringHelpers
                 return ExtractFromXmlComment( matchingMember, part );
             }
         }
-        return "No documentation available - no XML comment from <inheritdoc>";
 
+        return "No documentation available - no XML comment from <inheritdoc>";
     }
 
     //just making sure bool is bool and not Boolean...
