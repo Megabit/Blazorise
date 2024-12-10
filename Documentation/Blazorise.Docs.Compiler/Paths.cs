@@ -25,6 +25,10 @@ public static class Paths
         }
     }
 
+
+    public static string BlazoriseLibRoot => Path.Combine( RootDirPath, "..", "Source", "Blazorise" ); 
+    public static string BlazoriseExtensionsRoot => Path.Combine( RootDirPath, "..", "Source", "Extensions" ); 
+    public static string  ApiDocsPath => Path.Join( DirPath(), "ApiDocs" );
     public static string DirPath() => Directory.EnumerateDirectories( RootDirPath, $"Blazorise.Docs" ).FirstOrDefault();
 
     public static string DocsStringSnippetsDirPath() => Path.Join( DirPath(), "Models" );

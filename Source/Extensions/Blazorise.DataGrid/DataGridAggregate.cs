@@ -247,6 +247,9 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public IFormatProvider DisplayFormatProvider { get; set; }
 
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="DataGridAggregate{TItem}"/>.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IsRoslynComponent>true</IsRoslynComponent>
+    <LangVersion>latest</LangVersion>
+    <!--    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +14,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(EnableApiDocsGenerator)' == 'true'">
+    <DefineConstants>$(DefineConstants);ENABLE_APIDOCS_GENERATOR</DefineConstants>
+  </PropertyGroup>
+
 
   <ItemGroup>
     <ProjectReference Include="..\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" />

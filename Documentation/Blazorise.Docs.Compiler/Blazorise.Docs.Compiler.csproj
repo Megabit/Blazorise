@@ -8,6 +8,21 @@
   <ItemGroup>
     <PackageReference Include="ColorCode.HTML" Version="2.0.15" />
     <PackageReference Include="Markdig" Version="0.38.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
   </ItemGroup>
+
+  <Target Name="CopyNuGetXmlDocs" AfterTargets="Build">
+    <ItemGroup>
+      <!-- Include XML documentation files for Microsoft.AspNetCore.Components and System.Runtime -->
+      <XmlDocFiles Include="$(NuGetPackageRoot)\**\Microsoft.AspNetCore.Components.xml" />
+      <XmlDocFiles Include="$(NuGetPackageRoot)\system.runtime\**\ref\netcore50\System.Runtime.xml" />
+
+    </ItemGroup>
+    <Copy SourceFiles="@(XmlDocFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
+  </Target>
+
+
 
 </Project>
