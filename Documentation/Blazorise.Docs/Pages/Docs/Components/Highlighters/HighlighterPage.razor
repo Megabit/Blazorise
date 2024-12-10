@@ -38,28 +38,5 @@
     <DocsPageSectionSource Code="DynamicHighlighterExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
 
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="Text" Type="string">
-        The whole text in which a <Code>HighlightedText</Code> will be highlighted.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="HighlightedText" Type="string">
-        The search term to be highlighted.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CaseSensitive" Type="bool" Default="false">
-        Whether or not the highlighted text is case sensitive.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="NextBoundary" Type="string" Default=".*?\\b">
-        A regex expression used for searching the word boundaries.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="UntilNextBoundary" Type="bool" Default="false">
-        If true, highlights the text until the next word boundary.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(Highlighter)]" />

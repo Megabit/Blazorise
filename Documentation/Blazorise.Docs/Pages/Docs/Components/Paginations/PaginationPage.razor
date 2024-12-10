@@ -58,40 +58,4 @@
     <DocsPageSectionSource Code="DynamicPaginationExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes Title="Pagination">
-    <DocsAttributesItem Name="Size" Type="Size" Default="Default">
-        Gets or sets the pagination size.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Alignment" Type="Alignment" Default="Default">
-        Gets or sets the pagination alignment.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Background" Type="Background" Default="Default">
-        Gets or sets the pagination background color.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="PaginationItem">
-    <DocsAttributesItem Name="Active" Type="bool" Default="false">
-        Indicate the currently active page.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
-        Used for links that appear un-clickable.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="PaginationLink">
-    <DocsAttributesItem Name="Page" Type="string" Default="null">
-        Defines the page name.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Clicked" Type="EventCallback<string>">
-        Occurs when the item link is clicked.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(Pagination),typeof(PaginationItem),typeof(PaginationLink)]" />

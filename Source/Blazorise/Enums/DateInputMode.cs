@@ -18,7 +18,7 @@ public enum DateInputMode
     /// <summary>
     /// Allowed to select only year and month.
     /// 
-    /// Note that not all browser supports this mode, see <see href="https://caniuse.com/input-datetime" /> for more info.
+    /// Note that not all browser supports this mode. See <see href="https://caniuse.com/input-datetime">caniuse.com</see> for more info.
     /// </summary>
     Month,
 }

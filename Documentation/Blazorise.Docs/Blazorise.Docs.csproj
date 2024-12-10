@@ -2,6 +2,10 @@
 
   <Import Project="..\..\Build\Blazorise.Docs.props" />
 
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>

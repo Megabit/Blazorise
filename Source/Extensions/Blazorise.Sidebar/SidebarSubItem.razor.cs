@@ -15,6 +15,7 @@ public partial class SidebarSubItem : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "sidebar-subitem" );
@@ -23,6 +24,7 @@ public partial class SidebarSubItem : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         ParentSidebarItem?.NotifyHasSidebarSubItem();
@@ -45,6 +47,9 @@ public partial class SidebarSubItem : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Specifies the visibility of the subitem.
+    /// </summary>
     [Parameter]
     public bool Visible
     {
@@ -59,6 +64,9 @@ public partial class SidebarSubItem : BaseComponent
 
     [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
 
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="SidebarSubItem"/>.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

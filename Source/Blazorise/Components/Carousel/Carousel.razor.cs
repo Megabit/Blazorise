@@ -665,7 +665,7 @@ public partial class Carousel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the interval(in milliseconds) after which the item will automatically slide.
+    /// Defines the interval (in milliseconds) after which the item will automatically slide.
     /// </summary>
     [Parameter] public double Interval { get; set; } = 2000;
 

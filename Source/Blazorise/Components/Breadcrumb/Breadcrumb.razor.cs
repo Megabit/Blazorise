@@ -34,7 +34,7 @@ public partial class Breadcrumb : BaseComponent
     [Parameter] public BreadcrumbMode Mode { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Alert"/>.
+    /// Specifies the content to be rendered inside this <see cref="Breadcrumb"/> component.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

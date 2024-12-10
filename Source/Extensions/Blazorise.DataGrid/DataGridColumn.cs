@@ -181,6 +181,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         }
     }
 
+    /// <summary>
+    /// Handles the filter value change. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="filterValue">The new filter value.</param>
     public async void OnSearchValueChanged( object filterValue )
     {
         await ParentDataGrid.OnFilterChanged( this, filterValue );
@@ -255,11 +259,24 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal Func<TItem, object> GetGroupByFunc()
         => GroupBy is not null ? GroupBy : valueGetter.Value;
 
+    /// <summary>
+    /// Gets the formatted display value. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="item">Item the contains the value to format.</param>
+    /// <returns>
+    /// Formatted display value.
+    /// </returns>
     public string FormatDisplayValue( TItem item )
     {
         return FormatDisplayValue( GetValue( item ) );
     }
 
+    /// <summary>
+    /// Indicates whether the cell values are editable.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="bool"/> value indicating whether the cell values are editable.
+    /// </returns>
     public bool CellValuesAreEditable()
     {
         return Editable &&

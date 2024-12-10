@@ -56,34 +56,4 @@
     <DocsPageSectionSource Code="CheckWithEventExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="TValue" Type="generic">
-        Data type of <Code>Value</Code> value. Support types are <Code>bool</Code> and <Code>bool?</Code>.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Value" Type="TValue" Default="default">
-        Gets or sets the checked flag.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<TValue>">
-        Occurs when the check state is changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Indeterminate" Type="bool?" Default="null">
-        The indeterminate property can help you to achieve a ‘check all’ effect.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Inline" Type="bool" Default="false">
-        Group checkboxes on the same horizontal row.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Cursor" Type="Cursor" Default="Default">
-        Defines the mouse cursor based on the behavior by the current CSS framework.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Name" Type="Cursor" Default="Default">
-        Defines the name attribute of a checkbox. The name attribute is used to identify form data after it has been submitted to the server, or to reference form data using JavaScript on the client side.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(Check<>)]" />

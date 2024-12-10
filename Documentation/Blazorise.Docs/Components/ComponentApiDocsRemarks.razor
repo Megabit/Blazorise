@@ -1,0 +1,12 @@
+﻿@if ( !string.IsNullOrEmpty( Value ) )
+{
+    <details>
+        <summary style="list-style: none; display: inline; cursor: pointer;">
+            <Badge Color="Color.Info">Remarks</Badge>
+        </summary>
+        <Paragraph> @((MarkupString)Value)</Paragraph>
+    </details>
+}
+@code {
+    [Parameter] public string Value { get; set; } = "";
+}
