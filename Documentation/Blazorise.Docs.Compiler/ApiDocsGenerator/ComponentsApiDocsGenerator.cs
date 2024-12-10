@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -11,7 +10,6 @@ using Blazorise.Docs.Compiler.ApiDocsGenerator.Extensions;
 using Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-
 #endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator;
@@ -108,6 +106,7 @@ public class ComponentsApiDocsGenerator
             File.WriteAllText( outputPath, sourceText );
             Console.WriteLine( $"API Docs generated for {assemblyName} at {outputPath}. {sourceText.Length} characters." );
         }
+
         return true;
     }
 
@@ -156,15 +155,13 @@ public class ComponentsApiDocsGenerator
         return compilation;
     }
 
-
-
-    private  IEnumerable<ComponentInfo> GetComponentsInfo( Compilation compilation, INamespaceSymbol namespaceToSearch )
+    private IEnumerable<ComponentInfo> GetComponentsInfo( Compilation compilation, INamespaceSymbol namespaceToSearch )
     {
         var baseComponentSymbol = compilation.GetTypeByMetadataName( "Blazorise.BaseComponent" );
 
         foreach ( var type in namespaceToSearch.GetTypeMembers().OfType<INamedTypeSymbol>() )
         {
-            var (qualifiesForApiDocs, inheritsFromChain,skipParamCheck) = QualifiesForApiDocs( type, baseComponentSymbol );
+            var (qualifiesForApiDocs, inheritsFromChain, skipParamCheck) = QualifiesForApiDocs( type, baseComponentSymbol );
             if ( !qualifiesForApiDocs )
                 continue;
 
@@ -172,9 +169,9 @@ public class ComponentsApiDocsGenerator
             var parameterProperties = type.GetMembers()
                 .OfType<IPropertySymbol>()
                 .Where( p =>
-                    p.DeclaredAccessibility == Accessibility.Public && 
-                    (skipParamCheck || p.GetAttributes().Any( attr =>
-                        attr.AttributeClass?.ToDisplayString() == "Microsoft.AspNetCore.Components.ParameterAttribute" )) &&
+                    p.DeclaredAccessibility == Accessibility.Public &&
+                    ( skipParamCheck || p.GetAttributes().Any( attr =>
+                        attr.AttributeClass?.ToDisplayString() == "Microsoft.AspNetCore.Components.ParameterAttribute" ) ) &&
                     p.OverriddenProperty == null );
 
             // Retrieve methods
@@ -202,20 +199,20 @@ public class ComponentsApiDocsGenerator
     /// <param name="type"></param>
     /// <param name="baseType"></param>
     /// <returns></returns>
-    private  (bool qualifiesForApiDocs, IEnumerable<INamedTypeSymbol>, bool skipParamCheck) QualifiesForApiDocs( INamedTypeSymbol type,
+    private (bool qualifiesForApiDocs, IEnumerable<INamedTypeSymbol>, bool skipParamCheck) QualifiesForApiDocs( INamedTypeSymbol type,
         INamedTypeSymbol baseType )
     {
 
-        ( bool continueProcessing, bool skipParamAndComponentCheck ) = type switch
+        (bool continueProcessing, bool skipParamAndComponentCheck) = type switch
         {
-            _ when type.TypeKind != TypeKind.Class || type.DeclaredAccessibility != Accessibility.Public  => (false, false),
-            _ when type.Name.StartsWith( '_' ) => ( false, false ),
-            _ when type.Name.EndsWith( "Options" ) => ( true, true ),
-            _ when type.Name.EndsWith( "RouterTabsPageAttribute" ) => ( true, true ),
-            _ when !type.AllInterfaces.Any( i => i.Name == "IComponent" ) => ( false, false ),
-            _ => ( true, false )
+            _ when type.TypeKind != TypeKind.Class || type.DeclaredAccessibility != Accessibility.Public => (false, false),
+            _ when type.Name.StartsWith( '_' ) => (false, false),
+            _ when type.Name.EndsWith( "Options" ) => (true, true),
+            _ when type.Name.EndsWith( "RouterTabsPageAttribute" ) => (true, true),
+            _ when !type.AllInterfaces.Any( i => i.Name == "IComponent" ) => (false, false),
+            _ => (true, false)
         };
-        
+
         if ( !continueProcessing )
             return (false, [], false);
 

@@ -40,7 +40,7 @@ public static class DefaultValueHelper
             // e.g.: Animate.OptionsName  global::Microsoft.Extensions.Options.Options.DefaultName
             if ( defaultValue is string stringValue )
             {
-                defaultValue = stringValue.Replace( @"global::", "").Replace( $"{compilation.AssemblyName}.", "" );
+                defaultValue = stringValue.Replace( @"global::", "" ).Replace( $"{compilation.AssemblyName}.", "" );
             }
         }
 
