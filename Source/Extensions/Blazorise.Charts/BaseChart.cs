@@ -346,6 +346,14 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
         }
     }
 
+    /// <summary>
+    /// Notify that the chart has been interacted by the user. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="eventName"></param>
+    /// <param name="datasetIndex"></param>
+    /// <param name="index"></param>
+    /// <param name="modelJson"></param>
+    /// <returns></returns>
     public Task Event( string eventName, int datasetIndex, int index, string modelJson )
     {
         var model = Serialize( modelJson );

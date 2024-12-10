@@ -16,6 +16,8 @@
     <Copyright>Copyright 2018-2024 Megabit</Copyright>
 
     <TargetFramework>netstandard2.0</TargetFramework>
+
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

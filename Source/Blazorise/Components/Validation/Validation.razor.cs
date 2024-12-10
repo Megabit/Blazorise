@@ -226,7 +226,11 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         Clear();
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Runs the validation process.
+    /// </summary>
+    /// <returns>Returns the validation result.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input component is not assigned.</exception>
     public ValidationStatus Validate()
     {
         if ( inputComponent is null )

@@ -34,5 +34,8 @@ public partial class _DataGridCancelBatchCommand<TItem> : ComponentBase, IDispos
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// An event raised when the batch editing is canceled.
+    /// </summary>
     [Parameter] public EventCallback CancelBatch { get; set; }
 }
