@@ -347,7 +347,7 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     }
 
     /// <summary>
-    /// Defines the orientation for the bar. Vertical is required when using as a Sidebar.
+    /// Defines the orientation for the bar. <c>Vertical*</c> is required when using as a Sidebar.
     /// </summary>
     [Parameter]
     public virtual BarMode Mode

@@ -29,6 +29,11 @@ public partial class ChartTrendline<TItem> : BaseComponent, IChartTrendline, IAs
         return base.OnInitializedAsync();
     }
 
+    /// <summary>
+    /// Adds the trendline options to the chart.
+    /// </summary>
+    /// <param name="trendlineData">The trendline data to be added to the chart.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddTrendLineOptions( List<ChartTrendlineData> trendlineData )
     {
         if ( !Rendered )

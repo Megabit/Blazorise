@@ -299,7 +299,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Handler for @onkeydown event.
+    /// Handler for <c>@onkeydown</c> event.
     /// </summary>
     /// <param name="eventArgs">Information about the keyboard down event.</param>
     /// <returns>Returns awaitable task</returns>
@@ -309,7 +309,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Handler for @onkeypress event.
+    /// Handler for <c>@onkeypress</c> event.
     /// </summary>
     /// <param name="eventArgs">Information about the keyboard pressed event.</param>
     /// <returns>Returns awaitable task</returns>
@@ -319,7 +319,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Handler for @onkeyup event.
+    /// Handler for <c>@onkeyup</c> event.
     /// </summary>
     /// <param name="eventArgs">Information about the keyboard up event.</param>
     /// <returns>Returns awaitable task</returns>
@@ -329,7 +329,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Handler for @onblur event.
+    /// Handler for <c>@onblur</c> event.
     /// </summary>
     /// <param name="eventArgs">Information about the focus event.</param>
     /// <returns>Returns awaitable task</returns>
@@ -339,7 +339,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Handler for @onfocus event.
+    /// Handler for <c>@onfocus</c> event.
     /// </summary>
     /// <param name="eventArgs">Information about the focus event.</param>
     /// <returns>Returns awaitable task</returns>
@@ -349,7 +349,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Handler for @onfocusin event.
+    /// Handler for <c>@onfocusin</c> event.
     /// </summary>
     /// <param name="eventArgs">Information about the focus event.</param>
     /// <returns>Returns awaitable task</returns>
@@ -359,7 +359,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Handler for @onfocusout event.
+    /// Handler for <c>@onfocusout</c> event.
     /// </summary>
     /// <param name="eventArgs">Information about the focus event.</param>
     /// <returns>Returns awaitable task</returns>
@@ -369,7 +369,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
-    /// Forces the <see cref="Validation"/>(if any is used) to re-validate with the new custom or internal value.
+    /// Forces the <see cref="Validation"/> (if any is used) to re-validate with the new custom or internal value.
     /// </summary>
     public Task Revalidate()
     {
@@ -594,7 +594,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     [Parameter] public RenderFragment Feedback { get; set; }
 
     /// <summary>
-    /// Input content.
+    /// Specifies the content to be rendered inside this <see cref="BaseInputComponent{TValue}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

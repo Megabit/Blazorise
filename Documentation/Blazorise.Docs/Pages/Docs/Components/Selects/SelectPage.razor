@@ -151,46 +151,4 @@
     Select is an input field component, not a generic menu component. Use <Anchor To="docs/components/dropdown">Dropdown</Anchor> to create overlays for actions.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes Title="Select">
-    <DocsAttributesItem Name="TValue" Type="generic">
-        <Code>Value</Code> data type.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Value" Type="TValue" Default="default">
-        Selected item value when in single edit mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<TValue>">
-        Occurs when the selected item value has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="MaxVisibleItems" Type="int?" Default="null">
-        Specifies how many options should be shown at once.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="SelectItem">
-    <DocsAttributesItem Name="TValue" Type="generic">
-        <Code>Value</Code> data type.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Value" Type="TValue" Default="default">
-        Gets or sets the item value.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
-        Disable the item from mouse click.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Hidden" Type="bool" Default="false">
-        Hides the item from the list - useful for default.
-    </DocsAttributesItem>
-</DocsAttributes>
-
-<DocsAttributes Title="SelectGroup">
-    <DocsAttributesItem Name="Label" Type="string">
-        Gets or sets the group label.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(Select<>),typeof(SelectItem<>), typeof(SelectGroup)]" />

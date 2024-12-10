@@ -50,46 +50,4 @@
     <DocsPageSectionSource Code="DropdownListCheckboxExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="TItem" Type="generic">
-        Model data type.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Data" Type="IEnumerable<TItem>">
-        Data used for the search.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="TextField" Type="Func">
-        Selector for the display name field.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ValueField" Type="Func">
-        Selector for the value field.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Value" Type="	TValue">
-        Currently selected value.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<TValue>">
-        Raises an event after the selected value has changed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="MaxMenuHeight" Type="string">
-        Sets the maximum height of the dropdown menu.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
-        Gets or sets whether the dropdown will use the <Code>Virtualize</Code> functionality.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectionMode" Type="DropdownListSelectionMode" Default="Default">
-        Gets or sets the <Code>DropdownList</Code> Selection Mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="DropdownToggleSize " Type="Size" Default="Default">
-        Defines the size of toggle button.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="DisabledItem" Type="Func<TItem, bool>">
-        Method used to get the disabled items from the supplied data source.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(DropdownList<,>)]" />

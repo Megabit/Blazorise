@@ -54,46 +54,4 @@
     While the animation will work fine without it, it is advised to define a fixed height, eg. <Code Tag>LottieAnimation Style="height: 250px;"</Code>. That way, the user can see the loading animation until the component is fully loaded.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="Completed" Type="EventCallback">
-        Occurs once the animation completes.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CurrentFrame" Type="double" Default="0">
-        Gets or sets the current playback frame.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CurrentFrameChanged" Type="EventCallback<double>">
-        Occurs whenever the current frame changes.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Direction" Type="LottieAnimationDirection" Default="Forward">
-        Controls the animation playback direction.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Loaded" Type="EventCallback<LottieAnimationLoadedEventArgs>">
-        Occurs once the data for the animation has loaded.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Loop" Type="LoopConfiguration" Default="true">
-        True to loop the animation. If a number is provided then it specifies the number of times to loop.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="LoopCompleted" Type="EventCallback">
-        Occurs whenever a loop of the animation completes.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Path" Type="string" Default="null">
-        Gets or sets the source path for the animation.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Paused" Type="bool" Default="false">
-        Controls whether or not the animation is paused.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Renderer" Type="LottieAnimationRenderer" Default="Svg">
-        Gets or sets the renderer to use for the animation.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Speed" Type="double" Default="1.0">
-        Controls the playback speed.
-    </DocsAttributesItem>
-</DocsAttributes>
+<ComponentApiDocs ComponentTypes="[typeof(LottieAnimation)]" />
