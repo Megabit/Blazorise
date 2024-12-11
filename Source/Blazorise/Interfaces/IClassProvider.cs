@@ -1,5 +1,7 @@
 ﻿#region Using directives
+
 using System.Collections.Generic;
+
 #endregion
 
 namespace Blazorise;
@@ -730,17 +732,17 @@ public interface IClassProvider
 
     #region Collapse
 
-    string Collapse( bool accordion );
+    string Collapse();
 
-    string CollapseActive( bool accordion, bool active );
+    string CollapseActive( bool active );
 
-    string CollapseHeader( bool accordion );
+    string CollapseHeader();
 
-    string CollapseBody( bool accordion );
+    string CollapseBody();
 
-    string CollapseBodyActive( bool accordion, bool active );
+    string CollapseBodyActive( bool active );
 
-    string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion );
+    string CollapseBodyContent( );
 
     #endregion
 
@@ -1320,7 +1322,7 @@ public interface IClassProvider
 
     #region Enums
 
-    /* 
+    /*
      * These methods are named with "To" prefix to indicate they're used only to convert en enum to the equivalent
      * keyword in the implementation class provider.
      */

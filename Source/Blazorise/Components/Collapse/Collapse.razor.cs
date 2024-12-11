@@ -23,8 +23,8 @@ public partial class Collapse : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Collapse( false ) );
-        builder.Append( ClassProvider.CollapseActive( false, Visible ) );
+        builder.Append( ClassProvider.Collapse() );
+        builder.Append( ClassProvider.CollapseActive( Visible ) );
 
         base.BuildClasses( builder );
     }

@@ -1,8 +1,10 @@
 ﻿#region Using directives
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
+
 #endregion
 
 namespace Blazorise.Bulma.Providers;
@@ -735,7 +737,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarLabel( BarMode mode ) => "b-bar-label";
 
-
     #endregion
 
     #region Accordion
@@ -762,17 +763,17 @@ public class BulmaClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "card";
+    public override string Collapse() => "card";
 
-    public override string CollapseActive( bool accordion, bool active ) => null;
+    public override string CollapseActive( bool active ) => null;
 
-    public override string CollapseHeader( bool accordion ) => "card-header";
+    public override string CollapseHeader() => "card-header";
 
-    public override string CollapseBody( bool accordion ) => "collapse";
+    public override string CollapseBody() => "collapse";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
+    public override string CollapseBodyActive( bool active ) => active ? Show() : null;
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-content";
+    public override string CollapseBodyContent() => "card-content";
 
     #endregion
 
@@ -822,7 +823,7 @@ public class BulmaClassProvider : ClassProvider
     }
 
     public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
-       => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+        => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
 
     #endregion
 
