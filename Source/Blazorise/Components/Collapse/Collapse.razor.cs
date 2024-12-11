@@ -21,29 +21,10 @@ public partial class Collapse : BaseComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        ParentAccordion?.NotifyCollapseInitialized( this );
-
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            ParentAccordion?.NotifyCollapseRemoved( this );
-        }
-
-        base.Dispose( disposing );
-    }
-
-    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Collapse( InsideAccordion ) );
-        builder.Append( ClassProvider.CollapseActive( InsideAccordion, Visible ) );
+        builder.Append( ClassProvider.Collapse( false ) );
+        builder.Append( ClassProvider.CollapseActive( false, Visible ) );
 
         base.BuildClasses( builder );
     }
@@ -80,21 +61,6 @@ public partial class Collapse : BaseComponent, IDisposable
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Determines if the collapse is placed inside of accordion component.
-    /// </summary>
-    public bool InsideAccordion => ParentAccordion is not null;
-
-    /// <summary>
-    /// Determines if the collapse is placed inside of accordion component as the first item.
-    /// </summary>
-    public bool FirstInAccordion => ParentAccordion?.IsFirstInAccordion( this ) == true;
-
-    /// <summary>
-    /// Determines if the collapse is placed inside of accordion component as the last item.
-    /// </summary>
-    public bool LastInAccordion => ParentAccordion?.IsLastInAccordion( this ) == true;
 
     /// <summary>
     /// Gets or sets the collapse visibility state.
