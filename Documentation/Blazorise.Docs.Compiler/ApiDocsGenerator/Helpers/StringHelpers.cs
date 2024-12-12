@@ -113,7 +113,7 @@ public class StringHelpers
     }
 
     //just making sure bool is bool and not Boolean...
-    internal static string GetSimplifiedTypeName( ITypeSymbol typeSymbol )
+    internal static string GetSimplifiedTypeName( ITypeSymbol typeSymbol, bool withoutGenerics = false )
     {
         // Mapping for built-in C# types
 
@@ -125,13 +125,12 @@ public class StringHelpers
         }
 
         // Handle generic types
-        if ( typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType
-            // && 
-            // genericType.ConstructedFrom.Name != "System.Collections.Generic.Dictionary`2"
-            )
+        if ( typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType )
         {
             var baseName = typeMap.ContainsKey( genericType.Name ) ? typeMap[genericType.Name] : genericType.Name;
-            var typeArguments = string.Join( ", ", genericType.TypeArguments.Select( GetSimplifiedTypeName ) );
+            if ( withoutGenerics )
+                return baseName;
+            var typeArguments = string.Join( ", ", genericType.TypeArguments.Select( x => GetSimplifiedTypeName( x ) ) );
             return $"{baseName}<{typeArguments}>";
         }
 
