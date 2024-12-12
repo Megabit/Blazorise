@@ -23,7 +23,7 @@ public class DropdownJSOptions
     /// <summary>
     /// Gets or sets a value indicating whether the dropdown menu is right-aligned.
     /// </summary>
-    public bool RightAligned { get; set; }
+    public bool EndAligned { get; set; }
 
     /// <summary>
     /// Gets or sets the CSS class names for styling the dropdown toggle element.

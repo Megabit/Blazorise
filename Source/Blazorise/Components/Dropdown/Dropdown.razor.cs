@@ -72,7 +72,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
                 options: new()
                 {
                     Direction = GetDropdownDirection().ToString( "g" ),
-                    RightAligned = RightAligned,
+                    EndAligned = EndAligned,
                     DropdownToggleClassNames = ClassProvider.DropdownToggleSelector( IsDropdownSubmenu ),
                     DropdownMenuClassNames = ClassProvider.DropdownMenuSelector(),
                     DropdownShowClassName = ClassProvider.DropdownObserverShow(),
@@ -99,7 +99,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.Dropdown( IsDropdownSubmenu ) );
         builder.Append( ClassProvider.DropdownGroup( IsGroup ) );
         builder.Append( ClassProvider.DropdownShow( Visible ) );
-        builder.Append( ClassProvider.DropdownRight( RightAligned ) );
+        builder.Append( ClassProvider.DropdownRight( EndAligned ) );
         builder.Append( ClassProvider.DropdownDisabled( Disabled ) );
         builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ) );
 
@@ -428,12 +428,12 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// If true, a dropdown menu will be right aligned.
     /// </summary>
     [Parameter]
-    public bool RightAligned
+    public bool EndAligned
     {
-        get => state.RightAligned;
+        get => state.EndAligned;
         set
         {
-            state = state with { RightAligned = value };
+            state = state with { EndAligned = value };
 
             DirtyClasses();
         }

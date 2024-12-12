@@ -131,7 +131,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// <summary>
     /// If true, a dropdown menu will be right aligned.
     /// </summary>
-    [Parameter] public bool RightAligned { get; set; }
+    [Parameter] public bool EndAligned { get; set; }
 
     /// <summary>
     /// If true, dropdown would not react to button click.

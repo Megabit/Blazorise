@@ -15,7 +15,7 @@ public record DropdownState
     /// <summary>
     /// If true, a dropdown menu will be right aligned.
     /// </summary>
-    public bool RightAligned { get; init; }
+    public bool EndAligned { get; init; }
 
     /// <summary>
     /// If true, dropdown would not react to button click.

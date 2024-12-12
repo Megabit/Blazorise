@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
 @typeparam TItem
 @typeparam TValue
-<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" RightAligned="@RightAligned" Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
+<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" EndAligned="@EndAligned" Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
     <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" Size="@DropdownToggleSize" TabIndex="@TabIndex">@ChildContent</DropdownToggle>
     <DropdownMenu MaxMenuHeight="@MaxMenuHeight">
         @if ( Data != null )
