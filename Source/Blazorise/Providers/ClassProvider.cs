@@ -731,17 +731,17 @@ public abstract class ClassProvider : IClassProvider
 
     #region Collapse
 
-    public abstract string Collapse(  );
+    public abstract string Collapse();
 
-    public abstract string CollapseActive(  bool active );
+    public abstract string CollapseActive( bool active );
 
-    public abstract string CollapseHeader(  );
+    public abstract string CollapseHeader();
 
-    public abstract string CollapseBody(  );
+    public abstract string CollapseBody();
 
     public abstract string CollapseBodyActive( bool active );
 
-    public abstract string CollapseBodyContent( );
+    public abstract string CollapseBodyContent();
 
     #endregion
 

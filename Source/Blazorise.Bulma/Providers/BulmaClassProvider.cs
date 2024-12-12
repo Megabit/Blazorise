@@ -1,10 +1,8 @@
 ﻿#region Using directives
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
-
 #endregion
 
 namespace Blazorise.Bulma.Providers;

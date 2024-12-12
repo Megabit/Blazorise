@@ -1,7 +1,5 @@
 ﻿#region Using directives
-
 using System.Collections.Generic;
-
 #endregion
 
 namespace Blazorise;
@@ -742,7 +740,7 @@ public interface IClassProvider
 
     string CollapseBodyActive( bool active );
 
-    string CollapseBodyContent( );
+    string CollapseBodyContent();
 
     #endregion
 
