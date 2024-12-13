@@ -155,7 +155,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Tracks the current batch edit changes if <see cref="BatchEdit"/> is active.
     /// </summary>
     private List<DataGridBatchEditItem<TItem>> batchChanges;
-
+    
+    /// <summary>
+    /// Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
+    /// </summary>
+    private bool PreventDefaultSubmitBehavior =>
+                    (IsCellEdit && (CommandColumn is null || !CommandColumn.SaveCommandAllowed))
+                   || (Filterable && !SubmitFormOnEnter); //prevents submits on Enter within Filter input
+   
     #endregion
 
     #region Constructors
