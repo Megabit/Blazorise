@@ -851,7 +851,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.IndexOf( Search, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                        where text.IndexOf( Search, 0, StringComparison.OrdinalIgnoreCase ) >= 0
                         select q;
             }
             else
