@@ -10,11 +10,6 @@ namespace Blazorise.Tailwind.Components;
 
 public class Button : Blazorise.Button
 {
-    #region Members
-
-    bool collapseVisible;
-
-    #endregion
 
     #region Methods
 
@@ -122,25 +117,6 @@ public class Button : Blazorise.Button
             "link" => "fill-primary-600",
             _ => "fill-gray-200"
         };
-    }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the content visibility.
-    /// </summary>
-    [CascadingParameter( Name = "CollapseVisible" )]
-    public bool CollapseVisible
-    {
-        get => collapseVisible;
-        set
-        {
-            collapseVisible = value;
-
-            DirtyClasses();
-        }
     }
 
     #endregion
