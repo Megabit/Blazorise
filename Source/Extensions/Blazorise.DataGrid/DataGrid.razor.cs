@@ -155,14 +155,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Tracks the current batch edit changes if <see cref="BatchEdit"/> is active.
     /// </summary>
     private List<DataGridBatchEditItem<TItem>> batchChanges;
-    
-    /// <summary>
-    /// Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
-    /// </summary>
-    private bool PreventDefaultSubmitBehavior =>
-                    (IsCellEdit && (CommandColumn is null || !CommandColumn.SaveCommandAllowed))
-                   || (Filterable && !SubmitFormOnEnter); //prevents submits on Enter within Filter input
-   
+
     #endregion
 
     #region Constructors
@@ -3141,6 +3134,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets the flag which indicates if popup editor is visible.
     /// </summary>
     protected bool PopupVisible => EditMode == DataGridEditMode.Popup && EditState != DataGridEditState.None;
+
+    /// <summary>
+    /// Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
+    /// </summary>
+    private bool PreventDefaultSubmitBehavior =>
+        ( IsCellEdit && ( CommandColumn is null || !CommandColumn.SaveCommandAllowed ) )
+        || ( Filterable && !SubmitFormOnEnter ); //prevents submits on Enter within Filter input
 
     /// <summary>
     /// Defines the size of popup dialog.
