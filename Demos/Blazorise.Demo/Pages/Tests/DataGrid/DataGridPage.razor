@@ -254,9 +254,8 @@
                           Responsive
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
-                          PageSize="5"
-                          CurrentPage="currentPage"
-                          PageChanged="(e) => currentPage = e.Page"
+                          @bind-PageSize="currentPageSize"
+                          @bind-Page="currentPage"
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation
                           SortChanged="@OnSortChanged"
