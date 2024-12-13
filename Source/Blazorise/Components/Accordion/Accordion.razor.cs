@@ -27,6 +27,10 @@ public partial class Accordion : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Notifies the <see cref="Accordion"/> that the specified <see cref="AccordionItem"/> has been initialized.
+    /// </summary>
+    /// <param name="accordionItem">The <see cref="AccordionItem"/> that has been initialized.</param>
     internal void NotifyAccordionItemInitialized( AccordionItem accordionItem )
     {
         accordionItems ??= new();
@@ -34,12 +38,23 @@ public partial class Accordion : BaseComponent
         accordionItems.Add( accordionItem );
     }
 
+    /// <summary>
+    /// Notifies the <see cref="Accordion"/> that the specified <see cref="AccordionItem"/> has been removed.
+    /// </summary>
+    /// <param name="accordionItem">The <see cref="AccordionItem"/> that has been removed.</param>
     internal void NotifyAccordionItemRemoved( AccordionItem accordionItem )
     {
         if ( accordionItems is not null && accordionItems.Contains( accordionItem ) )
             accordionItems.Remove( accordionItem );
     }
 
+    /// <summary>
+    /// Determines if the specified <see cref="AccordionItem"/> is the first item in the <see cref="Accordion"/>.
+    /// </summary>
+    /// <param name="accordionItem">The <see cref="AccordionItem"/> to check.</param>
+    /// <returns>
+    /// A <see cref="bool"/> value indicating if the specified <see cref="AccordionItem"/> is the first item in the <see cref="Accordion"/>.
+    /// </returns>
     internal bool IsFirstInAccordion( AccordionItem accordionItem )
     {
         if ( accordionItems is not null && accordionItems.IndexOf( accordionItem ) == 0 )
@@ -48,6 +63,13 @@ public partial class Accordion : BaseComponent
         return false;
     }
 
+    /// <summary>
+    /// Determines if the specified <see cref="AccordionItem"/> is the last item in the <see cref="Accordion"/>.
+    /// </summary>
+    /// <param name="accordionItem">The <see cref="AccordionItem"/> to check.</param>
+    /// <returns>
+    /// A <see cref="bool"/> value indicating if the specified <see cref="AccordionItem"/> is the last item in the <see cref="Accordion"/>.
+    /// </returns>
     internal bool IsLastInAccordion( AccordionItem accordionItem )
     {
         if ( accordionItems is not null && accordionItems.IndexOf( accordionItem ) == accordionItems.Count - 1 )
