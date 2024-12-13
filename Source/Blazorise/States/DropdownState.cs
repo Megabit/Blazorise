@@ -13,7 +13,7 @@ public record DropdownState
     public bool Visible { get; init; }
 
     /// <summary>
-    /// If true, a dropdown menu will be right aligned.
+    /// If true, a dropdown menu will be aligned to the end.
     /// </summary>
     public bool EndAligned { get; init; }
 

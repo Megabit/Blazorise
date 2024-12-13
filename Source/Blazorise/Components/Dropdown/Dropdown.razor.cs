@@ -425,7 +425,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// If true, a dropdown menu will be right aligned.
+    /// If true, a dropdown menu will be aligned to the end.
     /// </summary>
     [Parameter]
     public bool EndAligned

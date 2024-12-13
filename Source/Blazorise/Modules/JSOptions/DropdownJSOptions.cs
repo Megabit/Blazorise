@@ -21,7 +21,7 @@ public class DropdownJSOptions
     public string Direction { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the dropdown menu is right-aligned.
+    /// Gets or sets a value indicating whether the dropdown menu is end-aligned.
     /// </summary>
     public bool EndAligned { get; set; }
 
