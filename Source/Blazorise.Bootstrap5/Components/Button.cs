@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using Blazorise.Extensions;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -73,5 +72,4 @@ public class Button : Blazorise.Button
     }
 
     #endregion
-
 }
