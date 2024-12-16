@@ -120,7 +120,7 @@ public class DataGridState<TItem>
     /// <summary>
     /// Gets or sets the current page number.
     /// </summary>
-    public int CurrentPage { get; set; }
+    public long CurrentPage { get; set; }
 
     /// <summary>
     /// Gets or sets the maximum number of items for each page.

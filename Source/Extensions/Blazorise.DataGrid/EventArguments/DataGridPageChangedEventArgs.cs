@@ -14,7 +14,7 @@ public class DataGridPageChangedEventArgs : EventArgs
     /// </summary>
     /// <param name="page">Page number at the moment of initialization.</param>
     /// <param name="pageSize">Maximum number of items per page.</param>
-    public DataGridPageChangedEventArgs( int page, int pageSize )
+    public DataGridPageChangedEventArgs( long page, int pageSize )
     {
         Page = page;
         PageSize = pageSize;
@@ -23,7 +23,7 @@ public class DataGridPageChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the requested page number.
     /// </summary>
-    public int Page { get; }
+    public long Page { get; }
 
     /// <summary>
     /// Gets the max number of items requested by page.

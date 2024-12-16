@@ -17,7 +17,7 @@ public class DataGridFilteredDataEventArgs<TItem> : EventArgs
     /// <param name="filteredData">List of filtered data items.</param>
     /// <param name="filteredItems">Number of filtered items.</param>
     /// <param name="totalItems">Total available items in the data-source.</param>
-    public DataGridFilteredDataEventArgs( IEnumerable<TItem> filteredData, int filteredItems, int totalItems )
+    public DataGridFilteredDataEventArgs( IEnumerable<TItem> filteredData, int filteredItems, long totalItems )
     {
         Data = filteredData;
         FilteredItems = filteredItems;
@@ -37,5 +37,5 @@ public class DataGridFilteredDataEventArgs<TItem> : EventArgs
     /// <summary>
     /// Gets the total available items in the data-source.
     /// </summary>
-    public int TotalItems { get; }
+    public long TotalItems { get; }
 }
