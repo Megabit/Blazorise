@@ -1,0 +1,62 @@
+﻿@page "/tests/datagridlarge"
+
+<h3>DataGrid on datasets larger than int.MaxValue</h3>
+
+<DataGrid TItem="LargeModelItem"
+          Data="items"
+          TotalItems="totalCount"
+          ReadData="OnDataRead"
+          ShowPager
+>
+    <DataGridColumn Field="@nameof( LargeModelItem.Id )" Caption="id" />
+    <DataGridColumn Field="@nameof( LargeModelItem.Name )" Caption="Name" Editable/>
+</DataGrid>
+
+
+
+@code {
+    class LargeModelItem
+    {
+        public long Id { get; set; }
+        public string Name { get; set; } = "";
+    }
+
+
+    long totalCount = 10_000_000_000_000;//
+    
+    IEnumerable<LargeModelItem> items = Enumerable.Empty<LargeModelItem>();
+    
+    private void OnDataRead(DataGridReadDataEventArgs<LargeModelItem> e)
+    {
+
+        // if (e.ReadDataMode == DataGridReadDataMode.Virtualize)
+        // {
+        //     
+        // items = Enumerable.Range(e.VirtualizeOffset, e.VirtualizeCount).Select(i => new LargeModelItem
+        // {
+        //     Id = i,
+        //     Name = $"Item id { i} "
+        // });
+        // }
+        
+        if (e.ReadDataMode == DataGridReadDataMode.Paging)
+        {
+            items = LongRange((e.Page - 1) * e.PageSize, e.PageSize)
+                .Select(i => new LargeModelItem
+                {
+                    Id = i,
+                    Name = $"Item id {i}"
+                });
+        }
+
+    }
+
+
+    public static IEnumerable<long> LongRange(long start, long count)
+    {
+        for (long i = 0; i < count; i++)
+        {
+            yield return start + i;
+        }
+    }
+}
