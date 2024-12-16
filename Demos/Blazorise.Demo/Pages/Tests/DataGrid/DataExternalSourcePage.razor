@@ -101,7 +101,7 @@
 
         if ( !e.CancellationToken.IsCancellationRequested )
         {
-            IEnumerable<Employee> response = ( await GetDataFromExternalSource( e.Page, e.PageSize ) );
+            IEnumerable<Employee> response = ( await GetDataFromExternalSource( (int)e.Page, e.PageSize ) );
 
             if ( !e.CancellationToken.IsCancellationRequested )
             {

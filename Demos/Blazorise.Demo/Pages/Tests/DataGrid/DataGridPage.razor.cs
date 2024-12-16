@@ -211,7 +211,7 @@ public partial class DataGridPage
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
                 response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = filteredData.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = filteredData.Skip( (int)( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
             else
                 throw new Exception( "Unhandled ReadDataMode" );
 

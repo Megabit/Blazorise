@@ -58,7 +58,8 @@
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
                 response = ( await EmployeeData.GetDataAsync() ).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = ( await EmployeeData.GetDataAsync() ).Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = ( await EmployeeData.GetDataAsync() ).Skip((int)( e.Page - 1 ) * e.PageSize )//converting to int will break on collections larger than int.MaxValue
+                    .Take( e.PageSize ).ToList();
             else
                 throw new Exception( "Unhandled ReadDataMode" );
 
