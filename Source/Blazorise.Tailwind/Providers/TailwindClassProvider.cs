@@ -594,7 +594,7 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown-menu-show block"
         : "b-dropdown-menu-hide hidden";
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "b-dropdown-menu-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "b-dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
     {
@@ -1141,20 +1141,18 @@ public class TailwindClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "b-collapse";
+    public override string Collapse() => "b-collapse";
 
-    public override string CollapseActive( bool accordion, bool active ) => "b-collapse-active";
+    public override string CollapseActive( bool active ) => "b-collapse-active";
 
-    public override string CollapseHeader( bool accordion ) => "b-collapse-header";
+    public override string CollapseHeader() => "b-collapse-header";
 
-    public override string CollapseBody( bool accordion ) => "b-collapse-body";
+    public override string CollapseBody() => "b-collapse-body";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? null : "hidden";
+    public override string CollapseBodyActive( bool active ) => active ? null : "hidden";
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion )
-        => lastInAccordion
-        ? "p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900"
-        : "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
+    public override string CollapseBodyContent()
+        => "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
 
     #endregion
 

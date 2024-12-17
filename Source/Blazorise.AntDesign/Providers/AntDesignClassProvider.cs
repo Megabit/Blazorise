@@ -463,7 +463,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownMenuVisible( bool visible ) => visible ? null : "ant-dropdown-hidden";
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "dropdown-menu-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 
@@ -752,17 +752,17 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "ant-collapse-item";
+    public override string Collapse() => "ant-collapse-item";
 
-    public override string CollapseActive( bool accordion, bool active ) => active ? "ant-collapse-item-active" : null;
+    public override string CollapseActive( bool active ) => active ? "ant-collapse-item-active" : null;
 
-    public override string CollapseHeader( bool accordion ) => "ant-collapse-header";
+    public override string CollapseHeader() => "ant-collapse-header";
 
-    public override string CollapseBody( bool accordion ) => "ant-collapse-content";
+    public override string CollapseBody() => "ant-collapse-content";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+    public override string CollapseBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-content-box";
+    public override string CollapseBodyContent() => "ant-collapse-content-box";
 
     #endregion
 

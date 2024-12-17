@@ -3145,6 +3145,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected bool PopupVisible => EditMode == DataGridEditMode.Popup && EditState != DataGridEditState.None;
 
     /// <summary>
+    /// Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
+    /// </summary>
+    private bool PreventDefaultSubmitBehavior =>
+        ( IsCellEdit && ( CommandColumn is null || !CommandColumn.SaveCommandAllowed ) )
+        || ( Filterable && !SubmitFormOnEnter ); //prevents submits on Enter within Filter input
+
+    /// <summary>
     /// Defines the size of popup dialog.
     /// </summary>
     [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;

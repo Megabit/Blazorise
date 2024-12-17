@@ -10,16 +10,16 @@
     {
         var index = faqInfos.IndexOf( faqInfo ) + 1;
 
-        <Collapse @key="@faqInfo" Visible="@faqInfo.Visible">
-            <CollapseHeader Padding="Padding.Is1.OnY">
+        <AccordionItem @key="@faqInfo" Visible="@faqInfo.Visible">
+            <AccordionHeader Padding="Padding.Is1.OnY">
                 <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Style="text-decoration: " Margin="Margin.Is0.OnY">
                     <AccordionToggle Clicked="@(()=>faqInfo.Visible = !faqInfo.Visible)">@($"{index}. {faqInfo.Title}")</AccordionToggle>
                 </Heading>
-            </CollapseHeader>
-            <CollapseBody TextAlignment="TextAlignment.Start">
+            </AccordionHeader>
+            <AccordionBody TextAlignment="TextAlignment.Start">
                 @faqInfo.Body
-            </CollapseBody>
-        </Collapse>
+            </AccordionBody>
+        </AccordionItem>
     }
 </Accordion>
 @code {

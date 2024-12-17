@@ -59,6 +59,11 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
         builder.Append( "fui-SpinButton" );
         builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
+        if ( IsShowStepButtons )
+        {
+            builder.Append( "fui-SpinButton-buttons" );
+        }
+
         if ( numericWrapperWidth != null )
         {
             builder.Append( numericWrapperWidth.Class( ClassProvider ) );
