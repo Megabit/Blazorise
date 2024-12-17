@@ -594,7 +594,7 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown-menu-show block"
         : "b-dropdown-menu-hide hidden";
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "b-dropdown-menu-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "b-dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
     {

@@ -460,7 +460,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenuVisible( bool visible ) => null;
 
-    public override string DropdownMenuRight( bool rightAligned ) => null;
+    public override string DropdownMenuEnd( bool endAligned ) => null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
