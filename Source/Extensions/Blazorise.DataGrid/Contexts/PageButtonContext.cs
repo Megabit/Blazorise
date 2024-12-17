@@ -14,7 +14,7 @@ public class PageButtonContext
     /// </summary>
     /// <param name="pageNumber">Button page number .</param>
     /// <param name="active">Indicates if page is active.</param>
-    public PageButtonContext( int pageNumber, bool active )
+    public PageButtonContext( long pageNumber, bool active )
     {
         PageNumber = pageNumber;
         Active = active;
@@ -23,13 +23,13 @@ public class PageButtonContext
     /// <summary>
     /// Gets the page number.
     /// </summary>
-    public int PageNumber { get; private set; }
+    public long PageNumber { get; private set; }
 
     /// <summary>
     /// Gets the page number.
     /// </summary>
     [Obsolete( "PageNumer is deprecated and will be removed in future versions, please use PageNumber instead.", true )]
-    public int PageNumer { get { return PageNumber; } set { PageNumber = value; } }
+    public long PageNumer { get { return PageNumber; } set { PageNumber = value; } }
 
     /// <summary>
     /// Get the flag that indicates if the page is active.

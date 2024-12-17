@@ -51,7 +51,7 @@
                     <ItemsPerPageTemplate></ItemsPerPageTemplate>
                     <PageSelectorTemplate>
                         <Select TextColor="TextColor.Success" @bind-Value="@context.CurrentPage" Size="Size.Small">
-                            @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
+                            @for ( long i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
                             {
                                 var pageNumber = i;
                                 <SelectItem Value="@pageNumber">@pageNumber</SelectItem>

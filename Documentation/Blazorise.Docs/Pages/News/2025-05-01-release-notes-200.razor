@@ -26,6 +26,12 @@
             <Strong>DataGridSelectColumn</Strong>: Multiple support
         </Paragraph>
     </UnorderedListItem>
+
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>DataGrid</Strong>: Support for datasets larger than <Code>int.MaxValue</Code> items
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -86,6 +92,33 @@
                         The <Code>RightAligned</Code> parameter in the <Code Tag>Dropdown</Code> and <Code Tag>DropdownList</Code> components has been renamed to <Code>EndAligned</Code> to align with the convention of using "Start" and "End" for alignment properties.
                     </Paragraph>
                 </UnorderedListItem>
+            </UnorderedList>
+        </OrderedListItem>
+
+        <OrderedListItem>
+            <Paragraph>
+                DataGrid TotalItems is now long instead of int. Here is the list of all properties that have been changed to <Code>long</Code>
+            </Paragraph>
+            <UnorderedList>
+                    <UnorderedListItem>
+                        <Strong>DataGrid:</Strong> <Code>TotalItems</Code>, <Code>CurrentPage</Code>  (renamed to <Code>Page</Code> in 2.0), <Code>SelectedRowIndex</Code>
+                    </UnorderedListItem>
+
+                    <UnorderedListItem>
+                        <Strong>PaginationContext:</Strong> <Code>CurrentPage</Code>, <Code>LastPage</Code>, <Code>FirstVisiblePage</Code>, <Code>LastVisiblePage</Code>, <Code>TotalItems</Code>
+                    </UnorderedListItem>
+
+                    <UnorderedListItem>
+                        <Strong>PageButtonContext:</Strong> <Code>PageNumber</Code>
+                    </UnorderedListItem>
+
+                    <UnorderedListItem>
+                        <Strong>DataGridFilteredDataEventArgs:</Strong> <Code>TotalItems</Code>
+                    </UnorderedListItem>
+
+                    <UnorderedListItem>
+                        <Strong>DataGridReadDataEventArguments:</Strong> <Code>Page</Code>
+                    </UnorderedListItem>
             </UnorderedList>
         </OrderedListItem>
     </OrderedList>
