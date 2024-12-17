@@ -187,7 +187,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         PageSize = dataGridState.PageSize;
-        Page = dataGridState.CurrentPage;
+        Page = dataGridState.Page;
 
         if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
         {
@@ -266,7 +266,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         var dataGridState = new DataGridState<TItem>()
         {
-            CurrentPage = Page,
+            Page = Page,
             PageSize = PageSize,
             EditState = EditState,
             EditItem = editState == DataGridEditState.None ? default : editItem,
@@ -3384,7 +3384,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets the current page number.
     /// </summary>
-    [Parameter] public int Page { get => paginationContext.CurrentPage; set => paginationContext.CurrentPage = value; }
+    [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
 
     protected PaginationContext<TItem> PaginationContext => paginationContext;
 
@@ -3473,7 +3473,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets the maximum number of items for each page.
     /// </summary>
-    [Parameter] public int PageSize { get => paginationContext.CurrentPageSize; set => paginationContext.CurrentPageSize = value; }
+    [Parameter] public int PageSize { get => paginationContext.PageSize; set => paginationContext.PageSize = value; }
 
     /// <summary>
     /// Occurs after the <see cref="PageSize"/> has changed.

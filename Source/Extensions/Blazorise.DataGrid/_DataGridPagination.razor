@@ -161,8 +161,8 @@
                     }
                     else
                     {
-                        var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
-                        var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, totalItems );
+                        var curStart = ( ( PaginationContext.Page - 1 ) * PaginationContext.PageSize + 1 );
+                        var curEnd = Math.Min( PaginationContext.Page * PaginationContext.PageSize, totalItems );
                         <Text>@Localizer.Localize( ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, totalItems )</Text>
                     }
                 }
@@ -186,7 +186,7 @@
         @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
             <Pagination Size="@GetSize()">
-                <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
+                <PaginationItem Disabled="@(PaginationContext.Page <= 1)">
                     <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
                         @if ( FirstPageButtonTemplate is not null )
                         {
@@ -198,7 +198,7 @@
                         }
                     </PaginationLink>
                 </PaginationItem>
-                <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
+                <PaginationItem Disabled="@(PaginationContext.Page <= 1)">
                     <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
                         @if ( PreviousPageButtonTemplate is not null )
                         {
@@ -214,9 +214,9 @@
                 {
                     var pageNumber = i;
                     var pageNumberString = i.ToString();
-                    var pageActive = pageNumber == PaginationContext.CurrentPage;
+                    var pageActive = pageNumber == PaginationContext.Page;
 
-                    <PaginationItem Flex="Blazorise.Flex.InlineFlex.OnTablet.JustifyContent.Center.OnTablet" Display="Blazorise.Display.None.OnMobile.InlineFlex.Row.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
+                    <PaginationItem Flex="Blazorise.Flex.InlineFlex.OnTablet.JustifyContent.Center.OnTablet" Display="Blazorise.Display.None.OnMobile.InlineFlex.Row.OnTablet" Disabled="@(pageNumber == PaginationContext.Page)" Active="@pageActive">
                         <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
                             @if ( PageButtonTemplate is not null )
                             {
@@ -236,7 +236,7 @@
                     }
                     else
                     {
-                        <Select @bind-Value="@PaginationContext.CurrentPage" Size="GetSize()">
+                        <Select @bind-Value="@PaginationContext.Page" Size="GetSize()">
                             @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                             {
                                 var pageNumber = i;
@@ -245,7 +245,7 @@
                         </Select>
                     }
                 </PaginationItem>
-                <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
+                <PaginationItem Disabled="@(PaginationContext.Page >= PaginationContext.LastPage)">
                     <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
                         @if ( NextPageButtonTemplate is not null )
                         {
@@ -257,7 +257,7 @@
                         }
                     </PaginationLink>
                 </PaginationItem>
-                <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
+                <PaginationItem Disabled="@(PaginationContext.Page >= PaginationContext.LastPage)">
                     <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
                         @if ( LastPageButtonTemplate is not null )
                         {
@@ -278,7 +278,7 @@
                         }
                         else
                         {
-                            <Select Size="@GetSize()" @bind-Value="@PaginationContext.CurrentPageSize">
+                            <Select Size="@GetSize()" @bind-Value="@PaginationContext.PageSize">
                                 @foreach ( var curPageSize in PaginationContext.PageSizes )
                                 {
                                     <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
