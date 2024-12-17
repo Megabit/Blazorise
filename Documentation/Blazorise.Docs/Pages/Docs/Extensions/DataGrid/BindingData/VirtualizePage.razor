@@ -30,6 +30,14 @@
                 <Blazorise.Link To="https://github.com/dotnet/aspnetcore/issues/28280">TaskCanceledException when scrolling Virtualized component #28280</Blazorise.Link>
             </AlertDescription>
         </Alert>
+
+        <Alert Margin="Margin.Is4.FromTop" Color="Color.Info" Visible>
+            <AlertDescription>
+                Virtualization does not support large datasets (approximately 1 million or more items, depending on the height of the items). This is a known browser technical limitation.
+                <Blazorise.Link To="https://github.com/dotnet/aspnetcore/issues/26354">See more</Blazorise.Link>
+                For scenarios involving very large datasets, we strongly recommend using a pagination approach instead.
+            </AlertDescription>
+        </Alert>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth>
         <DataGridVirtualizeExample />
