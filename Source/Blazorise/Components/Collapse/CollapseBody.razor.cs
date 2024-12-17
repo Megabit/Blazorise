@@ -33,8 +33,7 @@ public partial class CollapseBody : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CollapseBody( ParentCollapse?.InsideAccordion == true ) );
-        builder.Append( ClassProvider.CollapseBodyActive( ParentCollapse?.InsideAccordion == true, Visible ) );
+        builder.Append( ClassProvider.CollapseBodyActive( Visible ) );
 
         base.BuildClasses( builder );
     }
@@ -45,7 +44,7 @@ public partial class CollapseBody : BaseComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     private void BuildBodyClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CollapseBodyContent( ParentCollapse?.InsideAccordion == true, ParentCollapse?.FirstInAccordion == true, ParentCollapse?.LastInAccordion == true ) );
+        builder.Append( ClassProvider.CollapseBodyContent() );
     }
 
     /// <inheritdoc/>
