@@ -234,7 +234,7 @@ public class ComponentsApiDocsGenerator
         IEnumerable<ApiDocsForComponent> componentsData = components.Select( component =>
         {
             string componentType = component.Type.ToStringWithGenerics();
-            string componentTypeName = StringHelpers.GetSimplifiedTypeName( component.Type );
+            string componentTypeName = StringHelpers.GetSimplifiedTypeName( component.Type, withoutGenerics: true );
 
             var propertiesData = component.Properties.Select( property =>
                     InfoExtractor.GetPropertyDetails( compilation, property ) )

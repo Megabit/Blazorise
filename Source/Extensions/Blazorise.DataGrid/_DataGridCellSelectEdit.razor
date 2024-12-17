@@ -1,27 +1,55 @@
 @typeparam TItem
 @inherits ComponentBase
-<Select TValue="object" ElementId="@elementId" SelectedValues="@GetSelectedValues()" SelectedValuesChanged="OnSelectedValuesChanged" SelectedValuesExpression="@(() => CellValue as string[] )" SelectedValue="@CellValue" SelectedValueChanged="@OnSelectedValueChanged" SelectedValueExpression="@(() => CellValue )"
-        Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Multiple="@Column.Multiple" Attributes="@Column.Attributes">
-    <ChildContent>
-        @if ( Column.DefaultItemText is not null )
-        {
-            <SelectItem @key="@Column.DefaultItemValue" Value="@Column.DefaultItemValue" Disabled="@Column.DefaultItemDisabled" Hidden="@Column.DefaultItemHidden">@Column.DefaultItemText</SelectItem>
-        }
-        @if ( Column.Data is not null && selectItems is not null )
-        {
-            @foreach ( var selectItem in selectItems )
+@if ( Column.Multiple )
+{
+    <Select TValue="object[]" ElementId="@elementId" Value="@GetSelectedValues()" ValueChanged="@OnSelectedValuesChanged" ValueExpression="@(() => CellValue as string[] )"
+            Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Multiple Attributes="@Column.Attributes">
+        <ChildContent>
+            @if ( Column.DefaultItemText is not null )
             {
-                @itemFragment( selectItem )
+                <SelectItem @key="@Column.DefaultItemValue" Value="@Column.DefaultItemValue" Disabled="@Column.DefaultItemDisabled" Hidden="@Column.DefaultItemHidden">@Column.DefaultItemText</SelectItem>
             }
-        }
-    </ChildContent>
-    <Feedback>
-        @if ( ShowValidationFeedback )
-        {
-            <ValidationError />
-        }
-    </Feedback>
-</Select>
+            @if ( Column.Data is not null && selectItems is not null )
+            {
+                @foreach ( var selectItem in selectItems )
+                {
+                    @itemFragment( selectItem )
+                }
+            }
+        </ChildContent>
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </Select>
+}
+else
+{
+    <Select TValue="object" ElementId="@elementId" Value="@CellValue" ValueChanged="@OnSelectedValueChanged" ValueExpression="@(() => CellValue )"
+            Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Attributes="@Column.Attributes">
+        <ChildContent>
+            @if ( Column.DefaultItemText is not null )
+            {
+                <SelectItem @key="@Column.DefaultItemValue" Value="@Column.DefaultItemValue" Disabled="@Column.DefaultItemDisabled" Hidden="@Column.DefaultItemHidden">@Column.DefaultItemText</SelectItem>
+            }
+            @if ( Column.Data is not null && selectItems is not null )
+            {
+                @foreach ( var selectItem in selectItems )
+                {
+                    @itemFragment( selectItem )
+                }
+            }
+        </ChildContent>
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </Select>
+}
 @code {
     private RenderFragment<SelectItem> itemFragment => item => __builder =>
     {

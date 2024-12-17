@@ -52,7 +52,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn Field="IsActive" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked='(context as dynamic).IsActive' Disabled ReadOnly />
+                                <Check TValue="bool" Value='(context as dynamic).IsActive' Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>

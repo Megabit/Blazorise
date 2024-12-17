@@ -35,7 +35,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
+                                                    <TextEdit @bind-Value="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
                                                 </Addon>
                                             </Addons>
                                         </FieldBody>
@@ -52,7 +52,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
+                                                    <TextEdit @bind-Value="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
                                                 </Addon>
                                             </Addons>
                                         </FieldBody>
@@ -71,7 +71,7 @@
                                                         <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Envelope" />
                                                     </AddonLabel>
                                                 </Addon>
-                                                <TextEdit @bind-Text="@User.Email" name="email" Role="TextRole.Email" Placeholder="Email Here..." aria-label="Last Name..." />
+                                                <TextEdit @bind-Value="@User.Email" name="email" Role="TextRole.Email" Placeholder="Email Here..." aria-label="Last Name..." />
                                             </Addons>
                                         </FieldBody>
                                     </Field>
@@ -87,7 +87,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.Company" name="companyName" Placeholder="Company name..." aria-label="Company Name..." />
+                                                    <TextEdit @bind-Value="@User.Company" name="companyName" Placeholder="Company name..." aria-label="Company Name..." />
                                                 </Addon>
                                             </Addons>
                                         </FieldBody>
@@ -107,7 +107,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <Select @bind-SelectedValue="@JobRole">
+                                                    <Select @bind-Value="@JobRole">
                                                         @foreach ( var jobRole in JobRoles )
                                                         {
                                                             <SelectItem TValue="string" Value="@jobRole">@jobRole</SelectItem>
@@ -129,7 +129,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <Select @bind-SelectedValue="@Product">
+                                                    <Select @bind-Value="@Product">
                                                         @foreach ( var product in Products )
                                                         {
                                                             <SelectItem TValue="string" Value="@product">@product</SelectItem>
@@ -147,7 +147,7 @@
                                     <Field>
                                         <FieldLabel RequiredIndicator>What would you like to see during the demo?</FieldLabel>
                                         <FieldBody>
-                                            <MemoEdit @bind-Text="@MessageBody" name="message" Rows="6" />
+                                            <MemoEdit @bind-Value="@MessageBody" name="message" Rows="6" />
                                         </FieldBody>
                                     </Field>
                                 </Validation>

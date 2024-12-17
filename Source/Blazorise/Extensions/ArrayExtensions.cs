@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 #endregion
@@ -26,6 +27,36 @@ public static class ArrayExtensions
             return false;
 
         return array1.SequenceEqual( array2 );
+    }
+
+    /// <summary>
+    /// Compares two non-generic IEnumerable collections to determine if they are equal.
+    /// </summary>
+    /// <param name="array1">The first IEnumerable collection.</param>
+    /// <param name="array2">The second IEnumerable collection.</param>
+    /// <returns>True if the collections are equal, otherwise false.</returns>
+    public static bool AreEqual( this IEnumerable array1, IEnumerable array2 )
+    {
+        if ( array1 is null && array2 is null )
+            return true;
+
+        if ( ( array1 is not null && array2 is null ) || ( array2 is not null && array1 is null ) )
+            return false;
+
+        var enumerator1 = array1.GetEnumerator();
+        var enumerator2 = array2.GetEnumerator();
+
+        while ( enumerator1.MoveNext() )
+        {
+            if ( !enumerator2.MoveNext() || !Equals( enumerator1.Current, enumerator2.Current ) )
+                return false;
+        }
+
+        // Check if array2 still has more elements
+        if ( enumerator2.MoveNext() )
+            return false;
+
+        return true;
     }
 
     /// <summary>

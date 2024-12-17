@@ -176,7 +176,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.FirstName">
+                            <TextEdit @bind-Value="@EmployeeModel.FirstName">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -188,7 +188,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Last Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.LastName">
+                            <TextEdit @bind-Value="@EmployeeModel.LastName">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -202,7 +202,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Email Address</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.Email" Role="TextRole.Email">
+                            <TextEdit @bind-Value="@EmployeeModel.Email" Role="TextRole.Email">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -214,7 +214,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Date of Birth</FieldLabel>
                         <FieldBody>
-                            <DatePicker @bind-Date="@EmployeeModel.DateOfBirth">
+                            <DatePicker @bind-Value="@EmployeeModel.DateOfBirth">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -240,7 +240,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Gender</FieldLabel>
                         <FieldBody>
-                            <Select @bind-SelectedValue="@EmployeeModel.Gender">
+                            <Select @bind-Value="@EmployeeModel.Gender">
                                 <ChildContent>
                                     <SelectItem TValue="string"></SelectItem>
                                     @foreach ( var g in Gender.GetGenders() )
@@ -260,7 +260,7 @@ Refer to the following code example.
                 <Field>
                     <FieldLabel>Address</FieldLabel>
                     <FieldBody>
-                        <TextEdit @bind-Text="@EmployeeModel.Address.Street">
+                        <TextEdit @bind-Value="@EmployeeModel.Address.Street">
                             <Feedback>
                                 <ValidationError />
                             </Feedback>
@@ -273,7 +273,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>City</FieldLabel>
                         <FieldBody>
-                            <Select @bind-SelectedValue="@EmployeeModel.Address.City">
+                            <Select @bind-Value="@EmployeeModel.Address.City">
                                 <ChildContent>
                                     <SelectItem TValue="string"></SelectItem>
                                     @foreach ( var c in City.GetCities() )
@@ -292,7 +292,7 @@ Refer to the following code example.
                     <Field ColumnSize="ColumnSize.IsHalf">
                         <FieldLabel>Zip</FieldLabel>
                         <FieldBody>
-                            <TextEdit @bind-Text="@EmployeeModel.Address.Zip">
+                            <TextEdit @bind-Value="@EmployeeModel.Address.Zip">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
@@ -305,7 +305,7 @@ Refer to the following code example.
                 <Field>
                     <FieldLabel>Country</FieldLabel>
                     <FieldBody>
-                        <Select @bind-SelectedValue="@EmployeeModel.Address.Country">
+                        <Select @bind-Value="@EmployeeModel.Address.Country">
                             <ChildContent>
                                 <SelectItem TValue="string"></SelectItem>
                                 @foreach ( var c in Country.GetCountries() )

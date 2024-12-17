@@ -12,7 +12,7 @@
 <p id="validate-text-initially-populated">
     Initially populated:
     <Validation AsyncValidator="@IsNotEmptyAsync">
-        <TextEdit Text="a">
+        <TextEdit Value="a">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
@@ -24,7 +24,7 @@
 <p id="validate-text-with-bind-initially-blank">
     Initially blank:
     <Validation AsyncValidator="@IsNotEmptyAsync">
-        <TextEdit @bind-Text="@textWithBindInitiallyBlank">
+        <TextEdit @bind-Value="@textWithBindInitiallyBlank">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
@@ -34,7 +34,7 @@
 <p id="validate-text-with-bind-initially-populated">
     Initially populated:
     <Validation AsyncValidator="@IsNotEmptyAsync">
-        <TextEdit @bind-Text="@textWithBindInitiallyPopulated">
+        <TextEdit @bind-Value="@textWithBindInitiallyPopulated">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
@@ -46,7 +46,7 @@
 <p id="validate-text-with-event-initially-blank">
     Initially blank:
     <Validation AsyncValidator="@IsNotEmptyAsync">
-        <TextEdit Text="@textWithEventInitiallyBlank" TextChanged="@((v)=> { textWithEventInitiallyBlank = v; })">
+        <TextEdit Value="@textWithEventInitiallyBlank" ValueChanged="@((v)=> { textWithEventInitiallyBlank = v; })">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
@@ -56,7 +56,7 @@
 <p id="validate-text-with-event-initially-populated">
     Initially populated:
     <Validation AsyncValidator="@IsNotEmptyAsync">
-        <TextEdit Text="@textWithEventInitiallyPopulated" TextChanged="@((v)=> {textWithEventInitiallyPopulated = v; })">
+        <TextEdit Value="@textWithEventInitiallyPopulated" ValueChanged="@((v)=> {textWithEventInitiallyPopulated = v; })">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>

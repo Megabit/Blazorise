@@ -1,11 +1,11 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<TimeEdit TValue="TimeSpan?" Time="@selectedTime" TimeChanged="@OnTimeChanged" />
+<TimeEdit TValue="TimeSpan?" Value="@selectedTime" ValueChanged="@OnValueChanged" />
 
 @code{
     TimeSpan? selectedTime;
 
-    Task OnTimeChanged( TimeSpan? Time )
+    Task OnValueChanged(TimeSpan? Time)
     {
         selectedTime = Time;
 

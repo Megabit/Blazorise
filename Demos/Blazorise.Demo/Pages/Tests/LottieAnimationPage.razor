@@ -11,13 +11,13 @@
                     <Column>
                         <Field>
                             <FieldLabel>Animation Path</FieldLabel>
-                            <TextEdit Text="@path" TextChanged="@OnPathChanged" />
+                            <TextEdit Value="@path" ValueChanged="@OnPathChanged" />
                         </Field>
                     </Column>
                     <Column>
                         <Field>
                             <FieldLabel>Background Color</FieldLabel>
-                            <ColorPicker @bind-Color="@backgroundColor" />
+                            <ColorPicker @bind-Value="@backgroundColor" />
                         </Field>
                     </Column>
                 </Row>
@@ -31,7 +31,7 @@
                     <Column>
                         <Field>
                             <FieldLabel>Direction</FieldLabel>
-                            <Select @bind-SelectedValue="@animationDirection">
+                            <Select @bind-Value="@animationDirection">
                                 <SelectItem Value="LottieAnimationDirection.Forward">Forward</SelectItem>
                                 <SelectItem Value="LottieAnimationDirection.Backward">Backward</SelectItem>
                             </Select>

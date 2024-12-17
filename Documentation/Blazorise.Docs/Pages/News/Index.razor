@@ -11,7 +11,7 @@
         <BlogCategorySelect Categories="@NewsEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
     </Column>
     <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
-        <TextEdit Placeholder="Search..." @bind-Text="@search" />
+        <TextEdit Placeholder="Search..." @bind-Value="@search" />
     </Column>
 </Row>
 
@@ -68,6 +68,7 @@
 
     public static List<BlogEntry> NewsEntries = new List<BlogEntry>
     {
+        new BlogEntry { Category = "Maintenance", Url = "news/release-notes/171", Text = "Maintenance release: Blazorise 1.7.1", Description = "We're excited to announce the maintenance release of Blazorise 1.7.1! This release includes several...", Image = "img/news/170/v171.png", AuthorName = "Mladen Macanović", AuthorImage = "mladen", PostedOn = "2024-12-10", ReadTime = "3 min" },
         new BlogEntry { Category = "Major releases", Url = "news/release-notes/170", Text = "Announcing Blazorise 1.7", Description = "Welcome to the Blazorise 1.7 release, packed with exciting new features, optimizations, and support for...", Image = "img/news/170/v170.png", AuthorName = "Mladen Macanović", AuthorImage = "mladen", PostedOn = "2024-11-15", ReadTime = "7 min", Pinned = true },
         new BlogEntry { Category = "Maintenance", Url = "news/release-notes/162", Text = "Maintenance release: Blazorise 1.6.2", Description = "We are pleased to announce the release of version 1.6.2, which includes important bug fixes and...", Image = "img/news/160/v162.png", AuthorName = "Mladen Macanović", AuthorImage = "mladen", PostedOn = "2024-10-15", ReadTime = "3 min" },
         new BlogEntry { Category = "Maintenance", Url = "news/release-notes/161", Text = "Maintenance release: Blazorise 1.6.1", Description = "One month ago we have released Blazorise 1.6 which came with many new features and improvements...", Image = "img/news/160/v161.png", AuthorName = "Mladen Macanović", AuthorImage = "mladen", PostedOn = "2024-08-22", ReadTime = "3 min" },

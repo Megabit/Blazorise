@@ -7,7 +7,7 @@
             </CardHeader>
             <CardBody>
                 <Field>
-                    Custom Filter: <TextEdit @bind-Text="@customFilterValue"></TextEdit>
+                    Custom Filter: <TextEdit @bind-Value="@customFilterValue"></TextEdit>
                 </Field>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
@@ -36,7 +36,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>

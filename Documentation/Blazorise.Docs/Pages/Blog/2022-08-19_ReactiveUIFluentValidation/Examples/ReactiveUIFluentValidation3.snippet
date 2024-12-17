@@ -14,7 +14,7 @@
                 <Field Horizontal ColumnSize="ColumnSize.Is12">
                     <FieldLabel ColumnSize="ColumnSize.Is2.OnDesktop">Email Address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
-                        <TextEdit Placeholder="Some text value..." @bind-Text="Model.EmailAddress">
+                        <TextEdit Placeholder="Some text value..." @bind-Value="Model.EmailAddress">
                             <Feedback>
                                 <ValidationError/>
                             </Feedback>
@@ -26,7 +26,7 @@
             <Field Horizontal ColumnSize="ColumnSize.Is12">
                 <FieldLabel ColumnSize="ColumnSize.Is2.OnDesktop">Password</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is6.OnDesktop">
-                    <TextEdit Role="TextRole.Password" Placeholder="Some text value..." @bind-Text="Model.Password">
+                    <TextEdit Role="TextRole.Password" Placeholder="Some text value..." @bind-Value="Model.Password">
                         <Feedback>
                             <ValidationError/>
                         </Feedback>

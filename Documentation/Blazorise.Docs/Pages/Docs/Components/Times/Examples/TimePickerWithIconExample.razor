@@ -2,7 +2,7 @@
 
 <Addons>
     <Addon AddonType="AddonType.Body">
-        <TimePicker @ref="@timePicker" TValue="TimeSpan?" @bind-Time="@value" />
+        <TimePicker @ref="@timePicker" TValue="TimeSpan?" @bind-Value="@value" />
     </Addon>
     <Addon AddonType="AddonType.End">
         <Button Color="Color.Light" Clicked="@(()=>timePicker.ToggleAsync())">

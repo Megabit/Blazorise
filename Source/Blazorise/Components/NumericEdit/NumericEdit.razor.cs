@@ -57,40 +57,14 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
+        await base.OnBeforeSetParametersAsync( parameters );
 
         // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
         // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
         minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
         maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
-            {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Value ), out var inValue )
-                    ? inValue
-                    : InternalValue;
-
-                await ParentValidation.InitializeInputPattern( pattern, value );
-            }
-
-            await InitializeValidation();
-        }
     }
 
     /// <inheritdoc/>
@@ -102,12 +76,6 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
         builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -185,26 +153,12 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
         return Task.CompletedTask;
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-            : ExpressionFormatter.FormatLambda( ValueExpression );
-    }
-
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Value; set => Value = value; }
 
     /// <summary>
     /// Gets the string representation of the <see cref="Step"/> value.
@@ -251,24 +205,6 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// Gets the correct inputmode for the input element, based in the TValue.
     /// </summary>
     protected string InputMode => inputMode;
-
-    /// <summary>
-    /// Gets or sets the value inside the input field.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
-
-    /// <summary>
-    /// Occurs after the value has changed.
-    /// </summary>
-    /// <remarks>
-    /// This will be converted to EventCallback once the Blazor team fix the error for generic components. See <see href=" https://github.com/aspnet/AspNetCore/issues/8385">github.com/aspnet</see>.
-    /// </remarks>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// Specifies the interval between valid values.

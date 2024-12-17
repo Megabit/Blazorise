@@ -771,17 +771,17 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "card";
+    public override string Collapse() => "card";
 
-    public override string CollapseActive( bool accordion, bool active ) => null;
+    public override string CollapseActive( bool active ) => null;
 
-    public override string CollapseHeader( bool accordion ) => "card-header";
+    public override string CollapseHeader() => "card-header";
 
-    public override string CollapseBody( bool accordion ) => "collapse";
+    public override string CollapseBody() => "collapse";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
+    public override string CollapseBodyActive( bool active ) => active ? Show() : null;
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-body";
+    public override string CollapseBodyContent() => "card-body";
 
     #endregion
 

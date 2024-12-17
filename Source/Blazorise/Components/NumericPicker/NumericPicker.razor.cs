@@ -75,8 +75,10 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        await base.OnBeforeSetParametersAsync( parameters );
+
         if ( Rendered )
         {
             var decimalsChanged = isIntegerType ? false : parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
@@ -135,9 +137,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
             }
         }
 
-        var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
-
-        if ( valueChanged )
+        if ( paramValue.Changed )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
         }
@@ -145,27 +145,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
         // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
         MinDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
-        MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
-            {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Value ), out var inValue )
-                    ? inValue
-                    : InternalValue;
-
-                await ParentValidation.InitializeInputPattern( pattern, value );
-            }
-
-            await InitializeValidation();
-        }
+        MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );       
     }
 
     /// <inheritdoc/>
@@ -278,12 +258,6 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
             valueToChangeOnBlur = value;
             hasValueToChangeOnBlur = true;
         }
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -446,26 +420,12 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// <returns>Number of decimals.</returns>
     protected int GetDecimals() => isIntegerType ? 0 : Decimals;
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-            : ExpressionFormatter.FormatLambda( ValueExpression );
-    }
-
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Value; set => Value = value; }
 
     /// <summary>
     /// True if spin buttons can be shown.
@@ -510,24 +470,6 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// Gets or sets the <see cref="IJSNumericPickerModule"/> instance.
     /// </summary>
     [Inject] public IJSNumericPickerModule JSModule { get; set; }
-
-    /// <summary>
-    /// Gets or sets the value inside the input field.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
-
-    /// <summary>
-    /// Occurs after the value has changed.
-    /// </summary>
-    /// <remarks>
-    /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
-    /// </remarks>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// Specifies the interval between valid values.

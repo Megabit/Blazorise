@@ -2,14 +2,14 @@
     <TextEdit></TextEdit>
 </p>
 <p id="text-event-initially-blank">
-    <TextEdit id="text-with-event" Text="@textWithEvent" TextChanged="@((s)=> textWithEvent = s )"></TextEdit>
+    <TextEdit id="text-with-event" Value="@textWithEvent" ValueChanged="@((s)=> textWithEvent = s )"></TextEdit>
 
     <span>The text below should update automatically as you type in the text field above</span>
 
     <span id="text-event-initially-blank-result">@textWithEvent</span>
 </p>
 <p id="text-bind-initially-blank">
-    <TextEdit id="text-binding" @bind-Text="@textWithBind"></TextEdit>
+    <TextEdit id="text-binding" @bind-Value="@textWithBind"></TextEdit>
 
     <span>The text below should update automatically as you type in the text field above</span>
 

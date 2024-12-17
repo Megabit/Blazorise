@@ -1,12 +1,12 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TimeEdit</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TimeSpan?</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Time</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedTime</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TimeChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnTimeChanged</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TimeEdit</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TimeSpan?</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedTime</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnValueChanged</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
     TimeSpan? selectedTime;
 
-    Task OnTimeChanged( TimeSpan? Time )
+    Task OnValueChanged(TimeSpan? Time)
     {
         selectedTime = Time;
 

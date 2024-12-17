@@ -157,7 +157,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
 
                                 @if ( column.ColumnType == DataGridColumnType.Check )
                                 {
-                                    <Check TValue="bool" ReadOnly Disabled Checked="@(displayValue == bool.TrueString)" />
+                                    <Check TValue="bool" ReadOnly Disabled Value="@(displayValue == bool.TrueString)" />
                                 }
                                 else
                                 {
