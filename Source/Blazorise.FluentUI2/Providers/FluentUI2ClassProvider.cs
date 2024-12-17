@@ -470,7 +470,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "fui-MenuPopover-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "fui-MenuPopover-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
         ? "fui-MenuItem"

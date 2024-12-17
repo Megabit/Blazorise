@@ -427,7 +427,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenuVisible( bool visible );
 
-    public abstract string DropdownMenuRight( bool rightAligned );
+    public abstract string DropdownMenuEnd( bool endAligned );
 
     public abstract string DropdownToggle( bool isDropdownSubmenu, bool outline );
 

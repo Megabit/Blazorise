@@ -426,7 +426,7 @@ public interface IClassProvider
 
     string DropdownMenuVisible( bool visible );
 
-    string DropdownMenuRight( bool rightAligned );
+    string DropdownMenuEnd( bool endAligned );
 
     string DropdownToggle( bool isDropdownSubmenu, bool outline );
 

@@ -429,7 +429,7 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenuVisible( bool visible ) => null;
 
-    public string DropdownMenuRight( bool rightAligned ) => null;
+    public string DropdownMenuEnd( bool endAligned ) => null;
 
     public string DropdownToggle( bool isDropdownSubmenu, bool outline ) => null;
 

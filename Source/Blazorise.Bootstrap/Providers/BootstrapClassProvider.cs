@@ -471,7 +471,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "dropdown-menu-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
