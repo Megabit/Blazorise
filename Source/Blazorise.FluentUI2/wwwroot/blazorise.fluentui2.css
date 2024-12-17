@@ -5364,9 +5364,7 @@ input::file-selector-button {
 }
 .fui-SpinButton {
   display: inline-grid;
-  grid-template-columns: 1fr 24px;
   grid-template-rows: 1fr 1fr;
-  column-gap: var(--spacingHorizontalXS);
   row-gap: 0px;
   position: relative;
   isolation: isolate;
@@ -5381,6 +5379,13 @@ input::file-selector-button {
   text-align: left;
   color: var(--colorNeutralForeground1);
   width: 100%;
+}
+.fui-SpinButton.fui-SpinButton-buttons {
+  column-gap: var(--spacingHorizontalXS);
+  grid-template-columns: 1fr var(--spacingHorizontalXXL);
+}
+.fui-SpinButton:not(.fui-SpinButton-buttons) {
+  grid-template-columns: 1fr var(--spacingHorizontalMNudge);
 }
 .fui-SpinButton:focus-within {
   outline: transparent solid 2px;
