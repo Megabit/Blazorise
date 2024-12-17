@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using Blazorise.Extensions;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,27 +9,7 @@ namespace Blazorise.Bootstrap5.Components;
 
 public class Button : Blazorise.Button
 {
-    #region Members
-
-    bool collapseVisible;
-
-    #endregion
-
     #region Methods
-
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-        if ( ParentCollapseHeader?.ParentCollapse != null )
-        {
-            if ( ParentCollapseHeader.ParentCollapse.InsideAccordion )
-                builder.Append( "accordion-button" );
-
-            if ( !CollapseVisible )
-                builder.Append( "collapsed" );
-        }
-
-        base.BuildClasses( builder );
-    }
 
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
@@ -57,11 +36,6 @@ public class Button : Blazorise.Button
                     .TabIndex( -1 )
                     .AriaDisabled( "true" );
             }
-        }
-
-        if ( ParentCollapseHeader?.ParentCollapse != null )
-        {
-            builder.AriaExpanded( ParentCollapseHeader.ParentCollapse.Visible.ToString().ToLowerInvariant() );
         }
 
         builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
@@ -96,30 +70,6 @@ public class Button : Blazorise.Button
             builder.Content( ChildContent );
         };
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the content visibility.
-    /// </summary>
-    [CascadingParameter( Name = "CollapseVisible" )]
-    public bool CollapseVisible
-    {
-        get => collapseVisible;
-        set
-        {
-            collapseVisible = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the cascaded parent collapse header component.
-    /// </summary>
-    [CascadingParameter] protected CollapseHeader ParentCollapseHeader { get; set; }
 
     #endregion
 }

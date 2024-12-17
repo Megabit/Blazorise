@@ -21,7 +21,7 @@ public partial class CollapseHeader : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CollapseHeader( ParentCollapse?.InsideAccordion == true ) );
+        builder.Append( ClassProvider.CollapseHeader() );
 
         base.BuildClasses( builder );
     }

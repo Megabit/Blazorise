@@ -911,17 +911,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "fui-AccordionItem";
+    public override string Collapse() => "fui-AccordionItem";
 
-    public override string CollapseActive( bool accordion, bool active ) => active ? "fui-AccordionItem-active" : null;
+    public override string CollapseActive( bool active ) => active ? "fui-AccordionItem-active" : null;
 
-    public override string CollapseHeader( bool accordion ) => "fui-AccordionHeader";
+    public override string CollapseHeader() => "fui-AccordionHeader";
 
-    public override string CollapseBody( bool accordion ) => "fui-AccordionPanel";
+    public override string CollapseBody() => "fui-AccordionPanel";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? "fui-AccordionPanel-show" : null;
+    public override string CollapseBodyActive( bool active ) => active ? "fui-AccordionPanel-show" : null;
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-body";
+    public override string CollapseBodyContent() => "card-body";
 
     #endregion
 

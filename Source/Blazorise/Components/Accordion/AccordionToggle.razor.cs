@@ -38,11 +38,7 @@ public partial class AccordionToggle : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
-        if ( ParentCollapse is not null )
-        {
-            await ParentCollapse.Toggle();
-        }
-        else if ( ParentAccordionItem is not null )
+        if ( ParentAccordionItem is not null )
         {
             await ParentAccordionItem.Toggle();
         }
@@ -58,11 +54,6 @@ public partial class AccordionToggle : BaseComponent
     /// Gets or sets the cascaded parent accordion component.
     /// </summary>
     [CascadingParameter] protected Accordion ParentAccordion { get; set; }
-
-    /// <summary>
-    /// Gets or sets the cascaded parent collapse component.
-    /// </summary>
-    [CascadingParameter] protected Collapse ParentCollapse { get; set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent accordion item component.
