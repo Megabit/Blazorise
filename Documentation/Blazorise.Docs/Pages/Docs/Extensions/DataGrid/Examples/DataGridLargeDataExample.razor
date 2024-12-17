@@ -58,7 +58,7 @@
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
                 response = ( await EmployeeData.GetDataAsync() ).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = ( await EmployeeData.GetDataAsync() ).Skip((int)( e.Page - 1 ) * e.PageSize )//converting to int will break on collections larger than int.MaxValue
+                response = ( await EmployeeData.GetDataAsync() ).Skip((int)( e.Page - 1 ) * e.PageSize )// Converting to `int` is necessary for the `Skip()` method. However, it will still break on datasets larger than `int.MaxValue` items. Be mindful of the size of your data.
                     .Take( e.PageSize ).ToList();
             else
                 throw new Exception( "Unhandled ReadDataMode" );

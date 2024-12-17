@@ -53,7 +53,7 @@
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
                 response = employeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = employeeList.Skip( (int)( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = employeeList.Skip( (int)( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();// Converting to `int` is necessary for the `Skip()` method. However, it will still break on datasets larger than `int.MaxValue` items. Be mindful of the size of your data.
             else
                 throw new Exception( "Unhandled ReadDataMode" );
 

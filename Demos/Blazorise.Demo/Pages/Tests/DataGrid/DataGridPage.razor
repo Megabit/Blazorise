@@ -256,7 +256,7 @@
                           CustomFilter="@OnCustomFilter"
                           PageSize="5"
                           CurrentPage="currentPage"
-                          PageChanged="(e) => currentPage = (int)e.Page"
+                          PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation
                           SortChanged="@OnSortChanged"

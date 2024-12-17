@@ -27,7 +27,7 @@ public partial class DataGridPage
     private TableResponsiveMode responsiveMode = TableResponsiveMode.Default;
 
     private DataGrid<Employee> dataGrid;
-    public int currentPage { get; set; } = 1;
+    public long currentPage { get; set; } = 1;
 
     private bool editable = true;
     private bool fixedHeader = false;
@@ -211,7 +211,7 @@ public partial class DataGridPage
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
                 response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = filteredData.Skip( (int)( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = filteredData.Skip( (int)( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();// Converting to `int` is necessary for the `Skip()` method. However, it will still break on datasets larger than `int.MaxValue` items. Be mindful of the size of your data.
             else
                 throw new Exception( "Unhandled ReadDataMode" );
 
