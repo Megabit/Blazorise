@@ -166,18 +166,18 @@ export function initializeResizable(element, elementId, mode) {
             col.appendChild(resizer);
 
             // Track the current position of mouse
-            let x = 0;
-            let w = 0;
+            let startX = 0;
+            let startWidth = 0;
 
             const mouseDownHandler = function (e) {
                 mouseDownDate = new Date();
 
                 // Get the current mouse position
-                x = e.clientX;
+                startX = e.clientX;
 
                 // Calculate the current width of column
                 const styles = window.getComputedStyle(col);
-                w = parseInt(styles.width, 10);
+                startWidth = parseInt(styles.width, 10);
 
                 // Attach listeners for document's events
                 document.addEventListener('pointermove', mouseMoveHandler);
@@ -188,12 +188,12 @@ export function initializeResizable(element, elementId, mode) {
 
             const mouseMoveHandler = function (e) {
                 // Determine how far the mouse has been moved
-                const dx = e.clientX - x;
+                const dx = e.clientX - startX;
 
                 resizer.style.height = `${calculateTableActualHeight()}px`;
 
                 // Update the width of column
-                const widthStyle = `${w + dx}px`;
+                const widthStyle = `${startWidth + dx}px`;
                 col.style.width = widthStyle;
                 col.style.minWidth = widthStyle;
                 col.style.maxWidth = widthStyle;
