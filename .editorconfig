@@ -63,6 +63,9 @@ dotnet_style_readonly_field = true:suggestion
 # Parameter preferences
 dotnet_code_quality_unused_parameters = all:suggestion
 
+# Namespaces
+dotnet_style_namespace_match_folder = false
+
 #### C# Coding Conventions ####
 
 # var preferences
