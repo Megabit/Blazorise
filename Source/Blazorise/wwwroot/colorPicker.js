@@ -9,6 +9,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (!element)
         return;
 
+    const noDefault = !options.default;
+
     const picker = Pickr.create({
         el: element,
         theme: 'monolith', // 'monolith' or 'nano'
@@ -16,7 +18,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         useAsButton: element,
 
         comparison: false,
-        default: options.default || "#000000",
+        default: options.default || "#00000000",
         position: 'bottom-start',
         silent: true,
 
@@ -65,7 +67,16 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         }
     });
 
-    const hexColor = options.default ? options.default : "#000000";
+    if (noDefault) {
+        const resetColor = () => {
+            picker.setColor(null);
+            picker.off('init', resetColor);
+        };
+
+        picker.on('init', resetColor);
+    }
+
+    const hexColor = options.default ? options.default : "#00000000";
 
     const colorPreviewElement = element.querySelector(options.colorPreviewElementSelector || ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color");
     const colorValueElement = element.querySelector(options.colorValueElementSelector || ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value");
