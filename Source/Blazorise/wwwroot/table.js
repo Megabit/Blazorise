@@ -193,7 +193,10 @@ export function initializeResizable(element, elementId, mode) {
                 resizer.style.height = `${calculateTableActualHeight()}px`;
 
                 // Update the width of column
-                col.style.width = `${w + dx}px`;
+                const widthStyle = `${w + dx}px`;
+                col.style.width = widthStyle;
+                col.style.minWidth = widthStyle;
+                col.style.maxWidth = widthStyle;
             };
 
             // When user releases the mouse, remove the existing event listeners
