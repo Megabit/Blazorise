@@ -85,7 +85,7 @@ export function fixedHeaderScrollTableToRow(element, elementId, row) {
 export function initializeResizable(element, elementId, mode) {
     const resizerClass = "b-table-resizer";
     const resizingClass = "b-table-resizing";
-    const resizerHeaderMode = 0;
+    const RESIZER_HEADER_MODE = 0;
     let cols = null;
 
     element = getRequiredElement(element, elementId);
@@ -113,7 +113,7 @@ export function initializeResizable(element, elementId, mode) {
         };
 
         const calculateModeHeight = () => {
-            return mode === resizerHeaderMode
+            return mode === RESIZER_HEADER_MODE
                 ? element !== null
                     ? element.querySelector('tr:first-child > th:first-child').offsetHeight
                     : 0
