@@ -125,6 +125,12 @@ export function initializeResizable(element, elementId, mode) {
         const createResizableColumn = function (col) {
             if (col.querySelector(`.${resizerClass}`) !== null)
                 return;
+
+            // if the column already has both min and max width set, then we don't need to resize it
+            if (col.style.minWidth && col.style.maxWidth) {
+                return;
+            }
+
             // Add a resizer element to the column
             const resizer = document.createElement('div');
             resizer.classList.add(resizerClass);
