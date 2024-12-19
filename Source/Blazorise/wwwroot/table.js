@@ -127,7 +127,7 @@ export function initializeResizable(element, elementId, mode) {
                 return;
 
             // if the column already has both min and max width set, then we don't need to resize it
-            if (col.style.minWidth && col.style.maxWidth) {
+            if (col.style.minWidth && col.style.maxWidth && !col.dataset.resized) {
                 return;
             }
 
@@ -203,6 +203,7 @@ export function initializeResizable(element, elementId, mode) {
                 col.style.width = widthStyle;
                 col.style.minWidth = widthStyle;
                 col.style.maxWidth = widthStyle;
+                col.dataset.resized = true;
             };
 
             // When user releases the mouse, remove the existing event listeners
