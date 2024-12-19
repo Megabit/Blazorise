@@ -2954,6 +2954,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
             {
                 var displayColumn = orderedDisplayColumns[i];
+                displayColumn.SetWidthToNull();
                 var colSpan = 1;
 
                 if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumns.Count > i + 1 )
