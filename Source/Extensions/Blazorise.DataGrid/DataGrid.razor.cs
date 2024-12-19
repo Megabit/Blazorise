@@ -187,7 +187,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         PageSize = dataGridState.PageSize;
-        CurrentPage = dataGridState.CurrentPage;
+        Page = dataGridState.Page;
 
         if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
         {
@@ -266,7 +266,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         var dataGridState = new DataGridState<TItem>()
         {
-            CurrentPage = CurrentPage,
+            Page = Page,
             PageSize = PageSize,
             EditState = EditState,
             EditItem = editState == DataGridEditState.None ? default : editItem,
@@ -1031,7 +1031,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         paginationContext.CancellationTokenSource?.Cancel();
         paginationContext.CancellationTokenSource = new();
 
-        await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
+        await InvokeAsync( () => PageChanged.InvokeAsync( currentPage ) );
 
         await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
@@ -1139,9 +1139,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         // When deleting and the page becomes empty and we aren't the first page:
         // go to the previous page
-        if ( ManualReadMode && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
+        if ( ManualReadMode && ShowPager && Page > paginationContext.FirstVisiblePage && !Data.Any() )
         {
-            await Paginate( ( CurrentPage - 1 ).ToString() );
+            await Paginate( ( Page - 1 ).ToString() );
         }
 
         await InvokeAsync( StateHasChanged );
@@ -1247,9 +1247,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 // When deleting and the page becomes empty and we aren't the first page:
                 // go to the previous page
-                if ( deletedItem && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
+                if ( deletedItem && ShowPager && Page > paginationContext.FirstVisiblePage && !Data.Any() )
                 {
-                    await Paginate( ( CurrentPage - 1 ).ToString() );
+                    await Paginate( ( Page - 1 ).ToString() );
                 }
                 else if ( newItem )
                 {
@@ -1588,31 +1588,31 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( int.TryParse( paginationCommandOrNumber, out var pageNumber ) )
         {
-            CurrentPage = pageNumber;
+            Page = pageNumber;
         }
         else
         {
             if ( paginationCommandOrNumber == "prev" )
             {
-                CurrentPage--;
+                Page--;
 
-                if ( CurrentPage < 1 )
-                    CurrentPage = 1;
+                if ( Page < 1 )
+                    Page = 1;
             }
             else if ( paginationCommandOrNumber == "next" )
             {
-                CurrentPage++;
+                Page++;
 
-                if ( CurrentPage > paginationContext.LastPage )
-                    CurrentPage = paginationContext.LastPage;
+                if ( Page > paginationContext.LastPage )
+                    Page = paginationContext.LastPage;
             }
             else if ( paginationCommandOrNumber == "first" )
             {
-                CurrentPage = 1;
+                Page = 1;
             }
             else if ( paginationCommandOrNumber == "last" )
             {
-                CurrentPage = paginationContext.LastPage;
+                Page = paginationContext.LastPage;
             }
         }
 
@@ -2132,7 +2132,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await Task.Yield();
 
             if ( !cancellationToken.IsCancellationRequested )
-                await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
+                await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, Page, PageSize, 0, 0, cancellationToken ) );
         }
         finally
         {
@@ -2246,31 +2246,31 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( int.TryParse( pageName, out var pageNumber ) )
         {
-            CurrentPage = pageNumber;
+            Page = pageNumber;
         }
         else
         {
             if ( pageName == "prev" )
             {
-                CurrentPage--;
+                Page--;
 
-                if ( CurrentPage < 1 )
-                    CurrentPage = 1;
+                if ( Page < 1 )
+                    Page = 1;
             }
             else if ( pageName == "next" )
             {
-                CurrentPage++;
+                Page++;
 
-                if ( CurrentPage > paginationContext.LastPage )
-                    CurrentPage = paginationContext.LastPage;
+                if ( Page > paginationContext.LastPage )
+                    Page = paginationContext.LastPage;
             }
             else if ( pageName == "first" )
             {
-                CurrentPage = 1;
+                Page = 1;
             }
             else if ( pageName == "last" )
             {
-                CurrentPage = paginationContext.LastPage;
+                Page = paginationContext.LastPage;
             }
         }
 
@@ -2730,11 +2730,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         // only use pagination if the custom data loading is not used
         if ( !ManualReadMode && !Virtualize )
         {
-            var skipElements = ( CurrentPage - 1 ) * PageSize;
+            var skipElements = ( Page - 1 ) * PageSize;
             if ( skipElements > filteredData.Count )
             {
-                CurrentPage = paginationContext.LastPage;
-                skipElements = ( CurrentPage - 1 ) * PageSize;
+                Page = paginationContext.LastPage;
+                skipElements = ( Page - 1 ) * PageSize;
             }
 
             return filteredData.Skip( skipElements ).Take( PageSize );
@@ -3196,6 +3196,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal bool HasValidationsSummary => ShowValidationsSummary && ValidationsSummaryErrors?.Length > 0;
 
     /// <summary>
+    /// Gets the pagination context.
+    /// </summary>
+    protected PaginationContext<TItem> PaginationContext => paginationContext;
+
+    /// <summary>
+    /// Gets the pagination templates.
+    /// </summary>
+    protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
+
+    /// <summary>
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
@@ -3384,11 +3394,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets the current page number.
     /// </summary>
-    [Parameter] public int CurrentPage { get => paginationContext.CurrentPage; set => paginationContext.CurrentPage = value; }
+    [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
 
-    protected PaginationContext<TItem> PaginationContext => paginationContext;
-
-    protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
+    /// <summary>
+    /// Occurs after the selected page has changed.
+    /// </summary>
+    [Parameter] public EventCallback<int> PageChanged { get; set; }
 
     /// <summary>
     /// Gets or sets content of table body for empty DisplayData.
@@ -3473,7 +3484,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets the maximum number of items for each page.
     /// </summary>
-    [Parameter] public int PageSize { get => paginationContext.CurrentPageSize; set => paginationContext.CurrentPageSize = value; }
+    [Parameter] public int PageSize { get => paginationContext.PageSize; set => paginationContext.PageSize = value; }
 
     /// <summary>
     /// Occurs after the <see cref="PageSize"/> has changed.
@@ -3574,11 +3585,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Used to prevent the default action for an <see cref="RowContextMenu"/> event.
     /// </summary>
     [Parameter] public bool RowContextMenuPreventDefault { get; set; }
-
-    /// <summary>
-    /// Occurs after the selected page has changed.
-    /// </summary>
-    [Parameter] public EventCallback<DataGridPageChangedEventArgs> PageChanged { get; set; }
 
     /// <summary>
     /// Event handler used to load data manually based on the current page and filter data settings.
@@ -3867,7 +3873,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 ? selectedRowDataIdx
                 : ( selectedRowDataIdx == -1 )
                     ? -1
-                    : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
+                    : selectedRowDataIdx + ( Page - 1 ) * PageSize;
         }
     }
 

@@ -33,7 +33,7 @@
     <TotalItemsShortTemplate><Badge Color="Color.Success">@context.TotalItems</Badge></TotalItemsShortTemplate>
     <ItemsPerPageTemplate></ItemsPerPageTemplate>
     <PageSelectorTemplate>
-        <Select TextColor="TextColor.Success" @bind-Value="@context.CurrentPage" Size="Size.Small">
+        <Select TextColor="TextColor.Success" @bind-Value="@context.Page" Size="Size.Small">
             @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
             {
                 var pageNumber = i;
@@ -42,7 +42,7 @@
         </Select>
     </PageSelectorTemplate>
     <PageSizesTemplate>
-        <Select TextColor="TextColor.Success" @bind-Value="@context.CurrentPageSize" Size="Size.Small">
+        <Select TextColor="TextColor.Success" @bind-Value="@context.PageSize" Size="Size.Small">
             @foreach ( var curPageSize in context.PageSizes )
             {
                 <SelectItem Value="@curPageSize">@curPageSize</SelectItem>

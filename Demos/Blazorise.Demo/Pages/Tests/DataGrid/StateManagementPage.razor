@@ -94,7 +94,7 @@
         await LocalStorage.RemoveItemAsync( STORAGE_KEY );
         var state = new DataGridState<Employee>()
             {
-                CurrentPage = 1,
+                Page = 1,
                 PageSize = 10,
             };
         await dataGridRef.LoadState( state );
