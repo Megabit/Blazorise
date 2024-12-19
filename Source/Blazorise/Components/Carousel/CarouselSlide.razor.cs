@@ -206,7 +206,7 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the interval(in milliseconds) after which this item will automatically slide.
+    /// Defines the interval (in milliseconds) after which this item will automatically slide.
     /// </summary>
     [Parameter] public int? Interval { get; set; }
 

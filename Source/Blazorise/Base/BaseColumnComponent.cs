@@ -43,17 +43,17 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
     protected bool InsideGrid => ParentGrid is not null;
 
     /// <summary>
-    /// Cascaded <see cref="Row"/> component in which this <see cref="Column"/> is placed.
+    /// The cascaded <see cref="Row"/> component that contains this <see cref="Column"/>.
     /// </summary>
     [CascadingParameter] public Row ParentRow { get; set; }
 
     /// <summary>
-    /// Cascaded <see cref="Grid"/> component in which this <see cref="Column"/> is placed.
+    /// The cascaded <see cref="Grid"/> component that contains this <see cref="Column"/>.
     /// </summary>
     [CascadingParameter] public Grid ParentGrid { get; set; }
 
     /// <summary>
-    /// Defines the column sizes.
+    /// Defines the sizing configuration for the column, supporting responsive layouts and custom size definitions.
     /// </summary>
     [Parameter]
     public IFluentColumn ColumnSize
@@ -68,8 +68,11 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
     }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BaseColumnComponent"/>.
+    /// Specifies the content to render inside this <see cref="BaseColumnComponent"/>.
     /// </summary>
+    /// <remarks>
+    /// Use this property to define custom child elements or components to be displayed within the column.
+    /// </remarks>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

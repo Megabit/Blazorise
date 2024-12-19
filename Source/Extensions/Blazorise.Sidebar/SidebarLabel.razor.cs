@@ -13,6 +13,7 @@ public partial class SidebarLabel : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "sidebar-label" );
@@ -24,6 +25,9 @@ public partial class SidebarLabel : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="SidebarLabel"/>.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

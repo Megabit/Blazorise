@@ -129,7 +129,7 @@ public partial class Field : BaseColumnComponent, IDisposable
     protected bool IsFields => ParentFields is not null;
 
     /// <summary>
-    /// Aligns the controls for horizontal form.
+    /// Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.
     /// </summary>
     [Parameter]
     public bool Horizontal
@@ -146,7 +146,7 @@ public partial class Field : BaseColumnComponent, IDisposable
     }
 
     /// <summary>
-    /// Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).
+    /// Defines how the container's items are aligned along the main axis when there is extra space available.
     /// </summary>
     [Parameter]
     public JustifyContent JustifyContent
@@ -161,12 +161,12 @@ public partial class Field : BaseColumnComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Fields"/> component.
+    /// A reference to the parent <see cref="Fields"/> component in which this component is nested.
     /// </summary>
     [CascadingParameter] protected Fields ParentFields { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Validation"/> component.
+    /// A reference to the parent <see cref="Validation"/> component in which this component is nested.
     /// </summary>
     [CascadingParameter] protected Validation ParentValidation { get; set; }
 

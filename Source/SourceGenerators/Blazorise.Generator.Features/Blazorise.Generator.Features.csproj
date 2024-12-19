@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.7.0</Version>
-    <PackageVersion>1.7.0</PackageVersion>
+    <Version>1.7.1</Version>
+    <PackageVersion>1.7.1</PackageVersion>
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
@@ -16,6 +16,8 @@
     <Copyright>Copyright 2018-2024 Megabit</Copyright>
 
     <TargetFramework>netstandard2.0</TargetFramework>
+
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

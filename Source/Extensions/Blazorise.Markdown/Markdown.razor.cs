@@ -102,6 +102,7 @@ public partial class Markdown : BaseComponent,
             Toolbar = Toolbar != null && toolbarButtons?.Count > 0
                 ? MarkdownActionProvider.Serialize( toolbarButtons )
                 : null,
+            ToolbarButtonClassPrefix = ToolbarButtonClassPrefix,
             ToolbarTips = ToolbarTips,
             UploadImage = UploadImage,
             ImageMaxSize = ImageMaxSize,
@@ -256,6 +257,12 @@ public partial class Markdown : BaseComponent,
         toolbarButtons.Remove( toolbarButton );
     }
 
+    /// <summary>
+    /// Notifies the component that custom button has been clicked. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     [JSInvokable]
     public Task NotifyCustomButtonClicked( string name, object value )
     {
@@ -263,7 +270,7 @@ public partial class Markdown : BaseComponent,
     }
 
     /// <summary>
-    /// Notifies the component that file input value has changed. Should only be used internally!
+    /// Notifies the component that file input value has changed. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
     /// <param name="file">Changed file.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -367,6 +374,11 @@ public partial class Markdown : BaseComponent,
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
     }
 
+    /// <summary>
+    /// Notifies the component that an error message has been received. This method is intended for internal framework use only and should not be called directly by user code.
+    /// </summary>
+    /// <param name="errorMessage"></param>
+    /// <returns></returns>
     [JSInvokable]
     public Task NotifyErrorMessage( string errorMessage )
     {
@@ -383,7 +395,7 @@ public partial class Markdown : BaseComponent,
     }
 
     /// <summary>
-    /// Notifies the component that preview render has being requested. Should only be used internally!
+    /// Notifies the component that preview render has being requested. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
     /// <param name="plainText">Plain text of the markdown value.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
