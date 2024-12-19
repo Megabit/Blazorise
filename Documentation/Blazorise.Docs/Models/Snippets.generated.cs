@@ -8501,6 +8501,71 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
+        public const string DataGridLargeDataExpressionCompilerExample = @"@using Blazorise.DataGrid.Extensions;
+@using Blazorise.DataGrid.Utils
+
+<DataGrid @ref=dataGridRef
+          TItem=""Employee""
+          Data=""@employeeList""
+          ReadData=""@OnReadData""
+          TotalItems=""@totalEmployees""
+          PageSize=""10""
+          ShowPager
+          Responsive
+          Filterable
+          FilterMode=""DataGridFilterMode.Menu"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+    <DataGridNumericColumn Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Editable />
+    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
+</DataGrid>
+
+@code {
+    [Inject] public EmployeeData EmployeeData { get; set; }
+    private DataGrid<Employee> dataGridRef;
+    private List<Employee> employeeListSource;
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeListSource = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private int totalEmployees;
+
+    private async Task OnReadData(DataGridReadDataEventArgs<Employee> e)
+    {
+
+        if (!e.CancellationToken.IsCancellationRequested)
+        {
+            var query = employeeListSource.AsQueryable().ApplyDataGridSort(e.Columns).ApplyDataGridSearch(e.Columns);
+
+            if (dataGridRef.CustomFilter is not null)
+                query = query.Where(item => item != null && dataGridRef.CustomFilter(item));
+
+            var response = new List<Employee>();
+
+            if (e.ReadDataMode is DataGridReadDataMode.Virtualize)
+                response = query.ApplyDataGridPaging(e.VirtualizeOffset + 1, e.VirtualizeCount).ToList();
+            else if (e.ReadDataMode is DataGridReadDataMode.Paging)
+                response = query.ApplyDataGridPaging(e.Page, e.PageSize).ToList();
+            else
+                throw new Exception(""Unhandled ReadDataMode"");
+
+            await Task.Delay(Random.Shared.Next(100));
+
+            if (!e.CancellationToken.IsCancellationRequested)
+            {
+                totalEmployees = query.Count();
+                employeeList = response;
+            }
+        }
+    }
+}";
+
         public const string DataGridLoadingEmptyTemplateExample = @"<DataGrid @ref=""datagridRef""
           TItem=""Employee""
           Data=""@employeeList""
