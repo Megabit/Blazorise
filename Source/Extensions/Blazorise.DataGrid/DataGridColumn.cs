@@ -69,7 +69,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( this ) )?.SortOrder ?? -1,
             ColumnType,
             GetFieldToSort(),
-            GetFilterMethod() ?? GetDataGridFilterMethodAsColumn() );
+            GetFilterMethod() ?? GetDataGridFilterMethodAsColumn(),
+            GetValueType( default ) );
     }
 
     private Func<TItem, Type> ExpandoObjectTypeGetter()

@@ -244,8 +244,8 @@
                           RowUpdating="@OnRowUpdating"
                           RowRemoving="@OnRowRemoving"
                           UseInternalEditing="false"
-                @bind-SelectedRow="@selectedEmployee"
-                @bind-SelectedRows="@selectedEmployees"
+                          @bind-SelectedRow="@selectedEmployee"
+                          @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
                           DetailRowTrigger="@((e)=> e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"
                           Striped
@@ -353,8 +353,7 @@
                             </SortDirectionTemplate>
                         </DataGridColumn>
                         <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
-                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-
+                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable/>
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" 
                                                 CustomFilter="@OnGenderCustomFilter"
                                                 Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
