@@ -344,7 +344,7 @@ public static class ExpressionCompiler
     /// <param name="data">The Data to be queried</param>
     /// <param name="dataGridReadDataEventArgs">The DataGrid Read Data Event Arguments</param>
     /// <returns></returns>
-    public static IQueryable<TItem> ApplyDataGridSearch<TItem>( this IQueryable<TItem> data, DataGridReadDataEventArgs<TItem> dataGridReadDataEventArgs  )
+    public static IQueryable<TItem> ApplyDataGridSearch<TItem>( this IQueryable<TItem> data, DataGridReadDataEventArgs<TItem> dataGridReadDataEventArgs )
     {
         return data.ApplyDataGridSearch( dataGridReadDataEventArgs.Columns );
     }

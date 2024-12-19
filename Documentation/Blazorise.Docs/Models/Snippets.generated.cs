@@ -8512,7 +8512,7 @@ Install-Package Blazorise.Chart.Zoom";
           PageSize=""10""
           ShowPager
           Responsive
-          Filterable 
+          Filterable
           FilterMode=""DataGridFilterMode.Menu"">
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />

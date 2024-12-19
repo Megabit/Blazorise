@@ -202,8 +202,6 @@ public partial class DataGridPage
 
     private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
-
-
         if ( !e.CancellationToken.IsCancellationRequested )
         {
             var query = dataModels.AsQueryable().ApplyDataGridSort( e ).ApplyDataGridSearch( e );

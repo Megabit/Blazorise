@@ -31,7 +31,7 @@ public static class FunctionCompiler
 
     public static Func<TItem, object> CreateValueGetter<TItem>( string fieldName )
     {
-        return ExpressionCompiler.CreateValueGetterExpression<TItem>(fieldName).Compile();
+        return ExpressionCompiler.CreateValueGetterExpression<TItem>( fieldName ).Compile();
     }
 
     public static Func<TItem, Type> CreateValueTypeGetter<TItem>( string fieldName )

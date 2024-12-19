@@ -70,7 +70,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             ColumnType,
             GetFieldToSort(),
             GetFilterMethod() ?? GetDataGridFilterMethodAsColumn(),
-            GetValueType( default ));
+            GetValueType( default ) );
     }
 
     private Func<TItem, Type> ExpandoObjectTypeGetter()
