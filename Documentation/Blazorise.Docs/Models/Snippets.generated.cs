@@ -8860,7 +8860,7 @@ Install-Package Blazorise.Chart.Zoom";
     <TotalItemsShortTemplate><Badge Color=""Color.Success"">@context.TotalItems</Badge></TotalItemsShortTemplate>
     <ItemsPerPageTemplate></ItemsPerPageTemplate>
     <PageSelectorTemplate>
-        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.CurrentPage"" Size=""Size.Small"">
+        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.Page"" Size=""Size.Small"">
             @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
             {
                 var pageNumber = i;
@@ -8869,7 +8869,7 @@ Install-Package Blazorise.Chart.Zoom";
         </Select>
     </PageSelectorTemplate>
     <PageSizesTemplate>
-        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.CurrentPageSize"" Size=""Size.Small"">
+        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.PageSize"" Size=""Size.Small"">
             @foreach ( var curPageSize in context.PageSizes )
             {
                 <SelectItem Value=""@curPageSize"">@curPageSize</SelectItem>
@@ -9428,7 +9428,7 @@ Install-Package Blazorise.Chart.Zoom";
 
         var state = new DataGridState<Employee>()
         {
-            CurrentPage = 1,
+            Page = 1,
             PageSize = 10,
         };
 
