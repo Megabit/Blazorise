@@ -3196,6 +3196,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal bool HasValidationsSummary => ShowValidationsSummary && ValidationsSummaryErrors?.Length > 0;
 
     /// <summary>
+    /// Gets the pagination context.
+    /// </summary>
+    protected PaginationContext<TItem> PaginationContext => paginationContext;
+
+    /// <summary>
+    /// Gets the pagination templates.
+    /// </summary>
+    protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
+
+    /// <summary>
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
@@ -3385,10 +3395,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the current page number.
     /// </summary>
     [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
-
-    protected PaginationContext<TItem> PaginationContext => paginationContext;
-
-    protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
 
     /// <summary>
     /// Gets or sets content of table body for empty DisplayData.
