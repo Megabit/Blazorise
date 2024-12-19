@@ -3397,6 +3397,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
 
     /// <summary>
+    /// Occurs after the selected page has changed.
+    /// </summary>
+    [Parameter] public EventCallback<int> PageChanged { get; set; }
+
+    /// <summary>
     /// Gets or sets content of table body for empty DisplayData.
     /// </summary>
     [Parameter] public RenderFragment EmptyTemplate { get; set; }
@@ -3580,11 +3585,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Used to prevent the default action for an <see cref="RowContextMenu"/> event.
     /// </summary>
     [Parameter] public bool RowContextMenuPreventDefault { get; set; }
-
-    /// <summary>
-    /// Occurs after the selected page has changed.
-    /// </summary>
-    [Parameter] public EventCallback<int> PageChanged { get; set; }
 
     /// <summary>
     /// Event handler used to load data manually based on the current page and filter data settings.
