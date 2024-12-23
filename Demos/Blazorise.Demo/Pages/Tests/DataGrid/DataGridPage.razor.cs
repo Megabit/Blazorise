@@ -27,7 +27,7 @@ public partial class DataGridPage
     private TableResponsiveMode responsiveMode = TableResponsiveMode.Default;
 
     private DataGrid<Employee> dataGrid;
-    public int currentPage { get; set; } = 1;
+    public long currentPage { get; set; } = 1;
     public int currentPageSize  { get; set; } = 5; 
 
     private bool editable = true;

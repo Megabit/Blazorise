@@ -13,7 +13,7 @@ public class PaginationContext<TItem>
 
     private event PageChangedEventHandler PageChanged;
 
-    public delegate void PageChangedEventHandler( int value );
+    public delegate void PageChangedEventHandler( long value );
 
     private event PageSizeChangedEventHandler PageSizeChanged;
 
@@ -21,17 +21,17 @@ public class PaginationContext<TItem>
 
     private event TotalItemsChangedEventHandler TotalItemsChanged;
 
-    public delegate void TotalItemsChangedEventHandler( int value );
+    public delegate void TotalItemsChangedEventHandler( long value );
 
-    private int firstVisiblePage;
+    private long firstVisiblePage;
 
-    private int lastVisiblePage;
+    private long lastVisiblePage;
 
-    private int page = 1;
+    private long page = 1;
 
     private int pageSize = 10;
 
-    private int? totalItems;
+    private long? totalItems;
 
     private DataGrid<TItem> parentDataGrid;
 
@@ -58,7 +58,7 @@ public class PaginationContext<TItem>
         PageChanged -= listener;
     }
 
-    public void TriggerPageChange( int value )
+    public void TriggerPageChange( long value )
     {
         PageChanged?.Invoke( value );
     }
@@ -88,7 +88,7 @@ public class PaginationContext<TItem>
         TotalItemsChanged -= listener;
     }
 
-    public void TriggerTotalItemsChange( int value )
+    public void TriggerTotalItemsChange( long value )
     {
         TotalItemsChanged?.Invoke( value );
     }
@@ -132,7 +132,7 @@ public class PaginationContext<TItem>
     /// <summary>
     /// Gets or sets the current page
     /// </summary>
-    public int Page
+    public long Page
     {
         get => page;
         set
@@ -148,11 +148,11 @@ public class PaginationContext<TItem>
     /// <summary>
     /// Gets the last page number.
     /// </summary>
-    public int LastPage
+    public long LastPage
     {
         get
         {
-            var lastPage = Math.Max( (int)Math.Ceiling( ( TotalItems ?? 0 ) / (double)pageSize ), 1 );
+            long lastPage = Math.Max( (long)Math.Ceiling( ( TotalItems ?? 0 ) / (double)pageSize ), 1 );
 
             if ( Page > lastPage )
                 Page = lastPage;
@@ -164,7 +164,7 @@ public class PaginationContext<TItem>
     /// <summary>
     /// Gets the number of the first page that can be clicked in a large dataset.
     /// </summary>
-    public int FirstVisiblePage
+    public long FirstVisiblePage
     {
         get
         {
@@ -177,7 +177,7 @@ public class PaginationContext<TItem>
     /// <summary>
     /// Gets the number of the last page that can be clicked in a large dataset.
     /// </summary>
-    public int LastVisiblePage
+    public long LastVisiblePage
     {
         get
         {
@@ -215,7 +215,7 @@ public class PaginationContext<TItem>
     /// <remarks>
     /// This field must be set only when <see cref="DataGrid{TItem}.ReadData"/> is used to load the data.
     /// </remarks>
-    public int? TotalItems
+    public long? TotalItems
     {
         // If we're using ReadData than TotalItems must be set so we can know how many items are available
         get => ( ( parentDataGrid.ManualReadMode || parentDataGrid.VirtualizeManualReadMode ) ? totalItems : parentDataGrid.FilteredData?.Count() ) ?? 0;

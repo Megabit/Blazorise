@@ -1026,7 +1026,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
-    private async void OnPageChanged( int currentPage )
+    private async void OnPageChanged( long currentPage )
     {
         paginationContext.CancellationTokenSource?.Cancel();
         paginationContext.CancellationTokenSource = new();
@@ -2172,14 +2172,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             ? Math.Min( request.Count, TotalItems.Value - request.StartIndex )
             : request.Count;
 
-        await HandleVirtualizeReadData( request.StartIndex, requestCount, request.CancellationToken );
+        await HandleVirtualizeReadData( request.StartIndex, (int)requestCount, request.CancellationToken );
         await Task.Yield(); // This line makes sure SetParametersAsync catches up, since we depend upon Data Parameter.
 
         if ( request.CancellationToken.IsCancellationRequested )
             return default;
         else
-            return new( Data.ToList(), TotalItems.Value );
+            return new( Data.ToList(), LongToIntSafe(TotalItems) );//safty rails for virualize - doesn't overflow, but doesn't work either
     }
+    
+    int LongToIntSafe(long? value) => value switch
+    {
+        null => 0,
+        > int.MaxValue => int.MaxValue,
+        < int.MinValue => int.MinValue,
+        _ => (int)value
+    };
 
     internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column )
     {
@@ -2730,14 +2738,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         // only use pagination if the custom data loading is not used
         if ( !ManualReadMode && !Virtualize )
         {
-            var skipElements = ( Page - 1 ) * PageSize;
+            long skipElements = ( Page - 1 ) * PageSize;
             if ( skipElements > filteredData.Count )
             {
                 Page = paginationContext.LastPage;
                 skipElements = ( Page - 1 ) * PageSize;
             }
-
-            return filteredData.Skip( skipElements ).Take( PageSize );
+            
+            //here the conversion to int is safe, because without manualReadMode it's not probable user will use more than int.MaxValue data  
+            return filteredData.Skip( (int)skipElements ).Take( PageSize );
         }
 
         return filteredData;
@@ -3225,7 +3234,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <remarks>
     /// This field must be set only when <see cref="ReadData"/> is used to load the data.
     /// </remarks>
-    [Parameter] public int? TotalItems { get => paginationContext.TotalItems; set => paginationContext.TotalItems = value; }
+    [Parameter] public long? TotalItems { get => paginationContext.TotalItems; set => paginationContext.TotalItems = value; }
 
     /// <summary>
     /// Gets the data after all of the filters have being applied.
@@ -3394,12 +3403,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets the current page number.
     /// </summary>
-    [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
+    [Parameter] public long Page { get => paginationContext.Page; set => paginationContext.Page = value; }
 
     /// <summary>
     /// Occurs after the selected page has changed.
     /// </summary>
-    [Parameter] public EventCallback<int> PageChanged { get; set; }
+    [Parameter] public EventCallback<long> PageChanged { get; set; }
 
     /// <summary>
     /// Gets or sets content of table body for empty DisplayData.
@@ -3863,7 +3872,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
     /// </summary>
-    public int SelectedRowIndex
+    public long SelectedRowIndex
     {
         get
         {

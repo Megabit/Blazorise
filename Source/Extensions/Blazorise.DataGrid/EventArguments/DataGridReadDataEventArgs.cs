@@ -44,7 +44,7 @@ public class DataGridReadDataEventArgs<TItem> : EventArgs
         DataGridReadDataMode readDataMode,
         IEnumerable<DataGridColumn<TItem>> columns,
         IList<DataGridColumn<TItem>> sortByColumns,
-        int page,
+        long page,
         int pageSize,
         int virtualizeOffset,
         int virtualizeCount,
@@ -77,7 +77,7 @@ public class DataGridReadDataEventArgs<TItem> : EventArgs
     /// <summary>
     /// Gets the requested page number.
     /// </summary>
-    public int Page { get; }
+    public long Page { get; }
 
     /// <summary>
     /// Gets the max number of items requested by page.
