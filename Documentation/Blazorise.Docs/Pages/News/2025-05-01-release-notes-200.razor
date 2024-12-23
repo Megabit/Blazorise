@@ -84,6 +84,25 @@
         </OrderedListItem>
         <OrderedListItem>
             <Paragraph>
+                <Strong>DataGrid</Strong>
+            </Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Paragraph>
+                        <Code>CurrentPage</Code> becomes <Code>Page</Code>, and this parameter supports two-way binding using <Code>@@bind-Page="currentPage"</Code>.
+                        The rename also happened on <Code Tag>PaginationContext</Code> properties <Code>CurrentPageSize</Code> and <Code>CurrentPage</Code>. They have now been renamed to <Code>PageSize</Code> and <Code>Page</Code>, respectively.
+                        <Code>DataGridState.CurrentPage</Code> has been also renamed to <Code>Page</Code>.
+                    </Paragraph>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Paragraph>
+                        <Code>DataGridPageChangedEventArgs</Code> has been removed as it served no purpose. Now, the <Code>PageChanged</Code> event returns a simple <Code>int</Code> representing the current page number.
+                    </Paragraph>
+                </UnorderedListItem>
+            </UnorderedList>
+        </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
                 Renaming <Code>RightAligned</Code> to <Code>EndAligned</Code> in <Code Tag>Dropdown</Code>, and <Code Tag>DropdownList</Code>
             </Paragraph>
             <UnorderedList>
@@ -138,6 +157,26 @@
 
 <Paragraph>
     You may now allow multiple values to be selected in the <Code>DataGridSelectColumn</Code>. Set the new <Code>Multiple</Code> parameter to <Code>true</Code> to enable this feature. Please bind the corresponding array to successfully bind the multiple values.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    ExpressionCompiler
+</Heading>
+
+<Paragraph>
+    A new DataGrid utility, the <Code>ExpressionCompiler</Code> was introduced. 
+    This utility allows you to compile expressions and use them in the <Code>DataGrid</Code>. 
+    The <Code>ExpressionCompiler</Code> can be used together with the <Code>DataGridColumnInfo</Code> collection provided by the <Code>ReadData</Code> in order to create Expression based queries (IQueryables) that can in turn be used in ORMs like Entity Framework.
+
+    Visit <Anchor To="/docs/extensions/datagrid/binding-data/large-data">DataGrid Binding Large Data</Anchor> for more information.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Two-Way Binding Page Parameter
+</Heading>
+
+<Paragraph>
+    The <Code>Page</Code> parameter now supports two-way binding, allowing you to synchronize it with a variable using <Code>@@bind-Page="currentPage"</Code>.
 </Paragraph>
 
 <NewsPageSubtitle>

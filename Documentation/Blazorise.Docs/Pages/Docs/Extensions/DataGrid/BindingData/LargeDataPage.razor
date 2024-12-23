@@ -39,6 +39,21 @@
     <DocsPageSectionSource Code="DataGridLargeDataExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Expression Compiler">
+        <Paragraph>
+            This utility enables you to compile expressions and use them in conjunction with the DataGrid <Code>ReadData()</Code> to build an <Code>IQueryable</Code> for querying your data.
+        </Paragraph>
+        <Paragraph>
+            The <Code>ExpressionCompiler</Code> can work alongside the <Code>DataGridColumnInfo</Code> collection provided by <Code>ReadData</Code> to create expression-based queries (<Code>IQueryables</Code>) that can be utilized in ORMs like Entity Framework.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridLargeDataExpressionCompilerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridLargeDataExpressionCompilerExample" />
+</DocsPageSection>
+
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
 </DocsPageApi>

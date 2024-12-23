@@ -28,6 +28,7 @@ public partial class DataGridPage
 
     private DataGrid<Employee> dataGrid;
     public long currentPage { get; set; } = 1;
+    public long currentPageSize  { get; set; } = 5; 
 
     private bool editable = true;
     private bool fixedHeader = false;
@@ -203,73 +204,22 @@ public partial class DataGridPage
     {
         if ( !e.CancellationToken.IsCancellationRequested )
         {
-            List<Employee> response = null;
+            var query = dataModels.AsQueryable().ApplyDataGridSort( e ).ApplyDataGridSearch( e );
 
-            var filteredData = await FilterData( e.Columns );
+            if ( dataGrid.CustomFilter is not null )
+                query = query.Where( item => item != null && dataGrid.CustomFilter( item ) );
 
-            // this can be call to anything, in this case we're calling a fictional api
-            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-                response = filteredData.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
-            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = filteredData.Skip( (int)( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();// Converting to `int` is necessary for the `Skip()` method. However, it will still break on datasets larger than `int.MaxValue` items. Be mindful of the size of your data.
-            else
-                throw new Exception( "Unhandled ReadDataMode" );
+            var response = new List<Employee>();
+            response = query.ApplyDataGridPaging( e ).ToList();
 
             await Task.Delay( random.Next( 100 ) );
+
             if ( !e.CancellationToken.IsCancellationRequested )
             {
-                totalEmployees = filteredData.Count;
-                employeeList = new List<Employee>( response ); // an actual data for the current page
+                totalEmployees = query.Count();
+                employeeList = response;
             }
         }
-    }
-
-    /// <summary>
-    /// Simple demo purpose example filter
-    /// </summary>
-    /// <param name="dataGridColumns"></param>
-    /// <returns></returns>
-    public Task<List<Employee>> FilterData( IEnumerable<DataGridColumnInfo> dataGridColumns )
-    {
-        var filteredData = dataModels.ToList();
-        var sortByColumns = dataGridColumns.Where( x => x.SortDirection != SortDirection.Default );
-        var firstSort = true;
-        if ( sortByColumns?.Any() ?? false )
-        {
-            IOrderedEnumerable<Employee> sortedCols = null;
-            foreach ( var sortByColumn in sortByColumns.OrderBy( x => x.SortIndex ) )
-            {
-                var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( sortByColumn.SortField );
-
-                if ( firstSort )
-                {
-                    if ( sortByColumn.SortDirection == SortDirection.Ascending )
-                        sortedCols = dataModels.OrderBy( x => valueGetter( x ) );
-                    else
-                        sortedCols = dataModels.OrderByDescending( x => valueGetter( x ) );
-
-                    firstSort = false;
-                }
-                else
-                {
-                    if ( sortByColumn.SortDirection == SortDirection.Ascending )
-                        sortedCols = sortedCols.ThenBy( x => valueGetter( x ) );
-                    else
-                        sortedCols = sortedCols.ThenByDescending( x => valueGetter( x ) );
-                }
-            }
-            filteredData = sortedCols.ToList();
-        }
-
-        if ( dataGrid.CustomFilter != null )
-            filteredData = filteredData.Where( item => item != null && dataGrid.CustomFilter( item ) ).ToList();
-
-        foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
-        {
-            var valueGetter = FunctionCompiler.CreateValueGetter<Employee>( column.Field );
-            filteredData = filteredData.Where( x => valueGetter( x )?.ToString().IndexOf( column.SearchValue.ToString(), StringComparison.OrdinalIgnoreCase ) >= 0 ).ToList();
-        }
-        return Task.FromResult( filteredData );
     }
 
     private Task Reset()
@@ -299,24 +249,6 @@ public partial class DataGridPage
             ? string.Empty
             : $" (SortField: {eventArgs.FieldName})";
         Console.WriteLine( $"Sort changed > Field: {eventArgs.ColumnFieldName}{sort}; Direction: {eventArgs.SortDirection};" );
-    }
-
-    private string TitleFromGender( string gender )
-    {
-        return gender switch
-        {
-            "M" => "Mr.",
-            "F" => "Mrs.",
-            _ => string.Empty,
-        };
-    }
-
-    private string TitleToName( string title, object name )
-    {
-        if ( string.IsNullOrEmpty( title ) )
-            return $"{name}";
-
-        return $"{title} {name}";
     }
 
     #endregion
