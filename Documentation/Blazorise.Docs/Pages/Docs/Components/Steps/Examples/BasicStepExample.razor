@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Steps SelectedStep="@selectedStep" SelectedStepChanged="@OnSelectedStepChanged">
+<Steps InitialStep="step1" SelectedStepChanged="@OnSelectedStepChanged">
     <Items>
         <Step Name="step1">Create campaign settings</Step>
         <Step Name="step2">Create an ad group</Step>
@@ -29,13 +29,16 @@
         </StepPanel>
     </Content>
 </Steps>
+
+<Div>
+    SelectedStep: @selectedStep
+</Div>
 @code{
-    string selectedStep = "step1";
+    string selectedStep = "";
 
     private Task OnSelectedStepChanged( string name )
     {
         selectedStep = name;
-
         return Task.CompletedTask;
     }
 }

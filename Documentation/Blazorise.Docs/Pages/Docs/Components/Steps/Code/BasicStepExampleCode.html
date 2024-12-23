@@ -1,6 +1,6 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Steps</span> <span class="htmlAttributeName">SelectedStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedStep</span><span class="quot">&quot;</span> <span class="htmlAttributeName">SelectedStepChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSelectedStepChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Steps</span> <span class="htmlAttributeName">InitialStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">step1</span><span class="quot">&quot;</span> <span class="htmlAttributeName">SelectedStepChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSelectedStepChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Items</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Step</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">step1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Create campaign settings<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Step</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Step</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">step2</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Create an ad group<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Step</span><span class="htmlTagDelimiter">&gt;</span>
@@ -29,15 +29,18 @@
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">StepPanel</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Content</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Steps</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+    SelectedStep: <span class="atSign">&#64;</span>selectedStep
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    <span class="keyword">string</span> selectedStep = <span class="string">&quot;step1&quot;</span>;
+    <span class="keyword">string</span> selectedStep = <span class="string">&quot;&quot;</span>;
 
     <span class="keyword">private</span> Task OnSelectedStepChanged( <span class="keyword">string</span> name )
     {
         selectedStep = name;
-
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }

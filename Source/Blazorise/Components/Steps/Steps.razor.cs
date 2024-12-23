@@ -1,10 +1,12 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise;
@@ -31,7 +33,7 @@ public partial class Steps : BaseComponent
     /// </summary>
     public Steps()
     {
-        ContentClassBuilder = new( BuildContentClasses );
+        ContentClassBuilder = new(BuildContentClasses);
     }
 
     #endregion
@@ -75,52 +77,79 @@ public partial class Steps : BaseComponent
             stepPanels.Remove( name );
     }
 
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        if ( !string.IsNullOrEmpty( InitialStep ) )
+            _ = await TrySelectStep( InitialStep );
+    }
+
     /// <summary>
     /// Sets the active step by the name.
     /// </summary>
     /// <param name="stepName"></param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task SelectStep( string stepName )
+    public async Task<bool> TrySelectStep( string stepName )
     {
-        SelectedStep = stepName;
+        // prevent steps from calling the same code multiple times
+        if ( stepName == state.SelectedStep )
+            return true;
 
-        return InvokeAsync( StateHasChanged );
+        bool allowNavigation = NavigationAllowed == null;
+        if ( NavigationAllowed != null )
+            allowNavigation = await NavigationAllowed.Invoke( new StepNavigationContext
+            {
+                CurrentStepName = state.SelectedStep, CurrentStepIndex = IndexOfStep( state.SelectedStep ), NextStepName = stepName, NextStepIndex = IndexOfStep( stepName ),
+            } );
+
+
+        if ( allowNavigation == false )
+            return false;
+
+        state = state with
+        {
+            SelectedStep = stepName
+        };
+
+        // raise the changed notification
+        await SelectedStepChanged.InvokeAsync( state.SelectedStep );
+
+        DirtyClasses();
+
+        await InvokeAsync( StateHasChanged );
+        return true;
     }
 
     /// <summary>
     /// Goes to the next step.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task NextStep()
+    public async Task<bool> TryGoToNextStep()
     {
         var selectedStepIndex = stepItems.IndexOf( SelectedStep );
 
         if ( selectedStepIndex == stepItems.Count - 1 )
         {
-            return Task.CompletedTask;
+            return false;
         }
 
-        SelectedStep = stepItems[selectedStepIndex + 1];
-
-        return InvokeAsync( StateHasChanged );
+        return await TrySelectStep( stepItems[selectedStepIndex + 1] );
     }
 
     /// <summary>
     /// Goes to the previous step.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task PreviousStep()
+    public async Task<bool> TryGoToPreviousStep()
     {
         var selectedStepIndex = stepItems.IndexOf( SelectedStep );
 
         if ( selectedStepIndex <= 0 )
         {
-            return Task.CompletedTask;
+            return false;
         }
 
-        SelectedStep = stepItems[selectedStepIndex - 1];
-
-        return InvokeAsync( StateHasChanged );
+        return await TrySelectStep( stepItems[selectedStepIndex - 1] );
     }
 
     /// <summary>
@@ -163,37 +192,14 @@ public partial class Steps : BaseComponent
     protected string ContentClassNames => ContentClassBuilder.Class;
 
     /// <summary>
-    /// Gets or sets currently selected step name.
+    /// Gets currently selected step name.
     /// </summary>
-    [Parameter]
-    public string SelectedStep
-    {
-        get => state.SelectedStep;
-        set
-        {
-            // prevent steps from calling the same code multiple times
-            if ( value == state.SelectedStep )
-                return;
+    public string SelectedStep => state.SelectedStep;
 
-            var allowNavigation = NavigationAllowed?.Invoke( new StepNavigationContext
-            {
-                CurrentStepName = state.SelectedStep,
-                CurrentStepIndex = IndexOfStep( state.SelectedStep ),
-                NextStepName = value,
-                NextStepIndex = IndexOfStep( value ),
-            } ) ?? true;
-
-            if ( allowNavigation == false )
-                return;
-
-            state = state with { SelectedStep = value };
-
-            // raise the changed notification
-            SelectedStepChanged.InvokeAsync( state.SelectedStep );
-
-            DirtyClasses();
-        }
-    }
+    /// <summary>
+    /// Initial step to go on the component initialization
+    /// </summary>
+    [Parameter] public string InitialStep { get; set; } = string.Empty;
 
     /// <summary>
     /// Occurs after the selected step has changed.
@@ -203,7 +209,7 @@ public partial class Steps : BaseComponent
     /// <summary>
     /// Disables navigation by clicking on step.
     /// </summary>
-    [Parameter] public Func<StepNavigationContext, bool> NavigationAllowed { get; set; }
+    [Parameter] public Func<StepNavigationContext, Task<bool>> NavigationAllowed { get; set; }
 
     /// <summary>
     /// Template for placing the <see cref="Step"/> items.

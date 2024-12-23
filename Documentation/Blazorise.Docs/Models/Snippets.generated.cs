@@ -3892,7 +3892,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     int value = 40;
 }";
 
-        public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
+        public const string BasicStepExample = @"<Steps InitialStep=""step1"" SelectedStepChanged=""@OnSelectedStepChanged"">
     <Items>
         <Step Name=""step1"">Create campaign settings</Step>
         <Step Name=""step2"">Create an ad group</Step>
@@ -3921,18 +3921,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         </StepPanel>
     </Content>
 </Steps>
+
+<Div>
+    SelectedStep: @selectedStep
+</Div>
 @code{
-    string selectedStep = ""step1"";
+    string selectedStep = """";
 
     private Task OnSelectedStepChanged( string name )
     {
         selectedStep = name;
-
         return Task.CompletedTask;
     }
 }";
 
-        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""selectedStep"" NavigationAllowed=""NavigationAllowed"">
+        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" InitialStep=""@initialStep"" NavigationAllowed=""NavigationAllowed"">
     <Items>
         <Step Name=""1"">Step 1</Step>
         <Step Name=""2"">Step 2</Step>
@@ -3947,7 +3950,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             <Field>
                 <FieldLabel>Email address</FieldLabel>
                 <TextEdit @bind-Value=""email"" Placeholder=""Enter email"">
-                    <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
+                    <FieldHelp>This field is required in order to proceed to the next step.</FieldHelp>
                 </TextEdit>
             </Field>
         </StepPanel>
@@ -3960,26 +3963,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </Content>
 </Steps>
 <Div Display=""Display.Flex"" Class=""justify-content-center"">
-    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""() => stepsRef.PreviousStep()"">
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""() => stepsRef.TryGoToPreviousStep()"">
         Previous
     </Button>
-    <Button Color=""Color.Primary"" Clicked=""() => stepsRef.NextStep()"">
+    <Button Color=""Color.Primary"" Clicked=""() => stepsRef.TryGoToNextStep()"">
         Next
     </Button>
 </Div>
 @code {
     private Steps stepsRef;
     private string email;
-    private string selectedStep = ""2"";
+    private readonly string initialStep = ""2"";
 
-    private bool NavigationAllowed( StepNavigationContext context )
+    private Task<bool> NavigationAllowed( StepNavigationContext context )
     {
         if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
         {
-            return false;
+            return Task.FromResult(false);
         }
 
-        return true;
+        return Task.FromResult(true);
     }
 }";
 
