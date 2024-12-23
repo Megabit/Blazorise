@@ -3408,7 +3408,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Occurs after the selected page has changed.
     /// </summary>
-    [Parameter] public EventCallback<int> PageChanged { get; set; }
+    [Parameter] public EventCallback<long> PageChanged { get; set; }
 
     /// <summary>
     /// Gets or sets content of table body for empty DisplayData.
