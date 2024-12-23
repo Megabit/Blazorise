@@ -309,6 +309,8 @@ public static class ExpressionCompiler
 
     /// <summary>
     /// Applies the paging filter to the queryable data.
+    /// Only usable for datasets of approximately 1 million items when using virtualization.  
+    /// Only usable for datasets up to `int.MaxValue` items when using paging.
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
     /// <param name="data">The Data to be queried</param>
@@ -363,6 +365,8 @@ public static class ExpressionCompiler
 
     /// <summary>
     /// Applies the paging filter to the queryable data.
+    /// Only usable for datasets of approximately 1 million items when using virtualization.  
+    /// Only usable for datasets up to `int.MaxValue` items when using paging.
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
     /// <param name="data">The Data to be queried</param>
@@ -373,7 +377,7 @@ public static class ExpressionCompiler
         if ( dataGridReadDataEventArgs.ReadDataMode is DataGridReadDataMode.Virtualize )
             data = data.ApplyDataGridPaging( dataGridReadDataEventArgs.VirtualizeOffset + 1, dataGridReadDataEventArgs.VirtualizeCount );
         else if ( dataGridReadDataEventArgs.ReadDataMode is DataGridReadDataMode.Paging )
-            data = data.ApplyDataGridPaging( dataGridReadDataEventArgs.Page, dataGridReadDataEventArgs.PageSize );
+            data = data.ApplyDataGridPaging( (int)dataGridReadDataEventArgs.Page, dataGridReadDataEventArgs.PageSize );
 
         return data;
     }

@@ -49,7 +49,7 @@
             if (e.ReadDataMode is DataGridReadDataMode.Virtualize)
                 response = query.ApplyDataGridPaging(e.VirtualizeOffset + 1, e.VirtualizeCount).ToList();
             else if (e.ReadDataMode is DataGridReadDataMode.Paging)
-                response = query.ApplyDataGridPaging(e.Page, e.PageSize).ToList();
+                response = query.ApplyDataGridPaging((int)e.Page, e.PageSize).ToList();
             else
                 throw new Exception("Unhandled ReadDataMode");
 
