@@ -28,8 +28,10 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Reference to the DropdownToggle component.
     /// </summary>
     protected DropdownToggle dropdownToggleRef;
-
+    
     private List<TValue> selectedValues;
+    
+    private IEnumerable<TItem> filteredData;
 
     #endregion
 
@@ -103,6 +105,34 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         return DisabledItem.Invoke( item );
     }
 
+    private void FilterData( IQueryable<TItem> query )
+    {
+        dirtyFilter = false;
+        if ( !FilterEnabled || string.IsNullOrEmpty( FilterText ) )
+        {
+            filteredData = Data;
+            return;
+        }
+        
+        if ( query == null )
+        {
+            filteredData = Enumerable.Empty<TItem>();
+            return;
+        }
+
+        if ( TextField == null )
+            return;
+
+        filteredData = Data.Where( x => TextField.Invoke( x ).Contains( FilterText, StringComparison.OrdinalIgnoreCase ) );
+    }
+
+    private Task OnFilterTextChangedHandler( string filteredText )
+    {
+        FilterText = filteredText;
+        dirtyFilter = true;
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #region Properties
@@ -148,6 +178,20 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// </summary>
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
+    private IEnumerable<TItem> FilteredData
+    {
+        get
+        {
+            if ( dirtyFilter )
+                FilterData( Data?.AsQueryable() );
+            return filteredData;
+        }
+    }
+    
+    private bool dirtyFilter = true;
+
+    private string FilterText { get; set; }
+
     /// <summary>
     /// Method used to get the display field from the supplied data source.
     /// </summary>
@@ -167,6 +211,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Occurs after the selected value has changed.
     /// </summary>
     [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
+
+    /// <summary>
+    /// Enebles filter text input on the top of the items list.
+    /// </summary>
+    [Parameter] public bool FilterEnabled { get; set; }
 
     /// <summary>
     /// Custom classname for dropdown element.
