@@ -107,7 +107,7 @@ public partial class Step : BaseComponent, IDisposable
         await Clicked.InvokeAsync( eventArgs );
 
         if ( ParentSteps is not null )
-            await ParentSteps.TrySelectStep( Name );
+            await ParentSteps.SelectStep( Name );
     }
 
     #endregion

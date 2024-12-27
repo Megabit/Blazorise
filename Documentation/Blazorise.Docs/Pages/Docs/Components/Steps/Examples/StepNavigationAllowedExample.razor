@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Steps @ref="stepsRef" InitialStep="@initialStep" NavigationAllowed="NavigationAllowed">
+<Steps @ref="stepsRef" @bind-SelectedStep="@selectedStep" NavigationAllowed="NavigationAllowed">
     <Items>
         <Step Name="1">Step 1</Step>
         <Step Name="2">Step 2</Step>
@@ -28,17 +28,17 @@
     </Content>
 </Steps>
 <Div Display="Display.Flex" Class="justify-content-center">
-    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="() => stepsRef.TryGoToPreviousStep()">
+    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="() => stepsRef.PreviousStep()">
         Previous
     </Button>
-    <Button Color="Color.Primary" Clicked="() => stepsRef.TryGoToNextStep()">
+    <Button Color="Color.Primary" Clicked="() => stepsRef.NextStep()">
         Next
     </Button>
 </Div>
 @code {
     private Steps stepsRef;
     private string email;
-    private readonly string initialStep = "2";
+    private string selectedStep = "2";
 
     private Task<bool> NavigationAllowed( StepNavigationContext context )
     {

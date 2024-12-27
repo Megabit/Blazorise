@@ -109,34 +109,19 @@
         </OrderedListItem>
         <OrderedListItem>
             <Paragraph>
-                <Code Tag>Steps</Code> component changes:
+                <Strong>Steps</Strong>
             </Paragraph>
             <UnorderedList>
                 <UnorderedListItem>
                     <Paragraph>
-                        Several methods in the <Code Tag>Steps</Code> component have been renamed:
-                        <Code>SelectStep</Code> is now <Code>TrySelectStep</Code>,
-                        <Code>PreviousStep</Code> has been renamed to <Code>TryGoToPreviousStep</Code>, and
-                        <Code>NextStep</Code> has been renamed to <Code>TryGoToNextStep</Code>.
-                        These methods now return <Code>Task&lt;bool&gt;</Code> instead of <Code>Task</Code>, reflecting whether the operation was successful.
-                    </Paragraph>
-                </UnorderedListItem>
-                <UnorderedListItem>
-                    <Paragraph>
                         Methods used for moving steps no longer guarantee the step will be moved. This is reflected in their return value of <Code>bool</Code>.
-                        The <Code>NavigationAllowed</Code> function is always invoked and determines whether navigation is permitted.
+                        The <Code>NavigationAllowed</Code> function is always invoked (if implemented) and determines whether navigation is permitted.
                         You can implement <Code>NavigationAllowed</Code> to return a <Code>bool</Code> based on your own logic.
                     </Paragraph>
                 </UnorderedListItem>
                 <UnorderedListItem>
                     <Paragraph>
                         The <Code>NavigationAllowed</Code> function is now asynchronous, returning <Code>Task&lt;bool&gt;</Code> instead of <Code>bool</Code>.
-                    </Paragraph>
-                </UnorderedListItem>
-                <UnorderedListItem>
-                    <Paragraph>
-                        The <Code>SelectedStep</Code> is no longer a parameter. While it remains a public property you can use to retrieve the current value,
-                        it is not intended for two-way binding anymore. To change the step programmatically, use the instance methods of <Code Tag>Steps</Code>.
                     </Paragraph>
                 </UnorderedListItem>
             </UnorderedList>
@@ -195,26 +180,10 @@
     scenarios where the decision to navigate requires async operations.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is4">
-    Methods rename changes
-</Heading>
-
-<Paragraph>
-    Several methods in the <Code Tag>Steps</Code> component have been renamed:
-    <Code>SelectStep</Code> is now <Code>TrySelectStep</Code>,
-    <Code>PreviousStep</Code> has been renamed to <Code>TryGoToPreviousStep</Code>, and
-    <Code>NextStep</Code> has been renamed to <Code>TryGoToNextStep</Code>.
-    These methods now return <Code>Task&lt;bool&gt;</Code> instead of <Code>Task</Code>, reflecting whether the operation was successful.
-    This ensures that all step navigation methods align with the asynchronous nature of <Code>NavigationAllowed</Code>.
-</Paragraph>
-
 <NewsPageSubtitle>
     Final Notes
 </NewsPageSubtitle>
 
-<Paragraph>
-
-</Paragraph>
 
 <Paragraph>
     As always, your feedback is invaluable in guiding future Blazorise development. We encourage you to try out the new features and let us know your thoughts. Thank you for your continued support and enthusiasm for Blazorise, and we look forward to bringing you even more enhancements in future updates!

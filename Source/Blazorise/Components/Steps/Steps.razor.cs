@@ -77,19 +77,12 @@ public partial class Steps : BaseComponent
             stepPanels.Remove( name );
     }
 
-    /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
-    {
-        if ( !string.IsNullOrEmpty( InitialStep ) )
-            _ = await TrySelectStep( InitialStep );
-    }
-
     /// <summary>
     /// Sets the active step by the name.
     /// </summary>
     /// <param name="stepName"></param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task<bool> TrySelectStep( string stepName )
+    public async Task<bool> SelectStep( string stepName )   
     {
         // prevent steps from calling the same code multiple times
         if ( stepName == state.SelectedStep )
@@ -124,7 +117,7 @@ public partial class Steps : BaseComponent
     /// Goes to the next step.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task<bool> TryGoToNextStep()
+    public async Task<bool> NextStep()
     {
         var selectedStepIndex = stepItems.IndexOf( SelectedStep );
 
@@ -133,14 +126,14 @@ public partial class Steps : BaseComponent
             return false;
         }
 
-        return await TrySelectStep( stepItems[selectedStepIndex + 1] );
+        return await SelectStep( stepItems[selectedStepIndex + 1] );
     }
 
     /// <summary>
     /// Goes to the previous step.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task<bool> TryGoToPreviousStep()
+    public async Task<bool> PreviousStep()
     {
         var selectedStepIndex = stepItems.IndexOf( SelectedStep );
 
@@ -149,7 +142,7 @@ public partial class Steps : BaseComponent
             return false;
         }
 
-        return await TrySelectStep( stepItems[selectedStepIndex - 1] );
+        return await SelectStep( stepItems[selectedStepIndex - 1] );
     }
 
     /// <summary>
@@ -160,6 +153,20 @@ public partial class Steps : BaseComponent
     internal int IndexOfStep( string name )
     {
         return stepItems.IndexOf( name ) + 1;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        if ( SelectedStep != state.SelectedStep )
+        {
+            var success = await SelectStep( SelectedStep );
+            if ( !success )
+            {
+                SelectedStep = state.SelectedStep;
+                await SelectedStepChanged.InvokeAsync( state.SelectedStep );
+            }
+        }
     }
 
     #endregion
@@ -192,14 +199,9 @@ public partial class Steps : BaseComponent
     protected string ContentClassNames => ContentClassBuilder.Class;
 
     /// <summary>
-    /// Gets currently selected step name.
+    /// Gets or sets currently selected step name.
     /// </summary>
-    public string SelectedStep => state.SelectedStep;
-
-    /// <summary>
-    /// Initial step to go on the component initialization
-    /// </summary>
-    [Parameter] public string InitialStep { get; set; } = string.Empty;
+    [Parameter] public string SelectedStep { get; set; }
 
     /// <summary>
     /// Occurs after the selected step has changed.
