@@ -108,7 +108,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     private void FilterData( IQueryable<TItem> query )
     {
         dirtyFilter = false;
-        if ( !FilterEnabled || string.IsNullOrEmpty( FilterText ) )
+        if ( !Filterable || string.IsNullOrEmpty( FilterText ) )
         {
             filteredData = Data;
             return;
@@ -215,7 +215,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// <summary>
     /// Enebles filter text input on the top of the items list.
     /// </summary>
-    [Parameter] public bool FilterEnabled { get; set; }
+    [Parameter] public bool Filterable { get; set; }
 
     /// <summary>
     /// Custom classname for dropdown element.

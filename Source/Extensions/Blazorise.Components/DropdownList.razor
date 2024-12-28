@@ -5,8 +5,8 @@
           Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
     <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" Size="@DropdownToggleSize"
                     TabIndex="@TabIndex">@ChildContent</DropdownToggle>
-    <DropdownMenu MaxMenuHeight="@MaxMenuHeight" Padding="@(FilterEnabled ? Padding.Is0.FromTop : Padding.IsAuto)">
-        @if (FilterEnabled)
+    <DropdownMenu MaxMenuHeight="@MaxMenuHeight" Padding="@(Filterable ? Padding.Is0.FromTop : Padding.IsAuto)">
+        @if (Filterable)
         {
             <TextEdit Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler"
                       Position="Position.Sticky.Top.Is0"/>
