@@ -294,21 +294,17 @@ export function resetSelection(element, elementId) {
     }
 }
 
-let disabledBeforeImageLoadFailed;
-let wasDisabled;
 function cropperImageReady(cropperImage, cropperCanvas, instance) {
     cropperImage.$ready((image) => {
-        if(wasDisabled)
-        {
-            cropperCanvas.disabled = disabledBeforeImageLoadFailed;
-            wasDisabled =false;
+        if (instance.wasDisabled) {
+            cropperCanvas.disabled = instance.disabledBeforeImageLoadFailed;
+            instance.wasDisabled = false;
         }
         invokeDotNetMethodAsync(instance.adapter, "ImageReady");
     })
-        .catch((err) => {
-            invokeDotNetMethodAsync(instance.adapter, "ImageLoadingFailed", err.message);
-            disabledBeforeImageLoadFailed = cropperCanvas.disabled;
-            wasDisabled = true;
+        .catch(() => {
+            instance.disabledBeforeImageLoadFailed = cropperCanvas.disabled;
+            instance.wasDisabled = true;
             cropperCanvas.disabled = true;
         });
 }

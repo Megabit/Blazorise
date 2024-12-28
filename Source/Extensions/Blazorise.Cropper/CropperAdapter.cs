@@ -32,7 +32,4 @@ internal class CropperAdapter
 
     [JSInvokable( "ImageReady" )]
     public async ValueTask ImageReady() => await cropper.NotifyImageReady();
-    
-    [JSInvokable( nameof(ImageLoadingFailed) )]
-    public async ValueTask ImageLoadingFailed(string errorMessage) => await cropper.NotifyImageLoadingFailed(errorMessage);
 }
