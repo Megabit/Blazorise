@@ -260,6 +260,12 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
         if ( ImageReady is not null )
             await ImageReady.Invoke();
     }
+    
+    internal async Task NotifyImageLoadingFailed( string errorMessage )
+    {
+        if ( ImageLoadingFailed is not null )
+            await ImageLoadingFailed.Invoke(errorMessage);
+    }
 
     #endregion
 
@@ -278,7 +284,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     /// <summary>
     /// The original image source.
     /// </summary>
-    [Parameter] public string Source { get; set; }
+    [Parameter, EditorRequired] public string Source { get; set; }
 
     /// <summary>
     /// The alt text of the image.
@@ -324,6 +330,12 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     /// This event fires when the image is ready / loaded.
     /// </summary>
     [Parameter] public Func<Task> ImageReady { get; set; }
+    
+    /// <summary>
+    /// This event fires when the image cannot be loaded. Usually because of 404 or <see cref="Source"/> being null.
+    /// Error message inside the string parameter.
+    /// </summary>
+    [Parameter] public Func<string,Task> ImageLoadingFailed { get; set; }
 
     /// <summary>
     /// Indicates whether this element is disabled.
@@ -356,4 +368,8 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     [Parameter] public CropperState CropperState { get; set; }
 
     #endregion
+    
+    add this to blazorise.cropper.js line 309
+    invokeDotNetMethodAsync(instance.adapter, "ImageLoadingFailed", err.message);
+
 }
