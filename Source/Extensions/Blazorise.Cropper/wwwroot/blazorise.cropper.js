@@ -56,7 +56,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     const cropperSelection = cropper.getCropperSelection();
     const cropperImage = cropper.getCropperImage();
 
-    cropperImageReady(cropperImage, cropperCanvas, instance);
+    manageCropperImageReady(cropperImage, cropperCanvas, instance);
 
     registerEvents(cropperCanvas, cropperSelection);
 
@@ -104,7 +104,7 @@ export function updateOptions(element, elementId, options) {
                 cropperImage.src = options.source.value;
 
                 // Callback needs to be setup again after each source changed.
-                cropperImageReady(cropperImage, cropperCanvas, instance);
+                manageCropperImageReady(cropperImage, cropperCanvas, instance);
             }
 
             if (options.alt.changed) {
@@ -294,17 +294,17 @@ export function resetSelection(element, elementId) {
     }
 }
 
-function cropperImageReady(cropperImage, cropperCanvas, instance) {
+function manageCropperImageReady(cropperImage, cropperCanvas, instance) {
     cropperImage.$ready((image) => {
-        if (instance.wasDisabled) {
+        if (instance.loadFailed) {
             cropperCanvas.disabled = instance.disabledBeforeImageLoadFailed;
-            instance.wasDisabled = false;
+            instance.loadFailed = false;
         }
         invokeDotNetMethodAsync(instance.adapter, "ImageReady");
     })
         .catch(() => {
             instance.disabledBeforeImageLoadFailed = cropperCanvas.disabled;
-            instance.wasDisabled = true;
+            instance.loadFailed = true;
             cropperCanvas.disabled = true;
         });
 }
