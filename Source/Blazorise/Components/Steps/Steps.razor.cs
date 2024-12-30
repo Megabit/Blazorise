@@ -114,7 +114,7 @@ public partial class Steps : BaseComponent
             } );
         }
 
-        if ( allowNavigation == false )
+        if ( !allowNavigation )
             return false;
 
         state = state with
