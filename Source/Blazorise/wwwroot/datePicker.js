@@ -1,7 +1,7 @@
-import "./vendors/flatpickr.js?v=1.7.1.0";
-import * as utilities from "./utilities.js?v=1.7.1.0";
-import * as inputmask from "./inputMask.js?v=1.7.1.0";
-import { ClassWatcher } from "./observer.js?v=1.7.1.0";
+import "./vendors/flatpickr.js?v=1.7.2.0";
+import * as utilities from "./utilities.js?v=1.7.2.0";
+import * as inputmask from "./inputMask.js?v=1.7.2.0";
+import { ClassWatcher } from "./observer.js?v=1.7.2.0";
 
 const _pickers = [];
 
