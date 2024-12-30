@@ -107,6 +107,25 @@
                 </UnorderedListItem>
             </UnorderedList>
         </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
+                <Strong>Steps</Strong>
+            </Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Paragraph>
+                        Methods used for moving steps no longer guarantee the step will be moved. This is reflected in their return value of <Code>bool</Code>.
+                        The <Code>NavigationAllowed</Code> function is always invoked (if implemented) and determines whether navigation is permitted.
+                        You can implement <Code>NavigationAllowed</Code> to return a <Code>bool</Code> based on your own logic.
+                    </Paragraph>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Paragraph>
+                        The <Code>NavigationAllowed</Code> function is now asynchronous, returning <Code>Task&lt;bool&gt;</Code> instead of <Code>bool</Code>.
+                    </Paragraph>
+                </UnorderedListItem>
+            </UnorderedList>
+        </OrderedListItem>
     </OrderedList>
 </Paragraph>
 
@@ -146,13 +165,25 @@
     The <Code>Page</Code> parameter now supports two-way binding, allowing you to synchronize it with a variable using <Code>@@bind-Page="currentPage"</Code>.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    Steps
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Asynchronous <Code>NavigationAllowed</Code>
+</Heading>
+
+<Paragraph>
+    The <Code>NavigationAllowed</Code> function in the <Code Tag>Steps</Code> component is now asynchronous.
+    It returns <Code>Task&lt;bool&gt;</Code> instead of <Code>bool</Code>, allowing you to execute asynchronous logic
+    to determine whether navigation between steps is allowed. This change provides greater flexibility and accommodates
+    scenarios where the decision to navigate requires async operations.
+</Paragraph>
+
 <NewsPageSubtitle>
     Final Notes
 </NewsPageSubtitle>
 
-<Paragraph>
-
-</Paragraph>
 
 <Paragraph>
     As always, your feedback is invaluable in guiding future Blazorise development. We encourage you to try out the new features and let us know your thoughts. Thank you for your continued support and enthusiasm for Blazorise, and we look forward to bringing you even more enhancements in future updates!
