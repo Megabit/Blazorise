@@ -3976,10 +3976,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     {
         if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
         {
-            return Task.FromResult(false);
+            return Task.FromResult( false );
         }
 
-        return Task.FromResult(true);
+        return Task.FromResult( true );
     }
 }";
 

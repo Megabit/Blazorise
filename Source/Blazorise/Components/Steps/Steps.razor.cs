@@ -1,12 +1,10 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise;
@@ -33,12 +31,27 @@ public partial class Steps : BaseComponent
     /// </summary>
     public Steps()
     {
-        ContentClassBuilder = new(BuildContentClasses);
+        ContentClassBuilder = new( BuildContentClasses );
     }
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        if ( SelectedStep != state.SelectedStep )
+        {
+            var success = await SelectStep( SelectedStep );
+
+            if ( !success )
+            {
+                SelectedStep = state.SelectedStep;
+                await SelectedStepChanged.InvokeAsync( state.SelectedStep );
+            }
+        }
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -80,21 +93,26 @@ public partial class Steps : BaseComponent
     /// <summary>
     /// Sets the active step by the name.
     /// </summary>
-    /// <param name="stepName"></param>
+    /// <param name="stepName">The name of the step to set as active.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task<bool> SelectStep( string stepName )   
+    public async Task<bool> SelectStep( string stepName )
     {
         // prevent steps from calling the same code multiple times
         if ( stepName == state.SelectedStep )
             return true;
 
         bool allowNavigation = NavigationAllowed == null;
-        if ( NavigationAllowed != null )
+
+        if ( NavigationAllowed is not null )
+        {
             allowNavigation = await NavigationAllowed.Invoke( new StepNavigationContext
             {
-                CurrentStepName = state.SelectedStep, CurrentStepIndex = IndexOfStep( state.SelectedStep ), NextStepName = stepName, NextStepIndex = IndexOfStep( stepName ),
+                CurrentStepName = state.SelectedStep,
+                CurrentStepIndex = IndexOfStep( state.SelectedStep ),
+                NextStepName = stepName,
+                NextStepIndex = IndexOfStep( stepName ),
             } );
-
+        }
 
         if ( allowNavigation == false )
             return false;
@@ -110,6 +128,7 @@ public partial class Steps : BaseComponent
         DirtyClasses();
 
         await InvokeAsync( StateHasChanged );
+
         return true;
     }
 
@@ -153,20 +172,6 @@ public partial class Steps : BaseComponent
     internal int IndexOfStep( string name )
     {
         return stepItems.IndexOf( name ) + 1;
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
-    {
-        if ( SelectedStep != state.SelectedStep )
-        {
-            var success = await SelectStep( SelectedStep );
-            if ( !success )
-            {
-                SelectedStep = state.SelectedStep;
-                await SelectedStepChanged.InvokeAsync( state.SelectedStep );
-            }
-        }
     }
 
     #endregion

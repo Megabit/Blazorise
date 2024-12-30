@@ -46,10 +46,10 @@
     {
         <span class="keyword">if</span> ( context.CurrentStepIndex == <span class="number">2</span> &amp;&amp; context.NextStepIndex &gt; <span class="number">2</span> &amp;&amp; !ValidationRule.IsEmail( email ) )
         {
-            <span class="keyword">return</span> Task.FromResult(<span class="keyword">false</span>);
+            <span class="keyword">return</span> Task.FromResult( <span class="keyword">false</span> );
         }
 
-        <span class="keyword">return</span> Task.FromResult(<span class="keyword">true</span>);
+        <span class="keyword">return</span> Task.FromResult( <span class="keyword">true</span> );
     }
 }
 </pre></div>
