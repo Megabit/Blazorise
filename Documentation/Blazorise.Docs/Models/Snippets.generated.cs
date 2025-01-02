@@ -3807,7 +3807,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </SelectGroup>
 </Select>";
 
-        public const string MultipleSelectExample = @"<Select TValue=""int"" Multiple>
+        public const string MultipleSelectExample = @"<Select TValue=""int[]"" Multiple>
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
@@ -9589,11 +9589,11 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""string""
+        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
               Data=""@Countries""
               TextField=""@((item)=>item.Name)""
               ValueField=""@((item)=>item.Iso)""
-              @bind-SelectedValues=""@selectedDropValues""
+              @bind-Value=""@selectedDropValues""
               SelectionMode=""DropdownListSelectionMode.Checkbox""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
@@ -9611,7 +9611,7 @@ Install-Package Blazorise.Chart.Zoom";
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -9623,14 +9623,13 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
-
 }";
 
         public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@((item)=>item.Name)""
               ValueField=""@((item)=>item.Iso)""
-              @bind-SelectedValue=""@selectedDropValue""
+              @bind-Value=""@selectedDropValue""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
     Select item
@@ -9645,7 +9644,7 @@ Install-Package Blazorise.Chart.Zoom";
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -9657,7 +9656,6 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     string selectedDropValue { get; set; } = ""CN"";
-
 }";
 
         public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
@@ -10422,7 +10420,7 @@ builder.Services
             Data=""@IndexedCountries""
             TextField=""@((item)=>item.Name)""
             ValueField=""@((item)=>item.Id)""
-            @bind-SelectedValue=""@selectedListValue""
+            @bind-Value=""@selectedListValue""
             DefaultItemText=""Choose your country"" />
 
 @code {
@@ -10439,12 +10437,12 @@ builder.Services
 }";
 
         public const string SelectListMultipleExample = @"<SelectList TItem=""MyFruitModel""
-            TValue=""int""
+            TValue=""IReadOnlyList<int>""
             Data=""@IndexedFruits""
             TextField=""@((item)=>item.Name)""
             ValueField=""@((item)=>item.Id)""
             Multiple
-            @bind-SelectedValues=""@selectedListValues""
+            @bind-Value=""@selectedListValues""
             DefaultItemText=""Choose your fruit"" />
 
 @code {

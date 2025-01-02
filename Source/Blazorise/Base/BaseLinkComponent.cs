@@ -48,7 +48,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         if ( Attributes is not null && Attributes.TryGetValue( "href", out var href ) )
             To = $"{href}";
 
-        if ( To is not null && To.StartsWith( "#" ) )
+        if ( To is not null && To.StartsWith( '#' ) )
         {
             // If the href contains an anchor link we don't want the default click action to occur, but
             // rather take care of the click in our own method.

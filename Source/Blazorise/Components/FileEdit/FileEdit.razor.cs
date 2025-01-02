@@ -31,8 +31,6 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     // taken from https://github.com/aspnet/AspNetCore/issues/11159
     private DotNetObjectReference<FileEditAdapter> dotNetObjectRef;
 
-    private IFileEntry[] files;
-
     #endregion
 
     #region Methods
