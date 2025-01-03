@@ -34,7 +34,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
         var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
         var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
-        var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
+        var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
+        var enableSecondsChanged = parameters.TryGetValue(nameof(EnableSeconds), out bool paramEnableSeconds) && EnableSeconds != paramEnableSeconds;
 
         if ( paramValue.Changed )
         {
@@ -56,7 +57,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || readOnlyChanged
                            || inlineChanged
                            || placeholderChanged
-                           || staticPickerChanged ) )
+                           || staticPickerChanged 
+                           || enableSecondsChanged))
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new TimePickerUpdateJSOptions
             {
@@ -68,7 +70,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 ReadOnly = new JSOptionChange<bool>( readOnlyChanged, readOnly ),
                 Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
                 Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
-                StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramSaticPicker ),
+                StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
+                EnableSeconds = new JSOptionChange<bool>(enableSecondsChanged, paramEnableSeconds),
             } ) );
         }
     }
@@ -97,6 +100,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             Inline = Inline,
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
+            EnableSeconds = EnableSeconds,
         } );
 
 
@@ -302,6 +306,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
+    
+    /// <summary>
+    /// Enables the selection of seconds in the time picker.
+    /// </summary>
+    [Parameter] public bool EnableSeconds { get; set; }
+
 
     #endregion
 }
