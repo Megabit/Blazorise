@@ -1,6 +1,6 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Steps</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">stepsRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedStep</span><span class="quot">&quot;</span> <span class="htmlAttributeName">NavigationAllowed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">NavigationAllowed</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Steps</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">stepsRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedStep</span><span class="quot">&quot;</span> <span class="htmlAttributeName">NavigationAllowed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">NavigationAllowed</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Items</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Step</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Step 1<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Step</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Step</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">2</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Step 2<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Step</span><span class="htmlTagDelimiter">&gt;</span>
@@ -15,7 +15,7 @@
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Email address<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextEdit</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">email</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Enter email</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>This field is required in order to procceed to the next step.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>This field is required in order to proceed to the next step.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextEdit</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">StepPanel</span><span class="htmlTagDelimiter">&gt;</span>
@@ -42,14 +42,14 @@
     <span class="keyword">private</span> <span class="keyword">string</span> email;
     <span class="keyword">private</span> <span class="keyword">string</span> selectedStep = <span class="string">&quot;2&quot;</span>;
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> NavigationAllowed( StepNavigationContext context )
+    <span class="keyword">private</span> Task&lt;<span class="keyword">bool</span>&gt; NavigationAllowed( StepNavigationContext context )
     {
         <span class="keyword">if</span> ( context.CurrentStepIndex == <span class="number">2</span> &amp;&amp; context.NextStepIndex &gt; <span class="number">2</span> &amp;&amp; !ValidationRule.IsEmail( email ) )
         {
-            <span class="keyword">return</span> <span class="keyword">false</span>;
+            <span class="keyword">return</span> Task.FromResult( <span class="keyword">false</span> );
         }
 
-        <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">return</span> Task.FromResult( <span class="keyword">true</span> );
     }
 }
 </pre></div>
