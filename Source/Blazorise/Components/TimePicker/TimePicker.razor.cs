@@ -35,7 +35,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
         var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
         var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
-        var enableSecondsChanged = parameters.TryGetValue( nameof( EnableSeconds ), out bool paramEnableSeconds ) && EnableSeconds != paramEnableSeconds;
+        var secondsChanged = parameters.TryGetValue( nameof( Seconds ), out bool paramSeconds ) && Seconds != paramSeconds;
 
         if ( paramValue.Changed )
         {
@@ -58,7 +58,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || inlineChanged
                            || placeholderChanged
                            || staticPickerChanged
-                           || enableSecondsChanged ) )
+                           || secondsChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new TimePickerUpdateJSOptions
             {
@@ -71,7 +71,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
                 Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
                 StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
-                EnableSeconds = new JSOptionChange<bool>( enableSecondsChanged, paramEnableSeconds ),
+                Seconds = new JSOptionChange<bool>( secondsChanged, paramSeconds ),
             } ) );
         }
     }
@@ -100,7 +100,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             Inline = Inline,
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
-            EnableSeconds = EnableSeconds,
+            Seconds = Seconds,
         } );
 
 
@@ -308,10 +308,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     [Parameter] public bool StaticPicker { get; set; } = true;
 
     /// <summary>
-    /// Enables the selection of seconds in the time picker.
+    /// If enabled, the time picker will include seconds in the selection.
     /// </summary>
-    [Parameter] public bool EnableSeconds { get; set; }
-
+    [Parameter] public bool Seconds { get; set; }
 
     #endregion
 }

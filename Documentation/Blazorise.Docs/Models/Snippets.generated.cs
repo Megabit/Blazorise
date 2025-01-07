@@ -4732,13 +4732,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string TimePickerEnableSecondsExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" EnableSeconds />
+        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" StaticPicker=""false"" />
 
 @code {
     TimeSpan? value;
 }";
 
-        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" StaticPicker=""false"" />
+        public const string TimePickerSecondsExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" Seconds />
 
 @code {
     TimeSpan? value;

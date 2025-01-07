@@ -43,10 +43,10 @@ export function initialize(element, elementId, options) {
     const picker = flatpickr(element, {
         enableTime: true,
         noCalendar: true,
-        dateFormat: options.enableSeconds ? "H:i:S" : "H:i",
+        dateFormat: options.seconds ? "H:i:S" : "H:i",
         allowInput: true,
         altInput: true,
-        altFormat: options.displayFormat ? options.displayFormat : (options.enableSeconds ? "H:i:S" : "H:i"),
+        altFormat: options.displayFormat ? options.displayFormat : (options.seconds ? "H:i:S" : "H:i"),
         defaultValue: options.default,
         minTime: options.min,
         maxTime: options.max,
@@ -55,7 +55,7 @@ export function initialize(element, elementId, options) {
         locale: options.localization || {},
         inline: options.inline || false,
         static: options.staticPicker,
-        enableSeconds: options.enableSeconds,
+        enableSeconds: options.seconds,
         onReady: (selectedDates, dateStr, instance) => {
             // move the id from the hidden element to the visible element
             if (instance && instance.input && instance.input.parentElement) {
@@ -149,10 +149,10 @@ export function updateOptions(element, elementId, options) {
             picker.set("static", options.staticPicker.value);
         }
 
-        if (options.enableSeconds.changed) {
-            picker.set("enableSeconds", options.enableSeconds.value);
-            picker.set("dateFormat", options.enableSeconds.value ? "H:i:S" : "H:i");
-            picker.set("altFormat", options.displayFormat ? options.displayFormat : (options.enableSeconds.value ? "H:i:S" : "H:i"));
+        if (options.seconds.changed) {
+            picker.set("enableSeconds", options.seconds.value);
+            picker.set("dateFormat", options.seconds.value ? "H:i:S" : "H:i");
+            picker.set("altFormat", options.displayFormat ? options.displayFormat : (options.seconds.value ? "H:i:S" : "H:i"));
         }
     }
 }

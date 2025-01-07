@@ -63,7 +63,7 @@ public class TimePickerJSOptions
     /// <summary>
     /// Gets or sets a value indicating whether the time picker should include seconds in the selection.
     /// </summary>
-    public bool EnableSeconds { get; set; }
+    public bool Seconds { get; set; }
 }
 
 /// <summary>
@@ -119,5 +119,5 @@ public class TimePickerUpdateJSOptions
     /// <summary>
     /// Gets or sets the option for including seconds in the time picker selection.
     /// </summary>
-    public JSOptionChange<bool> EnableSeconds { get; set; }
+    public JSOptionChange<bool> Seconds { get; set; }
 }
