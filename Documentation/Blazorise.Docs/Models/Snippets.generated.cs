@@ -4738,6 +4738,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     TimeSpan? value;
 }";
 
+        public const string TimePickerSecondsExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" Seconds />
+
+@code {
+    TimeSpan? value;
+}";
+
         public const string TimePickerWithDateTimeExample = @"<TimePicker TValue=""DateTime?"" @bind-Value=""@value"" />
 
 @code {
