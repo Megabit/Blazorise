@@ -4732,7 +4732,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string TimePickerEnableSecondsExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" EnableSeconds=""true"" />
+        public const string TimePickerEnableSecondsExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" EnableSeconds />
 
 @code {
     TimeSpan? value;
