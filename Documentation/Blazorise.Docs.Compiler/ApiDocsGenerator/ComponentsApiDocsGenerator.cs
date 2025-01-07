@@ -94,7 +94,7 @@ public class ComponentsApiDocsGenerator
                 : GetCompilation( inputLocation, assemblyName );
 
             INamespaceSymbol namespaceToSearch = FindNamespace( compilation, assemblyName ); // e.g. Blazorise.Animate
-
+            if ( namespaceToSearch.ToDisplayString().Contains( "Blazorise.Icons" ) ) continue;//TODO: DIRTY FIX... icons aren't required
             IEnumerable<ComponentInfo> componentInfo = GetComponentsInfo( compilation, namespaceToSearch );
             string sourceText = GenerateComponentsApiSource( compilation, [.. componentInfo], assemblyName );
 
