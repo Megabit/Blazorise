@@ -851,14 +851,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.IndexOf( Search, 0, StringComparison.OrdinalIgnoreCase ) >= 0
+                        where text.IndexOf( Search, 0, StringComparison ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.StartsWith( Search, StringComparison.OrdinalIgnoreCase )
+                        where text.StartsWith( Search, StringComparison )
                         select q;
             }
         }
@@ -1616,6 +1616,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Handler for custom filtering on Autocomplete's data source.
     /// </summary>
     [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
+    
+    /// <summary>
+    /// Sets the StringComparison used in data filtering. 
+    /// </summary>
+    [Parameter] public StringComparison StringComparison { get; set; } = StringComparison.OrdinalIgnoreCase;
 
     /// <summary>
     /// Allows for multiple selection.
