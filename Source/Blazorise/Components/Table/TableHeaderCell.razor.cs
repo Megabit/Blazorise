@@ -143,11 +143,12 @@ public partial class TableHeaderCell : BaseDraggableComponent, IDisposable
     /// <summary>
     /// Gets the fixed position data attribute.
     /// </summary>
-    protected string FixedPositionDataAttribute => FixedPosition == TableColumnFixedPosition.Start
-        ? "start"
-        : FixedPosition == TableColumnFixedPosition.End
-            ? "end"
-            : null;
+    protected string FixedPositionDataAttribute => FixedPosition switch
+    {
+        TableColumnFixedPosition.Start => "start",
+        TableColumnFixedPosition.End => "end",
+        _ => null
+    };
 
     /// <summary>
     /// Gets or sets the cascaded parent table component.
