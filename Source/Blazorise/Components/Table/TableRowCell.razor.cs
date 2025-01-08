@@ -141,6 +141,15 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     #region Properties
 
     /// <summary>
+    /// Gets the fixed position data attribute.
+    /// </summary>
+    protected string FixedPositionDataAttribute => FixedPosition == TableColumnFixedPosition.Start
+        ? "start"
+        : FixedPosition == TableColumnFixedPosition.End
+            ? $"end"
+            : null;
+
+    /// <summary>
     /// Gets or sets the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
