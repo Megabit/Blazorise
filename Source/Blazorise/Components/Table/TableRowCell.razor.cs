@@ -146,7 +146,7 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     protected string FixedPositionDataAttribute => FixedPosition == TableColumnFixedPosition.Start
         ? "start"
         : FixedPosition == TableColumnFixedPosition.End
-            ? $"end"
+            ? "end"
             : null;
 
     /// <summary>
