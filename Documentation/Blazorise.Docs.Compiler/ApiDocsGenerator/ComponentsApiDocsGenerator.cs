@@ -95,6 +95,9 @@ public class ComponentsApiDocsGenerator
 
             INamespaceSymbol namespaceToSearch = FindNamespace( compilation, assemblyName ); // e.g. Blazorise.Animate
 
+            if ( namespaceToSearch is null || namespaceToSearch.ToDisplayString().Contains( "Blazorise.Icons" ) )
+                continue;
+
             IEnumerable<ComponentInfo> componentInfo = GetComponentsInfo( compilation, namespaceToSearch );
             string sourceText = GenerateComponentsApiSource( compilation, [.. componentInfo], assemblyName );
 
@@ -111,7 +114,7 @@ public class ComponentsApiDocsGenerator
     }
 
     //namespace are divided in chunks (Blazorise.Animate is under Blazorise...)
-    INamespaceSymbol FindNamespace( Compilation compilation, string namespaceName, INamespaceSymbol? namespaceToSearch = null )
+    INamespaceSymbol FindNamespace( Compilation compilation, string namespaceName, INamespaceSymbol namespaceToSearch = null )
     {
         namespaceToSearch ??= compilation.GlobalNamespace
             .GetNamespaceMembers()
@@ -126,7 +129,8 @@ public class ComponentsApiDocsGenerator
         foreach ( var childNamespace in namespaceToSearch.GetNamespaceMembers() )
         {
             var result = FindNamespace( compilation, namespaceName, childNamespace );
-            if ( result != null )
+
+            if ( result is not null )
                 return result;
         }
 
