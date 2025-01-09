@@ -11184,7 +11184,9 @@ builder.Services
 
         public const string ImportVideoExample = @"@using Blazorise.Video";
 
-        public const string StreamingVideoExample = @"<Video Source=""@(""https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"")"" StreamingLibrary=""StreamingLibrary.Dash"" />";
+        public const string VideoDashExample = @"<Video Source=""@(""https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"")"" StreamingLibrary=""StreamingLibrary.Dash"" />";
+
+        public const string VideoHlsExample = @"<Video Source=""@(""https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"")"" StreamingLibrary=""StreamingLibrary.Hls"" />";
 
         public const string VideoMultipleSourcesExample = @"<Video Source=""@videoSource"" DefaultQuality=""720"" />
 
