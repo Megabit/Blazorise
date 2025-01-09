@@ -1616,7 +1616,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Handler for custom filtering on Autocomplete's data source.
     /// </summary>
     [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
-    
+
     /// <summary>
     /// Sets the StringComparison used in data filtering. 
     /// </summary>
