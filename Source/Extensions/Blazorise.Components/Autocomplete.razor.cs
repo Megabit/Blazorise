@@ -1618,7 +1618,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
 
     /// <summary>
-    /// Sets the StringComparison used in data filtering. 
+    /// Specifies the string comparison used for data filtering.
     /// </summary>
     [Parameter] public StringComparison StringComparison { get; set; } = StringComparison.OrdinalIgnoreCase;
 
