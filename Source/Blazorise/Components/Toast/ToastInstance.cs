@@ -110,4 +110,14 @@ public class ToastInstance
     /// Delay in milliseconds before hiding the toast.
     /// </summary>
     public double AutohideDelay => ToastInstanceOptions?.AutohideDelay ?? ToastProvider.AutohideDelay;
+    
+    /// <summary>
+    /// Custom CSS class name to apply to the Toast
+    /// </summary>
+    public string ToastClass => ToastInstanceOptions?.ToastClass;
+    
+    /// <summary>
+    /// Custom inline styles to apply to the Toast
+    /// </summary>
+    public string ToastStyle => ToastInstanceOptions?.ToastStyle;
 }

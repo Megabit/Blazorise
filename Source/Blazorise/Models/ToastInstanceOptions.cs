@@ -50,6 +50,16 @@ public class ToastInstanceOptions
     /// Delay in milliseconds before hiding the toast.
     /// </summary>
     public double? AutohideDelay { get; set; }
+    
+    /// <summary>
+    /// Custom CSS class name to apply to the Toast
+    /// </summary>
+    public string ToastClass { get; set; }
+    
+    /// <summary>
+    /// Custom inline styles to apply to the Toast
+    /// </summary>
+    public string ToastStyle { get; set; }
 
     /// <summary>
     /// Creates the default toast options.
