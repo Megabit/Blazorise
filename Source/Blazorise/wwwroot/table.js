@@ -127,7 +127,7 @@ export function initializeResizable(element, elementId, mode) {
                 return;
 
             // if the column already has both min and max width set, then we don't need to resize it
-            if (col.style.minWidth && col.style.maxWidth && !col.dataset.resized) {
+            if (((col.style.minWidth && col.style.maxWidth) || col.dataset.fixedPosition) && !col.dataset.resized) {
                 return;
             }
 
