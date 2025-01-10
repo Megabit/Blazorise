@@ -120,4 +120,10 @@ public class ToastInstance
     /// Custom inline styles to apply to the Toast
     /// </summary>
     public string ToastStyle => ToastInstanceOptions?.ToastStyle;
+    
+    /// <summary>
+    /// Icon to display inside the ToastHeader.
+    /// </summary>
+    public IconName? IconName => ToastInstanceOptions?.IconName;
+
 }

@@ -60,6 +60,11 @@ public class ToastInstanceOptions
     /// Custom inline styles to apply to the Toast
     /// </summary>
     public string ToastStyle { get; set; }
+    
+    /// <summary>
+    /// Icon to display inside the ToastHeader.
+    /// </summary>
+    public IconName? IconName { get; set; } 
 
     /// <summary>
     /// Creates the default toast options.

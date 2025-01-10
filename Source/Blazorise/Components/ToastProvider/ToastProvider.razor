@@ -19,7 +19,7 @@
                 <ToastHeader>
                     @if ( ShowIntentIcon )
                     {
-                        <Icon Name="@GetIconName( toastInstance.Intent )" TextColor="@GetIconColor( toastInstance.Intent )" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        <Icon Name="@(toastInstance.IconName ?? GetIconName( toastInstance.Intent ))" TextColor="@GetIconColor( toastInstance.Intent )" Margin="Blazorise.Margin.Is2.FromEnd" />
                     }
                     <Strong>@toastInstance.Title</Strong>
                     @if ( ShowCloseButton )
