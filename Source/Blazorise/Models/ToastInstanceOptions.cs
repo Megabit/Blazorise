@@ -50,22 +50,22 @@ public class ToastInstanceOptions
     /// Delay in milliseconds before hiding the toast.
     /// </summary>
     public double? AutohideDelay { get; set; }
-    
+
     /// <summary>
     /// Custom CSS class name to apply to the Toast
     /// </summary>
     public string Class { get; set; }
-    
+
     /// <summary>
     /// Custom inline styles to apply to the Toast
     /// </summary>
     public string Style { get; set; }
-    
+
     /// <summary>
     /// Icon to display inside the ToastHeader.
     /// </summary>
-    public IconName? IconName { get; set; } 
-    
+    public IconName? IconName { get; set; }
+
     /// <summary>
     /// Determines whether to show an icon in the Toast.
     /// </summary>

@@ -110,17 +110,17 @@ public class ToastInstance
     /// Delay in milliseconds before hiding the toast.
     /// </summary>
     public double AutohideDelay => ToastInstanceOptions?.AutohideDelay ?? ToastProvider.AutohideDelay;
-    
+
     /// <summary>
     /// Custom CSS class name to apply to the Toast
     /// </summary>
     public string Class => ToastInstanceOptions?.Class;
-    
+
     /// <summary>
     /// Custom inline styles to apply to the Toast
     /// </summary>
     public string Style => ToastInstanceOptions?.Style;
-    
+
     /// <summary>
     /// Determines whether to show an icon in the Toast. Defaults to true.
     /// </summary>
@@ -135,7 +135,7 @@ public class ToastInstance
     /// The size of the icon in the Toast.
     /// </summary>
     public IconSize? IconSize => ToastInstanceOptions?.IconSize;
-    
+
     /// <summary>
     /// Icon to display inside the ToastHeader.
     /// </summary>

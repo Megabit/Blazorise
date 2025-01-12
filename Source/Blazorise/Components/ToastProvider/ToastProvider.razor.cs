@@ -134,7 +134,7 @@ public partial class ToastProvider : BaseComponent, IDisposable
     /// </summary>
     /// <param name="instance">Toast instance</param>
     /// <returns>Returns the icon name.</returns>
-    private static IconName GetIconName( ToastInstance instance ) =>instance.IconName?? instance.Intent switch
+    private static IconName GetIconName( ToastInstance instance ) => instance.IconName ?? instance.Intent switch
     {
         ToastIntent.Info => IconName.InfoCircle,
         ToastIntent.Success => IconName.CheckCircle,
