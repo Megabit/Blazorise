@@ -122,6 +122,21 @@ public class ToastInstance
     public string Style => ToastInstanceOptions?.Style;
     
     /// <summary>
+    /// Determines whether to show an icon in the Toast. Defaults to true.
+    /// </summary>
+    public bool? ShowIcon => ToastInstanceOptions?.ShowIcon;
+
+    /// <summary>
+    /// Custom inline styles to apply to the icon in the Toast.
+    /// </summary>
+    public IconStyle? IconStyle => ToastInstanceOptions?.IconStyle;
+
+    /// <summary>
+    /// The size of the icon in the Toast.
+    /// </summary>
+    public IconSize? IconSize => ToastInstanceOptions?.IconSize;
+    
+    /// <summary>
     /// Icon to display inside the ToastHeader.
     /// </summary>
     public IconName? IconName => ToastInstanceOptions?.IconName;

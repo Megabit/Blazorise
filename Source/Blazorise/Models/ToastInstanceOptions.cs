@@ -65,6 +65,21 @@ public class ToastInstanceOptions
     /// Icon to display inside the ToastHeader.
     /// </summary>
     public IconName? IconName { get; set; } 
+    
+    /// <summary>
+    /// Determines whether to show an icon in the Toast.
+    /// </summary>
+    public bool? ShowIcon { get; set; }
+
+    /// <summary>
+    /// Style to apply to the icon in the Toast.
+    /// </summary>
+    public IconStyle? IconStyle { get; set; }
+
+    /// <summary>
+    /// The size of the icon in the Toast.
+    /// </summary>
+    public IconSize? IconSize { get; set; }
 
     /// <summary>
     /// Creates the default toast options.
