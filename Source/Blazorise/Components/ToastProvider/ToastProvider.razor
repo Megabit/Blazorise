@@ -13,11 +13,13 @@
                    Animated="@toastInstance.Animated"
                    AnimationDuration="@toastInstance.AnimationDuration"
                    Autohide="@toastInstance.Autohide"
-                   AutohideDelay="@toastInstance.AutohideDelay">
+                   AutohideDelay="@toastInstance.AutohideDelay"
+                   Style="@toastInstance.Style"
+                   Class="@toastInstance.Class">
                 <ToastHeader>
-                    @if ( ShowIntentIcon )
+                    @if ( toastInstance.ShowIcon ?? ShowIntentIcon )
                     {
-                        <Icon Name="@GetIconName( toastInstance.Intent )" TextColor="@GetIconColor( toastInstance.Intent )" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        <Icon Name="@(GetIconName( toastInstance ))" IconStyle="toastInstance.IconStyle" IconSize="toastInstance.IconSize" TextColor="@GetIconColor( toastInstance.Intent )" Margin="Blazorise.Margin.Is2.FromEnd" />
                     }
                     <Strong>@toastInstance.Title</Strong>
                     @if ( ShowCloseButton )

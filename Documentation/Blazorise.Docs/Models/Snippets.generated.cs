@@ -12477,6 +12477,22 @@ builder.Services
     }
 }";
 
+        public const string ToastProviderHideIconExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowToast"">Show toast message!</Button>
+
+@code {
+    [Inject] IToastService ToastService { get; set; }
+
+    Task ShowToast()
+    {
+        return ToastService.Info( ""This is a simple toast message!"", ""Hello"", BuildToastInstanceOptions );
+    }
+
+    private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
+    {
+        toastInstanceOptions.ShowIcon = false;
+    }
+}";
+
         public const string ToastProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
     <Found>...</Found>
     <NotFound>...</NotFound>

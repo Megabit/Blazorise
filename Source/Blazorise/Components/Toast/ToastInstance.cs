@@ -7,20 +7,26 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Defines the message to show in the <see cref="Toast"/>.
+/// Represents an instance of a toast message with associated properties and behavior.
 /// </summary>
 public class ToastInstance
 {
     /// <summary>
-    /// The constructor for the ToastInstance.
+    /// Initializes a new instance of the <see cref="ToastInstance"/> class.
     /// </summary>
-    /// <param name="toastProvider"></param>
-    /// <param name="toastId"></param>
-    /// <param name="title"></param>
-    /// <param name="message"></param>
-    /// <param name="intent"></param>
-    /// <param name="toastInstanceOptions"></param>
-    public ToastInstance( ToastProvider toastProvider, string toastId, string title, MarkupString message, ToastIntent intent, ToastInstanceOptions toastInstanceOptions )
+    /// <param name="toastProvider">The provider managing this toast instance.</param>
+    /// <param name="toastId">A unique identifier for this toast instance.</param>
+    /// <param name="title">The title text to display in the toast header.</param>
+    /// <param name="message">The body content to display in the toast.</param>
+    /// <param name="intent">The intent or purpose of the toast, which typically determines its styling.</param>
+    /// <param name="toastInstanceOptions">Optional settings to customize this toast instance.</param>
+    public ToastInstance(
+        ToastProvider toastProvider,
+        string toastId,
+        string title,
+        MarkupString message,
+        ToastIntent intent,
+        ToastInstanceOptions toastInstanceOptions )
     {
         ToastProvider = toastProvider;
         ToastId = toastId;
@@ -32,42 +38,43 @@ public class ToastInstance
     }
 
     /// <summary>
-    /// The Toast provider.
+    /// The provider managing this toast instance.
     /// </summary>
     public ToastProvider ToastProvider { get; private set; }
 
     /// <summary>
-    /// Tracks the Toast reference.
+    /// A reference to the toast component associated with this instance.
     /// </summary>
     public Toast ToastRef { get; set; }
 
     /// <summary>
-    /// Tracks the Toast id.
+    /// A unique identifier for this toast instance.
     /// </summary>
     public string ToastId { get; set; }
 
     /// <summary>
-    /// Control's the Toast visibility.
+    /// Indicates whether the toast is currently visible.
     /// </summary>
     public bool Visible { get; set; }
 
     /// <summary>
-    /// Text to show in the toast header.
+    /// The title text displayed in the toast header.
     /// </summary>
     public string Title { get; set; }
 
     /// <summary>
-    /// Text to show in the toast body.
+    /// The content displayed in the body of the toast.
     /// </summary>
     public MarkupString Message { get; set; }
 
     /// <summary>
-    /// Intent of the toast message.
+    /// Specifies the intent or purpose of the toast.
+    /// This typically determines the styling or visual representation of the toast.
     /// </summary>
     public ToastIntent Intent { get; set; }
 
     /// <summary>
-    /// Sets the options for ToastProvider.
+    /// Custom options for configuring this toast instance.
     /// </summary>
     public ToastInstanceOptions ToastInstanceOptions { get; private set; }
 
@@ -82,17 +89,17 @@ public class ToastInstance
     public Func<ToastClosingEventArgs, Task> Closing => ToastInstanceOptions?.Closing ?? ToastProvider.Closing;
 
     /// <summary>
-    /// Occurs after the toast has opened.
+    /// Occurs after the toast has successfully opened.
     /// </summary>
     public EventCallback Opened => ToastInstanceOptions?.Opened ?? ToastProvider.Opened;
 
     /// <summary>
-    /// Occurs after the toast has closed.
+    /// Occurs after the toast has successfully closed.
     /// </summary>
     public EventCallback Closed => ToastInstanceOptions?.Closed ?? ToastProvider.Closed;
 
     /// <summary>
-    /// Specifies whether the Toast should have an animated transition.
+    /// Specifies whether the toast should have an animated transition.
     /// </summary>
     public bool Animated => ToastInstanceOptions?.Animated ?? ToastProvider.Animated;
 
@@ -102,12 +109,43 @@ public class ToastInstance
     public int AnimationDuration => ToastInstanceOptions?.AnimationDuration ?? ToastProvider.AnimationDuration;
 
     /// <summary>
-    /// Automatically hide the toast after the delay.
+    /// Indicates whether the toast should automatically hide after a delay.
     /// </summary>
     public bool Autohide => ToastInstanceOptions?.Autohide ?? ToastProvider.Autohide;
 
     /// <summary>
-    /// Delay in milliseconds before hiding the toast.
+    /// The delay in milliseconds before automatically hiding the toast.
     /// </summary>
     public double AutohideDelay => ToastInstanceOptions?.AutohideDelay ?? ToastProvider.AutohideDelay;
+
+    /// <summary>
+    /// Custom CSS class name(s) applied to the toast.
+    /// </summary>
+    public string Class => ToastInstanceOptions?.Class;
+
+    /// <summary>
+    /// Custom inline styles applied to the toast.
+    /// </summary>
+    public string Style => ToastInstanceOptions?.Style;
+
+    /// <summary>
+    /// Indicates whether an icon should be displayed in the toast.
+    /// Defaults to <c>true</c>.
+    /// </summary>
+    public bool? ShowIcon => ToastInstanceOptions?.ShowIcon;
+
+    /// <summary>
+    /// The style applied to the icon in the toast (e.g., solid, regular).
+    /// </summary>
+    public IconStyle? IconStyle => ToastInstanceOptions?.IconStyle;
+
+    /// <summary>
+    /// The size of the icon displayed in the toast.
+    /// </summary>
+    public IconSize? IconSize => ToastInstanceOptions?.IconSize;
+
+    /// <summary>
+    /// The specific icon to display in the toast header.
+    /// </summary>
+    public IconName? IconName => ToastInstanceOptions?.IconName;
 }
