@@ -28,9 +28,9 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Reference to the DropdownToggle component.
     /// </summary>
     protected DropdownToggle dropdownToggleRef;
-    
+
     private List<TValue> selectedValues;
-    
+
     private IEnumerable<TItem> filteredData;
 
     #endregion
@@ -113,7 +113,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
             filteredData = Data;
             return;
         }
-        
+
         if ( query == null )
         {
             filteredData = Enumerable.Empty<TItem>();
@@ -187,7 +187,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
             return filteredData;
         }
     }
-    
+
     private bool dirtyFilter = true;
 
     private string FilterText { get; set; }

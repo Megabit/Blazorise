@@ -1,17 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
 @typeparam TItem
 @typeparam TValue
-<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" EndAligned="@EndAligned"
-          Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
-    <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" Size="@DropdownToggleSize"
-                    TabIndex="@TabIndex">@ChildContent</DropdownToggle>
+<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" EndAligned="@EndAligned" Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
+    <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" Size="@DropdownToggleSize" TabIndex="@TabIndex">@ChildContent</DropdownToggle>
     <DropdownMenu MaxMenuHeight="@MaxMenuHeight" Padding="@(Filterable ? Padding.Is0.FromTop : Padding.IsAuto)">
-        @if (Filterable)
+        @if ( Filterable )
         {
-            <TextEdit Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler"
-                      Position="Position.Sticky.Top.Is0"/>
+            <TextEdit Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler" Position="Position.Sticky.Top.Is0"/>
         }
-        @if (FilteredData != null)
+        @if ( FilteredData != null )
         {
             @if ( Virtualize && FilteredData is ICollection<TItem> collectionableData )
             {
