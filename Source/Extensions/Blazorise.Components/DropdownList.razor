@@ -6,7 +6,9 @@
     <DropdownMenu MaxMenuHeight="@MaxMenuHeight" Padding="@(Filterable ? Padding.Is0.FromTop : Padding.IsAuto)">
         @if ( Filterable )
         {
-            <TextEdit Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler" Position="Position.Sticky.Top.Is0"/>
+            <Field Padding="Padding.Is2" Margin="Margin.Is0" Position="Position.Sticky.Top.Is0">
+                <TextEdit Role="TextRole.Search" Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler" />
+            </Field>
         }
         @if ( Virtualize && FilteredData is ICollection<TItem> collectionableData )
         {
