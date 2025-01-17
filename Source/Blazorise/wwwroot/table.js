@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=1.7.1.0";
+import { getRequiredElement } from "./utilities.js?v=1.7.2.0";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -127,7 +127,7 @@ export function initializeResizable(element, elementId, mode) {
                 return;
 
             // if the column already has both min and max width set, then we don't need to resize it
-            if (col.style.minWidth && col.style.maxWidth && !col.dataset.resized) {
+            if (((col.style.minWidth && col.style.maxWidth) || col.dataset.fixedPosition) && !col.dataset.resized) {
                 return;
             }
 

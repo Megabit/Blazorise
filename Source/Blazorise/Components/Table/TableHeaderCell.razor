@@ -2,6 +2,7 @@
 @inherits BaseDraggableComponent
 <th @ref="@ElementRef" id="@ElementId" scope="col" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" colspan="@ColumnSpan" rowspan="@RowSpan"
     draggable="@DraggableString"
+    data-fixed-position="@FixedPositionDataAttribute"
     @ondragend="@OnDragEndHandler"
     @ondragend:preventDefault="@DragEndPreventDefault"
     @ondragenter="@OnDragEnterHandler"

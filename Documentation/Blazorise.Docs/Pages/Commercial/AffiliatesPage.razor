@@ -105,9 +105,9 @@
                             @textExample
                         </Paragraph>
                         <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Clicked="@(()=>OnCopyText(textExample))">
-                             Copy
-                         </Button>
-                     </Column>
+                            Copy
+                        </Button>
+                    </Column>
                 }
 
                 @foreach ( var logoExample in logoExamples )
@@ -120,12 +120,12 @@
                             </Badge>
                             <Div>
                                 <Image Source="@logoExample" Text="Blazorise logo" Fluid Style="max-width: 100px;" />
-                             </Div>
-                             <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(logoExample))">
-                                 Copy URL
-                             </Button>
+                            </Div>
+                            <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(logoExample))">
+                                Copy URL
+                            </Button>
                         }
-                     </Column>
+                    </Column>
                 }
 
                 @foreach ( var imageExample in imageExamples )
@@ -136,11 +136,11 @@
                         </Badge>
                         <Div>
                             <Image Source="@imageExample" Text="Blazorise marketing image" Fluid Style="max-width: 420px;" Border="Border.Rounded.Is1.Light" />
-                         </Div>
-                         <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(imageExample))">
-                             Copy Image URL
-                         </Button>
-                     </Column>
+                        </Div>
+                        <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(imageExample))">
+                            Copy Image URL
+                        </Button>
+                    </Column>
                 }
             </Grid>
         </Column>
@@ -241,6 +241,25 @@
                     </CollapseHeader>
                     <CollapseBody TextAlignment="TextAlignment.Start">
                         Send an email to <Anchor To="mailto:commercial@blazorise.com" Target="Target.Blank" Title="Mail to commercial" rel="noreferrer noopener">commercial@blazorise.com</Anchor>, and we will assist you.
+                    </CollapseBody>
+                </Collapse>
+
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>Who can join the Affiliate Program?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        <Paragraph>
+                            a. The affiliate program is open to individuals or organizations who are not current or past users of Blazorise products or services.
+                        </Paragraph>
+                        <Paragraph>
+                            b. This restriction includes any free, trial, or paid users of Blazorise. The program is designed to bring new users to Blazorise, and as such, excludes those already familiar with or using our products.
+                        </Paragraph>
+                        <Paragraph>
+                            c. Applications will be reviewed to verify eligibility, and any ineligible applications will be denied. If you have questions about eligibility, please email us at <Anchor To="mailto:commercial@blazorise.com" Target="Target.Blank" Title="Mail to commercial" rel="noreferrer noopener">commercial@blazorise.com</Anchor>.
+                        </Paragraph>
                     </CollapseBody>
                 </Collapse>
             </Accordion>
