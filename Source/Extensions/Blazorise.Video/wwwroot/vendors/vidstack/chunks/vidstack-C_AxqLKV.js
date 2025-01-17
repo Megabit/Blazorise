@@ -1,0 +1,1 @@
+const o=Symbol(0),e=Symbol(0),S=Symbol(0),E=Symbol(0),l=Symbol(0),m=Symbol(0),y=Symbol(0),b=Symbol(0),R=Symbol(0),s={add:o,remove:e,reset:S,select:E,readonly:l,setReadonly:m,onReset:y,onRemove:b,onUserSelect:R};export{s as L};
