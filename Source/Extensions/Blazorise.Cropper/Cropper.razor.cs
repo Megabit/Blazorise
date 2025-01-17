@@ -368,8 +368,4 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     [Parameter] public CropperState CropperState { get; set; }
 
     #endregion
-    
-    add this to blazorise.cropper.js line 309
-    invokeDotNetMethodAsync(instance.adapter, "ImageLoadingFailed", err.message);
-
 }

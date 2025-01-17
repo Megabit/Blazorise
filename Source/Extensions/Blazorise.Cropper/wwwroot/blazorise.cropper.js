@@ -302,7 +302,8 @@ function manageCropperImageReady(cropperImage, cropperCanvas, instance) {
         }
         invokeDotNetMethodAsync(instance.adapter, "ImageReady");
     })
-        .catch(() => {
+        .catch((err) => {
+            invokeDotNetMethodAsync(instance.adapter, "ImageLoadingFailed", err.message);
             instance.disabledBeforeImageLoadFailed = cropperCanvas.disabled;
             instance.loadFailed = true;
             cropperCanvas.disabled = true;
