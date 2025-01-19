@@ -42,14 +42,15 @@
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private HashSet<int> rowsWithDetail = [];
-    
+
     void RowClicked(DataGridRowMouseEventArgs<Employee> clickedRow)
     {
         var id = clickedRow.Item.Id;
-        if (!rowsWithDetail.Add(id))
-            rowsWithDetail.Remove(id);
+        if ( !rowsWithDetail.Add( id ) )
+            rowsWithDetail.Remove( id );
     }
-    bool DisplayDetailRow(Employee employee) => employee.Salaries?.Count > 0 ;
+
+    bool DisplayDetailRow(Employee employee) => employee.Salaries?.Count > 0;
 
     protected override async Task OnInitializedAsync()
     {
