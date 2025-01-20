@@ -6,7 +6,7 @@
               TotalItems="totalCountries"
               TextField="@(( item ) => item.Name)"
               ValueField="@((item) => item.Iso)"
-              @bind-SelectedValue="selectedSearchValue"
+              @bind-SelectedValue="@SelectedSearchValue"
               Placeholder="Search..."
               Virtualize
               ReadData="@OnHandleReadData">
@@ -15,11 +15,13 @@
 @code {
     [Inject]
     public CountryData CountryData { get; set; }
+
     public IEnumerable<Country> Countries;
     IEnumerable<Country> ReadDataCountries;
     int totalCountries;
 
-    
+    public string SelectedSearchValue { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
@@ -27,16 +29,15 @@
         await base.OnInitializedAsync();
     }
 
-    public string selectedSearchValue { get; set; }
-    
-    private Task OnHandleReadData(AutocompleteReadDataEventArgs autocompleteReadDataEventArgs)
+    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {
         if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
         {
-            ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) )
-                .Skip( autocompleteReadDataEventArgs.VirtualizeOffset ).Take( autocompleteReadDataEventArgs.VirtualizeCount );
+            ReadDataCountries = Countries
+                .Where(x => x.Name.StartsWith(autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase))
+                .Skip(autocompleteReadDataEventArgs.VirtualizeOffset).Take(autocompleteReadDataEventArgs.VirtualizeCount);
         }
+
         return Task.CompletedTask;
     }
-    
 }
