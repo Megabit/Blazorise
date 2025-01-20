@@ -5715,6 +5715,48 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     List<string> multipleSelectionTexts;
 }";
 
+        public const string AutocompleteVirtualizeAndReadDataExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@ReadDataCountries""
+              TotalItems=""totalCountries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@((item) => item.Iso)""
+              @bind-SelectedValue=""@SelectedSearchValue""
+              Placeholder=""Search...""
+              Virtualize
+              ReadData=""@OnHandleReadData"">
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+
+    public IEnumerable<Country> Countries;
+    IEnumerable<Country> ReadDataCountries;
+    int totalCountries;
+
+    public string SelectedSearchValue { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        totalCountries = Countries.Count();
+        await base.OnInitializedAsync();
+    }
+
+    private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            ReadDataCountries = Countries
+                .Where(x => x.Name.StartsWith(autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase))
+                .Skip(autocompleteReadDataEventArgs.VirtualizeOffset).Take(autocompleteReadDataEventArgs.VirtualizeCount);
+        }
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string AutocompleteVirtualizeExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
