@@ -1,4 +1,6 @@
 ﻿#region Using directives
+
+using System;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -13,10 +15,14 @@ public static class Config
     /// Adds the Blazorise Router Tabs services to the service collection.
     /// </summary>
     /// <param name="serviceCollection"></param>
+    /// <param name="options"></param>
     /// <returns></returns>
-    public static IServiceCollection AddBlazoriseRouterTabs( this IServiceCollection serviceCollection )
+    public static IServiceCollection AddBlazoriseRouterTabs( this IServiceCollection serviceCollection, Action<RouterTabsOptions> options = null )
     {
         serviceCollection.AddTransient<RouterTabsService>();
+        var opt = new RouterTabsOptions();
+        options?.Invoke( opt );
+        serviceCollection.AddSingleton( _  => opt );
 
         return serviceCollection;
     }

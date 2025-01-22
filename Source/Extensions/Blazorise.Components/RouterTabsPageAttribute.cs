@@ -29,6 +29,11 @@ public class RouterTabsPageAttribute : Attribute
     /// </summary>
     public readonly bool Closeable;
 
+    /// <summary>
+    /// Localization key for retrieving name of the tab
+    /// </summary>
+    public readonly string NameLocalizationKey;
+    
     public RouterTabsPageAttribute( string Name, string TabClass = "", string TabPanelClass = "", bool Closeable = true )
     {
         this.Name = Name;
@@ -36,4 +41,13 @@ public class RouterTabsPageAttribute : Attribute
         this.TabPanelClass = TabPanelClass;
         this.Closeable = Closeable;
     }
+    
+    public RouterTabsPageAttribute( string NameLocalizationKey, bool Closeable = true, string TabClass = "", string TabPanelClass = "" )
+    {
+        this.NameLocalizationKey = NameLocalizationKey;
+        this.TabClass = TabClass;
+        this.TabPanelClass = TabPanelClass;
+        this.Closeable = Closeable;
+    }
+  
 }

@@ -17,7 +17,9 @@ internal class RouterTabsItem
     public string TabClass { get; set; }
     public string TabPanelClass { get; set; }
     public bool Closeable { get; set; } = true;
-
+    public string NameLocalizationKey { get; set; }
+    public string LocalizedName { get; set; }
+    public string LocalizedNameOrName => LocalizedName ?? Name;
 }
 
 /// <summary>
@@ -37,13 +39,16 @@ public class RouterTabsService
 
     internal IReadOnlyCollection<RouterTabsItem> Tabs => tabs.AsReadOnly();
 
+    private RouterTabsOptions options;
+
     #endregion
 
     #region Constructors
 
-    public RouterTabsService( NavigationManager navigationManager )
+    public RouterTabsService( NavigationManager navigationManager, RouterTabsOptions options )
     {
         this.navigationManager = navigationManager;
+        this.options = options;
     }
 
     #endregion
@@ -99,6 +104,8 @@ public class RouterTabsService
         if ( routeData is not null )
         {
             SetRouterTabsItemFromPageAttribute( routerTabsItem, routeData.PageType );
+            if ( !string.IsNullOrWhiteSpace(routerTabsItem.NameLocalizationKey))
+                routerTabsItem.LocalizedName = options?.NamesLocalizer.Invoke( routerTabsItem.NameLocalizationKey );
             routerTabsItem.Body ??= CreateRouterTabsItemBody( routeData );
             routerTabsItem.TypeName = routeData.PageType.FullName;
             if ( string.IsNullOrWhiteSpace( routerTabsItem.Name ) )
@@ -130,6 +137,7 @@ public class RouterTabsService
         if ( routerTabsPageAttr is not null )
         {
             pageItem.Name = routerTabsPageAttr.Name;
+            pageItem.NameLocalizationKey = routerTabsPageAttr.NameLocalizationKey;
             pageItem.TabClass = routerTabsPageAttr.TabClass;
             pageItem.TabPanelClass = routerTabsPageAttr.TabPanelClass;
             pageItem.Closeable = routerTabsPageAttr.Closeable;
