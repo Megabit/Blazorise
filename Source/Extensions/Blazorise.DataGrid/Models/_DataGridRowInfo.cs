@@ -8,19 +8,18 @@ namespace Blazorise.DataGrid;
 /// Represents information about a row in a data grid.
 /// </summary>
 /// <typeparam name="TItem">The type of the item represented by the row.</typeparam>
-public class DataGridRowInfo<TItem>
+public class _DataGridRowInfo<TItem>
 {
-    private bool hasDetailRow;
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataGridRowInfo{TItem}"/> class.
+    /// Initializes a new instance of the <see cref="_DataGridRowInfo{TItem}"/> class.
     /// </summary>
     /// <param name="item">The item associated with the row.</param>
     /// <param name="columns">The collection of columns in the row.</param>
-    public DataGridRowInfo( TItem item, IEnumerable<DataGridColumn<TItem>> columns )
+    public _DataGridRowInfo( TItem item, IEnumerable<DataGridColumn<TItem>> columns )
     {
         Item = item;
         Columns = columns;
+        PublicDataGridRowInfo = new DataGridRowInfo<TItem>( this );
     }
 
     /// <summary>
@@ -41,7 +40,7 @@ public class DataGridRowInfo<TItem>
     /// <summary>
     /// Gets a value indicating whether the row has a detail row.
     /// </summary>
-    public bool HasDetailRow => hasDetailRow;
+    public bool DetailRowExpanded { get; private set; }
 
     /// <summary>
     /// Sets the detail row for the current row.
@@ -49,13 +48,13 @@ public class DataGridRowInfo<TItem>
     /// <param name="hasDetailRow">Indicates whether the detail row is present.</param>
     /// <param name="toggleable">Indicates whether the detail row can be toggled.</param>
     public void SetRowDetail( bool hasDetailRow, bool toggleable )
-        => this.hasDetailRow = ( toggleable && !this.hasDetailRow & hasDetailRow ) || ( !toggleable && hasDetailRow );
+        => this.DetailRowExpanded = ( toggleable && !this.DetailRowExpanded & hasDetailRow ) || ( !toggleable && hasDetailRow );
 
     /// <summary>
     /// Toggles the visibility of the detail row.
     /// </summary>
     public void ToggleDetailRow()
-        => hasDetailRow = !hasDetailRow;
+        => DetailRowExpanded = !DetailRowExpanded;
 
     /// <summary>
     /// Sets the table row associated with this row info.
@@ -63,4 +62,7 @@ public class DataGridRowInfo<TItem>
     /// <param name="tableRow">The table row to associate with this row info.</param>
     internal void SetTableRow( TableRow tableRow )
         => TableRow = tableRow;
+
+    internal DataGridRowInfo<TItem> PublicDataGridRowInfo;
 }
+

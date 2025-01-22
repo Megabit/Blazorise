@@ -314,7 +314,7 @@
         else
         {
             <_DataGridRow @key="@item" TItem="TItem" Item="@item" SelectedRows="SelectedRows" SelectedRow="SelectedRow" />
-            if ( DetailRowTemplate != null && ( GetRowInfo( item )?.HasDetailRow ?? false ) )
+            if ( DetailRowTemplate != null && ( GetPrivateRowInfo( item )?.DetailRowExpanded ?? false ) )
             {
                 <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
                     @DetailRowTemplate( item )

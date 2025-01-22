@@ -375,7 +375,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child row with this datagrid.
     /// </summary>
     /// <param name="row">Row to add.</param>
-    public void AddRow( DataGridRowInfo<TItem> row )
+    public void AddRow( _DataGridRowInfo<TItem> row )
     {
         Rows.Add( row );
     }
@@ -414,7 +414,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child row with this datagrid.
     /// </summary>
     /// <param name="row">Row to remove.</param>
-    public bool RemoveRow( DataGridRowInfo<TItem> row )
+    public bool RemoveRow( _DataGridRowInfo<TItem> row )
         => Rows.Remove( row );
 
     /// <summary>
@@ -1435,7 +1435,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( IsRowNavigable )
         {
-            var selectedTableRow = GetRowInfo( item )?.TableRow;
+            var selectedTableRow = GetPrivateRowInfo( item )?.TableRow;
             if ( selectedTableRow is not null )
                 await selectedTableRow.ElementRef.FocusAsync();
         }
@@ -1722,9 +1722,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
 
     protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
-        => ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
+        => ToggleDetailRow( GetPrivateRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
 
-    protected internal async Task ToggleDetailRow( DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
+    protected internal async Task ToggleDetailRow( _DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
     {
         if ( rowInfo is not null )
         {
@@ -1742,7 +1742,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
                 rowInfo.SetRowDetail( detailRowTriggerResult, detailRowTriggerContext.Toggleable );
 
-                if ( rowInfo.HasDetailRow && detailRowTriggerContext.Single )
+                if ( rowInfo.DetailRowExpanded && detailRowTriggerContext.Single )
                 {
                     foreach ( var row in Rows.Where( x => !x.IsEqual( rowInfo ) ) )
                     {
@@ -2181,7 +2181,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
-    internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column )
+    internal async Task HandleSelectedCell( TItem item, _DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column )
     {
         SelectedCell = new( item, rowInfo, column, column.ToColumnInfo( SortByColumns ), ResolveItemIndex( item ) );
 
@@ -2753,8 +2753,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return SelectedRowChanged.InvokeAsync( item );
     }
 
-    private DataGridRowInfo<TItem> GetRowInfo( TItem item )
+    private _DataGridRowInfo<TItem> GetPrivateRowInfo( TItem item )
         => Rows.LastOrDefault( x => x.Item.IsEqual( item ) );
+    
+    public DataGridRowInfo<TItem> GetRowInfo( TItem item )
+        => Rows.LastOrDefault( x => x.Item.IsEqual( item ) )?.PublicDataGridRowInfo;
 
     #endregion
 
@@ -2873,7 +2876,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets the data to show on grid based on the filter and current page.
     /// </summary>
-    protected List<DataGridRowInfo<TItem>> Rows { get; } = new();
+    protected List<_DataGridRowInfo<TItem>> Rows { get; } = new();
 
     /// <summary>
     /// List of all the columns associated with this datagrid.

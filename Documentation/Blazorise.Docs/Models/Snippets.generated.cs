@@ -7741,10 +7741,10 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridDetailRowTemplateExample = @"<DataGrid TItem=""Employee""
+          @ref=""dataGridRef""
           Data=""@employeeList""
-          @bind-SelectedRow=""@selectedEmployee""
-          RowClicked=""RowClicked""
-          DetailRowTrigger=""@(e => DisplayDetailRow(e.Item) && e.Item.Id == selectedEmployee?.Id)""
+          DetailRowTrigger=""@(e => DisplayDetailRow(e.Item))""
+          DetailRowStartsVisible=""false""
           Responsive>
     <DataGridColumns>
         <DataGridCommandColumn />
@@ -7753,7 +7753,7 @@ Install-Package Blazorise.Chart.Zoom";
                 @if ( DisplayDetailRow( context ) )
                 {
                     <Button>
-                        <Icon Name=""@(rowsWithDetail.Contains( context.Id ) ? IconName.ExpandLess : IconName.ExpandMore)""/>
+                        <Icon Name=""@(dataGridRef.GetRowInfo(context).DetailRowExpanded ? IconName.ExpandLess : IconName.ExpandMore)""/>
                     </Button>
                 }
             </DisplayTemplate>
@@ -7780,15 +7780,7 @@ Install-Package Blazorise.Chart.Zoom";
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
-    private Employee selectedEmployee;
-    private HashSet<int> rowsWithDetail = [];
-
-    void RowClicked(DataGridRowMouseEventArgs<Employee> clickedRow)
-    {
-        var id = clickedRow.Item.Id;
-        if ( !rowsWithDetail.Add( id ) )
-            rowsWithDetail.Remove( id );
-    }
+    DataGrid<Employee> dataGridRef;
 
     bool DisplayDetailRow(Employee employee) => employee.Salaries?.Count > 0;
 

@@ -14,7 +14,7 @@ public class DataGridCellInfo<TItem>
     /// <param name="column">The column in which the cell is located.</param>
     /// <param name="columnInfo">The information about the column that contains the cell.</param>
     /// <param name="rowIndex">The index of the row that contains the cell.</param>
-    public DataGridCellInfo( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column, DataGridColumnInfo columnInfo, int rowIndex )
+    public DataGridCellInfo( TItem item, _DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column, DataGridColumnInfo columnInfo, int rowIndex )
     {
         Item = item;
         RowInfo = rowInfo;
@@ -36,7 +36,7 @@ public class DataGridCellInfo<TItem>
     /// <summary>
     /// Gets the information about the row that contains the cell.
     /// </summary>
-    public DataGridRowInfo<TItem> RowInfo { get; }
+    public _DataGridRowInfo<TItem> RowInfo { get; }
 
     /// <summary>
     /// Gets the information about the column that contains the cell.
