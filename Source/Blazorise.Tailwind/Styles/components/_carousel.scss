@@ -1,0 +1,21 @@
+﻿.b-carousel-fade {
+    .b-carousel-slide {
+        opacity: 0;
+        transition-property: opacity;
+        transform: none;
+    }
+
+    .b-carousel-slide.b-carousel-slide-active,
+    .b-carousel-slide-next.b-carousel-slide-start,
+    .b-carousel-slide-prev.b-carousel-slide-end {
+        z-index: 1;
+        opacity: 1;
+    }
+
+    .b-carousel-slide-active.b-carousel-slide-start,
+    .b-carousel-slide-active.b-carousel-slide-end {
+        z-index: 0;
+        opacity: 0;
+        @include transition(opacity 0s $carousel-transition-duration);
+    }
+}

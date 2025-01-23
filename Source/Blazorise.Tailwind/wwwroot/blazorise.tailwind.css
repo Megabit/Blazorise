@@ -124,6 +124,30 @@
   flex: 1 0 0%;
 }
 
+.b-carousel-fade .b-carousel-slide {
+  opacity: 0;
+  transition-property: opacity;
+  transform: none;
+}
+.b-carousel-fade .b-carousel-slide.b-carousel-slide-active,
+.b-carousel-fade .b-carousel-slide-next.b-carousel-slide-start,
+.b-carousel-fade .b-carousel-slide-prev.b-carousel-slide-end {
+  z-index: 1;
+  opacity: 1;
+}
+.b-carousel-fade .b-carousel-slide-active.b-carousel-slide-start,
+.b-carousel-fade .b-carousel-slide-active.b-carousel-slide-end {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0s 0.6s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-carousel-fade .b-carousel-slide-active.b-carousel-slide-start,
+  .b-carousel-fade .b-carousel-slide-active.b-carousel-slide-end {
+    transition: none;
+  }
+}
+
 .b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
