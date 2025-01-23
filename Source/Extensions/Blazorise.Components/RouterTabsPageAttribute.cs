@@ -10,7 +10,10 @@ namespace Blazorise.Components;
 public class RouterTabsPageAttribute : Attribute
 {
     /// <summary>
-    /// Sets the name of the router tab.
+    /// Sets the name of the router tab.  
+    /// The Name can be used as a key for the localization dictionary.  
+    /// If left empty or null, <see href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.routedata.pagetype">RouteData.PageType</see>  
+    /// will be used as the Name.  
     /// </summary>
     public readonly string Name;
 
@@ -29,22 +32,9 @@ public class RouterTabsPageAttribute : Attribute
     /// </summary>
     public readonly bool Closeable;
 
-    /// <summary>
-    /// Localization key for retrieving name of the tab
-    /// </summary>
-    public readonly string NameLocalizationKey;
-    
     public RouterTabsPageAttribute( string Name, string TabClass = "", string TabPanelClass = "", bool Closeable = true )
     {
         this.Name = Name;
-        this.TabClass = TabClass;
-        this.TabPanelClass = TabPanelClass;
-        this.Closeable = Closeable;
-    }
-    
-    public RouterTabsPageAttribute( string NameLocalizationKey, bool Closeable = true, string TabClass = "", string TabPanelClass = "" )
-    {
-        this.NameLocalizationKey = NameLocalizationKey;
         this.TabClass = TabClass;
         this.TabPanelClass = TabPanelClass;
         this.Closeable = Closeable;
