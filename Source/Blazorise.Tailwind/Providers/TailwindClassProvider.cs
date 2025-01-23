@@ -810,13 +810,13 @@ public class TailwindClassProvider : ClassProvider
         return "z-10 translate-x-full hidden";
     }
 
-    public override string CarouselSlideSlidingLeft( bool left ) => null;
+    public override string CarouselSlideSlidingLeft( bool left ) => left ? "b-carousel-slide-start" : null;
 
-    public override string CarouselSlideSlidingRight( bool right ) => null;
+    public override string CarouselSlideSlidingRight( bool right ) => right ? "b-carousel-slide-end" : null;
 
-    public override string CarouselSlideSlidingPrev( bool previous ) => null;
+    public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "b-carousel-slide-prev" : null;
 
-    public override string CarouselSlideSlidingNext( bool next ) => null;
+    public override string CarouselSlideSlidingNext( bool next ) => next ? "b-carousel-slide-next" : null;
 
     public override string CarouselIndicators() => "b-carousel-indicators absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2";
 

@@ -128,4 +128,27 @@
     <DocsPageSectionSource Code="AutocompleteVirtualizeExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Virtualize with ReadData">
+        <Paragraph>
+            Blazorise Autocomplete's <Code>Virtualize</Code> and <Code>ReadData</Code> features work together to handle large datasets efficiently.
+            The <Code>ReadData</Code> event allows you to load only the data needed for the current interaction, without loading the entire dataset into memory.
+            Meanwhile, the <Code>Virtualize</Code> property ensures that only the visible items are rendered in the DOM, significantly improving performance when working with large lists.
+        </Paragraph>
+        <Paragraph>
+            In the provided example, the dataset is represented using <Code>IEnumerable</Code> for simplicity, but in real-world scenarios, you would typically use <Code>IQueryable</Code>.
+            This allows for true deferred execution, ensuring only the required data is fetched and processed.
+        </Paragraph>
+        <Paragraph>
+            To enable <Code>Virtualize</Code> with <Code>ReadData</Code>, you must also set the <Code>TotalItems</Code> property.
+            The <Code>TotalItems</Code> value represents the total count of items in your dataset and is required for proper virtualization.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteVirtualizeAndReadDataExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteVirtualizeAndReadDataExample" />
+</DocsPageSection>
+
+
 <ComponentApiDocs ComponentTypes="[typeof(Autocomplete<,>)]" />

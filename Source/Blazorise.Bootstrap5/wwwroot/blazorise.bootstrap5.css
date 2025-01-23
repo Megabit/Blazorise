@@ -1716,7 +1716,7 @@ tr.table-row-selectable:focus[tabindex="0"] {
   border-spacing: 0;
 }
 .table-fixed-header > .table > thead:not(.table-thead-theme) > tr > th {
-  background: white;
+  background: var(--bs-table-bg, white);
 }
 .table-fixed-header > .table > thead > tr > th {
   border-top: none;
@@ -1749,7 +1749,7 @@ tr.table-row-selectable:focus[tabindex="0"] {
   position: sticky;
   border-left: none;
   z-index: 11;
-  background-color: white;
+  background-color: var(--bs-table-bg, white);
   border-inline-start-width: 0;
   left: 0;
 }
@@ -1759,7 +1759,7 @@ tr.table-row-selectable:focus[tabindex="0"] {
   position: sticky;
   border-left: none;
   z-index: 11;
-  background-color: white;
+  background-color: var(--bs-table-bg, white);
   border-inline-start-width: 0;
   right: 0;
 }
