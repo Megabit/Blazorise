@@ -99,9 +99,10 @@ export function updateOptions(element, elementId, options) {
 
 function onInputChanged(e) {
     if (e && e.target) {
-        e.target.style.height = 'auto';
-        e.target.style.height = this.scrollHeight + 'px';
-        e.target.style.overflowY = 'hidden';
+        const textarea = e.target;
+        textarea.style.height = 'auto';
+        textarea.style.overflowY = 'hidden';
+        textarea.style.height = `${textarea.scrollHeight + 2}px`; // The +2 accounts for browser rendering inaccuracies with scrollHeight
     }
 }
 
