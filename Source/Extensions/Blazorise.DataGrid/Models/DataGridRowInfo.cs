@@ -19,7 +19,7 @@ public class _DataGridRowInfo<TItem>
     {
         Item = item;
         Columns = columns;
-        PublicDataGridRowInfo = new DataGridRowInfo<TItem>( this );
+        DataGridRowPublicInfo = new DataGridRowPublicInfo<TItem>( this );
     }
 
     /// <summary>
@@ -63,6 +63,6 @@ public class _DataGridRowInfo<TItem>
     internal void SetTableRow( TableRow tableRow )
         => TableRow = tableRow;
 
-    internal DataGridRowInfo<TItem> PublicDataGridRowInfo;
+    internal DataGridRowPublicInfo<TItem> DataGridRowPublicInfo;
 }
 

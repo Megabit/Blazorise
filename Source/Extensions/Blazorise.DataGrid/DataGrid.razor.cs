@@ -2756,8 +2756,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private _DataGridRowInfo<TItem> GetPrivateRowInfo( TItem item )
         => Rows.LastOrDefault( x => x.Item.IsEqual( item ) );
     
-    public DataGridRowInfo<TItem> GetRowInfo( TItem item )
-        => Rows.LastOrDefault( x => x.Item.IsEqual( item ) )?.PublicDataGridRowInfo;
+    public DataGridRowPublicInfo<TItem> GetRowInfo( TItem item )
+        => Rows.LastOrDefault( x => x.Item.IsEqual( item ) )?.DataGridRowPublicInfo;
 
     #endregion
 

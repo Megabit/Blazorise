@@ -1,9 +1,9 @@
 ﻿namespace Blazorise.DataGrid;
 
-public class DataGridRowInfo<TItem>
+public class DataGridRowPublicInfo<TItem>
 {
     private readonly _DataGridRowInfo<TItem> _dataGridRowInfo;
-    public DataGridRowInfo(_DataGridRowInfo<TItem> dataGridRowInfo  )
+    public DataGridRowPublicInfo(_DataGridRowInfo<TItem> dataGridRowInfo  )
     {
         _dataGridRowInfo = dataGridRowInfo;
     }
