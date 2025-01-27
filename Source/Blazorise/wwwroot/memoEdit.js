@@ -100,9 +100,19 @@ export function updateOptions(element, elementId, options) {
 function onInputChanged(e) {
     if (e && e.target) {
         const textarea = e.target;
+        const computedStyle = window.getComputedStyle(textarea);
+
+        const borderTop = parseFloat(computedStyle.borderTopWidth) || 0;
+        const borderBottom = parseFloat(computedStyle.borderBottomWidth) || 0;
+        const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
+        const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
+
         textarea.style.height = 'auto';
         textarea.style.overflowY = 'hidden';
-        textarea.style.height = `${textarea.scrollHeight + 2}px`; // The +2 accounts for browser rendering inaccuracies with scrollHeight
+
+        const totalExtraSpace = borderTop + borderBottom + paddingTop + paddingBottom;
+
+        textarea.style.height = `${textarea.scrollHeight + totalExtraSpace}px`;
     }
 }
 
