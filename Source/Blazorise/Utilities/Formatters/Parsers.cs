@@ -18,7 +18,7 @@ public static class Parsers
     /// <summary>
     /// Internal date-time format. Compatible with HTML date inputs.
     /// </summary>
-    public const string InternalDateTimeFormat = "yyyy-MM-ddTHH:mm";
+    public const string InternalDateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
 
     /// <summary>
     /// Internal month format. Compatible with HTML date inputs.
@@ -64,8 +64,10 @@ public static class Parsers
     public static readonly string[] SupportedParseDateTimeFormats = new string[]
     {
         InternalDateTimeFormat,
+        $"{InternalDateFormat}:ss",
         ExternalDateTimeFormat,
         "yyyy-MM-ddTHH:mm",
+        "yyyy-MM-ddTHH:mm:ss",
         CultureInfo.InvariantCulture.DateTimeFormat.LongDatePattern,
         CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern,
         "o", // a string representing UTC
