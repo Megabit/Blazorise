@@ -104,13 +104,11 @@ function onInputChanged(e) {
 
         const borderTop = parseFloat(computedStyle.borderTopWidth) || 0;
         const borderBottom = parseFloat(computedStyle.borderBottomWidth) || 0;
-        const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
-        const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
 
         textarea.style.height = 'auto';
         textarea.style.overflowY = 'hidden';
 
-        const totalExtraSpace = borderTop + borderBottom + paddingTop + paddingBottom;
+        const totalExtraSpace = borderTop + borderBottom;
 
         textarea.style.height = `${textarea.scrollHeight + totalExtraSpace}px`;
     }
