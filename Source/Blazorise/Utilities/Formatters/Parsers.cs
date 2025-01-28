@@ -64,7 +64,6 @@ public static class Parsers
     public static readonly string[] SupportedParseDateTimeFormats = new string[]
     {
         InternalDateTimeFormat,
-        $"{InternalDateFormat}:ss",
         ExternalDateTimeFormat,
         "yyyy-MM-ddTHH:mm",
         "yyyy-MM-ddTHH:mm:ss",
