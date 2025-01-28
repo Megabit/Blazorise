@@ -53,6 +53,7 @@ public static class Parsers
         InternalDateFormat,
         ExternalDateFormat,
         "yyyy-MM-ddTHH:mm",
+        "yyyy-MM-ddTHH:mm:ss",
         CultureInfo.InvariantCulture.DateTimeFormat.LongDatePattern,
         CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern,
         "o", // a string representing UTC
