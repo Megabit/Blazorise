@@ -6,8 +6,6 @@
 ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 [![Discord](https://img.shields.io/discord/761589226965696552?color=%237289da&label=Discord&logo=discord&logoColor=%237289da&style=flat-square)](https://discord.gg/cVmq8xBSnG)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.md)
-[![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mladenmacanovic)
-[![Patreon](https://img.shields.io/badge/Patreon-donate-yellow.svg)](https://www.patreon.com/mladenmacanovic)
 
 Blazorise is the only [Blazor](https://blazor.net/) component library offering development independent of CSS frameworks, exclusively using C#. It provides support for various frameworks including Bootstrap, Tailwind and Material.
 
