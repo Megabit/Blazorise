@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using System;
+using Blazorise.Localization;
 #endregion
 
 namespace Blazorise.Components;
@@ -27,5 +27,5 @@ public class RouterTabsOptions
     ///     </item>
     /// </list>
     /// </remarks>
-    public Func<string, string> NamesLocalizer { get; set; }
+    public TextLocalizerHandler NameLocalizer { get; set; }
 }
