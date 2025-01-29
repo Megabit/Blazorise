@@ -19,9 +19,10 @@ public static class Config
     public static IServiceCollection AddBlazoriseRouterTabs( this IServiceCollection serviceCollection, Action<RouterTabsOptions> options = null )
     {
         serviceCollection.AddTransient<RouterTabsService>();
-        var opt = new RouterTabsOptions();
-        options?.Invoke( opt );
-        serviceCollection.AddSingleton( _ => opt );
+
+        var routerTabsOptions = new RouterTabsOptions();
+        options?.Invoke( routerTabsOptions );
+        serviceCollection.AddSingleton( _ => routerTabsOptions );
 
         return serviceCollection;
     }
