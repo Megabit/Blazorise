@@ -103,7 +103,7 @@ public class RouterTabsService
         if ( routeData is not null )
         {
             SetRouterTabsItemFromPageAttribute( routerTabsItem, routeData.PageType );
-            routerTabsItem.LocalizedName ??= options?.NamesLocalizer.Invoke( routerTabsItem.Name );
+            routerTabsItem.LocalizedName ??= options?.NamesLocalizer?.Invoke( routerTabsItem.Name );
             routerTabsItem.Body ??= CreateRouterTabsItemBody( routeData );
             routerTabsItem.TypeName = routeData.PageType.FullName;
             if ( string.IsNullOrWhiteSpace( routerTabsItem.Name ) )
