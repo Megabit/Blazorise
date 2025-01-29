@@ -42,7 +42,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// <summary>
     /// Holds information about the current Row.
     /// </summary>
-    protected _DataGridRowInfo<TItem> RowInfo;
+    protected DataGridRowInfo<TItem> RowInfo;
 
     /// <summary>
     /// The Table Row Reference
@@ -89,7 +89,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected override async Task OnInitializedAsync()
     {
         Columns = ParentDataGrid.DisplayableColumns;
-        RowInfo = new _DataGridRowInfo<TItem>( Item, this.Columns );
+        RowInfo = new DataGridRowInfo<TItem>( Item, this.Columns );
 
         ParentDataGrid.AddRow( RowInfo );
 

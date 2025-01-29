@@ -8,18 +8,17 @@ namespace Blazorise.DataGrid;
 /// Represents information about a row in a data grid.
 /// </summary>
 /// <typeparam name="TItem">The type of the item represented by the row.</typeparam>
-public class _DataGridRowInfo<TItem>
+public class DataGridRowInfo<TItem>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="_DataGridRowInfo{TItem}"/> class.
+    /// Initializes a new instance of the <see cref="DataGridRowInfo{TItem}"/> class.
     /// </summary>
     /// <param name="item">The item associated with the row.</param>
     /// <param name="columns">The collection of columns in the row.</param>
-    public _DataGridRowInfo( TItem item, IEnumerable<DataGridColumn<TItem>> columns )
+    public DataGridRowInfo( TItem item, IEnumerable<DataGridColumn<TItem>> columns )
     {
         Item = item;
         Columns = columns;
-        DataGridRowPublicInfo = new DataGridRowPublicInfo<TItem>( this );
     }
 
     /// <summary>
@@ -30,7 +29,7 @@ public class _DataGridRowInfo<TItem>
     /// <summary>
     /// Gets the table row associated with this row info.
     /// </summary>
-    public TableRow TableRow { get; private set; }
+    internal TableRow TableRow { get; private set; }
 
     /// <summary>
     /// Gets the item associated with the row.
@@ -62,7 +61,4 @@ public class _DataGridRowInfo<TItem>
     /// <param name="tableRow">The table row to associate with this row info.</param>
     internal void SetTableRow( TableRow tableRow )
         => TableRow = tableRow;
-
-    internal DataGridRowPublicInfo<TItem> DataGridRowPublicInfo;
 }
-

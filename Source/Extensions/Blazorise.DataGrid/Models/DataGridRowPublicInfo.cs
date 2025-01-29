@@ -2,8 +2,8 @@
 
 public class DataGridRowPublicInfo<TItem>
 {
-    private readonly _DataGridRowInfo<TItem> _dataGridRowInfo;
-    public DataGridRowPublicInfo(_DataGridRowInfo<TItem> dataGridRowInfo  )
+    private readonly DataGridRowInfo<TItem> _dataGridRowInfo;
+    public DataGridRowPublicInfo(DataGridRowInfo<TItem> dataGridRowInfo  )
     {
         _dataGridRowInfo = dataGridRowInfo;
     }
