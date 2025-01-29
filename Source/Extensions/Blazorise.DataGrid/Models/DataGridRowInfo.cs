@@ -37,23 +37,23 @@ public class DataGridRowInfo<TItem>
     public TItem Item { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the detail row is currently expanded.
+    /// Gets a value indicating whether the detail row is currently expanded (visible).
     /// </summary>
-    public bool DetailRowExpanded { get; private set; }
+    public bool DetailRowVisible { get; private set; }
 
     /// <summary>
     /// Configures the detail row for this row.
     /// </summary>
-    /// <param name="hasDetailRow">Indicates whether a detail row is present.</param>
+    /// <param name="detailRowVisible">Indicates whether a detail row is present.</param>
     /// <param name="toggleable">Indicates whether the detail row can be toggled.</param>
-    public void SetRowDetail( bool hasDetailRow, bool toggleable )
-        => DetailRowExpanded = ( toggleable && !DetailRowExpanded & hasDetailRow ) || ( !toggleable && hasDetailRow );
+    public void SetRowDetail( bool detailRowVisible, bool toggleable )
+        => DetailRowVisible = ( toggleable && !DetailRowVisible & detailRowVisible ) || ( !toggleable && detailRowVisible );
 
     /// <summary>
     /// Toggles the visibility state of the detail row.
     /// </summary>
     public void ToggleDetailRow()
-        => DetailRowExpanded = !DetailRowExpanded;
+        => DetailRowVisible = !DetailRowVisible;
 
     /// <summary>
     /// Associates a table row instance with this row information.

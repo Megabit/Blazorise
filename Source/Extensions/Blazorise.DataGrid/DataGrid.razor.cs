@@ -1742,7 +1742,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
                 rowInfo.SetRowDetail( detailRowTriggerResult, detailRowTriggerContext.Toggleable );
 
-                if ( rowInfo.DetailRowExpanded && detailRowTriggerContext.Single )
+                if ( rowInfo.DetailRowVisible && detailRowTriggerContext.Single )
                 {
                     foreach ( var row in Rows.Where( x => !x.IsEqual( rowInfo ) ) )
                     {
