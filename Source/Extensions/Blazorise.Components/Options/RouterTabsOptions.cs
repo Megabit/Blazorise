@@ -3,14 +3,27 @@
 namespace Blazorise.Components;
 
 /// <summary>
-/// Options for RouterTabs component
+/// Provides configuration options for the <see cref="RouterTabs"/> component.
 /// </summary>
 public class RouterTabsOptions
 {
     /// <summary>
-    /// Func used for localizing router tabs names.
-    /// In: Name key, Out: Localized name.
-    /// Return null if localization isn't provided.
+    /// A function used to localize router tab names.
     /// </summary>
+    /// <remarks>
+    /// This function allows localization of router tab names based on a key.
+    /// <para>Behavior:</para>
+    /// <list type="bullet">
+    ///     <item>
+    ///         <description>Accepts a string parameter representing the name key.</description>
+    ///     </item>
+    ///     <item>
+    ///         <description>Returns the localized name as a string.</description>
+    ///     </item>
+    ///     <item>
+    ///         <description>Returns <c>null</c> if no localization is available.</description>
+    ///     </item>
+    /// </list>
+    /// </remarks>
     public Func<string, string> NamesLocalizer { get; set; }
 }
