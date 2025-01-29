@@ -98,10 +98,7 @@ public partial class RouterTabs : ComponentBase, IDisposable
     /// <returns>The localized name of the tab.</returns>
     private string GetTabName( RouterTabsItem tab )
     {
-        if ( NameLocalizer is not null )
-            return NameLocalizer.Invoke( tab.Name );
-
-        return tab.LocalizedNameOrName;
+        return NameLocalizer?.Invoke( tab.Name ) ?? tab.LocalizedNameOrName;
     }
 
     #endregion
