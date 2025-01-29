@@ -2754,7 +2754,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     public DataGridRowInfo<TItem> GetRowInfo( TItem item )
-        => Rows.LastOrDefault( x => x.Item.IsEqual( item ) );
+        => Rows?.LastOrDefault( x => x.Item.IsEqual( item ) );
 
     #endregion
 
