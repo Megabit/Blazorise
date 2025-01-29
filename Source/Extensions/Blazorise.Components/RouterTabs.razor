@@ -6,8 +6,10 @@
         <Items>
             @foreach ( var routerTab in RouterTabsService.Tabs )
             {
-                <Tab @key=@routerTab.LocalizedNameOrName Name="@routerTab.LocalizedNameOrName" Class="@routerTab.TabClass">
-                    @routerTab.LocalizedNameOrName
+                var name = GetTabName( routerTab );
+
+                <Tab @key="@name" Name="@name" Class="@routerTab.TabClass">
+                    @name
                     @if ( routerTab.Closeable )
                     {
                         <CloseButton AutoClose=false Clicked="@(() => CloseTab(routerTab))" Margin="Margin.Is2.FromStart" />
@@ -18,7 +20,9 @@
         <Content>
             @foreach ( var routerTab in RouterTabsService.Tabs )
             {
-                <TabPanel @key=@routerTab.LocalizedNameOrName Name="@routerTab.LocalizedNameOrName" Class="@routerTab.TabPanelClass">
+                var name = GetTabName( routerTab );
+
+                <TabPanel @key="@name" Name="@name" Class="@routerTab.TabPanelClass">
                     @routerTab.Body
                 </TabPanel>
             }
