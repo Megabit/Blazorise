@@ -6,8 +6,6 @@
 ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 [![Discord](https://img.shields.io/discord/761589226965696552?color=%237289da&label=Discord&logo=discord&logoColor=%237289da&style=flat-square)](https://discord.gg/cVmq8xBSnG)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.md)
-[![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mladenmacanovic)
-[![Patreon](https://img.shields.io/badge/Patreon-donate-yellow.svg)](https://www.patreon.com/mladenmacanovic)
 
 Blazorise is the only [Blazor](https://blazor.net/) component library offering development independent of CSS frameworks, exclusively using C#. It provides support for various frameworks including Bootstrap, Tailwind and Material.
 
@@ -119,8 +117,8 @@ Add the following to `index.html` (Blazor WebAssembly), or `_Host.cshtml` (Blazo
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
 
-<link href="_content/Blazorise/blazorise.css?v=1.7.2.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.7.2.0" rel="stylesheet" />
+<link href="_content/Blazorise/blazorise.css?v=1.7.3.0" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.7.3.0" rel="stylesheet" />
 ```
 
 Please note, that these are the Blazorise explicit dependencies, you still need to add framework specific dependencies.
