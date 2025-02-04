@@ -39,7 +39,10 @@
 @code {
     string[] SkipMethods = new[] { "Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString" };
 
-    [Parameter, EditorRequired] public List<Type> ComponentTypes { get; set; } = [];
+    [Parameter] public List<Type> ComponentTypes { get; set; } = [];
+    [Parameter] public string Category { get; set; }
+    [Parameter] public string Subcategory { get; set; }
+    
 
     IReadOnlyList<ApiDocsForComponent> apiDocsForComponents;
     List<ApiDocsForComponent> apiDocsForComponentsMethods;
@@ -48,9 +51,11 @@
 
     protected override void OnInitialized()
     {
-        apiDocsForComponents = ComponentTypes.Select(x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault(x)).Where(x => x is not null).ToList();
-        hasComponentTypes = ComponentTypes.Any();
-        multipleComponentTypes = ComponentTypes.Count > 1;
+        apiDocsForComponents = Category is not null
+            ?ComponentsApiDocsSource.Instance.Components.Where( x => x.Value.Category == Category && x.Value.Subcategory == Subcategory ).Select( x => x.Value ).ToList()
+            :ComponentTypes.Select(x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault(x)).Where(x => x is not null).ToList();
+        hasComponentTypes = apiDocsForComponents.Any();
+        multipleComponentTypes = apiDocsForComponents.Count > 1;
         apiDocsForComponentsMethods = apiDocsForComponents.Where(x => x.Methods.Any()).ToList();
     }
 }
