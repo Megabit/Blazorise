@@ -1,6 +1,6 @@
 ---
 title: Blazorise 2.0: Plans and Vision for the Future
-description: Blazorise continues to grow and evolve, and our team is excited to share our plans for the upcoming releases, including the much-anticipated Blazorise 2.0. In this post, we outline the roadmap for Blazorise 1.7 and 2.0, detailing the new features, API changes, and other developments that will shape the future of the project.
+description: In this post, we outline the roadmap for Blazorise 1.7 and 2.0, detailing the new features, API changes, and other developments that will shape the future of the project.
 permalink: /blog/blazorise-2-plans-and-vision-for-the-future
 canonical: /blog/blazorise-2-plans-and-vision-for-the-future
 image-url: /img/blog/2024-09-16/blazorise-future.png
