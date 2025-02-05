@@ -159,6 +159,9 @@ public class ComponentsApiDocsGenerator
         return compilation;
     }
 
+
+    readonly string[] skipMethods = ["Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString", "GetEnumerator"];
+
     private IEnumerable<ComponentInfo> GetComponentsInfo( Compilation compilation, INamespaceSymbol namespaceToSearch )
     {
         var baseComponentSymbol = compilation.GetTypeByMetadataName( "Blazorise.BaseComponent" );
@@ -184,7 +187,9 @@ public class ComponentsApiDocsGenerator
                 .Where( m => m.DeclaredAccessibility == Accessibility.Public &&
                     !m.IsImplicitlyDeclared &&
                     m.MethodKind == MethodKind.Ordinary &&
-                    m.OverriddenMethod == null );
+                    m.OverriddenMethod == null &&
+                    !skipMethods.Contains(m.Name)
+                    );
 
             yield return new ComponentInfo
             (

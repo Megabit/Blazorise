@@ -24,7 +24,7 @@
     @foreach (var apiDocsForComponent in apiDocsForComponentsMethods)
     {
         <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
-            @foreach (var method in apiDocsForComponent.Methods.Where(m => !skipMethods.Any(n => n == m.Name)))
+            @foreach (var method in apiDocsForComponent.Methods)
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
                                  Parameters="@(string.Join(", ", method.Parameters.Select(x => $"{x.TypeName} {x.Name}")))">
@@ -37,7 +37,6 @@
 }
 
 @code {
-    string[] skipMethods = ["Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString", "GetEnumerator"];
 
     [Parameter] public List<Type> ComponentTypes { get; set; } = [];
     [Parameter] public string Category { get; set; }
