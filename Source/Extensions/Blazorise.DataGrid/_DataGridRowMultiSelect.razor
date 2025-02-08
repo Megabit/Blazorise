@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowMultiSelect<TItem>
-<TableRowCell ClickStopPropagation="@(ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false)" @onclick:preventDefault="BehaviourProvider.DataGridRowMultiSelectPreventClick" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
+<TableRowCell  @onclick:preventDefault="BehaviourProvider.DataGridRowMultiSelectPreventClick" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
     @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
         <Div @onclick:stopPropagation="true" Display="Display.InlineBlock">
