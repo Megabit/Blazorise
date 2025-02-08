@@ -3,14 +3,16 @@
 <TableRowCell ClickStopPropagation="@(ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false)" @onclick:preventDefault="BehaviourProvider.DataGridRowMultiSelectPreventClick" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
     @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
-        <Label @onclick="@OnCheckedClicked">
-            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new( EventCallback.Factory.Create( this, new Func<bool, Task>( OnCheckedChanged ) ), Checked, false, Item ) )
-        </Label>
+        <Div @onclick:stopPropagation="true" Display="Display.InlineBlock">
+            <Div @onclick="args => ShiftKeyPressed = args.ShiftKey" >
+                @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate(new(EventCallback.Factory.Create(this, new Func<bool, Task>(OnCheckedChanged)), Checked, false, Item))
+            </Div>
+        </Div>
     }
     else
     {
-        <Label @onclick="@OnCheckedClicked">
-            <Check TValue="bool" Value="@Checked" ValueChanged="@OnCheckedChanged" ValueExpression="@(()=> Checked)"></Check>
-        </Label>
+        <Div @onclick:stopPropagation="true" Display="Display.InlineBlock">
+            <Check @onclick="args => ShiftKeyPressed = args.ShiftKey"  TValue="bool" Value="Checked" ValueChanged="@OnCheckedChanged"></Check>
+        </Div>
     }
 </TableRowCell>

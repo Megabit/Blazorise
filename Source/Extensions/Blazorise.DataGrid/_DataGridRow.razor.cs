@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -206,10 +208,10 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
         if ( selectable )
         {
-            if ( !clickFromMultiSelectCheck )
+            if ( !ParentDataGrid.MultiSelect )
                 await HandleSingleSelectClick( eventArgs );
-
-            await HandleMultiSelectClick( eventArgs );
+            else
+                await HandleMultiSelectClick( eventArgs );
         }
 
         if ( !multiSelectPreventRowClick )
@@ -260,7 +262,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         {
             await ParentDataGrid.Select( Item );
         }
-
     }
 
     protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
@@ -278,16 +279,10 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return ParentDataGrid.OnMultiSelectCommand( new( Item, selected, shiftClick ) );
     }
 
-    protected Task OnMultiSelectCheckClicked()
+
+    protected async Task OnMultiSelectCheckedChanged( (bool isChecked, bool shift ) args )
     {
-        clickFromMultiSelectCheck = true;
-
-        if ( ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false ) // MultiSelectColumn was prevented from propagating RowClick however we still want to process parts of it.
-        {
-            return HandleClick( new BLMouseEventArgs( MouseButton.Left, 1, System.Drawing.Point.Empty, System.Drawing.Point.Empty, false, false, false, false ) );
-        }
-
-        return Task.CompletedTask;
+        await OnMultiSelectCommand( args.isChecked, args.shift );
     }
 
     protected Cursor GetHoverCursor()
@@ -329,7 +324,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => ( IsSelected
         ? selectedStyling?.Background
         : batchEditSelectedStyling?.Background
-            ?? styling?.Background ) ?? Blazorise.Background.Default;
+          ?? styling?.Background ) ?? Blazorise.Background.Default;
 
     /// <summary>
     /// Gets the row color.
@@ -337,7 +332,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => ( IsSelected
         ? selectedStyling?.Color
         : batchEditSelectedStyling?.Color
-            ?? styling?.Color ) ?? Blazorise.Color.Default;
+          ?? styling?.Color ) ?? Blazorise.Color.Default;
 
     /// <summary>
     /// Gets the row class names.
@@ -345,7 +340,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected string GetClass( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => IsSelected
         ? selectedStyling?.Class
         : batchEditSelectedStyling?.Class
-            ?? styling?.Class;
+          ?? styling?.Class;
 
     /// <summary>
     /// Gets the row styles.
@@ -353,7 +348,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected string GetStyle( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => IsSelected
         ? selectedStyling?.Style
         : batchEditSelectedStyling?.Style
-            ?? styling?.Style;
+          ?? styling?.Style;
 
     /// <summary>
     /// Gets the cell background color.

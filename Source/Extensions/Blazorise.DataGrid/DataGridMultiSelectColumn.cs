@@ -14,6 +14,8 @@ public partial class DataGridMultiSelectColumn<TItem> : DataGridColumn<TItem>
     /// Template to customize multi select checkbox.
     /// </summary>
     [Parameter] public RenderFragment<MultiSelectContext<TItem>> MultiSelectTemplate { get; set; }
+    
+    [Parameter] public EventCallback<(TItem Item, bool Selected)> ItemSelectionChanged { get; set; }
 
     #endregion
 }
