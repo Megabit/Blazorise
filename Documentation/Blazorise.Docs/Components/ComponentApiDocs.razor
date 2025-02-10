@@ -36,7 +36,16 @@
 }
 @code {
     [Parameter] public List<Type> ComponentTypes { get; set; } = [];
+
+    /// <summary>
+    /// Defines the name of the category, or a folder within the Blazorise source that will be part of the search critera.
+    /// Must be used with the <see cref="ComponentsApiDocsGenerator.Categories"/> property.
+    /// </summary>
     [Parameter] public string Category { get; set; }
+
+    /// <summary>
+    /// Defines the name of the subcategory, or a sub folder within the Blazorise source that will be part of the search critera.
+    /// </summary>
     [Parameter] public string Subcategory { get; set; }
 
 

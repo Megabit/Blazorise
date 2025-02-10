@@ -30,7 +30,7 @@ public class ComponentsApiDocsGenerator
 
     const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
 
-    readonly List<(string Segment, string Category)> categories = [
+    readonly List<(string Segment, string Category)> Categories = [
         (Segment: "Source/Blazorise/Themes/", Category: "Theme")
         // Add more categories here if needed
     ];
@@ -256,7 +256,7 @@ public class ComponentsApiDocsGenerator
             string filePath = syntaxRef.SyntaxTree.FilePath;
             string normalizedFilePath = Path.GetFullPath( filePath ).Replace( Path.DirectorySeparatorChar, '/' );
 
-            foreach ( var (Segment, Category) in categories )
+            foreach ( var (Segment, Category) in Categories )
             {
                 if ( normalizedFilePath.Contains( Segment ) )
                 {
