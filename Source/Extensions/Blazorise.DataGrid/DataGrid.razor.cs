@@ -801,19 +801,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( GroupBy is null )
         {
             var firstGroupableColumn = groupableColumns[0];
-            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
-                                                                             .OrderBy( x => x.Key )
-                                                                             .ToList();
-            RecursiveGroup( 1, groupedData, newGroupedData );
+            var query = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                   .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) );
+            var newGroupedData = ( firstGroupableColumn.CurrentSortDirection switch
+            {
+            SortDirection.Descending => query.OrderByDescending( context => context.Key ),
+            _  => query.OrderBy( context => context.Key ),
+            } )
+            .ToList();
+            GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
         else
         {
             var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
-                                     .Select( x => new GroupContext<TItem>( x ) )
-                                     .OrderBy( x => x.Key )
-                                     .ToList();
+                                            .Select( x => new GroupContext<TItem>( x ) )
+                                            .OrderBy( x => x.Key )
+                                            .ToList();
             GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
