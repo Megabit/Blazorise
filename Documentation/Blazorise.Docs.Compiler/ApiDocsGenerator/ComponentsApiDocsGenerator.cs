@@ -28,8 +28,14 @@ public class ComponentsApiDocsGenerator
     private Assembly systemRuntimeAssembly;
     private XmlDocumentationProvider systemRuntimeDocumentationProvider;
 
-
     const string ShouldOnlyBeUsedInternally = "This method is intended for internal framework use only and should not be called directly by user code";
+
+    readonly List<(string Segment, string Category)> categories = [
+        (Segment: "Source/Blazorise/Themes/", Category: "Theme")
+        // Add more categories here if needed
+    ];
+
+    readonly string[] skipMethods = ["Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString", "GetEnumerator"];
 
     #endregion
 
@@ -136,6 +142,7 @@ public class ComponentsApiDocsGenerator
 
         return null;
     }
+
     private CSharpCompilation GetCompilation( string inputLocation, string assemblyName, bool isBlazoriseAssembly = false )
     {
         var sourceFiles = Directory.GetFiles( inputLocation, "*.cs", SearchOption.AllDirectories );
@@ -158,9 +165,6 @@ public class ComponentsApiDocsGenerator
         );
         return compilation;
     }
-
-
-    readonly string[] skipMethods = ["Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString", "GetEnumerator"];
 
     private IEnumerable<ComponentInfo> GetComponentsInfo( Compilation compilation, INamespaceSymbol namespaceToSearch )
     {
@@ -203,8 +207,7 @@ public class ComponentsApiDocsGenerator
         }
     }
 
-
-    record TypeQualification( bool QualifiesForApiDocs, bool SkipParamCheck = false, IEnumerable<INamedTypeSymbol>? NamedTypeSymbols = null, string? Category = null, string? Subcategory = null );
+    record TypeQualification( bool QualifiesForApiDocs, bool SkipParamCheck = false, IEnumerable<INamedTypeSymbol> NamedTypeSymbols = null, string Category = null, string Subcategory = null );
 
     /// <summary>
     /// get the chain of inheritance to the BaseComponent or ComponentBase
@@ -246,12 +249,7 @@ public class ComponentsApiDocsGenerator
         return new( true, SkipParamCheck: skipParamAndComponentCheck, Category: category.category, Subcategory: category.subcategory );
     }
 
-    readonly List<(string Segment, string Category)> categories = [
-        (Segment: "Source/Blazorise/Themes/", Category: "Theme")
-        // Add more categories here if needed
-    ];
-
-    (string? category, string? subcategory) GetCategoryAndSubcategory( INamedTypeSymbol typeSymbol )
+    (string category, string subcategory) GetCategoryAndSubcategory( INamedTypeSymbol typeSymbol )
     {
         foreach ( var syntaxRef in typeSymbol.DeclaringSyntaxReferences )
         {
@@ -262,7 +260,7 @@ public class ComponentsApiDocsGenerator
             {
                 if ( normalizedFilePath.Contains( Segment ) )
                 {
-                    string? subcategory = null;
+                    string subcategory = null;
                     int startIndex = normalizedFilePath.IndexOf( Segment ) + Segment.Length;
                     string remainingPath = normalizedFilePath[startIndex..];
 
@@ -279,7 +277,6 @@ public class ComponentsApiDocsGenerator
 
         return (null, null);
     }
-
 
     private static string GenerateComponentsApiSource( Compilation compilation, ImmutableArray<ComponentInfo> components, string assemblyName )
     {
