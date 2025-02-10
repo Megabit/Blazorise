@@ -188,7 +188,7 @@ public class ComponentsApiDocsGenerator
                     !m.IsImplicitlyDeclared &&
                     m.MethodKind == MethodKind.Ordinary &&
                     m.OverriddenMethod == null &&
-                    !skipMethods.Contains(m.Name)
+                    !skipMethods.Contains( m.Name )
                     );
 
             yield return new ComponentInfo
@@ -197,14 +197,14 @@ public class ComponentsApiDocsGenerator
             PublicMethods: publicMethods,
             Properties: parameterProperties,
             InheritsFromChain: typeQualification.NamedTypeSymbols ?? [],
-            Category:typeQualification.Category,
-            Subcategory:typeQualification.Subcategory
+            Category: typeQualification.Category,
+            Subcategory: typeQualification.Subcategory
             );
         }
     }
 
-    
-    record TypeQualification(bool QualifiesForApiDocs, bool SkipParamCheck =false, IEnumerable<INamedTypeSymbol>? NamedTypeSymbols = null, string? Category = null, string? Subcategory = null);
+
+    record TypeQualification( bool QualifiesForApiDocs, bool SkipParamCheck = false, IEnumerable<INamedTypeSymbol>? NamedTypeSymbols = null, string? Category = null, string? Subcategory = null );
 
     /// <summary>
     /// get the chain of inheritance to the BaseComponent or ComponentBase
@@ -218,20 +218,20 @@ public class ComponentsApiDocsGenerator
     {
 
         var category = GetCategoryAndSubcategory( type );
-        
-        ( bool continueProcessing, bool skipParamAndComponentCheck ) = type switch
+
+        (bool continueProcessing, bool skipParamAndComponentCheck) = type switch
         {
-            _ when type.TypeKind != TypeKind.Class || type.DeclaredAccessibility != Accessibility.Public => ( false, false ),
-            _ when type.Name.StartsWith( '_' ) => ( false, false ),
-            _ when category.category is not null => ( true, true ),
-            _ when type.Name.EndsWith( "Options" ) => ( true, true ),
-            _ when type.Name.EndsWith( "RouterTabsPageAttribute" ) => ( true, true ),
-            _ when !type.AllInterfaces.Any( i => i.Name == "IComponent" ) => ( false, false ),
-            _ => ( true, false )
+            _ when type.TypeKind != TypeKind.Class || type.DeclaredAccessibility != Accessibility.Public => (false, false),
+            _ when type.Name.StartsWith( '_' ) => (false, false),
+            _ when category.category is not null => (true, true),
+            _ when type.Name.EndsWith( "Options" ) => (true, true),
+            _ when type.Name.EndsWith( "RouterTabsPageAttribute" ) => (true, true),
+            _ when !type.AllInterfaces.Any( i => i.Name == "IComponent" ) => (false, false),
+            _ => (true, false)
         };
 
         if ( !continueProcessing )
-            return new( false);
+            return new( false );
 
         List<INamedTypeSymbol> inheritsFromChain = [];
         while ( type != null )
@@ -240,36 +240,36 @@ public class ComponentsApiDocsGenerator
             if ( type?.Name.Split( "." ).Last() == "ComponentBase" //for this to work, the inheritance (:ComponentBase) must be specified in .cs file.
                 || SymbolEqualityComparer.Default.Equals( type, baseType )
                 )
-                return new( true, skipParamAndComponentCheck,   inheritsFromChain, Category:category.category, Subcategory:category.subcategory);
+                return new( true, skipParamAndComponentCheck, inheritsFromChain, Category: category.category, Subcategory: category.subcategory );
             inheritsFromChain.Add( type );
         }
-        return new( true, SkipParamCheck: skipParamAndComponentCheck, Category:category.category, Subcategory:category.subcategory );
+        return new( true, SkipParamCheck: skipParamAndComponentCheck, Category: category.category, Subcategory: category.subcategory );
     }
 
-    readonly List<(string Segment,string Category)> categories = [
+    readonly List<(string Segment, string Category)> categories = [
         (Segment: "Source/Blazorise/Themes/", Category: "Theme")
         // Add more categories here if needed
     ];
 
-    (string? category, string? subcategory) GetCategoryAndSubcategory(INamedTypeSymbol typeSymbol)
+    (string? category, string? subcategory) GetCategoryAndSubcategory( INamedTypeSymbol typeSymbol )
     {
-        foreach (var syntaxRef in typeSymbol.DeclaringSyntaxReferences)
+        foreach ( var syntaxRef in typeSymbol.DeclaringSyntaxReferences )
         {
             string filePath = syntaxRef.SyntaxTree.FilePath;
-            string normalizedFilePath = Path.GetFullPath(filePath).Replace(Path.DirectorySeparatorChar, '/');
+            string normalizedFilePath = Path.GetFullPath( filePath ).Replace( Path.DirectorySeparatorChar, '/' );
 
-            foreach (var (Segment, Category) in categories)
-            { 
-                if (normalizedFilePath.Contains(Segment))
+            foreach ( var (Segment, Category) in categories )
+            {
+                if ( normalizedFilePath.Contains( Segment ) )
                 {
                     string? subcategory = null;
-                    int startIndex = normalizedFilePath.IndexOf(Segment) + Segment.Length;
+                    int startIndex = normalizedFilePath.IndexOf( Segment ) + Segment.Length;
                     string remainingPath = normalizedFilePath[startIndex..];
 
                     // Extract only the first folder after "Themes/" (ignore file names)
-                    string[] pathParts = remainingPath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] pathParts = remainingPath.Split( new[] { '/' }, StringSplitOptions.RemoveEmptyEntries );
 
-                    if (pathParts.Length > 1) // Ensures it's not just the filename
+                    if ( pathParts.Length > 1 ) // Ensures it's not just the filename
                         subcategory = pathParts[0]; // First folder after the segment
 
                     return (Category, subcategory);
@@ -295,9 +295,9 @@ public class ComponentsApiDocsGenerator
             var methodsData = component.PublicMethods.Select( InfoExtractor.GetMethodDetails )
                 .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) );
 
-            ApiDocsForComponent comp = new(type: componentType, typeName: componentTypeName,
+            ApiDocsForComponent comp = new( type: componentType, typeName: componentTypeName,
             properties: propertiesData, methods: methodsData,
-            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ),component.Category,component.Subcategory);
+            inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ), component.Category, component.Subcategory );
 
             return comp;
         } );
@@ -349,7 +349,7 @@ public class ComponentsApiDocsGenerator
                                              {{comp.InheritsFromChain.Select( x => $"typeof({x})" ).StringJoin( "," )}}
                                              }
                                              
-                                             {{(comp.Category is null?"":$""","{comp.Category}" {(comp.Subcategory is null? "": $""", "{comp.Subcategory}" """ )} """)}}
+                                             {{( comp.Category is null ? "" : $""","{comp.Category}" {( comp.Subcategory is null ? "" : $""", "{comp.Subcategory}" """ )} """ )}}
                                        )},
 
                                    """;

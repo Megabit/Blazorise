@@ -13,7 +13,7 @@ public class ApiDocsForComponent
     public ApiDocsForComponent( string type, string typeName,
         IEnumerable<ApiDocsForComponentProperty> properties,
         IEnumerable<ApiDocsForComponentMethod> methods,
-        IEnumerable<string> inheritsFromChain, 
+        IEnumerable<string> inheritsFromChain,
         string category,
         string subcategory
         )
@@ -34,7 +34,7 @@ public class ApiDocsForComponent
     public IEnumerable<ApiDocsForComponentMethod> Methods { get; }
 
     public IEnumerable<string> InheritsFromChain { get; }
-    
+
     public string Category { get; }
     public string Subcategory { get; }
 }

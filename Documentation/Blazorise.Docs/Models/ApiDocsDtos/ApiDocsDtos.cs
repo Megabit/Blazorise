@@ -26,7 +26,7 @@ public class ApiDocsForComponent
 
     #region Constructors
 
-    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string category =null, string subcategory =null )
+    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string category = null, string subcategory = null )
     {
         Type = type;
         TypeName = typeName;
@@ -122,10 +122,10 @@ public class ApiDocsForComponent
     public Type Type { get; set; }
 
     public string TypeName { get; }
-   
-    public string Category { get;  } 
-    
-    public string Subcategory { get;  } 
+
+    public string Category { get; }
+
+    public string Subcategory { get; }
 
 
 

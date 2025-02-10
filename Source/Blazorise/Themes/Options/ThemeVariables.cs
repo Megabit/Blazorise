@@ -1,4 +1,6 @@
-﻿namespace Blazorise;
+﻿#region Using directives
+namespace Blazorise;
+#endregion
 
 /// <summary>
 /// Defines all the built-in CSS variable names.
@@ -250,7 +252,7 @@ public static class ThemeVariables
     /// </summary>
     /// <param name="variant">The steps item variant (e.g., "completed", "active").</param>
     /// <returns>The CSS variable name for the steps item icon color.</returns>
-    public static string VariantStepsItemIcon(string variant) => $"--b-steps-item-{variant}-icon-color";
+    public static string VariantStepsItemIcon( string variant ) => $"--b-steps-item-{variant}-icon-color";
 
     /// <summary>
     /// Generates the CSS variable for the YIQ contrast color of a <c>StepsItem</c> icon with the specified variant.
@@ -258,14 +260,14 @@ public static class ThemeVariables
     /// </summary>
     /// <param name="variant">The steps item variant.</param>
     /// <returns>The CSS variable name for the steps item icon YIQ contrast color.</returns>
-    public static string VariantStepsItemIconYiq(string variant) => $"--b-steps-item-{variant}-icon-yiq";
+    public static string VariantStepsItemIconYiq( string variant ) => $"--b-steps-item-{variant}-icon-yiq";
 
     /// <summary>
     /// Generates the CSS variable for the text color of a <c>StepsItem</c> component with the specified variant.
     /// </summary>
     /// <param name="variant">The steps item variant.</param>
     /// <returns>The CSS variable name for the steps item text color.</returns>
-    public static string VariantStepsItemText(string variant) => $"--b-steps-item-{variant}-text-color";
+    public static string VariantStepsItemText( string variant ) => $"--b-steps-item-{variant}-text-color";
 
     /// <summary>
     /// CSS variable for defining the icon color of a <c>StepsItem</c> component.
@@ -323,14 +325,14 @@ public static class ThemeVariables
     /// </summary>
     /// <param name="variant">The progress indicator variant (e.g., "primary", "secondary").</param>
     /// <returns>The CSS variable name for the page progress indicator color.</returns>
-    public static string VariantPageProgressIndicator(string variant) => $"--b-page-progress-indicator-{variant}";
+    public static string VariantPageProgressIndicator( string variant ) => $"--b-page-progress-indicator-{variant}";
 
     /// <summary>
     /// Generates the CSS variable for the color of the rating component with the specified variant.
     /// </summary>
     /// <param name="variant">The rating variant (e.g., "primary", "warning", "success").</param>
     /// <returns>The CSS variable name for the rating color.</returns>
-    public static string VariantRatingColor(string variant) => $"--b-rating-{variant}-color";
+    public static string VariantRatingColor( string variant ) => $"--b-rating-{variant}-color";
 
 
     public const string BreadcrumbColor = "--b-breadcrumb-color";

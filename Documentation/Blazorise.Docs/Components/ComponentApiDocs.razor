@@ -3,28 +3,27 @@
     API
 </DocsPageSubtitle>
 
-@if (hasComponentTypes)
+@if ( hasComponentTypes )
 {
     <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
                               MultipleComponentTypes="multipleComponentTypes"
                               PropertyType="ComponentApiDocsProperty.PropertyTypes.Parameters" />
-
 
     <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
                               MultipleComponentTypes="multipleComponentTypes"
                               PropertyType="ComponentApiDocsProperty.PropertyTypes.Events" />
 }
 
-@if (apiDocsForComponentsMethods.Any())
+@if ( apiDocsForComponentsMethods.Any() )
 {
     <Heading Margin="Margin.Is2.FromTop.Is3.FromBottom" Size="HeadingSize.Is3">
         Methods
     </Heading>
 
-    @foreach (var apiDocsForComponent in apiDocsForComponentsMethods)
+    @foreach ( var apiDocsForComponent in apiDocsForComponentsMethods )
     {
         <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
-            @foreach (var method in apiDocsForComponent.Methods)
+            @foreach ( var method in apiDocsForComponent.Methods )
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
                                  Parameters="@(string.Join(", ", method.Parameters.Select(x => $"{x.TypeName} {x.Name}")))">
@@ -35,13 +34,11 @@
         </DocsMethods>
     }
 }
-
 @code {
-
     [Parameter] public List<Type> ComponentTypes { get; set; } = [];
     [Parameter] public string Category { get; set; }
     [Parameter] public string Subcategory { get; set; }
-    
+
 
     IReadOnlyList<ApiDocsForComponent> apiDocsForComponents;
     List<ApiDocsForComponent> apiDocsForComponentsMethods;
@@ -51,10 +48,10 @@
     protected override void OnInitialized()
     {
         apiDocsForComponents = Category is not null
-            ?ComponentsApiDocsSource.Instance.Components.Where( x => x.Value.Category == Category && x.Value.Subcategory == Subcategory ).Select( x => x.Value ).ToList()
-            :ComponentTypes.Select(x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault(x)).Where(x => x is not null).ToList();
+            ? ComponentsApiDocsSource.Instance.Components.Where( x => x.Value.Category == Category && x.Value.Subcategory == Subcategory ).Select( x => x.Value ).ToList()
+            : ComponentTypes.Select( x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault( x ) ).Where( x => x is not null ).ToList();
         hasComponentTypes = apiDocsForComponents.Any();
         multipleComponentTypes = apiDocsForComponents.Count > 1;
-        apiDocsForComponentsMethods = apiDocsForComponents.Where(x => x.Methods.Any()).ToList();
+        apiDocsForComponentsMethods = apiDocsForComponents.Where( x => x.Methods.Any() ).ToList();
     }
 }
