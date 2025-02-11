@@ -1,0 +1,19 @@
+{
+  "culture": "ro",
+  "translations": {
+    "Ready to upload": "Pregătit pentru încărcare",
+    "Uploaded successfully": "Încărcat cu succes",
+    "File size is too large": "Dimensiunea fișierului este prea mare",
+    "Error uploading": "Eroare la încărcare",
+    "Or drop files here": "Sau trage fișiere aici",
+    "Or drop files or folders here": "Sau trage fișiere sau foldere aici",
+    "Clear": "Șterge",
+    "Upload": "Încărcă",
+    "Cancel": "Anulează",
+    "Confirm": "Confirmă",
+    "Remove": "Elimină",
+    "Are you sure you want to remove the file?": "Ești sigur că vrei să elimini fișierul?",
+    "Are you sure you want to clear all files?": "Ești sigur că vrei să ștergi toate fișierele?",
+    "Are you sure you want to cancel the upload?": "Ești sigur că vrei să anulezi încărcarea?"
+  }
+}
