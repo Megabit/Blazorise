@@ -1,4 +1,6 @@
-﻿namespace Blazorise;
+﻿#region Using directives
+namespace Blazorise;
+#endregion
 
 /// <summary>
 /// Defines all the built-in CSS variable names.
@@ -85,21 +87,111 @@ public static class ThemeVariables
     public const string BorderRadiusLarge = "--b-border-radius-lg";
     public const string BorderRadiusSmall = "--b-border-radius-sm";
 
+    /// <summary>
+    /// Generates the CSS variable for the background color of a button with the specified variant.
+    /// </summary>
+    /// <param name="variant">The button variant (e.g., "primary", "secondary").</param>
+    /// <returns>The CSS variable name for the button background color.</returns>
     public static string ButtonBackground( string variant ) => $"--b-button-{variant}-background";
+
+    /// <summary>
+    /// Generates the CSS variable for the border color of a button with the specified variant.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the button border color.</returns>
     public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";
+
+    /// <summary>
+    /// Generates the CSS variable for the background color of a button when hovered.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the button hover background color.</returns>
     public static string ButtonHoverBackground( string variant ) => $"--b-button-{variant}-hover-background";
+
+    /// <summary>
+    /// Generates the CSS variable for the border color of a button when hovered.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the button hover border color.</returns>
     public static string ButtonHoverBorder( string variant ) => $"--b-button-{variant}-hover-border";
+
+    /// <summary>
+    /// Generates the CSS variable for the background color of a button when active (clicked).
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the button active background color.</returns>
     public static string ButtonActiveBackground( string variant ) => $"--b-button-{variant}-active-background";
+
+    /// <summary>
+    /// Generates the CSS variable for the border color of a button when active (clicked).
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the button active border color.</returns>
     public static string ButtonActiveBorder( string variant ) => $"--b-button-{variant}-active-border";
+
+    /// <summary>
+    /// Generates the CSS variable for the YIQ contrast background color of a button.
+    /// YIQ is used to determine text visibility on different backgrounds.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the YIQ background color.</returns>
     public static string ButtonYiqBackground( string variant ) => $"--b-button-{variant}-yiq-background";
+
+    /// <summary>
+    /// Generates the CSS variable for the YIQ contrast background color of a button when hovered.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the YIQ hover background color.</returns>
     public static string ButtonYiqHoverBackground( string variant ) => $"--b-button-{variant}-yiq-hover-background";
+
+    /// <summary>
+    /// Generates the CSS variable for the YIQ contrast background color of a button when active.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the YIQ active background color.</returns>
     public static string ButtonYiqActiveBackground( string variant ) => $"--b-button-{variant}-yiq-active-background";
+
+    /// <summary>
+    /// Generates the CSS variable for the box shadow of a button.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the button box shadow.</returns>
     public static string ButtonBoxShadow( string variant ) => $"--b-button-{variant}-box-shadow";
 
+    /// <summary>
+    /// Generates the CSS variable for the text color of an outlined button.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the outline button text color.</returns>
     public static string OutlineButtonColor( string variant ) => $"--b-outline-button-{variant}-color";
+
+    /// <summary>
+    /// Generates the CSS variable for the YIQ contrast color of an outlined button.
+    /// YIQ is used to ensure text visibility on different background colors.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the outline button YIQ contrast color.</returns>
     public static string OutlineButtonYiqColor( string variant ) => $"--b-outline-button-{variant}-yiq-shadow";
+
+    /// <summary>
+    /// Generates the CSS variable for the box shadow color of an outlined button.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the outline button box shadow color.</returns>
     public static string OutlineButtonBoxShadowColor( string variant ) => $"--b-outline-button-{variant}-box-shadow";
+
+    /// <summary>
+    /// Generates the CSS variable for the text color of an outlined button when hovered.
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the outline button hover text color.</returns>
     public static string OutlineButtonHoverColor( string variant ) => $"--b-outline-button-{variant}-hover-color";
+
+    /// <summary>
+    /// Generates the CSS variable for the text color of an outlined button when active (clicked).
+    /// </summary>
+    /// <param name="variant">The button variant.</param>
+    /// <returns>The CSS variable name for the outline button active text color.</returns>
     public static string OutlineButtonActiveColor( string variant ) => $"--b-outline-button-{variant}-active-color";
 
     public const string SidebarWidth = "--b-sidebar-width";
@@ -155,25 +247,93 @@ public static class ThemeVariables
     public const string TooltipZIndex = "--b-tooltip-z-index";
 
 
+    /// <summary>
+    /// Generates the CSS variable for the icon color of a <c>StepsItem</c> component with the specified variant.
+    /// </summary>
+    /// <param name="variant">The steps item variant (e.g., "completed", "active").</param>
+    /// <returns>The CSS variable name for the steps item icon color.</returns>
     public static string VariantStepsItemIcon( string variant ) => $"--b-steps-item-{variant}-icon-color";
+
+    /// <summary>
+    /// Generates the CSS variable for the YIQ contrast color of a <c>StepsItem</c> icon with the specified variant.
+    /// YIQ is used to adjust contrast for better visibility.
+    /// </summary>
+    /// <param name="variant">The steps item variant.</param>
+    /// <returns>The CSS variable name for the steps item icon YIQ contrast color.</returns>
     public static string VariantStepsItemIconYiq( string variant ) => $"--b-steps-item-{variant}-icon-yiq";
+
+    /// <summary>
+    /// Generates the CSS variable for the text color of a <c>StepsItem</c> component with the specified variant.
+    /// </summary>
+    /// <param name="variant">The steps item variant.</param>
+    /// <returns>The CSS variable name for the steps item text color.</returns>
     public static string VariantStepsItemText( string variant ) => $"--b-steps-item-{variant}-text-color";
 
+    /// <summary>
+    /// CSS variable for defining the icon color of a <c>StepsItem</c> component.
+    /// </summary>
     public static string StepsItemIcon => "--b-steps-item-icon-color";
+
+    /// <summary>
+    /// CSS variable for defining the icon color of a completed <c>StepsItem</c>.
+    /// </summary>
     public static string StepsItemIconCompleted => "--b-steps-item-icon-completed";
+
+    /// <summary>
+    /// CSS variable for defining the YIQ contrast color of a completed <c>StepsItem</c> icon.
+    /// </summary>
     public static string StepsItemIconCompletedYiq => "--b-steps-item-icon-completed-yiq";
+
+    /// <summary>
+    /// CSS variable for defining the icon color of an active <c>StepsItem</c>.
+    /// </summary>
     public static string StepsItemIconActive => "--b-steps-item-icon-active";
+
+    /// <summary>
+    /// CSS variable for defining the YIQ contrast color of an active <c>StepsItem</c> icon.
+    /// </summary>
     public static string StepsItemIconActiveYiq => "--b-steps-item-icon-active-yiq";
+
+    /// <summary>
+    /// CSS variable for defining the text color of a <c>StepsItem</c>.
+    /// </summary>
     public static string StepsItemText => "--b-steps-item-text-color";
+
+    /// <summary>
+    /// CSS variable for defining the text color of a completed <c>StepsItem</c>.
+    /// </summary>
     public static string StepsItemTextCompleted => "--b-steps-item-text-completed";
+
+    /// <summary>
+    /// CSS variable for defining the text color of an active <c>StepsItem</c>.
+    /// </summary>
     public static string StepsItemTextActive => "--b-steps-item-text-active";
 
+    /// <summary>
+    /// CSS variable for defining the size of the <c>SpinKit</c> loader.
+    /// </summary>
     public static string SpinKitSize => "--b-spinkit-size";
+
+    /// <summary>
+    /// CSS variable for defining the color of the <c>SpinKit</c> loader.
+    /// </summary>
     public static string SpinKitColor => "--b-spinkit-color";
 
+
+    /// <summary>
+    /// Generates the CSS variable for the color of the page progress indicator with the specified variant.
+    /// </summary>
+    /// <param name="variant">The progress indicator variant (e.g., "primary", "secondary").</param>
+    /// <returns>The CSS variable name for the page progress indicator color.</returns>
     public static string VariantPageProgressIndicator( string variant ) => $"--b-page-progress-indicator-{variant}";
 
+    /// <summary>
+    /// Generates the CSS variable for the color of the rating component with the specified variant.
+    /// </summary>
+    /// <param name="variant">The rating variant (e.g., "primary", "warning", "success").</param>
+    /// <returns>The CSS variable name for the rating color.</returns>
     public static string VariantRatingColor( string variant ) => $"--b-rating-{variant}-color";
+
 
     public const string BreadcrumbColor = "--b-breadcrumb-color";
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

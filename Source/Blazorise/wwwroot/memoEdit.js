@@ -1,5 +1,5 @@
-import { Behave } from "./vendors/Behave.js?v=1.7.2.0";
-import { getRequiredElement } from "./utilities.js?v=1.7.2.0";
+import { Behave } from "./vendors/Behave.js?v=1.7.4.0";
+import { getRequiredElement } from "./utilities.js?v=1.7.4.0";
 
 const _instances = [];
 
@@ -99,9 +99,18 @@ export function updateOptions(element, elementId, options) {
 
 function onInputChanged(e) {
     if (e && e.target) {
-        e.target.style.height = 'auto';
-        e.target.style.height = this.scrollHeight + 'px';
-        e.target.style.overflowY = 'hidden';
+        const textarea = e.target;
+        const computedStyle = window.getComputedStyle(textarea);
+
+        const borderTop = parseFloat(computedStyle.borderTopWidth) || 0;
+        const borderBottom = parseFloat(computedStyle.borderBottomWidth) || 0;
+
+        textarea.style.height = 'auto';
+        textarea.style.overflowY = 'hidden';
+
+        const totalExtraSpace = borderTop + borderBottom;
+
+        textarea.style.height = `${textarea.scrollHeight + totalExtraSpace}px`;
     }
 }
 

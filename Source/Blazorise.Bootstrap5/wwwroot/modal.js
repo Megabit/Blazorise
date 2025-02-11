@@ -1,4 +1,4 @@
-import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.7.2.0";
+import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.7.4.0";
 
 export function open(element, scrollToTop) {
     adjustDialogDimensionsBeforeShow(element);
@@ -6,6 +6,13 @@ export function open(element, scrollToTop) {
     var modals = Number(document.body.getAttribute("data-modals") || "0");
 
     if (modals === 0) {
+        // Save the original overflow value
+        const originalOverflow = document.body.style.overflow || '';
+        document.body.setAttribute('data-original-overflow', originalOverflow);
+
+        // Hide the scrollbar
+        document.body.style.overflow = 'hidden';
+
         addClassToBody("modal-open");
     }
 
@@ -32,6 +39,9 @@ export function close(element) {
     }
 
     if (modals === 0) {
+        // Restore the original overflow value
+        document.body.style.overflow = document.body.getAttribute('data-original-overflow') || '';
+        document.body.removeAttribute('data-original-overflow');
         removeClassFromBody("modal-open");
     }
 
