@@ -280,9 +280,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     }
 
 
-    protected async Task OnMultiSelectCheckedChanged( (bool isChecked, bool shift ) args )
+    protected async Task OnMultiSelectCheckedChanged( MultiselectCheckedChangedContext args )
     {
-        await OnMultiSelectCommand( args.isChecked, args.shift );
+        await OnMultiSelectCommand( args.Checked, args.ShiftKey );
     }
 
     protected Cursor GetHoverCursor()
