@@ -1,10 +1,10 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">dataGridRef</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedEmployee</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">RowClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">RowClicked</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">DetailRowTrigger</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(e =&gt; DisplayDetailRow(e.Item) &amp;&amp; e.Item.Id == selectedEmployee?.Id)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">DetailRowTrigger</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(e =&gt; DisplayDetailRow(e.Item))</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">DetailRowStartsVisible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Responsive</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlTagDelimiter">/&gt;</span>
@@ -13,7 +13,7 @@
                 <span class="atSign">&#64;</span>if ( DisplayDetailRow( context ) )
                 {
                     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(rowsWithDetail.Contains( context.Id ) ? IconName.ExpandLess : IconName.ExpandMore)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">/&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(dataGridRef.GetRowInfo(context).DetailRowExpanded ? IconName.ExpandLess : IconName.ExpandMore)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">/&gt;</span>
                     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
                 }
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
@@ -41,15 +41,7 @@
     [Inject]
     <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
-    <span class="keyword">private</span> Employee selectedEmployee;
-    <span class="keyword">private</span> HashSet&lt;<span class="keyword">int</span>&gt; rowsWithDetail = [];
-
-    <span class="keyword">void</span> RowClicked(DataGridRowMouseEventArgs&lt;Employee&gt; clickedRow)
-    {
-        <span class="keyword">var</span> id = clickedRow.Item.Id;
-        <span class="keyword">if</span> ( !rowsWithDetail.Add( id ) )
-            rowsWithDetail.Remove( id );
-    }
+    DataGrid&lt;Employee&gt; dataGridRef;
 
     <span class="keyword">bool</span> DisplayDetailRow(Employee employee) =&gt; employee.Salaries?.Count &gt; <span class="number">0</span>;
 

@@ -1742,7 +1742,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
                 rowInfo.SetRowDetail( detailRowTriggerResult, detailRowTriggerContext.Toggleable );
 
-                if ( rowInfo.HasDetailRow && detailRowTriggerContext.Single )
+                if ( rowInfo.DetailRowVisible && detailRowTriggerContext.Single )
                 {
                     foreach ( var row in Rows.Where( x => !x.IsEqual( rowInfo ) ) )
                     {
@@ -2753,8 +2753,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return SelectedRowChanged.InvokeAsync( item );
     }
 
-    private DataGridRowInfo<TItem> GetRowInfo( TItem item )
-        => Rows.LastOrDefault( x => x.Item.IsEqual( item ) );
+    public DataGridRowInfo<TItem> GetRowInfo( TItem item )
+        => Rows?.LastOrDefault( x => x.Item.IsEqual( item ) );
 
     #endregion
 
