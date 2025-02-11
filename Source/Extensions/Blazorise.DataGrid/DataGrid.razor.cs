@@ -1912,32 +1912,27 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     internal async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
     {
+        if(MultiSelectColumn is null) return;
         SelectedAllRows = false;
         UnSelectAllRows = false;
 
         SelectedRows ??= new();
 
         await HandleShiftClick( eventArgs );
-
+        
         if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Add( eventArgs.Item );
-            if(MultiSelectColumn is not null)
-                await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( ( eventArgs.Item, true ) );
+            await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( ( eventArgs.Item, true ) );
         }
         else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
-            if ( SelectedRows.Contains( eventArgs.Item ) )
-            {
-                SelectedRows.Remove( eventArgs.Item );
-                
-                if(MultiSelectColumn is not null)
-                    await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( ( eventArgs.Item, false ) );
+            SelectedRows.Remove( eventArgs.Item );
+            await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( ( eventArgs.Item, false ) );
 
-                if ( SelectedRow.IsEqual( eventArgs.Item ) )
-                {
-                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
-                }
+            if ( SelectedRow.IsEqual( eventArgs.Item ) )
+            {
+                await SelectedRowChanged.InvokeAsync( default );
             }
         }
 

@@ -23,7 +23,7 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
     {
         var selectable = ParentDataGrid.RowSelectable?.Invoke( new(Item, DataGridSelectReason.MultiSelectClick)) ?? true;
         if ( selectable && (ParentDataGrid.MultiSelectColumn?.PreventRowClick==false ))
-             await CheckedChanged.InvokeAsync( new( @checked, ShiftKeyPressed ) );
+             await CheckedChanged.InvokeAsync( new( Item, @checked, ShiftKeyPressed ) );
     }
 
     protected string BuildCellStyle()
@@ -58,7 +58,7 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
 
     [Parameter] public bool Checked { get; set; }
 
-    [Parameter] public EventCallback<MultiselectCheckedChangedContext> CheckedChanged { get; set; }
+    [Parameter] public EventCallback<MultiSelectEventArgs<TItem>> CheckedChanged { get; set; }
 
     #endregion
 }

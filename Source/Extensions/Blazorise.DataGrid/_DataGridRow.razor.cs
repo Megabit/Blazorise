@@ -36,12 +36,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected _DataGridRowMultiSelect<TItem> multiSelect;
 
     /// <summary>
-    /// If click came propagated from MultiSelect Check
-    /// Funnels the selection logic into HandleClick.
-    /// </summary>
-    protected bool clickFromMultiSelectCheck;
-
-    /// <summary>
     /// Holds information about the current Row.
     /// </summary>
     protected DataGridRowInfo<TItem> RowInfo;
@@ -200,11 +194,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
     protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
     {
-        var multiSelectPreventRowClick = clickFromMultiSelectCheck && ( ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false );
-        if ( !clickFromMultiSelectCheck )
-            await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
+        await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
-        var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromMultiSelectCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
+        var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, DataGridSelectReason.RowClick ) ) ?? true;
 
         if ( selectable )
         {
@@ -212,25 +204,16 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 await HandleSingleSelectClick( eventArgs );
             else
                 await HandleMultiSelectClick( eventArgs );
-        }
-
-        if ( !multiSelectPreventRowClick )
-        {
-            await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
-        }
-
-        clickFromMultiSelectCheck = false;
+        } 
+        await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
     private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
     {
-        if ( ParentDataGrid.MultiSelect )
-        {
-            var isSelected = ( ParentDataGrid.SelectedRows == null || ( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) ) );
-            var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
+        var isSelected = ( ParentDataGrid.SelectedRows == null || ( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) ) );
+        var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
 
-            await OnMultiSelectCommand( isSelected || shiftClick, shiftClick );
-        }
+        await OnMultiSelectCommand( new ( Item, isSelected || shiftClick, shiftClick ));
     }
 
     private bool IsCtrlClick( BLMouseEventArgs eventArgs )
@@ -246,16 +229,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                                          && ParentDataGrid.SelectedRow != null
                                          && Item.IsEqual( ParentDataGrid.SelectedRow ) )
         {
-            await ParentDataGrid.Select( default );
-        }
-        else if ( !eventArgs.ShiftKey
-                  && ParentDataGrid.MultiSelect
-                  && ParentDataGrid.SelectedRows != null
-                  && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) )
-        {
-            // If the user selects an already selected multiselect row, seems like it should be more transparent,
-            // to just de-select both normal and multi selection
-            // Remove this, if that is not the case!!
             await ParentDataGrid.Select( default );
         }
         else
@@ -274,15 +247,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return ParentDataGrid.OnRowContextMenuCommand( new( Item, eventArgs ) );
     }
 
-    protected internal Task OnMultiSelectCommand( bool selected, bool shiftClick )
+    protected internal Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> args )
     {
-        return ParentDataGrid.OnMultiSelectCommand( new( Item, selected, shiftClick ) );
-    }
-
-
-    protected async Task OnMultiSelectCheckedChanged( MultiselectCheckedChangedContext args )
-    {
-        await OnMultiSelectCommand( args.Checked, args.ShiftKey );
+        return ParentDataGrid.OnMultiSelectCommand(args );
     }
 
     protected Cursor GetHoverCursor()
