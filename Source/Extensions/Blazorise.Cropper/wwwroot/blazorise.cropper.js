@@ -1,8 +1,8 @@
-import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.7.3.0";
+import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.7.4.0";
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.3.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.4.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=1.7.3.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=1.7.4.0\" />");
 
 const _instances = [];
 
@@ -302,7 +302,8 @@ function manageCropperImageReady(cropperImage, cropperCanvas, instance) {
         }
         invokeDotNetMethodAsync(instance.adapter, "ImageReady");
     })
-        .catch(() => {
+        .catch((err) => {
+            invokeDotNetMethodAsync(instance.adapter, "ImageLoadingFailed", err.message);
             instance.disabledBeforeImageLoadFailed = cropperCanvas.disabled;
             instance.loadFailed = true;
             cropperCanvas.disabled = true;
