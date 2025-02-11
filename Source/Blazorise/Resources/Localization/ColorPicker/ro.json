@@ -1,0 +1,19 @@
+{
+  "culture": "ro",
+  "translations": {
+    "ui:dialog": "dialog selectare culoare",
+    "btn:toggle": "comută dialogul de selectare culoare",
+    "btn:swatch": "mostră de culoare",
+    "btn:last-color": "folosește culoarea anterioară",
+    "btn:save": "Salvează",
+    "btn:cancel": "Anulează",
+    "btn:clear": "Șterge",
+    "aria:btn:save": "salvează și închide",
+    "aria:btn:cancel": "anulează și închide",
+    "aria:btn:clear": "șterge și închide",
+    "aria:input": "câmp de introducere culoare",
+    "aria:palette": "zonă de selectare a culorii",
+    "aria:hue": "slider de selecție nuanță",
+    "aria:opacity": "slider de selecție opacitate"
+  }
+}

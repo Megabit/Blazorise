@@ -1,17 +1,28 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <DataGrid TItem="Employee"
+          @ref="dataGridRef"
           Data="@employeeList"
-          @bind-SelectedRow="@selectedEmployee"
-          DetailRowTrigger="@((e) => e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"
+          DetailRowTrigger="@(e => DisplayDetailRow(e.Item))"
+          DetailRowStartsVisible="false"
           Responsive>
     <DataGridColumns>
         <DataGridCommandColumn />
+        <DataGridColumn TItem=Employee >
+            <DisplayTemplate>
+                @if ( DisplayDetailRow( context ) )
+                {
+                    <Button>
+                        <Icon Name="@(dataGridRef.GetRowInfo(context).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)"/>
+                    </Button>
+                }
+            </DisplayTemplate>
+        </DataGridColumn>
         <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" />
     </DataGridColumns>
     <DetailRowTemplate>
         @{
-            var salaries = ( context as Employee ).Salaries;
+            var salaries = context.Salaries;
 
             <DataGrid TItem="Salary"
                       Data="salaries"
@@ -29,7 +40,9 @@
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
-    private Employee selectedEmployee;
+    DataGrid<Employee> dataGridRef;
+
+    bool DisplayDetailRow(Employee employee) => employee.Salaries?.Count > 0;
 
     protected override async Task OnInitializedAsync()
     {

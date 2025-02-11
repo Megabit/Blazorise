@@ -1,6 +1,6 @@
-import './vendors/split.js?v=1.7.1.0';
+import './vendors/split.js?v=1.7.4.0';
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Splitter/blazorise.splitter.css?v=1.7.1.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Splitter/blazorise.splitter.css?v=1.7.4.0\" />");
 
 /**
  * Configuration options for Split

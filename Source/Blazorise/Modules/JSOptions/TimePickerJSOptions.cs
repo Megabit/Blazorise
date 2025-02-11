@@ -59,6 +59,11 @@ public class TimePickerJSOptions
     /// Gets or sets a value indicating whether to display the time picker as a static element.
     /// </summary>
     public bool StaticPicker { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the time picker should include seconds in the selection.
+    /// </summary>
+    public bool Seconds { get; set; }
 }
 
 /// <summary>
@@ -110,4 +115,9 @@ public class TimePickerUpdateJSOptions
     /// Gets or sets the option for displaying the time picker as a static element.
     /// </summary>
     public JSOptionChange<bool> StaticPicker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for including seconds in the time picker selection.
+    /// </summary>
+    public JSOptionChange<bool> Seconds { get; set; }
 }

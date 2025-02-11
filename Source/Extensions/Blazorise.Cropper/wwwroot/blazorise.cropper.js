@@ -1,8 +1,8 @@
-import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.7.1.0";
+import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.7.4.0";
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.1.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.4.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=1.7.1.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=1.7.4.0\" />");
 
 const _instances = [];
 
@@ -56,9 +56,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     const cropperSelection = cropper.getCropperSelection();
     const cropperImage = cropper.getCropperImage();
 
-    cropperImage.$ready((image) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "ImageReady");
-    });
+    manageCropperImageReady(cropperImage, cropperCanvas, instance);
 
     registerEvents(cropperCanvas, cropperSelection);
 
@@ -106,9 +104,7 @@ export function updateOptions(element, elementId, options) {
                 cropperImage.src = options.source.value;
 
                 // Callback needs to be setup again after each source changed.
-                cropperImage.$ready((image) => {
-                    invokeDotNetMethodAsync(instance.adapter, "ImageReady");
-                });
+                manageCropperImageReady(cropperImage, cropperCanvas, instance);
             }
 
             if (options.alt.changed) {
@@ -297,6 +293,23 @@ export function resetSelection(element, elementId) {
         }
     }
 }
+
+function manageCropperImageReady(cropperImage, cropperCanvas, instance) {
+    cropperImage.$ready((image) => {
+        if (instance.loadFailed) {
+            cropperCanvas.disabled = instance.disabledBeforeImageLoadFailed;
+            instance.loadFailed = false;
+        }
+        invokeDotNetMethodAsync(instance.adapter, "ImageReady");
+    })
+        .catch((err) => {
+            invokeDotNetMethodAsync(instance.adapter, "ImageLoadingFailed", err.message);
+            instance.disabledBeforeImageLoadFailed = cropperCanvas.disabled;
+            instance.loadFailed = true;
+            cropperCanvas.disabled = true;
+        });
+}
+
 
 function onCropperStartHandler(event) {
     let parentElementId = event.srcElement.parentElement.id;

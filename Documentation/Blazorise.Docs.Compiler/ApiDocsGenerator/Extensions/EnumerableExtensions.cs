@@ -21,11 +21,10 @@ public static class EnumerableExtensions
         {
             return source == null ? "" : string.Join( separator, source );
         }
-        catch ( Exception e )
+        catch
         {
-            
         }
-        return "";
 
+        return "";
     }
 }
