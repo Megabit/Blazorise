@@ -17,7 +17,8 @@ internal class RouterTabsItem
     public string TabClass { get; set; }
     public string TabPanelClass { get; set; }
     public bool Closeable { get; set; } = true;
-
+    public string LocalizedName { get; set; }
+    public string LocalizedNameOrName => LocalizedName ?? Name;
 }
 
 /// <summary>
@@ -37,13 +38,16 @@ public class RouterTabsService
 
     internal IReadOnlyCollection<RouterTabsItem> Tabs => tabs.AsReadOnly();
 
+    private readonly RouterTabsOptions options;
+
     #endregion
 
     #region Constructors
 
-    public RouterTabsService( NavigationManager navigationManager )
+    public RouterTabsService( NavigationManager navigationManager, RouterTabsOptions options )
     {
         this.navigationManager = navigationManager;
+        this.options = options;
     }
 
     #endregion
@@ -99,6 +103,7 @@ public class RouterTabsService
         if ( routeData is not null )
         {
             SetRouterTabsItemFromPageAttribute( routerTabsItem, routeData.PageType );
+            routerTabsItem.LocalizedName ??= options?.NameLocalizer?.Invoke( routerTabsItem.Name );
             routerTabsItem.Body ??= CreateRouterTabsItemBody( routeData );
             routerTabsItem.TypeName = routeData.PageType.FullName;
             if ( string.IsNullOrWhiteSpace( routerTabsItem.Name ) )

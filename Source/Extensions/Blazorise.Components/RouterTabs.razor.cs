@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 #endregion
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Components.Routing;
 namespace Blazorise.Components;
 
 /// <summary>
-/// Component that manages the router tabs.
+/// A component that manages router-based tab navigation.
 /// </summary>
 public partial class RouterTabs : ComponentBase, IDisposable
 {
@@ -19,6 +20,7 @@ public partial class RouterTabs : ComponentBase, IDisposable
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -33,23 +35,34 @@ public partial class RouterTabs : ComponentBase, IDisposable
             RouterTabsService.TrySetRouteData( RouteData );
     }
 
+    /// <summary>
+    /// Closes a specified router tab.
+    /// </summary>
+    /// <param name="routerTabsItem">The tab item to close.</param>
     internal void CloseTab( RouterTabsItem routerTabsItem )
     {
-        if ( RouterTabsService is not null )
-            RouterTabsService.CloseRouterTab( routerTabsItem );
+        RouterTabsService?.CloseRouterTab( routerTabsItem );
     }
 
-    private void OnLocationChanged( object o, LocationChangedEventArgs _ )
+    /// <summary>
+    /// Handles navigation location changes and updates the router tabs accordingly.
+    /// </summary>
+    /// <param name="sender">The sender of the event.</param>
+    /// <param name="args">The event arguments containing location change details.</param>
+    private void OnLocationChanged( object sender, LocationChangedEventArgs args )
     {
-        if ( RouterTabsService is not null )
-            RouterTabsService.TrySetRouteData( RouteData );
+        RouterTabsService?.TrySetRouteData( RouteData );
     }
 
+    /// <summary>
+    /// Invokes a state change when the router tabs service state is updated.
+    /// </summary>
     private void OnStateHasChanged()
     {
         InvokeAsync( StateHasChanged );
     }
 
+    /// <inheritdoc/>
     protected virtual void Dispose( bool disposing )
     {
         if ( !disposedValue )
@@ -78,15 +91,39 @@ public partial class RouterTabs : ComponentBase, IDisposable
         GC.SuppressFinalize( this );
     }
 
+    /// <summary>
+    /// Gets the localized name of a specified tab.
+    /// </summary>
+    /// <param name="tab">The tab item for which to retrieve the localized name.</param>
+    /// <returns>The localized name of the tab.</returns>
+    private string GetTabName( RouterTabsItem tab )
+    {
+        return NameLocalizer?.Invoke( tab.Name ) ?? tab.LocalizedNameOrName;
+    }
+
     #endregion
 
     #region Properties
 
+    /// <summary>
+    /// Provides access to the navigation manager for handling routing events.
+    /// </summary>
     [Inject] public NavigationManager NavigationManager { get; set; }
 
+    /// <summary>
+    /// Provides access to the router tabs service for managing tab state.
+    /// </summary>
     [Inject] public RouterTabsService RouterTabsService { get; set; }
 
+    /// <summary>
+    /// Provides the current route data for the component.
+    /// </summary>
     [CascadingParameter] public RouteData RouteData { get; set; }
+
+    /// <summary>
+    /// A function used to localize tab names.
+    /// </summary>
+    [Parameter] public TextLocalizerHandler NameLocalizer { get; set; }
 
     #endregion
 }
