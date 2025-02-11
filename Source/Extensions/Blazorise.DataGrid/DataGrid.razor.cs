@@ -805,8 +805,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                    .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) );
             var newGroupedData = ( firstGroupableColumn.CurrentSortDirection switch
             {
-            SortDirection.Descending => query.OrderByDescending( context => context.Key ),
-            _  => query.OrderBy( context => context.Key ),
+                SortDirection.Descending => query.OrderByDescending( context => context.Key ),
+                _ => query.OrderBy( context => context.Key ),
             } )
             .ToList();
             GroupSyncState( groupedData, newGroupedData );
