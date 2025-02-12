@@ -803,13 +803,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var firstGroupableColumn = groupableColumns[0];
             var query = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
                                    .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) );
+
             var newGroupedData = ( firstGroupableColumn.CurrentSortDirection switch
             {
-                SortDirection.Ascending=> query.OrderBy( context => context.Key ),
+                SortDirection.Ascending => query.OrderBy( context => context.Key ),
                 SortDirection.Descending => query.OrderByDescending( context => context.Key ),
                 _ => query
             } )
             .ToList();
+
             GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
