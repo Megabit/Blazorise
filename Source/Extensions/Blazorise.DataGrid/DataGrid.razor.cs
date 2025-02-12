@@ -801,8 +801,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( GroupBy is null )
         {
             var firstGroupableColumn = groupableColumns[0];
-            var query = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                   .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) );
+
+            var query = DisplayData
+                .GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) );
 
             var newGroupedData = ( firstGroupableColumn.CurrentSortDirection switch
             {
@@ -817,10 +819,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
         else
         {
-            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
-                                            .Select( x => new GroupContext<TItem>( x ) )
-                                            .OrderBy( x => x.Key )
-                                            .ToList();
+            var newGroupedData = DisplayData
+                .GroupBy( x => GroupBy.Invoke( x ) )
+                .Select( x => new GroupContext<TItem>( x ) )
+                .OrderBy( x => x.Key )
+                .ToList();
+
             GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
