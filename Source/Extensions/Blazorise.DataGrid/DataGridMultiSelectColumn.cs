@@ -15,7 +15,7 @@ public partial class DataGridMultiSelectColumn<TItem> : DataGridColumn<TItem>
     /// </summary>
     [Parameter] public RenderFragment<MultiSelectContext<TItem>> MultiSelectTemplate { get; set; }
 
-    [Parameter] public EventCallback<(TItem Item, bool Selected)> ItemSelectionChanged { get; set; }
+    [Parameter] public EventCallback<RowSelectionChangedEventArgs<TItem>> RowSelectionChanged { get; set; }
 
     #endregion
 }
