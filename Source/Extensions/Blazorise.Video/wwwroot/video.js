@@ -502,7 +502,7 @@ function registerToEvents(dotNetAdapter, player, options) {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyVolumeChange", event.detail.volume || 0, event.detail.muted || false);
     });
 
-    player.addEventListener('seeking', (event) => {
+    player.addEventListener('media-seeking-request', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeking", event.detail || 0);
     });
 
