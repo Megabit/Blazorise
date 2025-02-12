@@ -93,6 +93,11 @@
                         <Code>DataGridPageChangedEventArgs</Code> has been removed as it served no purpose. Now, the <Code>PageChanged</Code> event returns a simple <Code>int</Code> representing the current page number.
                     </Paragraph>
                 </UnorderedListItem>
+                <UnorderedListItem>
+                    <Paragraph>
+                        Sorting direction in grouping now follows the specified order. Previously, grouped columns were always sorted in ascending order. If no direction is specified, the default sorting order will be applied.
+                    </Paragraph>
+                </UnorderedListItem>
             </UnorderedList>
         </OrderedListItem>
         <OrderedListItem>
@@ -163,6 +168,18 @@
 
 <Paragraph>
     The <Code>Page</Code> parameter now supports two-way binding, allowing you to synchronize it with a variable using <Code>@@bind-Page="currentPage"</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Respect Sorting Direction in Grouping
+</Heading>
+
+<Paragraph>
+    <Code>DataGrid</Code> now respects the specified sorting direction when grouping is enabled. Previously, grouped columns always used ascending order. This update ensures that grouped data follows the intended sorting direction, improving consistency and control over data presentation.
+</Paragraph>
+
+<Paragraph>
+    <Strong>Note:</Strong> Group sorting will only work properly when using in-memory data. When working with external data sources, sorting behavior may depend on the data provider's implementation.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
