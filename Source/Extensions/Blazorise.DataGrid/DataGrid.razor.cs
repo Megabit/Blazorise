@@ -1923,23 +1923,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     internal async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
     {
-        if(MultiSelectColumn is null) return;
+        if ( MultiSelectColumn is null )
+            return;
         SelectedAllRows = false;
         UnSelectAllRows = false;
 
         SelectedRows ??= new();
 
         await HandleShiftClick( eventArgs );
-        
+
         if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Add( eventArgs.Item );
-            await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( ( eventArgs.Item, true ) );
+            await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( (eventArgs.Item, true) );
         }
         else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Remove( eventArgs.Item );
-            await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( ( eventArgs.Item, false ) );
+            await MultiSelectColumn.ItemSelectionChanged.InvokeAsync( (eventArgs.Item, false) );
 
             if ( SelectedRow.IsEqual( eventArgs.Item ) )
             {

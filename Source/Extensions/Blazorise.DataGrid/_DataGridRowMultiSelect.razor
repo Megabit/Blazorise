@@ -5,7 +5,7 @@
     {
         <Div @onclick:stopPropagation="true" Display="Display.InlineBlock">
             <Div @onclick="args => ShiftKeyPressed = args.ShiftKey" >
-                @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate(new(EventCallback.Factory.Create(this, new Func<bool, Task>(OnCheckedChanged)), Checked, false, Item))
+                @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new( EventCallback.Factory.Create( this, new Func<bool, Task>( OnCheckedChanged ) ), Checked, false, Item ) )
             </Div>
         </Div>
     }

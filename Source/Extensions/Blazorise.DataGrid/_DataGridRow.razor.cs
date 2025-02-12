@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -204,7 +202,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 await HandleSingleSelectClick( eventArgs );
             else
                 await HandleMultiSelectClick( eventArgs );
-        } 
+        }
         await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
@@ -213,7 +211,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         var isSelected = ( ParentDataGrid.SelectedRows == null || ( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) ) );
         var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
 
-        await OnMultiSelectCommand( new ( Item, isSelected || shiftClick, shiftClick ));
+        await OnMultiSelectCommand( new( Item, isSelected || shiftClick, shiftClick ) );
     }
 
     private bool IsCtrlClick( BLMouseEventArgs eventArgs )
@@ -249,7 +247,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
     protected internal Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> args )
     {
-        return ParentDataGrid.OnMultiSelectCommand(args );
+        return ParentDataGrid.OnMultiSelectCommand( args );
     }
 
     protected Cursor GetHoverCursor()

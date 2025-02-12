@@ -1,10 +1,7 @@
 ﻿#region Using directives
-
-using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -21,9 +18,9 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
 
     internal async Task OnCheckedChanged( bool @checked )
     {
-        var selectable = ParentDataGrid.RowSelectable?.Invoke( new(Item, DataGridSelectReason.MultiSelectClick)) ?? true;
-        if ( selectable && (ParentDataGrid.MultiSelectColumn?.PreventRowClick==false ))
-             await CheckedChanged.InvokeAsync( new( Item, @checked, ShiftKeyPressed ) );
+        var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, DataGridSelectReason.MultiSelectClick ) ) ?? true;
+        if ( selectable && ( ParentDataGrid.MultiSelectColumn?.PreventRowClick == false ) )
+            await CheckedChanged.InvokeAsync( new( Item, @checked, ShiftKeyPressed ) );
     }
 
     protected string BuildCellStyle()
