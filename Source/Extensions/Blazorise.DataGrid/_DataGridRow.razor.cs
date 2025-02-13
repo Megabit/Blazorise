@@ -203,6 +203,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             else
                 await HandleMultiSelectClick( eventArgs );
         }
+
         await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
@@ -289,7 +290,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => ( IsSelected
         ? selectedStyling?.Background
         : batchEditSelectedStyling?.Background
-          ?? styling?.Background ) ?? Blazorise.Background.Default;
+            ?? styling?.Background ) ?? Blazorise.Background.Default;
 
     /// <summary>
     /// Gets the row color.
@@ -297,7 +298,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => ( IsSelected
         ? selectedStyling?.Color
         : batchEditSelectedStyling?.Color
-          ?? styling?.Color ) ?? Blazorise.Color.Default;
+            ?? styling?.Color ) ?? Blazorise.Color.Default;
 
     /// <summary>
     /// Gets the row class names.
@@ -305,7 +306,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected string GetClass( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => IsSelected
         ? selectedStyling?.Class
         : batchEditSelectedStyling?.Class
-          ?? styling?.Class;
+            ?? styling?.Class;
 
     /// <summary>
     /// Gets the row styles.
@@ -313,7 +314,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected string GetStyle( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => IsSelected
         ? selectedStyling?.Style
         : batchEditSelectedStyling?.Style
-          ?? styling?.Style;
+            ?? styling?.Style;
 
     /// <summary>
     /// Gets the cell background color.
