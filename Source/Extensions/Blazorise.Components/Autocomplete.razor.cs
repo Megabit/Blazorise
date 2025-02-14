@@ -428,15 +428,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-        if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
-        {
-            //Workaround for the issue where the dropdown closes when clicking on the checkbox
-            ExecuteAfterRender( HandleBlurHandler );
-        }
-        else
-        {
-            await HandleBlurHandler();
-        }
+     
+        await HandleBlurHandler();
 
         async Task HandleBlurHandler()
         {
@@ -578,6 +571,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
         await Revalidate();
+        clickFromCheck = false;
     }
 
     private async Task ResyncText()

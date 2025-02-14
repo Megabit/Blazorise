@@ -1,10 +1,12 @@
 ﻿#region Using directives
+
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise;
@@ -23,7 +25,10 @@ public partial class DropdownItem : BaseComponent
     /// <summary>
     /// Internal Checked Value
     /// </summary>
+    [Obsolete]
     protected bool @checked;
+
+    protected bool selected;
 
     /// <summary>
     /// Internal Checked Expression
@@ -37,9 +42,9 @@ public partial class DropdownItem : BaseComponent
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( @checked ) )
+        if ( parameters.TryGetValue<bool>( nameof( Selected ), out var paramSelected ) && !paramSelected.IsEqual( selected ) )
         {
-            @checked = paramChecked;
+            Selected = paramSelected;
         }
 
         return base.SetParametersAsync( parameters );
@@ -61,35 +66,10 @@ public partial class DropdownItem : BaseComponent
     /// <returns></returns>
     protected async Task ClickHandler()
     {
-        if ( !Disabled )
-        {
-            if ( ParentDropdown is not null )
-            {
-                if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
-                    await ParentDropdown.Hide( true );
-            }
-
-            if ( ShowCheckbox )
-            {
-                await CheckedChangedHandler( !@checked );
-            }
-
-            await Clicked.InvokeAsync( Value );
-        }
-    }
-
-    /// <summary>
-    /// Handles the oncheck event, if not disabled.
-    /// </summary>
-    /// <param name="isChecked"></param>
-    /// <returns></returns>
-    protected async Task CheckedChangedHandler( bool isChecked )
-    {
-        if ( !Disabled )
-        {
-            @checked = isChecked;
-            await CheckedChanged.InvokeAsync( isChecked );
-        }
+        if ( Disabled ) return;
+        
+            selected = !selected;
+            await SelectedChanged.InvokeAsync( selected );
     }
 
     #endregion
@@ -165,7 +145,15 @@ public partial class DropdownItem : BaseComponent
     /// <summary>
     /// Occurs after the Checked state is changed, whenever the DropdownItem is in checkbox mode.
     /// </summary>
+    [Obsolete]
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+    
+    
+    [Parameter] public bool Selected { get; set; }
+    /// <summary>
+    /// Occurs when slectedState is changed
+    /// </summary>
+    [Parameter] public EventCallback<bool> SelectedChanged { get; set; }
 
     #endregion
 }
