@@ -72,6 +72,20 @@ public partial class DropdownItem : BaseComponent
             await SelectedChanged.InvokeAsync( selected );
     }
 
+    
+    /// <summary>
+    /// Handles the oncheck event, if not disabled.
+    /// </summary>
+    /// <param name="isChecked"></param>
+    /// <returns></returns>
+    protected async Task CheckedChangedHandler( bool isChecked )
+    {
+        if ( !Disabled )
+        {
+            @checked = isChecked;
+            await CheckedChanged.InvokeAsync( isChecked );
+        }
+    }
     #endregion
 
     #region Properties
