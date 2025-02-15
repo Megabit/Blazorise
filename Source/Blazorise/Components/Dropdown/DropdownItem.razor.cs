@@ -65,6 +65,11 @@ public partial class DropdownItem : BaseComponent
     {
         if ( Disabled )
             return;
+        if ( ParentDropdown is not null )
+        {
+            if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
+                await ParentDropdown.Hide( true );
+        }
         if ( ShowCheckbox )
         {
             await CheckedChangedHandler( !@checked );
