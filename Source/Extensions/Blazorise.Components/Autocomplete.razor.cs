@@ -83,15 +83,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private Validation validationRef;
 
-    /// <summary>
-    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
-    /// </summary>
-    private bool clickFromCheck;
-    /// <summary>
-    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
-    /// </summary>
-    private bool focusFromCheck;
-
     #endregion
 
     #region Methods
@@ -407,12 +398,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
     {
-        if ( focusFromCheck )
-        {
-            focusFromCheck = false;
-            return;
-        }
-
         TextFocused = true;
         if ( ManualReadMode || MinLength <= 0 )
             await Reload();
@@ -428,41 +413,28 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-     
-        await HandleBlurHandler();
+        await Close();
 
-        async Task HandleBlurHandler()
+        if ( IsMultiple )
         {
-            if ( clickFromCheck )
-            {
-                clickFromCheck = false;
-                focusFromCheck = true;
-                await textEditRef.Focus();
-                return;
-            }
-            await Close();
-
-            if ( IsMultiple )
+            await ResetSelected();
+            await ResetCurrentSearch();
+        }
+        else
+        {
+            if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
             {
                 await ResetSelected();
                 await ResetCurrentSearch();
-            }
-            else
-            {
-                if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
-                {
-                    await ResetSelected();
-                    await ResetCurrentSearch();
-                    return;
-                }
-
-                await SelectedOrResetOnCommit();
+                return;
             }
 
-            TextFocused = false;
-
-            await SearchBlur.InvokeAsync( eventArgs );
+            await SelectedOrResetOnCommit();
         }
+
+        TextFocused = false;
+
+        await SearchBlur.InvokeAsync( eventArgs );
     }
 
     private async Task InvokeSearchChanged( string searchValue )
@@ -505,10 +477,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task OnDropdownItemSelected( object value )
     {
-        clickFromCheck = ( SelectionMode == AutocompleteSelectionMode.Checkbox );
-
-        //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
-        if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
+        if ( SelectionMode == AutocompleteSelectionMode.Default )
         {
             await Close();
         }
@@ -571,7 +540,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
         await Revalidate();
-        clickFromCheck = false;
     }
 
     private async Task ResyncText()
@@ -1284,9 +1252,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Tracks whether the Autocomplete is in a multiple selection state.
     /// </summary>
-#pragma warning disable CS0618 // Type or member is obsolete
-    protected bool IsMultiple => Multiple || SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
-#pragma warning restore CS0618 // Type or member is obsolete
+    protected bool IsMultiple => SelectionMode is AutocompleteSelectionMode.Multiple or AutocompleteSelectionMode.Checkbox;
 
     /// <summary>
     /// Gets or sets the classname provider.
@@ -1615,12 +1581,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Specifies the string comparison used for data filtering.
     /// </summary>
     [Parameter] public StringComparison StringComparison { get; set; } = StringComparison.OrdinalIgnoreCase;
-
-    /// <summary>
-    /// Allows for multiple selection.
-    /// </summary>
-    [Obsolete( "Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead." )]
-    [Parameter] public bool Multiple { get; set; }
 
     /// <summary>
     /// Sets the Badge color for the multiple selection values. Used when multiple selection is set.
