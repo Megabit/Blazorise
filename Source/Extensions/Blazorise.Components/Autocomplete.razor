@@ -101,8 +101,9 @@
         var text = GetItemText( item );
         var value = GetItemValue( item );
 
-        <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem" Selected=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames(itemIndex)" 
-                      SelectedChanged="() => OnDropdownItemSelected(value)"
+        <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem"  Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames(itemIndex)" Value="value"
+                      CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value): Task.CompletedTask"
+                      Clicked="() => isCheckbox? Task.CompletedTask: OnDropdownItemSelected(value)"
                      >
                 @if ( ItemContent is not null )
                 {

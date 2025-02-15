@@ -25,10 +25,7 @@ public partial class DropdownItem : BaseComponent
     /// <summary>
     /// Internal Checked Value
     /// </summary>
-    [Obsolete]
     protected bool @checked;
-
-    protected bool selected;
 
     /// <summary>
     /// Internal Checked Expression
@@ -42,9 +39,9 @@ public partial class DropdownItem : BaseComponent
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<bool>( nameof( Selected ), out var paramSelected ) && !paramSelected.IsEqual( selected ) )
+        if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( @checked ) )
         {
-            Selected = paramSelected;
+            @checked = paramChecked;
         }
 
         return base.SetParametersAsync( parameters );
@@ -66,12 +63,14 @@ public partial class DropdownItem : BaseComponent
     /// <returns></returns>
     protected async Task ClickHandler()
     {
-        if ( Disabled ) return;
-        
-            selected = !selected;
-            await SelectedChanged.InvokeAsync( selected );
+        if ( Disabled )
+            return;
+        if ( ShowCheckbox )
+        {
+            await CheckedChangedHandler( !@checked );
+        }
+        await Clicked.InvokeAsync( Value );
     }
-
     
     /// <summary>
     /// Handles the oncheck event, if not disabled.
@@ -159,15 +158,7 @@ public partial class DropdownItem : BaseComponent
     /// <summary>
     /// Occurs after the Checked state is changed, whenever the DropdownItem is in checkbox mode.
     /// </summary>
-    [Obsolete]
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
-    
-    
-    [Parameter] public bool Selected { get; set; }
-    /// <summary>
-    /// Occurs when slectedState is changed
-    /// </summary>
-    [Parameter] public EventCallback<bool> SelectedChanged { get; set; }
 
     #endregion
 }
