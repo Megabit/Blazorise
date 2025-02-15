@@ -1,15 +1,10 @@
-﻿@inherits Blazorise.DropdownItem
-<li @ref="@ElementRef" id="@ElementId" role="menuitem" class="@ClassNames" style="@StyleNames" aria-disabled="@(Disabled.ToString().ToLowerInvariant())" @onmouseup="@ClickHandler" @onmousedown="() => {}" @onmousedown:preventDefault @attributes="@Attributes">
-    @if ( ShowCheckbox )
-    {
-        <Div Display="Blazorise.Display.InlineBlock" @onclick:stopPropagation @onmouseup:stopPropagation>
-            <Blazorise.Check TValue="bool" Value="@(@checked)" ValueChanged="CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled" @onclick:stopPropagation>
-                @ChildContent
-            </Blazorise.Check>
-        </Div>
-    }
-    else
-    {
-        @ChildContent
-    }
+@inherits Blazorise.DropdownItem
+@* Diff from base:
+  - last line of params is not present in base (role, aira-disabled)
+  - <li> insted of <a> as the wrapping element *@
+
+<li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
+    @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="ClickHandler" @attributes="@Attributes"
+    role="menuitem" aria-disabled="@(Disabled.ToString().ToLowerInvariant())">
+    @Core
 </li>
