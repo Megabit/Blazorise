@@ -26,12 +26,12 @@ public class FunctionCompilerTests
         var test = new Test();
         var valueGetter = FunctionCompiler.CreateValueGetter<Test>( field );
         var value = valueGetter( test );
-        
-        Assert.Equal(expected, value switch
+
+        Assert.Equal( expected, value switch
         {
-            DateTime dt => dt.ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
-            _           => value?.ToString()
-        });
+            DateTime dt => dt.ToString( "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture ),
+            _ => value?.ToString()
+        } );
     }
 
     [Theory]
@@ -52,14 +52,13 @@ public class FunctionCompilerTests
     {
         var test = GetTest();
         var valueGetter = FunctionCompiler.CreateValueGetter<Test>( field );
-
         var value = valueGetter( test );
-        Assert.Equal(expected, value switch
-        {
-            DateTime dt        => dt.ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
-            _                  => value?.ToString()
-        });
 
+        Assert.Equal( expected, value switch
+        {
+            DateTime dt => dt.ToString( "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture ),
+            _ => value?.ToString()
+        } );
     }
 
     public FunctionCompilerTests()
