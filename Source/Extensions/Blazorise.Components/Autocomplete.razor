@@ -103,8 +103,7 @@
 
         <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem"  Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames(itemIndex)" Value="value"
                       CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value): Task.CompletedTask"
-                      Clicked="() => isCheckbox? Task.CompletedTask: OnDropdownItemSelected(value)"
-                     >
+                      Clicked="() => isCheckbox? Task.CompletedTask: OnDropdownItemSelected(value)">
                 @if ( ItemContent is not null )
                 {
                     @ItemContent( new( item, value, text ) )

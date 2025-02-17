@@ -1,35 +1,30 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" 
-   @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="ClickHandler" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @attributes="@Attributes">
     @Core
 </a>
 
 @code {
     private protected RenderFragment Core =>
         @<text>
-             @if (ShowCheckbox)
-             {
-                 <Div Display="Blazorise.Display.InlineBlock">
-                     <Check TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler"
-                            ValueExpression="@checkedExpression" Disabled="@Disabled">
-                         @*The <div> blocks clicks to the checkbox label (where the ChildContent gets).
-                 Clicking the label normally redirects the event to checkbox, and in the meantime the textbox looses focus (which is something we trying to prevent).
-                 This is done specially for Autocomplete.CloseOnSelection = false;
-                  *@
-                         <div
-                             @onclick:preventDefault @onclick="@EventCallback.Empty">
-                             @ChildContent
-                         </div>
-                     </Check>
-                 </Div>
-             }
-             else
-             {
-                 @ChildContent
-             }
-    </text>;
-
+            @if (ShowCheckbox)
+            {
+                <Div Display="Blazorise.Display.InlineBlock">
+                    <Check TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled">
+                        @*The <div> blocks clicks to the checkbox label (where the ChildContent gets).
+                        Clicking the label normally redirects the event to checkbox, and in the meantime the textbox looses focus (which is something we trying to prevent).
+                        This is done specially for Autocomplete.CloseOnSelection = false;
+                        *@
+                        <div @onclick:preventDefault @onclick="@EventCallback.Empty">
+                            @ChildContent
+                        </div>
+                    </Check>
+                </Div>
+            }
+            else
+            {
+                @ChildContent
+            }
+        </text>;
 }
-
