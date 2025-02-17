@@ -801,19 +801,30 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( GroupBy is null )
         {
             var firstGroupableColumn = groupableColumns[0];
-            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
-                                                                             .OrderBy( x => x.Key )
-                                                                             .ToList();
-            RecursiveGroup( 1, groupedData, newGroupedData );
+
+            var query = DisplayData
+                .GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) );
+
+            var newGroupedData = ( firstGroupableColumn.CurrentSortDirection switch
+            {
+                SortDirection.Ascending => query.OrderBy( context => context.Key ),
+                SortDirection.Descending => query.OrderByDescending( context => context.Key ),
+                _ => query
+            } )
+            .ToList();
+
+            GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
         else
         {
-            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
-                                     .Select( x => new GroupContext<TItem>( x ) )
-                                     .OrderBy( x => x.Key )
-                                     .ToList();
+            var newGroupedData = DisplayData
+                .GroupBy( x => GroupBy.Invoke( x ) )
+                .Select( x => new GroupContext<TItem>( x ) )
+                .OrderBy( x => x.Key )
+                .ToList();
+
             GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
@@ -1910,8 +1921,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return index;
     }
 
-    internal async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
+    internal async Task OnMultiSelectCommand( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
+        if ( MultiSelectColumn is null )
+            return;
+
         SelectedAllRows = false;
         UnSelectAllRows = false;
 
@@ -1922,17 +1936,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Add( eventArgs.Item );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
         }
         else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
-            if ( SelectedRows.Contains( eventArgs.Item ) )
-            {
-                SelectedRows.Remove( eventArgs.Item );
+            SelectedRows.Remove( eventArgs.Item );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
 
-                if ( SelectedRow.IsEqual( eventArgs.Item ) )
-                {
-                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
-                }
+            if ( SelectedRow.IsEqual( eventArgs.Item ) )
+            {
+                await SelectedRowChanged.InvokeAsync( default );
             }
         }
 
@@ -1940,7 +1953,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await Refresh();
     }
 
-    private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
+    private async Task HandleShiftClick( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
         if ( eventArgs.ShiftKey )
         {

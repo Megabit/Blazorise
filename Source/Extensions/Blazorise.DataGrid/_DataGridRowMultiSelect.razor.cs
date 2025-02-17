@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -9,48 +8,22 @@ namespace Blazorise.DataGrid;
 
 public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
 {
+    #region Members
+
+    protected bool ShiftKeyPressed;
+
+    #endregion
+
     #region Methods
 
-    public override Task SetParametersAsync( ParameterView parameters )
+    internal async Task OnCheckedChanged( bool @checked )
     {
-        foreach ( var parameter in parameters )
+        var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, DataGridSelectReason.MultiSelectClick ) ) ?? true;
+
+        if ( selectable && ( ParentDataGrid.MultiSelectColumn?.PreventRowClick == false ) )
         {
-            switch ( parameter.Name )
-            {
-                case nameof( Item ):
-                    Item = (TItem)parameter.Value;
-                    break;
-                case nameof( Column ):
-                    Column = (DataGridColumn<TItem>)parameter.Value;
-                    break;
-                case nameof( Checked ):
-                    Checked = (bool)parameter.Value;
-                    break;
-                case nameof( CheckedChanged ):
-                    CheckedChanged = (EventCallback<bool>)parameter.Value;
-                    break;
-                case nameof( CheckedClicked ):
-                    CheckedClicked = (EventCallback)parameter.Value;
-                    break;
-                case nameof( ParentDataGrid ):
-                    ParentDataGrid = (DataGrid<TItem>)parameter.Value;
-                    break;
-                default:
-                    throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
-            }
+            await CheckedChanged.InvokeAsync( new( Item, @checked, ShiftKeyPressed ) );
         }
-        return base.SetParametersAsync( ParameterView.Empty );
-    }
-
-    internal Task OnCheckedChanged( bool @checked )
-    {
-        //Multi Select Checked State is bound to the Row Selected State
-        return CheckedChanged.InvokeAsync( Checked );
-    }
-
-    internal Task OnCheckedClicked()
-    {
-        return CheckedClicked.InvokeAsync();
     }
 
     protected string BuildCellStyle()
@@ -85,9 +58,7 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
 
     [Parameter] public bool Checked { get; set; }
 
-    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
-
-    [Parameter] public EventCallback CheckedClicked { get; set; }
+    [Parameter] public EventCallback<DataGridMultiSelectionChangedEventArgs<TItem>> CheckedChanged { get; set; }
 
     #endregion
 }
