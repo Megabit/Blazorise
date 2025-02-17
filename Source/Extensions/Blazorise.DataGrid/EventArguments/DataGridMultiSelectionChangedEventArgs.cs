@@ -40,7 +40,7 @@ public class DataGridMultiSelectionChangedEventArgs<TItem> : EventArgs
     public bool Selected { get; }
 
     /// <summary>
-    /// Returns true if user has pressed shift key.
+    /// Returns true if the user is holding shift key.
     /// </summary>
     public bool ShiftKey { get; }
 
