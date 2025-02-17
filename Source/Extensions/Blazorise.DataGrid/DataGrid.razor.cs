@@ -1921,8 +1921,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return index;
     }
 
-    internal async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
+    internal async Task OnMultiSelectCommand( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
+        if ( MultiSelectColumn is null )
+            return;
+
         SelectedAllRows = false;
         UnSelectAllRows = false;
 
@@ -1933,17 +1936,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Add( eventArgs.Item );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
         }
         else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
-            if ( SelectedRows.Contains( eventArgs.Item ) )
-            {
-                SelectedRows.Remove( eventArgs.Item );
+            SelectedRows.Remove( eventArgs.Item );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
 
-                if ( SelectedRow.IsEqual( eventArgs.Item ) )
-                {
-                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
-                }
+            if ( SelectedRow.IsEqual( eventArgs.Item ) )
+            {
+                await SelectedRowChanged.InvokeAsync( default );
             }
         }
 
@@ -1951,7 +1953,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await Refresh();
     }
 
-    private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
+    private async Task HandleShiftClick( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
         if ( eventArgs.ShiftKey )
         {

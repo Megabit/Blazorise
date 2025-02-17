@@ -98,6 +98,17 @@
                         Sorting direction in grouping now follows the specified order. Previously, grouped columns were always sorted in ascending order. If no direction is specified, the default sorting order will be applied.
                     </Paragraph>
                 </UnorderedListItem>
+                <UnorderedListItem>
+                    <Paragraph>
+                        The behavior of <Code Tag>DataGridMultiSelectColumn</Code> has been slightly adjusted. While this change should not cause any breaking issues, please be mindful if you have implemented any non-standard actions.
+                        Previously, row selection was triggered solely by clicking anywhere on the row. Now, the checkbox responds specifically to being checked (while still selecting the row), so nothing really changes for the user.
+
+                        Additionally, a new event callback has been introduced for <Code>DataGridMultiSelectColumn</Code>. This is particularly useful when utilizing the <Code Tag>MultiSelectTemplate</Code>.
+                        A simple click inside the <Code>MultiSelectTemplate</Code> will no longer automatically trigger selection, allowing for greater customization of selection behavior.
+
+                        To manually trigger selection, use <Code>context.SelectedChanged.InvokeAsync(!context.IsSelected)</Code>.
+                    </Paragraph>
+                </UnorderedListItem>
             </UnorderedList>
         </OrderedListItem>
         <OrderedListItem>
@@ -176,6 +187,14 @@
 
 <Paragraph>
     <Code>DataGrid</Code> now respects the specified sorting direction when grouping is enabled. Previously, grouped columns always used ascending order. This update ensures that grouped data follows the intended sorting direction, improving consistency and control over data presentation.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    New SelectionChanged EventCallback
+</Heading>
+
+<Paragraph>
+    The <Code>SelectionChanged</Code> event callback has been added to <Code Tag>DataGridMultiSelectColumn</Code>, allowing for greater control over selection behavior. This is especially useful when using <Code Tag>MultiSelectTemplate</Code>, as clicks inside the template no longer trigger selection automatically. To manually trigger selection, use <Code>context.SelectedChanged.InvokeAsync(!context.IsSelected)</Code>.
 </Paragraph>
 
 <Paragraph>
