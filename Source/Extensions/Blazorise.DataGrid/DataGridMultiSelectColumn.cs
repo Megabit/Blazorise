@@ -23,7 +23,7 @@ public partial class DataGridMultiSelectColumn<TItem> : DataGridColumn<TItem>
     /// <summary>
     /// Event that is being triggered when the row selection is changed.
     /// </summary>
-    [Parameter] public EventCallback<DataGridRowSelectionChangedEventArgs<TItem>> RowSelectionChanged { get; set; }
+    [Parameter] public EventCallback<DataGridMultiSelectionChangedEventArgs<TItem>> SelectionChanged { get; set; }
 
     #endregion
 }

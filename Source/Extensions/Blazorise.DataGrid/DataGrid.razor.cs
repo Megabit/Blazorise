@@ -1936,12 +1936,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Add( eventArgs.Item );
-            await MultiSelectColumn.RowSelectionChanged.InvokeAsync( new( eventArgs.Item, true ) );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( new( eventArgs.Item, true ) );
         }
         else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Remove( eventArgs.Item );
-            await MultiSelectColumn.RowSelectionChanged.InvokeAsync( new( eventArgs.Item, false ) );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( new( eventArgs.Item, false ) );
 
             if ( SelectedRow.IsEqual( eventArgs.Item ) )
             {

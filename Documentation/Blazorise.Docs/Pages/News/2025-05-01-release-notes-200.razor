@@ -190,11 +190,11 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    New RowSelectionChanged EventCallback
+    New SelectionChanged EventCallback
 </Heading>
 
 <Paragraph>
-    The <Code>RowSelectionChanged</Code> event callback has been added to <Code Tag>DataGridMultiSelectColumn</Code>, allowing for greater control over selection behavior. This is especially useful when using <Code Tag>MultiSelectTemplate</Code>, as clicks inside the template no longer trigger selection automatically. To manually trigger selection, use <Code>context.SelectedChanged.InvokeAsync(!context.IsSelected)</Code>.
+    The <Code>SelectionChanged</Code> event callback has been added to <Code Tag>DataGridMultiSelectColumn</Code>, allowing for greater control over selection behavior. This is especially useful when using <Code Tag>MultiSelectTemplate</Code>, as clicks inside the template no longer trigger selection automatically. To manually trigger selection, use <Code>context.SelectedChanged.InvokeAsync(!context.IsSelected)</Code>.
 </Paragraph>
 
 <Paragraph>

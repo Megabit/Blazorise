@@ -5,19 +5,19 @@ using System;
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Provides all the information about the RowSelectionChanged event.
+/// Provides all the information about the <see cref="DataGridMultiSelectColumn{TItem}.SelectionChanged"/> event.
 /// </summary>
 /// <typeparam name="TItem">Type of the item associated with the row.</typeparam>
-public class DataGridRowSelectionChangedEventArgs<TItem> : EventArgs
+public class DataGridMultiSelectionChangedEventArgs<TItem> : EventArgs
 {
     #region Constructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataGridRowSelectionChangedEventArgs{TItem}"/> class.
+    /// Initializes a new instance of the <see cref="DataGridMultiSelectionChangedEventArgs{TItem}"/> class.
     /// </summary>
     /// <param name="item">The model associated with the selected or deselected row.</param>
     /// <param name="selected">Indicates whether the row is selected or deselected.</param>
-    public DataGridRowSelectionChangedEventArgs( TItem item, bool selected )
+    public DataGridMultiSelectionChangedEventArgs( TItem item, bool selected )
     {
         Item = item;
         Selected = selected;
