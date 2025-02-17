@@ -246,9 +246,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return ParentDataGrid.OnRowContextMenuCommand( new( Item, eventArgs ) );
     }
 
-    protected internal Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> args )
+    protected internal Task OnMultiSelectCommand( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
-        return ParentDataGrid.OnMultiSelectCommand( args );
+        return ParentDataGrid.OnMultiSelectCommand( eventArgs );
     }
 
     protected Cursor GetHoverCursor()

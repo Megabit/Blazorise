@@ -17,10 +17,12 @@ public class DataGridMultiSelectionChangedEventArgs<TItem> : EventArgs
     /// </summary>
     /// <param name="item">The model associated with the selected or deselected row.</param>
     /// <param name="selected">Indicates whether the row is selected or deselected.</param>
-    public DataGridMultiSelectionChangedEventArgs( TItem item, bool selected )
+    /// <param name="shiftKey">True if the user is holding shift key.</param>
+    public DataGridMultiSelectionChangedEventArgs( TItem item, bool selected, bool shiftKey )
     {
         Item = item;
         Selected = selected;
+        ShiftKey = shiftKey;
     }
 
     #endregion
@@ -36,6 +38,11 @@ public class DataGridMultiSelectionChangedEventArgs<TItem> : EventArgs
     /// Gets a value indicating whether the row is selected.
     /// </summary>
     public bool Selected { get; }
+
+    /// <summary>
+    /// Returns true if user has pressed shift key.
+    /// </summary>
+    public bool ShiftKey { get; }
 
     #endregion
 }
