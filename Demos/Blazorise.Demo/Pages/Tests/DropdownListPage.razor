@@ -14,13 +14,12 @@
                                       TValue="string"
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
+                                      ValueField="@(( item ) => item.Iso)"
                                       DisabledItem="@(item => item.Name == "Armenia")"
                                       @bind-SelectedValue="@selectedDropValue"
                                       Color="Color.Primary"
                                       MaxMenuHeight="200px"
-                                      DropdownToggleSize="Size.Large"
-                                      Filterable>
+                                      DropdownToggleSize="Size.Large">
                             Select item
                         </DropdownList>
                     </FieldBody>
@@ -47,7 +46,7 @@
                                       TValue="string"
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
+                                      ValueField="@(( item ) => item.Iso)"
                                       DisabledItem="@(item => item.Name == "Armenia")"
                                       @bind-SelectedValues="@selectedDropValues"
                                       SelectionMode="DropdownListSelectionMode.Checkbox"
@@ -67,6 +66,39 @@
     </Column>
 </Row>
 
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dropdown List With Search</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <DropdownList TItem="Country"
+                                      TValue="string"
+                                      Data="@Countries"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@(( item ) => item.Iso)"
+                                      @bind-SelectedValue="@selectedDropValue2"
+                                      Color="Color.Primary"
+                                      MaxMenuHeight="200px"
+                                      Filterable>
+                            Select item
+                        </DropdownList>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedDropValue2
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code {
     [Inject]
     public CountryData CountryData { get; set; }
@@ -75,9 +107,11 @@
     private string selectedDropValue { get; set; } = "AF";
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { "AM", "AF" };
 
+    private string selectedDropValue2 { get; set; } = "AF";
+
     protected override async Task OnInitializedAsync()
     {
-        Countries = (await CountryData.GetDataAsync()).Take(50);
+        Countries = ( await CountryData.GetDataAsync() ).Take( 50 );
         await base.OnInitializedAsync();
     }
 }
