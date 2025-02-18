@@ -74,7 +74,7 @@
                 {
                     @if ( ParentDataGrid.MultiSelect )
                     {
-                        <_DataGridRowMultiSelect @key=column @ref="multiSelect" TItem="TItem" Item="GetCurrentItem()" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Column="column" />
+                        <_DataGridRowMultiSelect @key=column @ref="multiSelect" TItem="TItem" Item="GetCurrentItem()" Checked="@IsSelected" CheckedChanged="@OnMultiSelectCommand" Column="column" />
                     }
                 }
                 else
