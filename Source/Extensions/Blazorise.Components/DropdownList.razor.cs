@@ -42,7 +42,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// <summary>
     /// The filtered data based on the current filter text.
     /// </summary>
-    private IEnumerable<TItem> filteredData;
+    private List<TItem> filteredData;
 
     #endregion
 
@@ -129,20 +129,20 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
 
         if ( !Filterable || string.IsNullOrEmpty( FilterText ) )
         {
-            filteredData = Data;
+            filteredData = Data?.ToList();
             return;
         }
 
         if ( query == null )
         {
-            filteredData = Enumerable.Empty<TItem>();
+            filteredData = new List<TItem>();
             return;
         }
 
         if ( TextField == null )
             return;
 
-        filteredData = Data.Where( x => TextField.Invoke( x ).Contains( FilterText, StringComparison.OrdinalIgnoreCase ) );
+        filteredData = Data.Where( x => TextField.Invoke( x ).Contains( FilterText, StringComparison.OrdinalIgnoreCase ) ).ToList();
     }
 
     private Task OnFilterTextChangedHandler( string filteredText )
@@ -206,7 +206,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// <summary>
     /// Gets the filtered data based on the current filter text.
     /// </summary>
-    private IEnumerable<TItem> FilteredData
+    private List<TItem> FilteredData
     {
         get
         {

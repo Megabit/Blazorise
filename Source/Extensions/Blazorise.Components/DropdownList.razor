@@ -10,9 +10,9 @@
                 <TextEdit Role="TextRole.Search" Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler" />
             </Field>
         }
-        @if ( Virtualize && FilteredData is ICollection<TItem> collectionableData )
+        @if ( Virtualize )
         {
-            <Virtualize TItem="TItem" Context="item" Items="@collectionableData">
+            <Virtualize TItem="TItem" Context="item" Items="@FilteredData">
                 @itemFragment( item )
             </Virtualize>
         }
