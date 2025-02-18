@@ -1,12 +1,10 @@
 ﻿#region Using directives
-
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise;
