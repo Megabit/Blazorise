@@ -29,18 +29,33 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// </summary>
     protected DropdownToggle dropdownToggleRef;
 
+    /// <summary>
+    /// List of selected values, used in the Checkbox mode.
+    /// </summary>
     private List<TValue> selectedValues;
+
+    /// <summary>
+    /// Determines if the filter is dirty and needs to be updated.
+    /// </summary>
+    private bool dirtyFilter = true;
+
+    /// <summary>
+    /// The filtered data based on the current filter text.
+    /// </summary>
+    private List<TItem> filteredData;
 
     #endregion
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         selectedValues = SelectedValues?.ToList();
         base.OnInitialized();
     }
 
+    /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         var selectedValuesChanged = parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues );
@@ -51,6 +66,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
             selectedValues = paramSelectedValues?.ToList();
     }
 
+    /// <summary>
+    /// Handles the selected value change event.
+    /// </summary>
+    /// <param name="value">The new selected value.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     protected Task HandleDropdownItemClicked( object value )
     {
         SelectedValue = Converters.ChangeType<TValue>( value );
@@ -73,7 +93,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Sets focus on the input element, if it can be focused.
     /// </summary>
     /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task Focus( bool scrollToElement = true )
     {
         return dropdownToggleRef.Focus( scrollToElement );
@@ -103,9 +123,44 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         return DisabledItem.Invoke( item );
     }
 
+    private void FilterData( IQueryable<TItem> query )
+    {
+        dirtyFilter = false;
+
+        if ( !Filterable || string.IsNullOrEmpty( FilterText ) )
+        {
+            filteredData = Data?.ToList();
+            return;
+        }
+
+        if ( query == null )
+        {
+            filteredData = new List<TItem>();
+            return;
+        }
+
+        if ( TextField == null )
+            return;
+
+        filteredData = Data.Where( x => TextField.Invoke( x ).Contains( FilterText, StringComparison.OrdinalIgnoreCase ) ).ToList();
+    }
+
+    private Task OnFilterTextChangedHandler( string filteredText )
+    {
+        FilterText = filteredText;
+        dirtyFilter = true;
+
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the filter text.
+    /// </summary>
+    private string FilterText { get; set; }
 
     /// <summary>
     /// Whether the value is currently selected.
@@ -149,6 +204,20 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
+    /// Gets the filtered data based on the current filter text.
+    /// </summary>
+    private List<TItem> FilteredData
+    {
+        get
+        {
+            if ( dirtyFilter )
+                FilterData( Data?.AsQueryable() );
+
+            return filteredData;
+        }
+    }
+
+    /// <summary>
     /// Method used to get the display field from the supplied data source.
     /// </summary>
     [Parameter] public Func<TItem, string> TextField { get; set; }
@@ -167,6 +236,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Occurs after the selected value has changed.
     /// </summary>
     [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
+
+    /// <summary>
+    /// Enebles filter text input on the top of the items list.
+    /// </summary>
+    [Parameter] public bool Filterable { get; set; }
 
     /// <summary>
     /// Custom classname for dropdown element.

@@ -3,21 +3,24 @@
 @typeparam TValue
 <Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" EndAligned="@EndAligned" Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
     <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" Size="@DropdownToggleSize" TabIndex="@TabIndex">@ChildContent</DropdownToggle>
-    <DropdownMenu MaxMenuHeight="@MaxMenuHeight">
-        @if ( Data != null )
+    <DropdownMenu MaxMenuHeight="@MaxMenuHeight" Padding="@(Filterable? Padding.Is0.FromTop : Padding.IsAuto)">
+        @if ( Filterable )
         {
-            @if ( Virtualize && Data is ICollection<TItem> collectionableData )
+            <Field Padding="Padding.Is2" Margin="Margin.Is0" Position="Position.Sticky.Top.Is0">
+                <TextEdit Role="TextRole.Search" Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler" />
+            </Field>
+        }
+        @if ( Virtualize )
+        {
+            <Virtualize TItem="TItem" Context="item" Items="@FilteredData">
+                @itemFragment( item )
+            </Virtualize>
+        }
+        else
+        {
+            @foreach ( var item in FilteredData ?? Enumerable.Empty<TItem>() )
             {
-                <Virtualize TItem="TItem" Context="item" Items="@collectionableData">
-                    @itemFragment( item )
-                </Virtualize>
-            }
-            else
-            {
-                @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
-                {
-                    @itemFragment( item )
-                }
+                @itemFragment( item )
             }
         }
     </DropdownMenu>
@@ -31,7 +34,7 @@
 
         <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value" Disabled="@disabled"
                       ShowCheckbox="@(SelectionMode == DropdownListSelectionMode.Checkbox)"
-                      Checked="IsSelected(value)"
-                      CheckedChanged="@((isChecked) => HandleDropdownItemChecked(isChecked, value))">@text</DropdownItem>
+                      Checked="IsSelected( value )"
+                      CheckedChanged="@(( isChecked ) => HandleDropdownItemChecked( isChecked, value ))">@text</DropdownItem>
     };
 }

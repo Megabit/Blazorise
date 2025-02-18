@@ -9652,8 +9652,8 @@ Install-Package Blazorise.Chart.Zoom";
 
         public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
-              TextField=""@((item)=>item.Name)""
-              ValueField=""@((item)=>item.Iso)""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
               @bind-SelectedValues=""@selectedDropValues""
               SelectionMode=""DropdownListSelectionMode.Checkbox""
               Color=""Color.Primary""
@@ -9666,13 +9666,13 @@ Install-Package Blazorise.Chart.Zoom";
         Selected values: @(selectedDropValues is not null ? string.Join( ',', selectedDropValues ) : """");
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected texts: @(selectedDropValues is not null 
-                        ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty )) 
-                        : string.Empty )
+        Selected texts: @(selectedDropValues is not null
+            ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty ))
+            : string.Empty )
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -9684,13 +9684,12 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
-
 }";
 
         public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
-              TextField=""@((item)=>item.Name)""
-              ValueField=""@((item)=>item.Iso)""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
               @bind-SelectedValue=""@selectedDropValue""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
@@ -9702,11 +9701,11 @@ Install-Package Blazorise.Chart.Zoom";
         Selected item: @selectedDropValue
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected text: @Countries?.FirstOrDefault(x=> x.Iso == @selectedDropValue)?.Name
+        Selected text: @Countries?.FirstOrDefault( x => x.Iso == @selectedDropValue )?.Name
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -9718,7 +9717,40 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     string selectedDropValue { get; set; } = ""CN"";
+}";
 
+        public const string DropdownListSearchExample = @"<DropdownList TItem=""Country"" TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              @bind-SelectedValue=""@selectedDropValue""
+              Color=""Color.Primary""
+              MaxMenuHeight=""200px""
+              Filterable>
+    Select item
+</DropdownList>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected item: @selectedDropValue
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected text: @Countries?.FirstOrDefault( x => x.Iso == @selectedDropValue )?.Name
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    string selectedDropValue { get; set; } = ""CN"";
 }";
 
         public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
