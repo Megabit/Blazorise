@@ -3,7 +3,7 @@
 @typeparam TValue
 <Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" EndAligned="@EndAligned" Disabled="@Disabled" Direction="@Direction" Attributes="@Attributes">
     <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" Size="@DropdownToggleSize" TabIndex="@TabIndex">@ChildContent</DropdownToggle>
-    <DropdownMenu MaxMenuHeight="@MaxMenuHeight" Padding="@(Filterable ? Padding.Is0.FromTop : Padding.IsAuto)">
+    <DropdownMenu MaxMenuHeight="@MaxMenuHeight" Padding="@(Filterable? Padding.Is0.FromTop : Padding.IsAuto)">
         @if ( Filterable )
         {
             <Field Padding="Padding.Is2" Margin="Margin.Is0" Position="Position.Sticky.Top.Is0">
@@ -25,16 +25,16 @@
         }
     </DropdownMenu>
 </Dropdown>
-
 @code {
-    protected RenderFragment<TItem> itemFragment => item => __builder => {
+    protected RenderFragment<TItem> itemFragment => item => __builder =>
+    {
         var text = GetItemText( item );
         var value = GetItemValue( item );
         var disabled = GetItemDisabled( item );
 
         <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value" Disabled="@disabled"
                       ShowCheckbox="@(SelectionMode == DropdownListSelectionMode.Checkbox)"
-                      Checked="IsSelected(value)"
-                      CheckedChanged="@((isChecked) => HandleDropdownItemChecked( isChecked, value ))">@text</DropdownItem>
+                      Checked="IsSelected( value )"
+                      CheckedChanged="@(( isChecked ) => HandleDropdownItemChecked( isChecked, value ))">@text</DropdownItem>
     };
 }

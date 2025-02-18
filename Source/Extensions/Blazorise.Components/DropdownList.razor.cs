@@ -29,20 +29,33 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// </summary>
     protected DropdownToggle dropdownToggleRef;
 
+    /// <summary>
+    /// List of selected values, used in the Checkbox mode.
+    /// </summary>
     private List<TValue> selectedValues;
 
+    /// <summary>
+    /// Determines if the filter is dirty and needs to be updated.
+    /// </summary>
+    private bool dirtyFilter = true;
+
+    /// <summary>
+    /// The filtered data based on the current filter text.
+    /// </summary>
     private IEnumerable<TItem> filteredData;
 
     #endregion
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         selectedValues = SelectedValues?.ToList();
         base.OnInitialized();
     }
 
+    /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         var selectedValuesChanged = parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues );
@@ -53,6 +66,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
             selectedValues = paramSelectedValues?.ToList();
     }
 
+    /// <summary>
+    /// Handles the selected value change event.
+    /// </summary>
+    /// <param name="value">The new selected value.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     protected Task HandleDropdownItemClicked( object value )
     {
         SelectedValue = Converters.ChangeType<TValue>( value );
@@ -75,7 +93,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Sets focus on the input element, if it can be focused.
     /// </summary>
     /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task Focus( bool scrollToElement = true )
     {
         return dropdownToggleRef.Focus( scrollToElement );
@@ -108,6 +126,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     private void FilterData( IQueryable<TItem> query )
     {
         dirtyFilter = false;
+
         if ( !Filterable || string.IsNullOrEmpty( FilterText ) )
         {
             filteredData = Data;
@@ -130,12 +149,18 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     {
         FilterText = filteredText;
         dirtyFilter = true;
+
         return Task.CompletedTask;
     }
 
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the filter text.
+    /// </summary>
+    private string FilterText { get; set; }
 
     /// <summary>
     /// Whether the value is currently selected.
@@ -178,19 +203,19 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// </summary>
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
+    /// <summary>
+    /// Gets the filtered data based on the current filter text.
+    /// </summary>
     private IEnumerable<TItem> FilteredData
     {
         get
         {
             if ( dirtyFilter )
                 FilterData( Data?.AsQueryable() );
+
             return filteredData;
         }
     }
-
-    private bool dirtyFilter = true;
-
-    private string FilterText { get; set; }
 
     /// <summary>
     /// Method used to get the display field from the supplied data source.
