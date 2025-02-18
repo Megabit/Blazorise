@@ -115,7 +115,7 @@ public class AutocompleteBaseComponentTest : TestContext
             var firstSuggestion = comp.WaitForElement( ".b-is-autocomplete-suggestion", TestExtensions.WaitTime );
             if ( firstSuggestion.TextContent.Contains( expectedText ) )
             {
-                firstSuggestion.MouseUp();
+                firstSuggestion.Click();
                 break;
             }
             Thread.Sleep( 100 );
