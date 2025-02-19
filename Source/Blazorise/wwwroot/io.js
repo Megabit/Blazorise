@@ -49,6 +49,10 @@ function getFileById(element, fileId) {
     return file;
 }
 
+export function removeFileEntry(element, fileEntryId) {
+    delete element._blazorFilesById[fileEntryId];
+}
+
 function getArrayBufferFromFileAsync(element, fileId) {
     var file = getFileById(element, fileId);
 

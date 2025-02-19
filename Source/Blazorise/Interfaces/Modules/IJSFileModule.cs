@@ -32,5 +32,11 @@ public interface IJSFileModule : IBaseJSModule
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask<IJSStreamReference> ReadDataAsync( ElementReference elementRef, int fileEntryId, CancellationToken cancellationToken = default );
 
-
+    /// <summary>
+    /// Removes file entry from js dictionary
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="fileEntryId"></param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask RemoveFileEntry( ElementReference elementRef, int fileEntryId );
 }

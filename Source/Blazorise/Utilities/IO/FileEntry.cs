@@ -57,6 +57,11 @@ public class FileEntry : IFileEntry
 
         return Task.CompletedTask;
     }
+    
+    ~FileEntry()
+    {
+        Owner.RemoveFileEntry( Id );
+    }
 
     #endregion
 
