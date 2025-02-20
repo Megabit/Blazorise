@@ -49,7 +49,9 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         onSuccess: (e) => { },
         onError: (e) => { }
     };
-
+    let fileEntriesToNotifyBuffer = [];
+    let notifyUploadTimer = null;
+    
     const mdeOptions = {
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,
@@ -97,9 +99,26 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             // Attach the blob data itself as a non-enumerable property so it doesn't appear in the JSON
             Object.defineProperty(fileEntry, 'blob', { value: file });
 
-            dotNetObjectRef.invokeMethodAsync('NotifyImageUpload', fileEntry).then(null, function (err) {
-                throw new Error(err);
-            });
+            fileEntriesToNotifyBuffer.push(fileEntry);
+
+            // Reset debounce timer: if a new file is added within 100ms, reset the timer
+            if (notifyUploadTimer) {
+                clearTimeout(notifyUploadTimer);
+            }
+
+            notifyUploadTimer = setTimeout(() => {
+                // Send batched files to .NET when no more files arrive within 100ms
+                dotNetObjectRef.invokeMethodAsync('NotifyImageUpload', fileEntriesToNotifyBuffer)
+                    .then(() => {
+                        fileEntriesToNotifyBuffer = [];
+                    })
+                    .catch(err => {
+                        fileEntriesToNotifyBuffer = [];
+                        throw new Error(err);
+                    });
+
+                notifyUploadTimer = null;
+            }, 100);
         },
 
         errorMessages: options.errorMessages,
