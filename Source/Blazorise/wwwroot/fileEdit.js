@@ -76,7 +76,7 @@ export function open(element, elementId) {
 // Reduce to purely serializable data, plus build an index by ID
 function mapElementFilesToFileEntries(element) {
 
-    if (element._blazorFilesById == null) {
+    if (!element._blazorFilesById) {
         element._blazorFilesById = {};
     }
 

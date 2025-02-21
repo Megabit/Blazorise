@@ -82,7 +82,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             imageUploadNotifier.onError = onError;
 
             // Reduce to purely serializable data, plus build an index by ID
-            if (element._blazorFilesById == null) {
+            if (!element._blazorFilesById) {
                 element._blazorFilesById = {};
             }
 
