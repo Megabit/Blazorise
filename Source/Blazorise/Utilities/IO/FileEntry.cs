@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,7 +61,17 @@ public class FileEntry : IFileEntry
     
     ~FileEntry()
     {
-        Owner.RemoveFileEntry( Id );
+        try
+        {
+            Owner.RemoveFileEntry( Id );//when the owner is alive this will work
+            //if it's not (because it is being collected), this will die silently.
+            //Which is not a problem, because the resources (we are trying to clean here)
+            //should be cleaned up with the dying owner. 
+        }
+        catch ( Exception e )
+        {
+            Debug.WriteLine( e );
+        }
     }
 
     #endregion
