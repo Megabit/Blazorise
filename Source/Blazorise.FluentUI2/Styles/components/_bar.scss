@@ -1,4 +1,4 @@
-﻿.fui-NavigationBar {
+﻿﻿.fui-NavigationBar {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -679,6 +679,10 @@
             }
         }
 
+        .b-bar-toggler-inline {
+            stroke: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
+        }
+
         .b-bar-link {
             &.fui-Link-active {
                 color: var(--b-bar-item-dark-active-color, #fff);
@@ -703,6 +707,10 @@
                     background: var(--b-bar-item-light-active-background, #0288D1);
                 }
             }
+        }
+
+        .b-bar-toggler-inline {
+            stroke: var(--b-bar-light-color, rgba(0,0,0,0.7));
         }
 
         .b-bar-link {
