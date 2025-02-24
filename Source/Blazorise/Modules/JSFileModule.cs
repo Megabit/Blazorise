@@ -36,10 +36,10 @@ public class JSFileModule : BaseJSModule, IJSFileModule
     /// <inheritdoc/>
     public virtual ValueTask<IJSStreamReference> ReadDataAsync( ElementReference elementRef, int fileEntryId, CancellationToken cancellationToken = default )
         => InvokeSafeAsync<IJSStreamReference>( "readFileDataStream", elementRef, fileEntryId );
-    
+
     /// <inheritdoc/>
     public virtual ValueTask RemoveFileEntry( ElementReference elementRef, int fileEntryId )
-        => InvokeSafeVoidAsync( "removeFileEntry", elementRef, fileEntryId);
+        => InvokeSafeVoidAsync( "removeFileEntry", elementRef, fileEntryId );
 
     #endregion
 

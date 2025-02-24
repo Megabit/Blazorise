@@ -13,7 +13,7 @@ namespace Blazorise;
 /// </summary>
 public class FileEntry : IFileEntry
 {
-    #region members
+    #region Members
 
     CancellationTokenSource writeToStreamcancellationTokenSource;
     CancellationTokenSource openReadStreamcancellationTokenSource;
@@ -58,7 +58,10 @@ public class FileEntry : IFileEntry
 
         return Task.CompletedTask;
     }
-    
+
+    /// <summary>
+    /// Disposes the resources.
+    /// </summary>
     ~FileEntry()
     {
         try
@@ -68,9 +71,9 @@ public class FileEntry : IFileEntry
             //Which is not a problem, because the resources (we are trying to clean here)
             //should be cleaned up with the dying owner. 
         }
-        catch ( Exception e )
+        catch ( Exception exc )
         {
-            Debug.WriteLine( e );
+            Debug.WriteLine( exc );
         }
     }
 

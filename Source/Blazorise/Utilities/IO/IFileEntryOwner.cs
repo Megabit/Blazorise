@@ -31,7 +31,6 @@ public interface IFileEntryOwner
     /// <returns>Returns the stream for the uploaded file entry.</returns>
     Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default );
 
-    
     /// <summary>
     /// Removes the file entry from js dictionary.
     /// </summary>
@@ -40,10 +39,10 @@ public interface IFileEntryOwner
     /// <returns></returns>
     Task RemoveFileEntry( int fileEntryId, CancellationToken cancellationToken = default )
     {
-        JSFileModule.RemoveFileEntry(ElementRef, fileEntryId);
+        JSFileModule.RemoveFileEntry( ElementRef, fileEntryId );
         return Task.CompletedTask;
     }
-    
+
     /// <summary>
     /// ElementReference from BaseComponent
     /// </summary>
@@ -52,5 +51,5 @@ public interface IFileEntryOwner
     /// <summary>
     /// JSFileModule 
     /// </summary>    
-    IJSFileModule JSFileModule { get; set; }  
+    IJSFileModule JSFileModule { get; set; }
 }

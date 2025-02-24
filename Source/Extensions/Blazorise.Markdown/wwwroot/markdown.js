@@ -49,9 +49,10 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         onSuccess: (e) => { },
         onError: (e) => { }
     };
+
     let fileEntriesToNotifyBuffer = [];
     let notifyUploadTimer = null;
-    
+
     const mdeOptions = {
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,

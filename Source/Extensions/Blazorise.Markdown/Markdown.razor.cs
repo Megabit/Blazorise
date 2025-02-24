@@ -284,11 +284,14 @@ public partial class Markdown : BaseComponent,
             // So that method invocations on the file can be dispatched back here
             file.Owner = this;
         }
+
         if ( ImageUploadChanged is not null )
+        {
             await ImageUploadChanged.Invoke( new( fileEntries ) );
+        }
 
         foreach ( var file in fileEntries )
-        {            
+        {
             file.FileUploadEndedCallback.SetResult();
         }
 
