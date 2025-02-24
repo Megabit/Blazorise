@@ -295,6 +295,11 @@ public partial class Markdown : BaseComponent,
             file.FileUploadEndedCallback.SetResult();
         }
 
+        foreach ( var file in fileEntries )
+        {
+            await file.Owner.RemoveFileEntry( file.Id );
+        }
+
         await InvokeAsync( StateHasChanged );
     }
 
