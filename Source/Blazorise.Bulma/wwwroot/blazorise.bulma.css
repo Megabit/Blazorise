@@ -29,6 +29,12 @@
   opacity: 0.65;
 }
 
+.b-bar-vertical-inline .navbar-burger,
+.b-bar-vertical-popout .navbar-burger,
+.b-bar-vertical-small .navbar-burger {
+  color: inherit;
+}
+
 .blockquote {
   margin-bottom: 1rem;
   font-size: 1.25rem;
