@@ -147,7 +147,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
             await ParentValidation.NotifyInputChanged<IFileEntry[]>( files );
 
         await Changed.InvokeAsync( new( files ) );
-        
+
         foreach ( var file in files )
         {
             await file.Owner.RemoveFileEntry( file.Id );

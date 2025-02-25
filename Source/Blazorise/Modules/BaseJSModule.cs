@@ -137,9 +137,9 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
                 await module.InvokeVoidAsync( identifier, args );
             }
-            catch ( Exception ex )
+            catch ( Exception exc )
             {
-                Debug.WriteLine( $"Exception form InvokeSafeVoidAsync: {ex.Message}" );
+                Debug.WriteLine( $"Exception form InvokeSafeVoidAsync: {exc.Message}" );
             }
         }
         else
