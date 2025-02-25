@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise;
@@ -37,19 +36,18 @@ public interface IFileEntryOwner
     /// <param name="fileEntryId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task RemoveFileEntry( int fileEntryId, CancellationToken cancellationToken = default )
+    async Task RemoveFileEntry( int fileEntryId, CancellationToken cancellationToken = default )
     {
-        JSFileModule.RemoveFileEntry( ElementRef, fileEntryId );
-        return Task.CompletedTask;
+        await JSFileModule.RemoveFileEntry( ElementRef, fileEntryId );
     }
 
     /// <summary>
-    /// ElementReference from BaseComponent
+    /// Element reference.
     /// </summary>
     ElementReference ElementRef { get; set; }
 
     /// <summary>
-    /// JSFileModule 
+    /// JS file module.
     /// </summary>    
     IJSFileModule JSFileModule { get; set; }
 }
