@@ -31,17 +31,6 @@ public interface IFileEntryOwner
     Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default );
 
     /// <summary>
-    /// Removes the file entry from js dictionary.
-    /// </summary>
-    /// <param name="fileEntryId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    async Task RemoveFileEntry( int fileEntryId, CancellationToken cancellationToken = default )
-    {
-        await JSFileModule.RemoveFileEntry( ElementRef, fileEntryId );
-    }
-
-    /// <summary>
     /// Element reference.
     /// </summary>
     ElementReference ElementRef { get; set; }
