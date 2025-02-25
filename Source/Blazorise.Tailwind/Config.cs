@@ -60,6 +60,7 @@ public static class Config
         { typeof( Blazorise.BarLink ), typeof( Components.BarLink ) },
         { typeof( Blazorise.BarMenu ), typeof( Components.BarMenu ) },
         { typeof( Blazorise.BarStart ), typeof( Components.BarStart ) },
+        { typeof( Blazorise.BarToggler ), typeof( Components.BarToggler ) },
         { typeof( Blazorise.Breadcrumb ), typeof( Components.Breadcrumb ) },
         { typeof( Blazorise.BreadcrumbItem ), typeof( Components.BreadcrumbItem ) },
         { typeof( Blazorise.BreadcrumbLink ), typeof( Components.BreadcrumbLink ) },

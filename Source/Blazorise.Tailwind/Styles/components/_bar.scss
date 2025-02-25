@@ -24,3 +24,11 @@
         }
     }
 }
+
+.b-bar-vertical-inline,
+.b-bar-vertical-popout,
+.b-bar-vertical-small {
+    .b-bar-toggler-inline {
+        padding: 0.5rem;
+    }
+}

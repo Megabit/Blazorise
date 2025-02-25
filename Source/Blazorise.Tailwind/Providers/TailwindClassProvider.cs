@@ -1047,8 +1047,11 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-brand flex items-center"
         : "b-bar-brand";
 
-    public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "b-bar-toggler navbar-toggler" :
-        togglerMode == BarTogglerMode.Popout ? "b-bar-toggler-popout" : "b-bar-toggler-inline";
+    public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-toggler navbar-toggler inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
+        : togglerMode == BarTogglerMode.Popout
+            ? "b-bar-toggler-popout"
+            : "b-bar-toggler-inline inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600";
 
     public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => isShow || mode != Blazorise.BarMode.Horizontal ? null : "collapsed";
 
