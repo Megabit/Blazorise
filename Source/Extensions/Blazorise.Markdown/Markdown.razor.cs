@@ -272,20 +272,34 @@ public partial class Markdown : BaseComponent,
     /// <summary>
     /// Notifies the component that file input value has changed. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
-    /// <param name="file">Changed file.</param>
+    /// <param name="fileEntries">Array of changed file</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
-    public async Task NotifyImageUpload( FileEntry file )
+    public async Task NotifyImageUpload( FileEntry[] fileEntries )
     {
-        file.FileUploadEndedCallback = new();
+        foreach ( var file in fileEntries )
+        {
+            file.FileUploadEndedCallback = new();
 
-        // So that method invocations on the file can be dispatched back here
-        file.Owner = (IFileEntryOwner)(object)this;
+            // So that method invocations on the file can be dispatched back here
+            file.Owner = this;
+        }
 
         if ( ImageUploadChanged is not null )
-            await ImageUploadChanged.Invoke( new( file ) );
+        {
+            await ImageUploadChanged.Invoke( new( fileEntries ) );
+        }
 
-        file.FileUploadEndedCallback.SetResult();
+        foreach ( var file in fileEntries )
+        {
+            file.FileUploadEndedCallback.SetResult();
+        }
+
+        foreach ( var file in fileEntries )
+        {
+            await file.Owner.RemoveFileEntry( file.Id );
+        }
+
         await InvokeAsync( StateHasChanged );
     }
 

@@ -75,7 +75,10 @@ export function open(element, elementId) {
 
 // Reduce to purely serializable data, plus build an index by ID
 function mapElementFilesToFileEntries(element) {
-    element._blazorFilesById = {};
+
+    if (!element._blazorFilesById) {
+        element._blazorFilesById = {};
+    }
 
     let fileList = Array.prototype.map.call(element.files, function (file) {
         file.id = file.id ?? ++nextFileId;

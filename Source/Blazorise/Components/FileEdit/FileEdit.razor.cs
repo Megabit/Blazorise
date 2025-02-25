@@ -148,6 +148,11 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
 
         await Changed.InvokeAsync( new( files ) );
 
+        foreach ( var file in files )
+        {
+            await file.Owner.RemoveFileEntry( file.Id );
+        }
+
         await InvokeAsync( StateHasChanged );
     }
 
