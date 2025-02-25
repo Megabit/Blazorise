@@ -59,24 +59,6 @@ public class FileEntry : IFileEntry
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Disposes the resources.
-    /// </summary>
-    ~FileEntry()
-    {
-        try
-        {
-            Owner.RemoveFileEntry( Id );//when the owner is alive this will work
-            //if it's not (because it is being collected), this will die silently.
-            //Which is not a problem, because the resources (we are trying to clean here)
-            //should be cleaned up with the dying owner. 
-        }
-        catch ( Exception exc )
-        {
-            Debug.WriteLine( exc );
-        }
-    }
-
     #endregion
 
     #region Properties
