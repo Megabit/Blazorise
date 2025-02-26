@@ -46,12 +46,16 @@
                     <DataGridColumns>
                         <DataGridCommandColumn>
                             <SaveBatchCommandTemplate>
-                                <Button Background=Background.Info Size=Size.Small Clicked="@context.Clicked">Save Changes (@batchQuantity.ToString())</Button>
-                                </SaveBatchCommandTemplate>
-                                <CancelBatchCommandTemplate>
-                                    <Button Background=Background.Light Size=Size.Small Clicked="@context.Clicked">Cancel Changes</Button>
-                                </CancelBatchCommandTemplate>
-                            </DataGridCommandColumn>
+                                <Button Background=Background.Info Size=Size.Small Clicked="@context.Clicked">Save
+                                    Changes (@(dataGridRef?.BatchChanges?.Count ?? 0))
+                                </Button>
+                            </SaveBatchCommandTemplate>
+                            <CancelBatchCommandTemplate>
+                                <Button Background=Background.Light Size=Size.Small Clicked="@context.Clicked">Cancel
+                                    Changes
+                                </Button>
+                            </CancelBatchCommandTemplate>
+                        </DataGridCommandColumn>
                             <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                             <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
                          <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
@@ -84,7 +88,6 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
-    private int batchQuantity = 0;
     private DataGrid<Employee> dataGridRef;
     private List<Employee> inMemoryData;
     private Employee selectedEmployee;
@@ -99,7 +102,6 @@
     private Task OnBatchChange( DataGridBatchChangeEventArgs<Employee> args )
     {
         Console.WriteLine( "Batch Change" );
-        batchQuantity = dataGridRef.BatchChanges.Count;
         return Task.CompletedTask;
     }
 
@@ -112,7 +114,6 @@
     private Task OnBatchSaved( DataGridBatchSavedEventArgs<Employee> args )
     {
         Console.WriteLine( "Batch Saved" );
-        batchQuantity = 0;
         return Task.CompletedTask;
     }
 
