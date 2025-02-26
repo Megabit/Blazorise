@@ -1405,6 +1405,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( BatchEdit )
         {
+            if ( filteredData is ICollection<TItem> data2 )
+            {
+                foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
+                    data2.Remove( newItem.NewItem );
+            }
+            
             batchChanges?.Clear();
         }
 
