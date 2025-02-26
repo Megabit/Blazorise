@@ -297,7 +297,7 @@ public partial class Markdown : BaseComponent,
 
         foreach ( var file in fileEntries )
         {
-            await file.Owner.RemoveFileEntry( file.Id );
+            await file.Owner.RemoveFileEntry( file );
         }
 
         await InvokeAsync( StateHasChanged );
