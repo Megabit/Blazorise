@@ -79,8 +79,6 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         imageCSRFToken: options.imageCSRFToken,
         imageTexts: options.imageTexts,
         imageUploadFunction: (file, onSuccess, onError) => {
-            removeAllFileEntries(element);
-
             // hack to save the reference to the callback functions
             imageUploadNotifier.onSuccess = onSuccess;
             imageUploadNotifier.onError = onError;
