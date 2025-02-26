@@ -1410,7 +1410,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
                     data2.Remove( newItem.NewItem );
             }
-            
+
             batchChanges?.Clear();
         }
 
