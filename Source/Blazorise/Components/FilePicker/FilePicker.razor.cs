@@ -85,7 +85,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns></returns>
     public int GetProgressPercentage()
-        => (int)( FileEdit.GetCurrentProgress().Progress * 100d );
+        => (int)( FileEditRef.GetCurrentProgress().Progress * 100d );
 
     /// <summary>
     /// Tracks whether the current file is being uploaded.
@@ -107,7 +107,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns></returns>
     public bool IsUploadReady()
-        => FileEdit.Files?.Any( x => x.Status == FileEntryStatus.Ready ) ?? false;
+        => FileEditRef?.Files?.Any( x => x.Status == FileEntryStatus.Ready ) ?? false;
 
     /// <summary>
     /// Converts the file size in bytes into a proper human readable format.
@@ -161,7 +161,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <param name="confirm">Wether to show a confirmation popup.</param>
     public Task RemoveFile( IFileEntry file, bool confirm = false )
     {
-        var removeFileAction = () => FileEdit.RemoveFile( file.Id ).AsTask();
+        var removeFileAction = () => FileEditRef.RemoveFile( file.Id ).AsTask();
 
         if ( confirm )
             return filePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, removeFileAction );
@@ -178,7 +178,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
         var clearAction = async () =>
         {
             await Cancel();
-            await FileEdit.Reset();
+            await FileEditRef.Reset();
         };
 
         if ( confirm )
@@ -306,7 +306,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Accesses the FileEdit
     /// </summary>
-    public FileEdit FileEdit;
+    public FileEdit FileEditRef;
 
     /// <summary>
     /// Gets or sets the main container element id.
