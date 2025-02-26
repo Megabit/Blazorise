@@ -12,13 +12,13 @@
             <Addon AddonType="AddonType.End">
                 <Dropdown RightAligned PositionStrategy="DropdownPositionStrategy.Absolute">
                     <DropdownToggle Color="Color.Light">
-                        (@(FileEdit.Files?.Count() ?? 0))
+                        (@(FileEditRef.Files?.Count() ?? 0))
                     </DropdownToggle>
 
-                    @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
+                    @if ( !FileEditRef?.Files?.IsNullOrEmpty() ?? false )
                     {
                         <DropdownMenu Class="b-file-picker-files">
-                            @foreach ( var file in FileEdit.Files )
+                            @foreach ( var file in FileEditRef.Files )
                             {
                                 <DropdownItem @key="file.Id" Class="b-file-picker-file">
                                     @FileContentFragment(file)
@@ -37,13 +37,13 @@
 
     <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@DragAndDropString</Span>
 
-    @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
+    @if ( !FileEditRef?.Files?.IsNullOrEmpty() ?? false )
     {
         <div Class="b-file-picker-files-container">
             @if ( ShowMode == FilePickerShowMode.List )
             {
                 <ListGroup Class="b-file-picker-files" Margin="Blazorise.Margin.Is2.OnY">
-                    @foreach ( var file in FileEdit.Files )
+                    @foreach ( var file in FileEditRef.Files )
                     {
                         <ListGroupItem @key="file.Id" Class="b-file-picker-file">
                             @FileContentFragment(file)
@@ -76,7 +76,7 @@
 @code {
     private RenderFragment FileComponentFragment => __builder =>
     {
-        <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Directory="@Directory" Placeholder="@Placeholder" Disabled="@Disabled" ReadOnly="@ReadOnly" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout" Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" Attributes="@Attributes">
+        <FileEdit @ref="FileEditRef" ElementId="@ElementId" Multiple="@Multiple" Directory="@Directory" Placeholder="@Placeholder" Disabled="@Disabled" ReadOnly="@ReadOnly" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout" Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" Attributes="@Attributes">
             <ChildContent>
                 @ChildTemplate
             </ChildContent>

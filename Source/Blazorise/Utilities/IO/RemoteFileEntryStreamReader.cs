@@ -49,7 +49,7 @@ internal class RemoteFileEntryStreamReader : FileEntryStreamReader, IDisposable,
         jsStreamReference = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, cancellationToken );
 
         return await jsStreamReference.OpenReadStreamAsync(
-            this.maxFileSize,
+            maxFileSize,
             cancellationToken: cancellationToken );
     }
 
