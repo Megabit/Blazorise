@@ -193,12 +193,15 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <returns></returns>
     public async Task UploadAll()
     {
-        if ( Upload.HasDelegate && !FileEdit.Files.IsNullOrEmpty() )
+        if ( Upload.HasDelegate && !FileEditRef.Files.IsNullOrEmpty() )
         {
             cts = new();
-            foreach ( var file in FileEdit.Files )
+            foreach ( var file in FileEditRef.Files )
             {
                 await UploadFile( file );
+
+                if ( FileEditRef is IFileEntryOwner fileEntryOwner )
+                    await fileEntryOwner.RemoveFileEntry( file );
             }
         }
     }

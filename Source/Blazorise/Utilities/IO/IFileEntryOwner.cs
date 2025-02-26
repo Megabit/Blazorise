@@ -36,7 +36,7 @@ public interface IFileEntryOwner
     /// <param name="fileEntry">Currently processed file entry.</param>
     /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    async Task RemoveFileEntry( FileEntry fileEntry, CancellationToken cancellationToken = default )
+    async Task RemoveFileEntry( IFileEntry fileEntry, CancellationToken cancellationToken = default )
     {
         await JSFileModule.RemoveFileEntry( ElementRef, fileEntry.Id );
     }
