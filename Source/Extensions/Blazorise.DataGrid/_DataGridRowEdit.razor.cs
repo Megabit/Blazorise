@@ -76,7 +76,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         var isCellEdit = ParentDataGrid.IsCellEdit && column.CellEditing;
         if ( !isCellEdit )
             return;
-        
+
         //most of the keydown operations (arrows,focus) are handled in datagrid.js 
         if ( args.Code == "Escape" )
         {

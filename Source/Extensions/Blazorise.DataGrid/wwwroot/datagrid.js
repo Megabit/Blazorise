@@ -22,7 +22,6 @@ export function initializeTableCellNavigation(element, elementId) {
     element.addEventListener("keydown", KeyDownCellNavigation)
 }
 
-
 export function scrollTo(table, rowUnselectedClass) {
     let allTr = table.querySelectorAll("tbody tr");
     let scrollTo = table.querySelector("tbody > div").offsetHeight;
@@ -66,7 +65,7 @@ function keyPressPreventSubmitOnEnter(e) {
 }
 
 function findAncestorByTagName(el, tagName) {
-    while ((el = el.parentElement) && el.tagName !== tagName );
+    while ((el = el.parentElement) && el.tagName !== tagName);
     return el;
 }
 
