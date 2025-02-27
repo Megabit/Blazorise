@@ -1,5 +1,6 @@
 import "./vendors/easymde.js?v=1.7.4.0";
 import "./vendors/highlight.js?v=1.7.4.0";
+import { removeAllFileEntries } from "../Blazorise/io.js?v=1.7.4.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=1.7.4.0\" />");
 
@@ -50,6 +51,9 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         onError: (e) => { }
     };
 
+    let fileEntriesToNotifyBuffer = [];
+    let notifyUploadTimer = null;
+
     const mdeOptions = {
         element: document.getElementById(elementId),
         hideIcons: options.hideIcons,
@@ -80,7 +84,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             imageUploadNotifier.onError = onError;
 
             // Reduce to purely serializable data, plus build an index by ID
-            if (element._blazorFilesById == null) {
+            if (!element._blazorFilesById) {
                 element._blazorFilesById = {};
             }
 
@@ -97,9 +101,26 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             // Attach the blob data itself as a non-enumerable property so it doesn't appear in the JSON
             Object.defineProperty(fileEntry, 'blob', { value: file });
 
-            dotNetObjectRef.invokeMethodAsync('NotifyImageUpload', fileEntry).then(null, function (err) {
-                throw new Error(err);
-            });
+            fileEntriesToNotifyBuffer.push(fileEntry);
+
+            // Reset debounce timer: if a new file is added within 100ms, reset the timer
+            if (notifyUploadTimer) {
+                clearTimeout(notifyUploadTimer);
+            }
+
+            notifyUploadTimer = setTimeout(() => {
+                // Send batched files to .NET when no more files arrive within 100ms
+                dotNetObjectRef.invokeMethodAsync('NotifyImageUpload', fileEntriesToNotifyBuffer)
+                    .then(() => {
+                        fileEntriesToNotifyBuffer = [];
+                    })
+                    .catch(err => {
+                        fileEntriesToNotifyBuffer = [];
+                        throw new Error(err);
+                    });
+
+                notifyUploadTimer = null;
+            }, 100);
         },
 
         errorMessages: options.errorMessages,
@@ -171,6 +192,10 @@ export function destroy(element, elementId) {
     const instance = instances[elementId];
 
     if (instance) {
+        if (element) {
+            removeAllFileEntries(element);
+        }
+
         instance.editor.toTextArea();
         instance.editor = null;
 

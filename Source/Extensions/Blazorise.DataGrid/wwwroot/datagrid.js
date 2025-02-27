@@ -22,7 +22,6 @@ export function initializeTableCellNavigation(element, elementId) {
     element.addEventListener("keydown", KeyDownCellNavigation)
 }
 
-
 export function scrollTo(table, rowUnselectedClass) {
     let allTr = table.querySelectorAll("tbody tr");
     let scrollTo = table.querySelector("tbody > div").offsetHeight;
@@ -66,7 +65,7 @@ function keyPressPreventSubmitOnEnter(e) {
 }
 
 function findAncestorByTagName(el, tagName) {
-    while ((el = el.parentElement) && el.tagName !== tagName );
+    while ((el = el.parentElement) && el.tagName !== tagName);
     return el;
 }
 
@@ -105,6 +104,7 @@ function KeyDownCellNavigation(e) {
     let isDown = e.keyCode == 40;
     let isArrow = isLeft | isUp | isRight | isDown;
     let isEnterKey = e.keyCode == 13;
+    let isEscKey = e.keyCode == 27;
 
     let focusedElement = document.activeElement;
     let allCells = element.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS);
@@ -116,7 +116,7 @@ function KeyDownCellNavigation(e) {
     let index = [].indexOf.call(allCells, focusedElement);
     let isInputFocused = focusedElement && TAG_NAMES_INPUT.includes(focusedElement.tagName);
 
-    if (isInputFocused && isEnterKey) {
+    if (isInputFocused && (isEnterKey || isEscKey)) {
         focusedElement.addEventListener("blur", () => {
             window.setTimeout(() => {
                 let inputStillExists = element.contains(focusedElement);

@@ -77,6 +77,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         if ( !isCellEdit )
             return;
 
+        //most of the keydown operations (arrows,focus) are handled in datagrid.js 
         if ( args.Code == "Escape" )
         {
             await Cancel.InvokeAsync();
