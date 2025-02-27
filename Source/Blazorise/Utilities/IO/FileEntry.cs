@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Blazorise;
 /// </summary>
 public class FileEntry : IFileEntry
 {
-    #region members
+    #region Members
 
     CancellationTokenSource writeToStreamcancellationTokenSource;
     CancellationTokenSource openReadStreamcancellationTokenSource;

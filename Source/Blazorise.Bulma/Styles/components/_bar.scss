@@ -41,3 +41,11 @@
         }
     }
 }
+
+.b-bar-vertical-inline,
+.b-bar-vertical-popout,
+.b-bar-vertical-small {
+    .navbar-burger {
+        color: inherit;
+    }
+}

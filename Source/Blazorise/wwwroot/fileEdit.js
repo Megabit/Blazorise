@@ -1,4 +1,5 @@
 import { getRequiredElement } from "./utilities.js?v=1.7.4.0";
+import { removeAllFileEntries } from "./io.js?v=1.7.4.0";
 
 const _instances = [];
 let nextFileId = 0;
@@ -39,8 +40,17 @@ export function removeFile(element, elementId, fileId) {
 }
 
 export function destroy(element, elementId) {
-    var instances = _instances || {};
-    delete instances[elementId];
+    const instances = _instances || {};
+
+    const instance = instances[elementId];
+
+    if (instance) {
+        if (element) {
+            removeAllFileEntries(element);
+        }
+
+        delete instances[elementId];
+    }
 }
 
 export function reset(element, elementId) {
@@ -75,7 +85,11 @@ export function open(element, elementId) {
 
 // Reduce to purely serializable data, plus build an index by ID
 function mapElementFilesToFileEntries(element) {
-    element._blazorFilesById = {};
+    if (!element._blazorFilesById) {
+        element._blazorFilesById = {};
+    }
+
+    removeAllFileEntries(element);
 
     let fileList = Array.prototype.map.call(element.files, function (file) {
         file.id = file.id ?? ++nextFileId;

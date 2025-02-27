@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.JSInterop;
@@ -136,8 +137,9 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
                 await module.InvokeVoidAsync( identifier, args );
             }
-            catch ( Exception )
+            catch ( Exception exc )
             {
+                Debug.WriteLine( $"Exception form InvokeSafeVoidAsync: {exc.Message}" );
             }
         }
         else
@@ -181,8 +183,9 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
                 return await module.InvokeAsync<TValue>( identifier, args );
             }
-            catch ( Exception )
+            catch ( Exception exc )
             {
+                Debug.WriteLine( $"Exception form InvokeSafeVoidAsync: {exc.Message}" );
                 return default;
             }
         }
