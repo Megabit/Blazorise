@@ -1,5 +1,6 @@
 import "./vendors/easymde.js?v=1.7.4.0";
 import "./vendors/highlight.js?v=1.7.4.0";
+import { removeAllFileEntries } from "../Blazorise/io.js?v=1.7.4.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=1.7.4.0\" />");
 
@@ -191,6 +192,10 @@ export function destroy(element, elementId) {
     const instance = instances[elementId];
 
     if (instance) {
+        if (element) {
+            removeAllFileEntries(element);
+        }
+
         instance.editor.toTextArea();
         instance.editor = null;
 
