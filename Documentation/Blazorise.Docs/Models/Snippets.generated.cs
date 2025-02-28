@@ -11960,7 +11960,7 @@ builder.Services
 }";
 
         public const string ObjectFitContainExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
-    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Contain"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+    <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Contain"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
 @code {
@@ -11968,7 +11968,7 @@ builder.Services
 }";
 
         public const string ObjectFitCoverExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
-    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Cover"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+    <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Cover"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
 @code {
@@ -11976,7 +11976,7 @@ builder.Services
 }";
 
         public const string ObjectFitFillExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
-    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Fill"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+    <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Fill"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
 @code {
@@ -11984,7 +11984,7 @@ builder.Services
 }";
 
         public const string ObjectFitNoneExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
-    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.None"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+    <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.None"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
 @code {
@@ -12008,7 +12008,7 @@ builder.Services
 }";
 
         public const string ObjectFitScaleExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
-    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Scale"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+    <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Scale"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
 @code {
