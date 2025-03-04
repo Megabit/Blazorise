@@ -375,9 +375,31 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child row with this datagrid.
     /// </summary>
     /// <param name="row">Row to add.</param>
-    public void AddRow( DataGridRowInfo<TItem> row )
+    internal void AddRow( DataGridRowInfo<TItem> row )
     {
         Rows.Add( row );
+    }
+
+    
+    /// <summary>
+    /// Adds a new item to the batch edit collection, representing unsaved changes if batch editing is enabled.
+    /// If batch editing is disabled, the method does nothing.
+    /// Ensure that a new instance of <typeparamref name="TItem"/> is provided.
+    /// </summary>
+    /// <param name="newItem">Item to add</param>
+    public async Task AddItemToBatchChanges( TItem newItem )
+    {
+        if ( !BatchEdit ) return;
+        
+        batchChanges ??= new();
+
+        var batchItem = new DataGridBatchEditItem<TItem>( editItem, newItem, DataGridBatchEditItemState.New
+        , new Dictionary<string, CellEditContext> { } );
+        batchChanges.Add( batchItem );
+
+        SetDirty();
+
+        await BatchChange.InvokeAsync( new( batchItem ) );
     }
 
     /// <summary>
