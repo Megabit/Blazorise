@@ -375,10 +375,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child row with this datagrid.
     /// </summary>
     /// <param name="row">Row to add.</param>
-    public void AddRow( DataGridRowInfo<TItem> row )
+    internal void AddRow( DataGridRowInfo<TItem> row )
     {
         Rows.Add( row );
     }
+
+    
 
     /// <summary>
     /// Removes an existing link of a child column with this datagrid.
@@ -1057,13 +1059,40 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task New()
     {
+        return ProcessNewItem( CreateNewItem());
+    }
+    
+    /// <summary>
+    /// Adds a new item to the DataGrid, either by opening it in edit mode or by adding the batch edit collection,
+    /// depending on whether batch editing is enabled.
+    /// </summary>
+    public Task New(TItem newItem)
+    {
+        return BatchEdit
+               ? AddToBatch(newItem)
+               : ProcessNewItem(newItem);
+    }
+ 
+    private async Task AddToBatch( TItem newItem  )
+    {
+        batchChanges ??= new();
+
+        var batchItem = new DataGridBatchEditItem<TItem>( editItem, newItem, DataGridBatchEditItemState.New
+        , new Dictionary<string, CellEditContext> { } );
+        batchChanges.Add( batchItem );
+
+        SetDirty();
+
+        await BatchChange.InvokeAsync( new( batchItem ) );
+    }
+
+    private  Task ProcessNewItem(TItem newItem )
+    {
         if ( Virtualize && EditMode != DataGridEditMode.Popup )
         {
             VirtualizeScrollToTop();
         }
-
-        TItem newItem = CreateNewItem();
-
+        
         NewItemDefaultSetter?.Invoke( newItem );
 
         InitEditItem( newItem );
