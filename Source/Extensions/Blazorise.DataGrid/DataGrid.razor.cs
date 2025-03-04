@@ -381,26 +381,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     
-    /// <summary>
-    /// Adds a new item to the batch edit collection, representing unsaved changes if batch editing is enabled.
-    /// If batch editing is disabled, the method does nothing.
-    /// Ensure that a new instance of <typeparamref name="TItem"/> is provided.
-    /// </summary>
-    /// <param name="newItem">Item to add</param>
-    public async Task AddItemToBatchChanges( TItem newItem )
-    {
-        if ( !BatchEdit ) return;
-        
-        batchChanges ??= new();
-
-        var batchItem = new DataGridBatchEditItem<TItem>( editItem, newItem, DataGridBatchEditItemState.New
-        , new Dictionary<string, CellEditContext> { } );
-        batchChanges.Add( batchItem );
-
-        SetDirty();
-
-        await BatchChange.InvokeAsync( new( batchItem ) );
-    }
 
     /// <summary>
     /// Removes an existing link of a child column with this datagrid.
@@ -1079,13 +1059,40 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task New()
     {
+        return ProcessNewItem( CreateNewItem());
+    }
+    
+    /// <summary>
+    /// Adds a new item to the DataGrid, either by opening it in edit mode or by adding the batch edit collection,
+    /// depending on whether batch editing is enabled.
+    /// </summary>
+    public Task New(TItem newItem)
+    {
+        return BatchEdit
+               ? AddToBatch(newItem)
+               : ProcessNewItem(newItem);
+    }
+ 
+    private async Task AddToBatch( TItem newItem  )
+    {
+        batchChanges ??= new();
+
+        var batchItem = new DataGridBatchEditItem<TItem>( editItem, newItem, DataGridBatchEditItemState.New
+        , new Dictionary<string, CellEditContext> { } );
+        batchChanges.Add( batchItem );
+
+        SetDirty();
+
+        await BatchChange.InvokeAsync( new( batchItem ) );
+    }
+
+    private  Task ProcessNewItem(TItem newItem )
+    {
         if ( Virtualize && EditMode != DataGridEditMode.Popup )
         {
             VirtualizeScrollToTop();
         }
-
-        TItem newItem = CreateNewItem();
-
+        
         NewItemDefaultSetter?.Invoke( newItem );
 
         InitEditItem( newItem );
