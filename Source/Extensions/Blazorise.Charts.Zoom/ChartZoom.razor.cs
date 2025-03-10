@@ -74,7 +74,8 @@ public partial class ChartZoom<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( disposing && Rendered )
         {
-            await JSModule.SafeDisposeAsync();
+            if(JSModule is not null)
+                await JSModule.SafeDisposeAsync();
 
             if ( ParentChart is not null )
             {
