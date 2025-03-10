@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "./btw-colors.css";
+@import "./blazorise.tailwind.css";
+
+@utility container {
+    margin-right: auto;
+    margin-left: auto;
+    /* width: 100%; */
+}
+
+@theme {
+    --color-midnight: #121063;
+    /* break points - screens. The others are defined */
+    --breakpoint-2xl: 1792px;
+
+    /* Font Family */
+    --font-sans: 'Graphik', sans-serif;
+    --font-serif: 'Merriweather', serif;
+
+    --text-md: ['1.0625rem', '1.25rem'];
+
+    --spacing-128:'32rem';
+    --spacing-144:'36rem';
+
+    --radius-4xl: 2rem;
+
+    /* Colors */
+    --color-primary: #3b82f6;
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
+
+    --color-secondary: #6B7280;
+    --color-secondary-50: #F1F2F3;
+    --color-secondary-100: #E0E2E5;
+    --color-secondary-200: #C2C5CC;
+    --color-secondary-300: #A6ABB5;
+    --color-secondary-400: #888E9B;
+    --color-secondary-500: #6B7280;
+    --color-secondary-600: #565C67;
+    --color-secondary-700: #41454E;
+    --color-secondary-800: #2A2D32;
+    --color-secondary-900: #151619;
+
+    --color-success: #0E9F6E;
+    --color-success-50: #F3FAF7;
+    --color-success-100: #DEF7EC;
+    --color-success-200: #BCF0DA;
+    --color-success-300: #84E1BC;
+    --color-success-400: #31C48D;
+    --color-success-500: #0E9F6E;
+    --color-success-600: #057A55;
+    --color-success-700: #046C4E;
+    --color-success-800: #03543F;
+    --color-success-900: #014737;
+
+    --color-danger: #F05252;
+    --color-danger-50: #FDF2F2;
+    --color-danger-100: #FDE8E8;
+    --color-danger-200: #FBD5D5;
+    --color-danger-300: #F8B4B4;
+    --color-danger-400: #F98080;
+    --color-danger-500: #F05252;
+    --color-danger-600: #E02424;
+    --color-danger-700: #C81E1E;
+    --color-danger-800: #9B1C1C;
+    --color-danger-900: #771D1D;
+
+    /* Warning */
+    --color-warning: #C27803;
+    --color-warning-50: #FDFDEA;
+    --color-warning-100: #FDF6B2;
+    --color-warning-200: #FCE96A;
+    --color-warning-300: #FACA15;
+    --color-warning-400: #E3A008;
+    --color-warning-500: #C27803;
+    --color-warning-600: #9F580A;
+    --color-warning-700: #8E4B10;
+    --color-warning-800: #723B13;
+    --color-warning-900: #633112;
+
+    /* Info */
+    --color-info: #03A9F4;
+    --color-info-50: #E1F5FE;
+    --color-info-100: #B3E5FC;
+    --color-info-200: #81D4FA;
+    --color-info-300: #4FC3F7;
+    --color-info-400: #29B6F6;
+    --color-info-500: #03A9F4;
+    --color-info-600: #039BE5;
+    --color-info-700: #0288D1;
+    --color-info-800: #0277BD;
+    --color-info-900: #01579B;
+
+    /* Light */
+    --color-light: #F3F4F6;
+    --color-light-50: #F9FAFB;
+    --color-light-100: #F3F4F6;
+    --color-light-200: #E5E7EB;
+    --color-light-300: #D1D5DB;
+    --color-light-400: #9CA3AF;
+    --color-light-500: #6B7280;
+    --color-light-600: #4B5563;
+    --color-light-700: #374151;
+    --color-light-800: #1F2937;
+    --color-light-900: #111827;
+
+    /* Dark */
+    --color-dark: #1F2937;
+    --color-dark-50: #F9FAFB;
+    --color-dark-100: #F3F4F6;
+    --color-dark-200: #E5E7EB;
+    --color-dark-300: #D1D5DB;
+    --color-dark-400: #9CA3AF;
+    --color-dark-500: #6B7280;
+    --color-dark-600: #4B5563;
+    --color-dark-700: #374151;
+    --color-dark-800: #1F2937;
+    --color-dark-900: #111827;
+}
