@@ -58,7 +58,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                     {
                         AspectRatio = paramSelectionOptions?.AspectRatio.Value,
                         InitialAspectRatio = paramSelectionOptions?.InitialAspectRatio.Value,
-                        InitialCoverage = paramSelectionOptions?.InitialCoverage.Value,
+                        InitialCoverage = paramSelectionOptions?.InitialCoverage,
                         Movable = paramSelectionOptions?.Movable ?? false,
                         Resizable = paramSelectionOptions?.Resizable ?? false,
                         Zoomable = paramSelectionOptions?.Zoomable ?? false,

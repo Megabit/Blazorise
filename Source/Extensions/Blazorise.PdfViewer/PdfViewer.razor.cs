@@ -211,6 +211,8 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         if ( string.IsNullOrEmpty( Source ) )
             return;
 
+        await PrintRequested.InvokeAsync();
+
         if ( JSModule is not null )
         {
             await JSModule.Print( Source );
@@ -340,6 +342,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// Gets or sets the callback event that is triggered when the PDF document is loaded.
     /// </summary>
     [Parameter] public EventCallback<PdfLoadedEventArgs> Loaded { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback event that is triggered when the PDF document is requested to be printed.
+    /// </summary>
+    [Parameter] public EventCallback PrintRequested { get; set; }
 
     /// <summary>
     /// Gets or sets the scale factor for displaying the PDF document.
