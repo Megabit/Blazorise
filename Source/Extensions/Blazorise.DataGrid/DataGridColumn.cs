@@ -647,16 +647,21 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Returns true if the cell value is editable.
     /// </summary>
     public bool CellValueIsEditable
-        => Editable &&
-           (
-                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing
-                    && IsCellEditablePerCommand )
-                ||
-                ( ParentDataGrid.EditMode != DataGridEditMode.Cell
-                    || ( ParentDataGrid.EditState == DataGridEditState.New && ParentDataGrid.EditMode == DataGridEditMode.Cell ) //We don't have data, let's keep a regular editable row for New.
-                    && IsCellEditablePerCommand
-                )
-            );
+        => Editable && IsCellEditablePerCommand &&
+        (
+            ParentDataGrid.EditMode != DataGridEditMode.Cell 
+            || 
+            ( 
+                ParentDataGrid.EditMode == DataGridEditMode.Cell
+                &&
+                ( 
+                    ( ParentDataGrid.EditState == DataGridEditState.Edit && CellEditing ) 
+                    ||
+                    //We don't have data, let's keep a regular editable row for New.
+                    ParentDataGrid.EditState == DataGridEditState.New 
+                ) 
+            )
+        );
 
     protected bool IsCellEditablePerCommand
         => (
