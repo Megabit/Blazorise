@@ -70,3 +70,10 @@ All input components have been updated to use a single `Value` parameter instead
 ### Link
 
 Removed `Match.Custom` enum value from the `Match` parameter. This change was made to simplify the API and make it more consistent across all components.
+
+### Tailwind v4 and Flowbite v3
+
+For a production-ready solution with the Blazorise.Tailwind provider, follow the setup described in the  
+[integration guide](/docs/usage/tailwind/).
+
+The change lies in the version of the Flowbite CSS and JS files. Additionally, all the necessary classes for Blazorise are now in `blazorise.tailwind.min.css` instead of `blazorise.tailwind.prod.css`.
