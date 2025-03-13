@@ -123,10 +123,10 @@ public static class Formaters
     /// <returns></returns>
     public static string PascalCaseToFriendlyName( string input )
     {
-        if ( string.IsNullOrWhiteSpace( input ) )
+        if ( string.IsNullOrWhiteSpace( input ) || input.ToUpper(CultureInfo.InvariantCulture) == input )
             return input;
 
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new ();
         var firstUpperChar = true;
         foreach ( char c in input )
         {
