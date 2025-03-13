@@ -220,14 +220,14 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     }
 
     /// <inheritdoc/>
-    public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
+    public Task WriteToStreamAsync( IFileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
     {
         return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, MaxFileSize )
             .WriteToStreamAsync( stream, cancellationToken );
     }
 
     /// <inheritdoc/>
-    public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
+    public Stream OpenReadStream( IFileEntry fileEntry, CancellationToken cancellationToken = default )
     {
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxFileSize, cancellationToken );
     }

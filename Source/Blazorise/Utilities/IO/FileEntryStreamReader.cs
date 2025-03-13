@@ -9,10 +9,10 @@ public abstract class FileEntryStreamReader
 {
     private readonly IJSFileModule jsModule;
     private readonly ElementReference elementRef;
-    private readonly FileEntry fileEntry;
+    private readonly IFileEntry fileEntry;
     private readonly IFileEntryNotifier fileEntryNotifier;
 
-    public FileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier )
+    public FileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier )
     {
         this.jsModule = jsModule;
         this.elementRef = elementRef;
@@ -24,7 +24,7 @@ public abstract class FileEntryStreamReader
 
     protected ElementReference ElementRef => elementRef;
 
-    protected FileEntry FileEntry => fileEntry;
+    protected IFileEntry FileEntry => fileEntry;
 
     protected IFileEntryNotifier FileEntryNotifier => fileEntryNotifier;
 }
