@@ -28,7 +28,7 @@ internal class RemoteFileEntryStreamReader : FileEntryStreamReader, IDisposable,
 
     #region Constructors
 
-    public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, long maxFileSize )
+    public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, IFileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, long maxFileSize )
         : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
     {
         this.maxMessageSize = maxMessageSize;

@@ -20,7 +20,7 @@ public interface IFileEntryOwner
     /// <param name="stream">Target stream.</param>
     /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default );
+    Task WriteToStreamAsync( IFileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default );
 
     /// <summary>
     /// Opens the stream for reading the uploaded file.
@@ -28,7 +28,7 @@ public interface IFileEntryOwner
     /// <param name="fileEntry">Currently processed file entry.</param>
     /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
     /// <returns>Returns the stream for the uploaded file entry.</returns>
-    Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default );
+    Stream OpenReadStream( IFileEntry fileEntry, CancellationToken cancellationToken = default );
 
     /// <summary>
     /// Removes the file entry from js dictionary.
