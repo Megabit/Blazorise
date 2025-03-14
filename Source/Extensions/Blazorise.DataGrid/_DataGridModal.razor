@@ -1,27 +1,27 @@
 ﻿@typeparam TItem
 @inherits BaseAfterRenderComponent
 
-<Modal @ref="modalRef" Closing="@PopupClosing" Closed="@Cancel" Style="min-height:100%;height: auto;">
+<Modal @ref="modalRef" Closing="@PopupClosing" Closed="@Cancel" >
     <ModalContent Size="@PopupSize">
-        <Form>
-            <ModalHeader>
-                <ModalTitle>
-                    @if ( TitleTemplate != null && EditItem != null )
-                    {
-                        @TitleTemplate( new( EditItem, EditState, EditState == DataGridEditState.Edit
-                            ? Localizer.Localize( ParentDataGrid.Localizers?.EditLocalizer, "Edit" )
-                            : Localizer.Localize( ParentDataGrid.Localizers?.CreateLocalizer, "Create" ) ) )
-                    }
-                    else
-                    {
-                        @(EditState == DataGridEditState.Edit
-                            ? Localizer.Localize( ParentDataGrid.Localizers?.ModalRowEditLocalizer, "Row Edit" )
-                            : Localizer.Localize( ParentDataGrid.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
-                    }
-                </ModalTitle>
-                <CloseButton Clicked="@CloseModal" AutoClose="false" />
-            </ModalHeader>
-            <ModalBody>
+        <ModalHeader>
+            <ModalTitle>
+                @if ( TitleTemplate != null && EditItem != null )
+                {
+                    @TitleTemplate( new( EditItem, EditState, EditState == DataGridEditState.Edit
+                        ? Localizer.Localize( ParentDataGrid.Localizers?.EditLocalizer, "Edit" )
+                        : Localizer.Localize( ParentDataGrid.Localizers?.CreateLocalizer, "Create" ) ) )
+                }
+                else
+                {
+                    @(EditState == DataGridEditState.Edit
+                        ? Localizer.Localize( ParentDataGrid.Localizers?.ModalRowEditLocalizer, "Row Edit" )
+                        : Localizer.Localize( ParentDataGrid.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
+                }
+            </ModalTitle>
+            <CloseButton Clicked="@CloseModal" AutoClose="false" />
+        </ModalHeader>
+        <ModalBody>
+            <Form>
                 <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem" HandlerType="@ParentDataGrid?.ValidationsHandlerType">
                     @if ( ParentDataGrid.ShowValidationsSummary )
                     {
@@ -49,58 +49,58 @@
                         }
                     </Fields>
                 </Validations>
-            </ModalBody>
-            <ModalFooter>
-                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
-                {
-                    var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
+            </Form>
+        </ModalBody>
+        <ModalFooter>
+            @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.CancelCommandAllowed )
+            {
+                var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
 
-                    @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
+                @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
+                {
+                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
                     {
-                        @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
-                        {
-                            Clicked = EventCallback.Factory.Create( this, CloseModal ),
-                            LocalizationString = cancelButtonString,
-                            Item = EditItem,
-                        } )
+                        Clicked = EventCallback.Factory.Create( this, CloseModal ),
+                        LocalizationString = cancelButtonString,
+                        Item = EditItem,
+                    } )
+                }
+                else
+                {
+                    <Button Color="Color.Link" Clicked="@CloseModal">
+                        @cancelButtonString
+                    </Button>
+                }
+            }
+            @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
+            {
+                var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
+
+                @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
+                {
+                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
+                    {
+                        Clicked = callbackFactory.Create( this, Save ),
+                        LocalizationString = saveButtonString,
+                        Item = EditItem,
+                    } )
+                }
+                else
+                {
+                    @if ( ParentDataGrid.SubmitFormOnEnter )
+                    {
+                        <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
+                            @saveButtonString
+                        </Button>
                     }
                     else
                     {
-                        <Button Color="Color.Link" Clicked="@CloseModal">
-                            @cancelButtonString
+                        <Button Color="Color.Link" Clicked="@Save">
+                            @saveButtonString
                         </Button>
                     }
                 }
-                @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
-                {
-                    var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
-
-                    @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
-                    {
-                        @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
-                        {
-                            Clicked = callbackFactory.Create( this, Save ),
-                            LocalizationString = saveButtonString,
-                            Item = EditItem,
-                        } )
-                    }
-                    else
-                    {
-                        @if ( ParentDataGrid.SubmitFormOnEnter )
-                        {
-                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
-                                @saveButtonString
-                            </Button>
-                        }
-                        else
-                        {
-                            <Button Color="Color.Link" Clicked="@Save">
-                                @saveButtonString
-                            </Button>
-                        }
-                    }
-                }
-            </ModalFooter>
-        </Form>
+            }
+        </ModalFooter>
     </ModalContent>
 </Modal>
