@@ -519,10 +519,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( IsDynamicItem )
         {
-            var item = NewItemCreator is not null 
-                       ? NewItemCreator.Invoke() 
-                       : Data.IsNullOrEmpty() 
-                           ? default 
+            var item = NewItemCreator is not null
+                       ? NewItemCreator.Invoke()
+                       : Data.IsNullOrEmpty()
+                           ? default
                            : Data.FirstOrDefault();
 
             if ( item is ExpandoObject expando )
