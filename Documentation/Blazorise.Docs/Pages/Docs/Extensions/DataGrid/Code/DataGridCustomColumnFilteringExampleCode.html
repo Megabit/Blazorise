@@ -48,7 +48,6 @@
         (itemValue, searchValue) <span class="keyword">switch</span>
         {
             (_, <span class="keyword">null</span>)       =&gt; <span class="keyword">true</span>,
-            (not <span class="keyword">string</span>, _) =&gt; <span class="keyword">false</span>,
             (<span class="keyword">string</span> name, NameLengthFilter filter) =&gt; filter <span class="keyword">switch</span>
             {
                 NameLengthFilter.All          =&gt; <span class="keyword">true</span>,

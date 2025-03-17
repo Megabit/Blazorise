@@ -7654,7 +7654,6 @@ Install-Package Blazorise.Chart.Zoom";
         (itemValue, searchValue) switch
         {
             (_, null)       => true,
-            (not string, _) => false,
             (string name, NameLengthFilter filter) => filter switch
             {
                 NameLengthFilter.All          => true,
