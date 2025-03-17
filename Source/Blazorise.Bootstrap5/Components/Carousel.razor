@@ -6,13 +6,13 @@
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">
             @if (ShowIndicators)
             {
-                <ol class="@IndicatorsClassNames">
+                <div class="@IndicatorsClassNames">
                     @for (int i = 0; i < carouselSlides.Count; ++i)
                     {
                         int index = i;
-                        <li @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames"></li>
+                        <button type="button" @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames" data-bs-target aria-label="@($"Slide {index}")"></button>
                     }
-                </ol>
+                </div>
             }
 
             <div class="@SlidesClassNames">
