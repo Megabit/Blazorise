@@ -220,14 +220,14 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     }
 
     /// <inheritdoc/>
-    public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
+    public Task WriteToStreamAsync( IFileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
     {
         return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxChunkSize, MaxFileSize )
             .WriteToStreamAsync( stream, cancellationToken );
     }
 
     /// <inheritdoc/>
-    public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
+    public Stream OpenReadStream( IFileEntry fileEntry, CancellationToken cancellationToken = default )
     {
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxFileSize, cancellationToken );
     }
@@ -382,7 +382,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
 
     /// <summary>
     /// Gets or sets the max chunk size when uploading the file.
-    /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
+    /// Take note that if you're using <see cref="OpenReadStream(IFileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
     /// </summary>
     /// <remarks>
     /// See <see href="https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net">docs.microsoft.com</see>.
