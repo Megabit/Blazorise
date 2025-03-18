@@ -650,7 +650,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         DataGridEditState.New when CellsEditableOnNewCommand => true,
         DataGridEditState.Edit when CellsEditableOnEditCommand &&
-                                    (ParentDataGrid.EditMode != DataGridEditMode.Cell || CellEditing) => true,
+                                    ( ParentDataGrid.EditMode != DataGridEditMode.Cell || CellEditing ) => true,
         _ => false
     };
 
