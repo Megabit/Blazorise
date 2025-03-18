@@ -30,6 +30,8 @@ public class FormatersTests
     [InlineData( "FirstNameVeryLong", "First Name Very Long" )]
     [InlineData( " FirstName ", " First Name " )]
     [InlineData( "_FirstName ", "_First Name " )]
+    [InlineData( "UPPERCASE", "UPPERCASE" )]
+    [InlineData( "UPPER CASE", "UPPER CASE" )]
     [InlineData( null, null )]
     public void PascalCaseToFriendlyName_Returns_FriendlyFormat( string input, string expected )
     {
