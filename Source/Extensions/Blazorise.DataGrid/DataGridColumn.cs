@@ -646,24 +646,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Returns true if the cell value is editable.
     /// </summary>
-    public bool CellValueIsEditable
-        => Editable &&
-           (
-                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing
-                    && IsCellEditablePerCommand )
-                ||
-                ( ParentDataGrid.EditMode != DataGridEditMode.Cell
-                    || ( ParentDataGrid.EditState == DataGridEditState.New && ParentDataGrid.EditMode == DataGridEditMode.Cell ) //We don't have data, let's keep a regular editable row for New.
-                    && IsCellEditablePerCommand
-                )
-            );
-
-    protected bool IsCellEditablePerCommand
-        => (
-                        ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
-                        ||
-                        ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit )
-                        );
+    public bool CellValueIsEditable => Editable && ParentDataGrid.EditState switch
+    {
+        DataGridEditState.New when CellsEditableOnNewCommand => true,
+        DataGridEditState.Edit when CellsEditableOnEditCommand &&
+                                    ( ParentDataGrid.EditMode != DataGridEditMode.Cell || CellEditing ) => true,
+        _ => false
+    };
 
     /// <summary>
     /// Gets or sets the current sort direction.
