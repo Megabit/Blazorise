@@ -5,12 +5,34 @@
           <span class="htmlAttributeName">Filterable</span>
           <span class="htmlAttributeName">Responsive</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.FirstName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridSelectColumn</span> <span class="htmlAttributeName">CustomFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnGenderCustomFilter</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Gender )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Gender</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">EmployeeData</span><span class="enumValue">.Genders</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(x) =&gt; ((Gender)x).Code</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(x) =&gt; ((Gender)x).Description</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.FirstName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Name Length</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CustomFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnNameLengthFilter</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>context.FirstName.Length chars
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FilterTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Select</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">NameLengthFilter</span><span class="quot">&quot;</span> <span class="htmlAttributeName">SelectedValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(e =&gt; { context.TriggerFilterChange( e ); })</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="atSign">&#64;</span>foreach ( var filter in Enum.GetValues<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NameLengthFilter</span><span class="htmlTagDelimiter">&gt;</span>() )
+                {
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(filter)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="atSign">&#64;</span>( filter switch
+                        {
+                            NameLengthFilter.All =&gt; &quot;All&quot;,
+                            NameLengthFilter.LessThanFour =&gt; &quot;Less than 4&quot;,
+                            NameLengthFilter.FourToSix =&gt; &quot;5 to 7&quot;,
+                            NameLengthFilter.SixAndMore =&gt; &quot;7 and more&quot;,
+                            _ =&gt; filter.ToString()
+                        })
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
+                }
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Select</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FilterTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridSelectColumn</span> <span class="htmlAttributeName">CustomFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnGenderCustomFilter</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Gender )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Gender</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">EmployeeData</span><span class="enumValue">.Genders</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">x =&gt; ( (Gender)x ).Code</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">x =&gt; ( (Gender)x ).Description</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
-<span class="atSign">&#64;</span>code{
-    <span class="keyword">private</span> List&lt;Employee&gt; employeeList = <span class="keyword">new</span>() { <span class="keyword">new</span>() { FirstName = <span class="string">&quot;David&quot;</span>, Gender = <span class="string">&quot;M&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Mladen&quot;</span>, Gender = <span class="string">&quot;M&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;John&quot;</span>, Gender = <span class="string">&quot;M&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Ana&quot;</span>, Gender = <span class="string">&quot;F&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Jessica&quot;</span>, Gender = <span class="string">&quot;F&quot;</span> } };
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> List&lt;Employee&gt; employeeList = [<span class="keyword">new</span>() { FirstName = <span class="string">&quot;David&quot;</span>, Gender = <span class="string">&quot;M&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Mladen&quot;</span>, Gender = <span class="string">&quot;M&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;John&quot;</span>, Gender = <span class="string">&quot;M&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Ana&quot;</span>, Gender = <span class="string">&quot;F&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Jessica&quot;</span>, Gender = <span class="string">&quot;F&quot;</span> }];
 
     <span class="keyword">private</span> <span class="keyword">bool</span> OnGenderCustomFilter( <span class="keyword">object</span> itemValue, <span class="keyword">object</span> searchValue )
     {
@@ -22,6 +44,27 @@
         <span class="keyword">return</span> <span class="keyword">true</span>;
     }
 
+    <span class="keyword">private</span> <span class="keyword">bool</span> OnNameLengthFilter( <span class="keyword">object</span> itemValue, <span class="keyword">object</span> searchValue ) =&gt; (itemValue, searchValue) <span class="keyword">switch</span>
+    {
+        (_, <span class="keyword">null</span> ) =&gt; <span class="keyword">true</span>,
+        (<span class="keyword">string</span> name, NameLengthFilter filter ) =&gt; filter <span class="keyword">switch</span>
+        {
+            NameLengthFilter.All =&gt; <span class="keyword">true</span>,
+            NameLengthFilter.LessThanFour =&gt; name.Length &lt; <span class="number">4</span>,
+            NameLengthFilter.FourToSix =&gt; name.Length <span class="keyword">is</span> &gt;= <span class="number">4</span> and &lt;= <span class="number">6</span>,
+            NameLengthFilter.SixAndMore =&gt; name.Length &gt; <span class="number">6</span>,
+            _ =&gt; <span class="keyword">false</span>
+        },
+        _ =&gt; <span class="keyword">false</span>
+    };
+
+    <span class="keyword">enum</span> NameLengthFilter
+    {
+        All,
+        LessThanFour,
+        FourToSix,
+        SixAndMore
+    }
 }
 </pre></div>
 </div>
