@@ -52,6 +52,7 @@ public class PageEntryData
                 new PageEntry( "docs/components/field", "Field", "A generic container used to properly layout input elements on a form." ),
                 new PageEntry( "docs/components/figure", "Figure", "Documentation and examples for displaying related images and text with the figure component in Blazorise." ),
                 new PageEntry( "docs/components/file", "File Edit", "The FileEdit component is a specialized input that provides a clean interface for selecting files." ),
+                new PageEntry( "docs/components/file-picker", "File Picker", "The FilePicker component provides extra functionality, listing and detailing files, providing clear and upload buttons, and inbuilt progress." ),
                 new PageEntry( "docs/components/focus-trap", "FocusTrap", "Manages focus of the forms and its input elements." ),
                 new PageEntry( "docs/components/grid", "Grid", "A simple way to build responsive columns." ),
                 new PageEntry( "docs/components/highlighter", "Highlighter", "Visually highlight part of the text based on the search term." ),
