@@ -380,8 +380,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         Rows.Add( row );
     }
 
-    
-
     /// <summary>
     /// Removes an existing link of a child column with this datagrid.
     /// <para>
@@ -1059,47 +1057,46 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task New()
     {
-        return ProcessNewItem( CreateNewItem());
+        return ProcessNewItem( CreateNewItem() );
     }
-    
+
     /// <summary>
     /// Adds a new item to the DataGrid, either by opening it in edit mode or by adding the batch edit collection,
     /// depending on whether batch editing is enabled.
     /// </summary>
-    public Task New(TItem newItem)
+    public Task New( TItem newItem )
     {
-        return BatchEdit
-               ? AddToBatch(newItem)
-               : ProcessNewItem(newItem);
-    }
- 
-    private async Task AddToBatch( TItem newItem  )
-    {
-        batchChanges ??= new();
-
-        var batchItem = new DataGridBatchEditItem<TItem>( editItem, newItem, DataGridBatchEditItemState.New
-        , new Dictionary<string, CellEditContext> { } );
-        batchChanges.Add( batchItem );
-
-        SetDirty();
-
-        await BatchChange.InvokeAsync( new( batchItem ) );
+        return ProcessNewItem( newItem );
     }
 
-    private  Task ProcessNewItem(TItem newItem )
+    private async Task ProcessNewItem( TItem newItem )
     {
+        if ( BatchEdit )
+        {
+            batchChanges ??= new();
+
+            var batchItem = new DataGridBatchEditItem<TItem>( editItem, newItem, DataGridBatchEditItemState.New, new Dictionary<string, CellEditContext> { } );
+            batchChanges.Add( batchItem );
+
+            SetDirty();
+
+            await BatchChange.InvokeAsync( new( batchItem ) );
+
+            return;
+        }
+
         if ( Virtualize && EditMode != DataGridEditMode.Popup )
         {
-            VirtualizeScrollToTop();
+            await VirtualizeScrollToTop();
         }
-        
+
         NewItemDefaultSetter?.Invoke( newItem );
 
         InitEditItem( newItem );
 
         editState = DataGridEditState.New;
 
-        return InvokeAsync( StateHasChanged );
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
