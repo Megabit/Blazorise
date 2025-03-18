@@ -1057,7 +1057,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task New()
     {
-        return ProcessNewItem( CreateNewItem() );
+        return New( CreateNewItem() );
     }
 
     /// <summary>
@@ -1065,17 +1065,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// depending on whether batch editing is enabled.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task New( TItem newItem )
-    {
-        return ProcessNewItem( newItem );
-    }
-
-    /// <summary>
-    /// Processes a new item for the DataGrid.
-    /// </summary>
-    /// <param name="newItem">The new item to be processed.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    private async Task ProcessNewItem( TItem newItem )
+    public async Task New( TItem newItem )
     {
         if ( BatchEdit )
         {
