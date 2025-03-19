@@ -45,7 +45,6 @@ public interface IFileEntryOwner
     /// <summary>
     /// Element reference.
     /// </summary>
-    [JsonIgnore]
     ElementReference ElementRef { get; set; }
 
     /// <summary>
