@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.IO;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -44,10 +45,12 @@ public interface IFileEntryOwner
     /// <summary>
     /// Element reference.
     /// </summary>
+    [JsonIgnore]
     ElementReference ElementRef { get; set; }
 
     /// <summary>
     /// JS file module.
-    /// </summary>    
+    /// </summary>
+    [JsonIgnore]
     IJSFileModule JSFileModule { get; set; }
 }
