@@ -22,7 +22,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Auto Generate Columns Example">
-        The Blazorise DataGrid also supports auto-generating columns based on the data structure. This feature simplifies the process of displaying data by automatically creating columns that match the properties of the bound data objects.
+        <Paragraph>
+            The Blazorise DataGrid also supports auto-generating columns based on the data structure. This feature simplifies the process of displaying data by automatically creating columns that match the properties of the bound data objects.
+        </Paragraph>
+        <Paragraph>
+            Auto-generated columns support nullable data. If your data includes null values, ensure you provide a <Code>NewItemCreator</Code>. DataGrid requires an item with non-null values to properly generate the columns.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth>
         <DataGridDynamicAutoGenerateExample />

@@ -7615,11 +7615,33 @@ Install-Package Blazorise.Chart.Zoom";
           Filterable
           Responsive>
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
-    <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name Length"" Editable=""false"" CustomFilter=""@OnNameLengthFilter"">
+        <DisplayTemplate>
+            @context.FirstName.Length chars
+        </DisplayTemplate>
+        <FilterTemplate>
+            <Select TValue=""NameLengthFilter"" SelectedValueChanged=""@(e => { context.TriggerFilterChange( e ); })"">
+                @foreach ( var filter in Enum.GetValues<NameLengthFilter>() )
+                {
+                    <SelectItem Value=""@(filter)"">
+                        @( filter switch
+                        {
+                            NameLengthFilter.All => ""All"",
+                            NameLengthFilter.LessThanFour => ""Less than 4"",
+                            NameLengthFilter.FourToSix => ""5 to 7"",
+                            NameLengthFilter.SixAndMore => ""7 and more"",
+                            _ => filter.ToString()
+                        })
+                    </SelectItem>
+                }
+            </Select>
+        </FilterTemplate>
+    </DataGridColumn>
+    <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""x => ( (Gender)x ).Code"" TextField=""x => ( (Gender)x ).Description"" />
 </DataGrid>
 
-@code{
-    private List<Employee> employeeList = new() { new() { FirstName = ""David"", Gender = ""M"" }, new() { FirstName = ""Mladen"", Gender = ""M"" }, new() { FirstName = ""John"", Gender = ""M"" }, new() { FirstName = ""Ana"", Gender = ""F"" }, new() { FirstName = ""Jessica"", Gender = ""F"" } };
+@code {
+    private List<Employee> employeeList = [new() { FirstName = ""David"", Gender = ""M"" }, new() { FirstName = ""Mladen"", Gender = ""M"" }, new() { FirstName = ""John"", Gender = ""M"" }, new() { FirstName = ""Ana"", Gender = ""F"" }, new() { FirstName = ""Jessica"", Gender = ""F"" }];
 
     private bool OnGenderCustomFilter( object itemValue, object searchValue )
     {
@@ -7631,6 +7653,27 @@ Install-Package Blazorise.Chart.Zoom";
         return true;
     }
 
+    private bool OnNameLengthFilter( object itemValue, object searchValue ) => (itemValue, searchValue) switch
+    {
+        (_, null ) => true,
+        (string name, NameLengthFilter filter ) => filter switch
+        {
+            NameLengthFilter.All => true,
+            NameLengthFilter.LessThanFour => name.Length < 4,
+            NameLengthFilter.FourToSix => name.Length is >= 4 and <= 6,
+            NameLengthFilter.SixAndMore => name.Length > 6,
+            _ => false
+        },
+        _ => false
+    };
+
+    enum NameLengthFilter
+    {
+        All,
+        LessThanFour,
+        FourToSix,
+        SixAndMore
+    }
 }";
 
         public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit Value=""@customFilterValue"" ValueChanged=""@OnCustomFilterValueChanged""></TextEdit>
