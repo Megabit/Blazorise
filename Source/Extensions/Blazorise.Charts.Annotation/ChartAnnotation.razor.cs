@@ -1,10 +1,8 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Charts.Annotation;
@@ -13,94 +11,24 @@ namespace Blazorise.Charts.Annotation;
 /// Provides the annotation capabilities to the supported chart types.
 /// </summary>
 /// <typeparam name="TItem">Data point type.</typeparam>
-public partial class ChartAnnotation<TItem> : BaseComponent, IAsyncDisposable
+public partial class ChartAnnotation<TItem> : ChartPlugin<TItem, JSChartAnnotationModule>
 {
-    #region Members
+    
+    #region Methods
+    protected override JSChartAnnotationModule GetNewJsModule() => new( JSRuntime, VersionProvider, BlazoriseOptions );
 
-    private const string PluginName = "DataAnnotation";
+    protected override async Task InitializePluginByJsModule() => await JSModule.AddAnnotationOptions( ParentChart.ElementId, Options );
+
+    protected override bool InitPluginInParameterSet( ParameterView parameters ) 
+        => parameters.TryGetValue<Dictionary<string, ChartAnnotationOptions>>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
 
     #endregion
-
-    /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered && JSModule is not null )
-        {
-            var optionsChanged = parameters.TryGetValue<Dictionary<string, ChartAnnotationOptions>>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
-
-            if ( optionsChanged )
-            {
-                ExecuteAfterRender( async () =>
-                {
-                    await JSModule.AddAnnotationOptions( ParentChart.ElementId, Options );
-                } );
-            }
-        }
-
-        return base.SetParametersAsync( parameters );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInitializedAsync()
-    {
-        if ( ParentChart is not null )
-        {
-            ParentChart.Initialized += OnParentChartInitialized;
-
-            ParentChart.NotifyPluginInitialized( PluginName );
-        }
-
-        return base.OnInitializedAsync();
-    }
-
-    private async void OnParentChartInitialized( object sender, EventArgs e )
-    {
-        if ( JSModule == null )
-        {
-            JSModule = new JSChartAnnotationModule( JSRuntime, VersionProvider, BlazoriseOptions );
-
-            ExecuteAfterRender( async () =>
-            {
-                await JSModule.AddAnnotationOptions( ParentChart.ElementId, Options );
-            } );
-
-            await InvokeAsync( StateHasChanged );
-        }
-    }
-
-    /// <inheritdoc/>
-    protected override async ValueTask DisposeAsync( bool disposing )
-    {
-        if ( disposing && Rendered )
-        {
-            await JSModule.SafeDisposeAsync();
-
-            if ( ParentChart is not null )
-            {
-                ParentChart.Initialized -= OnParentChartInitialized;
-
-                ParentChart.NotifyPluginRemoved( PluginName );
-            }
-        }
-
-        await base.DisposeAsync( disposing );
-    }
-
-    /// <inheritdoc/>
-    protected override bool ShouldAutoGenerateId => true;
-
-    protected JSChartAnnotationModule JSModule { get; private set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    [Inject] private IVersionProvider VersionProvider { get; set; }
-
-    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
-
-    [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
-
+    protected override JSChartAnnotationModule JSModule { get;  set; }
+    
     /// <summary>
     /// Defines the options for an annotation.
     /// </summary>
     [Parameter] public Dictionary<string, ChartAnnotationOptions> Options { get; set; }
+
+    protected override string Name => "DataAnnotation";
 }

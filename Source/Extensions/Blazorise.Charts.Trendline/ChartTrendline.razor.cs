@@ -14,17 +14,18 @@ public interface IChartTrendline
 }
 
 /// <summary>
-/// Provides the streaming capabilities to the supported chart types.
+/// This plugin (computes and) draws a linear trend line in the chart.
+/// This plugin works with @ref and call of the AddTrendLineOptions method after
+/// dataset has been added and chart.Update has been called
 /// </summary>
 /// <typeparam name="TItem">Data point type.</typeparam>
-public partial class ChartTrendline<TItem> : BaseComponent, IChartTrendline, IAsyncDisposable
+public partial class ChartTrendline<TItem> : BaseComponent, IChartTrendline, IAsyncDisposable 
+// doesn't inherit from ChartPlugin as the other plugins, since it's called from users code and doesn't need the
+// management synchronization with the ParentChart
 {
     protected override Task OnInitializedAsync()
     {
-        if ( JSModule == null )
-        {
-            JSModule = new JSChartTrendlineModule( JSRuntime, VersionProvider, BlazoriseOptions );
-        }
+        JSModule ??= new JSChartTrendlineModule(JSRuntime, VersionProvider, BlazoriseOptions);
 
         return base.OnInitializedAsync();
     }

@@ -19,18 +19,11 @@ namespace Blazorise.Charts;
 public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
 {
     #region Members
-
-    /// <summary>
-    /// Occures after the chart has initialized successfully.
-    /// </summary>
-    public event EventHandler Initialized;
-    
-    public  List<BaseChartPlugin> ChartPlugins = [];
-
-    /// <summary>
-    /// List of registered plugins for this chart.
-    /// </summary>
-    private readonly List<string> pluginNames = new();
+  
+    // List of plugins inside the chart. The plugins are notified about chart initialization later.
+    // plugins cannot be properly initialized before the chart itself done so.
+    // 
+    private readonly List<ChartPlugin> chartPlugins = [];
 
     #endregion
 
@@ -38,10 +31,7 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
 
     protected override Task OnInitializedAsync()
     {
-        if ( JSModule == null )
-        {
-            JSModule = new JSChartModule( JSRuntime, VersionProvider, BlazoriseOptions );
-        }
+        JSModule ??= new JSChartModule(JSRuntime, VersionProvider, BlazoriseOptions);
 
         return base.OnInitializedAsync();
     }
@@ -72,48 +62,33 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Notifies the chart that it is being properly initialized.
+    /// Notifies the chart and its plugins that it was properly initialized.
+    /// This is called after chart render and initialization.
+    /// That time, the plugins are already in the list.
     /// </summary>
     protected async Task NotifyInitialized()
     {
-        var tasks = ChartPlugins.Select(handler => handler.OnParentChartInitialized());
+        var tasks = chartPlugins.Select(handler => handler.OnParentChartInitialized());
         await Task.WhenAll(tasks); 
-        
-        Initialized?.Invoke( this, EventArgs.Empty );
     }
 
     /// <summary>
     /// Notifies the chart that it contains the plugin.
     /// </summary>
-    /// <param name="pluginName">Plugin name that is placed inside of the chart.</param>
-    public void NotifyPluginInitialized( string pluginName )
-    {
-        if ( !pluginNames.Contains( pluginName ) )
-        {
-            pluginNames.Add( pluginName );
-        }
-    }
+    /// <param name="plugin">Plugin name that is placed inside the chart.</param>
     
-    public void NotifyBasePluginInitialized( BaseChartPlugin plugin )
+    public void NotifyPluginInitialized( ChartPlugin plugin )
     {
-       ChartPlugins.Add( plugin );
+       chartPlugins.Add( plugin );
     }
 
     /// <summary>
-    /// Notifies the chart that it should remove the plugin.
+    /// Notifies the chart that it should remove the plugin. Freeing the reference. 
     /// </summary>
-    /// <param name="pluginName">Plugin name that is placed inside of the chart.</param>
-    public void NotifyPluginRemoved( string pluginName )
+    /// <param name="plugin">Plugin that is placed inside the chart.</param>
+    public void NotifyPluginRemoved( ChartPlugin plugin )
     {
-        if ( pluginNames.Contains( pluginName ) )
-        {
-            pluginNames.Remove( pluginName );
-        }
-    }
-    
-    public void NotifyBasePluginRemoved( BaseChartPlugin plugin )
-    {
-        ChartPlugins.Remove( plugin );
+        chartPlugins.Remove( plugin );
     }
 
     #endregion
@@ -130,7 +105,7 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets the list of registered plugins inside of this chart.
     /// </summary>
-    protected IReadOnlyList<string> PluginNames => pluginNames.Concat(ChartPlugins.Select(x => x.Name)).ToList();
+    protected IReadOnlyList<string> PluginNames => chartPlugins.Select(x => x.Name).ToList();
 
     [Inject] protected IJSRuntime JSRuntime { get; set; }
 

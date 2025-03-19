@@ -7,21 +7,22 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts;
 
-public abstract class BaseChartPlugin : BaseComponent, IAsyncDisposable
+public abstract class ChartPlugin : BaseComponent, IAsyncDisposable
 {
     protected internal abstract Task OnParentChartInitialized();
     protected internal abstract string Name { get; }
 }
 
-public abstract class BaseChartPlugin<TItem, TJSModule> : BaseChartPlugin
+public abstract class ChartPlugin<TItem, TJSModule> : ChartPlugin
 where TJSModule : IBaseJSModule, IAsyncDisposable
 {
+    #region Methods
 
     protected abstract TJSModule GetNewJsModule();
 
-    protected abstract Task AddPlugin();
+    protected abstract Task InitializePluginByJsModule();
 
-    protected abstract bool ProceedWithExecution( ParameterView parameterView );
+    protected abstract bool InitPluginInParameterSet( ParameterView parameterView );
 
     protected internal override async Task OnParentChartInitialized()
     {
@@ -29,7 +30,7 @@ where TJSModule : IBaseJSModule, IAsyncDisposable
         JSModule = GetNewJsModule();
         ExecuteAfterRender( async () =>
         {
-            await AddPlugin();
+            await InitializePluginByJsModule();
         } );
         await InvokeAsync( StateHasChanged );
     }
@@ -39,13 +40,13 @@ where TJSModule : IBaseJSModule, IAsyncDisposable
     {
         if ( Rendered && JSModule is not null )
         {
-            bool optionsChanged = ProceedWithExecution( parameters );
+            bool optionsChanged = InitPluginInParameterSet( parameters );
 
             if ( optionsChanged )
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await AddPlugin();
+                    await InitializePluginByJsModule();
                 } );
             }
         }
@@ -61,30 +62,30 @@ where TJSModule : IBaseJSModule, IAsyncDisposable
             if ( JSModule is not null )
                 await JSModule.SafeDisposeAsync();
 
-            ParentChart?.NotifyBasePluginRemoved( this );
+            ParentChart?.NotifyPluginRemoved( this );
         }
 
         await base.DisposeAsync( disposing );
     }
 
-    //  
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
         if ( ParentChart is null )
-            throw new InvalidOperationException( $"Chart Plugin {Name} can be used only inside the Blazoris.Chart" );
-        ParentChart.NotifyBasePluginInitialized( this );
+            throw new InvalidOperationException( $"Chart Plugin {Name} can be used only inside the Blazorise.Chart" );
+        ParentChart.NotifyPluginInitialized( this );
         return base.OnInitializedAsync();
     }
     
-    
+    #endregion
+
+    #region Properties
     [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
 
     protected abstract TJSModule JSModule { get; set; }
     
     protected override bool ShouldAutoGenerateId => true;
 
-    
     /// <summary>
     /// Gets or sets the JS runtime.
     /// </summary>
@@ -99,4 +100,6 @@ where TJSModule : IBaseJSModule, IAsyncDisposable
     /// Gets or sets the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
+    
+    #endregion
 }
