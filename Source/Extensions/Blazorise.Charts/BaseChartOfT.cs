@@ -1,8 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -22,6 +24,8 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     /// Occures after the chart has initialized successfully.
     /// </summary>
     public event EventHandler Initialized;
+    
+    public  List<BaseChartPlugin> ChartPlugins = [];
 
     /// <summary>
     /// List of registered plugins for this chart.
@@ -70,8 +74,11 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Notifies the chart that it is being properly initialized.
     /// </summary>
-    protected void NotifyInitialized()
+    protected async Task NotifyInitialized()
     {
+        var tasks = ChartPlugins.Select(handler => handler.OnParentChartInitialized());
+        await Task.WhenAll(tasks); 
+        
         Initialized?.Invoke( this, EventArgs.Empty );
     }
 
@@ -86,6 +93,11 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
             pluginNames.Add( pluginName );
         }
     }
+    
+    public void NotifyBasePluginInitialized( BaseChartPlugin plugin )
+    {
+       ChartPlugins.Add( plugin );
+    }
 
     /// <summary>
     /// Notifies the chart that it should remove the plugin.
@@ -97,6 +109,11 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
         {
             pluginNames.Remove( pluginName );
         }
+    }
+    
+    public void NotifyBasePluginRemoved( BaseChartPlugin plugin )
+    {
+        ChartPlugins.Remove( plugin );
     }
 
     #endregion
@@ -113,7 +130,7 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets the list of registered plugins inside of this chart.
     /// </summary>
-    protected IReadOnlyList<string> PluginNames => pluginNames;
+    protected IReadOnlyList<string> PluginNames => pluginNames.Concat(ChartPlugins.Select(x => x.Name)).ToList();
 
     [Inject] protected IJSRuntime JSRuntime { get; set; }
 

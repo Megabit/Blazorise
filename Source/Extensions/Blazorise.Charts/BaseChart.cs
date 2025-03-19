@@ -34,7 +34,7 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
 
             initialized = true;
 
-            NotifyInitialized();
+            await NotifyInitialized();
         }
 
         // Update the charts if the data has changed
