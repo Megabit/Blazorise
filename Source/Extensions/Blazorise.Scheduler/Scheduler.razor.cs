@@ -139,10 +139,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task NavigatePrevious()
     {
-        if ( SelectedView == SchedulerView.Week )
+        if ( SelectedView == SchedulerView.Week && schedulerWeekView is not null )
         {
             state.SelectedDate = WeekNavigationMode == SchedulerWeekNavigationMode.FirstDayOfWeek
-                ? state.SelectedDate.StartOfPreviousWeek( FirstDayOfWeek )
+                ? state.SelectedDate.StartOfPreviousWeek( schedulerWeekView.FirstDayOfWeek )
                 : state.SelectedDate.AddDays( -7 );
         }
         else
@@ -161,10 +161,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task NavigateNext()
     {
-        if ( SelectedView == SchedulerView.Week )
+        if ( SelectedView == SchedulerView.Week && schedulerWeekView is not null )
         {
             state.SelectedDate = WeekNavigationMode == SchedulerWeekNavigationMode.FirstDayOfWeek
-                ? state.SelectedDate.StartOfNextWeek( FirstDayOfWeek )
+                ? state.SelectedDate.StartOfNextWeek( schedulerWeekView.FirstDayOfWeek )
                 : state.SelectedDate.AddDays( 7 );
         }
         else
@@ -307,11 +307,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<DateOnly> DateChanged { get; set; }
 
     /// <summary>
-    /// The first day of the week. Determines the first day of the week that is displayed in the scheduler.
-    /// </summary>
-    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
-
-    /// <summary>
     /// The mode of the week navigation. Determines how the week navigation is handled.
     /// </summary>
     [Parameter] public SchedulerWeekNavigationMode WeekNavigationMode { get; set; } = SchedulerWeekNavigationMode.FirstDayOfWeek;
@@ -355,11 +350,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the description of the appointment. Defaults to "Description".
     /// </summary>
     [Parameter] public string DescriptionField { get; set; } = "Description";
-
-    /// <summary>
-    /// Defines the number of slots available per cell, defaulting to 2. This parameter can be adjusted to change the cell configuration.
-    /// </summary>
-    [Parameter] public int SlotsPerCell { get; set; } = 2;
 
     /// <summary>
     /// Occurs when an appointment is clicked.

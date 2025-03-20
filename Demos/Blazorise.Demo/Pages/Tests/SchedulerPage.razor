@@ -8,12 +8,11 @@
             <CardBody>
                 <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
                            Appointments="@Appointments"
-                           FirstDayOfWeek="DayOfWeek.Monday"
                            SlotClicked="@OnSlotClicked">
                     <SchedulerToolbar />
                     <SchedulerViews>
-                        <SchedulerDayView StartTime="@(new TimeOnly( 8, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" />
-                        <SchedulerWeekView StartTime="@(new TimeOnly( 8, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" />
+                        <SchedulerDayView StartTime="@(new TimeOnly( 8, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 9, 0 ))" WorkDayEnd="@(new TimeOnly( 15, 0 ))" />
+                        <SchedulerWeekView StartTime="@(new TimeOnly( 8, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 9, 0 ))" WorkDayEnd="@(new TimeOnly( 15, 0 ))" />
                     </SchedulerViews>
                 </Scheduler>
             </CardBody>

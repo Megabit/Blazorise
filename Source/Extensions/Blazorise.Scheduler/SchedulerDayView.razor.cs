@@ -1,11 +1,13 @@
 ﻿#region Using directives
-using System;
-using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Scheduler;
 
-public partial class SchedulerDayView<TItem>
+/// <summary>
+/// Represents a view for scheduling events on a daily basis within a scheduler framework.
+/// </summary>
+/// <typeparam name="TItem">Represents the type of items that can be scheduled, such as events or tasks.</typeparam>
+public partial class SchedulerDayView<TItem> : BaseSchedulerView<TItem>
 {
     #region Members
 
@@ -23,15 +25,6 @@ public partial class SchedulerDayView<TItem>
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Gets or sets the scheduler component that the view belongs to.
-    /// </summary>
-    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
-
-    [Parameter] public TimeOnly? StartTime { get; set; }
-
-    [Parameter] public TimeOnly? EndTime { get; set; }
 
     #endregion
 }

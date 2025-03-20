@@ -5,17 +5,30 @@
         <CascadingValue Value="@State">
             @if ( schedulerToolbar is not null && ShowToolbar )
             {
-                <_SchedulerToolbar TItem="TItem" SelectedDate="@state.SelectedDate" SelectedView="@SelectedView" FirstDayOfWeek="@FirstDayOfWeek" />
+                <_SchedulerToolbar TItem="TItem" SelectedDate="@state.SelectedDate" SelectedView="@SelectedView" FirstDayOfWeek="@(schedulerWeekView?.FirstDayOfWeek ?? DayOfWeek.Sunday)" />
             }
 
             <_SchedulerViews TItem="TItem">
                 @if ( ShowingDayView )
                 {
-                    <_SchedulerDayView TItem="TItem" StartTime="@schedulerDayView.StartTime" EndTime="@schedulerDayView.EndTime" SelectedDate="@state.SelectedDate" SlotsPerCell="@SlotsPerCell" />
+                    <_SchedulerDayView TItem="TItem"
+                        StartTime="@schedulerDayView.StartTime"
+                        EndTime="@schedulerDayView.EndTime"
+                        WorkDayStart="@schedulerDayView.WorkDayStart"
+                        WorkDayEnd="@schedulerDayView.WorkDayEnd"
+                        SlotsPerCell="@schedulerDayView.SlotsPerCell"
+                        SelectedDate="@state.SelectedDate" />
                 }
                 @if ( ShowingWeekView )
                 {
-                    <_SchedulerWeekView TItem="TItem" StartTime="@schedulerWeekView.StartTime" EndTime="@schedulerWeekView.EndTime" SelectedDate="@state.SelectedDate" FirstDayOfWeek="@FirstDayOfWeek" SlotsPerCell="@SlotsPerCell" />
+                    <_SchedulerWeekView TItem="TItem"
+                        StartTime="@schedulerWeekView.StartTime"
+                        EndTime="@schedulerWeekView.EndTime"
+                        WorkDayStart="@schedulerDayView.WorkDayStart"
+                        WorkDayEnd="@schedulerDayView.WorkDayEnd"
+                        SlotsPerCell="@schedulerWeekView.SlotsPerCell"
+                        FirstDayOfWeek="@schedulerWeekView.FirstDayOfWeek"
+                        SelectedDate="@state.SelectedDate" />
                 }
             </_SchedulerViews>
             <_SchedulerModal TItem="TItem" @ref="@schedulerModalRef" TitleField="@TitleField" DescriptionField="@DescriptionField" StartField="@StartField" EndField="@EndField" Saved="@OnModalSaved" />

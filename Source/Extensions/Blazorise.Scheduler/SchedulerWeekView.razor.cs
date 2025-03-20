@@ -5,7 +5,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Scheduler;
 
-public partial class SchedulerWeekView<TItem>
+/// <summary>
+/// Represents a weekly view in a scheduler, allowing customization of the displayed week.
+/// </summary>
+/// <typeparam name="TItem">This type parameter is used to define the type of items that will be scheduled and displayed in the view.</typeparam>
+public partial class SchedulerWeekView<TItem> : BaseSchedulerView<TItem>
 {
     #region Methods
 
@@ -21,13 +25,9 @@ public partial class SchedulerWeekView<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets the scheduler component that the view belongs to.
+    /// The first day of the week. Determines the first day of the week that is displayed in the scheduler.
     /// </summary>
-    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
-
-    [Parameter] public TimeOnly? StartTime { get; set; }
-
-    [Parameter] public TimeOnly? EndTime { get; set; }
+    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
 
     #endregion
 }
