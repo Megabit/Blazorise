@@ -357,6 +357,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public string DescriptionField { get; set; } = "Description";
 
     /// <summary>
+    /// Defines the number of slots available per cell, defaulting to 2. This parameter can be adjusted to change the cell configuration.
+    /// </summary>
+    [Parameter] public int SlotsPerCell { get; set; } = 2;
+
+    /// <summary>
     /// Occurs when an appointment is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerSlotClickedEventArgs> SlotClicked { get; set; }

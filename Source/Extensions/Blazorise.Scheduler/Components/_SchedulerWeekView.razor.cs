@@ -31,5 +31,7 @@ public partial class _SchedulerWeekView<TItem>
 
     [Parameter] public TimeOnly? EndTime { get; set; }
 
+    [Parameter] public int SlotsPerCell { get; set; }
+
     #endregion
 }

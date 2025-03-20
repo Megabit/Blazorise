@@ -13,7 +13,7 @@
     }
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
     {
-        <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" />
+        <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" SlotsPerCell="@SlotsPerCell" />
     }
 </Div>
 @code {
@@ -30,4 +30,6 @@
     [Parameter] public TimeOnly? EndTime { get; set; }
 
     [Parameter] public bool ShowDayHeader { get; set; }
+
+    [Parameter] public int SlotsPerCell { get; set; }
 }

@@ -26,10 +26,10 @@ public partial class _SchedulerDayCell<TItem>
 
     protected TimeSpan GetTime( int slotIndex )
     {
-        if ( Slots <= 0 )
+        if ( SlotsPerCell <= 0 )
             return TimeSpan.Zero;
 
-        var slotDuration = TimeSpan.FromHours( 1.0 / Slots );
+        var slotDuration = TimeSpan.FromHours( 1.0 / SlotsPerCell );
         var time = slotDuration * ( slotIndex - 1 );
 
         return time;
@@ -45,7 +45,7 @@ public partial class _SchedulerDayCell<TItem>
 
     [Parameter] public int Hour { get; set; }
 
-    [Parameter] public int Slots { get; set; } = 2;
+    [Parameter] public int SlotsPerCell { get; set; }
 
     #endregion
 }

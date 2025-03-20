@@ -8,7 +8,7 @@
 
         @for ( var date = startOfWeek; date <= startOfWeek.AddDays( 6 ); date = date.AddDays( 1 ) )
         {
-            <_SchedulerDayColumn  TItem="TItem"StartTime="@StartTime" EndTime="@EndTime" Date="@date" SelectedDate="@SelectedDate" ShowDayHeader />
+            <_SchedulerDayColumn  TItem="TItem"StartTime="@StartTime" EndTime="@EndTime" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader />
         }
     }
 </Div>

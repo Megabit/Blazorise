@@ -11,11 +11,11 @@
             <_SchedulerViews TItem="TItem">
                 @if ( ShowingDayView )
                 {
-                    <_SchedulerDayView TItem="TItem" StartTime="@schedulerDayView.StartTime" EndTime="@schedulerDayView.EndTime" SelectedDate="@state.SelectedDate" />
+                    <_SchedulerDayView TItem="TItem" StartTime="@schedulerDayView.StartTime" EndTime="@schedulerDayView.EndTime" SelectedDate="@state.SelectedDate" SlotsPerCell="@SlotsPerCell" />
                 }
                 @if ( ShowingWeekView )
                 {
-                    <_SchedulerWeekView TItem="TItem" StartTime="@schedulerWeekView.StartTime" EndTime="@schedulerWeekView.EndTime" SelectedDate="@state.SelectedDate" FirstDayOfWeek="@FirstDayOfWeek" />
+                    <_SchedulerWeekView TItem="TItem" StartTime="@schedulerWeekView.StartTime" EndTime="@schedulerWeekView.EndTime" SelectedDate="@state.SelectedDate" FirstDayOfWeek="@FirstDayOfWeek" SlotsPerCell="@SlotsPerCell" />
                 }
             </_SchedulerViews>
             <_SchedulerModal TItem="TItem" @ref="@schedulerModalRef" TitleField="@TitleField" DescriptionField="@DescriptionField" StartField="@StartField" EndField="@EndField" Saved="@OnModalSaved" />
