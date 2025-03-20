@@ -11,7 +11,7 @@
             </Span>
         </Div>
     }
-    @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 24 ); ++hour )
+    @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
     {
         <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" />
     }
