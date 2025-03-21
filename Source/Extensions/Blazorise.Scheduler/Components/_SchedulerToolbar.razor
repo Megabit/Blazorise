@@ -23,6 +23,14 @@
             <Span>-</Span>
             <Span>@startOfWeek.AddDays( 6 ).ToLongDateString()</Span>
         }
+        else if ( WorkWeekViewSelected )
+        {
+            var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWorkWeek );
+
+            <Span>@startOfWeek.ToLongDateString()</Span>
+            <Span>-</Span>
+            <Span>@startOfWeek.AddDays( 4 ).ToLongDateString()</Span>
+        }
         else
         {
             @SelectedDate.ToLongDateString()
