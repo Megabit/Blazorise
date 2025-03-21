@@ -53,6 +53,12 @@ public partial class _SchedulerToolbar<TItem> : BaseComponent
             await SchedulerState.WeekViewRequested.InvokeCallbackAsync();
     }
 
+    protected async Task OnWorkWeekViewClick()
+    {
+        if ( SchedulerState?.WorkWeekViewRequested is not null )
+            await SchedulerState.WorkWeekViewRequested.InvokeCallbackAsync();
+    }
+
     #endregion
 
     #region Properties
@@ -60,6 +66,8 @@ public partial class _SchedulerToolbar<TItem> : BaseComponent
     protected bool DayViewSelected => SelectedView == SchedulerView.Day;
 
     protected bool WeekViewSelected => SelectedView == SchedulerView.Week;
+
+    protected bool WorkWeekViewSelected => SelectedView == SchedulerView.WorkWeek;
 
     /// <summary>
     /// Gets or sets the scheduler state.
@@ -80,6 +88,14 @@ public partial class _SchedulerToolbar<TItem> : BaseComponent
     /// Gets or sets the first day of the week.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+
+    [Parameter] public DayOfWeek FirstDayOfWorkWeek { get; set; }
+
+    [Parameter] public bool ShowDayViewButton { get; set; }
+
+    [Parameter] public bool ShowWeekViewButton { get; set; }
+
+    [Parameter] public bool ShowWorkWeekViewButton { get; set; }
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.

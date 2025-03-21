@@ -30,12 +30,24 @@
     </Span>
 
     <Buttons>
-        <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@DayViewSelected" Clicked="@OnDayViewClick">
-            Day
-        </Button>
-        <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WeekViewSelected" Clicked="@OnWeekViewClick">
-            Week
-        </Button>
+        @if ( ShowDayViewButton )
+        {
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@DayViewSelected" Clicked="@OnDayViewClick">
+                Day
+            </Button>
+        }
+        @if ( ShowWeekViewButton )
+        {
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WeekViewSelected" Clicked="@OnWeekViewClick">
+                Week
+            </Button>
+        }
+        @if ( ShowWorkWeekViewButton )
+        {
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WorkWeekViewSelected" Clicked="@OnWorkWeekViewClick">
+                Work Week
+            </Button>
+        }
     </Buttons>
 
     @ChildContent

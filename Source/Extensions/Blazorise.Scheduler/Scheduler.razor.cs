@@ -31,12 +31,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private SchedulerToolbar<TItem> schedulerToolbar;
     private SchedulerDayView<TItem> schedulerDayView;
     private SchedulerWeekView<TItem> schedulerWeekView;
+    private SchedulerWorkWeekView<TItem> schedulerWorkWeekView;
 
     private readonly EventCallbackSubscriber prevDaySubscriber;
     private readonly EventCallbackSubscriber nextDaySubscriber;
     private readonly EventCallbackSubscriber todaySubscriber;
     private readonly EventCallbackSubscriber dayViewSubscriber;
     private readonly EventCallbackSubscriber weekViewSubscriber;
+    private readonly EventCallbackSubscriber workWeekViewSubscriber;
 
     private Func<TItem, DateOnly, int, TimeSpan, bool> searchPredicate;
     private Func<TItem, object> getIdFunc;
@@ -59,6 +61,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         todaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigateToday ) );
         dayViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowDayView ) );
         weekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWeekView ) );
+        workWeekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWorkWeekView ) );
 
         searchPredicate = SchedulerExpressionCompiler.BuildSearchPredicate<TItem>( StartField, EndField );
         getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
@@ -78,6 +81,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         todaySubscriber.SubscribeOrReplace( State?.TodayRequested );
         dayViewSubscriber.SubscribeOrReplace( State?.DayViewRequested );
         weekViewSubscriber.SubscribeOrReplace( State?.WeekViewRequested );
+        workWeekViewSubscriber.SubscribeOrReplace( State?.WorkWeekViewRequested );
 
         return base.OnParametersSetAsync();
     }
@@ -113,6 +117,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             todaySubscriber?.Dispose();
             dayViewSubscriber?.Dispose();
             weekViewSubscriber?.Dispose();
+            workWeekViewSubscriber?.Dispose();
         }
 
         await base.DisposeAsync( disposing );
@@ -133,6 +138,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         this.schedulerWeekView = schedulerWeekView;
     }
 
+    internal void NotifySchedulerWorkWeekView( SchedulerWorkWeekView<TItem> schedulerWorkWeekView )
+    {
+        this.schedulerWorkWeekView = schedulerWorkWeekView;
+    }
+
     /// <summary>
     /// Navigates to the previous date.
     /// </summary>
@@ -143,6 +153,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             state.SelectedDate = WeekNavigationMode == SchedulerWeekNavigationMode.FirstDayOfWeek
                 ? state.SelectedDate.StartOfPreviousWeek( schedulerWeekView.FirstDayOfWeek )
+                : state.SelectedDate.AddDays( -7 );
+        }
+        else if ( SelectedView == SchedulerView.WorkWeek && schedulerWorkWeekView is not null )
+        {
+            state.SelectedDate = WeekNavigationMode == SchedulerWeekNavigationMode.FirstDayOfWeek
+                ? state.SelectedDate.StartOfPreviousWeek( schedulerWorkWeekView.FirstDayOfWorkWeek )
                 : state.SelectedDate.AddDays( -7 );
         }
         else
@@ -167,6 +183,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 ? state.SelectedDate.StartOfNextWeek( schedulerWeekView.FirstDayOfWeek )
                 : state.SelectedDate.AddDays( 7 );
         }
+        else if ( SelectedView == SchedulerView.WorkWeek && schedulerWorkWeekView is not null )
+        {
+            state.SelectedDate = WeekNavigationMode == SchedulerWeekNavigationMode.FirstDayOfWeek
+                ? state.SelectedDate.StartOfNextWeek( schedulerWorkWeekView.FirstDayOfWorkWeek )
+                : state.SelectedDate.AddDays( 7 );
+        }
         else
         {
             state.SelectedDate = state.SelectedDate.AddDays( 1 );
@@ -188,7 +210,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Navigates to the day view.
+    /// Sets the selected view to 'Day' and triggers an update to reflect this change. It also invokes a state change asynchronously.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ShowDayView()
@@ -199,12 +221,23 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Navigates to the week view.
+    /// Sets the selected view to 'Week' and triggers an update to reflect this change. It also invokes a state change asynchronously.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ShowWeekView()
     {
         SelectedView = SchedulerView.Week;
+        await SelectedViewChanged.InvokeAsync( SelectedView );
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Sets the selected view to 'WorkWeek' and triggers an update to reflect this change. It also invokes a state change asynchronously.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task ShowWorkWeekView()
+    {
+        SelectedView = SchedulerView.WorkWeek;
         await SelectedViewChanged.InvokeAsync( SelectedView );
         await InvokeAsync( StateHasChanged );
     }
@@ -277,14 +310,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     #region Properties
 
     /// <summary>
-    /// Indicates if the day view should be displayed.
+    /// Indicates whether the day view is currently displayed.
     /// </summary>
     protected bool ShowingDayView => schedulerDayView is not null && SelectedView == SchedulerView.Day;
 
     /// <summary>
-    /// Indicates if the week view should be displayed.
+    /// Indicates whether the week view is currently displayed.
     /// </summary>
-    protected bool ShowingWeekView => schedulerDayView is not null && SelectedView == SchedulerView.Week;
+    protected bool ShowingWeekView => schedulerWeekView is not null && SelectedView == SchedulerView.Week;
+
+    /// <summary>
+    /// Indicates whether the work week view is currently displayed.
+    /// </summary>
+    protected bool ShowingWorkWeekView => schedulerWorkWeekView is not null && SelectedView == SchedulerView.WorkWeek;
 
     /// <summary>
     /// Gets the scheduler state.

@@ -9,13 +9,13 @@ namespace Blazorise.Scheduler;
 /// Represents a weekly view in a scheduler, allowing customization of the displayed week.
 /// </summary>
 /// <typeparam name="TItem">This type parameter is used to define the type of items that will be scheduled and displayed in the view.</typeparam>
-public partial class SchedulerWeekView<TItem> : BaseSchedulerView<TItem>
+public partial class SchedulerWorkWeekView<TItem> : BaseSchedulerView<TItem>
 {
     #region Methods
 
     protected override void OnInitialized()
     {
-        Scheduler?.NotifySchedulerWeekView( this );
+        Scheduler?.NotifySchedulerWorkWeekView( this );
 
         base.OnInitialized();
     }
@@ -25,9 +25,9 @@ public partial class SchedulerWeekView<TItem> : BaseSchedulerView<TItem>
     #region Properties
 
     /// <summary>
-    /// The first day of the week. Determines the first day of the week that is displayed in the scheduler.
+    /// The first day of the work week. Determines the first day of the work week that is displayed in the scheduler. Default is Monday.
     /// </summary>
-    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
+    [Parameter] public DayOfWeek FirstDayOfWorkWeek { get; set; } = DayOfWeek.Monday;
 
     #endregion
 }
