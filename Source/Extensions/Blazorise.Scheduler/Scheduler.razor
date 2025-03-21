@@ -51,7 +51,9 @@
                 }
                 else if ( ShowingMonthView )
                 {
-                    <_SchedulerMonthView TItem="TItem" />
+                    <_SchedulerMonthView TItem="TItem"
+                                         SelectedDate="@state.SelectedDate"
+                                         FirstDayOfWeek="@schedulerMonthView.FirstDayOfWeek" />
                 }
             </_SchedulerViews>
             <_SchedulerModal TItem="TItem" @ref="@schedulerModalRef" TitleField="@TitleField" DescriptionField="@DescriptionField" StartField="@StartField" EndField="@EndField" Saved="@OnModalSaved" />

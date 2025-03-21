@@ -171,6 +171,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 ? state.SelectedDate.StartOfPreviousWeek( schedulerWorkWeekView.FirstDayOfWorkWeek )
                 : state.SelectedDate.AddDays( -7 );
         }
+        else if ( SelectedView == SchedulerView.Month && schedulerMonthView is not null )
+        {
+            state.SelectedDate = state.SelectedDate.AddMonths( -1 );
+        }
         else
         {
             state.SelectedDate = state.SelectedDate.AddDays( -1 );
@@ -198,6 +202,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             state.SelectedDate = WeekNavigationMode == SchedulerWeekNavigationMode.FirstDayOfWeek
                 ? state.SelectedDate.StartOfNextWeek( schedulerWorkWeekView.FirstDayOfWorkWeek )
                 : state.SelectedDate.AddDays( 7 );
+        }
+        else if ( SelectedView == SchedulerView.Month && schedulerMonthView is not null )
+        {
+            state.SelectedDate = state.SelectedDate.AddMonths( 1 );
         }
         else
         {

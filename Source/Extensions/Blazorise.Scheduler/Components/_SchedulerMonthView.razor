@@ -1,15 +1,20 @@
 ﻿@using Blazorise.Scheduler.Extensions
 @typeparam TItem
-<Div Flex="Blazorise.Flex.Column" Width="Width.Is100">
-    @for ( var weekIndex = 0; weekIndex < 6; weekIndex++ )
-    {
-        <Div Flex="Blazorise.Flex.Default" Width="Width.Is100">
-            @for ( var dayIndex = 0; dayIndex < 7; dayIndex++ )
-            {                    
-                <Div Width="Width.Is100">
-                    @( weekIndex * 7 + dayIndex + 1 )
-                </Div>
-            }
-        </Div>
+<Div Flex="Blazorise.Flex.Default" Width="Width.Is100">
+    @{
+        var firstDayOfMonth = SelectedDate.StartOfMonth();
+        var startOfWeek = FirstDayOfWeek;
+        var offset = ( (int)firstDayOfMonth.DayOfWeek - (int)startOfWeek + 7 ) % 7;
+        var minDate = firstDayOfMonth.AddDays( -offset );
+
+        var lastDayOfMonth = SelectedDate.EndOfMonth();
+        var endOfWeek = (DayOfWeek)( ( (int)startOfWeek + 6 ) % 7 );
+        var offsetEnd = ( (int)endOfWeek - (int)lastDayOfMonth.DayOfWeek + 7 ) % 7;
+        var maxDate = lastDayOfMonth.AddDays( offsetEnd );
+
+        @for ( var firstDateOfWeek = minDate; firstDateOfWeek <= minDate.AddDays( 6 ); firstDateOfWeek = firstDateOfWeek.AddDays( 1 ) )
+        {
+            <_SchedulerWeekColumn MinDate="@minDate" MaxDate="@maxDate" FirstDateOfWeek="@firstDateOfWeek" SelectedDate="@SelectedDate" />
+        }
     }
 </Div>

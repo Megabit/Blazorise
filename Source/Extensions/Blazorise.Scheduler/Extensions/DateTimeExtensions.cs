@@ -56,4 +56,24 @@ public static class DateTimeExtensions
         int diff = ( 7 + ( startOfWeek - dt.DayOfWeek ) ) % 7;
         return dt.AddDays( diff == 0 ? 7 : diff );
     }
+
+    /// <summary>
+    /// Calculates the first day of the month for a given date.
+    /// </summary>
+    /// <param name="dt">Represents a specific date from which the first day of the month will be determined.</param>
+    /// <returns>Returns a new date representing the first day of the month of the provided date.</returns>
+    public static DateOnly StartOfMonth( this DateOnly dt )
+    {
+        return new DateOnly( dt.Year, dt.Month, 1 );
+    }
+
+    /// <summary>
+    /// Calculates the last day of the month for a given date.
+    /// </summary>
+    /// <param name="dt">Represents a specific date from which the end of the month is determined.</param>
+    /// <returns>Returns a new date representing the last day of the month.</returns>
+    public static DateOnly EndOfMonth( this DateOnly dt )
+    {
+        return new DateOnly( dt.Year, dt.Month, DateTime.DaysInMonth( dt.Year, dt.Month ) );
+    }
 }
