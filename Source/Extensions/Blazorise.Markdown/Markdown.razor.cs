@@ -297,7 +297,8 @@ public partial class Markdown : BaseComponent,
 
         foreach ( var file in fileEntries )
         {
-            await file.Owner.RemoveFileEntry( file );
+            if ( JSFileModule is not null )
+                await JSFileModule.RemoveFileEntry( ElementRef, file.Id );
         }
 
         await InvokeAsync( StateHasChanged );
