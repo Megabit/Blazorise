@@ -1,0 +1,15 @@
+﻿@using Blazorise.Scheduler.Extensions
+@typeparam TItem
+<Div Flex="Blazorise.Flex.Column" Width="Width.Is100">
+    @for ( var weekIndex = 0; weekIndex < 6; weekIndex++ )
+    {
+        <Div Flex="Blazorise.Flex.Default" Width="Width.Is100">
+            @for ( var dayIndex = 0; dayIndex < 7; dayIndex++ )
+            {                    
+                <Div Width="Width.Is100">
+                    @( weekIndex * 7 + dayIndex + 1 )
+                </Div>
+            }
+        </Div>
+    }
+</Div>

@@ -44,4 +44,9 @@ public record SchedulerState
     /// Gets the event callback that is triggered when a request is made to navigate to the work week view.
     /// </summary>
     internal EventCallbackSubscribable WorkWeekViewRequested { get; } = new();
+
+    /// <summary>
+    /// Gets the event callback that is triggered when a request is made to navigate to the month view.
+    /// </summary>
+    internal EventCallbackSubscribable MonthViewRequested { get; } = new();
 }

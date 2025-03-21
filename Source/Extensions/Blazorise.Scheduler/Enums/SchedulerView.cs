@@ -19,4 +19,9 @@ public enum SchedulerView
     /// Represents the work week configuration or schedule. It defines the days and hours designated for work.
     /// </summary>
     WorkWeek,
+
+    /// <summary>
+    /// Represents the month view, typically used in date-related contexts. It may include properties for month number and associated year.
+    /// </summary>
+    Month,
 }

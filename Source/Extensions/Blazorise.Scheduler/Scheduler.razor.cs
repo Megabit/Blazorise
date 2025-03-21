@@ -32,6 +32,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private SchedulerDayView<TItem> schedulerDayView;
     private SchedulerWeekView<TItem> schedulerWeekView;
     private SchedulerWorkWeekView<TItem> schedulerWorkWeekView;
+    private SchedulerMonthView<TItem> schedulerMonthView;
 
     private readonly EventCallbackSubscriber prevDaySubscriber;
     private readonly EventCallbackSubscriber nextDaySubscriber;
@@ -39,6 +40,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private readonly EventCallbackSubscriber dayViewSubscriber;
     private readonly EventCallbackSubscriber weekViewSubscriber;
     private readonly EventCallbackSubscriber workWeekViewSubscriber;
+    private readonly EventCallbackSubscriber monthViewSubscriber;
 
     private Func<TItem, DateOnly, int, TimeSpan, bool> searchPredicate;
     private Func<TItem, object> getIdFunc;
@@ -62,6 +64,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         dayViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowDayView ) );
         weekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWeekView ) );
         workWeekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWorkWeekView ) );
+        monthViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowMonthView ) );
 
         searchPredicate = SchedulerExpressionCompiler.BuildSearchPredicate<TItem>( StartField, EndField );
         getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
@@ -82,6 +85,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         dayViewSubscriber.SubscribeOrReplace( State?.DayViewRequested );
         weekViewSubscriber.SubscribeOrReplace( State?.WeekViewRequested );
         workWeekViewSubscriber.SubscribeOrReplace( State?.WorkWeekViewRequested );
+        monthViewSubscriber.SubscribeOrReplace( State?.MonthViewRequested );
 
         return base.OnParametersSetAsync();
     }
@@ -118,6 +122,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             dayViewSubscriber?.Dispose();
             weekViewSubscriber?.Dispose();
             workWeekViewSubscriber?.Dispose();
+            monthViewSubscriber?.Dispose();
         }
 
         await base.DisposeAsync( disposing );
@@ -141,6 +146,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal void NotifySchedulerWorkWeekView( SchedulerWorkWeekView<TItem> schedulerWorkWeekView )
     {
         this.schedulerWorkWeekView = schedulerWorkWeekView;
+    }
+
+    internal void NotifySchedulerMonthView( SchedulerMonthView<TItem> schedulerMonthView )
+    {
+        this.schedulerMonthView = schedulerMonthView;
     }
 
     /// <summary>
@@ -210,7 +220,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the selected view to 'Day' and triggers an update to reflect this change. It also invokes a state change asynchronously.
+    /// Sets the selected view to 'Day' and triggers an update to reflect this change.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ShowDayView()
@@ -221,7 +231,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the selected view to 'Week' and triggers an update to reflect this change. It also invokes a state change asynchronously.
+    /// Sets the selected view to 'Week' and triggers an update to reflect this change.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ShowWeekView()
@@ -232,12 +242,23 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the selected view to 'WorkWeek' and triggers an update to reflect this change. It also invokes a state change asynchronously.
+    /// Sets the selected view to 'WorkWeek' and triggers an update to reflect this change.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ShowWorkWeekView()
     {
         SelectedView = SchedulerView.WorkWeek;
+        await SelectedViewChanged.InvokeAsync( SelectedView );
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Sets the selected view to 'Month' and triggers an update to reflect this change.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task ShowMonthView()
+    {
+        SelectedView = SchedulerView.Month;
         await SelectedViewChanged.InvokeAsync( SelectedView );
         await InvokeAsync( StateHasChanged );
     }
@@ -323,6 +344,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Indicates whether the work week view is currently displayed.
     /// </summary>
     protected bool ShowingWorkWeekView => schedulerWorkWeekView is not null && SelectedView == SchedulerView.WorkWeek;
+
+    /// <summary>
+    /// Indicates whether the month view is currently displayed.
+    /// </summary>
+    protected bool ShowingMonthView => schedulerMonthView is not null && SelectedView == SchedulerView.Month;
 
     /// <summary>
     /// Gets the scheduler state.

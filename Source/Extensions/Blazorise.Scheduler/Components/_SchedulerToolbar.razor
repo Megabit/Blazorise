@@ -31,6 +31,10 @@
             <Span>-</Span>
             <Span>@startOfWeek.AddDays( 4 ).ToLongDateString()</Span>
         }
+        else if ( MonthViewSelected )
+        {
+            <Span>Not yet implemented</Span>
+        }
         else
         {
             @SelectedDate.ToLongDateString()
@@ -54,6 +58,12 @@
         {
             <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WorkWeekViewSelected" Clicked="@OnWorkWeekViewClick">
                 Work Week
+            </Button>
+        }
+        @if ( ShowMonthViewButton )
+        {
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@MonthViewSelected" Clicked="@OnMonthViewClick">
+                Month
             </Button>
         }
     </Buttons>
