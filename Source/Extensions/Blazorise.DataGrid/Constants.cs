@@ -1,0 +1,32 @@
+namespace Blazorise.DataGrid;
+
+static class Constants
+{
+    // Display
+    internal static readonly IFluentDisplay DisplayInlineBlock = Display.InlineBlock;
+    internal static readonly IFluentDisplay DisplayNone = Display.None;
+    internal static readonly IFluentDisplay DisplayAlways = Display.Always;
+    internal static readonly IFluentDisplay DisplayTableRow = Display.TableRow;
+    internal static readonly IFluentDisplay DisplayNoneOnMobileInlineBlockOnDesktop = Display.None.OnMobile.InlineBlock.OnDesktop;
+    internal static readonly IFluentDisplay DisplayInlineBlockNoneOnDesktop = Display.InlineBlock.None.OnDesktop;
+    internal static readonly IFluentDisplay DisplayNoneOnMobileInlineFlexRowOnTablet = Display.None.OnMobile.InlineFlex.Row.OnTablet;
+    internal static readonly IFluentDisplay DisplayInlineFlexRowNoneOnTablet = Display.InlineFlex.Row.None.OnTablet;
+    internal static readonly IFluentDisplay DisplayNoneOnMobileInlineFlexRowOnDesktop = Display.None.OnMobile.InlineFlex.Row.OnDesktop;
+
+    // Margins
+    internal static readonly IFluentSpacing MarginIsAutoOnX = Margin.IsAuto.OnX;
+    internal static readonly IFluentSpacing MarginIsAutoFromStart = Margin.IsAuto.FromStart;
+    internal static readonly IFluentSpacing MarginIs1FromStart = Margin.Is1.FromStart;
+    internal static readonly IFluentSpacing MarginIsAutoOnYIs2FromStart = Margin.IsAuto.OnY.Is2.FromStart;
+    internal static readonly IFluentSpacing MarginIs0FromBottomIs3FromStart = Margin.Is0.FromBottom.Is3.FromStart;
+    internal static readonly IFluentSpacing MarginIs2FromStart = Margin.Is2.FromStart;
+    internal static readonly IFluentSpacing MarginIs1FromEnd = Margin.Is1.FromEnd;
+    
+    // Flex
+    internal static readonly IFluentFlex FlexRow = Flex.Row;
+    internal static readonly IFluentFlex FlexJustifyContentEndAlignItemsCenter = Flex.JustifyContent.End.AlignItems.Center;
+    internal static readonly IFluentFlex FlexRowAlignItemsCenterJustifyContentEnd =Flex.Row.AlignItems.Center.JustifyContent.End;
+    internal static readonly IFluentFlex FlexInlineFlexOnTabletJustifyContentCenterOnTablet = Flex.InlineFlex.OnTablet.JustifyContent.Center.OnTablet;
+    internal static readonly IFluentFlex FlexGrowIs1 = Flex.Grow.Is1;
+
+}
