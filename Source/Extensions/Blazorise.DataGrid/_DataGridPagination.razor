@@ -216,7 +216,7 @@
                     var pageNumberString = i.ToString();
                     var pageActive = pageNumber == PaginationContext.CurrentPage;
 
-                    <PaginationItem Flex="Constants.FlexInlineFlexOnTabletJustifyContentCenterOnTablet" Display="Constants.DisplayNoneOnMobileInlineFlexRowOnTablet" Disabled="@(pageNumber == PaginationContext.Page)" Active="@pageActive">
+                    <PaginationItem Flex="Constants.FlexInlineFlexOnTabletJustifyContentCenterOnTablet" Display="Constants.DisplayNoneOnMobileInlineFlexRowOnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
                         <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
                             @if ( PageButtonTemplate is not null )
                             {
