@@ -1,5 +1,5 @@
 ﻿<Div Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
-    <Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( 60 )" Border="Border.Is1.OnBottom.Is1.OnStart">
+    <Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( CellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart">
         <Span TextWeight="TextWeight.Bold">
             @FirstDateOfWeek.ToString( "dddd" )
         </Span>
@@ -31,4 +31,6 @@
     [Parameter] public DateOnly MaxDate { get; set; }
 
     [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public double CellHeight { get; set; }
 }

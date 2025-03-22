@@ -1,8 +1,9 @@
-﻿@typeparam TItem
+﻿@using System.Text
+@typeparam TItem
 <Div Class="b-scheduler-slot" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
     @foreach ( var appointment in Appointments ?? Enumerable.Empty<TItem>() )
     {
-        <Span Background="Background.Warning" Flex="Flex.JustifyContent.Start.AlignItems.Center" TextOverflow="TextOverflow.Truncate">
+        <Span Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Start.AlignItems.Center" TextOverflow="TextOverflow.Truncate" Style="@GetAppointmentStyle( appointment )">
             @Scheduler?.GetAppointmentTitle( appointment )
         </Span>
     }
@@ -27,6 +28,21 @@
         return Clicked.InvokeAsync( Time );
     }
 
+    private string GetAppointmentStyle( TItem appointment )
+    {
+        var sb = new StringBuilder( "cursor: pointer; left: 0; top: 0; right: 0; z-index: 1;" );
+
+        var duration = Scheduler.GetAppointmentDuration( appointment );
+
+        if ( duration != TimeSpan.Zero )
+        {
+            var height = duration.TotalMinutes / 60 * CellHeight;
+            sb.Append( $"height: {height}px;" );
+        }
+
+        return sb.ToString();
+    }
+
     private bool MouseHovering { get; set; }
 
     IFluentBorder BottomBorder => Last ? null : Blazorise.Border.Is1.OnBottom;
@@ -36,7 +52,7 @@
        : Blazorise.Background.Default;
 
     IEnumerable<TItem> Appointments => Scheduler?.AppointmentsInRange( Date, Hour, Time );
-    
+
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     [Parameter] public EventCallback<TimeSpan> Clicked { get; set; }
@@ -48,6 +64,8 @@
     [Parameter] public TimeSpan Time { get; set; }
 
     [Parameter] public bool Last { get; set; }
+
+    [Parameter] public double CellHeight { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

@@ -2,38 +2,44 @@
 <Modal @ref="@modalRef">
     <ModalContent Centered>
         <ModalHeader>
-            <ModalTitle>Employee edit</ModalTitle>
+            <ModalTitle>
+                @(IsNewItem ? "New" : "Edit") Appointment
+            </ModalTitle>
             <CloseButton />
         </ModalHeader>
         <ModalBody>
-            @if ( TitleAvailable )
-            {
-                <Field>
-                    <FieldLabel>Title</FieldLabel>
-                    <TextEdit @bind-Value="@Title" />
-                </Field>
-            }
-            @if ( StartAvailable )
-            {
-                <Field>
-                    <FieldLabel>Start</FieldLabel>
-                    <DatePicker @bind-Value="@Start" StaticPicker="false" />
-                </Field>
-            }
-            @if ( EndAvailable )
-            {
-                <Field>
-                    <FieldLabel>End</FieldLabel>
-                    <DatePicker @bind-Value="@End" StaticPicker="false" />
-                </Field>
-            }
-            @if ( DescriptionAvailable )
-            {
-                <Field>
-                    <FieldLabel>Description</FieldLabel>
-                    <MemoEdit @bind-Value="@Description" Rows="4" />
-                </Field>
-            }
+            <Validations @ref="@validationsRef" Mode="ValidationMode.Manual">
+                @if ( TitleAvailable )
+                {
+                    <Validation Validator="ValidationRule.IsNotEmpty">
+                        <Field>
+                            <FieldLabel>Title</FieldLabel>
+                            <TextEdit @bind-Value="@Title" />
+                        </Field>
+                    </Validation>
+                }
+                @if ( StartAvailable )
+                {
+                    <Field>
+                        <FieldLabel>Start</FieldLabel>
+                        <DatePicker @bind-Value="@Start" StaticPicker="false" InputMode="DateInputMode.DateTime" />
+                    </Field>
+                }
+                @if ( EndAvailable )
+                {
+                    <Field>
+                        <FieldLabel>End</FieldLabel>
+                        <DatePicker @bind-Value="@End" StaticPicker="false" InputMode="DateInputMode.DateTime" />
+                    </Field>
+                }
+                @if ( DescriptionAvailable )
+                {
+                    <Field>
+                        <FieldLabel>Description</FieldLabel>
+                        <MemoEdit @bind-Value="@Description" Rows="4" />
+                    </Field>
+                }
+            </Validations>
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@Cancel">Close</Button>

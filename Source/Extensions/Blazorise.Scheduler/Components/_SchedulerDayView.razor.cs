@@ -29,5 +29,7 @@ public partial class _SchedulerDayView<TItem>
 
     [Parameter] public int SlotsPerCell { get; set; }
 
+    [Parameter] public double CellHeight { get; set; }
+
     #endregion
 }

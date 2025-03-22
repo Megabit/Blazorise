@@ -46,6 +46,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private Func<TItem, object> getIdFunc;
     private Func<TItem, string> getTitleFunc;
     private Func<TItem, string> getDescriptionFunc;
+    private Func<TItem, object> getStartFunc;
+    private Func<TItem, object> getEndFunc;
 
     protected _SchedulerModal<TItem> schedulerModalRef;
 
@@ -70,6 +72,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
         getTitleFunc = SchedulerExpressionCompiler.BuildGetStringFunc<TItem>( TitleField );
         getDescriptionFunc = SchedulerExpressionCompiler.BuildGetStringFunc<TItem>( DescriptionField );
+        getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( StartField );
+        getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
     }
 
     #endregion
@@ -294,6 +298,24 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Calculates the duration of an appointment based on its start and end times.
+    /// </summary>
+    /// <param name="appointment">Represents an appointment from which the start and end times are derived.</param>
+    /// <returns>Returns the duration as a TimeSpan, or zero if the times are not valid DateTime values.</returns>
+    internal TimeSpan GetAppointmentDuration( TItem appointment )
+    {
+        var start = getStartFunc( appointment );
+        var end = getEndFunc( appointment );
+
+        if ( start is DateTime startDateTime && end is DateTime endDateTime )
+        {
+            return endDateTime - startDateTime;
+        }
+
+        return TimeSpan.Zero;
+    }
+
+    /// <summary>
     /// Gets the description of the specified appointment.
     /// </summary>
     /// <param name="appointment">The appointment to get the description from.</param>
@@ -303,13 +325,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return getDescriptionFunc( appointment );
     }
 
-    internal async Task NotifySlotClicked( DateOnly date, TimeOnly time )
+    internal async Task NotifySlotClicked( DateOnly date, TimeOnly time, TimeSpan duration )
     {
         if ( schedulerModalRef is not null )
         {
             var item = Appointments.FirstOrDefault( x => searchPredicate( x, date, time.Hour, time.ToTimeSpan() ) );
+            var startClicked = date.ToDateTime( time );
+            var endClicked = startClicked.Add( duration );
 
-            await schedulerModalRef.ShowModal( item.DeepClone() );
+            await schedulerModalRef.ShowModal( item.DeepClone(), startClicked, endClicked );
         }
 
         await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( date, time ) );
@@ -320,15 +344,18 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         var id = getIdFunc( item );
         var existingItem = Appointments.FirstOrDefault( x => Equals( getIdFunc( x ), id ) );
 
-        if ( existingItem is not null && Appointments is ICollection<TItem> items )
+        if ( Appointments is ICollection<TItem> items )
         {
-            var index = Appointments.ToList().IndexOf( existingItem );
-            items.Remove( existingItem );
-            items.Add( item );
-        }
-        else
-        {
-            Appointments = Appointments.Append( item );
+            if ( existingItem is not null )
+            {
+                //var index = Appointments.ToList().IndexOf( existingItem );
+                items.Remove( existingItem );
+                items.Add( item );
+            }
+            else
+            {
+                items.Add( item );
+            }
         }
 
         return Task.CompletedTask;

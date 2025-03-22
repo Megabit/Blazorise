@@ -27,5 +27,7 @@ public partial class _SchedulerMonthView<TItem>
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 
+    [Parameter] public double CellHeight { get; set; }
+
     #endregion
 }

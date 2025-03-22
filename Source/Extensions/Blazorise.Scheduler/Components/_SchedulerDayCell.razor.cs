@@ -21,7 +21,7 @@ public partial class _SchedulerDayCell<TItem>
     {
         Console.WriteLine( $"Slot clicked: {time}" );
 
-        await Scheduler.NotifySlotClicked( Date, new TimeOnly( Hour, time.Minutes ) );
+        await Scheduler.NotifySlotClicked( Date, new TimeOnly( Hour, time.Minutes ), ( new TimeSpan( 1, 0, 0 ) / SlotsPerCell ) );
     }
 
     protected TimeSpan GetTime( int slotIndex )
@@ -54,6 +54,8 @@ public partial class _SchedulerDayCell<TItem>
     [Parameter] public TimeOnly? WorkDayEnd { get; set; }
 
     [Parameter] public int SlotsPerCell { get; set; }
+
+    [Parameter] public double CellHeight { get; set; }
 
     #endregion
 }

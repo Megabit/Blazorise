@@ -13,6 +13,9 @@ public partial class _SchedulerModal<TItem>
 
     private Modal modalRef;
 
+    private Func<TItem, object> getIdValue;
+    private Action<TItem, object> setIdValue;
+
     private Func<TItem, object> getTitleValue;
     private Action<TItem, object> setTitleValue;
 
@@ -27,6 +30,8 @@ public partial class _SchedulerModal<TItem>
 
     private readonly Lazy<Func<TItem>> newItemCreator;
 
+    private Validations validationsRef;
+
     #endregion
 
     #region Constructors
@@ -40,6 +45,12 @@ public partial class _SchedulerModal<TItem>
 
     protected override void OnInitialized()
     {
+        if ( typeof( TItem ).GetProperty( IdField ).PropertyType is not null )
+        {
+            getIdValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
+            setIdValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( IdField );
+        }
+
         if ( typeof( TItem ).GetProperty( TitleField ).PropertyType is not null )
         {
             getTitleValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( TitleField );
@@ -69,17 +80,25 @@ public partial class _SchedulerModal<TItem>
 
     #region Methods
 
-    public Task ShowModal( TItem item )
+    public Task ShowModal( TItem item, DateTime? start = null, DateTime? end = null )
     {
+        IsNewItem = item is null;
+
         if ( item is null )
             EditItem = newItemCreator.Value();
         else
             EditItem = item;
 
-        if ( EditItem is not null )
+        Title = getTitleValue?.Invoke( EditItem )?.ToString();
+        Description = getDescriptionValue?.Invoke( EditItem )?.ToString();
+
+        if ( IsNewItem )
         {
-            Title = getTitleValue?.Invoke( EditItem )?.ToString();
-            Description = getDescriptionValue?.Invoke( EditItem )?.ToString();
+            Start = start ?? default;
+            End = end ?? default;
+        }
+        else
+        {
             Start = (DateTime)getStartValue?.Invoke( EditItem );
             End = (DateTime)getEndValue?.Invoke( EditItem );
         }
@@ -94,22 +113,32 @@ public partial class _SchedulerModal<TItem>
 
     public async Task Submit()
     {
-        if ( EditItem is not null )
+        if ( await validationsRef.ValidateAll() )
         {
-            setTitleValue?.Invoke( EditItem, Title );
-            setDescriptionValue?.Invoke( EditItem, Description );
-            setStartValue?.Invoke( EditItem, Start );
-            setEndValue?.Invoke( EditItem, End );
+            if ( EditItem is not null )
+            {
+                var id = getIdValue?.Invoke( EditItem );
 
-            await Saved.InvokeAsync( EditItem );
+                if ( id is null )
+                    setIdValue?.Invoke( EditItem, Guid.NewGuid().ToString() );
+
+                setTitleValue?.Invoke( EditItem, Title );
+                setDescriptionValue?.Invoke( EditItem, Description );
+                setStartValue?.Invoke( EditItem, Start );
+                setEndValue?.Invoke( EditItem, End );
+
+                await Saved.InvokeAsync( EditItem );
+            }
+
+            await modalRef.Hide();
         }
-
-        await modalRef.Hide();
     }
 
     #endregion
 
     #region Properties
+
+    protected bool IsNewItem { get; set; }
 
     protected bool TitleAvailable => getTitleValue is not null;
 
@@ -128,6 +157,11 @@ public partial class _SchedulerModal<TItem>
     protected DateTime End { get; set; }
 
     public TItem EditItem { get; set; }
+
+    /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the unique identifier of the appointment. Defaults to "Id".
+    /// </summary>
+    [Parameter] public string IdField { get; set; }
 
     /// <summary>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the start date of the appointment. Defaults to "Start".
@@ -149,6 +183,9 @@ public partial class _SchedulerModal<TItem>
     /// </summary>
     [Parameter] public string DescriptionField { get; set; }
 
+    /// <summary>
+    /// Represents an event callback that is triggered when an item is saved.
+    /// </summary>
     [Parameter] public EventCallback<TItem> Saved { get; set; }
 
     #endregion

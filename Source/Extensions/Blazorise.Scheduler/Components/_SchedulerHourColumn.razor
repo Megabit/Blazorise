@@ -1,7 +1,7 @@
 ﻿<Div Position="Blazorise.Position.Relative">
     @if ( ShowDayHeader )
     {
-        <Div Class="b-scheduler-hour" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( 60 )" Border="Border.Is1.OnBottom">
+        <Div Class="b-scheduler-hour" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( CellHeight )" Border="Border.Is1.OnBottom">
             <Div Class="b-scheduler-hour-header" TextWeight="Blazorise.TextWeight.Bold" Padding="Blazorise.Padding.Is3">
                 <Span></Span>
             </Div>
@@ -12,7 +12,7 @@
     {
         int tempHour = hour;
 
-        <Div Class="b-scheduler-hour" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( 60 )" Border="Border.Is1.OnBottom">
+        <Div Class="b-scheduler-hour" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( CellHeight )" Border="Border.Is1.OnBottom">
             <_SchedulerHourCell Hour="@tempHour" />
         </Div>
     }
@@ -23,4 +23,6 @@
     [Parameter] public TimeOnly? EndTime { get; set; }
 
     [Parameter] public bool ShowDayHeader { get; set; }
+
+    [Parameter] public double CellHeight { get; set; }
 }
