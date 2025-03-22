@@ -17,14 +17,14 @@
             {
                 <Field>
                     <FieldLabel>Start</FieldLabel>
-                    <DatePicker @bind-Value="@Start" />
+                    <DatePicker @bind-Value="@Start" StaticPicker="false" />
                 </Field>
             }
             @if ( EndAvailable )
             {
                 <Field>
                     <FieldLabel>End</FieldLabel>
-                    <DatePicker @bind-Value="@End" />
+                    <DatePicker @bind-Value="@End" StaticPicker="false" />
                 </Field>
             }
             @if ( DescriptionAvailable )
