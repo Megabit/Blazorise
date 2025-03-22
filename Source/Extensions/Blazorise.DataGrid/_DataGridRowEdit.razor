@@ -7,7 +7,7 @@
             <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
                 @if ( ParentDataGrid.ShowValidationsSummary )
                 {
-                    <Row Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Display.Always : Display.None)">
+                    <Row Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Constants.DisplayAlways : Constants.DisplayNone)">
                         <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                     </Row>
                 }
@@ -95,7 +95,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
     <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem" HandlerType="@ParentDataGrid?.ValidationsHandlerType">
         @if ( ParentDataGrid.ShowValidationsSummary )
         {
-            <TableRow Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Display.TableRow : Display.None)">
+            <TableRow Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Constants.DisplayTableRow : Constants.DisplayNone)">
                 <TableRowCell ColumnSpan="@Columns.Count()">
                     <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                 </TableRowCell>

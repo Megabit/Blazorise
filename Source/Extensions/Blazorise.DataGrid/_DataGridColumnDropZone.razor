@@ -1,13 +1,14 @@
 @using Blazorise.Extensions;
 @typeparam TItem
 
-<Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Flex="Flex.Grow.Is1"
+
+<Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Flex="Constants.FlexGrowIs1"
      ondragover="event.preventDefault();" @ondrop="OnDrop">
     @if ( !Columns.IsNullOrEmpty() )
     {
         @foreach ( var column in ( Columns ) )
         {
-            <Badge @key="column.ElementId" Color="Color.Secondary" Padding="Padding.Is2" Margin="Margin.Is2.FromStart" CloseClicked="() => RemoveColumn(column)">@column.Caption</Badge>
+            <Badge @key="column.ElementId" Color="Color.Secondary" Padding="Padding.Is2" Margin="Constants.MarginIs2FromStart" CloseClicked="() => RemoveColumn(column)">@column.Caption</Badge>
         }
 
     }
