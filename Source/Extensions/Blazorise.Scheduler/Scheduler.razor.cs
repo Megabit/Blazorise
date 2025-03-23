@@ -16,8 +16,9 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Scheduler;
 
 /// <summary>
-/// A scheduler component that allows users to view and manage appointments.
+/// Represents a scheduler component that manages and displays appointments, allowing navigation and editing of scheduled items.
 /// </summary>
+/// <typeparam name="TItem">Represents the type of items that the scheduler will manage, such as appointments or events.</typeparam>
 [CascadingTypeParameter( nameof( TItem ) )]
 public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 {
@@ -302,30 +303,30 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="slotHour">The hour to filter appointments.</param>
     /// <param name="time">The time range to filter appointments.</param>
     /// <returns>An enumerable collection of appointments that match the specified criteria.</returns>
-    internal IEnumerable<TItem> AppointmentsInRange( DateOnly date, int slotHour, TimeSpan time )
+    internal IEnumerable<TItem> ItemsInRange( DateOnly date, int slotHour, TimeSpan time )
     {
-        return Appointments?.Where( x => searchPredicate( x, date, slotHour, time ) );
+        return Data?.Where( x => searchPredicate( x, date, slotHour, time ) );
     }
 
     /// <summary>
     /// Gets the title of the specified appointment.
     /// </summary>
-    /// <param name="appointment">The appointment to get the title from.</param>
+    /// <param name="item">The appointment to get the title from.</param>
     /// <returns>The title of the appointment.</returns>
-    internal string GetAppointmentTitle( TItem appointment )
+    internal string GetItemTitle( TItem item )
     {
-        return getTitleFunc( appointment );
+        return getTitleFunc( item );
     }
 
     /// <summary>
     /// Calculates the duration of an appointment based on its start and end times.
     /// </summary>
-    /// <param name="appointment">Represents an appointment from which the start and end times are derived.</param>
+    /// <param name="item">Represents an appointment from which the start and end times are derived.</param>
     /// <returns>Returns the duration as a TimeSpan, or zero if the times are not valid DateTime values.</returns>
-    internal TimeSpan GetAppointmentDuration( TItem appointment )
+    internal TimeSpan GetItemDuration( TItem item )
     {
-        var start = getStartFunc( appointment );
-        var end = getEndFunc( appointment );
+        var start = getStartFunc( item );
+        var end = getEndFunc( item );
 
         if ( start is DateTime startDateTime && end is DateTime endDateTime )
         {
@@ -338,36 +339,50 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets the description of the specified appointment.
     /// </summary>
-    /// <param name="appointment">The appointment to get the description from.</param>
+    /// <param name="item">The appointment to get the description from.</param>
     /// <returns>The description of the appointment.</returns>
-    internal string GetAppointmentDescription( TItem appointment )
+    internal string GetItemDescription( TItem item )
     {
-        return getDescriptionFunc( appointment );
+        return getDescriptionFunc( item );
     }
 
-    internal void SetAppointmentStart( TItem appointment, object value )
+    /// <summary>
+    /// Sets the starting value for a specified item using a provided value.
+    /// </summary>
+    /// <param name="item">Specifies the item for which the starting value is being set.</param>
+    /// <param name="value">Provides the value to be assigned as the starting point for the specified item.</param>
+    internal void SetItemStart( TItem item, object value )
     {
-        setStartFunc( appointment, value );
+        setStartFunc( item, value );
     }
 
-
-    internal void SetAppointmentEnd( TItem appointment, object value )
+    /// <summary>
+    /// Sets the end value for a specified item using a provided function.
+    /// </summary>
+    /// <param name="item">Specifies the item for which the end value is being set.</param>
+    /// <param name="value">Provides the value to be assigned to the end of the specified item.</param>
+    internal void SetItemEnd( TItem item, object value )
     {
-        setEndFunc( appointment, value );
+        setEndFunc( item, value );
     }
 
-    internal void SetAppointmentDates( TItem appointment, object start, object end )
+    /// <summary>
+    /// Sets the start and end dates for a specified item.
+    /// </summary>
+    /// <param name="item">Specifies the item for which the dates are being set.</param>
+    /// <param name="start">Indicates the starting date or time for the item.</param>
+    /// <param name="end">Indicates the ending date or time for the item.</param>
+    internal void SetItemDates( TItem item, object start, object end )
     {
-        SetAppointmentStart( appointment, start );
-        SetAppointmentEnd( appointment, end );
+        SetItemStart( item, start );
+        SetItemEnd( item, end );
     }
 
     internal async Task NotifySlotClicked( DateOnly date, TimeOnly time, TimeSpan duration )
     {
         if ( schedulerModalRef is not null )
         {
-            editItem = Appointments
-                .FirstOrDefault( x => searchPredicate( x, date, time.Hour, time.ToTimeSpan() ) );
+            editItem = Data.FirstOrDefault( x => searchPredicate( x, date, time.Hour, time.ToTimeSpan() ) );
 
             if ( editItem is null )
             {
@@ -376,7 +391,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 var start = date.ToDateTime( time );
                 var end = start.Add( duration );
 
-                SetAppointmentDates( editItem, start, end );
+                SetItemDates( editItem, start, end );
 
                 await New( editItem );
             }
@@ -426,14 +441,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         if ( await IsSafeToProceed( handler, editItem, editItemClone ) )
         {
-            if ( UseInternalEditing && editState == SchedulerEditState.New && CanInsertNewItem && Appointments is ICollection<TItem> data )
+            if ( UseInternalEditing && editState == SchedulerEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
                 data.Add( editItem );
             }
 
             if ( UseInternalEditing || editState == SchedulerEditState.New )
             {
-                CopyAppointmentValues( editItemClone, editItem );
+                CopyItemValues( editItemClone, editItem );
             }
 
             if ( editState == SchedulerEditState.New )
@@ -491,7 +506,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="source">The source appointment to copy values from.</param>
     /// <param name="destination">The destination appointment to copy values to.</param>
-    private void CopyAppointmentValues( TItem source, TItem destination )
+    private void CopyItemValues( TItem source, TItem destination )
     {
         setTitleFunc( destination, getTitleFunc( source ) );
         setDescriptionFunc( destination, getDescriptionFunc( source ) );
@@ -529,14 +544,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     protected SchedulerState State => state;
 
     /// <summary>
-    /// Returns true if <see cref="Appointments"/> is safe to modify.
+    /// Returns true if <see cref="Data"/> is safe to modify.
     /// </summary>
-    protected bool CanInsertNewItem => Editable && Appointments is ICollection<TItem>;
+    protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
 
     /// <summary>
-    /// Holds a collection of appointment items of type <typeparamref name="TItem"/>. Used to manage and display a list of appointments.
+    /// Holds a collection of items of type <typeparamref name="TItem"/>. Used to manage and display a list of appointments.
     /// </summary>
-    [Parameter] public IEnumerable<TItem> Appointments { get; set; }
+    [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
     /// The currently selected date. Determines the date that is displayed in the scheduler. Defaults to the current date.

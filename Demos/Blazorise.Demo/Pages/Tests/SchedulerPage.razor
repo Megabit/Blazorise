@@ -7,7 +7,7 @@
             </CardHeader>
             <CardBody>
                 <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
-                           Appointments="@Appointments"
+                           Data="@Appointments"
                            SlotClicked="@OnSlotClicked">
                     <SchedulerToolbar />
                     <SchedulerViews>

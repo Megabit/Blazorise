@@ -4,7 +4,7 @@
     @foreach ( var appointment in Appointments ?? Enumerable.Empty<TItem>() )
     {
         <Span Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Start.AlignItems.Center" TextOverflow="TextOverflow.Truncate" Style="@GetAppointmentStyle( appointment )">
-            @Scheduler?.GetAppointmentTitle( appointment )
+            @Scheduler?.GetItemTitle( appointment )
         </Span>
     }
 </Div>
@@ -32,7 +32,7 @@
     {
         var sb = new StringBuilder( "cursor: pointer; left: 0; top: 0; right: 0; z-index: 1;" );
 
-        var duration = Scheduler.GetAppointmentDuration( appointment );
+        var duration = Scheduler.GetItemDuration( appointment );
 
         if ( duration != TimeSpan.Zero )
         {
@@ -51,7 +51,7 @@
        ? Blazorise.Background.Light
        : Blazorise.Background.Default;
 
-    IEnumerable<TItem> Appointments => Scheduler?.AppointmentsInRange( Date, Hour, Time );
+    IEnumerable<TItem> Appointments => Scheduler?.ItemsInRange( Date, Hour, Time );
 
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
