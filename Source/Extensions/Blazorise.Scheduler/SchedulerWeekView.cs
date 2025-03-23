@@ -29,5 +29,10 @@ public partial class SchedulerWeekView<TItem> : BaseSchedulerView<TItem>
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
 
+    /// <summary>
+    /// Specifies the height of a cell in a layout. The value is a double representing the height in pixels.
+    /// </summary>
+    [Parameter] public double ItemCellHeight { get; set; } = 60;
+
     #endregion
 }

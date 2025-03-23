@@ -36,7 +36,7 @@
 
         if ( duration != TimeSpan.Zero )
         {
-            var height = duration.TotalMinutes / 60 * CellHeight;
+            var height = duration.TotalMinutes / 60 * ItemCellHeight;
             sb.Append( $"height: {height}px;" );
         }
 
@@ -65,7 +65,7 @@
 
     [Parameter] public bool Last { get; set; }
 
-    [Parameter] public double CellHeight { get; set; }
+    [Parameter] public double ItemCellHeight { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

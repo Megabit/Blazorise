@@ -1,9 +1,9 @@
 ﻿@typeparam TItem
-<Div Class="b-scheduler-day-cell" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( CellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor">
+<Div Class="b-scheduler-day-cell" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor">
     <Div Class="b-scheduler-day-cell-inner" Width="Blazorise.Width.Is100" Flex="Flex.Column">
         @for ( int slotIndex = 1; slotIndex <= SlotsPerCell; ++slotIndex )
         {
-            <_SchedulerSlot TItem="TItem" Date="@Date" Hour="@Hour" Time="@GetTime( slotIndex )" Clicked="@OnSlotClick" Last="@(slotIndex == SlotsPerCell)" CellHeight="@CellHeight" />
+            <_SchedulerSlot TItem="TItem" Date="@Date" Hour="@Hour" Time="@GetTime( slotIndex )" Clicked="@OnSlotClick" Last="@(slotIndex == SlotsPerCell)" ItemCellHeight="@ItemCellHeight" />
         }
     </Div>
 </Div>

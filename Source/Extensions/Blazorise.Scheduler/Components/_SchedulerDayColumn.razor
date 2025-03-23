@@ -2,7 +2,7 @@
 <Div Class="b-scheduler-day" Position="Blazorise.Position.Relative" Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
     @if ( ShowDayHeader )
     {
-        <Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( CellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
+        <Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
             <Span TextWeight="TextWeight.Bold">
                 @Date.ToString( "dddd" )
             </Span>
@@ -13,7 +13,7 @@
     }
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
     {
-        <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" CellHeight="@CellHeight" />
+        <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
     }
 </Div>
 @code {
@@ -37,5 +37,7 @@
 
     [Parameter] public int SlotsPerCell { get; set; }
 
-    [Parameter] public double CellHeight { get; set; }
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
 }

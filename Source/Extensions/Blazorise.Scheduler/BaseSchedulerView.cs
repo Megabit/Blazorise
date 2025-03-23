@@ -43,5 +43,10 @@ public class BaseSchedulerView<TItem> : ComponentBase
     /// </summary>
     [Parameter] public int SlotsPerCell { get; set; } = 2;
 
+    /// <summary>
+    /// Specifies the height of the header cell in pixels. The default value is set to 60.
+    /// </summary>
+    [Parameter] public double HeaderCellHeight { get; set; } = 60;
+
     #endregion
 }

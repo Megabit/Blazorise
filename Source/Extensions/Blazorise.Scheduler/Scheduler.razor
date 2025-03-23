@@ -26,7 +26,8 @@
                                        WorkDayEnd="@schedulerDayView.WorkDayEnd"
                                        SlotsPerCell="@schedulerDayView.SlotsPerCell"
                                        SelectedDate="@state.SelectedDate"
-                                       CellHeight="60" />
+                                       HeaderCellHeight="@schedulerWorkWeekView.HeaderCellHeight"
+                                       ItemCellHeight="@schedulerWorkWeekView.ItemCellHeight" />
                 }
                 else if ( ShowingWeekView )
                 {
@@ -38,7 +39,8 @@
                                         SlotsPerCell="@schedulerWeekView.SlotsPerCell"
                                         FirstDayOfWeek="@schedulerWeekView.FirstDayOfWeek"
                                         SelectedDate="@state.SelectedDate"
-                                        CellHeight="60" />
+                                        HeaderCellHeight="@schedulerWorkWeekView.HeaderCellHeight"
+                                        ItemCellHeight="@schedulerWorkWeekView.ItemCellHeight" />
                 }
                 else if ( ShowingWorkWeekView )
                 {
@@ -50,14 +52,16 @@
                                             SlotsPerCell="@schedulerWorkWeekView.SlotsPerCell"
                                             FirstDayOfWorkWeek="@schedulerWorkWeekView.FirstDayOfWorkWeek"
                                             SelectedDate="@state.SelectedDate"
-                                            CellHeight="60" />
+                                            HeaderCellHeight="@schedulerWorkWeekView.HeaderCellHeight"
+                                            ItemCellHeight="@schedulerWorkWeekView.ItemCellHeight" />
                 }
                 else if ( ShowingMonthView )
                 {
                     <_SchedulerMonthView TItem="TItem"
                                          SelectedDate="@state.SelectedDate"
                                          FirstDayOfWeek="@schedulerMonthView.FirstDayOfWeek"
-                                         CellHeight="60" />
+                                         HeaderCellHeight="@schedulerMonthView.HeaderCellHeight"
+                                         ItemCellHeight="@schedulerMonthView.ItemCellHeight" />
                 }
             </_SchedulerViews>
             <_SchedulerModal TItem="TItem" @ref="@schedulerModalRef" IdField="@IdField" TitleField="@TitleField" DescriptionField="@DescriptionField" StartField="@StartField" EndField="@EndField" Saved="@OnModalSaved" />

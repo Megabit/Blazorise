@@ -1,7 +1,8 @@
 ﻿#region Using directives
+namespace Blazorise.Scheduler;
 #endregion
 
-namespace Blazorise.Scheduler;
+using Microsoft.AspNetCore.Components;
 
 /// <summary>
 /// Represents a view for scheduling events on a daily basis within a scheduler framework.
@@ -25,6 +26,11 @@ public partial class SchedulerDayView<TItem> : BaseSchedulerView<TItem>
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Specifies the height of a cell in a layout. The value is a double representing the height in pixels.
+    /// </summary>
+    [Parameter] public double ItemCellHeight { get; set; } = 60;
 
     #endregion
 }

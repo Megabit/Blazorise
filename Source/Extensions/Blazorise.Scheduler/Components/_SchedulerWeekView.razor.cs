@@ -37,7 +37,9 @@ public partial class _SchedulerWeekView<TItem>
 
     [Parameter] public int SlotsPerCell { get; set; }
 
-    [Parameter] public double CellHeight { get; set; }
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
 
     #endregion
 }

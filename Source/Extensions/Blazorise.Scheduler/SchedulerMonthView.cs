@@ -29,5 +29,10 @@ public partial class SchedulerMonthView<TItem> : BaseSchedulerView<TItem>
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
 
+    /// <summary>
+    /// Specifies the height of each day cell in a calendar, measured in pixels. The default value is set to 100.
+    /// </summary>
+    [Parameter] public double ItemCellHeight { get; set; } = 100;
+
     #endregion
 }
