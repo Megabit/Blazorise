@@ -43,13 +43,28 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private readonly EventCallbackSubscriber monthViewSubscriber;
 
     private Func<TItem, DateOnly, int, TimeSpan, bool> searchPredicate;
+
     private Func<TItem, object> getIdFunc;
+
     private Func<TItem, string> getTitleFunc;
+    private Action<TItem, object> setTitleFunc;
+
     private Func<TItem, string> getDescriptionFunc;
+    private Action<TItem, object> setDescriptionFunc;
+
     private Func<TItem, object> getStartFunc;
+    private Action<TItem, object> setStartFunc;
+
     private Func<TItem, object> getEndFunc;
+    private Action<TItem, object> setEndFunc;
+
+    private Lazy<Func<TItem>> newItemCreator;
 
     protected _SchedulerModal<TItem> schedulerModalRef;
+
+    protected TItem editItem;
+
+    protected SchedulerEditState editState = SchedulerEditState.None;
 
     #endregion
 
@@ -71,9 +86,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         searchPredicate = SchedulerExpressionCompiler.BuildSearchPredicate<TItem>( StartField, EndField );
         getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
         getTitleFunc = SchedulerExpressionCompiler.BuildGetStringFunc<TItem>( TitleField );
+        setTitleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( TitleField );
         getDescriptionFunc = SchedulerExpressionCompiler.BuildGetStringFunc<TItem>( DescriptionField );
+        setDescriptionFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( DescriptionField );
         getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( StartField );
+        setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( StartField );
         getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
+        setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
+        newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
     }
 
     #endregion
@@ -325,40 +345,158 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return getDescriptionFunc( appointment );
     }
 
+    internal void SetAppointmentStart( TItem appointment, object value )
+    {
+        setStartFunc( appointment, value );
+    }
+
+
+    internal void SetAppointmentEnd( TItem appointment, object value )
+    {
+        setEndFunc( appointment, value );
+    }
+
+    internal void SetAppointmentDates( TItem appointment, object start, object end )
+    {
+        SetAppointmentStart( appointment, start );
+        SetAppointmentEnd( appointment, end );
+    }
+
     internal async Task NotifySlotClicked( DateOnly date, TimeOnly time, TimeSpan duration )
     {
         if ( schedulerModalRef is not null )
         {
-            var item = Appointments.FirstOrDefault( x => searchPredicate( x, date, time.Hour, time.ToTimeSpan() ) );
-            var startClicked = date.ToDateTime( time );
-            var endClicked = startClicked.Add( duration );
+            editItem = Appointments
+                .FirstOrDefault( x => searchPredicate( x, date, time.Hour, time.ToTimeSpan() ) );
 
-            await schedulerModalRef.ShowModal( item.DeepClone(), startClicked, endClicked );
+            if ( editItem is null )
+            {
+                editItem = CreateNewItem();
+
+                var start = date.ToDateTime( time );
+                var end = start.Add( duration );
+
+                SetAppointmentDates( editItem, start, end );
+
+                await New( editItem );
+            }
+            else
+            {
+                await Edit( editItem );
+            }
         }
 
         await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( date, time ) );
     }
 
-    private Task OnModalSaved( TItem item )
+    public Task New()
     {
-        var id = getIdFunc( item );
-        var existingItem = Appointments.FirstOrDefault( x => Equals( getIdFunc( x ), id ) );
+        return New( CreateNewItem() );
+    }
 
-        if ( Appointments is ICollection<TItem> items )
+    public async Task New( TItem newItem )
+    {
+        editItem = newItem;
+        editState = SchedulerEditState.New;
+
+        if ( Editable && UseInternalEditing )
         {
-            if ( existingItem is not null )
+            await schedulerModalRef.ShowModal( newItem.DeepClone(), true );
+        }
+    }
+
+    public async Task Edit( TItem item )
+    {
+        editItem = item;
+        editState = SchedulerEditState.Edit;
+
+        await schedulerModalRef.ShowModal( item.DeepClone(), false );
+    }
+
+    public Task Delete( TItem item )
+    {
+        return Task.CompletedTask;
+    }
+
+    protected internal async Task<bool> ModalSubmitedItem( TItem submitedItem )
+    {
+        var handler = editState == SchedulerEditState.New ? ItemInserting : ItemUpdating;
+
+        var editItemClone = submitedItem.DeepClone();
+
+        if ( await IsSafeToProceed( handler, editItem, editItemClone ) )
+        {
+            if ( UseInternalEditing && editState == SchedulerEditState.New && CanInsertNewItem && Appointments is ICollection<TItem> data )
             {
-                //var index = Appointments.ToList().IndexOf( existingItem );
-                items.Remove( existingItem );
-                items.Add( item );
+                data.Add( editItem );
+            }
+
+            if ( UseInternalEditing || editState == SchedulerEditState.New )
+            {
+                CopyAppointmentValues( editItemClone, editItem );
+            }
+
+            if ( editState == SchedulerEditState.New )
+            {
+                await ItemInserted.InvokeAsync( new SchedulerInsertedItem<TItem>( editItemClone ) );
             }
             else
             {
-                items.Add( item );
+                await ItemUpdated.InvokeAsync( new SchedulerUpdatedItem<TItem>( editItem, editItemClone ) );
+            }
+
+            editState = SchedulerEditState.None;
+
+            await InvokeAsync( StateHasChanged );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if it is safe to proceed with an operation based on a callback's response.
+    /// </summary>
+    /// <param name="handler">Handles the event callback to determine if the operation should be canceled.</param>
+    /// <param name="oldItem">Represents the item before the change occurs.</param>
+    /// <param name="newItem">Represents the item after the change is proposed.</param>
+    /// <returns>Returns true if the operation can proceed, false if it should be canceled.</returns>
+    internal async Task<bool> IsSafeToProceed( EventCallback<SchedulerCancellableItemChange<TItem>> handler, TItem oldItem, TItem newItem )
+    {
+        if ( handler.HasDelegate )
+        {
+            var args = new SchedulerCancellableItemChange<TItem>( oldItem, newItem );
+
+            await handler.InvokeAsync( args );
+
+            if ( args.Cancel )
+            {
+                return false;
             }
         }
 
-        return Task.CompletedTask;
+        return true;
+    }
+
+    /// <summary>
+    /// Creates a new item using a specified item creator if available; otherwise, it uses a default item creator.
+    /// </summary>
+    /// <returns>Returns a new instance of TItem.</returns>
+    private TItem CreateNewItem()
+       => NewItemCreator is not null ? NewItemCreator.Invoke() : newItemCreator.Value();
+
+    /// <summary>
+    /// Copies values from one appointment to another.
+    /// </summary>
+    /// <param name="source">The source appointment to copy values from.</param>
+    /// <param name="destination">The destination appointment to copy values to.</param>
+    private void CopyAppointmentValues( TItem source, TItem destination )
+    {
+        setTitleFunc( destination, getTitleFunc( source ) );
+        setDescriptionFunc( destination, getDescriptionFunc( source ) );
+        setStartFunc( destination, getStartFunc( source ) );
+        setEndFunc( destination, getEndFunc( source ) );
     }
 
     #endregion
@@ -391,7 +529,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     protected SchedulerState State => state;
 
     /// <summary>
-    /// Gets or sets the collection of appointments to be displayed in the scheduler.
+    /// Returns true if <see cref="Appointments"/> is safe to modify.
+    /// </summary>
+    protected bool CanInsertNewItem => Editable && Appointments is ICollection<TItem>;
+
+    /// <summary>
+    /// Holds a collection of appointment items of type <typeparamref name="TItem"/>. Used to manage and display a list of appointments.
     /// </summary>
     [Parameter] public IEnumerable<TItem> Appointments { get; set; }
 
@@ -449,6 +592,41 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the description of the appointment. Defaults to "Description".
     /// </summary>
     [Parameter] public string DescriptionField { get; set; } = "Description";
+
+    /// <summary>
+    /// Indicates whether the component is editable. Defaults to true.
+    /// </summary>
+    [Parameter] public bool Editable { get; set; } = true;
+
+    /// <summary>
+    /// Indicates whether internal editing is enabled. Defaults to true.
+    /// </summary>
+    [Parameter] public bool UseInternalEditing { get; set; } = true;
+
+    /// <summary>
+    /// Defines a function that creates a new item of type TItem. It allows for custom item creation logic.
+    /// </summary>
+    [Parameter] public Func<TItem> NewItemCreator { get; set; }
+
+    /// <summary>
+    /// Triggers an event when a new item is being inserted into the scheduler. It provides a callback with details about the item being inserted.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerCancellableItemChange<TItem>> ItemInserting { get; set; }
+
+    /// <summary>
+    /// An event callback triggered when an item is being updated in the scheduler. It allows handling of the item update process.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerCancellableItemChange<TItem>> ItemUpdating { get; set; }
+
+    /// <summary>
+    /// Triggers an event when a new item is inserted into the scheduler.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerInsertedItem<TItem>> ItemInserted { get; set; }
+
+    /// <summary>
+    /// Triggers an event when an item in the scheduler is updated.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerUpdatedItem<TItem>> ItemUpdated { get; set; }
 
     /// <summary>
     /// Occurs when an appointment is clicked.

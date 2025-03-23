@@ -80,9 +80,9 @@ public partial class _SchedulerModal<TItem>
 
     #region Methods
 
-    public Task ShowModal( TItem item, DateTime? start = null, DateTime? end = null )
+    public Task ShowModal( TItem item, bool isNewItem )
     {
-        IsNewItem = item is null;
+        IsNewItem = isNewItem;
 
         if ( item is null )
             EditItem = newItemCreator.Value();
@@ -91,17 +91,8 @@ public partial class _SchedulerModal<TItem>
 
         Title = getTitleValue?.Invoke( EditItem )?.ToString();
         Description = getDescriptionValue?.Invoke( EditItem )?.ToString();
-
-        if ( IsNewItem )
-        {
-            Start = start ?? default;
-            End = end ?? default;
-        }
-        else
-        {
-            Start = (DateTime)getStartValue?.Invoke( EditItem );
-            End = (DateTime)getEndValue?.Invoke( EditItem );
-        }
+        Start = (DateTime?)getStartValue?.Invoke( EditItem );
+        End = (DateTime?)getEndValue?.Invoke( EditItem );
 
         return modalRef.Show();
     }
@@ -124,13 +115,16 @@ public partial class _SchedulerModal<TItem>
 
                 setTitleValue?.Invoke( EditItem, Title );
                 setDescriptionValue?.Invoke( EditItem, Description );
-                setStartValue?.Invoke( EditItem, Start );
-                setEndValue?.Invoke( EditItem, End );
+                setStartValue?.Invoke( EditItem, Start ?? default );
+                setEndValue?.Invoke( EditItem, End ?? default );
 
-                await Saved.InvokeAsync( EditItem );
+                var result = await Submited.Invoke( EditItem );
+
+                if ( result )
+                {
+                    await modalRef.Hide();
+                }
             }
-
-            await modalRef.Hide();
         }
     }
 
@@ -152,9 +146,9 @@ public partial class _SchedulerModal<TItem>
 
     protected string Description { get; set; }
 
-    protected DateTime Start { get; set; }
+    protected DateTime? Start { get; set; }
 
-    protected DateTime End { get; set; }
+    protected DateTime? End { get; set; }
 
     public TItem EditItem { get; set; }
 
@@ -186,7 +180,7 @@ public partial class _SchedulerModal<TItem>
     /// <summary>
     /// Represents an event callback that is triggered when an item is saved.
     /// </summary>
-    [Parameter] public EventCallback<TItem> Saved { get; set; }
+    [Parameter] public Func<TItem, Task<bool>> Submited { get; set; }
 
     #endregion
 }
