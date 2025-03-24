@@ -20,13 +20,12 @@ public static class SchedulerExpressionCompiler
     /// <param name="endFieldName">The name of the field that represents the end date/time.</param>
     /// <returns>A compiled search predicate.</returns>
     /// <exception cref="ArgumentException"></exception>
-    public static Func<TItem, DateOnly, int, TimeSpan, bool> BuildSearchPredicate<TItem>( string startFieldName, string endFieldName )
+    public static Func<TItem, DateTime, DateTime, bool> BuildSearchPredicate<TItem>( string startFieldName, string endFieldName )
     {
         var itemType = typeof( TItem );
         var itemParameter = Expression.Parameter( itemType, "x" );
-        var dateParameter = Expression.Parameter( typeof( DateOnly ), "date" );
-        var slotHourParameter = Expression.Parameter( typeof( int ), "slotHour" );
-        var timeParameter = Expression.Parameter( typeof( TimeSpan ), "time" );
+        var slotStartParameter = Expression.Parameter( typeof( DateTime ), "slotStart" );
+        var slotEndParameter = Expression.Parameter( typeof( DateTime ), "slotEnd" );
 
         var startProperty = itemType.GetProperty( startFieldName );
         var endProperty = itemType.GetProperty( endFieldName );
@@ -39,35 +38,12 @@ public static class SchedulerExpressionCompiler
         var startPropertyAccess = Expression.Property( itemParameter, startProperty );
         var endPropertyAccess = Expression.Property( itemParameter, endProperty );
 
-        var startDateTime = ConvertToDateTimeExpression( startPropertyAccess, dateParameter );
-        var endDateTime = ConvertToDateTimeExpression( endPropertyAccess, dateParameter );
-
-        var dateCondition = Expression.Equal(
-            Expression.Property( startDateTime, nameof( DateTime.Date ) ),
-            Expression.Property( Expression.Call( dateParameter, nameof( DateOnly.ToDateTime ), null, Expression.Constant( TimeOnly.MinValue ) ), nameof( DateTime.Date ) )
+        var startCondition = Expression.AndAlso(
+            Expression.GreaterThanOrEqual( startPropertyAccess, slotStartParameter ),
+            Expression.LessThan( startPropertyAccess, slotEndParameter )
         );
 
-        var hourCondition = Expression.Equal(
-            Expression.Property( startDateTime, nameof( DateTime.Hour ) ),
-            slotHourParameter
-        );
-
-        var minuteCondition = Expression.AndAlso(
-            Expression.GreaterThanOrEqual(
-                Expression.Property( startDateTime, nameof( DateTime.Minute ) ),
-                Expression.Property( timeParameter, nameof( TimeSpan.Minutes ) )
-            ),
-            Expression.LessThanOrEqual(
-                Expression.Property( startDateTime, nameof( DateTime.Minute ) ),
-                Expression.Property( timeParameter, nameof( TimeSpan.Minutes ) )
-            )
-        );
-
-        var combinedCondition = Expression.AndAlso( dateCondition, Expression.AndAlso( hourCondition, minuteCondition ) );
-
-        var lambda = Expression.Lambda<Func<TItem, DateOnly, int, TimeSpan, bool>>(
-            combinedCondition, itemParameter, dateParameter, slotHourParameter, timeParameter
-        );
+        var lambda = Expression.Lambda<Func<TItem, DateTime, DateTime, bool>>( startCondition, itemParameter, slotStartParameter, slotEndParameter );
 
         return lambda.Compile();
     }

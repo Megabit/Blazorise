@@ -43,7 +43,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private readonly EventCallbackSubscriber workWeekViewSubscriber;
     private readonly EventCallbackSubscriber monthViewSubscriber;
 
-    private Func<TItem, DateOnly, int, TimeSpan, bool> searchPredicate;
+    private Func<TItem, DateTime, DateTime, bool> searchPredicate;
 
     private Func<TItem, object> getIdFunc;
 
@@ -296,16 +296,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await InvokeAsync( StateHasChanged );
     }
 
-    /// <summary>
-    /// Gets the appointments that fall within the specified date, hour, and time range.
-    /// </summary>
-    /// <param name="date">The date to filter appointments.</param>
-    /// <param name="slotHour">The hour to filter appointments.</param>
-    /// <param name="time">The time range to filter appointments.</param>
-    /// <returns>An enumerable collection of appointments that match the specified criteria.</returns>
-    internal IEnumerable<TItem> ItemsInRange( DateOnly date, int slotHour, TimeSpan time )
+    internal IEnumerable<TItem> ItemsInRange( DateTime start, DateTime end )
     {
-        return Data?.Where( x => searchPredicate( x, date, slotHour, time ) );
+        return Data?.Where( x => searchPredicate( x, start, end ) );
     }
 
     /// <summary>
@@ -334,6 +327,26 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         return TimeSpan.Zero;
+    }
+
+    /// <summary>
+    /// Gets the appointment start time.
+    /// </summary>
+    /// <param name="item">An item from which the start time is derived.</param>
+    /// <returns>Returns the start time of the item.</returns>
+    internal DateTime GetItemStartTime( TItem item )
+    {
+        return getStartFunc( item ) as DateTime? ?? DateTime.MinValue;
+    }
+
+    /// <summary>
+    /// Gets the appointment end time.
+    /// </summary>
+    /// <param name="item">An item from which the end time is derived.</param>
+    /// <returns>Returns the end time of the item.</returns>
+    internal DateTime GetItemEndTime( TItem item )
+    {
+        return getEndFunc( item ) as DateTime? ?? DateTime.MaxValue;
     }
 
     /// <summary>
@@ -378,18 +391,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         SetItemEnd( item, end );
     }
 
-    internal async Task NotifySlotClicked( DateOnly date, TimeOnly time, TimeSpan duration )
+    internal async Task NotifySlotClicked( DateTime start, DateTime end )
     {
         if ( schedulerModalRef is not null )
         {
-            editItem = Data.FirstOrDefault( x => searchPredicate( x, date, time.Hour, time.ToTimeSpan() ) );
+            editItem = Data.FirstOrDefault( x => searchPredicate( x, start, end ) );
 
             if ( editItem is null )
             {
                 editItem = CreateNewItem();
-
-                var start = date.ToDateTime( time );
-                var end = start.Add( duration );
 
                 SetItemDates( editItem, start, end );
 
@@ -401,7 +411,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             }
         }
 
-        await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( date, time ) );
+        await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( start, end ) );
     }
 
     public Task New()

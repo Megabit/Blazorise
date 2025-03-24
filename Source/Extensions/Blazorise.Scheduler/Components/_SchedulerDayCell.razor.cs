@@ -17,11 +17,37 @@ public partial class _SchedulerDayCell<TItem>
 
     #region Methods
 
-    protected async Task OnSlotClick( TimeSpan time )
+    protected async Task OnSlotClick( DateTime start, DateTime end )
     {
-        Console.WriteLine( $"Slot clicked: {time}" );
+        Console.WriteLine( $"Slot clicked: {start} - {end}" );
 
-        await Scheduler.NotifySlotClicked( Date, new TimeOnly( Hour, time.Minutes ), ( new TimeSpan( 1, 0, 0 ) / SlotsPerCell ) );
+        await Scheduler.NotifySlotClicked( start, end );
+    }
+
+    protected DateTime GetSlotStart( int slotIndex )
+    {
+        if ( SlotsPerCell <= 0 )
+        {
+            return new DateTime( Date.Year, Date.Month, Date.Day, Hour, 0, 0 );
+        }
+
+        var slotDuration = TimeSpan.FromHours( 1.0 / SlotsPerCell );
+        var startTime = slotDuration * ( slotIndex - 1 );
+
+        return new DateTime( Date.Year, Date.Month, Date.Day, Hour, startTime.Minutes, 0 );
+    }
+
+    protected DateTime GetSlotEnd( int slotIndex )
+    {
+        if ( SlotsPerCell <= 0 )
+        {
+            return new DateTime( Date.Year, Date.Month, Date.Day, Hour + 1, 0, 0 );
+        }
+
+        var slotDuration = TimeSpan.FromHours( 1.0 / SlotsPerCell );
+        var endTime = slotDuration * slotIndex;
+
+        return new DateTime( Date.Year, Date.Month, Date.Day, Hour, 0, 0 ).Add( endTime );
     }
 
     protected TimeSpan GetTime( int slotIndex )

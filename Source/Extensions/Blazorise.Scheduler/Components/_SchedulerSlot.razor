@@ -25,45 +25,56 @@
 
     protected Task OnSlotClicked()
     {
-        return Clicked.InvokeAsync( Time );
+        if ( Clicked is null )
+            return Task.CompletedTask;
+
+        return Clicked.Invoke( SlotStart, SlotEnd );
     }
 
     private string GetAppointmentStyle( TItem appointment )
     {
-        var sb = new StringBuilder( "cursor: pointer; left: 0; top: 0; right: 0; z-index: 1;" );
+        var sb = new StringBuilder( "cursor: pointer; left: 0;" );
 
-        var duration = Scheduler.GetItemDuration( appointment );
+        var appointmentStart = Scheduler.GetItemStartTime( appointment );
+        var appointmentEnd = Scheduler.GetItemEndTime( appointment );
+        var appointmentDuration = appointmentEnd - appointmentStart;
 
-        if ( duration != TimeSpan.Zero )
-        {
-            var height = duration.TotalMinutes / 60 * ItemCellHeight;
-            sb.Append( $"height: {height}px;" );
-        }
+        var top = ( appointmentStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
+        sb.AppendLine( $" top: {top}px;" );
+
+        var height = appointmentDuration.TotalMinutes / 60 * ItemCellHeight;
+        sb.Append( $" height: {height}px;" );
+
+        sb.Append( " right: 0; z-index: 1;" );
 
         return sb.ToString();
     }
 
     private bool MouseHovering { get; set; }
 
-    IFluentBorder BottomBorder => Last ? null : Blazorise.Border.Is1.OnBottom;
+    IFluentBorder BottomBorder => LastSlot ? null : Blazorise.Border.Is1.OnBottom;
 
     private Blazorise.Background BackgroundColor => MouseHovering
        ? Blazorise.Background.Light
        : Blazorise.Background.Default;
 
-    IEnumerable<TItem> Appointments => Scheduler?.ItemsInRange( Date, Hour, Time );
+    IEnumerable<TItem> Appointments => Scheduler?.ItemsInRange( SlotStart, SlotEnd );
 
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
-    [Parameter] public EventCallback<TimeSpan> Clicked { get; set; }
+    [Parameter] public Func<DateTime, DateTime, Task> Clicked { get; set; }
 
-    [Parameter] public DateOnly Date { get; set; }
+    /// <summary>
+    /// Defines the start date of the slot.
+    /// </summary>
+    [Parameter] public DateTime SlotStart { get; set; }
 
-    [Parameter] public int Hour { get; set; }
+    /// <summary>
+    /// Defines the end date of the slot.
+    /// </summary>
+    [Parameter] public DateTime SlotEnd { get; set; }
 
-    [Parameter] public TimeSpan Time { get; set; }
-
-    [Parameter] public bool Last { get; set; }
+    [Parameter] public bool LastSlot { get; set; }
 
     [Parameter] public double ItemCellHeight { get; set; }
 

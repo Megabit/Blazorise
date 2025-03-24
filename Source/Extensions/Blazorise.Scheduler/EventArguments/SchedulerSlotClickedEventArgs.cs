@@ -10,23 +10,23 @@ namespace Blazorise.Scheduler;
 public class SchedulerSlotClickedEventArgs : EventArgs
 {
     /// <summary>
-    /// A default constructor for the <see cref="SchedulerSlotClickedEventArgs"/>.
+    /// Represents the event arguments for a scheduler slot click, containing the start and end times of the slot.
     /// </summary>
-    /// <param name="date"></param>
-    /// <param name="time"></param>
-    public SchedulerSlotClickedEventArgs( DateOnly date, TimeOnly time )
+    /// <param name="start">Indicates the beginning time of the scheduler slot that was clicked.</param>
+    /// <param name="end">Indicates the ending time of the scheduler slot that was clicked.</param>
+    public SchedulerSlotClickedEventArgs( DateTime start, DateTime end )
     {
-        Date = date;
-        Time = time;
+        Start = start;
+        End = end;
     }
 
     /// <summary>
-    /// Gets the date that was clicked.
+    /// Indicates the beginning time of the scheduler slot that was clicked.
     /// </summary>
-    public DateOnly Date { get; }
+    public DateTime Start { get; }
 
     /// <summary>
-    /// Gets the time that was clicked.
+    /// Indicates the ending time of the scheduler slot that was clicked.
     /// </summary>
-    public TimeOnly Time { get; }
+    public DateTime End { get; }
 }
