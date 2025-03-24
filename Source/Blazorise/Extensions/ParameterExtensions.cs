@@ -50,7 +50,7 @@ public static class ParameterViewExtensions
     {
         if ( parameters.TryGetValue<T>( parameterName, out var paramNewValue ) )
         {
-            var changed = comparer( paramNewValue );
+            var changed = !comparer( paramNewValue );
 
             result = new ComponentParameterInfo<T>( paramNewValue, true, changed );
         }

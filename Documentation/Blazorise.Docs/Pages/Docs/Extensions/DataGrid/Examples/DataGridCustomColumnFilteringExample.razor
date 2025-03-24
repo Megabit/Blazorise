@@ -10,7 +10,7 @@
             @context.FirstName.Length chars
         </DisplayTemplate>
         <FilterTemplate>
-            <Select TValue="NameLengthFilter" SelectedValueChanged="@(e => { context.TriggerFilterChange( e ); })">
+            <Select TValue="NameLengthFilter" ValueChanged="@(e => { context.TriggerFilterChange( e ); })">
                 @foreach ( var filter in Enum.GetValues<NameLengthFilter>() )
                 {
                     <SelectItem Value="@(filter)">
