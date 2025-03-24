@@ -3,7 +3,7 @@
 <Div Class="b-scheduler-slot" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
     @foreach ( var appointment in Appointments ?? Enumerable.Empty<TItem>() )
     {
-        <Span Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is2" TextOverflow="TextOverflow.Truncate" Style="@GetAppointmentStyle( appointment )">
+        <Span Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" Style="@GetAppointmentStyle( appointment )">
             @Scheduler?.GetItemTitle( appointment )
         </Span>
     }

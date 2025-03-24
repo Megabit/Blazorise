@@ -14,32 +14,67 @@
                     <Validation Validator="ValidationRule.IsNotEmpty">
                         <Field>
                             <FieldLabel>Title</FieldLabel>
-                            <TextEdit @bind-Value="@Title" />
+                            <FieldBody>
+                                <TextEdit @bind-Value="@Title" />
+                            </FieldBody>
                         </Field>
                     </Validation>
                 }
                 @if ( StartAvailable )
                 {
-                    <Field>
-                        <FieldLabel>Start</FieldLabel>
-                        <DatePicker @bind-Value="@Start" StaticPicker="false" InputMode="DateInputMode.DateTime" />
-                    </Field>
+                    <Fields>
+                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <FieldLabel>Start</FieldLabel>
+                            <FieldBody>
+                                <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" Placeholder="Start date" StaticPicker="false" InputMode="DateInputMode.Date" />
+                            </FieldBody>
+                        </Field>
+                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <FieldLabel>&nbsp;</FieldLabel>
+                            <FieldBody>
+                                <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                            </FieldBody>
+                        </Field>
+                    </Fields>
                 }
                 @if ( EndAvailable )
                 {
-                    <Field>
-                        <FieldLabel>End</FieldLabel>
-                        <DatePicker @bind-Value="@End" StaticPicker="false" InputMode="DateInputMode.DateTime" />
-                    </Field>
+                    <Fields>
+                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <FieldLabel>End</FieldLabel>
+                            <FieldBody>
+                                <DatePicker @bind-Value="@EndDate" Placeholder="End date" StaticPicker="false" InputMode="DateInputMode.Date" />
+                            </FieldBody>
+                        </Field>
+                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <FieldLabel>&nbsp;</FieldLabel>
+                            <FieldBody>
+                                <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
+                            </FieldBody>
+                        </Field>
+                    </Fields>
                 }
                 @if ( DescriptionAvailable )
                 {
                     <Field>
                         <FieldLabel>Description</FieldLabel>
-                        <MemoEdit @bind-Value="@Description" Rows="4" />
+                        <FieldBody>
+                            <MemoEdit @bind-Value="@Description" Rows="4" />
+                        </FieldBody>
                     </Field>
                 }
             </Validations>
+            @if ( customValidationErrors.Any() )
+            {
+                <Paragraph TextColor="TextColor.Danger" Margin="Margin.Is0.FromBottom">
+                    <UnorderedList Margin="Margin.Is0.FromBottom">
+                        @foreach ( var error in customValidationErrors )
+                        {
+                            <UnorderedListItem>@error</UnorderedListItem>
+                        }
+                    </UnorderedList>
+                </Paragraph>
+            }
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@Cancel">Close</Button>

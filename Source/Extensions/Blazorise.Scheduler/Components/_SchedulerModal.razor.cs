@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -32,6 +33,8 @@ public partial class _SchedulerModal<TItem>
 
     private Validations validationsRef;
 
+    private List<string> customValidationErrors = new();
+
     #endregion
 
     #region Constructors
@@ -42,6 +45,8 @@ public partial class _SchedulerModal<TItem>
     }
 
     #endregion
+
+    #region Methods
 
     protected override void OnInitialized()
     {
@@ -78,10 +83,33 @@ public partial class _SchedulerModal<TItem>
         base.OnInitialized();
     }
 
-    #region Methods
+    private Task OnStartDateChanged( DateOnly value )
+    {
+        StartDate = value;
+
+        if ( StartDate > EndDate )
+        {
+            EndDate = StartDate;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnStartTimeChanged( TimeOnly value )
+    {
+        var diff = value - StartTime;
+
+        StartTime = value;
+
+        EndTime = EndTime.Add( diff );
+
+        return Task.CompletedTask;
+    }
 
     public Task ShowModal( TItem item, bool isNewItem )
     {
+        customValidationErrors.Clear();
+
         IsNewItem = isNewItem;
 
         if ( item is null )
@@ -91,19 +119,35 @@ public partial class _SchedulerModal<TItem>
 
         Title = getTitleValue?.Invoke( EditItem )?.ToString();
         Description = getDescriptionValue?.Invoke( EditItem )?.ToString();
-        Start = (DateTime?)getStartValue?.Invoke( EditItem );
-        End = (DateTime?)getEndValue?.Invoke( EditItem );
+
+        if ( StartAvailable )
+        {
+            var start = (DateTime?)getStartValue?.Invoke( EditItem );
+            StartDate = DateOnly.FromDateTime( start.Value );
+            StartTime = TimeOnly.FromDateTime( start.Value );
+        }
+
+        if ( EndAvailable )
+        {
+            var end = (DateTime?)getEndValue?.Invoke( EditItem );
+            EndDate = DateOnly.FromDateTime( end.Value );
+            EndTime = TimeOnly.FromDateTime( end.Value );
+        }
 
         return modalRef.Show();
     }
 
     public async Task Cancel()
     {
+        customValidationErrors.Clear();
+
         await modalRef.Hide();
     }
 
     public async Task Submit()
     {
+        customValidationErrors.Clear();
+
         if ( await validationsRef.ValidateAll() )
         {
             if ( EditItem is not null )
@@ -115,8 +159,19 @@ public partial class _SchedulerModal<TItem>
 
                 setTitleValue?.Invoke( EditItem, Title );
                 setDescriptionValue?.Invoke( EditItem, Description );
-                setStartValue?.Invoke( EditItem, Start ?? default );
-                setEndValue?.Invoke( EditItem, End ?? default );
+
+                var start = new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, 0 );
+                var end = new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
+
+                if ( start >= end )
+                {
+                    customValidationErrors.Add( "The start date must be before the end date." );
+
+                    return;
+                }
+
+                setStartValue?.Invoke( EditItem, start );
+                setEndValue?.Invoke( EditItem, end );
 
                 var result = await Submited.Invoke( EditItem );
 
@@ -146,9 +201,13 @@ public partial class _SchedulerModal<TItem>
 
     protected string Description { get; set; }
 
-    protected DateTime? Start { get; set; }
+    protected DateOnly StartDate { get; set; }
 
-    protected DateTime? End { get; set; }
+    protected TimeOnly StartTime { get; set; }
+
+    protected DateOnly EndDate { get; set; }
+
+    protected TimeOnly EndTime { get; set; }
 
     public TItem EditItem { get; set; }
 
