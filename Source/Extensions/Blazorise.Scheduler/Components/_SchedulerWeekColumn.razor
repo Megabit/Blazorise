@@ -1,29 +1,45 @@
-﻿<Div Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
+﻿@typeparam TItem
+<Div Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
     <Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart">
         <Span TextWeight="TextWeight.Bold">
             @FirstDateOfWeek.ToString( "dddd" )
         </Span>
     </Div>
 
-    @for ( var date2 = FirstDateOfWeek; date2 <= MaxDate; date2 = date2.AddDays( 7 ) )
+    @for ( var dateInWeek = FirstDateOfWeek; dateInWeek <= MaxDate; dateInWeek = dateInWeek.AddDays( 7 ) )
     {
-        var isCurrentMonth = date2.Month == SelectedDate.Month;
-        var isWeekend = date2.DayOfWeek == DayOfWeek.Saturday || date2.DayOfWeek == DayOfWeek.Sunday;
+        var date = dateInWeek;
+
+        var isCurrentMonth = date.Month == SelectedDate.Month;
+        var isWeekend = date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
         var textColor = isWeekend ? TextColor.Danger : TextColor.Default;
         var textWeight = isCurrentMonth ? TextWeight.SemiBold : TextWeight.Light;
-
-        var dayNumberString = date2.Day;
+        
+        var dayNumberString = date.Day;
         var dayNumberStyle = isCurrentMonth ? isWeekend ? "opacity: 0.5" : null : "opacity: 0.3";
 
         <Div Flex="Blazorise.Flex.Column.AlignItems.Center.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( ItemCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart">
             <Span TextColor="@textColor" TextWeight="@textWeight" Style="@dayNumberStyle">@dayNumberString</Span>
-            <Div Flex="Flex.Default" Width="Width.Is100" Height="Height.Is100">
+            <Div Flex="Flex.Default" Width="Width.Is100" Height="Height.Is100" @onclick="@(() => OnDateClick( date ))">
+                <Span></Span>
             </Div>
         </Div>
     }
 </Div>
 
 @code {
+    protected async Task OnDateClick( DateOnly date )
+    {
+        Console.WriteLine( $"Day clicked: {date}" );
+
+        var start = date.ToDateTime( TimeOnly.MinValue );
+        var end = date.ToDateTime( TimeOnly.MaxValue );
+
+        await Scheduler.NotifySlotClicked( start, end );
+    }
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
     [Parameter] public DateOnly FirstDateOfWeek { get; set; }
 
     [Parameter] public DateOnly MinDate { get; set; }

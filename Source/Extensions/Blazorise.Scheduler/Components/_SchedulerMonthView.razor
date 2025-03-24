@@ -14,7 +14,7 @@
 
         @for ( var firstDateOfWeek = minDate; firstDateOfWeek <= minDate.AddDays( 6 ); firstDateOfWeek = firstDateOfWeek.AddDays( 1 ) )
         {
-            <_SchedulerWeekColumn MinDate="@minDate" MaxDate="@maxDate" FirstDateOfWeek="@firstDateOfWeek" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
+            <_SchedulerWeekColumn TItem="TItem" MinDate="@minDate" MaxDate="@maxDate" FirstDateOfWeek="@firstDateOfWeek" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
         }
     }
 </Div>
