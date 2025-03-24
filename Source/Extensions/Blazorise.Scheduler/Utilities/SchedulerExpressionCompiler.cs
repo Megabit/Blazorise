@@ -38,30 +38,38 @@ public static class SchedulerExpressionCompiler
         var startPropertyAccess = Expression.Property( itemParameter, startProperty );
         var endPropertyAccess = Expression.Property( itemParameter, endProperty );
 
-        var startCondition = Expression.AndAlso(
-            Expression.GreaterThanOrEqual( startPropertyAccess, slotStartParameter ),
-            Expression.LessThan( startPropertyAccess, slotEndParameter )
-        );
+        var startCondition = BuildDateTimeCondition( startPropertyAccess, slotStartParameter, slotEndParameter );
 
         var lambda = Expression.Lambda<Func<TItem, DateTime, DateTime, bool>>( startCondition, itemParameter, slotStartParameter, slotEndParameter );
 
         return lambda.Compile();
     }
 
-    private static Expression ConvertToDateTimeExpression( Expression propertyAccess, ParameterExpression dateParameter )
+    private static Expression BuildDateTimeCondition( Expression propertyAccess, ParameterExpression slotStartParameter, ParameterExpression slotEndParameter )
     {
         if ( propertyAccess.Type == typeof( DateTime ) )
         {
-            return propertyAccess;
+            return Expression.AndAlso(
+                Expression.GreaterThanOrEqual( propertyAccess, slotStartParameter ),
+                Expression.LessThan( propertyAccess, slotEndParameter )
+            );
         }
-        else if ( propertyAccess.Type == typeof( TimeOnly ) )
+        else if ( propertyAccess.Type == typeof( DateTime? ) )
         {
-            var toDateTimeMethod = typeof( DateOnly ).GetMethod( nameof( DateOnly.ToDateTime ), new[] { typeof( TimeOnly ) } );
-            return Expression.Call( dateParameter, toDateTimeMethod, propertyAccess );
+            var hasValue = Expression.Property( propertyAccess, "HasValue" );
+            var value = Expression.Property( propertyAccess, "Value" );
+
+            return Expression.AndAlso(
+                hasValue,
+                Expression.AndAlso(
+                    Expression.GreaterThanOrEqual( value, slotStartParameter ),
+                    Expression.LessThan( value, slotEndParameter )
+                )
+            );
         }
         else
         {
-            throw new ArgumentException( "Field must be of type DateTime or TimeOnly." );
+            throw new ArgumentException( "Field must be of type DateTime or DateTime?." );
         }
     }
 
