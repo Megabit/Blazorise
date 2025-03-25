@@ -3,7 +3,13 @@
     <Div Class="b-scheduler-day-cell-inner" Width="Blazorise.Width.Is100" Flex="Flex.Column">
         @for ( int slotIndex = 1; slotIndex <= SlotsPerCell; ++slotIndex )
         {
-            <_SchedulerSlot TItem="TItem" SlotStart="@GetSlotStart( slotIndex )" SlotEnd="@GetSlotEnd( slotIndex )" Clicked="@OnSlotClick" LastSlot="@(slotIndex == SlotsPerCell)" ItemCellHeight="@ItemCellHeight" />
+            var slotStart = GetSlotStart( slotIndex );
+            var slotEnd = GetSlotEnd( slotIndex );
+            var lastSlot = slotIndex == SlotsPerCell;
+
+            var appointment = GetSlotAppointment( slotStart, slotEnd );
+
+            <_SchedulerSlot TItem="TItem" Appointment="@appointment" SlotStart="@slotStart" SlotEnd="@slotEnd" Clicked="@OnSlotClicked" LastSlot="@lastSlot" ItemCellHeight="@ItemCellHeight" />
         }
     </Div>
 </Div>

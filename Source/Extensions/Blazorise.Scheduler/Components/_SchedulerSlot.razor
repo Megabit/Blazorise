@@ -1,10 +1,10 @@
 ﻿@using System.Text
 @typeparam TItem
 <Div Class="b-scheduler-slot" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
-    @foreach ( var appointment in Appointments ?? Enumerable.Empty<TItem>() )
+    @if ( Appointment is not null )
     {
-        <Span Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" Style="@GetAppointmentStyle( appointment )">
-            @Scheduler?.GetItemTitle( appointment )
+        <Span Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" Style="@GetAppointmentStyle( Appointment )">
+            @Scheduler?.GetItemTitle( Appointment )
         </Span>
     }
 </Div>
@@ -58,11 +58,12 @@
        ? Blazorise.Background.Light
        : Blazorise.Background.Default;
 
-    IEnumerable<TItem> Appointments => Scheduler?.ItemsInRange( SlotStart, SlotEnd );
-
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
-    [Parameter] public Func<DateTime, DateTime, Task> Clicked { get; set; }
+    /// <summary>
+    /// Defines the appointment that is displayed in the slot.
+    /// </summary>
+    [Parameter] public TItem Appointment { get; set; }
 
     /// <summary>
     /// Defines the start date of the slot.
@@ -74,9 +75,12 @@
     /// </summary>
     [Parameter] public DateTime SlotEnd { get; set; }
 
+    /// <summary>
+    /// Defines if this is the last slot in the cell.
+    /// </summary>
     [Parameter] public bool LastSlot { get; set; }
 
     [Parameter] public double ItemCellHeight { get; set; }
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public Func<DateTime, DateTime, Task> Clicked { get; set; }
 }

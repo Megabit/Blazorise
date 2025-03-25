@@ -1,10 +1,8 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Scheduler.Components;
@@ -17,7 +15,7 @@ public partial class _SchedulerDayCell<TItem>
 
     #region Methods
 
-    protected async Task OnSlotClick( DateTime start, DateTime end )
+    protected async Task OnSlotClicked( DateTime start, DateTime end )
     {
         Console.WriteLine( $"Slot clicked: {start} - {end}" );
 
@@ -48,6 +46,14 @@ public partial class _SchedulerDayCell<TItem>
         var endTime = slotDuration * slotIndex;
 
         return new DateTime( Date.Year, Date.Month, Date.Day, Hour, 0, 0 ).Add( endTime );
+    }
+
+    protected TItem GetSlotAppointment( DateTime start, DateTime end )
+    {
+        if ( Scheduler is null )
+            return default;
+
+        return Scheduler.ItemsInRange( start, end ).FirstOrDefault();
     }
 
     protected TimeSpan GetTime( int slotIndex )
