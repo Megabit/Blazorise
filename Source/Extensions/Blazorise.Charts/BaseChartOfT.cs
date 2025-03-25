@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -19,23 +18,26 @@ namespace Blazorise.Charts;
 public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
 {
     #region Members
-  
-    // List of plugins inside the chart. The plugins are notified about chart initialization later.
-    // plugins cannot be properly initialized before the chart itself done so.
-    // 
+
+    /// <summary>
+    /// Collection of plugins within the chart. Plugins are notified about chart initialization later.
+    /// They cannot be properly initialized before the chart itself is fully initialized.
+    /// </summary>
     private readonly List<ChartPlugin> chartPlugins = [];
 
     #endregion
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
-        JSModule ??= new JSChartModule(JSRuntime, VersionProvider, BlazoriseOptions);
+        JSModule ??= new JSChartModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
         return base.OnInitializedAsync();
     }
 
+    /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing && Rendered )
@@ -54,6 +56,7 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Chart() );
@@ -68,18 +71,17 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     protected async Task NotifyInitialized()
     {
-        var tasks = chartPlugins.Select(handler => handler.OnParentChartInitialized());
-        await Task.WhenAll(tasks); 
+        var tasks = chartPlugins.Select( handler => handler.OnParentChartInitialized() );
+        await Task.WhenAll( tasks );
     }
 
     /// <summary>
     /// Notifies the chart that it contains the plugin.
     /// </summary>
     /// <param name="plugin">Plugin name that is placed inside the chart.</param>
-    
     public void NotifyPluginInitialized( ChartPlugin plugin )
     {
-       chartPlugins.Add( plugin );
+        chartPlugins.Add( plugin );
     }
 
     /// <summary>
@@ -98,19 +100,34 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    /// <summary>
+    /// Holds a reference to a DotNetObject of type ChartAdapter. It is used for interop between .NET and JavaScript.
+    /// </summary>
     protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
 
+    /// <summary>
+    /// Represents the JavaScript module for the current component.
+    /// </summary>
     protected JSChartModule JSModule { get; private set; }
 
     /// <summary>
     /// Gets the list of registered plugins inside of this chart.
     /// </summary>
-    protected IReadOnlyList<string> PluginNames => chartPlugins.Select(x => x.Name).ToList();
+    protected IReadOnlyList<string> PluginNames => chartPlugins.Select( x => x.Name ).ToList();
 
+    /// <summary>
+    /// Injects an instance of IJSRuntime for JavaScript interop in a Blazor component.
+    /// </summary>
     [Inject] protected IJSRuntime JSRuntime { get; set; }
 
+    /// <summary>
+    /// Injects an instance of IVersionProvider for version management.
+    /// </summary>
     [Inject] protected IVersionProvider VersionProvider { get; set; }
 
+    /// <summary>
+    /// Injects BlazoriseOptions for configuration. It allows access to Blazorise settings within the class.
+    /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>

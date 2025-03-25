@@ -1,105 +1,25 @@
+#region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Extensions;
-using Blazorise.Modules;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+#endregion
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// An abstract class for chart plugins that require initialization with a parent chart. It includes a property for the
+/// plugin's name.
+/// </summary>
 public abstract class ChartPlugin : BaseComponent, IAsyncDisposable
 {
+    /// <summary>
+    /// An abstract method that is called when the parent chart is initialized. It is intended to be overridden in
+    /// derived classes.
+    /// </summary>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
     protected internal abstract Task OnParentChartInitialized();
+
+    /// <summary>
+    /// Defines the name of the plugin.
+    /// </summary>
     protected internal abstract string Name { get; }
-}
-
-public abstract class ChartPlugin<TItem, TJSModule> : ChartPlugin
-where TJSModule : IBaseJSModule, IAsyncDisposable
-{
-    #region Methods
-
-    protected abstract TJSModule GetNewJsModule();
-
-    protected abstract Task InitializePluginByJsModule();
-
-    protected abstract bool InitPluginInParameterSet( ParameterView parameterView );
-
-    protected internal override async Task OnParentChartInitialized()
-    {
-        if ( JSModule != null ) return;
-        JSModule = GetNewJsModule();
-        ExecuteAfterRender( async () =>
-        {
-            await InitializePluginByJsModule();
-        } );
-        await InvokeAsync( StateHasChanged );
-    }
-
-    /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered && JSModule is not null )
-        {
-            bool optionsChanged = InitPluginInParameterSet( parameters );
-
-            if ( optionsChanged )
-            {
-                ExecuteAfterRender( async () =>
-                {
-                    await InitializePluginByJsModule();
-                } );
-            }
-        }
-
-        return base.SetParametersAsync( parameters );
-    }
-
-    /// <inheritdoc/>
-    protected override async ValueTask DisposeAsync( bool disposing )
-    {
-        if ( disposing && Rendered )
-        {
-            if ( JSModule is not null )
-                await JSModule.SafeDisposeAsync();
-
-            ParentChart?.NotifyPluginRemoved( this );
-        }
-
-        await base.DisposeAsync( disposing );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInitializedAsync()
-    {
-        if ( ParentChart is null )
-            throw new InvalidOperationException( $"Chart Plugin {Name} can be used only inside the Blazorise.Chart" );
-        ParentChart.NotifyPluginInitialized( this );
-        return base.OnInitializedAsync();
-    }
-    
-    #endregion
-
-    #region Properties
-    [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
-
-    protected abstract TJSModule JSModule { get; set; }
-    
-    protected override bool ShouldAutoGenerateId => true;
-
-    /// <summary>
-    /// Gets or sets the JS runtime.
-    /// </summary>
-    [Inject] protected IJSRuntime JSRuntime { get; set; }
-
-    /// <summary>
-    /// Gets or sets the version provider.
-    /// </summary>
-    [Inject] protected IVersionProvider VersionProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the blazorise options.
-    /// </summary>
-    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
-    
-    #endregion
 }

@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -8,11 +6,6 @@ using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Charts.Streaming;
-
-public interface IChartStreaming
-{
-    Task Refresh();
-}
 
 /// <summary>
 /// Provides the streaming capabilities to the supported chart types.
@@ -28,11 +21,13 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override JSChartStreamingModule GetNewJsModule()
     {
         return new JSChartStreamingModule( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
+    /// <inheritdoc/>
     protected override async Task InitializePluginByJsModule()
     {
         dotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
@@ -40,10 +35,11 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
         await JSModule.Initialize( dotNetObjectRef, ParentChart.ElementRef, ParentChart.ElementId, Vertical, Options );
     }
 
+    /// <inheritdoc/>
     protected override bool InitPluginInParameterSet( ParameterView parameterView )
     {
         //this plugin probably doesn't need re-initialization on param changes
-        return false; 
+        return false;
     }
 
     /// <inheritdoc/>
@@ -73,7 +69,7 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
     /// </returns>
     public async Task Refresh()
     {
-        if ( !Rendered || ParentChart?.Data?.Datasets is null)
+        if ( !Rendered || ParentChart?.Data?.Datasets is null )
             return;
 
         foreach ( var dataset in ParentChart.Data.Datasets )
@@ -128,9 +124,12 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
 
     #region Properties
 
-    protected override JSChartStreamingModule JSModule { get;  set; }
+    /// <inheritdoc/>
+    protected override string Name => "Streaming";
 
-  
+    /// <inheritdoc/>
+    protected override JSChartStreamingModule JSModule { get; set; }
+
     /// <summary>
     /// If true, chart will be set to vertical mode.
     /// </summary>
@@ -148,5 +147,5 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
 
     #endregion
 
-    protected override string Name => "Streaming";
+
 }

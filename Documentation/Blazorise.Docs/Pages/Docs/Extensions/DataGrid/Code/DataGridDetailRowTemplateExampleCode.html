@@ -13,7 +13,7 @@
                 <span class="atSign">&#64;</span>if ( DisplayDetailRow( context ) )
                 {
                     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(dataGridRef.GetRowInfo(context).DetailRowExpanded ? IconName.ExpandLess : IconName.ExpandMore)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">/&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(dataGridRef.GetRowInfo(context).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">/&gt;</span>
                     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
                 }
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>

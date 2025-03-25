@@ -7796,7 +7796,7 @@ Install-Package Blazorise.Chart.Zoom";
                 @if ( DisplayDetailRow( context ) )
                 {
                     <Button>
-                        <Icon Name=""@(dataGridRef.GetRowInfo(context).DetailRowExpanded ? IconName.ExpandLess : IconName.ExpandMore)""/>
+                        <Icon Name=""@(dataGridRef.GetRowInfo(context).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)""/>
                     </Button>
                 }
             </DisplayTemplate>
@@ -7908,7 +7908,13 @@ Install-Package Blazorise.Chart.Zoom";
 
         foreach ( var property in typeof( Employee ).GetProperties() )
         {
-            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+            expando.Add( property.Name,
+                property.PropertyType switch
+                {
+                    { } t when t == typeof( string ) => """",
+                    { IsValueType: true } => Activator.CreateInstance( property.PropertyType ) ?? """",
+                    _ => """" //better than null
+                } );
         }
 
         return (ExpandoObject)expando;

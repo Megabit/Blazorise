@@ -15,16 +15,19 @@ public partial class ChartDataLabels<TItem> : ChartPlugin<TItem, JSChartDataLabe
 {
     #region Methods
 
+    /// <inheritdoc/>
     protected override JSChartDataLabelsModule GetNewJsModule()
     {
         return new JSChartDataLabelsModule( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
+    /// <inheritdoc/>
     protected override async Task InitializePluginByJsModule()
     {
         await JSModule.SetDataLabels( ParentChart.ElementId, Datasets, Options );
     }
 
+    /// <inheritdoc/>
     protected override bool InitPluginInParameterSet( ParameterView parameters )
     {
         var datasetsChanged = parameters.TryGetValue<List<ChartDataLabelsDataset>>( nameof( Datasets ), out var paramDataset ) && !Datasets.AreEqual( paramDataset );
@@ -36,10 +39,10 @@ public partial class ChartDataLabels<TItem> : ChartPlugin<TItem, JSChartDataLabe
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override string Name => "DataLabels";
 
-    /// <summary>
-    /// JS module that handles the calls to the datalabels JS interop.
-    /// </summary>
+    /// <inheritdoc/>
     protected override JSChartDataLabelsModule JSModule { get; set; }
 
     /// <summary>
@@ -51,8 +54,6 @@ public partial class ChartDataLabels<TItem> : ChartPlugin<TItem, JSChartDataLabe
     /// Data labels that will be set to the options instead of to the datasets.
     /// </summary>
     [Parameter] public ChartDataLabelsOptions Options { get; set; }
-
-    protected override string Name => "DataLabels";
 
     #endregion
 }
