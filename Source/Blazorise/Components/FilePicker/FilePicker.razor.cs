@@ -200,8 +200,8 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
             {
                 await UploadFile( file );
 
-                if ( FileEditRef?.JSFileModule is not null )
-                    await FileEditRef.JSFileModule.RemoveFileEntry( ElementRef, file.Id );
+                if ( FileEditRef is IFileEntryOwner fileEntryOwner )
+                    await fileEntryOwner.RemoveFileEntry( file );
             }
         }
     }

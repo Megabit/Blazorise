@@ -297,8 +297,7 @@ public partial class Markdown : BaseComponent,
 
         foreach ( var file in fileEntries )
         {
-            if ( JSFileModule is not null )
-                await JSFileModule.RemoveFileEntry( ElementRef, file.Id );
+            await file.Owner.RemoveFileEntry( file );
         }
 
         await InvokeAsync( StateHasChanged );
@@ -387,6 +386,12 @@ public partial class Markdown : BaseComponent,
     public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
     {
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
+    }
+
+    /// <inheritdoc/>
+    public async Task RemoveFileEntry( IFileEntry fileEntry, CancellationToken cancellationToken = default )
+    {
+        await JSFileModule.RemoveFileEntry( ElementRef, fileEntry.Id );
     }
 
     /// <summary>
