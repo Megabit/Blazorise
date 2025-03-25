@@ -15,15 +15,15 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
     #region Methods
 
     /// <inheritdoc/>
-    protected override JSChartZoomModule GetNewJsModule()
+    protected override JSChartZoomModule CreatePluginJsModule()
         => new( JSRuntime, VersionProvider, BlazoriseOptions );
 
     /// <inheritdoc/>
-    protected override async Task InitializePluginByJsModule()
+    protected override async Task InitializePlugin()
         => await JSModule.AddZoom( ParentChart.ElementId, Options );
 
     /// <inheritdoc/>
-    protected override bool InitPluginInParameterSet( ParameterView parameters )
+    protected override bool UpdatePluginParameters( ParameterView parameters )
         => parameters.TryGetValue<ChartZoomPluginOptions>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
 
     #endregion

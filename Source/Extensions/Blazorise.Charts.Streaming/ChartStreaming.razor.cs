@@ -22,13 +22,13 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
     #region Methods
 
     /// <inheritdoc/>
-    protected override JSChartStreamingModule GetNewJsModule()
+    protected override JSChartStreamingModule CreatePluginJsModule()
     {
         return new JSChartStreamingModule( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
     /// <inheritdoc/>
-    protected override async Task InitializePluginByJsModule()
+    protected override async Task InitializePlugin()
     {
         dotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
 
@@ -36,7 +36,7 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
     }
 
     /// <inheritdoc/>
-    protected override bool InitPluginInParameterSet( ParameterView parameterView )
+    protected override bool UpdatePluginParameters( ParameterView parameterView )
     {
         //this plugin probably doesn't need re-initialization on param changes
         return false;

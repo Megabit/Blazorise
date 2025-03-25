@@ -16,22 +16,23 @@ public partial class ChartDataLabels<TItem> : ChartPlugin<TItem, JSChartDataLabe
     #region Methods
 
     /// <inheritdoc/>
-    protected override JSChartDataLabelsModule GetNewJsModule()
+    protected override JSChartDataLabelsModule CreatePluginJsModule()
     {
         return new JSChartDataLabelsModule( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
     /// <inheritdoc/>
-    protected override async Task InitializePluginByJsModule()
+    protected override async Task InitializePlugin()
     {
         await JSModule.SetDataLabels( ParentChart.ElementId, Datasets, Options );
     }
 
     /// <inheritdoc/>
-    protected override bool InitPluginInParameterSet( ParameterView parameters )
+    protected override bool UpdatePluginParameters( ParameterView parameters )
     {
         var datasetsChanged = parameters.TryGetValue<List<ChartDataLabelsDataset>>( nameof( Datasets ), out var paramDataset ) && !Datasets.AreEqual( paramDataset );
         var optionsChanged = parameters.TryGetValue<ChartDataLabelsOptions>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
+
         return datasetsChanged || optionsChanged;
     }
 

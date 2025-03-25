@@ -16,15 +16,15 @@ public partial class ChartAnnotation<TItem> : ChartPlugin<TItem, JSChartAnnotati
     #region Methods
 
     /// <inheritdoc/>
-    protected override JSChartAnnotationModule GetNewJsModule()
+    protected override JSChartAnnotationModule CreatePluginJsModule()
         => new( JSRuntime, VersionProvider, BlazoriseOptions );
 
     /// <inheritdoc/>
-    protected override async Task InitializePluginByJsModule()
+    protected override async Task InitializePlugin()
         => await JSModule.AddAnnotationOptions( ParentChart.ElementId, Options );
 
     /// <inheritdoc/>
-    protected override bool InitPluginInParameterSet( ParameterView parameters )
+    protected override bool UpdatePluginParameters( ParameterView parameters )
         => parameters.TryGetValue<Dictionary<string, ChartAnnotationOptions>>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
 
     #endregion

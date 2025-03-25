@@ -20,23 +20,23 @@ public abstract class ChartPlugin<TItem, TJSModule> : ChartPlugin
     #region Methods
 
     /// <summary>
-    /// Retrieves a new instance of a JavaScript module.
+    /// Creates an instance of a JavaScript module for the plugin.
     /// </summary>
-    /// <returns>Returns a new TJSModule object.</returns>
-    protected abstract TJSModule GetNewJsModule();
+    /// <returns>Returns an instance of TJSModule.</returns>
+    protected abstract TJSModule CreatePluginJsModule();
 
     /// <summary>
-    /// Initializes a plugin using a JavaScript module. This is an abstract method that must be implemented by derived classes.
+    /// Initializes the plugin asynchronously. This method must be implemented by derived classes.
     /// </summary>
     /// <returns>Returns a Task representing the asynchronous operation.</returns>
-    protected abstract Task InitializePluginByJsModule();
+    protected abstract Task InitializePlugin();
 
     /// <summary>
-    /// Initializes a plugin using the provided set of parameters.
+    /// Updates the parameters of a plugin based on the provided view. It returns a boolean indicating success or failure.
     /// </summary>
-    /// <param name="parameterView">Contains the parameters needed for the plugin initialization.</param>
-    /// <returns>Indicates whether the initialization was successful.</returns>
-    protected abstract bool InitPluginInParameterSet( ParameterView parameterView );
+    /// <param name="parameterView">Represents the current state and settings of the parameters to be updated.</param>
+    /// <returns>Indicates whether the update operation was successful.</returns>
+    protected abstract bool UpdatePluginParameters( ParameterView parameterView );
 
     /// <inheritdoc/>
     protected internal override async Task OnParentChartInitialized()
@@ -44,9 +44,9 @@ public abstract class ChartPlugin<TItem, TJSModule> : ChartPlugin
         if ( JSModule != null )
             return;
 
-        JSModule = GetNewJsModule();
+        JSModule = CreatePluginJsModule();
 
-        ExecuteAfterRender( InitializePluginByJsModule );
+        ExecuteAfterRender( InitializePlugin );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -56,11 +56,11 @@ public abstract class ChartPlugin<TItem, TJSModule> : ChartPlugin
     {
         if ( Rendered && JSModule is not null )
         {
-            bool optionsChanged = InitPluginInParameterSet( parameters );
+            var optionsChanged = UpdatePluginParameters( parameters );
 
             if ( optionsChanged )
             {
-                ExecuteAfterRender( InitializePluginByJsModule );
+                ExecuteAfterRender( InitializePlugin );
             }
         }
 
