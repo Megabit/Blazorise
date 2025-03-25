@@ -31,23 +31,24 @@
         return Clicked.Invoke( Appointment, SlotStart, SlotEnd );
     }
 
+    protected Task OnAppointmentClicked()
+    {
+        if ( Clicked is null )
+            return Task.CompletedTask;
+
+        return Clicked.Invoke( Appointment, SlotStart, SlotEnd );
+    }
+
     private string GetAppointmentStyle( TItem appointment )
     {
-        var sb = new StringBuilder( "cursor: pointer; left: 0;" );
-
         var appointmentStart = Scheduler.GetItemStartTime( appointment );
         var appointmentEnd = Scheduler.GetItemEndTime( appointment );
         var appointmentDuration = appointmentEnd - appointmentStart;
 
         var top = ( appointmentStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
-        sb.AppendLine( $" top: {top}px;" );
-
         var height = appointmentDuration.TotalMinutes / 60 * ItemCellHeight;
-        sb.Append( $" height: {height}px;" );
-
-        sb.Append( " right: 0; z-index: 1;" );
-
-        return sb.ToString();
+        
+        return $"cursor: pointer; left: 0; top: {top}px; height: {height}px; right: 0; z-index: 1;";
     }
 
     private bool MouseHovering { get; set; }
