@@ -232,6 +232,12 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, MaxFileSize, cancellationToken );
     }
 
+    /// <inheritdoc/>
+    public async Task RemoveFileEntry( IFileEntry fileEntry, CancellationToken cancellationToken = default )
+    {
+        await JSFileModule.RemoveFileEntry( ElementRef, fileEntry.Id );
+    }
+
     /// <summary>
     /// Manually resets the input file value.
     /// </summary>
