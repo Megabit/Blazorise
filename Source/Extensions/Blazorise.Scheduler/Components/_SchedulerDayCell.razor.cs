@@ -15,9 +15,14 @@ public partial class _SchedulerDayCell<TItem>
 
     #region Methods
 
-    protected async Task OnSlotClicked( DateTime start, DateTime end )
+    protected async Task OnSlotClicked( TItem item, DateTime start, DateTime end )
     {
-        Console.WriteLine( $"Slot clicked: {start} - {end}" );
+        if ( item is not null )
+        {
+            await Scheduler.NotifyItemClicked( item );
+
+            return;
+        }
 
         await Scheduler.NotifySlotClicked( start, end );
     }

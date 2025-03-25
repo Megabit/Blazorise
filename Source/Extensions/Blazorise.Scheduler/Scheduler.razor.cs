@@ -391,40 +391,53 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         SetItemEnd( item, end );
     }
 
+    internal async Task NotifyItemClicked( TItem item )
+    {
+        await Edit( item );
+
+        await ItemClicked.InvokeAsync( new( item ) );
+    }
+
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
     {
-        if ( schedulerModalRef is not null )
+        editItem = Data.FirstOrDefault( x => searchPredicate( x, start, end ) );
+
+        if ( editItem is null )
         {
-            editItem = Data.FirstOrDefault( x => searchPredicate( x, start, end ) );
+            editItem = CreateNewItem();
 
-            if ( editItem is null )
-            {
-                editItem = CreateNewItem();
+            SetItemDates( editItem, start, end );
 
-                SetItemDates( editItem, start, end );
-
-                await New( editItem );
-            }
-            else
-            {
-                await Edit( editItem );
-            }
+            await New( editItem );
+        }
+        else
+        {
+            await Edit( editItem );
         }
 
         await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( start, end ) );
     }
 
+    /// <summary>
+    /// Creates a new appointment by invoking the <see cref="New(TItem)"/> method with a newly created item.
+    /// </summary>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
     public Task New()
     {
         return New( CreateNewItem() );
     }
 
+    /// <summary>
+    /// Creates a new item and sets the editing state to 'New'. If conditions are met, it displays a modal for editing the item.
+    /// </summary>
+    /// <param name="newItem">The item to be created and potentially edited in a modal.</param>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
     public async Task New( TItem newItem )
     {
         editItem = newItem;
         editState = SchedulerEditState.New;
 
-        if ( Editable && UseInternalEditing )
+        if ( Editable && UseInternalEditing && schedulerModalRef is not null )
         {
             await schedulerModalRef.ShowModal( newItem.DeepClone(), true );
         }
@@ -435,11 +448,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editItem = item;
         editState = SchedulerEditState.Edit;
 
-        await schedulerModalRef.ShowModal( item.DeepClone(), false );
+        if ( Editable && UseInternalEditing && schedulerModalRef is not null )
+        {
+            await schedulerModalRef.ShowModal( item.DeepClone(), false );
+        }
     }
 
     public Task Delete( TItem item )
     {
+        if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
+        {
+            data.Remove( item );
+        }
+
         return Task.CompletedTask;
     }
 
@@ -654,9 +675,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<SchedulerUpdatedItem<TItem>> ItemUpdated { get; set; }
 
     /// <summary>
-    /// Occurs when an appointment is clicked.
+    /// Occurs when an empty slot is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerSlotClickedEventArgs> SlotClicked { get; set; }
+
+    /// <summary>
+    /// Occurs when an appointment is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerItemClickedEventArgs<TItem>> ItemClicked { get; set; }
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.

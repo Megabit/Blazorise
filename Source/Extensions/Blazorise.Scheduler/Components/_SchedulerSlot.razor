@@ -28,7 +28,7 @@
         if ( Clicked is null )
             return Task.CompletedTask;
 
-        return Clicked.Invoke( SlotStart, SlotEnd );
+        return Clicked.Invoke( Appointment, SlotStart, SlotEnd );
     }
 
     private string GetAppointmentStyle( TItem appointment )
@@ -82,5 +82,5 @@
 
     [Parameter] public double ItemCellHeight { get; set; }
 
-    [Parameter] public Func<DateTime, DateTime, Task> Clicked { get; set; }
+    [Parameter] public Func<TItem, DateTime, DateTime, Task> Clicked { get; set; }
 }
