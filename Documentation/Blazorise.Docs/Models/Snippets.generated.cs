@@ -7916,7 +7916,13 @@ Install-Package Blazorise.Chart.Zoom";
 
         foreach ( var property in typeof( Employee ).GetProperties() )
         {
-            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+            expando.Add( property.Name,
+                property.PropertyType switch
+                {
+                    { } t when t == typeof( string ) => """",
+                    { IsValueType: true } => Activator.CreateInstance( property.PropertyType ) ?? """",
+                    _ => """" //better than null
+                } );
         }
 
         return (ExpandoObject)expando;
