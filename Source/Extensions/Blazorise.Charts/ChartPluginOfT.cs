@@ -19,12 +19,26 @@ public abstract class ChartPlugin<TItem, TJSModule> : ChartPlugin
 {
     #region Methods
 
+    /// <summary>
+    /// Retrieves a new instance of a JavaScript module.
+    /// </summary>
+    /// <returns>Returns a new TJSModule object.</returns>
     protected abstract TJSModule GetNewJsModule();
 
+    /// <summary>
+    /// Initializes a plugin using a JavaScript module. This is an abstract method that must be implemented by derived classes.
+    /// </summary>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
     protected abstract Task InitializePluginByJsModule();
 
+    /// <summary>
+    /// Initializes a plugin using the provided set of parameters.
+    /// </summary>
+    /// <param name="parameterView">Contains the parameters needed for the plugin initialization.</param>
+    /// <returns>Indicates whether the initialization was successful.</returns>
     protected abstract bool InitPluginInParameterSet( ParameterView parameterView );
 
+    /// <inheritdoc/>
     protected internal override async Task OnParentChartInitialized()
     {
         if ( JSModule != null )
