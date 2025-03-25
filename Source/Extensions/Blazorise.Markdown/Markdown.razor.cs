@@ -388,6 +388,12 @@ public partial class Markdown : BaseComponent,
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
     }
 
+    /// <inheritdoc/>
+    public async Task RemoveFileEntry( IFileEntry fileEntry, CancellationToken cancellationToken = default )
+    {
+        await JSFileModule.RemoveFileEntry( ElementRef, fileEntry.Id );
+    }
+
     /// <summary>
     /// Notifies the component that an error message has been received. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
