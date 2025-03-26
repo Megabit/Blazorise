@@ -2,15 +2,9 @@
 <Div Class="b-scheduler-day" Position="Blazorise.Position.Relative" Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
     @if ( ShowDayHeader )
     {
-        <Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
-            <Span TextWeight="TextWeight.Bold">
-                @Date.ToString( "dddd" )
-            </Span>
-            <Span TextColor="TextColor.Muted">
-                @Date.ToString( "MMM dd" )
-            </Span>
-        </Div>
+        <_SchedulerDayHeaderCell Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
     }
+
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
     {
         <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />

@@ -8,6 +8,7 @@
             <CardBody>
                 <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
                            Data="@Appointments"
+                           SelectedView="SchedulerView.Week"
                            SlotClicked="@OnSlotClicked">
                     <SchedulerToolbar />
                     <SchedulerViews>

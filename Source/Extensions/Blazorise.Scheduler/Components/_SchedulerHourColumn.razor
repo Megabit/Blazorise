@@ -1,11 +1,7 @@
 ﻿<Div Position="Blazorise.Position.Relative">
     @if ( ShowDayHeader )
     {
-        <Div Class="b-scheduler-hour" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom">
-            <Div Class="b-scheduler-hour-header" TextWeight="Blazorise.TextWeight.Bold" Padding="Blazorise.Padding.Is3">
-                <Span></Span>
-            </Div>
-        </Div>
+        <_SchedulerHourHeaderCell HeaderCellHeight="@HeaderCellHeight" />
     }
 
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
