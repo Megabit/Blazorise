@@ -1,9 +1,9 @@
 ﻿@using System.Text
 @typeparam TItem
-<Div Class="b-scheduler-slot" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
+<Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
     @if ( Appointment is not null )
     {
-        <Span Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" Style="@GetAppointmentStyle( Appointment )">
+        <Span Style="@GetAppointmentStyle( Appointment )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate">
             @Scheduler?.GetItemTitle( Appointment )
         </Span>
     }
@@ -37,6 +37,14 @@
             return Task.CompletedTask;
 
         return Clicked.Invoke( Appointment, SlotStart, SlotEnd );
+    }
+
+    private string GetSlotStyle()
+    {
+        if ( LastSlot )
+            return null;
+
+        return "border-bottom-style: dashed !important";
     }
 
     private string GetAppointmentStyle( TItem appointment )
