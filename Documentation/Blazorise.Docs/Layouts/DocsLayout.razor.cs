@@ -1,7 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Docs.Models.ApiDocsDtos;
+using Blazorise.Docs.Services.Search;
 using Blazorise.Shared.Data;
 using Blazorise.Shared.Models;
 using Microsoft.AspNetCore.Components;
@@ -36,8 +39,7 @@ public partial class DocsLayout : IDisposable
     private bool sideBarMetaMenuVisible;
 
     private bool disposed;
-
-    public IEnumerable<PageEntry> SearchEntries;
+    
 
     public string selectedSearchText { get; set; }
 
@@ -50,8 +52,7 @@ public partial class DocsLayout : IDisposable
     protected override async Task OnInitializedAsync()
     {
         NavigationManager.LocationChanged += OnLocationChanged;
-
-        SearchEntries = await SearchMenuProvider.GetDataAsync();
+        await SearchMenuProvider.InitializeAsync(); //TODO: this should be done in an IHostedService.StartAsync
 
         await base.OnInitializedAsync();
     }
@@ -104,7 +105,7 @@ public partial class DocsLayout : IDisposable
 
     #region Properties
 
-    [Inject] public PageEntryData SearchMenuProvider { get; set; }
+    [Inject] public SearchEntriesProvider SearchMenuProvider { get; set; }
 
     [Inject] private NavigationManager NavigationManager { get; set; }
 

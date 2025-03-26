@@ -1,5 +1,8 @@
 ﻿@using Blazorise.Docs.Services
+@using Blazorise.Docs.Models
 @inherits BaseDocsLayout
+
+
 
 <Layout Sider Class="b-docs">
     <LayoutSider>
@@ -19,7 +22,7 @@
                         <BarItem Margin="Margin.Is2.OnAll">
                             <Autocomplete TItem="PageEntry"
                                           TValue="string"
-                                          Data="@SearchEntries"
+                                          Data="@SearchMenuProvider.Entries"
                                           FreeTyping
                                           TextField="@(( item ) => item.Name)"
                                           ValueField="@(( item ) => item.Url)"

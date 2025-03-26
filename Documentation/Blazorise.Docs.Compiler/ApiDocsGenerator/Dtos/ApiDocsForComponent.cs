@@ -15,7 +15,8 @@ public class ApiDocsForComponent
         IEnumerable<ApiDocsForComponentMethod> methods,
         IEnumerable<string> inheritsFromChain,
         string category,
-        string subcategory
+        string subcategory,
+        string searchUrl
         )
     {
         Type = type;
@@ -25,7 +26,10 @@ public class ApiDocsForComponent
         InheritsFromChain = inheritsFromChain;
         Category = category;
         Subcategory = subcategory;
+        SearchUrl = searchUrl;
     }
+
+    public string SearchUrl { get; }
 
     public string Type { get; }
 

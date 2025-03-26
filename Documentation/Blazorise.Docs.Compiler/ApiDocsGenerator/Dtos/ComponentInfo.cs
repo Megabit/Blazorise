@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Dtos;
 
-public record ComponentInfo( INamedTypeSymbol Type, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> PublicMethods, IEnumerable<INamedTypeSymbol> InheritsFromChain, string Category, string Subcategory )
+public record ComponentInfo( INamedTypeSymbol Type, IEnumerable<IPropertySymbol> Properties, IEnumerable<IMethodSymbol> PublicMethods, IEnumerable<INamedTypeSymbol> InheritsFromChain, string Category, string Subcategory, string SearchUrl )
 {
     public INamedTypeSymbol Type { get; } = Type;
     public IEnumerable<IPropertySymbol> Properties { get; } = Properties;
@@ -11,4 +11,5 @@ public record ComponentInfo( INamedTypeSymbol Type, IEnumerable<IPropertySymbol>
     public IEnumerable<INamedTypeSymbol> InheritsFromChain { get; } = InheritsFromChain;
     public string Category { get; set; } = Category;
     public string Subcategory { get; set; } = Subcategory;
+    public string SearchUrl { get; set; } = SearchUrl;
 }

@@ -26,7 +26,7 @@ public class ApiDocsForComponent
 
     #region Constructors
 
-    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string category = null, string subcategory = null )
+    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string category = null, string subcategory = null, string searchUrl=null )
     {
         Type = type;
         TypeName = typeName;
@@ -35,6 +35,7 @@ public class ApiDocsForComponent
         InheritsFromChain = inheritsFromChain;
         Category = category;
         Subcategory = subcategory;
+        SearchUrl = searchUrl;
     }
 
     #endregion
@@ -118,6 +119,16 @@ public class ApiDocsForComponent
             return methods;
         }
     }
+    
+    /// <summary>
+    /// Parameters events and methods together
+    /// </summary>
+    public IEnumerable<IApiDocsRecord> AllApiDocsRecords =>
+        Parameters
+        .Cast<IApiDocsRecord>()
+        .Concat(Events)
+        .Concat(Methods);
+
 
     public Type Type { get; set; }
 
@@ -127,7 +138,7 @@ public class ApiDocsForComponent
 
     public string Subcategory { get; }
 
-
+    public string SearchUrl { get; }
 
     /// <summary>
     /// Only methods from the component, not from parents

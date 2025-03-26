@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Blazorise.Docs.Models.ApiDocsDtos;
 
-public class ApiDocsForComponentMethod
+public class ApiDocsForComponentMethod:IApiDocsRecord
 {
     public ApiDocsForComponentMethod( string name, string returnTypeName, string summary, string remarks, IReadOnlyList<ApiDocsForComponentMethodParameter> parameters )
     {

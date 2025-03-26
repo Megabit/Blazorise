@@ -56,13 +56,13 @@
     <ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
   </PropertyGroup>
 
-  <!--Execute the code generator-->
-  <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
-    <!--Command-line for the code generator-->
-    <Message Text="Generating Docs and Tests" Importance="high" />
-    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
-    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
-  </Target>
+<!--  &lt;!&ndash;Execute the code generator&ndash;&gt;-->
+<!--  <Target Name="CompileDocs" BeforeTargets="BeforeBuild">-->
+<!--    &lt;!&ndash;Command-line for the code generator&ndash;&gt;-->
+<!--    <Message Text="Generating Docs and Tests" Importance="high" />-->
+<!--    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />-->
+<!--    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />-->
+<!--  </Target>-->
 
   <!--This file contains any ExampleCode that is new and needs including in the build -->
   <Target Name="ReadFromFile" DependsOnTargets="CompileDocs">

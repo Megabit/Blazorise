@@ -1,4 +1,5 @@
 ﻿@page "/docs/extensions/datagrid/templates"
+@using Blazorise.Docs.Services.Search
 
 <Seo Canonical="/docs/extensions/datagrid/templates" Title="Blazorise DataGrid templates" Description="Learn to use and work with the Blazorise DataGrid templates to customize the appearance and behavior of the DataGrid fully." />
 
@@ -15,25 +16,13 @@
 </DocsPageParagraph>
 
 <Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
-    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/extensions/datagrid/templates" ) && !string.IsNullOrEmpty( x.Description ) ) )
+    @foreach ( var info in ManualPageEntries.WithDescriptionAndUrl("docs/extensions/datagrid/templates") )
     {
         <Column Margin="Margin.Is3.FromBottom">
             <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
         </Column>
     }
 </Row>
-@code {
-    public IEnumerable<PageEntry> PageEntries;
-
-    [Inject] public PageEntryData PageEntriesData { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        PageEntries = await PageEntriesData.GetDataAsync();
-
-        await base.OnInitializedAsync();
-    }
-}
 
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />

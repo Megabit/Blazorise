@@ -4,7 +4,7 @@ using System;
 
 namespace Blazorise.Docs.Models.ApiDocsDtos;
 
-public class ApiDocsForComponentProperty
+public class ApiDocsForComponentProperty:IApiDocsRecord
 {
     public ApiDocsForComponentProperty( string name, Type type, string typeName, string defaultValueString, string summary, string remarks, bool isBlazoriseEnum )
     {

@@ -10,6 +10,7 @@ using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
 using Blazorise.Docs.Server.Infrastructure;
 using Blazorise.Docs.Services;
+using Blazorise.Docs.Services.Search;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
@@ -71,7 +72,7 @@ public class Startup
         services.AddMemoryCache();
         services.AddScoped<Shared.Data.EmployeeData>();
         services.AddScoped<Shared.Data.CountryData>();
-        services.AddScoped<Shared.Data.PageEntryData>();
+        services.AddSingleton<SearchEntriesProvider>();
 
         var emailOptions = Configuration.GetSection( "Email" ).Get<EmailOptions>();
         services.AddSingleton<IEmailOptions>( serviceProvider => emailOptions );
