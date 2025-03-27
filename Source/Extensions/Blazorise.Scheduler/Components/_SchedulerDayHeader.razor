@@ -1,4 +1,5 @@
-﻿<Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
+﻿@typeparam TItem
+<Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
     <Span TextWeight="TextWeight.Bold">
         @Date.ToString( "dddd" )
     </Span>
@@ -7,10 +8,63 @@
     </Span>
 </Div>
 
+<Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
+    @{
+        var items = Scheduler.GetAllDayItems( Date );
+
+        @if ( items?.Any() == true )
+        {
+            @foreach ( var item in items )
+            {
+                var totalDays = (int)Scheduler.GetItemDuration( item ).TotalDays;
+
+                <Div Flex="Flex.Default">
+                    <Span Style="@GetAllDayHeaderInnerStyle( totalDays )" Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall">
+                        @(Scheduler.GetItemTitle( item ))
+                    </Span>
+                </Div>
+            }
+        }
+    }
+</Div>
+
+@* <Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Blazorise.Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
+    @{
+        var items = Scheduler.GetAllDayItems( Date );
+
+        @if ( items?.Any() == true )
+        {
+            var totalDays = Scheduler.GetMaxAllDayDuration( Date );
+
+            <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays )">
+
+                @foreach ( var item in items )
+                {
+                    <Span Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall">
+                        @(Scheduler.GetItemTitle( item ))
+                    </Span>
+                }
+            </Div>
+        }
+    }
+</Div> *@
+
 @code {
     private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
         ? Blazorise.Background.Light
         : Blazorise.Background.Default;
+
+    string GetAllDayHeaderStyle()
+    {
+        return $"min-height: {HeaderCellHeight}px;";
+    }
+
+    string GetAllDayHeaderInnerStyle( int totalDays )
+    {
+        return $"position: absolute; left: 0; top: 0; bottom: 0; width: {totalDays * 100}%;";
+    }
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     [Parameter] public DateOnly Date { get; set; }
 

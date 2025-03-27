@@ -545,6 +545,24 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         setEndFunc( destination, getEndFunc( source ) );
     }
 
+    internal IEnumerable<TItem> GetAllDayItems( DateOnly date )
+    {
+        return Data?.Where( x => GetItemDuration( x ).TotalDays >= 1 && GetItemStartTime( x ).Date == date.ToDateTime( TimeOnly.MinValue ) );
+    }
+
+    internal int GetMaxAllDayDuration( DateOnly date )
+    {
+        var allDayItems = GetAllDayItems( date );
+
+        if ( allDayItems == null || !allDayItems.Any() )
+        {
+            return 0;
+        }
+
+        return allDayItems.Max( item => (int)GetItemDuration( item ).TotalDays + 1 );
+    }
+
+
     #endregion
 
     #region Properties

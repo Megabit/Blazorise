@@ -2,7 +2,7 @@
 <Div Class="b-scheduler-day" Position="Blazorise.Position.Relative" Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
     @if ( ShowDayHeader )
     {
-        <_SchedulerDayHeader Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
+        <_SchedulerDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
     }
 
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
