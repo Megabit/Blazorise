@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Infrastructure;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -69,6 +70,24 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
 
         return base.OnParametersSetAsync();
     }
+    
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+    
+    /// <summary>
+    /// Handles the localization changed event.
+    /// </summary>
+    /// <param name="sender">Object that raised the event.</param>
+    /// <param name="eventArgs">Data about the localization event.</param>
+    private  void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        InvokeAsync( StateHasChanged );
+    }
 
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
@@ -77,6 +96,7 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
         {
             pdfInitializedSubscriber?.Dispose();
             pdfChangedSubscriber?.Dispose();
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
         base.Dispose( disposing );
@@ -163,6 +183,14 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
             await ViewerState.PrintRequested.InvokeCallbackAsync();
         }
     }
+    
+    private async Task OnDownloadClicked()
+    {
+        if ( ViewerState?.DownloadRequested is not null )
+        {
+            await ViewerState.DownloadRequested.InvokeCallbackAsync();
+        }
+    }
 
     #endregion
 
@@ -192,6 +220,21 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
     /// Defines if the print button should be displayed.
     /// </summary>
     [Parameter] public bool ShowPrinting { get; set; } = true;
+    
+    /// <summary>
+    /// Defines if the download button should be displayed.
+    /// </summary>
+    [Parameter] public bool ShowDownloading { get; set; } = true;
+    
+    /// <summary>
+    /// Gets or sets the DI registered <see cref="ITextLocalizer"/>.
+    /// </summary>
+    [Inject] protected ITextLocalizer<PdfViewer> Localizer { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     #endregion
 }

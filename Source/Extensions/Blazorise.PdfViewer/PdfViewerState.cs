@@ -44,4 +44,9 @@ public record PdfViewerState
     /// Gets the event callback that is triggered when a request is made to print the PDF document.
     /// </summary>
     internal EventCallbackSubscribable PrintRequested { get; } = new();
+    
+    /// <summary>
+    /// Gets the event callback that is triggered when a request is made to download the PDF document.
+    /// </summary>
+    internal EventCallbackSubscribable DownloadRequested { get; } = new();
 }

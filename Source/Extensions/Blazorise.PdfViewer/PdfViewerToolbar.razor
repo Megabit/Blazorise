@@ -37,14 +37,25 @@
                 </Tooltip>
             </Div>
         }
-        @if ( ShowPrinting )
+        @if (ShowPrinting || ShowDownloading)
         {
             <Div Flex="Blazorise.Flex.AlignItems.Center">
-                <Tooltip Text="Print">
-                    <Button Size="Blazorise.Size.Small" Clicked="@OnPrintClicked">
-                        <Icon Name="IconName.Print" />
-                    </Button>
-                </Tooltip>
+                @if (ShowPrinting)
+                {
+                    <Tooltip Text="@Localizer["Print"]">
+                        <Button Size="Size.Small" Clicked="@OnPrintClicked">
+                            <Icon Name="IconName.Print"/>
+                        </Button>
+                    </Tooltip>
+                }
+                @if (ShowDownloading)
+                {
+                    <Tooltip Text="@Localizer["Download"]">
+                        <Button Size="Size.Small" Clicked="@OnDownloadClicked">
+                            <Icon Name="IconName.Download"/>
+                        </Button>
+                    </Tooltip>
+                }
             </Div>
         }
     </div>
