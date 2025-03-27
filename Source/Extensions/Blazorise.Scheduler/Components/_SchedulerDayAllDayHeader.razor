@@ -1,0 +1,50 @@
+﻿@typeparam TItem
+<Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
+    @{
+        var items = Scheduler.GetAllDayItemsInView( Date, Date ).ToList();
+
+        @if ( items?.Any() == true )
+        {
+            var index = 0;
+
+            @foreach ( var item in items )
+            {
+                var totalDays = (int)Scheduler.GetAllDayItemDurationInDays( item );
+
+                <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, index )">
+                    <Span Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall">
+                        @(Scheduler.GetItemTitle( item ))
+                    </Span>
+                </Div>
+
+                index++;
+            }
+        }
+    }
+</Div>
+@code {
+    string GetAllDayHeaderStyle()
+    {
+        return $"min-height: {( HeaderCellHeight / 2 ) * MaxAllDayItems}px;";
+    }
+
+    string GetAllDayHeaderInnerStyle( int totalDays, int index )
+    {
+        var height = HeaderCellHeight / 2;
+        var top = height * index;
+
+        return $"position: absolute; left: 0; top: {top}px; width: {totalDays * 100}%; height: {height}px; z-index: 1; cursor: pointer;";
+    }
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<TItem> AllDayItems { get; set; }
+
+    [Parameter] public int MaxAllDayItems { get; set; }
+}

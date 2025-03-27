@@ -59,6 +59,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private Func<TItem, object> getEndFunc;
     private Action<TItem, object> setEndFunc;
 
+    private Func<TItem, bool> getAllDayFunc;
+    private Action<TItem, object> setAllDayFunc;
+
     private Lazy<Func<TItem>> newItemCreator;
 
     protected _SchedulerModal<TItem> schedulerModalRef;
@@ -94,6 +97,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( StartField );
         getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
         setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
+        getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
+        setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( AllDayField );
         newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
     }
 
@@ -350,6 +355,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Gets the appointment all day value.
+    /// </summary>
+    /// <param name="item">An item from which the all-day value is derived.</param>
+    /// <returns>Returns the all-day value of the item.</returns>
+    internal bool GetItemAllDay( TItem item )
+    {
+        return getAllDayFunc( item );
+    }
+
+    /// <summary>
     /// Gets the description of the specified appointment.
     /// </summary>
     /// <param name="item">The appointment to get the description from.</param>
@@ -545,23 +560,44 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         setEndFunc( destination, getEndFunc( source ) );
     }
 
-    internal IEnumerable<TItem> GetAllDayItems( DateOnly date )
+    internal IEnumerable<TItem> GetAllDayItemsInView( DateOnly from, DateOnly to )
     {
-        return Data?.Where( x => GetItemDuration( x ).TotalDays >= 1 && GetItemStartTime( x ).Date == date.ToDateTime( TimeOnly.MinValue ) );
+        return Data?.Where( x => GetItemAllDay( x )
+            && GetItemStartTime( x ).Date >= from.ToDateTime( TimeOnly.MinValue )
+            && GetItemStartTime( x ).Date <= to.ToDateTime( TimeOnly.MaxValue ) );
     }
 
-    internal int GetMaxAllDayDuration( DateOnly date )
+    internal int GetAllDayItemDurationInDays( TItem item )
     {
-        var allDayItems = GetAllDayItems( date );
+        var start = GetItemStartTime( item );
+        var end = GetItemEndTime( item );
 
-        if ( allDayItems == null || !allDayItems.Any() )
+        if ( start == DateTime.MinValue || end == DateTime.MaxValue )
         {
             return 0;
         }
 
-        return allDayItems.Max( item => (int)GetItemDuration( item ).TotalDays + 1 );
+        return ( end.Date - start.Date ).Days + 1;
     }
 
+
+    internal int GetMaxAllItemsInView( DateOnly from, DateOnly to )
+    {
+        int maxItems = 0;
+
+        for ( var date = from; date <= to; date = date.AddDays( 1 ) )
+        {
+            var items = GetAllDayItemsInView( date, date );
+            var itemCount = items?.Count() ?? 0;
+
+            if ( itemCount > maxItems )
+            {
+                maxItems = itemCount;
+            }
+        }
+
+        return maxItems;
+    }
 
     #endregion
 
@@ -656,6 +692,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the description of the appointment. Defaults to "Description".
     /// </summary>
     [Parameter] public string DescriptionField { get; set; } = "Description";
+
+    /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the all-day status of the appointment. Defaults to "AllDay".
+    /// </summary>
+    [Parameter] public string AllDayField { get; set; } = "AllDay";
 
     /// <summary>
     /// Indicates whether the component is editable. Defaults to true.

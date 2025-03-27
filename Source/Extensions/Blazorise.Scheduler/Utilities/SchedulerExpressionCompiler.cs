@@ -125,6 +125,13 @@ public static class SchedulerExpressionCompiler
         return Expression.Lambda<Func<TItem, object>>( Expression.Convert( property, typeof( object ) ), item );
     }
 
+    public static Expression<Func<TItem, TValue>> CreateValueGetterExpression<TItem, TValue>( string fieldName )
+    {
+        var item = Expression.Parameter( typeof( TItem ), "item" );
+        var property = GetSafePropertyOrFieldExpression( item, fieldName );
+        return Expression.Lambda<Func<TItem, TValue>>( Expression.Convert( property, typeof( TValue ) ), item );
+    }
+
     public static Expression GetSafePropertyOrFieldExpression( Expression item, string propertyOrFieldName )
     {
         if ( string.IsNullOrEmpty( propertyOrFieldName ) )

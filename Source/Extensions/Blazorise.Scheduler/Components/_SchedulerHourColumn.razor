@@ -1,7 +1,13 @@
-﻿<Div Position="Blazorise.Position.Relative">
+﻿@typeparam TItem
+<Div Position="Blazorise.Position.Relative">
     @if ( ShowDayHeader )
     {
         <_SchedulerHourHeader HeaderCellHeight="@HeaderCellHeight" />
+    }
+
+    @if ( MaxAllDayItems > 0 )
+    {
+        <_SchedulerHourAllDayHeader HeaderCellHeight="@HeaderCellHeight" MaxAllDayItems="@MaxAllDayItems" />
     }
 
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
@@ -23,4 +29,8 @@
     [Parameter] public double HeaderCellHeight { get; set; }
 
     [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<TItem> AllDayItems { get; set; }
+
+    [Parameter] public int MaxAllDayItems { get; set; }
 }

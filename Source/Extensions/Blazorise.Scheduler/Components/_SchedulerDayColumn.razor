@@ -5,6 +5,11 @@
         <_SchedulerDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
     }
 
+    @if ( MaxAllDayItems > 0 )
+    {
+        <_SchedulerDayAllDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" AllDayItems="@AllDayItems" MaxAllDayItems="@MaxAllDayItems" />
+    }
+
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
     {
         <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
@@ -34,4 +39,8 @@
     [Parameter] public double HeaderCellHeight { get; set; }
 
     [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<TItem> AllDayItems { get; set; }
+
+    [Parameter] public int MaxAllDayItems { get; set; }
 }

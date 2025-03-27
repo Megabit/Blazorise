@@ -3,17 +3,6 @@
         <Span></Span>
     </Div>
 </Div>
-
-<Div Class="b-scheduler-allday-header" style="@GetAllDayHeaderStyle()" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Border="Border.Is1.OnBottom">
-    <Div Class="b-scheduler-allday-header-cell">
-        <Span></Span>
-    </Div>
-</Div>
 @code {
-    string GetAllDayHeaderStyle()
-    {
-        return $"min-height: {HeaderCellHeight / 2}px;";
-    }
-
     [Parameter] public double HeaderCellHeight { get; set; }
 }

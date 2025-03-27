@@ -1,14 +1,18 @@
 ﻿@using Blazorise.Scheduler.Extensions
 @typeparam TItem
 <Div Class="b-scheduler-workweek-view" Flex="Blazorise.Flex.Default" Width="Width.Is100">
-    <_SchedulerHourColumn StartTime="@StartTime" EndTime="@EndTime" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
-
     @{
         var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWorkWeek );
+        var endOfWeek = startOfWeek.AddDays( 4 );
 
-        @for ( var date = startOfWeek; date <= startOfWeek.AddDays( 4 ); date = date.AddDays( 1 ) )
+        var allDayItems = Scheduler.GetAllDayItemsInView( startOfWeek, endOfWeek ).ToList();
+        var maxAllDayItems = Scheduler.GetMaxAllItemsInView( startOfWeek, endOfWeek );
+
+        <_SchedulerHourColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" AllDayItems="@allDayItems" MaxAllDayItems="@maxAllDayItems" />
+
+        @for ( var date = startOfWeek; date <= endOfWeek; date = date.AddDays( 1 ) )
         {
-            <_SchedulerDayColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
+            <_SchedulerDayColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" AllDayItems="@allDayItems" MaxAllDayItems="@maxAllDayItems" />
         }
     }
 </Div>

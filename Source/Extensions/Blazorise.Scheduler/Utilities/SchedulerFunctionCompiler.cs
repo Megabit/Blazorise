@@ -20,6 +20,11 @@ public static class SchedulerFunctionCompiler
         return SchedulerExpressionCompiler.CreateValueGetterExpression<TItem>( fieldName ).Compile();
     }
 
+    public static Func<TItem, TValue> CreateValueGetter<TItem, TValue>( string fieldName )
+    {
+        return SchedulerExpressionCompiler.CreateValueGetterExpression<TItem, TValue>( fieldName ).Compile();
+    }
+
     public static Action<TItem, object> CreateValueSetter<TItem>( string fieldName )
     {
         var item = Expression.Parameter( typeof( TItem ), "item" );

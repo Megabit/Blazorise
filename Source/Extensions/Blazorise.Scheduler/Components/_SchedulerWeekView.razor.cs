@@ -17,6 +17,8 @@ public partial class _SchedulerWeekView<TItem>
 
     #region Properties
 
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
     /// <summary>
     /// Gets or sets the date that is currently selected in the scheduler.
     /// </summary>
