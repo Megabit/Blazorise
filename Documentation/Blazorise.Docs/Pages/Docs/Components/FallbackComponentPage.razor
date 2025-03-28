@@ -12,8 +12,9 @@
     <DocsPageLead>
         @((MarkupString) apiDocsForComponent.Summary)
     </DocsPageLead>
-    
-    <ComponentApiDocs ApiDocsForComponent="apiDocsForComponent" />
+     
+    // need the key here to force the component to re-initialize (not just re-render) on apiDocsForComponent change.
+    <ComponentApiDocs @key="@apiDocsForComponent.TypeName" ApiDocsForComponent="apiDocsForComponent" />
 }
 else if (apiDocsForComponentsByDistance.Any())
 {
@@ -53,9 +54,10 @@ else
     ApiDocsForComponent apiDocsForComponent;
 
     List<ApiDocsForComponent> apiDocsForComponentsByDistance =[];
-    
 
-    protected override void OnInitialized()
+    bool showApiDcoComponent = true;
+
+    protected override  void OnParametersSet()
     {
         apiDocsForComponent = ComponentsApiDocsSource.Instance.Components
                                                        .Where(x => string.Equals(x.Value.TypeName, PageName, StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).FirstOrDefault();
@@ -80,8 +82,6 @@ else
             Console.WriteLine($"Component not found for name: {PageName}");//log to inspect missing docs
         }
         
-
-        base.OnInitialized();
     }
     
     int LevenshteinDistance(string a, string b)
