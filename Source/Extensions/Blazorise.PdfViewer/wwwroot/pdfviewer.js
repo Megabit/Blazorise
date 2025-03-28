@@ -182,6 +182,53 @@ export async function print(source) {
     }
 }
 
+export async function download(source) {
+    try {
+        const loadingTask = pdfjsLib.getDocument(source);
+        const pdf = await loadingTask.promise;
+
+        if (!pdf || !pdf._transport || !pdf._transport._params) {
+            console.error("Unable to access raw PDF data.");
+            return;
+        }
+
+        const src = source.url || source;
+
+        // Case 1: source is a URL
+        if (typeof src === 'string' && !src.startsWith('data:')) {
+            // Simply trigger a download link
+            const link = document.createElement('a');
+            link.href = src;
+            link.download = getFileNameFromUrl(src);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        // Case 2: source is base64 data
+        else if (src.startsWith('data:application/pdf;base64,')) {
+            const link = document.createElement('a');
+            link.href = src;
+            link.download = 'document.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        else {
+            // Case 3: not yet supported in Blazorise
+            throw new Error(
+                "The provided source format is not currently supported for downloading.\n\n" +
+                "Blazorise PdfViewer currently supports:\n" +
+                " - direct file URLs\n" +
+                " - base64-encoded data URIs\n\n" +
+                "Support for advanced sources like streamed binary data (e.g., fetched Uint8Array or blob) " +
+                "may be added in the future to allow download of dynamically generated or protected PDFs."
+            );
+        }
+    } catch (error) {
+        console.error("PDF Save failed:", error);
+    }
+}
+
 export function queueRenderPage(instance, pageNumber) {
     if (instance && pageNumber) {
         if (instance.pageRendering) {
@@ -262,4 +309,12 @@ function NotifyPdfChanged(instance) {
         totalPages: instance.totalPages,
         scale: instance.scale,
     });
+}
+
+function getFileNameFromUrl(url) {
+    try {
+        return url.split('/').pop().split('?')[0] || 'document.pdf';
+    } catch {
+        return 'document.pdf';
+    }
 }
