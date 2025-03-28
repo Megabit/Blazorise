@@ -560,13 +560,24 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         setEndFunc( destination, getEndFunc( source ) );
     }
 
-    internal IEnumerable<TItem> GetAllDayItemsInView( DateOnly from, DateOnly to )
+    /// <summary>
+    /// Retrieves all-day items within a specified date range. It filters items based on their start date.
+    /// </summary>
+    /// <param name="from">Specifies the start date of the range for filtering items.</param>
+    /// <param name="to">Specifies the end date of the range for filtering items.</param>
+    /// <returns>An enumerable collection of items that are all-day events within the given date range.</returns>
+    internal IEnumerable<TItem> GetAllDayItemsInRange( DateOnly from, DateOnly to )
     {
         return Data?.Where( x => GetItemAllDay( x )
             && GetItemStartTime( x ).Date >= from.ToDateTime( TimeOnly.MinValue )
             && GetItemStartTime( x ).Date <= to.ToDateTime( TimeOnly.MaxValue ) );
     }
 
+    /// <summary>
+    /// Calculates the duration of an all-day item in days based on its start and end times.
+    /// </summary>
+    /// <param name="item">Represents the item for which the duration is being calculated.</param>
+    /// <returns>Returns the total number of days the item spans, including both start and end dates.</returns>
     internal int GetAllDayItemDurationInDays( TItem item )
     {
         var start = GetItemStartTime( item );
@@ -580,23 +591,63 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return ( end.Date - start.Date ).Days + 1;
     }
 
-
-    internal int GetMaxAllItemsInView( DateOnly from, DateOnly to )
+    /// <summary>
+    /// Calculates the maximum number of overlapping all-day items within a specified date range.
+    /// </summary>
+    /// <param name="from">Specifies the start date of the range for which to calculate overlapping items.</param>
+    /// <param name="to">Specifies the end date of the range for which to calculate overlapping items.</param>
+    /// <returns>Returns the maximum count of overlapping all-day items found within the given date range.</returns>
+    internal int GetMaxOverlappingAllDayItems( DateOnly from, DateOnly to )
     {
         int maxItems = 0;
 
         for ( var date = from; date <= to; date = date.AddDays( 1 ) )
         {
-            var items = GetAllDayItemsInView( date, date );
-            var itemCount = items?.Count() ?? 0;
+            var items = Data?.Where( x => GetItemAllDay( x ) &&
+                GetItemStartTime( x ).Date <= date.ToDateTime( TimeOnly.MaxValue ) &&
+                GetItemEndTime( x ).Date >= date.ToDateTime( TimeOnly.MinValue ) ).ToList();
 
-            if ( itemCount > maxItems )
+            if ( items != null )
             {
-                maxItems = itemCount;
+                int overlappingCount = 0;
+                foreach ( var item in items )
+                {
+                    int currentOverlap = items.Count( x =>
+                        GetItemStartTime( x ).Date <= GetItemEndTime( item ).Date &&
+                        GetItemEndTime( x ).Date >= GetItemStartTime( item ).Date );
+
+                    if ( currentOverlap > overlappingCount )
+                    {
+                        overlappingCount = currentOverlap;
+                    }
+                }
+
+                if ( overlappingCount > maxItems )
+                {
+                    maxItems = overlappingCount;
+                }
             }
         }
 
         return maxItems;
+    }
+
+    internal int CountOverlappingItemsBefore( TItem item )
+    {
+        var items = Data?.Where( x =>
+            GetItemStartTime( x ).Date <= GetItemEndTime( item ).Date &&
+            GetItemEndTime( x ).Date >= GetItemStartTime( item ) ).ToList();
+
+        if ( items is null )
+        {
+            return 0;
+        }
+
+        return items
+            .OrderBy( x => GetItemStartTime( x ) )
+            .ThenBy( x => GetItemEndTime( x ) )
+            .TakeWhile( x => !x.Equals( item ) )
+            .Count();
     }
 
     #endregion

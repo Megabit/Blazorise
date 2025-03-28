@@ -1,21 +1,21 @@
 ﻿@typeparam TItem
 <Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
     @{
-        var items = Scheduler.GetAllDayItemsInView( Date, Date ).ToList();
+        var items = Scheduler.GetAllDayItemsInRange( Date, Date ).ToList();
 
         @if ( items?.Any() == true )
         {
-            var index = 0;
+            var height = HeaderCellHeight / 2;
 
             @foreach ( var item in items )
             {
                 var totalDays = (int)Scheduler.GetAllDayItemDurationInDays( item );
+                var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( item );
+                var top = height * numberOfPreviousItems;
 
-                <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, index )">
+                <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )">
                     <_SchedulerDayAllDayItem TItem="TItem" Item="@item" Clicked="@OnItemClicked" />
                 </Div>
-
-                index++;
             }
         }
     }
@@ -34,11 +34,8 @@
         return $"min-height: {( HeaderCellHeight / 2 ) * MaxAllDayItems}px;";
     }
 
-    string GetAllDayHeaderInnerStyle( int totalDays, int index )
+    string GetAllDayHeaderInnerStyle( int totalDays, double top, double height )
     {
-        var height = HeaderCellHeight / 2;
-        var top = height * index;
-
         return $"position: absolute; left: 0; top: {top}px; width: {totalDays * 100}%; height: {height}px; z-index: 1; cursor: pointer;";
     }
 

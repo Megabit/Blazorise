@@ -5,8 +5,8 @@
         var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWeek );
         var endOfWeek = startOfWeek.AddDays( 6 );
 
-        var allDayItems = Scheduler.GetAllDayItemsInView( startOfWeek, endOfWeek ).ToList();
-        var maxAllDayItems = Scheduler.GetMaxAllItemsInView( startOfWeek, endOfWeek );
+        var allDayItems = Scheduler.GetAllDayItemsInRange( startOfWeek, endOfWeek ).ToList();
+        var maxAllDayItems = Scheduler.GetMaxOverlappingAllDayItems( startOfWeek, endOfWeek );
 
         <_SchedulerHourColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" AllDayItems="@allDayItems" MaxAllDayItems="@maxAllDayItems" />
 
