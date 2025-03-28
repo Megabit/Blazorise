@@ -634,7 +634,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal int CountOverlappingItemsBefore( TItem item )
     {
-        var items = Data?.Where( x =>
+        var items = Data?.Where( x => GetItemAllDay( x ) &&
             GetItemStartTime( x ).Date <= GetItemEndTime( item ).Date &&
             GetItemEndTime( x ).Date >= GetItemStartTime( item ) ).ToList();
 
