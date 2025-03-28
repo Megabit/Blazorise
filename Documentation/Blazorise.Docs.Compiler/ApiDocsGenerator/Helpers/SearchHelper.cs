@@ -18,7 +18,6 @@ public class SearchHelper
     /// <param name="typeSymbol">The type symbol representing the component or class to resolve the URL for.</param>
     /// <returns>The resolved documentation search URL, or <c>null</c> if no matching path was found.</returns>
     public string GetSearchUrl( INamedTypeSymbol typeSymbol )
-
     {
         foreach ( var syntaxRef in typeSymbol.DeclaringSyntaxReferences )//the symbol can be in multiple files (partial classes), this kinda ignores the case when different location would break the search 
         {
@@ -49,11 +48,11 @@ public class SearchHelper
 
     static readonly List<SearchPathMapping> PathToSearchUrlsMap =
     [
-    new( "Source/Blazorise/Components/", "docs/components/" , PathResolverStrategy.DirectoryName),
-    new( "Source/Blazorise/Themes/Colors/", "docs/theming/api/colors" ),
-    new( "Source/Blazorise/Themes/Options/", "docs/theming/api/options" ),
-    new( "Source/Blazorise/Themes/Palettes/", "docs/theming/api/palettes" ),
-    new( "Source/Blazorise/Themes/", "docs/theming/api" )
+        new( "Source/Blazorise/Components/", "docs/components/" , PathResolverStrategy.DirectoryName),
+        new( "Source/Blazorise/Themes/Colors/", "docs/theming/api/colors" ),
+        new( "Source/Blazorise/Themes/Options/", "docs/theming/api/options" ),
+        new( "Source/Blazorise/Themes/Palettes/", "docs/theming/api/palettes" ),
+        new( "Source/Blazorise/Themes/", "docs/theming/api" )
     ];
 
     public enum PathResolverStrategy
