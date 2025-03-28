@@ -1,6 +1,10 @@
 ﻿@typeparam TItem
-<Span Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall" @onclick="@OnSlotClicked">
-    @(Scheduler.GetItemTitle( Item ))
+<Span Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall" @onclick="@OnSlotClicked">
+    <Span>@(Scheduler.GetItemTitle( Item ))</Span>
+    @if ( DateOverflow )
+    {
+        <Span>@Scheduler.GetItemEndTime( Item ).ToString()<Icon Name="IconName.AngleRight" Margin="Margin.Is2.FromStart" /></Span>
+    }
 </Span>
 
 @code {
@@ -15,6 +19,8 @@
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     [Parameter] public TItem Item { get; set; }
+
+    [Parameter] public bool DateOverflow { get; set; }
 
     [Parameter] public Func<TItem, Task> Clicked { get; set; }
 }

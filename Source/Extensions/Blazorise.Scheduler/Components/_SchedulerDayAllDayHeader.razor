@@ -10,11 +10,15 @@
             @foreach ( var item in items )
             {
                 var totalDays = (int)Scheduler.GetAllDayItemDurationInDays( item );
+                var maxDays = ( LastViewDate.ToDateTime( TimeOnly.MinValue ) - Date.ToDateTime( TimeOnly.MinValue ) ).Days + 1;
+                var isOverflow = totalDays > maxDays;
+                totalDays = Math.Min( totalDays, maxDays );
+
                 var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( item );
                 var top = height * numberOfPreviousItems;
 
                 <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )">
-                    <_SchedulerDayAllDayItem TItem="TItem" Item="@item" Clicked="@OnItemClicked" />
+                    <_SchedulerDayAllDayItem TItem="TItem" Item="@item" DateOverflow="@isOverflow" Clicked="@OnItemClicked" />
                 </Div>
             }
         }
@@ -40,6 +44,10 @@
     }
 
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly FirstViewDate { get; set; }
+
+    [Parameter] public DateOnly LastViewDate { get; set; }
 
     [Parameter] public DateOnly Date { get; set; }
 
