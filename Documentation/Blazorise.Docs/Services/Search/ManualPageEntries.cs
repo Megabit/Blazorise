@@ -182,8 +182,6 @@ public static class ManualPageEntries
     new( "license", "License" )
     ];
 
-    public static IEnumerable<PageEntry> WithDescriptionAndUrl( string urlToStartWith ) 
+    public static IEnumerable<PageEntry> WithDescriptionAndUrl( string urlToStartWith )
         => Entries.Where( x => x.Url.StartsWith( urlToStartWith ) && !string.IsNullOrEmpty( x.Description ) );
-    
 }
-    

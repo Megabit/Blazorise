@@ -26,7 +26,7 @@ public class ApiDocsForComponent
 
     #region Constructors
 
-    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string category = null, string subcategory = null, string searchUrl=null )
+    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string category = null, string subcategory = null, string searchUrl = null )
     {
         Type = type;
         TypeName = typeName;
@@ -119,15 +119,15 @@ public class ApiDocsForComponent
             return methods;
         }
     }
-    
+
     /// <summary>
     /// Parameters events and methods together
     /// </summary>
     public IEnumerable<IApiDocsRecord> AllApiDocsRecords =>
         Parameters
         .Cast<IApiDocsRecord>()
-        .Concat(Events)
-        .Concat(Methods);
+        .Concat( Events )
+        .Concat( Methods );
 
 
     public Type Type { get; set; }

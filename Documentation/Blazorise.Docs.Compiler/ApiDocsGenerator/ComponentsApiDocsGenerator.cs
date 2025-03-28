@@ -38,7 +38,7 @@ public class ComponentsApiDocsGenerator
     readonly string[] skipMethods = ["Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString", "GetEnumerator"];
 
     readonly SearchHelper searchHelper;
-    
+
     #endregion
 
     #region Constructors
@@ -352,7 +352,7 @@ public class ComponentsApiDocsGenerator
                                              }
                                              
                                              {{( comp.Category is null ? "" : $""","{comp.Category}" {( comp.Subcategory is null ? "" : $""", "{comp.Subcategory}" """ )} """ )}}
-                                             {{( string.IsNullOrWhiteSpace( comp.SearchUrl)?"":$""", searchUrl:"{comp.SearchUrl}" """)}}
+                                             {{( string.IsNullOrWhiteSpace( comp.SearchUrl ) ? "" : $""", searchUrl:"{comp.SearchUrl}" """ )}}
                                        )},
 
                                    """;

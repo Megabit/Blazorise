@@ -12,7 +12,7 @@
 </DocsPageLead>
 
 <Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
-    @foreach ( var info in ManualPageEntries.WithDescriptionAndUrl("docs/extensions") )
+    @foreach ( var info in ManualPageEntries.WithDescriptionAndUrl( "docs/extensions" ) )
     {
         <Column Margin="Margin.Is3.FromBottom">
             <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />

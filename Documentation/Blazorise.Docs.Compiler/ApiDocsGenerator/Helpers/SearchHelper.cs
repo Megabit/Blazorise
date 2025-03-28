@@ -1,8 +1,9 @@
-using System;
+#region Using directives
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
@@ -16,7 +17,7 @@ public class SearchHelper
     /// </summary>
     /// <param name="typeSymbol">The type symbol representing the component or class to resolve the URL for.</param>
     /// <returns>The resolved documentation search URL, or <c>null</c> if no matching path was found.</returns>
-    public string GetSearchUrl(INamedTypeSymbol typeSymbol)
+    public string GetSearchUrl( INamedTypeSymbol typeSymbol )
 
     {
         foreach ( var syntaxRef in typeSymbol.DeclaringSyntaxReferences )//the symbol can be in multiple files (partial classes), this kinda ignores the case when different location would break the search 
@@ -27,12 +28,12 @@ public class SearchHelper
             var link = sortedPathToSearchUrlsMap.FirstOrDefault( entry => normalizedFilePath.Contains( entry.Segment ) );
             if ( link is null )
                 continue;
-            
+
             return link.Strategy switch
             {
-                PathResolverStrategy.DirectoryName => Path.Combine(link.SearchUrlBase, Path.GetFileName(Path.GetDirectoryName(normalizedFilePath))?.ToLower() ?? ""),
-                PathResolverStrategy.Default     => link.SearchUrlBase,
-                _                                => link.SearchUrlBase
+                PathResolverStrategy.DirectoryName => Path.Combine( link.SearchUrlBase, Path.GetFileName( Path.GetDirectoryName( normalizedFilePath ) )?.ToLower() ?? "" ),
+                PathResolverStrategy.Default => link.SearchUrlBase,
+                _ => link.SearchUrlBase
             };
         }
 

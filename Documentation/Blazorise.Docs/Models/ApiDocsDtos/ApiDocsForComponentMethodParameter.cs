@@ -12,5 +12,6 @@ public class ApiDocsForComponentMethodParameter
     }
 
     public string Name { get; set; }
+
     public string TypeName { get; set; }
 }

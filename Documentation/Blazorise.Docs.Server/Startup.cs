@@ -1,3 +1,4 @@
+#region Using directives
 using System;
 using System.IO.Compression;
 using System.Linq;
@@ -21,6 +22,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+#endregion
 
 namespace Blazorise.Docs.Server;
 

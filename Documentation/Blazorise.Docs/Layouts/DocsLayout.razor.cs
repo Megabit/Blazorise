@@ -1,12 +1,7 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Docs.Models.ApiDocsDtos;
 using Blazorise.Docs.Services.Search;
-using Blazorise.Shared.Data;
-using Blazorise.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
@@ -39,7 +34,6 @@ public partial class DocsLayout : IDisposable
     private bool sideBarMetaMenuVisible;
 
     private bool disposed;
-    
 
     public string selectedSearchText { get; set; }
 
@@ -60,11 +54,11 @@ public partial class DocsLayout : IDisposable
     private async void OnLocationChanged( object sender, LocationChangedEventArgs e )
     {
         var isRouterTabsPage = e.Location.Contains( "routertabs" );
-        if (isRouterTabsExample != isRouterTabsPage )
+        if ( isRouterTabsExample != isRouterTabsPage )
         {
             isRouterTabsExample = isRouterTabsPage;
             StateHasChanged();
-        } 
+        }
         await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToTop" );
     }
 

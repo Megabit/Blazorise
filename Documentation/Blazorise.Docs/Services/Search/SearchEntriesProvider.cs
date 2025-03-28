@@ -10,17 +10,17 @@ namespace Blazorise.Docs.Services.Search;
 
 public class SearchEntriesProvider
 {
-    public List<PageEntry> Entries => entries 
-                                      ?? throw new InvalidOperationException("SearchEntriesProvider not initialized. Call InitializeAsync instead before using it.");
+    public List<PageEntry> Entries => entries
+                                      ?? throw new InvalidOperationException( "SearchEntriesProvider not initialized. Call InitializeAsync instead before using it." );
 
     private List<PageEntry> entries;
     public async ValueTask<List<PageEntry>> InitializeAsync()
     {
-        if(entries is not null)
+        if ( entries is not null )
             return entries;
-        
+
         List<PageEntry> fromComponentEntries = [];
-        
+
         var eligibleApiDocs = ComponentsApiDocsSource.Instance.Components
                                                      .Where( x => x.Value.SearchUrl is not null )
                                                      .Select( x => x.Value );
@@ -33,13 +33,13 @@ public class SearchEntriesProvider
             }
 
             var entriesForComp = comp.AllApiDocsRecords
-                                     .Select( x=> PageEntry.GetDocsPageEntryForParams( comp, x)); 
-            
-            fromComponentEntries.AddRange( entriesForComp);
+                                     .Select( x => PageEntry.GetDocsPageEntryForParams( comp, x ) );
+
+            fromComponentEntries.AddRange( entriesForComp );
         }
 
         await Task.CompletedTask;
-        entries = ManualPageEntries.Entries.Concat(fromComponentEntries).ToList();
+        entries = ManualPageEntries.Entries.Concat( fromComponentEntries ).ToList();
         return entries;
     }
 }
