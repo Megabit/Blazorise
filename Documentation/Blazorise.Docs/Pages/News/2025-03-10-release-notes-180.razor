@@ -53,7 +53,7 @@
     </OrderedListItem>
     <OrderedListItem>
         <Paragraph>
-            Blazorise should now work withut any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
+            Blazorise should now work without any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
         </Paragraph>
     </OrderedListItem>
 </OrderedList>
@@ -87,12 +87,27 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Download Support for PdfViewer
+</Heading>
+
+<Paragraph>
+    <Code>PdfViewer</Code> now includes built-in support for downloading the displayed PDF document. When enabled, a download button appears in the viewer toolbar, allowing users to save the PDF to their device. It supports both direct file URLs and base64-encoded data sources.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Localization Support for PdfViewer Toolbar
+</Heading>
+
+<Paragraph>
+    The <Code>PdfViewer</Code> component now supports localization for its toolbar UI. All interactive elements are now localized.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     DataGrid: Programmatic Addition of Items to Batch Edit Collection
 </Heading>
 
 <Paragraph>
     Introduced the <Code>Task New( TItem newItem )</Code> overload method in DataGrid, enabling the programmatic addition of new items to the batch edit collection when batch editing is enabled. This method ensures that newly added items are tracked as unsaved changes, allowing them to be persisted upon saving or discarded upon cancellation.
 </Paragraph>
-
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />

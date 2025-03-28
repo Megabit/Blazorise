@@ -6,44 +6,56 @@
         @if ( ShowPaging )
         {
             <Div Flex="Blazorise.Flex.AlignItems.Center">
-                <Tooltip Text="Previous page">
-                    <Button Size="Blazorise.Size.Small" Clicked="@OnPreviousPageClicked" Margin="Blazorise.Margin.Is2.FromEnd">
+                <Tooltip Text="@Localizer["Previous page"]">
+                    <Button Size="Size.Small" Clicked="@OnPreviousPageClicked" Margin="Blazorise.Margin.Is2.FromEnd">
                         <Icon Name="IconName.ChevronLeft" />
                     </Button>
                 </Tooltip>
-                <NumericEdit TValue="int" Value="@pageNumber" ValueChanged="@OnPageNumberChanged" Size="Blazorise.Size.Small" TextAlignment="Blazorise.TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
-                <Tooltip Text="Next page">
-                    <Button Size="Blazorise.Size.Small" Clicked="@OnNextPageClicked" Margin="Blazorise.Margin.Is2.FromStart">
+                <NumericEdit TValue="int" Value="@pageNumber" ValueChanged="@OnPageNumberChanged" Size="Size.Small" TextAlignment="TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
+                <Tooltip Text="@Localizer["Next page"]">
+                    <Button Size="Size.Small" Clicked="@OnNextPageClicked" Margin="Blazorise.Margin.Is2.FromStart">
                         <Icon Name="IconName.ChevronRight" />
                     </Button>
                 </Tooltip>
-                <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">of @totalPages</Div>
+                <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">@Localizer["of"] @totalPages</Div>
             </Div>
         }
+
         @if ( ShowZooming )
         {
             <Div Flex="Blazorise.Flex.AlignItems.Center">
-                <Tooltip Text="Zoom Out">
-                    <Button Size="Blazorise.Size.Small" Clicked="@OnZoomOutClicked">
+                <Tooltip Text="@Localizer["Zoom Out"]">
+                    <Button Size="Size.Small" Clicked="@OnZoomOutClicked">
                         <Icon Name="IconName.ZoomOut" />
                     </Button>
                 </Tooltip>
                 <Div Flex="Blazorise.Flex.AlignSelf.Center" Margin="Blazorise.Margin.Is2.OnX">@($"{zoomLevelPercentage}%")</Div>
-                <Tooltip Text="Zoom In">
-                    <Button Size="Blazorise.Size.Small" Clicked="@OnZoomInClicked">
+                <Tooltip Text="@Localizer["Zoom In"]">
+                    <Button Size="Size.Small" Clicked="@OnZoomInClicked">
                         <Icon Name="IconName.ZoomIn" />
                     </Button>
                 </Tooltip>
             </Div>
         }
-        @if ( ShowPrinting )
+        @if ( ShowPrinting || ShowDownloading )
         {
             <Div Flex="Blazorise.Flex.AlignItems.Center">
-                <Tooltip Text="Print">
-                    <Button Size="Blazorise.Size.Small" Clicked="@OnPrintClicked">
-                        <Icon Name="IconName.Print" />
-                    </Button>
-                </Tooltip>
+                @if ( ShowPrinting )
+                {
+                    <Tooltip Text="@Localizer["Print"]">
+                        <Button Size="Size.Small" Clicked="@OnPrintClicked">
+                            <Icon Name="IconName.Print" />
+                        </Button>
+                    </Tooltip>
+                }
+                @if ( ShowDownloading )
+                {
+                    <Tooltip Text="@Localizer["Download"]">
+                        <Button Size="Size.Small" Clicked="@OnDownloadClicked">
+                            <Icon Name="IconName.Download" />
+                        </Button>
+                    </Tooltip>
+                }
             </Div>
         }
     </div>
