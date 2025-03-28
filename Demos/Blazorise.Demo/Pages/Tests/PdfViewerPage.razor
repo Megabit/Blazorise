@@ -6,7 +6,7 @@
                 <CardTitle>PdfViewer</CardTitle>
             </CardHeader>
             <CardBody>
-                <PdfViewerContainer Height="Height.Rem(50)">
+                <PdfViewerContainer Height="Height.Rem( 50 )">
                     <PdfViewerToolbar />
                     <PdfViewer Source="@source" />
                 </PdfViewerContainer>
@@ -21,16 +21,16 @@
                 <CardTitle>As a standalone PdfViewer</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>standalonePdfViewerRef.PreviousPage())">Previous page</Button>
-                <Button Color="Color.Primary" Clicked="@(()=>standalonePdfViewerRef.NextPage())">Next page</Button>
-                <Button Color="Color.Secondary" Clicked="@(()=>pageNumber = 5)">Go to Page 5</Button>
-                <Button Color="Color.Secondary" Clicked="@(()=>scale = 1)">Set Scale 1</Button>
-                <Button Color="Color.Secondary" Clicked="@(()=>scale = 2)">Set Scale 2</Button>
-                <Button Color="Color.Dark" Clicked="@(()=>standalonePdfViewerRef.Print())">Print</Button>
-                <Button Color="Color.Dark" Clicked="@(()=>standalonePdfViewerRef.Download())">Download</Button>
+                <Button Color="Color.Primary" Clicked="@(() => standalonePdfViewerRef.PreviousPage())">Previous page</Button>
+                <Button Color="Color.Primary" Clicked="@(() => standalonePdfViewerRef.NextPage())">Next page</Button>
+                <Button Color="Color.Secondary" Clicked="@(() => pageNumber = 5)">Go to Page 5</Button>
+                <Button Color="Color.Secondary" Clicked="@(() => scale = 1)">Set Scale 1</Button>
+                <Button Color="Color.Secondary" Clicked="@(() => scale = 2)">Set Scale 2</Button>
+                <Button Color="Color.Dark" Clicked="@(() => standalonePdfViewerRef.Print())">Print</Button>
+                <Button Color="Color.Dark" Clicked="@(() => standalonePdfViewerRef.Download())">Download</Button>
             </CardBody>
             <CardBody>
-                <Div Height="Height.Rem(50)" Overflow="Overflow.Auto">
+                <Div Height="Height.Rem( 50 )" Overflow="Overflow.Auto">
                     <PdfViewer @ref="@standalonePdfViewerRef" Source="@source" @bind-PageNumber="@pageNumber" @bind-Scale="@scale" />
                 </Div>
             </CardBody>
@@ -45,7 +45,7 @@
                 <CardTitle>Base64 pdf</CardTitle>
             </CardHeader>
             <CardBody>
-                <PdfViewerContainer Height="Height.Rem(50)">
+                <PdfViewerContainer Height="Height.Rem( 50 )">
                     <PdfViewerToolbar />
                     <PdfViewer Source="@sourceBase64" />
                 </PdfViewerContainer>

@@ -222,7 +222,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             await JSModule.Print( Source );
         }
     }
-    
+
     /// <summary>
     /// Downloads the currently loaded PDF document.
     /// </summary>
@@ -368,7 +368,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// Gets or sets the callback event that is triggered when the PDF document is requested to be printed.
     /// </summary>
     [Parameter] public EventCallback PrintRequested { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the callback event that is triggered when the PDF document is requested to be downloaded.
     /// </summary>

@@ -70,7 +70,7 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
 
         return base.OnParametersSetAsync();
     }
-    
+
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
@@ -78,13 +78,13 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
 
         base.OnInitialized();
     }
-    
+
     /// <summary>
     /// Handles the localization changed event.
     /// </summary>
     /// <param name="sender">Object that raised the event.</param>
     /// <param name="eventArgs">Data about the localization event.</param>
-    private  void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    private void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
         InvokeAsync( StateHasChanged );
     }
@@ -183,7 +183,7 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
             await ViewerState.PrintRequested.InvokeCallbackAsync();
         }
     }
-    
+
     private async Task OnDownloadClicked()
     {
         if ( ViewerState?.DownloadRequested is not null )
@@ -220,17 +220,17 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
     /// Defines if the print button should be displayed.
     /// </summary>
     [Parameter] public bool ShowPrinting { get; set; } = true;
-    
+
     /// <summary>
     /// Defines if the download button should be displayed.
     /// </summary>
     [Parameter] public bool ShowDownloading { get; set; } = true;
-    
+
     /// <summary>
     /// Gets or sets the DI registered <see cref="ITextLocalizer"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<PdfViewer> Localizer { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>

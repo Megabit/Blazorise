@@ -229,15 +229,6 @@ export async function download(source) {
     }
 }
 
-function getFileNameFromUrl(url) {
-    try {
-        return url.split('/').pop().split('?')[0] || 'document.pdf';
-    } catch {
-        return 'document.pdf';
-    }
-}
-
-
 export function queueRenderPage(instance, pageNumber) {
     if (instance && pageNumber) {
         if (instance.pageRendering) {
@@ -318,4 +309,12 @@ function NotifyPdfChanged(instance) {
         totalPages: instance.totalPages,
         scale: instance.scale,
     });
+}
+
+function getFileNameFromUrl(url) {
+    try {
+        return url.split('/').pop().split('?')[0] || 'document.pdf';
+    } catch {
+        return 'document.pdf';
+    }
 }
