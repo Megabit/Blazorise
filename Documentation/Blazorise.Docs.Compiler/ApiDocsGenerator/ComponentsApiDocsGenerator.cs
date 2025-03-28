@@ -206,7 +206,14 @@ public class ComponentsApiDocsGenerator
             InheritsFromChain: typeQualification.NamedTypeSymbols ?? [],
             Category: typeQualification.Category,
             Subcategory: typeQualification.Subcategory,
-            SearchUrl: searchHelper.GetSearchUrl( type )
+            SearchUrl: searchHelper.GetSearchUrl( type ),
+            Summary: 
+            $"""" 
+                    $"""
+                    { StringHelpers.ExtractFromXmlComment( type,ExtractorParts.Summary ) }
+                    """
+             """"
+           
             );
         }
     }
@@ -299,7 +306,7 @@ public class ComponentsApiDocsGenerator
             ApiDocsForComponent comp = new( type: componentType, typeName: componentTypeName,
             properties: propertiesData, methods: methodsData,
             inheritsFromChain: component.InheritsFromChain.Select( type => type.ToStringWithGenerics() ),
-            component.Category, component.Subcategory, component.SearchUrl );
+            component.Category, component.Subcategory, component.SearchUrl, component.Summary );
 
             return comp;
         } );
@@ -349,7 +356,8 @@ public class ComponentsApiDocsGenerator
                                              }, 
                                              new List<Type>{  
                                              {{comp.InheritsFromChain.Select( x => $"typeof({x})" ).StringJoin( "," )}}
-                                             }
+                                             },
+                                             {{comp.Summary }}
                                              
                                              {{( comp.Category is null ? "" : $""","{comp.Category}" {( comp.Subcategory is null ? "" : $""", "{comp.Subcategory}" """ )} """ )}}
                                              {{( string.IsNullOrWhiteSpace( comp.SearchUrl ) ? "" : $""", searchUrl:"{comp.SearchUrl}" """ )}}

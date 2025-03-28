@@ -26,13 +26,14 @@ public class ApiDocsForComponent
 
     #region Constructors
 
-    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string category = null, string subcategory = null, string searchUrl = null )
+    public ApiDocsForComponent( Type type, string typeName, List<ApiDocsForComponentProperty> properties, List<ApiDocsForComponentMethod> methods, List<Type> inheritsFromChain, string summary, string category = null, string subcategory = null, string searchUrl = null )
     {
         Type = type;
         TypeName = typeName;
         OwnProperties = properties;
         OwnMethods = methods;
         InheritsFromChain = inheritsFromChain;
+        Summary = summary;
         Category = category;
         Subcategory = subcategory;
         SearchUrl = searchUrl;
@@ -133,6 +134,8 @@ public class ApiDocsForComponent
     public Type Type { get; set; }
 
     public string TypeName { get; }
+    
+    public string Summary { get; }
 
     public string Category { get; }
 
