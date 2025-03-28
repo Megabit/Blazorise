@@ -554,10 +554,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="destination">The destination appointment to copy values to.</param>
     private void CopyItemValues( TItem source, TItem destination )
     {
-        setTitleFunc( destination, getTitleFunc( source ) );
-        setDescriptionFunc( destination, getDescriptionFunc( source ) );
-        setStartFunc( destination, getStartFunc( source ) );
-        setEndFunc( destination, getEndFunc( source ) );
+        setTitleFunc?.Invoke( destination, getTitleFunc( source ) );
+        setDescriptionFunc?.Invoke( destination, getDescriptionFunc( source ) );
+        setStartFunc?.Invoke( destination, getStartFunc( source ) );
+        setEndFunc?.Invoke( destination, getEndFunc( source ) );
+        setAllDayFunc?.Invoke( destination, getAllDayFunc( source ) );
     }
 
     /// <summary>
