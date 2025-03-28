@@ -570,7 +570,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         return Data?.Where( x => GetItemAllDay( x )
             && GetItemStartTime( x ).Date >= from.ToDateTime( TimeOnly.MinValue )
-            && GetItemStartTime( x ).Date <= to.ToDateTime( TimeOnly.MaxValue ) );
+            && GetItemStartTime( x ).Date <= to.ToDateTime( TimeOnly.MaxValue ) )
+            .OrderByDescending( x => GetItemDuration( x ) );
     }
 
     /// <summary>
@@ -644,8 +645,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         return items
-            .OrderBy( x => GetItemStartTime( x ) )
-            .ThenBy( x => GetItemEndTime( x ) )
+            .OrderByDescending( x => GetItemDuration( x ) )
+            .ThenBy( x => GetItemStartTime( x ) )
             .TakeWhile( x => !x.Equals( item ) )
             .Count();
     }

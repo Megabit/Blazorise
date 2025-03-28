@@ -87,7 +87,7 @@
         new SchedulerAppointment( "Lunch with the team", "Discussing the new project", start.AddHours(2), start.AddHours(3) ),
         new SchedulerAppointment( "Meeting with the client", "Discussing the new project", start.AddHours(4), start.AddHours(5) ),
         new SchedulerAppointment( "Test 1", "Test 1 desc", DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-2), true ),
-        new SchedulerAppointment( "All day event with the team", "Team building", DateTime.Today, DateTime.Today.AddDays(1), true),
+        new SchedulerAppointment( "All day event with the team", "Team building", DateTime.Today.AddDays(-2), DateTime.Today, true),
         new SchedulerAppointment( "Games with the team", "Having fun", DateTime.Today, DateTime.Today, true ),
     };
 }
