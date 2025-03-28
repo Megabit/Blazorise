@@ -49,6 +49,8 @@ public class SearchHelper
     static readonly List<SearchPathMapping> PathToSearchUrlsMap =
     [
         new( "Source/Blazorise/Components/", "docs/components/" , PathResolverStrategy.DirectoryName),
+        new( "Source/Blazorise/Components/FileEdit", "docs/components/file" ),
+        new( "Source/Blazorise/Components/TextEdit", "docs/components/text" ),
         new( "Source/Blazorise/Themes/Colors/", "docs/theming/api/colors" ),
         new( "Source/Blazorise/Themes/Options/", "docs/theming/api/options" ),
         new( "Source/Blazorise/Themes/Palettes/", "docs/theming/api/palettes" ),
