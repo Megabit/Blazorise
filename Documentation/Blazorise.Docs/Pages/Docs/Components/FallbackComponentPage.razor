@@ -76,6 +76,8 @@ else
                                                                     .ThenBy(x => x.Distance)
                                                                     .Select(x => x.Component)
                                                                     .ToList();
+            
+            Console.WriteLine($"Component not found for name: {PageName}");//log to inspect missing docs
         }
         
 
