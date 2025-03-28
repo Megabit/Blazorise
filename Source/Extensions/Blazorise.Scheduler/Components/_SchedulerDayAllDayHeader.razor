@@ -12,9 +12,7 @@
                 var totalDays = (int)Scheduler.GetAllDayItemDurationInDays( item );
 
                 <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, index )">
-                    <Span Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall">
-                        @(Scheduler.GetItemTitle( item ))
-                    </Span>
+                    <_SchedulerDayAllDayItem TItem="TItem" Item="@item" Clicked="@OnItemClicked" />
                 </Div>
 
                 index++;
@@ -23,6 +21,14 @@
     }
 </Div>
 @code {
+    protected async Task OnItemClicked( TItem item )
+    {
+        if ( item is not null )
+        {
+            await Scheduler.NotifyItemClicked( item );
+        }
+    }
+
     string GetAllDayHeaderStyle()
     {
         return $"min-height: {( HeaderCellHeight / 2 ) * MaxAllDayItems}px;";

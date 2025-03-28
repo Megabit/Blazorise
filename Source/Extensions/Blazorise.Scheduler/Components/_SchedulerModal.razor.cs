@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -28,6 +29,9 @@ public partial class _SchedulerModal<TItem>
 
     private Func<TItem, object> getEndValue;
     private Action<TItem, object> setEndValue;
+
+    private Func<TItem, bool> getAllDayFunc;
+    private Action<TItem, object> setAllDayFunc;
 
     private readonly Lazy<Func<TItem>> newItemCreator;
 
@@ -80,6 +84,12 @@ public partial class _SchedulerModal<TItem>
             setEndValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
         }
 
+        if ( typeof( TItem ).GetProperty( AllDayField ).PropertyType is not null )
+        {
+            getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
+            setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( AllDayField );
+        }
+
         base.OnInitialized();
     }
 
@@ -110,15 +120,18 @@ public partial class _SchedulerModal<TItem>
     {
         customValidationErrors.Clear();
 
+        EditItem = item;
         IsNewItem = isNewItem;
 
-        if ( item is null )
-            EditItem = newItemCreator.Value();
-        else
-            EditItem = item;
+        if ( TitleAvailable )
+        {
+            Title = getTitleValue?.Invoke( EditItem )?.ToString();
+        }
 
-        Title = getTitleValue?.Invoke( EditItem )?.ToString();
-        Description = getDescriptionValue?.Invoke( EditItem )?.ToString();
+        if ( DescriptionAvailable )
+        {
+            Description = getDescriptionValue?.Invoke( EditItem )?.ToString();
+        }
 
         if ( StartAvailable )
         {
@@ -132,6 +145,11 @@ public partial class _SchedulerModal<TItem>
             var end = (DateTime?)getEndValue?.Invoke( EditItem );
             EndDate = DateOnly.FromDateTime( end.Value );
             EndTime = TimeOnly.FromDateTime( end.Value );
+        }
+
+        if ( AllDayAvailable )
+        {
+            AllDay = getAllDayFunc?.Invoke( EditItem ) ?? false;
         }
 
         return modalRef.Show();
@@ -150,35 +168,67 @@ public partial class _SchedulerModal<TItem>
 
         if ( await validationsRef.ValidateAll() )
         {
-            if ( EditItem is not null )
+            if ( EditItem is null )
+                return;
+
+            var start = AllDay
+                ? new DateTime( StartDate.Year, StartDate.Month, StartDate.Day )
+                : new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, 0 );
+
+            var end = AllDay
+                ? new DateTime( EndDate.Year, EndDate.Month, EndDate.Day )
+                : new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
+
+
+            if ( StartAvailable && EndAvailable )
+            {
+                if ( AllDay && end < start )
+                    customValidationErrors.Add( "End date cannot be lower than the start date" );
+                else if ( !AllDay && end <= start )
+                    customValidationErrors.Add( "End time cannot be lower than the start time" );
+            }
+
+            if ( customValidationErrors.Any() )
+                return;
+
+            if ( IdAvailable )
             {
                 var id = getIdValue?.Invoke( EditItem );
 
                 if ( id is null )
                     setIdValue?.Invoke( EditItem, Guid.NewGuid().ToString() );
+            }
 
+            if ( TitleAvailable )
+            {
                 setTitleValue?.Invoke( EditItem, Title );
+            }
+
+            if ( DescriptionAvailable )
+            {
                 setDescriptionValue?.Invoke( EditItem, Description );
+            }
 
-                var start = new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, 0 );
-                var end = new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
-
-                if ( start >= end )
-                {
-                    customValidationErrors.Add( "The start date must be before the end date." );
-
-                    return;
-                }
-
+            if ( StartAvailable )
+            {
                 setStartValue?.Invoke( EditItem, start );
+            }
+
+            if ( EndAvailable )
+            {
                 setEndValue?.Invoke( EditItem, end );
+            }
 
-                var result = await Submited.Invoke( EditItem );
+            if ( AllDayAvailable )
+            {
+                setAllDayFunc?.Invoke( EditItem, AllDay );
+            }
 
-                if ( result )
-                {
-                    await modalRef.Hide();
-                }
+            var result = await Submited.Invoke( EditItem );
+
+            if ( result )
+            {
+                await modalRef.Hide();
             }
         }
     }
@@ -189,6 +239,8 @@ public partial class _SchedulerModal<TItem>
 
     protected bool IsNewItem { get; set; }
 
+    protected bool IdAvailable => getIdValue is not null;
+
     protected bool TitleAvailable => getTitleValue is not null;
 
     protected bool DescriptionAvailable => getDescriptionValue is not null;
@@ -196,6 +248,8 @@ public partial class _SchedulerModal<TItem>
     protected bool StartAvailable => getStartValue is not null;
 
     protected bool EndAvailable => getEndValue is not null;
+
+    protected bool AllDayAvailable => getAllDayFunc is not null;
 
     protected string Title { get; set; }
 
@@ -208,6 +262,8 @@ public partial class _SchedulerModal<TItem>
     protected DateOnly EndDate { get; set; }
 
     protected TimeOnly EndTime { get; set; }
+
+    protected bool AllDay { get; set; }
 
     public TItem EditItem { get; set; }
 
@@ -235,6 +291,11 @@ public partial class _SchedulerModal<TItem>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the description of the appointment. Defaults to "Description".
     /// </summary>
     [Parameter] public string DescriptionField { get; set; }
+
+    /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the all day flag of the appointment. Defaults to "AllDay".
+    /// </summary>
+    [Parameter] public string AllDayField { get; set; }
 
     /// <summary>
     /// Represents an event callback that is triggered when an item is saved.

@@ -1,0 +1,20 @@
+﻿@typeparam TItem
+<Span Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall" @onclick="@OnSlotClicked">
+    @(Scheduler.GetItemTitle( Item ))
+</Span>
+
+@code {
+    protected Task OnSlotClicked()
+    {
+        if ( Clicked is null )
+            return Task.CompletedTask;
+
+        return Clicked.Invoke( Item );
+    }
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public TItem Item { get; set; }
+
+    [Parameter] public Func<TItem, Task> Clicked { get; set; }
+}

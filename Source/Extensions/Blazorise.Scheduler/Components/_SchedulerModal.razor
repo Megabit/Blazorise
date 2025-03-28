@@ -29,12 +29,15 @@
                                 <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" Placeholder="Start date" StaticPicker="false" InputMode="DateInputMode.Date" />
                             </FieldBody>
                         </Field>
-                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                            <FieldLabel>&nbsp;</FieldLabel>
-                            <FieldBody>
-                                <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
-                            </FieldBody>
-                        </Field>
+                        @if ( AllDayAvailable && !AllDay )
+                        {
+                            <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldBody>
+                                    <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                </FieldBody>
+                            </Field>
+                        }
                     </Fields>
                 }
                 @if ( EndAvailable )
@@ -46,13 +49,24 @@
                                 <DatePicker @bind-Value="@EndDate" Placeholder="End date" StaticPicker="false" InputMode="DateInputMode.Date" />
                             </FieldBody>
                         </Field>
-                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                            <FieldLabel>&nbsp;</FieldLabel>
-                            <FieldBody>
-                                <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
-                            </FieldBody>
-                        </Field>
+                        @if ( AllDayAvailable && !AllDay )
+                        {
+                            <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldBody>
+                                    <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
+                                </FieldBody>
+                            </Field>
+                        }
                     </Fields>
+                }
+                @if ( AllDayAvailable )
+                {
+                    <Field>
+                        <FieldBody>
+                            <Check TValue="bool" @bind-Value="@AllDay">All Day</Check>
+                        </FieldBody>
+                    </Field>
                 }
                 @if ( DescriptionAvailable )
                 {
