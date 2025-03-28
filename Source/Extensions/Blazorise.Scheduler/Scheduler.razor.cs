@@ -633,6 +633,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return maxItems;
     }
 
+    /// <summary>
+    /// Counts the number of overlapping all-day items that occur before the specified item.
+    /// </summary>
+    /// <param name="item">The item for which to count overlapping items.</param>
+    /// <returns>The number of overlapping items that occur before the specified item.</returns>
     internal int CountOverlappingItemsBefore( TItem item )
     {
         var items = Data?.Where( x => GetItemAllDay( x ) &&
