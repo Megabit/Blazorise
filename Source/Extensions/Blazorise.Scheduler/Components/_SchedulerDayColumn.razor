@@ -7,7 +7,7 @@
 
     @if ( MaxAllDayItems > 0 )
     {
-        <_SchedulerDayAllDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" AllDayItems="@AllDayItems" MaxAllDayItems="@MaxAllDayItems" />
+        <_SchedulerDayAllDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxAllDayItems="@MaxAllDayItems" />
     }
 
     @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
@@ -39,8 +39,6 @@
     [Parameter] public double HeaderCellHeight { get; set; }
 
     [Parameter] public double ItemCellHeight { get; set; }
-
-    [Parameter] public IEnumerable<TItem> AllDayItems { get; set; }
 
     [Parameter] public int MaxAllDayItems { get; set; }
 }
