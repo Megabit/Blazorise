@@ -7796,7 +7796,7 @@ Install-Package Blazorise.Chart.Zoom";
                 @if ( DisplayDetailRow( context ) )
                 {
                     <Button>
-                        <Icon Name=""@(dataGridRef.GetRowInfo(context).DetailRowExpanded ? IconName.ExpandLess : IconName.ExpandMore)""/>
+                        <Icon Name=""@(dataGridRef.GetRowInfo(context).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)""/>
                     </Button>
                 }
             </DisplayTemplate>
