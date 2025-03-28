@@ -1,0 +1,109 @@
+@page "/docs/components/{PageName}"
+@using Blazorise.Docs.Models.ApiDocsDtos
+
+@if (apiDocsForComponent is not null)
+{
+    <Seo Canonical="@($"{apiDocsForComponent.SearchUrl}")" Title="@($"Blazorise {apiDocsForComponent.TypeName} component")" Description="@($"{apiDocsForComponent.Summary}")" />
+
+    <DocsPageTitle Path="@($"Components/{apiDocsForComponent.TypeName}")">
+        Blazorise  @apiDocsForComponent.TypeName component
+    </DocsPageTitle>
+
+    <DocsPageLead>
+        @((MarkupString) apiDocsForComponent.Summary)
+    </DocsPageLead>
+    
+    <ComponentApiDocs ApiDocsForComponent="apiDocsForComponent" />
+}
+else if (apiDocsForComponentsByDistance.Any())
+{
+    <DocsPageTitle Path="Components">
+        Blazorise components
+    </DocsPageTitle>
+
+    <DocsPageLead>
+        We haven't found the component you are looking for, but we have found some similar ones.
+    </DocsPageLead>
+
+    <Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
+        @foreach ( var comp in apiDocsForComponentsByDistance )
+        {
+            <Column Margin="Margin.Is3.FromBottom">
+                <DocsPageComponentInfo @key="@comp" Name="@comp.TypeName" Description="@comp.Summary" To="@comp.SearchUrl" />
+            </Column>
+        }
+    </Row>
+}
+else
+{
+    <DocsPageTitle Path="Components">
+        Blazorise components
+    </DocsPageTitle>
+
+    <DocsPageLead>
+        We haven't found the component you are looking for. Could you please check the spelling or try searching for it?
+    </DocsPageLead>
+}
+
+
+@code {
+
+    [Parameter] public string PageName { get; set; }
+
+    ApiDocsForComponent apiDocsForComponent;
+
+    List<ApiDocsForComponent> apiDocsForComponentsByDistance =[];
+    
+
+    protected override void OnInitialized()
+    {
+        apiDocsForComponent = ComponentsApiDocsSource.Instance.Components
+                                                       .Where(x => string.Equals(x.Value.TypeName, PageName, StringComparison.OrdinalIgnoreCase)).Select(x => x.Value).FirstOrDefault();
+        if (apiDocsForComponent is null)
+        {
+            const int maxDistance = 5; 
+
+            apiDocsForComponentsByDistance = ComponentsApiDocsSource.Instance.Components
+                                                                    .Select(x => new
+                                                                                 {
+                                                                                 Component = x.Value,
+                                                                                 Distance = LevenshteinDistance(x.Value.TypeName.ToLowerInvariant(), PageName.ToLowerInvariant()),
+                                                                                 ContainsForward = x.Value.TypeName.Contains(PageName, StringComparison.OrdinalIgnoreCase),
+                                                                                 ContainsBackward = PageName.Contains(x.Value.TypeName, StringComparison.OrdinalIgnoreCase)
+                                                                                 })
+                                                                    .Where(x => x.Distance <= maxDistance || x.ContainsForward || x.ContainsBackward)
+                                                                    .OrderBy(x => x.ContainsForward || x.ContainsBackward ? 0 : 1) // prioritize contains
+                                                                    .ThenBy(x => x.Distance)
+                                                                    .Select(x => x.Component)
+                                                                    .ToList();
+        }
+        
+
+        base.OnInitialized();
+    }
+    
+    int LevenshteinDistance(string a, string b)
+    {
+        var n = a.Length;
+        var m = b.Length;
+        var d = new int[n + 1, m + 1];
+
+        for (var i = 0; i <= n; i++) d[i, 0] = i;
+        for (var j = 0; j <= m; j++) d[0, j] = j;
+
+        for (var i = 1; i <= n; i++)
+        for (var j = 1; j <= m; j++)
+        {
+            var cost = a[i - 1] == b[j - 1] ? 0 : 1;
+            d[i, j] = new[] {
+                            d[i - 1, j] + 1,
+                            d[i, j - 1] + 1,
+                            d[i - 1, j - 1] + cost
+                            }.Min();
+        }
+
+        return d[n, m];
+    }
+
+
+}
