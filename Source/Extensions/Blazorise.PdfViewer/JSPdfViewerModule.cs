@@ -87,6 +87,13 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "print", source );
     }
 
+    public virtual async ValueTask Download( string source )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "download", source );
+    }
+
     #endregion
 
     #region Properties

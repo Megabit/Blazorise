@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -9,53 +7,39 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.Streaming;
 
-public interface IChartStreaming
-{
-    Task Refresh();
-}
-
 /// <summary>
 /// Provides the streaming capabilities to the supported chart types.
 /// </summary>
 /// <typeparam name="TItem">Data point type.</typeparam>
-public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAsyncDisposable
+public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreamingModule>, IChartStreaming
 {
     #region Members
 
-    private const string PluginName = "Streaming";
+    private DotNetObjectReference<ChartStreamingAdapter> dotNetObjectRef;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
-    protected override Task OnInitializedAsync()
+    protected override JSChartStreamingModule CreatePluginJsModule()
     {
-        if ( ParentChart is not null )
-        {
-            ParentChart.Initialized += OnParentChartInitialized;
-
-            ParentChart.NotifyPluginInitialized( PluginName );
-        }
-
-        return base.OnInitializedAsync();
+        return new JSChartStreamingModule( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
-    private async void OnParentChartInitialized( object sender, EventArgs e )
+    /// <inheritdoc/>
+    protected override async Task InitializePlugin()
     {
-        if ( JSModule == null )
-        {
-            JSModule = new JSChartStreamingModule( JSRuntime, VersionProvider, BlazoriseOptions );
+        dotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
 
-            ExecuteAfterRender( async () =>
-            {
-                DotNetObjectRef ??= DotNetObjectReference.Create( new ChartStreamingAdapter( this ) );
+        await JSModule.Initialize( dotNetObjectRef, ParentChart.ElementRef, ParentChart.ElementId, Vertical, Options );
+    }
 
-                await JSModule.Initialize( DotNetObjectRef, ParentChart.ElementRef, ParentChart.ElementId, Vertical, Options );
-            } );
-
-            await InvokeAsync( StateHasChanged );
-        }
+    /// <inheritdoc/>
+    protected override bool UpdatePluginParameters( ParameterView parameterView )
+    {
+        //this plugin probably doesn't need re-initialization on param changes
+        return false;
     }
 
     /// <inheritdoc/>
@@ -65,19 +49,12 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
         {
             await JSModule.SafeDestroy( ParentChart.ElementRef, ParentChart.ElementId );
 
-            await JSModule.SafeDisposeAsync();
+            await base.DisposeAsync( true );
 
-            if ( DotNetObjectRef != null )
+            if ( dotNetObjectRef != null )
             {
-                DotNetObjectRef.Dispose();
-                DotNetObjectRef = null;
-            }
-
-            if ( ParentChart is not null )
-            {
-                ParentChart.Initialized -= OnParentChartInitialized;
-
-                ParentChart.NotifyPluginRemoved( PluginName );
+                dotNetObjectRef.Dispose();
+                dotNetObjectRef = null;
             }
         }
 
@@ -92,10 +69,10 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
     /// </returns>
     public async Task Refresh()
     {
-        if ( !Rendered )
+        if ( !Rendered || ParentChart?.Data?.Datasets is null )
             return;
 
-        foreach ( var dataset in ParentChart?.Data?.Datasets ?? Enumerable.Empty<ChartDataset<TItem>>() )
+        foreach ( var dataset in ParentChart.Data.Datasets )
         {
             var datasetIndex = ParentChart.Data.Datasets.IndexOf( dataset );
 
@@ -148,22 +125,10 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
     #region Properties
 
     /// <inheritdoc/>
-    protected override bool ShouldAutoGenerateId => true;
+    protected override string Name => "Streaming";
 
-    protected DotNetObjectReference<ChartStreamingAdapter> DotNetObjectRef { get; set; }
-
-    protected JSChartStreamingModule JSModule { get; private set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    [Inject] private IVersionProvider VersionProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the blazorise options.
-    /// </summary>
-    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
-
-    [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
+    /// <inheritdoc/>
+    protected override JSChartStreamingModule JSModule { get; set; }
 
     /// <summary>
     /// If true, chart will be set to vertical mode.
@@ -181,4 +146,6 @@ public partial class ChartStreaming<TItem> : BaseComponent, IChartStreaming, IAs
     [Parameter] public EventCallback<ChartStreamingData<TItem>> Refreshed { get; set; }
 
     #endregion
+
+
 }

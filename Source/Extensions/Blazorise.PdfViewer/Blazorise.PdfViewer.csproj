@@ -19,4 +19,8 @@
     <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization\PdfViewer\*.json" />
+  </ItemGroup>
+
 </Project>

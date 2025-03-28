@@ -23,7 +23,7 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong></Strong>:
+            <Strong>Chart Plugins</Strong>: Optimized Lifecycle
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -53,7 +53,7 @@
     </OrderedListItem>
     <OrderedListItem>
         <Paragraph>
-            Blazorise should now work withut any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
+            Blazorise should now work without any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
         </Paragraph>
     </OrderedListItem>
 </OrderedList>
@@ -87,6 +87,22 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Download Support for PdfViewer
+</Heading>
+
+<Paragraph>
+    <Code>PdfViewer</Code> now includes built-in support for downloading the displayed PDF document. When enabled, a download button appears in the viewer toolbar, allowing users to save the PDF to their device. It supports both direct file URLs and base64-encoded data sources.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Localization Support for PdfViewer Toolbar
+</Heading>
+
+<Paragraph>
+    The <Code>PdfViewer</Code> component now supports localization for its toolbar UI. All interactive elements are now localized.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     DataGrid: Programmatic Addition of Items to Batch Edit Collection
 </Heading>
 
@@ -94,5 +110,16 @@
     Introduced the <Code>Task New( TItem newItem )</Code> overload method in DataGrid, enabling the programmatic addition of new items to the batch edit collection when batch editing is enabled. This method ensures that newly added items are tracked as unsaved changes, allowing them to be persisted upon saving or discarded upon cancellation.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    Optimized Chart Plugins
+</Heading>
+
+<Paragraph>
+    This release introduces a major optimization to the Chart plugin system by centralizing shared logic and lifecycle handling within the ChartPlugin base class. By moving common properties, initialization, and disposal routines into a unified location, the update significantly reduces duplicated code across individual plugins and simplifies their overall structure. This change also enhances how plugins are connected to BaseChart, resulting in cleaner integration and more reliable async event handling between charts and their plugins.
+</Paragraph>
+
+<Paragraph>
+    The refactoring addresses longstanding pain points related to plugin lifecycle management and ensures that disposal and initialization are consistently handled. This unified approach not only improves maintainability but also helps prevent potential bugs across all plugins. As part of this effort, it was also noted that some plugins, such as the Streaming plugin, may require implementations of methods like OnParametersSetAsync to ensure all configuration parameters are properly updated during the component lifecycle.
+</Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />
