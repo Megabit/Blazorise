@@ -1,24 +1,21 @@
 ﻿@typeparam TItem
 <Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
     @{
-        var items = Scheduler.GetAllDayItemsInRange( Date, Date ).ToList();
+        var itemInfos = Scheduler.GetAllDayItemInfosOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
 
-        @if ( items?.Any() == true )
+        @if ( itemInfos?.Any() == true )
         {
             var height = HeaderCellHeight / 2;
 
-            @foreach ( var item in items )
+            @foreach ( var itemInfo in itemInfos )
             {
-                var totalDays = (int)Scheduler.GetAllDayItemDurationInDays( item );
-                var maxDays = ( LastViewDate.ToDateTime( TimeOnly.MinValue ) - Date.ToDateTime( TimeOnly.MinValue ) ).Days + 1;
-                var isOverflow = totalDays > maxDays;
-                totalDays = Math.Min( totalDays, maxDays );
+                var totalDays = ( itemInfo.End - itemInfo.Start ).Days + 1;
 
-                var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( item );
+                var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( AllDayItems, itemInfo );
                 var top = height * numberOfPreviousItems;
 
                 <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )">
-                    <_SchedulerDayAllDayItem TItem="TItem" Item="@item" DateOverflow="@isOverflow" Clicked="@OnItemClicked" />
+                    <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" DateOverflow="@itemInfo.OverflowingOnEnd" Clicked="@OnItemClicked" />
                 </Div>
             }
         }
@@ -56,4 +53,6 @@
     [Parameter] public double HeaderCellHeight { get; set; }
 
     [Parameter] public int MaxAllDayItems { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
 }

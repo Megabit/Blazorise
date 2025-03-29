@@ -1,10 +1,11 @@
 ﻿@typeparam TItem
 <Div Class="b-scheduler-day-view" Flex="Blazorise.Flex.Default.Grow.Is1">
     @{
-        var maxAllDayItems = Scheduler.GetMaxOverlappingAllDayItems( SelectedDate, SelectedDate );
+        var allDayItems = Scheduler.GetAllDayItemsInRange( SelectedDate.ToDateTime( TimeOnly.MinValue ), SelectedDate.ToDateTime( TimeOnly.MinValue ) ).ToList();
+        var maxAllDayItems = Scheduler.GetMaxOverlappingAllDayItems( allDayItems, SelectedDate, SelectedDate );
 
         <_SchedulerHourColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxAllDayItems="@maxAllDayItems" />
 
-        <_SchedulerDayColumn TItem="TItem" FirstViewDate="@SelectedDate" LastViewDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@SelectedDate" SlotsPerCell="@SlotsPerCell" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxAllDayItems="@maxAllDayItems" />
+        <_SchedulerDayColumn TItem="TItem" FirstViewDate="@SelectedDate" LastViewDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@SelectedDate" SlotsPerCell="@SlotsPerCell" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxAllDayItems="@maxAllDayItems" AllDayItems="@allDayItems" />
     }
 </Div>

@@ -5,13 +5,14 @@
         var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWeek );
         var endOfWeek = startOfWeek.AddDays( 6 );
 
-        var maxAllDayItems = Scheduler.GetMaxOverlappingAllDayItems( startOfWeek, endOfWeek );
+        var allDayItems = Scheduler.GetAllDayItemsInRange( startOfWeek.ToDateTime( TimeOnly.MinValue ), endOfWeek.ToDateTime( TimeOnly.MinValue ) ).ToList();
+        var maxAllDayItems = Scheduler.GetMaxOverlappingAllDayItems( allDayItems, startOfWeek, endOfWeek );
 
         <_SchedulerHourColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxAllDayItems="@maxAllDayItems" />
 
         @for ( var date = startOfWeek; date <= endOfWeek; date = date.AddDays( 1 ) )
         {
-            <_SchedulerDayColumn TItem="TItem" FirstViewDate="@startOfWeek" LastViewDate="@endOfWeek" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxAllDayItems="@maxAllDayItems" />
+            <_SchedulerDayColumn TItem="TItem" FirstViewDate="@startOfWeek" LastViewDate="@endOfWeek" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxAllDayItems="@maxAllDayItems" AllDayItems="@allDayItems" />
         }
     }
 </Div>
