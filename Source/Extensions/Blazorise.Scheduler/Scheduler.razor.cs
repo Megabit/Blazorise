@@ -396,7 +396,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="value">Provides the value to be assigned as the starting point for the specified item.</param>
     internal void SetItemStart( TItem item, object value )
     {
-        setStartFunc( item, value );
+        setStartFunc?.Invoke( item, value );
     }
 
     /// <summary>
@@ -406,7 +406,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="value">Provides the value to be assigned to the end of the specified item.</param>
     internal void SetItemEnd( TItem item, object value )
     {
-        setEndFunc( item, value );
+        setEndFunc?.Invoke( item, value );
     }
 
     /// <summary>
