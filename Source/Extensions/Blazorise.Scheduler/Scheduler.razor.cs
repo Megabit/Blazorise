@@ -302,9 +302,23 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await InvokeAsync( StateHasChanged );
     }
 
-    internal IEnumerable<TItem> ItemsInRange( DateTime start, DateTime end )
+    /// <summary>
+    /// Retrieves all items that start within a specified date range, excluding all-day events and those lasting a full day.
+    /// </summary>
+    /// <param name="fromDate">Specifies the beginning of the date range for filtering items based on their start time.</param>
+    /// <param name="toDate">Specifies the end of the date range for filtering items based on their start time.</param>
+    /// <returns>A collection of items that meet the criteria of starting within the given date range.</returns>
+    internal IEnumerable<TItem> GetAllItemsInRange( DateTime fromDate, DateTime toDate )
     {
-        return Data?.Where( x => searchPredicate( x, start, end ) );
+        return from d in Data
+               let allDay = GetItemAllDay( d )
+               let start = GetItemStartTime( d )
+               let end = GetItemEndTime( d )
+               let duration = GetItemDuration( d )
+               let allDayByDuration = duration.Days >= 1
+               where !allDay && !allDayByDuration &&
+               ( start >= fromDate && start < toDate )
+               select d;
     }
 
     /// <summary>

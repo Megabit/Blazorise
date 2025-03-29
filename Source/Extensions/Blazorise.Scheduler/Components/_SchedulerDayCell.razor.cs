@@ -58,7 +58,7 @@ public partial class _SchedulerDayCell<TItem>
         if ( Scheduler is null )
             return default;
 
-        return Scheduler.ItemsInRange( start, end )
+        return Scheduler.GetAllItemsInRange( start, end )
             .Where( x => !Scheduler.GetItemAllDay( x ) )
             .FirstOrDefault();
     }
