@@ -572,9 +572,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         return from d in Data
                let allDay = GetItemAllDay( d )
-               let start = GetItemStartTime( d ).Date
-               let end = GetItemEndTime( d ).Date
-               where allDay &&
+               let start = GetItemStartTime( d ).Date   // we are only interested in date part
+               let end = GetItemEndTime( d ).Date       // we are only interested in date part
+               let duration = GetItemDuration( d )      // for duration we want all parts, date and time
+               let allDayByDuration = duration.Days >= 1
+               where ( allDay || allDayByDuration ) &&
                ( ( start >= fromDate && start <= toDate )
                 || ( start < fromDate && end >= fromDate && end <= toDate )
                 || ( start < fromDate && end > fromDate ) )
