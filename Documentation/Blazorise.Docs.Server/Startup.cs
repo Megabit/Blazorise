@@ -18,6 +18,7 @@ using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -143,5 +144,21 @@ public class Startup
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
         app.MapGet( "/feed.rss", SeoGenerator.GenerateRssFeed );
+        
+        //permanent redirects
+        app.Use(async (context, next) =>
+        {
+            var path = context.Request.Path.Value?.ToLowerInvariant();
+
+            if (path is not null && PermanentRedirects.Map.TryGetValue(path, out var newPath))
+            {
+                context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
+                context.Response.Headers.Location = newPath;
+                return;
+            }
+
+            await next();
+        });
+        
     }
 }
