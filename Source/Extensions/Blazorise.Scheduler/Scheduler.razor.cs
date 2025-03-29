@@ -682,6 +682,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     protected bool ShowingMonthView => schedulerMonthView is not null && SelectedView == SchedulerView.Month;
 
     /// <summary>
+    /// Returns the first day of the week based on the current view.
+    /// </summary>
+    protected DayOfWeek FirstDayOfWeek => ShowingWorkWeekView
+        ? schedulerWorkWeekView.FirstDayOfWorkWeek
+        : ShowingWeekView
+            ? schedulerWeekView.FirstDayOfWeek
+            : DayOfWeek.Sunday;
+
+    /// <summary>
     /// Gets the scheduler state.
     /// </summary>
     protected SchedulerState State => state;

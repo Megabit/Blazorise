@@ -64,7 +64,15 @@
                                          ItemCellHeight="@schedulerMonthView.ItemCellHeight" />
                 }
             </_SchedulerViews>
-            <_SchedulerModal TItem="TItem" @ref="@schedulerModalRef" IdField="@IdField" TitleField="@TitleField" DescriptionField="@DescriptionField" StartField="@StartField" EndField="@EndField" AllDayField="@AllDayField" Submited="@ModalSubmitedItem" />
+            <_SchedulerModal TItem="TItem" @ref="@schedulerModalRef"
+                             IdField="@IdField"
+                             TitleField="@TitleField"
+                             DescriptionField="@DescriptionField"
+                             StartField="@StartField"
+                             EndField="@EndField"
+                             AllDayField="@AllDayField"
+                             FirstDayOfWeek="@FirstDayOfWeek"
+                             Submited="@ModalSubmitedItem" />
         </CascadingValue>
     </CascadingValue>
 </Div>

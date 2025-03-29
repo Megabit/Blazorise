@@ -26,7 +26,7 @@
                         <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
                             <FieldLabel>Start</FieldLabel>
                             <FieldBody>
-                                <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" Placeholder="Start date" StaticPicker="false" InputMode="DateInputMode.Date" />
+                                <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" Placeholder="Start date" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
                             </FieldBody>
                         </Field>
                         @if ( AllDayAvailable && !AllDay )
@@ -46,7 +46,7 @@
                         <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
                             <FieldLabel>End</FieldLabel>
                             <FieldBody>
-                                <DatePicker @bind-Value="@EndDate" Placeholder="End date" StaticPicker="false" InputMode="DateInputMode.Date" />
+                                <DatePicker @bind-Value="@EndDate" Placeholder="End date" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
                             </FieldBody>
                         </Field>
                         @if ( AllDayAvailable && !AllDay )

@@ -302,5 +302,10 @@ public partial class _SchedulerModal<TItem>
     /// </summary>
     [Parameter] public Func<TItem, Task<bool>> Submited { get; set; }
 
+    /// <summary>
+    /// Defines the first day of the week.
+    /// </summary>
+    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+
     #endregion
 }
