@@ -2,7 +2,7 @@
     @HourString
 </Div>
 @code {
-    string HourString => $"{Hour.ToString().PadLeft( 2, '0' )}:00";
+    string HourString => $"{Time.ToString( "HH:mm" )}";
 
-    [Parameter] public int Hour { get; set; }
+    [Parameter] public TimeOnly Time { get; set; }
 }

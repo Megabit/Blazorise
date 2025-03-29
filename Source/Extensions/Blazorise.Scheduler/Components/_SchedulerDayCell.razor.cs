@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -31,36 +32,34 @@ public partial class _SchedulerDayCell<TItem>
     {
         if ( SlotsPerCell <= 0 )
         {
-            return new DateTime( Date.Year, Date.Month, Date.Day, Hour, 0, 0 );
+            return new DateTime( Date.Year, Date.Month, Date.Day, Time.Hour, 0, 0 );
         }
 
         var slotDuration = TimeSpan.FromHours( 1.0 / SlotsPerCell );
         var startTime = slotDuration * ( slotIndex - 1 );
 
-        return new DateTime( Date.Year, Date.Month, Date.Day, Hour, startTime.Minutes, 0 );
+        return new DateTime( Date.Year, Date.Month, Date.Day, Time.Hour, startTime.Minutes, 0 );
     }
 
     protected DateTime GetSlotEnd( int slotIndex )
     {
         if ( SlotsPerCell <= 0 )
         {
-            return new DateTime( Date.Year, Date.Month, Date.Day, Hour + 1, 0, 0 );
+            return new DateTime( Date.Year, Date.Month, Date.Day, Time.Hour + 1, 0, 0 );
         }
 
         var slotDuration = TimeSpan.FromHours( 1.0 / SlotsPerCell );
         var endTime = slotDuration * slotIndex;
 
-        return new DateTime( Date.Year, Date.Month, Date.Day, Hour, 0, 0 ).Add( endTime );
+        return new DateTime( Date.Year, Date.Month, Date.Day, Time.Hour, 0, 0 ).Add( endTime );
     }
 
-    protected TItem GetSlotAppointment( DateTime start, DateTime end )
+    protected SchedulerItemInfo<TItem> GetSlotItemInfo( DateTime start, DateTime end )
     {
         if ( Scheduler is null )
             return default;
 
-        return Scheduler.GetAllItemsInRange( start, end )
-            .Where( x => !Scheduler.GetItemAllDay( x ) )
-            .FirstOrDefault();
+        return Scheduler.GetItemInfoInRange( Items, start, end );
     }
 
     protected TimeSpan GetTime( int slotIndex )
@@ -78,7 +77,7 @@ public partial class _SchedulerDayCell<TItem>
 
     #region Properties
 
-    private Blazorise.Background BackgroundColor => WorkDayStart is not null && WorkDayEnd is not null && !( Hour >= WorkDayStart.Value.Hour && Hour <= WorkDayEnd.Value.Hour )
+    private Blazorise.Background BackgroundColor => WorkDayStart is not null && WorkDayEnd is not null && !( Time >= WorkDayStart.Value && Time < WorkDayEnd.Value )
         ? Blazorise.Background.Light
         : Blazorise.Background.Default;
 
@@ -86,7 +85,7 @@ public partial class _SchedulerDayCell<TItem>
 
     [Parameter] public DateOnly Date { get; set; }
 
-    [Parameter] public int Hour { get; set; }
+    [Parameter] public TimeOnly Time { get; set; }
 
     [Parameter] public TimeOnly? WorkDayStart { get; set; }
 
@@ -97,6 +96,8 @@ public partial class _SchedulerDayCell<TItem>
     [Parameter] public double HeaderCellHeight { get; set; }
 
     [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
 
     #endregion
 }

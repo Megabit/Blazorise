@@ -303,25 +303,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Retrieves all items that start within a specified date range, excluding all-day events and those lasting a full day.
-    /// </summary>
-    /// <param name="fromDate">Specifies the beginning of the date range for filtering items based on their start time.</param>
-    /// <param name="toDate">Specifies the end of the date range for filtering items based on their start time.</param>
-    /// <returns>A collection of items that meet the criteria of starting within the given date range.</returns>
-    internal IEnumerable<TItem> GetAllItemsInRange( DateTime fromDate, DateTime toDate )
-    {
-        return from d in Data
-               let allDay = GetItemAllDay( d )
-               let start = GetItemStartTime( d )
-               let end = GetItemEndTime( d )
-               let duration = GetItemDuration( d )
-               let allDayByDuration = duration.Days >= 1
-               where !allDay && !allDayByDuration &&
-               ( start >= fromDate && start < toDate )
-               select d;
-    }
-
-    /// <summary>
     /// Gets the title of the specified appointment.
     /// </summary>
     /// <param name="item">The appointment to get the title from.</param>
@@ -602,6 +583,53 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                    overflowingOnEnd: end > toDate );
     }
 
+    internal IEnumerable<TItem> GetItemsInView( DateTime fromDate, DateTime toDate )
+    {
+        return from item in Data
+               let allDay = GetItemAllDay( item )
+               let start = GetItemStartTime( item )
+               let end = GetItemEndTime( item )
+               let duration = GetItemDuration( item )
+               let allDayByDuration = duration.Days >= 1
+               where !allDay && !allDayByDuration &&
+               ( ( start >= fromDate && start <= toDate )
+                || ( start < fromDate && end >= fromDate && end <= toDate )
+                || ( start < fromDate && end > fromDate ) )
+               select item;
+    }
+
+    internal IEnumerable<SchedulerItemInfo<TItem>> GetItemInfosOnDate( IEnumerable<TItem> items, DateOnly date, TimeOnly viewStartTime, TimeOnly viewEndTime )
+    {
+        var minDateTime = date.ToDateTime( viewStartTime );
+        var maxDateTime = date.ToDateTime( viewEndTime );
+
+        return from item in items
+               let allDay = GetItemAllDay( item )
+               let start = GetItemStartTime( item )
+               let end = GetItemEndTime( item )
+               let duration = GetItemDuration( item )
+               let allDayByDuration = duration.Days >= 1
+               where !allDay && !allDayByDuration &&
+               ( ( start >= minDateTime && start <= maxDateTime )
+                || ( start < minDateTime && end >= minDateTime && end <= maxDateTime )
+                || ( start < minDateTime && end > minDateTime ) )
+               select new SchedulerItemInfo<TItem>( item: item,
+                   start: start < minDateTime ? minDateTime : start,
+                   end: end > maxDateTime ? maxDateTime : end,
+                   overflowingFromStart: start < minDateTime,
+                   overflowingOnEnd: end > maxDateTime );
+    }
+
+    internal SchedulerItemInfo<TItem> GetItemInfoInRange( IEnumerable<SchedulerItemInfo<TItem>> items, DateTime fromDate, DateTime toDate )
+    {
+        return ( from itemInfo in items
+                 let start = itemInfo.Start
+                 let end = itemInfo.End
+                 let duration = end - start
+                 where start >= fromDate && start <= toDate
+                 select itemInfo ).FirstOrDefault();
+    }
+
     /// <summary>
     /// Retrieves all-day items that start on a specific date from a collection of items.
     /// </summary>
@@ -610,13 +638,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>A sorted collection of all-day items that start on the specified date, ordered by their duration.</returns>
     internal IEnumerable<SchedulerAllDayItemInfo<TItem>> GetAllDayItemInfosOnDate( IEnumerable<SchedulerAllDayItemInfo<TItem>> items, DateTime date )
     {
-        return from i in items
-               let start = i.Start
-               let end = i.End
+        return from ii in items
+               let start = ii.Start
+               let end = ii.End
                let duration = end - start
                where start >= date && start <= date
                orderby duration descending
-               select i;
+               select ii;
     }
 
     /// <summary>
@@ -644,7 +672,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="from">The start date of the range to check for overlapping items.</param>
     /// <param name="to">The end date of the range to check for overlapping items.</param>
     /// <returns>The maximum count of overlapping items found during the specified date range.</returns>
-    internal int GetMaxOverlappingAllDayItems( IEnumerable<SchedulerAllDayItemInfo<TItem>> items, DateOnly from, DateOnly to )
+    internal int GetMaxStackedAllDayItems( IEnumerable<SchedulerAllDayItemInfo<TItem>> items, DateOnly from, DateOnly to )
     {
         int maxItems = 0;
 

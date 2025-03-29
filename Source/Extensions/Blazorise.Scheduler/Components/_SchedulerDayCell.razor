@@ -7,9 +7,9 @@
             var slotEnd = GetSlotEnd( slotIndex );
             var lastSlot = slotIndex == SlotsPerCell;
 
-            var appointment = GetSlotAppointment( slotStart, slotEnd );
+            var itemInfo = GetSlotItemInfo( slotStart, slotEnd );
 
-            <_SchedulerSlot TItem="TItem" Appointment="@appointment" SlotStart="@slotStart" SlotEnd="@slotEnd" Clicked="@OnSlotClicked" LastSlot="@lastSlot" ItemCellHeight="@ItemCellHeight" />
+            <_SchedulerSlot TItem="TItem" ItemInfo="@itemInfo" SlotStart="@slotStart" SlotEnd="@slotEnd" Clicked="@OnSlotClicked" LastSlot="@lastSlot" ItemCellHeight="@ItemCellHeight" />
         }
     </Div>
 </Div>

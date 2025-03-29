@@ -1,24 +1,30 @@
 ﻿@typeparam TItem
 <Div Class="b-scheduler-day" Position="Blazorise.Position.Relative" Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
-    @if ( ShowDayHeader )
-    {
-        <_SchedulerDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
-    }
+    @{
+        @if ( ShowDayHeader )
+        {
+            <_SchedulerDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
+        }
 
-    @if ( MaxAllDayItems > 0 )
-    {
-        <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxAllDayItems="@MaxAllDayItems" AllDayItems="@AllDayItems" />
-    }
+        @if ( MaxStackedAllDayItems > 0 )
+        {
+            <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" />
+        }
 
-    @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
-    {
-        <_SchedulerDayCell TItem="TItem" @key="@hour" Date="@Date" Hour="@hour" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
+        var itemInfos = Scheduler.GetItemInfosOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
+
+        @for ( var time = ( StartTime ?? TimeOnly.MinValue ); time < ( EndTime ?? TimeOnly.MaxValue ); time = time.AddHours( 1 ) )
+        {
+            <_SchedulerDayCell TItem="TItem" @key="@time" Date="@Date" Time="@time" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@itemInfos" />
+        }
     }
 </Div>
 @code {
     private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
         ? Blazorise.Background.Light
         : Blazorise.Background.Default;
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     [Parameter] public DateOnly Date { get; set; }
 
@@ -44,7 +50,9 @@
 
     [Parameter] public double ItemCellHeight { get; set; }
 
-    [Parameter] public int MaxAllDayItems { get; set; }
+    [Parameter] public IEnumerable<TItem> Items { get; set; }
+
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
 
     [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
 }

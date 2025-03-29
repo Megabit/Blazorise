@@ -5,17 +5,17 @@
         <_SchedulerHourHeader HeaderCellHeight="@HeaderCellHeight" />
     }
 
-    @if ( MaxAllDayItems > 0 )
+    @if ( MaxStackedAllDayItems > 0 )
     {
-        <_SchedulerHourAllDayHeader HeaderCellHeight="@HeaderCellHeight" MaxAllDayItems="@MaxAllDayItems" />
+        <_SchedulerHourAllDayHeader HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" />
     }
 
-    @for ( int hour = ( StartTime?.Hour ?? 0 ); hour <= ( EndTime?.Hour ?? 23 ); ++hour )
+    @for ( var time = ( StartTime ?? TimeOnly.MinValue ); time < ( EndTime ?? TimeOnly.MaxValue ); time = time.AddHours( 1 ) )
     {
-        int tempHour = hour;
+        var tempTime = time;
 
         <Div Class="b-scheduler-hour" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( ItemCellHeight )" Border="Border.Is1.OnBottom">
-            <_SchedulerHourCell Hour="@tempHour" />
+            <_SchedulerHourCell Time="@tempTime" />
         </Div>
     }
 </Div>
@@ -30,5 +30,5 @@
 
     [Parameter] public double ItemCellHeight { get; set; }
 
-    [Parameter] public int MaxAllDayItems { get; set; }
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
 }

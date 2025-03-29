@@ -6,10 +6,10 @@
 @code {
     string GetAllDayHeaderStyle()
     {
-        return $"min-height: {( HeaderCellHeight / 2 ) * MaxAllDayItems}px;";
+        return $"min-height: {( HeaderCellHeight / 2 ) * MaxStackedAllDayItems}px;";
     }
 
     [Parameter] public double HeaderCellHeight { get; set; }
 
-    [Parameter] public int MaxAllDayItems { get; set; }
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
 }
