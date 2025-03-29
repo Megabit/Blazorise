@@ -93,6 +93,95 @@ public partial class _SchedulerModal<TItem>
         base.OnInitialized();
     }
 
+    private void OnValidateTitle( ValidatorEventArgs e )
+    {
+        var value = e.Value as string;
+
+        e.Status = string.IsNullOrEmpty( value )
+            ? ValidationStatus.Error
+            : ValidationStatus.None;
+
+        e.ErrorText = e.Status == ValidationStatus.Error
+            ? "Title is required."
+            : null;
+    }
+
+    private void OnValidateStartDate( ValidatorEventArgs e )
+    {
+        var startValue = e.Value as DateOnly?;
+
+        var start = AllDay
+            ? new DateTime( startValue.Value.Year, startValue.Value.Month, startValue.Value.Day )
+            : new DateTime( startValue.Value.Year, startValue.Value.Month, startValue.Value.Day, StartTime.Hour, StartTime.Minute, 0 );
+
+        var end = AllDay
+            ? new DateTime( EndDate.Year, EndDate.Month, EndDate.Day )
+            : new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
+
+        e.Status = ( AllDay ? start > end : start >= end )
+            ? ValidationStatus.Error
+            : ValidationStatus.None;
+
+        e.ErrorText = e.Status == ValidationStatus.Error
+            ? $"Start date cannot be higher {( AllDay ? null : "or equal " )}than the end date."
+            : null;
+    }
+
+    private void OnValidateEndDate( ValidatorEventArgs e )
+    {
+        var endValue = e.Value as DateOnly?;
+
+        var start = AllDay
+            ? new DateTime( StartDate.Year, StartDate.Month, StartDate.Day )
+            : new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, 0 );
+
+        var end = AllDay
+            ? new DateTime( endValue.Value.Year, endValue.Value.Month, endValue.Value.Day )
+            : new DateTime( endValue.Value.Year, endValue.Value.Month, endValue.Value.Day, EndTime.Hour, EndTime.Minute, 0 );
+
+        e.Status = ( AllDay ? end < start : end <= start )
+            ? ValidationStatus.Error
+            : ValidationStatus.None;
+
+        e.ErrorText = e.Status == ValidationStatus.Error
+            ? $"End date cannot be lower {( AllDay ? null : "or equal " )}than the start date."
+            : null;
+    }
+
+    private void OnValidateStartTime( ValidatorEventArgs e )
+    {
+        var startValue = e.Value as TimeOnly?;
+
+        var start = AllDay
+            ? new DateTime( StartDate.Year, StartDate.Month, StartDate.Day )
+            : new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, startValue.Value.Hour, startValue.Value.Minute, 0 );
+
+        var end = AllDay
+            ? new DateTime( EndDate.Year, EndDate.Month, EndDate.Day )
+            : new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
+
+        e.Status = ( AllDay ? start > end : start >= end )
+            ? ValidationStatus.Error
+            : ValidationStatus.None;
+    }
+
+    private void OnValidateEndTime( ValidatorEventArgs e )
+    {
+        var endValue = e.Value as TimeOnly?;
+
+        var start = AllDay
+            ? new DateTime( StartDate.Year, StartDate.Month, StartDate.Day )
+            : new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, 0 );
+
+        var end = AllDay
+            ? new DateTime( EndDate.Year, EndDate.Month, EndDate.Day )
+            : new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, endValue.Value.Hour, endValue.Value.Minute, 0 );
+
+        e.Status = ( AllDay ? end < start : end <= start )
+            ? ValidationStatus.Error
+            : ValidationStatus.None;
+    }
+
     private Task OnStartDateChanged( DateOnly value )
     {
         StartDate = value;

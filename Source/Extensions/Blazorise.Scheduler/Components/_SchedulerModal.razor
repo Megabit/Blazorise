@@ -11,11 +11,15 @@
             <Validations @ref="@validationsRef" Mode="ValidationMode.Manual">
                 @if ( TitleAvailable )
                 {
-                    <Validation Validator="ValidationRule.IsNotEmpty">
+                    <Validation Validator="@OnValidateTitle">
                         <Field>
                             <FieldLabel>Title</FieldLabel>
                             <FieldBody>
-                                <TextEdit @bind-Value="@Title" />
+                                <TextEdit @bind-Value="@Title">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
                             </FieldBody>
                         </Field>
                     </Validation>
@@ -23,40 +27,56 @@
                 @if ( StartAvailable )
                 {
                     <Fields>
-                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                            <FieldLabel>Start</FieldLabel>
-                            <FieldBody>
-                                <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" Placeholder="Start date" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
-                            </FieldBody>
-                        </Field>
-                        @if ( AllDayAvailable && !AllDay )
-                        {
+                        <Validation Validator="@OnValidateStartDate">
                             <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldLabel>Start</FieldLabel>
                                 <FieldBody>
-                                    <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                    <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" Placeholder="Start date" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
                                 </FieldBody>
                             </Field>
+                        </Validation>
+                        @if ( !AllDayAvailable || !AllDay )
+                        {
+                            <Validation Validator="@OnValidateStartTime">
+                                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                                    <FieldLabel>&nbsp;</FieldLabel>
+                                    <FieldBody>
+                                        <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
                         }
                     </Fields>
                 }
                 @if ( EndAvailable )
                 {
                     <Fields>
-                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                            <FieldLabel>End</FieldLabel>
-                            <FieldBody>
-                                <DatePicker @bind-Value="@EndDate" Placeholder="End date" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
-                            </FieldBody>
-                        </Field>
-                        @if ( AllDayAvailable && !AllDay )
-                        {
+                        <Validation Validator="@OnValidateEndDate">
                             <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldLabel>End</FieldLabel>
                                 <FieldBody>
-                                    <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
+                                    <DatePicker @bind-Value="@EndDate" Placeholder="End date" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
                                 </FieldBody>
                             </Field>
+                        </Validation>
+                        @if ( !AllDayAvailable || !AllDay )
+                        {
+                            <Validation Validator="@OnValidateEndTime">
+                                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                                    <FieldLabel>&nbsp;</FieldLabel>
+                                    <FieldBody>
+                                        <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
                         }
                     </Fields>
                 }
