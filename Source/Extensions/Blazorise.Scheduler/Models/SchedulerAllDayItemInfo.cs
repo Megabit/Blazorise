@@ -49,4 +49,9 @@ public class SchedulerAllDayItemInfo<TItem>
     /// Indicates whether there is an overflow at the end.
     /// </summary>
     public bool OverflowingOnEnd { get; }
+
+    /// <summary>
+    /// Represents the recurrence rule for scheduling events.
+    /// </summary>
+    public SchedulerRecurrenceRule RecurrenceRule { get; set; }
 }

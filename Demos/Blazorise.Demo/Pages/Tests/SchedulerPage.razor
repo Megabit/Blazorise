@@ -79,12 +79,17 @@
         public DateTime End { get; set; }
 
         public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
     }
 
     List<SchedulerAppointment> Appointments = new List<SchedulerAppointment>
     {
         new SchedulerAppointment( "Meeting with the CEO", "Regarding the new margeting strategy", start, start.AddHours(1) ),
-        new SchedulerAppointment( "Lunch with the team", "Discussing the new project", start.AddHours(2), start.AddHours(3) ),
+        new SchedulerAppointment( "Lunch with the team", "Discussing the new project", start.AddHours(2), start.AddHours(3))
+        {
+            RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=10"
+        },
         new SchedulerAppointment( "Meeting with the client", "Discussing the new project", start.AddHours(4), start.AddHours(5) ),
         new SchedulerAppointment( "Test 1", "Test 1 desc", DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-2), true ),
         new SchedulerAppointment( "All day event with the team", "Team building", DateTime.Today.AddDays(-2), DateTime.Today, true),

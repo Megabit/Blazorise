@@ -836,6 +836,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public string AllDayField { get; set; } = "AllDay";
 
+    // <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence rule string in <see href="https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/">iCalendar (RFC 5545)</see> compliance rules.
+    /// </summary>
+    [Parameter] public string RecurrenceRuleField { get; set; } = "RecurrenceRule";
+
     /// <summary>
     /// Indicates whether the component is editable. Defaults to true.
     /// </summary>
