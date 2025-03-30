@@ -1174,6 +1174,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     private Color GetMultipleBadgeColor() => Disabled
         ? MultipleDisabledBadgeColor
         : MultipleBadgeColor;
+    
+    private bool GetItemDisabled( TItem item )
+    {
+        return DisabledItem is not null && DisabledItem.Invoke( item );
+    }
 
     #endregion
 
@@ -1719,5 +1724,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// </summary>
     [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Absolute;
 
+    /// <summary>
+    /// Method used to get the disabled items from the supplied data source.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
+    
     #endregion
 }
