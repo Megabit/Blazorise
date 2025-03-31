@@ -88,6 +88,16 @@
                         </FieldBody>
                     </Field>
                 }
+
+                @if ( RecurrenceRuleAvailable )
+                {
+                    <Divider />
+
+                    <_SchedulerRecurrenceEditor TItem="TItem" @bind-RecurrenceRule="@RecurrenceRule" FirstDayOfWeek="@FirstDayOfWeek" />
+
+                    <Divider />
+                }
+
                 @if ( DescriptionAvailable )
                 {
                     <Field>

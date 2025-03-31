@@ -33,7 +33,8 @@ public partial class _SchedulerModal<TItem>
     private Func<TItem, bool> getAllDayFunc;
     private Action<TItem, bool> setAllDayFunc;
 
-    private readonly Lazy<Func<TItem>> newItemCreator;
+    private Func<TItem, string> getRecurrenceRuleFunc;
+    private Action<TItem, string> setRecurrenceRuleFunc;
 
     private Validations validationsRef;
 
@@ -41,53 +42,50 @@ public partial class _SchedulerModal<TItem>
 
     #endregion
 
-    #region Constructors
-
-    public _SchedulerModal()
-    {
-        newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
-    }
-
-    #endregion
-
     #region Methods
 
     protected override void OnInitialized()
     {
-        if ( typeof( TItem ).GetProperty( IdField ).PropertyType is not null )
+        if ( typeof( TItem ).GetProperty( IdField )?.PropertyType is not null )
         {
             getIdValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
             setIdValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( IdField );
         }
 
-        if ( typeof( TItem ).GetProperty( TitleField ).PropertyType is not null )
+        if ( typeof( TItem ).GetProperty( TitleField )?.PropertyType is not null )
         {
             getTitleValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
             setTitleValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( TitleField );
         }
 
-        if ( typeof( TItem ).GetProperty( DescriptionField ).PropertyType is not null )
+        if ( typeof( TItem ).GetProperty( DescriptionField )?.PropertyType is not null )
         {
             getDescriptionValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( DescriptionField );
             setDescriptionValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( DescriptionField );
         }
 
-        if ( typeof( TItem ).GetProperty( StartField ).PropertyType is not null )
+        if ( typeof( TItem ).GetProperty( StartField )?.PropertyType is not null )
         {
             getStartValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( StartField );
             setStartValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( StartField );
         }
 
-        if ( typeof( TItem ).GetProperty( EndField ).PropertyType is not null )
+        if ( typeof( TItem ).GetProperty( EndField )?.PropertyType is not null )
         {
             getEndValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
             setEndValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
         }
 
-        if ( typeof( TItem ).GetProperty( AllDayField ).PropertyType is not null )
+        if ( typeof( TItem ).GetProperty( AllDayField )?.PropertyType is not null )
         {
             getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
             setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, bool>( AllDayField );
+        }
+
+        if ( typeof( TItem ).GetProperty( RecurrenceRuleField )?.PropertyType is not null )
+        {
+            getRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( RecurrenceRuleField );
+            setRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( RecurrenceRuleField );
         }
 
         base.OnInitialized();
@@ -340,6 +338,8 @@ public partial class _SchedulerModal<TItem>
 
     protected bool AllDayAvailable => getAllDayFunc is not null;
 
+    protected bool RecurrenceRuleAvailable => getRecurrenceRuleFunc is not null;
+
     protected string Title { get; set; }
 
     protected string Description { get; set; }
@@ -353,6 +353,8 @@ public partial class _SchedulerModal<TItem>
     protected TimeOnly EndTime { get; set; }
 
     protected bool AllDay { get; set; }
+
+    protected string RecurrenceRule { get; set; }
 
     public TItem EditItem { get; set; }
 
@@ -385,6 +387,11 @@ public partial class _SchedulerModal<TItem>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the all day flag of the appointment. Defaults to "AllDay".
     /// </summary>
     [Parameter] public string AllDayField { get; set; }
+
+    /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence rule of the appointment. Defaults to "RecurrenceRule".
+    /// </summary>
+    [Parameter] public string RecurrenceRuleField { get; set; }
 
     /// <summary>
     /// Represents an event callback that is triggered when an item is saved.

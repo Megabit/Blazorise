@@ -1,0 +1,71 @@
+﻿@typeparam TItem
+<Fields>
+    <Field ColumnSize="ColumnSize.Is3">
+        <FieldLabel>Repeat Every</FieldLabel>
+        <FieldBody>
+            <NumericEdit @bind-Value="@Interval" Min="1" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is9">
+        <FieldLabel>&nbsp;</FieldLabel>
+        <FieldBody>
+            @* <Select TValue="SchedulerRecurrencePattern" @bind-Value="@Pattern">
+                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Daily">Day</SelectItem>
+                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Weekly">Week</SelectItem>
+                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Monthly">Month</SelectItem>
+                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Yearly">Year</SelectItem>
+            </Select> *@
+            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" @bind-Value="@Pattern" Buttons Width="Width.Is100">
+                <Radio Value="SchedulerRecurrencePattern.Daily">Day</Radio>
+                <Radio Value="SchedulerRecurrencePattern.Weekly">Week</Radio>
+                <Radio Value="SchedulerRecurrencePattern.Monthly">Month</Radio>
+                <Radio Value="SchedulerRecurrencePattern.Yearly">Year</Radio>
+            </RadioGroup>
+        </FieldBody>
+    </Field>
+</Fields>
+<Fields>
+    @if ( Pattern == SchedulerRecurrencePattern.Weekly )
+    {
+        <Field>
+            <FieldBody>
+                <_SchedulerDaysPicker FirstDayOfWeek="FirstDayOfWeek" />
+            </FieldBody>
+        </Field>
+    }
+    else if ( Pattern == SchedulerRecurrencePattern.Monthly )
+    {
+        @* <Field ColumnSize="ColumnSize.Is3">
+            <FieldLabel>Day</FieldLabel>
+            <FieldBody>
+                <NumericEdit @bind-Value="@Interval" />
+            </FieldBody>
+        </Field> *@
+    }
+</Fields>
+<Fields>
+    <Field ColumnSize="ColumnSize.Is3">
+        <FieldLabel>End</FieldLabel>
+        <FieldBody>
+            <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+        </FieldBody>
+    </Field>
+</Fields>
+@code {
+    private SchedulerRecurrencePattern Pattern { get; set; } = SchedulerRecurrencePattern.Daily;
+
+    private int Interval { get; set; } = 1;
+
+    private List<DayOfWeek> ByDay { get; set; }
+
+    private DateTime? EndDate { get; set; }
+
+    /// <summary>
+    /// Defines the first day of the week.
+    /// </summary>
+    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+
+    [Parameter] public string RecurrenceRule { get; set; }
+
+    [Parameter] public EventCallback<string> RecurrenceRuleChanged { get; set; }
+}

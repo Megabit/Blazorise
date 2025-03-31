@@ -89,19 +89,46 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         workWeekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWorkWeekView ) );
         monthViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowMonthView ) );
 
-        getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
-        getTitleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
-        setTitleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( TitleField );
-        getDescriptionFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( DescriptionField );
-        setDescriptionFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( DescriptionField );
-        getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( StartField );
-        setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( StartField );
-        getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
-        setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
-        getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
-        setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, bool>( AllDayField );
-        getRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( RecurrenceRuleField );
-        setRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( RecurrenceRuleField );
+        if ( !string.IsNullOrEmpty( IdField ) && typeof( TItem ).GetProperty( IdField )?.PropertyType is not null )
+        {
+            getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
+        }
+
+        if ( !string.IsNullOrEmpty( TitleField ) && typeof( TItem ).GetProperty( TitleField )?.PropertyType is not null )
+        {
+            getTitleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
+            setTitleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( TitleField );
+        }
+
+        if ( !string.IsNullOrEmpty( DescriptionField ) && typeof( TItem ).GetProperty( DescriptionField )?.PropertyType is not null )
+        {
+            getDescriptionFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( DescriptionField );
+            setDescriptionFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( DescriptionField );
+        }
+
+        if ( !string.IsNullOrEmpty( StartField ) && typeof( TItem ).GetProperty( StartField )?.PropertyType is not null )
+        {
+            getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( StartField );
+            setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( StartField );
+        }
+
+        if ( !string.IsNullOrEmpty( EndField ) && typeof( TItem ).GetProperty( EndField )?.PropertyType is not null )
+        {
+            getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
+            setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
+        }
+
+        if ( !string.IsNullOrEmpty( AllDayField ) && typeof( TItem ).GetProperty( AllDayField )?.PropertyType is not null )
+        {
+            getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
+            setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, bool>( AllDayField );
+        }
+
+        if ( !string.IsNullOrEmpty( RecurrenceRuleField ) && typeof( TItem ).GetProperty( RecurrenceRuleField )?.PropertyType is not null )
+        {
+            getRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( RecurrenceRuleField );
+            setRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( RecurrenceRuleField );
+        }
 
         newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
     }
