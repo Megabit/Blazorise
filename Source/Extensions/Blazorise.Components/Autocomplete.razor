@@ -103,25 +103,25 @@
         var text = GetItemText( item );
         var value = GetItemValue( item );
 
-        <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames(itemIndex)" Value="@value"
-                      Disabled="disabled"
-                      Clicked="() => isCheckbox ? Task.CompletedTask : OnDropdownItemSelected(value)"
-                      CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
-                @if ( ItemContent is not null )
+        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames( itemIndex )" Value="@value"
+                        Disabled="@disabled"
+                        Clicked="() => isCheckbox ? Task.CompletedTask : OnDropdownItemSelected(value)"
+                        CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
+            @if ( ItemContent is not null )
+            {
+                @ItemContent( new( item, value, text ) )
+            }
+            else
+            {
+                @if ( HighlightSearch && Search?.Length > 0 )
                 {
-                    @ItemContent( new( item, value, text ) )
+                    <Highlighter Text="@text" HighlightedText="@Search" />
                 }
                 else
                 {
-                    @if ( HighlightSearch && Search?.Length > 0 )
-                    {
-                        <Highlighter Text="@text" HighlightedText="@Search" />
-                    }
-                    else
-                    {
-                        @text
-                    }
+                    @text
                 }
+            }
         </DropdownItem>
     };
 }
