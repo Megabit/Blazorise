@@ -1137,6 +1137,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         ? MultipleDisabledBadgeColor
         : MultipleBadgeColor;
 
+    private bool GetItemDisabled( TItem item )
+    {
+        return DisabledItem is not null && DisabledItem.Invoke( item );
+    }
+
     #endregion
 
     #region Properties
@@ -1677,6 +1682,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
     /// </summary>
     [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Absolute;
+
+    /// <summary>
+    /// Method used to get the determine if the item should be disabled.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
 
     #endregion
 }
