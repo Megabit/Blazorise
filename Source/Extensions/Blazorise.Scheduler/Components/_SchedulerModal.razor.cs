@@ -18,11 +18,11 @@ public partial class _SchedulerModal<TItem>
     private Func<TItem, object> getIdValue;
     private Action<TItem, object> setIdValue;
 
-    private Func<TItem, object> getTitleValue;
-    private Action<TItem, object> setTitleValue;
+    private Func<TItem, string> getTitleValue;
+    private Action<TItem, string> setTitleValue;
 
-    private Func<TItem, object> getDescriptionValue;
-    private Action<TItem, object> setDescriptionValue;
+    private Func<TItem, string> getDescriptionValue;
+    private Action<TItem, string> setDescriptionValue;
 
     private Func<TItem, object> getStartValue;
     private Action<TItem, object> setStartValue;
@@ -31,7 +31,7 @@ public partial class _SchedulerModal<TItem>
     private Action<TItem, object> setEndValue;
 
     private Func<TItem, bool> getAllDayFunc;
-    private Action<TItem, object> setAllDayFunc;
+    private Action<TItem, bool> setAllDayFunc;
 
     private readonly Lazy<Func<TItem>> newItemCreator;
 
@@ -62,14 +62,14 @@ public partial class _SchedulerModal<TItem>
 
         if ( typeof( TItem ).GetProperty( TitleField ).PropertyType is not null )
         {
-            getTitleValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( TitleField );
-            setTitleValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( TitleField );
+            getTitleValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
+            setTitleValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( TitleField );
         }
 
         if ( typeof( TItem ).GetProperty( DescriptionField ).PropertyType is not null )
         {
-            getDescriptionValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( DescriptionField );
-            setDescriptionValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( DescriptionField );
+            getDescriptionValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( DescriptionField );
+            setDescriptionValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( DescriptionField );
         }
 
         if ( typeof( TItem ).GetProperty( StartField ).PropertyType is not null )
@@ -87,7 +87,7 @@ public partial class _SchedulerModal<TItem>
         if ( typeof( TItem ).GetProperty( AllDayField ).PropertyType is not null )
         {
             getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
-            setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( AllDayField );
+            setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, bool>( AllDayField );
         }
 
         base.OnInitialized();

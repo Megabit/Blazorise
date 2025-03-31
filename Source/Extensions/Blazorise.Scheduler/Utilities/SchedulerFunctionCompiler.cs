@@ -30,9 +30,16 @@ public static class SchedulerFunctionCompiler
         var item = Expression.Parameter( typeof( TItem ), "item" );
         var value = Expression.Parameter( typeof( object ), "value" );
 
-        // There's ne safe field setter because that should be a developer responsibility
-        // to don't allow for null nested fields.
         var field = SchedulerExpressionCompiler.GetPropertyOrFieldExpression( item, fieldName );
         return Expression.Lambda<Action<TItem, object>>( Expression.Assign( field, Expression.Convert( value, field.Type ) ), item, value ).Compile();
+    }
+
+    public static Action<TItem, TValue> CreateValueSetter<TItem, TValue>( string fieldName )
+    {
+        var item = Expression.Parameter( typeof( TItem ), "item" );
+        var value = Expression.Parameter( typeof( TValue ), "value" );
+
+        var field = SchedulerExpressionCompiler.GetPropertyOrFieldExpression( item, fieldName );
+        return Expression.Lambda<Action<TItem, TValue>>( Expression.Assign( field, Expression.Convert( value, field.Type ) ), item, value ).Compile();
     }
 }

@@ -49,10 +49,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private Func<TItem, object> getIdFunc;
 
     private Func<TItem, string> getTitleFunc;
-    private Action<TItem, object> setTitleFunc;
+    private Action<TItem, string> setTitleFunc;
 
     private Func<TItem, string> getDescriptionFunc;
-    private Action<TItem, object> setDescriptionFunc;
+    private Action<TItem, string> setDescriptionFunc;
 
     private Func<TItem, object> getStartFunc;
     private Action<TItem, object> setStartFunc;
@@ -61,7 +61,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private Action<TItem, object> setEndFunc;
 
     private Func<TItem, bool> getAllDayFunc;
-    private Action<TItem, object> setAllDayFunc;
+    private Action<TItem, bool> setAllDayFunc;
+
+    private Func<TItem, string> getRecurrenceRuleFunc;
+    private Action<TItem, string> setRecurrenceRuleFunc;
 
     private Lazy<Func<TItem>> newItemCreator;
 
@@ -89,17 +92,21 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         monthViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowMonthView ) );
 
         searchPredicate = SchedulerExpressionCompiler.BuildSearchPredicate<TItem>( StartField, EndField );
+
         getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
-        getTitleFunc = SchedulerExpressionCompiler.BuildGetStringFunc<TItem>( TitleField );
-        setTitleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( TitleField );
-        getDescriptionFunc = SchedulerExpressionCompiler.BuildGetStringFunc<TItem>( DescriptionField );
-        setDescriptionFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( DescriptionField );
+        getTitleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
+        setTitleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( TitleField );
+        getDescriptionFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( DescriptionField );
+        setDescriptionFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( DescriptionField );
         getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( StartField );
         setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( StartField );
         getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
         setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
         getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
-        setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( AllDayField );
+        setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, bool>( AllDayField );
+        getRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( RecurrenceRuleField );
+        setRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( RecurrenceRuleField );
+
         newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
     }
 
