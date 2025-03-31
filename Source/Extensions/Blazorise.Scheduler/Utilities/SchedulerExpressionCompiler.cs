@@ -13,67 +13,6 @@ namespace Blazorise.Scheduler.Utilities;
 public static class SchedulerExpressionCompiler
 {
     /// <summary>
-    /// Builds a search predicate for the given item type.
-    /// </summary>
-    /// <typeparam name="TItem">The type of the item.</typeparam>
-    /// <param name="startFieldName">The name of the field that represents the start date/time.</param>
-    /// <param name="endFieldName">The name of the field that represents the end date/time.</param>
-    /// <returns>A compiled search predicate.</returns>
-    /// <exception cref="ArgumentException"></exception>
-    public static Func<TItem, DateTime, DateTime, bool> BuildSearchPredicate<TItem>( string startFieldName, string endFieldName )
-    {
-        var itemType = typeof( TItem );
-        var itemParameter = Expression.Parameter( itemType, "x" );
-        var slotStartParameter = Expression.Parameter( typeof( DateTime ), "slotStart" );
-        var slotEndParameter = Expression.Parameter( typeof( DateTime ), "slotEnd" );
-
-        var startProperty = itemType.GetProperty( startFieldName );
-        var endProperty = itemType.GetProperty( endFieldName );
-
-        if ( startProperty == null || endProperty == null )
-        {
-            throw new ArgumentException( "Invalid field names for Start or End." );
-        }
-
-        var startPropertyAccess = Expression.Property( itemParameter, startProperty );
-        var endPropertyAccess = Expression.Property( itemParameter, endProperty );
-
-        var startCondition = BuildDateTimeCondition( startPropertyAccess, slotStartParameter, slotEndParameter );
-
-        var lambda = Expression.Lambda<Func<TItem, DateTime, DateTime, bool>>( startCondition, itemParameter, slotStartParameter, slotEndParameter );
-
-        return lambda.Compile();
-    }
-
-    private static Expression BuildDateTimeCondition( Expression propertyAccess, ParameterExpression slotStartParameter, ParameterExpression slotEndParameter )
-    {
-        if ( propertyAccess.Type == typeof( DateTime ) )
-        {
-            return Expression.AndAlso(
-                Expression.GreaterThanOrEqual( propertyAccess, slotStartParameter ),
-                Expression.LessThan( propertyAccess, slotEndParameter )
-            );
-        }
-        else if ( propertyAccess.Type == typeof( DateTime? ) )
-        {
-            var hasValue = Expression.Property( propertyAccess, "HasValue" );
-            var value = Expression.Property( propertyAccess, "Value" );
-
-            return Expression.AndAlso(
-                hasValue,
-                Expression.AndAlso(
-                    Expression.GreaterThanOrEqual( value, slotStartParameter ),
-                    Expression.LessThan( value, slotEndParameter )
-                )
-            );
-        }
-        else
-        {
-            throw new ArgumentException( "Field must be of type DateTime or DateTime?." );
-        }
-    }
-
-    /// <summary>
     /// Builds a function that returns a string value for the given field name.
     /// </summary>
     /// <typeparam name="TItem">The type of the item.</typeparam>

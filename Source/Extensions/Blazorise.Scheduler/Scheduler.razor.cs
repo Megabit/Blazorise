@@ -44,8 +44,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private readonly EventCallbackSubscriber workWeekViewSubscriber;
     private readonly EventCallbackSubscriber monthViewSubscriber;
 
-    private Func<TItem, DateTime, DateTime, bool> searchPredicate;
-
     private Func<TItem, object> getIdFunc;
 
     private Func<TItem, string> getTitleFunc;
@@ -90,8 +88,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         weekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWeekView ) );
         workWeekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWorkWeekView ) );
         monthViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowMonthView ) );
-
-        searchPredicate = SchedulerExpressionCompiler.BuildSearchPredicate<TItem>( StartField, EndField );
 
         getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
         getTitleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
@@ -418,7 +414,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
     {
-        editItem = Data.FirstOrDefault( x => searchPredicate( x, start, end ) );
+        editItem = ( from item in Data
+                     where GetItemStartTime( item ) >= start && GetItemEndTime( item ) < end
+                     select item ).FirstOrDefault();
 
         if ( editItem is null )
         {
