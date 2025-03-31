@@ -9,7 +9,7 @@
 
             @foreach ( var itemInfo in itemInfos )
             {
-                var totalDays = ( itemInfo.End - itemInfo.Start ).Days + 1;
+                var totalDays = ( itemInfo.ViewEnd - itemInfo.ViewStart ).Days + 1;
 
                 var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( AllDayItems, itemInfo );
                 var top = height * numberOfPreviousItems;

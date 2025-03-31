@@ -12,15 +12,15 @@ public class SchedulerAllDayItemInfo<TItem>
     /// Represents information about an all-day item in a scheduler, including its time range and overflow status.
     /// </summary>
     /// <param name="item">The item to be scheduled, which contains relevant details for the all-day event.</param>
-    /// <param name="start">The starting date and time of the all-day item.</param>
-    /// <param name="end">The ending date and time of the all-day item.</param>
+    /// <param name="viewStart">The starting date and time of the all-day item.</param>
+    /// <param name="viewEnd">The ending date and time of the all-day item.</param>
     /// <param name="overflowingFromStart">Indicates whether the item overflows from the start time.</param>
     /// <param name="overflowingOnEnd">Indicates whether the item overflows at the end time.</param>
-    public SchedulerAllDayItemInfo( TItem item, DateTime start, DateTime end, bool overflowingFromStart, bool overflowingOnEnd )
+    public SchedulerAllDayItemInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd )
     {
         Item = item;
-        Start = start;
-        End = end;
+        ViewStart = viewStart;
+        ViewEnd = viewEnd;
         OverflowingFromStart = overflowingFromStart;
         OverflowingOnEnd = overflowingOnEnd;
     }
@@ -33,12 +33,12 @@ public class SchedulerAllDayItemInfo<TItem>
     /// <summary>
     /// Represents the start date of the all-day item.
     /// </summary>
-    public DateTime Start { get; }
+    public DateTime ViewStart { get; }
 
     /// <summary>
     /// Represents the end date of the all-day item.
     /// </summary>
-    public DateTime End { get; }
+    public DateTime ViewEnd { get; }
 
     /// <summary>
     /// Indicates whether the data is overflowing from the start.

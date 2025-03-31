@@ -598,8 +598,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 || ( start < viewStart && end > viewStart ) )
                orderby GetItemDuration( d ) descending
                select new SchedulerAllDayItemInfo<TItem>( item: d,
-                   start: start < viewStart ? viewStart : start,
-                   end: end > viewEnd ? viewEnd : end,
+                   viewStart: start < viewStart ? viewStart : start,
+                   viewEnd: end > viewEnd ? viewEnd : end,
                    overflowingFromStart: start < viewStart,
                    overflowingOnEnd: end > viewEnd );
     }
@@ -628,8 +628,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 || ( start < minDateTime && end >= minDateTime && end <= maxDateTime )
                 || ( start < minDateTime && end > minDateTime ) )
                select new SchedulerItemInfo<TItem>( item: item,
-                   start: start < minDateTime ? minDateTime : start,
-                   end: end > maxDateTime ? maxDateTime : end,
+                   viewStart: start < minDateTime ? minDateTime : start,
+                   viewEnd: end > maxDateTime ? maxDateTime : end,
                    overflowingFromStart: start < minDateTime,
                    overflowingOnEnd: end > maxDateTime );
     }
@@ -644,8 +644,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal SchedulerItemInfo<TItem> GetItemInfoInRange( IEnumerable<SchedulerItemInfo<TItem>> items, DateTime viewStart, DateTime viewEnd )
     {
         return ( from itemInfo in items
-                 let start = itemInfo.Start
-                 let end = itemInfo.End
+                 let start = itemInfo.ViewStart
+                 let end = itemInfo.ViewEnd
                  let duration = end - start
                  where start >= viewStart && start <= viewEnd
                  select itemInfo ).FirstOrDefault();
@@ -660,8 +660,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal IEnumerable<SchedulerAllDayItemInfo<TItem>> GetAllDayItemInfosOnDate( IEnumerable<SchedulerAllDayItemInfo<TItem>> items, DateTime date )
     {
         return from itemInfo in items
-               let start = itemInfo.Start
-               let end = itemInfo.End
+               let start = itemInfo.ViewStart
+               let end = itemInfo.ViewEnd
                let duration = end - start
                where start >= date && start <= date
                orderby duration descending
@@ -702,7 +702,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             var currentDate = date.ToDateTime( TimeOnly.MinValue );
             var nextDate = date.AddDays( 1 ).ToDateTime( TimeOnly.MinValue );
 
-            var overlappingItems = items.Where( x => x.Start < nextDate && x.End >= currentDate ).Count();
+            var overlappingItems = items.Where( x => x.ViewStart < nextDate && x.ViewEnd >= currentDate ).Count();
 
             if ( overlappingItems > maxItems )
             {
@@ -721,9 +721,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>The total count of overlapping items that occur before the specified item.</returns>
     internal int CountOverlappingItemsBefore( IEnumerable<SchedulerAllDayItemInfo<TItem>> items, SchedulerAllDayItemInfo<TItem> item )
     {
-        return items.Where( x => x.Start <= item.End && x.End >= item.Start )
-            .OrderByDescending( x => x.End - x.Start )
-            .ThenBy( x => x.Start )
+        return items.Where( x => x.ViewStart <= item.ViewEnd && x.ViewEnd >= item.ViewStart )
+            .OrderByDescending( x => x.ViewEnd - x.ViewStart )
+            .ThenBy( x => x.ViewStart )
             .TakeWhile( x => !x.Item.Equals( item.Item ) )
             .Count();
     }

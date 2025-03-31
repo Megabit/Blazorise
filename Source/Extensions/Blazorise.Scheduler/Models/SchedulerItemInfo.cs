@@ -12,15 +12,15 @@ public class SchedulerItemInfo<TItem>
     /// Represents information about a scheduled item, including its time frame and overflow status.
     /// </summary>
     /// <param name="item">Defines the specific item being scheduled.</param>
-    /// <param name="start">Indicates the starting time of the scheduled item.</param>
-    /// <param name="end">Indicates the ending time of the scheduled item.</param>
+    /// <param name="viewStart">Indicates the starting time of the scheduled item.</param>
+    /// <param name="viewEnd">Indicates the ending time of the scheduled item.</param>
     /// <param name="overflowingFromStart">Indicates whether the item overflows at the start time.</param>
     /// <param name="overflowingOnEnd">Indicates whether the item overflows at the end time.</param>
-    public SchedulerItemInfo( TItem item, DateTime start, DateTime end, bool overflowingFromStart, bool overflowingOnEnd )
+    public SchedulerItemInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd )
     {
         Item = item;
-        Start = start;
-        End = end;
+        ViewStart = viewStart;
+        ViewEnd = viewEnd;
         OverflowingFromStart = overflowingFromStart;
         OverflowingOnEnd = overflowingOnEnd;
     }
@@ -33,12 +33,12 @@ public class SchedulerItemInfo<TItem>
     /// <summary>
     /// Represents the start date of the item.
     /// </summary>
-    public DateTime Start { get; }
+    public DateTime ViewStart { get; }
 
     /// <summary>
     /// Represents the end date of the item.
     /// </summary>
-    public DateTime End { get; }
+    public DateTime ViewEnd { get; }
 
     /// <summary>
     /// Indicates whether the data is overflowing from the start.

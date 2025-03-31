@@ -52,12 +52,12 @@
 
     private string GetAppointmentStyle( SchedulerItemInfo<TItem> itemInfo )
     {
-        var appointmentStart = itemInfo.Start;
-        var appointmentEnd = itemInfo.End;
-        var appointmentDuration = appointmentEnd - appointmentStart;
+        var viewStart = itemInfo.ViewStart;
+        var viewEnd = itemInfo.ViewEnd;
+        var viewDuration = viewEnd - viewStart;
 
-        var top = ( appointmentStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
-        var height = appointmentDuration.TotalMinutes / 60 * ItemCellHeight;
+        var top = ( viewStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
+        var height = viewDuration.TotalMinutes / 60 * ItemCellHeight;
 
         return $"cursor: pointer; left: 0; top: {top}px; height: {height}px; right: 0; z-index: 1;";
     }
