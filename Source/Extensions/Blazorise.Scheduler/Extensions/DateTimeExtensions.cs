@@ -41,8 +41,7 @@ public static class DateTimeExtensions
     /// <returns>The first day of the previous week for the given date.</returns>
     public static DateOnly StartOfPreviousWeek( this DateOnly dt, DayOfWeek startOfWeek )
     {
-        int diff = ( 7 + ( dt.DayOfWeek - startOfWeek ) ) % 7;
-        return dt.AddDays( diff == 0 ? -7 : -diff );
+        return StartOfWeek( dt, startOfWeek ).AddDays( -7 );
     }
 
     /// <summary>
@@ -53,8 +52,7 @@ public static class DateTimeExtensions
     /// <returns>The first day of the week for the given date.</returns>
     public static DateOnly StartOfNextWeek( this DateOnly dt, DayOfWeek startOfWeek )
     {
-        int diff = ( 7 + ( startOfWeek - dt.DayOfWeek ) ) % 7;
-        return dt.AddDays( diff == 0 ? 7 : diff );
+        return StartOfWeek( dt, startOfWeek ).AddDays( 7 );
     }
 
     /// <summary>
