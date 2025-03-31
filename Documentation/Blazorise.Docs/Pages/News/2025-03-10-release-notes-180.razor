@@ -122,4 +122,12 @@
     The refactoring addresses longstanding pain points related to plugin lifecycle management and ensures that disposal and initialization are consistently handled. This unified approach not only improves maintainability but also helps prevent potential bugs across all plugins. As part of this effort, it was also noted that some plugins, such as the Streaming plugin, may require implementations of methods like OnParametersSetAsync to ensure all configuration parameters are properly updated during the component lifecycle.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    Autocomplete: Disabled Items
+</Heading>
+
+<Paragraph>
+    The <Code>Autocomplete</Code> component now supports disabling specific items in the suggestion list. You can provide a function to determine which items should be inactive, preventing users from selecting them. This is helpful in cases where some options shouldn't be available for interaction.
+</Paragraph>
+
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />
