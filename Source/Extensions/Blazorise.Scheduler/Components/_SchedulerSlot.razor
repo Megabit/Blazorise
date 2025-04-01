@@ -1,10 +1,10 @@
 ﻿@using System.Text
 @typeparam TItem
 <Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
-    @if ( ItemInfo is not null && ItemInfo.Item is not null )
+    @if ( ViewItem is not null && ViewItem.Item is not null )
     {
-        <Span Style="@GetAppointmentStyle( ItemInfo )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate">
-            @Scheduler?.GetItemTitle( ItemInfo.Item )
+        <Span Style="@GetAppointmentStyle( ViewItem )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate">
+            @Scheduler?.GetItemTitle( ViewItem.Item )
         </Span>
     }
 </Div>
@@ -28,8 +28,8 @@
         if ( Clicked is null )
             return Task.CompletedTask;
 
-        if ( ItemInfo is not null && ItemInfo.Item is not null )
-            return Clicked.Invoke( ItemInfo.Item, SlotStart, SlotEnd );
+        if ( ViewItem is not null && ViewItem.Item is not null )
+            return Clicked.Invoke( ViewItem.Item, SlotStart, SlotEnd );
 
         return Clicked.Invoke( default, SlotStart, SlotEnd );
     }
@@ -39,7 +39,7 @@
         if ( Clicked is null )
             return Task.CompletedTask;
 
-        return Clicked.Invoke( ItemInfo.Item, SlotStart, SlotEnd );
+        return Clicked.Invoke( ViewItem.Item, SlotStart, SlotEnd );
     }
 
     private string GetSlotStyle()
@@ -50,10 +50,10 @@
         return "border-bottom-style: dashed !important";
     }
 
-    private string GetAppointmentStyle( SchedulerItemInfo<TItem> itemInfo )
+    private string GetAppointmentStyle( SchedulerItemViewInfo<TItem> viewItem )
     {
-        var viewStart = itemInfo.ViewStart;
-        var viewEnd = itemInfo.ViewEnd;
+        var viewStart = viewItem.ViewStart;
+        var viewEnd = viewItem.ViewEnd;
         var viewDuration = viewEnd - viewStart;
 
         var top = ( viewStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
@@ -75,7 +75,7 @@
     /// <summary>
     /// Defines the appointment that is displayed in the slot.
     /// </summary>
-    [Parameter] public SchedulerItemInfo<TItem> ItemInfo { get; set; }
+    [Parameter] public SchedulerItemViewInfo<TItem> ViewItem { get; set; }
 
     /// <summary>
     /// Defines the start date of the slot.

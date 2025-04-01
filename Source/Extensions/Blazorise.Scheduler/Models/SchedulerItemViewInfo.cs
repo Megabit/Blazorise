@@ -6,7 +6,7 @@ namespace Blazorise.Scheduler;
 /// Holds information about a scheduled item, including its time frame and overflow status.
 /// </summary>
 /// <typeparam name="TItem">Represents the specific type of the scheduled item, allowing for flexibility in the kind of data stored.</typeparam>
-public class SchedulerItemInfo<TItem>
+public class SchedulerItemViewInfo<TItem>
 {
     /// <summary>
     /// Represents information about a scheduled item, including its time frame and overflow status.
@@ -16,7 +16,7 @@ public class SchedulerItemInfo<TItem>
     /// <param name="viewEnd">Indicates the ending time of the scheduled item.</param>
     /// <param name="overflowingFromStart">Indicates whether the item overflows at the start time.</param>
     /// <param name="overflowingOnEnd">Indicates whether the item overflows at the end time.</param>
-    public SchedulerItemInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd )
+    public SchedulerItemViewInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd )
     {
         Item = item;
         ViewStart = viewStart;

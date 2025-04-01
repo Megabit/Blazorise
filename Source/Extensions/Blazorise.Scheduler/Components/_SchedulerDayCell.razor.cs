@@ -54,12 +54,12 @@ public partial class _SchedulerDayCell<TItem>
         return new DateTime( Date.Year, Date.Month, Date.Day, Time.Hour, 0, 0 ).Add( endTime );
     }
 
-    protected SchedulerItemInfo<TItem> GetSlotItemInfo( DateTime start, DateTime end )
+    protected SchedulerItemViewInfo<TItem> GetSlotItemViewInfo( DateTime start, DateTime end )
     {
         if ( Scheduler is null )
             return default;
 
-        return Scheduler.GetItemInfoInRange( Items, start, end );
+        return Scheduler.GetItemInfoInRange( ViewItems, start, end );
     }
 
     protected TimeSpan GetTime( int slotIndex )
@@ -97,7 +97,7 @@ public partial class _SchedulerDayCell<TItem>
 
     [Parameter] public double ItemCellHeight { get; set; }
 
-    [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
+    [Parameter] public IEnumerable<SchedulerItemViewInfo<TItem>> ViewItems { get; set; }
 
     #endregion
 }

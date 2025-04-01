@@ -644,7 +644,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="viewStartTime">The start time of the time range for filtering the scheduled items.</param>
     /// <param name="viewEndTime">The end time of the time range for filtering the scheduled items.</param>
     /// <returns>A collection of filtered scheduled item information based on the specified date and time range.</returns>
-    internal IEnumerable<SchedulerItemInfo<TItem>> GetItemInfosOnDate( IEnumerable<TItem> items, DateOnly viewDate, TimeOnly viewStartTime, TimeOnly viewEndTime )
+    internal IEnumerable<SchedulerItemViewInfo<TItem>> GetItemViewInfosOnDate( IEnumerable<TItem> items, DateOnly viewDate, TimeOnly viewStartTime, TimeOnly viewEndTime )
     {
         var minDateTime = viewDate.ToDateTime( viewStartTime );
         var maxDateTime = viewDate.ToDateTime( viewEndTime );
@@ -659,7 +659,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                ( ( start >= minDateTime && start <= maxDateTime )
                 || ( start < minDateTime && end >= minDateTime && end <= maxDateTime )
                 || ( start < minDateTime && end > minDateTime ) )
-               select new SchedulerItemInfo<TItem>( item: item,
+               select new SchedulerItemViewInfo<TItem>( item: item,
                    viewStart: start < minDateTime ? minDateTime : start,
                    viewEnd: end > maxDateTime ? maxDateTime : end,
                    overflowingFromStart: start < minDateTime,
@@ -673,7 +673,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="viewStart">The beginning of the date range used to filter the scheduled items.</param>
     /// <param name="viewEnd">The end of the date range used to filter the scheduled items.</param>
     /// <returns>The first scheduled item that starts within the specified date range or null if none is found.</returns>
-    internal SchedulerItemInfo<TItem> GetItemInfoInRange( IEnumerable<SchedulerItemInfo<TItem>> items, DateTime viewStart, DateTime viewEnd )
+    internal SchedulerItemViewInfo<TItem> GetItemInfoInRange( IEnumerable<SchedulerItemViewInfo<TItem>> items, DateTime viewStart, DateTime viewEnd )
     {
         return ( from itemInfo in items
                  let start = itemInfo.ViewStart
