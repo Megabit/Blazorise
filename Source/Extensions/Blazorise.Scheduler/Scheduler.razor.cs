@@ -390,6 +390,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return getAllDayFunc( item );
     }
 
+    internal string GetItemRecurrenceRule( TItem item )
+    {
+        return getRecurrenceRuleFunc?.Invoke( item );
+    }
+
     /// <summary>
     /// Gets the description of the specified appointment.
     /// </summary>
@@ -595,19 +600,20 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="viewStart">Indicates the beginning of the time range for filtering items.</param>
     /// <param name="viewEnd">Indicates the end of the time range for filtering items.</param>
     /// <returns>A collection of items that meet the specified time criteria.</returns>
-    internal IEnumerable<TItem> GetItemsInView( DateTime viewStart, DateTime viewEnd )
+    internal IEnumerable<SchedulerItemInfo<TItem>> GetItemsInView( DateTime viewStart, DateTime viewEnd )
     {
         return from item in Data
                let allDay = GetItemAllDay( item )
                let start = GetItemStartTime( item )
                let end = GetItemEndTime( item )
                let duration = GetItemDuration( item )
+               let recurrenceRule = GetItemRecurrenceRule( item )
                let allDayByDuration = duration.Days >= 1
                where !allDay && !allDayByDuration &&
                ( ( start >= viewStart && start <= viewEnd )
                 || ( start < viewStart && end >= viewStart && end <= viewEnd )
                 || ( start < viewStart && end > viewStart ) )
-               select item;
+               select new SchedulerItemInfo<TItem>( item, start, end, allDay, recurrenceRule );
     }
 
     /// <summary>
@@ -644,26 +650,21 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="viewStartTime">The start time of the time range for filtering the scheduled items.</param>
     /// <param name="viewEndTime">The end time of the time range for filtering the scheduled items.</param>
     /// <returns>A collection of filtered scheduled item information based on the specified date and time range.</returns>
-    internal IEnumerable<SchedulerItemViewInfo<TItem>> GetItemViewInfosOnDate( IEnumerable<TItem> items, DateOnly viewDate, TimeOnly viewStartTime, TimeOnly viewEndTime )
+    internal IEnumerable<SchedulerItemViewInfo<TItem>> GetItemViewInfosOnDate( IEnumerable<SchedulerItemInfo<TItem>> items, DateOnly viewDate, TimeOnly viewStartTime, TimeOnly viewEndTime )
     {
         var minDateTime = viewDate.ToDateTime( viewStartTime );
         var maxDateTime = viewDate.ToDateTime( viewEndTime );
 
         return from item in items
-               let allDay = GetItemAllDay( item )
-               let start = GetItemStartTime( item )
-               let end = GetItemEndTime( item )
-               let duration = GetItemDuration( item )
-               let allDayByDuration = duration.Days >= 1
-               where !allDay && !allDayByDuration &&
-               ( ( start >= minDateTime && start <= maxDateTime )
-                || ( start < minDateTime && end >= minDateTime && end <= maxDateTime )
-                || ( start < minDateTime && end > minDateTime ) )
-               select new SchedulerItemViewInfo<TItem>( item: item,
-                   viewStart: start < minDateTime ? minDateTime : start,
-                   viewEnd: end > maxDateTime ? maxDateTime : end,
-                   overflowingFromStart: start < minDateTime,
-                   overflowingOnEnd: end > maxDateTime );
+               where !item.AllDay && !item.AllDayByDuration &&
+               ( ( item.Start >= minDateTime && item.Start <= maxDateTime )
+                || ( item.Start < minDateTime && item.End >= minDateTime && item.End <= maxDateTime )
+                || ( item.Start < minDateTime && item.End > minDateTime ) )
+               select new SchedulerItemViewInfo<TItem>( item: item.Item,
+                   viewStart: item.Start < minDateTime ? minDateTime : item.Start,
+                   viewEnd: item.End > maxDateTime ? maxDateTime : item.End,
+                   overflowingFromStart: item.Start < minDateTime,
+                   overflowingOnEnd: item.End > maxDateTime );
     }
 
     /// <summary>

@@ -6,6 +6,11 @@
 public enum SchedulerRecurrencePattern
 {
     /// <summary>
+    /// 
+    /// </summary>
+    Never,
+
+    /// <summary>
     /// Represents a daily frequency or occurrence. Typically used in contexts where events or actions happen every day.
     /// </summary>
     Daily,

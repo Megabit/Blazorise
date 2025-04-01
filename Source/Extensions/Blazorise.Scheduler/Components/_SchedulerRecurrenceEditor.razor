@@ -16,6 +16,7 @@
                 <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Yearly">Year</SelectItem>
             </Select> *@
             <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" @bind-Value="@Pattern" Buttons Width="Width.Is100">
+                <Radio Value="SchedulerRecurrencePattern.Never">Never</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Daily">Day</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Weekly">Week</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Monthly">Month</Radio>
@@ -43,14 +44,17 @@
         </Field> *@
     }
 </Fields>
-<Fields>
-    <Field ColumnSize="ColumnSize.Is3">
-        <FieldLabel>End</FieldLabel>
-        <FieldBody>
-            <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
-        </FieldBody>
-    </Field>
-</Fields>
+@if ( Pattern != SchedulerRecurrencePattern.Never )
+{
+    <Fields>
+        <Field ColumnSize="ColumnSize.Is3">
+            <FieldLabel>End</FieldLabel>
+            <FieldBody>
+                <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+            </FieldBody>
+        </Field>
+    </Fields>
+}
 @code {
     private SchedulerRecurrencePattern Pattern { get; set; } = SchedulerRecurrencePattern.Daily;
 
