@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 <Div Class="b-scheduler-day-view" Flex="Blazorise.Flex.Default.Grow.Is1">
     @{
-        var items = Scheduler.GetItemsInView( SelectedDate.ToDateTime( TimeOnly.MinValue ), SelectedDate.ToDateTime( TimeOnly.MinValue ) ).ToList();
+        var items = Scheduler.GetItemsInView( SelectedDate.ToDateTime( TimeOnly.MinValue ), SelectedDate.ToDateTime( TimeOnly.MaxValue ) ).ToList();
 
         var allDayItems = Scheduler.GetAllDayItemsInRange( SelectedDate.ToDateTime( TimeOnly.MinValue ), SelectedDate.ToDateTime( TimeOnly.MinValue ) ).ToList();
         var maxStackedAllDayItems = Scheduler.GetMaxStackedAllDayItems( allDayItems, SelectedDate, SelectedDate );
