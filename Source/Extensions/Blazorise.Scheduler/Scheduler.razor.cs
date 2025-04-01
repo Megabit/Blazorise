@@ -52,11 +52,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private Func<TItem, string> getDescriptionFunc;
     private Action<TItem, string> setDescriptionFunc;
 
-    private Func<TItem, object> getStartFunc;
-    private Action<TItem, object> setStartFunc;
+    private Func<TItem, DateTime> getStartFunc;
+    private Action<TItem, DateTime> setStartFunc;
 
-    private Func<TItem, object> getEndFunc;
-    private Action<TItem, object> setEndFunc;
+    private Func<TItem, DateTime> getEndFunc;
+    private Action<TItem, DateTime> setEndFunc;
 
     private Func<TItem, bool> getAllDayFunc;
     private Action<TItem, bool> setAllDayFunc;
@@ -108,14 +108,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         if ( !string.IsNullOrEmpty( StartField ) && typeof( TItem ).GetProperty( StartField )?.PropertyType is not null )
         {
-            getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( StartField );
-            setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( StartField );
+            getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, DateTime>( StartField );
+            setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, DateTime>( StartField );
         }
 
         if ( !string.IsNullOrEmpty( EndField ) && typeof( TItem ).GetProperty( EndField )?.PropertyType is not null )
         {
-            getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( EndField );
-            setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( EndField );
+            getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, DateTime>( EndField );
+            setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, DateTime>( EndField );
         }
 
         if ( !string.IsNullOrEmpty( AllDayField ) && typeof( TItem ).GetProperty( AllDayField )?.PropertyType is not null )
@@ -410,7 +410,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="item">Specifies the item for which the starting value is being set.</param>
     /// <param name="value">Provides the value to be assigned as the starting point for the specified item.</param>
-    internal void SetItemStart( TItem item, object value )
+    internal void SetItemStart( TItem item, DateTime value )
     {
         setStartFunc?.Invoke( item, value );
     }
@@ -420,7 +420,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="item">Specifies the item for which the end value is being set.</param>
     /// <param name="value">Provides the value to be assigned to the end of the specified item.</param>
-    internal void SetItemEnd( TItem item, object value )
+    internal void SetItemEnd( TItem item, DateTime value )
     {
         setEndFunc?.Invoke( item, value );
     }
@@ -431,7 +431,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="item">Specifies the item for which the dates are being set.</param>
     /// <param name="start">Indicates the starting date or time for the item.</param>
     /// <param name="end">Indicates the ending date or time for the item.</param>
-    internal void SetItemDates( TItem item, object start, object end )
+    internal void SetItemDates( TItem item, DateTime start, DateTime end )
     {
         SetItemStart( item, start );
         SetItemEnd( item, end );
