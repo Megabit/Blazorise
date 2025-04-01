@@ -16,7 +16,7 @@
                         <Fields>
                             @foreach ( var column in OrderedEditableColumns )
                             {
-                                <Field ColumnSize="@(column.EditFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                <Field ColumnSize="@(column.EditFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="Constants.PaddingIs2OnXIs2OnY">
                                     <FieldLabel>
                                         @column.Caption
                                     </FieldLabel>
