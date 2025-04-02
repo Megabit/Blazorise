@@ -650,7 +650,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="viewStartTime">The start time of the time range for filtering the scheduled items.</param>
     /// <param name="viewEndTime">The end time of the time range for filtering the scheduled items.</param>
     /// <returns>A collection of filtered scheduled item information based on the specified date and time range.</returns>
-    internal IEnumerable<SchedulerItemViewInfo<TItem>> GetItemViewInfosOnDate( IEnumerable<SchedulerItemInfo<TItem>> items, DateOnly viewDate, TimeOnly viewStartTime, TimeOnly viewEndTime )
+    internal IEnumerable<SchedulerItemViewInfo<TItem>> GetViewItemsOnDate( IEnumerable<SchedulerItemInfo<TItem>> items, DateOnly viewDate, TimeOnly viewStartTime, TimeOnly viewEndTime )
     {
         var minDateTime = viewDate.ToDateTime( viewStartTime );
         var maxDateTime = viewDate.ToDateTime( viewEndTime );
@@ -674,7 +674,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="viewStart">The beginning of the date range used to filter the scheduled items.</param>
     /// <param name="viewEnd">The end of the date range used to filter the scheduled items.</param>
     /// <returns>The first scheduled item that starts within the specified date range or null if none is found.</returns>
-    internal SchedulerItemViewInfo<TItem> GetItemInfoInRange( IEnumerable<SchedulerItemViewInfo<TItem>> items, DateTime viewStart, DateTime viewEnd )
+    internal SchedulerItemViewInfo<TItem> GetViewItemInRange( IEnumerable<SchedulerItemViewInfo<TItem>> items, DateTime viewStart, DateTime viewEnd )
     {
         return ( from itemInfo in items
                  let start = itemInfo.ViewStart
@@ -690,7 +690,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="items">A collection of all-day item information to filter based on the specified date.</param>
     /// <param name="date">The specific date used to find items that start on that day.</param>
     /// <returns>A sorted collection of all-day items that start on the specified date, ordered by their duration.</returns>
-    internal IEnumerable<SchedulerAllDayItemInfo<TItem>> GetAllDayItemInfosOnDate( IEnumerable<SchedulerAllDayItemInfo<TItem>> items, DateTime date )
+    internal IEnumerable<SchedulerAllDayItemInfo<TItem>> GetAllDayItemOnDate( IEnumerable<SchedulerAllDayItemInfo<TItem>> items, DateTime date )
     {
         return from itemInfo in items
                let start = itemInfo.ViewStart

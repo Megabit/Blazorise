@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 <Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
     @{
-        var itemInfos = Scheduler.GetAllDayItemInfosOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
+        var itemInfos = Scheduler.GetAllDayItemOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
 
         @if ( itemInfos?.Any() == true )
         {

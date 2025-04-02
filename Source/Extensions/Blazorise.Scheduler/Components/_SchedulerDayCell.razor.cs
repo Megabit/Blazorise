@@ -59,7 +59,7 @@ public partial class _SchedulerDayCell<TItem>
         if ( Scheduler is null )
             return default;
 
-        return Scheduler.GetItemInfoInRange( ViewItems, start, end );
+        return Scheduler.GetViewItemInRange( ViewItems, start, end );
     }
 
     protected TimeSpan GetTime( int slotIndex )
