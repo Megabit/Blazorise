@@ -140,7 +140,7 @@ export function getHtml(editorRef) {
     const editor = editorRef.quill;
     if (!editor)
         return undefined;
-    return editor.root.innerHTML;
+    return editor.getSemanticHTML();
 }
 
 export function setHtml(editorRef, html) {
