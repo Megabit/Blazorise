@@ -666,191 +666,110 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return itemsInView.Concat( virtualItems );
     }
 
-    //private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, string recurrenceRule, DateTime viewStart, DateTime viewEnd )
-    //{
-    //    var rule = RRuleParser.Parse( recurrenceRule );
-    //    var occurrences = new List<DateTime>();
+    public IEnumerable<DateTime> GetDailyRecurringDates( DateTime start, int interval, DateTime currentWeekStart, DateTime currentWeekEnd, DateTime? endDate, int? count )
+    {
+        if ( interval < 1 || interval > 99 )
+            throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be between 1 and 99." );
 
-    //    int count = 0;
-    //    DateTime current;
+        // Calculate how many intervals have passed before currentWeekStart
+        double totalDaysSinceStart = ( currentWeekStart - start ).TotalDays;
+        int intervalsBeforeWeek = Math.Max( 0, (int)Math.Floor( totalDaysSinceStart / interval ) );
 
-    //    var daysOfWeekSorted = rule.ByDay?.Select( day => (int)day ).OrderBy( day => day ).ToArray();
+        // Apply count offset if needed
+        int remainingCount = count.HasValue ? Math.Max( 0, count.Value - intervalsBeforeWeek ) : int.MaxValue;
 
-    //    switch ( rule.Pattern )
-    //    {
-    //        case SchedulerRecurrencePattern.Daily:
-    //            {
-    //                var daysSinceStart = ( viewStart.Date - start.Date ).Days;
-    //                var intervalsPassed = Math.Max( 0, (int)Math.Ceiling( daysSinceStart / (double)rule.Interval ) );
-    //                current = start.AddDays( intervalsPassed * rule.Interval );
-    //                break;
-    //            }
+        // Determine first valid occurrence on or after currentWeekStart
+        int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( totalDaysSinceStart / interval ) );
+        DateTime occurrence = start.AddDays( intervalsPassed * interval );
 
-    //        case SchedulerRecurrencePattern.Weekly:
-    //            {
-    //                var daysSinceStart = ( viewStart.Date - start.Date ).Days;
-    //                var weeksSinceStart = daysSinceStart / 7;
-    //                var intervalsPassed = Math.Max( 0, weeksSinceStart / rule.Interval );
-    //                current = start.AddDays( intervalsPassed * rule.Interval * 7 );
+        int yielded = 0;
 
-    //                // Adjust to the first valid weekday from ByDay after viewStart
-    //                if ( daysOfWeekSorted != null && daysOfWeekSorted.Length > 0 )
-    //                {
-    //                    var found = false;
-    //                    while ( !found && current < viewEnd )
-    //                    {
-    //                        foreach ( var dayOfWeek in daysOfWeekSorted )
-    //                        {
-    //                            var potentialDate = current.StartOfWeek( FirstDayOfWeek ).AddDays( dayOfWeek );
-    //                            if ( potentialDate >= viewStart )
-    //                            {
-    //                                current = potentialDate;
-    //                                found = true;
-    //                                break;
-    //                            }
-    //                        }
-    //                        if ( !found )
-    //                        {
-    //                            current = current.AddDays( rule.Interval * 7 );
-    //                        }
-    //                    }
-    //                }
-    //                break;
-    //            }
+        while ( occurrence <= currentWeekEnd && yielded < remainingCount )
+        {
+            if ( endDate.HasValue && occurrence > endDate.Value )
+                yield break;
 
-    //        case SchedulerRecurrencePattern.Monthly:
-    //            {
-    //                var monthsSinceStart = ( viewStart.Year - start.Year ) * 12 + viewStart.Month - start.Month;
-    //                var intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsSinceStart / (double)rule.Interval ) );
-    //                current = start.AddMonths( intervalsPassed * rule.Interval );
-    //                break;
-    //            }
+            yield return occurrence;
+            yielded++;
 
-    //        case SchedulerRecurrencePattern.Yearly:
-    //            {
-    //                var yearsSinceStart = viewStart.Year - start.Year;
-    //                var intervalsPassed = Math.Max( 0, (int)Math.Ceiling( yearsSinceStart / (double)rule.Interval ) );
-    //                current = start.AddYears( intervalsPassed * rule.Interval );
-    //                break;
-    //            }
+            occurrence = occurrence.AddDays( interval );
+        }
+    }
 
-    //        default:
-    //            throw new NotSupportedException( $"Unsupported recurrence pattern: {rule.Pattern}" );
-    //    }
+    public IEnumerable<DateTime> GetWeeklyRecurringDates(
+    DateTime start,
+    int interval,
+    DayOfWeek[] byDay,
+    DateTime currentWeekStart,
+    DateTime currentWeekEnd,
+    DateTime? endDate,
+    int? count )
+    {
+        if ( interval < 1 )
+            throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be 1 or more." );
+        if ( byDay == null || byDay.Length == 0 )
+            throw new ArgumentException( "At least one day must be specified in byDay.", nameof( byDay ) );
 
-    //    while ( current < viewEnd && ( rule.Count == null || count < rule.Count ) && ( rule.EndDate == null || current <= rule.EndDate ) )
-    //    {
-    //        if ( current >= viewStart && current != start )
-    //        {
-    //            occurrences.Add( current );
-    //        }
+        // Calculate how many full weeks have passed since the start
+        var daysSinceStart = ( currentWeekStart - start ).TotalDays;
+        int weeksSinceStart = Math.Max( 0, (int)Math.Floor( daysSinceStart / 7.0 ) );
 
-    //        switch ( rule.Pattern )
-    //        {
-    //            case SchedulerRecurrencePattern.Daily:
-    //                current = current.AddDays( rule.Interval );
-    //                break;
-    //            case SchedulerRecurrencePattern.Weekly:
-    //                if ( daysOfWeekSorted != null && daysOfWeekSorted.Length > 0 )
-    //                {
-    //                    var currentDayOfWeek = (int)current.DayOfWeek;
-    //                    var nextDayOfWeek = daysOfWeekSorted.FirstOrDefault( day => day > currentDayOfWeek );
+        // How many recurrence weeks have already passed (based on interval)
+        int recurrenceWeeksBefore = weeksSinceStart / interval;
 
-    //                    if ( nextDayOfWeek == 0 )
-    //                    {
-    //                        // Move to the next week using StartOfNextWeek extension method
-    //                        current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
-    //                        current = current.AddDays( daysOfWeekSorted.First() - (int)current.DayOfWeek );
-    //                    }
-    //                    else
-    //                    {
-    //                        // Move to the next occurrence day in the current week
-    //                        current = current.AddDays( nextDayOfWeek - currentDayOfWeek );
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    // Move to the next week using StartOfNextWeek extension method
-    //                    current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
-    //                }
-    //                break;
-    //            case SchedulerRecurrencePattern.Monthly:
-    //                current = current.AddMonths( rule.Interval );
-    //                break;
-    //            case SchedulerRecurrencePattern.Yearly:
-    //                current = current.AddYears( rule.Interval );
-    //                break;
-    //            default:
-    //                throw new NotSupportedException( $"Unsupported recurrence pattern: {rule.Pattern}" );
-    //        }
+        // Determine if this week is a valid recurrence week
+        bool isCurrentWeekValid = ( weeksSinceStart % interval ) == 0;
 
-    //        count++;
-    //    }
+        // If count is defined and we've already hit our allowed number of recurrence weeks, skip
+        if ( count.HasValue && recurrenceWeeksBefore >= count.Value )
+            yield break;
 
-    //    return occurrences;
-    //}
+        // Compute remaining allowed weeks
+        int remainingRecurrenceWeeks = count.HasValue
+            ? count.Value - recurrenceWeeksBefore
+            : int.MaxValue;
 
+        if ( !isCurrentWeekValid || remainingRecurrenceWeeks <= 0 )
+            yield break;
 
+        // Get the aligned week start for this recurrence
+        DateTime validWeekStart = start.AddDays( weeksSinceStart * 7 );
+
+        // Yield all valid days in this week
+        foreach ( var day in byDay.OrderBy( d => d ) )
+        {
+            DateTime occurrence = GetDayInWeek( validWeekStart, day, start.TimeOfDay );
+
+            if ( occurrence < currentWeekStart || occurrence > currentWeekEnd )
+                continue;
+
+            if ( endDate.HasValue && occurrence > endDate.Value )
+                continue;
+
+            yield return occurrence;
+        }
+
+        static DateTime GetDayInWeek( DateTime referenceWeekStart, DayOfWeek targetDay, TimeSpan time )
+        {
+            int offset = ( (int)targetDay - (int)referenceWeekStart.DayOfWeek + 7 ) % 7;
+            return referenceWeekStart.Date.AddDays( offset ).Add( time );
+        }
+    }
 
     private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, string recurrenceRule, DateTime viewStart, DateTime viewEnd )
     {
         var rule = RRuleParser.Parse( recurrenceRule );
-        var occurrences = new List<DateTime>();
 
-        DateTime current = start;
-        int count = 0;
-
-        while ( current < viewEnd && ( rule.Count == null || count < rule.Count ) && ( rule.EndDate == null || current <= rule.EndDate ) )
+        if ( rule.Pattern == SchedulerRecurrencePattern.Daily )
         {
-            if ( current >= viewStart && current != start )
-            {
-                occurrences.Add( current );
-            }
-
-            switch ( rule.Pattern )
-            {
-                case SchedulerRecurrencePattern.Daily:
-                    current = current.AddDays( rule.Interval );
-                    break;
-                case SchedulerRecurrencePattern.Weekly:
-                    if ( rule.ByDay != null && rule.ByDay.Any() )
-                    {
-                        var daysOfWeek = rule.ByDay.Select( day => (int)day ).OrderBy( day => day ).ToList();
-                        var currentDayOfWeek = (int)current.DayOfWeek;
-                        var nextDayOfWeek = daysOfWeek.FirstOrDefault( day => day > currentDayOfWeek );
-
-                        if ( nextDayOfWeek == 0 )
-                        {
-                            // Move to the next week using StartOfNextWeek extension method
-                            current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
-                            current = current.AddDays( daysOfWeek.First() - (int)current.DayOfWeek );
-                        }
-                        else
-                        {
-                            // Move to the next occurrence day in the current week
-                            current = current.AddDays( nextDayOfWeek - currentDayOfWeek );
-                        }
-                    }
-                    else
-                    {
-                        // Move to the next week using StartOfNextWeek extension method
-                        current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
-                    }
-                    break;
-                case SchedulerRecurrencePattern.Monthly:
-                    current = current.AddMonths( rule.Interval );
-                    break;
-                case SchedulerRecurrencePattern.Yearly:
-                    current = current.AddYears( rule.Interval );
-                    break;
-                default:
-                    throw new NotSupportedException( $"Unsupported recurrence pattern: {rule.Pattern}" );
-            }
-
-            count++;
+            return GetDailyRecurringDates( start, rule.Interval, viewStart, viewEnd, rule.EndDate, rule.Count );
+        }
+        else if ( rule.Pattern == SchedulerRecurrencePattern.Weekly )
+        {
+            return GetWeeklyRecurringDates( start, rule.Interval, rule.ByDay?.ToArray(), viewStart, viewEnd, rule.EndDate, rule.Count );
         }
 
-        return occurrences;
+        return Enumerable.Empty<DateTime>();
     }
 
     /// <summary>
