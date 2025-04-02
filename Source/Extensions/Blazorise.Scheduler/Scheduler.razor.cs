@@ -602,18 +602,255 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>A collection of items that meet the specified time criteria.</returns>
     internal IEnumerable<SchedulerItemInfo<TItem>> GetItemsInView( DateTime viewStart, DateTime viewEnd )
     {
-        return from item in Data
-               let allDay = GetItemAllDay( item )
-               let start = GetItemStartTime( item )
-               let end = GetItemEndTime( item )
-               let duration = GetItemDuration( item )
-               let recurrenceRule = GetItemRecurrenceRule( item )
-               let allDayByDuration = duration.Days >= 1
-               where !allDay && !allDayByDuration &&
-               ( ( start >= viewStart && start <= viewEnd )
-                || ( start < viewStart && end >= viewStart && end <= viewEnd )
-                || ( start < viewStart && end > viewStart ) )
-               select new SchedulerItemInfo<TItem>( item, start, end, allDay, recurrenceRule );
+        var itemsInView = from item in Data
+                          let allDay = GetItemAllDay( item )
+                          let start = GetItemStartTime( item )
+                          let end = GetItemEndTime( item )
+                          let duration = GetItemDuration( item )
+                          let recurrenceRule = GetItemRecurrenceRule( item )
+                          let allDayByDuration = duration.Days >= 1
+                          where !allDay && !allDayByDuration &&
+                          ( ( start >= viewStart && start <= viewEnd )
+                           || ( start < viewStart && end >= viewStart && end <= viewEnd )
+                           || ( start < viewStart && end > viewStart ) )
+                          select new SchedulerItemInfo<TItem>( item, start, end, allDay, recurrenceRule );
+
+        var recurringItems = from item in Data
+                             let recurrenceRule = GetItemRecurrenceRule( item )
+                             where !string.IsNullOrEmpty( recurrenceRule )
+                             let start = GetItemStartTime( item )
+                             where start < viewStart
+                             select item;
+
+        var virtualItems = new List<SchedulerItemInfo<TItem>>();
+
+        foreach ( var item in recurringItems )
+        {
+            var recurrenceRule = GetItemRecurrenceRule( item );
+            var start = GetItemStartTime( item );
+            var end = GetItemEndTime( item );
+            var duration = GetItemDuration( item );
+
+            // Generate virtual items based on recurrence rule
+            var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
+
+            foreach ( var occurrence in occurrences )
+            {
+                var virtualStart = occurrence;
+                var virtualEnd = virtualStart.Add( duration );
+                virtualItems.Add( new SchedulerItemInfo<TItem>( item, virtualStart, virtualEnd, false, recurrenceRule ) );
+            }
+        }
+
+        foreach ( var item in itemsInView )
+        {
+            var recurrenceRule = GetItemRecurrenceRule( item.Item );
+            if ( !string.IsNullOrEmpty( recurrenceRule ) )
+            {
+                var start = GetItemStartTime( item.Item );
+                var end = GetItemEndTime( item.Item );
+                var duration = GetItemDuration( item.Item );
+
+                // Generate virtual items based on recurrence rule
+                var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
+
+                foreach ( var occurrence in occurrences )
+                {
+                    var virtualStart = occurrence;
+                    var virtualEnd = virtualStart.Add( duration );
+                    virtualItems.Add( new SchedulerItemInfo<TItem>( item.Item, virtualStart, virtualEnd, false, recurrenceRule ) );
+                }
+            }
+        }
+
+        return itemsInView.Concat( virtualItems );
+    }
+
+    //private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, string recurrenceRule, DateTime viewStart, DateTime viewEnd )
+    //{
+    //    var rule = RRuleParser.Parse( recurrenceRule );
+    //    var occurrences = new List<DateTime>();
+
+    //    int count = 0;
+    //    DateTime current;
+
+    //    var daysOfWeekSorted = rule.ByDay?.Select( day => (int)day ).OrderBy( day => day ).ToArray();
+
+    //    switch ( rule.Pattern )
+    //    {
+    //        case SchedulerRecurrencePattern.Daily:
+    //            {
+    //                var daysSinceStart = ( viewStart.Date - start.Date ).Days;
+    //                var intervalsPassed = Math.Max( 0, (int)Math.Ceiling( daysSinceStart / (double)rule.Interval ) );
+    //                current = start.AddDays( intervalsPassed * rule.Interval );
+    //                break;
+    //            }
+
+    //        case SchedulerRecurrencePattern.Weekly:
+    //            {
+    //                var daysSinceStart = ( viewStart.Date - start.Date ).Days;
+    //                var weeksSinceStart = daysSinceStart / 7;
+    //                var intervalsPassed = Math.Max( 0, weeksSinceStart / rule.Interval );
+    //                current = start.AddDays( intervalsPassed * rule.Interval * 7 );
+
+    //                // Adjust to the first valid weekday from ByDay after viewStart
+    //                if ( daysOfWeekSorted != null && daysOfWeekSorted.Length > 0 )
+    //                {
+    //                    var found = false;
+    //                    while ( !found && current < viewEnd )
+    //                    {
+    //                        foreach ( var dayOfWeek in daysOfWeekSorted )
+    //                        {
+    //                            var potentialDate = current.StartOfWeek( FirstDayOfWeek ).AddDays( dayOfWeek );
+    //                            if ( potentialDate >= viewStart )
+    //                            {
+    //                                current = potentialDate;
+    //                                found = true;
+    //                                break;
+    //                            }
+    //                        }
+    //                        if ( !found )
+    //                        {
+    //                            current = current.AddDays( rule.Interval * 7 );
+    //                        }
+    //                    }
+    //                }
+    //                break;
+    //            }
+
+    //        case SchedulerRecurrencePattern.Monthly:
+    //            {
+    //                var monthsSinceStart = ( viewStart.Year - start.Year ) * 12 + viewStart.Month - start.Month;
+    //                var intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsSinceStart / (double)rule.Interval ) );
+    //                current = start.AddMonths( intervalsPassed * rule.Interval );
+    //                break;
+    //            }
+
+    //        case SchedulerRecurrencePattern.Yearly:
+    //            {
+    //                var yearsSinceStart = viewStart.Year - start.Year;
+    //                var intervalsPassed = Math.Max( 0, (int)Math.Ceiling( yearsSinceStart / (double)rule.Interval ) );
+    //                current = start.AddYears( intervalsPassed * rule.Interval );
+    //                break;
+    //            }
+
+    //        default:
+    //            throw new NotSupportedException( $"Unsupported recurrence pattern: {rule.Pattern}" );
+    //    }
+
+    //    while ( current < viewEnd && ( rule.Count == null || count < rule.Count ) && ( rule.EndDate == null || current <= rule.EndDate ) )
+    //    {
+    //        if ( current >= viewStart && current != start )
+    //        {
+    //            occurrences.Add( current );
+    //        }
+
+    //        switch ( rule.Pattern )
+    //        {
+    //            case SchedulerRecurrencePattern.Daily:
+    //                current = current.AddDays( rule.Interval );
+    //                break;
+    //            case SchedulerRecurrencePattern.Weekly:
+    //                if ( daysOfWeekSorted != null && daysOfWeekSorted.Length > 0 )
+    //                {
+    //                    var currentDayOfWeek = (int)current.DayOfWeek;
+    //                    var nextDayOfWeek = daysOfWeekSorted.FirstOrDefault( day => day > currentDayOfWeek );
+
+    //                    if ( nextDayOfWeek == 0 )
+    //                    {
+    //                        // Move to the next week using StartOfNextWeek extension method
+    //                        current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
+    //                        current = current.AddDays( daysOfWeekSorted.First() - (int)current.DayOfWeek );
+    //                    }
+    //                    else
+    //                    {
+    //                        // Move to the next occurrence day in the current week
+    //                        current = current.AddDays( nextDayOfWeek - currentDayOfWeek );
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    // Move to the next week using StartOfNextWeek extension method
+    //                    current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
+    //                }
+    //                break;
+    //            case SchedulerRecurrencePattern.Monthly:
+    //                current = current.AddMonths( rule.Interval );
+    //                break;
+    //            case SchedulerRecurrencePattern.Yearly:
+    //                current = current.AddYears( rule.Interval );
+    //                break;
+    //            default:
+    //                throw new NotSupportedException( $"Unsupported recurrence pattern: {rule.Pattern}" );
+    //        }
+
+    //        count++;
+    //    }
+
+    //    return occurrences;
+    //}
+
+
+
+    private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, string recurrenceRule, DateTime viewStart, DateTime viewEnd )
+    {
+        var rule = RRuleParser.Parse( recurrenceRule );
+        var occurrences = new List<DateTime>();
+
+        DateTime current = start;
+        int count = 0;
+
+        while ( current < viewEnd && ( rule.Count == null || count < rule.Count ) && ( rule.EndDate == null || current <= rule.EndDate ) )
+        {
+            if ( current >= viewStart && current != start )
+            {
+                occurrences.Add( current );
+            }
+
+            switch ( rule.Pattern )
+            {
+                case SchedulerRecurrencePattern.Daily:
+                    current = current.AddDays( rule.Interval );
+                    break;
+                case SchedulerRecurrencePattern.Weekly:
+                    if ( rule.ByDay != null && rule.ByDay.Any() )
+                    {
+                        var daysOfWeek = rule.ByDay.Select( day => (int)day ).OrderBy( day => day ).ToList();
+                        var currentDayOfWeek = (int)current.DayOfWeek;
+                        var nextDayOfWeek = daysOfWeek.FirstOrDefault( day => day > currentDayOfWeek );
+
+                        if ( nextDayOfWeek == 0 )
+                        {
+                            // Move to the next week using StartOfNextWeek extension method
+                            current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
+                            current = current.AddDays( daysOfWeek.First() - (int)current.DayOfWeek );
+                        }
+                        else
+                        {
+                            // Move to the next occurrence day in the current week
+                            current = current.AddDays( nextDayOfWeek - currentDayOfWeek );
+                        }
+                    }
+                    else
+                    {
+                        // Move to the next week using StartOfNextWeek extension method
+                        current = current.StartOfNextWeek( FirstDayOfWeek ).AddDays( 7 * ( rule.Interval - 1 ) );
+                    }
+                    break;
+                case SchedulerRecurrencePattern.Monthly:
+                    current = current.AddMonths( rule.Interval );
+                    break;
+                case SchedulerRecurrencePattern.Yearly:
+                    current = current.AddYears( rule.Interval );
+                    break;
+                default:
+                    throw new NotSupportedException( $"Unsupported recurrence pattern: {rule.Pattern}" );
+            }
+
+            count++;
+        }
+
+        return occurrences;
     }
 
     /// <summary>
