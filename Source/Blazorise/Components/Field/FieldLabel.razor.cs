@@ -13,6 +13,8 @@ public partial class FieldLabel : BaseSizableFieldComponent
     #region Members
 
     private Screenreader screenreader = Screenreader.Always;
+    
+    private bool requiredIndicator;
 
     #endregion
 
@@ -40,7 +42,18 @@ public partial class FieldLabel : BaseSizableFieldComponent
     /// <summary>
     /// If defined, a required indicator will be shown next to the label.
     /// </summary>
-    [Parameter] public bool RequiredIndicator { get; set; }
+    [Parameter]
+    public bool RequiredIndicator
+    {
+        get => requiredIndicator;
+        set
+        {
+            requiredIndicator = value;
+            
+            DirtyClasses();
+        }
+    }
+
 
     /// <summary>
     /// Defines the visibility for screen readers.
