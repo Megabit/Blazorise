@@ -664,7 +664,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                    viewStart: item.Start < minDateTime ? minDateTime : item.Start,
                    viewEnd: item.End > maxDateTime ? maxDateTime : item.End,
                    overflowingFromStart: item.Start < minDateTime,
-                   overflowingOnEnd: item.End > maxDateTime );
+                   overflowingOnEnd: item.End > maxDateTime,
+                   recurrenceRule: item.RecurrenceRule );
     }
 
     /// <summary>

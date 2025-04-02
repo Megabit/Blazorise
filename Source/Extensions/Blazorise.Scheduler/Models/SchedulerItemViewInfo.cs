@@ -16,13 +16,15 @@ public class SchedulerItemViewInfo<TItem>
     /// <param name="viewEnd">Indicates the ending time of the scheduled item.</param>
     /// <param name="overflowingFromStart">Indicates whether the item overflows at the start time.</param>
     /// <param name="overflowingOnEnd">Indicates whether the item overflows at the end time.</param>
-    public SchedulerItemViewInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd )
+    /// <param name="recurrenceRule">Defines the recurrence rule for the scheduled item.</param>
+    public SchedulerItemViewInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd, SchedulerRecurrenceRule recurrenceRule )
     {
         Item = item;
         ViewStart = viewStart;
         ViewEnd = viewEnd;
         OverflowingFromStart = overflowingFromStart;
         OverflowingOnEnd = overflowingOnEnd;
+        RecurrenceRule = recurrenceRule;
     }
 
     /// <summary>
