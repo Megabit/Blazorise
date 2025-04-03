@@ -3,7 +3,7 @@
     <Field ColumnSize="ColumnSize.Is3">
         <FieldLabel>Repeat Every</FieldLabel>
         <FieldBody>
-            <NumericEdit @bind-Value="@Interval" Min="1" />
+            <NumericPicker @bind-Value="@Interval" Min="1" Max="99" Decimals="0" />
         </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.Is9">

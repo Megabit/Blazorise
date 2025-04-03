@@ -666,107 +666,17 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return itemsInView.Concat( virtualItems );
     }
 
-    public IEnumerable<DateTime> GetDailyRecurringDates( DateTime start, int interval, DateTime currentWeekStart, DateTime currentWeekEnd, DateTime? endDate, int? count )
-    {
-        if ( interval < 1 || interval > 99 )
-            throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be between 1 and 99." );
-
-        // Calculate how many intervals have passed before currentWeekStart
-        double totalDaysSinceStart = ( currentWeekStart - start ).TotalDays;
-        int intervalsBeforeWeek = Math.Max( 0, (int)Math.Floor( totalDaysSinceStart / interval ) );
-
-        // Apply count offset if needed
-        int remainingCount = count.HasValue ? Math.Max( 0, count.Value - intervalsBeforeWeek ) : int.MaxValue;
-
-        // Determine first valid occurrence on or after currentWeekStart
-        int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( totalDaysSinceStart / interval ) );
-        DateTime occurrence = start.AddDays( intervalsPassed * interval );
-
-        int yielded = 0;
-
-        while ( occurrence <= currentWeekEnd && yielded < remainingCount )
-        {
-            if ( endDate.HasValue && occurrence > endDate.Value )
-                yield break;
-
-            yield return occurrence;
-            yielded++;
-
-            occurrence = occurrence.AddDays( interval );
-        }
-    }
-
-    public IEnumerable<DateTime> GetWeeklyRecurringDates(
-    DateTime start,
-    int interval,
-    DayOfWeek[] byDay,
-    DateTime currentWeekStart,
-    DateTime currentWeekEnd,
-    DateTime? endDate,
-    int? count )
-    {
-        if ( interval < 1 )
-            throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be 1 or more." );
-        if ( byDay == null || byDay.Length == 0 )
-            throw new ArgumentException( "At least one day must be specified in byDay.", nameof( byDay ) );
-
-        // Calculate how many full weeks have passed since the start
-        var daysSinceStart = ( currentWeekStart - start ).TotalDays;
-        int weeksSinceStart = Math.Max( 0, (int)Math.Floor( daysSinceStart / 7.0 ) );
-
-        // How many recurrence weeks have already passed (based on interval)
-        int recurrenceWeeksBefore = weeksSinceStart / interval;
-
-        // Determine if this week is a valid recurrence week
-        bool isCurrentWeekValid = ( weeksSinceStart % interval ) == 0;
-
-        // If count is defined and we've already hit our allowed number of recurrence weeks, skip
-        if ( count.HasValue && recurrenceWeeksBefore >= count.Value )
-            yield break;
-
-        // Compute remaining allowed weeks
-        int remainingRecurrenceWeeks = count.HasValue
-            ? count.Value - recurrenceWeeksBefore
-            : int.MaxValue;
-
-        if ( !isCurrentWeekValid || remainingRecurrenceWeeks <= 0 )
-            yield break;
-
-        // Get the aligned week start for this recurrence
-        DateTime validWeekStart = start.AddDays( weeksSinceStart * 7 );
-
-        // Yield all valid days in this week
-        foreach ( var day in byDay.OrderBy( d => d ) )
-        {
-            DateTime occurrence = GetDayInWeek( validWeekStart, day, start.TimeOfDay );
-
-            if ( occurrence < currentWeekStart || occurrence > currentWeekEnd )
-                continue;
-
-            if ( endDate.HasValue && occurrence > endDate.Value )
-                continue;
-
-            yield return occurrence;
-        }
-
-        static DateTime GetDayInWeek( DateTime referenceWeekStart, DayOfWeek targetDay, TimeSpan time )
-        {
-            int offset = ( (int)targetDay - (int)referenceWeekStart.DayOfWeek + 7 ) % 7;
-            return referenceWeekStart.Date.AddDays( offset ).Add( time );
-        }
-    }
-
     private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, string recurrenceRule, DateTime viewStart, DateTime viewEnd )
     {
-        var rule = RRuleParser.Parse( recurrenceRule );
+        var rule = RecurringRuleParser.Parse( recurrenceRule );
 
         if ( rule.Pattern == SchedulerRecurrencePattern.Daily )
         {
-            return GetDailyRecurringDates( start, rule.Interval, viewStart, viewEnd, rule.EndDate, rule.Count );
+            return RecurringRuleUtils.GetDailyRecurringDates( start, rule.Interval, viewStart, viewEnd, rule.EndDate, rule.Count );
         }
         else if ( rule.Pattern == SchedulerRecurrencePattern.Weekly )
         {
-            return GetWeeklyRecurringDates( start, rule.Interval, rule.ByDay?.ToArray(), viewStart, viewEnd, rule.EndDate, rule.Count );
+            return RecurringRuleUtils.GetWeeklyRecurringDates( start, rule.Interval, rule.ByDay, viewStart, viewEnd, rule.EndDate, rule.Count, FirstDayOfWeek );
         }
 
         return Enumerable.Empty<DateTime>();
@@ -949,7 +859,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         ? schedulerWorkWeekView.FirstDayOfWorkWeek
         : ShowingWeekView
             ? schedulerWeekView.FirstDayOfWeek
-            : DayOfWeek.Sunday;
+            : ShowingDayView
+                ? schedulerDayView.FirstDayOfWeek
+                : DayOfWeek.Sunday;
 
     /// <summary>
     /// Gets the scheduler state.

@@ -22,12 +22,7 @@ public partial class SchedulerWeekView<TItem> : BaseSchedulerView<TItem>
 
     #endregion
 
-    #region Properties
-
-    /// <summary>
-    /// The first day of the week. Determines the first day of the week that is displayed in the scheduler. Default is Sunday.
-    /// </summary>
-    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
+    #region Properties    
 
     /// <summary>
     /// Specifies the height of a cell in a layout. The value is a double representing the height in pixels.

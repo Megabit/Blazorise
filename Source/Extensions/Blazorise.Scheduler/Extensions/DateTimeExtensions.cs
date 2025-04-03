@@ -22,6 +22,17 @@ public static class DateTimeExtensions
     }
 
     /// <summary>
+    /// Returns the last day of the week for the given date.
+    /// </summary>
+    /// <param name="dt">The date to get the last day of the week for.</param>
+    /// <param name="startOfWeek">The day of the week that should be considered the first day of the week.</param>
+    /// <returns>The last day of the week for the given date.</returns>
+    public static DateTime EndOfWeek( this DateTime dt, DayOfWeek startOfWeek )
+    {
+        return StartOfWeek( dt, startOfWeek ).AddDays( 6 );
+    }
+
+    /// <summary>
     /// Returns the first day of the week for the given date.
     /// </summary>
     /// <param name="dt">The date to get the first day of the week for.</param>

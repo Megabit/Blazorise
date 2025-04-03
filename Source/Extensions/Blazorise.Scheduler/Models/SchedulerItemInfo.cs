@@ -28,7 +28,7 @@ public class SchedulerItemInfo<TItem>
 
         if ( !string.IsNullOrEmpty( recurrenceRule ) )
         {
-            RecurrenceRule = RRuleParser.Parse( recurrenceRule );
+            RecurrenceRule = RecurringRuleParser.Parse( recurrenceRule );
         }
     }
 

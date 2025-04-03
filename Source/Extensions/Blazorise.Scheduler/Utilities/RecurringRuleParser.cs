@@ -10,7 +10,7 @@ namespace Blazorise.Scheduler.Utilities;
 /// <summary>
 /// Parses a recurrence rule (RRULE) string into a <see cref="SchedulerRecurrenceRule"/>.
 /// </summary>
-public static class RRuleParser
+public static class RecurringRuleParser
 {
     private static readonly Dictionary<string, DayOfWeek> DayMap = new()
     {
