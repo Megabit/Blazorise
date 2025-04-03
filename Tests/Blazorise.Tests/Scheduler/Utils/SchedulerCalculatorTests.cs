@@ -197,6 +197,30 @@ public class SchedulerCalculatorTests
             x => Assert.Equal( new DateTime( 1997, 9, 23 ), x ),
             x => Assert.Equal( new DateTime( 1997, 9, 25 ), x ),
             x => Assert.Equal( new DateTime( 1997, 9, 30 ), x ),
-            x => Assert.Equal( new DateTime( 1997, 10, 2 ), x ) );
+            x => Assert.Equal( new DateTime( 1997, 10, 2 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 10, 7 ), x ) );
+    }
+
+    [Fact]
+    public void Every_other_week_on_Tuesday_and_Thursday_for_8_occurrences()
+    {
+        var recurrenceRule = RecurringRuleParser.Parse( "FREQ=WEEKLY;INTERVAL=2;COUNT=8;BYDAY=TU,TH" );
+
+        var result = RecurringRuleCalculators.GetWeeklyRecurringDates(
+            new DateTime( 1997, 9, 2 ),
+            new DateTime( 1997, 9, 2 ),
+            DateTime.MaxValue,
+            DayOfWeek.Sunday,
+            recurrenceRule ).ToArray();
+
+        Assert.Collection( result,
+            x => Assert.Equal( new DateTime( 1997, 9, 2 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 4 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 16 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 18 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 30 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 10, 2 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 10, 14 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 10, 16 ), x ) );
     }
 }
