@@ -9,13 +9,13 @@ namespace Blazorise.Scheduler.Utilities;
 
 internal static class RecurringRuleUtils
 {
-    public static IEnumerable<DateTime> GetDailyRecurringDates( DateTime start, int interval, DateTime currentViewStart, DateTime currentViewEnd, DateTime? endDate, int? count )
+    public static IEnumerable<DateTime> GetDailyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, int interval, DateTime? endDate, int? count )
     {
         if ( interval < 1 || interval > 99 )
             throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be between 1 and 99." );
 
         // Calculate how many intervals have passed before currentWeekStart
-        double totalDaysSinceStart = ( currentViewStart - start ).TotalDays;
+        double totalDaysSinceStart = ( viewStart - itemStart ).TotalDays;
         int intervalsBeforeWeek = Math.Max( 0, (int)Math.Floor( totalDaysSinceStart / interval ) );
 
         // Apply count offset if needed
@@ -23,11 +23,11 @@ internal static class RecurringRuleUtils
 
         // Determine first valid occurrence on or after currentWeekStart
         int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( totalDaysSinceStart / interval ) );
-        DateTime occurrence = start.AddDays( intervalsPassed * interval );
+        DateTime occurrence = itemStart.AddDays( intervalsPassed * interval );
 
         int yielded = 0;
 
-        while ( occurrence <= currentViewEnd && yielded < remainingCount )
+        while ( occurrence <= viewEnd && yielded < remainingCount )
         {
             if ( endDate.HasValue && occurrence > endDate.Value )
                 yield break;
@@ -39,7 +39,7 @@ internal static class RecurringRuleUtils
         }
     }
 
-    public static IEnumerable<DateTime> GetWeeklyRecurringDates( DateTime start, int interval, List<DayOfWeek> byDay, DateTime viewStart, DateTime viewEnd, DateTime? endDate, int? count, DayOfWeek firstDayOfWeek )
+    public static IEnumerable<DateTime> GetWeeklyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DateTime? endDate, int interval, List<DayOfWeek> byDay, int? count, DayOfWeek firstDayOfWeek )
     {
         if ( interval < 1 )
             throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be 1 or more." );
@@ -47,7 +47,7 @@ internal static class RecurringRuleUtils
         if ( byDay == null || byDay.Count == 0 )
             throw new ArgumentException( "At least one day must be specified in byDay.", nameof( byDay ) );
 
-        DateTime startWeek = start.StartOfWeek( firstDayOfWeek );
+        DateTime startWeek = itemStart.StartOfWeek( firstDayOfWeek );
         DateTime viewWeekStart = viewStart.StartOfWeek( firstDayOfWeek );
 
         // How many full weeks between start and current view
@@ -67,9 +67,9 @@ internal static class RecurringRuleUtils
 
         foreach ( var day in byDay.OrderBy( d => d ) )
         {
-            DateTime occurrence = GetDayInWeek( recurrenceWeekStart, day, start.TimeOfDay );
+            DateTime occurrence = GetDayInWeek( recurrenceWeekStart, day, itemStart.TimeOfDay );
 
-            if ( occurrence < start )
+            if ( occurrence < itemStart )
                 continue;
 
             if ( occurrence < viewStart || occurrence > viewEnd )
