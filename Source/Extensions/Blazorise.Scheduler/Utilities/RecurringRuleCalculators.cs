@@ -76,7 +76,7 @@ public static class RecurringRuleCalculators
                     continue;
 
                 if ( rule.EndDate.HasValue && occurrence > rule.EndDate.Value )
-                    continue;
+                    yield break;
 
                 yield return occurrence;
 
