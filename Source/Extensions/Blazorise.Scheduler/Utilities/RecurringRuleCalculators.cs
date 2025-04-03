@@ -7,65 +7,65 @@ using Blazorise.Scheduler.Extensions;
 
 namespace Blazorise.Scheduler.Utilities;
 
-internal static class RecurringRuleCalculators
+public static class RecurringRuleCalculators
 {
-    public static IEnumerable<DateTime> GetDailyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, int interval, DateTime? endDate, int? count )
+    public static IEnumerable<DateTime> GetDailyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, SchedulerRecurrenceRule rule )
     {
-        if ( interval < 1 || interval > 99 )
-            throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be between 1 and 99." );
+        if ( rule.Interval < 1 || rule.Interval > 99 )
+            throw new ArgumentOutOfRangeException( nameof( rule.Interval ), "Interval must be between 1 and 99." );
 
         // Calculate how many intervals have passed before currentWeekStart
         double totalDaysSinceStart = ( viewStart - itemStart ).TotalDays;
-        int intervalsBeforeWeek = Math.Max( 0, (int)Math.Floor( totalDaysSinceStart / interval ) );
+        int intervalsBeforeWeek = Math.Max( 0, (int)Math.Floor( totalDaysSinceStart / rule.Interval ) );
 
         // Apply count offset if needed
-        int remainingCount = count.HasValue ? Math.Max( 0, count.Value - intervalsBeforeWeek ) : int.MaxValue;
+        int remainingCount = rule.Count.HasValue ? Math.Max( 0, rule.Count.Value - intervalsBeforeWeek ) : int.MaxValue;
 
         // Determine first valid occurrence on or after currentWeekStart
-        int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( totalDaysSinceStart / interval ) );
-        DateTime occurrence = itemStart.AddDays( intervalsPassed * interval );
+        int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( totalDaysSinceStart / rule.Interval ) );
+        DateTime occurrence = itemStart.AddDays( intervalsPassed * rule.Interval );
 
         int yielded = 0;
 
         while ( occurrence <= viewEnd && yielded < remainingCount )
         {
-            if ( endDate.HasValue && occurrence > endDate.Value )
+            if ( rule.EndDate.HasValue && occurrence >= rule.EndDate.Value )
                 yield break;
 
             yield return occurrence;
             yielded++;
 
-            occurrence = occurrence.AddDays( interval );
+            occurrence = occurrence.AddDays( rule.Interval );
         }
     }
 
-    public static IEnumerable<DateTime> GetWeeklyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DateTime? endDate, int interval, List<DayOfWeek> byDay, int? count, DayOfWeek firstDayOfWeek )
+    public static IEnumerable<DateTime> GetWeeklyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DayOfWeek firstDayOfWeek, SchedulerRecurrenceRule rule )
     {
-        if ( interval < 1 )
-            throw new ArgumentOutOfRangeException( nameof( interval ), "Interval must be 1 or more." );
+        if ( rule.Interval < 1 )
+            throw new ArgumentOutOfRangeException( nameof( rule.Interval ), "Interval must be 1 or more." );
 
-        if ( byDay == null || byDay.Count == 0 )
-            throw new ArgumentException( "At least one day must be specified in byDay.", nameof( byDay ) );
+        if ( rule.ByDay == null || rule.ByDay.Count == 0 )
+            throw new ArgumentException( "At least one day must be specified in byDay.", nameof( rule.ByDay ) );
 
         DateTime startWeek = itemStart.StartOfWeek( firstDayOfWeek );
         DateTime viewWeekStart = viewStart.StartOfWeek( firstDayOfWeek );
 
         // How many full weeks between start and current view
         int weeksBetween = (int)Math.Floor( ( viewWeekStart - startWeek ).TotalDays / 7.0 );
-        int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( weeksBetween / (double)interval ) );
+        int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( weeksBetween / (double)rule.Interval ) );
 
         // Calculate the next valid recurrence week
-        DateTime recurrenceWeekStart = startWeek.AddDays( intervalsPassed * interval * 7 );
+        DateTime recurrenceWeekStart = startWeek.AddDays( intervalsPassed * rule.Interval * 7 );
 
         // Check if recurrence is beyond count
-        if ( count.HasValue && intervalsPassed >= count.Value )
+        if ( rule.Count.HasValue && intervalsPassed >= rule.Count.Value )
             yield break;
 
         // Don't go beyond the view or endDate
         if ( recurrenceWeekStart > viewEnd )
             yield break;
 
-        foreach ( var day in byDay.OrderBy( d => d ) )
+        foreach ( var day in rule.ByDay.OrderBy( d => d ) )
         {
             DateTime occurrence = GetDayInWeek( recurrenceWeekStart, day, itemStart.TimeOfDay );
 
@@ -75,7 +75,7 @@ internal static class RecurringRuleCalculators
             if ( occurrence < viewStart || occurrence > viewEnd )
                 continue;
 
-            if ( endDate.HasValue && occurrence > endDate.Value )
+            if ( rule.EndDate.HasValue && occurrence > rule.EndDate.Value )
                 continue;
 
             yield return occurrence;
@@ -88,70 +88,70 @@ internal static class RecurringRuleCalculators
         }
     }
 
-    public static IEnumerable<DateTime> GetMonthlyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DateTime? endDate, int interval, int? byMonthDay, SchedulerMonthWeekPosition? byMonthWeek, DayOfWeek? byMonthWeekDay, int? count, DayOfWeek firstDayOfWeek )
+    public static IEnumerable<DateTime> GetMonthlyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DayOfWeek firstDayOfWeek, SchedulerRecurrenceRule rule )
     {
-        if ( interval <= 0 )
+        if ( rule.Interval <= 0 )
             yield break;
 
         DateTime firstOccurrence;
         int occurrenceCount = 0;
 
-        if ( byMonthDay.HasValue )
+        if ( rule.ByMonthDay.HasValue )
         {
             // First potential occurrence
-            firstOccurrence = new DateTime( itemStart.Year, itemStart.Month, byMonthDay.Value, itemStart.Hour, itemStart.Minute, itemStart.Second );
+            firstOccurrence = new DateTime( itemStart.Year, itemStart.Month, rule.ByMonthDay.Value, itemStart.Hour, itemStart.Minute, itemStart.Second );
 
             if ( firstOccurrence < itemStart )
                 firstOccurrence = firstOccurrence.AddMonths( 1 );
 
             int monthsBetween = ( ( viewStart.Year - firstOccurrence.Year ) * 12 ) + ( viewStart.Month - firstOccurrence.Month );
-            int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsBetween / (double)interval ) );
+            int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsBetween / (double)rule.Interval ) );
 
-            firstOccurrence = firstOccurrence.AddMonths( intervalsPassed * interval );
+            firstOccurrence = firstOccurrence.AddMonths( intervalsPassed * rule.Interval );
 
             occurrenceCount = intervalsPassed;
 
-            while ( firstOccurrence <= viewEnd && ( !count.HasValue || occurrenceCount < count ) && ( !endDate.HasValue || firstOccurrence <= endDate ) )
+            while ( firstOccurrence <= viewEnd && ( !rule.Count.HasValue || occurrenceCount < rule.Count ) && ( !rule.EndDate.HasValue || firstOccurrence <= rule.EndDate ) )
             {
                 if ( firstOccurrence >= viewStart )
                 {
                     yield return firstOccurrence;
                     occurrenceCount++;
 
-                    if ( count.HasValue && occurrenceCount >= count )
+                    if ( rule.Count.HasValue && occurrenceCount >= rule.Count )
                         yield break;
                 }
 
-                firstOccurrence = firstOccurrence.AddMonths( interval );
+                firstOccurrence = firstOccurrence.AddMonths( rule.Interval );
             }
         }
-        else if ( byMonthWeek.HasValue && byMonthWeekDay.HasValue )
+        else if ( rule.ByMonthWeek.HasValue && rule.ByMonthWeekDay.HasValue )
         {
             // Handle month-week-day based recurrences
             DateTime referenceDate = new DateTime( itemStart.Year, itemStart.Month, 1, itemStart.Hour, itemStart.Minute, itemStart.Second );
 
             int monthsBetween = ( ( viewStart.Year - referenceDate.Year ) * 12 ) + ( viewStart.Month - referenceDate.Month );
-            int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsBetween / (double)interval ) );
+            int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsBetween / (double)rule.Interval ) );
 
-            referenceDate = referenceDate.AddMonths( intervalsPassed * interval );
+            referenceDate = referenceDate.AddMonths( intervalsPassed * rule.Interval );
 
             occurrenceCount = intervalsPassed;
 
-            while ( referenceDate <= viewEnd && ( !count.HasValue || occurrenceCount < count ) && ( !endDate.HasValue || referenceDate <= endDate ) )
+            while ( referenceDate <= viewEnd && ( !rule.Count.HasValue || occurrenceCount < rule.Count ) && ( !rule.EndDate.HasValue || referenceDate <= rule.EndDate ) )
             {
-                DateTime calculatedDate = GetNthWeekdayOfMonth( referenceDate.Year, referenceDate.Month, byMonthWeek.Value, byMonthWeekDay.Value )
+                DateTime calculatedDate = GetNthWeekdayOfMonth( referenceDate.Year, referenceDate.Month, rule.ByMonthWeek.Value, rule.ByMonthWeekDay.Value )
                     .AddHours( itemStart.Hour ).AddMinutes( itemStart.Minute ).AddSeconds( itemStart.Second );
 
-                if ( calculatedDate >= viewStart && calculatedDate <= viewEnd && calculatedDate >= itemStart && ( !endDate.HasValue || calculatedDate <= endDate ) )
+                if ( calculatedDate >= viewStart && calculatedDate <= viewEnd && calculatedDate >= itemStart && ( !rule.EndDate.HasValue || calculatedDate <= rule.EndDate ) )
                 {
                     yield return calculatedDate;
                     occurrenceCount++;
 
-                    if ( count.HasValue && occurrenceCount >= count )
+                    if ( rule.Count.HasValue && occurrenceCount >= rule.Count )
                         yield break;
                 }
 
-                referenceDate = referenceDate.AddMonths( interval );
+                referenceDate = referenceDate.AddMonths( rule.Interval );
             }
         }
     }
