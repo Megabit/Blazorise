@@ -44,41 +44,44 @@ public static class RecurringRuleCalculators
         if ( rule.Interval < 1 )
             throw new ArgumentOutOfRangeException( nameof( rule.Interval ), "Interval must be 1 or more." );
 
-        if ( rule.ByDay == null || rule.ByDay.Count == 0 )
-            throw new ArgumentException( "At least one day must be specified in byDay.", nameof( rule.ByDay ) );
+        var daysOfWeek = ( rule.ByDay == null || rule.ByDay.Count == 0 )
+            ? new List<DayOfWeek> { itemStart.DayOfWeek }
+            : rule.ByDay;
 
         DateTime startWeek = itemStart.StartOfWeek( firstDayOfWeek );
         DateTime viewWeekStart = viewStart.StartOfWeek( firstDayOfWeek );
 
-        // How many full weeks between start and current view
         int weeksBetween = (int)Math.Floor( ( viewWeekStart - startWeek ).TotalDays / 7.0 );
         int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( weeksBetween / (double)rule.Interval ) );
 
-        // Calculate the next valid recurrence week
-        DateTime recurrenceWeekStart = startWeek.AddDays( intervalsPassed * rule.Interval * 7 );
+        // Define a sensible maximum to avoid infinite loops
+        int maxIterations = 99;
 
-        // Check if recurrence is beyond count
-        if ( rule.Count.HasValue && intervalsPassed >= rule.Count.Value )
-            yield break;
-
-        // Don't go beyond the view or endDate
-        if ( recurrenceWeekStart > viewEnd )
-            yield break;
-
-        foreach ( var day in rule.ByDay.OrderBy( d => d ) )
+        for ( int i = intervalsPassed; i < intervalsPassed + maxIterations; i++ )
         {
-            DateTime occurrence = GetDayInWeek( recurrenceWeekStart, day, itemStart.TimeOfDay );
+            DateTime recurrenceWeekStart = startWeek.AddDays( i * rule.Interval * 7 );
 
-            if ( occurrence < itemStart )
-                continue;
+            if ( rule.Count.HasValue && i >= rule.Count.Value )
+                yield break;
 
-            if ( occurrence < viewStart || occurrence > viewEnd )
-                continue;
+            if ( recurrenceWeekStart > viewEnd )
+                yield break;
 
-            if ( rule.EndDate.HasValue && occurrence > rule.EndDate.Value )
-                continue;
+            foreach ( var day in daysOfWeek.OrderBy( d => d ) )
+            {
+                DateTime occurrence = GetDayInWeek( recurrenceWeekStart, day, itemStart.TimeOfDay );
 
-            yield return occurrence;
+                if ( occurrence < itemStart )
+                    continue;
+
+                if ( occurrence < viewStart || occurrence > viewEnd )
+                    continue;
+
+                if ( rule.EndDate.HasValue && occurrence >= rule.EndDate.Value )
+                    continue;
+
+                yield return occurrence;
+            }
         }
 
         static DateTime GetDayInWeek( DateTime weekStart, DayOfWeek targetDay, TimeSpan time )
