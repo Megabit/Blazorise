@@ -55,14 +55,12 @@ public static class RecurringRuleCalculators
         int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( weeksBetween / (double)rule.Interval ) );
 
         // Define a sensible maximum to avoid infinite loops
+        int occurrencesCount = 0;
         int maxIterations = 99;
 
         for ( int i = intervalsPassed; i < intervalsPassed + maxIterations; i++ )
         {
             DateTime recurrenceWeekStart = startWeek.AddDays( i * rule.Interval * 7 );
-
-            if ( rule.Count.HasValue && i >= rule.Count.Value )
-                yield break;
 
             if ( recurrenceWeekStart > viewEnd )
                 yield break;
@@ -77,10 +75,14 @@ public static class RecurringRuleCalculators
                 if ( occurrence < viewStart || occurrence > viewEnd )
                     continue;
 
-                if ( rule.EndDate.HasValue && occurrence >= rule.EndDate.Value )
+                if ( rule.EndDate.HasValue && occurrence > rule.EndDate.Value )
                     continue;
 
                 yield return occurrence;
+
+                occurrencesCount++;
+                if ( rule.Count.HasValue && occurrencesCount >= rule.Count.Value )
+                    yield break;
             }
         }
 
