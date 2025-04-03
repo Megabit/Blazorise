@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Scheduler.Utilities;
 using Xunit;
@@ -222,5 +223,49 @@ public class SchedulerCalculatorTests
             x => Assert.Equal( new DateTime( 1997, 10, 2 ), x ),
             x => Assert.Equal( new DateTime( 1997, 10, 14 ), x ),
             x => Assert.Equal( new DateTime( 1997, 10, 16 ), x ) );
+    }
+
+    [Fact]
+    public void Monthly_on_the_first_Friday_for_10_occurrences()
+    {
+        var recurrenceRule = RecurringRuleParser.Parse( "FREQ=MONTHLY;COUNT=10;BYDAY=1FR" );
+
+        var result = RecurringRuleCalculators.GetMonthlyRecurringDates(
+            new DateTime( 1997, 9, 2 ),
+            new DateTime( 1997, 9, 2 ),
+            DateTime.MaxValue,
+            DayOfWeek.Sunday,
+            recurrenceRule ).ToArray();
+
+        Assert.Collection( result,
+            x => Assert.Equal( new DateTime( 1997, 9, 5 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 10, 3 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 11, 7 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 12, 5 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 1, 2 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 2, 6 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 3, 6 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 4, 3 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 5, 1 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 6, 5 ), x ) );
+    }
+
+    [Fact]
+    public void Monthly_on_the_first_Friday_until_December_24_1997()
+    {
+        var recurrenceRule = RecurringRuleParser.Parse( "FREQ=MONTHLY;UNTIL=19971224T000000Z;BYDAY=1FR" );
+
+        var result = RecurringRuleCalculators.GetMonthlyRecurringDates(
+            new DateTime( 1997, 9, 2 ),
+            new DateTime( 1997, 9, 2 ),
+            DateTime.MaxValue,
+            DayOfWeek.Sunday,
+            recurrenceRule ).ToArray();
+
+        Assert.Collection( result,
+            x => Assert.Equal( new DateTime( 1997, 9, 5 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 10, 3 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 11, 7 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 12, 5 ), x ) );
     }
 }
