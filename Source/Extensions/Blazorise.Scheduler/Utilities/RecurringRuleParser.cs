@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 #endregion
 
 namespace Blazorise.Scheduler.Utilities;
@@ -42,7 +43,6 @@ public static class RecurringRuleParser
         foreach ( var part in parts )
         {
             var kv = part.Split( '=', 2 );
-
             if ( kv.Length != 2 )
                 continue;
 
@@ -67,15 +67,6 @@ public static class RecurringRuleParser
                         rule.Interval = interval;
                     break;
 
-                case "BYDAY":
-                    rule.ByDay = value.Split( ',' ).Select( day =>
-                    {
-                        if ( DayMap.TryGetValue( day, out var dow ) )
-                            return dow;
-                        throw new NotSupportedException( $"Unsupported BYDAY value: {day}" );
-                    } ).ToList();
-                    break;
-
                 case "UNTIL":
                     if ( DateTime.TryParseExact(
                             value,
@@ -91,6 +82,56 @@ public static class RecurringRuleParser
                 case "COUNT":
                     if ( int.TryParse( value, out var count ) )
                         rule.Count = count;
+                    break;
+
+                case "BYMONTHDAY":
+                    {
+                        if ( int.TryParse( value, out var day ) )
+                            rule.ByMonthDay = day;
+                    }
+                    break;
+
+                case "BYDAY":
+                    {
+                        var entries = value.Split( ',', StringSplitOptions.RemoveEmptyEntries );
+                        foreach ( var entry in entries )
+                        {
+                            var match = Regex.Match( entry, @"^(?<prefix>[+-]?\d)?(?<day>[A-Z]{2})$" );
+                            if ( !match.Success )
+                                throw new FormatException( $"Invalid BYDAY value: {entry}" );
+
+                            var prefix = match.Groups["prefix"].Value;
+                            var dayStr = match.Groups["day"].Value;
+
+                            var day = dayStr switch
+                            {
+                                "MO" => DayOfWeek.Monday,
+                                "TU" => DayOfWeek.Tuesday,
+                                "WE" => DayOfWeek.Wednesday,
+                                "TH" => DayOfWeek.Thursday,
+                                "FR" => DayOfWeek.Friday,
+                                "SA" => DayOfWeek.Saturday,
+                                "SU" => DayOfWeek.Sunday,
+                                _ => throw new NotSupportedException( $"Unsupported day: {dayStr}" )
+                            };
+
+                            if ( !string.IsNullOrEmpty( prefix ) )
+                            {
+                                // Monthly with ordinal weekday: e.g., 1MO or -1FR
+                                if ( rule.Pattern == SchedulerRecurrencePattern.Monthly )
+                                {
+                                    rule.ByMonthWeek = (SchedulerMonthWeekPosition)int.Parse( prefix );
+                                    rule.ByMonthWeekDay = day;
+                                }
+                            }
+                            else
+                            {
+                                // Weekly pattern: collect multiple days
+                                rule.ByDay ??= new List<DayOfWeek>();
+                                rule.ByDay.Add( day );
+                            }
+                        }
+                    }
                     break;
             }
         }

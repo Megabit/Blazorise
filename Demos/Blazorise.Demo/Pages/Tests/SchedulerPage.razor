@@ -90,6 +90,7 @@
         {
             RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3"
             // RecurrenceRule = "FREQ=DAILY;INTERVAL=1;COUNT=10;"
+            // RecurrenceRule = "FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1;COUNT=2;"
         },
         new SchedulerAppointment( "Meeting with the client", "Discussing the new project", start.AddHours(4), start.AddHours(5) ),
         new SchedulerAppointment( "Test 1", "Test 1 desc", DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-2), true ),

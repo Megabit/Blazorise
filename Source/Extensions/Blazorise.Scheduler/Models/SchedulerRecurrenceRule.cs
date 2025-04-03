@@ -28,29 +28,47 @@ public class SchedulerRecurrenceRule
         if ( Interval > 1 )
             components.Add( $"INTERVAL={Interval}" );
 
-        if ( ByDay != null && ByDay.Any() )
-        {
-            var byDay = string.Join( ",", ByDay.Select( d => d switch
-            {
-                DayOfWeek.Monday => "MO",
-                DayOfWeek.Tuesday => "TU",
-                DayOfWeek.Wednesday => "WE",
-                DayOfWeek.Thursday => "TH",
-                DayOfWeek.Friday => "FR",
-                DayOfWeek.Saturday => "SA",
-                DayOfWeek.Sunday => "SU",
-                _ => throw new ArgumentOutOfRangeException()
-            } ) );
-            components.Add( $"BYDAY={byDay}" );
-        }
-
         if ( Count.HasValue )
             components.Add( $"COUNT={Count.Value}" );
         else if ( EndDate.HasValue )
             components.Add( $"UNTIL={EndDate.Value.ToUniversalTime():yyyyMMdd'T'HHmmss'Z'}" );
 
+        // BYDAY rule: weekly, or monthly by weekday
+        if ( Pattern == SchedulerRecurrencePattern.Weekly && ByDay?.Any() == true )
+        {
+            var byDay = string.Join( ",", ByDay.Select( DayToRfc5545 ) );
+            components.Add( $"BYDAY={byDay}" );
+        }
+        else if ( Pattern == SchedulerRecurrencePattern.Monthly && ByMonthWeek.HasValue && ByMonthWeekDay.HasValue )
+        {
+            var ordinal = ( (int)ByMonthWeek.Value ).ToString();
+            var day = DayToRfc5545( ByMonthWeekDay.Value );
+            components.Add( $"BYDAY={ordinal}{day}" );
+        }
+
+        // BYMONTHDAY rule: monthly by day number
+        if ( Pattern == SchedulerRecurrencePattern.Monthly && ByMonthDay.HasValue )
+        {
+            components.Add( $"BYMONTHDAY={ByMonthDay.Value}" );
+        }
+
         return string.Join( ";", components );
     }
+
+    /// <summary>
+    /// Converts a .NET DayOfWeek into RFC 5545 two-letter day code.
+    /// </summary>
+    private static string DayToRfc5545( DayOfWeek day ) => day switch
+    {
+        DayOfWeek.Monday => "MO",
+        DayOfWeek.Tuesday => "TU",
+        DayOfWeek.Wednesday => "WE",
+        DayOfWeek.Thursday => "TH",
+        DayOfWeek.Friday => "FR",
+        DayOfWeek.Saturday => "SA",
+        DayOfWeek.Sunday => "SU",
+        _ => throw new ArgumentOutOfRangeException( nameof( day ), $"Unsupported day: {day}" )
+    };
 
     #endregion
 
@@ -67,11 +85,6 @@ public class SchedulerRecurrenceRule
     public int Interval { get; set; } = 1;
 
     /// <summary>
-    /// A list of days of the week. It allows for specifying multiple days for scheduling or recurring events.
-    /// </summary>
-    public List<DayOfWeek> ByDay { get; set; }
-
-    /// <summary>
     /// Represents the optional end date of an event or period. It can hold a null value if no end date is specified.
     /// </summary>
     public DateTime? EndDate { get; set; }
@@ -80,6 +93,25 @@ public class SchedulerRecurrenceRule
     /// Defines how many total occurrences of the event should happen.
     /// </summary>
     public int? Count { get; set; }
+
+    #region Weekly Rules
+
+    /// <summary>
+    /// A list of days of the week. It allows for specifying multiple days for scheduling or recurring events.
+    /// </summary>
+    public List<DayOfWeek> ByDay { get; set; }
+
+    #endregion
+
+    #region Monthly Rules
+
+    public int? ByMonthDay { get; set; }
+
+    public SchedulerMonthWeekPosition? ByMonthWeek { get; set; }
+
+    public DayOfWeek? ByMonthWeekDay { get; set; }
+
+    #endregion
 
     #endregion
 }

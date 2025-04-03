@@ -672,11 +672,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         if ( rule.Pattern == SchedulerRecurrencePattern.Daily )
         {
-            return RecurringRuleUtils.GetDailyRecurringDates( start, viewStart, viewEnd, rule.Interval, rule.EndDate, rule.Count );
+            return RecurringRuleCalculators.GetDailyRecurringDates( start, viewStart, viewEnd, rule.Interval, rule.EndDate, rule.Count );
         }
         else if ( rule.Pattern == SchedulerRecurrencePattern.Weekly )
         {
-            return RecurringRuleUtils.GetWeeklyRecurringDates( start, viewStart, viewEnd, rule.EndDate, rule.Interval, rule.ByDay, rule.Count, FirstDayOfWeek );
+            return RecurringRuleCalculators.GetWeeklyRecurringDates( start, viewStart, viewEnd, rule.EndDate, rule.Interval, rule.ByDay, rule.Count, FirstDayOfWeek );
+        }
+        else if ( rule.Pattern == SchedulerRecurrencePattern.Monthly )
+        {
+            return RecurringRuleCalculators.GetMonthlyRecurringDates( start, viewStart, viewEnd, rule.EndDate, rule.Interval, rule.ByMonthDay, rule.ByMonthWeek, rule.ByMonthWeekDay, rule.Count, FirstDayOfWeek );
         }
 
         return Enumerable.Empty<DateTime>();
