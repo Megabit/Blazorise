@@ -30,7 +30,7 @@ public class SearchHelper
 
             return link.Strategy switch
             {
-                PathResolverStrategy.DirectoryNameToKebabCase =>  Path.Combine( link.SearchUrlBase, ToKebabCase(Path.GetFileName(Path.GetDirectoryName(normalizedFilePath)) ?? "") ),
+                PathResolverStrategy.DirectoryNameToKebabCase => Path.Combine( link.SearchUrlBase, ToKebabCase( Path.GetFileName( Path.GetDirectoryName( normalizedFilePath ) ) ?? "" ) ),
                 PathResolverStrategy.Default => link.SearchUrlBase,
                 _ => link.SearchUrlBase
             };
@@ -60,18 +60,15 @@ public class SearchHelper
         Default, // Use the base URL only
         DirectoryNameToKebabCase // Append the containing folder name to the base URL // Append the type name to the base URL
     }
-    
-    
-    //FileEdit -> file-edit
-    static string ToKebabCase(string input) =>
-        string.Concat(
-        input.Select((c, i) =>
-        char.IsUpper(c)
-            ? (i > 0 ? "-" : "") + char.ToLowerInvariant(c)
-            : c.ToString()
-        )
-        );
 
+    //FileEdit -> file-edit
+    static string ToKebabCase( string input ) =>
+        string.Concat(
+        input.Select( ( c, i ) =>
+        char.IsUpper( c )
+            ? ( i > 0 ? "-" : "" ) + char.ToLowerInvariant( c )
+            : c.ToString()
+        ) );
 }
 
 public record SearchPathMapping( string Segment, string SearchUrlBase, SearchHelper.PathResolverStrategy Strategy = SearchHelper.PathResolverStrategy.Default );
