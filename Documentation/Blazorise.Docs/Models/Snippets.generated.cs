@@ -9747,8 +9747,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
-        public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
-
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
@@ -9779,6 +9777,20 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 </Div>";
 
         public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
+
+        public const string IconsNugetInstallExample = @"Install-Package Blazorise.Icons.Bootstrap
+
+or
+
+Install-Package Blazorise.Icons.FluentUI
+
+or
+
+Install-Package Blazorise.Icons.FontAwesome
+
+or
+
+Install-Package Blazorise.Icons.Material";
 
         public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />";
 
