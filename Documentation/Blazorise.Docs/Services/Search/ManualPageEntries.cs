@@ -29,7 +29,7 @@ public static class ManualPageEntries
     new( "docs/components/date-edit", "Date Edit", "DateEdit is an input field that allows the user to enter a date by typing or by selecting from a calendar overlay." ),
     new( "docs/components/date-picker", "Date Picker", "DatePicker is an input field that allows the user to enter a date by typing or by selecting from a calendar overlay." ),
     new( "docs/components/divider", "Divider", "Dividers are used to visually separate or group elements." ),
-    new( "docs/components/dragdrop", "Drag & Drop", "Quickly drag and drop elements between the containers." ),
+    new( "docs/components/drag-drop", "Drag & Drop", "Quickly drag and drop elements between the containers." ),
     new( "docs/components/dropdown", "Dropdown", "Dropdowns expose additional content that \"drops down\" in a menu." ),
     new( "docs/components/field", "Field", "A generic container used to properly layout input elements on a form." ),
     new( "docs/components/figure", "Figure", "Documentation and examples for displaying related images and text with the figure component in Blazorise." ),
