@@ -16,7 +16,7 @@ public partial class Highlighter : BaseComponent
 {
     #region Members
 
-    IEnumerable<string> fragments;
+    IEnumerable<Fragment> fragments;
     private List<string> allHighlightedTexts= new();
 
     #endregion
@@ -30,27 +30,29 @@ public partial class Highlighter : BaseComponent
         fragments = GetFragments( Text,allHighlightedTexts, CaseSensitive, UntilNextBoundary, NextBoundary );
     }
 
-    static IEnumerable<string> GetFragments( string text, List<string> highlightedTexts, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null)
+    static IEnumerable<Fragment> GetFragments( string text, List<string> highlightedTexts, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return new List<string>();
+            return new List<Fragment>();
 
         if (highlightedTexts == null || highlightedTexts.Count == 0 || highlightedTexts.All(string.IsNullOrWhiteSpace))
-            return new List<string> { text };
+            return new List<Fragment> { new(text, false) };
 
         var escaped = highlightedTexts
                       .Where(s => !string.IsNullOrWhiteSpace(s))
                       .Select(Regex.Escape).ToList();
 
-        string pattern = untilNextBoundary && !string.IsNullOrEmpty(nextBoundary) 
+        string pattern = untilNextBoundary
           ? string.Join("|", escaped.Select(h => h + nextBoundary))
           : string.Join("|", escaped);
 
-        var options = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+        
+        var regex = new Regex($"({pattern})", caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
 
-        return Regex
-               .Split(text, $"({pattern})", options)
-               .Where(s => !string.IsNullOrEmpty(s));
+        return regex
+               .Split(text)
+               .Where(s => !string.IsNullOrEmpty(s))
+               .Select(s => new Fragment(s, regex.IsMatch(s)));;
     }
 
     #endregion
@@ -88,4 +90,7 @@ public partial class Highlighter : BaseComponent
     [Parameter] public bool UntilNextBoundary { get; set; }
 
     #endregion
+    
+    record Fragment(string Text, bool IsMatch);
+
 }
