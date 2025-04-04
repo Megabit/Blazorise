@@ -128,7 +128,7 @@ public class StringHelpers
         if ( typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType )
         {
             var baseName = typeMap.ContainsKey( genericType.Name ) ? typeMap[genericType.Name] : genericType.Name;
-            if ( withoutGenerics )
+            if ( withoutGenerics || genericType.Name.Contains( "ValueTuple" ) )
                 return baseName;
             var typeArguments = string.Join( ", ", genericType.TypeArguments.Select( x => GetSimplifiedTypeName( x ) ) );
             return $"{baseName}<{typeArguments}>";
