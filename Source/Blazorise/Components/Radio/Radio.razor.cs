@@ -149,6 +149,13 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue>, IDisposable
     protected Color ButtonColor => Color ?? ParentRadioGroup?.Color ?? Color.Secondary;
 
     /// <summary>
+    /// Determines if the radio button is in active state.
+    /// </summary>
+    protected bool IsActive => ParentRadioGroup is not null
+        ? ParentRadioGroup.Value.IsEqual( Value )
+        : Checked;
+
+    /// <summary>
     /// Sets the radio group name.
     /// </summary>
     [Parameter]

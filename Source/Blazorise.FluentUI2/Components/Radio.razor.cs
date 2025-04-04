@@ -55,7 +55,7 @@ public partial class Radio<TValue>
     {
         builder.Append( ClassProvider.Button( false ) );
         builder.Append( ClassProvider.ButtonColor( ButtonColor, false ) );
-        builder.Append( ClassProvider.ButtonActive( false, Checked ) );
+        builder.Append( ClassProvider.ButtonActive( false, IsActive ) );
         builder.Append( ClassProvider.ButtonDisabled( false, Disabled ) );
     }
 
