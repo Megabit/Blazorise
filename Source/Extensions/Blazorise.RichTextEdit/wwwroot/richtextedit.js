@@ -136,12 +136,22 @@ export function setReadOnly(editorRef, readOnly) {
         editor.enable();
 }
 
-export function getHtml(editorRef) {
+
+export function getHtml(editorRef, getHtmlOptions) {
     const editor = editorRef.quill;
     if (!editor)
         return undefined;
-    return editor.getSemanticHTML();
+
+    if (getHtmlOptions.isSemanticHtml) {
+        if (getHtmlOptions.length != null) {
+            return editor.getSemanticHTML(getHtmlOptions.index, getHtmlOptions.length);
+        }
+        return editor.getSemanticHTML(getHtmlOptions.index);
+    }
+
+    return editor.root.innerHTML;
 }
+
 
 export function setHtml(editorRef, html) {
     const editor = editorRef.quill;

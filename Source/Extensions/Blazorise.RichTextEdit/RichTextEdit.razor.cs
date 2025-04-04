@@ -72,15 +72,18 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <summary>
     /// Gets the editor content as HTML asynchronously.
     /// </summary>
+    /// <param name="getHtmlOptions">Options to control how the HTML is retrieved, such as semantic HTML, index and length.</param>
     /// <returns>A <see cref="ValueTask{TResult}"/> representing the asynchronous operation, containing the HTML content of the editor.</returns>
-    public async ValueTask<string> GetHtmlAsync()
+    public async ValueTask<string> GetHtmlAsync( RichTextEditGetHtmlOptions getHtmlOptions = null )
     {
+        getHtmlOptions ??= RichTextEditGetHtmlOptions.SemanticHtml();
+
         if ( Rendered )
         {
-            return await JSModule.GetHtmlAsync( EditorRef );
+            return await JSModule.GetHtmlAsync( EditorRef, getHtmlOptions );
         }
 
-        return await ExecuteAfterRender( async () => await JSModule.GetHtmlAsync( EditorRef ) );
+        return await ExecuteAfterRender( async () => await JSModule.GetHtmlAsync( EditorRef, getHtmlOptions ) );
     }
 
     /// <summary>

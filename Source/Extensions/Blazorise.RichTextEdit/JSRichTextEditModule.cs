@@ -93,8 +93,8 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     /// <summary>
     /// Gets the editor content as html asynchronous.
     /// </summary>
-    public ValueTask<string> GetHtmlAsync( ElementReference editorRef )
-        => InvokeSafeAsync<string>( "getHtml", editorRef );
+    public ValueTask<string> GetHtmlAsync( ElementReference editorRef, RichTextEditGetHtmlOptions getHtmlOptions )
+        => InvokeSafeAsync<string>( "getHtml", editorRef, getHtmlOptions );
 
     /// <summary>
     /// Sets the editor content as Quill delta json asynchronous.
