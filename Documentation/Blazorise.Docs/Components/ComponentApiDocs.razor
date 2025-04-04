@@ -47,7 +47,11 @@
     /// Defines the name of the subcategory, or a sub folder within the Blazorise source that will be part of the search critera.
     /// </summary>
     [Parameter] public string Subcategory { get; set; }
-
+    
+    /// <summary>
+    ///  Defines the specific component to be used
+    /// </summary>
+    [Parameter] public ApiDocsForComponent ApiDocsForComponent { get; set; }
 
     IReadOnlyList<ApiDocsForComponent> apiDocsForComponents;
     List<ApiDocsForComponent> apiDocsForComponentsMethods;
@@ -56,7 +60,9 @@
 
     protected override void OnInitialized()
     {
-        apiDocsForComponents = Category is not null
+        apiDocsForComponents = ApiDocsForComponent is not null
+        ? [ApiDocsForComponent]
+        : Category is not null
             ? ComponentsApiDocsSource.Instance.Components.Where( x => x.Value.Category == Category && x.Value.Subcategory == Subcategory ).Select( x => x.Value ).ToList()
             : ComponentTypes.Select( x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault( x ) ).Where( x => x is not null ).ToList();
         hasComponentTypes = apiDocsForComponents.Any();

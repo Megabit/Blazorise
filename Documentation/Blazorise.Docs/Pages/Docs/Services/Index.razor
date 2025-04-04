@@ -1,4 +1,5 @@
 ﻿@page "/docs/services"
+@using Blazorise.Docs.Services.Search
 
 <Seo Canonical="/docs/services" Title="Blazorise services" Description="Learn about Blazorise UI services and how to properly install and use them to build your Blazor single page application." />
 
@@ -11,22 +12,10 @@
 </DocsPageLead>
 
 <Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
-    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/services" ) && !string.IsNullOrEmpty( x.Description ) ) )
+    @foreach ( var info in ManualPageEntries.WithDescriptionAndUrl( "docs/services" ) )
     {
         <Column Margin="Margin.Is3.FromBottom">
             <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
         </Column>
     }
 </Row>
-@code {
-    public IEnumerable<PageEntry> PageEntries;
-
-    [Inject] public PageEntryData PageEntriesData { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        PageEntries = await PageEntriesData.GetDataAsync();
-
-        await base.OnInitializedAsync();
-    }
-}
