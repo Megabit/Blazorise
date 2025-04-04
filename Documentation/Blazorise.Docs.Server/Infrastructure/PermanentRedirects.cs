@@ -6,11 +6,11 @@ static class PermanentRedirects
 {
     public static readonly Dictionary<string, string> Map = new()
     {
-        ["/docs/components/date"] = "/docs/components/dateedit",
-        ["/docs/components/file"] = "/docs/components/fileedit",
-        ["/docs/components/memo"] = "/docs/components/memoedit",
+        ["/docs/components/date"] = "/docs/components/date-edit",
+        ["/docs/components/file"] = "/docs/components/file-edit",
+        ["/docs/components/memo"] = "/docs/components/memo-edit",
         ["/docs/components/numeric"] = "/docs/components/numericedit",
-        ["/docs/components/text"] = "/docs/components/textedit",
-        ["/docs/components/time"] = "/docs/components/timeedit",
+        ["/docs/components/text"] = "/docs/components/text-edit",
+        ["/docs/components/time"] = "/docs/components/time-edit",
     };
 }

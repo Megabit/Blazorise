@@ -77,7 +77,7 @@ The `object-fit` CSS property sets how the content of a replaced element, such a
 
 ## Truncate text with ellipsis
 
-If you have a [TextEdit](docs/components/textedit) or [FieldLabel](docs/components/field) Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit. 
+If you have a [TextEdit](docs/components/text-edit) or [FieldLabel](docs/components/field) Component, you truncate the text content to limit the number of words so it does not expand beyond a certain limit. 
 
 ```css
 .truncate {
