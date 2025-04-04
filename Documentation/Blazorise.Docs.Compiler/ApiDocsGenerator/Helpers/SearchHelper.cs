@@ -30,7 +30,7 @@ public class SearchHelper
 
             return link.Strategy switch
             {
-                PathResolverStrategy.DirectoryName => Path.Combine( link.SearchUrlBase, Path.GetFileName( Path.GetDirectoryName( normalizedFilePath ) )?.ToLower() ?? "" ),
+                PathResolverStrategy.DirectoryNameToKebabCase =>  Path.Combine( link.SearchUrlBase, ToKebabCase(Path.GetFileName(Path.GetDirectoryName(normalizedFilePath)) ?? "") ),
                 PathResolverStrategy.Default => link.SearchUrlBase,
                 _ => link.SearchUrlBase
             };
@@ -48,7 +48,7 @@ public class SearchHelper
 
     static readonly List<SearchPathMapping> PathToSearchUrlsMap =
     [
-        new( "Source/Blazorise/Components/", "docs/components/" , PathResolverStrategy.DirectoryName),
+        new( "Source/Blazorise/Components/", "docs/components/" , PathResolverStrategy.DirectoryNameToKebabCase),
         new( "Source/Blazorise/Themes/Colors/", "docs/theming/api/colors" ),
         new( "Source/Blazorise/Themes/Options/", "docs/theming/api/options" ),
         new( "Source/Blazorise/Themes/Palettes/", "docs/theming/api/palettes" ),
@@ -58,8 +58,20 @@ public class SearchHelper
     public enum PathResolverStrategy
     {
         Default, // Use the base URL only
-        DirectoryName // Append the containing folder name to the base URL // Append the type name to the base URL
+        DirectoryNameToKebabCase // Append the containing folder name to the base URL // Append the type name to the base URL
     }
+    
+    
+    //FileEdit -> file-edit
+    static string ToKebabCase(string input) =>
+        string.Concat(
+        input.Select((c, i) =>
+        char.IsUpper(c)
+            ? (i > 0 ? "-" : "") + char.ToLowerInvariant(c)
+            : c.ToString()
+        )
+        );
+
 }
 
 public record SearchPathMapping( string Segment, string SearchUrlBase, SearchHelper.PathResolverStrategy Strategy = SearchHelper.PathResolverStrategy.Default );

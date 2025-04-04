@@ -12,5 +12,6 @@ static class PermanentRedirects
         ["/docs/components/numeric"] = "/docs/components/numeric-edit",
         ["/docs/components/text"] = "/docs/components/text-edit",
         ["/docs/components/time"] = "/docs/components/time-edit",
+        ["/docs/components/color"] = "/docs/components/color-edit",
     };
 }
