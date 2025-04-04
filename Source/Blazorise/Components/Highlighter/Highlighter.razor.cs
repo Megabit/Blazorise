@@ -1,4 +1,6 @@
 ﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,7 +16,8 @@ public partial class Highlighter : BaseComponent
 {
     #region Members
 
-    IEnumerable<string> fragments;
+    IEnumerable<Fragment> fragments;
+    private List<string> allHighlightedTexts= new();
 
     #endregion
 
@@ -23,31 +26,33 @@ public partial class Highlighter : BaseComponent
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
-        fragments = GetFragments( Text, HighlightedText, CaseSensitive, UntilNextBoundary, NextBoundary );
+        allHighlightedTexts = new List<string>(HighlightedTexts ?? Enumerable.Empty<string>()) { HighlightedText };
+        fragments = GetFragments( Text,allHighlightedTexts, CaseSensitive, UntilNextBoundary, NextBoundary );
     }
 
-    private static IEnumerable<string> GetFragments( string text, string highlightedText, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null )
+    static IEnumerable<Fragment> GetFragments( string text, List<string> highlightedTexts, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null)
     {
-        if ( string.IsNullOrWhiteSpace( text ) )
-        {
-            return new List<string>();
-        }
+        if (string.IsNullOrWhiteSpace(text))
+            return new List<Fragment>();
 
-        if ( string.IsNullOrWhiteSpace( highlightedText ) )
-        {
-            return new List<string> { text };
-        }
+        if (highlightedTexts == null || highlightedTexts.Count == 0 || highlightedTexts.All(string.IsNullOrWhiteSpace))
+            return new List<Fragment> { new(text, false) };
 
-        highlightedText = Regex.Escape( highlightedText );
+        var escaped = highlightedTexts
+                      .Where(s => !string.IsNullOrWhiteSpace(s))
+                      .Select(Regex.Escape).ToList();
 
-        if ( untilNextBoundary )
-        {
-            highlightedText += nextBoundary;
-        }
+        string pattern = untilNextBoundary
+          ? string.Join("|", escaped.Select(h => h + nextBoundary))
+          : string.Join("|", escaped);
 
-        return Regex
-            .Split( text, $"({highlightedText})", caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase )
-            .Where( s => !string.IsNullOrEmpty( s ) );
+        
+        var regex = new Regex($"({pattern})", caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
+
+        return regex
+               .Split(text)
+               .Where(s => !string.IsNullOrEmpty(s))
+               .Select(s => new Fragment(s, regex.IsMatch(s)));;
     }
 
     #endregion
@@ -63,6 +68,11 @@ public partial class Highlighter : BaseComponent
     /// The search term to be highlighted.
     /// </summary>
     [Parameter] public string HighlightedText { get; set; }
+    
+    /// <summary>
+    /// Array of search terms to be highlighted.
+    /// </summary>
+    [Parameter] public List<string> HighlightedTexts { get; set; }
 
     /// <summary>
     /// Whether or not the search term will be case sensitive.
@@ -80,4 +90,7 @@ public partial class Highlighter : BaseComponent
     [Parameter] public bool UntilNextBoundary { get; set; }
 
     #endregion
+    
+    record Fragment(string Text, bool IsMatch);
+
 }
