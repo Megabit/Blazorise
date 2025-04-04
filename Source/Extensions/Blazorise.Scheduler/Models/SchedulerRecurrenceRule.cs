@@ -46,10 +46,11 @@ public class SchedulerRecurrenceRule
             components.Add( $"BYDAY={ordinal}{day}" );
         }
 
-        // BYMONTHDAY rule: monthly by day number
-        if ( Pattern == SchedulerRecurrencePattern.Monthly && ByMonthDay.HasValue )
+        // BYMONTHDAY rule: monthly by date(s) of month
+        if ( Pattern == SchedulerRecurrencePattern.Monthly && ByMonthDay?.Any() == true )
         {
-            components.Add( $"BYMONTHDAY={ByMonthDay.Value}" );
+            var byMonthDay = string.Join( ",", ByMonthDay );
+            components.Add( $"BYMONTHDAY={byMonthDay}" );
         }
 
         return string.Join( ";", components );
@@ -105,7 +106,7 @@ public class SchedulerRecurrenceRule
 
     #region Monthly Rules
 
-    public int? ByMonthDay { get; set; }
+    public List<int> ByMonthDay { get; set; }
 
     public SchedulerMonthWeekPosition? ByMonthWeek { get; set; }
 

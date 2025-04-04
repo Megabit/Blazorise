@@ -32,11 +32,7 @@ public static class RecurringRuleParser
     /// <exception cref="NotSupportedException">Thrown when an unsupported frequency or BYDAY value is encountered.</exception>
     public static SchedulerRecurrenceRule Parse( string rrule )
     {
-        var rule = new SchedulerRecurrenceRule
-        {
-            Interval = 1,
-            ByDay = new List<DayOfWeek>()
-        };
+        var rule = new SchedulerRecurrenceRule();
 
         var parts = rrule.Split( ';', StringSplitOptions.RemoveEmptyEntries );
 
@@ -86,8 +82,20 @@ public static class RecurringRuleParser
 
                 case "BYMONTHDAY":
                     {
-                        if ( int.TryParse( value, out var day ) )
-                            rule.ByMonthDay = day;
+                        var days = value.Split( ',', StringSplitOptions.RemoveEmptyEntries );
+
+                        foreach ( var dayStr in days )
+                        {
+                            if ( int.TryParse( dayStr, out var day ) )
+                            {
+                                rule.ByMonthDay ??= new List<int>();
+                                rule.ByMonthDay.Add( day );
+                            }
+                            else
+                            {
+                                throw new FormatException( $"Invalid BYMONTHDAY value: {dayStr}" );
+                            }
+                        }
                     }
                     break;
 

@@ -101,10 +101,18 @@ public static class RecurringRuleCalculators
         DateTime firstOccurrence;
         int occurrenceCount = 0;
 
-        if ( rule.ByMonthDay.HasValue )
+        if ( rule.ByMonthDay?.Any() == true )
         {
-            // First potential occurrence
-            firstOccurrence = new DateTime( itemStart.Year, itemStart.Month, rule.ByMonthDay.Value, itemStart.Hour, itemStart.Minute, itemStart.Second );
+            // Use the first defined day to anchor the month logic, like before
+            var firstDay = rule.ByMonthDay.First();
+            int firstDayResolved = firstDay > 0
+                ? firstDay
+                : DateTime.DaysInMonth( itemStart.Year, itemStart.Month ) + firstDay + 1;
+
+            if ( firstDayResolved < 1 || firstDayResolved > DateTime.DaysInMonth( itemStart.Year, itemStart.Month ) )
+                yield break;
+
+            firstOccurrence = new DateTime( itemStart.Year, itemStart.Month, firstDayResolved, itemStart.Hour, itemStart.Minute, itemStart.Second );
 
             if ( firstOccurrence < itemStart )
                 firstOccurrence = firstOccurrence.AddMonths( 1 );
@@ -113,18 +121,32 @@ public static class RecurringRuleCalculators
             int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsBetween / (double)rule.Interval ) );
 
             firstOccurrence = firstOccurrence.AddMonths( intervalsPassed * rule.Interval );
-
             occurrenceCount = intervalsPassed;
 
-            while ( firstOccurrence <= viewEnd && ( !rule.Count.HasValue || occurrenceCount < rule.Count ) && ( !rule.EndDate.HasValue || firstOccurrence <= rule.EndDate ) )
+            while ( firstOccurrence <= viewEnd &&
+                    ( !rule.Count.HasValue || occurrenceCount < rule.Count ) &&
+                    ( !rule.EndDate.HasValue || firstOccurrence <= rule.EndDate ) )
             {
-                if ( firstOccurrence >= viewStart )
-                {
-                    yield return firstOccurrence;
-                    occurrenceCount++;
+                int daysInMonth = DateTime.DaysInMonth( firstOccurrence.Year, firstOccurrence.Month );
 
-                    if ( rule.Count.HasValue && occurrenceCount >= rule.Count )
-                        yield break;
+                foreach ( var day in rule.ByMonthDay )
+                {
+                    int actualDay = day > 0 ? day : daysInMonth + day + 1;
+
+                    if ( actualDay >= 1 && actualDay <= daysInMonth )
+                    {
+                        var occurrence = new DateTime( firstOccurrence.Year, firstOccurrence.Month, actualDay, itemStart.Hour, itemStart.Minute, itemStart.Second );
+
+                        if ( occurrence >= itemStart && occurrence >= viewStart && occurrence <= viewEnd &&
+                             ( !rule.EndDate.HasValue || occurrence <= rule.EndDate ) )
+                        {
+                            yield return occurrence;
+
+                            occurrenceCount++;
+                            if ( rule.Count.HasValue && occurrenceCount >= rule.Count )
+                                yield break;
+                        }
+                    }
                 }
 
                 firstOccurrence = firstOccurrence.AddMonths( rule.Interval );
