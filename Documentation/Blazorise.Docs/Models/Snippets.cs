@@ -19,16 +19,4 @@ public static partial class Snippets
         return (string)field.GetValue( null );
     }
 
-    public const string GlobalLocalizationExample = @"services
-    .AddBlazorise( options =>
-    {
-        options.ValidationMessageLocalizer = ( message, arguments ) =>
-        {
-            var stringLocalizer = options.Services.GetService<ITextLocalizer<YourResourceName>>();
-
-            return stringLocalizer != null && arguments?.Count() > 0
-                ? string.Format( stringLocalizer[message], arguments.ToArray() )
-                : message;
-        };
-    } );";
 }
