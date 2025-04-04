@@ -12,9 +12,9 @@ public partial class FieldLabel : BaseSizableFieldComponent
 {
     #region Members
 
-    private Screenreader screenreader = Screenreader.Always;
-    
     private bool requiredIndicator;
+
+    private Screenreader screenreader = Screenreader.Always;
 
     #endregion
 
@@ -49,11 +49,10 @@ public partial class FieldLabel : BaseSizableFieldComponent
         set
         {
             requiredIndicator = value;
-            
+
             DirtyClasses();
         }
     }
-
 
     /// <summary>
     /// Defines the visibility for screen readers.
