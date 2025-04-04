@@ -207,13 +207,12 @@ public class ComponentsApiDocsGenerator
             Category: typeQualification.Category,
             Subcategory: typeQualification.Subcategory,
             SearchUrl: searchHelper.GetSearchUrl( type ),
-            Summary: 
+            Summary:
             $"""" 
                     $"""
-                    { StringHelpers.ExtractFromXmlComment( type,ExtractorParts.Summary ) }
+                    {StringHelpers.ExtractFromXmlComment( type, ExtractorParts.Summary )}
                     """
              """"
-           
             );
         }
     }
@@ -357,7 +356,7 @@ public class ComponentsApiDocsGenerator
                                              new List<Type>{  
                                              {{comp.InheritsFromChain.Select( x => $"typeof({x})" ).StringJoin( "," )}}
                                              },
-                                             {{comp.Summary }}
+                                             {{comp.Summary}}
                                              
                                              {{( comp.Category is null ? "" : $""","{comp.Category}" {( comp.Subcategory is null ? "" : $""", "{comp.Subcategory}" """ )} """ )}}
                                              {{( string.IsNullOrWhiteSpace( comp.SearchUrl ) ? "" : $""", searchUrl:"{comp.SearchUrl}" """ )}}

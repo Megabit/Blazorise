@@ -32,7 +32,7 @@ public class ApiDocsForComponent
     }
 
     public string SearchUrl { get; }
-    
+
     public string Summary { get; set; }
 
     public string Type { get; }

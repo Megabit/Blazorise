@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Docs.Models;
 using Blazorise.Docs.Models.ApiDocsDtos;
-using Blazorise.Shared.Models;
 
 namespace Blazorise.Docs.Services.Search;
 
@@ -32,8 +31,7 @@ public class SearchEntriesProvider
                 fromComponentEntries.Add( new PageEntry( comp.SearchUrl, comp.TypeName ) );
             }
 
-            var entriesForComp = comp.AllApiDocsRecords
-                                     .Select( x => PageEntry.GetDocsPageEntryForParams( comp, x ) );
+            var entriesForComp = comp.AllApiDocsRecords.Select( x => PageEntry.GetDocsPageEntryForParams( comp, x ) );
 
             fromComponentEntries.AddRange( entriesForComp );
         }

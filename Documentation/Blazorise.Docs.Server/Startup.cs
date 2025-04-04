@@ -144,13 +144,13 @@ public class Startup
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
         app.MapGet( "/feed.rss", SeoGenerator.GenerateRssFeed );
-        
+
         //permanent redirects
-        app.Use(async (context, next) =>
+        app.Use( async ( context, next ) =>
         {
             var path = context.Request.Path.Value?.ToLowerInvariant();
 
-            if (path is not null && PermanentRedirects.Map.TryGetValue(path, out var newPath))
+            if ( path is not null && PermanentRedirects.Map.TryGetValue( path, out var newPath ) )
             {
                 context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
                 context.Response.Headers.Location = newPath;
@@ -158,7 +158,6 @@ public class Startup
             }
 
             await next();
-        });
-        
+        } );
     }
 }

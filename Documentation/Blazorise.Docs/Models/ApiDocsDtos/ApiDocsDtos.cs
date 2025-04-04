@@ -130,11 +130,10 @@ public class ApiDocsForComponent
         .Concat( Events )
         .Concat( Methods );
 
-
     public Type Type { get; set; }
 
     public string TypeName { get; }
-    
+
     public string Summary { get; }
 
     public string Category { get; }
@@ -147,7 +146,6 @@ public class ApiDocsForComponent
     /// Only methods from the component, not from parents
     /// </summary>
     public IReadOnlyList<ApiDocsForComponentMethod> OwnMethods { get; }
-
 
     //chain of inherited classes from component to BaseComponent
     public IReadOnlyList<Type> InheritsFromChain { get; }
