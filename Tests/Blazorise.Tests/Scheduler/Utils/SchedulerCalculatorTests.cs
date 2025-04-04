@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AngleSharp.Dom.Events;
 using Blazorise.Scheduler.Utilities;
 using Xunit;
 
@@ -311,5 +312,33 @@ public class SchedulerCalculatorTests
             x => Assert.Equal( new DateTime( 1997, 12, 15 ), x ),
             x => Assert.Equal( new DateTime( 1998, 1, 2 ), x ),
             x => Assert.Equal( new DateTime( 1998, 1, 15 ), x ) );
+    }
+
+    [Fact]
+    public void Every_Tuesday_every_other_month()
+    {
+        var recurrenceRule = RecurringRuleParser.Parse( "FREQ=MONTHLY;INTERVAL=2;COUNT=13;BYDAY=TU" );
+
+        var result = RecurringRuleCalculators.GetMonthlyRecurringDates(
+            new DateTime( 1997, 9, 2 ),
+            new DateTime( 1997, 9, 2 ),
+            DateTime.MaxValue,
+            DayOfWeek.Sunday,
+            recurrenceRule ).ToArray();
+
+        Assert.Collection( result,
+            x => Assert.Equal( new DateTime( 1997, 9, 2 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 9 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 16 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 23 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 9, 30 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 11, 4 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 11, 11 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 11, 18 ), x ),
+            x => Assert.Equal( new DateTime( 1997, 11, 25 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 1, 6 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 1, 13 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 1, 20 ), x ),
+            x => Assert.Equal( new DateTime( 1998, 1, 27 ), x ) );
     }
 }

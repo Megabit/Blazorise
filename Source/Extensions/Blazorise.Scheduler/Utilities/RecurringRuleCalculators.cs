@@ -181,6 +181,44 @@ public static class RecurringRuleCalculators
                 referenceDate = referenceDate.AddMonths( rule.Interval );
             }
         }
+        else if ( rule.ByDay?.Any() == true )
+        {
+            firstOccurrence = new DateTime( itemStart.Year, itemStart.Month, itemStart.Day, itemStart.Hour, itemStart.Minute, itemStart.Second );
+
+            if ( firstOccurrence < itemStart )
+                firstOccurrence = firstOccurrence.AddMonths( 1 );
+
+            int monthsBetween = ( ( viewStart.Year - firstOccurrence.Year ) * 12 ) + ( viewStart.Month - firstOccurrence.Month );
+            int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( monthsBetween / (double)rule.Interval ) );
+
+            firstOccurrence = firstOccurrence.AddMonths( intervalsPassed * rule.Interval );
+            occurrenceCount = intervalsPassed;
+
+            while ( firstOccurrence <= viewEnd &&
+                    ( !rule.Count.HasValue || occurrenceCount < rule.Count ) &&
+                    ( !rule.EndDate.HasValue || firstOccurrence <= rule.EndDate ) )
+            {
+                int daysInMonth = DateTime.DaysInMonth( firstOccurrence.Year, firstOccurrence.Month );
+
+                for ( int day = 1; day <= daysInMonth; day++ )
+                {
+                    var occurrence = new DateTime( firstOccurrence.Year, firstOccurrence.Month, day, itemStart.Hour, itemStart.Minute, itemStart.Second );
+
+                    if ( rule.ByDay.Contains( occurrence.DayOfWeek ) &&
+                         occurrence >= itemStart && occurrence >= viewStart && occurrence <= viewEnd &&
+                         ( !rule.EndDate.HasValue || occurrence <= rule.EndDate ) )
+                    {
+                        yield return occurrence;
+
+                        occurrenceCount++;
+                        if ( rule.Count.HasValue && occurrenceCount >= rule.Count )
+                            yield break;
+                    }
+                }
+
+                firstOccurrence = firstOccurrence.AddMonths( rule.Interval );
+            }
+        }
     }
 
     // Helper to calculate the nth weekday of a month
