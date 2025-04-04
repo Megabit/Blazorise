@@ -14,12 +14,12 @@
     // Ant design doesn't have appearance for custom radio button colors.
     // So for now I will skip support for it until I find a good way.
     string WrapperClassNames => AsButton == true
-        ? $"ant-radio-button-wrapper{( Checked ? " ant-radio-button-wrapper-checked" : "" )}"
-        : $"ant-radio-wrapper{( Checked ? " ant-radio-wrapper-checked" : "" )}";
+        ? $"ant-radio-button-wrapper{( IsActive ? " ant-radio-button-wrapper-checked" : "" )}"
+        : $"ant-radio-wrapper{( IsActive ? " ant-radio-wrapper-checked" : "" )}";
 
     string CheckboxClassNames => AsButton == true
-        ? $"ant-radio-button{( Checked ? " ant-radio-button-checked" : "" )}"
-        : $"ant-radio{( Checked ? " ant-radio-checked" : "" )}";
+        ? $"ant-radio-button{( IsActive ? " ant-radio-button-checked" : "" )}"
+        : $"ant-radio{( IsActive ? " ant-radio-checked" : "" )}";
 
     string InnerClassNames => AsButton == true
         ? "ant-radio-button-inner"

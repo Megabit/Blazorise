@@ -1,4 +1,5 @@
-﻿@typeparam TValue
+﻿@using Blazorise.Extensions
+@typeparam TValue
 @inherits Blazorise.Radio<TValue>
 @if ( AsButton )
 {
@@ -18,5 +19,5 @@ else
 }
 @code {
     string LabelButtonClassNames
-        => $"{ClassProvider.Button( false )} {ClassProvider.ButtonColor( ButtonColor, false )}{( Checked ? " active" : null )}{( Disabled ? " disabled" : null )}";
+        => $"{ClassProvider.Button( false )} {ClassProvider.ButtonColor( ButtonColor, false )}{( IsActive ? " active" : null )}{( Disabled ? " disabled" : null )}";
 }
