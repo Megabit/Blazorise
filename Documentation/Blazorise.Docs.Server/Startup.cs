@@ -1,3 +1,4 @@
+#region Using directives
 using System;
 using System.IO.Compression;
 using System.Linq;
@@ -10,16 +11,19 @@ using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
 using Blazorise.Docs.Server.Infrastructure;
 using Blazorise.Docs.Services;
+using Blazorise.Docs.Services.Search;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+#endregion
 
 namespace Blazorise.Docs.Server;
 
@@ -71,7 +75,7 @@ public class Startup
         services.AddMemoryCache();
         services.AddScoped<Shared.Data.EmployeeData>();
         services.AddScoped<Shared.Data.CountryData>();
-        services.AddScoped<Shared.Data.PageEntryData>();
+        services.AddSingleton<SearchEntriesProvider>();
 
         var emailOptions = Configuration.GetSection( "Email" ).Get<EmailOptions>();
         services.AddSingleton<IEmailOptions>( serviceProvider => emailOptions );
@@ -140,5 +144,20 @@ public class Startup
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
         app.MapGet( "/feed.rss", SeoGenerator.GenerateRssFeed );
+
+        //permanent redirects
+        app.Use( async ( context, next ) =>
+        {
+            var path = context.Request.Path.Value?.ToLowerInvariant();
+
+            if ( path is not null && PermanentRedirects.Map.TryGetValue( path, out var newPath ) )
+            {
+                context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
+                context.Response.Headers.Location = newPath;
+                return;
+            }
+
+            await next();
+        } );
     }
 }
