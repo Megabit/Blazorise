@@ -1,0 +1,62 @@
+﻿@inherits RadioGroup<string>
+<CascadingValue Value="@this" IsFixed>
+    <Fields>
+        <Field ColumnSize="ColumnSize.Is3" Flex="Blazorise.Flex.AlignItems.Center">
+            <FieldBody>
+                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-day")">Day</Radio>
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSize.Is4">
+            <FieldBody>
+                <NumericPicker TValue="int" Min="1" Max="31" Decimals="0" Disabled="@(selectedValue == "monthly-rule-by-week")" @bind-Value="@ByMonthDay" />
+            </FieldBody>
+        </Field>
+    </Fields>
+    <Fields>
+        <Field ColumnSize="ColumnSize.Is3" Flex="Blazorise.Flex.AlignItems.Center">
+            <FieldBody>
+                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-week")">On</Radio>
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSize.Is4">
+            <FieldBody>
+                <Select TValue="SchedulerMonthWeekPosition?" Disabled="@(selectedValue == "monthly-rule-by-day")" @bind-Value="@ByMonthWeek">
+                    <SelectItem Value="SchedulerMonthWeekPosition.First">First</SelectItem>
+                    <SelectItem Value="SchedulerMonthWeekPosition.Second">Second</SelectItem>
+                    <SelectItem Value="SchedulerMonthWeekPosition.Third">Third</SelectItem>
+                    <SelectItem Value="SchedulerMonthWeekPosition.Fourth">Fourth</SelectItem>
+                    <SelectItem Value="SchedulerMonthWeekPosition.Last">Last</SelectItem>
+                </Select>
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSize.Is4">
+            <FieldBody>
+                <Select TValue="DayOfWeek?" Disabled="@(selectedValue == "monthly-rule-by-day")" @bind-Value="@ByMonthWeekDay">
+                    <SelectItem Value="DayOfWeek.Monday">Monday</SelectItem>
+                    <SelectItem Value="DayOfWeek.Tuesday">Tuesday</SelectItem>
+                    <SelectItem Value="DayOfWeek.Wednesday">Wednesday</SelectItem>
+                    <SelectItem Value="DayOfWeek.Thursday">Thursday</SelectItem>
+                    <SelectItem Value="DayOfWeek.Friday">Friday</SelectItem>
+                    <SelectItem Value="DayOfWeek.Saturday">Saturday</SelectItem>
+                    <SelectItem Value="DayOfWeek.Sunday">Sunday</SelectItem>
+                </Select>
+            </FieldBody>
+        </Field>
+    </Fields>
+</CascadingValue>    
+@code {
+    string selectedValue = "monthly-rule-by-day";
+
+    protected override Task OnInternalValueChanged( string value )
+    {
+        selectedValue = value;
+
+        return base.OnInternalValueChanged( value );
+    }
+
+    [Parameter] public int ByMonthDay { get; set; } = 1;
+
+    [Parameter] public SchedulerMonthWeekPosition? ByMonthWeek { get; set; }
+
+    [Parameter] public DayOfWeek? ByMonthWeekDay { get; set; }
+}

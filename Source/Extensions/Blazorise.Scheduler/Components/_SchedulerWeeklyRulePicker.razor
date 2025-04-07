@@ -1,0 +1,44 @@
+﻿<Fields>
+    <Field>
+        <FieldBody>
+            <Buttons Width="Width.Is100">
+                @for ( var day = FirstDayOfWeek; day < FirstDayOfWeek + 7; day++ )
+                {
+                    var tempDay = day;
+                    var dayLabel = tempDay.ToString().Substring( 0, 1 );
+
+                    <Button Color="Color.Secondary" Outline Active="@(ByDay.Contains( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
+                        @dayLabel
+                    </Button>
+                }
+            </Buttons>
+        </FieldBody>
+    </Field>
+</Fields>
+@code {
+    Task OnDayClicked( DayOfWeek day )
+    {
+        if ( ByDay.Contains( day ) )
+        {
+            if ( ByDay.Count > 1 )
+            {
+                ByDay.Remove( day );
+            }
+        }
+        else
+        {
+            ByDay.Add( day );
+        }
+
+        return ByDayChanged.InvokeAsync( ByDay );
+    }
+
+    private Background GetBackgroundColor( DayOfWeek day )
+        => ByDay.Contains( day ) ? Background.Secondary : Background.Default;
+
+    [Parameter] public List<DayOfWeek> ByDay { get; set; } = new() { DateTime.Today.AddDays( 1 ).DayOfWeek };
+
+    [Parameter] public EventCallback<List<DayOfWeek>> ByDayChanged { get; set; }
+
+    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+}

@@ -212,12 +212,12 @@ public partial class _SchedulerModal<TItem>
 
         if ( TitleAvailable )
         {
-            Title = getTitleValue?.Invoke( EditItem )?.ToString();
+            Title = getTitleValue?.Invoke( EditItem );
         }
 
         if ( DescriptionAvailable )
         {
-            Description = getDescriptionValue?.Invoke( EditItem )?.ToString();
+            Description = getDescriptionValue?.Invoke( EditItem );
         }
 
         if ( StartAvailable )
@@ -237,6 +237,11 @@ public partial class _SchedulerModal<TItem>
         if ( AllDayAvailable )
         {
             AllDay = getAllDayFunc?.Invoke( EditItem ) ?? false;
+        }
+
+        if ( RecurrenceRuleAvailable )
+        {
+            RecurrenceRule = getRecurrenceRuleFunc?.Invoke( EditItem );
         }
 
         return modalRef.Show();
@@ -309,6 +314,11 @@ public partial class _SchedulerModal<TItem>
             if ( AllDayAvailable )
             {
                 setAllDayFunc?.Invoke( EditItem, AllDay );
+            }
+
+            if ( RecurrenceRuleAvailable )
+            {
+                setRecurrenceRuleFunc?.Invoke( EditItem, RecurrenceRule );
             }
 
             var result = await Submited.Invoke( EditItem );

@@ -1,21 +1,17 @@
-﻿@typeparam TItem
+﻿@using Blazorise.Extensions
+@using Blazorise.Scheduler.Utilities
+@typeparam TItem
 <Fields>
     <Field ColumnSize="ColumnSize.Is3">
         <FieldLabel>Repeat Every</FieldLabel>
         <FieldBody>
-            <NumericPicker @bind-Value="@Interval" Min="1" Max="99" Decimals="0" />
+            <NumericPicker @bind-Value="@Rule.Interval" Min="1" Max="99" Decimals="0" />
         </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.Is9">
         <FieldLabel>&nbsp;</FieldLabel>
         <FieldBody>
-            @* <Select TValue="SchedulerRecurrencePattern" @bind-Value="@Pattern">
-                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Daily">Day</SelectItem>
-                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Weekly">Week</SelectItem>
-                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Monthly">Month</SelectItem>
-                <SelectItem TValue="SchedulerRecurrencePattern" Value="SchedulerRecurrencePattern.Yearly">Year</SelectItem>
-            </Select> *@
-            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" @bind-Value="@Pattern" Buttons Width="Width.Is100">
+            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" @bind-Value="@Rule.Pattern" Buttons Width="Width.Is100">
                 <Radio Value="SchedulerRecurrencePattern.Never">Never</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Daily">Day</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Weekly">Week</Radio>
@@ -25,44 +21,44 @@
         </FieldBody>
     </Field>
 </Fields>
-<Fields>
-    @if ( Pattern == SchedulerRecurrencePattern.Weekly )
-    {
-        <Field>
-            <FieldBody>
-                <_SchedulerDaysPicker FirstDayOfWeek="FirstDayOfWeek" />
-            </FieldBody>
-        </Field>
-    }
-    else if ( Pattern == SchedulerRecurrencePattern.Monthly )
-    {
-        @* <Field ColumnSize="ColumnSize.Is3">
-            <FieldLabel>Day</FieldLabel>
-            <FieldBody>
-                <NumericEdit @bind-Value="@Interval" />
-            </FieldBody>
-        </Field> *@
-    }
-</Fields>
-@if ( Pattern != SchedulerRecurrencePattern.Never )
+@if ( Rule.Pattern == SchedulerRecurrencePattern.Weekly )
+{
+    <_SchedulerWeeklyRulePicker @bind-ByDay="@Rule.ByDay" FirstDayOfWeek="@FirstDayOfWeek" />
+}
+else if ( Rule.Pattern == SchedulerRecurrencePattern.Monthly )
+{
+    <_SchedulerMonthlyRulePicker />
+}
+@if ( Rule.Pattern != SchedulerRecurrencePattern.Never )
 {
     <Fields>
         <Field ColumnSize="ColumnSize.Is3">
             <FieldLabel>End</FieldLabel>
             <FieldBody>
-                <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+                <DatePicker @bind-Value="@Rule.EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
             </FieldBody>
         </Field>
     </Fields>
 }
 @code {
-    private SchedulerRecurrencePattern Pattern { get; set; } = SchedulerRecurrencePattern.Daily;
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<string>( nameof( RecurrenceRule ), out var paramRecurrenceRule ) )
+        {
+            if ( !string.IsNullOrEmpty( paramRecurrenceRule ) )
+            {
+                Rule = RecurringRuleParser.Parse( paramRecurrenceRule );
+            }
+            else
+            {
+                Rule = new SchedulerRecurrenceRule();
+            }
+        }
 
-    private int Interval { get; set; } = 1;
+        return base.SetParametersAsync( parameters );
+    }
 
-    private List<DayOfWeek> ByDay { get; set; }
-
-    private DateTime? EndDate { get; set; }
+    SchedulerRecurrenceRule Rule { get; set; } = new();
 
     /// <summary>
     /// Defines the first day of the week.
