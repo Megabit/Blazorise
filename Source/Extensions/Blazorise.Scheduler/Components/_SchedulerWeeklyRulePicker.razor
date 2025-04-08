@@ -7,7 +7,7 @@
                     var tempDay = day;
                     var dayLabel = tempDay.ToString().Substring( 0, 1 );
 
-                    <Button Color="Color.Secondary" Outline Active="@(ByDay.Contains( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
+                    <Button Color="Color.Secondary" Outline Active="@(IsDaySelected( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
                         @dayLabel
                     </Button>
                 }
@@ -18,6 +18,8 @@
 @code {
     Task OnDayClicked( DayOfWeek day )
     {
+        ByDay ??= new List<DayOfWeek>();
+
         if ( ByDay.Contains( day ) )
         {
             if ( ByDay.Count > 1 )
@@ -33,8 +35,11 @@
         return ByDayChanged.InvokeAsync( ByDay );
     }
 
-    private Background GetBackgroundColor( DayOfWeek day )
-        => ByDay.Contains( day ) ? Background.Secondary : Background.Default;
+    protected bool IsDaySelected( DayOfWeek day )
+        => ByDay?.Contains( day ) == true;
+
+    protected Background GetBackgroundColor( DayOfWeek day )
+        => IsDaySelected( day ) ? Background.Secondary : Background.Default;
 
     [Parameter] public List<DayOfWeek> ByDay { get; set; } = new() { DateTime.Today.AddDays( 1 ).DayOfWeek };
 
