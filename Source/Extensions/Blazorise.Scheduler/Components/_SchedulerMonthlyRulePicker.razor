@@ -1,4 +1,5 @@
 ﻿@inherits RadioGroup<string>
+@using Blazorise.Extensions
 <CascadingValue Value="@this" IsFixed>
     <Fields>
         <Field ColumnSize="ColumnSize.Is3" Flex="Blazorise.Flex.AlignItems.Center">
@@ -8,7 +9,7 @@
         </Field>
         <Field ColumnSize="ColumnSize.Is4">
             <FieldBody>
-                <NumericPicker TValue="int" Min="1" Max="31" Decimals="0" Disabled="@(selectedValue == "monthly-rule-by-week")" @bind-Value="@ByMonthDay" />
+                <NumericPicker TValue="int" Min="1" Max="31" Decimals="0" Disabled="@(InternalMonthlyRule == "monthly-rule-by-week")" Value="@SingleByMonthDay" ValueChanged="@OnSingleByMonthDayChanged" />
             </FieldBody>
         </Field>
     </Fields>
@@ -20,7 +21,7 @@
         </Field>
         <Field ColumnSize="ColumnSize.Is4">
             <FieldBody>
-                <Select TValue="SchedulerMonthWeekPosition?" Disabled="@(selectedValue == "monthly-rule-by-day")" @bind-Value="@ByMonthWeek">
+                <Select TValue="SchedulerMonthWeekPosition ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByMonthWeek" ValueChanged="@ByMonthWeekChanged">
                     <SelectItem Value="SchedulerMonthWeekPosition.First">First</SelectItem>
                     <SelectItem Value="SchedulerMonthWeekPosition.Second">Second</SelectItem>
                     <SelectItem Value="SchedulerMonthWeekPosition.Third">Third</SelectItem>
@@ -31,7 +32,7 @@
         </Field>
         <Field ColumnSize="ColumnSize.Is4">
             <FieldBody>
-                <Select TValue="DayOfWeek?" Disabled="@(selectedValue == "monthly-rule-by-day")" @bind-Value="@ByMonthWeekDay">
+                <Select TValue="DayOfWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByMonthWeekDay" ValueChanged="@ByMonthWeekDayChanged">
                     <SelectItem Value="DayOfWeek.Monday">Monday</SelectItem>
                     <SelectItem Value="DayOfWeek.Tuesday">Tuesday</SelectItem>
                     <SelectItem Value="DayOfWeek.Wednesday">Wednesday</SelectItem>
@@ -43,20 +44,45 @@
             </FieldBody>
         </Field>
     </Fields>
-</CascadingValue>    
+</CascadingValue>
 @code {
-    string selectedValue = "monthly-rule-by-day";
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<List<int>>( nameof( ByMonthDay ), out var paramByMonthDay ) && !ByMonthDay.AreEqual( paramByMonthDay ) )
+        {
+            SingleByMonthDay = paramByMonthDay?.FirstOrDefault() ?? 1;
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     protected override Task OnInternalValueChanged( string value )
     {
-        selectedValue = value;
+        InternalMonthlyRule = value;
 
         return base.OnInternalValueChanged( value );
     }
 
-    [Parameter] public int ByMonthDay { get; set; } = 1;
+    private int SingleByMonthDay = 1;
+
+    private Task OnSingleByMonthDayChanged( int value )
+    {
+        SingleByMonthDay = value;
+        ByMonthDay = new List<int> { SingleByMonthDay };
+        return ByMonthDayChanged.InvokeAsync( ByMonthDay );
+    }
+
+    string InternalMonthlyRule { get; set; } = "monthly-rule-by-day";
+
+    [Parameter] public List<int> ByMonthDay { get; set; }
+
+    [Parameter] public EventCallback<List<int>> ByMonthDayChanged { get; set; }
 
     [Parameter] public SchedulerMonthWeekPosition? ByMonthWeek { get; set; }
 
+    [Parameter] public EventCallback<SchedulerMonthWeekPosition?> ByMonthWeekChanged { get; set; }
+
     [Parameter] public DayOfWeek? ByMonthWeekDay { get; set; }
+
+    [Parameter] public EventCallback<DayOfWeek?> ByMonthWeekDayChanged { get; set; }
 }

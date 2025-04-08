@@ -54,7 +54,7 @@ public static class RecurringRuleParser
                         "WEEKLY" => SchedulerRecurrencePattern.Weekly,
                         "MONTHLY" => SchedulerRecurrencePattern.Monthly,
                         "YEARLY" => SchedulerRecurrencePattern.Yearly,
-                        _ => throw new NotSupportedException( $"Unsupported FREQ: {value}" )
+                        _ => SchedulerRecurrencePattern.Never,
                     };
                     break;
 

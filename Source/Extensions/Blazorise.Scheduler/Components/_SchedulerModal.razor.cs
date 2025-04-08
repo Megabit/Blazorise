@@ -366,7 +366,7 @@ public partial class _SchedulerModal<TItem>
 
     protected string RecurrenceRule { get; set; }
 
-    public TItem EditItem { get; set; }
+    protected TItem EditItem { get; set; }
 
     /// <summary>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the unique identifier of the appointment. Defaults to "Id".

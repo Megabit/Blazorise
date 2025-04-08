@@ -587,11 +587,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="destination">The destination appointment to copy values to.</param>
     private void CopyItemValues( TItem source, TItem destination )
     {
-        setTitleFunc?.Invoke( destination, getTitleFunc( source ) );
-        setDescriptionFunc?.Invoke( destination, getDescriptionFunc( source ) );
-        setStartFunc?.Invoke( destination, getStartFunc( source ) );
-        setEndFunc?.Invoke( destination, getEndFunc( source ) );
-        setAllDayFunc?.Invoke( destination, getAllDayFunc( source ) );
+        setTitleFunc?.Invoke( destination, getTitleFunc?.Invoke( source ) );
+        setDescriptionFunc?.Invoke( destination, getDescriptionFunc?.Invoke( source ) );
+        setStartFunc?.Invoke( destination, getStartFunc?.Invoke( source ) ?? DateTime.MinValue );
+        setEndFunc?.Invoke( destination, getEndFunc?.Invoke( source ) ?? DateTime.MinValue );
+        setAllDayFunc?.Invoke( destination, getAllDayFunc?.Invoke( source ) ?? false );
+        setRecurrenceRuleFunc?.Invoke( destination, getRecurrenceRuleFunc?.Invoke( source ) );
     }
 
     /// <summary>
