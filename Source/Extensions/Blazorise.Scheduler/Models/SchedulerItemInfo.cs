@@ -17,7 +17,8 @@ public class SchedulerItemInfo<TItem>
     /// <param name="end">Indicates the ending time of the scheduled item.</param>
     /// <param name="allDay"></param>
     /// <param name="recurrenceRule">Defines the recurrence rule for the scheduled item.</param>
-    public SchedulerItemInfo( TItem item, DateTime start, DateTime end, bool allDay, string recurrenceRule )
+    /// <param name="isRecurring">Indicates whether the item is recurring.</param>
+    public SchedulerItemInfo( TItem item, DateTime start, DateTime end, bool allDay, string recurrenceRule, bool isRecurring )
     {
         Item = item;
         Start = start;
@@ -30,6 +31,8 @@ public class SchedulerItemInfo<TItem>
         {
             RecurrenceRule = RecurringRuleParser.Parse( recurrenceRule );
         }
+
+        IsRecurring = isRecurring;
     }
 
     /// <summary>
@@ -66,4 +69,9 @@ public class SchedulerItemInfo<TItem>
     /// Represents the recurrence rule for scheduling events.
     /// </summary>
     public SchedulerRecurrenceRule RecurrenceRule { get; set; }
+
+    /// <summary>
+    /// Defines whether the item is recurring.
+    /// </summary>
+    public bool IsRecurring { get; set; }
 }

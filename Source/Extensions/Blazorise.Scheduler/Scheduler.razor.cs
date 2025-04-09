@@ -614,7 +614,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                           ( ( start >= viewStart && start <= viewEnd )
                            || ( start < viewStart && end >= viewStart && end <= viewEnd )
                            || ( start < viewStart && end > viewStart ) )
-                          select new SchedulerItemInfo<TItem>( item, start, end, allDay, recurrenceRule );
+                          select new SchedulerItemInfo<TItem>( item, start, end, allDay, recurrenceRule, false );
 
         var recurringItems = from item in Data
                              let recurrenceRule = GetItemRecurrenceRule( item )
@@ -639,7 +639,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             {
                 var virtualStart = occurrence;
                 var virtualEnd = virtualStart.Add( duration );
-                virtualItems.Add( new SchedulerItemInfo<TItem>( item, virtualStart, virtualEnd, false, recurrenceRule ) );
+                virtualItems.Add( new SchedulerItemInfo<TItem>( item, virtualStart, virtualEnd, false, recurrenceRule, true ) );
             }
         }
 
@@ -659,7 +659,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 {
                     var virtualStart = occurrence;
                     var virtualEnd = virtualStart.Add( duration );
-                    virtualItems.Add( new SchedulerItemInfo<TItem>( item.Item, virtualStart, virtualEnd, false, recurrenceRule ) );
+                    virtualItems.Add( new SchedulerItemInfo<TItem>( item.Item, virtualStart, virtualEnd, false, recurrenceRule, true ) );
                 }
             }
         }
@@ -736,7 +736,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                    viewEnd: item.End > maxDateTime ? maxDateTime : item.End,
                    overflowingFromStart: item.Start < minDateTime,
                    overflowingOnEnd: item.End > maxDateTime,
-                   recurrenceRule: item.RecurrenceRule );
+                   recurrenceRule: item.RecurrenceRule,
+                   isRecurring: item.IsRecurring );
     }
 
     /// <summary>

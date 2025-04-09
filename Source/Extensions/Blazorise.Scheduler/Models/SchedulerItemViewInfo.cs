@@ -17,7 +17,8 @@ public class SchedulerItemViewInfo<TItem>
     /// <param name="overflowingFromStart">Indicates whether the item overflows at the start time.</param>
     /// <param name="overflowingOnEnd">Indicates whether the item overflows at the end time.</param>
     /// <param name="recurrenceRule">Defines the recurrence rule for the scheduled item.</param>
-    public SchedulerItemViewInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd, SchedulerRecurrenceRule recurrenceRule )
+    /// <param name="isRecurring">Indicates whether the item is recurring.</param>
+    public SchedulerItemViewInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd, SchedulerRecurrenceRule recurrenceRule, bool isRecurring )
     {
         Item = item;
         ViewStart = viewStart;
@@ -25,6 +26,7 @@ public class SchedulerItemViewInfo<TItem>
         OverflowingFromStart = overflowingFromStart;
         OverflowingOnEnd = overflowingOnEnd;
         RecurrenceRule = recurrenceRule;
+        IsRecurring = isRecurring;
     }
 
     /// <summary>
@@ -56,4 +58,9 @@ public class SchedulerItemViewInfo<TItem>
     /// Represents the recurrence rule for scheduling events.
     /// </summary>
     public SchedulerRecurrenceRule RecurrenceRule { get; set; }
+
+    /// <summary>
+    /// Defines whether the item is recurring.
+    /// </summary>
+    public bool IsRecurring { get; }
 }

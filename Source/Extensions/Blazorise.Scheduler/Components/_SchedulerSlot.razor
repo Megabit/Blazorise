@@ -3,8 +3,16 @@
 <Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
     @if ( ViewItem is not null && ViewItem.Item is not null )
     {
-        <Span Style="@GetAppointmentStyle( ViewItem )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.Column.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate">
-            @Scheduler?.GetItemTitle( ViewItem.Item )
+        <Span Style="@GetAppointmentStyle( ViewItem )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate">
+            <Span>
+                @Scheduler?.GetItemTitle( ViewItem.Item )
+            </Span>
+            @if ( ViewItem.IsRecurring )
+            {
+                <Span>
+                    <Icon Name="IconName.Sync" />
+                </Span>
+            }
         </Span>
     }
 </Div>
