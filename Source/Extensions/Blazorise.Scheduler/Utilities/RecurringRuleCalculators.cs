@@ -50,13 +50,38 @@ public static class RecurringRuleCalculators
 
         DateTime startWeek = itemStart.StartOfWeek( firstDayOfWeek );
         DateTime viewWeekStart = viewStart.StartOfWeek( firstDayOfWeek );
-
         int weeksBetween = (int)Math.Floor( ( viewWeekStart - startWeek ).TotalDays / 7.0 );
         int intervalsPassed = Math.Max( 0, (int)Math.Ceiling( weeksBetween / (double)rule.Interval ) );
 
+        // Calculate occurrences from beginning to determine if we've hit Count
+        int occurrencesBeforeView = 0;
+
+        if ( rule.Count.HasValue )
+        {
+            // Only calculate previous occurrences if there's a Count constraint
+            for ( int i = 0; i < intervalsPassed; i++ )
+            {
+                DateTime recurrenceWeekStart = startWeek.AddDays( i * rule.Interval * 7 );
+
+                foreach ( var day in daysOfWeek )
+                {
+                    DateTime occurrence = GetDayInWeek( recurrenceWeekStart, day, itemStart.TimeOfDay );
+                    if ( occurrence >= itemStart && occurrence < viewStart )
+                        occurrencesBeforeView++;
+                }
+
+                // If we've already exceeded Count before view window, exit early
+                if ( rule.Count.HasValue && occurrencesBeforeView >= rule.Count.Value )
+                    yield break;
+            }
+        }
+
         // Define a sensible maximum to avoid infinite loops
-        int occurrencesCount = 0;
         int maxIterations = 99;
+        int occurrencesInView = 0;
+        int remainingOccurrences = rule.Count.HasValue
+            ? rule.Count.Value - occurrencesBeforeView
+            : int.MaxValue;
 
         for ( int i = intervalsPassed; i < intervalsPassed + maxIterations; i++ )
         {
@@ -79,9 +104,9 @@ public static class RecurringRuleCalculators
                     yield break;
 
                 yield return occurrence;
+                occurrencesInView++;
 
-                occurrencesCount++;
-                if ( rule.Count.HasValue && occurrencesCount >= rule.Count.Value )
+                if ( occurrencesInView >= remainingOccurrences )
                     yield break;
             }
         }
