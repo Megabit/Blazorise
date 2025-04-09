@@ -13,17 +13,6 @@ namespace Blazorise.Scheduler.Utilities;
 /// </summary>
 public static class RecurringRuleParser
 {
-    private static readonly Dictionary<string, DayOfWeek> DayMap = new()
-    {
-        { "MO", DayOfWeek.Monday },
-        { "TU", DayOfWeek.Tuesday },
-        { "WE", DayOfWeek.Wednesday },
-        { "TH", DayOfWeek.Thursday },
-        { "FR", DayOfWeek.Friday },
-        { "SA", DayOfWeek.Saturday },
-        { "SU", DayOfWeek.Sunday },
-    };
-
     /// <summary>
     /// Parses a recurrence rule string into a SchedulerRecurrenceRule object.
     /// </summary>
