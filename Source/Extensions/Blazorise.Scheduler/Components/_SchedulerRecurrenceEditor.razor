@@ -39,7 +39,13 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
         <Field ColumnSize="ColumnSize.Is3">
             <FieldLabel>End</FieldLabel>
             <FieldBody>
-                <DatePicker TValue="DateTime ?" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+                <DatePicker TValue="DateTime?" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSize.Is3">
+            <FieldLabel>Count</FieldLabel>
+            <FieldBody>
+                <NumericEdit TValue="int?" Value="@Count" ValueChanged="@OnCountChanged" />
             </FieldBody>
         </Field>
     </Fields>
@@ -100,6 +106,12 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
     protected Task OnEndDateChanged( DateTime? endDate )
     {
         EndDate = endDate;
+        return NotifyRecurrenceRuleChanged();
+    }
+
+    protected Task OnCountChanged( int? count )
+    {
+        Count = count;
         return NotifyRecurrenceRuleChanged();
     }
 
