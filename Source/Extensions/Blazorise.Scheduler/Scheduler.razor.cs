@@ -683,6 +683,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             return RecurringRuleCalculators.GetMonthlyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, rule );
         }
+        else if ( rule.Pattern == SchedulerRecurrencePattern.Yearly )
+        {
+            return RecurringRuleCalculators.GetYearlyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, rule );
+        }
 
         return Enumerable.Empty<DateTime>();
     }

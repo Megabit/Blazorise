@@ -71,15 +71,11 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerR
                 ByWeekDay = rule.ByWeekDay ?? FirstDayOfWeek;
                 ByMonth = rule.ByMonth ?? SchedulerMonth.January;
 
-                if ( Pattern == SchedulerRecurrencePattern.Monthly )
+                if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerRecurrencePattern.Yearly )
                 {
                     InternalMonthlyRule = rule.ByMonthDay?.Any() == true
                         ? "monthly-rule-by-day"
                         : "monthly-rule-by-week";
-                }
-                else if ( Pattern == SchedulerRecurrencePattern.Yearly )
-                {
-                    InternalMonthlyRule = "monthly-rule-by-week";
                 }
             }
             else
@@ -170,23 +166,23 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerR
             ByDay = ByDay,
         };
 
-        if ( rule.Pattern == SchedulerRecurrencePattern.Monthly )
+        if ( rule.Pattern == SchedulerRecurrencePattern.Monthly || rule.Pattern == SchedulerRecurrencePattern.Yearly )
         {
             if ( InternalMonthlyRule == "monthly-rule-by-day" )
             {
-                rule.ByMonthDay = ByMonthDay;
+                rule.ByMonthDay = ByMonthDay ?? new List<int> { 1 };
 
             }
             else
             {
-                rule.ByWeek = ByWeek;
-                rule.ByWeekDay = ByWeekDay;
+                rule.ByWeek = ByWeek ?? SchedulerWeek.First;
+                rule.ByWeekDay = ByWeekDay ?? FirstDayOfWeek;
             }
         }
 
         if ( rule.Pattern == SchedulerRecurrencePattern.Yearly )
         {
-            rule.ByMonth = ByMonth;
+            rule.ByMonth = ByMonth ?? SchedulerMonth.January;
         }
 
         RecurrenceRule = rule.ToRRuleString();

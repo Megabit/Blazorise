@@ -273,4 +273,66 @@ public static class RecurringRuleCalculators
 
         return result;
     }
+
+    public static IEnumerable<DateTime> GetYearlyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DayOfWeek firstDayOfWeek, SchedulerRecurrenceRule rule )
+    {
+        if ( rule.Interval <= 0 )
+            yield break;
+
+        DateTime occurrence;
+        int occurrencesCount = 0;
+
+        int startYear = Math.Max( itemStart.Year, viewStart.Year );
+        int endYear = viewEnd.Year;
+
+        for ( int year = startYear; year <= endYear; year += rule.Interval )
+        {
+            if ( rule.ByMonth.HasValue )
+            {
+                int month = (int)rule.ByMonth.Value;
+
+                if ( rule.ByWeek.HasValue && rule.ByWeekDay.HasValue )
+                {
+                    occurrence = GetNthWeekdayOfMonth( year, month, rule.ByWeek.Value, rule.ByWeekDay.Value )
+                        .AddHours( itemStart.Hour )
+                        .AddMinutes( itemStart.Minute )
+                        .AddSeconds( itemStart.Second );
+                }
+                else
+                {
+                    // Default to the start date's day if no ByWeek/ByWeekDay defined
+                    int day = Math.Min( itemStart.Day, DateTime.DaysInMonth( year, month ) );
+                    occurrence = new DateTime( year, month, day, itemStart.Hour, itemStart.Minute, itemStart.Second );
+                }
+
+                if ( occurrence >= itemStart && occurrence >= viewStart && occurrence <= viewEnd &&
+                    ( !rule.EndDate.HasValue || occurrence <= rule.EndDate.Value ) )
+                {
+                    yield return occurrence;
+                    occurrencesCount++;
+
+                    if ( rule.Count.HasValue && occurrencesCount >= rule.Count )
+                        yield break;
+                }
+            }
+            else
+            {
+                // If no ByMonth defined, default to itemStart month
+                int month = itemStart.Month;
+                int day = Math.Min( itemStart.Day, DateTime.DaysInMonth( year, month ) );
+
+                occurrence = new DateTime( year, month, day, itemStart.Hour, itemStart.Minute, itemStart.Second );
+
+                if ( occurrence >= itemStart && occurrence >= viewStart && occurrence <= viewEnd &&
+                    ( !rule.EndDate.HasValue || occurrence <= rule.EndDate.Value ) )
+                {
+                    yield return occurrence;
+                    occurrencesCount++;
+
+                    if ( rule.Count.HasValue && occurrencesCount >= rule.Count )
+                        yield break;
+                }
+            }
+        }
+    }
 }

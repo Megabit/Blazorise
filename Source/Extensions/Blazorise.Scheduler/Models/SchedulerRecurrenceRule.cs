@@ -39,7 +39,7 @@ public class SchedulerRecurrenceRule
             var byDay = string.Join( ",", ByDay.Select( DayToRfc5545 ) );
             components.Add( $"BYDAY={byDay}" );
         }
-        else if ( Pattern == SchedulerRecurrencePattern.Monthly && ByWeek.HasValue && ByWeekDay.HasValue )
+        else if ( ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerRecurrencePattern.Yearly ) && ByWeek.HasValue && ByWeekDay.HasValue )
         {
             var ordinal = ( (int)ByWeek.Value ).ToString();
             var day = DayToRfc5545( ByWeekDay.Value );
