@@ -5,7 +5,7 @@
         var index = ViewItems.IndexOf( viewItem );
 
         <Span Style="@GetItemStyle( viewItem, index, ViewItems.Count )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation>
-            <Span @onclick="@(() => OnAppointmentClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Height="Height.Is100">
+            <Span @onclick="@(() => OnAppointmentClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Width="Width.Is100" Height="Height.Is100">
                 @Scheduler?.GetItemTitle( viewItem.Item )
             </Span>
             @if ( viewItem.IsRecurring )
