@@ -753,7 +753,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                  let start = itemInfo.ViewStart
                  let end = itemInfo.ViewEnd
                  let duration = end - start
-                 where start >= viewStart && start <= viewEnd
+                 where start >= viewStart && start < viewEnd
                  select itemInfo );
     }
 
