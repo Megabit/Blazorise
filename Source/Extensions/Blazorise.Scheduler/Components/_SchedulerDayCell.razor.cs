@@ -15,16 +15,29 @@ public partial class _SchedulerDayCell<TItem>
 
     #region Methods
 
-    protected async Task OnSlotClicked( TItem item, DateTime start, DateTime end )
+    protected Task OnSlotClicked( DateTime start, DateTime end )
+    {
+        return Scheduler.NotifySlotClicked( start, end );
+    }
+
+    protected Task OnEditItemClicked( TItem item, DateTime start, DateTime end )
     {
         if ( item is not null )
         {
-            await Scheduler.NotifyItemClicked( item );
-
-            return;
+            return Scheduler.NotifyEditItemClicked( item );
         }
 
-        await Scheduler.NotifySlotClicked( start, end );
+        return Task.CompletedTask;
+    }
+
+    protected Task OnDeleteItemClicked( TItem item )
+    {
+        if ( item is not null )
+        {
+            return Scheduler.NotifyDeleteItemClicked( item );
+        }
+
+        return Task.CompletedTask;
     }
 
     protected DateTime GetSlotStart( int slotIndex )

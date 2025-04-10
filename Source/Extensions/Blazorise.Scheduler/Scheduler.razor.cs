@@ -437,31 +437,26 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         SetItemEnd( item, end );
     }
 
-    internal async Task NotifyItemClicked( TItem item )
+    internal async Task NotifyEditItemClicked( TItem item )
     {
         await Edit( item );
 
         await ItemClicked.InvokeAsync( new( item ) );
     }
 
+    internal async Task NotifyDeleteItemClicked( TItem item )
+    {
+        await Delete( item );
+
+        await ItemClicked.InvokeAsync( new( item ) );
+    }
+
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
     {
-        editItem = ( from item in Data
-                     where GetItemStartTime( item ) == start && GetItemEndTime( item ) == end
-                     select item ).FirstOrDefault();
+        editItem = CreateNewItem();
+        SetItemDates( editItem, start, end );
 
-        if ( editItem is null )
-        {
-            editItem = CreateNewItem();
-
-            SetItemDates( editItem, start, end );
-
-            await New( editItem );
-        }
-        else
-        {
-            await Edit( editItem );
-        }
+        await New( editItem );
 
         await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( start, end ) );
     }
@@ -502,14 +497,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    public Task Delete( TItem item )
+    public async Task Delete( TItem item )
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
         {
             data.Remove( item );
-        }
 
-        return Task.CompletedTask;
+            await InvokeAsync( StateHasChanged );
+        }
     }
 
     protected internal async Task<bool> ModalSubmitedItem( TItem submitedItem )

@@ -35,21 +35,26 @@ public partial class _SchedulerSlot<TItem>
 
     protected Task OnSlotClicked()
     {
-        if ( Clicked is null )
+        if ( SlotClicked is null )
             return Task.CompletedTask;
 
-        // if ( viewItem is not null && viewItem.Item is not null )
-        //     return Clicked.Invoke( viewItem.Item, SlotStart, SlotEnd );
-
-        return Clicked.Invoke( default, SlotStart, SlotEnd );
+        return SlotClicked.Invoke( SlotStart, SlotEnd );
     }
 
-    protected Task OnAppointmentClicked( SchedulerItemViewInfo<TItem> viewItem )
+    protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
-        if ( Clicked is null )
+        if ( EditItemClicked is null )
             return Task.CompletedTask;
 
-        return Clicked.Invoke( viewItem.Item, SlotStart, SlotEnd );
+        return EditItemClicked.Invoke( viewItem.Item, SlotStart, SlotEnd );
+    }
+
+    protected Task OnDeleteItemClicked( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        if ( DeleteItemClicked is null )
+            return Task.CompletedTask;
+
+        return DeleteItemClicked.Invoke( viewItem.Item );
     }
 
     private string GetSlotStyle()
@@ -140,10 +145,11 @@ public partial class _SchedulerSlot<TItem>
     /// </summary>
     [Parameter] public double ItemCellHeight { get; set; }
 
-    /// <summary>
-    /// Occurs when the user clicks on the slot.
-    /// </summary>
-    [Parameter] public Func<TItem, DateTime, DateTime, Task> Clicked { get; set; }
+    [Parameter] public Func<DateTime, DateTime, Task> SlotClicked { get; set; }
+
+    [Parameter] public Func<TItem, DateTime, DateTime, Task> EditItemClicked { get; set; }
+
+    [Parameter] public Func<TItem, Task> DeleteItemClicked { get; set; }
 
     #endregion
 }
