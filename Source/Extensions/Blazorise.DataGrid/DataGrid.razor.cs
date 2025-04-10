@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1802,6 +1804,63 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask ScrollToRow( int row )
         => tableRef.ScrollToRow( row );
+    
+    public async Task<TExportResult> Export<TExportResult, TCellValue>( IDataGridExporter< TExportResult, TCellValue> exporter, DataGridExportOptions options = null )
+    where TExportResult: IExportResult, new()
+    {
+        if ( exporter is IFileExportTarget fileExporter )
+        {
+            Console.WriteLine( $"I am here in fileexpor" );
+            fileExporter.JsDataGridModule = JSModule;
+        }
+        else if ( exporter is IClipboardExportTarget clipboardExporter )
+        {
+            clipboardExporter.JSUtilitiesModule = JSUtilitiesModule;
+        }
+        
+        var data = ExportData<TCellValue>(options);
+
+        TExportResult exportResult = await exporter.Export( data.exportedData, data.columnNames );
+        return exportResult;    
+    }
+    
+    private (List<List<TCellValue>> exportedData, List<string> columnNames) ExportData<TCellValue>( DataGridExportOptions options )
+    {
+        options ??= new();
+
+        // Filter columns (exclude Command, MultiSelect, and DisplayTemplate columns)
+        var columnsToExport = Columns
+                              .Where( column => column.ColumnType != DataGridColumnType.Command && column.ColumnType != DataGridColumnType.MultiSelect && column.Field != null && column.DisplayTemplate == null )
+                              .ToList();
+
+        var exportedData = new List<List<TCellValue>>();
+
+        var columnNames = columnsToExport.Select( c => c.Caption ).ToList();
+
+        var filteredDataToTake = options.NumberOfRows == -1? FilteredData : FilteredData.Take( options.NumberOfRows );
+        
+        bool isCellValueString= typeof( TCellValue) == typeof( string);
+        
+        foreach ( var item in filteredDataToTake )
+        {
+            var rowValues = new List<TCellValue>();
+
+            foreach ( var column in columnsToExport )
+            {
+                var cellValue = column.GetValue( item );
+                object formattedValue = isCellValueString
+                                        ? column.FormatDisplayValue( cellValue ) ?? ""
+                                        : cellValue;
+
+                rowValues.Add((TCellValue)formattedValue );
+            }
+
+            exportedData.Add( rowValues );
+        }
+
+        return (exportedData, columnNames);
+    }
+
 
     #endregion
 

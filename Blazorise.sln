@@ -161,6 +161,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Weavers", "Source
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Weavers.Fody", "Source\SourceGenerators\Blazorise.Weavers.Fody\Blazorise.Weavers.Fody.csproj", "{FFC4A285-1A16-4DD4-8B8C-141521E405B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.DataGrid.Exporters", "Source\Extensions\Blazorise.DataGrid.Exporters\Blazorise.DataGrid.Exporters.csproj", "{01A482C0-8DD8-4A9D-95FF-5CC2F71DB41B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -423,6 +425,10 @@ Global
 		{FFC4A285-1A16-4DD4-8B8C-141521E405B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFC4A285-1A16-4DD4-8B8C-141521E405B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFC4A285-1A16-4DD4-8B8C-141521E405B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A482C0-8DD8-4A9D-95FF-5CC2F71DB41B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A482C0-8DD8-4A9D-95FF-5CC2F71DB41B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A482C0-8DD8-4A9D-95FF-5CC2F71DB41B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A482C0-8DD8-4A9D-95FF-5CC2F71DB41B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -495,6 +501,7 @@ Global
 		{EAB7EC89-900A-4280-B24A-152B9DD2B503} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{BF5FFB8C-45AD-4875-BB01-2DA388890419} = {0538DB67-B4F3-4D00-B969-D3874A52E405}
 		{FFC4A285-1A16-4DD4-8B8C-141521E405B0} = {0538DB67-B4F3-4D00-B969-D3874A52E405}
+		{01A482C0-8DD8-4A9D-95FF-5CC2F71DB41B} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

@@ -226,6 +226,12 @@ export function copyToClipboard(element, elementId) {
     }
 }
 
+export function copyStringToClipboard(stringToCopy) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(stringToCopy);
+    }
+}
+
 function getExponentialParts(num) {
     return Array.isArray(num) ? num : String(num).split(/[eE]/);
 }

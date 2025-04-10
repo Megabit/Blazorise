@@ -57,6 +57,14 @@ public class JSDataGridModule : BaseJSModule
         return await moduleInstance.InvokeAsync<int>( "scrollTo", elementRef, classname );
     }
 
+    
+    public virtual async ValueTask<int> ExportToFile( byte[] data, string fileName, string mimeType )
+    {
+        var moduleInstance = await Module;
+
+        return await moduleInstance.InvokeAsync<int>( "exportToFile", data, fileName, mimeType );
+    }
+    
     #endregion
 
     #region Properties

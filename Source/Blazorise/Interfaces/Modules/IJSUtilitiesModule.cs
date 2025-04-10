@@ -165,6 +165,14 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <param name="elementId">ID of the rendered element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask CopyToClipboard( ElementReference elementRef, string elementId );
+    
+    /// <summary>
+    /// Copies the specified string content to the clipboard.
+    /// </summary>
+    /// <param name="stringToCopy">The string content to copy to the clipboard.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask CopyStringToClipboard(string stringToCopy);
+
 
     /// <summary>
     /// Writes a log message to the browser console.
