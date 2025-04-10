@@ -1,11 +1,12 @@
 ﻿@using System.Text
+@using System.Globalization
 @typeparam TItem
 <Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
     @foreach ( var viewItem in ViewItems ?? Enumerable.Empty<SchedulerItemViewInfo<TItem>>() )
     {
         var index = ViewItems.IndexOf( viewItem );
 
-        <Span Style="@GetAppointmentStyle( viewItem, index, ViewItems.Count )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation>
+        <Span Style="@GetItemStyle( viewItem, index, ViewItems.Count )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation>
             <Span @onclick="@(() => OnAppointmentClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Height="Height.Is100">
                 @Scheduler?.GetItemTitle( viewItem.Item )
             </Span>
@@ -60,30 +61,39 @@
         return "border-bottom-style: dashed !important";
     }
 
-    private string GetAppointmentStyle( SchedulerItemViewInfo<TItem> viewItem, int index, int totalItems )
+    private string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem, int index, int totalItems )
     {
         var viewStart = viewItem.ViewStart;
         var viewEnd = viewItem.ViewEnd;
         var viewDuration = viewEnd - viewStart;
-
         var top = ( viewStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
         var height = viewDuration.TotalMinutes / 60 * ItemCellHeight;
 
+        // For single items, leave a small gap on the right (5% of width)
         if ( totalItems == 1 )
         {
-            return $"cursor: pointer; left: 0; right: 0; top: {top}px; height: {height}px; z-index: 1;";
+            return $"cursor: pointer; left: 0; right: {5.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
         }
 
-        double itemWidth = 100.0 / totalItems;
+        // For multiple items, distribute them evenly but leave a small gap at the end
+        double slotRightGap = 5.0; // 5% gap on the far right side of the slot
+        double itemWidth = ( 100.0 - slotRightGap ) / totalItems;
         double leftPercentage = index * itemWidth;
-        double rightPercentage = 100 - ( ( index + 1 ) * itemWidth );
 
-        if ( index < totalItems - 1 )
+        // Calculate right percentage
+        if ( index == totalItems - 1 )
         {
-            rightPercentage += 1;
+            // Last item should extend to the start of the gap
+            double rightPercentage = slotRightGap;
+            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
         }
-
-        return $"cursor: pointer; left: {leftPercentage}%; right: {rightPercentage}%; top: {top}px; height: {height}px; z-index: 1;";
+        else
+        {
+            // Middle items should maintain their position with the original 1% overlap
+            double rightPercentage = 100 - ( ( index + 1 ) * itemWidth );
+            rightPercentage += 1; // Add the 1% overlap
+            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
+        }
     }
 
     private bool MouseHovering { get; set; }
