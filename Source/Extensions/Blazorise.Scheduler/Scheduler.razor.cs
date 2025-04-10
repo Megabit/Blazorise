@@ -339,7 +339,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>The title of the appointment.</returns>
     internal string GetItemTitle( TItem item )
     {
-        return getTitleFunc( item );
+        return getTitleFunc?.Invoke( item );
     }
 
     /// <summary>
@@ -349,8 +349,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the duration as a TimeSpan, or zero if the times are not valid DateTime values.</returns>
     internal TimeSpan GetItemDuration( TItem item )
     {
-        var start = getStartFunc( item );
-        var end = getEndFunc( item );
+        var start = getStartFunc?.Invoke( item );
+        var end = getEndFunc?.Invoke( item );
 
         if ( start is DateTime startDateTime && end is DateTime endDateTime )
         {
@@ -367,7 +367,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the start time of the item.</returns>
     internal DateTime GetItemStartTime( TItem item )
     {
-        return getStartFunc( item ) as DateTime? ?? DateTime.MinValue;
+        return getStartFunc?.Invoke( item ) as DateTime? ?? DateTime.MinValue;
     }
 
     /// <summary>
@@ -377,7 +377,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the end time of the item.</returns>
     internal DateTime GetItemEndTime( TItem item )
     {
-        return getEndFunc( item ) as DateTime? ?? DateTime.MaxValue;
+        return getEndFunc?.Invoke( item ) as DateTime? ?? DateTime.MaxValue;
     }
 
     /// <summary>
@@ -387,7 +387,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the all-day value of the item.</returns>
     internal bool GetItemAllDay( TItem item )
     {
-        return getAllDayFunc( item );
+        return getAllDayFunc?.Invoke( item ) ?? false;
     }
 
     internal string GetItemRecurrenceRule( TItem item )
@@ -402,7 +402,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>The description of the appointment.</returns>
     internal string GetItemDescription( TItem item )
     {
-        return getDescriptionFunc( item );
+        return getDescriptionFunc?.Invoke( item );
     }
 
     /// <summary>
