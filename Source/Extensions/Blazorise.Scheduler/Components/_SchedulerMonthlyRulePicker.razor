@@ -21,18 +21,18 @@
         </Field>
         <Field ColumnSize="ColumnSize.Is4">
             <FieldBody>
-                <Select TValue="SchedulerMonthWeekPosition ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByMonthWeek" ValueChanged="@ByMonthWeekChanged">
-                    <SelectItem Value="SchedulerMonthWeekPosition.First">First</SelectItem>
-                    <SelectItem Value="SchedulerMonthWeekPosition.Second">Second</SelectItem>
-                    <SelectItem Value="SchedulerMonthWeekPosition.Third">Third</SelectItem>
-                    <SelectItem Value="SchedulerMonthWeekPosition.Fourth">Fourth</SelectItem>
-                    <SelectItem Value="SchedulerMonthWeekPosition.Last">Last</SelectItem>
+                <Select TValue="SchedulerWeek?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeek" ValueChanged="@ByWeekChanged">
+                    <SelectItem Value="SchedulerWeek.First">First</SelectItem>
+                    <SelectItem Value="SchedulerWeek.Second">Second</SelectItem>
+                    <SelectItem Value="SchedulerWeek.Third">Third</SelectItem>
+                    <SelectItem Value="SchedulerWeek.Fourth">Fourth</SelectItem>
+                    <SelectItem Value="SchedulerWeek.Last">Last</SelectItem>
                 </Select>
             </FieldBody>
         </Field>
         <Field ColumnSize="ColumnSize.Is4">
             <FieldBody>
-                <Select TValue="DayOfWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByMonthWeekDay" ValueChanged="@ByMonthWeekDayChanged">
+                <Select TValue="DayOfWeek?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeekDay" ValueChanged="@ByWeekDayChanged">
                     <SelectItem Value="DayOfWeek.Monday">Monday</SelectItem>
                     <SelectItem Value="DayOfWeek.Tuesday">Tuesday</SelectItem>
                     <SelectItem Value="DayOfWeek.Wednesday">Wednesday</SelectItem>
@@ -78,11 +78,11 @@
 
     [Parameter] public EventCallback<List<int>> ByMonthDayChanged { get; set; }
 
-    [Parameter] public SchedulerMonthWeekPosition? ByMonthWeek { get; set; }
+    [Parameter] public SchedulerWeek? ByWeek { get; set; }
 
-    [Parameter] public EventCallback<SchedulerMonthWeekPosition?> ByMonthWeekChanged { get; set; }
+    [Parameter] public EventCallback<SchedulerWeek?> ByWeekChanged { get; set; }
 
-    [Parameter] public DayOfWeek? ByMonthWeekDay { get; set; }
+    [Parameter] public DayOfWeek? ByWeekDay { get; set; }
 
-    [Parameter] public EventCallback<DayOfWeek?> ByMonthWeekDayChanged { get; set; }
+    [Parameter] public EventCallback<DayOfWeek?> ByWeekDayChanged { get; set; }
 }

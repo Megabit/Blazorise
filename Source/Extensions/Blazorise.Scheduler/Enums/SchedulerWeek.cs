@@ -1,9 +1,9 @@
 ﻿namespace Blazorise.Scheduler;
 
 /// <summary>
-/// Specifies the week position within a month for scheduling occurrences.
+/// Specifies the week of the month for a scheduler event.
 /// </summary>
-public enum SchedulerMonthWeekPosition
+public enum SchedulerWeek
 {
     /// <summary>
     /// Represents the first week of the month.

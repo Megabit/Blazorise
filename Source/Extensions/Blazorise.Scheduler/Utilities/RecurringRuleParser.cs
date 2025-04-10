@@ -117,8 +117,8 @@ public static class RecurringRuleParser
                                 // Monthly with ordinal weekday: e.g., 1MO or -1FR
                                 if ( rule.Pattern == SchedulerRecurrencePattern.Monthly )
                                 {
-                                    rule.ByMonthWeek = (SchedulerMonthWeekPosition)int.Parse( prefix );
-                                    rule.ByMonthWeekDay = day;
+                                    rule.ByWeek = (SchedulerWeek)int.Parse( prefix );
+                                    rule.ByWeekDay = day;
                                 }
                             }
                             else

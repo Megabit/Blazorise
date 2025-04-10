@@ -177,7 +177,7 @@ public static class RecurringRuleCalculators
                 firstOccurrence = firstOccurrence.AddMonths( rule.Interval );
             }
         }
-        else if ( rule.ByMonthWeek.HasValue && rule.ByMonthWeekDay.HasValue )
+        else if ( rule.ByWeek.HasValue && rule.ByWeekDay.HasValue )
         {
             // Handle month-week-day based recurrences
             DateTime referenceDate = new DateTime( itemStart.Year, itemStart.Month, 1, itemStart.Hour, itemStart.Minute, itemStart.Second );
@@ -191,7 +191,7 @@ public static class RecurringRuleCalculators
 
             while ( referenceDate <= viewEnd && ( !rule.Count.HasValue || occurrenceCount < rule.Count ) && ( !rule.EndDate.HasValue || referenceDate <= rule.EndDate ) )
             {
-                DateTime calculatedDate = GetNthWeekdayOfMonth( referenceDate.Year, referenceDate.Month, rule.ByMonthWeek.Value, rule.ByMonthWeekDay.Value )
+                DateTime calculatedDate = GetNthWeekdayOfMonth( referenceDate.Year, referenceDate.Month, rule.ByWeek.Value, rule.ByWeekDay.Value )
                     .AddHours( itemStart.Hour ).AddMinutes( itemStart.Minute ).AddSeconds( itemStart.Second );
 
                 if ( calculatedDate >= viewStart && calculatedDate <= viewEnd && calculatedDate >= itemStart && ( !rule.EndDate.HasValue || calculatedDate <= rule.EndDate ) )
@@ -247,7 +247,7 @@ public static class RecurringRuleCalculators
     }
 
     // Helper to calculate the nth weekday of a month
-    private static DateTime GetNthWeekdayOfMonth( int year, int month, SchedulerMonthWeekPosition monthWeek, DayOfWeek weekday )
+    private static DateTime GetNthWeekdayOfMonth( int year, int month, SchedulerWeek monthWeek, DayOfWeek weekday )
     {
         DateTime firstOfMonth = new DateTime( year, month, 1 );
 
@@ -256,17 +256,17 @@ public static class RecurringRuleCalculators
 
         int weekNumber = monthWeek switch
         {
-            SchedulerMonthWeekPosition.First => 0,
-            SchedulerMonthWeekPosition.Second => 1,
-            SchedulerMonthWeekPosition.Third => 2,
-            SchedulerMonthWeekPosition.Fourth => 3,
-            SchedulerMonthWeekPosition.Last => ( firstWeekday.AddDays( 28 ).Month == month ) ? 4 : 3,
+            SchedulerWeek.First => 0,
+            SchedulerWeek.Second => 1,
+            SchedulerWeek.Third => 2,
+            SchedulerWeek.Fourth => 3,
+            SchedulerWeek.Last => ( firstWeekday.AddDays( 28 ).Month == month ) ? 4 : 3,
             _ => throw new ArgumentOutOfRangeException( nameof( monthWeek ), monthWeek, null )
         };
 
         DateTime result = firstWeekday.AddDays( weekNumber * 7 );
 
-        if ( monthWeek == SchedulerMonthWeekPosition.Last && result.AddDays( 7 ).Month == month )
+        if ( monthWeek == SchedulerWeek.Last && result.AddDays( 7 ).Month == month )
         {
             result = result.AddDays( 7 );
         }

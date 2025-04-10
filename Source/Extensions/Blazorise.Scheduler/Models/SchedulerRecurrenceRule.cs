@@ -39,10 +39,10 @@ public class SchedulerRecurrenceRule
             var byDay = string.Join( ",", ByDay.Select( DayToRfc5545 ) );
             components.Add( $"BYDAY={byDay}" );
         }
-        else if ( Pattern == SchedulerRecurrencePattern.Monthly && ByMonthWeek.HasValue && ByMonthWeekDay.HasValue )
+        else if ( Pattern == SchedulerRecurrencePattern.Monthly && ByWeek.HasValue && ByWeekDay.HasValue )
         {
-            var ordinal = ( (int)ByMonthWeek.Value ).ToString();
-            var day = DayToRfc5545( ByMonthWeekDay.Value );
+            var ordinal = ( (int)ByWeek.Value ).ToString();
+            var day = DayToRfc5545( ByWeekDay.Value );
             components.Add( $"BYDAY={ordinal}{day}" );
         }
 
@@ -102,15 +102,18 @@ public class SchedulerRecurrenceRule
     /// </summary>
     public List<DayOfWeek> ByDay { get; set; }
 
+    /// <summary>
+    /// A list of days of the month. It allows for specifying multiple days for scheduling or recurring events.
+    /// </summary>
+    public List<int> ByMonthDay { get; set; }
+
     #endregion
 
     #region Monthly Rules
 
-    public List<int> ByMonthDay { get; set; }
+    public SchedulerWeek? ByWeek { get; set; }
 
-    public SchedulerMonthWeekPosition? ByMonthWeek { get; set; }
-
-    public DayOfWeek? ByMonthWeekDay { get; set; }
+    public DayOfWeek? ByWeekDay { get; set; }
 
     #endregion
 

@@ -30,8 +30,8 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
 {
     <_SchedulerMonthlyRulePicker Value="@InternalMonthlyRule" ValueChanged="@OnInternalMonthlyRuleChanged"
                                  ByMonthDay="@ByMonthDay" ByMonthDayChanged="@OnMonthlyRuleByMonthDayChanged"
-                                 ByMonthWeek="@ByMonthWeek" ByMonthWeekChanged="@OnMonthlyRuleByMonthWeekChanged"
-                                 ByMonthWeekDay="@ByMonthWeekDay" ByMonthWeekDayChanged="@OnMonthlyRuleByMonthWeekDayChanged" />
+                                 ByWeek="@ByWeek" ByWeekChanged="@OnMonthlyRuleByWeekChanged"
+                                 ByWeekDay="@ByWeekDay" ByWeekDayChanged="@OnMonthlyRuleByWeekDayChanged" />
 }
 @if ( Pattern != SchedulerRecurrencePattern.Never )
 {
@@ -65,8 +65,8 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
                 Count = rule.Count;
                 ByDay = rule.ByDay;
                 ByMonthDay = rule.ByMonthDay ?? new List<int> { 1 };
-                ByMonthWeek = rule.ByMonthWeek ?? SchedulerMonthWeekPosition.First;
-                ByMonthWeekDay = rule.ByMonthWeekDay ?? FirstDayOfWeek;
+                ByWeek = rule.ByWeek ?? SchedulerWeek.First;
+                ByWeekDay = rule.ByWeekDay ?? FirstDayOfWeek;
 
                 if ( Pattern == SchedulerRecurrencePattern.Monthly )
                 {
@@ -83,8 +83,8 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
                 Count = null;
                 ByDay = new() { DateTime.Today.AddDays( 1 ).DayOfWeek };
                 ByMonthDay = new() { 1 };
-                ByMonthWeek = SchedulerMonthWeekPosition.First;
-                ByMonthWeekDay = FirstDayOfWeek;
+                ByWeek = SchedulerWeek.First;
+                ByWeekDay = FirstDayOfWeek;
             }
         }
 
@@ -127,15 +127,15 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
         return NotifyRecurrenceRuleChanged();
     }
 
-    protected Task OnMonthlyRuleByMonthWeekChanged( SchedulerMonthWeekPosition? byMonthWeek )
+    protected Task OnMonthlyRuleByWeekChanged( SchedulerWeek? byWeek )
     {
-        ByMonthWeek = byMonthWeek;
+        ByWeek = byWeek;
         return NotifyRecurrenceRuleChanged();
     }
 
-    protected Task OnMonthlyRuleByMonthWeekDayChanged( DayOfWeek? byMonthWeekDay )
+    protected Task OnMonthlyRuleByWeekDayChanged( DayOfWeek? byWeekDay )
     {
-        ByMonthWeekDay = byMonthWeekDay;
+        ByWeekDay = byWeekDay;
         return NotifyRecurrenceRuleChanged();
     }
 
@@ -165,8 +165,8 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
             }
             else
             {
-                rule.ByMonthWeek = ByMonthWeek;
-                rule.ByMonthWeekDay = ByMonthWeekDay;
+                rule.ByWeek = ByWeek;
+                rule.ByWeekDay = ByWeekDay;
             }
         }
 
@@ -188,9 +188,9 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
 
     protected List<int> ByMonthDay { get; set; }
 
-    protected SchedulerMonthWeekPosition? ByMonthWeek { get; set; }
+    protected SchedulerWeek? ByWeek { get; set; }
 
-    protected DayOfWeek? ByMonthWeekDay { get; set; }
+    protected DayOfWeek? ByWeekDay { get; set; }
 
     /// <summary>
     /// Defines the first day of the week.
