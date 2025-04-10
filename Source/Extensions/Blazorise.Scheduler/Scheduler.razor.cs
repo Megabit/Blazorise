@@ -747,14 +747,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="viewStart">The beginning of the date range used to filter the scheduled items.</param>
     /// <param name="viewEnd">The end of the date range used to filter the scheduled items.</param>
     /// <returns>The first scheduled item that starts within the specified date range or null if none is found.</returns>
-    internal SchedulerItemViewInfo<TItem> GetViewItemInRange( IEnumerable<SchedulerItemViewInfo<TItem>> items, DateTime viewStart, DateTime viewEnd )
+    internal IEnumerable<SchedulerItemViewInfo<TItem>> GetViewItemInRange( IEnumerable<SchedulerItemViewInfo<TItem>> items, DateTime viewStart, DateTime viewEnd )
     {
         return ( from itemInfo in items
                  let start = itemInfo.ViewStart
                  let end = itemInfo.ViewEnd
                  let duration = end - start
                  where start >= viewStart && start <= viewEnd
-                 select itemInfo ).FirstOrDefault();
+                 select itemInfo );
     }
 
     /// <summary>

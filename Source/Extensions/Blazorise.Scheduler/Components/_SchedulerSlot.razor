@@ -1,13 +1,15 @@
 ﻿@using System.Text
 @typeparam TItem
 <Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
-    @if ( ViewItem is not null && ViewItem.Item is not null )
+    @foreach ( var viewItem in ViewItems ?? Enumerable.Empty<SchedulerItemViewInfo<TItem>>() )
     {
-        <Span Style="@GetAppointmentStyle( ViewItem )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate">
-            <Span>
-                @Scheduler?.GetItemTitle( ViewItem.Item )
+        var index = ViewItems.IndexOf( viewItem );
+
+        <Span Style="@GetAppointmentStyle( viewItem, index, ViewItems.Count )" Position="Position.Absolute" Background="Background.Warning" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation>
+            <Span @onclick="@(() => OnAppointmentClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Height="Height.Is100">
+                @Scheduler?.GetItemTitle( viewItem.Item )
             </Span>
-            @if ( ViewItem.IsRecurring )
+            @if ( viewItem.IsRecurring )
             {
                 <Span>
                     <Icon Name="IconName.Sync" />
@@ -36,18 +38,18 @@
         if ( Clicked is null )
             return Task.CompletedTask;
 
-        if ( ViewItem is not null && ViewItem.Item is not null )
-            return Clicked.Invoke( ViewItem.Item, SlotStart, SlotEnd );
+        // if ( viewItem is not null && viewItem.Item is not null )
+        //     return Clicked.Invoke( viewItem.Item, SlotStart, SlotEnd );
 
         return Clicked.Invoke( default, SlotStart, SlotEnd );
     }
 
-    protected Task OnAppointmentClicked()
+    protected Task OnAppointmentClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( Clicked is null )
             return Task.CompletedTask;
 
-        return Clicked.Invoke( ViewItem.Item, SlotStart, SlotEnd );
+        return Clicked.Invoke( viewItem.Item, SlotStart, SlotEnd );
     }
 
     private string GetSlotStyle()
@@ -58,7 +60,7 @@
         return "border-bottom-style: dashed !important";
     }
 
-    private string GetAppointmentStyle( SchedulerItemViewInfo<TItem> viewItem )
+    private string GetAppointmentStyle( SchedulerItemViewInfo<TItem> viewItem, int index, int totalItems )
     {
         var viewStart = viewItem.ViewStart;
         var viewEnd = viewItem.ViewEnd;
@@ -67,7 +69,21 @@
         var top = ( viewStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
         var height = viewDuration.TotalMinutes / 60 * ItemCellHeight;
 
-        return $"cursor: pointer; left: 0; top: {top}px; height: {height}px; right: 0; z-index: 1;";
+        if ( totalItems == 1 )
+        {
+            return $"cursor: pointer; left: 0; right: 0; top: {top}px; height: {height}px; z-index: 1;";
+        }
+
+        double itemWidth = 100.0 / totalItems;
+        double leftPercentage = index * itemWidth;
+        double rightPercentage = 100 - ( ( index + 1 ) * itemWidth );
+
+        if ( index < totalItems - 1 )
+        {
+            rightPercentage += 1;
+        }
+
+        return $"cursor: pointer; left: {leftPercentage}%; right: {rightPercentage}%; top: {top}px; height: {height}px; z-index: 1;";
     }
 
     private bool MouseHovering { get; set; }
@@ -83,7 +99,7 @@
     /// <summary>
     /// Defines the appointment that is displayed in the slot.
     /// </summary>
-    [Parameter] public SchedulerItemViewInfo<TItem> ViewItem { get; set; }
+    [Parameter] public List<SchedulerItemViewInfo<TItem>> ViewItems { get; set; }
 
     /// <summary>
     /// Defines the start date of the slot.

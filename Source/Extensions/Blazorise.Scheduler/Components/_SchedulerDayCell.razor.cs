@@ -54,7 +54,7 @@ public partial class _SchedulerDayCell<TItem>
         return new DateTime( Date.Year, Date.Month, Date.Day, Time.Hour, 0, 0 ).Add( endTime );
     }
 
-    protected SchedulerItemViewInfo<TItem> GetSlotItemViewInfo( DateTime start, DateTime end )
+    protected IEnumerable<SchedulerItemViewInfo<TItem>> GetSlotItemViewsInfo( DateTime start, DateTime end )
     {
         if ( Scheduler is null )
             return default;

@@ -86,6 +86,7 @@
     List<SchedulerAppointment> Appointments = new List<SchedulerAppointment>
     {
         new SchedulerAppointment( "Meeting with the CEO", "Regarding the new margeting strategy", start, start.AddHours(1) ),
+        new SchedulerAppointment( "Some other meeting", "Regarding the new margeting strategy", start, start.AddHours(1) ),
         new SchedulerAppointment( "Lunch with the team", "Discussing the new project", start.AddDays(-10).AddHours(2), start.AddDays(-10).AddHours(3))
         {
             RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3"
