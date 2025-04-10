@@ -447,7 +447,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
     {
         editItem = ( from item in Data
-                     where GetItemStartTime( item ) >= start && GetItemEndTime( item ) < end
+                     where GetItemStartTime( item ) == start && GetItemEndTime( item ) == end
                      select item ).FirstOrDefault();
 
         if ( editItem is null )
