@@ -26,12 +26,14 @@
 {
     <_SchedulerWeeklyRulePicker ByDay="@ByDay" ByDayChanged="@OnWeeklyRuleOnDayChanged" FirstDayOfWeek="@FirstDayOfWeek" />
 }
-else if ( Pattern == SchedulerRecurrencePattern.Monthly )
+else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerRecurrencePattern.Yearly )
 {
     <_SchedulerMonthlyRulePicker Value="@InternalMonthlyRule" ValueChanged="@OnInternalMonthlyRuleChanged"
                                  ByMonthDay="@ByMonthDay" ByMonthDayChanged="@OnMonthlyRuleByMonthDayChanged"
                                  ByWeek="@ByWeek" ByWeekChanged="@OnMonthlyRuleByWeekChanged"
-                                 ByWeekDay="@ByWeekDay" ByWeekDayChanged="@OnMonthlyRuleByWeekDayChanged" />
+                                 ByWeekDay="@ByWeekDay" ByWeekDayChanged="@OnMonthlyRuleByWeekDayChanged"
+                                 ShowMonth="@(Pattern == SchedulerRecurrencePattern.Yearly)"
+                                 ByMonth="@ByMonth" ByMonthChanged="@OnYearlyRuleByMonthChanged" />
 }
 @if ( Pattern != SchedulerRecurrencePattern.Never )
 {
@@ -39,7 +41,7 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
         <Field ColumnSize="ColumnSize.Is3">
             <FieldLabel>End</FieldLabel>
             <FieldBody>
-                <DatePicker TValue="DateTime?" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+                <DatePicker TValue="DateTime ?" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
             </FieldBody>
         </Field>
         <Field ColumnSize="ColumnSize.Is3">
@@ -67,12 +69,17 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
                 ByMonthDay = rule.ByMonthDay ?? new List<int> { 1 };
                 ByWeek = rule.ByWeek ?? SchedulerWeek.First;
                 ByWeekDay = rule.ByWeekDay ?? FirstDayOfWeek;
+                ByMonth = rule.ByMonth ?? SchedulerMonth.January;
 
                 if ( Pattern == SchedulerRecurrencePattern.Monthly )
                 {
                     InternalMonthlyRule = rule.ByMonthDay?.Any() == true
                         ? "monthly-rule-by-day"
                         : "monthly-rule-by-week";
+                }
+                else if ( Pattern == SchedulerRecurrencePattern.Yearly )
+                {
+                    InternalMonthlyRule = "monthly-rule-by-week";
                 }
             }
             else
@@ -85,6 +92,7 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
                 ByMonthDay = new() { 1 };
                 ByWeek = SchedulerWeek.First;
                 ByWeekDay = FirstDayOfWeek;
+                ByMonth = SchedulerMonth.January;
             }
         }
 
@@ -139,6 +147,12 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
         return NotifyRecurrenceRuleChanged();
     }
 
+    protected Task OnYearlyRuleByMonthChanged( SchedulerMonth? byMonth )
+    {
+        ByMonth = byMonth;
+        return NotifyRecurrenceRuleChanged();
+    }
+
     protected Task OnInternalMonthlyRuleChanged( string value )
     {
         InternalMonthlyRule = value;
@@ -170,6 +184,11 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
             }
         }
 
+        if ( rule.Pattern == SchedulerRecurrencePattern.Yearly )
+        {
+            rule.ByMonth = ByMonth;
+        }
+
         RecurrenceRule = rule.ToRRuleString();
         return RecurrenceRuleChanged.InvokeAsync( RecurrenceRule );
     }
@@ -192,9 +211,8 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly )
 
     protected DayOfWeek? ByWeekDay { get; set; }
 
-    /// <summary>
-    /// Defines the first day of the week.
-    /// </summary>
+    protected SchedulerMonth? ByMonth { get; set; }
+
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 
     [Parameter] public string RecurrenceRule { get; set; }

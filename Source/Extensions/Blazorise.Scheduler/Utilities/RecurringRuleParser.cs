@@ -130,6 +130,20 @@ public static class RecurringRuleParser
                         }
                     }
                     break;
+
+                case "BYMONTH":
+                    {
+                        // Process BYMONTH parameter for yearly recurrence
+                        if ( int.TryParse( value, out var month ) && month >= 1 && month <= 12 )
+                        {
+                            rule.ByMonth = (SchedulerMonth)month;
+                        }
+                        else
+                        {
+                            throw new FormatException( $"Invalid BYMONTH value: {value}. Must be between 1 and 12." );
+                        }
+                    }
+                    break;
             }
         }
 

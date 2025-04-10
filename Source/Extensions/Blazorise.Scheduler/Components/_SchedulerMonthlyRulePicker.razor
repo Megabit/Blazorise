@@ -7,7 +7,7 @@
                 <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-day")">Day</Radio>
             </FieldBody>
         </Field>
-        <Field ColumnSize="ColumnSize.Is4">
+        <Field ColumnSize="ColumnSize.Is3">
             <FieldBody>
                 <NumericPicker TValue="int" Min="1" Max="31" Decimals="0" Disabled="@(InternalMonthlyRule == "monthly-rule-by-week")" Value="@SingleByMonthDay" ValueChanged="@OnSingleByMonthDayChanged" />
             </FieldBody>
@@ -19,30 +19,39 @@
                 <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-week")">On</Radio>
             </FieldBody>
         </Field>
-        <Field ColumnSize="ColumnSize.Is4">
+        <Field ColumnSize="ColumnSize.Is3">
             <FieldBody>
                 <Select TValue="SchedulerWeek?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeek" ValueChanged="@ByWeekChanged">
-                    <SelectItem Value="SchedulerWeek.First">First</SelectItem>
-                    <SelectItem Value="SchedulerWeek.Second">Second</SelectItem>
-                    <SelectItem Value="SchedulerWeek.Third">Third</SelectItem>
-                    <SelectItem Value="SchedulerWeek.Fourth">Fourth</SelectItem>
-                    <SelectItem Value="SchedulerWeek.Last">Last</SelectItem>
+                    @foreach ( var enumValue in Enum.GetValues<SchedulerWeek>() )
+                    {
+                        <SelectItem Value="@enumValue">@enumValue.ToString()</SelectItem>
+                    }
                 </Select>
             </FieldBody>
         </Field>
-        <Field ColumnSize="ColumnSize.Is4">
+        <Field ColumnSize="ColumnSize.Is3">
             <FieldBody>
                 <Select TValue="DayOfWeek?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeekDay" ValueChanged="@ByWeekDayChanged">
-                    <SelectItem Value="DayOfWeek.Monday">Monday</SelectItem>
-                    <SelectItem Value="DayOfWeek.Tuesday">Tuesday</SelectItem>
-                    <SelectItem Value="DayOfWeek.Wednesday">Wednesday</SelectItem>
-                    <SelectItem Value="DayOfWeek.Thursday">Thursday</SelectItem>
-                    <SelectItem Value="DayOfWeek.Friday">Friday</SelectItem>
-                    <SelectItem Value="DayOfWeek.Saturday">Saturday</SelectItem>
-                    <SelectItem Value="DayOfWeek.Sunday">Sunday</SelectItem>
+                    @foreach ( var enumValue in Enum.GetValues<DayOfWeek>() )
+                    {
+                        <SelectItem Value="@enumValue">@enumValue.ToString()</SelectItem>
+                    }
                 </Select>
             </FieldBody>
         </Field>
+        @if ( ShowMonth )
+        {
+            <Field ColumnSize="ColumnSize.Is3">
+                <FieldBody>
+                    <Select TValue="SchedulerMonth?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByMonth" ValueChanged="@ByMonthChanged">
+                        @foreach ( var enumValue in Enum.GetValues<SchedulerMonth>() )
+                        {
+                            <SelectItem Value="@enumValue">@enumValue.ToString()</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+        }
     </Fields>
 </CascadingValue>
 @code {
@@ -85,4 +94,10 @@
     [Parameter] public DayOfWeek? ByWeekDay { get; set; }
 
     [Parameter] public EventCallback<DayOfWeek?> ByWeekDayChanged { get; set; }
+
+    [Parameter] public bool ShowMonth { get; set; }
+
+    [Parameter] public SchedulerMonth? ByMonth { get; set; }
+
+    [Parameter] public EventCallback<SchedulerMonth?> ByMonthChanged { get; set; }
 }

@@ -53,6 +53,14 @@ public class SchedulerRecurrenceRule
             components.Add( $"BYMONTHDAY={byMonthDay}" );
         }
 
+        // BYMONTH rule: yearly by month
+        if ( Pattern == SchedulerRecurrencePattern.Yearly && ByMonth.HasValue )
+        {
+            // Use the integer value directly since we've now assigned explicit values
+            int monthNumber = (int)ByMonth.Value;
+            components.Add( $"BYMONTH={monthNumber}" );
+        }
+
         return string.Join( ";", components );
     }
 
@@ -111,9 +119,24 @@ public class SchedulerRecurrenceRule
 
     #region Monthly Rules
 
+    /// <summary>
+    /// Defines the week of the month when an event should occur.
+    /// </summary>
     public SchedulerWeek? ByWeek { get; set; }
 
+    /// <summary>
+    /// Defines the day of the week when an event should occur.
+    /// </summary>
     public DayOfWeek? ByWeekDay { get; set; }
+
+    #endregion
+
+    #region Yearly Rules
+
+    /// <summary>
+    /// Defines the month of the year when an event should occur.
+    /// </summary>
+    public SchedulerMonth? ByMonth { get; set; }
 
     #endregion
 
