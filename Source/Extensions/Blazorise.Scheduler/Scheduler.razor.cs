@@ -521,7 +521,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
         {
-            if ( await MessageService.Confirm( "Item will be deleted permanently, are you sure?", "Delete", options =>
+            var isSeries = !string.IsNullOrEmpty( GetItemRecurrenceRule( item ) );
+
+            var deleteMessage = isSeries
+                ? "Item is a recurring series. Are you sure you want to delete all occurrences?"
+                : "Item will be deleted permanently, are you sure?";
+
+            if ( await MessageService.Confirm( deleteMessage, "Delete", options =>
             {
                 options.ShowCloseButton = false;
                 options.ShowMessageIcon = false;
@@ -576,7 +582,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
         {
-            if ( UseInternalEditing && editState == SchedulerEditState.Edit && CanInsertNewItem && Data is ICollection<TItem> data )
+            if ( UseInternalEditing && CanInsertNewItem && Data is ICollection<TItem> data )
             {
                 var itemRef = data.FirstOrDefault( x => GetItemId( x ).IsEqual( GetItemId( itemToDelete ) ) );
 
