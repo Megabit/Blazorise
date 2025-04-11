@@ -711,7 +711,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             }
         }
 
-        return itemsInView.Concat( virtualItems );
+        // If the item is having a recurring rule that means we want to show a series and we want to hide original item.
+        return itemsInView
+            .Where( x => x.RecurrenceRule is null )
+            .Concat( virtualItems );
     }
 
     private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, string recurrenceRule, DateTime viewStart, DateTime viewEnd )
