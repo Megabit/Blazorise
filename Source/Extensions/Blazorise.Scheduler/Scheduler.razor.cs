@@ -1006,17 +1006,17 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public Func<TItem> NewItemCreator { get; set; }
 
     /// <summary>
-    /// Triggers an event when a new item is being inserted into the scheduler. It provides a callback with details about the item being inserted.
+    /// Triggers an event when a new item is being inserted into the scheduler. It allows handling and cancellation of the item insert process.
     /// </summary>
     [Parameter] public EventCallback<SchedulerCancellableItemChange<TItem>> ItemInserting { get; set; }
 
     /// <summary>
-    /// An event callback triggered when an item is being updated in the scheduler. It allows handling of the item update process.
+    /// An event callback triggered when an item is being updated in the scheduler. It allows handling and cancellation of the item update process.
     /// </summary>
     [Parameter] public EventCallback<SchedulerCancellableItemChange<TItem>> ItemUpdating { get; set; }
 
     /// <summary>
-    /// An event callback triggered when an item is being removed from the scheduler. It allows handling of the removal process.
+    /// An event callback triggered when an item is being removed from the scheduler. It allows handling and cancellation of the removal process.
     /// </summary>
     [Parameter] public EventCallback<SchedulerCancellableItemChange<TItem>> ItemRemoving { get; set; }
 
