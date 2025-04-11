@@ -12,9 +12,11 @@
         var offsetEnd = ( (int)endOfWeek - (int)lastDayOfMonth.DayOfWeek + 7 ) % 7;
         var maxDate = lastDayOfMonth.AddDays( offsetEnd );
 
+        var items = Scheduler.GetItemsInView( minDate.ToDateTime( TimeOnly.MinValue ), maxDate.ToDateTime( TimeOnly.MaxValue ) ).ToList();
+
         @for ( var firstDateOfWeek = minDate; firstDateOfWeek <= minDate.AddDays( 6 ); firstDateOfWeek = firstDateOfWeek.AddDays( 1 ) )
         {
-            <_SchedulerWeekColumn TItem="TItem" MinDate="@minDate" MaxDate="@maxDate" FirstDateOfWeek="@firstDateOfWeek" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
+            <_SchedulerWeekColumn TItem="TItem" MinDate="@minDate" MaxDate="@maxDate" FirstDateOfWeek="@firstDateOfWeek" SelectedDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@items" />
         }
     }
 </Div>

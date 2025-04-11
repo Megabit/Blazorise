@@ -58,6 +58,10 @@
                 else if ( ShowingMonthView )
                 {
                     <_SchedulerMonthView TItem="TItem"
+                                         StartTime="@schedulerDayView.StartTime"
+                                         EndTime="@schedulerDayView.EndTime"
+                                         WorkDayStart="@schedulerDayView.WorkDayStart"
+                                         WorkDayEnd="@schedulerDayView.WorkDayEnd"
                                          SelectedDate="@state.SelectedDate"
                                          FirstDayOfWeek="@schedulerMonthView.FirstDayOfWeek"
                                          HeaderCellHeight="@schedulerMonthView.HeaderCellHeight"

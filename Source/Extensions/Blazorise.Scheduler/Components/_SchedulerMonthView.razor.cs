@@ -17,6 +17,8 @@ public partial class _SchedulerMonthView<TItem>
 
     #region Properties
 
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
     /// <summary>
     /// Gets or sets the date that is currently selected in the scheduler.
     /// </summary>
@@ -26,6 +28,14 @@ public partial class _SchedulerMonthView<TItem>
     /// Gets or sets the first day of the week.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+
+    [Parameter] public TimeOnly? StartTime { get; set; }
+
+    [Parameter] public TimeOnly? EndTime { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayStart { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayEnd { get; set; }
 
     [Parameter] public double HeaderCellHeight { get; set; }
 
