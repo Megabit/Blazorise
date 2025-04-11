@@ -332,6 +332,16 @@ public partial class _SchedulerModal<TItem>
 
     protected async Task Delete()
     {
+        if ( await MessageService.Confirm( "Item will be deleted permanently, are you sure?", "Delete", options =>
+        {
+            options.ShowCloseButton = false;
+            options.ShowMessageIcon = false;
+            options.CancelButtonText = "Cancel";
+            options.ConfirmButtonText = "Delete";
+            options.ConfirmButtonColor = Color.Danger;
+        } ) == false )
+            return;
+
         var result = await DeleteRequested.Invoke( EditItem );
 
         if ( result )
@@ -377,6 +387,11 @@ public partial class _SchedulerModal<TItem>
     protected string RecurrenceRule { get; set; }
 
     protected TItem EditItem { get; set; }
+
+    /// <summary>
+    /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.
+    /// </summary>
+    [Inject] private IMessageService MessageService { get; set; }
 
     /// <summary>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the unique identifier of the appointment. Defaults to "Id".

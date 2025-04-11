@@ -521,6 +521,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
         {
+            if ( await MessageService.Confirm( "Item will be deleted permanently, are you sure?", "Delete", options =>
+            {
+                options.ShowCloseButton = false;
+                options.ShowMessageIcon = false;
+                options.CancelButtonText = "Cancel";
+                options.ConfirmButtonText = "Delete";
+                options.ConfirmButtonColor = Color.Danger;
+            } ) == false )
+                return;
+
             await DeleteImpl( item );
         }
     }
@@ -919,6 +929,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Returns true if <see cref="Data"/> is safe to modify.
     /// </summary>
     protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
+
+    /// <summary>
+    /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.
+    /// </summary>
+    [Inject] private IMessageService MessageService { get; set; }
 
     /// <summary>
     /// Holds a collection of items of type <typeparamref name="TItem"/>. Used to manage and display a list of appointments.
