@@ -496,6 +496,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Sets the <see cref="Scheduler{TItem}"/> into the Edit state mode for the specified item. 
+    /// </summary>
+    /// <param name="item">Item for which to set the edit mode.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Edit( TItem item )
     {
         editItem = item;
@@ -507,17 +512,20 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Deletes the specified item from the <see cref="Data"/> source.
+    /// </summary>
+    /// <param name="item">Item to delete.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Delete( TItem item )
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
         {
-            data.Remove( item );
-
-            await InvokeAsync( StateHasChanged );
+            await DeleteImpl( item );
         }
     }
 
-    protected internal async Task<bool> OnModalSaveRequested( TItem submitedItem )
+    protected internal async Task<bool> SaveImpl( TItem submitedItem )
     {
         var handler = editState == SchedulerEditState.New ? ItemInserting : ItemUpdating;
 
@@ -554,7 +562,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
-    protected internal async Task<bool> OnModalDeleteRequested( TItem itemToDelete )
+    protected internal async Task<bool> DeleteImpl( TItem itemToDelete )
     {
         if ( await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
         {
