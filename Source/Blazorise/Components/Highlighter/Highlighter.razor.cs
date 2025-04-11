@@ -14,10 +14,22 @@ namespace Blazorise;
 /// </summary>
 public partial class Highlighter : BaseComponent
 {
+    #region Objects
+
+    /// <summary>
+    /// Defines a fragment of the text.
+    /// </summary>
+    /// <param name="Text">The text fragment.</param>
+    /// <param name="IsMatch">Whether or not the text fragment is a match.</param>
+    record Fragment( string Text, bool IsMatch );
+
+    #endregion
+
     #region Members
 
     IEnumerable<Fragment> fragments;
-    private List<string> allHighlightedTexts= new();
+
+    private List<string> allHighlightedTexts = new();
 
     #endregion
 
@@ -26,33 +38,32 @@ public partial class Highlighter : BaseComponent
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
-        allHighlightedTexts = new List<string>(HighlightedTexts ?? Enumerable.Empty<string>()) { HighlightedText };
-        fragments = GetFragments( Text,allHighlightedTexts, CaseSensitive, UntilNextBoundary, NextBoundary );
+        allHighlightedTexts = new List<string>( HighlightedTexts ?? Enumerable.Empty<string>() ) { HighlightedText };
+        fragments = GetFragments( Text, allHighlightedTexts, CaseSensitive, UntilNextBoundary, NextBoundary );
     }
 
-    static IEnumerable<Fragment> GetFragments( string text, List<string> highlightedTexts, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null)
+    static IEnumerable<Fragment> GetFragments( string text, List<string> highlightedTexts, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null )
     {
-        if (string.IsNullOrWhiteSpace(text))
+        if ( string.IsNullOrWhiteSpace( text ) )
             return new List<Fragment>();
 
-        if (highlightedTexts == null || highlightedTexts.Count == 0 || highlightedTexts.All(string.IsNullOrWhiteSpace))
-            return new List<Fragment> { new(text, false) };
+        if ( highlightedTexts == null || highlightedTexts.Count == 0 || highlightedTexts.All( string.IsNullOrWhiteSpace ) )
+            return new List<Fragment> { new( text, false ) };
 
         var escaped = highlightedTexts
-                      .Where(s => !string.IsNullOrWhiteSpace(s))
-                      .Select(Regex.Escape).ToList();
+                      .Where( s => !string.IsNullOrWhiteSpace( s ) )
+                      .Select( Regex.Escape ).ToList();
 
         string pattern = untilNextBoundary
-          ? string.Join("|", escaped.Select(h => h + nextBoundary))
-          : string.Join("|", escaped);
+            ? string.Join( "|", escaped.Select( h => h + nextBoundary ) )
+            : string.Join( "|", escaped );
 
-        
-        var regex = new Regex($"({pattern})", caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
+        var regex = new Regex( $"({pattern})", caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase );
 
         return regex
-               .Split(text)
-               .Where(s => !string.IsNullOrEmpty(s))
-               .Select(s => new Fragment(s, regex.IsMatch(s)));;
+               .Split( text )
+               .Where( s => !string.IsNullOrEmpty( s ) )
+               .Select( s => new Fragment( s, regex.IsMatch( s ) ) );
     }
 
     #endregion
@@ -68,7 +79,7 @@ public partial class Highlighter : BaseComponent
     /// The search term to be highlighted.
     /// </summary>
     [Parameter] public string HighlightedText { get; set; }
-    
+
     /// <summary>
     /// Array of search terms to be highlighted.
     /// </summary>
@@ -89,8 +100,5 @@ public partial class Highlighter : BaseComponent
     /// </summary>
     [Parameter] public bool UntilNextBoundary { get; set; }
 
-    #endregion
-    
-    record Fragment(string Text, bool IsMatch);
-
+    #endregion    
 }
