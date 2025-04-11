@@ -122,6 +122,14 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     /// <inheritdoc/>
     public ValueTask<bool> IsSystemDarkMode()
         => InvokeSafeAsync<bool>( "isSystemDarkMode" );
+    
+    /// <inheritdoc/>
+    public virtual async ValueTask<int> ExportToFile( byte[] data, string fileName, string mimeType )
+    {
+        var moduleInstance = await Module;
+
+        return await moduleInstance.InvokeAsync<int>( "exportToFile", data, fileName, mimeType );
+    }
 
     #endregion
 

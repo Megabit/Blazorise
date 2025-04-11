@@ -187,4 +187,13 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains true if the theme is in dark mode, otherwise false.</returns>
     ValueTask<bool> IsSystemDarkMode();
+
+    /// <summary>
+    /// Exports the given data to a file.
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="fileName"></param>
+    /// <param name="mimeType"></param>
+    /// <returns></returns>
+    ValueTask<int> ExportToFile( byte[] data, string fileName, string mimeType );
 }

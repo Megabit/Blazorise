@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.DeepCloner;
+using Blazorise.Export;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
@@ -1805,13 +1806,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public ValueTask ScrollToRow( int row )
         => tableRef.ScrollToRow( row );
     
-    public async Task<TExportResult> Export<TExportResult, TCellValue>( IDataGridExporter< TExportResult, TCellValue> exporter, DataGridExportOptions options = null )
+    public async Task<TExportResult> Export<TExportResult, TCellValue>( IExporter< TExportResult, TabularSourceData< TCellValue>> exporter, DataGridExportOptions options = null )
     where TExportResult: IExportResult, new()
     {
         if ( exporter is IFileExportTarget fileExporter )
         {
-            Console.WriteLine( $"I am here in fileexpor" );
-            fileExporter.JsDataGridModule = JSModule;
+            fileExporter.JSUtilitiesModule = JSUtilitiesModule;
         }
         else if ( exporter is IClipboardExportTarget clipboardExporter )
         {
@@ -1820,11 +1820,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         
         var data = ExportData<TCellValue>(options);
 
-        TExportResult exportResult = await exporter.Export( data.exportedData, data.columnNames );
+        TExportResult exportResult = await exporter.Export(  data );
         return exportResult;    
     }
     
-    private (List<List<TCellValue>> exportedData, List<string> columnNames) ExportData<TCellValue>( DataGridExportOptions options )
+    private TabularSourceData<TCellValue> ExportData<TCellValue>( DataGridExportOptions options )
     {
         options ??= new();
 
@@ -1858,7 +1858,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             exportedData.Add( rowValues );
         }
 
-        return (exportedData, columnNames);
+        return new TabularSourceData<TCellValue> {Data= exportedData,ColumnNames = columnNames};
     }
 
 
