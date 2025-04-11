@@ -247,14 +247,14 @@ public partial class _SchedulerModal<TItem>
         return modalRef.Show();
     }
 
-    public async Task Cancel()
+    protected async Task Cancel()
     {
         customValidationErrors.Clear();
 
         await modalRef.Hide();
     }
 
-    public async Task Submit()
+    protected async Task Submit()
     {
         customValidationErrors.Clear();
 
@@ -321,12 +321,22 @@ public partial class _SchedulerModal<TItem>
                 setRecurrenceRuleFunc?.Invoke( EditItem, RecurrenceRule );
             }
 
-            var result = await Submited.Invoke( EditItem );
+            var result = await SaveRequested.Invoke( EditItem );
 
             if ( result )
             {
                 await modalRef.Hide();
             }
+        }
+    }
+
+    protected async Task Delete()
+    {
+        var result = await DeleteRequested.Invoke( EditItem );
+
+        if ( result )
+        {
+            await modalRef.Hide();
         }
     }
 
@@ -404,9 +414,14 @@ public partial class _SchedulerModal<TItem>
     [Parameter] public string RecurrenceRuleField { get; set; }
 
     /// <summary>
-    /// Represents an event callback that is triggered when an item is saved.
+    /// Occurs when the user clicks the save button.
     /// </summary>
-    [Parameter] public Func<TItem, Task<bool>> Submited { get; set; }
+    [Parameter] public Func<TItem, Task<bool>> SaveRequested { get; set; }
+
+    /// <summary>
+    /// Occurs when the user clicks the delete button.
+    /// </summary>
+    [Parameter] public Func<TItem, Task<bool>> DeleteRequested { get; set; }
 
     /// <summary>
     /// Defines the first day of the week.

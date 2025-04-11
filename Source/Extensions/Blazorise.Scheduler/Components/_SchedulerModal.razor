@@ -120,9 +120,16 @@
                 </Paragraph>
             }
         </ModalBody>
-        <ModalFooter>
-            <Button Color="Color.Secondary" Clicked="@Cancel">Close</Button>
-            <Button Color="Color.Primary" Clicked="@Submit">Save Changes</Button>
+        <ModalFooter Flex="Flex.JustifyContent.Between.AlignItems.Center">
+            <Div>
+                <Button Color="Color.Danger" Outline Clicked="@Delete">
+                    <Icon Name="IconName.Delete" Margin="Margin.Is2.FromEnd" /> Delete
+                </Button>
+            </Div>
+            <Div>
+                <Button Color="Color.Secondary" Clicked="@Cancel">Close</Button>
+                <Button Color="Color.Primary" Clicked="@Submit">Save Changes</Button>
+            </Div>
         </ModalFooter>
     </ModalContent>
 </Modal>

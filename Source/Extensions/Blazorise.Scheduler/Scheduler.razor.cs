@@ -333,6 +333,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Gets the id of the specified appointment.
+    /// </summary>
+    /// <param name="item">The appointment to get the id from.</param>
+    /// <returns>The id of the appointment.</returns>
+    internal object GetItemId( TItem item )
+    {
+        return getIdFunc?.Invoke( item );
+    }
+
+    /// <summary>
     /// Gets the title of the specified appointment.
     /// </summary>
     /// <param name="item">The appointment to get the title from.</param>
@@ -507,7 +517,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    protected internal async Task<bool> ModalSubmitedItem( TItem submitedItem )
+    protected internal async Task<bool> OnModalSaveRequested( TItem submitedItem )
     {
         var handler = editState == SchedulerEditState.New ? ItemInserting : ItemUpdating;
 
@@ -532,6 +542,30 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             else
             {
                 await ItemUpdated.InvokeAsync( new SchedulerUpdatedItem<TItem>( editItem, editItemClone ) );
+            }
+
+            editState = SchedulerEditState.None;
+
+            await InvokeAsync( StateHasChanged );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    protected internal async Task<bool> OnModalDeleteRequested( TItem itemToDelete )
+    {
+        if ( await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
+        {
+            if ( UseInternalEditing && editState == SchedulerEditState.Edit && CanInsertNewItem && Data is ICollection<TItem> data )
+            {
+                var itemRef = data.FirstOrDefault( x => GetItemId( x ).IsEqual( GetItemId( itemToDelete ) ) );
+
+                if ( itemRef is not null )
+                {
+                    data.Remove( itemRef );
+                }
             }
 
             editState = SchedulerEditState.None;
@@ -974,6 +1008,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<SchedulerCancellableItemChange<TItem>> ItemUpdating { get; set; }
 
     /// <summary>
+    /// An event callback triggered when an item is being removed from the scheduler. It allows handling of the removal process.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerCancellableItemChange<TItem>> ItemRemoving { get; set; }
+
+    /// <summary>
     /// Triggers an event when a new item is inserted into the scheduler.
     /// </summary>
     [Parameter] public EventCallback<SchedulerInsertedItem<TItem>> ItemInserted { get; set; }
@@ -982,6 +1021,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Triggers an event when an item in the scheduler is updated.
     /// </summary>
     [Parameter] public EventCallback<SchedulerUpdatedItem<TItem>> ItemUpdated { get; set; }
+
+    /// <summary>
+    /// Triggers an event when an item in the scheduler is deleted.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerUpdatedItem<TItem>> ItemRemoved { get; set; }
 
     /// <summary>
     /// Occurs when an empty slot is clicked.
