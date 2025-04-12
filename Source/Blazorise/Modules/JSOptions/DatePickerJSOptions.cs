@@ -106,6 +106,11 @@ public class DatePickerJSOptions
     /// Gets or sets the validation status for the date picker.
     /// </summary>
     public object ValidationStatus { get; set; }
+
+    /// <summary>
+    /// Determines whether week numbers are displayed in the date picker
+    /// </summary>
+    public bool ShowWeekNumbers { get; set; }
 }
 
 /// <summary>

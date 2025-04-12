@@ -56,7 +56,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
             var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
             var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
-            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
+            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
+            var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool showWeekNumbers ) && ShowWeekNumbers != showWeekNumbers;
 
             if ( dateChanged || datesChanged )
             {
@@ -106,7 +107,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
                     DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile ),
                     Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
-                    StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramSaticPicker ),
+                    StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
                 } ) );
             }
         }
@@ -186,6 +187,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             DisableMobile = DisableMobile,
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
+            ShowWeekNumbers = ShowWeekNumbers,
             ValidationStatus = new
             {
                 SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
@@ -660,6 +662,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
+    
+    /// <summary>
+    /// Determines whether week numbers are displayed in the date picker
+    /// </summary>
+    [Parameter] public bool ShowWeekNumbers { get; set; }
 
     #endregion
 }
