@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -46,7 +47,7 @@ public partial class Highlighter : BaseComponent
         || ( parameters.TryGetValue<bool>( nameof( UntilNextBoundary ), out var untilNext ) && UntilNextBoundary != untilNext ) 
         || ( parameters.TryGetValue<string>( nameof( NextBoundary ), out var nextBoundary ) && NextBoundary != nextBoundary )
         || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) 
-             && !(HighlightedTexts ?? Enumerable.Empty<string>()).SequenceEqual( highlightedTexts ?? Enumerable.Empty<string>() ) );
+             && !(HighlightedTexts.AreEqual( highlightedTexts )));
         
         await base.SetParametersAsync(parameters);
 
