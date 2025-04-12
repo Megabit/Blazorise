@@ -4735,6 +4735,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string TimePickerIncrementsExample = @"<TimePicker TValue=""TimeSpan?"" HourIncrement=""2"" MinuteIncrement=""5"" />";
+
         public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" StaticPicker=""false"" />
 
 @code {
