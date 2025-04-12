@@ -7,7 +7,7 @@
 @using Blazorise.Scheduler.Extensions
 <Fields>
     <Field ColumnSize="ColumnSize.Is3">
-        <FieldLabel>Repeat Every</FieldLabel>
+        <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.RepeatEveryLocalizer, "Repeat Every" )</FieldLabel>
         <FieldBody>
             <NumericEdit TValue="int" Min="1" Max="99" Value="@Interval" ValueChanged="@OnIntervalChanged" />
         </FieldBody>
@@ -43,13 +43,13 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerR
 {
     <Fields>
         <Field ColumnSize="ColumnSize.Is3">
-            <FieldLabel>End</FieldLabel>
+            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, "End" )</FieldLabel>
             <FieldBody>
                 <DatePicker TValue="DateTime ?" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
             </FieldBody>
         </Field>
         <Field ColumnSize="ColumnSize.Is3">
-            <FieldLabel>Count</FieldLabel>
+            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.CountLocalizer, "Count" )</FieldLabel>
             <FieldBody>
                 <NumericEdit TValue="int?" Value="@Count" ValueChanged="@OnCountChanged" />
             </FieldBody>

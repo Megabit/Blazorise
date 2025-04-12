@@ -5,7 +5,7 @@
     <ModalContent Centered>
         <ModalHeader>
             <ModalTitle>
-                @(IsNewItem ? "New" : "Edit") Appointment
+                @ModalTitle
             </ModalTitle>
             <CloseButton />
         </ModalHeader>
@@ -126,10 +126,13 @@
         </ModalBody>
         <ModalFooter Flex="Blazorise.Flex.JustifyContent.Between.AlignItems.Center">
             <Div>
-                <Button Color="Color.Danger" Outline Clicked="@Delete">
-                    <Icon Name="IconName.Delete" Margin="Blazorise.Margin.Is2.FromEnd" />
-                    @Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" )
-                </Button>
+                @if ( !IsNewItem )
+                {
+                    <Button Color="Color.Danger" Outline Clicked="@Delete">
+                        <Icon Name="IconName.Delete" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        @Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" )
+                    </Button>
+                }
             </Div>
             <Div>
                 <Button Color="Color.Secondary" Clicked="@Cancel">

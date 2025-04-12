@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
+using Blazorise.Scheduler.Extensions;
 using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -349,7 +350,13 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
 
     protected async Task Delete()
     {
-        if ( await MessageService.Confirm( "Item will be deleted permanently, are you sure?", "Delete", options =>
+        var isSeries = !string.IsNullOrEmpty( Scheduler.GetItemRecurrenceRule( EditItem ) );
+
+        var deleteMessage = isSeries
+            ? Localizer.Localize( Scheduler.Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
+            : Localizer.Localize( Scheduler.Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently, are you sure?" );
+
+        if ( await MessageService.Confirm( deleteMessage, "Delete", options =>
         {
             options.ShowCloseButton = false;
             options.ShowMessageIcon = false;
@@ -370,6 +377,9 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
     #endregion
 
     #region Properties
+
+    string ModalTitle
+        => $"{Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, IsNewItem ? "New" : "Edit" )} {Localizer.Localize( Scheduler.Localizers?.AppointmentLocalizer, "Appointment" )}";
 
     protected bool IsNewItem { get; set; }
 

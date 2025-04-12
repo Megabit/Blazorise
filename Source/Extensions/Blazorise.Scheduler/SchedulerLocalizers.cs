@@ -55,4 +55,6 @@ public class SchedulerLocalizers
     public TextLocalizerHandler CountLocalizer { get; set; }
 
     public TextLocalizerHandler NeverLocalizer { get; set; }
+
+    public TextLocalizerHandler RepeatEveryLocalizer { get; set; }
 }
