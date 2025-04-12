@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blazorise.DeepCloner;
 using Blazorise.Extensions;
 using Blazorise.Infrastructure;
+using Blazorise.Localization;
 using Blazorise.Scheduler.Components;
 using Blazorise.Scheduler.Extensions;
 using Blazorise.Scheduler.Utilities;
@@ -524,8 +525,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             var isSeries = !string.IsNullOrEmpty( GetItemRecurrenceRule( item ) );
 
             var deleteMessage = isSeries
-                ? "Item is a recurring series. Are you sure you want to delete all occurrences?"
-                : "Item will be deleted permanently, are you sure?";
+                ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
+                : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently, are you sure?" );
 
             if ( await MessageService.Confirm( deleteMessage, "Delete", options =>
             {
@@ -945,6 +946,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Inject] private IMessageService MessageService { get; set; }
 
     /// <summary>
+    /// Injects an instance of <see cref="ITextLocalizerService"/> for localization.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Scheduler<TItem>> Localizer { get; set; }
+
+    /// <summary>
+    /// Injects an instance of <see cref="ITextLocalizerService"/> for localization.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
     /// Holds a collection of items of type <typeparamref name="TItem"/>. Used to manage and display a list of appointments.
     /// </summary>
     [Parameter] public IEnumerable<TItem> Data { get; set; }
@@ -1068,6 +1079,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Occurs when an appointment is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerItemClickedEventArgs<TItem>> ItemClicked { get; set; }
+
+    /// <summary>
+    /// Custom localizer handlers to override default <see cref="Scheduler{TItem}"/> localization.
+    /// </summary>
+    [Parameter] public SchedulerLocalizers Localizers { get; set; }
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.

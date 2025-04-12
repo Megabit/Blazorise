@@ -1,19 +1,42 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Scheduler.Components;
 
-public partial class _SchedulerToolbar<TItem> : BaseComponent
+public partial class _SchedulerToolbar<TItem> : BaseComponent, IDisposable
 {
     #region Members
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        }
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs e )
+    {
+        await InvokeAsync( StateHasChanged );
+    }
 
     /// <inheritdoc/>
     override protected void BuildClasses( ClassBuilder builder )
@@ -81,6 +104,21 @@ public partial class _SchedulerToolbar<TItem> : BaseComponent
     /// Gets or sets the scheduler state.
     /// </summary>
     [CascadingParameter] public SchedulerState SchedulerState { get; set; }
+
+    /// <summary>
+    /// Injects an instance of <see cref="ITextLocalizerService"/> for localization.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Scheduler<TItem>> Localizer { get; set; }
+
+    /// <summary>
+    /// Injects an instance of <see cref="ITextLocalizerService"/> for localization.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Cascades the <see cref="Scheduler{TItem}"/> instance to the modal.
+    /// </summary>
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
     /// Gets or sets the date that is currently selected in the scheduler.

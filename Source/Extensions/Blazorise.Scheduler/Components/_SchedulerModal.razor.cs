@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Scheduler.Components;
 
-public partial class _SchedulerModal<TItem>
+public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
 {
     #region Members
 
@@ -88,7 +89,23 @@ public partial class _SchedulerModal<TItem>
             setRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( RecurrenceRuleField );
         }
 
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        }
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs e )
+    {
+        await InvokeAsync( StateHasChanged );
     }
 
     private void OnValidateTitle( ValidatorEventArgs e )
@@ -389,9 +406,24 @@ public partial class _SchedulerModal<TItem>
     protected TItem EditItem { get; set; }
 
     /// <summary>
-    /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.
+    /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations.
     /// </summary>
     [Inject] private IMessageService MessageService { get; set; }
+
+    /// <summary>
+    /// Injects an instance of <see cref="ITextLocalizerService"/> for localization.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Scheduler<TItem>> Localizer { get; set; }
+
+    /// <summary>
+    /// Injects an instance of <see cref="ITextLocalizerService"/> for localization.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Cascades the <see cref="Scheduler{TItem}"/> instance to the modal.
+    /// </summary>
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the unique identifier of the appointment. Defaults to "Id".

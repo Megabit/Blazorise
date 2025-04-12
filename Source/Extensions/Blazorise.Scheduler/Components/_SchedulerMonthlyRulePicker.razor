@@ -1,10 +1,15 @@
-﻿@inherits RadioGroup<string>
+﻿@typeparam TItem
+@inherits RadioGroup<string>
 @using Blazorise.Extensions
+@using Blazorise.Localization
+@using Blazorise.Scheduler.Extensions
 <CascadingValue Value="@this" IsFixed>
     <Fields>
         <Field ColumnSize="ColumnSize.Is3" Flex="Blazorise.Flex.AlignItems.Center">
             <FieldBody>
-                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-day")">Day</Radio>
+                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-day")">
+                    @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, "Day" )
+                </Radio>
             </FieldBody>
         </Field>
         <Field ColumnSize="ColumnSize.Is3">
@@ -16,7 +21,9 @@
     <Fields>
         <Field ColumnSize="ColumnSize.Is3" Flex="Blazorise.Flex.AlignItems.Center">
             <FieldBody>
-                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-week")">On</Radio>
+                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-week")">
+                    @Localizer.Localize( Scheduler.Localizers?.OnLocalizer, "On" )
+                </Radio>
             </FieldBody>
         </Field>
         <Field ColumnSize="ColumnSize.Is3">
@@ -24,7 +31,9 @@
                 <Select TValue="SchedulerWeek?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeek" ValueChanged="@ByWeekChanged">
                     @foreach ( var enumValue in Enum.GetValues<SchedulerWeek>() )
                     {
-                        <SelectItem Value="@enumValue">@enumValue.ToString()</SelectItem>
+                        <SelectItem Value="@enumValue">
+                            @Localizer.Localize( Scheduler.Localizers?.WeekOfMonthLocalizer, enumValue.ToString() )
+                        </SelectItem>
                     }
                 </Select>
             </FieldBody>
@@ -34,7 +43,9 @@
                 <Select TValue="DayOfWeek?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeekDay" ValueChanged="@ByWeekDayChanged">
                     @foreach ( var enumValue in Enum.GetValues<DayOfWeek>() )
                     {
-                        <SelectItem Value="@enumValue">@enumValue.ToString()</SelectItem>
+                        <SelectItem Value="@enumValue">
+                            @Localizer.Localize( Scheduler.Localizers?.DayOfWeekLocalizer, enumValue.ToString() )
+                        </SelectItem>
                     }
                 </Select>
             </FieldBody>
@@ -46,7 +57,9 @@
                     <Select TValue="SchedulerMonth?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByMonth" ValueChanged="@ByMonthChanged">
                         @foreach ( var enumValue in Enum.GetValues<SchedulerMonth>() )
                         {
-                            <SelectItem Value="@enumValue">@enumValue.ToString()</SelectItem>
+                            <SelectItem Value="@enumValue">
+                                @Localizer.Localize( Scheduler.Localizers?.MonthOfYearLocalizer, enumValue.ToString() )
+                            </SelectItem>
                         }
                     </Select>
                 </FieldBody>
@@ -54,50 +67,3 @@
         }
     </Fields>
 </CascadingValue>
-@code {
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( parameters.TryGetValue<List<int>>( nameof( ByMonthDay ), out var paramByMonthDay ) && !ByMonthDay.AreEqual( paramByMonthDay ) )
-        {
-            SingleByMonthDay = paramByMonthDay?.FirstOrDefault() ?? 1;
-        }
-
-        return base.SetParametersAsync( parameters );
-    }
-
-    protected override Task OnInternalValueChanged( string value )
-    {
-        InternalMonthlyRule = value;
-
-        return base.OnInternalValueChanged( value );
-    }
-
-    private int SingleByMonthDay = 1;
-
-    private Task OnSingleByMonthDayChanged( int value )
-    {
-        SingleByMonthDay = value;
-        ByMonthDay = new List<int> { SingleByMonthDay };
-        return ByMonthDayChanged.InvokeAsync( ByMonthDay );
-    }
-
-    string InternalMonthlyRule { get; set; } = "monthly-rule-by-day";
-
-    [Parameter] public List<int> ByMonthDay { get; set; }
-
-    [Parameter] public EventCallback<List<int>> ByMonthDayChanged { get; set; }
-
-    [Parameter] public SchedulerWeek? ByWeek { get; set; }
-
-    [Parameter] public EventCallback<SchedulerWeek?> ByWeekChanged { get; set; }
-
-    [Parameter] public DayOfWeek? ByWeekDay { get; set; }
-
-    [Parameter] public EventCallback<DayOfWeek?> ByWeekDayChanged { get; set; }
-
-    [Parameter] public bool ShowMonth { get; set; }
-
-    [Parameter] public SchedulerMonth? ByMonth { get; set; }
-
-    [Parameter] public EventCallback<SchedulerMonth?> ByMonthChanged { get; set; }
-}

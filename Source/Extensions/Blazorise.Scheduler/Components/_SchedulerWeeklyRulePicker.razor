@@ -1,49 +1,21 @@
-﻿<Fields>
+﻿@typeparam TItem
+@inherits BaseComponent
+@using Blazorise.Localization
+@using Blazorise.Scheduler.Extensions
+<Fields>
     <Field>
         <FieldBody>
-            <Buttons Width="Width.Is100">
+            <Buttons Width="Blazorise.Width.Is100">
                 @for ( var day = FirstDayOfWeek; day < FirstDayOfWeek + 7; day++ )
                 {
                     var tempDay = day;
                     var dayLabel = tempDay.ToString().Substring( 0, 1 );
 
                     <Button Color="Color.Secondary" Outline Active="@(IsDaySelected( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
-                        @dayLabel
+                        @Localizer.Localize( Scheduler.Localizers?.DayOfWeekLocalizer, dayLabel )
                     </Button>
                 }
             </Buttons>
         </FieldBody>
     </Field>
 </Fields>
-@code {
-    Task OnDayClicked( DayOfWeek day )
-    {
-        ByDay ??= new List<DayOfWeek>();
-
-        if ( ByDay.Contains( day ) )
-        {
-            if ( ByDay.Count > 1 )
-            {
-                ByDay.Remove( day );
-            }
-        }
-        else
-        {
-            ByDay.Add( day );
-        }
-
-        return ByDayChanged.InvokeAsync( ByDay );
-    }
-
-    protected bool IsDaySelected( DayOfWeek day )
-        => ByDay?.Contains( day ) == true;
-
-    protected Background GetBackgroundColor( DayOfWeek day )
-        => IsDaySelected( day ) ? Background.Secondary : Background.Default;
-
-    [Parameter] public List<DayOfWeek> ByDay { get; set; } = new() { DateTime.Today.AddDays( 1 ).DayOfWeek };
-
-    [Parameter] public EventCallback<List<DayOfWeek>> ByDayChanged { get; set; }
-
-    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
-}

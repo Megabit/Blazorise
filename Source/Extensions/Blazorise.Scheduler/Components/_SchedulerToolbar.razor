@@ -4,7 +4,7 @@
 <Div Class="@ClassNames" Style="@StyleNames" Background="Blazorise.Background.Light" Padding="Blazorise.Padding.Is3" Flex="Blazorise.Flex.JustifyContent.Between.AlignItems.Center">
     <Buttons>
         <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick">
-            Today
+            @Localizer.Localize( Scheduler.Localizers?.TodayLocalizer, "Today" )
         </Button>
         <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnPreviousClick">
             <Icon Name="IconName.ChevronLeft" />
@@ -45,25 +45,25 @@
         @if ( ShowDayViewButton )
         {
             <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@DayViewSelected" Clicked="@OnDayViewClick">
-                Day
+                @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, "Day" )
             </Button>
         }
         @if ( ShowWeekViewButton )
         {
             <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WeekViewSelected" Clicked="@OnWeekViewClick">
-                Week
+                @Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, "Week" )
             </Button>
         }
         @if ( ShowWorkWeekViewButton )
         {
             <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WorkWeekViewSelected" Clicked="@OnWorkWeekViewClick">
-                Work Week
+                @Localizer.Localize( Scheduler.Localizers?.WorkWeekLocalizer, "Work Week" )
             </Button>
         }
         @if ( ShowMonthViewButton )
         {
             <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@MonthViewSelected" Clicked="@OnMonthViewClick">
-                Month
+                @Localizer.Localize( Scheduler.Localizers?.MonthLocalizer, "Month" )
             </Button>
         }
     </Buttons>
