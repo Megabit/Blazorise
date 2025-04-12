@@ -12408,6 +12408,23 @@ builder.Services
 
 <NotificationProvider />";
 
+        public const string NotificationServiceWithOptionsExample = @"<Button Color=""Color.Warning"" Clicked=""@ShowWarningNotification"">Show alert!</Button>
+
+@code{
+    [Inject] INotificationService NotificationService { get; set; }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning( ""This is a simple notification message!"", ""Hello"" , options =>
+        {
+            options.IntervalBeforeClose = 500;
+            options.Multiline = true;
+            options.OkButtonIcon = true;
+            options.OkButtonText = ""OK"";
+        } );
+    }
+}";
+
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress50"">50 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress75"">75 %</Button>
