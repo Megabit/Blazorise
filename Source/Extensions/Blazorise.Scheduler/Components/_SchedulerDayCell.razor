@@ -1,0 +1,15 @@
+﻿@typeparam TItem
+<Div Class="b-scheduler-day-cell" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor">
+    <Div Class="b-scheduler-day-cell-inner" Width="Blazorise.Width.Is100" Flex="Flex.Column">
+        @for ( int slotIndex = 1; slotIndex <= SlotsPerCell; ++slotIndex )
+        {
+            var slotStart = GetSlotStart( slotIndex );
+            var slotEnd = GetSlotEnd( slotIndex );
+            var lastSlot = slotIndex == SlotsPerCell;
+
+            var viewItems = GetSlotItemViewsInfo( slotStart, slotEnd ).ToList();
+
+            <_SchedulerSlot TItem="TItem" ViewItems="@viewItems" SlotStart="@slotStart" SlotEnd="@slotEnd" SlotClicked="@OnSlotClicked" EditItemClicked="@OnEditItemClicked" DeleteItemClicked="@OnDeleteItemClicked" LastSlot="@lastSlot" ItemCellHeight="@ItemCellHeight" />
+        }
+    </Div>
+</Div>

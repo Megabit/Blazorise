@@ -1,0 +1,40 @@
+﻿@typeparam TItem
+<Span Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall" @onclick="@OnSlotClicked">
+    @if ( OverflowingFromStart )
+    {
+        <Tooltip Inline Text="@Scheduler.GetItemStartTime( Item ).ToShortDateString()">
+            <Span>
+                <Icon Name="IconName.AngleLeft" Padding="Padding.Is1.FromStart" />
+            </Span>
+        </Tooltip>
+    }
+    <Span>@(Scheduler.GetItemTitle( Item ))</Span>
+    @if ( OverflowingOnEnd )
+    {
+        <Tooltip Inline Text="@Scheduler.GetItemEndTime( Item ).ToShortDateString()">
+            <Span>
+                <Icon Name="IconName.AngleRight" Padding="Padding.Is1.FromEnd" />
+            </Span>
+        </Tooltip>
+    }
+</Span>
+
+@code {
+    protected Task OnSlotClicked()
+    {
+        if ( Clicked is null )
+            return Task.CompletedTask;
+
+        return Clicked.Invoke( Item );
+    }
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public TItem Item { get; set; }
+
+    [Parameter] public bool OverflowingFromStart { get; set; }
+
+    [Parameter] public bool OverflowingOnEnd { get; set; }
+
+    [Parameter] public Func<TItem, Task> Clicked { get; set; }
+}

@@ -1,0 +1,89 @@
+﻿@typeparam TItem
+@{
+    var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
+
+    <Div Flex="Blazorise.Flex.Column.AlignItems.Center.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( ItemCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave">
+        <Div Flex="Flex.JustifyContent.End" Width="Width.Is100" Padding="Padding.Is1.OnX" TextColor="@GetTextColor()" TextWeight="@GetTextWeight()" Style="@GetDayNumberStyle()" TextSize="TextSize.Small">@Date.Day</Div>
+        <Div Flex="Flex.Column" Gap="Gap.Is1" TextSize="TextSize.Small" Padding="Padding.Is1" Width="Width.Is100" Height="Height.Is100" @onclick="@(() => OnCellClick( Date ))">
+            @foreach ( var viewItem in viewItems )
+            {
+                var title = Scheduler.GetItemTitle( viewItem.Item );
+                var startTime = Scheduler.GetItemStartTime( viewItem.Item );
+
+                <Div @onclick:stopPropagation Flex="Flex.InlineFlex.AlignItems.Center" Width="Width.Is100" TextOverflow="TextOverflow.Truncate">
+                    <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))">
+                        <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSize.Small" /></Span>
+                        <Span Margin="Margin.Is1.FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
+                        <Span Margin="Margin.Is1.FromStart" >@title</Span>
+                    </Span>
+                </Div>
+            }
+        </Div>
+    </Div>
+}
+@code {
+    private bool mouseHovering;
+
+    protected Task OnMouseEnter( MouseEventArgs eventArgs )
+    {
+        mouseHovering = true;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnMouseLeave( MouseEventArgs eventArgs )
+    {
+        mouseHovering = false;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnCellClick( DateOnly date )
+    {
+        var start = date.ToDateTime( WorkDayStart ?? StartTime ?? TimeOnly.MinValue );
+        var end = date.ToDateTime( WorkDayEnd ?? EndTime ?? TimeOnly.MaxValue );
+
+        return Scheduler.NotifySlotClicked( start, end );
+    }
+
+    protected Task OnItemClicked( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        return Scheduler.NotifyEditItemClicked( viewItem.Item );
+    }
+
+    string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        return "cursor: pointer;";
+    }
+
+    /// <summary>
+    /// Gets the background color of the slot.
+    /// </summary>
+    private Blazorise.Background BackgroundColor => mouseHovering
+       ? Background.Light
+       : Background.Default;
+
+    bool IsCurrentMonth => Date.Month == SelectedDate.Month;
+    bool IsWeekend => Date.DayOfWeek == DayOfWeek.Saturday || Date.DayOfWeek == DayOfWeek.Sunday;
+    TextColor GetTextColor() => IsWeekend ? TextColor.Danger : TextColor.Default;
+    TextWeight GetTextWeight() => IsCurrentMonth ? TextWeight.SemiBold : TextWeight.Light;
+    string GetDayNumberStyle() => IsCurrentMonth ? IsWeekend ? "opacity: 0.5" : null : "opacity: 0.3";
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public TimeOnly? StartTime { get; set; }
+
+    [Parameter] public TimeOnly? EndTime { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayStart { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayEnd { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
+}

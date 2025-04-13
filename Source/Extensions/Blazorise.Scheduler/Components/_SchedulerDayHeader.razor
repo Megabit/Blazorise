@@ -1,0 +1,20 @@
+﻿@typeparam TItem
+<Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
+    <Span TextWeight="TextWeight.Bold">
+        @Date.ToString( "dddd" )
+    </Span>
+    <Span TextColor="TextColor.Muted">
+        @Date.ToString( "MMM dd" )
+    </Span>
+</Div>
+@code {
+    private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
+        ? Blazorise.Background.Light
+        : Blazorise.Background.Default;
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+}

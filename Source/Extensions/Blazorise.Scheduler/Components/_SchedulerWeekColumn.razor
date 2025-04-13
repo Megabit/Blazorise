@@ -1,0 +1,39 @@
+﻿@typeparam TItem
+<Div Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
+    <Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart">
+        <Span TextWeight="TextWeight.Bold">
+            @FirstDateOfWeek.ToString( "dddd" )
+        </Span>
+    </Div>
+
+    @for ( var dateInWeek = FirstDateOfWeek; dateInWeek <= MaxDate; dateInWeek = dateInWeek.AddDays( 7 ) )
+    {
+        <_SchedulerWeekCell TItem="TItem" Date="@dateInWeek" SelectedDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" ItemCellHeight="@ItemCellHeight" Items="@Items" />
+    }
+</Div>
+
+@code {
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly FirstDateOfWeek { get; set; }
+
+    [Parameter] public DateOnly MinDate { get; set; }
+
+    [Parameter] public DateOnly MaxDate { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public TimeOnly? StartTime { get; set; }
+
+    [Parameter] public TimeOnly? EndTime { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayStart { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayEnd { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
+}

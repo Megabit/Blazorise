@@ -1,0 +1,21 @@
+﻿@typeparam TItem
+@inherits BaseComponent
+@using Blazorise.Localization
+@using Blazorise.Scheduler.Extensions
+<Fields>
+    <Field>
+        <FieldBody>
+            <Buttons Width="Blazorise.Width.Is100">
+                @for ( var day = FirstDayOfWeek; day < FirstDayOfWeek + 7; day++ )
+                {
+                    var tempDay = day;
+                    var dayLabel = tempDay.ToString().Substring( 0, 1 );
+
+                    <Button Color="Color.Secondary" Outline Active="@(IsDaySelected( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
+                        @Localizer.Localize( Scheduler.Localizers?.DayOfWeekLocalizer, dayLabel )
+                    </Button>
+                }
+            </Buttons>
+        </FieldBody>
+    </Field>
+</Fields>

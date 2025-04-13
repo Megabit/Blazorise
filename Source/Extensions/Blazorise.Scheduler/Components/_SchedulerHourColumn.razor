@@ -1,0 +1,34 @@
+﻿@typeparam TItem
+<Div Position="Blazorise.Position.Relative">
+    @if ( ShowDayHeader )
+    {
+        <_SchedulerHourHeader HeaderCellHeight="@HeaderCellHeight" />
+    }
+
+    @if ( MaxStackedAllDayItems > 0 )
+    {
+        <_SchedulerHourAllDayHeader HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" />
+    }
+
+    @for ( var time = ( StartTime ?? TimeOnly.MinValue ); time < ( EndTime ?? TimeOnly.MaxValue ); time = time.AddHours( 1 ) )
+    {
+        var tempTime = time;
+
+        <Div Class="b-scheduler-hour" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( ItemCellHeight )" Border="Border.Is1.OnBottom">
+            <_SchedulerHourCell Time="@tempTime" />
+        </Div>
+    }
+</Div>
+@code {
+    [Parameter] public TimeOnly? StartTime { get; set; }
+
+    [Parameter] public TimeOnly? EndTime { get; set; }
+
+    [Parameter] public bool ShowDayHeader { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
+}

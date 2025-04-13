@@ -1,0 +1,58 @@
+﻿@typeparam TItem
+<Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
+    @{
+        var itemInfos = Scheduler.GetAllDayItemOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
+
+        @if ( itemInfos?.Any() == true )
+        {
+            var height = HeaderCellHeight / 2;
+
+            @foreach ( var itemInfo in itemInfos )
+            {
+                var totalDays = ( itemInfo.ViewEnd - itemInfo.ViewStart ).Days + 1;
+
+                var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( AllDayItems, itemInfo );
+                var top = height * numberOfPreviousItems;
+
+                <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )">
+                    <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" Clicked="@OnItemClicked" />
+                </Div>
+            }
+        }
+    }
+</Div>
+@code {
+    protected async Task OnItemClicked( TItem item )
+    {
+        if ( item is not null )
+        {
+            await Scheduler.NotifyEditItemClicked( item );
+        }
+    }
+
+    string GetAllDayHeaderStyle()
+    {
+        return $"min-height: {( HeaderCellHeight / 2 ) * MaxStackedAllDayItems}px;";
+    }
+
+    string GetAllDayHeaderInnerStyle( int totalDays, double top, double height )
+    {
+        return $"position: absolute; left: 0; top: {top}px; width: {totalDays * 100}%; height: {height}px; z-index: 1; cursor: pointer;";
+    }
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly FirstViewDate { get; set; }
+
+    [Parameter] public DateOnly LastViewDate { get; set; }
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
+}

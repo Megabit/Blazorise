@@ -1,0 +1,22 @@
+﻿@typeparam TItem
+<Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BottomBorder" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked">
+    @foreach ( var viewItem in ViewItems ?? Enumerable.Empty<SchedulerItemViewInfo<TItem>>() )
+    {
+        var index = ViewItems.IndexOf( viewItem );
+
+        <Span Style="@GetItemStyle( viewItem, index, ViewItems.Count )" Position="Position.Absolute" Border="Border.Rounded" Background="Background.Info" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation>
+            @if ( viewItem.IsRecurring )
+            {
+                <Span>
+                    <Icon Name="IconName.Sync" />
+                </Span>
+            }
+            <Span @onclick="@(() => OnEditItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Width="Width.Is100" Height="Height.Is100">
+                @Scheduler?.GetItemTitle( viewItem.Item )
+            </Span>
+            <Span @onclick="@(() => OnDeleteItemClicked( viewItem ))" Padding="Padding.Is1">
+                <Icon Name="IconName.Delete" />
+            </Span>
+        </Span>
+    }
+</Div>

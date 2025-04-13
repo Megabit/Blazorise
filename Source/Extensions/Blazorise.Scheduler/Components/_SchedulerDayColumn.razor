@@ -1,0 +1,58 @@
+﻿@typeparam TItem
+<Div Class="b-scheduler-day" Position="Blazorise.Position.Relative" Flex="Blazorise.Flex.Grow.Is1" Style="flex-basis: 0;">
+    @{
+        @if ( ShowDayHeader )
+        {
+            <_SchedulerDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
+        }
+
+        @if ( MaxStackedAllDayItems > 0 )
+        {
+            <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" />
+        }
+
+        var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
+
+        @for ( var time = ( StartTime ?? TimeOnly.MinValue ); time < ( EndTime ?? TimeOnly.MaxValue ); time = time.AddHours( 1 ) )
+        {
+            <_SchedulerDayCell TItem="TItem" @key="@time" Date="@Date" Time="@time" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" />
+        }
+    }
+</Div>
+@code {
+    private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
+        ? Blazorise.Background.Light
+        : Blazorise.Background.Default;
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public DateOnly FirstViewDate { get; set; }
+
+    [Parameter] public DateOnly LastViewDate { get; set; }
+
+    [Parameter] public TimeOnly? StartTime { get; set; }
+
+    [Parameter] public TimeOnly? EndTime { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayStart { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayEnd { get; set; }
+
+    [Parameter] public bool ShowDayHeader { get; set; }
+
+    [Parameter] public int SlotsPerCell { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
+
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
+}
