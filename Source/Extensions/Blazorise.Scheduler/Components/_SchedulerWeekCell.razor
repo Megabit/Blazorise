@@ -10,11 +10,11 @@
                 var title = Scheduler.GetItemTitle( viewItem.Item );
                 var startTime = Scheduler.GetItemStartTime( viewItem.Item );
 
-                <Div @onclick:stopPropagation Flex="Flex.InlineFlex.AlignItems.Center" Width="Width.Is100" TextOverflow="TextOverflow.Truncate">
-                    <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))">
+                <Div @onclick:stopPropagation Flex="Flex.InlineFlex.AlignItems.Center" Width="Width.Is100">
+                    <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate">
                         <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSize.Small" /></Span>
                         <Span Margin="Margin.Is1.FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
-                        <Span Margin="Margin.Is1.FromStart" >@title</Span>
+                        <Span Margin="Margin.Is1.FromStart">@title</Span>
                     </Span>
                 </Div>
             }
