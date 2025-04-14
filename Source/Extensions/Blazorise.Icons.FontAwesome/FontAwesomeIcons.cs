@@ -1,9 +1,7 @@
-﻿#region Using directives
-#endregion
-
 namespace Blazorise.Icons.FontAwesome;
 
 /// <summary>
+/// Generated file, do not change. See README.md.
 /// Strongly-typed list of font-awesome icon names. (v6.6.0)
 /// </summary>
 public static class FontAwesomeIcons
