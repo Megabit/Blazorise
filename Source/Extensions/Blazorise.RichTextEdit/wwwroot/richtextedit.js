@@ -143,15 +143,15 @@ export function getHtml(editorRef, getHtmlOptions) {
         return undefined;
 
     if (getHtmlOptions.isSemanticHtml) {
-        if (getHtmlOptions.length != null) {
+        if (getHtmlOptions.length >= 0) {
             return editor.getSemanticHTML(getHtmlOptions.index, getHtmlOptions.length);
         }
+
         return editor.getSemanticHTML(getHtmlOptions.index);
     }
 
     return editor.root.innerHTML;
 }
-
 
 export function setHtml(editorRef, html) {
     const editor = editorRef.quill;
