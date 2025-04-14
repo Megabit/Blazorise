@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart.Is1.OnTop" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
+<Div Flex="Blazorise.Flex.Column.JustifyContent.Center.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" TextOverflow="TextOverflow.Truncate" Border="Border.Is1.OnBottom.Is1.OnStart.Is1.OnTop" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
     <Span TextWeight="TextWeight.Bold">
         @Date.ToString( "dddd" )
     </Span>
