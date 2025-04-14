@@ -12410,12 +12410,12 @@ builder.Services
 
         public const string NotificationServiceWithOptionsExample = @"<Button Color=""Color.Warning"" Clicked=""@ShowWarningNotification"">Show alert!</Button>
 
-@code{
+@code {
     [Inject] INotificationService NotificationService { get; set; }
 
     Task ShowWarningNotification()
     {
-        return NotificationService.Warning( ""This is a simple notification message!"", ""Hello"" , options =>
+        return NotificationService.Warning( ""This is a simple notification message!"", ""Hello"", options =>
         {
             options.IntervalBeforeClose = 500;
             options.Multiline = true;
