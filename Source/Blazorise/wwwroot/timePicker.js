@@ -149,15 +149,15 @@ export function updateOptions(element, elementId, options) {
         if (options.staticPicker.changed) {
             picker.set("static", options.staticPicker.value);
         }
-        
+
         if (options.hourIncrement.changed) {
             picker.set("hourIncrement", options.hourIncrement.value);
         }
 
         if (options.minuteIncrement.changed) {
             picker.set("minuteIncrement", options.minuteIncrement.value);
+            picker.redraw();
         }
-
     }
 }
 
@@ -184,7 +184,6 @@ export function toggle(element, elementId) {
         picker.toggle();
     }
 }
-
 
 export function updateLocalization(element, elementId, localization) {
     const picker = _pickers[elementId];

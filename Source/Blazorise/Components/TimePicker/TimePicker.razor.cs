@@ -365,12 +365,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     [Parameter] public bool StaticPicker { get; set; } = true;
 
     /// <summary>
-    /// Adjusts the step for the hour input (incl. scrolling)
+    /// Adjusts the step for the hour input.
     /// </summary>
     [Parameter] public int HourIncrement { get; set; } = 1;
-    
+
     /// <summary>
-    /// Adjusts the step for the minute input (incl. scrolling)
+    /// Adjusts the step for the minute input.
     /// </summary>
     [Parameter] public int MinuteIncrement { get; set; } = 1;
 
