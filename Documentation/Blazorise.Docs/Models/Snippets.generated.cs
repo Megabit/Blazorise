@@ -1917,6 +1917,8 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     DateTime? value;
 }";
 
+        public const string DatePickerShowWeekNumbersExample = @"<DatePicker TValue=""DateTime?"" ShowWeekNumbers=""true"" />";
+
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" @bind-Date=""@value"" />
@@ -4735,6 +4737,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string TimePickerIncrementsExample = @"<TimePicker TValue=""TimeSpan?"" HourIncrement=""2"" MinuteIncrement=""30"" />";
+
         public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" StaticPicker=""false"" />
 
 @code {
@@ -5165,6 +5169,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public bool TermsAndConditions { get; set; }
     }
 }";
+
+        public const string GlobalLocalizationExample = @"services.AddBlazorise( options =>
+    {
+        options.ValidationMessageLocalizer = ( message, arguments ) =>
+        {
+            var stringLocalizer = options.Services.GetService<ITextLocalizer<YourResourceName>>();
+
+            return stringLocalizer != null && arguments?.Count() > 0
+                ? string.Format( stringLocalizer[message], arguments.ToArray() )
+                : message;
+        };
+    } );";
 
         public const string LocalizationValidationExample = @"@using Blazorise.Localization
 
@@ -9859,8 +9875,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
-        public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
-
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
@@ -9891,6 +9905,20 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 </Div>";
 
         public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
+
+        public const string IconsNugetInstallExample = @"Install-Package Blazorise.Icons.Bootstrap
+
+or
+
+Install-Package Blazorise.Icons.FluentUI
+
+or
+
+Install-Package Blazorise.Icons.FontAwesome
+
+or
+
+Install-Package Blazorise.Icons.Material";
 
         public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />";
 
@@ -12507,6 +12535,23 @@ builder.Services
 </Router>
 
 <NotificationProvider />";
+
+        public const string NotificationServiceWithOptionsExample = @"<Button Color=""Color.Warning"" Clicked=""@ShowWarningNotification"">Show alert!</Button>
+
+@code {
+    [Inject] INotificationService NotificationService { get; set; }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning( ""This is a simple notification message!"", ""Hello"", options =>
+        {
+            options.IntervalBeforeClose = 500;
+            options.Multiline = true;
+            options.OkButtonIcon = true;
+            options.OkButtonText = ""OK"";
+        } );
+    }
+}";
 
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress50"">50 %</Button>

@@ -106,6 +106,11 @@ public class DatePickerJSOptions
     /// Gets or sets the validation status for the date picker.
     /// </summary>
     public object ValidationStatus { get; set; }
+
+    /// <summary>
+    /// Determines whether the calendar menu will show week numbers.
+    /// </summary>
+    public bool ShowWeekNumbers { get; set; }
 }
 
 /// <summary>
@@ -192,4 +197,9 @@ public class DatePickerUpdateJSOptions
     /// Gets or sets the option for displaying the date picker as a static element.
     /// </summary>
     public JSOptionChange<bool> StaticPicker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating the show week numbers setting.
+    /// </summary>
+    public JSOptionChange<bool> ShowWeekNumbers { get; set; }
 }
