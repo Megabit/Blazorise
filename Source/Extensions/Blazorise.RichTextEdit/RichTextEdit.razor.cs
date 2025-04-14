@@ -72,7 +72,7 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <summary>
     /// Gets the editor content as HTML asynchronously.
     /// </summary>
-    /// <param name="getHtmlOptions">Options to control how the HTML is retrieved, such as semantic HTML, index and length.</param>
+    /// <param name="getHtmlOptions">Options to control how the HTML is retrieved, such as semantic HTML, or innerHTML.</param>
     /// <returns>A <see cref="ValueTask{TResult}"/> representing the asynchronous operation, containing the HTML content of the editor.</returns>
     public async ValueTask<string> GetHtmlAsync( RichTextEditGetHtmlOptions getHtmlOptions = null )
     {
