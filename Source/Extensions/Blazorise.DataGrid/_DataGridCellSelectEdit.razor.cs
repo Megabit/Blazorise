@@ -209,6 +209,11 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     [Parameter] public EventCallback<object> CellValueChanged { get; set; }
 
     [Parameter] public bool ShowValidationFeedback { get; set; }
+    
+    /// <summary>
+    /// Determines if the cell is currently in filter row
+    /// </summary>
+    [Parameter] public bool FilterDisplay { get; set; } 
 
     #endregion
 }

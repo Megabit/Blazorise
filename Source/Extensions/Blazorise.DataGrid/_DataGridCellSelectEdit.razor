@@ -3,9 +3,19 @@
 <Select TValue="object" ElementId="@elementId" SelectedValues="@GetSelectedValues()" SelectedValuesChanged="OnSelectedValuesChanged" SelectedValuesExpression="@(() => CellValue as string[] )" SelectedValue="@CellValue" SelectedValueChanged="@OnSelectedValueChanged" SelectedValueExpression="@(() => CellValue )"
         Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Multiple="@Column.Multiple" Attributes="@Column.Attributes">
     <ChildContent>
-        @if ( Column.DefaultItemText is not null )
+
+        @{
+            var defaultText = FilterDisplay ? Column.FilterDefaultItemText : Column.DefaultItemText;
+            var defaultValue = FilterDisplay ? Column.FilterDefaultItemValue : Column.DefaultItemValue;
+            var defaultDisabled = FilterDisplay ? Column.FilterDefaultItemDisabled : Column.DefaultItemDisabled;
+            var defaultHidden = FilterDisplay ? Column.FilterDefaultItemHidden : Column.DefaultItemHidden;
+        }
+
+        @if ( defaultText is not null )
         {
-            <SelectItem @key="@Column.DefaultItemValue" Value="@Column.DefaultItemValue" Disabled="@Column.DefaultItemDisabled" Hidden="@Column.DefaultItemHidden">@Column.DefaultItemText</SelectItem>
+            <SelectItem @key="@defaultValue" Value="@defaultValue" Disabled="@defaultDisabled" Hidden="@defaultHidden">
+                @defaultText
+            </SelectItem>
         }
         @if ( Column.Data is not null && selectItems is not null )
         {
