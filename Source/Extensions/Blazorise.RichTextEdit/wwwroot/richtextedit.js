@@ -137,17 +137,17 @@ export function setReadOnly(editorRef, readOnly) {
 }
 
 
-export function getHtml(editorRef, getHtmlOptions) {
+export function getHtml(editorRef, htmlOptions) {
     const editor = editorRef.quill;
     if (!editor)
         return undefined;
 
-    if (getHtmlOptions.isSemanticHtml) {
-        if (getHtmlOptions.length >= 0) {
-            return editor.getSemanticHTML(getHtmlOptions.index, getHtmlOptions.length);
+    if (htmlOptions && htmlOptions.isSemanticHtml) {
+        if (htmlOptions.length >= 0) {
+            return editor.getSemanticHTML(htmlOptions.index, htmlOptions.length);
         }
 
-        return editor.getSemanticHTML(getHtmlOptions.index);
+        return editor.getSemanticHTML(htmlOptions.index);
     }
 
     return editor.root.innerHTML;
