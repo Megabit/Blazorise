@@ -39,12 +39,12 @@ public partial class Highlighter : BaseComponent
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         var changed =
-        ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
-        || ( parameters.TryGetValue<string>( nameof( HighlightedText ), out var highlightedText ) && HighlightedText != highlightedText )
-        || ( parameters.TryGetValue<bool>( nameof( CaseSensitive ), out var caseSensitive ) && CaseSensitive != caseSensitive )
-        || ( parameters.TryGetValue<bool>( nameof( UntilNextBoundary ), out var untilNext ) && UntilNextBoundary != untilNext )
-        || ( parameters.TryGetValue<string>( nameof( NextBoundary ), out var nextBoundary ) && NextBoundary != nextBoundary )
-        || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) && !HighlightedTexts.AreEqual( highlightedTexts ) );
+            ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
+            || ( parameters.TryGetValue<string>( nameof( HighlightedText ), out var highlightedText ) && HighlightedText != highlightedText )
+            || ( parameters.TryGetValue<bool>( nameof( CaseSensitive ), out var caseSensitive ) && CaseSensitive != caseSensitive )
+            || ( parameters.TryGetValue<bool>( nameof( UntilNextBoundary ), out var untilNext ) && UntilNextBoundary != untilNext )
+            || ( parameters.TryGetValue<string>( nameof( NextBoundary ), out var nextBoundary ) && NextBoundary != nextBoundary )
+            || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) && !HighlightedTexts.AreEqual( highlightedTexts ) );
 
         await base.SetParametersAsync( parameters );
 
