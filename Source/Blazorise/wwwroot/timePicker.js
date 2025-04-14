@@ -152,11 +152,18 @@ export function updateOptions(element, elementId, options) {
 
         if (options.hourIncrement.changed) {
             picker.set("hourIncrement", options.hourIncrement.value);
+
+            if (picker.hourElement) {
+                picker.hourElement.step = options.hourIncrement.value;
+            }
         }
 
         if (options.minuteIncrement.changed) {
             picker.set("minuteIncrement", options.minuteIncrement.value);
-            picker.redraw();
+
+            if (picker.minuteElement) {
+                picker.minuteElement.step = options.minuteIncrement.value;
+            }
         }
     }
 }
