@@ -1,6 +1,4 @@
 ﻿#region Using directives
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -38,25 +36,23 @@ public partial class Highlighter : BaseComponent
     #region Methods
 
     /// <inheritdoc />
-    public override async Task SetParametersAsync(ParameterView parameters)
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
         var changed =
         ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
-        || ( parameters.TryGetValue<string>( nameof( HighlightedText ), out var highlightedText ) && HighlightedText != highlightedText ) 
-        || ( parameters.TryGetValue<bool>( nameof( CaseSensitive ), out var caseSensitive ) && CaseSensitive != caseSensitive ) 
-        || ( parameters.TryGetValue<bool>( nameof( UntilNextBoundary ), out var untilNext ) && UntilNextBoundary != untilNext ) 
+        || ( parameters.TryGetValue<string>( nameof( HighlightedText ), out var highlightedText ) && HighlightedText != highlightedText )
+        || ( parameters.TryGetValue<bool>( nameof( CaseSensitive ), out var caseSensitive ) && CaseSensitive != caseSensitive )
+        || ( parameters.TryGetValue<bool>( nameof( UntilNextBoundary ), out var untilNext ) && UntilNextBoundary != untilNext )
         || ( parameters.TryGetValue<string>( nameof( NextBoundary ), out var nextBoundary ) && NextBoundary != nextBoundary )
-        || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) 
-             && !(HighlightedTexts.AreEqual( highlightedTexts )));
-        
-        await base.SetParametersAsync(parameters);
+        || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) && !HighlightedTexts.AreEqual( highlightedTexts ) );
 
-        if (changed)
+        await base.SetParametersAsync( parameters );
+
+        if ( changed )
         {
-            allHighlightedTexts = new(HighlightedTexts ?? Enumerable.Empty<string>()) { HighlightedText };
-            fragments = GetFragments(Text, allHighlightedTexts, CaseSensitive, UntilNextBoundary, NextBoundary);
+            allHighlightedTexts = new( HighlightedTexts ?? Enumerable.Empty<string>() ) { HighlightedText };
+            fragments = GetFragments( Text, allHighlightedTexts, CaseSensitive, UntilNextBoundary, NextBoundary );
         }
-
     }
 
     static IEnumerable<Fragment> GetFragments( string text, List<string> highlightedTexts, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null )

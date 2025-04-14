@@ -2763,7 +2763,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 </Field>
 
 <ListGroup>
-    @foreach (var sentence in sentences)
+    @foreach ( var sentence in sentences )
     {
         <ListGroupItem @key=""sentence"">
             <Highlighter Text=""@sentence"" HighlightedTexts=""@highlightedWords"" />
@@ -2775,15 +2775,15 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     string searchValue = ""the,item"";
 
     IEnumerable<string> sentences = new List<string>
-                                    {
-                                    ""This is the first item"",
-                                    ""This is the second item"",
-                                    ""This is the third item""
-                                    };
+    {
+        ""This is the first item"",
+        ""This is the second item"",
+        ""This is the third item""
+    };
 
     List<string> highlightedWords =>
-        (searchValue ?? string.Empty)
-        .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+        ( searchValue ?? string.Empty )
+        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToList();
 }";
 
         public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
