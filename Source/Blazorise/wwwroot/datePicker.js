@@ -67,6 +67,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         inline: options.inline || false,
         disableMobile: options.disableMobile || true,
         static: options.staticPicker,
+        weekNumbers: options.showWeekNumbers,
         errorHandler: (error) => {
             // do nothing to prevent warnings in the console
         },
@@ -333,6 +334,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.staticPicker.changed) {
             picker.set("static", options.staticPicker.value);
+        }
+
+        if (options.showWeekNumbers.changed) {
+            picker.set("weekNumbers", options.showWeekNumbers.value);
         }
     }
 }
