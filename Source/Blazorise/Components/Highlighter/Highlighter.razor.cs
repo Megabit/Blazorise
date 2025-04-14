@@ -44,7 +44,7 @@ public partial class Highlighter : BaseComponent
             || ( parameters.TryGetValue<bool>( nameof( CaseSensitive ), out var caseSensitive ) && CaseSensitive != caseSensitive )
             || ( parameters.TryGetValue<bool>( nameof( UntilNextBoundary ), out var untilNext ) && UntilNextBoundary != untilNext )
             || ( parameters.TryGetValue<string>( nameof( NextBoundary ), out var nextBoundary ) && NextBoundary != nextBoundary )
-            || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) && !HighlightedTexts.AreEqual( highlightedTexts ) );
+            || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) && HighlightedTexts != highlightedTexts );
 
         await base.SetParametersAsync( parameters );
 
@@ -96,7 +96,11 @@ public partial class Highlighter : BaseComponent
     /// <summary>
     /// Array of search terms to be highlighted.
     /// </summary>
-    [Parameter] public List<string> HighlightedTexts { get; set; }
+    /// <remarks>
+    /// Although this is an array, mutating it in-place (e.g. <c>HighlightedTexts[1] = "new value"</c>)
+    /// will not trigger a change. To update highlights, always reassign the entire array.
+    /// </remarks>
+    [Parameter] public string[] HighlightedTexts { get; set; }
 
     /// <summary>
     /// Whether or not the search term will be case sensitive.

@@ -26,7 +26,7 @@
         "This is the third item"
     };
 
-    List<string> highlightedWords =>
+    string[] highlightedWords =>
         ( searchValue ?? string.Empty )
-        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToList();
+        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToArray();
 }

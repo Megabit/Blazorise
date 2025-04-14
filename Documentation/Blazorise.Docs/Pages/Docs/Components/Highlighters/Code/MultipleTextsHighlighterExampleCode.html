@@ -27,9 +27,9 @@
         <span class="string">&quot;This is the third item&quot;</span>
     };
 
-    List&lt;<span class="keyword">string</span>&gt; highlightedWords =&gt;
+    <span class="keyword">string</span>[] highlightedWords =&gt;
         ( searchValue ?? <span class="keyword">string</span>.Empty )
-        .Split( <span class="string">&#39;,&#39;</span>, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToList();
+        .Split( <span class="string">&#39;,&#39;</span>, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToArray();
 }
 </pre></div>
 </div>

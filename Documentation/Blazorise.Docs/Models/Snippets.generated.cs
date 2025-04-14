@@ -2781,9 +2781,9 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         ""This is the third item""
     };
 
-    List<string> highlightedWords =>
+    string[] highlightedWords =>
         ( searchValue ?? string.Empty )
-        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToList();
+        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToArray();
 }";
 
         public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
