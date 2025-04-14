@@ -113,5 +113,5 @@ public partial class Highlighter : BaseComponent
     /// </summary>
     [Parameter] public bool UntilNextBoundary { get; set; }
 
-    #endregion    
+    #endregion
 }
