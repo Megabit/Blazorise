@@ -55,6 +55,8 @@ export function initialize(element, elementId, options) {
         locale: options.localization || {},
         inline: options.inline || false,
         static: options.staticPicker,
+        hourIncrement: options.hourIncrement,
+        minuteIncrement: options.minuteIncrement,
         onReady: (selectedDates, dateStr, instance) => {
             // move the id from the hidden element to the visible element
             if (instance && instance.input && instance.input.parentElement) {
@@ -147,6 +149,22 @@ export function updateOptions(element, elementId, options) {
         if (options.staticPicker.changed) {
             picker.set("static", options.staticPicker.value);
         }
+
+        if (options.hourIncrement.changed) {
+            picker.set("hourIncrement", options.hourIncrement.value);
+
+            if (picker.hourElement) {
+                picker.hourElement.step = options.hourIncrement.value;
+            }
+        }
+
+        if (options.minuteIncrement.changed) {
+            picker.set("minuteIncrement", options.minuteIncrement.value);
+
+            if (picker.minuteElement) {
+                picker.minuteElement.step = options.minuteIncrement.value;
+            }
+        }
     }
 }
 
@@ -173,7 +191,6 @@ export function toggle(element, elementId) {
         picker.toggle();
     }
 }
-
 
 export function updateLocalization(element, elementId, localization) {
     const picker = _pickers[elementId];

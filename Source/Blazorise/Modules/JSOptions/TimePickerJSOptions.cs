@@ -59,6 +59,16 @@ public class TimePickerJSOptions
     /// Gets or sets a value indicating whether to display the time picker as a static element.
     /// </summary>
     public bool StaticPicker { get; set; }
+
+    /// <summary>
+    /// Adjusts the step for the hour input.
+    /// </summary>
+    public int HourIncrement { get; set; }
+
+    /// <summary>
+    /// Adjusts the step for the minute input.
+    /// </summary>
+    public int MinuteIncrement { get; set; }
 }
 
 /// <summary>
@@ -110,4 +120,14 @@ public class TimePickerUpdateJSOptions
     /// Gets or sets the option for displaying the time picker as a static element.
     /// </summary>
     public JSOptionChange<bool> StaticPicker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating the hour increment step.
+    /// </summary>
+    public JSOptionChange<int> HourIncrement { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating the minute increment step.
+    /// </summary>
+    public JSOptionChange<int> MinuteIncrement { get; set; }
 }
