@@ -243,7 +243,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         await DateChanged.InvokeAsync( state.SelectedDate );
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
 
@@ -275,7 +275,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         await DateChanged.InvokeAsync( state.SelectedDate );
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     /// <summary>
@@ -286,7 +286,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         state.SelectedDate = DateOnly.FromDateTime( DateTime.Today );
         await DateChanged.InvokeAsync( state.SelectedDate );
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.Day;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     /// <summary>
@@ -308,7 +308,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.Week;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     /// <summary>
@@ -319,7 +319,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.WorkWeek;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     /// <summary>
@@ -330,7 +330,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.Month;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     /// <summary>
@@ -473,6 +473,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Triggers a re-evaluation of the component's state and UI.
+    /// </summary>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
+    internal Task Refresh()
+    {
+        return InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
     /// Creates a new appointment by invoking the <see cref="New(TItem)"/> method with a newly created item.
     /// </summary>
     /// <returns>Returns a Task representing the asynchronous operation.</returns>
@@ -571,7 +580,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             editState = SchedulerEditState.None;
 
-            await InvokeAsync( StateHasChanged );
+            await Refresh();
 
             return true;
         }
@@ -595,7 +604,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             editState = SchedulerEditState.None;
 
-            await InvokeAsync( StateHasChanged );
+            await Refresh();
 
             return true;
         }
