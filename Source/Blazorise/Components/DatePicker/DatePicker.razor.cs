@@ -57,7 +57,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
             var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
             var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
-            var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool showWeekNumbers ) && ShowWeekNumbers != showWeekNumbers;
+            var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool paramShowWeekNumbers ) && ShowWeekNumbers != paramShowWeekNumbers;
 
             if ( dateChanged || datesChanged )
             {
@@ -88,7 +88,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || inlineChanged
                  || disableMobileChanged
                  || placeholderChanged
-                 || staticPickerChanged )
+                 || staticPickerChanged
+                 || showWeekNumbersChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new DatePickerUpdateJSOptions()
                 {
@@ -108,6 +109,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile ),
                     Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
                     StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
+                    ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers ),
                 } ) );
             }
         }

@@ -197,4 +197,9 @@ public class DatePickerUpdateJSOptions
     /// Gets or sets the option for displaying the date picker as a static element.
     /// </summary>
     public JSOptionChange<bool> StaticPicker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating the show week numbers setting.
+    /// </summary>
+    public JSOptionChange<bool> ShowWeekNumbers { get; set; }
 }
