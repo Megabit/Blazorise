@@ -63,4 +63,9 @@ public class SchedulerItemViewInfo<TItem>
     /// Defines whether the item is recurring.
     /// </summary>
     public bool IsRecurring { get; }
+
+    public override string ToString()
+    {
+        return $"Item: {Item}, ViewStart: {ViewStart}, ViewEnd: {ViewEnd}, OverflowingFromStart: {OverflowingFromStart}, OverflowingOnEnd: {OverflowingOnEnd}, RecurrenceRule: {RecurrenceRule}, IsRecurring: {IsRecurring}";
+    }
 }

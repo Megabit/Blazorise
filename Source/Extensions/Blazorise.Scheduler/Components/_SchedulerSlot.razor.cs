@@ -41,6 +41,21 @@ public partial class _SchedulerSlot<TItem>
         return SlotClicked.Invoke( SlotStart, SlotEnd );
     }
 
+    void OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
+    {
+        State.DraggedItem = viewItem;
+    }
+
+    void OnSlotDrop( DragEventArgs e )
+    {
+        if ( State.DraggedItem is SchedulerItemViewInfo<TItem> viewItem )
+        {
+            Scheduler.SetItemDates( viewItem.Item, SlotStart, SlotEnd );
+            State.DraggedItem = null;
+            Scheduler.Refresh();
+        }
+    }
+
     protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( EditItemClicked is null )
@@ -119,6 +134,8 @@ public partial class _SchedulerSlot<TItem>
        : Background.Default;
 
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [CascadingParameter] public SchedulerState State { get; set; }
 
     /// <summary>
     /// Defines the appointment that is displayed in the slot.
