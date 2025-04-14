@@ -136,10 +136,20 @@ export function setReadOnly(editorRef, readOnly) {
         editor.enable();
 }
 
-export function getHtml(editorRef) {
+
+export function getHtml(editorRef, htmlOptions) {
     const editor = editorRef.quill;
     if (!editor)
         return undefined;
+
+    if (htmlOptions && htmlOptions.isSemanticHtml) {
+        if (htmlOptions.length >= 0) {
+            return editor.getSemanticHTML(htmlOptions.index, htmlOptions.length);
+        }
+
+        return editor.getSemanticHTML(htmlOptions.index);
+    }
+
     return editor.root.innerHTML;
 }
 
