@@ -1917,7 +1917,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     DateTime? value;
 }";
 
-        public const string DatePickerShowWeekNumbersExample = @"<DatePicker TValue=""DateTime?""  ShowWeekNumbers=""true"" />";
+        public const string DatePickerShowWeekNumbersExample = @"<DatePicker TValue=""DateTime?"" ShowWeekNumbers=""true"" />";
 
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">

@@ -108,7 +108,7 @@ public class DatePickerJSOptions
     public object ValidationStatus { get; set; }
 
     /// <summary>
-    /// Determines whether week numbers are displayed in the date picker
+    /// Determines whether the calendar menu will show week numbers.
     /// </summary>
     public bool ShowWeekNumbers { get; set; }
 }

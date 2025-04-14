@@ -662,9 +662,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
-    
+
     /// <summary>
-    /// Determines whether week numbers are displayed in the date picker
+    /// Determines whether the calendar menu will show week numbers.
     /// </summary>
     [Parameter] public bool ShowWeekNumbers { get; set; }
 
