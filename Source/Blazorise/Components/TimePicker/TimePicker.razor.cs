@@ -34,8 +34,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
         var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
         var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
-        var hourIncrementChanged = parameters.TryGetValue( nameof( HourIncrement ), out int hourIncrement ) && HourIncrement != hourIncrement;
-        var minuteIncrementChanged = parameters.TryGetValue( nameof( MinuteIncrement ), out int minuteIncrement ) && MinuteIncrement != minuteIncrement;
+        var hourIncrementChanged = parameters.TryGetValue( nameof( HourIncrement ), out int paramHourIncrement ) && HourIncrement != paramHourIncrement;
+        var minuteIncrementChanged = parameters.TryGetValue( nameof( MinuteIncrement ), out int paramMinuteIncrement ) && MinuteIncrement != paramMinuteIncrement;
 
         if ( timeChanged )
         {
@@ -57,7 +57,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || readOnlyChanged
                            || inlineChanged
                            || placeholderChanged
-                           || staticPickerChanged 
+                           || staticPickerChanged
                            || hourIncrementChanged
                            || minuteIncrementChanged ) )
         {
@@ -72,6 +72,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
                 Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
                 StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
+                HourIncrement = new JSOptionChange<int>( hourIncrementChanged, paramHourIncrement ),
+                MinuteIncrement = new JSOptionChange<int>( minuteIncrementChanged, paramMinuteIncrement ),
             } ) );
         }
 
