@@ -1149,6 +1149,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public bool Editable { get; set; } = true;
 
     /// <summary>
+    /// Indicates whether the items in the scheduler can be dragged and dropped. Defaults to false.
+    /// </summary>
+    [Parameter] public bool Draggable { get; set; }
+
+    /// <summary>
     /// Indicates whether internal editing is enabled. Defaults to true.
     /// </summary>
     [Parameter] public bool UseInternalEditing { get; set; } = true;

@@ -9,7 +9,8 @@
                 <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
                            Data="@Appointments"
                            @bind-SelectedView="@selectedView"
-                           SlotClicked="@OnSlotClicked">
+                           SlotClicked="@OnSlotClicked"
+                           Draggable>
                     <SchedulerToolbar />
                     <SchedulerViews>
                         <SchedulerDayView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />

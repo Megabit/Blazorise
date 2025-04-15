@@ -119,16 +119,17 @@ public partial class _SchedulerSlot<TItem>
     /// <summary>
     /// Gets the border style of the slot.
     /// </summary>
-    IFluentBorder BottomBorder => LastSlot
-        ? null
-        : Border.Is1.OnBottom;
+    private IFluentBorder BottomBorder => LastSlot ? null : Border.Is1.OnBottom;
 
     /// <summary>
     /// Gets the background color of the slot.
     /// </summary>
-    private Blazorise.Background BackgroundColor => mouseHovering
-       ? Background.Light
-       : Background.Default;
+    private Blazorise.Background BackgroundColor => mouseHovering ? Background.Light : Background.Default;
+
+    /// <summary>
+    /// Returns a string indicating whether the Scheduler is draggable. It returns 'true' if draggable, otherwise 'false'.
+    /// </summary>
+    private string DraggableAttribute => Scheduler?.Draggable == true ? "true" : "false";
 
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
