@@ -2755,6 +2755,37 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
 }";
 
+        public const string MultipleTextsHighlighterExample = @"<Field>
+    <FieldLabel>Search values (comma separated)</FieldLabel>
+    <FieldBody>
+        <TextEdit @bind-Text=""@searchValue"" />
+    </FieldBody>
+</Field>
+
+<ListGroup>
+    @foreach ( var sentence in sentences )
+    {
+        <ListGroupItem @key=""sentence"">
+            <Highlighter Text=""@sentence"" HighlightedTexts=""@highlightedWords"" />
+        </ListGroupItem>
+    }
+</ListGroup>
+
+@code {
+    string searchValue = ""the,item"";
+
+    IEnumerable<string> sentences = new List<string>
+    {
+        ""This is the first item"",
+        ""This is the second item"",
+        ""This is the third item""
+    };
+
+    string[] highlightedWords =>
+        ( searchValue ?? string.Empty )
+        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToArray();
+}";
+
         public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
 
         public const string ImageFluidExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-02-large.jpg"" Text=""A lovely animal..."" Fluid />";
