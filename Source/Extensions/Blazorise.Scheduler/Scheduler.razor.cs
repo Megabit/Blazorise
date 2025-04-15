@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using Blazorise.DeepCloner;
 using Blazorise.Extensions;
 using Blazorise.Infrastructure;
@@ -73,6 +74,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     protected SchedulerEditState editState = SchedulerEditState.None;
 
+    protected SchedulerTransaction<TItem> transaction;
+    protected SchedulerDragDropService<TItem> dragDropService;
+
     #endregion
 
     #region Constructors
@@ -132,6 +136,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
+
+        dragDropService = new( this );
     }
 
     #endregion
@@ -902,6 +908,36 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             .ThenBy( x => x.ViewStart )
             .TakeWhile( x => !x.Item.Equals( item.Item ) )
             .Count();
+    }
+
+    internal void StartDrag( TItem item )
+    {
+        transaction = new SchedulerTransaction<TItem>( item );
+    }
+
+    internal void CancellDrag( TItem item )
+    {
+        if ( transaction is not null )
+        {
+            transaction.Rollback();
+        }
+    }
+
+    internal async Task DropItem( DateTime newStart, DateTime newEnd )
+    {
+        if ( transaction is null )
+        {
+            return;
+        }
+
+        if ( await dragDropService.Drop( transaction.Item, newStart, newEnd ) )
+        {
+            await transaction.Commit();
+        }
+        else
+        {
+            await transaction.Rollback();
+        }
     }
 
     #endregion

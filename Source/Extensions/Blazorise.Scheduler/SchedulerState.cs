@@ -50,5 +50,5 @@ public record SchedulerState
     /// </summary>
     internal EventCallbackSubscribable MonthViewRequested { get; } = new();
 
-    internal object DraggedItem { get; set; }
+    //internal object DraggedItem { get; set; }
 }

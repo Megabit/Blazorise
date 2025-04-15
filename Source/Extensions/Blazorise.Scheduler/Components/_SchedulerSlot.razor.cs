@@ -43,17 +43,13 @@ public partial class _SchedulerSlot<TItem>
 
     void OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
     {
-        State.DraggedItem = viewItem;
+        mouseHovering = false;
+        Scheduler.StartDrag( viewItem.Item );
     }
 
-    void OnSlotDrop( DragEventArgs e )
+    async Task OnSlotDrop( DragEventArgs e )
     {
-        if ( State.DraggedItem is SchedulerItemViewInfo<TItem> viewItem )
-        {
-            Scheduler.SetItemDates( viewItem.Item, SlotStart, SlotEnd );
-            State.DraggedItem = null;
-            Scheduler.Refresh();
-        }
+        await Scheduler.DropItem( SlotStart, SlotEnd );
     }
 
     protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
