@@ -5,7 +5,7 @@ namespace Blazorise.Export;
 /// </summary>
 public interface IExportResult
 {
-    bool IsSuccess { get; init; }
+    bool Success { get; init; }
 }
 
 /// <summary>
@@ -13,7 +13,7 @@ public interface IExportResult
 /// </summary>
 public class ExportResult : IExportResult
 {
-    public bool IsSuccess { get; init; }
+    public bool Success { get; init; }
 }
 
 

@@ -13,6 +13,6 @@ public interface ITextExportResult: IExportResult
 /// </summary>
 public class TextExportResult : ITextExportResult
 {
-    public bool IsSuccess { get; init; }
+    public bool Success { get; init; }
     public string Text { get; init; }
 }

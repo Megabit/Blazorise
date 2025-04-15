@@ -52,7 +52,7 @@ where TExportResult: IExportResult, new()
 
     public virtual Task<TExportResult> GetExportResult(int exportToFileResult)
     {
-        var res= new TExportResult { IsSuccess = exportToFileResult == 1 };
+        var res= new TExportResult { Success = exportToFileResult == 1 };
         return Task.FromResult( res );
     }
 
