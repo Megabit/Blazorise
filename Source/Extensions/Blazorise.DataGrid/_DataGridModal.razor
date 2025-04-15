@@ -35,7 +35,7 @@
                         }
                         @foreach ( var column in OrderedEditableColumns )
                         {
-                            <Field ColumnSize="@(column.EditFieldColumnSize ?? column.PopupFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="PaddingIs2OnXIs2OnY">
+                            <Field ColumnSize="@(column.EditFieldColumnSize ?? column.PopupFieldColumnSize ?? ColumnSizeIsHalfOnDesktop)" Padding="PaddingIs2OnXIs2OnY">
                                 <FieldLabel>
                                     @column.Caption
                                 </FieldLabel>

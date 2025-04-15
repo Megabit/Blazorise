@@ -10,7 +10,7 @@
             @if ( ParentDataGrid.FilterMenuTemplate is null )
             {
                 var filterMethod = Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn();
-                <Column ColumnSize="ColumnSize.Is12">
+                <Column ColumnSize="ColumnSizeIs12">
                     <Field>
                         <Select TValue="DataGridColumnFilterMethod" SelectedValue="@filterMethod" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
                             @if ( Column.ColumnType == DataGridColumnType.Numeric || Column.ColumnType == DataGridColumnType.Date )
@@ -41,7 +41,7 @@
                         </Select>
                     </Field>
                 </Column>
-                <Column ColumnSize="ColumnSize.Is12">
+                <Column ColumnSize="ColumnSizeIs12">
                     <Field @key=filterMethod>
                         @if ( filterMethod == DataGridColumnFilterMethod.Between )
                         {
@@ -54,7 +54,7 @@
                         }
                     </Field>
                 </Column>
-                <Column ColumnSize="ColumnSize.Is12" Flex="FlexJustifyContentEndAlignItemsCenter" Gap="GapIs2">
+                <Column ColumnSize="ColumnSizeIs12" Flex="FlexJustifyContentEndAlignItemsCenter" Gap="GapIs2">
                     <Button Clicked="@ParentDataGrid.FilterData" Color="Color.Primary">@Localizer.Localize( ParentDataGrid.Localizers?.FilterButtonLocalizer, "Filter" )</Button>
                     <Button Clicked="@(() => ParentDataGrid.ClearFilter( Column.Field ))" Color="Color.Light">@Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" )</Button>
                 </Column>

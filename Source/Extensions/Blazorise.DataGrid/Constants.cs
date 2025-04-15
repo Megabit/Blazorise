@@ -40,4 +40,9 @@ static class Constants
 
     // Gap
     internal static readonly IFluentGap GapIs2 = Gap.Is2;
+
+    // ColumnSize
+    internal static readonly IFluentColumn ColumnSizeIsAuto = ColumnSize.IsAuto;
+    internal static readonly IFluentColumn ColumnSizeIs12 = ColumnSize.Is12;
+    internal static readonly IFluentColumn ColumnSizeIsHalfOnDesktop = ColumnSize.IsHalf.OnDesktop;
 }
