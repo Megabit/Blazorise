@@ -10,9 +10,9 @@ namespace Blazorise.DataGrid;
 
 public abstract class _BaseDataGridRowCommand<TItem> : ComponentBase, IDisposable
 {
-    protected static readonly IFluentFlex DefaultFlex = Flex.InlineFlex;
+    protected static readonly IFluentFlex DefaultFlex = Constants.FlexInlineFlex;
 
-    protected static readonly IFluentGap DefaultGap = Gap.Is2;
+    protected static readonly IFluentGap DefaultGap = Constants.GapIs2;
 
     public override Task SetParametersAsync( ParameterView parameters )
     {
