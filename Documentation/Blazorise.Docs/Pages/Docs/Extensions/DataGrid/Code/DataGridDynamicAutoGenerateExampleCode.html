@@ -45,7 +45,13 @@
 
         <span class="keyword">foreach</span> ( <span class="keyword">var</span> property <span class="keyword">in</span> <span class="keyword">typeof</span>( Employee ).GetProperties() )
         {
-            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : <span class="keyword">null</span> );
+            expando.Add( property.Name,
+                property.PropertyType <span class="keyword">switch</span>
+                {
+                    { } t when t == <span class="keyword">typeof</span>( <span class="keyword">string</span> ) =&gt; <span class="string">&quot;&quot;</span>,
+                    { IsValueType: <span class="keyword">true</span> } =&gt; Activator.CreateInstance( property.PropertyType ) ?? <span class="string">&quot;&quot;</span>,
+                    _ =&gt; <span class="string">&quot;&quot;</span> <span class="comment">//better than null</span>
+                } );
         }
 
         <span class="keyword">return</span> (ExpandoObject)expando;

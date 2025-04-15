@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <PackageTags>blazorise blazor components chart</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>

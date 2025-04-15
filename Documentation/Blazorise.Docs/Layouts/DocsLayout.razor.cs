@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Shared.Data;
-using Blazorise.Shared.Models;
+using Blazorise.Docs.Services.Search;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
@@ -37,8 +35,6 @@ public partial class DocsLayout : IDisposable
 
     private bool disposed;
 
-    public IEnumerable<PageEntry> SearchEntries;
-
     public string selectedSearchText { get; set; }
 
     private bool isRouterTabsExample;
@@ -50,8 +46,7 @@ public partial class DocsLayout : IDisposable
     protected override async Task OnInitializedAsync()
     {
         NavigationManager.LocationChanged += OnLocationChanged;
-
-        SearchEntries = await SearchMenuProvider.GetDataAsync();
+        await SearchMenuProvider.InitializeAsync(); //TODO: this should be done in an IHostedService.StartAsync
 
         await base.OnInitializedAsync();
     }
@@ -59,11 +54,11 @@ public partial class DocsLayout : IDisposable
     private async void OnLocationChanged( object sender, LocationChangedEventArgs e )
     {
         var isRouterTabsPage = e.Location.Contains( "routertabs" );
-        if (isRouterTabsExample != isRouterTabsPage )
+        if ( isRouterTabsExample != isRouterTabsPage )
         {
             isRouterTabsExample = isRouterTabsPage;
             StateHasChanged();
-        } 
+        }
         await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToTop" );
     }
 
@@ -104,7 +99,7 @@ public partial class DocsLayout : IDisposable
 
     #region Properties
 
-    [Inject] public PageEntryData SearchMenuProvider { get; set; }
+    [Inject] public SearchEntriesProvider SearchMenuProvider { get; set; }
 
     [Inject] private NavigationManager NavigationManager { get; set; }
 

@@ -1917,6 +1917,8 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     DateTime? value;
 }";
 
+        public const string DatePickerShowWeekNumbersExample = @"<DatePicker TValue=""DateTime?"" ShowWeekNumbers=""true"" />";
+
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" @bind-Date=""@value"" />
@@ -2751,6 +2753,37 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     bool caseSensitive;
 
     string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
+}";
+
+        public const string MultipleTextsHighlighterExample = @"<Field>
+    <FieldLabel>Search values (comma separated)</FieldLabel>
+    <FieldBody>
+        <TextEdit @bind-Text=""@searchValue"" />
+    </FieldBody>
+</Field>
+
+<ListGroup>
+    @foreach ( var sentence in sentences )
+    {
+        <ListGroupItem @key=""sentence"">
+            <Highlighter Text=""@sentence"" HighlightedTexts=""@highlightedWords"" />
+        </ListGroupItem>
+    }
+</ListGroup>
+
+@code {
+    string searchValue = ""the,item"";
+
+    IEnumerable<string> sentences = new List<string>
+    {
+        ""This is the first item"",
+        ""This is the second item"",
+        ""This is the third item""
+    };
+
+    string[] highlightedWords =>
+        ( searchValue ?? string.Empty )
+        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToArray();
 }";
 
         public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
@@ -4735,6 +4768,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string TimePickerIncrementsExample = @"<TimePicker TValue=""TimeSpan?"" HourIncrement=""2"" MinuteIncrement=""30"" />";
+
         public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" StaticPicker=""false"" />
 
 @code {
@@ -5165,6 +5200,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public bool TermsAndConditions { get; set; }
     }
 }";
+
+        public const string GlobalLocalizationExample = @"services.AddBlazorise( options =>
+    {
+        options.ValidationMessageLocalizer = ( message, arguments ) =>
+        {
+            var stringLocalizer = options.Services.GetService<ITextLocalizer<YourResourceName>>();
+
+            return stringLocalizer != null && arguments?.Count() > 0
+                ? string.Format( stringLocalizer[message], arguments.ToArray() )
+                : message;
+        };
+    } );";
 
         public const string LocalizationValidationExample = @"@using Blazorise.Localization
 
@@ -7796,7 +7843,7 @@ Install-Package Blazorise.Chart.Zoom";
                 @if ( DisplayDetailRow( context ) )
                 {
                     <Button>
-                        <Icon Name=""@(dataGridRef.GetRowInfo(context).DetailRowExpanded ? IconName.ExpandLess : IconName.ExpandMore)""/>
+                        <Icon Name=""@(dataGridRef.GetRowInfo(context).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)""/>
                     </Button>
                 }
             </DisplayTemplate>
@@ -7908,7 +7955,13 @@ Install-Package Blazorise.Chart.Zoom";
 
         foreach ( var property in typeof( Employee ).GetProperties() )
         {
-            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+            expando.Add( property.Name,
+                property.PropertyType switch
+                {
+                    { } t when t == typeof( string ) => """",
+                    { IsValueType: true } => Activator.CreateInstance( property.PropertyType ) ?? """",
+                    _ => """" //better than null
+                } );
         }
 
         return (ExpandoObject)expando;
@@ -9853,8 +9906,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
-        public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
-
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
         public const string IconCustomExample = @"<Icon Name=""@(""fa-phone"")"" />";
@@ -9885,6 +9936,20 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 </Div>";
 
         public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
+
+        public const string IconsNugetInstallExample = @"Install-Package Blazorise.Icons.Bootstrap
+
+or
+
+Install-Package Blazorise.Icons.FluentUI
+
+or
+
+Install-Package Blazorise.Icons.FontAwesome
+
+or
+
+Install-Package Blazorise.Icons.Material";
 
         public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />";
 
@@ -12501,6 +12566,23 @@ builder.Services
 </Router>
 
 <NotificationProvider />";
+
+        public const string NotificationServiceWithOptionsExample = @"<Button Color=""Color.Warning"" Clicked=""@ShowWarningNotification"">Show alert!</Button>
+
+@code {
+    [Inject] INotificationService NotificationService { get; set; }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning( ""This is a simple notification message!"", ""Hello"", options =>
+        {
+            options.IntervalBeforeClose = 500;
+            options.Multiline = true;
+            options.OkButtonIcon = true;
+            options.OkButtonText = ""OK"";
+        } );
+    }
+}";
 
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress50"">50 %</Button>
