@@ -1,7 +1,7 @@
 using Blazorise.Export;
 using MongoDB.Bson;
 namespace Blazorise.Exporters.Bson;
-public class BsonToFileExporter( BsonFileExportOptions? options=null ) : ExporterToFileBinary<BsonFileExportOptions, ExportResult, TabularSourceData<object>>( options )
+public class BsonToFileBinaryExporter( BsonFileExportOptions? options=null ) : BinaryExporterToFile<BsonFileExportOptions, ExportResult, TabularSourceData<object>>( options )
 {
     public override async Task<byte[]> GetDataForExport( TabularSourceData<object> dataSource )
     {

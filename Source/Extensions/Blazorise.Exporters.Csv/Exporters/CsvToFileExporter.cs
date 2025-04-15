@@ -7,9 +7,9 @@ namespace Blazorise.Exporters.Csv;
 /// <summary>
 /// Exports DataGrid content to a CSV file using the specified file export options.
 /// </summary>
-public class CsvToFileExporter : ExporterToFileText<CsvFileExportOptions, ExportResult, TabularSourceData<string>>
+public class CsvToFileTextExporter : TextExporterToFile<CsvFileExportOptions, ExportResult, TabularSourceData<string>>
 {
-    public CsvToFileExporter(CsvFileExportOptions options = null) : base(options) { }
+    public CsvToFileTextExporter(CsvFileExportOptions options = null) : base(options) { }
 
     public override async Task<byte[]> GetDataForExport( TabularSourceData<string> sourceData )
     {

@@ -8,13 +8,13 @@ namespace Blazorise.Export;
 /// <summary>
 /// Base class for exporting  content as text (string-based) to a clipboard using specified clipboard export options.
 /// </summary>
-public abstract class ExporterToClipboardText<TOptions,TExportResult, TSourceData>
-:ExporterToClipboard<TOptions,TExportResult, TSourceData>, IExporterText<TExportResult,TSourceData>
+public abstract class TextExporterToClipboard<TOptions,TExportResult, TSourceData>
+:ExporterToClipboard<TOptions,TExportResult, TSourceData>, ITextExporter<TExportResult,TSourceData>
 where TOptions: IClipboardExportOptions, new()
 where TExportResult: IExportResult, new()
 where TSourceData: IExportableData<string>
 {
-    protected ExporterToClipboardText(TOptions options) : base(options)
+    protected TextExporterToClipboard(TOptions options) : base(options)
     {
     }
 
@@ -24,14 +24,14 @@ where TSourceData: IExportableData<string>
 /// <summary>
 /// Base class for exporting  content in binary format to a clipboard using specified clipboard export options.
 /// </summary>
-public abstract class ExporterToClipboardBinary<TOptions,TExportResult,TSourceData>
-:ExporterToClipboard<TOptions,TExportResult,TSourceData>, IExporterBinary<TExportResult, TSourceData>
+public abstract class BinaryExporterToClipboard<TOptions,TExportResult,TSourceData>
+:ExporterToClipboard<TOptions,TExportResult,TSourceData>, IBinaryExporter<TExportResult, TSourceData>
 where TOptions: IClipboardExportOptions, new()
 where TExportResult: IExportResult, new()
 where TSourceData: IExportableData<object>
 
 {
-    protected ExporterToClipboardBinary(TOptions options) : base(options)
+    protected BinaryExporterToClipboard(TOptions options) : base(options)
     {
     }
 }

@@ -5,7 +5,7 @@ namespace Blazorise.Export;
 /// <summary>
 /// Represents a DataGrid exporter that handles string-based (textual) cell values, such as CSV or plain text formats.
 /// </summary>
-public interface IExporterText<TExportResult, in TSourceData> : IExporter<TExportResult, TSourceData>
+public interface ITextExporter<TExportResult, in TSourceData> : IExporter<TExportResult, TSourceData>
 where TExportResult : IExportResult
 where TSourceData: IExportableData<string>
 
@@ -16,7 +16,7 @@ where TSourceData: IExportableData<string>
 /// <summary>
 /// Represents a DataGrid exporter that handles object-based (typed or binary) cell values for formats like Excel or BSON.
 /// </summary>
-public interface IExporterBinary<TExportResult, in TSourceData> : IExporter<TExportResult, TSourceData>
+public interface IBinaryExporter<TExportResult, in TSourceData> : IExporter<TExportResult, TSourceData>
 where TExportResult : IExportResult
 where TSourceData: IExportableData<object>
 {

@@ -8,13 +8,13 @@ namespace Blazorise.Export;
 /// <summary>
 /// Base class for exporting  content as text (string-based) to a file using specified file export options.
 /// </summary>
-public abstract class ExporterToFileText<TOptions,TExportResult, TSourceData>
-:ExporterToFile<TOptions,TExportResult, TSourceData>, IExporterText<TExportResult,TSourceData>
+public abstract class TextExporterToFile<TOptions,TExportResult, TSourceData>
+:ExporterToFile<TOptions,TExportResult, TSourceData>, ITextExporter<TExportResult,TSourceData>
 where TOptions: IFileExportOptions, new()
 where TExportResult: IExportResult, new()
 where TSourceData: IExportableData<string>
 {
-    protected ExporterToFileText(TOptions options) : base(options)
+    protected TextExporterToFile(TOptions options) : base(options)
     {
     }
 }
@@ -22,14 +22,14 @@ where TSourceData: IExportableData<string>
 /// <summary>
 /// Base class for exporting  content in binary format to a file using specified file export options.
 /// </summary>
-public abstract class ExporterToFileBinary<TOptions,TExportResult,TSourceData>
-:ExporterToFile<TOptions,TExportResult,TSourceData>, IExporterBinary<TExportResult, TSourceData>
+public abstract class BinaryExporterToFile<TOptions,TExportResult,TSourceData>
+:ExporterToFile<TOptions,TExportResult,TSourceData>, IBinaryExporter<TExportResult, TSourceData>
 where TOptions: IFileExportOptions, new()
 where TExportResult: IExportResult, new()
 where TSourceData: IExportableData<object>
 
 {
-    protected ExporterToFileBinary(TOptions options) : base(options)
+    protected BinaryExporterToFile(TOptions options) : base(options)
     {
     }
 }
