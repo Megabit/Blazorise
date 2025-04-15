@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,42 +14,69 @@ namespace Blazorise;
 /// </summary>
 public partial class Highlighter : BaseComponent
 {
+    #region Objects
+
+    /// <summary>
+    /// Defines a fragment of the text.
+    /// </summary>
+    /// <param name="Text">The text fragment.</param>
+    /// <param name="IsMatch">Whether or not the text fragment is a match.</param>
+    record Fragment( string Text, bool IsMatch );
+
+    #endregion
+
     #region Members
 
-    IEnumerable<string> fragments;
+    IEnumerable<Fragment> fragments;
+
+    private List<string> allHighlightedTexts = new();
 
     #endregion
 
     #region Methods
 
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
+    /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        fragments = GetFragments( Text, HighlightedText, CaseSensitive, UntilNextBoundary, NextBoundary );
+        var changed =
+            ( parameters.TryGetValue<string>( nameof( Text ), out var text ) && Text != text )
+            || ( parameters.TryGetValue<string>( nameof( HighlightedText ), out var highlightedText ) && HighlightedText != highlightedText )
+            || ( parameters.TryGetValue<bool>( nameof( CaseSensitive ), out var caseSensitive ) && CaseSensitive != caseSensitive )
+            || ( parameters.TryGetValue<bool>( nameof( UntilNextBoundary ), out var untilNext ) && UntilNextBoundary != untilNext )
+            || ( parameters.TryGetValue<string>( nameof( NextBoundary ), out var nextBoundary ) && NextBoundary != nextBoundary )
+            || ( parameters.TryGetValue<IEnumerable<string>>( nameof( HighlightedTexts ), out var highlightedTexts ) && HighlightedTexts != highlightedTexts );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( changed )
+        {
+            allHighlightedTexts = new( HighlightedTexts ?? Enumerable.Empty<string>() ) { HighlightedText };
+            fragments = GetFragments( Text, allHighlightedTexts, CaseSensitive, UntilNextBoundary, NextBoundary );
+        }
     }
 
-    private static IEnumerable<string> GetFragments( string text, string highlightedText, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null )
+    static IEnumerable<Fragment> GetFragments( string text, List<string> highlightedTexts, bool caseSensitive = false, bool untilNextBoundary = false, string nextBoundary = null )
     {
         if ( string.IsNullOrWhiteSpace( text ) )
-        {
-            return new List<string>();
-        }
+            return new List<Fragment>();
 
-        if ( string.IsNullOrWhiteSpace( highlightedText ) )
-        {
-            return new List<string> { text };
-        }
+        if ( highlightedTexts == null || highlightedTexts.Count == 0 || highlightedTexts.All( string.IsNullOrWhiteSpace ) )
+            return new List<Fragment> { new( text, false ) };
 
-        highlightedText = Regex.Escape( highlightedText );
+        var escaped = highlightedTexts
+                      .Where( s => !string.IsNullOrWhiteSpace( s ) )
+                      .Select( Regex.Escape ).ToList();
 
-        if ( untilNextBoundary )
-        {
-            highlightedText += nextBoundary;
-        }
+        string pattern = untilNextBoundary
+            ? string.Join( "|", escaped.Select( h => h + nextBoundary ) )
+            : string.Join( "|", escaped );
 
-        return Regex
-            .Split( text, $"({highlightedText})", caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase )
-            .Where( s => !string.IsNullOrEmpty( s ) );
+        var regex = new Regex( $"({pattern})", caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase );
+
+        return regex
+               .Split( text )
+               .Where( s => !string.IsNullOrEmpty( s ) )
+               .Select( s => new Fragment( s, regex.IsMatch( s ) ) );
     }
 
     #endregion
@@ -63,6 +92,15 @@ public partial class Highlighter : BaseComponent
     /// The search term to be highlighted.
     /// </summary>
     [Parameter] public string HighlightedText { get; set; }
+
+    /// <summary>
+    /// Array of search terms to be highlighted.
+    /// </summary>
+    /// <remarks>
+    /// Although this is an array, mutating it in-place (e.g. <c>HighlightedTexts[1] = "new value"</c>)
+    /// will not trigger a change. To update highlights, always reassign the entire array.
+    /// </remarks>
+    [Parameter] public string[] HighlightedTexts { get; set; }
 
     /// <summary>
     /// Whether or not the search term will be case sensitive.
