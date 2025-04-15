@@ -50,24 +50,24 @@
                         }
                         else
                         {
-                            <_DataGridCellFilter Column="Column" OnFilterChanged="@((newValue) => Column.Filter.SearchValue = newValue)" />
+                            <_DataGridCellFilter Column="Column" OnFilterChanged="@(( newValue ) => Column.Filter.SearchValue = newValue)" />
                         }
                     </Field>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12" Flex="Constants.FlexJustifyContentEndAlignItemsCenter" Gap="Constants.GapIs2">
                     <Button Clicked="@ParentDataGrid.FilterData" Color="Color.Primary">@Localizer.Localize( ParentDataGrid.Localizers?.FilterButtonLocalizer, "Filter" )</Button>
-                    <Button Clicked="@(() => ParentDataGrid.ClearFilter(Column.Field))" Color="Color.Light">@Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" )</Button>
+                    <Button Clicked="@(() => ParentDataGrid.ClearFilter( Column.Field ))" Color="Color.Light">@Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" )</Button>
                 </Column>
             }
             else
             {
                 @ParentDataGrid.FilterMenuTemplate( new( Column,
-                         () => Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn(),
-                         () => Column.Filter.SearchValue,
-                         EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),
-                         EventCallback.Factory.Create<DataGridColumnFilterMethod?>( this, Column.SetFilterMethod ),
-                         EventCallback.Factory.Create( this, ParentDataGrid.FilterData ),
-                         EventCallback.Factory.Create( this, async () => await ParentDataGrid.ClearFilter( Column.Field ) ) ) )
+                        () => Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn(),
+                        () => Column.Filter.SearchValue,
+                        EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),
+                        EventCallback.Factory.Create<DataGridColumnFilterMethod?>( this, Column.SetFilterMethod ),
+                        EventCallback.Factory.Create( this, ParentDataGrid.FilterData ),
+                        EventCallback.Factory.Create( this, async () => await ParentDataGrid.ClearFilter( Column.Field ) ) ) )
             }
         </Row>
     </DropdownMenu>

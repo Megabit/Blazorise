@@ -74,40 +74,40 @@
                     var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
 
                     @ButtonRowTemplate( new()
+                    {
+                        NewCommand = new()
                         {
-                            NewCommand = new()
-                            {
-                                Clicked = NewClick,
-                                LocalizationString = newButtonString,
-                            },
-                            EditCommand = new()
-                            {
-                                Clicked = EditClick,
-                                LocalizationString = editButtonString,
-                                Item = SelectedRow
-                            },
-                            DeleteCommand = new()
-                            {
-                                Clicked = DeleteClick,
-                                LocalizationString = deleteButtonString,
-                                Item = SelectedRow
-                            },
-                            ClearFilterCommand = new()
-                            {
-                                Clicked = ClearFilterClick,
-                                LocalizationString = clearFilterButtonString,
-                            },
-                            SaveBatchCommand = new()
-                            {
-                                Clicked = SaveBatchClick,
-                                LocalizationString = saveBatchButtonString,
-                            },
-                            CancelBatchCommand = new()
-                            {
-                                Clicked = CancelBatchClick,
-                                LocalizationString = cancelBatchButtonString,
-                            }
-                        } );
+                            Clicked = NewClick,
+                            LocalizationString = newButtonString,
+                        },
+                        EditCommand = new()
+                        {
+                            Clicked = EditClick,
+                            LocalizationString = editButtonString,
+                            Item = SelectedRow
+                        },
+                        DeleteCommand = new()
+                        {
+                            Clicked = DeleteClick,
+                            LocalizationString = deleteButtonString,
+                            Item = SelectedRow
+                        },
+                        ClearFilterCommand = new()
+                        {
+                            Clicked = ClearFilterClick,
+                            LocalizationString = clearFilterButtonString,
+                        },
+                        SaveBatchCommand = new()
+                        {
+                            Clicked = SaveBatchClick,
+                            LocalizationString = saveBatchButtonString,
+                        },
+                        CancelBatchCommand = new()
+                        {
+                            Clicked = CancelBatchClick,
+                            LocalizationString = cancelBatchButtonString,
+                        }
+                    } );
                 }
             </Field>
         }
@@ -123,18 +123,18 @@
                         <Icon Name="@IconName.Table" Margin="Constants.MarginIs1FromStart" Clicked="() => {}" /> Columns
                     </DropdownToggle>
                     <DropdownMenu MaxMenuHeight="200px">
-                        @if ( ParentDataGrid.ColumnChooserTemplate is null ) 
+                        @if ( ParentDataGrid.ColumnChooserTemplate is null )
                         {
                             @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ) )
                             {
-                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</DropdownItem>
+                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged( column, value ))">@column.Caption</DropdownItem>
                             }
                         }
-                        else 
+                        else
                         {
                             @ParentDataGrid.ColumnChooserTemplate(new(
                                 ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ),
-                                 EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) );
+                                EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) );
                         }
                     </DropdownMenu>
                 </Dropdown>
@@ -146,7 +146,7 @@
     {
         @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
-            <Field Margin="Constants.MarginIsAutoOnYIs2FromStart"  Display="Constants.DisplayNoneOnMobileInlineBlockOnDesktop">
+            <Field Margin="Constants.MarginIsAutoOnYIs2FromStart" Display="Constants.DisplayNoneOnMobileInlineBlockOnDesktop">
                 @if ( TotalItemsTemplate is not null )
                 {
                     @TotalItemsTemplate( PaginationContext )

@@ -51,7 +51,7 @@
                                         @if ( ParentDataGrid.SubmitFormOnEnter )
                                         {
                                             <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
-                                                 @saveButtonString
+                                                @saveButtonString
                                             </Button>
                                         }
                                         else
@@ -114,8 +114,8 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 {
                     if ( ParentDataGrid.MultiSelect )
                     {
-                        <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)"
-                                      Style="@column.BuildCellStyle(Item)"
+                        <TableRowCell @key=column Class="@column.CellClass?.Invoke( Item )"
+                                      Style="@column.BuildCellStyle( Item )"
                                       TextAlignment="@column.TextAlignment"
                                       TextTransform="@column.TextTransform"
                                       TextDecoration="@column.TextDecoration"
@@ -134,10 +134,10 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 }
                 else if ( column.Displaying )
                 {
-                    <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
-                                  @onkeydown="@(ParentDataGrid.IsCellEdit ? async (args) =>  await HandleCellKeyDown(args, column) : default)"
-                                  @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
-                                  @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
+                    <TableRowCell @key=column Class="@column.CellClass?.Invoke( Item )" Style="@column.BuildCellStyle( Item )"
+                                  @onkeydown="@(ParentDataGrid.IsCellEdit? async( args) => await HandleCellKeyDown( args, column ) : default)"
+                                  @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
+                                  @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
                                   TextAlignment="@column.TextAlignment" TextTransform="@column.TextTransform" TextDecoration="@column.TextDecoration" TextWeight="@column.TextWeight" TextOverflow="@column.TextOverflow" TextSize="@column.TextSize"
                                   VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"
                                   MobileModeCaption="@column.Caption">
