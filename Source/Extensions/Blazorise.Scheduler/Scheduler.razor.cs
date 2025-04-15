@@ -946,7 +946,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         DragCancelled?.Invoke( this, item );
     }
 
-    internal async Task<bool> DropItem( DateTime newStart, DateTime newEnd )
+    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd )
     {
         if ( currentTransaction == null )
             return false;
@@ -955,6 +955,42 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             var duration = GetItemDuration( currentTransaction.Item );
             SetItemDates( currentTransaction.Item, newStart, newStart.Add( duration ) );
+
+            await currentTransaction.Commit();
+
+            ItemDropped?.Invoke( this, (currentTransaction.Item, newStart, newEnd) );
+
+            isDragging = false;
+            currentTransaction = null;
+
+            return true;
+        }
+        catch
+        {
+            await CancelDrag();
+
+            return false;
+        }
+        finally
+        {
+            await Refresh();
+        }
+    }
+
+    internal async Task<bool> DropDateItem( DateOnly date )
+    {
+        if ( currentTransaction == null )
+            return false;
+
+        try
+        {
+            var start = GetItemStartTime( currentTransaction.Item );
+            var end = GetItemEndTime( currentTransaction.Item );
+
+            var newStart = new DateTime( date.Year, date.Month, date.Day, start.Hour, start.Minute, start.Second );
+            var newEnd = new DateTime( date.Year, date.Month, date.Day, end.Hour, end.Minute, end.Second );
+
+            SetItemDates( currentTransaction.Item, newStart, newEnd );
 
             await currentTransaction.Commit();
 

@@ -50,7 +50,7 @@ public partial class _SchedulerSlot<TItem>
 
     protected Task OnSlotDrop( DragEventArgs e )
     {
-        return Scheduler.DropItem( SlotStart, SlotEnd );
+        return Scheduler.DropSlotItem( SlotStart, SlotEnd );
     }
 
     protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
