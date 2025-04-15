@@ -25,21 +25,21 @@ async Task ExtractFontAwesomeNames()
 
     // Download the JSON metadata
     var client = new HttpClient();
-    var json = await client.GetStringAsync(url);
+    var json = await client.GetStringAsync( url );
 
     // Deserialize JSON into a dictionary of icon definitions
     var values = JsonSerializer.Deserialize<Dictionary<string, FontAwesomeIcon>>(
         json,
-        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        new JsonSerializerOptions { PropertyNameCaseInsensitive = true } );
 
     // Build results from icon names
     var resultsWithNames = (
         from v in values
         select new
         {
-            DisplayName = GetDisplayName(v.Key),     // C#-friendly constant name
-            Key = GetIconValue(v.Key, v.Value)       // e.g., "fa-camera" or "fab youtube"
-        }).ToList();
+            DisplayName = GetDisplayName( v.Key ),     // C#-friendly constant name
+            Key = GetIconValue( v.Key, v.Value )       // e.g., "fa-camera" or "fab youtube"
+        } ).ToList();
 
     // Build results from icon aliases
     var resultsWithAliases = (
@@ -48,14 +48,14 @@ async Task ExtractFontAwesomeNames()
         from a in v.Value.Aliases.Names
         select new
         {
-            DisplayName = GetDisplayName(a),         // Use alias name
-            Key = GetIconValue(v.Key, v.Value)       // Always refer to the original key
-        }).ToList();
+            DisplayName = GetDisplayName( a ),         // Use alias name
+            Key = GetIconValue( v.Key, v.Value )       // Always refer to the original key
+        } ).ToList();
 
     // Combine both and sort alphabetically
     var result = resultsWithNames
-        .Concat(resultsWithAliases)
-        .OrderBy(x => x.DisplayName)
+        .Concat( resultsWithAliases )
+        .OrderBy( x => x.DisplayName )
         .ToList();
 
     // Prepend C# class and namespace boilerplate
@@ -69,31 +69,31 @@ async Task ExtractFontAwesomeNames()
     public static class FontAwesomeIcons
     {
     """;
-    
+
     // Generate the constant lines
     var constants = result
-        .Select(x => $"    public const string {x.DisplayName} = \"{x.Key}\";");
-    
-    // Write everything to file
-    File.WriteAllLines(outputFile, [header, ..constants, "}"]);
+        .Select( x => $"    public const string {x.DisplayName} = \"{x.Key}\";" );
 
-    Console.WriteLine($"Exported {result.Count} icons to {outputFile}");
+    // Write everything to file
+    File.WriteAllLines( outputFile, [header, .. constants, "}"] );
+
+    Console.WriteLine( $"Exported {result.Count} icons to {outputFile}" );
 }
 
 // Converts icon name (or alias) to PascalCase format for use as a C# identifier
-string GetDisplayName(string value) =>
-    char.IsDigit(value.First()) 
-        ? $"_{ToPascal(value)}"    // Prefix with underscore if it starts with a digit
-        : ToPascal(value);
+string GetDisplayName( string value ) =>
+    char.IsDigit( value.First() )
+        ? $"_{ToPascal( value )}"    // Prefix with underscore if it starts with a digit
+        : ToPascal( value );
 
 // Converts kebab-case to PascalCase (e.g., "arrow-left" -> "ArrowLeft")
-string ToPascal(string s) =>
-    CultureInfo.CurrentCulture.TextInfo.ToTitleCase(s).Replace("-", "");
+string ToPascal( string s ) =>
+    CultureInfo.CurrentCulture.TextInfo.ToTitleCase( s ).Replace( "-", "" );
 
 // Determines the final string value for the icon constant (fab for brands, fa- otherwise)
-string GetIconValue(string iconKey, FontAwesomeIcon icon) =>
-    icon?.Styles?.Contains("brands") == true 
-        ? $"fab fa-{iconKey}" 
+string GetIconValue( string iconKey, FontAwesomeIcon icon ) =>
+    icon?.Styles?.Contains( "brands" ) == true
+        ? $"fab fa-{iconKey}"
         : $"fa-{iconKey}";
 
 // Model for the icon metadata
