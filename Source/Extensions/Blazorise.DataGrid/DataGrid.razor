@@ -13,7 +13,7 @@
     <Form>
         @if ( PreventDefaultSubmitBehavior )
         {
-            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="Constants.DisplayNone"></Button>
+            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="DisplayNone"></Button>
         }
 
         @if ( IsGroupableByColumn )
@@ -91,7 +91,7 @@
                                     <Div Display="Display.InlineFlex">
                                         @if ( IsGroupableByColumn && column.Groupable )
                                         {
-                                            <Icon Name="@IconName.GripVertical" Margin="Constants.MarginIs1FromEnd" Style="cursor:move" />
+                                            <Icon Name="@IconName.GripVertical" Margin="MarginIs1FromEnd" Style="cursor:move" />
                                         }
                                         @if ( column.ShowCaption )
                                         {

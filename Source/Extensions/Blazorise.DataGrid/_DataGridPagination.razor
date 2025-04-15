@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Constants.FlexRow">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="FlexRow">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
             @buttonRowFragment
@@ -20,7 +20,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Constants.FlexRow" Margin="Constants.MarginIsAutoOnX">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="FlexRow" Margin="MarginIsAutoOnX">
         @if ( GetButtonRowPosition() == PagerElementPosition.Center )
         {
             @buttonRowFragment
@@ -39,7 +39,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Constants.FlexRowAlignItemsCenterJustifyContentEnd" Margin="Constants.MarginIsAutoFromStart">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="FlexRowAlignItemsCenterJustifyContentEnd" Margin="MarginIsAutoFromStart">
         @if ( GetButtonRowPosition() == PagerElementPosition.End )
         {
             @buttonRowFragment
@@ -64,7 +64,7 @@
     {
         @if ( ShowButtonRow )
         {
-            <Field Display="Constants.DisplayInlineBlock">
+            <Field Display="DisplayInlineBlock">
                 @{
                     var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
                     var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
@@ -117,10 +117,10 @@
     {
         @if ( ShowColumnChooser )
         {
-            <Field Display="Constants.DisplayInlineBlock" Margin="ColumnChooserMargin">
+            <Field Display="DisplayInlineBlock" Margin="ColumnChooserMargin">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
                     <DropdownToggle @onclick:stopPropagation>
-                        <Icon Name="@IconName.Table" Margin="Constants.MarginIs1FromStart" Clicked="() => {}" /> Columns
+                        <Icon Name="@IconName.Table" Margin="MarginIs1FromStart" Clicked="() => {}" /> Columns
                     </DropdownToggle>
                     <DropdownMenu MaxMenuHeight="200px">
                         @if ( ParentDataGrid.ColumnChooserTemplate is null )
@@ -146,7 +146,7 @@
     {
         @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
-            <Field Margin="Constants.MarginIsAutoOnYIs2FromStart" Display="Constants.DisplayNoneOnMobileInlineBlockOnDesktop">
+            <Field Margin="MarginIsAutoOnYIs2FromStart" Display="DisplayNoneOnMobileInlineBlockOnDesktop">
                 @if ( TotalItemsTemplate is not null )
                 {
                     @TotalItemsTemplate( PaginationContext )
@@ -167,7 +167,7 @@
                     }
                 }
             </Field>
-            <Field Margin="Constants.MarginIsAutoOnYIs2FromStart" Display="Constants.DisplayInlineBlockNoneOnDesktop">
+            <Field Margin="MarginIsAutoOnYIs2FromStart" Display="DisplayInlineBlockNoneOnDesktop">
                 @if ( TotalItemsShortTemplate is not null )
                 {
                     @TotalItemsShortTemplate( PaginationContext )
@@ -216,7 +216,7 @@
                     var pageNumberString = i.ToString();
                     var pageActive = pageNumber == PaginationContext.CurrentPage;
 
-                    <PaginationItem Flex="Constants.FlexInlineFlexOnTabletJustifyContentCenterOnTablet" Display="Constants.DisplayNoneOnMobileInlineFlexRowOnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
+                    <PaginationItem Flex="FlexInlineFlexOnTabletJustifyContentCenterOnTablet" Display="DisplayNoneOnMobileInlineFlexRowOnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
                         <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
                             @if ( PageButtonTemplate is not null )
                             {
@@ -229,7 +229,7 @@
                         </PaginationLink>
                     </PaginationItem>
                 }
-                <PaginationItem Display="Constants.DisplayInlineFlexRowNoneOnTablet">
+                <PaginationItem Display="DisplayInlineFlexRowNoneOnTablet">
                     @if ( PageSelectorTemplate is not null )
                     {
                         @PageSelectorTemplate( PaginationContext )
@@ -271,7 +271,7 @@
                 </PaginationItem>
                 @if ( PaginationContext.ShowPageSizes )
                 {
-                    <PaginationItem Margin="Constants.MarginIs0FromBottomIs3FromStart">
+                    <PaginationItem Margin="MarginIs0FromBottomIs3FromStart">
                         @if ( PageSizesTemplate is not null )
                         {
                             @PageSizesTemplate( PaginationContext )
@@ -286,7 +286,7 @@
                             </Select>
                         }
                     </PaginationItem>
-                    <Field Margin="Constants.MarginIsAutoOnYIs2FromStart" Display="Constants.DisplayNoneOnMobileInlineFlexRowOnDesktop">
+                    <Field Margin="MarginIsAutoOnYIs2FromStart" Display="DisplayNoneOnMobileInlineFlexRowOnDesktop">
                         @if ( ItemsPerPageTemplate is not null )
                         {
                             @ItemsPerPageTemplate

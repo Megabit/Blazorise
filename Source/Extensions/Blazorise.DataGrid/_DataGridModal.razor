@@ -25,7 +25,7 @@
                 <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem" HandlerType="@ParentDataGrid?.ValidationsHandlerType">
                     @if ( ParentDataGrid.ShowValidationsSummary )
                     {
-                        <Field Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Constants.DisplayAlways : Constants.DisplayNone)">
+                        <Field Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? DisplayAlways : DisplayNone)">
                             <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                         </Field>
                     }
@@ -35,7 +35,7 @@
                         }
                         @foreach ( var column in OrderedEditableColumns )
                         {
-                            <Field ColumnSize="@(column.EditFieldColumnSize ?? column.PopupFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="Constants.PaddingIs2OnXIs2OnY">
+                            <Field ColumnSize="@(column.EditFieldColumnSize ?? column.PopupFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="PaddingIs2OnXIs2OnY">
                                 <FieldLabel>
                                     @column.Caption
                                 </FieldLabel>

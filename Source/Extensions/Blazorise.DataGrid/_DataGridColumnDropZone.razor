@@ -2,13 +2,13 @@
 @typeparam TItem
 
 
-<Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="Constants.PaddingIs3" Flex="Constants.FlexGrowIs1"
+<Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="PaddingIs3" Flex="FlexGrowIs1"
      ondragover="event.preventDefault();" @ondrop="OnDrop">
     @if ( !Columns.IsNullOrEmpty() )
     {
         @foreach ( var column in ( Columns ) )
         {
-            <Badge @key="column.ElementId" Color="Color.Secondary" Padding="Constants.PaddingIs2" Margin="Constants.MarginIs2FromStart" CloseClicked="() => RemoveColumn(column)">@column.Caption</Badge>
+            <Badge @key="column.ElementId" Color="Color.Secondary" Padding="PaddingIs2" Margin="MarginIs2FromStart" CloseClicked="() => RemoveColumn(column)">@column.Caption</Badge>
         }
     }
     else

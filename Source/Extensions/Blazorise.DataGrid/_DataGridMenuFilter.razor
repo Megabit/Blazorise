@@ -3,10 +3,10 @@
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
     <DropdownToggle @onclick:stopPropagation>
-        <Icon Name="@IconName.Filter" Margin="Constants.MarginIs1FromStart" Clicked="() => {}" TextColor="@(IsFiltering() ? TextColor.Primary : TextColor.Default)" />
+        <Icon Name="@IconName.Filter" Margin="MarginIs1FromStart" Clicked="() => {}" TextColor="@(IsFiltering() ? TextColor.Primary : TextColor.Default)" />
     </DropdownToggle>
     <DropdownMenu>
-        <Row Padding="@Constants.PaddingIs3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
+        <Row Padding="@PaddingIs3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
             @if ( ParentDataGrid.FilterMenuTemplate is null )
             {
                 var filterMethod = Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn();
@@ -54,7 +54,7 @@
                         }
                     </Field>
                 </Column>
-                <Column ColumnSize="ColumnSize.Is12" Flex="Constants.FlexJustifyContentEndAlignItemsCenter" Gap="Constants.GapIs2">
+                <Column ColumnSize="ColumnSize.Is12" Flex="FlexJustifyContentEndAlignItemsCenter" Gap="GapIs2">
                     <Button Clicked="@ParentDataGrid.FilterData" Color="Color.Primary">@Localizer.Localize( ParentDataGrid.Localizers?.FilterButtonLocalizer, "Filter" )</Button>
                     <Button Clicked="@(() => ParentDataGrid.ClearFilter( Column.Field ))" Color="Color.Light">@Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" )</Button>
                 </Column>
