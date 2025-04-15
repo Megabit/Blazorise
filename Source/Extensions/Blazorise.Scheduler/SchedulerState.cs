@@ -49,6 +49,4 @@ public record SchedulerState
     /// Gets the event callback that is triggered when a request is made to navigate to the month view.
     /// </summary>
     internal EventCallbackSubscribable MonthViewRequested { get; } = new();
-
-    //internal object DraggedItem { get; set; }
 }

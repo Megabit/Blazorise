@@ -41,15 +41,16 @@ public partial class _SchedulerSlot<TItem>
         return SlotClicked.Invoke( SlotStart, SlotEnd );
     }
 
-    void OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
+    protected Task OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
     {
         mouseHovering = false;
-        Scheduler.StartDrag( viewItem.Item );
+
+        return Scheduler.StartDrag( viewItem.Item );
     }
 
-    async Task OnSlotDrop( DragEventArgs e )
+    protected Task OnSlotDrop( DragEventArgs e )
     {
-        await Scheduler.DropItem( SlotStart, SlotEnd );
+        return Scheduler.DropItem( SlotStart, SlotEnd );
     }
 
     protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )

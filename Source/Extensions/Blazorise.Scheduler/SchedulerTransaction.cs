@@ -8,30 +8,64 @@ namespace Blazorise.Scheduler;
 
 public class SchedulerTransaction<TItem>
 {
-    private Func<Task> Commited;
+    private Scheduler<TItem> scheduler;
 
-    private Func<Task> Canceled;
+    private SchedulerTransactionState state = SchedulerTransactionState.Pending;
 
-    public SchedulerTransaction( TItem item )
+    public SchedulerTransaction( Scheduler<TItem> scheduler, TItem item )
     {
-        Item = item;
+        this.scheduler = scheduler;
+
+        OriginalItem = item;
+        Item = item.DeepClone();
     }
 
-    public Task Commit()
+    public async Task Commit()
     {
-        if ( Canceled is not null )
-            return Canceled.Invoke();
+        if ( state == SchedulerTransactionState.Committed )
+            return;
 
-        return Task.CompletedTask;
+        state = SchedulerTransactionState.InProgress;
+
+        try
+        {
+            scheduler.CopyItemValues( Item, OriginalItem );
+
+            if ( Committed != null )
+                await Committed.Invoke();
+
+            state = SchedulerTransactionState.Committed;
+        }
+        catch
+        {
+            await Rollback();
+            throw;
+        }
     }
 
-    public Task Rollback()
+    public async Task Rollback()
     {
-        if ( Canceled is not null )
-            return Canceled.Invoke();
+        if ( state == SchedulerTransactionState.RolledBack )
+            return;
 
-        return Task.CompletedTask;
+        try
+        {
+            if ( Canceled != null )
+                await Canceled.Invoke();
+        }
+        finally
+        {
+            state = SchedulerTransactionState.RolledBack;
+        }
     }
 
-    public TItem Item { get; init; }
+    private TItem OriginalItem { get; init; }
+
+    public TItem Item { get; set; }
+
+    public SchedulerTransactionState State => state;
+
+    public Func<Task> Committed { get; set; }
+
+    public Func<Task> Canceled { get; set; }
 }

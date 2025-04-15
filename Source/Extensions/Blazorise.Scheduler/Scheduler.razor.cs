@@ -74,8 +74,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     protected SchedulerEditState editState = SchedulerEditState.None;
 
-    protected SchedulerTransaction<TItem> transaction;
-    protected SchedulerDragDropService<TItem> dragDropService;
+    protected SchedulerTransaction<TItem> currentTransaction;
 
     #endregion
 
@@ -136,8 +135,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
-
-        dragDropService = new( this );
     }
 
     #endregion
@@ -654,7 +651,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="source">The source appointment to copy values from.</param>
     /// <param name="destination">The destination appointment to copy values to.</param>
-    private void CopyItemValues( TItem source, TItem destination )
+    internal void CopyItemValues( TItem source, TItem destination )
     {
         setTitleFunc?.Invoke( destination, getTitleFunc?.Invoke( source ) );
         setDescriptionFunc?.Invoke( destination, getDescriptionFunc?.Invoke( source ) );
@@ -910,33 +907,73 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             .Count();
     }
 
-    internal void StartDrag( TItem item )
-    {
-        transaction = new SchedulerTransaction<TItem>( item );
-    }
+    private bool isDragging = false;
 
-    internal void CancellDrag( TItem item )
+    // Events for drag and drop operations
+    public event EventHandler<TItem> DragStarted;
+    public event EventHandler<TItem> DragCancelled;
+    public event EventHandler<(TItem Item, DateTime Start, DateTime End)> ItemDropped;
+
+    public bool IsDragging => isDragging;
+
+    internal async Task StartDrag( TItem item )
     {
-        if ( transaction is not null )
+        // Cancel any existing transaction
+        if ( currentTransaction != null )
         {
-            transaction.Rollback();
+            await currentTransaction.Rollback();
+            currentTransaction = null;
         }
+
+        // Create a new transaction
+        currentTransaction = new SchedulerTransaction<TItem>( this, item );
+        isDragging = true;
+
+        DragStarted?.Invoke( this, item );
     }
 
-    internal async Task DropItem( DateTime newStart, DateTime newEnd )
+    internal async Task CancelDrag()
     {
-        if ( transaction is null )
-        {
+        if ( currentTransaction == null )
             return;
-        }
 
-        if ( await dragDropService.Drop( transaction.Item, newStart, newEnd ) )
+        TItem item = currentTransaction.Item;
+
+        await currentTransaction.Rollback();
+        currentTransaction = null;
+        isDragging = false;
+
+        DragCancelled?.Invoke( this, item );
+    }
+
+    internal async Task<bool> DropItem( DateTime newStart, DateTime newEnd )
+    {
+        if ( currentTransaction == null )
+            return false;
+
+        try
         {
-            await transaction.Commit();
+            var duration = GetItemDuration( currentTransaction.Item );
+            SetItemDates( currentTransaction.Item, newStart, newStart.Add( duration ) );
+
+            await currentTransaction.Commit();
+
+            ItemDropped?.Invoke( this, (currentTransaction.Item, newStart, newEnd) );
+
+            isDragging = false;
+            currentTransaction = null;
+
+            return true;
         }
-        else
+        catch
         {
-            await transaction.Rollback();
+            await CancelDrag();
+
+            return false;
+        }
+        finally
+        {
+            await Refresh();
         }
     }
 
