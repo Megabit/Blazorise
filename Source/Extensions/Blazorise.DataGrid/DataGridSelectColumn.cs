@@ -65,12 +65,12 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     /// <summary>
     /// If true, disables the default item.
     /// </summary>
-    [Parameter] public bool DefaultItemDisabled { get; set; } = false;
+    [Parameter] public bool DefaultItemDisabled { get; set; }
 
     /// <summary>
     /// If true, disables the default item.
     /// </summary>
-    [Parameter] public bool DefaultItemHidden { get; set; } = false;
+    [Parameter] public bool DefaultItemHidden { get; set; }
 
     /// <summary>
     /// Display text of the default item shown in filter dropdowns.
@@ -85,12 +85,12 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     /// <summary>
     /// If true, disables the default item in filter dropdowns.
     /// </summary>
-    [Parameter] public bool FilterDefaultItemDisabled { get; set; } = false;
+    [Parameter] public bool FilterDefaultItemDisabled { get; set; }
 
     /// <summary>
     /// If true, hides the default item from filter dropdowns.
     /// </summary>
-    [Parameter] public bool FilterDefaultItemHidden { get; set; } = false;
+    [Parameter] public bool FilterDefaultItemHidden { get; set; }
 
     /// <summary>
     /// Custom css class-names.
