@@ -3,23 +3,19 @@
 @{
     if ( Column is DataGridNumericColumn<TItem> numericColumn )
     {
-        <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellNumericEdit>
-
+        <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" />
     }
     else if ( Column is DataGridSelectColumn<TItem> selectColumn )
     {
-        <_DataGridCellSelectEdit FilterDisplay="true" Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellSelectEdit>
-
+        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" FilterDisplay="true" />
     }
     else if ( Column is DataGridCheckColumn<TItem> checkColumn )
     {
-        <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellCheckEdit>
-
+        <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" />
     }
     else if ( Column is DataGridDateColumn<TItem> dateColumn )
     {
-        <_DataGridCellDatePicker Column="@dateColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellDatePicker>
-
+        <_DataGridCellDatePicker Column="@dateColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" />
     }
     else
     {
@@ -84,5 +80,4 @@
     {
         return ( Column.Filter.SearchValue as object[] )?[1];
     }
-
 }
