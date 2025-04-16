@@ -1,12 +1,12 @@
 namespace Blazorise.Icons.Bootstrap;
 
 /// <summary>
-/// Strongly-typed list of bootstrap icon names. (v1.11.0)
+/// Generated file, do not change. See README.md.
+/// Strongly-typed list of Bootstrap icon names. (v1.11.0)
 /// </summary>
 public static class BootstrapIcons
-{ 
-       
-        public const string _0Circle = "bi-0-circle";
+{
+    public const string _0Circle = "bi-0-circle";
     public const string _0CircleFill = "bi-0-circle-fill";
     public const string _0Square = "bi-0-square";
     public const string _0SquareFill = "bi-0-square-fill";
