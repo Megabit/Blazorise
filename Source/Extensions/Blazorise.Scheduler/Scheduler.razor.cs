@@ -398,11 +398,18 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await ItemClicked.InvokeAsync( new( item ) );
     }
 
-    internal async Task NotifyDeleteItemClicked( TItem item )
+    internal async Task NotifyDeleteItemClicked( SchedulerItemViewInfo<TItem> viewInfo )
     {
-        await Delete( item );
+        if ( viewInfo.IsRecurring )
+        {
+            await DeleteOccurrence( viewInfo );
+        }
+        else
+        {
+            await Delete( viewInfo.Item );
+        }
 
-        await ItemClicked.InvokeAsync( new( item ) );
+        await ItemClicked.InvokeAsync( new( viewInfo.Item ) );
     }
 
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
@@ -480,18 +487,71 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
                 : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently, are you sure?" );
 
-            if ( await MessageService.Confirm( deleteMessage, "Delete", options =>
+            if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
             {
                 options.ShowCloseButton = false;
                 options.ShowMessageIcon = false;
-                options.CancelButtonText = "Cancel";
-                options.ConfirmButtonText = "Delete";
+                options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" );
+                options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" );
                 options.ConfirmButtonColor = Color.Danger;
             } ) == false )
                 return;
 
-            await DeleteImpl( item );
+            await DeleteItemImpl( item );
         }
+    }
+
+    protected internal async Task<bool> DeleteOccurrence( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
+        {
+            var result = await MessageService.Choose(
+                    message: "Item is a recurring series. What do you want to do?",
+                    title: Localizer.Localize( Localizers?.DeleteLocalizer, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ) ), options =>
+                    {
+                        options.ShowCloseButton = false;
+                        options.ShowMessageIcon = false;
+                        options.Choices = new List<MessageOptionsChoice>
+                        {
+                            new MessageOptionsChoice
+                            {
+                                Key = "DeleteSeries",
+                                Text = Localizer.Localize( Localizers?.DeleteSeriesLocalizer, "Delete Series" ),
+                                Color = Color.Danger,
+                            },
+                            new MessageOptionsChoice
+                            {
+                                Key = "DeleteOccurrence",
+                                Text = Localizer.Localize( Localizers?.DeleteOccurrenceLocalizer, "Delete Occurrence" ),
+                                Color = Color.Warning,
+                            },
+                            new MessageOptionsChoice
+                            {
+                                Key = "Cancel",
+                                Text = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" ),
+                                Color = Color.Secondary,
+                            }
+                        };
+                    } ) as string;
+
+            if ( result is null || result == "Cancel" )
+                return false;
+
+            if ( result == "DeleteSeries" )
+            {
+                await DeleteItemImpl( viewItem.Item );
+            }
+            else if ( result == "DeleteOccurrence" )
+            {
+                await DeleteOccurrenceImpl( viewItem );
+            }
+
+            await Refresh();
+
+            return true;
+        }
+
+        return false;
     }
 
     protected internal async Task<bool> SaveImpl( TItem submitedItem )
@@ -531,7 +591,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
-    protected internal async Task<bool> DeleteImpl( TItem itemToDelete )
+    protected internal async Task<bool> DeleteItemImpl( TItem itemToDelete )
     {
         if ( await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
         {
@@ -553,6 +613,22 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         return false;
+    }
+
+    protected internal Task<bool> DeleteOccurrenceImpl( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        if ( viewItem is null )
+            return Task.FromResult( false );
+
+        var deletedOccurrences = propertyMapper.GetDeletedOccurrences( viewItem.Item ) ?? new List<DateTime>();
+
+        if ( !deletedOccurrences.Contains( viewItem.ViewStart ) )
+        {
+            deletedOccurrences.Add( viewItem.ViewStart );
+            propertyMapper.SetDeletedOccurrences( viewItem.Item, deletedOccurrences );
+        }
+
+        return Task.FromResult( true );
     }
 
     /// <summary>
@@ -641,8 +717,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             // Generate virtual items based on recurrence rule
             var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
 
+            var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item );
+
             foreach ( var occurrence in occurrences )
             {
+                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrence ) )
+                    continue;
+
                 var virtualStart = occurrence;
                 var virtualEnd = virtualStart.Add( duration );
                 virtualItems.Add( new SchedulerItemInfo<TItem>( item, virtualStart, virtualEnd, false, recurrenceRule, true ) );
@@ -661,8 +742,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 // Generate virtual items based on recurrence rule
                 var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
 
+                var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
+
                 foreach ( var occurrence in occurrences )
                 {
+                    if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrence ) )
+                        continue;
+
                     var virtualStart = occurrence;
                     var virtualEnd = virtualStart.Add( duration );
                     virtualItems.Add( new SchedulerItemInfo<TItem>( item.Item, virtualStart, virtualEnd, false, recurrenceRule, true ) );

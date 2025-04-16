@@ -82,6 +82,12 @@
         public bool AllDay { get; set; }
 
         public string RecurrenceRule { get; set; }
+
+        public string RecurrenceId { get; set; }
+
+        public List<DateTime> DeletedOccurrences { get; set; }
+
+        public List<SchedulerAppointment> RecurrenceExceptions { get; set; }
     }
 
     List<SchedulerAppointment> Appointments = new List<SchedulerAppointment>

@@ -30,11 +30,11 @@ public partial class _SchedulerDayCell<TItem>
         return Task.CompletedTask;
     }
 
-    protected Task OnDeleteItemClicked( TItem item )
+    protected Task OnDeleteItemClicked( SchedulerItemViewInfo<TItem> viewInfo )
     {
-        if ( item is not null )
+        if ( viewInfo is not null )
         {
-            return Scheduler.NotifyDeleteItemClicked( item );
+            return Scheduler.NotifyDeleteItemClicked( viewInfo );
         }
 
         return Task.CompletedTask;

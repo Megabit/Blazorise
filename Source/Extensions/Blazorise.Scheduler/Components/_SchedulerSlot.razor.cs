@@ -66,7 +66,7 @@ public partial class _SchedulerSlot<TItem>
         if ( DeleteItemClicked is null )
             return Task.CompletedTask;
 
-        return DeleteItemClicked.Invoke( viewItem.Item );
+        return DeleteItemClicked.Invoke( viewItem );
     }
 
     private string GetSlotStyle()
@@ -164,7 +164,7 @@ public partial class _SchedulerSlot<TItem>
 
     [Parameter] public Func<TItem, DateTime, DateTime, Task> EditItemClicked { get; set; }
 
-    [Parameter] public Func<TItem, Task> DeleteItemClicked { get; set; }
+    [Parameter] public Func<SchedulerItemViewInfo<TItem>, Task> DeleteItemClicked { get; set; }
 
     #endregion
 }

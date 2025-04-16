@@ -30,6 +30,10 @@ public class SchedulerLocalizers
 
     public TextLocalizerHandler SeriesDeleteConfirmationTextLocalizer { get; set; }
 
+    public TextLocalizerHandler DeleteSeriesLocalizer { get; set; }
+
+    public TextLocalizerHandler DeleteOccurrenceLocalizer { get; set; }
+
     public TextLocalizerHandler AppointmentLocalizer { get; set; }
 
     public TextLocalizerHandler TodayLocalizer { get; set; }
