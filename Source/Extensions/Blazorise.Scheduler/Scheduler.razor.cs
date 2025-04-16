@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using Blazorise.DeepCloner;
 using Blazorise.Extensions;
 using Blazorise.Infrastructure;
@@ -13,7 +12,6 @@ using Blazorise.Scheduler.Extensions;
 using Blazorise.Scheduler.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.VisualBasic;
 #endregion
 
 namespace Blazorise.Scheduler;
@@ -46,25 +44,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private readonly EventCallbackSubscriber workWeekViewSubscriber;
     private readonly EventCallbackSubscriber monthViewSubscriber;
 
-    private Func<TItem, object> getIdFunc;
-
-    private Func<TItem, string> getTitleFunc;
-    private Action<TItem, string> setTitleFunc;
-
-    private Func<TItem, string> getDescriptionFunc;
-    private Action<TItem, string> setDescriptionFunc;
-
-    private Func<TItem, DateTime> getStartFunc;
-    private Action<TItem, DateTime> setStartFunc;
-
-    private Func<TItem, DateTime> getEndFunc;
-    private Action<TItem, DateTime> setEndFunc;
-
-    private Func<TItem, bool> getAllDayFunc;
-    private Action<TItem, bool> setAllDayFunc;
-
-    private Func<TItem, string> getRecurrenceRuleFunc;
-    private Action<TItem, string> setRecurrenceRuleFunc;
+    private SchedulerPropertyMapper<TItem> propertyMapper;
 
     private Lazy<Func<TItem>> newItemCreator;
 
@@ -85,6 +65,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     public Scheduler()
     {
+        propertyMapper = new SchedulerPropertyMapper<TItem>( this );
+        newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
+
         prevDaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigatePrevious ) );
         nextDaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigateNext ) );
         todaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigateToday ) );
@@ -92,49 +75,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         weekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWeekView ) );
         workWeekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWorkWeekView ) );
         monthViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowMonthView ) );
-
-        if ( !string.IsNullOrEmpty( IdField ) && typeof( TItem ).GetProperty( IdField )?.PropertyType is not null )
-        {
-            getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
-        }
-
-        if ( !string.IsNullOrEmpty( TitleField ) && typeof( TItem ).GetProperty( TitleField )?.PropertyType is not null )
-        {
-            getTitleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
-            setTitleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( TitleField );
-        }
-
-        if ( !string.IsNullOrEmpty( DescriptionField ) && typeof( TItem ).GetProperty( DescriptionField )?.PropertyType is not null )
-        {
-            getDescriptionFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( DescriptionField );
-            setDescriptionFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( DescriptionField );
-        }
-
-        if ( !string.IsNullOrEmpty( StartField ) && typeof( TItem ).GetProperty( StartField )?.PropertyType is not null )
-        {
-            getStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, DateTime>( StartField );
-            setStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, DateTime>( StartField );
-        }
-
-        if ( !string.IsNullOrEmpty( EndField ) && typeof( TItem ).GetProperty( EndField )?.PropertyType is not null )
-        {
-            getEndFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, DateTime>( EndField );
-            setEndFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, DateTime>( EndField );
-        }
-
-        if ( !string.IsNullOrEmpty( AllDayField ) && typeof( TItem ).GetProperty( AllDayField )?.PropertyType is not null )
-        {
-            getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
-            setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, bool>( AllDayField );
-        }
-
-        if ( !string.IsNullOrEmpty( RecurrenceRuleField ) && typeof( TItem ).GetProperty( RecurrenceRuleField )?.PropertyType is not null )
-        {
-            getRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( RecurrenceRuleField );
-            setRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( RecurrenceRuleField );
-        }
-
-        newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
     }
 
     #endregion
@@ -343,7 +283,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>The id of the appointment.</returns>
     internal object GetItemId( TItem item )
     {
-        return getIdFunc?.Invoke( item );
+        return propertyMapper.GetId( item );
     }
 
     /// <summary>
@@ -353,7 +293,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>The title of the appointment.</returns>
     internal string GetItemTitle( TItem item )
     {
-        return getTitleFunc?.Invoke( item );
+        return propertyMapper.GetTitle( item );
     }
 
     /// <summary>
@@ -363,8 +303,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the duration as a TimeSpan, or zero if the times are not valid DateTime values.</returns>
     internal TimeSpan GetItemDuration( TItem item )
     {
-        var start = getStartFunc?.Invoke( item );
-        var end = getEndFunc?.Invoke( item );
+        var start = propertyMapper.GetStart( item );
+        var end = propertyMapper.GetEnd( item );
 
         if ( start is DateTime startDateTime && end is DateTime endDateTime )
         {
@@ -381,7 +321,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the start time of the item.</returns>
     internal DateTime GetItemStartTime( TItem item )
     {
-        return getStartFunc?.Invoke( item ) as DateTime? ?? DateTime.MinValue;
+        return propertyMapper.GetStart( item ) as DateTime? ?? DateTime.MinValue;
     }
 
     /// <summary>
@@ -391,7 +331,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the end time of the item.</returns>
     internal DateTime GetItemEndTime( TItem item )
     {
-        return getEndFunc?.Invoke( item ) as DateTime? ?? DateTime.MaxValue;
+        return propertyMapper.GetEnd( item ) as DateTime? ?? DateTime.MaxValue;
     }
 
     /// <summary>
@@ -401,12 +341,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns the all-day value of the item.</returns>
     internal bool GetItemAllDay( TItem item )
     {
-        return getAllDayFunc?.Invoke( item ) ?? false;
+        return propertyMapper.GetAllDay( item );
     }
 
     internal string GetItemRecurrenceRule( TItem item )
     {
-        return getRecurrenceRuleFunc?.Invoke( item );
+        return propertyMapper.GetRecurrenceRule( item );
     }
 
     /// <summary>
@@ -416,7 +356,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>The description of the appointment.</returns>
     internal string GetItemDescription( TItem item )
     {
-        return getDescriptionFunc?.Invoke( item );
+        return propertyMapper.GetDescription( item );
     }
 
     /// <summary>
@@ -426,7 +366,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="value">Provides the value to be assigned as the starting point for the specified item.</param>
     internal void SetItemStart( TItem item, DateTime value )
     {
-        setStartFunc?.Invoke( item, value );
+        propertyMapper.SetStart( item, value );
     }
 
     /// <summary>
@@ -436,7 +376,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="value">Provides the value to be assigned to the end of the specified item.</param>
     internal void SetItemEnd( TItem item, DateTime value )
     {
-        setEndFunc?.Invoke( item, value );
+        propertyMapper.SetEnd( item, value );
     }
 
     /// <summary>
@@ -653,12 +593,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="destination">The destination appointment to copy values to.</param>
     internal void CopyItemValues( TItem source, TItem destination )
     {
-        setTitleFunc?.Invoke( destination, getTitleFunc?.Invoke( source ) );
-        setDescriptionFunc?.Invoke( destination, getDescriptionFunc?.Invoke( source ) );
-        setStartFunc?.Invoke( destination, getStartFunc?.Invoke( source ) ?? DateTime.MinValue );
-        setEndFunc?.Invoke( destination, getEndFunc?.Invoke( source ) ?? DateTime.MinValue );
-        setAllDayFunc?.Invoke( destination, getAllDayFunc?.Invoke( source ) ?? false );
-        setRecurrenceRuleFunc?.Invoke( destination, getRecurrenceRuleFunc?.Invoke( source ) );
+        propertyMapper.SetTitle( destination, propertyMapper.GetTitle( source ) );
+        propertyMapper.SetDescription( destination, propertyMapper.GetDescription( source ) );
+        propertyMapper.SetStart( destination, propertyMapper.GetStart( source ) );
+        propertyMapper.SetEnd( destination, propertyMapper.GetEnd( source ) );
+        propertyMapper.SetAllDay( destination, propertyMapper.GetAllDay( source ) );
+        propertyMapper.SetRecurrenceRule( destination, propertyMapper.GetRecurrenceRule( source ) );
     }
 
     /// <summary>
@@ -1138,10 +1078,25 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public string AllDayField { get; set; } = "AllDay";
 
-    // <summary>
+    /// <summary>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence rule string in <see href="https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/">iCalendar (RFC 5545)</see> compliance rules.
     /// </summary>
     [Parameter] public string RecurrenceRuleField { get; set; } = "RecurrenceRule";
+
+    /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence ID of the appointment. This is used to identify the master appointment in a recurring series.
+    /// </summary>
+    [Parameter] public string RecurrenceIdField { get; set; } = "RecurrenceId";
+
+    /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence exceptions. This is used to store the dates of the exceptions in a recurring series.
+    /// </summary>
+    [Parameter] public string RecurrenceExceptionsField { get; set; } = "RecurrenceExceptions";
+
+    /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the deleted occurrences. This is used to store the dates of the deleted occurrences in a recurring series.
+    /// </summary>
+    [Parameter] public string DeletedOccurrencesField { get; set; } = "DeletedOccurrences";
 
     /// <summary>
     /// Indicates whether the component is editable. Defaults to true.
