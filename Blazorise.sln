@@ -165,6 +165,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Exporters.Bson", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Exporters.Csv", "Source\Extensions\Blazorise.Exporters.Csv\Blazorise.Exporters.Csv.csproj", "{1D465B0D-4905-438A-8581-A0657A602A33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Exporters", "Source\Extensions\Blazorise.Exporters\Blazorise.Exporters.csproj", "{B5B0EB7F-3457-4E93-AF9A-DE864CBB21BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -435,6 +437,10 @@ Global
 		{1D465B0D-4905-438A-8581-A0657A602A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D465B0D-4905-438A-8581-A0657A602A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D465B0D-4905-438A-8581-A0657A602A33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B0EB7F-3457-4E93-AF9A-DE864CBB21BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B0EB7F-3457-4E93-AF9A-DE864CBB21BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B0EB7F-3457-4E93-AF9A-DE864CBB21BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B0EB7F-3457-4E93-AF9A-DE864CBB21BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -509,6 +515,7 @@ Global
 		{FFC4A285-1A16-4DD4-8B8C-141521E405B0} = {0538DB67-B4F3-4D00-B969-D3874A52E405}
 		{01A482C0-8DD8-4A9D-95FF-5CC2F71DB41B} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{1D465B0D-4905-438A-8581-A0657A602A33} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{B5B0EB7F-3457-4E93-AF9A-DE864CBB21BE} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

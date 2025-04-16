@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 public class TabularSourceData<TDataType>: IExportableData<TDataType>
 {

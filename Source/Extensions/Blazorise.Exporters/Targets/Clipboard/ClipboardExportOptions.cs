@@ -1,4 +1,4 @@
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Marker interface for clipboard export options.

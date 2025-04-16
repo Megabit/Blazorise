@@ -1,4 +1,4 @@
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Marker interface for text export option types used in string-based DataGrid exports.

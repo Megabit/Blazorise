@@ -1,4 +1,4 @@
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Represents the result of a text-based DataGrid export, including the exported text content.

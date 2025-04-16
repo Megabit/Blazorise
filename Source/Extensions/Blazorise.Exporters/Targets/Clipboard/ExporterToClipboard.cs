@@ -1,9 +1,5 @@
 using System.ComponentModel;
-using System.Threading.Tasks;
-using Blazorise.Export;
-using Blazorise.Modules;
-
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Base class for exporting  content as text (string-based) to a clipboard using specified clipboard export options.
@@ -42,18 +38,18 @@ where TSourceData: IExportableData<object>
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public abstract class ExporterToClipboard<TOptions,TExportResult, TSourceData>:
-IClipboardExportTarget 
+IExporterWithJsModule
 where TOptions: IClipboardExportOptions, new()
 where TExportResult: IExportResult, new()
 {
-    protected ExporterToClipboard( TOptions options )
-        => ClipboardOptions = options ?? new();
-    public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+    protected ExporterToClipboard( TOptions options) => ClipboardOptions = options ?? new();
+
+    public JSExportersModule JsExportersModule { get; set; }
 
     public async Task<TExportResult> Export( TSourceData  sourceData)
     {
         var text = await GetDataForExport( sourceData );
-        await JSUtilitiesModule.CopyStringToClipboard( text );
+        await JsExportersModule.CopyStringToClipboard( text );
         
         return  await GetExportResult( true );
 

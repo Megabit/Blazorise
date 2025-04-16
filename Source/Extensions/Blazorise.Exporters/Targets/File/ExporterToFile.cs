@@ -1,9 +1,6 @@
 using System.ComponentModel;
-using System.Threading.Tasks;
-using Blazorise.Export;
-using Blazorise.Modules;
 
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Base class for exporting  content as text (string-based) to a file using specified file export options.
@@ -40,13 +37,13 @@ where TSourceData: IExportableData<object>
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public abstract class ExporterToFile<TOptions,TExportResult, TSourceData>:
-IFileExportTarget 
+IExporterWithJsModule 
 where TOptions: IFileExportOptions, new()
 where TExportResult: IExportResult, new()
 {
     protected ExporterToFile(TOptions options)
         => FileOptions = options ?? new();
-    public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+    public JSExportersModule JsExportersModule { get; set; }
 
     public abstract Task<byte[]> GetDataForExport( TSourceData dataSource );
 
@@ -59,7 +56,7 @@ where TExportResult: IExportResult, new()
     public async Task<TExportResult> Export( TSourceData dataSource )
     {
         var bytes = await GetDataForExport( dataSource );
-        var res =  await JSUtilitiesModule.ExportToFile(bytes, FileOptions.FileName, FileOptions.MimeType );
+        var res =  await JsExportersModule.ExportToFile(bytes, FileOptions.FileName, FileOptions.MimeType );
         
         return  await GetExportResult( res );
     }

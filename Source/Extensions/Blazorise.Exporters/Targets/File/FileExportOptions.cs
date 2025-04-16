@@ -1,4 +1,4 @@
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Defines configuration options for exporting DataGrid content to a file, including file name, extension, and MIME type.

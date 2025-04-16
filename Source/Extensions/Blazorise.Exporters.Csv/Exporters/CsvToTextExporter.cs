@@ -1,5 +1,3 @@
-using Blazorise.Export;
-
 namespace Blazorise.Exporters.Csv;
 
 /// <summary>
@@ -12,6 +10,6 @@ public class CsvToTextExporter : ExporterToText<CsvTextExportOptions, TextExport
     public override async Task<TextExportResult> Export( TabularSourceData<string> sourceData )
     {
         var content = await CsvExportHelpers.GetDataForText( sourceData.Data, sourceData.ColumnNames, TextOptions );
-        return new TextExportResult {IsSuccess = true, Text = content};    
+        return new TextExportResult {Success = true, Text = content};    
     }
 }

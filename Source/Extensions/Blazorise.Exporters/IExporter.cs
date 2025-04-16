@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
-
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Represents a DataGrid exporter that handles string-based (textual) cell values, such as CSV or plain text formats.

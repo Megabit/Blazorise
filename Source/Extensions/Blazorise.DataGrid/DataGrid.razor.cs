@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.DeepCloner;
-using Blazorise.Export;
+using Blazorise.Exporters;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
@@ -28,7 +28,7 @@ namespace Blazorise.DataGrid;
 /// </summary>
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 [CascadingTypeParameter( nameof( TItem ) )]
-public partial class DataGrid<TItem> : BaseDataGridComponent
+public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableComponent
 {
     #region Members
 
@@ -491,6 +491,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
+            JSExportersModule = new ( JSRuntime, VersionProvider, BlazoriseOptions );
+            
             if ( IsCellNavigable )
             {
                 await JSModule.InitializeTableCellNavigation( tableRef.ElementRef, ElementId );
@@ -1809,13 +1811,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public async Task<TExportResult> Export<TExportResult, TCellValue>( IExporter< TExportResult, TabularSourceData< TCellValue>> exporter, DataGridExportOptions options = null )
     where TExportResult: IExportResult, new()
     {
-        if ( exporter is IFileExportTarget fileExporter )
+        if ( exporter is IExporterWithJsModule exporterWithJsModule )
         {
-            fileExporter.JSUtilitiesModule = JSUtilitiesModule;
-        }
-        else if ( exporter is IClipboardExportTarget clipboardExporter )
-        {
-            clipboardExporter.JSUtilitiesModule = JSUtilitiesModule;
+            exporterWithJsModule.JsExportersModule =JSExportersModule;
         }
         
         var data = ExportData<TCellValue>(options);
@@ -2858,6 +2856,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+    
+    /// <summary>
+    /// JSExporterModule for exporting files and copying content to clipboard
+    /// </summary>
+    public JSExportersModule JSExportersModule { get;  set; }
+    
 
     /// <summary>
     /// Gets or sets the license checker for the user session.

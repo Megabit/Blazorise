@@ -1,4 +1,4 @@
-namespace Blazorise.Export;
+namespace Blazorise.Exporters;
 
 /// <summary>
 /// Represents a generic result of a DataGrid export operation, indicating whether the export was successful.
