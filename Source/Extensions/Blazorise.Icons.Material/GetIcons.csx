@@ -35,7 +35,7 @@ async Task ExtractMaterialIcons()
         {
             DisplayName = GetDisplayName( originalName ),
             Key = originalName
-        } ).OrderBy( x => x.DisplayName ).DistinctBy(x=>x.DisplayName).ToList();
+        } ).OrderBy( x => x.DisplayName ).DistinctBy( x => x.DisplayName ).ToList();
 
     // Prepend C# class and namespace boilerplate
     string header = """

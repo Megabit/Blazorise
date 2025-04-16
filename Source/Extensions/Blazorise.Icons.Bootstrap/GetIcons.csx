@@ -22,21 +22,21 @@ async Task ExtractBootstrapIcons()
 
     // Download the JSON metadata
     var client = new HttpClient();
-    var json = await client.GetStringAsync(url);
+    var json = await client.GetStringAsync( url );
 
     // Deserialize JSON into a dictionary of icon definitions
     var values = JsonSerializer.Deserialize<Dictionary<string, int>>(
         json,
-        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        new JsonSerializerOptions { PropertyNameCaseInsensitive = true } );
 
     // Build results from icon names
     var result = values
-        .Select(x => new
+        .Select( x => new
         {
-            DisplayName = GetDisplayName(x.Key),
+            DisplayName = GetDisplayName( x.Key ),
             Value = x.Key
-        })
-        .OrderBy(x => x.DisplayName)
+        } )
+        .OrderBy( x => x.DisplayName )
         .ToList();
 
     // Prepend C# class and namespace boilerplate
@@ -53,20 +53,20 @@ async Task ExtractBootstrapIcons()
 
     // Generate the constant lines
     var constants = result
-        .Select(x => $"    public const string {x.DisplayName} = \"bi-{x.Value}\";");
+        .Select( x => $"    public const string {x.DisplayName} = \"bi-{x.Value}\";" );
 
     // Write everything to file
-    File.WriteAllLines(outputFile, [header, .. constants, "}"]);
+    File.WriteAllLines( outputFile, [header, .. constants, "}"] );
 
-    Console.WriteLine($"Exported {result.Count} icons to {outputFile}");
+    Console.WriteLine( $"Exported {result.Count} icons to {outputFile}" );
 }
 
 // Converts icon name to PascalCase format for use as a C# identifier
-string GetDisplayName(string value) =>
-    char.IsDigit(value.First())
-        ? $"_{ToPascal(value)}"    // Prefix with underscore if it starts with a digit
-        : ToPascal(value);
+string GetDisplayName( string value ) =>
+    char.IsDigit( value.First() )
+        ? $"_{ToPascal( value )}"    // Prefix with underscore if it starts with a digit
+        : ToPascal( value );
 
 // Converts kebab-case to PascalCase (e.g., "arrow-left" -> "ArrowLeft")
-string ToPascal(string s) =>
-    CultureInfo.CurrentCulture.TextInfo.ToTitleCase(s.Replace("-", " ")).Replace(" ", "");
+string ToPascal( string s ) =>
+    CultureInfo.CurrentCulture.TextInfo.ToTitleCase( s.Replace( "-", " " ) ).Replace( " ", "" );

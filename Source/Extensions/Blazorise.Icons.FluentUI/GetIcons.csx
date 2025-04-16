@@ -22,29 +22,29 @@ async Task ExtractFluentUIIcons()
     var outputFile = "FluentUIIcons.cs";
 
     var allValues = new List<KeyValuePair<string, int>>();
-        var client = new HttpClient();
-    foreach (var url in urls)
+    var client = new HttpClient();
+    foreach ( var url in urls )
     {
-        var json = await client.GetStringAsync(url);
-        var values = JsonSerializer.Deserialize<Dictionary<string, int>>(json);
-        allValues.AddRange(values);
+        var json = await client.GetStringAsync( url );
+        var values = JsonSerializer.Deserialize<Dictionary<string, int>>( json );
+        allValues.AddRange( values );
     }
 
-     var names = ( from v in allValues
-                                where v.Key.Contains( "_20_" )
-                              select new
-                              {
-                                  OriginalName = v.Key,
-                                  DisplayName = v.Key.Replace( "ic_fluent_", "" ).Replace( "_20_regular", "" ).Replace( "_20_filled", "_filled" )
-                              } ).ToList();
-    
-                var result = ( from n in names
-                               select new
-                               {
-                                   DisplayName = ToPascal( n.DisplayName ),
-                                  n.OriginalName,
-                               } )
-                               .ToList();
+    var names = ( from v in allValues
+                  where v.Key.Contains( "_20_" )
+                  select new
+                  {
+                      OriginalName = v.Key,
+                      DisplayName = v.Key.Replace( "ic_fluent_", "" ).Replace( "_20_regular", "" ).Replace( "_20_filled", "_filled" )
+                  } ).ToList();
+
+    var result = ( from n in names
+                   select new
+                   {
+                       DisplayName = ToPascal( n.DisplayName ),
+                       n.OriginalName,
+                   } )
+                   .ToList();
 
 
     string header = """
@@ -58,19 +58,19 @@ async Task ExtractFluentUIIcons()
     {
     """;
 
-    var constants = result.OrderBy(x => x.DisplayName)
-        .Select(x => $"     public const string {x.DisplayName} = \"icon-{x.OriginalName}\";");
+    var constants = result.OrderBy( x => x.DisplayName )
+        .Select( x => $"    public const string {x.DisplayName} = \"icon-{x.OriginalName}\";" );
 
-    File.WriteAllLines(outputFile, [header, .. constants, "}"]);
+    File.WriteAllLines( outputFile, [header, .. constants, "}"] );
 
-    Console.WriteLine($"Exported {result.Count} FluentUI icons to {outputFile}");
+    Console.WriteLine( $"Exported {result.Count} FluentUI icons to {outputFile}" );
 }
 
-string GetDisplayName(string baseName, bool filled)
+string GetDisplayName( string baseName, bool filled )
 {
-    var pascal = ToPascal(baseName);
+    var pascal = ToPascal( baseName );
     return filled ? $"{pascal}Filled" : pascal;
 }
 
-string ToPascal(string s) =>
-    CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s.Replace("_", " ")).Replace(" ", "");
+string ToPascal( string s ) =>
+    CultureInfo.InvariantCulture.TextInfo.ToTitleCase( s.Replace( "_", " " ) ).Replace( " ", "" );
