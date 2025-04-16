@@ -12,8 +12,7 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code>IMessageService</Code> is a powerful helper utility built on top of <Code>Modal</Code> component
-    and is used for showing the messages and confirmation dialogs to the user.
+    The <Code>IMessageService</Code> is a powerful helper utility built on top of <Code>Modal</Code> component and is used for showing the messages and confirmation dialogs to the user.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -45,4 +44,28 @@
         <BasicMessageServiceExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicMessageServiceExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Confirm">
+        <DocsPageParagraph>
+            The <Code>Confirm()</Code> method is used to show a confirmation dialog. It can be used to ask the user for confirmation before performing an action, such as deleting an item or submitting a form.
+        </DocsPageParagraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <MessageServiceConfirmExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MessageServiceConfirmExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Choose">
+        <DocsPageParagraph>
+            The <Code>Choose()</Code> method is used to show a dialog with multiple choices. It can be used to show a list of options to the user and wait for their selection.
+        </DocsPageParagraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <MessageServiceChooseExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MessageServiceChooseExample" />
 </DocsPageSection>

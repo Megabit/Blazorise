@@ -1,0 +1,18 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Danger" Clicked="@ShowConfirmDelete">Delete Item</Button>
+
+<Paragraph>
+    Your choice is: <Strong>@result</Strong>
+</Paragraph>
+
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    bool? result;
+
+    async Task ShowConfirmDelete()
+    {
+        result = await MessageService.Confirm( "Are you sure you want to delete the item?", "Confirmation" );
+    }
+}
