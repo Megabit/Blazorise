@@ -1,0 +1,21 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowConfirmDelete</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Delete Item<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+    Your choice is: <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>result<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    [Inject] IMessageService MessageService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">bool</span>? result;
+
+    <span class="keyword">async</span> Task ShowConfirmDelete()
+    {
+        result = <span class="keyword">await</span> MessageService.Confirm( <span class="string">&quot;Are you sure you want to delete the item?&quot;</span>, <span class="string">&quot;Confirmation&quot;</span> );
+    }
+}
+</pre></div>
+</div>

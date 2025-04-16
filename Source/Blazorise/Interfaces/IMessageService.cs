@@ -105,4 +105,23 @@ public interface IMessageService
     /// <param name="options">Options to override message dialog appearance.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task<bool> Confirm( MarkupString message, string title = null, Action<MessageOptions> options = null );
+
+    /// <summary>
+    /// Prompts the user to make a choice based on a message and optional title and options.
+    /// </summary>
+    /// <param name="message">The text displayed to the user to convey the choice they need to make.</param>
+    /// <param name="title">An optional heading that provides context for the choice being presented.</param>
+    /// <param name="options">An optional delegate that allows customization of the message options available to the user.</param>
+    /// <returns>An asynchronous task that resolves to the user's selected choice.</returns>
+    Task<object> Choose( string message, string title = null, Action<MessageOptions> options = null );
+
+    /// <summary>
+    /// Prompts the user to make a choice based on a message and an optional title. Additional options can be provided
+    /// to customize the prompt.
+    /// </summary>
+    /// <param name="message">The content displayed to the user to inform them about the choice they need to make.</param>
+    /// <param name="title">An optional heading that can provide context or additional information about the choice.</param>
+    /// <param name="options">An optional delegate that allows customization of the message options presented to the user.</param>
+    /// <returns>An object representing the user's selection from the provided choices.</returns>
+    Task<object> Choose( MarkupString message, string title = null, Action<MessageOptions> options = null );
 }

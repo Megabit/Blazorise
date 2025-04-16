@@ -40,6 +40,19 @@
                     @ConfirmButtonText
                 </Button>
             }
+            else if ( IsChoice )
+            {
+                @foreach ( var choice in Choices )
+                {
+                    <Button @key="@choice.Key" Color="@choice.Color" Class="@choice.Class" Padding="@choice.Padding" Clicked="@(() => OnChoiceClicked( choice ))">
+                        @if ( choice.Icon is not null )
+                        {
+                            <Icon Name="@choice.Icon" TextColor="@(choice.IconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        }
+                        @choice.Text
+                    </Button>
+                }
+            }
             else
             {
                 <Button Color="@OkButtonColor" Class="@OkButtonClass" Padding="@OkButtonPadding" Clicked="@OnOkClicked">

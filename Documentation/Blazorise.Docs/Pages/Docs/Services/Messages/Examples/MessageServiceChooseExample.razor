@@ -1,0 +1,26 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="@ShowChooseDialog">Choose an option</Button>
+
+<Paragraph>
+    You selected: <Strong>@selectedOption</Strong>
+</Paragraph>
+
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    object selectedOption;
+
+    async Task ShowChooseDialog()
+    {
+        selectedOption = await MessageService.Choose( "Make a Selection", "Choose one", options =>
+        {
+            options.Choices = new List<MessageOptionsChoice>
+            {
+                new("option-1", "Primary Option", Color.Primary),
+                new("option-2", "Secondary Option", Color.Secondary),
+                new("option-3", "Success Option", Color.Success)
+            };
+        } );
+    }
+}

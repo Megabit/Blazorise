@@ -43,7 +43,7 @@ public class MessageEventArgs : EventArgs
     /// <param name="title">Title of the message.</param>
     /// <param name="options">Additional options to override default message settings.</param>
     /// <param name="callback">Callback that will execute once the user responds with an action.</param>
-    public MessageEventArgs( MessageType messageType, string message, string title, MessageOptions options, TaskCompletionSource<bool> callback )
+    public MessageEventArgs( MessageType messageType, string message, string title, MessageOptions options, TaskCompletionSource<object> callback )
         : this( messageType, (MarkupString)message, title, options, callback )
     {
     }
@@ -56,7 +56,7 @@ public class MessageEventArgs : EventArgs
     /// <param name="title">Title of the message.</param>
     /// <param name="options">Additional options to override default message settings.</param>
     /// <param name="callback">Callback that will execute once the user responds with an action.</param>
-    public MessageEventArgs( MessageType messageType, MarkupString message, string title, MessageOptions options, TaskCompletionSource<bool> callback )
+    public MessageEventArgs( MessageType messageType, MarkupString message, string title, MessageOptions options, TaskCompletionSource<object> callback )
     {
         MessageType = messageType;
         Message = message;
@@ -88,5 +88,5 @@ public class MessageEventArgs : EventArgs
     /// <summary>
     /// Gets the callback that will execute once the user responds with an action.
     /// </summary>
-    public TaskCompletionSource<bool> Callback { get; }
+    public TaskCompletionSource<object> Callback { get; }
 }

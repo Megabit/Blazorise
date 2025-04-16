@@ -12300,26 +12300,55 @@ builder.Services
 </Button>";
 
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
-<Button Color=""Color.Danger"" Clicked=""@ShowConfirmMessage"">Confirm</Button>
 
-@code{
+@code {
     [Inject] IMessageService MessageService { get; set; }
 
     Task ShowInfoMessage()
     {
         return MessageService.Info( ""This is a simple info message!"", ""Hello"" );
     }
+}";
 
-    async Task ShowConfirmMessage()
+        public const string MessageServiceChooseExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowChooseDialog"">Choose an option</Button>
+
+<Paragraph>
+    You selected: <Strong>@selectedOption</Strong>
+</Paragraph>
+
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    object selectedOption;
+
+    async Task ShowChooseDialog()
     {
-        if ( await MessageService.Confirm( ""Are you sure you want to confirm?"", ""Confirmation"" ) )
+        selectedOption = await MessageService.Choose( ""Make a Selection"", ""Choose one"", options =>
         {
-            Console.WriteLine( ""OK Clicked"" );
-        }
-        else
-        {
-            Console.WriteLine( ""Cancel Clicked"" );
-        }
+            options.Choices = new List<MessageOptionsChoice>
+            {
+                new(""option-1"", ""Primary Option"", Color.Primary),
+                new(""option-2"", ""Secondary Option"", Color.Secondary),
+                new(""option-3"", ""Success Option"", Color.Success)
+            };
+        } );
+    }
+}";
+
+        public const string MessageServiceConfirmExample = @"<Button Color=""Color.Danger"" Clicked=""@ShowConfirmDelete"">Delete Item</Button>
+
+<Paragraph>
+    Your choice is: <Strong>@result</Strong>
+</Paragraph>
+
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    bool? result;
+
+    async Task ShowConfirmDelete()
+    {
+        result = await MessageService.Confirm( ""Are you sure you want to delete the item?"", ""Confirmation"" );
     }
 }";
 

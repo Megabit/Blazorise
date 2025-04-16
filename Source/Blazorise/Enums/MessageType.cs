@@ -29,4 +29,9 @@ public enum MessageType
     /// Prompt the user with the confirmation dialog.
     /// </summary>
     Confirmation,
+
+    /// <summary>
+    /// Represents a selection option within a set of choices.
+    /// </summary>
+    Choice,
 }

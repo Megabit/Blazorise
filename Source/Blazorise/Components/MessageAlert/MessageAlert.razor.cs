@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
@@ -101,6 +103,26 @@ public partial class MessageAlert : BaseComponent, IDisposable
     }
 
     /// <summary>
+    /// Handles the event when a choice button is clicked, hiding the modal and invoking callbacks as necessary.
+    /// </summary>
+    /// <param name="choice">Represents the button that was clicked, providing its key for further processing.</param>
+    /// <returns>Returns a task that represents the asynchronous operation of handling the button click.</returns>
+    protected Task OnChoiceClicked( MessageOptionsChoice choice )
+    {
+        return InvokeAsync( async () =>
+        {
+            await ModalRef.Hide();
+
+            if ( IsChoice && Callback is not null && !Callback.Task.IsCompleted )
+            {
+                await InvokeAsync( () => Callback.SetResult( choice.Key ) );
+            }
+
+            await Confirmed.InvokeAsync();
+        } );
+    }
+
+    /// <summary>
     /// Handles the <see cref="Modal"/> closing event.
     /// </summary>
     /// <param name="eventArgs">Provides the data for the modal closing event.</param>
@@ -126,6 +148,12 @@ public partial class MessageAlert : BaseComponent, IDisposable
     /// </summary>
     protected virtual bool IsConfirmation
         => MessageType == MessageType.Confirmation;
+
+    /// <summary>
+    /// If true, modal will act as a choice dialog.
+    /// </summary>
+    protected virtual bool IsChoice
+        => MessageType == MessageType.Choice;
 
     /// <summary>
     /// If true, message will be centered.
@@ -268,6 +296,12 @@ public partial class MessageAlert : BaseComponent, IDisposable
         => Options?.Size ?? ModalSize.Default;
 
     /// <summary>
+    /// Gets the choice buttons.
+    /// </summary>
+    protected virtual IEnumerable<MessageOptionsChoice> Choices
+        => Options?.Choices ?? Enumerable.Empty<MessageOptionsChoice>();
+
+    /// <summary>
     /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
     /// </summary>
     [Inject] protected IMessageService MessageService { get; set; }
@@ -305,7 +339,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
     /// <summary>
     /// Occurs after the user respond with an action button.
     /// </summary>
-    [Parameter] public TaskCompletionSource<bool> Callback { get; set; }
+    [Parameter] public TaskCompletionSource<object> Callback { get; set; }
 
     /// <summary>
     /// Occurs after the user has responded with an OK action.
