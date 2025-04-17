@@ -58,7 +58,7 @@ public partial class _SchedulerSlot<TItem>
         if ( EditItemClicked is null )
             return Task.CompletedTask;
 
-        return EditItemClicked.Invoke( viewItem.Item, SlotStart, SlotEnd );
+        return EditItemClicked.Invoke( viewItem, SlotStart, SlotEnd );
     }
 
     protected Task OnDeleteItemClicked( SchedulerItemViewInfo<TItem> viewItem )
@@ -162,7 +162,7 @@ public partial class _SchedulerSlot<TItem>
 
     [Parameter] public Func<DateTime, DateTime, Task> SlotClicked { get; set; }
 
-    [Parameter] public Func<TItem, DateTime, DateTime, Task> EditItemClicked { get; set; }
+    [Parameter] public Func<SchedulerItemViewInfo<TItem>, DateTime, DateTime, Task> EditItemClicked { get; set; }
 
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, Task> DeleteItemClicked { get; set; }
 

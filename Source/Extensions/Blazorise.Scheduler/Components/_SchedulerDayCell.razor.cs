@@ -20,11 +20,11 @@ public partial class _SchedulerDayCell<TItem>
         return Scheduler.NotifySlotClicked( start, end );
     }
 
-    protected Task OnEditItemClicked( TItem item, DateTime start, DateTime end )
+    protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem, DateTime start, DateTime end )
     {
-        if ( item is not null )
+        if ( viewItem is not null )
         {
-            return Scheduler.NotifyEditItemClicked( item );
+            return Scheduler.NotifyEditItemClicked( viewItem );
         }
 
         return Task.CompletedTask;

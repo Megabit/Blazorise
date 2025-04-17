@@ -350,11 +350,11 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
 
     protected async Task Delete()
     {
-        var isSeries = !string.IsNullOrEmpty( Scheduler.GetItemRecurrenceRule( EditItem ) );
+        var hasRecurrenceRule = !string.IsNullOrEmpty( Scheduler.GetItemRecurrenceRule( EditItem ) );
 
-        var deleteMessage = isSeries
+        var deleteMessage = hasRecurrenceRule
             ? Localizer.Localize( Scheduler.Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
-            : Localizer.Localize( Scheduler.Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently, are you sure?" );
+            : Localizer.Localize( Scheduler.Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently. Are you sure?" );
 
         if ( await MessageService.Confirm( deleteMessage, "Delete", options =>
         {

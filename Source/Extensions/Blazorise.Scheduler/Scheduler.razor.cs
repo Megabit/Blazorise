@@ -398,18 +398,128 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await ItemClicked.InvokeAsync( new( item ) );
     }
 
-    internal async Task NotifyDeleteItemClicked( SchedulerItemViewInfo<TItem> viewInfo )
+    internal async Task NotifyEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
-        if ( viewInfo.IsRecurring )
+        var isSeries = !string.IsNullOrEmpty( GetItemRecurrenceRule( viewItem.Item ) );
+
+        if ( isSeries )
         {
-            await DeleteOccurrence( viewInfo );
+            var result = await MessageService.Choose(
+                        message: "What do you want to do?",
+                        title: Localizer.Localize( Localizers?.EditLocalizer, "Edit" ), options =>
+                        {
+                            options.ShowCloseButton = false;
+                            options.ShowMessageIcon = false;
+                            options.Choices = new List<MessageOptionsChoice>
+                            {
+                            new MessageOptionsChoice
+                            {
+                                Key = "EditSeries",
+                                Text = Localizer.Localize( Localizers?.EditSeriesLocalizer, "Edit Series" ),
+                                Color = Color.Primary,
+                            },
+                            new MessageOptionsChoice
+                            {
+                                Key = "EditOccurrence",
+                                Text = Localizer.Localize( Localizers?.EditOccurrenceLocalizer, "Edit Occurrence" ),
+                                Color = Color.Primary,
+                            },
+                            new MessageOptionsChoice
+                            {
+                                Key = "Cancel",
+                                Text = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" ),
+                                Color = Color.Secondary,
+                            }
+                            };
+                        } ) as string;
+
+            if ( result is null || result == "Cancel" )
+                return;
+
+            if ( result == "EditSeries" )
+            {
+                await Edit( viewItem.Item );
+            }
+            else if ( result == "EditOccurrence" )
+            {
+                //await EditOccurrence( viewItem );
+            }
         }
         else
         {
-            await Delete( viewInfo.Item );
+            await Edit( viewItem.Item );
         }
 
-        await ItemClicked.InvokeAsync( new( viewInfo.Item ) );
+        await ItemClicked.InvokeAsync( new( viewItem.Item ) );
+    }
+
+    internal async Task NotifyDeleteItemClicked( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        if ( viewItem.IsRecurring )
+        {
+            var result = await MessageService.Choose(
+                    message: "Item is a recurring series. What do you want to do?",
+                    title: Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
+                    {
+                        options.ShowCloseButton = false;
+                        options.ShowMessageIcon = false;
+                        options.Choices = new List<MessageOptionsChoice>
+                        {
+                            new MessageOptionsChoice
+                            {
+                                Key = "DeleteSeries",
+                                Text = Localizer.Localize( Localizers?.DeleteSeriesLocalizer, "Delete Series" ),
+                                Color = Color.Danger,
+                            },
+                            new MessageOptionsChoice
+                            {
+                                Key = "DeleteOccurrence",
+                                Text = Localizer.Localize( Localizers?.DeleteOccurrenceLocalizer, "Delete Occurrence" ),
+                                Color = Color.Warning,
+                            },
+                            new MessageOptionsChoice
+                            {
+                                Key = "Cancel",
+                                Text = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" ),
+                                Color = Color.Secondary,
+                            }
+                        };
+                    } ) as string;
+
+            if ( result is null || result == "Cancel" )
+                return;
+
+            if ( result == "DeleteSeries" )
+            {
+                await DeleteItemImpl( viewItem.Item );
+            }
+            else if ( result == "DeleteOccurrence" )
+            {
+                await DeleteOccurrenceImpl( viewItem );
+            }
+        }
+        else
+        {
+            var hasRecurrenceRule = !string.IsNullOrEmpty( GetItemRecurrenceRule( viewItem.Item ) );
+
+            var deleteMessage = hasRecurrenceRule
+                ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
+                : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently. Are you sure?" );
+
+            if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
+            {
+                options.ShowCloseButton = false;
+                options.ShowMessageIcon = false;
+                options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" );
+                options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" );
+                options.ConfirmButtonColor = Color.Danger;
+            } ) == false )
+                return;
+
+            await DeleteItemImpl( viewItem.Item );
+        }
+
+        await ItemClicked.InvokeAsync( new( viewItem.Item ) );
     }
 
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
@@ -481,22 +591,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
         {
-            var isSeries = !string.IsNullOrEmpty( GetItemRecurrenceRule( item ) );
-
-            var deleteMessage = isSeries
-                ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
-                : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently, are you sure?" );
-
-            if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
-            {
-                options.ShowCloseButton = false;
-                options.ShowMessageIcon = false;
-                options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" );
-                options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" );
-                options.ConfirmButtonColor = Color.Danger;
-            } ) == false )
-                return;
-
             await DeleteItemImpl( item );
         }
     }
@@ -507,7 +601,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             var result = await MessageService.Choose(
                     message: "Item is a recurring series. What do you want to do?",
-                    title: Localizer.Localize( Localizers?.DeleteLocalizer, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ) ), options =>
+                    title: Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
                     {
                         options.ShowCloseButton = false;
                         options.ShowMessageIcon = false;
