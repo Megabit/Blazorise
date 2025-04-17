@@ -24,7 +24,7 @@
 
     <Row Margin="Margin.Is3.FromBottom" Gutter="(16,16)">
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is6.OnDesktop">
-            <PricingCard PlanName="Community" PlanPrice="Free" HigherPlanPrice="$0" ShowHigherPlan TextAccentColor="@("price-color-community")">
+            <PricingCard PlanName="Community" PlanPrice="Free" HigherPlanPrice="€0" ShowHigherPlan TextAccentColor="@("price-color-community")">
                 <ButtonContent>
                     <Button Type="ButtonType.Link" To="https://blazorise.com/account/login" Color="Color.Light" Size="Size.Large" Block>
                         Claim license
@@ -61,7 +61,7 @@
         </Column>
 
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is6.OnDesktop">
-            <PricingCard PlanName="Professional" PlanPrice="@($"${( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")" HigherPlanPrice="@($"${( ProfessionalPrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")" PlanUnit="@ProfessionalPrices[Plan].Unit" ShowHigherPlan="@(Plan == "annually")" ShowDiscount TextAccentColor="TextColor.Info">
+            <PricingCard PlanName="Professional" PlanPrice="@($"{ProfessionalPrices[Plan].Currency}{( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")" HigherPlanPrice="@($"{ProfessionalPrices[Plan].Currency}{( ProfessionalPrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")" PlanUnit="@ProfessionalPrices[Plan].Unit" ShowHigherPlan="@(Plan == "annually")" ShowDiscount TextAccentColor="TextColor.Info">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Info" ProductId="@ProfessionalPrices[Plan].ProductId" Quantity="@Quantity" Upsell="@ProfessionalPrices[Plan].Upsell" ProductName="Blazorise Professional">
                         Buy Now
@@ -90,7 +90,7 @@
         </Column>
 
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is6.OnDesktop">
-            <PricingCard PlanName="Enterprise" PlanPrice="@($"${( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")" HigherPlanPrice="@($"${( EnterprisePrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")" PlanUnit="@EnterprisePrices[Plan].Unit" ShowHigherPlan="@(Plan == "annually")" ShowDiscount TextAccentColor="TextColor.Primary">
+            <PricingCard PlanName="Enterprise" PlanPrice="@($"{EnterprisePrices[Plan].Currency}{( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")" HigherPlanPrice="@($"{EnterprisePrices[Plan].Currency}{( EnterprisePrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")" PlanUnit="@EnterprisePrices[Plan].Unit" ShowHigherPlan="@(Plan == "annually")" ShowDiscount TextAccentColor="TextColor.Primary">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@EnterprisePrices[Plan].ProductId" Quantity="@Quantity" Upsell="@ProfessionalPrices[Plan].Upsell" ProductName="Blazorise Enterprise">
                         Buy Now
