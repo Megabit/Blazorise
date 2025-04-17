@@ -1,10 +1,8 @@
-﻿#region Using directives
-#endregion
-
 namespace Blazorise.Icons.Material;
 
 /// <summary>
-/// Strongly-typed list of material icon names. (v4.0.0)
+/// Generated file, do not change. See README.md.
+/// Strongly-typed list of material icon names. Based on version in csx file.
 /// </summary>
 public static class MaterialIcons
 {
@@ -88,8 +86,8 @@ public static class MaterialIcons
     public const string AddBox = "add_box";
     public const string AddBusiness = "add_business";
     public const string AddCard = "add_card";
-    public const string AddChart = "add_chart";
     public const string Addchart = "addchart";
+    public const string AddChart = "add_chart";
     public const string AddCircle = "add_circle";
     public const string AddCircleOutline = "add_circle_outline";
     public const string AddComment = "add_comment";
@@ -1131,8 +1129,8 @@ public static class MaterialIcons
     public const string LocalPlay = "local_play";
     public const string LocalPolice = "local_police";
     public const string LocalPostOffice = "local_post_office";
-    public const string LocalPrintShop = "local_print_shop";
     public const string LocalPrintshop = "local_printshop";
+    public const string LocalPrintShop = "local_print_shop";
     public const string LocalRestaurant = "local_restaurant";
     public const string LocalSee = "local_see";
     public const string LocalShipping = "local_shipping";
@@ -1376,8 +1374,8 @@ public static class MaterialIcons
     public const string Paid = "paid";
     public const string Palette = "palette";
     public const string Panorama = "panorama";
-    public const string PanoramaFishEye = "panorama_fish_eye";
     public const string PanoramaFisheye = "panorama_fisheye";
+    public const string PanoramaFishEye = "panorama_fish_eye";
     public const string PanoramaHorizontal = "panorama_horizontal";
     public const string PanoramaHorizontalSelect = "panorama_horizontal_select";
     public const string PanoramaPhotosphere = "panorama_photosphere";
