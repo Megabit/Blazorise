@@ -615,20 +615,25 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
-    protected internal Task<bool> DeleteOccurrenceImpl( SchedulerItemViewInfo<TItem> viewItem )
+    protected internal async Task<bool> DeleteOccurrenceImpl( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( viewItem is null )
-            return Task.FromResult( false );
+            return false;
 
-        var deletedOccurrences = propertyMapper.GetDeletedOccurrences( viewItem.Item ) ?? new List<DateTime>();
+        editItem = viewItem.Item;
+        editState = SchedulerEditState.Edit;
+
+        var editItemClone = editItem.DeepClone();
+
+        var deletedOccurrences = propertyMapper.GetDeletedOccurrences( editItemClone ) ?? new List<DateTime>();
 
         if ( !deletedOccurrences.Contains( viewItem.ViewStart ) )
         {
             deletedOccurrences.Add( viewItem.ViewStart );
-            propertyMapper.SetDeletedOccurrences( viewItem.Item, deletedOccurrences );
+            propertyMapper.SetDeletedOccurrences( editItemClone, deletedOccurrences );
         }
 
-        return Task.FromResult( true );
+        return await SaveImpl( editItemClone );
     }
 
     /// <summary>
@@ -675,6 +680,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         propertyMapper.SetEnd( destination, propertyMapper.GetEnd( source ) );
         propertyMapper.SetAllDay( destination, propertyMapper.GetAllDay( source ) );
         propertyMapper.SetRecurrenceRule( destination, propertyMapper.GetRecurrenceRule( source ) );
+        propertyMapper.SetDeletedOccurrences( destination, propertyMapper.GetDeletedOccurrences( source ).DeepClone() );
     }
 
     /// <summary>
