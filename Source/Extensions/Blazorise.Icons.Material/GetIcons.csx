@@ -15,7 +15,7 @@ await ExtractMaterialIcons();
 async Task ExtractMaterialIcons()
 {
     // Specific commit for v4.0.0 or similar
-    var url = "https://raw.githubusercontent.com/google/material-design-icons/140c233b4fc1669b9b419471d94f63cc96f0106a/font/MaterialIcons-Regular.codepoints";
+    var url = "https://raw.githubusercontent.com/google/material-design-icons/refs/heads/master/font/MaterialIconsOutlined-Regular.codepoints";
 
     // Output file path
     var outputFile = "MaterialIcons.cs";
