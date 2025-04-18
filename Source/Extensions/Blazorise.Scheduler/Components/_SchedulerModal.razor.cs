@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.Scheduler.Extensions;
-using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -17,27 +16,6 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
 
     private Modal modalRef;
 
-    private Func<TItem, object> getIdValue;
-    private Action<TItem, object> setIdValue;
-
-    private Func<TItem, string> getTitleValue;
-    private Action<TItem, string> setTitleValue;
-
-    private Func<TItem, string> getDescriptionValue;
-    private Action<TItem, string> setDescriptionValue;
-
-    private Func<TItem, DateTime> getStartValue;
-    private Action<TItem, DateTime> setStartValue;
-
-    private Func<TItem, DateTime> getEndValue;
-    private Action<TItem, DateTime> setEndValue;
-
-    private Func<TItem, bool> getAllDayFunc;
-    private Action<TItem, bool> setAllDayFunc;
-
-    private Func<TItem, string> getRecurrenceRuleFunc;
-    private Action<TItem, string> setRecurrenceRuleFunc;
-
     private Validations validationsRef;
 
     private List<string> customValidationErrors = new();
@@ -48,48 +26,6 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
 
     protected override void OnInitialized()
     {
-        if ( typeof( TItem ).GetProperty( IdField )?.PropertyType is not null )
-        {
-            getIdValue = SchedulerFunctionCompiler.CreateValueGetter<TItem>( IdField );
-            setIdValue = SchedulerFunctionCompiler.CreateValueSetter<TItem>( IdField );
-        }
-
-        if ( typeof( TItem ).GetProperty( TitleField )?.PropertyType is not null )
-        {
-            getTitleValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( TitleField );
-            setTitleValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( TitleField );
-        }
-
-        if ( typeof( TItem ).GetProperty( DescriptionField )?.PropertyType is not null )
-        {
-            getDescriptionValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( DescriptionField );
-            setDescriptionValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( DescriptionField );
-        }
-
-        if ( typeof( TItem ).GetProperty( StartField )?.PropertyType is not null )
-        {
-            getStartValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, DateTime>( StartField );
-            setStartValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, DateTime>( StartField );
-        }
-
-        if ( typeof( TItem ).GetProperty( EndField )?.PropertyType is not null )
-        {
-            getEndValue = SchedulerFunctionCompiler.CreateValueGetter<TItem, DateTime>( EndField );
-            setEndValue = SchedulerFunctionCompiler.CreateValueSetter<TItem, DateTime>( EndField );
-        }
-
-        if ( typeof( TItem ).GetProperty( AllDayField )?.PropertyType is not null )
-        {
-            getAllDayFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, bool>( AllDayField );
-            setAllDayFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, bool>( AllDayField );
-        }
-
-        if ( typeof( TItem ).GetProperty( RecurrenceRuleField )?.PropertyType is not null )
-        {
-            getRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( RecurrenceRuleField );
-            setRecurrenceRuleFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( RecurrenceRuleField );
-        }
-
         LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
         base.OnInitialized();
@@ -124,7 +60,7 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
 
     private void OnValidateStartDate( ValidatorEventArgs e )
     {
-        var startValue = (e.Value as DateOnly[] )?[0];
+        var startValue = ( e.Value as DateOnly[] )?[0];
 
         var start = AllDay
             ? new DateTime( startValue.Value.Year, startValue.Value.Month, startValue.Value.Day )
@@ -221,45 +157,45 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
         return Task.CompletedTask;
     }
 
-    public Task ShowModal( TItem item, bool isNewItem )
+    public Task ShowModal( TItem item, SchedulerEditState editState )
     {
         customValidationErrors.Clear();
 
         EditItem = item;
-        IsNewItem = isNewItem;
+        EditState = editState;
 
         if ( TitleAvailable )
         {
-            Title = getTitleValue?.Invoke( EditItem );
+            Title = Scheduler.PropertyMapper.GetTitle( EditItem );
         }
 
         if ( DescriptionAvailable )
         {
-            Description = getDescriptionValue?.Invoke( EditItem );
+            Description = Scheduler.PropertyMapper.GetDescription( EditItem );
         }
 
         if ( StartAvailable )
         {
-            var start = (DateTime?)getStartValue?.Invoke( EditItem );
-            StartDate = DateOnly.FromDateTime( start.Value );
-            StartTime = TimeOnly.FromDateTime( start.Value );
+            var start = Scheduler.PropertyMapper.GetStart( EditItem );
+            StartDate = DateOnly.FromDateTime( start );
+            StartTime = TimeOnly.FromDateTime( start );
         }
 
         if ( EndAvailable )
         {
-            var end = (DateTime?)getEndValue?.Invoke( EditItem );
-            EndDate = DateOnly.FromDateTime( end.Value );
-            EndTime = TimeOnly.FromDateTime( end.Value );
+            var end = Scheduler.PropertyMapper.GetEnd( EditItem );
+            EndDate = DateOnly.FromDateTime( end );
+            EndTime = TimeOnly.FromDateTime( end );
         }
 
         if ( AllDayAvailable )
         {
-            AllDay = getAllDayFunc?.Invoke( EditItem ) ?? false;
+            AllDay = Scheduler.PropertyMapper.GetAllDay( EditItem );
         }
 
         if ( RecurrenceRuleAvailable )
         {
-            RecurrenceRule = getRecurrenceRuleFunc?.Invoke( EditItem );
+            RecurrenceRule = Scheduler.PropertyMapper.GetRecurrenceRule( EditItem );
         }
 
         return modalRef.Show();
@@ -303,40 +239,40 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
 
             if ( IdAvailable )
             {
-                var id = getIdValue?.Invoke( EditItem );
+                var id = Scheduler.PropertyMapper.GetId( EditItem );
 
                 if ( id is null )
-                    setIdValue?.Invoke( EditItem, Guid.NewGuid().ToString() );
+                    Scheduler.PropertyMapper.SetId( EditItem, Guid.NewGuid().ToString() );
             }
 
             if ( TitleAvailable )
             {
-                setTitleValue?.Invoke( EditItem, Title );
+                Scheduler.PropertyMapper.SetTitle( EditItem, Title );
             }
 
             if ( DescriptionAvailable )
             {
-                setDescriptionValue?.Invoke( EditItem, Description );
+                Scheduler.PropertyMapper.SetDescription( EditItem, Description );
             }
 
             if ( StartAvailable )
             {
-                setStartValue?.Invoke( EditItem, start );
+                Scheduler.PropertyMapper.SetStart( EditItem, start );
             }
 
             if ( EndAvailable )
             {
-                setEndValue?.Invoke( EditItem, end );
+                Scheduler.PropertyMapper.SetEnd( EditItem, end );
             }
 
             if ( AllDayAvailable )
             {
-                setAllDayFunc?.Invoke( EditItem, AllDay );
+                Scheduler.PropertyMapper.SetAllDay( EditItem, AllDay );
             }
 
             if ( RecurrenceRuleAvailable )
             {
-                setRecurrenceRuleFunc?.Invoke( EditItem, RecurrenceRule );
+                Scheduler.PropertyMapper.SetRecurrenceRule( EditItem, RecurrenceRule );
             }
 
             var result = await SaveRequested.Invoke( EditItem );
@@ -379,23 +315,21 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
     #region Properties
 
     string ModalTitle
-        => $"{Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, IsNewItem ? "New" : "Edit" )} {Localizer.Localize( Scheduler.Localizers?.AppointmentLocalizer, "Appointment" )}";
+        => $"{Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, EditState == SchedulerEditState.New ? "New" : "Edit" )} {Localizer.Localize( Scheduler.Localizers?.AppointmentLocalizer, "Appointment" )}";
 
-    protected bool IsNewItem { get; set; }
+    protected bool IdAvailable => Scheduler.PropertyMapper.HasId;
 
-    protected bool IdAvailable => getIdValue is not null;
+    protected bool TitleAvailable => Scheduler.PropertyMapper.HasTitle;
 
-    protected bool TitleAvailable => getTitleValue is not null;
+    protected bool DescriptionAvailable => Scheduler.PropertyMapper.HasDescription;
 
-    protected bool DescriptionAvailable => getDescriptionValue is not null;
+    protected bool StartAvailable => Scheduler.PropertyMapper.HasStart;
 
-    protected bool StartAvailable => getStartValue is not null;
+    protected bool EndAvailable => Scheduler.PropertyMapper.HasEnd;
 
-    protected bool EndAvailable => getEndValue is not null;
+    protected bool AllDayAvailable => Scheduler.PropertyMapper.HasAllDay;
 
-    protected bool AllDayAvailable => getAllDayFunc is not null;
-
-    protected bool RecurrenceRuleAvailable => getRecurrenceRuleFunc is not null;
+    protected bool RecurrenceRuleAvailable => Scheduler.PropertyMapper.HasRecurrenceRule;
 
     protected string Title { get; set; }
 
@@ -414,6 +348,8 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
     protected string RecurrenceRule { get; set; }
 
     protected TItem EditItem { get; set; }
+
+    protected SchedulerEditState EditState { get; set; }
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations.

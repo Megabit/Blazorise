@@ -13,6 +13,7 @@ namespace Blazorise.Scheduler;
 public class SchedulerPropertyMapper<TItem>
 {
     private Func<TItem, object> getIdFunc;
+    private Action<TItem, object> setIdFunc;
 
     private Func<TItem, string> getTitleFunc;
     private Action<TItem, string> setTitleFunc;
@@ -107,6 +108,11 @@ public class SchedulerPropertyMapper<TItem>
         return getIdFunc?.Invoke( item );
     }
 
+    public void SetId( TItem item, object value )
+    {
+        setIdFunc?.Invoke( item, value );
+    }
+
     public string GetTitle( TItem item )
     {
         return getTitleFunc?.Invoke( item );
@@ -196,4 +202,15 @@ public class SchedulerPropertyMapper<TItem>
     {
         setRecurrenceExceptionsFunc?.Invoke( item, value );
     }
+
+    public bool HasId => getIdFunc != null;
+    public bool HasTitle => getTitleFunc != null;
+    public bool HasDescription => getDescriptionFunc != null;
+    public bool HasStart => getStartFunc != null;
+    public bool HasEnd => getEndFunc != null;
+    public bool HasAllDay => getAllDayFunc != null;
+    public bool HasRecurrenceRule => getRecurrenceRuleFunc != null;
+    public bool HasRecurrenceId => getRecurrenceIdFunc != null;
+    public bool HasRecurrenceExceptions => getRecurrenceExceptionsFunc != null;
+    public bool HasDeletedOccurrences => getDeletedOccurrencesFunc != null;
 }

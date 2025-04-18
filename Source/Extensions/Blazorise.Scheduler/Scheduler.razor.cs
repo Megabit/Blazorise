@@ -562,7 +562,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         if ( Editable && UseInternalEditing && schedulerModalRef is not null )
         {
-            await schedulerModalRef.ShowModal( newItem.DeepClone(), true );
+            await schedulerModalRef.ShowModal( newItem.DeepClone(), editState );
         }
     }
 
@@ -578,7 +578,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         if ( Editable && UseInternalEditing && schedulerModalRef is not null )
         {
-            await schedulerModalRef.ShowModal( item.DeepClone(), false );
+            await schedulerModalRef.ShowModal( item.DeepClone(), editState );
         }
     }
 
@@ -1178,6 +1178,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Gets the scheduler state.
     /// </summary>
     protected SchedulerState State => state;
+
+    /// <summary>
+    /// Provides access to the <see cref="SchedulerPropertyMapper{TItem}"/> instance, which is responsible for mapping properties of the item type.
+    /// </summary>
+    protected internal SchedulerPropertyMapper<TItem> PropertyMapper => propertyMapper;
 
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to modify.

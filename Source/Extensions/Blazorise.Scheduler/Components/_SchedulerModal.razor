@@ -126,7 +126,7 @@
         </ModalBody>
         <ModalFooter Flex="Blazorise.Flex.JustifyContent.Between.AlignItems.Center">
             <Div>
-                @if ( !IsNewItem )
+                @if ( EditState == SchedulerEditState.Edit )
                 {
                     <Button Color="Color.Danger" Outline Clicked="@Delete">
                         <Icon Name="IconName.Delete" Margin="Blazorise.Margin.Is2.FromEnd" />
