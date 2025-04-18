@@ -739,27 +739,33 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
-    protected internal async Task<bool> SaveOccurrenceImpl( TItem submitedItem )
+    protected internal async Task<bool> SaveOccurrenceImpl( TItem recurringItem )
     {
         var editItemClone = editItem.DeepClone();
 
-        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( editItemClone ) ?? new List<TItem>();
-
-        var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == propertyMapper.GetOriginalStart( submitedItem ) );
-
-        if ( recurrenceException is not null )
-        {
-            CopyOccurrenceValues( submitedItem, recurrenceException );
-        }
-        else
-        {
-            recurrenceExceptions.Add( submitedItem );
-        }
-
-        propertyMapper.SetRecurrenceExceptions( editItemClone, recurrenceExceptions );
+        HandleRecurrenceException( editItemClone, recurringItem );
 
         return await SaveImpl( editItemClone );
     }
+
+    protected internal void HandleRecurrenceException( TItem item, TItem recurringItem )
+    {
+        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item ) ?? new List<TItem>();
+
+        var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == propertyMapper.GetOriginalStart( recurringItem ) );
+
+        if ( recurrenceException is not null )
+        {
+            CopyOccurrenceValues( recurringItem, recurrenceException );
+        }
+        else
+        {
+            recurrenceExceptions.Add( recurringItem );
+        }
+
+        propertyMapper.SetRecurrenceExceptions( item, recurrenceExceptions );
+    }
+
 
     protected internal async Task<bool> DeleteOccurrenceImpl( SchedulerItemViewInfo<TItem> viewItem )
     {
@@ -987,6 +993,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         return false;
+    }
+
+    protected internal bool IsRecurrenceItem( TItem item )
+    {
+        var originalStart = propertyMapper.GetOriginalStart( item );
+        var recurrenceId = propertyMapper.GetRecurrenceId( item );
+        var recurrenceRule = propertyMapper.GetRecurrenceRule( item );
+        return originalStart != null && recurrenceId != null && recurrenceRule == null;
     }
 
     private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, SchedulerRecurrenceRule recurrenceRule, DateTime viewStart, DateTime viewEnd )

@@ -31,6 +31,16 @@ public class SchedulerTransaction<TItem>
         {
             scheduler.CopyItemValues( Item, OriginalItem );
 
+            if ( scheduler.IsRecurrenceItem( Item ) )
+            {
+                var editItem = scheduler.GetParentItem( Item );
+
+                if ( editItem is not null )
+                {
+                    scheduler.HandleRecurrenceException( editItem, Item );
+                }
+            }
+
             if ( Committed != null )
                 await Committed.Invoke();
 
