@@ -35,6 +35,30 @@ public class SchedulerItemInfo<TItem>
         IsRecurring = isRecurring;
     }
 
+    public SchedulerItemInfo( TItem item, DateTime start, DateTime end, bool allDay, bool isRecurring )
+    {
+        Item = item;
+        Start = start;
+        End = end;
+        Duration = end - start;
+        AllDay = allDay;
+        AllDayByDuration = Duration.Days >= 1;
+        RecurrenceRule = null;
+        IsRecurring = isRecurring;
+    }
+
+    public SchedulerItemInfo( TItem item, DateTime start, DateTime end, bool allDay, SchedulerRecurrenceRule recurrenceRule, bool isRecurring )
+    {
+        Item = item;
+        Start = start;
+        End = end;
+        Duration = end - start;
+        AllDay = allDay;
+        AllDayByDuration = Duration.Days >= 1;
+        RecurrenceRule = recurrenceRule;
+        IsRecurring = isRecurring;
+    }
+
     /// <summary>
     /// Represents an item of type TItem. It can be accessed and modified through its getter and setter.
     /// </summary>

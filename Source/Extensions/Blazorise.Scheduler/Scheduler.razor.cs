@@ -766,7 +766,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         if ( viewItem is null )
             return false;
 
-        editItem = viewItem.Item;
+        editItem = GetParentItem( viewItem.Item );
+
+        if ( editItem is null )
+            return false;
+
         editState = SchedulerEditState.Edit;
 
         var editItemClone = editItem.DeepClone();
@@ -892,124 +896,116 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                            || ( start < viewStart && end > viewStart ) )
                           select new SchedulerItemInfo<TItem>( item, start, end, allDay, recurrenceRule, false );
 
-        var recurringItems = from item in Data
-                             let recurrenceRule = GetItemRecurrenceRule( item )
-                             where !string.IsNullOrEmpty( recurrenceRule )
-                             let start = GetItemStartTime( item )
-                             where start < viewStart
-                             select item;
+        // items that are created prior to the viewStart and have a recurrence rule
+        var itemsWithRecurrenceRule = from item in Data
+                                      let recurrenceRule = GetItemRecurrenceRule( item )
+                                      where !string.IsNullOrEmpty( recurrenceRule )
+                                      let allDay = GetItemAllDay( item )
+                                      let start = GetItemStartTime( item )
+                                      let end = GetItemEndTime( item )
+                                      where start < viewStart
+                                      select new SchedulerItemInfo<TItem>( item, start, end, allDay, recurrenceRule, false );
 
-        var virtualItems = new List<SchedulerItemInfo<TItem>>();
+        var recurringItems = new List<SchedulerItemInfo<TItem>>();
 
-        foreach ( var item in recurringItems )
+        foreach ( var item in itemsWithRecurrenceRule )
         {
-            var recurrenceRule = GetItemRecurrenceRule( item );
-            var start = GetItemStartTime( item );
-            var end = GetItemEndTime( item );
-            var duration = GetItemDuration( item );
-
             // Generate virtual items based on recurrence rule
-            var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
+            var occurrences = GenerateOccurrences( item.Start, item.End, item.RecurrenceRule, viewStart, viewEnd );
 
-            var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item );
+            var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
 
-            foreach ( var occurrence in occurrences )
+            foreach ( var occurrenceStart in occurrences )
             {
-                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrence ) )
+                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrenceStart ) )
                     continue;
 
-                var virtualStart = occurrence;
-                var virtualEnd = virtualStart.Add( duration );
+                var occurrenceEnd = occurrenceStart.Add( item.Duration );
 
-                var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item );
+                if ( HandleRecurrenceExceptions( item.Item, occurrenceStart, recurringItems ) )
+                    continue;
 
-                if ( recurrenceExceptions is not null )
-                {
-                    var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == virtualStart );
+                var occurrenceItem = CreateOccurrence( item.Item, occurrenceStart, occurrenceEnd );
 
-                    if ( recurrenceException is not null )
-                    {
-                        virtualItems.Add( new SchedulerItemInfo<TItem>( recurrenceException, GetItemStartTime( recurrenceException ), GetItemEndTime( recurrenceException ), false, null, true ) );
-
-                        continue;
-                    }
-                }
-
-                var occurrenceItem = CreateOccurrence( item, virtualStart, virtualEnd );
-
-                virtualItems.Add( new SchedulerItemInfo<TItem>( occurrenceItem, virtualStart, virtualEnd, false, recurrenceRule, true ) );
+                recurringItems.Add( new SchedulerItemInfo<TItem>( occurrenceItem, occurrenceStart, occurrenceEnd, false, item.RecurrenceRule, true ) );
             }
         }
 
         foreach ( var item in itemsInView )
         {
-            var recurrenceRule = GetItemRecurrenceRule( item.Item );
-
-            if ( string.IsNullOrEmpty( recurrenceRule ) )
+            if ( item.RecurrenceRule is null )
                 continue;
 
-            var start = GetItemStartTime( item.Item );
-            var end = GetItemEndTime( item.Item );
-            var duration = GetItemDuration( item.Item );
-
             // Generate virtual items based on recurrence rule
-            var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
+            var occurrences = GenerateOccurrences( item.Start, item.End, item.RecurrenceRule, viewStart, viewEnd );
 
             var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
 
-            foreach ( var occurrence in occurrences )
+            foreach ( var occurrenceStart in occurrences )
             {
-                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrence ) )
+                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrenceStart ) )
                     continue;
 
-                var virtualStart = occurrence;
-                var virtualEnd = virtualStart.Add( duration );
+                var occurrenceEnd = occurrenceStart.Add( item.Duration );
 
-                var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item.Item );
+                if ( HandleRecurrenceExceptions( item.Item, occurrenceStart, recurringItems ) )
+                    continue;
 
-                if ( recurrenceExceptions is not null )
-                {
-                    var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == virtualStart );
+                var occurrenceItem = CreateOccurrence( item.Item, occurrenceStart, occurrenceEnd );
 
-                    if ( recurrenceException is not null )
-                    {
-                        virtualItems.Add( new SchedulerItemInfo<TItem>( recurrenceException, GetItemStartTime( recurrenceException ), GetItemEndTime( recurrenceException ), false, null, true ) );
-
-                        continue;
-                    }
-                }
-
-                var occurrenceItem = CreateOccurrence( item.Item, virtualStart, virtualEnd );
-
-                virtualItems.Add( new SchedulerItemInfo<TItem>( occurrenceItem, virtualStart, virtualEnd, false, recurrenceRule, true ) );
+                recurringItems.Add( new SchedulerItemInfo<TItem>( occurrenceItem, occurrenceStart, occurrenceEnd, false, item.RecurrenceRule, true ) );
             }
         }
 
         // If the item is having a recurring rule that means we want to show a series and we want to hide original item.
         return itemsInView
             .Where( x => x.RecurrenceRule is null )
-            .Concat( virtualItems );
+            .Concat( recurringItems );
     }
 
-    private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, string recurrenceRule, DateTime viewStart, DateTime viewEnd )
+    /// <summary>
+    /// Handles exceptions for recurring items by checking for specific occurrences and adding them to a list if found.
+    /// </summary>
+    /// <param name="item">Represents the item for which recurrence exceptions are being handled.</param>
+    /// <param name="occurrenceStart">Indicates the start time of the occurrence being checked for exceptions.</param>
+    /// <param name="recurringItems">Holds the list of recurring items to which exceptions will be added if found.</param>
+    /// <returns>Returns a boolean indicating whether an exception was found and added to the list.</returns>
+    private bool HandleRecurrenceExceptions( TItem item, DateTime occurrenceStart, List<SchedulerItemInfo<TItem>> recurringItems )
     {
-        var rule = RecurringRuleParser.Parse( recurrenceRule );
+        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item );
 
-        if ( rule.Pattern == SchedulerRecurrencePattern.Daily )
+        if ( recurrenceExceptions is not null )
         {
-            return RecurringRuleCalculators.GetDailyRecurringDates( start, viewStart, viewEnd, rule );
+            var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == occurrenceStart );
+
+            if ( recurrenceException is not null )
+            {
+                recurringItems.Add( new SchedulerItemInfo<TItem>( recurrenceException, GetItemStartTime( recurrenceException ), GetItemEndTime( recurrenceException ), false, true ) );
+
+                return true;
+            }
         }
-        else if ( rule.Pattern == SchedulerRecurrencePattern.Weekly )
+
+        return false;
+    }
+
+    private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, SchedulerRecurrenceRule recurrenceRule, DateTime viewStart, DateTime viewEnd )
+    {
+        if ( recurrenceRule.Pattern == SchedulerRecurrencePattern.Daily )
         {
-            return RecurringRuleCalculators.GetWeeklyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, rule );
+            return RecurringRuleCalculators.GetDailyRecurringDates( start, viewStart, viewEnd, recurrenceRule );
         }
-        else if ( rule.Pattern == SchedulerRecurrencePattern.Monthly )
+        else if ( recurrenceRule.Pattern == SchedulerRecurrencePattern.Weekly )
         {
-            return RecurringRuleCalculators.GetMonthlyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, rule );
+            return RecurringRuleCalculators.GetWeeklyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, recurrenceRule );
         }
-        else if ( rule.Pattern == SchedulerRecurrencePattern.Yearly )
+        else if ( recurrenceRule.Pattern == SchedulerRecurrencePattern.Monthly )
         {
-            return RecurringRuleCalculators.GetYearlyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, rule );
+            return RecurringRuleCalculators.GetMonthlyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, recurrenceRule );
+        }
+        else if ( recurrenceRule.Pattern == SchedulerRecurrencePattern.Yearly )
+        {
+            return RecurringRuleCalculators.GetYearlyRecurringDates( start, viewStart, viewEnd, FirstDayOfWeek, recurrenceRule );
         }
 
         return Enumerable.Empty<DateTime>();
