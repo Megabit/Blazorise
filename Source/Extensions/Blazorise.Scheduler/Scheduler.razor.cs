@@ -48,7 +48,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     private Lazy<Func<TItem>> newItemCreator;
 
-    protected _SchedulerModal<TItem> schedulerModalRef;
+    protected _SchedulerIItemModal<TItem> schedulerItemModalRef;
 
     protected TItem editItem;
 
@@ -560,9 +560,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editItem = newItem;
         editState = SchedulerEditState.New;
 
-        if ( Editable && UseInternalEditing && schedulerModalRef is not null )
+        if ( Editable && UseInternalEditing && schedulerItemModalRef is not null )
         {
-            await schedulerModalRef.ShowModal( newItem.DeepClone(), editState );
+            await schedulerItemModalRef.ShowModal( newItem.DeepClone(), editState );
         }
     }
 
@@ -576,9 +576,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editItem = item;
         editState = SchedulerEditState.Edit;
 
-        if ( Editable && UseInternalEditing && schedulerModalRef is not null )
+        if ( Editable && UseInternalEditing && schedulerItemModalRef is not null )
         {
-            await schedulerModalRef.ShowModal( item.DeepClone(), editState );
+            await schedulerItemModalRef.ShowModal( item.DeepClone(), editState );
         }
     }
 

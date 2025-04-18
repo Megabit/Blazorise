@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Scheduler.Components;
 
-public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
+public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
 {
     #region Members
 
@@ -370,41 +370,6 @@ public partial class _SchedulerModal<TItem> : BaseComponent, IDisposable
     /// Cascades the <see cref="Scheduler{TItem}"/> instance to the modal.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
-
-    /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the unique identifier of the appointment. Defaults to "Id".
-    /// </summary>
-    [Parameter] public string IdField { get; set; }
-
-    /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the start date of the appointment. Defaults to "Start".
-    /// </summary>
-    [Parameter] public string StartField { get; set; }
-
-    /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the end date of the appointment. Defaults to "End".
-    /// </summary>
-    [Parameter] public string EndField { get; set; }
-
-    /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the title of the appointment. Defaults to "Title".
-    /// </summary>
-    [Parameter] public string TitleField { get; set; }
-
-    /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the description of the appointment. Defaults to "Description".
-    /// </summary>
-    [Parameter] public string DescriptionField { get; set; }
-
-    /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the all day flag of the appointment. Defaults to "AllDay".
-    /// </summary>
-    [Parameter] public string AllDayField { get; set; }
-
-    /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence rule of the appointment. Defaults to "RecurrenceRule".
-    /// </summary>
-    [Parameter] public string RecurrenceRuleField { get; set; }
 
     /// <summary>
     /// Occurs when the user clicks the save button.

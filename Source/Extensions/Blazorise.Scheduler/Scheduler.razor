@@ -68,17 +68,10 @@
                                          ItemCellHeight="@schedulerMonthView.ItemCellHeight" />
                 }
             </_SchedulerViews>
-            <_SchedulerModal TItem="TItem" @ref="@schedulerModalRef"
-                             IdField="@IdField"
-                             TitleField="@TitleField"
-                             DescriptionField="@DescriptionField"
-                             StartField="@StartField"
-                             EndField="@EndField"
-                             AllDayField="@AllDayField"
-                             RecurrenceRuleField="@RecurrenceRuleField"
-                             FirstDayOfWeek="@FirstDayOfWeek"
-                             SaveRequested="@SaveImpl"
-                             DeleteRequested="@DeleteItemImpl" />
+            <_SchedulerIItemModal TItem="TItem" @ref="@schedulerItemModalRef"
+                                  FirstDayOfWeek="@FirstDayOfWeek"
+                                  SaveRequested="@SaveImpl"
+                                  DeleteRequested="@DeleteItemImpl" />
         </CascadingValue>
     </CascadingValue>
 </Div>
