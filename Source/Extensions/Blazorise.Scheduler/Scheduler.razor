@@ -72,6 +72,10 @@
                                   FirstDayOfWeek="@FirstDayOfWeek"
                                   SaveRequested="@SaveImpl"
                                   DeleteRequested="@DeleteItemImpl" />
+                                  
+            <_SchedulerIItemOccurrenceModal TItem="TItem" @ref="@schedulerItemOccurrenceModalRef"
+                                            FirstDayOfWeek="@FirstDayOfWeek"
+                                            SaveOccurrenceRequested="@SaveOccurrenceImpl" />
         </CascadingValue>
     </CascadingValue>
 </Div>

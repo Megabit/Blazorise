@@ -50,6 +50,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     protected _SchedulerIItemModal<TItem> schedulerItemModalRef;
 
+    protected _SchedulerIItemOccurrenceModal<TItem> schedulerItemOccurrenceModalRef;
+
     protected TItem editItem;
 
     protected SchedulerEditState editState = SchedulerEditState.None;
@@ -400,9 +402,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task NotifyEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
-        var isSeries = !string.IsNullOrEmpty( GetItemRecurrenceRule( viewItem.Item ) );
+        var isPartOfSeries = PropertyMapper.GetRecurrenceId( viewItem.Item ) is not null;
 
-        if ( isSeries )
+        if ( isPartOfSeries )
         {
             var result = await MessageService.Choose(
                         message: "What do you want to do?",
@@ -436,13 +438,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             if ( result is null || result == "Cancel" )
                 return;
 
-            if ( result == "EditSeries" )
+            if ( result == "EditSeries" && Data is ICollection<TItem> data )
             {
-                await Edit( viewItem.Item );
+                var editItem = data.FirstOrDefault( x => PropertyMapper.GetId( x ).Equals( propertyMapper.GetRecurrenceId( viewItem.Item ) ) );
+
+                await Edit( editItem );
             }
             else if ( result == "EditOccurrence" )
             {
-                //await EditOccurrence( viewItem );
+                await EditOccurrence( viewItem );
             }
         }
         else
@@ -648,6 +652,18 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
+    public async Task EditOccurrence( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        if ( Editable && UseInternalEditing && Data is ICollection<TItem> data && schedulerItemOccurrenceModalRef is not null )
+        {
+            // we are actually editing the original item, but with exception rules
+            editItem = data.FirstOrDefault( x => PropertyMapper.GetId( x ).Equals( propertyMapper.GetRecurrenceId( viewItem.Item ) ) );
+            editState = SchedulerEditState.Edit;
+
+            await schedulerItemOccurrenceModalRef.ShowModal( viewItem.Item.DeepClone() );
+        }
+    }
+
     protected internal async Task<bool> SaveImpl( TItem submitedItem )
     {
         var handler = editState == SchedulerEditState.New ? ItemInserting : ItemUpdating;
@@ -709,6 +725,28 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
+    protected internal async Task<bool> SaveOccurrenceImpl( TItem submitedItem )
+    {
+        var editItemClone = editItem.DeepClone();
+
+        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( editItemClone ) ?? new List<TItem>();
+
+        var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == propertyMapper.GetOriginalStart( submitedItem ) );
+
+        if ( recurrenceException is not null )
+        {
+            CopyOccurrenceValues( submitedItem, recurrenceException );
+        }
+        else
+        {
+            recurrenceExceptions.Add( submitedItem );
+        }
+
+        propertyMapper.SetRecurrenceExceptions( editItemClone, recurrenceExceptions );
+
+        return await SaveImpl( editItemClone );
+    }
+
     protected internal async Task<bool> DeleteOccurrenceImpl( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( viewItem is null )
@@ -758,8 +796,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Creates a new item using a specified item creator if available; otherwise, it uses a default item creator.
     /// </summary>
     /// <returns>Returns a new instance of TItem.</returns>
-    private TItem CreateNewItem()
+    protected internal TItem CreateNewItem()
        => NewItemCreator is not null ? NewItemCreator.Invoke() : newItemCreator.Value();
+
+    /// <summary>
+    /// Generates a new identifier using a specified creator if available; otherwise, it generates a new GUID as a string.
+    /// </summary>
+    /// <returns>Returns a string representation of a new identifier.</returns>
+    protected internal object CreateNewId()
+        => NewIdCreator is not null ? NewIdCreator.Invoke() : Guid.NewGuid().ToString();
 
     /// <summary>
     /// Copies values from one appointment to another.
@@ -768,13 +813,48 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="destination">The destination appointment to copy values to.</param>
     internal void CopyItemValues( TItem source, TItem destination )
     {
+        propertyMapper.SetId( destination, propertyMapper.GetId( source ) );
         propertyMapper.SetTitle( destination, propertyMapper.GetTitle( source ) );
         propertyMapper.SetDescription( destination, propertyMapper.GetDescription( source ) );
         propertyMapper.SetStart( destination, propertyMapper.GetStart( source ) );
         propertyMapper.SetEnd( destination, propertyMapper.GetEnd( source ) );
         propertyMapper.SetAllDay( destination, propertyMapper.GetAllDay( source ) );
         propertyMapper.SetRecurrenceRule( destination, propertyMapper.GetRecurrenceRule( source ) );
+        propertyMapper.SetRecurrenceId( destination, propertyMapper.GetRecurrenceId( source ) );
         propertyMapper.SetDeletedOccurrences( destination, propertyMapper.GetDeletedOccurrences( source ).DeepClone() );
+        propertyMapper.SetOriginalStart( destination, propertyMapper.GetOriginalStart( source ) );
+        propertyMapper.SetRecurrenceExceptions( destination, propertyMapper.GetRecurrenceExceptions( source ).DeepClone() );
+    }
+
+    /// <summary>
+    /// Copies various properties from one item to another, including title, description, start and end times, and all-day status.
+    /// </summary>
+    /// <param name="source">The item from which properties are copied.</param>
+    /// <param name="destination">The item to which properties are assigned.</param>
+    internal void CopyOccurrenceValues( TItem source, TItem destination )
+    {
+        propertyMapper.SetId( destination, propertyMapper.GetId( source ) );
+        propertyMapper.SetTitle( destination, propertyMapper.GetTitle( source ) );
+        propertyMapper.SetDescription( destination, propertyMapper.GetDescription( source ) );
+        propertyMapper.SetStart( destination, propertyMapper.GetStart( source ) );
+        propertyMapper.SetEnd( destination, propertyMapper.GetEnd( source ) );
+        propertyMapper.SetAllDay( destination, propertyMapper.GetAllDay( source ) );
+        propertyMapper.SetRecurrenceId( destination, propertyMapper.GetRecurrenceId( source ) );
+        propertyMapper.SetOriginalStart( destination, propertyMapper.GetOriginalStart( source ) );
+    }
+
+    private TItem CreateOccurrence( TItem item, DateTime start, DateTime end )
+    {
+        var occurrenceItem = item.DeepClone();
+
+        PropertyMapper.SetId( occurrenceItem, CreateNewId() );
+        propertyMapper.SetRecurrenceId( occurrenceItem, GetItemId( item ) );
+        propertyMapper.SetRecurrenceRule( occurrenceItem, null );
+        propertyMapper.SetStart( occurrenceItem, start );
+        propertyMapper.SetEnd( occurrenceItem, end );
+        propertyMapper.SetOriginalStart( occurrenceItem, start );
+
+        return occurrenceItem;
     }
 
     /// <summary>
@@ -826,33 +906,68 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
                 var virtualStart = occurrence;
                 var virtualEnd = virtualStart.Add( duration );
-                virtualItems.Add( new SchedulerItemInfo<TItem>( item, virtualStart, virtualEnd, false, recurrenceRule, true ) );
+
+                var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item );
+
+                if ( recurrenceExceptions is not null )
+                {
+                    var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == virtualStart );
+
+                    if ( recurrenceException is not null )
+                    {
+                        virtualItems.Add( new SchedulerItemInfo<TItem>( recurrenceException, GetItemStartTime( recurrenceException ), GetItemEndTime( recurrenceException ), false, null, true ) );
+
+                        continue;
+                    }
+                }
+
+                var occurrenceItem = CreateOccurrence( item, virtualStart, virtualEnd );
+
+                virtualItems.Add( new SchedulerItemInfo<TItem>( occurrenceItem, virtualStart, virtualEnd, false, recurrenceRule, true ) );
             }
         }
 
         foreach ( var item in itemsInView )
         {
             var recurrenceRule = GetItemRecurrenceRule( item.Item );
-            if ( !string.IsNullOrEmpty( recurrenceRule ) )
+
+            if ( string.IsNullOrEmpty( recurrenceRule ) )
+                continue;
+
+            var start = GetItemStartTime( item.Item );
+            var end = GetItemEndTime( item.Item );
+            var duration = GetItemDuration( item.Item );
+
+            // Generate virtual items based on recurrence rule
+            var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
+
+            var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
+
+            foreach ( var occurrence in occurrences )
             {
-                var start = GetItemStartTime( item.Item );
-                var end = GetItemEndTime( item.Item );
-                var duration = GetItemDuration( item.Item );
+                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrence ) )
+                    continue;
 
-                // Generate virtual items based on recurrence rule
-                var occurrences = GenerateOccurrences( start, end, recurrenceRule, viewStart, viewEnd );
+                var virtualStart = occurrence;
+                var virtualEnd = virtualStart.Add( duration );
 
-                var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
+                var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item.Item );
 
-                foreach ( var occurrence in occurrences )
+                if ( recurrenceExceptions is not null )
                 {
-                    if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrence ) )
-                        continue;
+                    var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == virtualStart );
 
-                    var virtualStart = occurrence;
-                    var virtualEnd = virtualStart.Add( duration );
-                    virtualItems.Add( new SchedulerItemInfo<TItem>( item.Item, virtualStart, virtualEnd, false, recurrenceRule, true ) );
+                    if ( recurrenceException is not null )
+                    {
+                        virtualItems.Add( new SchedulerItemInfo<TItem>( recurrenceException, GetItemStartTime( recurrenceException ), GetItemEndTime( recurrenceException ), false, null, true ) );
+
+                        continue;
+                    }
                 }
+
+                var occurrenceItem = CreateOccurrence( item.Item, virtualStart, virtualEnd );
+
+                virtualItems.Add( new SchedulerItemInfo<TItem>( occurrenceItem, virtualStart, virtualEnd, false, recurrenceRule, true ) );
             }
         }
 
@@ -1280,6 +1395,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public string RecurrenceIdField { get; set; } = "RecurrenceId";
 
     /// <summary>
+    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the original start date of the appointment. This is used to store the original start date of a recurring series.
+    /// </summary>
+    [Parameter] public string OriginalStartField { get; set; } = "OriginalStart";
+
+    /// <summary>
     /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence exceptions. This is used to store the dates of the exceptions in a recurring series.
     /// </summary>
     [Parameter] public string RecurrenceExceptionsField { get; set; } = "RecurrenceExceptions";
@@ -1308,6 +1428,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Defines a function that creates a new item of type TItem. It allows for custom item creation logic.
     /// </summary>
     [Parameter] public Func<TItem> NewItemCreator { get; set; }
+
+    /// <summary>
+    /// Defines a function that creates a new ID for the item. It allows for custom ID generation logic.
+    /// </summary>
+    [Parameter] public Func<object> NewIdCreator { get; set; }
 
     /// <summary>
     /// Triggers an event when a new item is being inserted into the scheduler. It allows handling and cancellation of the item insert process.

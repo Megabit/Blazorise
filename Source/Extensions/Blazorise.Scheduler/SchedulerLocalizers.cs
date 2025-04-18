@@ -28,6 +28,8 @@ public class SchedulerLocalizers
 
     public TextLocalizerHandler ItemDeleteConfirmationLocalizer { get; set; }
 
+    public TextLocalizerHandler OccurrenceDeleteConfirmationLocalizer { get; set; }
+
     public TextLocalizerHandler SeriesDeleteConfirmationTextLocalizer { get; set; }
 
     public TextLocalizerHandler DeleteSeriesLocalizer { get; set; }

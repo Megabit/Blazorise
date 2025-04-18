@@ -33,11 +33,14 @@ public class SchedulerPropertyMapper<TItem>
     private Func<TItem, string> getRecurrenceRuleFunc;
     private Action<TItem, string> setRecurrenceRuleFunc;
 
-    private Func<TItem, string> getRecurrenceIdFunc;
-    private Action<TItem, string> setRecurrenceIdFunc;
+    private Func<TItem, object> getRecurrenceIdFunc;
+    private Action<TItem, object> setRecurrenceIdFunc;
 
     private Func<TItem, List<DateTime>> getDeletedOccurrencesFunc;
     private Action<TItem, List<DateTime>> setDeletedOccurrencesFunc;
+
+    private Func<TItem, DateTime?> getOriginalStartFunc;
+    private Action<TItem, DateTime?> setOriginalStartFunc;
 
     private Func<TItem, List<TItem>> getRecurrenceExceptionsFunc;
     private Action<TItem, List<TItem>> setRecurrenceExceptionsFunc;
@@ -47,6 +50,7 @@ public class SchedulerPropertyMapper<TItem>
         if ( !string.IsNullOrEmpty( scheduler.IdField ) && typeof( TItem ).GetProperty( scheduler.IdField )?.PropertyType is not null )
         {
             getIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem>( scheduler.IdField );
+            setIdFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem>( scheduler.IdField );
         }
 
         if ( !string.IsNullOrEmpty( scheduler.TitleField ) && typeof( TItem ).GetProperty( scheduler.TitleField )?.PropertyType is not null )
@@ -87,8 +91,8 @@ public class SchedulerPropertyMapper<TItem>
 
         if ( !string.IsNullOrEmpty( scheduler.RecurrenceIdField ) && typeof( TItem ).GetProperty( scheduler.RecurrenceIdField )?.PropertyType is not null )
         {
-            getRecurrenceIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, string>( scheduler.RecurrenceIdField );
-            setRecurrenceIdFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, string>( scheduler.RecurrenceIdField );
+            getRecurrenceIdFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, object>( scheduler.RecurrenceIdField );
+            setRecurrenceIdFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, object>( scheduler.RecurrenceIdField );
         }
 
         if ( !string.IsNullOrEmpty( scheduler.RecurrenceExceptionsField ) && typeof( TItem ).GetProperty( scheduler.RecurrenceExceptionsField )?.PropertyType is not null )
@@ -96,6 +100,13 @@ public class SchedulerPropertyMapper<TItem>
             getRecurrenceExceptionsFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, List<TItem>>( scheduler.RecurrenceExceptionsField );
             setRecurrenceExceptionsFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, List<TItem>>( scheduler.RecurrenceExceptionsField );
         }
+
+        if ( !string.IsNullOrEmpty( scheduler.OriginalStartField ) && typeof( TItem ).GetProperty( scheduler.OriginalStartField )?.PropertyType is not null )
+        {
+            getOriginalStartFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, DateTime?>( scheduler.OriginalStartField );
+            setOriginalStartFunc = SchedulerFunctionCompiler.CreateValueSetter<TItem, DateTime?>( scheduler.OriginalStartField );
+        }
+
         if ( !string.IsNullOrEmpty( scheduler.DeletedOccurrencesField ) && typeof( TItem ).GetProperty( scheduler.DeletedOccurrencesField )?.PropertyType is not null )
         {
             getDeletedOccurrencesFunc = SchedulerFunctionCompiler.CreateValueGetter<TItem, List<DateTime>>( scheduler.DeletedOccurrencesField );
@@ -173,12 +184,12 @@ public class SchedulerPropertyMapper<TItem>
         setRecurrenceRuleFunc?.Invoke( item, value );
     }
 
-    public string GetRecurrenceId( TItem item )
+    public object GetRecurrenceId( TItem item )
     {
         return getRecurrenceIdFunc?.Invoke( item );
     }
 
-    public void SetRecurrenceId( TItem item, string value )
+    public void SetRecurrenceId( TItem item, object value )
     {
         setRecurrenceIdFunc?.Invoke( item, value );
     }
@@ -191,6 +202,16 @@ public class SchedulerPropertyMapper<TItem>
     public void SetDeletedOccurrences( TItem item, List<DateTime> value )
     {
         setDeletedOccurrencesFunc?.Invoke( item, value );
+    }
+
+    public DateTime? GetOriginalStart( TItem item )
+    {
+        return getOriginalStartFunc?.Invoke( item );
+    }
+
+    public void SetOriginalStart( TItem item, DateTime? value )
+    {
+        setOriginalStartFunc?.Invoke( item, value );
     }
 
     public List<TItem> GetRecurrenceExceptions( TItem item )
@@ -211,6 +232,7 @@ public class SchedulerPropertyMapper<TItem>
     public bool HasAllDay => getAllDayFunc != null;
     public bool HasRecurrenceRule => getRecurrenceRuleFunc != null;
     public bool HasRecurrenceId => getRecurrenceIdFunc != null;
-    public bool HasRecurrenceExceptions => getRecurrenceExceptionsFunc != null;
     public bool HasDeletedOccurrences => getDeletedOccurrencesFunc != null;
+    public bool HasOriginalStart => getOriginalStartFunc != null;
+    public bool HasRecurrenceExceptions => getRecurrenceExceptionsFunc != null;
 }

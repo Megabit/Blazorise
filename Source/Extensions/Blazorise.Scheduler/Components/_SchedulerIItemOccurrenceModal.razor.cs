@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Scheduler.Components;
 
-public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
+public partial class _SchedulerIItemOccurrenceModal<TItem> : BaseComponent, IDisposable
 {
     #region Members
 
@@ -157,12 +157,11 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
         return Task.CompletedTask;
     }
 
-    public Task ShowModal( TItem item, SchedulerEditState editState )
+    public Task ShowModal( TItem item )
     {
         customValidationErrors.Clear();
 
         EditItem = item;
-        EditState = editState;
 
         if ( TitleAvailable )
         {
@@ -191,11 +190,6 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
         if ( AllDayAvailable )
         {
             AllDay = Scheduler.PropertyMapper.GetAllDay( EditItem );
-        }
-
-        if ( RecurrenceRuleAvailable )
-        {
-            RecurrenceRule = Scheduler.PropertyMapper.GetRecurrenceRule( EditItem );
         }
 
         return modalRef.Show();
@@ -270,12 +264,7 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
                 Scheduler.PropertyMapper.SetAllDay( EditItem, AllDay );
             }
 
-            if ( RecurrenceRuleAvailable )
-            {
-                Scheduler.PropertyMapper.SetRecurrenceRule( EditItem, RecurrenceRule );
-            }
-
-            var result = await SaveRequested.Invoke( EditItem );
+            var result = await SaveOccurrenceRequested.Invoke( EditItem );
 
             if ( result )
             {
@@ -286,13 +275,8 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
 
     protected async Task Delete()
     {
-        var hasRecurrenceRule = !string.IsNullOrEmpty( Scheduler.GetItemRecurrenceRule( EditItem ) );
-
-        var deleteMessage = hasRecurrenceRule
-            ? Localizer.Localize( Scheduler.Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
-            : Localizer.Localize( Scheduler.Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently. Are you sure?" );
-
-        if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" ), options =>
+        if ( await MessageService.Confirm( Localizer.Localize( Scheduler.Localizers?.OccurrenceDeleteConfirmationLocalizer, "Are you sure you want to delete occurrence?" ),
+            Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" ), options =>
         {
             options.ShowCloseButton = false;
             options.ShowMessageIcon = false;
@@ -302,7 +286,7 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
         } ) == false )
             return;
 
-        var result = await DeleteRequested.Invoke( EditItem );
+        var result = await DeleteOccurrenceRequested.Invoke( EditItem );
 
         if ( result )
         {
@@ -315,7 +299,7 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
     #region Properties
 
     string ModalTitle
-        => $"{Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, EditState == SchedulerEditState.New ? "New" : "Edit" )} {Localizer.Localize( Scheduler.Localizers?.AppointmentLocalizer, "Appointment" )}";
+        => Localizer.Localize( Scheduler.Localizers?.EditOccurrenceLocalizer, "Edit Occurrence" );
 
     protected bool IdAvailable => Scheduler.PropertyMapper.HasId;
 
@@ -328,8 +312,6 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
     protected bool EndAvailable => Scheduler.PropertyMapper.HasEnd;
 
     protected bool AllDayAvailable => Scheduler.PropertyMapper.HasAllDay;
-
-    protected bool RecurrenceRuleAvailable => Scheduler.PropertyMapper.HasRecurrenceRule;
 
     protected string Title { get; set; }
 
@@ -345,11 +327,7 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
 
     protected bool AllDay { get; set; }
 
-    protected string RecurrenceRule { get; set; }
-
     protected TItem EditItem { get; set; }
-
-    protected SchedulerEditState EditState { get; set; }
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations.
@@ -374,12 +352,12 @@ public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
     /// <summary>
     /// Occurs when the user clicks the save button.
     /// </summary>
-    [Parameter] public Func<TItem, Task<bool>> SaveRequested { get; set; }
+    [Parameter] public Func<TItem, Task<bool>> SaveOccurrenceRequested { get; set; }
 
     /// <summary>
     /// Occurs when the user clicks the delete button.
     /// </summary>
-    [Parameter] public Func<TItem, Task<bool>> DeleteRequested { get; set; }
+    [Parameter] public Func<TItem, Task<bool>> DeleteOccurrenceRequested { get; set; }
 
     /// <summary>
     /// Defines the first day of the week.
