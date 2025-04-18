@@ -1,0 +1,174 @@
+﻿@page "/news/release-notes/176"
+
+<Seo Canonical="news/release-notes/176" Title="Blazorise v1.7.6" Description="We're excited to roll out Blazorise 1.7.6 just in time for the Easter holidays! This maintenance release brings a range of stability fixes, quality-of-life improvements, and some meaningful updates to the documentation experience." ImageUrl="img/news/170/v176.png" />
+
+<NewsPageImage Source="img/news/170/v176.png" Text="Blazorise v1.7.6" />
+
+<NewsPageTitle>
+    🐣 Blazorise 1.7.6 – Maintenance Release
+</NewsPageTitle>
+
+<Paragraph>
+    We're excited to roll out <Strong>Blazorise 1.7.6</Strong> just in time for the Easter holidays! This maintenance release brings a range of stability fixes, quality-of-life improvements, and some meaningful updates to the documentation experience. Whether you're planning to take a well-deserved break or push through some last-minute feature updates, this release is here to make things smoother.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Key Highlights in 1.7.6
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Missing Columns on Null First Row
+</Heading>
+
+<Paragraph>
+    We fixed a frustrating bug where DataGrid wouldn't generate columns if the first row in the data source contained null values. The improved logic now evaluates the full data set, ensuring reliable and complete column rendering.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Chart: Crash with Zoom Plugin
+</Heading>
+
+<Paragraph>
+    Using the Chart component with the zoom plugin could previously result in runtime exceptions. That issue has been resolved, making zooming safe and functional again across all chart types.
+</Paragraph>
+
+<NewsPageSubtitle>
+    FileEdit: AOT Compilation Fix
+</NewsPageSubtitle>
+
+<Paragraph>
+    A critical fix addresses a <Code>NotSupportedException</Code> thrown by FileEdit when used in AOT (Ahead-of-Time) compiled environments. It now works properly under AOT, making it safe to use in trimmed and precompiled deployments.
+</Paragraph>
+
+<Paragraph>
+    We encourage you to update to version 1.7.6 to benefit from these fixes and improvements. As always, please report any issues or provide feedback to help us continue improving.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Documentation Improvements
+</NewsPageSubtitle>
+
+<Paragraph>
+    We've made a big push to improve documentation usability and search functionality. The component search on the documentation site now returns richer and more relevant results, including:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Component names</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Parameters and attributes</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Methods and event handlers</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    These updates make it easier to find exactly what you need, whether you're browsing by keyword or looking up how a specific feature works.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Changelog
+</NewsPageSubtitle>
+
+<NewsPageList>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/pull/5998" Alt="Link to GitHub pull" ToText="#5998">
+        Autocomplete: add cursor pointer to checkbox
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/4317" Alt="Link to GitHub issue" ToText="#4317">
+        Chart does not always render after async ajax call
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6006" Alt="Link to GitHub issue" ToText="#6006">
+        [Bug]: Exception in chart with zoom plugin
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6004" Alt="Link to GitHub issue" ToText="#6004">
+        [Bug]: cropper - Nullable object must have a value
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/" Alt="Link to GitHub issue" ToText="#6000">
+        [Bug]: DataGrid dynamic data does not create a column on null values in the first row
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6022" Alt="Link to GitHub issue" ToText="#6022">
+        [Bug]: carousel pagination is broken
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5612" Alt="Link to GitHub issue" ToText="#5612">
+        Add FilterTemplate examples to the DataGrid Docs
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5976" Alt="Link to GitHub issue" ToText="#5976">
+        Regression: CellsEditableOnNewCommand and CellsEditableOnEditCommand Ignored in DataGridEditMode.Popup
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6025" Alt="Link to GitHub issue" ToText="#6025">
+        [Bug]: unable to search for filePicker component in documentation website
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6029" Alt="Link to GitHub issue" ToText="#6029">
+        [Bug]: FileEdit Throws System.NotSupportedException: ConstructorContainsNullParameterNames when AOT compiled
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6038" Alt="Link to GitHub issue" ToText="#6038">
+        [Bug]: code block not visible on Validations page global options localization
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6047" Alt="Link to GitHub issue" ToText="#6047">
+        [Bug]: RequiredIndicator does not reflect the underlying boolean flag
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/pull/6040" Alt="Link to GitHub pull" ToText="#6040">
+        Docs: Adds components parameters to the search results
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6018" Alt="Link to GitHub issue" ToText="#6018">
+        Docs: invalid examples for icons installation
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/5994" Alt="Link to GitHub issue" ToText="#5994">
+        Cropper: update references to use latest 2.0 version
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6068" Alt="Link to GitHub issue" ToText="#6068">
+        Notification Service
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6056" Alt="Link to GitHub issue" ToText="#6056">
+        [Bug]: some font awesome icons are being generated with wrong css
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6077" Alt="Link to GitHub issue" ToText="#6077">
+        Icons: add csx build scripts
+    </NewsPageListItem>
+</NewsPageList>
+
+<Paragraph>
+    Enjoy the holidays and happy coding! 🐰🌷
+</Paragraph>
+
+<NewsPageSubtitle>
+    Feedback
+</NewsPageSubtitle>
+
+<Paragraph>
+    Your feedback is essential to us, and we appreciate your continued support and contributions to Blazorise. If you have any questions, suggestions, or feedback, please feel free to reach out to us on.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Known incompatibilities
+</NewsPageSubtitle>
+
+<Paragraph>
+    As of now, there are no known incompatibilities with the previous Blazorise <Strong>1.6.x</Strong> releases. We encourage all users to upgrade to <Strong>1.7.6</Strong>.
+</Paragraph>
+
+<Paragraph>
+    If you experience any unexpected behavior change in your projects after upgrading to 1.7.6, please <Anchor To="https://github.com/Megabit/Blazorise/issues">file an issue on GitHub</Anchor>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Commercial Support
+</NewsPageSubtitle>
+
+<Paragraph>
+    Blazorise is an open-source project that thrives on community contributions and support. To sustain ongoing development and improvements, we offer <Strong>commercial licenses</Strong> that provide additional benefits while ensuring the project's long-term success.
+</Paragraph>
+
+<Paragraph>
+    With a commercial license, you gain access to <Strong>premium forum support, private repositories, and exclusive community-licensed themes</Strong>. Your support directly contributes to the enhancement of Blazorise and ensures its continuous growth.
+</Paragraph>
+
+<Paragraph>
+    To explore commercial licensing options, visit our website at <Anchor To="https://blazorise.com/commercial" Target="Target.Blank">Blazorise Commercial</Anchor>.
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="April 18th, 2025" Read="3 min" />
