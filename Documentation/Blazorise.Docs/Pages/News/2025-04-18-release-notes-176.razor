@@ -1,19 +1,15 @@
 ﻿@page "/news/release-notes/176"
 
-<Seo Canonical="news/release-notes/176" Title="Blazorise v1.7.6" Description="The Blazorise 1.7.6 maintenance release brings a collection of bug fixes, documentation updates, and minor enhancements aimed at improving stability and developer experience across components." ImageUrl="img/news/170/v176.png" />
+<Seo Canonical="news/release-notes/176" Title="Blazorise v1.7.6" Description="We're excited to roll out Blazorise 1.7.6 just in time for the Easter holidays! This maintenance release brings a range of stability fixes, quality-of-life improvements, and some meaningful updates to the documentation experience." ImageUrl="img/news/170/v176.png" />
 
 <NewsPageImage Source="img/news/170/v176.png" Text="Blazorise v1.7.6" />
 
 <NewsPageTitle>
-    Maintenance release: Blazorise 1.7.6
+    🐣 Blazorise 1.7.6 – Maintenance Release
 </NewsPageTitle>
 
 <Paragraph>
-    The Blazorise 1.7.6 maintenance release brings a collection of bug fixes, documentation updates, and minor enhancements aimed at improving stability and developer experience across components. This update addresses multiple community-reported issues, especially in data handling, charts, and component rendering.
-</Paragraph>
-
-<Paragraph>
-    This release addresses key issues related to the <Strong>DataGrid</Strong>, <Strong>Markdown</Strong>, <Strong>Video</Strong>, and <Strong>Navbar (BarToggler)</Strong> components, ensuring a smoother development experience. Notable improvements include enhanced Markdown file upload handling, better DataGrid cell focus behavior, and fixes for the Seeking event in the Video component. Additionally, several UI inconsistencies affecting <Strong>FluentUI, Tailwind, and Bulma</Strong> frameworks have been resolved. Read on for the full list of changes.
+    We're excited to roll out <Strong>Blazorise 1.7.6</Strong> just in time for the Easter holidays! This maintenance release brings a range of stability fixes, quality-of-life improvements, and some meaningful updates to the documentation experience. Whether you're planning to take a well-deserved break or push through some last-minute feature updates, this release is here to make things smoother.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -25,7 +21,7 @@
 </Heading>
 
 <Paragraph>
-    Fixed an issue where DataGrid failed to generate columns if the first row contained <Code>null</Code> values. The column detection now checks all rows, ensuring consistent rendering with dynamic data.
+    We fixed a frustrating bug where DataGrid wouldn't generate columns if the first row in the data source contained null values. The improved logic now evaluates the full data set, ensuring reliable and complete column rendering.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -33,7 +29,7 @@
 </Heading>
 
 <Paragraph>
-    Resolved a critical exception when using the Chart component with the zoom plugin. The fix improves compatibility and ensures stable chart interactions during zooming.
+    Using the Chart component with the zoom plugin could previously result in runtime exceptions. That issue has been resolved, making zooming safe and functional again across all chart types.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -41,11 +37,37 @@
 </NewsPageSubtitle>
 
 <Paragraph>
-    Fixed a System.NotSupportedException in FileEdit when used in AOT-compiled environments. The component now supports AOT properly and can be used in precompiled deployment scenarios.
+    A critical fix addresses a <Code>NotSupportedException</Code> thrown by FileEdit when used in AOT (Ahead-of-Time) compiled environments. It now works properly under AOT, making it safe to use in trimmed and precompiled deployments.
 </Paragraph>
 
 <Paragraph>
     We encourage you to update to version 1.7.6 to benefit from these fixes and improvements. As always, please report any issues or provide feedback to help us continue improving.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Documentation Improvements
+</NewsPageSubtitle>
+
+<Paragraph>
+    We've made a big push to improve documentation usability and search functionality. The component search on the documentation site now returns richer and more relevant results, including:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Component names</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Parameters and attributes</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Methods and event handlers</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    These updates make it easier to find exactly what you need, whether you're browsing by keyword or looking up how a specific feature works.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -108,6 +130,10 @@
         Icons: add csx build scripts
     </NewsPageListItem>
 </NewsPageList>
+
+<Paragraph>
+    Enjoy the holidays and happy coding! 🐰🌷
+</Paragraph>
 
 <NewsPageSubtitle>
     Feedback
