@@ -278,6 +278,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await Refresh();
     }
 
+    internal TItem GetParentItem( TItem item )
+    {
+        if ( Data is ICollection<TItem> data && propertyMapper.GetRecurrenceId( item ) is not null )
+        {
+            return data.FirstOrDefault( x => PropertyMapper.GetId( x ).Equals( propertyMapper.GetRecurrenceId( item ) ) );
+        }
+
+        return default;
+    }
+
     /// <summary>
     /// Gets the id of the specified appointment.
     /// </summary>
@@ -438,11 +448,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             if ( result is null || result == "Cancel" )
                 return;
 
-            if ( result == "EditSeries" && Data is ICollection<TItem> data )
+            if ( result == "EditSeries" )
             {
-                var editItem = data.FirstOrDefault( x => PropertyMapper.GetId( x ).Equals( propertyMapper.GetRecurrenceId( viewItem.Item ) ) );
-
-                await Edit( editItem );
+                await Edit( GetParentItem( viewItem.Item ) );
             }
             else if ( result == "EditOccurrence" )
             {
@@ -557,16 +565,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Creates a new item and sets the editing state to 'New'. If conditions are met, it displays a modal for editing the item.
     /// </summary>
-    /// <param name="newItem">The item to be created and potentially edited in a modal.</param>
+    /// <param name="item">The item to be created and potentially edited in a modal.</param>
     /// <returns>Returns a Task representing the asynchronous operation.</returns>
-    public async Task New( TItem newItem )
+    public async Task New( TItem item )
     {
-        editItem = newItem;
+        if ( item is null )
+            throw new ArgumentNullException( nameof( item ), "New item is not assigned." );
+
+        editItem = item;
         editState = SchedulerEditState.New;
 
         if ( Editable && UseInternalEditing && schedulerItemModalRef is not null )
         {
-            await schedulerItemModalRef.ShowModal( newItem.DeepClone(), editState );
+            await schedulerItemModalRef.ShowModal( item.DeepClone(), editState );
         }
     }
 
@@ -577,6 +588,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Edit( TItem item )
     {
+        if ( item is null )
+            throw new ArgumentNullException( nameof( item ), "Edit item is not assigned." );
+
         editItem = item;
         editState = SchedulerEditState.Edit;
 
@@ -657,7 +671,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data && schedulerItemOccurrenceModalRef is not null )
         {
             // we are actually editing the original item, but with exception rules
-            editItem = data.FirstOrDefault( x => PropertyMapper.GetId( x ).Equals( propertyMapper.GetRecurrenceId( viewItem.Item ) ) );
+            editItem = GetParentItem( viewItem.Item );
             editState = SchedulerEditState.Edit;
 
             await schedulerItemOccurrenceModalRef.ShowModal( viewItem.Item.DeepClone() );
