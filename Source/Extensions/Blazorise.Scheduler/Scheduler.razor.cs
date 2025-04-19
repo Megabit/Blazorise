@@ -719,13 +719,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
         {
-            if ( UseInternalEditing && CanInsertNewItem && Data is ICollection<TItem> data )
+            if ( UseInternalEditing && CanEditData && Data is ICollection<TItem> data )
             {
                 var itemRef = data.FirstOrDefault( x => GetItemId( x ).IsEqual( GetItemId( itemToDelete ) ) );
 
                 if ( itemRef is not null )
                 {
                     data.Remove( itemRef );
+
+                    await ItemRemoved.InvokeAsync( new SchedulerUpdatedItem<TItem>( itemToDelete, itemToDelete ) );
                 }
             }
 
@@ -1374,6 +1376,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Returns true if <see cref="Data"/> is safe to modify.
     /// </summary>
     protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
+
+    /// <summary>
+    /// Returns true if <see cref="Data"/> is safe to edit.
+    /// </summary>
+    protected bool CanEditData => Editable && Data is ICollection<TItem>;
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.
