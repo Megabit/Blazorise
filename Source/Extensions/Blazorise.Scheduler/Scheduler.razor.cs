@@ -503,11 +503,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             if ( result == "DeleteSeries" )
             {
-                await DeleteItemImpl( viewItem.Item );
+                await DeleteItemImpl( GetParentItem( viewItem.Item ) );
             }
             else if ( result == "DeleteOccurrence" )
             {
-                await DeleteOccurrenceImpl( viewItem );
+                await DeleteOccurrenceImpl( viewItem.Item );
             }
         }
         else
@@ -655,7 +655,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             }
             else if ( result == "DeleteOccurrence" )
             {
-                await DeleteOccurrenceImpl( viewItem );
+                await DeleteOccurrenceImpl( viewItem.Item );
             }
 
             await Refresh();
@@ -743,12 +743,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         var editItemClone = editItem.DeepClone();
 
-        HandleRecurrenceException( editItemClone, recurringItem );
+        AddRecurrenceException( editItemClone, recurringItem );
 
         return await SaveImpl( editItemClone );
     }
 
-    protected internal void HandleRecurrenceException( TItem item, TItem recurringItem )
+    protected internal void AddRecurrenceException( TItem item, TItem recurringItem )
     {
         var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item ) ?? new List<TItem>();
 
@@ -766,13 +766,52 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         propertyMapper.SetRecurrenceExceptions( item, recurrenceExceptions );
     }
 
-
-    protected internal async Task<bool> DeleteOccurrenceImpl( SchedulerItemViewInfo<TItem> viewItem )
+    protected internal bool RemoveRecurrenceException( TItem item, TItem recurringItem )
     {
-        if ( viewItem is null )
+        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item ) ?? new List<TItem>();
+
+        var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == propertyMapper.GetOriginalStart( recurringItem ) );
+
+        if ( recurrenceException is not null && recurrenceExceptions.Contains( recurrenceException ) )
+        {
+            recurrenceExceptions.Remove( recurrenceException );
+
+            propertyMapper.SetRecurrenceExceptions( item, recurrenceExceptions );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    protected internal void AddDeletedOccurrence( TItem item, DateTime start )
+    {
+        var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item ) ?? new List<DateTime>();
+
+        if ( !deletedOccurrences.Contains( start ) )
+        {
+            deletedOccurrences.Add( start );
+            propertyMapper.SetDeletedOccurrences( item, deletedOccurrences );
+        }
+    }
+
+    protected internal void RemoveDeletedOccurrence( TItem item, DateTime start )
+    {
+        var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item ) ?? new List<DateTime>();
+
+        if ( deletedOccurrences.Contains( start ) )
+        {
+            deletedOccurrences.Remove( start );
+            propertyMapper.SetDeletedOccurrences( item, deletedOccurrences );
+        }
+    }
+
+    protected internal async Task<bool> DeleteOccurrenceImpl( TItem item )
+    {
+        if ( item is null )
             return false;
 
-        editItem = GetParentItem( viewItem.Item );
+        editItem = GetParentItem( item );
 
         if ( editItem is null )
             return false;
@@ -781,12 +820,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         var editItemClone = editItem.DeepClone();
 
-        var deletedOccurrences = propertyMapper.GetDeletedOccurrences( editItemClone ) ?? new List<DateTime>();
-
-        if ( !deletedOccurrences.Contains( viewItem.ViewStart ) )
+        if ( RemoveRecurrenceException( editItemClone, item ) && PropertyMapper.GetOriginalStart( item ) != null )
         {
-            deletedOccurrences.Add( viewItem.ViewStart );
-            propertyMapper.SetDeletedOccurrences( editItemClone, deletedOccurrences );
+            AddDeletedOccurrence( editItemClone, PropertyMapper.GetOriginalStart( item ).Value );
+        }
+        else
+        {
+            AddDeletedOccurrence( editItemClone, PropertyMapper.GetStart( item ) );
         }
 
         return await SaveImpl( editItemClone );
