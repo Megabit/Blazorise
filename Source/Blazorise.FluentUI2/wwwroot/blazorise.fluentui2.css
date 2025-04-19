@@ -4946,14 +4946,6 @@ input::file-selector-button {
   right: 0;
   flex: 0;
 }
-.b-layout.b-layout-root:not(.b-layout-has-sider) .b-layout-header-fixed + .b-layout-content,
-.b-layout.b-layout-root:not(.b-layout-has-sider) > .b-layout .b-layout-header-fixed + .b-layout-content {
-  margin-top: var(--b-bar-horizontal-height, 60px);
-}
-
-.b-layout.b-layout-root > .b-layout-header.b-layout-header-fixed + .b-layout.b-layout-has-sider {
-  margin-top: var(--b-bar-horizontal-height, 60px);
-}
 
 .fui-Link {
   font-size: inherit;
