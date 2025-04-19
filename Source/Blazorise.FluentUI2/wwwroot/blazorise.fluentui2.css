@@ -457,6 +457,7 @@
   --zIndexModal: 1055;
   --zIndexPopover: 1060;
   --zIndexTooltip: 1070;
+  --b-bar-horizontal-height: 60px;
 }
 
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader {

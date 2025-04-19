@@ -1,4 +1,8 @@
 ﻿@charset "UTF-8";
+:root {
+  --b-bar-horizontal-height: 60px;
+}
+
 html {
   --ant-primary-color: #1890ff;
   --ant-primary-color-hover: #40a9ff;
