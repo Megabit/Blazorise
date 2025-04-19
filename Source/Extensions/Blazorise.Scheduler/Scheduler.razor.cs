@@ -135,26 +135,46 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
+    /// <summary>
+    /// Notifies the scheduler component of the existence of the toolbar component.
+    /// </summary>
+    /// <param name="schedulerToolbar">Instance of the scheduler toolbar component.</param>
     internal void NotifySchedulerToolbar( SchedulerToolbar<TItem> schedulerToolbar )
     {
         this.schedulerToolbar = schedulerToolbar;
     }
 
+    /// <summary>
+    /// Notifies the scheduler component of the existence of the day view component.
+    /// </summary>
+    /// <param name="schedulerDayView">Instance of the scheduler day view component.</param>
     internal void NotifySchedulerDayView( SchedulerDayView<TItem> schedulerDayView )
     {
         this.schedulerDayView = schedulerDayView;
     }
 
+    /// <summary>
+    /// Notifies the scheduler component of the existence of the week view component.
+    /// </summary>
+    /// <param name="schedulerWeekView">Instance of the scheduler week view component.</param>
     internal void NotifySchedulerWeekView( SchedulerWeekView<TItem> schedulerWeekView )
     {
         this.schedulerWeekView = schedulerWeekView;
     }
 
+    /// <summary>
+    /// Notifies the scheduler component of the existence of the work week view component.
+    /// </summary>
+    /// <param name="schedulerWorkWeekView">Instance of the scheduler work week view component.</param>
     internal void NotifySchedulerWorkWeekView( SchedulerWorkWeekView<TItem> schedulerWorkWeekView )
     {
         this.schedulerWorkWeekView = schedulerWorkWeekView;
     }
 
+    /// <summary>
+    /// Notifies the scheduler component of the existence of the month view component.
+    /// </summary>
+    /// <param name="schedulerMonthView">Instance of the scheduler month view component.</param>
     internal void NotifySchedulerMonthView( SchedulerMonthView<TItem> schedulerMonthView )
     {
         this.schedulerMonthView = schedulerMonthView;
@@ -278,6 +298,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await Refresh();
     }
 
+    /// <summary>
+    /// Determines if the provided item is part of a recurrence series and retrieves its parent item if applicable.
+    /// </summary>
+    /// <param name="item">The item to inspect.</param>
+    /// <returns>Returns the parent item if the item is recurring; otherwise, returns the item itself.</returns>
     internal TItem GetParentItem( TItem item )
     {
         if ( IsRecurrenceItem( item ) && Data is ICollection<TItem> data && propertyMapper.GetRecurrenceId( item ) is not null )
@@ -356,6 +381,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return propertyMapper.GetAllDay( item );
     }
 
+    /// <summary>
+    /// Retrieves the recurrence rule of a specified appointment.
+    /// </summary>
+    /// <param name="item">The appointment from which the recurrence rule will be retrieved.</param>
+    /// <returns>The recurrence rule as a string.</returns>
     internal string GetItemRecurrenceRule( TItem item )
     {
         return propertyMapper.GetRecurrenceRule( item );
@@ -403,6 +433,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         SetItemEnd( item, end );
     }
 
+    /// <summary>
+    /// Notifies the scheduler that an appointment has been clicked, initiating the editing process for the specified item.
+    /// </summary>
+    /// <param name="item">The appointment that was clicked.</param>
     internal async Task NotifyEditItemClicked( TItem item )
     {
         await Edit( item );
@@ -410,6 +444,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await ItemClicked.InvokeAsync( new( item ) );
     }
 
+    /// <summary>
+    /// Notifies the scheduler that an appointment within a view has been clicked, managing recurring series editing prompts if necessary.
+    /// </summary>
+    /// <param name="viewItem">The view-specific appointment information that was clicked.</param>
     internal async Task NotifyEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
         var isPartOfSeries = PropertyMapper.GetRecurrenceId( viewItem.Item ) is not null;
@@ -465,6 +503,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await ItemClicked.InvokeAsync( new( viewItem.Item ) );
     }
 
+    /// <summary>
+    /// Handles the deletion of an item, providing options for recurring items and confirming deletion for non-recurring
+    /// items.
+    /// </summary>
+    /// <param name="viewItem">Represents the item to be deleted, which may be part of a recurring series or a single occurrence.</param>
+    /// <returns>No return value; the method performs actions based on user confirmation.</returns>
     internal async Task NotifyDeleteItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( viewItem.IsRecurring )
@@ -534,6 +578,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await ItemClicked.InvokeAsync( new( viewItem.Item ) );
     }
 
+    /// <summary>
+    /// Invoked when an empty scheduler slot is clicked, initiating the creation of a new appointment.
+    /// </summary>
+    /// <param name="start">The start time of the clicked slot.</param>
+    /// <param name="end">The end time of the clicked slot.</param>
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
     {
         editItem = CreateNewItem();
