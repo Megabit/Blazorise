@@ -1363,6 +1363,42 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    internal async Task<bool> DropAllDayItem( DateOnly date )
+    {
+        if ( currentTransaction == null )
+            return false;
+
+        try
+        {
+            var start = GetItemStartTime( currentTransaction.Item );
+            var duration = GetItemDuration( currentTransaction.Item );
+
+            var newStart = new DateTime( date.Year, date.Month, date.Day, start.Hour, start.Minute, start.Second );
+            var newEnd = newStart.Add( duration );
+
+            SetItemDates( currentTransaction.Item, newStart, newEnd );
+
+            await currentTransaction.Commit();
+
+            ItemDropped?.Invoke( this, (currentTransaction.Item, newStart, newEnd) );
+
+            isDragging = false;
+            currentTransaction = null;
+
+            return true;
+        }
+        catch
+        {
+            await CancelDrag();
+
+            return false;
+        }
+        finally
+        {
+            await Refresh();
+        }
+    }
+
     #endregion
 
     #region Properties

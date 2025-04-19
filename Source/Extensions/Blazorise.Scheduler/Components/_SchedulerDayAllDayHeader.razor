@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart">
+<Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart" ondragover="event.preventDefault();" @ondrop="@OnSlotDrop">
     @{
         var itemInfos = Scheduler.GetAllDayItemOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
 
@@ -28,6 +28,11 @@
         {
             await Scheduler.NotifyEditItemClicked( item );
         }
+    }
+
+    protected Task OnSlotDrop( DragEventArgs e )
+    {
+        return Scheduler.DropAllDayItem( Date );
     }
 
     string GetAllDayHeaderStyle()
