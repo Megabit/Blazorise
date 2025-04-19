@@ -1,4 +1,8 @@
-﻿$link: #3273dc !default;
+﻿:root{
+--b-bar-horizontal-height: 60px;
+}
+
+$link: #3273dc !default;
 
 $theme-colors: map-merge($theme-colors, ("link": $link));
 

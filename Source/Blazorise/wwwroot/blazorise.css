@@ -1,8 +1,4 @@
-﻿:root {
-  --b-bar-horizontal-height: 60px;
-}
-
-body:before {
+﻿body:before {
   content: "mobile";
   display: none;
   visibility: hidden;
