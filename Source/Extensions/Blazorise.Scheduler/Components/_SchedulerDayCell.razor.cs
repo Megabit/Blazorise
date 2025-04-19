@@ -24,7 +24,7 @@ public partial class _SchedulerDayCell<TItem>
     {
         if ( viewItem is not null )
         {
-            return Scheduler.NotifyEditItemClicked( viewItem );
+            return Scheduler.NotifyEditItemClicked( viewItem.Item );
         }
 
         return Task.CompletedTask;
@@ -34,7 +34,7 @@ public partial class _SchedulerDayCell<TItem>
     {
         if ( viewInfo is not null )
         {
-            return Scheduler.NotifyDeleteItemClicked( viewInfo );
+            return Scheduler.NotifyDeleteItemClicked( viewInfo.Item );
         }
 
         return Task.CompletedTask;

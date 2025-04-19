@@ -48,7 +48,7 @@
 
     protected Task OnItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
-        return Scheduler.NotifyEditItemClicked( viewItem );
+        return Scheduler.NotifyEditItemClicked( viewItem.Item );
     }
 
     protected Task OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )

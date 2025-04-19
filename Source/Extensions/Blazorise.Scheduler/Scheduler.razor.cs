@@ -434,25 +434,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Notifies the scheduler that an appointment has been clicked, initiating the editing process for the specified item.
-    /// </summary>
-    /// <param name="item">The appointment that was clicked.</param>
-    internal async Task NotifyEditItemClicked( TItem item )
-    {
-        await Edit( item );
-
-        await ItemClicked.InvokeAsync( new( item ) );
-    }
-
-    /// <summary>
     /// Notifies the scheduler that an appointment within a view has been clicked, managing recurring series editing prompts if necessary.
     /// </summary>
-    /// <param name="viewItem">The view-specific appointment information that was clicked.</param>
-    internal async Task NotifyEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
+    /// <param name="item">The view-specific appointment information that was clicked.</param>
+    internal async Task NotifyEditItemClicked( TItem item )
     {
-        var isPartOfSeries = PropertyMapper.GetRecurrenceId( viewItem.Item ) is not null;
-
-        if ( isPartOfSeries )
+        if ( IsRecurrenceItem( item ) )
         {
             var result = await MessageService.Choose(
                         message: "What do you want to do?",
@@ -488,30 +475,30 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             if ( result == "EditSeries" )
             {
-                await Edit( GetParentItem( viewItem.Item ) );
+                await Edit( GetParentItem( item ) );
             }
             else if ( result == "EditOccurrence" )
             {
-                await EditOccurrence( viewItem );
+                await EditOccurrence( item );
             }
         }
         else
         {
-            await Edit( viewItem.Item );
+            await Edit( item );
         }
 
-        await ItemClicked.InvokeAsync( new( viewItem.Item ) );
+        await ItemClicked.InvokeAsync( new( item ) );
     }
 
     /// <summary>
     /// Handles the deletion of an item, providing options for recurring items and confirming deletion for non-recurring
     /// items.
     /// </summary>
-    /// <param name="viewItem">Represents the item to be deleted, which may be part of a recurring series or a single occurrence.</param>
+    /// <param name="item">Represents the item to be deleted, which may be part of a recurring series or a single occurrence.</param>
     /// <returns>No return value; the method performs actions based on user confirmation.</returns>
-    internal async Task NotifyDeleteItemClicked( SchedulerItemViewInfo<TItem> viewItem )
+    internal async Task NotifyDeleteItemClicked( TItem item )
     {
-        if ( viewItem.IsRecurring )
+        if ( IsRecurrenceItem( item ) )
         {
             var result = await MessageService.Choose(
                     message: "Item is a recurring series. What do you want to do?",
@@ -547,16 +534,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             if ( result == "DeleteSeries" )
             {
-                await DeleteItemImpl( GetParentItem( viewItem.Item ) );
+                await DeleteItemImpl( GetParentItem( item ) );
             }
             else if ( result == "DeleteOccurrence" )
             {
-                await DeleteOccurrenceImpl( viewItem.Item );
+                await DeleteOccurrenceImpl( item );
             }
         }
         else
         {
-            var hasRecurrenceRule = !string.IsNullOrEmpty( GetItemRecurrenceRule( viewItem.Item ) );
+            var hasRecurrenceRule = !string.IsNullOrEmpty( GetItemRecurrenceRule( item ) );
 
             var deleteMessage = hasRecurrenceRule
                 ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
@@ -572,10 +559,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             } ) == false )
                 return;
 
-            await DeleteItemImpl( viewItem.Item );
+            await DeleteItemImpl( item );
         }
 
-        await ItemClicked.InvokeAsync( new( viewItem.Item ) );
+        await ItemClicked.InvokeAsync( new( item ) );
     }
 
     /// <summary>
@@ -715,15 +702,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
-    public async Task EditOccurrence( SchedulerItemViewInfo<TItem> viewItem )
+    public async Task EditOccurrence( TItem item )
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data && schedulerItemOccurrenceModalRef is not null )
         {
             // we are actually editing the original item, but with exception rules
-            editItem = GetParentItem( viewItem.Item );
+            editItem = GetParentItem( item );
             editState = SchedulerEditState.Edit;
 
-            await schedulerItemOccurrenceModalRef.ShowModal( viewItem.Item.DeepClone() );
+            await schedulerItemOccurrenceModalRef.ShowModal( item.DeepClone() );
         }
     }
 
