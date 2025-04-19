@@ -1,4 +1,8 @@
-﻿.badge-close {
+﻿:root {
+  --b-bar-horizontal-height: 60px;
+}
+
+.badge-close {
   cursor: pointer;
 }
 .badge-close::before {
