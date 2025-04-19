@@ -280,12 +280,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal TItem GetParentItem( TItem item )
     {
-        if ( Data is ICollection<TItem> data && propertyMapper.GetRecurrenceId( item ) is not null )
+        if ( IsRecurrenceItem( item ) && Data is ICollection<TItem> data && propertyMapper.GetRecurrenceId( item ) is not null )
         {
             return data.FirstOrDefault( x => PropertyMapper.GetId( x ).Equals( propertyMapper.GetRecurrenceId( item ) ) );
         }
 
-        return default;
+        return item;
     }
 
     /// <summary>
@@ -1190,6 +1190,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             currentTransaction = null;
         }
 
+        // Set the edit item and state
+        editItem = GetParentItem( item );
+        editState = SchedulerEditState.Edit;
+
         // Create a new transaction
         currentTransaction = new SchedulerTransaction<TItem>( this, item );
         isDragging = true;
@@ -1207,6 +1211,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         await currentTransaction.Rollback();
         currentTransaction = null;
         isDragging = false;
+
+        editItem = default;
+        editState = SchedulerEditState.None;
 
         DragCancelled?.Invoke( this, item );
     }

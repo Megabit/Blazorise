@@ -29,22 +29,30 @@ public class SchedulerTransaction<TItem>
 
         try
         {
-            scheduler.CopyItemValues( Item, OriginalItem );
+            var isRecurrenceItem = scheduler.IsRecurrenceItem( Item );
 
-            if ( scheduler.IsRecurrenceItem( Item ) )
+            // When we are editing a recurrence item, we need to get the parent item so that we
+            // can save it by using the same saving pipeline as for every editing, i.e. SaveImpl.
+            var editItemClone = isRecurrenceItem
+                ? scheduler.GetParentItem( Item ).DeepClone()
+                : Item;
+
+            if ( isRecurrenceItem && editItemClone is not null )
             {
-                var editItem = scheduler.GetParentItem( Item );
-
-                if ( editItem is not null )
-                {
-                    scheduler.HandleRecurrenceException( editItem, Item );
-                }
+                scheduler.AddRecurrenceException( editItemClone, Item );
             }
 
-            if ( Committed != null )
-                await Committed.Invoke();
+            if ( await scheduler.SaveImpl( editItemClone ) )
+            {
+                if ( Committed is not null )
+                    await Committed.Invoke();
 
-            state = SchedulerTransactionState.Committed;
+                state = SchedulerTransactionState.Committed;
+            }
+            else
+            {
+                await Rollback();
+            }
         }
         catch
         {
@@ -60,6 +68,8 @@ public class SchedulerTransaction<TItem>
 
         try
         {
+            Item = OriginalItem.DeepClone();
+
             if ( Canceled != null )
                 await Canceled.Invoke();
         }
@@ -69,6 +79,9 @@ public class SchedulerTransaction<TItem>
         }
     }
 
+    /// <summary>
+    /// Stores the original item of type TItem. It is initialized at the time of object creation and cannot be modified afterward.
+    /// </summary>
     private TItem OriginalItem { get; init; }
 
     public TItem Item { get; set; }
