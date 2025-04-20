@@ -433,6 +433,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         SetItemEnd( item, end );
     }
 
+    protected internal bool IsRecurrenceItem( TItem item )
+    {
+        var originalStart = propertyMapper.GetOriginalStart( item );
+        var recurrenceId = propertyMapper.GetRecurrenceId( item );
+        var recurrenceRule = propertyMapper.GetRecurrenceRule( item );
+        return originalStart != null && recurrenceId != null && recurrenceRule == null;
+    }
+
     /// <summary>
     /// Notifies the scheduler that an appointment within a view has been clicked, managing recurring series editing prompts if necessary.
     /// </summary>
@@ -786,6 +794,57 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return await SaveImpl( editItemClone );
     }
 
+    /// <summary>
+    /// Handles exceptions for recurring items by checking for specific occurrences and adding them to a list if found.
+    /// </summary>
+    /// <param name="item">Represents the item for which recurrence exceptions are being handled.</param>
+    /// <param name="occurrenceStart">Indicates the start time of the occurrence being checked for exceptions.</param>
+    /// <param name="recurringItems">Holds the list of recurring items to which exceptions will be added if found.</param>
+    /// <returns>Returns a boolean indicating whether an exception was found and added to the list.</returns>
+    private bool HandleRecurrenceExceptions( TItem item, DateTime occurrenceStart, List<SchedulerItemInfo<TItem>> recurringItems )
+    {
+        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item );
+
+        if ( recurrenceExceptions is not null )
+        {
+            var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == occurrenceStart );
+
+            if ( recurrenceException is not null )
+            {
+                var start = GetItemStartTime( recurrenceException );
+                var end = GetItemEndTime( recurrenceException );
+
+                recurringItems.Add( new SchedulerItemInfo<TItem>( recurrenceException, start, end, false, true ) );
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool HandleRecurrenceExceptions( TItem item, DateTime occurrenceStart, DateTime viewStart, DateTime viewEnd, List<SchedulerAllDayItemInfo<TItem>> recurringItems )
+    {
+        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item );
+
+        if ( recurrenceExceptions is not null )
+        {
+            var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == occurrenceStart );
+
+            if ( recurrenceException is not null )
+            {
+                var start = GetItemStartTime( recurrenceException );
+                var end = GetItemEndTime( recurrenceException );
+
+                recurringItems.Add( new SchedulerAllDayItemInfo<TItem>( recurrenceException, start, end, start < viewStart ? viewStart : start, end > viewEnd ? viewEnd : end, start < viewStart, end > viewEnd, true ) );
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     protected internal void AddRecurrenceException( TItem item, TItem recurringItem )
     {
         var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item ) ?? new List<TItem>();
@@ -994,7 +1053,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         foreach ( var item in itemsWithRecurrenceRule )
         {
-            // Generate virtual items based on recurrence rule
             var occurrences = GenerateOccurrences( item.Start, item.End, item.RecurrenceRule, viewStart, viewEnd );
 
             var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
@@ -1020,7 +1078,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             if ( item.RecurrenceRule is null )
                 continue;
 
-            // Generate virtual items based on recurrence rule
             var occurrences = GenerateOccurrences( item.Start, item.End, item.RecurrenceRule, viewStart, viewEnd );
 
             var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
@@ -1048,37 +1105,125 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Handles exceptions for recurring items by checking for specific occurrences and adding them to a list if found.
+    /// Retrieves all-day items within a specified date range, filtering based on start and end times.
     /// </summary>
-    /// <param name="item">Represents the item for which recurrence exceptions are being handled.</param>
-    /// <param name="occurrenceStart">Indicates the start time of the occurrence being checked for exceptions.</param>
-    /// <param name="recurringItems">Holds the list of recurring items to which exceptions will be added if found.</param>
-    /// <returns>Returns a boolean indicating whether an exception was found and added to the list.</returns>
-    private bool HandleRecurrenceExceptions( TItem item, DateTime occurrenceStart, List<SchedulerItemInfo<TItem>> recurringItems )
+    /// <param name="viewStart">Specifies the beginning of the date range for filtering all-day items.</param>
+    /// <param name="viewEnd">Specifies the end of the date range for filtering all-day items.</param>
+    /// <returns>A collection of all-day item information that falls within the specified date range.</returns>
+    internal IEnumerable<SchedulerAllDayItemInfo<TItem>> GetAllDayItemsInRange( DateTime viewStart, DateTime viewEnd )
     {
-        var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item );
+        var itemsInView = from item in Data
+                          let allDay = GetItemAllDay( item )
+                          let start = GetItemStartTime( item ).Date   // we are only interested in date part
+                          let end = GetItemEndTime( item ).Date       // we are only interested in date part
+                          let duration = GetItemDuration( item )      // for duration we want all parts, date and time
+                          let recurrenceRule = GetItemRecurrenceRule( item )
+                          let allDayByDuration = duration.Days >= 1
+                          where ( allDay || allDayByDuration ) &&
+                          ( ( start >= viewStart && start <= viewEnd )
+                           || ( start < viewStart && end >= viewStart && end <= viewEnd )
+                           || ( start < viewStart && end > viewStart ) )
+                          orderby GetItemDuration( item ) descending
+                          select new SchedulerAllDayItemInfo<TItem>( item: item,
+                                start: start,
+                                end: end,
+                                viewStart: start < viewStart ? viewStart : start,
+                                viewEnd: end > viewEnd ? viewEnd : end,
+                                overflowingFromStart: start < viewStart,
+                                overflowingOnEnd: end > viewEnd,
+                                recurrenceRule, false );
 
-        if ( recurrenceExceptions is not null )
+        // items that are created prior to the viewStart and have a recurrence rule
+        var itemsWithRecurrenceRule = from item in Data
+                                      let allDay = GetItemAllDay( item )
+                                      let recurrenceRule = GetItemRecurrenceRule( item )
+                                      let duration = GetItemDuration( item )
+                                      let allDayByDuration = duration.Days >= 1
+                                      where ( allDay || allDayByDuration ) &&
+                                      !string.IsNullOrEmpty( recurrenceRule )
+                                      let start = GetItemStartTime( item )
+                                      let end = GetItemEndTime( item )
+                                      where start < viewStart
+                                      select new SchedulerAllDayItemInfo<TItem>( item: item,
+                                            start: start,
+                                            end: end,
+                                            viewStart: start < viewStart ? viewStart : start,
+                                            viewEnd: end > viewEnd ? viewEnd : end,
+                                            overflowingFromStart: start < viewStart,
+                                            overflowingOnEnd: end > viewEnd,
+                                            recurrenceRule, false );
+
+        var recurringItems = new List<SchedulerAllDayItemInfo<TItem>>();
+
+        foreach ( var item in itemsWithRecurrenceRule )
         {
-            var recurrenceException = recurrenceExceptions.FirstOrDefault( x => propertyMapper.GetOriginalStart( x ) == occurrenceStart );
+            var occurrences = GenerateOccurrences( item.Start, item.End, item.RecurrenceRule, viewStart, viewEnd );
 
-            if ( recurrenceException is not null )
+            var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
+
+            foreach ( var occurrenceStart in occurrences )
             {
-                recurringItems.Add( new SchedulerItemInfo<TItem>( recurrenceException, GetItemStartTime( recurrenceException ), GetItemEndTime( recurrenceException ), false, true ) );
+                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrenceStart ) )
+                    continue;
 
-                return true;
+                var occurrenceEnd = occurrenceStart.Add( item.Duration );
+
+                if ( HandleRecurrenceExceptions( item.Item, occurrenceStart, viewStart, viewEnd, recurringItems ) )
+                    continue;
+
+                var occurrenceItem = CreateOccurrence( item.Item, occurrenceStart, occurrenceEnd );
+
+                recurringItems.Add( new SchedulerAllDayItemInfo<TItem>(
+                    item: occurrenceItem,
+                    start: occurrenceStart,
+                    end: occurrenceEnd,
+                    viewStart: occurrenceStart < viewStart ? viewStart : occurrenceStart,
+                    viewEnd: occurrenceEnd > viewEnd ? viewEnd : occurrenceEnd,
+                    overflowingFromStart: occurrenceStart < viewStart,
+                    overflowingOnEnd: occurrenceEnd > viewEnd,
+                    recurrenceRule: item.RecurrenceRule,
+                    isRecurring: true ) );
             }
         }
 
-        return false;
-    }
+        foreach ( var item in itemsInView )
+        {
+            if ( item.RecurrenceRule is null )
+                continue;
 
-    protected internal bool IsRecurrenceItem( TItem item )
-    {
-        var originalStart = propertyMapper.GetOriginalStart( item );
-        var recurrenceId = propertyMapper.GetRecurrenceId( item );
-        var recurrenceRule = propertyMapper.GetRecurrenceRule( item );
-        return originalStart != null && recurrenceId != null && recurrenceRule == null;
+            var occurrences = GenerateOccurrences( item.Start, item.End, item.RecurrenceRule, viewStart, viewEnd );
+
+            var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item.Item );
+
+            foreach ( var occurrenceStart in occurrences )
+            {
+                if ( deletedOccurrences is not null && deletedOccurrences.Contains( occurrenceStart ) )
+                    continue;
+
+                var occurrenceEnd = occurrenceStart.Add( item.Duration );
+
+                if ( HandleRecurrenceExceptions( item.Item, occurrenceStart, viewStart, viewEnd, recurringItems ) )
+                    continue;
+
+                var occurrenceItem = CreateOccurrence( item.Item, occurrenceStart, occurrenceEnd );
+
+                recurringItems.Add( new SchedulerAllDayItemInfo<TItem>(
+                    item: occurrenceItem,
+                    start: occurrenceStart,
+                    end: occurrenceEnd,
+                    viewStart: occurrenceStart < viewStart ? viewStart : occurrenceStart,
+                    viewEnd: occurrenceEnd > viewEnd ? viewEnd : occurrenceEnd,
+                    overflowingFromStart: occurrenceStart < viewStart,
+                    overflowingOnEnd: occurrenceEnd > viewEnd,
+                    recurrenceRule: item.RecurrenceRule,
+                    isRecurring: true ) );
+            }
+        }
+
+        // If the item is having a recurring rule that means we want to show a series and we want to hide original item.
+        return itemsInView
+            .Where( x => x.RecurrenceRule is null )
+            .Concat( recurringItems );
     }
 
     private IEnumerable<DateTime> GenerateOccurrences( DateTime start, DateTime end, SchedulerRecurrenceRule recurrenceRule, DateTime viewStart, DateTime viewEnd )
@@ -1101,32 +1246,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         return Enumerable.Empty<DateTime>();
-    }
-
-    /// <summary>
-    /// Retrieves all-day items within a specified date range, filtering based on start and end times.
-    /// </summary>
-    /// <param name="viewStart">Specifies the beginning of the date range for filtering all-day items.</param>
-    /// <param name="viewEnd">Specifies the end of the date range for filtering all-day items.</param>
-    /// <returns>A collection of all-day item information that falls within the specified date range.</returns>
-    internal IEnumerable<SchedulerAllDayItemInfo<TItem>> GetAllDayItemsInRange( DateTime viewStart, DateTime viewEnd )
-    {
-        return from d in Data
-               let allDay = GetItemAllDay( d )
-               let start = GetItemStartTime( d ).Date   // we are only interested in date part
-               let end = GetItemEndTime( d ).Date       // we are only interested in date part
-               let duration = GetItemDuration( d )      // for duration we want all parts, date and time
-               let allDayByDuration = duration.Days >= 1
-               where ( allDay || allDayByDuration ) &&
-               ( ( start >= viewStart && start <= viewEnd )
-                || ( start < viewStart && end >= viewStart && end <= viewEnd )
-                || ( start < viewStart && end > viewStart ) )
-               orderby GetItemDuration( d ) descending
-               select new SchedulerAllDayItemInfo<TItem>( item: d,
-                   viewStart: start < viewStart ? viewStart : start,
-                   viewEnd: end > viewEnd ? viewEnd : end,
-                   overflowingFromStart: start < viewStart,
-                   overflowingOnEnd: end > viewEnd );
     }
 
     /// <summary>
