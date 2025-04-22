@@ -224,15 +224,15 @@ public class SchedulerPropertyMapper<TItem>
         setRecurrenceExceptionsFunc?.Invoke( item, value );
     }
 
-    public bool HasId => getIdFunc != null;
-    public bool HasTitle => getTitleFunc != null;
-    public bool HasDescription => getDescriptionFunc != null;
-    public bool HasStart => getStartFunc != null;
-    public bool HasEnd => getEndFunc != null;
-    public bool HasAllDay => getAllDayFunc != null;
-    public bool HasRecurrenceRule => getRecurrenceRuleFunc != null;
-    public bool HasRecurrenceId => getRecurrenceIdFunc != null;
-    public bool HasDeletedOccurrences => getDeletedOccurrencesFunc != null;
-    public bool HasOriginalStart => getOriginalStartFunc != null;
-    public bool HasRecurrenceExceptions => getRecurrenceExceptionsFunc != null;
+    public bool HasId => getIdFunc is not null;
+    public bool HasTitle => getTitleFunc is not null;
+    public bool HasDescription => getDescriptionFunc is not null;
+    public bool HasStart => getStartFunc is not null;
+    public bool HasEnd => getEndFunc is not null;
+    public bool HasAllDay => getAllDayFunc is not null;
+    public bool HasRecurrenceRule => getRecurrenceRuleFunc is not null;
+    public bool HasRecurrenceId => getRecurrenceIdFunc is not null;
+    public bool HasDeletedOccurrences => getDeletedOccurrencesFunc is not null;
+    public bool HasOriginalStart => getOriginalStartFunc is not null;
+    public bool HasRecurrenceExceptions => getRecurrenceExceptionsFunc is not null;
 }

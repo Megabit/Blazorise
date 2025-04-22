@@ -438,7 +438,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         var originalStart = propertyMapper.GetOriginalStart( item );
         var recurrenceId = propertyMapper.GetRecurrenceId( item );
         var recurrenceRule = propertyMapper.GetRecurrenceRule( item );
-        return originalStart != null && recurrenceId != null && recurrenceRule == null;
+        return originalStart is not null && recurrenceId is not null && recurrenceRule is null;
     }
 
     /// <summary>
@@ -917,7 +917,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         var editItemClone = editItem.DeepClone();
 
-        if ( RemoveRecurrenceException( editItemClone, item ) && PropertyMapper.GetOriginalStart( item ) != null )
+        if ( RemoveRecurrenceException( editItemClone, item ) && PropertyMapper.GetOriginalStart( item ) is not null )
         {
             AddDeletedOccurrence( editItemClone, PropertyMapper.GetOriginalStart( item ).Value );
         }
@@ -1381,7 +1381,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal async Task StartDrag( TItem item, SchedulerDragArea dragArea )
     {
         // Cancel any existing transaction
-        if ( currentTransaction != null )
+        if ( currentTransaction is not null )
         {
             await currentTransaction.Rollback();
             currentTransaction = null;
@@ -1400,7 +1400,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task CancelDrag()
     {
-        if ( currentTransaction == null )
+        if ( currentTransaction is null )
             return;
 
         TItem item = currentTransaction.Item;
@@ -1417,7 +1417,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerDragArea dragArea )
     {
-        if ( currentTransaction == null )
+        if ( currentTransaction is null )
             return false;
 
         try
@@ -1455,7 +1455,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task<bool> DropDateItem( DateOnly date, SchedulerDragArea dragArea )
     {
-        if ( currentTransaction == null )
+        if ( currentTransaction is null )
             return false;
 
         try
@@ -1498,7 +1498,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerDragArea dragArea )
     {
-        if ( currentTransaction == null )
+        if ( currentTransaction is null )
             return false;
 
         try

@@ -17,7 +17,7 @@ internal static class LocalizerExtensions
     /// <returns>Returns the localized text.</returns>
     public static string Localize( this ITextLocalizer textLocalizer, TextLocalizerHandler textLocalizerHandler, string name, params object[] arguments )
     {
-        if ( textLocalizerHandler != null )
+        if ( textLocalizerHandler is not null )
             return textLocalizerHandler.Invoke( name, arguments );
 
         return textLocalizer[name, arguments];

@@ -25,7 +25,7 @@ public static class SchedulerExpressionCompiler
 
         var property = itemType.GetProperty( fieldName );
 
-        if ( property == null )
+        if ( property is null )
         {
             return null;
         }
@@ -44,7 +44,7 @@ public static class SchedulerExpressionCompiler
 
         var property = itemType.GetProperty( fieldName );
 
-        if ( property == null )
+        if ( property is null )
         {
             return null;
         }
@@ -87,7 +87,7 @@ public static class SchedulerExpressionCompiler
         else if ( memberInfo is FieldInfo fieldInfo )
             field = Expression.Field( item, fieldInfo );
 
-        if ( field == null )
+        if ( field is null )
             throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
 
         field = Expression.Condition( Expression.Equal( item, Expression.Default( item.Type ) ),
@@ -116,7 +116,7 @@ public static class SchedulerExpressionCompiler
         else if ( memberInfo is FieldInfo fieldInfo )
             field = Expression.Field( item, fieldInfo );
 
-        if ( field == null )
+        if ( field is null )
             throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
 
         if ( parts.Length > 1 )
@@ -130,11 +130,11 @@ public static class SchedulerExpressionCompiler
         MemberInfo memberInfo = (MemberInfo)type.GetProperty( fieldName )
                                 ?? type.GetField( fieldName );
 
-        if ( memberInfo == null )
+        if ( memberInfo is null )
         {
             var baseTypesAndInterfaces = new List<Type>();
 
-            if ( type.BaseType != null )
+            if ( type.BaseType is not null )
             {
                 baseTypesAndInterfaces.Add( type.BaseType );
             }
@@ -145,7 +145,7 @@ public static class SchedulerExpressionCompiler
             {
                 memberInfo = GetSafeMember( baseType, fieldName );
 
-                if ( memberInfo != null )
+                if ( memberInfo is not null )
                     break;
             }
         }

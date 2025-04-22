@@ -71,7 +71,7 @@ public class SchedulerTransaction<TItem>
         {
             Item = OriginalItem.DeepClone();
 
-            if ( Canceled != null )
+            if ( Canceled is not null )
                 await Canceled.Invoke();
         }
         finally

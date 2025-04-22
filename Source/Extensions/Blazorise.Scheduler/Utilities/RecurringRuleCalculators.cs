@@ -44,7 +44,7 @@ public static class RecurringRuleCalculators
         if ( rule.Interval < 1 )
             throw new ArgumentOutOfRangeException( nameof( rule.Interval ), "Interval must be 1 or more." );
 
-        var daysOfWeek = ( rule.ByDay == null || rule.ByDay.Count == 0 )
+        var daysOfWeek = ( rule.ByDay is null || rule.ByDay.Count == 0 )
             ? new List<DayOfWeek> { itemStart.DayOfWeek }
             : rule.ByDay;
 
