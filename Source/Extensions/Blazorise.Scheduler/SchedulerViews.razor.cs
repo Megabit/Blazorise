@@ -4,16 +4,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Scheduler;
 
+/// <summary>
+/// A container component that hosts one or more scheduler view components (e.g., Day, Week, Month).
+/// Used to group all available views for the <see cref="Scheduler{TItem}"/>.
+/// </summary>
+/// <typeparam name="TItem">
+/// The type of the items to be scheduled and displayed within the views.
+/// </typeparam>
 public partial class SchedulerViews<TItem>
 {
-    #region Members
-
-    #endregion
-
-    #region Methods
-
-    #endregion
-
     #region Properties
 
     /// <summary>

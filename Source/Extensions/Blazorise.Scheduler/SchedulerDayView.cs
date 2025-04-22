@@ -16,6 +16,7 @@ public partial class SchedulerDayView<TItem> : BaseSchedulerView<TItem>
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         Scheduler?.NotifySchedulerDayView( this );

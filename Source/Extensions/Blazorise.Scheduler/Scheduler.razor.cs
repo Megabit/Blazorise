@@ -30,33 +30,105 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     private SchedulerState state = new();
 
+    /// <summary>
+    /// Holds a reference to the Scheduler Toolbar component.
+    /// </summary>
     private SchedulerToolbar<TItem> schedulerToolbar;
+
+    /// <summary>
+    /// Holds a reference to the Day View component.
+    /// </summary>
     private SchedulerDayView<TItem> schedulerDayView;
+
+    /// <summary>
+    /// Holds a reference to the Week View component.
+    /// </summary>
     private SchedulerWeekView<TItem> schedulerWeekView;
+
+    /// <summary>
+    /// Holds a reference to the Work Week View component.
+    /// </summary>
     private SchedulerWorkWeekView<TItem> schedulerWorkWeekView;
+
+    /// <summary>
+    /// Holds a reference to the Month View component of the scheduler.
+    /// </summary>
     private SchedulerMonthView<TItem> schedulerMonthView;
 
+    /// <summary>
+    /// Subscribes to the event for navigating to the previous day.
+    /// </summary>
     private readonly EventCallbackSubscriber prevDaySubscriber;
+
+    /// <summary>
+    /// Subscribes to the event for navigating to the next day.
+    /// </summary>
     private readonly EventCallbackSubscriber nextDaySubscriber;
+
+    /// <summary>
+    /// Subscribes to the event for navigating to today's date.
+    /// </summary>
     private readonly EventCallbackSubscriber todaySubscriber;
+
+    /// <summary>
+    /// Subscribes to the event for switching to the day view.
+    /// </summary>
     private readonly EventCallbackSubscriber dayViewSubscriber;
+
+    /// <summary>
+    /// Subscribes to the event for switching to the week view.
+    /// </summary>
     private readonly EventCallbackSubscriber weekViewSubscriber;
+
+    /// <summary>
+    /// Subscribes to the event for switching to the work week view.
+    /// </summary>
     private readonly EventCallbackSubscriber workWeekViewSubscriber;
+
+    /// <summary>
+    /// Subscribes to the event for switching to the month view.
+    /// </summary>
     private readonly EventCallbackSubscriber monthViewSubscriber;
 
+    /// <summary>
+    /// Manages property mapping for item fields.
+    /// </summary>
     private SchedulerPropertyMapper<TItem> propertyMapper;
 
+    /// <summary>
+    /// Lazy instantiation function for creating new items.
+    /// </summary>
     private Lazy<Func<TItem>> newItemCreator;
 
+    /// <summary>
+    /// A reference to the internal modal used for editing items.
+    /// </summary>
     protected _SchedulerIItemModal<TItem> schedulerItemModalRef;
 
+    /// <summary>
+    /// A reference to the internal modal used for editing recurring item occurrences.
+    /// </summary>
     protected _SchedulerIItemOccurrenceModal<TItem> schedulerItemOccurrenceModalRef;
 
+    /// <summary>
+    /// The item currently being edited.
+    /// </summary>
     protected TItem editItem;
 
+    /// <summary>
+    /// Represents the current editing state of the scheduler.
+    /// </summary>
     protected SchedulerEditState editState = SchedulerEditState.None;
 
+    /// <summary>
+    /// Holds the current transaction during a drag-and-drop operation.
+    /// </summary>
     protected SchedulerTransaction<TItem> currentTransaction;
+
+    /// <summary>
+    /// Indicates whether an item is currently being dragged.
+    /// </summary>
+    private bool isDragging;
 
     #endregion
 
@@ -433,6 +505,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         SetItemEnd( item, end );
     }
 
+    /// <summary>
+    /// Determines whether the specified item is an individual occurrence of a recurring series,
+    /// based on the presence of an original start and recurrence ID, and the absence of a recurrence rule.
+    /// </summary>
+    /// <param name="item">The item to evaluate.</param>
+    /// <returns><c>true</c> if the item is a recurrence occurrence; otherwise, <c>false</c>.</returns>
     protected internal bool IsRecurrenceItem( TItem item )
     {
         var originalStart = propertyMapper.GetOriginalStart( item );
@@ -657,6 +735,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Handles the deletion of a recurring item occurrence, prompting the user to choose between deleting the series or a single occurrence.
+    /// </summary>
+    /// <param name="viewItem">The view-specific representation of the item to be deleted.</param>
+    /// <returns><c>true</c> if the item was deleted; otherwise, <c>false</c>.</returns>
     protected internal async Task<bool> DeleteOccurrence( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
@@ -710,6 +793,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
+    /// <summary>
+    /// Opens the modal dialog for editing a single occurrence of a recurring item.
+    /// </summary>
+    /// <param name="item">The occurrence item to be edited.</param>
     public async Task EditOccurrence( TItem item )
     {
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data && schedulerItemOccurrenceModalRef is not null )
@@ -722,6 +809,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Saves the currently edited item by invoking insert or update logic,
+    /// and raises the appropriate callbacks depending on the edit state.
+    /// </summary>
+    /// <param name="submitedItem">The item submitted for saving.</param>
+    /// <returns><c>true</c> if the item was successfully saved; otherwise, <c>false</c>.</returns>
     protected internal async Task<bool> SaveImpl( TItem submitedItem )
     {
         var handler = editState == SchedulerEditState.New ? ItemInserting : ItemUpdating;
@@ -759,6 +852,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
+    /// <summary>
+    /// Deletes the specified item from the data source and raises the <see cref="Scheduler{TItem}.ItemRemoved"/> callback.
+    /// </summary>
+    /// <param name="itemToDelete">The item to delete.</param>
+    /// <returns><c>true</c> if the item was deleted; otherwise, <c>false</c>.</returns>
     protected internal async Task<bool> DeleteItemImpl( TItem itemToDelete )
     {
         if ( await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
@@ -785,6 +883,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
+    /// <summary>
+    /// Saves an occurrence of a recurring item by registering it as a recurrence exception.
+    /// </summary>
+    /// <param name="recurringItem">The occurrence item to be saved.</param>
+    /// <returns><c>true</c> if the occurrence was saved successfully; otherwise, <c>false</c>.</returns>
     protected internal async Task<bool> SaveOccurrenceImpl( TItem recurringItem )
     {
         var editItemClone = editItem.DeepClone();
@@ -845,6 +948,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
+    /// <summary>
+    /// Adds a recurrence exception to the specified recurring item. If an exception for the original start already exists, its values are updated.
+    /// </summary>
+    /// <param name="item">The original recurring item to which the exception is added.</param>
+    /// <param name="recurringItem">The occurrence that acts as an exception.</param>
     protected internal void AddRecurrenceException( TItem item, TItem recurringItem )
     {
         var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item ) ?? new List<TItem>();
@@ -863,6 +971,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         propertyMapper.SetRecurrenceExceptions( item, recurrenceExceptions );
     }
 
+    /// <summary>
+    /// Removes a specific recurrence exception from a recurring item.
+    /// </summary>
+    /// <param name="item">The original recurring item from which the exception should be removed.</param>
+    /// <param name="recurringItem">The occurrence that represents the exception to remove.</param>
+    /// <returns><c>true</c> if the exception was removed; otherwise, <c>false</c>.</returns>
     protected internal bool RemoveRecurrenceException( TItem item, TItem recurringItem )
     {
         var recurrenceExceptions = propertyMapper.GetRecurrenceExceptions( item ) ?? new List<TItem>();
@@ -881,6 +995,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         return false;
     }
 
+    /// <summary>
+    /// Adds a deleted occurrence to the list of deleted occurrences for a recurring item.
+    /// </summary>
+    /// <param name="item">The recurring item to update.</param>
+    /// <param name="start">The start time of the deleted occurrence.</param>
     protected internal void AddDeletedOccurrence( TItem item, DateTime start )
     {
         var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item ) ?? new List<DateTime>();
@@ -892,6 +1011,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Removes a deleted occurrence from the list of deleted occurrences for a recurring item.
+    /// </summary>
+    /// <param name="item">The recurring item to update.</param>
+    /// <param name="start">The start time of the occurrence to remove from deletion list.</param>
     protected internal void RemoveDeletedOccurrence( TItem item, DateTime start )
     {
         var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item ) ?? new List<DateTime>();
@@ -903,6 +1027,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Deletes an individual occurrence from a recurring item, handling recurrence exceptions and deletion tracking.
+    /// </summary>
+    /// <param name="item">The occurrence to delete.</param>
+    /// <returns><c>true</c> if the occurrence was successfully deleted; otherwise, <c>false</c>.</returns>
     protected internal async Task<bool> DeleteOccurrenceImpl( TItem item )
     {
         if ( item is null )
@@ -1369,15 +1498,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             .Count();
     }
 
-    private bool isDragging = false;
-
-    // Events for drag and drop operations
-    public event EventHandler<TItem> DragStarted;
-    public event EventHandler<TItem> DragCancelled;
-    public event EventHandler<(TItem Item, DateTime Start, DateTime End)> ItemDropped;
-
-    public bool IsDragging => isDragging;
-
     internal async Task StartDrag( TItem item, SchedulerDragArea dragArea )
     {
         // Cancel any existing transaction
@@ -1395,7 +1515,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         currentTransaction = new SchedulerTransaction<TItem>( this, item, dragArea );
         isDragging = true;
 
-        DragStarted?.Invoke( this, item );
+        if ( DragStarted is not null )
+            await DragStarted.Invoke( new SchedulerDragEventArgs<TItem>( item ) );
     }
 
     internal async Task CancelDrag()
@@ -1412,7 +1533,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editItem = default;
         editState = SchedulerEditState.None;
 
-        DragCancelled?.Invoke( this, item );
+        if ( DragCancelled is not null )
+            await DragCancelled.Invoke( new SchedulerDragEventArgs<TItem>( item ) );
     }
 
     internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerDragArea dragArea )
@@ -1434,7 +1556,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             await currentTransaction.Commit();
 
-            ItemDropped?.Invoke( this, (currentTransaction.Item, newStart, newEnd) );
+            if ( ItemDropped.HasDelegate )
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
             currentTransaction = null;
@@ -1477,7 +1600,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             await currentTransaction.Commit();
 
-            ItemDropped?.Invoke( this, (currentTransaction.Item, newStart, newEnd) );
+            if ( ItemDropped.HasDelegate )
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
             currentTransaction = null;
@@ -1520,7 +1644,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             await currentTransaction.Commit();
 
-            ItemDropped?.Invoke( this, (currentTransaction.Item, newStart, newEnd) );
+            if ( ItemDropped.HasDelegate )
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
             currentTransaction = null;
@@ -1593,6 +1718,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Returns true if <see cref="Data"/> is safe to edit.
     /// </summary>
     protected bool CanEditData => Editable && Data is ICollection<TItem>;
+
+    /// <summary>
+    /// Indicates whether an item is currently being dragged.
+    /// </summary>
+    public bool IsDragging => isDragging;
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.
@@ -1763,6 +1893,21 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Occurs when an appointment is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerItemClickedEventArgs<TItem>> ItemClicked { get; set; }
+
+    /// <summary>
+    /// Triggered when a drag operation starts.
+    /// </summary>
+    [Parameter] public Func<SchedulerDragEventArgs<TItem>, Task> DragStarted { get; set; }
+
+    /// <summary>
+    /// Triggered when a drag operation is cancelled.
+    /// </summary>
+    [Parameter] public Func<SchedulerDragEventArgs<TItem>, Task> DragCancelled { get; set; }
+
+    /// <summary>
+    /// Triggered when an item is dropped into a new slot.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerItemDroppedEventArgs<TItem>> ItemDropped { get; set; }
 
     /// <summary>
     /// Custom localizer handlers to override default <see cref="Scheduler{TItem}"/> localization.

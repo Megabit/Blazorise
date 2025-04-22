@@ -6,13 +6,20 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Scheduler;
 
 /// <summary>
-/// Represents a weekly view in a scheduler, allowing customization of the displayed week.
+/// Represents a scheduler view that displays only the working days of the week (typically Monday through Friday).
+/// Allows customization of the first workday and cell height.
 /// </summary>
-/// <typeparam name="TItem">This type parameter is used to define the type of items that will be scheduled and displayed in the view.</typeparam>
+/// <typeparam name="TItem">
+/// The type of the items to be scheduled and displayed within the work week view.
+/// </typeparam>
 public partial class SchedulerWorkWeekView<TItem> : BaseSchedulerView<TItem>
 {
     #region Methods
 
+    /// <summary>
+    /// Called when the component is initialized.
+    /// Notifies the parent scheduler that the work week view is active.
+    /// </summary>
     protected override void OnInitialized()
     {
         Scheduler?.NotifySchedulerWorkWeekView( this );
@@ -25,13 +32,20 @@ public partial class SchedulerWorkWeekView<TItem> : BaseSchedulerView<TItem>
     #region Properties
 
     /// <summary>
-    /// The first day of the work week. Determines the first day of the work week that is displayed in the scheduler. Default is Monday.
+    /// Gets or sets the first day of the work week.
+    /// Determines the starting day of the work week in the scheduler view.
     /// </summary>
+    /// <remarks>
+    /// The default value is <see cref="DayOfWeek.Monday"/>.
+    /// </remarks>
     [Parameter] public DayOfWeek FirstDayOfWorkWeek { get; set; } = DayOfWeek.Monday;
 
     /// <summary>
-    /// Specifies the height of a cell in a layout. The value is a double representing the height in pixels.
+    /// Gets or sets the height of each appointment cell in the layout.
     /// </summary>
+    /// <remarks>
+    /// The value is in pixels and affects vertical sizing of time slots.
+    /// </remarks>
     [Parameter] public double ItemCellHeight { get; set; } = 60;
 
     #endregion

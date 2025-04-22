@@ -18,35 +18,3 @@
         </Tooltip>
     }
 </Span>
-
-@code {
-    protected Task OnSlotClicked()
-    {
-        if ( Clicked is null )
-            return Task.CompletedTask;
-
-        return Clicked.Invoke( Item );
-    }
-
-    protected Task OnItemDragStart( DragEventArgs e, TItem item )
-    {
-        return Scheduler.StartDrag( item, DragArea );
-    }
-
-    /// <summary>
-    /// Returns a string indicating whether the Scheduler is draggable. It returns 'true' if draggable, otherwise 'false'.
-    /// </summary>
-    private string DraggableAttribute => Scheduler?.Draggable == true ? "true" : "false";
-
-    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
-
-    [Parameter] public TItem Item { get; set; }
-
-    [Parameter] public bool OverflowingFromStart { get; set; }
-
-    [Parameter] public bool OverflowingOnEnd { get; set; }
-
-    [Parameter] public Func<TItem, Task> Clicked { get; set; }
-
-    [Parameter] public SchedulerDragArea DragArea { get; set; }
-}

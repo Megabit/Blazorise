@@ -7,8 +7,20 @@ using Blazorise.Scheduler.Extensions;
 
 namespace Blazorise.Scheduler.Utilities;
 
+/// <summary>
+/// Calculates recurring dates based on specified rules for daily, weekly, monthly, and yearly occurrences. Supports constraints like count and end date.
+/// </summary>
 public static class RecurringRuleCalculators
 {
+    /// <summary>
+    /// Generates a sequence of dates based on a recurring schedule within a specified date range.
+    /// </summary>
+    /// <param name="itemStart">Defines the starting date for the recurring schedule.</param>
+    /// <param name="viewStart">Specifies the beginning of the date range to consider for occurrences.</param>
+    /// <param name="viewEnd">Indicates the end of the date range to consider for occurrences.</param>
+    /// <param name="rule">Contains the recurrence details such as interval and optional end date.</param>
+    /// <returns>A collection of dates that fall within the specified range according to the recurrence rule.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the interval in the recurrence rule is not between 1 and 99.</exception>
     public static IEnumerable<DateTime> GetDailyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, SchedulerRecurrenceRule rule )
     {
         if ( rule.Interval < 1 || rule.Interval > 99 )
@@ -39,6 +51,16 @@ public static class RecurringRuleCalculators
         }
     }
 
+    /// <summary>
+    /// Generates a sequence of dates for weekly recurring events based on specified parameters.
+    /// </summary>
+    /// <param name="itemStart">Indicates the starting date and time of the event occurrence.</param>
+    /// <param name="viewStart">Defines the beginning of the time window for viewing occurrences.</param>
+    /// <param name="viewEnd">Specifies the end of the time window for viewing occurrences.</param>
+    /// <param name="firstDayOfWeek">Sets the first day of the week to calculate weekly occurrences.</param>
+    /// <param name="rule">Contains the recurrence rules that dictate the frequency and constraints of the occurrences.</param>
+    /// <returns>A collection of DateTime values representing the calculated occurrences within the specified view window.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the interval in the recurrence rule is less than 1.</exception>
     public static IEnumerable<DateTime> GetWeeklyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DayOfWeek firstDayOfWeek, SchedulerRecurrenceRule rule )
     {
         if ( rule.Interval < 1 )
@@ -118,6 +140,15 @@ public static class RecurringRuleCalculators
         }
     }
 
+    /// <summary>
+    /// Generates a sequence of dates for monthly recurring events based on specified rules and date ranges.
+    /// </summary>
+    /// <param name="itemStart">Defines the starting point for the recurrence calculation.</param>
+    /// <param name="viewStart">Specifies the beginning of the date range to consider for occurrences.</param>
+    /// <param name="viewEnd">Indicates the end of the date range to consider for occurrences.</param>
+    /// <param name="firstDayOfWeek">Sets the first day of the week for calculating weekly occurrences.</param>
+    /// <param name="rule">Contains the recurrence rules that dictate how the dates are generated.</param>
+    /// <returns>Yields a collection of DateTime objects representing the calculated occurrences.</returns>
     public static IEnumerable<DateTime> GetMonthlyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DayOfWeek firstDayOfWeek, SchedulerRecurrenceRule rule )
     {
         if ( rule.Interval <= 0 )
@@ -274,6 +305,15 @@ public static class RecurringRuleCalculators
         return result;
     }
 
+    /// <summary>
+    /// Generates a sequence of dates that recur yearly based on specified rules and date ranges.
+    /// </summary>
+    /// <param name="itemStart">Defines the starting date and time for the recurring events.</param>
+    /// <param name="viewStart">Specifies the beginning of the date range to filter the occurrences.</param>
+    /// <param name="viewEnd">Specifies the end of the date range to filter the occurrences.</param>
+    /// <param name="firstDayOfWeek">Indicates which day is considered the first day of the week for scheduling purposes.</param>
+    /// <param name="rule">Contains the recurrence rules that dictate how the dates are generated.</param>
+    /// <returns>Yields a collection of DateTime objects representing the recurring dates within the specified range.</returns>
     public static IEnumerable<DateTime> GetYearlyRecurringDates( DateTime itemStart, DateTime viewStart, DateTime viewEnd, DayOfWeek firstDayOfWeek, SchedulerRecurrenceRule rule )
     {
         if ( rule.Interval <= 0 )

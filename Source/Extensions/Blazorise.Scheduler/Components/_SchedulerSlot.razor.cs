@@ -9,16 +9,27 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Scheduler.Components;
 
+/// <summary>
+/// Represents a slot in a scheduler that can handle mouse events and manage items within it.
+/// </summary>
+/// <typeparam name="TItem">Represents the type of items that can be scheduled and displayed in the slot.</typeparam>
 public partial class _SchedulerSlot<TItem>
 {
     #region Members
 
+    /// <summary>
+    /// Tracks whether the mouse is currently hovering over the slot.
+    /// </summary>
     private bool mouseHovering;
 
     #endregion
 
     #region Methods
 
+    /// <summary>
+    /// Handles the mouse enter event and sets the hover flag.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
     protected Task OnMouseEnter( MouseEventArgs eventArgs )
     {
         mouseHovering = true;
@@ -26,6 +37,10 @@ public partial class _SchedulerSlot<TItem>
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Handles the mouse leave event and clears the hover flag.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
     protected Task OnMouseLeave( MouseEventArgs eventArgs )
     {
         mouseHovering = false;
@@ -33,6 +48,9 @@ public partial class _SchedulerSlot<TItem>
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Handles a click on the slot and triggers the <see cref="SlotClicked"/> event callback.
+    /// </summary>
     protected Task OnSlotClicked()
     {
         if ( SlotClicked is null )
@@ -41,6 +59,11 @@ public partial class _SchedulerSlot<TItem>
         return SlotClicked.Invoke( SlotStart, SlotEnd );
     }
 
+    /// <summary>
+    /// Handles the drag start event for a scheduler item.
+    /// </summary>
+    /// <param name="e">The drag event arguments.</param>
+    /// <param name="viewItem">The item being dragged.</param>
     protected Task OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
     {
         mouseHovering = false;
@@ -48,11 +71,19 @@ public partial class _SchedulerSlot<TItem>
         return Scheduler.StartDrag( viewItem.Item, DragArea );
     }
 
+    /// <summary>
+    /// Handles the drop event on the slot.
+    /// </summary>
+    /// <param name="e">The drag event arguments.</param>
     protected Task OnSlotDrop( DragEventArgs e )
     {
         return Scheduler.DropSlotItem( SlotStart, SlotEnd, DragArea );
     }
 
+    /// <summary>
+    /// Handles the click event for editing an item in the slot.
+    /// </summary>
+    /// <param name="viewItem">The item to be edited.</param>
     protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( EditItemClicked is null )
@@ -61,6 +92,10 @@ public partial class _SchedulerSlot<TItem>
         return EditItemClicked.Invoke( viewItem, SlotStart, SlotEnd );
     }
 
+    /// <summary>
+    /// Handles the click event for deleting an item in the slot.
+    /// </summary>
+    /// <param name="viewItem">The item to be deleted.</param>
     protected Task OnDeleteItemClicked( SchedulerItemViewInfo<TItem> viewItem )
     {
         if ( DeleteItemClicked is null )
@@ -69,6 +104,9 @@ public partial class _SchedulerSlot<TItem>
         return DeleteItemClicked.Invoke( viewItem );
     }
 
+    /// <summary>
+    /// Gets the custom border style for the slot if it is not the last slot.
+    /// </summary>
     private string GetSlotStyle()
     {
         if ( LastSlot )
@@ -77,6 +115,12 @@ public partial class _SchedulerSlot<TItem>
         return "border-bottom-style: dashed !important";
     }
 
+    /// <summary>
+    /// Computes the CSS style for a scheduler item within the slot.
+    /// </summary>
+    /// <param name="viewItem">The item to style.</param>
+    /// <param name="index">The index of the item among all items in the slot.</param>
+    /// <param name="totalItems">The total number of items in the slot.</param>
     private string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem, int index, int totalItems )
     {
         var viewStart = viewItem.ViewStart;
@@ -85,29 +129,24 @@ public partial class _SchedulerSlot<TItem>
         var top = ( viewStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
         var height = viewDuration.TotalMinutes / 60 * ItemCellHeight;
 
-        // For single items, leave a small gap on the right (5% of width)
         if ( totalItems == 1 )
         {
             return $"cursor: pointer; left: 0; right: {5.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
         }
 
-        // For multiple items, distribute them evenly but leave a small gap at the end
-        double slotRightGap = 5.0; // 5% gap on the far right side of the slot
+        double slotRightGap = 5.0;
         double itemWidth = ( 100.0 - slotRightGap ) / totalItems;
         double leftPercentage = index * itemWidth;
 
-        // Calculate right percentage
         if ( index == totalItems - 1 )
         {
-            // Last item should extend to the start of the gap
             double rightPercentage = slotRightGap;
             return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
         }
         else
         {
-            // Middle items should maintain their position with the original 1% overlap
             double rightPercentage = 100 - ( ( index + 1 ) * itemWidth );
-            rightPercentage += 1; // Add the 1% overlap
+            rightPercentage += 1;
             return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
         }
     }
@@ -117,55 +156,73 @@ public partial class _SchedulerSlot<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets the border style of the slot.
+    /// Gets the bottom border style if this is not the last slot.
     /// </summary>
     private IFluentBorder BottomBorder => LastSlot ? null : Border.Is1.OnBottom;
 
     /// <summary>
-    /// Gets the background color of the slot.
+    /// Gets the background color of the slot based on mouse hover state.
     /// </summary>
     private Blazorise.Background BackgroundColor => mouseHovering ? Background.Light : Background.Default;
 
     /// <summary>
-    /// Returns a string indicating whether the Scheduler is draggable. It returns 'true' if draggable, otherwise 'false'.
+    /// Gets a string that represents whether the slot is draggable.
     /// </summary>
     private string DraggableAttribute => Scheduler?.Draggable == true ? "true" : "false";
 
+    /// <summary>
+    /// Provides access to the parent <see cref="Scheduler{TItem}"/> component.
+    /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
+    /// <summary>
+    /// Provides access to the current scheduler state.
+    /// </summary>
     [CascadingParameter] public SchedulerState State { get; set; }
 
     /// <summary>
-    /// Defines the appointment that is displayed in the slot.
+    /// Gets or sets the list of view items to display in the slot.
     /// </summary>
     [Parameter] public List<SchedulerItemViewInfo<TItem>> ViewItems { get; set; }
 
     /// <summary>
-    /// Defines the start date of the slot.
+    /// Gets or sets the start time of the slot.
     /// </summary>
     [Parameter] public DateTime SlotStart { get; set; }
 
     /// <summary>
-    /// Defines the end date of the slot.
+    /// Gets or sets the end time of the slot.
     /// </summary>
     [Parameter] public DateTime SlotEnd { get; set; }
 
     /// <summary>
-    /// Defines if this is the last slot in the cell.
+    /// Indicates whether this slot is the last one in its container.
     /// </summary>
     [Parameter] public bool LastSlot { get; set; }
 
     /// <summary>
-    /// Defines the cell height of the item.
+    /// Gets or sets the cell height used to render items.
     /// </summary>
     [Parameter] public double ItemCellHeight { get; set; }
 
+    /// <summary>
+    /// Callback triggered when the slot is clicked.
+    /// </summary>
     [Parameter] public Func<DateTime, DateTime, Task> SlotClicked { get; set; }
 
+    /// <summary>
+    /// Callback triggered when an item is edited.
+    /// </summary>
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, DateTime, DateTime, Task> EditItemClicked { get; set; }
 
+    /// <summary>
+    /// Callback triggered when an item is deleted.
+    /// </summary>
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, Task> DeleteItemClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets the drag area associated with the slot.
+    /// </summary>
     [Parameter] public SchedulerDragArea DragArea { get; set; }
 
     #endregion

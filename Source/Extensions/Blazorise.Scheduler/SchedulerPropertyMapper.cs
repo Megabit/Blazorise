@@ -45,6 +45,11 @@ public class SchedulerPropertyMapper<TItem>
     private Func<TItem, List<TItem>> getRecurrenceExceptionsFunc;
     private Action<TItem, List<TItem>> setRecurrenceExceptionsFunc;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SchedulerPropertyMapper{TItem}"/> class,
+    /// compiling property accessors and mutators based on the scheduler's field definitions.
+    /// </summary>
+    /// <param name="scheduler">The scheduler configuration used to determine which properties to map.</param>
     public SchedulerPropertyMapper( Scheduler<TItem> scheduler )
     {
         if ( !string.IsNullOrEmpty( scheduler.IdField ) && typeof( TItem ).GetProperty( scheduler.IdField )?.PropertyType is not null )
@@ -114,125 +119,146 @@ public class SchedulerPropertyMapper<TItem>
         }
     }
 
-    public object GetId( TItem item )
-    {
-        return getIdFunc?.Invoke( item );
-    }
+    /// <summary>Gets the ID value from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The ID value.</returns>
+    public object GetId( TItem item ) => getIdFunc?.Invoke( item );
 
-    public void SetId( TItem item, object value )
-    {
-        setIdFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the ID value on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The new ID value.</param>
+    public void SetId( TItem item, object value ) => setIdFunc?.Invoke( item, value );
 
-    public string GetTitle( TItem item )
-    {
-        return getTitleFunc?.Invoke( item );
-    }
+    /// <summary>Gets the title from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The title string.</returns>
+    public string GetTitle( TItem item ) => getTitleFunc?.Invoke( item );
 
-    public void SetTitle( TItem item, string value )
-    {
-        setTitleFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the title on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The new title.</param>
+    public void SetTitle( TItem item, string value ) => setTitleFunc?.Invoke( item, value );
 
-    public string GetDescription( TItem item )
-    {
-        return getDescriptionFunc?.Invoke( item );
-    }
+    /// <summary>Gets the description from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The description string.</returns>
+    public string GetDescription( TItem item ) => getDescriptionFunc?.Invoke( item );
 
-    public void SetDescription( TItem item, string value )
-    {
-        setDescriptionFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the description on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The new description.</param>
+    public void SetDescription( TItem item, string value ) => setDescriptionFunc?.Invoke( item, value );
 
-    public DateTime GetStart( TItem item )
-    {
-        return getStartFunc?.Invoke( item ) ?? DateTime.MinValue;
-    }
+    /// <summary>Gets the start date and time from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The start <see cref="DateTime"/>, or <see cref="DateTime.MinValue"/> if unavailable.</returns>
+    public DateTime GetStart( TItem item ) => getStartFunc?.Invoke( item ) ?? DateTime.MinValue;
 
-    public void SetStart( TItem item, DateTime value )
-    {
-        setStartFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the start date and time on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The new start date and time.</param>
+    public void SetStart( TItem item, DateTime value ) => setStartFunc?.Invoke( item, value );
 
-    public DateTime GetEnd( TItem item )
-    {
-        return getEndFunc?.Invoke( item ) ?? DateTime.MinValue;
-    }
+    /// <summary>Gets the end date and time from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The end <see cref="DateTime"/>, or <see cref="DateTime.MinValue"/> if unavailable.</returns>
+    public DateTime GetEnd( TItem item ) => getEndFunc?.Invoke( item ) ?? DateTime.MinValue;
 
-    public void SetEnd( TItem item, DateTime value )
-    {
-        setEndFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the end date and time on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The new end date and time.</param>
+    public void SetEnd( TItem item, DateTime value ) => setEndFunc?.Invoke( item, value );
 
-    public bool GetAllDay( TItem item )
-    {
-        return getAllDayFunc?.Invoke( item ) ?? false;
-    }
+    /// <summary>Gets whether the scheduler item is marked as an all-day event.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns><c>true</c> if all-day; otherwise, <c>false</c>.</returns>
+    public bool GetAllDay( TItem item ) => getAllDayFunc?.Invoke( item ) ?? false;
 
-    public void SetAllDay( TItem item, bool value )
-    {
-        setAllDayFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the all-day flag on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The all-day flag.</param>
+    public void SetAllDay( TItem item, bool value ) => setAllDayFunc?.Invoke( item, value );
 
-    public string GetRecurrenceRule( TItem item )
-    {
-        return getRecurrenceRuleFunc?.Invoke( item );
-    }
+    /// <summary>Gets the recurrence rule from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The recurrence rule string (RFC 5545 format).</returns>
+    public string GetRecurrenceRule( TItem item ) => getRecurrenceRuleFunc?.Invoke( item );
 
-    public void SetRecurrenceRule( TItem item, string value )
-    {
-        setRecurrenceRuleFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the recurrence rule on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The recurrence rule string.</param>
+    public void SetRecurrenceRule( TItem item, string value ) => setRecurrenceRuleFunc?.Invoke( item, value );
 
-    public object GetRecurrenceId( TItem item )
-    {
-        return getRecurrenceIdFunc?.Invoke( item );
-    }
+    /// <summary>Gets the recurrence ID (series ID) from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The recurrence ID value.</returns>
+    public object GetRecurrenceId( TItem item ) => getRecurrenceIdFunc?.Invoke( item );
 
-    public void SetRecurrenceId( TItem item, object value )
-    {
-        setRecurrenceIdFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the recurrence ID (series ID) on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The new recurrence ID.</param>
+    public void SetRecurrenceId( TItem item, object value ) => setRecurrenceIdFunc?.Invoke( item, value );
 
-    public List<DateTime> GetDeletedOccurrences( TItem item )
-    {
-        return getDeletedOccurrencesFunc?.Invoke( item );
-    }
+    /// <summary>Gets the list of deleted occurrences from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>A list of deleted occurrence <see cref="DateTime"/> values.</returns>
+    public List<DateTime> GetDeletedOccurrences( TItem item ) => getDeletedOccurrencesFunc?.Invoke( item );
 
-    public void SetDeletedOccurrences( TItem item, List<DateTime> value )
-    {
-        setDeletedOccurrencesFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the list of deleted occurrences on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">A list of deleted occurrence <see cref="DateTime"/> values.</param>
+    public void SetDeletedOccurrences( TItem item, List<DateTime> value ) => setDeletedOccurrencesFunc?.Invoke( item, value );
 
-    public DateTime? GetOriginalStart( TItem item )
-    {
-        return getOriginalStartFunc?.Invoke( item );
-    }
+    /// <summary>Gets the original start time from a modified occurrence.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>The original start time, or <c>null</c>.</returns>
+    public DateTime? GetOriginalStart( TItem item ) => getOriginalStartFunc?.Invoke( item );
 
-    public void SetOriginalStart( TItem item, DateTime? value )
-    {
-        setOriginalStartFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the original start time on a modified occurrence.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">The original start time.</param>
+    public void SetOriginalStart( TItem item, DateTime? value ) => setOriginalStartFunc?.Invoke( item, value );
 
-    public List<TItem> GetRecurrenceExceptions( TItem item )
-    {
-        return getRecurrenceExceptionsFunc?.Invoke( item );
-    }
+    /// <summary>Gets the recurrence exception items from the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <returns>A list of recurrence exception items.</returns>
+    public List<TItem> GetRecurrenceExceptions( TItem item ) => getRecurrenceExceptionsFunc?.Invoke( item );
 
-    public void SetRecurrenceExceptions( TItem item, List<TItem> value )
-    {
-        setRecurrenceExceptionsFunc?.Invoke( item, value );
-    }
+    /// <summary>Sets the recurrence exception items on the scheduler item.</summary>
+    /// <param name="item">The scheduler item.</param>
+    /// <param name="value">A list of recurrence exception items.</param>
+    public void SetRecurrenceExceptions( TItem item, List<TItem> value ) => setRecurrenceExceptionsFunc?.Invoke( item, value );
 
+    /// <summary>Gets whether the item has an ID property mapped.</summary>
     public bool HasId => getIdFunc is not null;
+
+    /// <summary>Gets whether the item has a Title property mapped.</summary>
     public bool HasTitle => getTitleFunc is not null;
+
+    /// <summary>Gets whether the item has a Description property mapped.</summary>
     public bool HasDescription => getDescriptionFunc is not null;
+
+    /// <summary>Gets whether the item has a Start property mapped.</summary>
     public bool HasStart => getStartFunc is not null;
+
+    /// <summary>Gets whether the item has an End property mapped.</summary>
     public bool HasEnd => getEndFunc is not null;
+
+    /// <summary>Gets whether the item has an AllDay property mapped.</summary>
     public bool HasAllDay => getAllDayFunc is not null;
+
+    /// <summary>Gets whether the item has a RecurrenceRule property mapped.</summary>
     public bool HasRecurrenceRule => getRecurrenceRuleFunc is not null;
+
+    /// <summary>Gets whether the item has a RecurrenceId property mapped.</summary>
     public bool HasRecurrenceId => getRecurrenceIdFunc is not null;
+
+    /// <summary>Gets whether the item has a DeletedOccurrences property mapped.</summary>
     public bool HasDeletedOccurrences => getDeletedOccurrencesFunc is not null;
+
+    /// <summary>Gets whether the item has an OriginalStart property mapped.</summary>
     public bool HasOriginalStart => getOriginalStartFunc is not null;
+
+    /// <summary>Gets whether the item has a RecurrenceExceptions property mapped.</summary>
     public bool HasRecurrenceExceptions => getRecurrenceExceptionsFunc is not null;
 }
