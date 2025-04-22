@@ -15,7 +15,7 @@
                 var top = height * numberOfPreviousItems;
 
                 <Div Flex="Flex.Default" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )">
-                    <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" Clicked="@OnItemClicked" />
+                    <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" Clicked="@OnItemClicked" DragArea="@DragArea" />
                 </Div>
             }
         }

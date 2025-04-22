@@ -30,7 +30,7 @@
 
     protected Task OnItemDragStart( DragEventArgs e, TItem item )
     {
-        return Scheduler.StartDrag( item, "allday" );
+        return Scheduler.StartDrag( item, DragArea );
     }
 
     /// <summary>
@@ -47,4 +47,6 @@
     [Parameter] public bool OverflowingOnEnd { get; set; }
 
     [Parameter] public Func<TItem, Task> Clicked { get; set; }
+
+    [Parameter] public SchedulerDragArea DragArea { get; set; }
 }
