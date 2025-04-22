@@ -14,6 +14,11 @@
 
         var items = Scheduler.GetItemsInView( minDate.ToDateTime( TimeOnly.MinValue ), maxDate.ToDateTime( TimeOnly.MaxValue ) ).ToList();
 
+        @if ( ShowWeekNumbers )
+        {
+            <_SchedulerWeekNumberColumn TItem="TItem" MinDate="@minDate" MaxDate="@maxDate" FirstDayOfWeek="@FirstDayOfWeek" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
+        }
+
         @for ( var firstDateOfWeek = minDate; firstDateOfWeek <= minDate.AddDays( 6 ); firstDateOfWeek = firstDateOfWeek.AddDays( 1 ) )
         {
             <_SchedulerWeekColumn TItem="TItem" MinDate="@minDate" MaxDate="@maxDate" FirstDateOfWeek="@firstDateOfWeek" SelectedDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@items" />

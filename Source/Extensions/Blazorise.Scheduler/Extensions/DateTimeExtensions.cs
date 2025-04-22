@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Globalization;
 #endregion
 
 namespace Blazorise.Scheduler.Extensions;
@@ -95,5 +96,26 @@ public static class DateTimeExtensions
     public static DateOnly EndOfMonth( this DateOnly dt )
     {
         return new DateOnly( dt.Year, dt.Month, DateTime.DaysInMonth( dt.Year, dt.Month ) );
+    }
+
+    /// <summary>
+    /// Returns the week number using a specified first day of the week.
+    /// Uses a "first week has at least 4 days" rule (like ISO 8601).
+    /// </summary>
+    public static int GetWeekNumber( this DateOnly date, DayOfWeek firstDayOfWeek )
+    {
+        var dt = date.ToDateTime( TimeOnly.MinValue, DateTimeKind.Unspecified );
+
+        // Normalize the DayOfWeek to the given firstDayOfWeek context
+        var day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek( dt );
+        int offset = ( (int)day - (int)firstDayOfWeek + 7 ) % 7;
+
+        // If we're in the first 3 days of the week relative to firstDayOfWeek, shift forward
+        if ( offset <= 2 )
+        {
+            dt = dt.AddDays( 3 );
+        }
+
+        return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear( dt, CalendarWeekRule.FirstFourDayWeek, firstDayOfWeek );
     }
 }

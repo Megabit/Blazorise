@@ -1,0 +1,31 @@
+﻿@typeparam TItem
+@using Blazorise.Scheduler.Extensions
+<Div Class="b-scheduler-weeknumbers-column" Position="Blazorise.Position.Relative">
+    <Div Class="b-scheduler-weeknumber-header" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnTop">
+        <Div Class="b-scheduler-weeknumber-header-inner">
+            <Span></Span>
+        </Div>
+    </Div>
+
+    @for ( var dateInWeek = MinDate; dateInWeek <= MaxDate; dateInWeek = dateInWeek.AddDays( 7 ) )
+    {
+        var weekNumber = dateInWeek.GetWeekNumber( FirstDayOfWeek );
+
+        <Div Class="b-scheduler-weeknumber-cell" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( ItemCellHeight )" Border="Border.Is1.OnBottom">
+            <Div Class="b-scheduler-weeknumber-cell-inner" TextWeight="TextWeight.SemiBold" Padding="Padding.Is3.OnX.Is1.FromTop">
+                @weekNumber
+            </Div>
+        </Div>
+    }
+</Div>
+@code {
+    [Parameter] public DateOnly MinDate { get; set; }
+
+    [Parameter] public DateOnly MaxDate { get; set; }
+
+    [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+}

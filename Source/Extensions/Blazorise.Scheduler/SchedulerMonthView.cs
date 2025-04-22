@@ -40,5 +40,10 @@ public partial class SchedulerMonthView<TItem> : BaseSchedulerView<TItem>
     /// </remarks>
     [Parameter] public double ItemCellHeight { get; set; } = 100;
 
+    /// <summary>
+    /// Indicates whether to display week numbers in a calendar. Defaults to true.
+    /// </summary>
+    [Parameter] public bool ShowWeekNumbers { get; set; } = true;
+
     #endregion
 }
