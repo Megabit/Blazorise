@@ -28,7 +28,7 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong></Strong>:
+            <Strong>MessageService</Strong>: New Choices Method
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -160,6 +160,22 @@
 
 <Paragraph>
     The <Code>RichTextEdit</Code> component now includes an <Code>GetHtmlAsync</Code> overload that allows you to export the current content as semantic HTML. This is particularly useful for applications that require clean and structured HTML output, such as when saving or sharing content.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Multiple Highlights Support for Highlighter
+</Heading>
+
+<Paragraph>
+    The <code>Highlighter</code> component now supports highlighting multiple phrases within the same text using the new <code>HighlightedTexts</code> parameter. This enhancement allows developers to pass a list of strings to be highlighted simultaneously, replacing the previous limitation of only a single <code>HighlightedText</code>. The update enables more dynamic and flexible highlighting scenarios, such as multi-word search, filtering, and complex keyword matching — all with minimal changes to existing implementations.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Choices on MessageService
+</Heading>
+
+<Paragraph>
+    The <Code>MessageService</Code> now supports the <Code>Choices</Code> method, allowing you to display a list of options in a message dialog. This feature is useful for scenarios where you want to present users with multiple choices and handle their selection accordingly.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />

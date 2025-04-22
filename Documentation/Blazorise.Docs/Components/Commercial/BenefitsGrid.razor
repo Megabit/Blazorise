@@ -25,7 +25,7 @@
                 <TableRow @key="@work">
                     <TableRowCell TextAlignment="TextAlignment.Start">@work.Name</TableRowCell>
                     <TableRowCell TextAlignment="TextAlignment.Center">@($"{work.HoursWorked:n0} hours")</TableRowCell>
-                    <TableRowCell TextAlignment="TextAlignment.End">@($"${work.HoursWorked * @HourlyRate:n0}")</TableRowCell>
+                    <TableRowCell TextAlignment="TextAlignment.End">@($"€{work.HoursWorked * @HourlyRate:n0}")</TableRowCell>
                 </TableRow>
             }
         </TableBody>
@@ -33,14 +33,14 @@
             <TableRow>
                 <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Total</Strong></TableRowCell>
                 <TableRowCell TextAlignment="TextAlignment.Center">@($"{Works.Sum( x => x.HoursWorked )} hours")</TableRowCell>
-                <TableRowCell TextAlignment="TextAlignment.End"><Strong>@($"${Works.Sum( x => x.HoursWorked * HourlyRate ):n2}")</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.End"><Strong>@($"€{Works.Sum( x => x.HoursWorked * HourlyRate ):n2}")</Strong></TableRowCell>
             </TableRow>
         </TableFooter>
     </Table>
 </Paragraph>
 
 <Paragraph>
-    <Span>*</Span> Savings are calculated using an hourly rate of <Strong>$50/hour</Strong> of an average enterprise level application.
+    <Span>*</Span> Savings are calculated using an hourly rate of <Strong>€50/hour</Strong> of an average enterprise level application.
 </Paragraph>
 
  @code{

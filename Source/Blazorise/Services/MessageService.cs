@@ -59,14 +59,33 @@ class MessageService : IMessageService
         => Confirm( (MarkupString)message, title, options );
 
     /// <inheritdoc/>
-    public Task<bool> Confirm( MarkupString message, string title = null, Action<MessageOptions> options = null )
+    public async Task<bool> Confirm( MarkupString message, string title = null, Action<MessageOptions> options = null )
     {
         var messageOptions = MessageOptions.Default;
         options?.Invoke( messageOptions );
 
-        var callback = new TaskCompletionSource<bool>();
+        var callback = new TaskCompletionSource<object>();
 
         MessageReceived?.Invoke( this, new( MessageType.Confirmation, message, title, messageOptions, callback ) );
+
+        var result = await callback.Task;
+
+        return result is bool booleanResult && booleanResult;
+    }
+
+    /// <inheritdoc/>
+    public Task<object> Choose( string message, string title = null, Action<MessageOptions> options = null )
+        => Choose( (MarkupString)message, title, options );
+
+    /// <inheritdoc/>
+    public Task<object> Choose( MarkupString message, string title = null, Action<MessageOptions> options = null )
+    {
+        var messageOptions = MessageOptions.Default;
+        options?.Invoke( messageOptions );
+
+        var callback = new TaskCompletionSource<object>();
+
+        MessageReceived?.Invoke( this, new( MessageType.Choice, message, title, messageOptions, callback ) );
 
         return callback.Task;
     }

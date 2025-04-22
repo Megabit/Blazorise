@@ -1,4 +1,8 @@
 ﻿@charset "UTF-8";
+:root {
+  --b-bar-horizontal-height: 60px;
+}
+
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
