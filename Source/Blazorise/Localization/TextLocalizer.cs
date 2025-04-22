@@ -178,18 +178,18 @@ public class TextLocalizer<T> : ITextLocalizer<T>
         return GetString( localizerService.SelectedCulture, name, arguments );
     }
 
-    
+
     /// <inheritdoc/>
     public virtual string GetString( CultureInfo culture, string name, params object[] arguments )
     {
-        var translations = GetTranslations(culture);
-    
+        var translations = GetTranslations( culture );
+
         if ( translations is null || !translations.TryGetValue( name, out var value ) )
             value = name;
-    
+
         if ( arguments.Length > 0 )
             value = string.Format( culture, value, arguments );
-    
+
         return value;
     }
 
@@ -198,12 +198,12 @@ public class TextLocalizer<T> : ITextLocalizer<T>
     {
         return GetStrings( localizerService.SelectedCulture, arguments );
     }
-    
+
     /// <inheritdoc/>
     public virtual IReadOnlyDictionary<string, string> GetStrings( CultureInfo culture, params object[] arguments )
     {
-        var translations = GetTranslations(culture);
-    
+        var translations = GetTranslations( culture );
+
         return ( from t in translations
                  select new
                  {
@@ -223,7 +223,7 @@ public class TextLocalizer<T> : ITextLocalizer<T>
 
     /// <inheritdoc/>
     public string this[string name, params object[] arguments] => GetString( name, arguments );
-    
+
     /// <inheritdoc/>
     public string this[CultureInfo culture, string name, params object[] arguments] => GetString( culture, name, arguments );
 

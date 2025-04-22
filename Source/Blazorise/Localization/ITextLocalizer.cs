@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Globalization;
-
 #endregion
 
 namespace Blazorise.Localization;
@@ -34,7 +33,7 @@ public interface ITextLocalizer
     /// <param name="arguments">The values to format the string with.</param>
     /// <returns>The formatted string resource <paramref name="name"/> if not found.</returns>
     string this[CultureInfo culture, string name, params object[] arguments] { get; }
-    
+
     /// <summary>
     /// Adds a custom language resource to the list of supported cultures.
     /// </summary>
@@ -48,7 +47,7 @@ public interface ITextLocalizer
     /// <param name="arguments">An object array that contains zero or more objects to format.</param>
     /// <returns>Localized string.</returns>
     string GetString( string name, params object[] arguments );
-    
+
     /// <summary>
     /// Gets the localized string by the name with the optional list object for formatting.
     /// </summary>
@@ -57,14 +56,14 @@ public interface ITextLocalizer
     /// <param name="arguments">An object array that contains zero or more objects to format.</param>
     /// <returns>Localized string.</returns>
     string GetString( CultureInfo culture, string name, params object[] arguments );
-    
+
     /// <summary>
     /// Gets the localized string for each key in the localization object.
     /// </summary>
     /// <param name="arguments">An object array that contains zero or more objects to format.</param>
     /// <returns>Localized key/value pairs.</returns>
     IReadOnlyDictionary<string, string> GetStrings( params object[] arguments );
-    
+
     /// <summary>
     /// Gets the localized string for each key in the localization object.
     /// </summary>
