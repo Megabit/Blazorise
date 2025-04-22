@@ -1,4 +1,4 @@
-import { computePosition, autoUpdate, flip, shift, limitShift } from './vendors/floating-ui.js?v=1.7.6.0';
+import { computePosition, autoUpdate, flip, shift, limitShift, hide } from './vendors/floating-ui.js?v=1.7.6.0';
 
 const DIRECTION_DEFAULT = 'Default'
 const DIRECTION_DOWN = 'Down'
@@ -12,11 +12,13 @@ export function createFloatingUiAutoUpdate(targetElement, menuElement, options) 
         computePosition(targetElement, menuElement, { //https://floating-ui.com/docs/computePosition#anchoring
             placement: getPlacementDirection(options.direction, options.rightAligned), //https://floating-ui.com/docs/computePosition#placement
             strategy: options.strategy, //https://floating-ui.com/docs/computePosition#strategy
-            middleware: [flip(), shift({ padding: 0, limiter: limitShift() })] //https://floating-ui.com/docs/computePosition#middleware
-        }).then(({ x, y }) => {
+            middleware: [flip(), shift({ padding: 0, limiter: limitShift() }), hide()] //https://floating-ui.com/docs/computePosition#middleware
+        }).then(({ x, y, middlewareData }) => {
+            const { referenceHidden, escaped } = middlewareData.hide ?? {};
             Object.assign(menuElement.style, {
                 left: `${x}px`,
-                top: `${y}px`
+                top: `${y}px`,
+                visibility: referenceHidden || escaped ? 'hidden' : 'visible'
             });
         });
     });
