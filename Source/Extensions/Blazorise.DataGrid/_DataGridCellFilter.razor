@@ -7,7 +7,7 @@
     }
     else if ( Column is DataGridSelectColumn<TItem> selectColumn )
     {
-        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" FilterDisplay="true" />
+        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" Area="DataGridCellArea.Filter" />
     }
     else if ( Column is DataGridCheckColumn<TItem> checkColumn )
     {

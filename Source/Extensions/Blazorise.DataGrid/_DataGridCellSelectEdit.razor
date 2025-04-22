@@ -5,10 +5,10 @@
     <ChildContent>
 
         @{
-            var defaultText = FilterDisplay ? Column.FilterDefaultItemText : Column.DefaultItemText;
-            var defaultValue = FilterDisplay ? Column.FilterDefaultItemValue : Column.DefaultItemValue;
-            var defaultDisabled = FilterDisplay ? Column.FilterDefaultItemDisabled : Column.DefaultItemDisabled;
-            var defaultHidden = FilterDisplay ? Column.FilterDefaultItemHidden : Column.DefaultItemHidden;
+            var defaultText = Area == DataGridCellArea.Filter? Column.FilterDefaultItemText: Column.DefaultItemText;
+            var defaultValue = Area == DataGridCellArea.Filter? Column.FilterDefaultItemValue: Column.DefaultItemValue;
+            var defaultDisabled = Area == DataGridCellArea.Filter? Column.FilterDefaultItemDisabled: Column.DefaultItemDisabled;
+            var defaultHidden = Area == DataGridCellArea.Filter? Column.FilterDefaultItemHidden: Column.DefaultItemHidden;
         }
 
         @if ( defaultText is not null )

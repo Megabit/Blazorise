@@ -214,9 +214,9 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     [Parameter] public bool ShowValidationFeedback { get; set; }
 
     /// <summary>
-    /// Determines if the cell is currently in filter row.
+    /// Determines the area where the cell is located. 
     /// </summary>
-    [Parameter] public bool FilterDisplay { get; set; }
+    [Parameter] public DataGridCellArea Area { get; set; }
 
     #endregion
 }
