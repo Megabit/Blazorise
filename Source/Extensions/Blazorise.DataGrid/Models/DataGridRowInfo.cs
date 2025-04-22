@@ -46,10 +46,9 @@ public class DataGridRowInfo<TItem>
     /// <summary>
     /// Sets the detail row for the current row.
     /// </summary>
-    /// <param name="hasDetailRow">Indicates whether the detail row is present.</param>
-    /// <param name="toggleable">Indicates whether the detail row can be toggled.</param>
-    public void SetRowDetail( bool hasDetailRow, bool toggleable )
-        => this.hasDetailRow = ( toggleable && !this.hasDetailRow & hasDetailRow ) || ( !toggleable && hasDetailRow );
+    /// <param name="hasDetailRowNew">Open or close the detail row</param>
+    public void SetRowDetail( bool hasDetailRowNew )
+        => this.hasDetailRow = hasDetailRowNew;
 
     /// <summary>
     /// Toggles the visibility of the detail row.
