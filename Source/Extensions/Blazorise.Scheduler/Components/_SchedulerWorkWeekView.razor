@@ -14,7 +14,7 @@
 
         @for ( var date = startOfWeek; date <= endOfWeek; date = date.AddDays( 1 ) )
         {
-            <_SchedulerDayColumn TItem="TItem" FirstViewDate="@startOfWeek" LastViewDate="@endOfWeek" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@items" MaxStackedAllDayItems="@maxStackedAllDayItems" AllDayItems="@allDayItems" />
+            <_SchedulerDayColumn TItem="TItem" FirstViewDate="@startOfWeek" LastViewDate="@endOfWeek" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@items" MaxStackedAllDayItems="@maxStackedAllDayItems" AllDayItems="@allDayItems" DragArea="SchedulerDragArea.WeekView" />
         }
     }
 </Div>

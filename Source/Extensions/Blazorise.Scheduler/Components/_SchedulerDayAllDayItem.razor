@@ -30,7 +30,7 @@
 
     protected Task OnItemDragStart( DragEventArgs e, TItem item )
     {
-        return Scheduler.StartDrag( item );
+        return Scheduler.StartDrag( item, "allday" );
     }
 
     /// <summary>

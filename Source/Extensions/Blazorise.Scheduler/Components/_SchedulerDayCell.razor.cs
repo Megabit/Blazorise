@@ -111,5 +111,7 @@ public partial class _SchedulerDayCell<TItem>
 
     [Parameter] public IEnumerable<SchedulerItemViewInfo<TItem>> ViewItems { get; set; }
 
+    [Parameter] public SchedulerDragArea DragArea { get; set; }
+
     #endregion
 }

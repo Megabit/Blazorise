@@ -32,7 +32,7 @@
 
     protected Task OnSlotDrop( DragEventArgs e )
     {
-        return Scheduler.DropAllDayItem( Date );
+        return Scheduler.DropAllDayItem( Date, DragArea );
     }
 
     string GetAllDayHeaderStyle()
@@ -60,4 +60,6 @@
     [Parameter] public int MaxStackedAllDayItems { get; set; }
 
     [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
+
+    [Parameter] public SchedulerDragArea DragArea { get; set; }
 }

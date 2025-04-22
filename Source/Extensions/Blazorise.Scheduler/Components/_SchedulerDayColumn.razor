@@ -8,14 +8,14 @@
 
         @if ( MaxStackedAllDayItems > 0 )
         {
-            <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" />
+            <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" DragArea="SchedulerDragArea.AllDayHeader" />
         }
 
         var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
 
         @for ( var time = ( StartTime ?? TimeOnly.MinValue ); time < ( EndTime ?? TimeOnly.MaxValue ); time = time.AddHours( 1 ) )
         {
-            <_SchedulerDayCell TItem="TItem" @key="@time" Date="@Date" Time="@time" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" />
+            <_SchedulerDayCell TItem="TItem" @key="@time" Date="@Date" Time="@time" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" DragArea="@DragArea" />
         }
     }
 </Div>
@@ -55,4 +55,6 @@
     [Parameter] public int MaxStackedAllDayItems { get; set; }
 
     [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
+
+    [Parameter] public SchedulerDragArea DragArea { get; set; }
 }

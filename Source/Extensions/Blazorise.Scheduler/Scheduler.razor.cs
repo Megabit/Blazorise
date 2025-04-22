@@ -1378,7 +1378,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     public bool IsDragging => isDragging;
 
-    internal async Task StartDrag( TItem item )
+    internal async Task StartDrag( TItem item, SchedulerDragArea dragArea )
     {
         // Cancel any existing transaction
         if ( currentTransaction != null )
@@ -1392,7 +1392,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editState = SchedulerEditState.Edit;
 
         // Create a new transaction
-        currentTransaction = new SchedulerTransaction<TItem>( this, item );
+        currentTransaction = new SchedulerTransaction<TItem>( this, item, dragArea );
         isDragging = true;
 
         DragStarted?.Invoke( this, item );
@@ -1415,13 +1415,20 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         DragCancelled?.Invoke( this, item );
     }
 
-    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd )
+    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerDragArea dragArea )
     {
         if ( currentTransaction == null )
             return false;
 
         try
         {
+            if ( currentTransaction.DragArea != dragArea )
+            {
+                await CancelDrag();
+
+                return false;
+            }
+
             var duration = GetItemDuration( currentTransaction.Item );
             SetItemDates( currentTransaction.Item, newStart, newStart.Add( duration ) );
 
@@ -1446,13 +1453,20 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropDateItem( DateOnly date )
+    internal async Task<bool> DropDateItem( DateOnly date, SchedulerDragArea dragArea )
     {
         if ( currentTransaction == null )
             return false;
 
         try
         {
+            if ( currentTransaction.DragArea != dragArea )
+            {
+                await CancelDrag();
+
+                return false;
+            }
+
             var start = GetItemStartTime( currentTransaction.Item );
             var end = GetItemEndTime( currentTransaction.Item );
 
@@ -1482,13 +1496,20 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropAllDayItem( DateOnly date )
+    internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerDragArea dragArea )
     {
         if ( currentTransaction == null )
             return false;
 
         try
         {
+            if ( currentTransaction.DragArea != dragArea )
+            {
+                await CancelDrag();
+
+                return false;
+            }
+
             var start = GetItemStartTime( currentTransaction.Item );
             var duration = GetItemDuration( currentTransaction.Item );
 

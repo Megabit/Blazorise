@@ -12,12 +12,13 @@ public class SchedulerTransaction<TItem>
 
     private SchedulerTransactionState state = SchedulerTransactionState.Pending;
 
-    public SchedulerTransaction( Scheduler<TItem> scheduler, TItem item )
+    public SchedulerTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerDragArea dragArea )
     {
         this.scheduler = scheduler;
 
         OriginalItem = item;
         Item = item.DeepClone();
+        DragArea = dragArea;
     }
 
     public async Task Commit()
@@ -84,7 +85,12 @@ public class SchedulerTransaction<TItem>
     /// </summary>
     private TItem OriginalItem { get; init; }
 
-    public TItem Item { get; set; }
+    public TItem Item { get; private set; }
+
+    /// <summary>
+    /// Defines the area or context where the drag originates.
+    /// </summary>
+    public SchedulerDragArea DragArea { get; }
 
     public SchedulerTransactionState State => state;
 

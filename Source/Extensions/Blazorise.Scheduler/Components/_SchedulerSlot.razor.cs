@@ -45,12 +45,12 @@ public partial class _SchedulerSlot<TItem>
     {
         mouseHovering = false;
 
-        return Scheduler.StartDrag( viewItem.Item );
+        return Scheduler.StartDrag( viewItem.Item, DragArea );
     }
 
     protected Task OnSlotDrop( DragEventArgs e )
     {
-        return Scheduler.DropSlotItem( SlotStart, SlotEnd );
+        return Scheduler.DropSlotItem( SlotStart, SlotEnd, DragArea );
     }
 
     protected Task OnEditItemClicked( SchedulerItemViewInfo<TItem> viewItem )
@@ -165,6 +165,8 @@ public partial class _SchedulerSlot<TItem>
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, DateTime, DateTime, Task> EditItemClicked { get; set; }
 
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, Task> DeleteItemClicked { get; set; }
+
+    [Parameter] public SchedulerDragArea DragArea { get; set; }
 
     #endregion
 }

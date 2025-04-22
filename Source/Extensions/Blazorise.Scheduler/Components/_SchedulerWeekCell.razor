@@ -55,12 +55,12 @@
     {
         mouseHovering = false;
 
-        return Scheduler.StartDrag( viewItem.Item );
+        return Scheduler.StartDrag( viewItem.Item, DragArea );
     }
 
     protected Task OnSlotDrop( DragEventArgs e )
     {
-        return Scheduler.DropDateItem( Date );
+        return Scheduler.DropDateItem( Date, DragArea );
     }
 
     string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem )
@@ -103,4 +103,6 @@
     [Parameter] public double ItemCellHeight { get; set; }
 
     [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
+
+    [Parameter] public SchedulerDragArea DragArea { get; set; }
 }
