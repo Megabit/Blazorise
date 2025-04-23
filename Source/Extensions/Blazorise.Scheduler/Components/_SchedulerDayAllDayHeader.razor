@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="Border.Is1.OnBottom.Is1.OnStart" ondragover="event.preventDefault();" @ondrop="@OnSlotDrop">
+<Div Style="@GetAllDayHeaderStyle()" Position="Position.Relative" Flex="Blazorise.Flex.Column.AlignItems.Stretch" Width="Width.Is100" Border="@BorderColor" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
     @{
         var itemInfos = Scheduler.GetAllDayItemOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
 
@@ -22,6 +22,8 @@
     }
 </Div>
 @code {
+    private bool draggingOver;
+
     protected async Task OnItemClicked( TItem item )
     {
         if ( item is not null )
@@ -30,8 +32,24 @@
         }
     }
 
+    protected Task OnSlotDragEnter( DragEventArgs e )
+    {
+        draggingOver = true;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnSlotDragLeave( DragEventArgs e )
+    {
+        draggingOver = false;
+
+        return Task.CompletedTask;
+    }
+
     protected Task OnSlotDrop( DragEventArgs e )
     {
+        draggingOver = false;
+
         return Scheduler.DropAllDayItem( Date, DragArea );
     }
 
@@ -44,6 +62,10 @@
     {
         return $"position: absolute; left: 0; top: {top}px; width: {totalDays * 100}%; height: {height}px; z-index: 1; cursor: pointer;";
     }
+
+    private bool IsDraggingOver => draggingOver && DragArea == Scheduler.CurrentDragArea;
+
+    private IFluentBorder BorderColor => IsDraggingOver ? Border.Is1.Dark : Border.Is1.OnBottom.Is1.OnStart;
 
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
