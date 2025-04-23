@@ -28,7 +28,7 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong></Strong>:
+            <Strong>MessageService</Strong>: New Choices Method
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -119,6 +119,14 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    DataGrid: Added support for default item in filter for DataGridSelectColumn
+</Heading>
+
+<Paragraph>
+    New parameters <Code>FilterDefaultItemText</Code>, <Code>FilterDefaultItemValue</Code>, <Code>FilterDefaultItemDisabled</Code>, and <Code>FilterDefaultItemHidden</Code> allow customizing the default item shown in filter dropdowns of <Code>DataGridSelectColumn</Code>. This gives developers more control over how filter options are presented and improves the user experience when working with dropdown filters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Show Week Numbers On DatePicker
 </Heading>
 
@@ -152,6 +160,30 @@
 
 <Paragraph>
     The <Code>RichTextEdit</Code> component now includes an <Code>GetHtmlAsync</Code> overload that allows you to export the current content as semantic HTML. This is particularly useful for applications that require clean and structured HTML output, such as when saving or sharing content.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Multiple Highlights Support for Highlighter
+</Heading>
+
+<Paragraph>
+    The <code>Highlighter</code> component now supports highlighting multiple phrases within the same text using the new <code>HighlightedTexts</code> parameter. This enhancement allows developers to pass a list of strings to be highlighted simultaneously, replacing the previous limitation of only a single <code>HighlightedText</code>. The update enables more dynamic and flexible highlighting scenarios, such as multi-word search, filtering, and complex keyword matching — all with minimal changes to existing implementations.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Choices on MessageService
+</Heading>
+
+<Paragraph>
+    The <Code>MessageService</Code> now supports the <Code>Choices</Code> method, allowing you to display a list of options in a message dialog. This feature is useful for scenarios where you want to present users with multiple choices and handle their selection accordingly.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Culture-specific overloads for text localization
+</Heading>
+
+<Paragraph>
+    The <Code>ITextLocalizer</Code> interface now includes overloads for the <Code>GetString</Code> method that accept a <Code>CultureInfo</Code> parameter. The <Code>CultureInfo</Code> parameter can be used to specify the desired culture for localization, enabling you to retrieve strings that are tailored to the user's language and region. This is particularly useful in scenarios where you need to support multiple languages or regions within your application.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />

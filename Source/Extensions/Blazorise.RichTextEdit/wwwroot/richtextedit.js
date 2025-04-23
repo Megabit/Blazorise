@@ -1,6 +1,6 @@
-import "./vendors/quill.js?v=1.7.5.0";
-import "./vendors/quill-table-better.js?v=1.7.5.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.5.0";
+import "./vendors/quill.js?v=1.7.6.0";
+import "./vendors/quill-table-better.js?v=1.7.6.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.6.0";
 
 var rteSheetsLoaded = false;
 

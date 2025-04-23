@@ -1,14 +1,15 @@
 ﻿@namespace Blazorise
-@using System.Text.RegularExpressions
 @inherits BaseComponent
 @foreach ( var fragment in fragments )
 {
-    if ( !string.IsNullOrWhiteSpace( HighlightedText ) && Regex.IsMatch( fragment, Regex.Escape( HighlightedText ), CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase ) )
+    if ( fragment.IsMatch )
     {
-        <mark @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">@fragment</mark>
+        <mark @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @fragment.Text
+        </mark>
     }
     else
     {
-        @fragment
+        @fragment.Text
     }
 }
