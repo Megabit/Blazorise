@@ -41,6 +41,7 @@
     "December": "decembrie",
     "AM": "AM",
     "PM": "PM",
-    "RangeSeparator": " până la "
+    "RangeSeparator": " până la ",
+    "Today": "Astăzi"
   }
 }

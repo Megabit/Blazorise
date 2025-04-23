@@ -41,6 +41,7 @@
     "December": "December",
     "AM": "AM",
     "PM": "PM",
-    "RangeSeparator": " do "
+    "RangeSeparator": " do ",
+    "Today": "Dnes"
   }
 }

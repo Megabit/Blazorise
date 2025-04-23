@@ -41,6 +41,7 @@
     "December": "Prosinec",
     "AM": "dopo",
     "PM": "odpo",
-    "RangeSeparator": " do "
+    "RangeSeparator": " do ",
+    "Today": "Dnes"
   }
 }

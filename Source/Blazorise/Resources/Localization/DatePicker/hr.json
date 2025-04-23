@@ -41,6 +41,7 @@
     "December": "Prosinac",
     "AM": "AM",
     "PM": "PM",
-    "RangeSeparator": " do "
+    "RangeSeparator": " do ",
+    "Today": "Danas"
   }
 }

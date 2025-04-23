@@ -41,6 +41,7 @@
     "December": "December",
     "AM": "AM",
     "PM": "PM",
-    "RangeSeparator": " til "
+    "RangeSeparator": " til ",
+    "Today": "I dag"
   }
 }
