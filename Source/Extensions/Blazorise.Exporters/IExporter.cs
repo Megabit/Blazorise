@@ -1,40 +1,19 @@
+using System.Threading.Tasks;
+
 namespace Blazorise.Exporters;
 
 /// <summary>
-/// Represents a DataGrid exporter that handles string-based (textual) cell values, such as CSV or plain text formats.
+/// Defines an interface for exporting data, returning a result based on the provided source data.
 /// </summary>
-public interface ITextExporter<TExportResult, in TSourceData> : IExporter<TExportResult, TSourceData>
-where TExportResult : IExportResult
-where TSourceData: IExportableData<string>
-
-{
-    
-}
-
-/// <summary>
-/// Represents a DataGrid exporter that handles object-based (typed or binary) cell values for formats like Excel or BSON.
-/// </summary>
-public interface IBinaryExporter<TExportResult, in TSourceData> : IExporter<TExportResult, TSourceData>
-where TExportResult : IExportResult
-where TSourceData: IExportableData<object>
-{
-    
-}
-
-
-/// <summary>
-///  Generic interface for exporting data.
-/// </summary>
-/// <typeparam name="TExportResult"></typeparam>
-/// <typeparam name="TSourceData"></typeparam>
+/// <typeparam name="TExportResult">Represents the type of result produced by the export operation.</typeparam>
+/// <typeparam name="TSourceData">Represents the type of data that will be exported.</typeparam>
 public interface IExporter<TExportResult, in TSourceData>
-where TExportResult: IExportResult
+    where TExportResult : IExportResult
 {
     /// <summary>
-    /// Export method that takes a source data object and returns an export result.
+    /// Exports data and returns the result of the export operation.
     /// </summary>
-    /// <param name="sourceData"></param>
-    /// <returns></returns>
+    /// <param name="sourceData">The data to be exported, which is processed during the export operation.</param>
+    /// <returns>A task representing the asynchronous operation, containing the result of the export.</returns>
     Task<TExportResult> Export( TSourceData sourceData );
-
 }

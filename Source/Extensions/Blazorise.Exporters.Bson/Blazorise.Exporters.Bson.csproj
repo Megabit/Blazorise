@@ -1,17 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <Import Project="..\..\..\Build\Blazorise.props" />
 
-    <ItemGroup>
-        <PackageReference Include="MongoDB.Bson" Version="3.3.0" />
-        
-      <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
-        
-      <ProjectReference Include="..\Blazorise.Exporters\Blazorise.Exporters.csproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <PackageTags>blazorise blazor exporter bson</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\Blazorise.Exporters\Blazorise.Exporters.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
 
 </Project>

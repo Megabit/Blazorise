@@ -118,7 +118,7 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     /// <inheritdoc/>
     public ValueTask<bool> IsSystemDarkMode()
         => InvokeSafeAsync<bool>( "isSystemDarkMode" );
-    
+
     #endregion
 
     #region Properties

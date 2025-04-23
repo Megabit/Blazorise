@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
-using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -491,8 +490,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
 
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
-            JSExportersModule = new ( JSRuntime, VersionProvider, BlazoriseOptions );
-            
+            JSExportersModule = new( JSRuntime, VersionProvider, BlazoriseOptions );
+
             if ( IsCellNavigable )
             {
                 await JSModule.InitializeTableCellNavigation( tableRef.ElementRef, ElementId );
@@ -1807,21 +1806,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask ScrollToRow( int row )
         => tableRef.ScrollToRow( row );
-    
-    public async Task<TExportResult> Export<TExportResult, TCellValue>( IExporter< TExportResult, TabularSourceData< TCellValue>> exporter, DataGridExportOptions options = null )
-    where TExportResult: IExportResult, new()
+
+    public async Task<TExportResult> Export<TExportResult, TCellValue>( IExporter<TExportResult, TabularSourceData<TCellValue>> exporter, DataGridExportOptions options = null )
+        where TExportResult : IExportResult, new()
     {
         if ( exporter is IExporterWithJsModule exporterWithJsModule )
         {
-            exporterWithJsModule.JsExportersModule =JSExportersModule;
+            exporterWithJsModule.JsExportersModule = JSExportersModule;
         }
-        
-        var data = ExportData<TCellValue>(options);
 
-        TExportResult exportResult = await exporter.Export(  data );
-        return exportResult;    
+        var data = ExportData<TCellValue>( options );
+
+        TExportResult exportResult = await exporter.Export( data );
+        return exportResult;
     }
-    
+
     private TabularSourceData<TCellValue> ExportData<TCellValue>( DataGridExportOptions options )
     {
         options ??= new();
@@ -1835,10 +1834,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
 
         var columnNames = columnsToExport.Select( c => c.Caption ).ToList();
 
-        var filteredDataToTake = options.NumberOfRows == -1? FilteredData : FilteredData.Take( options.NumberOfRows );
-        
-        bool isCellValueString= typeof( TCellValue) == typeof( string);
-        
+        var filteredDataToTake = options.NumberOfRows == -1 ? FilteredData : FilteredData.Take( options.NumberOfRows );
+
+        bool isCellValueString = typeof( TCellValue ) == typeof( string );
+
         foreach ( var item in filteredDataToTake )
         {
             var rowValues = new List<TCellValue>();
@@ -1850,15 +1849,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
                                         ? column.FormatDisplayValue( cellValue ) ?? ""
                                         : cellValue;
 
-                rowValues.Add((TCellValue)formattedValue );
+                rowValues.Add( (TCellValue)formattedValue );
             }
 
             exportedData.Add( rowValues );
         }
 
-        return new TabularSourceData<TCellValue> {Data= exportedData,ColumnNames = columnNames};
+        return new TabularSourceData<TCellValue> { Data = exportedData, ColumnNames = columnNames };
     }
-
 
     #endregion
 
@@ -2856,12 +2854,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
-    
+
     /// <summary>
     /// JSExporterModule for exporting files and copying content to clipboard
     /// </summary>
-    public JSExportersModule JSExportersModule { get;  set; }
-    
+    public JSExportersModule JSExportersModule { get; set; }
 
     /// <summary>
     /// Gets or sets the license checker for the user session.

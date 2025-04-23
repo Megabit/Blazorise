@@ -179,5 +179,4 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains true if the theme is in dark mode, otherwise false.</returns>
     ValueTask<bool> IsSystemDarkMode();
-
 }

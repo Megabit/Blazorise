@@ -1,14 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <Import Project="..\..\..\Build\Blazorise.props" />
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
-      <ProjectReference Include="..\Blazorise.Exporters\Blazorise.Exporters.csproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <PackageTags>blazorise blazor exporter csv</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\Blazorise.Exporters\Blazorise.Exporters.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
 
 </Project>

@@ -5,6 +5,8 @@ namespace Blazorise.Exporters.Csv;
 /// </summary>
 public interface ICsvExportOptions
 {
-    public bool ExportHeader { get; init; } 
-
+    /// <summary>
+    /// Indicates whether to export the header in a data export process.
+    /// </summary>
+    public bool ExportHeader { get; init; }
 }

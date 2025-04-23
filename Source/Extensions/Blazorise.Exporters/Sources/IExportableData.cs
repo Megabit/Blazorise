@@ -1,20 +1,9 @@
 namespace Blazorise.Exporters;
 
-
 /// <summary>
-/// where T is eirhter string for text data, or object for binary data
+/// Defines a contract for classes that can export data in a specific format.
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public interface IExportableData<T> { }
-
-
-/// <summary>
-/// Represents a component that can utilize the JSExportersModule.
-/// </summary>
-public interface IExportableComponent
+/// <typeparam name="T">Represents the type of data that can be exported.</typeparam>
+public interface IExportableData<T>
 {
-    /// <summary>
-    /// Gets or sets the JSExportersModule instance.
-    /// </summary>
-    JSExportersModule JSExportersModule { get;  set; }
 }

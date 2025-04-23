@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.JSInterop;
 #endregion
@@ -10,7 +11,7 @@ public class JSExportersModule : BaseJSModule
     #region Constructors
 
     public JSExportersModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
-    : base( jsRuntime, versionProvider, options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 
@@ -19,12 +20,12 @@ public class JSExportersModule : BaseJSModule
     #region Methods
 
     /// <summary>
-    /// Exports the given data to a file.
+    /// Exports data to a specified file with a given MIME type asynchronously.
     /// </summary>
-    /// <param name="data"></param>
-    /// <param name="fileName"></param>
-    /// <param name="mimeType"></param>
-    /// <returns></returns>
+    /// <param name="data">The byte array containing the data to be exported.</param>
+    /// <param name="fileName">The name of the file to which the data will be exported.</param>
+    /// <param name="mimeType">The MIME type that describes the format of the data being exported.</param>
+    /// <returns>An integer indicating the result of the export operation.</returns>
     public virtual async ValueTask<int> ExportToFile( byte[] data, string fileName, string mimeType )
     {
         var moduleInstance = await Module;

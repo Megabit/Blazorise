@@ -1,17 +1,8 @@
 namespace Blazorise.Exporters;
 
 /// <summary>
-/// Marker interface for text export option types used in string-based DataGrid exports.
+/// Base class for text export configuration options used in string-based exports.
 /// </summary>
-public interface ITextExportOptions
+public class TextExportOptions : ITextExportOptions
 {
-    
-}
-
-/// <summary>
-/// Base class for text export configuration options used in string-based DataGrid exports.
-/// </summary>
-public class TextExportOptions:ITextExportOptions
-{
-    
 }
