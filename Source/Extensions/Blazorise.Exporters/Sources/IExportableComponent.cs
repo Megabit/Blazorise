@@ -1,12 +1,14 @@
-﻿namespace Blazorise.Exporters;
+﻿using Blazorise.Modules;
+
+namespace Blazorise.Exporters;
 
 /// <summary>
-/// Represents a component that can utilize the JSExportersModule.
+/// Represents a contract that defines the properties and methods required for components that can be exported.
 /// </summary>
 public interface IExportableComponent
 {
     /// <summary>
-    /// Gets or sets the JSExportersModule instance.
+    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance used for exporting data.
     /// </summary>
-    JSExportersModule JSExportersModule { get; set; }
+    IJSUtilitiesModule JSUtilitiesModule { get; set; }
 }

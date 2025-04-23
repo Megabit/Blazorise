@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 
 namespace Blazorise.Exporters;
 
@@ -20,22 +21,27 @@ public abstract class ExporterToFile<TOptions, TExportResult, TSourceData> : IEx
         FileOptions = options ?? new();
     }
 
-    public JSExportersModule JsExportersModule { get; set; }
+    public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     public abstract Task<byte[]> GetDataForExport( TSourceData dataSource );
 
     public virtual Task<TExportResult> GetExportResult( int exportToFileResult )
     {
-        var res = new TExportResult { Success = exportToFileResult == 1 };
-        return Task.FromResult( res );
+        var result = new TExportResult
+        {
+            Success = exportToFileResult == 1,
+        };
+
+        return Task.FromResult( result );
     }
 
     public async Task<TExportResult> Export( TSourceData dataSource )
     {
         var bytes = await GetDataForExport( dataSource );
-        var res = await JsExportersModule.ExportToFile( bytes, FileOptions.FileName, FileOptions.MimeType );
 
-        return await GetExportResult( res );
+        var result = await JSUtilitiesModule.ExportToFile( bytes, FileOptions.FileName, FileOptions.MimeType );
+
+        return await GetExportResult( result );
     }
 
     public TOptions FileOptions { get; init; }

@@ -490,7 +490,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
 
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
-            JSExportersModule = new( JSRuntime, VersionProvider, BlazoriseOptions );
 
             if ( IsCellNavigable )
             {
@@ -1812,7 +1811,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     {
         if ( exporter is IExporterWithJsModule exporterWithJsModule )
         {
-            exporterWithJsModule.JsExportersModule = JSExportersModule;
+            exporterWithJsModule.JSUtilitiesModule = JSUtilitiesModule;
         }
 
         var data = ExportData<TCellValue>( options );
@@ -2854,11 +2853,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
-
-    /// <summary>
-    /// JSExporterModule for exporting files and copying content to clipboard
-    /// </summary>
-    public JSExportersModule JSExportersModule { get; set; }
 
     /// <summary>
     /// Gets or sets the license checker for the user session.

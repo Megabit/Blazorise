@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 
 namespace Blazorise.Exporters;
 
@@ -40,15 +41,15 @@ public abstract class ExporterToClipboard<TOptions, TExportResult, TSourceData> 
 {
     protected ExporterToClipboard( TOptions options ) => ClipboardOptions = options ?? new();
 
-    public JSExportersModule JsExportersModule { get; set; }
+    public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     public async Task<TExportResult> Export( TSourceData sourceData )
     {
         var text = await GetDataForExport( sourceData );
-        await JsExportersModule.CopyStringToClipboard( text );
+
+        await JSUtilitiesModule.CopyStringToClipboard( text );
 
         return await GetExportResult( true );
-
     }
 
     public abstract Task<string> GetDataForExport( TSourceData sourceData );

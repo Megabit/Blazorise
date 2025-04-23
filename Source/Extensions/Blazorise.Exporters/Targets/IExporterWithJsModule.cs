@@ -1,3 +1,5 @@
+using Blazorise.Modules;
+
 namespace Blazorise.Exporters;
 
 /// <summary>
@@ -5,5 +7,5 @@ namespace Blazorise.Exporters;
 /// </summary>
 public interface IExporterWithJsModule
 {
-    JSExportersModule JsExportersModule { get; set; }
+    IJSUtilitiesModule JSUtilitiesModule { get; set; }
 }
