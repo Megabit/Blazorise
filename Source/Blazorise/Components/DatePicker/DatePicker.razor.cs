@@ -58,6 +58,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
             var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
             var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool paramShowWeekNumbers ) && ShowWeekNumbers != paramShowWeekNumbers;
+            var showTodayButtonChanged = parameters.TryGetValue( nameof( ShowTodayButton ), out bool paramShowTodayButton ) && ShowTodayButton != paramShowTodayButton;
 
             if ( dateChanged || datesChanged )
             {
@@ -89,7 +90,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || disableMobileChanged
                  || placeholderChanged
                  || staticPickerChanged
-                 || showWeekNumbersChanged )
+                 || showWeekNumbersChanged
+                 || showTodayButtonChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new DatePickerUpdateJSOptions()
                 {
@@ -110,6 +112,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
                     StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
                     ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers ),
+                    ShowTodayButton = new JSOptionChange<bool>( showTodayButtonChanged, paramShowTodayButton ),
                 } ) );
             }
         }
@@ -190,6 +193,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
             ShowWeekNumbers = ShowWeekNumbers,
+            ShowTodayButton = ShowTodayButton,
             ValidationStatus = new
             {
                 SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
@@ -480,6 +484,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             },
             amPM = new[] { Localizer["AM"], Localizer["PM"] },
             RangeSeparator = CurrentRangeSeparator,
+            Today = Localizer["Today"],
         };
     }
 
@@ -669,6 +674,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// Determines whether the calendar menu will show week numbers.
     /// </summary>
     [Parameter] public bool ShowWeekNumbers { get; set; }
+    
+    /// <summary>
+    /// Determines whether to show the today button in the calendar menu.
+    /// </summary>
+    [Parameter] public bool ShowTodayButton { get; set; }
 
     #endregion
 }
