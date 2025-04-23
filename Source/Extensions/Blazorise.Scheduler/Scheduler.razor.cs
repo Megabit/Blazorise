@@ -1722,7 +1722,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Indicates whether an item is currently being dragged.
     /// </summary>
-    public bool IsDragging => isDragging;
+    internal protected bool IsDragging => isDragging;
+
+    /// <summary>
+    /// Returns the current drag area of a transaction if it exists; otherwise, it returns 'None'.
+    /// </summary>
+    internal protected SchedulerDragArea CurrentDragArea => currentTransaction?.DragArea ?? SchedulerDragArea.None;
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.

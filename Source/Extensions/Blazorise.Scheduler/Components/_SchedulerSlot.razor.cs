@@ -22,6 +22,11 @@ public partial class _SchedulerSlot<TItem>
     /// </summary>
     private bool mouseHovering;
 
+    /// <summary>
+    /// Indicates whether an object is currently being dragged over a specific area.
+    /// </summary>
+    private bool draggingOver;
+
     #endregion
 
     #region Methods
@@ -67,8 +72,31 @@ public partial class _SchedulerSlot<TItem>
     protected Task OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
     {
         mouseHovering = false;
+        draggingOver = false;
 
         return Scheduler.StartDrag( viewItem.Item, DragArea );
+    }
+
+    /// <summary>
+    /// Handles the drag enter event on the slot.
+    /// </summary>
+    /// <param name="e">The drag event arguments.</param>
+    protected Task OnSlotDragEnter( DragEventArgs e )
+    {
+        draggingOver = true;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the drag leave event on the slot.
+    /// </summary>
+    /// <param name="e">The drag event arguments.</param>
+    protected Task OnSlotDragLeave( DragEventArgs e )
+    {
+        draggingOver = false;
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -77,6 +105,8 @@ public partial class _SchedulerSlot<TItem>
     /// <param name="e">The drag event arguments.</param>
     protected Task OnSlotDrop( DragEventArgs e )
     {
+        draggingOver = false;
+
         return Scheduler.DropSlotItem( SlotStart, SlotEnd, DragArea );
     }
 
@@ -109,7 +139,7 @@ public partial class _SchedulerSlot<TItem>
     /// </summary>
     private string GetSlotStyle()
     {
-        if ( LastSlot )
+        if ( LastSlot || IsDraggingOver )
             return null;
 
         return "border-bottom-style: dashed !important";
@@ -155,10 +185,12 @@ public partial class _SchedulerSlot<TItem>
 
     #region Properties
 
+    private bool IsDraggingOver => draggingOver && DragArea == Scheduler.CurrentDragArea;
+
     /// <summary>
     /// Gets the bottom border style if this is not the last slot.
     /// </summary>
-    private IFluentBorder BottomBorder => LastSlot ? null : Border.Is1.OnBottom;
+    private IFluentBorder BorderColor => IsDraggingOver ? Border.Is1.Dark : ( LastSlot ? null : Border.Is1.OnBottom );
 
     /// <summary>
     /// Gets the background color of the slot based on mouse hover state.
