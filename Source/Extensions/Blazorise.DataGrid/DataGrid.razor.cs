@@ -1806,6 +1806,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     public ValueTask ScrollToRow( int row )
         => tableRef.ScrollToRow( row );
 
+    /// <summary>
+    /// Exports data using a specified exporter and options, returning the result of the export operation.
+    /// </summary>
+    /// <typeparam name="TExportResult">Defines the type of the result produced by the export operation.</typeparam>
+    /// <typeparam name="TCellValue">Specifies the type of the cell values in the data being exported.</typeparam>
+    /// <param name="exporter">An object responsible for handling the export process and generating the output.</param>
+    /// <param name="options">Configuration settings that influence the export behavior and output format.</param>
+    /// <returns>The result of the export operation, encapsulated in the specified result type.</returns>
     public async Task<TExportResult> Export<TExportResult, TCellValue>( IExporter<TExportResult, TabularSourceData<TCellValue>> exporter, DataGridExportOptions options = null )
         where TExportResult : IExportResult, new()
     {
@@ -1817,6 +1825,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
         var data = ExportData<TCellValue>( options );
 
         TExportResult exportResult = await exporter.Export( data );
+
         return exportResult;
     }
 
