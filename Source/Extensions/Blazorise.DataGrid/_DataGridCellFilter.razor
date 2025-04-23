@@ -1,13 +1,13 @@
 @using Blazorise.Extensions;
 @typeparam TItem
 @{
-    if ( Column is DataGridNumericColumn<TItem> numericColumn )
+    @if ( Column is DataGridNumericColumn<TItem> numericColumn )
     {
         <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" />
     }
     else if ( Column is DataGridSelectColumn<TItem> selectColumn )
     {
-        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" Area="DataGridCellArea.Filter" />
+        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" CellSection="DataGridCellSection.Filter" />
     }
     else if ( Column is DataGridCheckColumn<TItem> checkColumn )
     {
@@ -19,7 +19,7 @@
     }
     else
     {
-        <TextEdit Text="@GetSearchValueAsString()" TextChanged="@((newValue) => FilterChanged(newValue))" />
+        <TextEdit Text="@GetSearchValueAsString()" TextChanged="@(( newValue ) => FilterChanged( newValue ))" />
     }
 }
 @code {

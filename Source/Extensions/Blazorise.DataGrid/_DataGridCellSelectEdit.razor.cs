@@ -214,9 +214,9 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     [Parameter] public bool ShowValidationFeedback { get; set; }
 
     /// <summary>
-    /// Determines the area where the cell is located. 
+    /// Determines the area where the cell is located.
     /// </summary>
-    [Parameter] public DataGridCellArea Area { get; set; }
+    [Parameter] public DataGridCellSection CellSection { get; set; }
 
     #endregion
 }

@@ -3,12 +3,11 @@
 <Select TValue="object" ElementId="@elementId" SelectedValues="@GetSelectedValues()" SelectedValuesChanged="OnSelectedValuesChanged" SelectedValuesExpression="@(() => CellValue as string[])" SelectedValue="@CellValue" SelectedValueChanged="@OnSelectedValueChanged" SelectedValueExpression="@(() => CellValue)"
         Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Multiple="@Column.Multiple" Attributes="@Column.Attributes">
     <ChildContent>
-
         @{
-            var defaultText = Area == DataGridCellArea.Filter? Column.FilterDefaultItemText: Column.DefaultItemText;
-            var defaultValue = Area == DataGridCellArea.Filter? Column.FilterDefaultItemValue: Column.DefaultItemValue;
-            var defaultDisabled = Area == DataGridCellArea.Filter? Column.FilterDefaultItemDisabled: Column.DefaultItemDisabled;
-            var defaultHidden = Area == DataGridCellArea.Filter? Column.FilterDefaultItemHidden: Column.DefaultItemHidden;
+            var defaultText = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemText : Column.DefaultItemText;
+            var defaultValue = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemValue : Column.DefaultItemValue;
+            var defaultDisabled = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemDisabled : Column.DefaultItemDisabled;
+            var defaultHidden = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemHidden : Column.DefaultItemHidden;
         }
 
         @if ( defaultText is not null )
