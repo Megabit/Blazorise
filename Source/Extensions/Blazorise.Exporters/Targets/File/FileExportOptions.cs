@@ -8,12 +8,7 @@ public abstract class FileExportOptions : IFileExportOptions
     /// <summary>
     /// Represents the name of a file without its extension. Defaults to 'exported-data'.
     /// </summary>
-    public string FileNameNoExtension { get; init; } = "exported-data";
-
-    /// <summary>
-    /// Represents the file extension associated with a file.
-    /// </summary>
-    public abstract string FileExtension { get; init; }
+    public virtual string FileName { get; init; } = "exported-data";
 
     /// <summary>
     /// Represents the MIME type of a resource, initialized to 'application/text'.

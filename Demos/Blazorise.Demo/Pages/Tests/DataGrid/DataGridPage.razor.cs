@@ -263,7 +263,7 @@ public partial class DataGridPage
 
         // Export to CSV file with a custom file name and only the first 3 rows
         var result3 = await dataGrid.Export(
-            new CsvToFileExporter( new() { FileNameNoExtension = "custom-csv-file" } ),
+            new CsvToFileExporter( new() { FileName = "custom-csv-file.csv" } ),
             new DataGridExportOptions { NumberOfRows = 3 }
         );
 

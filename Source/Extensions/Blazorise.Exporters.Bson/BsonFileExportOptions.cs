@@ -8,7 +8,7 @@ public class BsonFileExportOptions : FileExportOptions
     /// <summary>
     /// Represents the file extension for the object, initialized to 'bson'.
     /// </summary>
-    public override string FileExtension { get; init; } = "bson";
+    public override string FileName{ get; init; } = "exported-data.bson";
 
     /// <summary>
     /// Represents the MIME type for BSON data format. It is initialized to 'application/bson'.

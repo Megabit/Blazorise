@@ -8,7 +8,7 @@ public class CsvFileExportOptions : FileExportOptions, ICsvExportOptions
     /// <summary>
     /// Represents the file extension for the object, initialized to 'csv'.
     /// </summary>
-    public override string FileExtension { get; init; } = "csv";
+    public override string FileName { get; init; } = "exported-data.csv";
 
     /// <summary>
     /// Represents the MIME type for CSV files with UTF-8 character encoding. It is initialized to 'text/csv;charset=utf-8'.

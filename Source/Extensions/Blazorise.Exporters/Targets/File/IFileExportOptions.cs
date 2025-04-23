@@ -8,17 +8,7 @@ public interface IFileExportOptions
     /// <summary>
     /// Constructs the full file name by combining the file name without extension and the file extension.
     /// </summary>
-    public string FileName => $"{FileNameNoExtension}.{FileExtension}";
-
-    /// <summary>
-    /// Represents the name of a file without its extension.
-    /// </summary>
-    public string FileNameNoExtension { get; init; }
-
-    /// <summary>
-    /// Represents the file extension of a file.
-    /// </summary>
-    public string FileExtension { get; init; }
+    public string FileName { get; init; }
 
     /// <summary>
     /// Represents the MIME type of a file or data.
