@@ -119,6 +119,14 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    DataGrid: Added support for default item in filter for DataGridSelectColumn
+</Heading>
+
+<Paragraph>
+    New parameters <Code>FilterDefaultItemText</Code>, <Code>FilterDefaultItemValue</Code>, <Code>FilterDefaultItemDisabled</Code>, and <Code>FilterDefaultItemHidden</Code> allow customizing the default item shown in filter dropdowns of <Code>DataGridSelectColumn</Code>. This gives developers more control over how filter options are presented and improves the user experience when working with dropdown filters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Show Week Numbers On DatePicker
 </Heading>
 
@@ -168,6 +176,14 @@
 
 <Paragraph>
     The <Code>MessageService</Code> now supports the <Code>Choices</Code> method, allowing you to display a list of options in a message dialog. This feature is useful for scenarios where you want to present users with multiple choices and handle their selection accordingly.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Culture-specific overloads for text localization
+</Heading>
+
+<Paragraph>
+    The <Code>ITextLocalizer</Code> interface now includes overloads for the <Code>GetString</Code> method that accept a <Code>CultureInfo</Code> parameter. The <Code>CultureInfo</Code> parameter can be used to specify the desired culture for localization, enabling you to retrieve strings that are tailored to the user's language and region. This is particularly useful in scenarios where you need to support multiple languages or regions within your application.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />
