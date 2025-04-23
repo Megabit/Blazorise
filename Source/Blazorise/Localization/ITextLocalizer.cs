@@ -71,7 +71,7 @@ public interface ITextLocalizer
     /// <param name="arguments">An object array that contains zero or more objects to format.</param>
     /// <returns>Localized key/value pairs.</returns>
     IReadOnlyDictionary<string, string> GetStrings( CultureInfo culture, params object[] arguments );
-    
+
     /// <summary>
     /// Gets the current culture info.
     /// </summary>

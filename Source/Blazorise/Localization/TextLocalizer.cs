@@ -214,9 +214,6 @@ public class TextLocalizer<T> : ITextLocalizer<T>
                  } ).ToDictionary( x => x.Key, x => x.Value );
     }
 
-    /// <inheritdoc />
-    public CultureInfo SelectedCulture => localizerService.SelectedCulture;
-
     #endregion
 
     #region Properties
@@ -229,6 +226,9 @@ public class TextLocalizer<T> : ITextLocalizer<T>
 
     /// <inheritdoc/>
     public string this[CultureInfo culture, string name, params object[] arguments] => GetString( culture, name, arguments );
+
+    /// <inheritdoc />
+    public CultureInfo SelectedCulture => localizerService.SelectedCulture;
 
     #endregion
 }
