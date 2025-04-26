@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using static Blazorise.Scheduler.Utilities.FluentConstants;
 #endregion
 
 namespace Blazorise.Scheduler.Components;
@@ -190,7 +191,7 @@ public partial class _SchedulerSlot<TItem>
     /// <summary>
     /// Gets the bottom border style if this is not the last slot.
     /// </summary>
-    private IFluentBorder BorderColor => IsDraggingOver ? Border.Is1.Dark : ( LastSlot ? null : Border.Is1.OnBottom );
+    private IFluentBorder BorderColor => IsDraggingOver ? BorderIs1Dark : ( LastSlot ? null : BorderIs1OnBottom );
 
     /// <summary>
     /// Gets the background color of the slot based on mouse hover state.

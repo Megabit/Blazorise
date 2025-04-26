@@ -30,7 +30,7 @@
                 {
                     <Fields>
                         <Validation Validator="@OnValidateStartDate">
-                            <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                 <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.StartLocalizer, "Start" )</FieldLabel>
                                 <FieldBody>
                                     <DatePicker TValue="DateOnly" Date="@StartDate" DateChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
@@ -44,7 +44,7 @@
                         @if ( !AllDayAvailable || !AllDay )
                         {
                             <Validation Validator="@OnValidateStartTime">
-                                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                     <FieldLabel>&nbsp;</FieldLabel>
                                     <FieldBody>
                                         <TimePicker TValue="TimeOnly" Time="@StartTime" TimeChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
@@ -58,7 +58,7 @@
                 {
                     <Fields>
                         <Validation Validator="@OnValidateEndDate">
-                            <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                 <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, "End" )</FieldLabel>
                                 <FieldBody>
                                     <DatePicker @bind-Date="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
@@ -72,7 +72,7 @@
                         @if ( !AllDayAvailable || !AllDay )
                         {
                             <Validation Validator="@OnValidateEndTime">
-                                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                     <FieldLabel>&nbsp;</FieldLabel>
                                     <FieldBody>
                                         <TimePicker @bind-Time="@EndTime" StaticPicker="false" TimeAs24hr />
@@ -114,8 +114,8 @@
             </Validations>
             @if ( customValidationErrors.Any() )
             {
-                <Paragraph TextColor="TextColor.Danger" Margin="Blazorise.Margin.Is0.FromBottom">
-                    <UnorderedList Margin="Blazorise.Margin.Is0.FromBottom">
+                <Paragraph TextColor="TextColor.Danger" Margin="MarginIs0FromBottom">
+                    <UnorderedList Margin="MarginIs0FromBottom">
                         @foreach ( var error in customValidationErrors )
                         {
                             <UnorderedListItem>@error</UnorderedListItem>
@@ -124,12 +124,12 @@
                 </Paragraph>
             }
         </ModalBody>
-        <ModalFooter Flex="Blazorise.Flex.JustifyContent.Between.AlignItems.Center">
+        <ModalFooter Flex="FlexJustifyContentBetweenAlignItemsCenter">
             <Div>
                 @if ( EditState == SchedulerEditState.Edit )
                 {
                     <Button Color="Color.Danger" Outline Clicked="@Delete">
-                        <Icon Name="IconName.Delete" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        <Icon Name="IconName.Delete" Margin="MarginIs2FromEnd" />
                         @Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" )
                     </Button>
                 }

@@ -1,6 +1,6 @@
 ﻿@using Blazorise.Scheduler.Extensions
 @typeparam TItem
-<Div Class="b-scheduler-week-view" Flex="Blazorise.Flex.Default" Width="Width.Is100">
+<Div Class="b-scheduler-week-view" Flex="FlexDefault" Width="WidthIs100">
     @{
         var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWeek );
         var endOfWeek = startOfWeek.AddDays( 6 );

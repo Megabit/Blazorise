@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<Div Class="b-scheduler-day-view" Flex="Blazorise.Flex.Default.Grow.Is1">
+<Div Class="b-scheduler-day-view" Flex="FlexDefaultGrowIs1">
     @{
         var items = Scheduler.GetItemsInView( SelectedDate.ToDateTime( TimeOnly.MinValue ), SelectedDate.ToDateTime( TimeOnly.MaxValue ) ).ToList();
 

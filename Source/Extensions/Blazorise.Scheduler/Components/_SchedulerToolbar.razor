@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 @typeparam TItem
 @using Blazorise.Scheduler.Extensions
-<Div Class="@ClassNames" Style="@StyleNames" Padding="Blazorise.Padding.Is3" Flex="Blazorise.Flex.JustifyContent.Between.AlignItems.Center">
+<Div Class="@ClassNames" Style="@StyleNames" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenter">
     <Buttons>
         <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick">
             @Localizer.Localize( Scheduler.Localizers?.TodayLocalizer, "Today" )

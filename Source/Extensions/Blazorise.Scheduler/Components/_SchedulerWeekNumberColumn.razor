@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @using Blazorise.Scheduler.Extensions
-<Div Class="b-scheduler-weeknumbers-column" Position="Blazorise.Position.Relative">
-    <Div Class="b-scheduler-weeknumber-header" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnTop">
+<Div Class="b-scheduler-weeknumbers-column" Position="PositionRelative">
+    <Div Class="b-scheduler-weeknumber-header" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( HeaderCellHeight )" Border="BorderIs1OnBottomIs1OnTop">
         <Div Class="b-scheduler-weeknumber-header-inner">
             <Span></Span>
         </Div>
@@ -11,8 +11,8 @@
     {
         var weekNumber = dateInWeek.GetWeekNumber( FirstDayOfWeek );
 
-        <Div Class="b-scheduler-weeknumber-cell" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( ItemCellHeight )" Border="Border.Is1.OnBottom">
-            <Div Class="b-scheduler-weeknumber-cell-inner" TextWeight="TextWeight.SemiBold" Padding="Padding.Is3.OnX.Is1.FromTop">
+        <Div Class="b-scheduler-weeknumber-cell" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="BorderIs1OnBottom">
+            <Div Class="b-scheduler-weeknumber-cell-inner" TextWeight="TextWeight.SemiBold" Padding="PaddingIs3OnXIs1FromTop">
                 @weekNumber
             </Div>
         </Div>

@@ -2,19 +2,19 @@
 @{
     var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
 
-    <Div Flex="Blazorise.Flex.Column.AlignItems.Center.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( ItemCellHeight )" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
-        <Div Flex="Flex.JustifyContent.End" Width="Width.Is100" Padding="Padding.Is1.OnX" TextColor="@GetTextColor()" TextWeight="@GetTextWeight()" Style="@GetDayNumberStyle()" TextSize="TextSize.Small">@Date.Day</Div>
-        <Div Flex="Flex.Column" Gap="Gap.Is1" TextSize="TextSize.Small" Padding="Padding.Is1" Width="Width.Is100" Height="Height.Is100" @onclick="@(() => OnCellClick( Date ))">
+    <Div Flex="FlexColumnAlignItemsCenterGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
+        <Div Flex="FlexJustifyContentEnd" Width="WidthIs100" Padding="PaddingIs1OnX" TextColor="@GetTextColor()" TextWeight="@GetTextWeight()" Style="@GetDayNumberStyle()" TextSize="TextSizeSmall">@Date.Day</Div>
+        <Div Flex="FlexColumn" Gap="GapIs1" TextSize="TextSizeSmall" Padding="PaddingIs1" Width="WidthIs100" Height="HeightIs100" @onclick="@(() => OnCellClick( Date ))">
             @foreach ( var viewItem in viewItems )
             {
                 var title = Scheduler.GetItemTitle( viewItem.Item );
                 var startTime = Scheduler.GetItemStartTime( viewItem.Item );
 
-                <Div Flex="Flex.InlineFlex.AlignItems.Center" Width="Width.Is100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
+                <Div Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
                     <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate">
-                        <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSize.Small" /></Span>
-                        <Span Margin="Margin.Is1.FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
-                        <Span Margin="Margin.Is1.FromStart">@title</Span>
+                        <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSizeSmall" /></Span>
+                        <Span Margin="MarginIs1FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
+                        <Span Margin="MarginIs1FromStart">@title</Span>
                     </Span>
                 </Div>
             }
@@ -89,7 +89,7 @@
 
     private bool IsDraggingOver => draggingOver && DragArea == Scheduler.CurrentDragArea;
 
-    private IFluentBorder BorderColor => IsDraggingOver ? Border.Is1.Dark : Border.Is1.OnBottom.Is1.OnStart;
+    private IFluentBorder BorderColor => IsDraggingOver ? BorderIs1Dark : BorderIs1OnBottomIs1OnStart;
 
     /// <summary>
     /// Gets the background color of the slot.

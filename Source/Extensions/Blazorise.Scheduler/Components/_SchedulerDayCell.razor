@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
-<Div Class="b-scheduler-day-cell" Flex="Blazorise.Flex.Default.Grow.Is1.Shrink.Is1" Width="Blazorise.Width.Is100" Height="Height.Px( HeaderCellHeight )" Border="Border.Is1.OnBottom.Is1.OnStart" Background="@BackgroundColor">
-    <Div Class="b-scheduler-day-cell-inner" Width="Blazorise.Width.Is100" Flex="Flex.Column">
+<Div Class="b-scheduler-day-cell" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( HeaderCellHeight )" Border="BorderIs1OnBottomIs1OnStart" Background="@BackgroundColor">
+    <Div Class="b-scheduler-day-cell-inner" Width="WidthIs100" Flex="FlexColumn">
         @for ( int slotIndex = 1; slotIndex <= SlotsPerCell; ++slotIndex )
         {
             var slotStart = GetSlotStart( slotIndex );

@@ -6,16 +6,16 @@
 @using Blazorise.Scheduler.Utilities
 @using Blazorise.Scheduler.Extensions
 <Fields>
-    <Field ColumnSize="ColumnSize.Is3">
+    <Field ColumnSize="ColumnSizeIs3">
         <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.RepeatEveryLocalizer, "Repeat Every" )</FieldLabel>
         <FieldBody>
             <NumericEdit TValue="int" Min="1" Max="99" Value="@Interval" ValueChanged="@OnIntervalChanged" />
         </FieldBody>
     </Field>
-    <Field ColumnSize="ColumnSize.Is9">
+    <Field ColumnSize="ColumnSizeIs9">
         <FieldLabel>&nbsp;</FieldLabel>
         <FieldBody>
-            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" CheckedValue="@Pattern" CheckedValueChanged="@OnPatternChanged" Buttons Width="Blazorise.Width.Is100">
+            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" CheckedValue="@Pattern" CheckedValueChanged="@OnPatternChanged" Buttons Width="WidthIs100">
                 <Radio Value="SchedulerRecurrencePattern.Never">@Localizer.Localize( Scheduler.Localizers?.NeverLocalizer, "Never" )</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Daily">@Localizer.Localize( Scheduler.Localizers?.DayLocalizer, "Day" )</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Weekly">@Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, "Week" )</Radio>
@@ -42,13 +42,13 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerR
 @if ( Pattern != SchedulerRecurrencePattern.Never )
 {
     <Fields>
-        <Field ColumnSize="ColumnSize.Is3">
+        <Field ColumnSize="ColumnSizeIs3">
             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, "End" )</FieldLabel>
             <FieldBody>
                 <DatePicker TValue="DateTime?" Date="@EndDate" DateChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
             </FieldBody>
         </Field>
-        <Field ColumnSize="ColumnSize.Is3">
+        <Field ColumnSize="ColumnSizeIs3">
             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.CountLocalizer, "Count" )</FieldLabel>
             <FieldBody>
                 <NumericEdit TValue="int?" Value="@Count" ValueChanged="@OnCountChanged" />

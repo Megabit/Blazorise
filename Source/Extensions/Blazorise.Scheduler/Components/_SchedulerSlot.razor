@@ -1,20 +1,20 @@
 ﻿@typeparam TItem
-<Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="Position.Relative" Margin="Margin.IsAuto" Width="Blazorise.Width.Is100" Height="Height.Is100" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
+<Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="PositionRelative" Margin="MarginIsAuto" Width="WidthIs100" Height="HeightIs100" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
     @foreach ( var viewItem in ViewItems ?? Enumerable.Empty<SchedulerItemViewInfo<TItem>>() )
     {
         var index = ViewItems.IndexOf( viewItem );
 
-        <Span Style="@GetItemStyle( viewItem, index, ViewItems.Count )" Position="Position.Absolute" Border="Border.Rounded" Background="Background.Info" Flex="Flex.JustifyContent.Between.AlignItems.Start" Padding="Padding.Is1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
+        <Span Style="@GetItemStyle( viewItem, index, ViewItems.Count )" Position="PositionAbsolute" Border="BorderRounded" Background="Background.Info" Flex="FlexJustifyContentBetweenAlignItemsStart" Padding="PaddingIs1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
             @if ( viewItem.IsRecurring )
             {
                 <Span>
                     <Icon Name="IconName.Sync" />
                 </Span>
             }
-            <Span @onclick="@(() => OnEditItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Width="Width.Is100" Height="Height.Is100">
+            <Span @onclick="@(() => OnEditItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Width="WidthIs100" Height="HeightIs100">
                 @Scheduler?.GetItemTitle( viewItem.Item )
             </Span>
-            <Span @onclick="@(() => OnDeleteItemClicked( viewItem ))" Padding="Padding.Is1">
+            <Span @onclick="@(() => OnDeleteItemClicked( viewItem ))" Padding="PaddingIs1">
                 <Icon Name="IconName.Delete" />
             </Span>
         </Span>

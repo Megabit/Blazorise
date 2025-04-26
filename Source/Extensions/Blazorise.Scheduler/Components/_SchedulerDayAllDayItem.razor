@@ -1,10 +1,10 @@
 ﻿@typeparam TItem
-<Span Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Margin="Margin.Is1" Padding="Padding.Is1" Width="Width.Is100" Background="Blazorise.Background.Info" TextSize="TextSize.ExtraSmall" @onclick="@OnSlotClicked" draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, Item ))">
+<Span Flex="FlexInlineFlexJustifyContentBetweenAlignItemsCenter" Margin="MarginIs1" Padding="PaddingIs1" Width="WidthIs100" Background="Blazorise.Background.Info" TextSize="TextSizeExtraSmall" @onclick="@OnSlotClicked" draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, Item ))">
     @if ( OverflowingFromStart )
     {
         <Tooltip Inline Text="@Scheduler.GetItemStartTime( Item ).ToShortDateString()">
             <Span>
-                <Icon Name="IconName.AngleLeft" Padding="Padding.Is1.FromStart" />
+                <Icon Name="IconName.AngleLeft" Padding="PaddingIs1FromStart" />
             </Span>
         </Tooltip>
     }
@@ -13,7 +13,7 @@
     {
         <Tooltip Inline Text="@Scheduler.GetItemEndTime( Item ).ToShortDateString()">
             <Span>
-                <Icon Name="IconName.AngleRight" Padding="Padding.Is1.FromEnd" />
+                <Icon Name="IconName.AngleRight" Padding="PaddingIs1FromEnd" />
             </Span>
         </Tooltip>
     }
