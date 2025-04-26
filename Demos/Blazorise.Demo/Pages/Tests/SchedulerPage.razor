@@ -1,4 +1,5 @@
 ﻿@page "/tests/scheduler"
+@using Bogus
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -9,7 +10,6 @@
                 <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
                            Data="@Appointments"
                            @bind-SelectedView="@selectedView"
-                           SlotClicked="@OnSlotClicked"
                            Draggable>
                     <SchedulerToolbar />
                     <SchedulerViews>
@@ -35,12 +35,21 @@
 
     private static DateTime start = DateTime.Today.AddHours( 10 );
 
+    private Faker<SchedulerAppointment> appointmentFaker = new Faker<SchedulerAppointment>()
+        .RuleFor( a => a.Title, f => f.Lorem.Sentence( 3 ) )
+        .RuleFor( a => a.Description, f => f.Lorem.Paragraph() );
+
     private Task OnSlotClicked( SchedulerSlotClickedEventArgs eventArgs )
     {
-        // Appointments.Add( new SchedulerAppointment( "test", "some desc",
-        //     new DateTime( eventArgs.Date, eventArgs.Time ),
-        //     new DateTime( eventArgs.Date, eventArgs.Time ).AddHours( 1 )
-        // ) );
+        var start = eventArgs.Start;
+        var end = eventArgs.End;
+
+        var fakeAppointment = appointmentFaker.Generate();
+        fakeAppointment.Start = start;
+        fakeAppointment.End = end;
+
+        Appointments.Add( fakeAppointment );
+
         return Task.CompletedTask;
     }
 
