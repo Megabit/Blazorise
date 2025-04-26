@@ -68,6 +68,14 @@ public class SchedulerTransaction<TItem>
                 scheduler.AddRecurrenceException( editItemClone, Item );
             }
 
+            if ( scheduler.DropAllowed is not null
+                && await scheduler.DropAllowed.Invoke( new SchedulerDragEventArgs<TItem>( editItemClone ) ) == false )
+            {
+                await Rollback();
+
+                return;
+            }
+
             if ( await scheduler.SaveImpl( editItemClone ) )
             {
                 if ( Committed is not null )

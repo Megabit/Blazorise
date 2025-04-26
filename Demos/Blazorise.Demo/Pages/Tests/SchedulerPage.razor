@@ -29,6 +29,7 @@
     </Column>
 </Row>
 @code {
+    [Inject] IMessageService MessageService { get; set; }
     private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
     private SchedulerView selectedView = SchedulerView.Week;
 
@@ -41,6 +42,13 @@
         //     new DateTime( eventArgs.Date, eventArgs.Time ).AddHours( 1 )
         // ) );
         return Task.CompletedTask;
+    }
+
+    private async Task<bool> IsDropAllowed( SchedulerDragEventArgs<SchedulerAppointment> eventArgs )
+    {
+        await MessageService.Warning( "You cannot drop this appointment here", "Drop not allowed" );
+
+        return false;
     }
 
     public class SchedulerAppointment

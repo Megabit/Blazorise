@@ -1910,6 +1910,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public Func<SchedulerDragEventArgs<TItem>, Task> DragCancelled { get; set; }
 
     /// <summary>
+    /// Defines a function that determines if a drop action is allowed during a drag-and-drop operation.
+    /// </summary>
+    [Parameter] public Func<SchedulerDragEventArgs<TItem>, Task<bool>> DropAllowed { get; set; }
+
+    /// <summary>
     /// Triggered when an item is dropped into a new slot.
     /// </summary>
     [Parameter] public EventCallback<SchedulerItemDroppedEventArgs<TItem>> ItemDropped { get; set; }
