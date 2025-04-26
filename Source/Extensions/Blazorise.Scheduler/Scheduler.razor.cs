@@ -525,16 +525,18 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="item">The view-specific appointment information that was clicked.</param>
     internal async Task NotifyEditItemClicked( TItem item )
     {
-        if ( IsRecurrenceItem( item ) )
+        if ( CanEditData )
         {
-            var result = await MessageService.Choose(
-                        message: "What do you want to do?",
-                        title: Localizer.Localize( Localizers?.EditLocalizer, "Edit" ), options =>
+            if ( IsRecurrenceItem( item ) )
+            {
+                var result = await MessageService.Choose(
+                    message: "What do you want to do?",
+                    title: Localizer.Localize( Localizers?.EditLocalizer, "Edit" ), options =>
+                    {
+                        options.ShowCloseButton = false;
+                        options.ShowMessageIcon = false;
+                        options.Choices = new List<MessageOptionsChoice>
                         {
-                            options.ShowCloseButton = false;
-                            options.ShowMessageIcon = false;
-                            options.Choices = new List<MessageOptionsChoice>
-                            {
                             new MessageOptionsChoice
                             {
                                 Key = "EditSeries",
@@ -553,27 +555,28 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                                 Text = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" ),
                                 Color = Color.Secondary,
                             }
-                            };
-                        } ) as string;
+                        };
+                    } ) as string;
 
-            if ( result is null || result == "Cancel" )
-                return;
+                if ( result is null || result == "Cancel" )
+                    return;
 
-            if ( result == "EditSeries" )
-            {
-                await Edit( GetParentItem( item ) );
+                if ( result == "EditSeries" )
+                {
+                    await Edit( GetParentItem( item ) );
+                }
+                else if ( result == "EditOccurrence" )
+                {
+                    await EditOccurrence( item );
+                }
             }
-            else if ( result == "EditOccurrence" )
+            else
             {
-                await EditOccurrence( item );
+                await Edit( item );
             }
         }
-        else
-        {
-            await Edit( item );
-        }
 
-        await ItemClicked.InvokeAsync( new( item ) );
+        await EditItemClicked.InvokeAsync( new( item ) );
     }
 
     /// <summary>
@@ -584,9 +587,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>No return value; the method performs actions based on user confirmation.</returns>
     internal async Task NotifyDeleteItemClicked( TItem item )
     {
-        if ( IsRecurrenceItem( item ) )
+        if ( CanEditData )
         {
-            var result = await MessageService.Choose(
+            if ( IsRecurrenceItem( item ) )
+            {
+                var result = await MessageService.Choose(
                     message: "Item is a recurring series. What do you want to do?",
                     title: Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
                     {
@@ -615,40 +620,41 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                         };
                     } ) as string;
 
-            if ( result is null || result == "Cancel" )
-                return;
+                if ( result is null || result == "Cancel" )
+                    return;
 
-            if ( result == "DeleteSeries" )
-            {
-                await DeleteItemImpl( GetParentItem( item ) );
+                if ( result == "DeleteSeries" )
+                {
+                    await DeleteItemImpl( GetParentItem( item ) );
+                }
+                else if ( result == "DeleteOccurrence" )
+                {
+                    await DeleteOccurrenceImpl( item );
+                }
             }
-            else if ( result == "DeleteOccurrence" )
+            else
             {
-                await DeleteOccurrenceImpl( item );
+                var hasRecurrenceRule = !string.IsNullOrEmpty( GetItemRecurrenceRule( item ) );
+
+                var deleteMessage = hasRecurrenceRule
+                    ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
+                    : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently. Are you sure?" );
+
+                if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
+                {
+                    options.ShowCloseButton = false;
+                    options.ShowMessageIcon = false;
+                    options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" );
+                    options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" );
+                    options.ConfirmButtonColor = Color.Danger;
+                } ) == false )
+                    return;
+
+                await DeleteItemImpl( item );
             }
         }
-        else
-        {
-            var hasRecurrenceRule = !string.IsNullOrEmpty( GetItemRecurrenceRule( item ) );
 
-            var deleteMessage = hasRecurrenceRule
-                ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
-                : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently. Are you sure?" );
-
-            if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
-            {
-                options.ShowCloseButton = false;
-                options.ShowMessageIcon = false;
-                options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" );
-                options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" );
-                options.ConfirmButtonColor = Color.Danger;
-            } ) == false )
-                return;
-
-            await DeleteItemImpl( item );
-        }
-
-        await ItemClicked.InvokeAsync( new( item ) );
+        await DeleteItemClicked.InvokeAsync( new( item ) );
     }
 
     /// <summary>
@@ -861,7 +867,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
         {
-            if ( UseInternalEditing && CanEditData && Data is ICollection<TItem> data )
+            if ( CanEditData && Data is ICollection<TItem> data )
             {
                 var itemRef = data.FirstOrDefault( x => GetItemId( x ).IsEqual( GetItemId( itemToDelete ) ) );
 
@@ -1712,12 +1718,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to modify.
     /// </summary>
-    protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
+    protected bool CanInsertNewItem => Editable && UseInternalEditing && Data is ICollection<TItem>;
 
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to edit.
     /// </summary>
-    protected bool CanEditData => Editable && Data is ICollection<TItem>;
+    protected bool CanEditData => Editable && UseInternalEditing && Data is ICollection<TItem>;
 
     /// <summary>
     /// Indicates whether an item is currently being dragged.
@@ -1895,9 +1901,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<SchedulerSlotClickedEventArgs> SlotClicked { get; set; }
 
     /// <summary>
-    /// Occurs when an appointment is clicked.
+    /// An event callback triggered when an item is clicked for editing.
     /// </summary>
-    [Parameter] public EventCallback<SchedulerItemClickedEventArgs<TItem>> ItemClicked { get; set; }
+    [Parameter] public EventCallback<SchedulerItemClickedEventArgs<TItem>> EditItemClicked { get; set; }
+
+    /// <summary>
+    /// An event callback triggered when an item is clicked for deletion.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerItemClickedEventArgs<TItem>> DeleteItemClicked { get; set; }
 
     /// <summary>
     /// Triggered when a drag operation starts.

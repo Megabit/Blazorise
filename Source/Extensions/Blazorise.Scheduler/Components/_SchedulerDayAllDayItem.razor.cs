@@ -43,7 +43,7 @@ public partial class _SchedulerDayAllDayItem<TItem>
     /// <summary>
     /// Returns a string indicating whether the Scheduler is draggable. It returns 'true' if draggable, otherwise 'false'.
     /// </summary>
-    private string DraggableAttribute => Scheduler?.Draggable == true ? "true" : "false";
+    private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true && Scheduler?.Draggable == true ? "true" : "false";
 
     /// <summary>
     /// Provides access to the parent <see cref="Scheduler{TItem}"/> component.

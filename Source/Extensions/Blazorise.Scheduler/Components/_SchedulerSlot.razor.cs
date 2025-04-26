@@ -188,6 +188,8 @@ public partial class _SchedulerSlot<TItem>
 
     private bool IsDraggingOver => draggingOver && DragArea == Scheduler.CurrentDragArea;
 
+    private bool IsEditAllowed => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true;
+
     /// <summary>
     /// Gets the bottom border style if this is not the last slot.
     /// </summary>
@@ -201,7 +203,7 @@ public partial class _SchedulerSlot<TItem>
     /// <summary>
     /// Gets a string that represents whether the slot is draggable.
     /// </summary>
-    private string DraggableAttribute => Scheduler?.Draggable == true ? "true" : "false";
+    private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true && Scheduler?.Draggable == true ? "true" : "false";
 
     /// <summary>
     /// Provides access to the parent <see cref="Scheduler{TItem}"/> component.
