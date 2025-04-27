@@ -230,7 +230,7 @@ hr.divider.divider-text::before {
 .b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
-  border-color: #86b7fe;
+  border-color: rgb(134, 182.5, 254);
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
@@ -1627,7 +1627,7 @@ li.list-group-item-action {
 }
 
 .form-check.form-switch .form-check-input.form-check-input-xs {
-  width: calc(0.75rem + (0.5rem / 2));
+  width: calc(0.75rem + 0.5rem / 2);
   height: 0.5rem;
   margin-left: -2.5em;
 }
@@ -1637,11 +1637,11 @@ li.list-group-item-action {
   padding-left: 0;
 }
 .form-check.form-switch .form-check-input.form-check-input-xs:checked ~ .form-check-label::after {
-  transform: translateX(calc(0.75rem - (0.5rem / 2)));
+  transform: translateX(calc(0.75rem - 0.5rem / 2));
 }
 
 .form-check.form-switch .form-check-input.form-check-input-sm {
-  width: calc(1rem + (0.75rem / 2));
+  width: calc(1rem + 0.75rem / 2);
   height: 0.75rem;
   margin-left: -2.5em;
 }
@@ -1651,11 +1651,11 @@ li.list-group-item-action {
   padding-left: 0.75rem;
 }
 .form-check.form-switch .form-check-input.form-check-input-sm:checked ~ .form-check-label::after {
-  transform: translateX(calc(1rem - (0.75rem / 2)));
+  transform: translateX(calc(1rem - 0.75rem / 2));
 }
 
 .form-check.form-switch .form-check-input.form-check-input-md {
-  width: calc(2rem + (1.5rem / 2));
+  width: calc(2rem + 1.5rem / 2);
   height: 1.5rem;
   margin-left: -2.5em;
 }
@@ -1665,11 +1665,11 @@ li.list-group-item-action {
   padding-left: 0.75rem;
 }
 .form-check.form-switch .form-check-input.form-check-input-md:checked ~ .form-check-label::after {
-  transform: translateX(calc(2rem - (1.5rem / 2)));
+  transform: translateX(calc(2rem - 1.5rem / 2));
 }
 
 .form-check.form-switch .form-check-input.form-check-input-lg {
-  width: calc(3rem + (2rem / 2));
+  width: calc(3rem + 2rem / 2);
   height: 2rem;
   margin-left: -2.5em;
 }
@@ -1679,11 +1679,11 @@ li.list-group-item-action {
   padding-left: 0.75rem;
 }
 .form-check.form-switch .form-check-input.form-check-input-lg:checked ~ .form-check-label::after {
-  transform: translateX(calc(3rem - (2rem / 2)));
+  transform: translateX(calc(3rem - 2rem / 2));
 }
 
 .form-check.form-switch .form-check-input.form-check-input-xl {
-  width: calc(4rem + (2.5rem / 2));
+  width: calc(4rem + 2.5rem / 2);
   height: 2.5rem;
   margin-left: -2.5em;
 }
@@ -1693,7 +1693,7 @@ li.list-group-item-action {
   padding-left: 0.75rem;
 }
 .form-check.form-switch .form-check-input.form-check-input-xl:checked ~ .form-check-label::after {
-  transform: translateX(calc(4rem - (2.5rem / 2)));
+  transform: translateX(calc(4rem - 2.5rem / 2));
 }
 
 table.table tbody tr:not(.table-group).selected {
@@ -4564,4 +4564,39 @@ span.flatpickr-weekday {
 
 .flatpickr-monthSelect-month.selected {
   background-color: #0d6efd;
+}
+
+.flatpickr-extra-buttons-container {
+  display: flex;
+  justify-content: end;
+  padding: 10px;
+}
+
+.flatpickr-today-button {
+  display: inline-block;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: #0d6efd;
+  border: 1px solid #0d6efd;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+}
+.flatpickr-today-button:hover {
+  background-color: rgb(1.762295082, 87.2336065574, 213.237704918);
+  border-color: rgb(1.6786885246, 83.0950819672, 203.1213114754);
+}
+.flatpickr-today-button:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.5);
+}
+.flatpickr-today-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }

@@ -68,6 +68,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         disableMobile: options.disableMobile || true,
         static: options.staticPicker,
         weekNumbers: options.showWeekNumbers,
+        showTodayButton: options.showTodayButton,
         errorHandler: (error) => {
             // do nothing to prevent warnings in the console
         },
@@ -156,43 +157,13 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     picker.customOptions = {
         inputMode: options.inputMode
     };
-    setupTodayButton(picker, options);
 
     attachEventHandlers(picker.altInput);
 
     _pickers[elementId] = picker;
 }
 
-function setupTodayButton(picker, options) {
-    const extraButtonsContainer = picker.calendarContainer.querySelector('.extra-buttons-container');
-    if (extraButtonsContainer) {
-        extraButtonsContainer.style.display = options.showTodayButton ? 'block' : 'none';
-        return;        
-    }
-    
-    const containerDiv = document.createElement('div');
-    containerDiv.classList.add('extra-buttons-container');
-    containerDiv.style.display = options.showTodayButton ? 'block' : 'none';
-    containerDiv.style.marginTop = '8px';
-    containerDiv.style.textAlign = 'right';
 
-    const localizedToday = options.localization.today ?? 'Today';
-
-    containerDiv.innerHTML = `
-      <button type="button" class="today-button"
-              style="color: #007bff; background-color: transparent; border: none; padding: 4px 8px; cursor: pointer; text-decoration: underline;">
-        ${localizedToday}
-      </button>
-    `;
-
-    // Wire up the event after injection
-    const todayButton = containerDiv.querySelector('button');
-    todayButton.addEventListener('click', () => {
-        picker.setDate(new Date(), true); 
-    });
-
-    picker.calendarContainer.appendChild(containerDiv);
-}
 
 
 function attachEventHandlers(picker) {
@@ -373,7 +344,7 @@ export function updateOptions(element, elementId, options) {
             picker.set("weekNumbers", options.showWeekNumbers.value);
         }
         if(options.showTodayButton.changed){
-            setupTodayButton(picker, options);
+            picker.set("showTodayButton", options.showTodayButton.value);
         }
     }
 }
@@ -430,10 +401,7 @@ export function updateLocalization(element, elementId, localization) {
             picker.amPM.innerText = localization.amPM[index];
         }
 
-        const todayButton = picker.calendarContainer.querySelector('.today-button');
-        if (todayButton) {
-            todayButton.innerText = localization.today;
-        }
+        picker.l10n.today = localization.today;
         
         picker.redraw();
     }
