@@ -85,3 +85,79 @@ span.flatpickr-weekday {
 .flatpickr-monthSelect-month.selected {
     background-color: $primary;
 }
+
+.flatpickr-button {
+    @include border-radius($btn-border-radius);
+    @include transition-standard(background-color, box-shadow, color);
+    align-items: center;
+    background-color: transparent;
+    background-image: none;
+    border: 0;
+    box-shadow: map-get($btn-elevation-shadow, shadow);
+    color: $btn-color;
+    display: inline-flex;
+    font-size: $btn-font-size;
+    font-weight: $btn-font-weight;
+    height: $btn-height;
+    justify-content: center;
+    letter-spacing: 0.0892857143em;
+    line-height: inherit;
+    margin: 0;
+    max-width: 100%;
+    min-width: $btn-min-width;
+    outline: 0;
+    padding: $btn-padding-y $btn-padding-x;
+    position: relative; // For badges
+    // text-decoration: none;
+    text-transform: uppercase;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    @include hover-focus {
+        box-shadow: map-get($btn-elevation-shadow-hover, shadow);
+        outline: 0;
+        text-decoration: none;
+    }
+
+    &:hover,
+    &.hover {
+        background-image: linear-gradient(to bottom, rgba($black, $overlay-hover-white-opacity), rgba($black, $overlay-hover-white-opacity));
+        color: inherit;
+    }
+
+    &:focus,
+    &.focus {
+        background-image: linear-gradient(to bottom, rgba($black, $overlay-focus-white-opacity), rgba($black, $overlay-focus-white-opacity));
+    }
+
+    &:active,
+    &.active {
+        box-shadow: map-get($btn-elevation-shadow-active, shadow);
+    }
+    // stylelint-disable-next-line
+    @if not $enable-ripple {
+        &:active {
+            background-image: linear-gradient(to bottom, rgba($black, $overlay-pressed-white-opacity), rgba($black, $overlay-pressed-white-opacity));
+        }
+    }
+    @else {
+        &.active {
+            background-image: linear-gradient(to bottom, rgba($black, $overlay-pressed-white-opacity), rgba($black, $overlay-pressed-white-opacity));
+            transition: background-image 0.2s;
+        }
+    }
+
+    &:disabled,
+    &.disabled {
+        background-color: $btn-bg-disabled;
+        background-image: none;
+        box-shadow: none;
+        color: $btn-color-disabled;
+        pointer-events: none;
+    }
+    // TODO: verify
+    .show > &.dropdown-toggle {
+        background-image: linear-gradient(to bottom, rgba($white, $overlay-pressed-colored-opacity), rgba($white, $overlay-pressed-colored-opacity));
+    }
+}
