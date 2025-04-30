@@ -134,8 +134,9 @@ public class TextLocalizer<T> : ITextLocalizer<T>
     /// <summary>
     /// Gets all of the translations.
     /// </summary>
+    /// <param name="culture"></param>
     /// <returns>Key/value pairs of translations.</returns>
-    protected virtual IReadOnlyDictionary<string, string> GetTranslations()
+    protected virtual IReadOnlyDictionary<string, string> GetTranslations( CultureInfo culture )
     {
         // The selected culture can either be a neutral culture (2-digit:"cn") or a specific culture
         // (5-digit:"en-UK").
@@ -149,12 +150,12 @@ public class TextLocalizer<T> : ITextLocalizer<T>
         // 5. Invariant culture (defaults to "en")
         IReadOnlyDictionary<string, string> result;
 
-        if ( localizerService.SelectedCulture is not null
-             && translationsByCulture.TryGetValue( localizerService.SelectedCulture.Name, out result ) )
+        if ( culture is not null
+             && translationsByCulture.TryGetValue( culture.Name, out result ) )
             return result;
 
-        if ( localizerService.SelectedCulture?.Parent is not null && !localizerService.SelectedCulture.IsNeutralCulture
-                                                              && translationsByCulture.TryGetValue( localizerService.SelectedCulture.Parent.Name, out result ) )
+        if ( culture?.Parent is not null && !culture.IsNeutralCulture
+                                                              && translationsByCulture.TryGetValue( culture.Parent.Name, out result ) )
             return result;
 
         if ( CultureInfo.CurrentUICulture is not null
@@ -174,13 +175,20 @@ public class TextLocalizer<T> : ITextLocalizer<T>
     /// <inheritdoc/>
     public virtual string GetString( string name, params object[] arguments )
     {
-        var translations = GetTranslations();
+        return GetString( localizerService.SelectedCulture, name, arguments );
+    }
+
+
+    /// <inheritdoc/>
+    public virtual string GetString( CultureInfo culture, string name, params object[] arguments )
+    {
+        var translations = GetTranslations( culture );
 
         if ( translations is null || !translations.TryGetValue( name, out var value ) )
             value = name;
 
         if ( arguments.Length > 0 )
-            value = string.Format( localizerService.SelectedCulture, value, arguments );
+            value = string.Format( culture, value, arguments );
 
         return value;
     }
@@ -188,14 +196,20 @@ public class TextLocalizer<T> : ITextLocalizer<T>
     /// <inheritdoc/>
     public virtual IReadOnlyDictionary<string, string> GetStrings( params object[] arguments )
     {
-        var translations = GetTranslations();
+        return GetStrings( localizerService.SelectedCulture, arguments );
+    }
+
+    /// <inheritdoc/>
+    public virtual IReadOnlyDictionary<string, string> GetStrings( CultureInfo culture, params object[] arguments )
+    {
+        var translations = GetTranslations( culture );
 
         return ( from t in translations
                  select new
                  {
                      t.Key,
                      Value = arguments.Length > 0
-                         ? string.Format( localizerService.SelectedCulture, t.Value, arguments )
+                         ? string.Format( culture, t.Value, arguments )
                          : t.Value
                  } ).ToDictionary( x => x.Key, x => x.Value );
     }
@@ -209,6 +223,12 @@ public class TextLocalizer<T> : ITextLocalizer<T>
 
     /// <inheritdoc/>
     public string this[string name, params object[] arguments] => GetString( name, arguments );
+
+    /// <inheritdoc/>
+    public string this[CultureInfo culture, string name, params object[] arguments] => GetString( culture, name, arguments );
+
+    /// <inheritdoc />
+    public CultureInfo SelectedCulture => localizerService.SelectedCulture;
 
     #endregion
 }
