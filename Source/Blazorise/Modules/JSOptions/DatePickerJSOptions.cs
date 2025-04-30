@@ -217,4 +217,9 @@ public class DatePickerUpdateJSOptions
     /// Gets or sets the option for showing or hiding the "Today" button.
     /// </summary>
     public JSOptionChange<bool> ShowTodayButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for showing or hiding the "Clear" button.
+    /// </summary>
+    public JSOptionChange<bool> ShowClearButton { get; set; }
 }
