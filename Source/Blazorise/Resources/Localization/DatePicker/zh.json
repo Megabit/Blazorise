@@ -42,6 +42,7 @@
     "AM": "上午",
     "PM": "下午",
     "RangeSeparator": " 至 ",
-    "Today": "今天"
+    "Today": "今天",
+    "Clear": "清除"
   }
 }

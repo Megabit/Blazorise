@@ -68,7 +68,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         disableMobile: options.disableMobile || true,
         static: options.staticPicker,
         weekNumbers: options.showWeekNumbers,
-        showTodayButton: options.showTodayButton,
+        todayButton: options.showTodayButton,
+        clearButton: options.showClearButton,
         errorHandler: (error) => {
             // do nothing to prevent warnings in the console
         },
@@ -162,9 +163,6 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     _pickers[elementId] = picker;
 }
-
-
-
 
 function attachEventHandlers(picker) {
     picker.addEventListener("keydown", keyDownHandler);
@@ -343,8 +341,13 @@ export function updateOptions(element, elementId, options) {
         if (options.showWeekNumbers.changed) {
             picker.set("weekNumbers", options.showWeekNumbers.value);
         }
-        if(options.showTodayButton.changed){
-            picker.set("showTodayButton", options.showTodayButton.value);
+
+        if (options.showTodayButton.changed) {
+            picker.set("todayButton", options.showTodayButton.value);
+        }
+
+        if (options.showClearButton.changed) {
+            picker.set("clearButton", options.showClearButton.value);
         }
     }
 }
@@ -402,7 +405,8 @@ export function updateLocalization(element, elementId, localization) {
         }
 
         picker.l10n.today = localization.today;
-        
+        picker.l10n.clear = localization.clear;
+
         picker.redraw();
     }
 }

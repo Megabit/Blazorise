@@ -42,6 +42,7 @@
     "AM": "AM",
     "PM": "PM",
     "RangeSeparator": " a ",
-    "Today": "Hoy"
+    "Today": "Hoy",
+    "Clear": "Borrar"
   }
 }
