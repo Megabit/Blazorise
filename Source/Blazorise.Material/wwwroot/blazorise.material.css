@@ -5450,3 +5450,7 @@ span.flatpickr-weekday {
 .show > .flatpickr-button.dropdown-toggle {
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.32));
 }
+
+.flatpickr-button:hover {
+  background: rgba(156, 39, 176, 0.15);
+}

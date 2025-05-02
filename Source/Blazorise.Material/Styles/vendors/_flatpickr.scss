@@ -161,3 +161,9 @@ span.flatpickr-weekday {
         background-image: linear-gradient(to bottom, rgba($white, $overlay-pressed-colored-opacity), rgba($white, $overlay-pressed-colored-opacity));
     }
 }
+
+.flatpickr-button {
+    &:hover {
+        background: rgba($primary,.15);
+    }
+}
