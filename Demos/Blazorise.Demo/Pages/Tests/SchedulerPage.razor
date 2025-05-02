@@ -10,7 +10,8 @@
                 <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
                            Data="@Appointments"
                            @bind-SelectedView="@selectedView"
-                           Draggable>
+                           Draggable
+                           ItemStyling="@OnItemStyling">
                     <SchedulerToolbar />
                     <SchedulerViews>
                         <SchedulerDayView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
@@ -58,6 +59,16 @@
         await MessageService.Warning( "You cannot drop this appointment here", "Drop not allowed" );
 
         return false;
+    }
+
+    private void OnItemStyling( SchedulerAppointment appointment, SchedulerItemStyling itemStyling )
+    {
+        if ( appointment.Title.Contains( "ceo", StringComparison.OrdinalIgnoreCase ) )
+            itemStyling.Background = Background.Danger;
+        else if ( appointment.Title.Contains( "client", StringComparison.OrdinalIgnoreCase ) )
+            itemStyling.Background = Background.Success;
+        else if ( appointment.Title.Contains( "lunch", StringComparison.OrdinalIgnoreCase ) )
+            itemStyling.Background = Background.Info;
     }
 
     public class SchedulerAppointment

@@ -1,10 +1,11 @@
 ﻿@typeparam TItem
-<Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="PositionRelative" Margin="MarginIsAuto" Width="WidthIs100" Height="HeightIs100" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
+<Div Class="b-scheduler-slot" Style="@GetSlotStyle()" Position="PositionRelative" Margin="MarginIsAuto" Width="WidthIs100" Height="HeightIs100" Border="@SlotBorderColor" Background="@SlotBackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" @onclick="@OnSlotClicked" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
     @foreach ( var viewItem in ViewItems ?? Enumerable.Empty<SchedulerItemViewInfo<TItem>>() )
     {
         var index = ViewItems.IndexOf( viewItem );
+        var itemStyling = GetItemStyling( viewItem.Item );
 
-        <Span Style="@GetItemStyle( viewItem, index, ViewItems.Count )" Position="PositionAbsolute" Border="BorderRounded" Background="Background.Info" Flex="FlexJustifyContentBetweenAlignItemsStart" Padding="PaddingIs1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
+        <Span Class="@GetItemClass( itemStyling.Class )" Style="@GetItemStyle( viewItem, index, ViewItems.Count, itemStyling.Style )" Position="PositionAbsolute" Border="BorderRounded" Background="@itemStyling.Background" TextColor="@itemStyling.TextColor" TextSize="@itemStyling.TextSize" Flex="FlexJustifyContentBetweenAlignItemsStart" Padding="PaddingIs1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
             @if ( viewItem.IsRecurring )
             {
                 <Span>

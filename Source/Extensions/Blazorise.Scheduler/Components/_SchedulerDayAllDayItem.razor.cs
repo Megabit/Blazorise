@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -13,6 +14,19 @@ namespace Blazorise.Scheduler.Components;
 /// <typeparam name="TItem">Represents the type of data displayed in the all-day slot, enabling customization of the item content.</typeparam>
 public partial class _SchedulerDayAllDayItem<TItem>
 {
+    #region Members
+
+    /// <summary>
+    /// Defines a static readonly instance of SchedulerItemStyling with a default background set to Info.
+    /// </summary>
+    private static readonly SchedulerItemStyling DefaultItemStyling = new SchedulerItemStyling
+    {
+        Background = Background.Info,
+        TextSize = FluentConstants.TextSizeExtraSmall,
+    };
+
+    #endregion
+
     #region Methods
 
     /// <summary>
@@ -34,6 +48,36 @@ public partial class _SchedulerDayAllDayItem<TItem>
     protected Task OnItemDragStart( DragEventArgs e, TItem item )
     {
         return Scheduler.StartDrag( item, DragSection );
+    }
+
+    private string GetItemClass( string customClass )
+    {
+        if ( string.IsNullOrEmpty( customClass ) )
+            return "b-scheduler-allday-item";
+
+
+        return $"-scheduler-allday-item {customClass}";
+    }
+
+    private string GetItemStyle( string customStyle )
+    {
+        return customStyle;
+    }
+
+    private SchedulerItemStyling GetItemStyling( TItem item )
+    {
+        if ( Scheduler?.ItemStyling is null )
+            return DefaultItemStyling;
+
+        var itemStyling = new SchedulerItemStyling
+        {
+            Background = Background.Info,
+            TextSize = FluentConstants.TextSizeExtraSmall,
+        };
+
+        Scheduler.ItemStyling( item, itemStyling );
+
+        return itemStyling;
     }
 
     #endregion

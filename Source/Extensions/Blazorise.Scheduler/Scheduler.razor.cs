@@ -1936,10 +1936,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public SchedulerLocalizers Localizers { get; set; }
 
     /// <summary>
+    /// Defines a callback for customizing the styling of items in a <see cref="Scheduler{TItem}"/>.
+    /// </summary>
+    [Parameter] public Action<TItem, SchedulerItemStyling> ItemStyling { get; set; }
+
+    /// <summary>
     /// Gets or sets the content to be rendered inside the component.
     /// </summary>
     /// <remarks>
-    /// This property allows developers to define custom content within the <see cref="Scheduler"/> component.
+    /// This property allows developers to define custom content within the <see cref="Scheduler{TItem}"/> component.
     /// </remarks>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

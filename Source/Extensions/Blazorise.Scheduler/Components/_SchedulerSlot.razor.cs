@@ -28,6 +28,14 @@ public partial class _SchedulerSlot<TItem>
     /// </summary>
     private bool draggingOver;
 
+    /// <summary>
+    /// Defines a static readonly instance of SchedulerItemStyling with a default background set to Info.
+    /// </summary>
+    private static readonly SchedulerItemStyling DefaultItemStyling = new SchedulerItemStyling
+    {
+        Background = Background.Info,
+    };
+
     #endregion
 
     #region Methods
@@ -147,12 +155,28 @@ public partial class _SchedulerSlot<TItem>
     }
 
     /// <summary>
+    /// Returns a string representing the CSS class for a scheduler item. It includes a default class and appends a
+    /// custom class if provided.
+    /// </summary>
+    /// <param name="customClass">Specifies an additional CSS class to be included in the returned string.</param>
+    /// <returns>A string that combines a default class with the custom class if it is not empty.</returns>
+    private string GetItemClass( string customClass )
+    {
+        if ( string.IsNullOrEmpty( customClass ) )
+            return "b-scheduler-item";
+
+
+        return $"b-scheduler-item {customClass}";
+    }
+
+    /// <summary>
     /// Computes the CSS style for a scheduler item within the slot.
     /// </summary>
     /// <param name="viewItem">The item to style.</param>
     /// <param name="index">The index of the item among all items in the slot.</param>
     /// <param name="totalItems">The total number of items in the slot.</param>
-    private string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem, int index, int totalItems )
+    /// <param name="customStyles">Any additional custom styles to apply.</param>
+    private string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem, int index, int totalItems, string customStyles )
     {
         var viewStart = viewItem.ViewStart;
         var viewEnd = viewItem.ViewEnd;
@@ -162,7 +186,7 @@ public partial class _SchedulerSlot<TItem>
 
         if ( totalItems == 1 )
         {
-            return $"cursor: pointer; left: 0; right: {5.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
+            return $"cursor: pointer; left: 0; right: {5.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;{customStyles}";
         }
 
         double slotRightGap = 5.0;
@@ -172,13 +196,13 @@ public partial class _SchedulerSlot<TItem>
         if ( index == totalItems - 1 )
         {
             double rightPercentage = slotRightGap;
-            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
+            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;{customStyles}";
         }
         else
         {
             double rightPercentage = 100 - ( ( index + 1 ) * itemWidth );
             rightPercentage += 1;
-            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;";
+            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;{customStyles}";
         }
     }
 
@@ -193,12 +217,27 @@ public partial class _SchedulerSlot<TItem>
     /// <summary>
     /// Gets the bottom border style if this is not the last slot.
     /// </summary>
-    private IFluentBorder BorderColor => IsDraggingOver ? BorderIs1Dark : ( LastSlot ? null : BorderIs1OnBottom );
+    private IFluentBorder SlotBorderColor => IsDraggingOver ? BorderIs1Dark : ( LastSlot ? null : BorderIs1OnBottom );
 
     /// <summary>
     /// Gets the background color of the slot based on mouse hover state.
     /// </summary>
-    private Blazorise.Background BackgroundColor => mouseHovering ? Background.Light : Background.Default;
+    private Blazorise.Background SlotBackgroundColor => mouseHovering ? Background.Light : Background.Default;
+
+    private SchedulerItemStyling GetItemStyling( TItem item )
+    {
+        if ( Scheduler?.ItemStyling is null )
+            return DefaultItemStyling;
+
+        var itemStyling = new SchedulerItemStyling
+        {
+            Background = Background.Info
+        };
+
+        Scheduler.ItemStyling( item, itemStyling );
+
+        return itemStyling;
+    }
 
     /// <summary>
     /// Gets a string that represents whether the slot is draggable.
