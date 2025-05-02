@@ -75,7 +75,7 @@ public partial class _SchedulerSlot<TItem>
         mouseHovering = false;
         draggingOver = false;
 
-        return Scheduler.StartDrag( viewItem.Item, DragArea );
+        return Scheduler.StartDrag( viewItem.Item, DragSection );
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public partial class _SchedulerSlot<TItem>
     {
         draggingOver = false;
 
-        return Scheduler.DropSlotItem( SlotStart, SlotEnd, DragArea );
+        return Scheduler.DropSlotItem( SlotStart, SlotEnd, DragSection );
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ public partial class _SchedulerSlot<TItem>
 
     #region Properties
 
-    private bool IsDraggingOver => draggingOver && DragArea == Scheduler.CurrentDragArea;
+    private bool IsDraggingOver => draggingOver && DragSection == Scheduler.CurrentDragSection;
 
     private bool IsEditAllowed => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true;
 
@@ -258,7 +258,7 @@ public partial class _SchedulerSlot<TItem>
     /// <summary>
     /// Gets or sets the drag area associated with the slot.
     /// </summary>
-    [Parameter] public SchedulerDragArea DragArea { get; set; }
+    [Parameter] public SchedulerSection DragSection { get; set; }
 
     #endregion
 }

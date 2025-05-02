@@ -1504,7 +1504,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             .Count();
     }
 
-    internal async Task StartDrag( TItem item, SchedulerDragArea dragArea )
+    internal async Task StartDrag( TItem item, SchedulerSection dragSection )
     {
         // Cancel any existing transaction
         if ( currentTransaction is not null )
@@ -1518,7 +1518,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editState = SchedulerEditState.Edit;
 
         // Create a new transaction
-        currentTransaction = new SchedulerTransaction<TItem>( this, item, dragArea );
+        currentTransaction = new SchedulerTransaction<TItem>( this, item, dragSection );
         isDragging = true;
 
         if ( DragStarted is not null )
@@ -1543,14 +1543,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             await DragCancelled.Invoke( new SchedulerDragEventArgs<TItem>( item ) );
     }
 
-    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerDragArea dragArea )
+    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerSection dragSection )
     {
         if ( currentTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragArea != dragArea )
+            if ( currentTransaction.DragSection != dragSection )
             {
                 await CancelDrag();
 
@@ -1582,14 +1582,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropDateItem( DateOnly date, SchedulerDragArea dragArea )
+    internal async Task<bool> DropDateItem( DateOnly date, SchedulerSection dragSection )
     {
         if ( currentTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragArea != dragArea )
+            if ( currentTransaction.DragSection != dragSection )
             {
                 await CancelDrag();
 
@@ -1626,14 +1626,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerDragArea dragArea )
+    internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerSection dragSection )
     {
         if ( currentTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragArea != dragArea )
+            if ( currentTransaction.DragSection != dragSection )
             {
                 await CancelDrag();
 
@@ -1733,7 +1733,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Returns the current drag area of a transaction if it exists; otherwise, it returns 'None'.
     /// </summary>
-    internal protected SchedulerDragArea CurrentDragArea => currentTransaction?.DragArea ?? SchedulerDragArea.None;
+    internal protected SchedulerSection CurrentDragSection => currentTransaction?.DragSection ?? SchedulerSection.None;
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.

@@ -28,14 +28,14 @@ public class SchedulerTransaction<TItem>
     /// </summary>
     /// <param name="scheduler">The parent scheduler instance.</param>
     /// <param name="item">The item being edited or moved.</param>
-    /// <param name="dragArea">The drag area context from which the transaction originated.</param>
-    public SchedulerTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerDragArea dragArea )
+    /// <param name="dragSection">The drag area context from which the transaction originated.</param>
+    public SchedulerTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerSection dragSection )
     {
         this.scheduler = scheduler;
 
         OriginalItem = item;
         Item = item.DeepClone();
-        DragArea = dragArea;
+        DragSection = dragSection;
     }
 
     #endregion
@@ -133,7 +133,7 @@ public class SchedulerTransaction<TItem>
     /// <summary>
     /// Gets the drag area context from which this transaction was initiated.
     /// </summary>
-    public SchedulerDragArea DragArea { get; }
+    public SchedulerSection DragSection { get; }
 
     /// <summary>
     /// Gets the current state of the transaction.

@@ -183,7 +183,7 @@ public partial class _SchedulerDayCell<TItem>
     /// <summary>
     /// Gets or sets the drag area used for appointment dragging.
     /// </summary>
-    [Parameter] public SchedulerDragArea DragArea { get; set; }
+    [Parameter] public SchedulerSection DragSection { get; set; }
 
     #endregion
 }

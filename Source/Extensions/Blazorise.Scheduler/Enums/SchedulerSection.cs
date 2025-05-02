@@ -1,12 +1,12 @@
 ﻿namespace Blazorise.Scheduler;
 
 /// <summary>
-/// Defines areas in a scheduler where drag-and-drop actions can occur.
+/// Defines areas in a scheduler that can be customized or styled.
 /// </summary>
-public enum SchedulerDragArea
+public enum SchedulerSection
 {
     /// <summary>
-    /// No member is defined.
+    /// Represents a section of the scheduler that is not defined or does not have a specific purpose.
     /// </summary>
     None,
 
