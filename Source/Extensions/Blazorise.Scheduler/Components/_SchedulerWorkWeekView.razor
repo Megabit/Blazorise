@@ -5,7 +5,7 @@
         var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWorkWeek );
         var endOfWeek = startOfWeek.AddDays( 4 );
 
-        var items = Scheduler.GetItemsInView( startOfWeek.ToDateTime( TimeOnly.MinValue ), endOfWeek.ToDateTime( TimeOnly.MinValue ) ).ToList();
+        var items = Scheduler.GetItemsInView( startOfWeek.ToDateTime( TimeOnly.MinValue ), endOfWeek.ToDateTime( TimeOnly.MaxValue ) ).ToList();
 
         var allDayItems = Scheduler.GetAllDayItemsInRange( startOfWeek.ToDateTime( TimeOnly.MinValue ), endOfWeek.ToDateTime( TimeOnly.MinValue ) ).ToList();
         var maxStackedAllDayItems = Scheduler.GetMaxStackedAllDayItems( allDayItems, startOfWeek, endOfWeek );
