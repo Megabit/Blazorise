@@ -227,3 +227,42 @@
         }
     }
 }
+
+@mixin border-radius($radius: $border-radius, $fallback-border-radius: false) {
+    border-radius: valid-radius($radius);
+}
+
+@mixin transition-standard($property...) {
+    transition: $property $transition-duration-mobile $transition-timing-function-standard;
+
+    @include media-breakpoint-up(sm) {
+        transition-duration: $transition-duration-tablet;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition-duration: $transition-duration-desktop;
+    }
+}
+
+@mixin hover-focus {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin plain-hover-focus {
+    &,
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}

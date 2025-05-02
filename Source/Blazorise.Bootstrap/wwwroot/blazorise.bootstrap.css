@@ -5587,3 +5587,7 @@ span.flatpickr-weekday {
 .flatpickr-monthSelect-month.selected {
   background-color: #007bff;
 }
+
+.flatpickr-button:hover {
+  background: rgba(0, 123, 255, 0.15);
+}

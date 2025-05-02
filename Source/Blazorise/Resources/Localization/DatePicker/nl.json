@@ -41,6 +41,8 @@
     "December": "december",
     "AM": "AM",
     "PM": "PM",
-    "RangeSeparator": " t/m "
+    "RangeSeparator": " t/m ",
+    "Today": "Vandaag",
+    "Clear": "Wissen"
   }
 }

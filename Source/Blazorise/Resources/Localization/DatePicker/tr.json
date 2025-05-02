@@ -41,6 +41,8 @@
     "December": "Aralık",
     "AM": "ÖÖ",
     "PM": "ÖS",
-    "RangeSeparator": " - "
+    "RangeSeparator": " - ",
+    "Today": "Bugün",
+    "Clear": "Temizle"
   }
 }

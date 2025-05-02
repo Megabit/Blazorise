@@ -41,6 +41,8 @@
     "December": "Dezember",
     "AM": "AM",
     "PM": "PM",
-    "RangeSeparator": " bis "
+    "RangeSeparator": " bis ",
+    "Today": "Heute",
+    "Clear": "Löschen"
   }
 }

@@ -41,6 +41,8 @@
     "December": "Desember",
     "AM": "AM",
     "PM": "PM",
-    "RangeSeparator": " til "
+    "RangeSeparator": " til ",
+    "Today": "Í dag",
+    "Clear": "Hreinsa"
   }
 }
