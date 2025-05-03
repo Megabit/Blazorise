@@ -10647,6 +10647,10 @@ builder.Services
     };
 }";
 
+        public const string SchedulerImportsExample = @"@using Blazorise.Scheduler";
+
+        public const string SchedulerNugetInstallExample = @"Install-Package Blazorise.Scheduler";
+
         public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""
             Data=""@IndexedCountries""

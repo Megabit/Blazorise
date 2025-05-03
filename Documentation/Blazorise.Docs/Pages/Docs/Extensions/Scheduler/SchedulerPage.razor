@@ -25,8 +25,77 @@
     <DocsPageSectionHeader Title="Imports">
         In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ImportSchedulerExample" />
+    <DocsPageSectionSource Code="SchedulerImportsExample" />
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Fundamentals
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Using TItem
+</Heading>
+
+<DocsPageParagraph>
+    The <Code>Scheduler&lt;TItem&gt;</Code> component is generic and can theoretically work with any type. However, the type must contain properties for <Code>Title</Code>, <Code>Start</Code>, and <Code>End</Code> at minimum. These property names can be overridden using property mappings.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Editing
+</Heading>
+
+<DocsPageParagraph>
+    Editing of scheduler items can be enabled or disabled by setting <Code>Editable</Code> parameter:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Editable="true"</Strong>: Enables built-in editing capabilities.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>Editable="false"</Strong>: Disables built-in editing. In this case, item creation, updates, and deletions must be handled manually using callbacks like <Code>ItemInserted</Code>, <Code>ItemUpdated</Code>, and <Code>ItemDeleted</Code>.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Drag and Drop
+</Heading>
+
+<DocsPageParagraph>
+    Drag and drop functionality for scheduler items can be toggled using <Code>Draggable</Code> parameter:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Draggable="true"</Strong> (default): Allows items to be moved or resized via drag-and-drop.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>Draggable="false"</Strong>: Disables drag-and-drop interactions.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Recurring Appointments
+</Heading>
+
+<DocsPageParagraph>
+    The <Code>Scheduler</Code> component supports recurring appointments based on RFC-5545 recurrence rules. Recurrences are dynamically displayed based on these rules and are not persisted by the component itself. Persistence of recurrence data must be managed by the developer and backend.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Recurring items:</Strong> Defined by limited RFC-5545 rules and calculated at runtime.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>Exceptions:</Strong> Edited or deleted occurrences of recurring appointments are exceptions and managed internally by the scheduler component.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     Examples
