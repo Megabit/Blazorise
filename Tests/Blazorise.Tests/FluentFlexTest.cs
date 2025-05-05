@@ -477,4 +477,20 @@ public class FluentFlexTest
 
         Assert.Equal( expected, classname );
     }
+
+    [Theory]
+    [InlineData( "flex-basis-0", FlexBasisSize.Is0 )]
+    [InlineData( "flex-basis-auto", FlexBasisSize.Auto )]
+    [InlineData( "flex-basis-full", FlexBasisSize.Full )]
+    public void AreFlexFasis( string expected, FlexBasisSize basisSize )
+    {
+        var flex = new FluentFlex();
+
+        flex.WithBasis();
+        flex.WithBasisSize( basisSize );
+
+        var classname = flex.Class( classProvider );
+
+        Assert.Equal( expected, classname );
+    }
 }
