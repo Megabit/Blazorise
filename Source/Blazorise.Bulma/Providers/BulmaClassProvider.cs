@@ -1448,6 +1448,9 @@ public class BulmaClassProvider : ClassProvider
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
             sb.Append( "is-flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
+        if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
+            sb.Append( "is-flex-basis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
+
         if ( flexDefinition.Wrap != FlexWrap.Default )
             sb.Append( "is-flex-wrap-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
 
