@@ -145,5 +145,17 @@
         .fui-AlignSelf#{$infix}-stretch {
             align-self: stretch !important;
         }
+
+        .fui-FlexBasis#{$infix}-0 {
+            flex-basis: 0 !important;
+        }
+
+        .fui-FlexBasis#{$infix}-auto {
+            flex-basis: auto !important;
+        }
+
+        .fui-FlexBasis#{$infix}-full {
+            flex-basis: 100% !important;
+        }
     }
 }

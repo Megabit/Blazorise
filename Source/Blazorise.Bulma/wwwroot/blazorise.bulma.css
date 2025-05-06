@@ -4877,6 +4877,18 @@ td:focus {
   order: 12;
 }
 
+.is-flex-basis-0 {
+  flex-basis: 0 !important;
+}
+
+.is-flex-basis-auto {
+  flex-basis: auto !important;
+}
+
+.is-flex-basis-full {
+  flex-basis: 100% !important;
+}
+
 @media (min-width: 576px) {
   .is-flex-direction-mobile-row {
     flex-direction: row !important;
@@ -5018,6 +5030,15 @@ td:focus {
   }
   .is-flex-order-mobile-12 {
     order: 12;
+  }
+  .is-flex-mobile-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .is-flex-mobile-basis-auto {
+    flex-basis: auto !important;
+  }
+  .is-flex-mobile-basis-full {
+    flex-basis: 100% !important;
   }
 }
 @media (min-width: 1023px) {
@@ -5162,6 +5183,15 @@ td:focus {
   .is-flex-order-tablet-12 {
     order: 12;
   }
+  .is-flex-tablet-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .is-flex-tablet-basis-auto {
+    flex-basis: auto !important;
+  }
+  .is-flex-tablet-basis-full {
+    flex-basis: 100% !important;
+  }
 }
 @media (min-width: 1215px) {
   .is-flex-direction-desktop-row {
@@ -5304,6 +5334,15 @@ td:focus {
   }
   .is-flex-order-desktop-12 {
     order: 12;
+  }
+  .is-flex-desktop-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .is-flex-desktop-basis-auto {
+    flex-basis: auto !important;
+  }
+  .is-flex-desktop-basis-full {
+    flex-basis: 100% !important;
   }
 }
 @media (min-width: 1407px) {
@@ -5448,6 +5487,15 @@ td:focus {
   .is-flex-order-widescreen-12 {
     order: 12;
   }
+  .is-flex-widescreen-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .is-flex-widescreen-basis-auto {
+    flex-basis: auto !important;
+  }
+  .is-flex-widescreen-basis-full {
+    flex-basis: 100% !important;
+  }
 }
 @media (min-width: 1907px) {
   .is-flex-direction-fullhd-row {
@@ -5591,6 +5639,15 @@ td:focus {
   .is-flex-order-fullhd-12 {
     order: 12;
   }
+  .is-flex-fullhd-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .is-flex-fullhd-basis-auto {
+    flex-basis: auto !important;
+  }
+  .is-flex-fullhd-basis-full {
+    flex-basis: 100% !important;
+  }
 }
 @media (min-width: 2560px) {
   .is-flex-direction-quadhd-row {
@@ -5733,6 +5790,15 @@ td:focus {
   }
   .is-flex-order-quadhd-12 {
     order: 12;
+  }
+  .is-flex-quadhd-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .is-flex-quadhd-basis-auto {
+    flex-basis: auto !important;
+  }
+  .is-flex-quadhd-basis-full {
+    flex-basis: 100% !important;
   }
 }
 .grid {

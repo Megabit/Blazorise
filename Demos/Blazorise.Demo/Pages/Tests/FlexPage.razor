@@ -710,7 +710,30 @@
         </Card>
     </Column>
 </Row>
-@code{
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Basis</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Div Flex="Flex.Row">
+                    <Div Flex="Flex.Basis.Auto" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Auto
+                    </Div>
+                    <Div Flex="Flex.Basis.Is0" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Zero
+                    </Div>
+                    <Div Flex="Flex.Basis.Full" Padding="Padding.Is2" Style="@flexItemStyle">
+                        Full
+                    </Div>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
     const string ContainerBackgroundColor = "rgba(165, 181, 167,.15)";
     const string ContainerBorderColor = "rgba(165, 181, 167,.15)";
 

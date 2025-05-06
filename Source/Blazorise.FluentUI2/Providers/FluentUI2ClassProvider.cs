@@ -1583,6 +1583,9 @@ public class FluentUI2ClassProvider : ClassProvider
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
             sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
+        if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
+            sb.Append( "fui-FlexBasis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
+
         if ( flexDefinition.Wrap != FlexWrap.Default )
             sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
 

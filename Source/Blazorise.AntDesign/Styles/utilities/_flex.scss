@@ -143,5 +143,17 @@
                 order: $i;
             }
         }
+
+        .ant-flex#{$infix}-basis-0 {
+            flex-basis: 0 !important;
+        }
+
+        .ant-flex#{$infix}-basis-auto {
+            flex-basis: auto !important;
+        }
+
+        .ant-flex#{$infix}-basis-full {
+            flex-basis: 100% !important;
+        }
     }
 }
