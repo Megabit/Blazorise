@@ -1,12 +1,15 @@
 import "./vendors/quill.js?v=1.7.6.0";
 import "./vendors/quill-table-better.js?v=1.7.6.0";
+import "./vendors/quill-resize-module.js?v=1.7.6.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.6.0";
 
 var rteSheetsLoaded = false;
 
-Quill.register({
-    'modules/table-better': QuillTableBetter
-}, true);
+Quill.register(
+    {
+        'modules/table-better': QuillTableBetter,
+        'modules/resize': QuillResize
+    }, true);
 
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
@@ -35,6 +38,27 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             table: false,
             'table-better': {
                 toolbarTable: true
+            },
+            resize: {
+                tools: [
+                    "left",
+                    "center",
+                    "right",
+                    "full",
+                    "edit",
+                    {
+                        text: "Alt",
+                        verify(activeEle) {
+                            return activeEle && activeEle.tagName === "IMG";
+                        },
+                        handler(evt, button, activeEle) {
+                            let alt = activeEle.alt || "";
+                            alt = window.prompt("Alt for image", alt);
+                            if (alt == null) return;
+                            activeEle.setAttribute("alt", alt);
+                        },
+                    },
+                ],
             },
             keyboard: {
                 bindings: QuillTableBetter.keyboardBindings

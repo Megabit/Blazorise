@@ -49,6 +49,9 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         if ( options.UseTables )
             styles.Add( "quill-table-better" );
 
+        if ( options.UseResize )
+            styles.Add( "quill-resize-module" );
+
         if ( styles.Count > 0 )
         {
             await jsObjectReference.InvokeVoidAsync( "loadStylesheets", styles, VersionProvider.Version );
