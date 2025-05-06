@@ -17,7 +17,7 @@ internal static class FluentConstants
     internal static readonly IFluentFlex FlexDefault = Flex.Default;
     internal static readonly IFluentFlex FlexDefaultGrowIs1 = Flex.Default.Grow.Is1;
     internal static readonly IFluentFlex FlexDefaultGrowIs1ShrinkIs1 = Flex.Default.Grow.Is1.Shrink.Is1;
-    internal static readonly IFluentFlex FlexGrowIs1 = Flex.Grow.Is1;
+    internal static readonly IFluentFlex FlexGrowIs1BasisIs0 = Flex.Grow.Is1.Basis.Is0;
     internal static readonly IFluentFlex FlexInlineFlexAlignItemsCenter = Flex.InlineFlex.AlignItems.Center;
     internal static readonly IFluentFlex FlexInlineFlexJustifyContentBetweenAlignItemsCenter = Flex.InlineFlex.JustifyContent.Between.AlignItems.Center;
     internal static readonly IFluentFlex FlexJustifyContentBetweenAlignItemsCenter = Flex.JustifyContent.Between.AlignItems.Center;
