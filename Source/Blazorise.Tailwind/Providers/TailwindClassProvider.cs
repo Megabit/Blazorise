@@ -2101,7 +2101,7 @@ public class TailwindClassProvider : ClassProvider
             sb.Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
         if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
-            sb.Append( breakpoint ).Append( "basis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
+            sb.Append( breakpoint ).Append( "basis-" ).Append( ToBasisSize( flexDefinition.BasisSize ) );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
             sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
