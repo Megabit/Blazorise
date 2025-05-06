@@ -39,27 +39,6 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             'table-better': {
                 toolbarTable: true
             },
-            resize: {
-                tools: [
-                    "left",
-                    "center",
-                    "right",
-                    "full",
-                    "edit",
-                    {
-                        text: "Alt",
-                        verify(activeEle) {
-                            return activeEle && activeEle.tagName === "IMG";
-                        },
-                        handler(evt, button, activeEle) {
-                            let alt = activeEle.alt || "";
-                            alt = window.prompt("Alt for image", alt);
-                            if (alt == null) return;
-                            activeEle.setAttribute("alt", alt);
-                        },
-                    },
-                ],
-            },
             keyboard: {
                 bindings: QuillTableBetter.keyboardBindings
             }
@@ -87,6 +66,31 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             }
         };
     }
+
+    if (options.useResize) {
+        quillOptions.modules.resize = {
+            tools: [
+                "left",
+                "center",
+                "right",
+                "full",
+                "edit",
+                {
+                    text: "Alt",
+                    verify(activeEle) {
+                        return activeEle && activeEle.tagName === "IMG";
+                    },
+                    handler(evt, button, activeEle) {
+                        let alt = activeEle.alt || "";
+                        alt = window.prompt("Alt for image", alt);
+                        if (alt == null) return;
+                        activeEle.setAttribute("alt", alt);
+                    },
+                },
+            ],
+        };
+    }
+
     if (options.configureQuillJsMethod) {
         try {
             configure(options.configureQuillJsMethod, window, [quillOptions]);
@@ -94,8 +98,11 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             console.error(err);
         }
     }
+
     var contentUpdating = false;
+
     const quill = new Quill(editorRef, quillOptions);
+
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
             contentUpdating = true;
@@ -103,6 +110,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 .finally(_ => contentUpdating = false);
         }
     });
+
     quill.on("selection-change", function (range, oldRange, source) {
         if (range === null && oldRange !== null) {
             dotnetAdapter.invokeMethodAsync("OnEditorBlur");

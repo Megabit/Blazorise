@@ -74,6 +74,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
             SubmitOnEnter = richTextEdit.SubmitOnEnter,
             ConfigureQuillJsMethod = richTextEdit.ConfigureQuillJsMethod,
             UseTables = options.UseTables,
+            UseResize = options.UseResize && richTextEdit.UseResize,
         } );
 
         return AsyncDisposable.Create( async () =>
