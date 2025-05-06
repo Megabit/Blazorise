@@ -477,4 +477,52 @@ public class FluentFlexTest
 
         Assert.Equal( expected, classname );
     }
+
+    [Theory]
+    [InlineData( "flex-basis-0", FlexBasisSize.Is0 )]
+    [InlineData( "flex-basis-auto", FlexBasisSize.Auto )]
+    [InlineData( "flex-basis-full", FlexBasisSize.Full )]
+    public void AreFlexFasis( string expected, FlexBasisSize basisSize )
+    {
+        var flex = new FluentFlex();
+
+        flex.WithBasis();
+        flex.WithBasisSize( basisSize );
+
+        var classname = flex.Class( classProvider );
+
+        Assert.Equal( expected, classname );
+    }
+
+    [Theory]
+    [InlineData( "flex-basis-0", FlexBasisSize.Is0, Breakpoint.Mobile )]
+    [InlineData( "flex-basis-auto", FlexBasisSize.Auto, Breakpoint.Mobile )]
+    [InlineData( "flex-basis-full", FlexBasisSize.Full, Breakpoint.Mobile )]
+    [InlineData( "flex-basis-sm-0", FlexBasisSize.Is0, Breakpoint.Tablet )]
+    [InlineData( "flex-basis-sm-auto", FlexBasisSize.Auto, Breakpoint.Tablet )]
+    [InlineData( "flex-basis-sm-full", FlexBasisSize.Full, Breakpoint.Tablet )]
+    [InlineData( "flex-basis-md-0", FlexBasisSize.Is0, Breakpoint.Desktop )]
+    [InlineData( "flex-basis-md-auto", FlexBasisSize.Auto, Breakpoint.Desktop )]
+    [InlineData( "flex-basis-md-full", FlexBasisSize.Full, Breakpoint.Desktop )]
+    [InlineData( "flex-basis-lg-0", FlexBasisSize.Is0, Breakpoint.Widescreen )]
+    [InlineData( "flex-basis-lg-auto", FlexBasisSize.Auto, Breakpoint.Widescreen )]
+    [InlineData( "flex-basis-lg-full", FlexBasisSize.Full, Breakpoint.Widescreen )]
+    [InlineData( "flex-basis-xl-0", FlexBasisSize.Is0, Breakpoint.FullHD )]
+    [InlineData( "flex-basis-xl-auto", FlexBasisSize.Auto, Breakpoint.FullHD )]
+    [InlineData( "flex-basis-xl-full", FlexBasisSize.Full, Breakpoint.FullHD )]
+    [InlineData( "flex-basis-xxl-0", FlexBasisSize.Is0, Breakpoint.QuadHD )]
+    [InlineData( "flex-basis-xxl-auto", FlexBasisSize.Auto, Breakpoint.QuadHD )]
+    [InlineData( "flex-basis-xxl-full", FlexBasisSize.Full, Breakpoint.QuadHD )]
+    public void AreFlexFasis_WithBreakpoint( string expected, FlexBasisSize basisSize, Breakpoint breakpoint )
+    {
+        var flex = new FluentFlex();
+
+        flex.WithBasis();
+        flex.WithBasisSize( basisSize );
+        flex.WithBreakpoint( breakpoint );
+
+        var classname = flex.Class( classProvider );
+
+        Assert.Equal( expected, classname );
+    }
 }

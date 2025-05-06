@@ -1959,6 +1959,17 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
+    public virtual string ToBasisSize( FlexBasisSize basisSize )
+    {
+        return basisSize switch
+        {
+            Blazorise.FlexBasisSize.Is0 => "0",
+            Blazorise.FlexBasisSize.Auto => "auto",
+            Blazorise.FlexBasisSize.Full => "full",
+            _ => null,
+        };
+    }
+
     public virtual string ToWrap( FlexWrap wrap )
     {
         return wrap switch
