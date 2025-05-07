@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @{
-    var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
+    var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime, EndTime );
 
     <Div Flex="FlexColumnAlignItemsCenterGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Overflow="Overflow.Auto" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
         <Div Flex="FlexJustifyContentEnd" Width="WidthIs100" Padding="PaddingIs1OnX" TextColor="@GetTextColor()" TextWeight="@GetTextWeight()" Style="@GetDayNumberStyle()" TextSize="TextSizeSmall">@Date.Day</Div>
@@ -42,8 +42,8 @@
 
     protected Task OnCellClick( DateOnly date )
     {
-        var start = date.ToDateTime( WorkDayStart ?? StartTime ?? TimeOnly.MinValue );
-        var end = date.ToDateTime( WorkDayEnd ?? EndTime ?? TimeOnly.MaxValue );
+        var start = date.ToDateTime( WorkDayStart ?? StartTime );
+        var end = date.ToDateTime( WorkDayEnd ?? EndTime );
 
         return Scheduler.NotifySlotClicked( start, end );
     }
@@ -115,9 +115,9 @@
 
     [Parameter] public DateOnly SelectedDate { get; set; }
 
-    [Parameter] public TimeOnly? StartTime { get; set; }
+    [Parameter] public TimeOnly StartTime { get; set; }
 
-    [Parameter] public TimeOnly? EndTime { get; set; }
+    [Parameter] public TimeOnly EndTime { get; set; }
 
     [Parameter] public TimeOnly? WorkDayStart { get; set; }
 

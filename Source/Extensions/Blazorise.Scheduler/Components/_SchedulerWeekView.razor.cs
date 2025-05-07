@@ -31,12 +31,12 @@ public partial class _SchedulerWeekView<TItem>
     /// <summary>
     /// Gets or sets the optional starting time for the visible scheduler range.
     /// </summary>
-    [Parameter] public TimeOnly? StartTime { get; set; }
+    [Parameter] public TimeOnly StartTime { get; set; }
 
     /// <summary>
     /// Gets or sets the optional ending time for the visible scheduler range.
     /// </summary>
-    [Parameter] public TimeOnly? EndTime { get; set; }
+    [Parameter] public TimeOnly EndTime { get; set; }
 
     /// <summary>
     /// Gets or sets the optional start time for the workday hours.

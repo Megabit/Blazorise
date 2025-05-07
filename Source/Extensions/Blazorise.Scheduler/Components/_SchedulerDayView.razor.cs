@@ -27,12 +27,12 @@ public partial class _SchedulerDayView<TItem>
     /// <summary>
     /// Gets or sets the starting time of the day view.
     /// </summary>
-    [Parameter] public TimeOnly? StartTime { get; set; }
+    [Parameter] public TimeOnly StartTime { get; set; }
 
     /// <summary>
     /// Gets or sets the ending time of the day view.
     /// </summary>
-    [Parameter] public TimeOnly? EndTime { get; set; }
+    [Parameter] public TimeOnly EndTime { get; set; }
 
     /// <summary>
     /// Gets or sets the beginning of the working hours.

@@ -20,8 +20,8 @@
                 @if ( ShowingDayView )
                 {
                     <_SchedulerDayView TItem="TItem"
-                                       StartTime="@schedulerDayView.StartTime"
-                                       EndTime="@schedulerDayView.EndTime"
+                                       StartTime="@(schedulerDayView.StartTime ?? TimeOnly.MinValue)"
+                                       EndTime="@(schedulerDayView.EndTime ?? TimeOnly.MaxValue)"
                                        WorkDayStart="@schedulerDayView.WorkDayStart"
                                        WorkDayEnd="@schedulerDayView.WorkDayEnd"
                                        SlotsPerCell="@schedulerDayView.SlotsPerCell"
@@ -32,8 +32,8 @@
                 else if ( ShowingWeekView )
                 {
                     <_SchedulerWeekView TItem="TItem"
-                                        StartTime="@schedulerWeekView.StartTime"
-                                        EndTime="@schedulerWeekView.EndTime"
+                                        StartTime="@(schedulerWeekView.StartTime ?? TimeOnly.MinValue)"
+                                        EndTime="@(schedulerWeekView.EndTime ?? TimeOnly.MaxValue)"
                                         WorkDayStart="@schedulerWeekView.WorkDayStart"
                                         WorkDayEnd="@schedulerWeekView.WorkDayEnd"
                                         SlotsPerCell="@schedulerWeekView.SlotsPerCell"
@@ -45,8 +45,8 @@
                 else if ( ShowingWorkWeekView )
                 {
                     <_SchedulerWorkWeekView TItem="TItem"
-                                            StartTime="@schedulerWorkWeekView.StartTime"
-                                            EndTime="@schedulerWorkWeekView.EndTime"
+                                            StartTime="@(schedulerWorkWeekView.StartTime ?? TimeOnly.MinValue)"
+                                            EndTime="@(schedulerWorkWeekView.EndTime ?? TimeOnly.MaxValue)"
                                             WorkDayStart="@schedulerWorkWeekView.WorkDayStart"
                                             WorkDayEnd="@schedulerWorkWeekView.WorkDayEnd"
                                             SlotsPerCell="@schedulerWorkWeekView.SlotsPerCell"
@@ -58,10 +58,10 @@
                 else if ( ShowingMonthView )
                 {
                     <_SchedulerMonthView TItem="TItem"
-                                         StartTime="@schedulerDayView.StartTime"
-                                         EndTime="@schedulerDayView.EndTime"
-                                         WorkDayStart="@schedulerDayView.WorkDayStart"
-                                         WorkDayEnd="@schedulerDayView.WorkDayEnd"
+                                         StartTime="@(schedulerMonthView.StartTime ?? TimeOnly.MinValue)"
+                                         EndTime="@(schedulerMonthView.EndTime ?? TimeOnly.MaxValue)"
+                                         WorkDayStart="@schedulerMonthView.WorkDayStart"
+                                         WorkDayEnd="@schedulerMonthView.WorkDayEnd"
                                          SelectedDate="@state.SelectedDate"
                                          FirstDayOfWeek="@schedulerMonthView.FirstDayOfWeek"
                                          HeaderCellHeight="@schedulerMonthView.HeaderCellHeight"

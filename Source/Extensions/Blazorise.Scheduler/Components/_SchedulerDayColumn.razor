@@ -11,11 +11,18 @@
             <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" DragSection="SchedulerSection.AllDayHeader" />
         }
 
-        var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
+        var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime, EndTime );
 
-        @for ( var time = ( StartTime ?? TimeOnly.MinValue ); time < ( EndTime ?? TimeOnly.MaxValue ); time = time.AddHours( 1 ) )
+        // We're converting the TimeOnly to DateTime because TimeOnly will overflow
+        // when EndTime is 23:59, leading to infinite loop.
+        var dtStart = new DateTime( StartTime.Ticks );
+        var dtEnd = new DateTime( EndTime.Ticks );
+
+        @for ( var time = dtStart; time < dtEnd; time = time.AddHours( 1 ) )
         {
-            <_SchedulerDayCell TItem="TItem" @key="@time" Date="@Date" Time="@time" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" DragSection="@DragSection" />
+            var tempTime = new TimeOnly( time.Ticks );
+
+            <_SchedulerDayCell TItem="TItem" @key="@tempTime" Date="@Date" Time="@tempTime" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" DragSection="@DragSection" />
         }
     }
 </Div>
@@ -34,9 +41,9 @@
 
     [Parameter] public DateOnly LastViewDate { get; set; }
 
-    [Parameter] public TimeOnly? StartTime { get; set; }
+    [Parameter] public TimeOnly StartTime { get; set; }
 
-    [Parameter] public TimeOnly? EndTime { get; set; }
+    [Parameter] public TimeOnly EndTime { get; set; }
 
     [Parameter] public TimeOnly? WorkDayStart { get; set; }
 

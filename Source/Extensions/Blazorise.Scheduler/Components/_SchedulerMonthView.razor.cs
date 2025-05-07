@@ -33,12 +33,12 @@ public partial class _SchedulerMonthView<TItem>
     /// <summary>
     /// Gets or sets the earliest time of day that can be shown or used in the month view.
     /// </summary>
-    [Parameter] public TimeOnly? StartTime { get; set; }
+    [Parameter] public TimeOnly StartTime { get; set; }
 
     /// <summary>
     /// Gets or sets the latest time of day that can be shown or used in the month view.
     /// </summary>
-    [Parameter] public TimeOnly? EndTime { get; set; }
+    [Parameter] public TimeOnly EndTime { get; set; }
 
     /// <summary>
     /// Gets or sets the start of the working hours for visual styling (e.g., highlighting working time).
