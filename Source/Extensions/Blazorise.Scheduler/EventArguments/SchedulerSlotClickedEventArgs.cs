@@ -14,10 +14,12 @@ public class SchedulerSlotClickedEventArgs : EventArgs
     /// </summary>
     /// <param name="start">Indicates the beginning time of the scheduler slot that was clicked.</param>
     /// <param name="end">Indicates the ending time of the scheduler slot that was clicked.</param>
-    public SchedulerSlotClickedEventArgs( DateTime start, DateTime end )
+    /// <param name="allDay">Indicates whether an event lasts all day.</param>
+    public SchedulerSlotClickedEventArgs( DateTime start, DateTime end, bool allDay )
     {
         Start = start;
         End = end;
+        AllDay = allDay;
     }
 
     /// <summary>
@@ -29,4 +31,9 @@ public class SchedulerSlotClickedEventArgs : EventArgs
     /// Indicates the ending time of the scheduler slot that was clicked.
     /// </summary>
     public DateTime End { get; }
+
+    /// <summary>
+    /// Indicates whether an event lasts all day.
+    /// </summary>
+    public bool AllDay { get; }
 }

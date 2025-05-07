@@ -506,6 +506,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Sets the all-day flag for a specified item.
+    /// </summary>
+    /// <param name="item">Specifies the item for which the flag is being set.</param>
+    /// <param name="allDay">Indicates the all-day item.</param>
+    internal void SetItemAllDay( TItem item, bool allDay )
+    {
+        propertyMapper.SetAllDay( item, allDay );
+    }
+
+    /// <summary>
     /// Determines whether the specified item is an individual occurrence of a recurring series,
     /// based on the presence of an original start and recurrence ID, and the absence of a recurrence rule.
     /// </summary>
@@ -662,14 +672,36 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="start">The start time of the clicked slot.</param>
     /// <param name="end">The end time of the clicked slot.</param>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
     internal async Task NotifySlotClicked( DateTime start, DateTime end )
     {
         editItem = CreateNewItem();
+        editState = SchedulerEditState.New;
         SetItemDates( editItem, start, end );
 
         await New( editItem );
 
-        await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( start, end ) );
+        await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( start, end, false ) );
+    }
+
+    /// <summary>
+    /// Invoked when an empty scheduler all-day slot is clicked, initiating the creation of a new appointment.
+    /// </summary>
+    /// <param name="date">The date of the clicked slot.</param>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
+    internal async Task NotifyAllDaySlotClicked( DateOnly date )
+    {
+        var start = date.ToDateTime( new TimeOnly( 0, 0 ) );
+        var end = start;
+
+        editItem = CreateNewItem();
+        editState = SchedulerEditState.New;
+        SetItemDates( editItem, start, end );
+        SetItemAllDay( editItem, true );
+
+        await New( editItem );
+
+        await SlotClicked.InvokeAsync( new SchedulerSlotClickedEventArgs( start, end, true ) );
     }
 
     /// <summary>

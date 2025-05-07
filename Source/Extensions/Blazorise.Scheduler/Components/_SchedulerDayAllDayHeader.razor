@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<Div Style="@GetAllDayHeaderStyle()" Position="PositionRelative" Flex="FlexColumnAlignItemsStretch" Width="WidthIs100" Border="@BorderColor" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
+<Div Style="@GetAllDayHeaderStyle()" Position="PositionRelative" Flex="FlexColumnAlignItemsStretch" Width="WidthIs100" Border="@BorderColor" @onclick="@OnSlotClicked" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
     @{
         var itemInfos = Scheduler.GetAllDayItemOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
 
@@ -14,7 +14,7 @@
                 var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( AllDayItems, itemInfo );
                 var top = height * numberOfPreviousItems;
 
-                <Div Flex="FlexDefault" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )">
+                <Div Flex="FlexDefault" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )" @onclick:stopPropagation>
                     <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" Clicked="@OnItemClicked" DragSection="@DragSection" />
                 </Div>
             }
@@ -23,6 +23,11 @@
 </Div>
 @code {
     private bool draggingOver;
+
+    protected Task OnSlotClicked()
+    {
+        return Scheduler.NotifyAllDaySlotClicked( Date );
+    }
 
     protected async Task OnItemClicked( TItem item )
     {
