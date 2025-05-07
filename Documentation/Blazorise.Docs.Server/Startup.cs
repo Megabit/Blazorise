@@ -61,6 +61,7 @@ public class Startup
             .AddBlazoriseRichTextEdit( options =>
             {
                 options.UseTables = true;
+                options.UseResize = true;
             } )
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
