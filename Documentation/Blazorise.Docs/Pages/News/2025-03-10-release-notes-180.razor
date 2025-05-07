@@ -155,6 +155,18 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Renamed Chart Options
+</Heading>
+
+<Paragraph>
+    We had a wrongly named option on the <Code>DoughnutChartOptions</Code>, and <Code>PieChartOptions</Code> classes. The <Code>CutoutPercentage</Code> property has been renamed to <Code>Cutout</Code>. This change aligns with the Chart.js documentation and ensures consistency across the API. Since the field was already wrongly named, this change should not break any existing code. However, if you were using the <Code>CutoutPercentage</Code> property, you will need to update your code to use the new <Code>Cutout</Code> property.
+</Paragraph>
+
+<Paragraph>
+    To make it more flexible we have also made it an <Code>object</Code> type, so you can use it as a percentage or a number. This change allows you to specify the cutout value in either pixels or as a percentage of the chart's radius, providing greater flexibility in how you configure your charts.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Autocomplete: Disabled Items
 </Heading>
 
