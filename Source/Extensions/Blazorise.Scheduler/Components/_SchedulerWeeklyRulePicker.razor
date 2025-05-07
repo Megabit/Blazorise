@@ -6,9 +6,9 @@
     <Field>
         <FieldBody>
             <Buttons Width="WidthIs100">
-                @for ( var day = FirstDayOfWeek; day < FirstDayOfWeek + 7; day++ )
+                @for ( int i = 0; i < 7; i++ )
                 {
-                    var tempDay = day;
+                    var tempDay = (DayOfWeek)( ( (int)FirstDayOfWeek + i ) % 7 );
                     var dayLabel = tempDay.ToString().Substring( 0, 1 );
 
                     <Button Color="@GetButtonColor( tempDay )" Outline Active="@(IsDaySelected( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
