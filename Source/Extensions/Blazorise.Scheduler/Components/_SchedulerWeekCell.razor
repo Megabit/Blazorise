@@ -2,7 +2,7 @@
 @{
     var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime ?? TimeOnly.MinValue, EndTime ?? TimeOnly.MaxValue );
 
-    <Div Flex="FlexColumnAlignItemsCenterGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
+    <Div Flex="FlexColumnAlignItemsCenterGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Overflow="Overflow.Auto" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
         <Div Flex="FlexJustifyContentEnd" Width="WidthIs100" Padding="PaddingIs1OnX" TextColor="@GetTextColor()" TextWeight="@GetTextWeight()" Style="@GetDayNumberStyle()" TextSize="TextSizeSmall">@Date.Day</Div>
         <Div Flex="FlexColumn" Gap="GapIs1" TextSize="TextSizeSmall" Padding="PaddingIs1" Width="WidthIs100" Height="HeightIs100" @onclick="@(() => OnCellClick( Date ))">
             @foreach ( var viewItem in viewItems )
