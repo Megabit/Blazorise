@@ -9,8 +9,8 @@ Since those external libraries must be built as valid JS modules to be consumed 
 GitHub: https://github.com/mudoo/quill-resize-module
 
 1. clone the project to your local machine
-2. run `yarn install` to install all required dependencies
-3. install yarn if you don't have it already, as a global package `npm install -g yarn`
+2. install yarn if you don't have it already, as a global package `npm install -g yarn`
+3. run `yarn install` to install all required dependencies
 4. open `webpack.config.js` and add
 
 ```
