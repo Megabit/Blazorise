@@ -103,12 +103,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// A reference to the internal modal used for editing items.
     /// </summary>
-    protected _SchedulerIItemModal<TItem> schedulerItemModalRef;
+    protected _SchedulerItemModal<TItem> schedulerItemModalRef;
 
     /// <summary>
     /// A reference to the internal modal used for editing recurring item occurrences.
     /// </summary>
-    protected _SchedulerIItemOccurrenceModal<TItem> schedulerItemOccurrenceModalRef;
+    protected _SchedulerItemOccurrenceModal<TItem> schedulerItemOccurrenceModalRef;
 
     /// <summary>
     /// The item currently being edited.

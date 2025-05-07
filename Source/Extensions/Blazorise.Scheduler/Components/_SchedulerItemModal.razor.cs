@@ -16,7 +16,7 @@ namespace Blazorise.Scheduler.Components;
 /// <typeparam name="TItem">
 /// The type of the item used in the scheduler. This allows the modal to be bound to custom data models.
 /// </typeparam>
-public partial class _SchedulerIItemModal<TItem> : BaseComponent, IDisposable
+public partial class _SchedulerItemModal<TItem> : BaseComponent, IDisposable
 {
     #region Members
 

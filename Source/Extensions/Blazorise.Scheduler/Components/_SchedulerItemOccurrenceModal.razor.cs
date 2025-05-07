@@ -16,7 +16,7 @@ namespace Blazorise.Scheduler.Components;
 /// <typeparam name="TItem">
 /// The type of the item used in the scheduler. This supports binding to user-defined data models for occurrence-specific edits.
 /// </typeparam>
-public partial class _SchedulerIItemOccurrenceModal<TItem> : BaseComponent, IDisposable
+public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisposable
 {
     #region Members
 

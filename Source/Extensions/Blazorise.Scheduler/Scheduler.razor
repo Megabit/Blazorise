@@ -68,15 +68,15 @@
                                          ItemCellHeight="@schedulerMonthView.ItemCellHeight" />
                 }
             </_SchedulerViews>
-            <_SchedulerIItemModal TItem="TItem" @ref="@schedulerItemModalRef"
-                                  FirstDayOfWeek="@FirstDayOfWeek"
-                                  SaveRequested="@SaveImpl"
-                                  DeleteRequested="@DeleteItemImpl" />
-                                  
-            <_SchedulerIItemOccurrenceModal TItem="TItem" @ref="@schedulerItemOccurrenceModalRef"
-                                            FirstDayOfWeek="@FirstDayOfWeek"
-                                            SaveOccurrenceRequested="@SaveOccurrenceImpl"
-                                            DeleteOccurrenceRequested="@DeleteOccurrenceImpl" />
+            <_SchedulerItemModal TItem="TItem" @ref="@schedulerItemModalRef"
+                                 FirstDayOfWeek="@FirstDayOfWeek"
+                                 SaveRequested="@SaveImpl"
+                                 DeleteRequested="@DeleteItemImpl" />
+
+            <_SchedulerItemOccurrenceModal TItem="TItem" @ref="@schedulerItemOccurrenceModalRef"
+                                           FirstDayOfWeek="@FirstDayOfWeek"
+                                           SaveOccurrenceRequested="@SaveOccurrenceImpl"
+                                           DeleteOccurrenceRequested="@DeleteOccurrenceImpl" />
         </CascadingValue>
     </CascadingValue>
 </Div>
