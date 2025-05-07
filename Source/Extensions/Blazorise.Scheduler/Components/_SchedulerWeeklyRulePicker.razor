@@ -11,7 +11,7 @@
                     var tempDay = day;
                     var dayLabel = tempDay.ToString().Substring( 0, 1 );
 
-                    <Button Color="Color.Secondary" Outline Active="@(IsDaySelected( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
+                    <Button Color="@GetButtonColor( tempDay )" Outline Active="@(IsDaySelected( tempDay ))" Clicked="@(() => OnDayClicked( tempDay ))">
                         @Localizer.Localize( Scheduler.Localizers?.DayOfWeekLocalizer, dayLabel )
                     </Button>
                 }

@@ -65,6 +65,14 @@ public partial class _SchedulerWeeklyRulePicker<TItem> : BaseComponent, IDisposa
     }
 
     /// <summary>
+    /// Determines the color of a button based on whether a specific day is selected.
+    /// </summary>
+    /// <param name="day">Represents a day of the week to check if it is selected.</param>
+    /// <returns>Returns a primary color if the day is selected, otherwise returns a secondary color.</returns>
+    protected Color GetButtonColor( DayOfWeek day )
+        => IsDaySelected( day ) ? Color.Primary : Color.Secondary;
+
+    /// <summary>
     /// Checks whether the given day is selected.
     /// </summary>
     /// <param name="day">The day of the week to check.</param>

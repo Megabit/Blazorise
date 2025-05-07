@@ -44,25 +44,25 @@
     <Buttons>
         @if ( ShowDayViewButton )
         {
-            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@DayViewSelected" Clicked="@OnDayViewClick">
+            <Button Color="@(DayViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@DayViewSelected" Clicked="@OnDayViewClick">
                 @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, "Day" )
             </Button>
         }
         @if ( ShowWeekViewButton )
         {
-            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WeekViewSelected" Clicked="@OnWeekViewClick">
+            <Button Color="@(WeekViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@WeekViewSelected" Clicked="@OnWeekViewClick">
                 @Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, "Week" )
             </Button>
         }
         @if ( ShowWorkWeekViewButton )
         {
-            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@WorkWeekViewSelected" Clicked="@OnWorkWeekViewClick">
+            <Button Color="@(WorkWeekViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@WorkWeekViewSelected" Clicked="@OnWorkWeekViewClick">
                 @Localizer.Localize( Scheduler.Localizers?.WorkWeekLocalizer, "Work Week" )
             </Button>
         }
         @if ( ShowMonthViewButton )
         {
-            <Button Color="Color.Secondary" Size="Size.Small" Outline Active="@MonthViewSelected" Clicked="@OnMonthViewClick">
+            <Button Color="@(MonthViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@MonthViewSelected" Clicked="@OnMonthViewClick">
                 @Localizer.Localize( Scheduler.Localizers?.MonthLocalizer, "Month" )
             </Button>
         }
