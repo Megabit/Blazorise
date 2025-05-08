@@ -456,6 +456,20 @@ public partial class _SchedulerItemModal<TItem> : BaseComponent, IDisposable
     protected SchedulerEditState EditState { get; set; }
 
     /// <summary>
+    /// Gets the minimum recurring end date based on the start date and end date.
+    /// </summary>
+    protected DateTime? MinRecurringEndDate
+    {
+        get
+        {
+            var start = new DateTime( StartDate.Year, StartDate.Month, StartDate.Day );
+            var end = new DateTime( EndDate.Year, EndDate.Month, EndDate.Day );
+
+            return start < end ? start : end;
+        }
+    }
+
+    /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations.
     /// </summary>
     [Inject] private IMessageService MessageService { get; set; }

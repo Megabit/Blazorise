@@ -281,6 +281,11 @@ public partial class _SchedulerRecurrenceEditor<TItem> : BaseComponent, IDisposa
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 
     /// <summary>
+    /// Gets or sets the minimum end date for the recurrence rule.
+    /// </summary>
+    [Parameter] public DateTime? MinEndDate { get; set; }
+
+    /// <summary>
     /// Gets or sets the recurrence rule string (in RFC 5545 format).
     /// </summary>
     [Parameter] public string RecurrenceRule { get; set; }

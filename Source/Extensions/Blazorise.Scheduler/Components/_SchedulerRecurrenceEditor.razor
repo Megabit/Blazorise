@@ -9,7 +9,7 @@
     <Field ColumnSize="ColumnSizeIs3">
         <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.RepeatEveryLocalizer, LocalizationConstants.RepeatEvery )</FieldLabel>
         <FieldBody>
-            <NumericEdit TValue="int" Min="1" Max="99" Value="@Interval" ValueChanged="@OnIntervalChanged" />
+            <NumericEdit TValue="int" Min="1" Max="99" Value="@Interval" ValueChanged="@OnIntervalChanged" Disabled="@(Pattern == SchedulerRecurrencePattern.Never)" />
         </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSizeIs9">
@@ -45,13 +45,13 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerR
         <Field ColumnSize="ColumnSizeIs3">
             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
             <FieldBody>
-                <DatePicker TValue="DateTime?" Date="@EndDate" DateChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+                <DatePicker TValue="DateTime?" Date="@EndDate" DateChanged="@OnEndDateChanged" Min="@MinEndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
             </FieldBody>
         </Field>
         <Field ColumnSize="ColumnSizeIs3">
             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.CountLocalizer, LocalizationConstants.Count )</FieldLabel>
             <FieldBody>
-                <NumericEdit TValue="int?" Value="@Count" ValueChanged="@OnCountChanged" />
+                <NumericEdit TValue="int?" Value="@Count" ValueChanged="@OnCountChanged" Min="1" />
             </FieldBody>
         </Field>
     </Fields>
