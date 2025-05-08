@@ -540,8 +540,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             if ( IsRecurrenceItem( item ) )
             {
                 var result = await MessageService.Choose(
-                    message: "What do you want to do?",
-                    title: Localizer.Localize( Localizers?.EditLocalizer, "Edit" ), options =>
+                    message: Localizer.Localize( Localizers?.WhatDoYouWantToDoLocalizer, LocalizationConstants.WhatDoYouWantToDo ),
+                    title: Localizer.Localize( Localizers?.EditLocalizer, LocalizationConstants.Edit ), options =>
                     {
                         options.ShowCloseButton = false;
                         options.ShowMessageIcon = false;
@@ -550,19 +550,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                             new MessageOptionsChoice
                             {
                                 Key = "EditSeries",
-                                Text = Localizer.Localize( Localizers?.EditSeriesLocalizer, "Edit Series" ),
+                                Text = Localizer.Localize( Localizers?.EditSeriesLocalizer, LocalizationConstants.EditSeries ),
                                 Color = Color.Primary,
                             },
                             new MessageOptionsChoice
                             {
                                 Key = "EditOccurrence",
-                                Text = Localizer.Localize( Localizers?.EditOccurrenceLocalizer, "Edit Occurrence" ),
+                                Text = Localizer.Localize( Localizers?.EditOccurrenceLocalizer, LocalizationConstants.EditOccurrence ),
                                 Color = Color.Primary,
                             },
                             new MessageOptionsChoice
                             {
                                 Key = "Cancel",
-                                Text = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" ),
+                                Text = Localizer.Localize( Localizers?.CancelLocalizer, LocalizationConstants.Cancel ),
                                 Color = Color.Secondary,
                             }
                         };
@@ -602,8 +602,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             if ( IsRecurrenceItem( item ) )
             {
                 var result = await MessageService.Choose(
-                    message: "Item is a recurring series. What do you want to do?",
-                    title: Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
+                    message: Localizer.Localize( Localizers?.RecurringSeriesWhatDoYouWantToDoLocalizer, LocalizationConstants.RecurringSeriesWhatDoYouWantToDo ),
+                    title: Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete ), options =>
                     {
                         options.ShowCloseButton = false;
                         options.ShowMessageIcon = false;
@@ -612,19 +612,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                             new MessageOptionsChoice
                             {
                                 Key = "DeleteSeries",
-                                Text = Localizer.Localize( Localizers?.DeleteSeriesLocalizer, "Delete Series" ),
+                                Text = Localizer.Localize( Localizers?.DeleteSeriesLocalizer, LocalizationConstants.DeleteSeries ),
                                 Color = Color.Danger,
                             },
                             new MessageOptionsChoice
                             {
                                 Key = "DeleteOccurrence",
-                                Text = Localizer.Localize( Localizers?.DeleteOccurrenceLocalizer, "Delete Occurrence" ),
+                                Text = Localizer.Localize( Localizers?.DeleteOccurrenceLocalizer, LocalizationConstants.DeleteOccurrence ),
                                 Color = Color.Warning,
                             },
                             new MessageOptionsChoice
                             {
                                 Key = "Cancel",
-                                Text = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" ),
+                                Text = Localizer.Localize( Localizers?.CancelLocalizer, LocalizationConstants.Cancel ),
                                 Color = Color.Secondary,
                             }
                         };
@@ -647,15 +647,15 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 var hasRecurrenceRule = !string.IsNullOrEmpty( GetItemRecurrenceRule( item ) );
 
                 var deleteMessage = hasRecurrenceRule
-                    ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
-                    : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently. Are you sure?" );
+                    ? Localizer.Localize( Localizers?.SeriesDeleteConfirmationTextLocalizer, LocalizationConstants.DeleteSeriesConfirmation )
+                    : Localizer.Localize( Localizers?.ItemDeleteConfirmationLocalizer, LocalizationConstants.DeleteItemConfirmation );
 
-                if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
+                if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete ), options =>
                 {
                     options.ShowCloseButton = false;
                     options.ShowMessageIcon = false;
-                    options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" );
-                    options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" );
+                    options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, LocalizationConstants.Cancel );
+                    options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete );
                     options.ConfirmButtonColor = Color.Danger;
                 } ) == false )
                     return;
@@ -783,8 +783,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         if ( Editable && UseInternalEditing && Data is ICollection<TItem> data )
         {
             var result = await MessageService.Choose(
-                    message: "Item is a recurring series. What do you want to do?",
-                    title: Localizer.Localize( Localizers?.DeleteLocalizer, "Delete" ), options =>
+                    message: Localizer.Localize( Localizers?.RecurringSeriesWhatDoYouWantToDoLocalizer, LocalizationConstants.RecurringSeriesWhatDoYouWantToDo ),
+                    title: Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete ), options =>
                     {
                         options.ShowCloseButton = false;
                         options.ShowMessageIcon = false;
@@ -793,19 +793,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                             new MessageOptionsChoice
                             {
                                 Key = "DeleteSeries",
-                                Text = Localizer.Localize( Localizers?.DeleteSeriesLocalizer, "Delete Series" ),
+                                Text = Localizer.Localize( Localizers?.DeleteSeriesLocalizer, LocalizationConstants.DeleteSeries ),
                                 Color = Color.Danger,
                             },
                             new MessageOptionsChoice
                             {
                                 Key = "DeleteOccurrence",
-                                Text = Localizer.Localize( Localizers?.DeleteOccurrenceLocalizer, "Delete Occurrence" ),
+                                Text = Localizer.Localize( Localizers?.DeleteOccurrenceLocalizer, LocalizationConstants.DeleteOccurrence ),
                                 Color = Color.Warning,
                             },
                             new MessageOptionsChoice
                             {
                                 Key = "Cancel",
-                                Text = Localizer.Localize( Localizers?.CancelLocalizer, "Cancel" ),
+                                Text = Localizer.Localize( Localizers?.CancelLocalizer, LocalizationConstants.Cancel ),
                                 Color = Color.Secondary,
                             }
                         };

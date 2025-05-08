@@ -163,4 +163,14 @@ public class SchedulerLocalizers
     /// Localizer for the "Repeat every" label in recurrence rule UI.
     /// </summary>
     public TextLocalizerHandler RepeatEveryLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "What do you want to do" label in the message dialog.
+    /// </summary>
+    public TextLocalizerHandler WhatDoYouWantToDoLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "Item is a recurring series. What do you want to do" label in the message dialog.
+    /// </summary>
+    public TextLocalizerHandler RecurringSeriesWhatDoYouWantToDoLocalizer { get; set; }
 }

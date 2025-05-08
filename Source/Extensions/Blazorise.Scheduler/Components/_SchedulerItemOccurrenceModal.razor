@@ -1,6 +1,7 @@
 ﻿@inherits BaseComponent
 @typeparam TItem
 @using Blazorise.Scheduler.Extensions
+@using Blazorise.Scheduler.Utilities
 <Modal @ref="@modalRef">
     <ModalContent Centered>
         <ModalHeader>
@@ -15,7 +16,7 @@
                 {
                     <Validation Validator="@OnValidateTitle">
                         <Field>
-                            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, "Title" )</FieldLabel>
+                            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
                             <FieldBody>
                                 <TextEdit @bind-Text="@Title">
                                     <Feedback>
@@ -31,7 +32,7 @@
                     <Fields>
                         <Validation Validator="@OnValidateStartDate">
                             <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.StartLocalizer, "Start" )</FieldLabel>
+                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
                                 <FieldBody>
                                     <DatePicker TValue="DateOnly" Date="@StartDate" DateChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
                                         <Feedback>
@@ -59,7 +60,7 @@
                     <Fields>
                         <Validation Validator="@OnValidateEndDate">
                             <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, "End" )</FieldLabel>
+                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
                                 <FieldBody>
                                     <DatePicker @bind-Date="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
                                         <Feedback>
@@ -87,7 +88,7 @@
                     <Field>
                         <FieldBody>
                             <Check TValue="bool" @bind-Checked="@AllDay">
-                                @Localizer.Localize( Scheduler.Localizers?.AllDayLocalizer, "All Day" )
+                                @Localizer.Localize( Scheduler.Localizers?.AllDayLocalizer, LocalizationConstants.AllDay )
                             </Check>
                         </FieldBody>
                     </Field>
@@ -96,7 +97,7 @@
                 @if ( DescriptionAvailable )
                 {
                     <Field>
-                        <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.DescriptionLocalizer, "Description" )</FieldLabel>
+                        <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
                         <FieldBody>
                             <MemoEdit @bind-Text="@Description" Rows="4" />
                         </FieldBody>
@@ -119,15 +120,15 @@
             <Div>
                 <Button Color="Color.Danger" Outline Clicked="@Delete">
                     <Icon Name="IconName.Delete" Margin="MarginIs2FromEnd" />
-                    @Localizer.Localize( Scheduler.Localizers?.DeleteOccurrenceLocalizer, "Delete Occurrence" )
+                    @Localizer.Localize( Scheduler.Localizers?.DeleteOccurrenceLocalizer, LocalizationConstants.DeleteOccurrence )
                 </Button>
             </Div>
             <Div>
                 <Button Color="Color.Secondary" Clicked="@Cancel">
-                    @Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, "Cancel" )
+                    @Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, LocalizationConstants.Cancel )
                 </Button>
                 <Button Color="Color.Primary" Clicked="@Submit">
-                    @Localizer.Localize( Scheduler.Localizers?.SaveLocalizer, "Save" )
+                    @Localizer.Localize( Scheduler.Localizers?.SaveLocalizer, LocalizationConstants.Save )
                 </Button>
             </Div>
         </ModalFooter>

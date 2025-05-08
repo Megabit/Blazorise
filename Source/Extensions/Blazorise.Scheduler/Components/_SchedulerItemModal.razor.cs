@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.Scheduler.Extensions;
+using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -338,15 +339,15 @@ public partial class _SchedulerItemModal<TItem> : BaseComponent, IDisposable
         var hasRecurrenceRule = !string.IsNullOrEmpty( Scheduler.GetItemRecurrenceRule( EditItem ) );
 
         var deleteMessage = hasRecurrenceRule
-            ? Localizer.Localize( Scheduler.Localizers?.SeriesDeleteConfirmationTextLocalizer, "Item is a recurring series. Are you sure you want to delete all occurrences?" )
-            : Localizer.Localize( Scheduler.Localizers?.ItemDeleteConfirmationLocalizer, "Item will be deleted permanently. Are you sure?" );
+            ? Localizer.Localize( Scheduler.Localizers?.SeriesDeleteConfirmationTextLocalizer, LocalizationConstants.DeleteSeriesConfirmation )
+            : Localizer.Localize( Scheduler.Localizers?.ItemDeleteConfirmationLocalizer, LocalizationConstants.DeleteSeriesConfirmation );
 
-        if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" ), options =>
+        if ( await MessageService.Confirm( deleteMessage, Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, LocalizationConstants.Delete ), options =>
         {
             options.ShowCloseButton = false;
             options.ShowMessageIcon = false;
-            options.CancelButtonText = Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, "Cancel" );
-            options.ConfirmButtonText = Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" );
+            options.CancelButtonText = Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, LocalizationConstants.Cancel );
+            options.ConfirmButtonText = Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, LocalizationConstants.Delete );
             options.ConfirmButtonColor = Color.Danger;
         } ) == false )
             return;
@@ -367,7 +368,7 @@ public partial class _SchedulerItemModal<TItem> : BaseComponent, IDisposable
     /// Gets the localized title displayed in the modal, based on the edit state.
     /// </summary>
     string ModalTitle
-        => $"{Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, EditState == SchedulerEditState.New ? "New" : "Edit" )} {Localizer.Localize( Scheduler.Localizers?.AppointmentLocalizer, "Appointment" )}";
+        => $"{Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, EditState == SchedulerEditState.New ? LocalizationConstants.New : LocalizationConstants.Edit )} {Localizer.Localize( Scheduler.Localizers?.AppointmentLocalizer, LocalizationConstants.Appointment )}";
 
     /// <summary>
     /// Indicates whether the item ID is available for mapping.

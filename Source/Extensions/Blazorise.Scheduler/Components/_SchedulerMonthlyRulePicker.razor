@@ -3,12 +3,13 @@
 @using Blazorise.Extensions
 @using Blazorise.Localization
 @using Blazorise.Scheduler.Extensions
+@using Blazorise.Scheduler.Utilities
 <CascadingValue Value="@this" IsFixed>
     <Fields>
         <Field ColumnSize="ColumnSizeIs3" Flex="FlexAlignItemsCenter">
             <FieldBody>
                 <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-day")">
-                    @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, "Day" )
+                    @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, LocalizationConstants.Day )
                 </Radio>
             </FieldBody>
         </Field>
@@ -22,7 +23,7 @@
         <Field ColumnSize="ColumnSizeIs3" Flex="FlexAlignItemsCenter">
             <FieldBody>
                 <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-week")">
-                    @Localizer.Localize( Scheduler.Localizers?.OnLocalizer, "On" )
+                    @Localizer.Localize( Scheduler.Localizers?.OnLocalizer, LocalizationConstants.On )
                 </Radio>
             </FieldBody>
         </Field>

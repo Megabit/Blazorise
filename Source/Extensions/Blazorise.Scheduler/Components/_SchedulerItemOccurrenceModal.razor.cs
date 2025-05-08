@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.Scheduler.Extensions;
+using Blazorise.Scheduler.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -323,13 +324,13 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     /// </summary>
     protected async Task Delete()
     {
-        if ( await MessageService.Confirm( Localizer.Localize( Scheduler.Localizers?.OccurrenceDeleteConfirmationLocalizer, "Are you sure you want to delete occurrence?" ),
-            Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" ), options =>
+        if ( await MessageService.Confirm( Localizer.Localize( Scheduler.Localizers?.OccurrenceDeleteConfirmationLocalizer, LocalizationConstants.DeleteOccurrenceConfirmation ),
+            Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, LocalizationConstants.Delete ), options =>
         {
             options.ShowCloseButton = false;
             options.ShowMessageIcon = false;
-            options.CancelButtonText = Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, "Cancel" );
-            options.ConfirmButtonText = Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, "Delete" );
+            options.CancelButtonText = Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, LocalizationConstants.Cancel );
+            options.ConfirmButtonText = Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, LocalizationConstants.Delete );
             options.ConfirmButtonColor = Color.Danger;
         } ) == false )
             return;
@@ -350,7 +351,7 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     /// Gets the localized modal title for editing an occurrence.
     /// </summary>
     string ModalTitle
-        => Localizer.Localize( Scheduler.Localizers?.EditOccurrenceLocalizer, "Edit Occurrence" );
+        => Localizer.Localize( Scheduler.Localizers?.EditOccurrenceLocalizer, LocalizationConstants.EditOccurrence );
 
     /// <summary>
     /// Indicates whether the item ID is available for mapping.

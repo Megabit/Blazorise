@@ -1,10 +1,11 @@
 ﻿@inherits BaseComponent
 @typeparam TItem
 @using Blazorise.Scheduler.Extensions
+@using Blazorise.Scheduler.Utilities
 <Div Class="@ClassNames" Style="@StyleNames" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenter">
     <Buttons>
         <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick">
-            @Localizer.Localize( Scheduler.Localizers?.TodayLocalizer, "Today" )
+            @Localizer.Localize( Scheduler.Localizers?.TodayLocalizer, LocalizationConstants.Today )
         </Button>
         <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnPreviousClick">
             <Icon Name="IconName.ChevronLeft" />
@@ -45,25 +46,25 @@
         @if ( ShowDayViewButton )
         {
             <Button Color="@(DayViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@DayViewSelected" Clicked="@OnDayViewClick">
-                @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, "Day" )
+                @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, LocalizationConstants.Day )
             </Button>
         }
         @if ( ShowWeekViewButton )
         {
             <Button Color="@(WeekViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@WeekViewSelected" Clicked="@OnWeekViewClick">
-                @Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, "Week" )
+                @Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, LocalizationConstants.Week )
             </Button>
         }
         @if ( ShowWorkWeekViewButton )
         {
             <Button Color="@(WorkWeekViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@WorkWeekViewSelected" Clicked="@OnWorkWeekViewClick">
-                @Localizer.Localize( Scheduler.Localizers?.WorkWeekLocalizer, "Work Week" )
+                @Localizer.Localize( Scheduler.Localizers?.WorkWeekLocalizer, LocalizationConstants.WorkWeek )
             </Button>
         }
         @if ( ShowMonthViewButton )
         {
             <Button Color="@(MonthViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@MonthViewSelected" Clicked="@OnMonthViewClick">
-                @Localizer.Localize( Scheduler.Localizers?.MonthLocalizer, "Month" )
+                @Localizer.Localize( Scheduler.Localizers?.MonthLocalizer, LocalizationConstants.Month )
             </Button>
         }
     </Buttons>
