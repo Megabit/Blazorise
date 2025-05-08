@@ -25,6 +25,9 @@ internal static class LocalizationConstants
     public const string EditOccurrence = "Edit Occurrence";
     public const string EditSeries = "Edit Series";
     public const string End = "End";
+    public const string EndDateLowerOrEqualValidation = "End date cannot be lower or equal than the start date.";
+    public const string EndDateLowerValidation = "End date cannot be lower than the start date.";
+    public const string EndTimeLowerValidation = "End time cannot be lower than the start time.";
     public const string February = "February";
     public const string First = "First";
     public const string Fourth = "Fourth";
@@ -49,10 +52,13 @@ internal static class LocalizationConstants
     public const string Second = "Second";
     public const string September = "September";
     public const string Start = "Start";
+    public const string StartDateHigherOrEqualValidation = "Start date cannot be higher or equal than the end date.";
+    public const string StartDateHigherValidation = "Start date cannot be higher than the end date.";
     public const string Sunday = "Sunday";
     public const string Third = "Third";
     public const string Thursday = "Thursday";
     public const string Title = "Title";
+    public const string TitleRequired = "Title is required.";
     public const string Today = "Today";
     public const string Tuesday = "Tuesday";
     public const string Wednesday = "Wednesday";

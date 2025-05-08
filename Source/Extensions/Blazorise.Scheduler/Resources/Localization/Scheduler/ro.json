@@ -55,6 +55,12 @@
     "Week": "Săptămână",
     "What do you want to do?": "Ce dorești să faci?",
     "Work Week": "Săptămână de lucru",
-    "Year": "An"
+    "Year": "An",
+    "End date cannot be lower or equal than the start date.": "Data de sfârșit nu poate fi anterioară sau egală cu data de început.",
+    "End date cannot be lower than the start date.": "Data de sfârșit nu poate fi anterioară datei de început.",
+    "End time cannot be lower than the start time.": "Ora de sfârșit nu poate fi anterioară orei de început.",
+    "Start date cannot be higher or equal than the end date.": "Data de început nu poate fi ulterioară sau egală cu data de sfârșit.",
+    "Start date cannot be higher than the end date.": "Data de început nu poate fi ulterioară datei de sfârșit.",
+    "Title is required.": "Titlul este obligatoriu."
   }
 }

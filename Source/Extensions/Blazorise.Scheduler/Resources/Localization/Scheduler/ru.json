@@ -55,6 +55,12 @@
     "Week": "Неделя",
     "What do you want to do?": "Что вы хотите сделать?",
     "Work Week": "Рабочая неделя",
-    "Year": "Год"
+    "Year": "Год",
+    "End date cannot be lower or equal than the start date.": "Дата окончания не может быть раньше или равна дате начала.",
+    "End date cannot be lower than the start date.": "Дата окончания не может быть раньше даты начала.",
+    "End time cannot be lower than the start time.": "Время окончания не может быть раньше времени начала.",
+    "Start date cannot be higher or equal than the end date.": "Дата начала не может быть позже или равна дате окончания.",
+    "Start date cannot be higher than the end date.": "Дата начала не может быть позже даты окончания.",
+    "Title is required.": "Требуется заголовок."
   }
 }

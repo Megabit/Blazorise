@@ -55,6 +55,12 @@
     "Week": "Týden",
     "What do you want to do?": "Co si přejete udělat?",
     "Work Week": "Pracovní týden",
-    "Year": "Rok"
+    "Year": "Rok",
+    "End date cannot be lower or equal than the start date.": "Datum ukončení nemůže být nižší nebo stejný jako datum zahájení.",
+    "End date cannot be lower than the start date.": "Datum ukončení nemůže být nižší než datum zahájení.",
+    "End time cannot be lower than the start time.": "Čas ukončení nemůže být nižší než čas zahájení.",
+    "Start date cannot be higher or equal than the end date.": "Datum zahájení nemůže být vyšší nebo stejný jako datum ukončení.",
+    "Start date cannot be higher than the end date.": "Datum zahájení nemůže být vyšší než datum ukončení.",
+    "Title is required.": "Název je povinný."
   }
 }

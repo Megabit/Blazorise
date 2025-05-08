@@ -55,6 +55,12 @@
     "Week": "Semana",
     "What do you want to do?": "¿Qué desea hacer?",
     "Work Week": "Semana laboral",
-    "Year": "Año"
+    "Year": "Año",
+    "End date cannot be lower or equal than the start date.": "La fecha de finalización no puede ser anterior o igual a la fecha de inicio.",
+    "End date cannot be lower than the start date.": "La fecha de finalización no puede ser anterior a la fecha de inicio.",
+    "End time cannot be lower than the start time.": "La hora de finalización no puede ser anterior a la hora de inicio.",
+    "Start date cannot be higher or equal than the end date.": "La fecha de inicio no puede ser posterior o igual a la fecha de finalización.",
+    "Start date cannot be higher than the end date.": "La fecha de inicio no puede ser posterior a la fecha de finalización.",
+    "Title is required.": "El título es obligatorio."
   }
 }

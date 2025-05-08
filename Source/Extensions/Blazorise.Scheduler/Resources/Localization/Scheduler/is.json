@@ -55,6 +55,12 @@
     "Week": "Vika",
     "What do you want to do?": "Hvað viltu gera?",
     "Work Week": "Vinnuvika",
-    "Year": "Ár"
+    "Year": "Ár",
+    "End date cannot be lower or equal than the start date.": "Lokadagsetning má ekki vera fyrr eða sú sama og upphafsdagsetning.",
+    "End date cannot be lower than the start date.": "Lokadagsetning má ekki vera fyrr en upphafsdagsetning.",
+    "End time cannot be lower than the start time.": "Lokatími má ekki vera fyrr en upphafstími.",
+    "Start date cannot be higher or equal than the end date.": "Upphafsdagsetning má ekki vera seinni eða sú sama og lokadagsetning.",
+    "Start date cannot be higher than the end date.": "Upphafsdagsetning má ekki vera seinni en lokadagsetning.",
+    "Title is required.": "Titill er nauðsynlegur."
   }
 }

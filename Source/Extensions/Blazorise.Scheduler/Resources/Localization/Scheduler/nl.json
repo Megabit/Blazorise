@@ -55,6 +55,12 @@
     "Week": "Week",
     "What do you want to do?": "Wat wil je doen?",
     "Work Week": "Werkweek",
-    "Year": "Jaar"
+    "Year": "Jaar",
+    "End date cannot be lower or equal than the start date.": "De einddatum mag niet eerder of gelijk zijn aan de startdatum.",
+    "End date cannot be lower than the start date.": "De einddatum mag niet eerder zijn dan de startdatum.",
+    "End time cannot be lower than the start time.": "De eindtijd mag niet eerder zijn dan de starttijd.",
+    "Start date cannot be higher or equal than the end date.": "De startdatum mag niet later of gelijk zijn aan de einddatum.",
+    "Start date cannot be higher than the end date.": "De startdatum mag niet later zijn dan de einddatum.",
+    "Title is required.": "Titel is verplicht."
   }
 }

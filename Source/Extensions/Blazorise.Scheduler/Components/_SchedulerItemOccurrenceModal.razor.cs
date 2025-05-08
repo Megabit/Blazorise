@@ -68,7 +68,7 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
             : ValidationStatus.None;
 
         e.ErrorText = e.Status == ValidationStatus.Error
-            ? "Title is required."
+            ? Localizer.Localize( Scheduler.Localizers?.TitleRequiredValidationLocalizer, LocalizationConstants.TitleRequired )
             : null;
     }
 
@@ -92,7 +92,9 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
             : ValidationStatus.None;
 
         e.ErrorText = e.Status == ValidationStatus.Error
-            ? $"Start date cannot be higher {( AllDay ? null : "or equal " )}than the end date."
+            ? AllDay
+                ? Localizer.Localize( Scheduler.Localizers?.StartDateHigherValidationLocalizer, LocalizationConstants.StartDateHigherValidation )
+                : Localizer.Localize( Scheduler.Localizers?.StartDateHigherOrEqualValidationLocalizer, LocalizationConstants.StartDateHigherOrEqualValidation )
             : null;
     }
 
@@ -116,7 +118,9 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
             : ValidationStatus.None;
 
         e.ErrorText = e.Status == ValidationStatus.Error
-            ? $"End date cannot be lower {( AllDay ? null : "or equal " )}than the start date."
+            ? AllDay
+                ? Localizer.Localize( Scheduler.Localizers?.EndDateLowerValidationLocalizer, LocalizationConstants.EndDateLowerValidation )
+                : Localizer.Localize( Scheduler.Localizers?.EndDateLowerOrEqualValidationLocalizer, LocalizationConstants.EndDateLowerOrEqualValidation )
             : null;
     }
 
@@ -269,9 +273,9 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
             if ( StartAvailable && EndAvailable )
             {
                 if ( AllDay && end < start )
-                    customValidationErrors.Add( "End date cannot be lower than the start date" );
+                    customValidationErrors.Add( Localizer.Localize( Scheduler.Localizers?.EndDateLowerValidationLocalizer, LocalizationConstants.EndDateLowerValidation ) );
                 else if ( !AllDay && end <= start )
-                    customValidationErrors.Add( "End time cannot be lower than the start time" );
+                    customValidationErrors.Add( Localizer.Localize( Scheduler.Localizers?.EndTimeLowerValidationLocalizer, LocalizationConstants.EndTimeLowerValidation ) );
             }
 
             if ( customValidationErrors.Any() )

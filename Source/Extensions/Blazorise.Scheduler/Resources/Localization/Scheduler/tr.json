@@ -55,6 +55,12 @@
     "Week": "Hafta",
     "What do you want to do?": "Ne yapmak istiyorsunuz?",
     "Work Week": "Çalışma haftası",
-    "Year": "Yıl"
+    "Year": "Yıl",
+    "End date cannot be lower or equal than the start date.": "Bitiş tarihi başlangıç tarihinden önce veya eşit olamaz.",
+    "End date cannot be lower than the start date.": "Bitiş tarihi başlangıç tarihinden önce olamaz.",
+    "End time cannot be lower than the start time.": "Bitiş saati başlangıç saatinden önce olamaz.",
+    "Start date cannot be higher or equal than the end date.": "Başlangıç tarihi bitiş tarihinden sonra veya eşit olamaz.",
+    "Start date cannot be higher than the end date.": "Başlangıç tarihi bitiş tarihinden sonra olamaz.",
+    "Title is required.": "Başlık gereklidir."
   }
 }

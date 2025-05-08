@@ -173,4 +173,34 @@ public class SchedulerLocalizers
     /// Localizer for the "Item is a recurring series. What do you want to do" label in the message dialog.
     /// </summary>
     public TextLocalizerHandler RecurringSeriesWhatDoYouWantToDoLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "Start date cannot be higher than the end date." validation message.
+    /// </summary>
+    public TextLocalizerHandler StartDateHigherValidationLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "Start date cannot be higher or equal than the end date." validation message.
+    /// </summary>
+    public TextLocalizerHandler StartDateHigherOrEqualValidationLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "End date cannot be lower than the start date." validation message.
+    /// </summary>
+    public TextLocalizerHandler EndDateLowerValidationLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "End date cannot be lower or equal than the start date." validation message.
+    /// </summary>
+    public TextLocalizerHandler EndDateLowerOrEqualValidationLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "End time cannot be lower than the start time." validation message.
+    /// </summary>
+    public TextLocalizerHandler EndTimeLowerValidationLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "Title is required." validation message.
+    /// </summary>
+    public TextLocalizerHandler TitleRequiredValidationLocalizer { get; set; }
 }
