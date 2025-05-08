@@ -319,6 +319,13 @@ public partial class _SchedulerItemModal<TItem> : BaseComponent, IDisposable
 
             if ( RecurrenceRuleAvailable )
             {
+                // If the recurrence rule is set to "never", clear it as we don't want to store invalid rules.
+                // We do it here so that UI can be updated before the save operation.
+                if ( RecurrenceRule?.Contains( "FREQ=NEVER", StringComparison.InvariantCulture ) ?? false )
+                {
+                    RecurrenceRule = null;
+                }
+
                 Scheduler.PropertyMapper.SetRecurrenceRule( EditItem, RecurrenceRule );
             }
 
