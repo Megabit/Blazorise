@@ -543,8 +543,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                     message: Localizer.Localize( Localizers?.WhatDoYouWantToDoLocalizer, LocalizationConstants.WhatDoYouWantToDo ),
                     title: Localizer.Localize( Localizers?.EditLocalizer, LocalizationConstants.Edit ), options =>
                     {
-                        options.ShowCloseButton = false;
+                        options.ShowCloseButton = true;
                         options.ShowMessageIcon = false;
+                        options.BackgroundCancel = false;
                         options.Choices = new List<MessageOptionsChoice>
                         {
                             new MessageOptionsChoice
@@ -605,8 +606,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                     message: Localizer.Localize( Localizers?.RecurringSeriesWhatDoYouWantToDoLocalizer, LocalizationConstants.RecurringSeriesWhatDoYouWantToDo ),
                     title: Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete ), options =>
                     {
-                        options.ShowCloseButton = false;
+                        options.ShowCloseButton = true;
                         options.ShowMessageIcon = false;
+                        options.BackgroundCancel = false;
                         options.Choices = new List<MessageOptionsChoice>
                         {
                             new MessageOptionsChoice
@@ -786,8 +788,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                     message: Localizer.Localize( Localizers?.RecurringSeriesWhatDoYouWantToDoLocalizer, LocalizationConstants.RecurringSeriesWhatDoYouWantToDo ),
                     title: Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete ), options =>
                     {
-                        options.ShowCloseButton = false;
+                        options.ShowCloseButton = true;
                         options.ShowMessageIcon = false;
+                        options.BackgroundCancel = false;
                         options.Choices = new List<MessageOptionsChoice>
                         {
                             new MessageOptionsChoice
