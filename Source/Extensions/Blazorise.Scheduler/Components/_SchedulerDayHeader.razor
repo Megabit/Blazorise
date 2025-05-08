@@ -1,4 +1,6 @@
-﻿@typeparam TItem
+﻿@using Blazorise.Localization
+@typeparam TItem
+@implements IDisposable
 <Div Flex="FlexColumnJustifyContentCenterAlignItemsCenter" Width="WidthIs100" Height="Height.Px( HeaderCellHeight )" TextOverflow="TextOverflow.Truncate" Border="BorderIs1OnBottomIs1OnStartIs1OnTop" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
     <Span TextWeight="TextWeight.Bold">
         @Date.ToString( "dddd" )
@@ -8,9 +10,31 @@
     </Span>
 </Div>
 @code {
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs e )
+    {
+        await InvokeAsync( StateHasChanged );
+    }
+
     private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
         ? Blazorise.Background.Light
         : Blazorise.Background.Default;
+
+    /// <summary>
+    /// Tracks global localization changes.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     [Parameter] public DateOnly Date { get; set; }
 
