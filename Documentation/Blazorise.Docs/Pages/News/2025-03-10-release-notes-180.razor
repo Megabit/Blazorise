@@ -155,6 +155,18 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Renamed Chart Options
+</Heading>
+
+<Paragraph>
+    We had a wrongly named option on the <Code>DoughnutChartOptions</Code>, and <Code>PieChartOptions</Code> classes. The <Code>CutoutPercentage</Code> property has been renamed to <Code>Cutout</Code>. This change aligns with the Chart.js documentation and ensures consistency across the API. Since the field was already wrongly named, this change should not break any existing code. However, if you were using the <Code>CutoutPercentage</Code> property, you will need to update your code to use the new <Code>Cutout</Code> property.
+</Paragraph>
+
+<Paragraph>
+    To make it more flexible we have also made it an <Code>object</Code> type, so you can use it as a percentage or a number. This change allows you to specify the cutout value in either pixels or as a percentage of the chart's radius, providing greater flexibility in how you configure your charts.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Autocomplete: Disabled Items
 </Heading>
 
@@ -168,6 +180,22 @@
 
 <Paragraph>
     The <Code>RichTextEdit</Code> component now includes an <Code>GetHtmlAsync</Code> overload that allows you to export the current content as semantic HTML. This is particularly useful for applications that require clean and structured HTML output, such as when saving or sharing content.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit Image and Video Resizing
+</Heading>
+
+<Paragraph>
+    We've introduced a new resizing feature for images and videos within the <Code>RichTextEdit</Code> component. Users can now directly resize multimedia content within the editor, enhancing flexibility and providing a smoother editing experience.
+</Paragraph>
+
+<Paragraph>
+    This functionality can be conveniently enabled or disabled via the <Code>UseResize</Code> parameter, allowing easy customization to meet your project's specific needs.
+</Paragraph>
+
+<Paragraph>
+    For comprehensive guidance, including usage instructions and integration examples, please refer to our <Anchor To="docs/extensions/richtextedit">RichTextEdit documentation</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">

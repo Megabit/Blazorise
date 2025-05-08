@@ -10531,6 +10531,24 @@ Install-Package Blazorise.Icons.Material";
 
         public const string RichTextEditNugetInstallExample = @"Install-Package Blazorise.RichTextEdit";
 
+        public const string RichTextEditResizeExample = @"<RichTextEdit UseResize>
+    <Editor>My example content</Editor>
+    <Toolbar>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Bold"" />
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Italic"" />
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action=""RichTextEditAction.Image"" />
+        </RichTextEditToolbarGroup>
+    </Toolbar>
+</RichTextEdit>";
+
+        public const string RichTextEditResizeStartupExample = @".AddBlazoriseRichTextEdit( options =>
+{
+    options.UseResize = true;
+} )";
+
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
 

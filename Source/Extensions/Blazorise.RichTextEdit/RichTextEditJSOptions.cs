@@ -39,4 +39,10 @@ internal class RichTextEditJSOptions
     /// </summary>
     [JsonPropertyName( "useTables" )]
     public bool UseTables { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the resize functionality is enabled.
+    /// </summary>
+    [JsonPropertyName( "useResize" )]
+    public bool UseResize { get; set; }
 }
