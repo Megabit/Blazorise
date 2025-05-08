@@ -53,5 +53,10 @@ public class BaseSchedulerView<TItem> : ComponentBase
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
 
+    /// <summary>
+    /// Specifies the height of the view in pixels. This property is optional and can be set to null if no specific height is required.
+    /// </summary>
+    [Parameter] public double? ViewHeight { get; set; }
+
     #endregion
 }

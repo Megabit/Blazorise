@@ -11,6 +11,22 @@ namespace Blazorise.Scheduler.Components;
 /// <typeparam name="TItem">This type parameter is used to define the type of items that will be scheduled and displayed in the component.</typeparam>
 public partial class _SchedulerWeekView<TItem>
 {
+    #region Methods
+
+    /// <summary>
+    /// Generates a CSS style string for the view.
+    /// </summary>
+    /// <returns>Returns a string containing the CSS style or null.</returns>
+    protected string GetViewStyle()
+    {
+        if ( ViewHeight is not null )
+            return $"height: {ViewHeight}px; overflow-y: auto;";
+
+        return null;
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>
@@ -62,6 +78,11 @@ public partial class _SchedulerWeekView<TItem>
     /// Gets or sets the height in pixels of the item cells.
     /// </summary>
     [Parameter] public double ItemCellHeight { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum height for the view, allowing for a nullable double value. If not set, there is no height restriction.
+    /// </summary>
+    [Parameter] public double? ViewHeight { get; set; }
 
     #endregion
 }

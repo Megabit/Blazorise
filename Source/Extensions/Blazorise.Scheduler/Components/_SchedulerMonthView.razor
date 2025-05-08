@@ -1,6 +1,6 @@
 ﻿@using Blazorise.Scheduler.Extensions
 @typeparam TItem
-<Div Class="b-scheduler-month-view" Flex="FlexDefault" Width="WidthIs100">
+<Div Class="b-scheduler-month-view" Style="@GetViewStyle()" Flex="FlexDefault" Width="WidthIs100">
     @{
         var firstDayOfMonth = SelectedDate.StartOfMonth();
         var startOfWeek = FirstDayOfWeek;
