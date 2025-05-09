@@ -245,6 +245,16 @@ public partial class _SchedulerSlot<TItem>
     private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true && Scheduler?.Draggable == true ? "true" : "false";
 
     /// <summary>
+    /// Gets a string that represents the slot start time.
+    /// </summary>
+    private string DataSlotStart => SlotStart.ToString( "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture );
+
+    /// <summary>
+    /// Gets a string that represents the slot end time.
+    /// </summary>
+    private string DataSlotEnd => SlotEnd.ToString( "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture );
+
+    /// <summary>
     /// Provides access to the parent <see cref="Scheduler{TItem}"/> component.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
