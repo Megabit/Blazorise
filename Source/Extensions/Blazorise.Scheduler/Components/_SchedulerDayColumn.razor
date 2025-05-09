@@ -1,0 +1,67 @@
+﻿@typeparam TItem
+<Div Class="b-scheduler-day" Position="PositionRelative" Flex="FlexGrowIs1BasisIs0" Style="min-width: 0;">
+    @{
+        @if ( ShowDayHeader )
+        {
+            <_SchedulerDayHeader TItem="TItem" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" />
+        }
+
+        @if ( MaxStackedAllDayItems > 0 )
+        {
+            <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" DragSection="SchedulerSection.AllDayHeader" />
+        }
+
+        var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime, EndTime );
+
+        // We're converting the TimeOnly to DateTime because TimeOnly will overflow
+        // when EndTime is 23:59, leading to infinite loop.
+        var dtStart = new DateTime( StartTime.Ticks );
+        var dtEnd = new DateTime( EndTime.Ticks );
+
+        @for ( var time = dtStart; time < dtEnd; time = time.AddHours( 1 ) )
+        {
+            var tempTime = new TimeOnly( time.Ticks );
+
+            <_SchedulerDayCell TItem="TItem" @key="@tempTime" Date="@Date" Time="@tempTime" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" DragSection="@DragSection" />
+        }
+    }
+</Div>
+@code {
+    private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
+        ? Blazorise.Background.Light
+        : Blazorise.Background.Default;
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public DateOnly FirstViewDate { get; set; }
+
+    [Parameter] public DateOnly LastViewDate { get; set; }
+
+    [Parameter] public TimeOnly StartTime { get; set; }
+
+    [Parameter] public TimeOnly EndTime { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayStart { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayEnd { get; set; }
+
+    [Parameter] public bool ShowDayHeader { get; set; }
+
+    [Parameter] public int SlotsPerCell { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
+
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
+
+    [Parameter] public SchedulerSection DragSection { get; set; }
+}
