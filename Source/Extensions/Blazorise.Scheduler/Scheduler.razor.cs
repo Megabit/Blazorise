@@ -12,6 +12,7 @@ using Blazorise.Scheduler.Extensions;
 using Blazorise.Scheduler.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Scheduler;
@@ -123,12 +124,22 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Holds the current transaction during a drag-and-drop operation.
     /// </summary>
-    protected SchedulerTransaction<TItem> currentTransaction;
+    protected SchedulerDraggingTransaction<TItem> currentDraggingTransaction;
+
+    /// <summary>
+    /// Holds the current transaction during a selection operation.
+    /// </summary>
+    protected SchedulerSelectingTransaction<TItem> currentSelectingTransaction;
 
     /// <summary>
     /// Indicates whether an item is currently being dragged.
     /// </summary>
     private bool isDragging;
+
+    /// <summary>
+    /// Indicates whether we are in the process of selecting slots.
+    /// </summary>
+    private bool isSelecting;
 
     #endregion
 
@@ -1539,13 +1550,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             .Count();
     }
 
-    internal async Task StartDrag( TItem item, SchedulerSection dragSection )
+    internal async Task StartDrag( TItem item, SchedulerSection section )
     {
         // Cancel any existing transaction
-        if ( currentTransaction is not null )
+        if ( currentDraggingTransaction is not null )
         {
-            await currentTransaction.Rollback();
-            currentTransaction = null;
+            await currentDraggingTransaction.Rollback();
+            currentDraggingTransaction = null;
         }
 
         // Set the edit item and state
@@ -1553,7 +1564,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editState = SchedulerEditState.Edit;
 
         // Create a new transaction
-        currentTransaction = new SchedulerTransaction<TItem>( this, item, dragSection );
+        currentDraggingTransaction = new SchedulerDraggingTransaction<TItem>( this, item, section );
         isDragging = true;
 
         if ( DragStarted is not null )
@@ -1562,13 +1573,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task CancelDrag()
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return;
 
-        TItem item = currentTransaction.Item;
+        TItem item = currentDraggingTransaction.Item;
 
-        await currentTransaction.Rollback();
-        currentTransaction = null;
+        await currentDraggingTransaction.Rollback();
+        currentDraggingTransaction = null;
         isDragging = false;
 
         editItem = default;
@@ -1578,30 +1589,30 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             await DragCancelled.Invoke( new SchedulerDragEventArgs<TItem>( item ) );
     }
 
-    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerSection dragSection )
+    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerSection section )
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragSection != dragSection )
+            if ( currentDraggingTransaction.Section != section )
             {
                 await CancelDrag();
 
                 return false;
             }
 
-            var duration = GetItemDuration( currentTransaction.Item );
-            SetItemDates( currentTransaction.Item, newStart, newStart.Add( duration ) );
+            var duration = GetItemDuration( currentDraggingTransaction.Item );
+            SetItemDates( currentDraggingTransaction.Item, newStart, newStart.Add( duration ) );
 
-            await currentTransaction.Commit();
+            await currentDraggingTransaction.Commit();
 
             if ( ItemDropped.HasDelegate )
-                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentDraggingTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
-            currentTransaction = null;
+            currentDraggingTransaction = null;
 
             return true;
         }
@@ -1617,35 +1628,35 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropDateItem( DateOnly date, SchedulerSection dragSection )
+    internal async Task<bool> DropDateItem( DateOnly date, SchedulerSection section )
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragSection != dragSection )
+            if ( currentDraggingTransaction.Section != section )
             {
                 await CancelDrag();
 
                 return false;
             }
 
-            var start = GetItemStartTime( currentTransaction.Item );
-            var end = GetItemEndTime( currentTransaction.Item );
+            var start = GetItemStartTime( currentDraggingTransaction.Item );
+            var end = GetItemEndTime( currentDraggingTransaction.Item );
 
             var newStart = new DateTime( date.Year, date.Month, date.Day, start.Hour, start.Minute, start.Second );
             var newEnd = new DateTime( date.Year, date.Month, date.Day, end.Hour, end.Minute, end.Second );
 
-            SetItemDates( currentTransaction.Item, newStart, newEnd );
+            SetItemDates( currentDraggingTransaction.Item, newStart, newEnd );
 
-            await currentTransaction.Commit();
+            await currentDraggingTransaction.Commit();
 
             if ( ItemDropped.HasDelegate )
-                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentDraggingTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
-            currentTransaction = null;
+            currentDraggingTransaction = null;
 
             return true;
         }
@@ -1661,35 +1672,35 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerSection dragSection )
+    internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerSection section )
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragSection != dragSection )
+            if ( currentDraggingTransaction.Section != section )
             {
                 await CancelDrag();
 
                 return false;
             }
 
-            var start = GetItemStartTime( currentTransaction.Item );
-            var duration = GetItemDuration( currentTransaction.Item );
+            var start = GetItemStartTime( currentDraggingTransaction.Item );
+            var duration = GetItemDuration( currentDraggingTransaction.Item );
 
             var newStart = new DateTime( date.Year, date.Month, date.Day, start.Hour, start.Minute, start.Second );
             var newEnd = newStart.Add( duration );
 
-            SetItemDates( currentTransaction.Item, newStart, newEnd );
+            SetItemDates( currentDraggingTransaction.Item, newStart, newEnd );
 
-            await currentTransaction.Commit();
+            await currentDraggingTransaction.Commit();
 
             if ( ItemDropped.HasDelegate )
-                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentDraggingTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
-            currentTransaction = null;
+            currentDraggingTransaction = null;
 
             return true;
         }
@@ -1703,6 +1714,85 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             await Refresh();
         }
+    }
+
+    internal Action<DateTime?, DateTime?> SelectionChanged;
+
+    /// <summary>
+    /// Handles mouse down events for slot selection in a scheduler, managing transactions and selection state.
+    /// </summary>
+    /// <param name="mouseEventArgs">Contains information about the mouse button event that triggered the selection.</param>
+    /// <param name="section">Represents the section of the scheduler where the selection is taking place.</param>
+    /// <param name="slotStart">Indicates the start time of the slot being selected.</param>
+    /// <param name="slotEnd">Indicates the end time of the slot being selected.</param>
+    /// <returns>This method does not return a value.</returns>
+    internal protected async Task NotifySlotMouseDown( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+    {
+        if ( currentSelectingTransaction is not null )
+        {
+            await currentSelectingTransaction.Rollback();
+            SelectionChanged?.Invoke( null, null );
+            currentSelectingTransaction = null;
+        }
+
+        if ( mouseEventArgs.Button == 0 )
+        {
+            currentSelectingTransaction = new SchedulerSelectingTransaction<TItem>( this, section, slotStart, slotEnd );
+            isSelecting = true;
+
+            SelectionChanged?.Invoke( currentSelectingTransaction.Start, currentSelectingTransaction.End );
+        }
+    }
+
+    /// <summary>
+    /// Handles mouse movement events to update the selection in a scheduling interface.
+    /// </summary>
+    /// <param name="mouseEventArgs">Contains information about the mouse event that triggered the selection update.</param>
+    /// <param name="section">Represents the section of the scheduler being interacted with during the mouse movement.</param>
+    /// <param name="slotStart">Indicates the start time of the time slot being selected.</param>
+    /// <param name="slotEnd">Indicates the end time of the time slot being selected.</param>
+    /// <returns>Completes the task without any specific result, indicating the operation has finished.</returns>
+    internal protected Task NotifySlotMouseMove( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+    {
+        if ( currentSelectingTransaction is null )
+            return Task.CompletedTask;
+
+        if ( isSelecting && currentSelectingTransaction.IsSafeToUpdate( section, slotStart, slotEnd ) )
+        {
+            currentSelectingTransaction.UpdateSelection( slotStart, slotEnd );
+
+            SelectionChanged?.Invoke( currentSelectingTransaction.Start, currentSelectingTransaction.End );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the mouse up event for a slot selection in a scheduler, updating the selection if conditions are met.
+    /// </summary>
+    /// <param name="mouseEventArgs">Contains information about the mouse event that triggered the action.</param>
+    /// <param name="section">Represents the section of the scheduler being interacted with.</param>
+    /// <param name="slotStart">Indicates the start time of the slot being selected.</param>
+    /// <param name="slotEnd">Indicates the end time of the slot being selected.</param>
+    /// <returns>Returns a completed task if no selection is made or if the conditions are not met.</returns>
+    internal protected Task NotifySlotMouseUp( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+    {
+        if ( currentSelectingTransaction is null )
+            return Task.CompletedTask;
+
+        if ( mouseEventArgs.Button == 0 && currentSelectingTransaction.IsSafeToUpdate( section, slotStart, slotEnd ) )
+        {
+            isSelecting = false;
+
+            var start = currentSelectingTransaction.Start;
+            var end = currentSelectingTransaction.End;
+
+            SelectionChanged?.Invoke( null, null );
+
+            return NotifySlotClicked( start, end );
+        }
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -1766,9 +1856,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal protected bool IsDragging => isDragging;
 
     /// <summary>
+    /// Indicates whether a view is on the selection mode.
+    /// </summary>
+    internal protected bool IsSelecting => isSelecting;
+
+    /// <summary>
     /// Returns the current drag area of a transaction if it exists; otherwise, it returns 'None'.
     /// </summary>
-    internal protected SchedulerSection CurrentDragSection => currentTransaction?.DragSection ?? SchedulerSection.None;
+    internal protected SchedulerSection CurrentDragSection => currentDraggingTransaction?.Section ?? SchedulerSection.None;
+
+    /// <summary>
+    /// Returns the current select area of a transaction if it exists; otherwise, it returns 'None'.
+    /// </summary>
+    internal protected SchedulerSection CurrentSelectingSection => currentSelectingTransaction?.Section ?? SchedulerSection.None;
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.

@@ -181,9 +181,9 @@ public partial class _SchedulerDayCell<TItem>
     [Parameter] public IEnumerable<SchedulerItemViewInfo<TItem>> ViewItems { get; set; }
 
     /// <summary>
-    /// Gets or sets the drag area used for appointment dragging.
+    /// Gets or sets the area to be used when initiating transactional operations.
     /// </summary>
-    [Parameter] public SchedulerSection DragSection { get; set; }
+    [Parameter] public SchedulerSection Section { get; set; }
 
     #endregion
 }

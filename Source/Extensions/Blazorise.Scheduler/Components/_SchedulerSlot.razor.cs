@@ -44,7 +44,7 @@ public partial class _SchedulerSlot<TItem>
     /// Handles the mouse enter event and sets the hover flag.
     /// </summary>
     /// <param name="eventArgs">The mouse event arguments.</param>
-    protected Task OnMouseEnter( MouseEventArgs eventArgs )
+    protected Task OnSlotMouseEnter( MouseEventArgs eventArgs )
     {
         mouseHovering = true;
 
@@ -55,11 +55,38 @@ public partial class _SchedulerSlot<TItem>
     /// Handles the mouse leave event and clears the hover flag.
     /// </summary>
     /// <param name="eventArgs">The mouse event arguments.</param>
-    protected Task OnMouseLeave( MouseEventArgs eventArgs )
+    protected Task OnSlotMouseLeave( MouseEventArgs eventArgs )
     {
         mouseHovering = false;
 
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the mouse down event of the slot.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
+    protected Task OnSlotMouseDown( MouseEventArgs eventArgs )
+    {
+        return Scheduler.NotifySlotMouseDown( eventArgs, Section, SlotStart, SlotEnd );
+    }
+
+    /// <summary>
+    /// Handles the mouse move event of the slot.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
+    protected Task OnSlotMouseMove( MouseEventArgs eventArgs )
+    {
+        return Scheduler.NotifySlotMouseMove( eventArgs, Section, SlotStart, SlotEnd );
+    }
+
+    /// <summary>
+    /// Handles the mouse up event of the slot.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
+    protected Task OnSlotMouseUp( MouseEventArgs eventArgs )
+    {
+        return Scheduler.NotifySlotMouseUp( eventArgs, Section, SlotStart, SlotEnd );
     }
 
     /// <summary>
@@ -83,7 +110,7 @@ public partial class _SchedulerSlot<TItem>
         mouseHovering = false;
         draggingOver = false;
 
-        return Scheduler.StartDrag( viewItem.Item, DragSection );
+        return Scheduler.StartDrag( viewItem.Item, Section );
     }
 
     /// <summary>
@@ -116,7 +143,7 @@ public partial class _SchedulerSlot<TItem>
     {
         draggingOver = false;
 
-        return Scheduler.DropSlotItem( SlotStart, SlotEnd, DragSection );
+        return Scheduler.DropSlotItem( SlotStart, SlotEnd, Section );
     }
 
     /// <summary>
@@ -210,9 +237,7 @@ public partial class _SchedulerSlot<TItem>
 
     #region Properties
 
-    private bool IsDraggingOver => draggingOver && DragSection == Scheduler.CurrentDragSection;
-
-    private bool IsEditAllowed => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true;
+    private bool IsDraggingOver => draggingOver && Section == Scheduler.CurrentDragSection;
 
     /// <summary>
     /// Gets the bottom border style if this is not the last slot.
@@ -305,9 +330,9 @@ public partial class _SchedulerSlot<TItem>
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, Task> DeleteItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets the drag area associated with the slot.
+    /// Gets or sets the area to be used when initiating transactional operations.
     /// </summary>
-    [Parameter] public SchedulerSection DragSection { get; set; }
+    [Parameter] public SchedulerSection Section { get; set; }
 
     #endregion
 }

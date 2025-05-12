@@ -47,7 +47,7 @@ public partial class _SchedulerDayAllDayItem<TItem>
     /// <param name="item">The item being dragged.</param>
     protected Task OnItemDragStart( DragEventArgs e, TItem item )
     {
-        return Scheduler.StartDrag( item, DragSection );
+        return Scheduler.StartDrag( item, Section );
     }
 
     private string GetItemClass( string customClass )
@@ -115,9 +115,9 @@ public partial class _SchedulerDayAllDayItem<TItem>
     [Parameter] public Func<TItem, Task> Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets the drag area to be used when initiating drag operations.
+    /// Gets or sets the area to be used when initiating transactional operations.
     /// </summary>
-    [Parameter] public SchedulerSection DragSection { get; set; }
+    [Parameter] public SchedulerSection Section { get; set; }
 
     #endregion
 }

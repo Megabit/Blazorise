@@ -7,15 +7,17 @@ using Blazorise.DeepCloner;
 namespace Blazorise.Scheduler;
 
 /// <summary>
-/// Represents a transactional context for editing or dragging a scheduler item.
-/// Provides support for commit, rollback, and recurrence exception handling.
+/// Represents a base transactional context for scheduler operations (dragging, selecting, etc.).
 /// </summary>
 /// <typeparam name="TItem">The type of the scheduler item.</typeparam>
-public class SchedulerTransaction<TItem>
+public abstract class SchedulerTransaction<TItem>
 {
     #region Members
 
-    private Scheduler<TItem> scheduler;
+    /// <summary>
+    /// Holds a reference to a Scheduler instance that manages scheduling tasks for items of type TItem.
+    /// </summary>
+    protected Scheduler<TItem> scheduler;
 
     private SchedulerTransactionState state = SchedulerTransactionState.Pending;
 
@@ -27,15 +29,12 @@ public class SchedulerTransaction<TItem>
     /// Initializes a new instance of the <see cref="SchedulerTransaction{TItem}"/> class.
     /// </summary>
     /// <param name="scheduler">The parent scheduler instance.</param>
-    /// <param name="item">The item being edited or moved.</param>
-    /// <param name="dragSection">The drag area context from which the transaction originated.</param>
-    public SchedulerTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerSection dragSection )
+    /// <param name="section">The context from which the transaction originated.</param>
+    protected SchedulerTransaction( Scheduler<TItem> scheduler, SchedulerSection section )
     {
         this.scheduler = scheduler;
 
-        OriginalItem = item;
-        Item = item.DeepClone();
-        DragSection = dragSection;
+        Section = section;
     }
 
     #endregion
@@ -43,50 +42,23 @@ public class SchedulerTransaction<TItem>
     #region Methods
 
     /// <summary>
-    /// Attempts to commit the transaction. If the item is a recurrence exception,
-    /// it updates the parent and adds an exception entry before saving.
+    /// Commits the transaction and applies any necessary logic. Must be implemented by derived classes.
     /// </summary>
     public async Task Commit()
     {
-        if ( state == SchedulerTransactionState.Committed )
+        if ( State == SchedulerTransactionState.Committed )
             return;
 
-        state = SchedulerTransactionState.InProgress;
+        SetState( SchedulerTransactionState.InProgress );
 
         try
         {
-            var isRecurrenceItem = scheduler.IsRecurrenceItem( Item );
+            await CommitImpl();
 
-            // When we are editing a recurrence item, we need to get the parent item so that we
-            // can save it by using the same saving pipeline as for every editing, i.e. SaveImpl.
-            var editItemClone = isRecurrenceItem
-                ? scheduler.GetParentItem( Item ).DeepClone()
-                : Item;
+            if ( Committed is not null )
+                await Committed.Invoke();
 
-            if ( isRecurrenceItem && editItemClone is not null )
-            {
-                scheduler.AddRecurrenceException( editItemClone, Item );
-            }
-
-            if ( scheduler.DropAllowed is not null
-                && await scheduler.DropAllowed.Invoke( new SchedulerDragEventArgs<TItem>( editItemClone ) ) == false )
-            {
-                await Rollback();
-
-                return;
-            }
-
-            if ( await scheduler.SaveImpl( editItemClone ) )
-            {
-                if ( Committed is not null )
-                    await Committed.Invoke();
-
-                state = SchedulerTransactionState.Committed;
-            }
-            else
-            {
-                await Rollback();
-            }
+            SetState( SchedulerTransactionState.Committed );
         }
         catch
         {
@@ -98,14 +70,14 @@ public class SchedulerTransaction<TItem>
     /// <summary>
     /// Cancels the transaction and reverts the working copy to the original item state.
     /// </summary>
-    public async Task Rollback()
+    public virtual async Task Rollback()
     {
         if ( state == SchedulerTransactionState.RolledBack )
             return;
 
         try
         {
-            Item = OriginalItem.DeepClone();
+            await RollbackImpl();
 
             if ( Canceled is not null )
                 await Canceled.Invoke();
@@ -116,24 +88,31 @@ public class SchedulerTransaction<TItem>
         }
     }
 
+    /// <summary>
+    /// An abstract method that must be implemented to handle the commit operation asynchronously.
+    /// </summary>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
+    protected abstract Task CommitImpl();
+
+    /// <summary>
+    /// An abstract method that defines the implementation for rolling back an operation. It must be overridden in derived classes.
+    /// </summary>
+    /// <returns>Returns a Task representing the asynchronous rollback operation.</returns>
+    protected abstract Task RollbackImpl();
+
+    /// <summary>
+    /// Sets the internal transaction state.
+    /// </summary>
+    protected void SetState( SchedulerTransactionState newState ) => state = newState;
+
     #endregion
 
     #region Properties
 
     /// <summary>
-    /// Gets the original item that was passed into the transaction.
-    /// </summary>
-    private TItem OriginalItem { get; init; }
-
-    /// <summary>
-    /// Gets the mutable working copy of the item used during the transaction.
-    /// </summary>
-    public TItem Item { get; private set; }
-
-    /// <summary>
     /// Gets the drag area context from which this transaction was initiated.
     /// </summary>
-    public SchedulerSection DragSection { get; }
+    public SchedulerSection Section { get; }
 
     /// <summary>
     /// Gets the current state of the transaction.
