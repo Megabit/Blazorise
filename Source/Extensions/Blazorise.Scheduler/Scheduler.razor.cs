@@ -1839,7 +1839,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Cancels the current selection if a transaction is in progress, rolling back any changes made during the selection.
+    /// Cancels the current selection if a transaction is in progress, rolling back any changes made during the selection. Should not be called directly by the user!
     /// </summary>
     /// <returns>No return value as this method is asynchronous and performs an operation without returning data.</returns>
     [JSInvokable]
