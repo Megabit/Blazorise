@@ -1827,14 +1827,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             isSelecting = false;
 
-            var start = currentSelectingTransaction.Start;
-            var end = currentSelectingTransaction.End;
-
-            await currentSelectingTransaction.Commit();
-            currentSelectingTransaction = null;
-            SelectionChanged?.Invoke( null, null );
-
-            await NotifySlotClicked( start, end );
+            try
+            {
+                await currentSelectingTransaction.Commit();
+            }
+            catch
+            {
+                await currentSelectingTransaction.Rollback();
+            }
+            finally
+            {
+                currentSelectingTransaction = null;
+                SelectionChanged?.Invoke( null, null );
+            }
         }
     }
 

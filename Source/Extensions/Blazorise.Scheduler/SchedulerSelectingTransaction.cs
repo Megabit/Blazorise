@@ -42,13 +42,21 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     /// <param name="slotEnd">Defines the end of the time range for the selection.</param>
     public void UpdateSelection( DateTime slotStart, DateTime slotEnd )
     {
-        selectionSlot2 = (slotStart, slotEnd);
+        var newSelection = (slotStart, slotEnd);
+
+        if ( selectionSlot2 != newSelection )
+        {
+            selectionSlot2 = newSelection;
+        }
     }
 
     /// <inheritdoc />
-    protected override Task CommitImpl()
+    protected override async Task CommitImpl()
     {
-        return Task.CompletedTask;
+        if ( HasSelection )
+        {
+            await scheduler.NotifySlotClicked( Start, End );
+        }
     }
 
     /// <inheritdoc />
@@ -69,4 +77,11 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     /// Gets the maximum end time from two selection slots.
     /// </summary>
     public DateTime End => selectionSlot1.Value.Item2.Max( selectionSlot2.Value.Item2 );
+
+    /// <summary>
+    /// Indicates whether the selection spans more than one distinct slot.
+    /// </summary>
+    public bool HasSelection =>
+        selectionSlot1.HasValue && selectionSlot2.HasValue &&
+        ( selectionSlot1.Value.Item1 != selectionSlot2.Value.Item1 || selectionSlot1.Value.Item2 != selectionSlot2.Value.Item2 );
 }
