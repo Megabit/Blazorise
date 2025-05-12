@@ -13,6 +13,7 @@ using Blazorise.Scheduler.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Scheduler;
@@ -141,6 +142,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     private bool isSelecting;
 
+    private Div schedulerDivRef;
+
     #endregion
 
     #region Constructors
@@ -194,6 +197,33 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( JSModule is null )
+        {
+            DotNetObjectRef ??= DotNetObjectReference.Create( this );
+
+            JSModule = new JSSchedulerModule( JSRuntime, VersionProvider, BlazoriseOptions );
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            if ( JSModule is not null )
+            {
+                await JSModule.Initialize( DotNetObjectRef, schedulerDivRef.ElementRef, ElementId );
+            }
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
     override protected void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-scheduler" );
@@ -213,6 +243,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             weekViewSubscriber?.Dispose();
             workWeekViewSubscriber?.Dispose();
             monthViewSubscriber?.Dispose();
+
+            if ( JSModule is not null )
+            {
+                await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                await JSModule.SafeDisposeAsync();
+            }
+
+            if ( DotNetObjectRef is not null )
+            {
+                DotNetObjectRef.Dispose();
+                DotNetObjectRef = null;
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -1775,10 +1818,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <param name="slotStart">Indicates the start time of the slot being selected.</param>
     /// <param name="slotEnd">Indicates the end time of the slot being selected.</param>
     /// <returns>Returns a completed task if no selection is made or if the conditions are not met.</returns>
-    internal protected Task NotifySlotMouseUp( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+    internal protected async Task NotifySlotMouseUp( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
     {
         if ( currentSelectingTransaction is null )
-            return Task.CompletedTask;
+            return;
 
         if ( mouseEventArgs.Button == 0 && currentSelectingTransaction.IsSafeToUpdate( section, slotStart, slotEnd ) )
         {
@@ -1787,12 +1830,30 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             var start = currentSelectingTransaction.Start;
             var end = currentSelectingTransaction.End;
 
+            await currentSelectingTransaction.Commit();
+            currentSelectingTransaction = null;
             SelectionChanged?.Invoke( null, null );
 
-            return NotifySlotClicked( start, end );
+            await NotifySlotClicked( start, end );
         }
+    }
 
-        return Task.CompletedTask;
+    /// <summary>
+    /// Cancels the current selection if a transaction is in progress, rolling back any changes made during the selection.
+    /// </summary>
+    /// <returns>No return value as this method is asynchronous and performs an operation without returning data.</returns>
+    [JSInvokable]
+    public async Task CancelSelection()
+    {
+        if ( currentSelectingTransaction is not null )
+        {
+            isSelecting = false;
+
+            await currentSelectingTransaction.Rollback();
+            currentSelectingTransaction = null;
+
+            SelectionChanged?.Invoke( null, null );
+        }
     }
 
     #endregion
@@ -1869,6 +1930,34 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Returns the current select area of a transaction if it exists; otherwise, it returns 'None'.
     /// </summary>
     internal protected SchedulerSection CurrentSelectingSection => currentSelectingTransaction?.Section ?? SchedulerSection.None;
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Reference to the object that should be accessed through JSInterop.
+    /// </summary>
+    protected DotNetObjectReference<Scheduler<TItem>> DotNetObjectRef { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="JSSchedulerModule"/> instance.
+    /// </summary>
+    internal protected JSSchedulerModule JSModule { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="IJSRuntime"/>.
+    /// </summary>
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="IVersionProvider"/> for the JS module.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.
