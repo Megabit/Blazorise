@@ -1356,6 +1356,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 data.Add( editItem );
             }
 
+            var oldItem = editItem.DeepClone();
+
             if ( UseInternalEditing || editState == DataGridEditState.New )
             {
                 // apply edited cell values to the item
@@ -1363,9 +1365,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 SetItemEditedValues( editItem );
             }
 
+            var newItem = editItem.DeepClone();
+
             if ( editState == DataGridEditState.New )
             {
-                await RowInserted.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
+                await RowInserted.InvokeAsync( new( oldItem, newItem, editedCellValues ) );
                 SetDirty();
 
                 // If a new item is added, the data should be refreshed
@@ -1374,7 +1378,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( oldItem, newItem, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
