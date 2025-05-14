@@ -1788,6 +1788,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>This method does not return a value.</returns>
     internal protected async Task NotifySlotMouseDown( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
     {
+        if ( SlotSelectionMode != SchedulerSlotSelectionMode.Mouse )
+            return;
+
         if ( currentSelectingTransaction is not null )
         {
             await currentSelectingTransaction.Rollback();
@@ -1814,6 +1817,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Completes the task without any specific result, indicating the operation has finished.</returns>
     internal protected Task NotifySlotMouseMove( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
     {
+        if ( SlotSelectionMode != SchedulerSlotSelectionMode.Mouse )
+            return Task.CompletedTask;
+
         if ( currentSelectingTransaction is null )
             return Task.CompletedTask;
 
@@ -1837,6 +1843,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <returns>Returns a completed task if no selection is made or if the conditions are not met.</returns>
     internal protected async Task NotifySlotMouseUp( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
     {
+        if ( SlotSelectionMode != SchedulerSlotSelectionMode.Mouse )
+            return;
+
         if ( currentSelectingTransaction is null )
             return;
 
@@ -2095,6 +2104,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Indicates whether the items in the scheduler can be dragged and dropped. Defaults to false.
     /// </summary>
     [Parameter] public bool Draggable { get; set; }
+
+    /// <summary>
+    /// Indicates how the slots can be selected.
+    /// </summary>
+    [Parameter] public SchedulerSlotSelectionMode SlotSelectionMode { get; set; }
 
     /// <summary>
     /// Indicates whether internal editing is enabled. Defaults to true.
