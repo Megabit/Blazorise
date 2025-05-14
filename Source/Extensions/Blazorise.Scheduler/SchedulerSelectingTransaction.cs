@@ -12,18 +12,28 @@ namespace Blazorise.Scheduler;
 /// <typeparam name="TItem">The type of the scheduler item.</typeparam>
 public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
 {
+    #region Members
+
     private (DateTime, DateTime)? selectionSlot1;
     private (DateTime, DateTime)? selectionSlot2;
+
+    #endregion
+
+    #region Constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SchedulerSelectingTransaction{TItem}"/> class.
     /// </summary>
-    public SchedulerSelectingTransaction( Scheduler<TItem> scheduler, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
-        : base( scheduler, section )
+    public SchedulerSelectingTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+        : base( scheduler, item, section )
     {
         selectionSlot1 = (slotStart, slotEnd);
         selectionSlot2 = (slotStart, slotEnd);
     }
+
+    #endregion
+
+    #region Methods
 
     /// <summary>
     /// Checks if it's safe to update based on the provided date range and current selection slots.
@@ -55,7 +65,7 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     {
         if ( HasSelection )
         {
-            await scheduler.NotifySlotClicked( Start, End );
+            await scheduler.NotifySlotsSelected( Start, End );
         }
     }
 
@@ -65,8 +75,12 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
         selectionSlot1 = null;
         selectionSlot2 = null;
 
-        return Task.CompletedTask;
+        return base.RollbackImpl();
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the minimum start time from two selection slots.
@@ -84,4 +98,6 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     public bool HasSelection =>
         selectionSlot1.HasValue && selectionSlot2.HasValue &&
         ( selectionSlot1.Value.Item1 != selectionSlot2.Value.Item1 || selectionSlot1.Value.Item2 != selectionSlot2.Value.Item2 );
+
+    #endregion
 }

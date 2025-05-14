@@ -741,6 +741,23 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Invoked when a range of slots is selected, initiating the creation of a new appointment.
+    /// </summary>
+    /// <param name="start">The start time of the selected range.</param>
+    /// <param name="end">The end time of the selected range.</param>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
+    internal async Task NotifySlotsSelected( DateTime start, DateTime end )
+    {
+        editItem = CreateNewItem();
+        editState = SchedulerEditState.New;
+        SetItemDates( editItem, start, end );
+
+        await New( editItem );
+
+        await SlotsSelected.InvokeAsync( new SchedulerSlotsSelectedEventArgs( start, end ) );
+    }
+
+    /// <summary>
     /// Invoked when an empty scheduler all-day slot is clicked, initiating the creation of a new appointment.
     /// </summary>
     /// <param name="date">The date of the clicked slot.</param>
@@ -1780,7 +1797,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         if ( mouseEventArgs.Button == 0 )
         {
-            currentSelectingTransaction = new SchedulerSelectingTransaction<TItem>( this, section, slotStart, slotEnd );
+            currentSelectingTransaction = new SchedulerSelectingTransaction<TItem>( this, CreateNewItem(), section, slotStart, slotEnd );
             isSelecting = true;
 
             SelectionChanged?.Invoke( currentSelectingTransaction.Start, currentSelectingTransaction.End );
@@ -2128,6 +2145,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Occurs when an empty slot is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerSlotClickedEventArgs> SlotClicked { get; set; }
+
+    /// <summary>
+    /// Occurs when an empty slot is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerSlotsSelectedEventArgs> SlotsSelected { get; set; }
 
     /// <summary>
     /// An event callback triggered when an item is clicked for editing.

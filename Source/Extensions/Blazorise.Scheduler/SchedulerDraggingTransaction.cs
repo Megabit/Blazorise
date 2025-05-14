@@ -18,10 +18,8 @@ public class SchedulerDraggingTransaction<TItem> : SchedulerTransaction<TItem>
     /// Initializes a new instance of the <see cref="SchedulerDraggingTransaction{TItem}"/> class.
     /// </summary>
     public SchedulerDraggingTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerSection section )
-        : base( scheduler, section )
+        : base( scheduler, item, section )
     {
-        OriginalItem = item;
-        Item = item.DeepClone();
     }
 
     #endregion
@@ -51,31 +49,8 @@ public class SchedulerDraggingTransaction<TItem> : SchedulerTransaction<TItem>
         var success = await scheduler.SaveImpl( editItemClone );
 
         if ( !success )
-            throw new InvalidOperationException( "Saving the item failed." );
-    }
-
-    /// <inheritdoc />
-    protected override Task RollbackImpl()
-    {
-        Item = OriginalItem.DeepClone();
-
-        return Task.CompletedTask;
+            throw new InvalidOperationException( "Saving the drop item failed." );
     }
 
     #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Gets the original item that was passed into the transaction.
-    /// </summary>
-    protected TItem OriginalItem { get; init; }
-
-    /// <summary>
-    /// Gets the mutable working copy of the item used during the transaction.
-    /// </summary>
-    public TItem Item { get; protected set; }
-
-    #endregion
-
 }

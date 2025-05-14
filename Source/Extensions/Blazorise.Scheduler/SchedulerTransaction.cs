@@ -17,7 +17,7 @@ public abstract class SchedulerTransaction<TItem>
     /// <summary>
     /// Holds a reference to a Scheduler instance that manages scheduling tasks for items of type TItem.
     /// </summary>
-    protected Scheduler<TItem> scheduler;
+    protected readonly Scheduler<TItem> scheduler;
 
     private SchedulerTransactionState state = SchedulerTransactionState.Pending;
 
@@ -29,11 +29,14 @@ public abstract class SchedulerTransaction<TItem>
     /// Initializes a new instance of the <see cref="SchedulerTransaction{TItem}"/> class.
     /// </summary>
     /// <param name="scheduler">The parent scheduler instance.</param>
+    /// <param name="item">The item being processed in the transaction.</param>
     /// <param name="section">The context from which the transaction originated.</param>
-    protected SchedulerTransaction( Scheduler<TItem> scheduler, SchedulerSection section )
+    protected SchedulerTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerSection section )
     {
         this.scheduler = scheduler;
 
+        OriginalItem = item;
+        Item = item.DeepClone();
         Section = section;
     }
 
@@ -98,7 +101,12 @@ public abstract class SchedulerTransaction<TItem>
     /// An abstract method that defines the implementation for rolling back an operation. It must be overridden in derived classes.
     /// </summary>
     /// <returns>Returns a Task representing the asynchronous rollback operation.</returns>
-    protected abstract Task RollbackImpl();
+    protected virtual Task RollbackImpl()
+    {
+        Item = OriginalItem.DeepClone();
+
+        return Task.CompletedTask;
+    }
 
     /// <summary>
     /// Sets the internal transaction state.
@@ -108,6 +116,16 @@ public abstract class SchedulerTransaction<TItem>
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the original item that was passed into the transaction.
+    /// </summary>
+    protected TItem OriginalItem { get; init; }
+
+    /// <summary>
+    /// Gets the mutable working copy of the item used during the transaction.
+    /// </summary>
+    public TItem Item { get; protected set; }
 
     /// <summary>
     /// Gets the drag area context from which this transaction was initiated.
