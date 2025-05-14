@@ -62,10 +62,10 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             firstDayOfWeek: options.firstDayOfWeek
         },
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
-        clickOpens: !(options.readOnly || false),
+        clickOpens: !(utilities.coalesce(options.readOnly, false)),
         disable: disableDatesOptions.concat(disableDaysOptions),
-        inline: options.inline || false,
-        disableMobile: options.disableMobile || true,
+        inline: utilities.coalesce(options.inline, false),
+        disableMobile: utilities.coalesce(options.disableMobile, true),
         static: options.staticPicker,
         errorHandler: (error) => {
             // do nothing to prevent warnings in the console
@@ -103,8 +103,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     picker.altInput.dotnetAdapter = dotnetAdapter;
 
     if (options) {
-        picker.altInput.disabled = options.disabled || false;
-        picker.altInput.readOnly = options.readOnly || false;
+        picker.altInput.disabled = utilities.coalesce(options.disabled, false);
+        picker.altInput.readOnly = utilities.coalesce(options.readOnly, false);
         picker.altInput.placeholder = utilities.coalesce(options.placeholder, "");
 
         picker.altInput.addEventListener("blur", (e) => {
@@ -320,11 +320,11 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.inline.changed) {
-            picker.set("inline", options.inline.value || false);
+            picker.set("inline", utilities.coalesce(options.inline.value, false));
         }
 
         if (options.disableMobile.changed) {
-            picker.set("disableMobile", options.disableMobile.value || true);
+            picker.set("disableMobile", utilities.coalesce(options.disableMobile.value, true));
         }
 
         if (options.placeholder.changed) {
