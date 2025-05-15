@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "Vrijeme završetka ne može biti manje od vremena početka.",
     "Start date cannot be higher or equal than the end date.": "Datum početka ne može biti veći ili jednak datumu završetka.",
     "Start date cannot be higher than the end date.": "Datum početka ne može biti veći od datuma završetka.",
-    "Title is required.": "Naslov je obavezan."
+    "Title is required.": "Naslov je obavezan.",
+    "Previous": "Prethodni",
+    "Next": "Sljedeći"
   }
 }

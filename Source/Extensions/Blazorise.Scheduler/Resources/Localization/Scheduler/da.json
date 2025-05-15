@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "Sluttidspunktet kan ikke være tidligere end starttidspunktet.",
     "Start date cannot be higher or equal than the end date.": "Startdatoen kan ikke være senere end eller lig med slutdatoen.",
     "Start date cannot be higher than the end date.": "Startdatoen kan ikke være senere end slutdatoen.",
-    "Title is required.": "Titel er påkrævet."
+    "Title is required.": "Titel er påkrævet.",
+    "Previous": "Forrige",
+    "Next": "Næste"
   }
 }

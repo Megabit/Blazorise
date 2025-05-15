@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "Bitiş saati başlangıç saatinden önce olamaz.",
     "Start date cannot be higher or equal than the end date.": "Başlangıç tarihi bitiş tarihinden sonra veya eşit olamaz.",
     "Start date cannot be higher than the end date.": "Başlangıç tarihi bitiş tarihinden sonra olamaz.",
-    "Title is required.": "Başlık gereklidir."
+    "Title is required.": "Başlık gereklidir.",
+    "Previous": "Önceki",
+    "Next": "Sonraki"
   }
 }

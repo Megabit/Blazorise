@@ -42,9 +42,11 @@ internal static class LocalizationConstants
     public const string Month = "Month";
     public const string Never = "Never";
     public const string New = "New";
+    public const string Next = "Next";
     public const string November = "November";
     public const string October = "October";
     public const string On = "On";
+    public const string Previous = "Previous";
     public const string RecurringSeriesWhatDoYouWantToDo = "Item is a recurring series. What do you want to do?";
     public const string RepeatEvery = "Repeat Every";
     public const string Saturday = "Saturday";

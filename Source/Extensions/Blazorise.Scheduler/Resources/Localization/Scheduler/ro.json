@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "Ora de sfârșit nu poate fi anterioară orei de început.",
     "Start date cannot be higher or equal than the end date.": "Data de început nu poate fi ulterioară sau egală cu data de sfârșit.",
     "Start date cannot be higher than the end date.": "Data de început nu poate fi ulterioară datei de sfârșit.",
-    "Title is required.": "Titlul este obligatoriu."
+    "Title is required.": "Titlul este obligatoriu.",
+    "Previous": "Precedent",
+    "Next": "Următor"
   }
 }

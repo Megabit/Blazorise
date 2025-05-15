@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "Čas ukončení nemůže být nižší než čas zahájení.",
     "Start date cannot be higher or equal than the end date.": "Datum zahájení nemůže být vyšší nebo stejný jako datum ukončení.",
     "Start date cannot be higher than the end date.": "Datum zahájení nemůže být vyšší než datum ukončení.",
-    "Title is required.": "Název je povinný."
+    "Title is required.": "Název je povinný.",
+    "Previous": "Předchozí",
+    "Next": "Další"
   }
 }

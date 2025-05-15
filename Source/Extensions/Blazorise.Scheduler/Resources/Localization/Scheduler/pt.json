@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "A hora final não pode ser anterior à hora inicial.",
     "Start date cannot be higher or equal than the end date.": "A data inicial não pode ser posterior ou igual à data final.",
     "Start date cannot be higher than the end date.": "A data inicial não pode ser posterior à data final.",
-    "Title is required.": "O título é obrigatório."
+    "Title is required.": "O título é obrigatório.",
+    "Previous": "Anterior",
+    "Next": "Próximo"
   }
 }

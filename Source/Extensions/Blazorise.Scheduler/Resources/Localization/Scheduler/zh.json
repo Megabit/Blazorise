@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "结束时间不能早于开始时间。",
     "Start date cannot be higher or equal than the end date.": "开始日期不能晚于或等于结束日期。",
     "Start date cannot be higher than the end date.": "开始日期不能晚于结束日期。",
-    "Title is required.": "必须填写标题。"
+    "Title is required.": "必须填写标题。",
+    "Previous": "上一个",
+    "Next": "下一个"
   }
 }

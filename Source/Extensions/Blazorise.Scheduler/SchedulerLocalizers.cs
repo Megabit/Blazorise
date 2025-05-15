@@ -105,6 +105,16 @@ public class SchedulerLocalizers
     public TextLocalizerHandler TodayLocalizer { get; set; }
 
     /// <summary>
+    /// Localizer for the "Previous" navigation button.
+    /// </summary>
+    public TextLocalizerHandler PreviousLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "Next" navigation button.
+    /// </summary>
+    public TextLocalizerHandler NextLocalizer { get; set; }
+
+    /// <summary>
     /// Localizer for the "Day" view label.
     /// </summary>
     public TextLocalizerHandler DayLocalizer { get; set; }

@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "Godzina zakończenia nie może być wcześniejsza niż godzina rozpoczęcia.",
     "Start date cannot be higher or equal than the end date.": "Data rozpoczęcia nie może być późniejsza lub równa dacie zakończenia.",
     "Start date cannot be higher than the end date.": "Data rozpoczęcia nie może być późniejsza niż data zakończenia.",
-    "Title is required.": "Tytuł jest wymagany."
+    "Title is required.": "Tytuł jest wymagany.",
+    "Previous": "Poprzedni",
+    "Next": "Następny",
   }
 }
