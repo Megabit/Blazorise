@@ -1741,18 +1741,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             else if ( DetailRowTrigger is not null )
             {
                 var detailRowTriggerContext = new DetailRowTriggerEventArgs<TItem>( rowInfo.Item );
-                var detailRowTriggerResult = DetailRowTrigger( detailRowTriggerContext );
+                var shouldOpenWhenClosed = DetailRowTrigger( detailRowTriggerContext );
 
                 if ( !skipDetailRowTriggerType && detailRowTriggerType != detailRowTriggerContext.DetailRowTriggerType )
                     return;
-
-                rowInfo.SetRowDetail( detailRowTriggerResult, detailRowTriggerContext.Toggleable );
+                
+                if (detailRowTriggerContext.Toggleable)
+                    rowInfo.SetRowDetail(!rowInfo.HasDetailRow && shouldOpenWhenClosed);
 
                 if ( rowInfo.HasDetailRow && detailRowTriggerContext.Single )
                 {
-                    foreach ( var row in Rows.Where( x => !x.IsEqual( rowInfo ) ) )
+                    foreach ( var row in Rows.Where( x => !x.IsEqual( rowInfo ) ) )//close other detail rows
                     {
-                        row.SetRowDetail( false, false );
+                        row.SetRowDetail( false);
                     }
                 }
             }
@@ -3608,6 +3609,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// A trigger function used to handle the visibility of detail row.
+    /// Return true if you want the detail row to be visible when row is clicked and detail row is not visible.
+    /// Doesn't affect the closing behaviro (will be always close on click)
     /// </summary>
     [Parameter] public Func<DetailRowTriggerEventArgs<TItem>, bool> DetailRowTrigger { get; set; }
 
