@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Bootstrap;
 using Blazorise.DataGrid;
+using Blazorise.Extensions;
 using Blazorise.Tests.TestServices;
 using Bunit;
 using Xunit;
@@ -535,7 +536,7 @@ public class DataGridComponentTest : TestContext
                 EmployeeUpdatedOld = e.OldItem;
                 EmployeeUpdatedNew = e.NewItem;
 
-                var idx = data.FindIndex( x => x == e.OldItem );
+                var idx = data.FindIndex( x => x.Name == e.OldItem.Name );
                 data[idx] = e.NewItem;
             } );
             parameters.Add( x => x.RowUpdating, ( e ) =>
@@ -616,7 +617,7 @@ public class DataGridComponentTest : TestContext
                 EmployeeUpdatedOld = e.OldItem;
                 EmployeeUpdatedNew = e.NewItem;
 
-                var idx = data.IndexOf( e.OldItem );
+                var idx = data.ToList().FindIndex( x => x.Name == e.OldItem.Name );
                 data[idx] = e.NewItem;
             } );
             parameters.Add( x => x.RowUpdating, ( e ) =>
