@@ -178,7 +178,7 @@ public partial class _SchedulerSlot<TItem>
         if ( LastSlot || IsDraggingOver )
             return null;
 
-        return "border-bottom-style: dashed !important; user-select: none; -webkit-user-drag: none;";
+        return "border-bottom-style: dashed !important;";
     }
 
     /// <summary>
