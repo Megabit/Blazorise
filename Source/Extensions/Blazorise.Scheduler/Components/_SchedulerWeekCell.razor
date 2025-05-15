@@ -1,6 +1,7 @@
 ﻿@typeparam TItem
 @{
     var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime, EndTime );
+    var itemTemplate = Scheduler.ItemTemplate;
 
     <Div Flex="FlexColumnAlignItemsCenterGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Overflow="Overflow.Auto" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
         <Div Flex="FlexJustifyContentEnd" Width="WidthIs100" Padding="PaddingIs1OnX" TextColor="@GetTextColor()" TextWeight="@GetTextWeight()" Style="@GetDayNumberStyle()" TextSize="TextSizeSmall">@Date.Day</Div>
@@ -11,11 +12,18 @@
                 var startTime = Scheduler.GetItemStartTime( viewItem.Item );
 
                 <Div Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
-                    <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate">
-                        <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSizeSmall" /></Span>
-                        <Span Margin="MarginIs1FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
-                        <Span Margin="MarginIs1FromStart">@title</Span>
-                    </Span>
+                    @if ( itemTemplate is not null )
+                    {
+                        @itemTemplate( new SchedulerItemContext<TItem>( viewItem.Item, viewItem.IsRecurring ) )
+                    }
+                    else
+                    {
+                        <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate">
+                            <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSizeSmall" /></Span>
+                            <Span Margin="MarginIs1FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
+                            <Span Margin="MarginIs1FromStart">@title</Span>
+                        </Span>
+                    }
                 </Div>
             }
         </Div>

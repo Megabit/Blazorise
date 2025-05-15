@@ -1,24 +1,32 @@
 ﻿@typeparam TItem
 @{
     var itemStyling = GetItemStyling( Item );
+    var allDayItemTemplate = Scheduler.AllDayItemTemplate;
 
     <Span Class="@GetItemClass( itemStyling.Class )" Style="@GetItemStyle( itemStyling.Style )" Flex="FlexInlineFlexJustifyContentBetweenAlignItemsCenter" Margin="MarginIs1" Padding="PaddingIs1" Width="WidthIs100" Background="@itemStyling.Background" TextColor="@itemStyling.TextColor" TextSize="@itemStyling.TextSize" @onclick="@OnSlotClicked" draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, Item ))">
-        @if ( OverflowingFromStart )
+        @if ( allDayItemTemplate is not null )
         {
-            <Tooltip Inline Text="@Scheduler.GetItemStartTime( Item ).ToShortDateString()">
-                <Span>
-                    <Icon Name="IconName.AngleLeft" Padding="PaddingIs1FromStart" />
-                </Span>
-            </Tooltip>
+            @allDayItemTemplate( new SchedulerAllDayItemContext<TItem>( Item, IsRecurring ) )
         }
-        <Span>@(Scheduler.GetItemTitle( Item ))</Span>
-        @if ( OverflowingOnEnd )
+        else
         {
-            <Tooltip Inline Text="@Scheduler.GetItemEndTime( Item ).ToShortDateString()">
-                <Span>
-                    <Icon Name="IconName.AngleRight" Padding="PaddingIs1FromEnd" />
-                </Span>
-            </Tooltip>
+            @if ( OverflowingFromStart )
+            {
+                <Tooltip Inline Text="@Scheduler.GetItemStartTime( Item ).ToShortDateString()">
+                    <Span>
+                        <Icon Name="IconName.AngleLeft" Padding="PaddingIs1FromStart" />
+                    </Span>
+                </Tooltip>
+            }
+            <Span>@(Scheduler.GetItemTitle( Item ))</Span>
+            @if ( OverflowingOnEnd )
+            {
+                <Tooltip Inline Text="@Scheduler.GetItemEndTime( Item ).ToShortDateString()">
+                    <Span>
+                        <Icon Name="IconName.AngleRight" Padding="PaddingIs1FromEnd" />
+                    </Span>
+                </Tooltip>
+            }
         }
     </Span>
 }

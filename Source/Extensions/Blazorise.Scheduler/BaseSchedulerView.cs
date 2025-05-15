@@ -58,5 +58,15 @@ public class BaseSchedulerView<TItem> : ComponentBase
     /// </summary>
     [Parameter] public double? ViewHeight { get; set; }
 
+    /// <summary>
+    /// Defines a template for rendering regular items in a scheduler view.
+    /// </summary>
+    [Parameter] public RenderFragment<SchedulerItemContext<TItem>> ItemTemplate { get; set; }
+
+    /// <summary>
+    /// Defines a template for rendering all-day items in a scheduler view.
+    /// </summary>
+    [Parameter] public RenderFragment<SchedulerAllDayItemContext<TItem>> AllDayItemTemplate { get; set; }
+
     #endregion
 }
