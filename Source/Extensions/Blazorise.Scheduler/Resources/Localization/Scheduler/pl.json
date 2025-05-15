@@ -63,6 +63,6 @@
     "Start date cannot be higher than the end date.": "Data rozpoczęcia nie może być późniejsza niż data zakończenia.",
     "Title is required.": "Tytuł jest wymagany.",
     "Previous": "Poprzedni",
-    "Next": "Następny",
+    "Next": "Następny"
   }
 }
