@@ -5,7 +5,7 @@ using System;
 namespace Blazorise.Scheduler;
 
 /// <summary>
-/// Event arguments for the <see cref="Scheduler{TItem}.ItemClicked"/> event.
+/// Event arguments for the item click events.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
 public class SchedulerItemClickedEventArgs<TItem> : EventArgs

@@ -11,7 +11,8 @@
                            Data="@Appointments"
                            @bind-SelectedView="@selectedView"
                            Draggable
-                           ItemStyling="@OnItemStyling">
+                           ItemStyling="@OnItemStyling"
+                           SlotSelectionMode="SchedulerSlotSelectionMode.Mouse">
                     <SchedulerToolbar />
                     <SchedulerViews>
                         <SchedulerDayView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
