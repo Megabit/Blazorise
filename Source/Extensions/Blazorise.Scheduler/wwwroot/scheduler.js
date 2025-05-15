@@ -29,25 +29,26 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
 
 export function selectionStarted(element, elementId) {
     const instance = _instances[elementId];
-
     if (!instance || instance.mouseUpHandler) {
         return;
     }
 
+    // Track the initial day column where selection started
+    const initialDayColumn = findDayColumn(element);
+
     const handler = async function (evt) {
-        if (evt.button !== 0) {
-            return;
-        }
+        if (evt.button !== 0) return;
 
-        const slotElement = findSchedulerSlotElement(evt.target);
+        const targetSlot = findSchedulerSlotElement(evt.target);
+        const currentDayColumn = findDayColumn(evt.target);
 
-        if (slotElement) {
-            // Valid slot clicked: ignore
-            return;
-        }
-
-        if (instance.dotNetAdapter) {
-            await instance.dotNetAdapter.invokeMethodAsync("CancelSelection");
+        // Cancel if:
+        // 1. We didn't land on a slot, or
+        // 2. Landed on a different day column
+        if (!targetSlot || !initialDayColumn || currentDayColumn !== initialDayColumn) {
+            if (instance.dotNetAdapter) {
+                await instance.dotNetAdapter.invokeMethodAsync("CancelSelection");
+            }
         }
 
         // Auto-remove after firing once
@@ -56,6 +57,17 @@ export function selectionStarted(element, elementId) {
 
     document.addEventListener("mouseup", handler);
     instance.mouseUpHandler = handler;
+}
+
+function findDayColumn(startNode) {
+    let node = startNode;
+    while (node && node !== document) {
+        if (node.classList?.contains("b-scheduler-day")) {
+            return node;
+        }
+        node = node.parentNode;
+    }
+    return null;
 }
 
 export function selectionEnded(element, elementId) {
