@@ -2,14 +2,16 @@
 @using Blazorise.Extensions
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <Toaster Placement="@Placement" PlacementStrategy="@PlacementStrategy">
+    <Toaster ElementId="@ElementId" Class="@Class" Style="@Style" Float="@Float" Clearfix="@Clearfix" Visibility="@Visibility" Width="@Width" Height="@Height" Margin="@Margin" Padding="@Padding" Gap="@Gap" Display="@Display" Border="@Border" Flex="@Flex" Position="@Position" Overflow="@Overflow" Casing="@Casing" TextColor="@TextColor" TextAlignment="@TextAlignment" TextTransform="@TextTransform" TextDecoration="@TextDecoration" TextWeight="@TextWeight" TextOverflow="@TextOverflow" TextSize="@TextSize" ObjectFit="@ObjectFit" VerticalAlignment="@VerticalAlignment" Background="@Background" Shadow="@Shadow"
+             Placement="@Placement" PlacementStrategy="@PlacementStrategy"
+             Attributes="@Attributes">
         @foreach ( var toastInstance in toastInstances ?? Enumerable.Empty<ToastInstance>() )
         {
             <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"
                    Opening="@toastInstance.Opening"
                    Opened="@toastInstance.Opened"
                    Closing="@toastInstance.Closing"
-                   Closed="@(() => OnToastClosed(toastInstance))"
+                   Closed="@(() => OnToastClosed( toastInstance ))"
                    Animated="@toastInstance.Animated"
                    AnimationDuration="@toastInstance.AnimationDuration"
                    Autohide="@toastInstance.Autohide"
