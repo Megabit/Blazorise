@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "Lokatími má ekki vera fyrr en upphafstími.",
     "Start date cannot be higher or equal than the end date.": "Upphafsdagsetning má ekki vera seinni eða sú sama og lokadagsetning.",
     "Start date cannot be higher than the end date.": "Upphafsdagsetning má ekki vera seinni en lokadagsetning.",
-    "Title is required.": "Titill er nauðsynlegur."
+    "Title is required.": "Titill er nauðsynlegur.",
+    "Previous": "Fyrri",
+    "Next": "Næsta"
   }
 }

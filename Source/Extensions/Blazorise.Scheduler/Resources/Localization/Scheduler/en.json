@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "End time cannot be lower than the start time.",
     "Start date cannot be higher or equal than the end date.": "Start date cannot be higher or equal than the end date.",
     "Start date cannot be higher than the end date.": "Start date cannot be higher than the end date.",
-    "Title is required.": "Title is required."
+    "Title is required.": "Title is required.",
+    "Previous": "Previous",
+    "Next": "Next"
   }
 }

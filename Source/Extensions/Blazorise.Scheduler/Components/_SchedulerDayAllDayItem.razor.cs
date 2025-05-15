@@ -110,6 +110,11 @@ public partial class _SchedulerDayAllDayItem<TItem>
     [Parameter] public bool OverflowingOnEnd { get; set; }
 
     /// <summary>
+    /// Gets or sets the flag that indicates whether the item occurs repeatedly.
+    /// </summary>
+    [Parameter] public bool IsRecurring { get; set; }
+
+    /// <summary>
     /// Callback triggered when the item is clicked.
     /// </summary>
     [Parameter] public Func<TItem, Task> Clicked { get; set; }

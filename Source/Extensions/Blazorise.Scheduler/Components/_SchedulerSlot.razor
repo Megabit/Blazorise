@@ -4,20 +4,28 @@
     {
         var index = ViewItems.IndexOf( viewItem );
         var itemStyling = GetItemStyling( viewItem.Item );
+        var itemTemplate = Scheduler.ItemTemplate;
 
         <Span Class="@GetItemClass( itemStyling.Class )" Style="@GetItemStyle( viewItem, index, ViewItems.Count, itemStyling.Style )" Position="PositionAbsolute" Border="BorderRounded" Background="@itemStyling.Background" TextColor="@itemStyling.TextColor" TextSize="@itemStyling.TextSize" Flex="FlexJustifyContentBetweenAlignItemsStart" Padding="PaddingIs1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation @onmousedown:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
-            @if ( viewItem.IsRecurring )
+            @if ( itemTemplate is not null )
             {
-                <Span>
-                    <Icon Name="IconName.Sync" />
+                @itemTemplate( new SchedulerItemContext<TItem>( viewItem.Item, viewItem.IsRecurring ) )
+            }
+            else
+            {
+                @if ( viewItem.IsRecurring )
+                {
+                    <Span>
+                        <Icon Name="IconName.Sync" />
+                    </Span>
+                }
+                <Span @onclick="@(() => OnEditItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Width="WidthIs100" Height="HeightIs100">
+                    @Scheduler?.GetItemTitle( viewItem.Item )
+                </Span>
+                <Span @onclick="@(() => OnDeleteItemClicked( viewItem ))" Padding="PaddingIs1">
+                    <Icon Name="IconName.Delete" />
                 </Span>
             }
-            <Span @onclick="@(() => OnEditItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate" Width="WidthIs100" Height="HeightIs100">
-                @Scheduler?.GetItemTitle( viewItem.Item )
-            </Span>
-            <Span @onclick="@(() => OnDeleteItemClicked( viewItem ))" Padding="PaddingIs1">
-                <Icon Name="IconName.Delete" />
-            </Span>
         </Span>
     }
 </Div>

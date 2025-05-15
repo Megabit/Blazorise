@@ -61,6 +61,8 @@
     "End time cannot be lower than the start time.": "De eindtijd mag niet eerder zijn dan de starttijd.",
     "Start date cannot be higher or equal than the end date.": "De startdatum mag niet later of gelijk zijn aan de einddatum.",
     "Start date cannot be higher than the end date.": "De startdatum mag niet later zijn dan de einddatum.",
-    "Title is required.": "Titel is verplicht."
+    "Title is required.": "Titel is verplicht.",
+    "Previous": "Vorige",
+    "Next": "Volgende"
   }
 }

@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 @typeparam TItem
-<Div @ref="@schedulerDivRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Flex="FlexColumnWrap" Border="BorderIs1">
+<Div @ref="@schedulerDivRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Flex="FlexColumnWrap" Border="BorderIs1" role="application">
     <CascadingValue Value="@this" IsFixed>
         <CascadingValue Value="@State">
             @if ( schedulerToolbar is not null && ShowToolbar )

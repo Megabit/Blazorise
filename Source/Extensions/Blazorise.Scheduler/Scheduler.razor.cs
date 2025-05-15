@@ -584,6 +584,42 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Retrieves the appropriate item template based on the current view mode of the scheduler.
+    /// </summary>
+    /// <returns>Returns a RenderFragment for the specific view's item template.</returns>
+    private RenderFragment<SchedulerItemContext<TItem>> GetItemTemplate()
+    {
+        if ( ShowingMonthView )
+            return schedulerMonthView.ItemTemplate;
+
+        if ( ShowingWeekView )
+            return schedulerWeekView.ItemTemplate;
+
+        if ( ShowingWorkWeekView )
+            return schedulerWorkWeekView.ItemTemplate;
+
+        return schedulerDayView.ItemTemplate;
+    }
+
+    /// <summary>
+    /// Retrieves the appropriate all-day item template based on the current view mode of the scheduler.
+    /// </summary>
+    /// <returns>Returns a RenderFragment for the all-day item template corresponding to the active view.</returns>
+    private RenderFragment<SchedulerAllDayItemContext<TItem>> GetAllDayItemTemplate()
+    {
+        if ( ShowingMonthView )
+            return schedulerMonthView.AllDayItemTemplate;
+
+        if ( ShowingWeekView )
+            return schedulerWeekView.AllDayItemTemplate;
+
+        if ( ShowingWorkWeekView )
+            return schedulerWorkWeekView.AllDayItemTemplate;
+
+        return schedulerDayView.AllDayItemTemplate;
+    }
+
+    /// <summary>
     /// Notifies the scheduler that an appointment within a view has been clicked, managing recurring series editing prompts if necessary.
     /// </summary>
     /// <param name="item">The view-specific appointment information that was clicked.</param>
@@ -1989,6 +2025,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Gets or sets the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Returns a RenderFragment based on the current view mode of the scheduler.
+    /// </summary>
+    internal protected RenderFragment<SchedulerItemContext<TItem>> ItemTemplate => GetItemTemplate();
+
+    /// <summary>
+    /// Returns a RenderFragment for all-day items based on the current view mode of the scheduler.
+    /// </summary>
+    internal protected RenderFragment<SchedulerAllDayItemContext<TItem>> AllDayItemTemplate => GetAllDayItemTemplate();
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.
