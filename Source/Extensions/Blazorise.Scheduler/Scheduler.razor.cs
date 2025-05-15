@@ -1901,6 +1901,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             }
             finally
             {
+                await JSModule.SelectionEnded();
+
                 currentSelectingTransaction = null;
                 SelectionChanged?.Invoke( null, null );
             }

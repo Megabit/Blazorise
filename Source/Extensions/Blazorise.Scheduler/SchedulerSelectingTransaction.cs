@@ -65,8 +65,6 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     {
         if ( HasSelection )
         {
-            await scheduler.JSModule.SelectionEnded();
-
             await scheduler.NotifySlotsSelected( Start, End );
         }
     }
@@ -76,8 +74,6 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     {
         selectionSlot1 = null;
         selectionSlot2 = null;
-
-        await scheduler.JSModule.SelectionEnded();
 
         await base.RollbackImpl();
     }
