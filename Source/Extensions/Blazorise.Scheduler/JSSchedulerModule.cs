@@ -48,30 +48,22 @@ public class JSSchedulerModule : BaseJSModule,
 
     public virtual async ValueTask Initialize<TItem>( DotNetObjectReference<Scheduler<TItem>> dotNetObjectReference )
     {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectReference, ElementRef, ElementId );
+        await InvokeSafeVoidAsync( "initialize", dotNetObjectReference, ElementRef, ElementId );
     }
 
     public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
     {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
+        await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
     }
 
     public virtual async ValueTask SelectionStarted()
     {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "selectionStarted", ElementRef, ElementId );
+        await InvokeSafeVoidAsync( "selectionStarted", ElementRef, ElementId );
     }
 
     public virtual async ValueTask SelectionEnded()
     {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "selectionEnded", ElementRef, ElementId );
+        await InvokeSafeVoidAsync( "selectionEnded", ElementRef, ElementId );
     }
 
     #endregion
