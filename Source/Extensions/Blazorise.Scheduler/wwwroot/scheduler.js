@@ -1,30 +1,6 @@
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.6.0";
 
-const _instances = [];
-
-document.addEventListener('mouseup', async function handler(evt) {
-    if (evt.button !== 0) return;
-
-    const slotElement = findSchedulerSlotElement(evt.target);
-
-    if (slotElement) {
-        // Valid slot clicked: do nothing
-        return;
-    }
-
-    // Not a valid slot: notify all scheduler instances to cancel
-    for (const elementId in _instances) {
-        if (!_instances.hasOwnProperty(elementId)) {
-            continue;
-        }
-
-        const instance = _instances[elementId];
-
-        if (instance?.dotNetAdapter) {
-            await instance.dotNetAdapter.invokeMethodAsync("CancelSelection");
-        }
-    }
-});
+const _instances = {};
 
 function findSchedulerSlotElement(startNode) {
     let node = startNode;
@@ -42,23 +18,67 @@ function findSchedulerSlotElement(startNode) {
 
 export async function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
+    if (!element) return;
 
-    if (!element)
+    _instances[elementId] = {
+        dotNetAdapter,
+        element,
+        mouseUpHandler: null
+    };
+}
+
+export function selectionStarted(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (!instance || instance.mouseUpHandler) {
         return;
+    }
 
-    const instance = {
-        dotNetAdapter: dotNetAdapter,
-        element: element
+    const handler = async function (evt) {
+        if (evt.button !== 0) {
+            return;
+        }
+
+        const slotElement = findSchedulerSlotElement(evt.target);
+
+        if (slotElement) {
+            // Valid slot clicked: ignore
+            return;
+        }
+
+        if (instance.dotNetAdapter) {
+            await instance.dotNetAdapter.invokeMethodAsync("CancelSelection");
+        }
+
+        // Auto-remove after firing once
+        selectionEnded(element, elementId);
     };
 
-    _instances[elementId] = instance;
+    document.addEventListener("mouseup", handler);
+    instance.mouseUpHandler = handler;
+}
+
+export function selectionEnded(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (!instance || !instance.mouseUpHandler) {
+        return;
+    }
+
+    document.removeEventListener("mouseup", instance.mouseUpHandler);
+    instance.mouseUpHandler = null;
 }
 
 export function destroy(element, elementId) {
-    const instances = _instances || {};
-    const instance = instances[elementId];
+    const instance = _instances[elementId];
 
-    if (instance) {
-        delete instances[elementId];
+    if (!instance) {
+        return;
     }
+
+    if (instance.mouseUpHandler) {
+        document.removeEventListener("mouseup", instance.mouseUpHandler);
+    }
+
+    delete _instances[elementId];
 }

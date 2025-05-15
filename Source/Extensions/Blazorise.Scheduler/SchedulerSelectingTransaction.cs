@@ -65,17 +65,21 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     {
         if ( HasSelection )
         {
+            await scheduler.JSModule.SelectionEnded();
+
             await scheduler.NotifySlotsSelected( Start, End );
         }
     }
 
     /// <inheritdoc />
-    protected override Task RollbackImpl()
+    protected override async Task RollbackImpl()
     {
         selectionSlot1 = null;
         selectionSlot2 = null;
 
-        return base.RollbackImpl();
+        await scheduler.JSModule.SelectionEnded();
+
+        await base.RollbackImpl();
     }
 
     #endregion

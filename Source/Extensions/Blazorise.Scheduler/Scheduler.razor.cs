@@ -203,7 +203,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-            JSModule = new JSSchedulerModule( JSRuntime, VersionProvider, BlazoriseOptions );
+            JSModule = new JSSchedulerModule( JSRuntime, VersionProvider, BlazoriseOptions, () => schedulerDivRef.ElementRef, () => ElementId );
         }
 
         base.OnInitialized();
@@ -216,7 +216,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         {
             if ( JSModule is not null )
             {
-                await JSModule.Initialize( DotNetObjectRef, schedulerDivRef.ElementRef, ElementId );
+                await JSModule.Initialize( DotNetObjectRef );
             }
         }
 
@@ -246,7 +246,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             if ( JSModule is not null )
             {
-                await JSModule.SafeDestroy( ElementRef, ElementId );
+                await JSModule.SafeDestroy( schedulerDivRef.ElementRef, ElementId );
 
                 await JSModule.SafeDisposeAsync();
             }
@@ -1836,6 +1836,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
         if ( mouseEventArgs.Button == 0 )
         {
+            await JSModule.SelectionStarted();
+
             currentSelectingTransaction = new SchedulerSelectingTransaction<TItem>( this, CreateNewItem(), section, slotStart, slotEnd );
             isSelecting = true;
 
