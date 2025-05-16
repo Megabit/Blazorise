@@ -31,6 +31,7 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
     protected override bool UpdatePluginParameters( ParameterView parameters )
         => parameters.TryGetValue<ChartZoomPluginOptions>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
 
+    /// <inheritdoc/>
     protected override ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing && Rendered )
