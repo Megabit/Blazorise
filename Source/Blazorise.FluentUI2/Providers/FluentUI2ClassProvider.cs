@@ -1298,6 +1298,10 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "fui-Table-mobile" : null;
 
+    public override string TableCaption() => "fui-TableCaption";
+
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"fui-TableCaption-{ToTableCaptionSide( side )}" : null;
+
     #endregion
 
     #region Badge

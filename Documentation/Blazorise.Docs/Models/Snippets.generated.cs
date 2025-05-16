@@ -4166,6 +4166,40 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </TableBody>
 </Table>";
 
+        public const string TableCaptionExample = @"<Table>
+    <TableCaption Side=""TableCaptionSide.Top"">
+        A table with a caption, for better accessibility.
+    </TableCaption>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
         public const string TableDarkHeaderExample = @"<Table>
     <TableHeader ThemeContrast=""ThemeContrast.Dark"">
         <TableRow>
