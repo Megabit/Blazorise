@@ -7425,6 +7425,26 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
+        public const string DataGridCaptionExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive Caption=""This is a caption for the DataGrid."">
+    <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" />
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" />
+    <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" />
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridCellSelectionExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           NavigationMode=""DataGridNavigationMode.Cell""
