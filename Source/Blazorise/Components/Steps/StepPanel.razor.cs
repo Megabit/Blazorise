@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -12,7 +13,12 @@ namespace Blazorise;
 /// </summary>
 public partial class StepPanel : BaseComponent, IDisposable
 {
-    #region Members
+    #region Members    
+    
+    /// <summary>
+    /// Tracks whether the component fulfills the requirements to be lazy loaded and then kept rendered to the DOM.
+    /// </summary>
+    private bool lazyLoaded;
 
     private StepsState parentStepsState;
 
@@ -30,6 +36,14 @@ public partial class StepPanel : BaseComponent, IDisposable
         ParentStepsContent?.NotifyStepPanelInitialized( Name );
 
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnParametersSetAsync()
+    {
+        if ( Active )
+            lazyLoaded = ( RenderMode == StepsRenderMode.LazyLoad );
+        return base.OnParametersSetAsync();
     }
 
     /// <inheritdoc/>
@@ -62,6 +76,11 @@ public partial class StepPanel : BaseComponent, IDisposable
     /// True if the step panel is currently selected.
     /// </summary>
     protected bool Active => ParentStepsState?.SelectedStep == Name || ParentStepsContentStore?.SelectedPanel == Name;
+
+    /// <summary>
+    /// Gets the current render mode.
+    /// </summary>
+    protected StepsRenderMode RenderMode => ParentStepsState?.RenderMode ?? ParentStepsState?.RenderMode ?? StepsRenderMode.Default;
 
     /// <summary>
     /// Defines the panel name. Must match the corresponding step name.
