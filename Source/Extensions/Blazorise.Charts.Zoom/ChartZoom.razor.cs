@@ -25,7 +25,7 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
 
     /// <inheritdoc/>
     protected override async Task InitializePlugin()
-        => await JSModule.AddZoom( DotNetObjectRef, ParentChart.ElementId, Options );
+        => await JSModule.Initialize( DotNetObjectRef, ParentChart.ElementId, Options );
 
     /// <inheritdoc/>
     protected override bool UpdatePluginParameters( ParameterView parameters )

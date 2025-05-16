@@ -1,10 +1,10 @@
 import { getChart } from "../Blazorise.Charts/charts.js?v=1.7.6.0";
 
-export function addZoom(dotNetAdapter, canvasId, options) {
+export function initialize(dotNetAdapter, canvasId, pluginOptions) {
     const chart = getChart(canvasId);
 
     if (chart) {
-        if (options) {
+        if (pluginOptions) {
             if (!chart.options.plugins) {
                 chart.options.plugins = [];
             }
@@ -13,17 +13,18 @@ export function addZoom(dotNetAdapter, canvasId, options) {
                 chart.options.transitions = [];
             }
 
-            if (options.zoom) {
-                options.zoom.onZoom = ({ chart }) => {
+            if (pluginOptions.zoom) {
+                pluginOptions.zoom.onZoom = ({ chart }) => {
                     if (dotNetAdapter) {
                         invokeDotNetMethodAsync(dotNetAdapter, "NotifyZoomLevel", chart.getZoomLevel());
                     }
                 };
             }
-            chart.options.plugins.zoom = options;
 
-            if (options.transition) {
-                chart.options.transitions.zoom = options.transition;
+            chart.options.plugins.zoom = pluginOptions;
+
+            if (pluginOptions.transition) {
+                chart.options.transitions.zoom = pluginOptions.transition;
             }
         }
 

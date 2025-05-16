@@ -19,9 +19,9 @@ public class JSChartZoomModule : BaseJSModule
     {
     }
 
-    public virtual async ValueTask AddZoom<TItem>( DotNetObjectReference<ChartZoomAdapter<TItem>> dotNetObjectReference, string canvasId, ChartZoomPluginOptions options )
+    public virtual async ValueTask Initialize<TItem>( DotNetObjectReference<ChartZoomAdapter<TItem>> dotNetObjectReference, string canvasId, ChartZoomPluginOptions options )
     {
-        await InvokeSafeVoidAsync( "addZoom", dotNetObjectReference, canvasId, options );
+        await InvokeSafeVoidAsync( "initialize", dotNetObjectReference, canvasId, options );
     }
 
     public virtual async ValueTask ResetZoomLevel( string canvasId )
