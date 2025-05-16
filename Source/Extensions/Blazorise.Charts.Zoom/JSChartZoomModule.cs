@@ -19,11 +19,39 @@ public class JSChartZoomModule : BaseJSModule
     {
     }
 
-    public virtual async ValueTask AddZoom( string canvasId, ChartZoomPluginOptions options )
+    public virtual async ValueTask AddZoom<TItem>( DotNetObjectReference<ChartZoomAdapter<TItem>> dotNetObjectReference, string canvasId, ChartZoomPluginOptions options )
     {
-        var moduleInstance = await Module;
+        await InvokeSafeVoidAsync( "addZoom", dotNetObjectReference, canvasId, options );
+    }
 
-        await moduleInstance.InvokeVoidAsync( "addZoom", canvasId, options );
+    public virtual async ValueTask ResetZoomLevel( string canvasId )
+    {
+        await InvokeSafeVoidAsync( "resetZoomLevel", canvasId );
+    }
+
+    public virtual async ValueTask<double> GetZoomLevel( string canvasId )
+    {
+        return await InvokeSafeAsync<double>( "getZoomLevel", canvasId );
+    }
+
+    public virtual async ValueTask SetZoomLevel( string canvasId, double zoomLevel )
+    {
+        await InvokeSafeVoidAsync( "setZoomLevel", canvasId, zoomLevel );
+    }
+
+    public virtual async ValueTask SetZoomLevel( string canvasId, double zoomLevelX, double zoomLevelY )
+    {
+        await InvokeSafeVoidAsync( "setZoomLevel", canvasId, new { x = zoomLevelX, y = zoomLevelY } );
+    }
+
+    public virtual async ValueTask<bool> IsZoomingOrPanning( string canvasId )
+    {
+        return await InvokeSafeAsync<bool>( "isZoomingOrPanning", canvasId );
+    }
+
+    public virtual async ValueTask<bool> IsZoomedOrPanned( string canvasId )
+    {
+        return await InvokeSafeAsync<bool>( "isZoomedOrPanned", canvasId );
     }
 
     /// <inheritdoc/>
