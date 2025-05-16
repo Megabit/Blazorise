@@ -230,4 +230,16 @@
     We have introduced a new new <Code>Flex.Basis</Code> utiities that will help more easily set the flex-basis property in your app without the need to write custom CSS. The new utilities are <Code>Flex.Basis.Auto</Code>, <Code>Flex.Basis.Full</Code>, and <Code>Flex.Basis.Is0</Code>.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    Chart Zoom Plugin
+</Heading>
+
+<Paragraph>
+    We have introduced new set of APIs for the <Code>ChartZoom</Code> plugin. The new API are <Code>Zoomed</Code>, <Code>SetZoomLevel</Code>, and <Code>GetZoomLevel</Code>, and <Code>ResetZoomLevel</Code>. These new APIs provide a more intuitive and flexible way to manage zoom levels in your charts. The <Code>Zoomed</Code> event is triggered when the chart is zoomed, allowing you to respond to zoom changes in real-time. The <Code>SetZoomLevel</Code> method allows you to programmatically set the zoom level of the chart, while the <Code>GetZoomLevel</Code> method allows you to retrieve the current zoom level. Finally, the <Code>ResetZoomLevel</Code> method allows you to reset the zoom level of the chart to its original state.
+</Paragraph>
+
+<Paragraph>
+    The <Code>ChartZoom</Code> plugin has been updated to support the latest <Code>chartjs-plugin-zoom.js</Code> version. It is recommended to update your references to use new <Code>https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js</Code> to ensure compatibility with the latest features and bug fixes.
+</Paragraph>
+
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />
