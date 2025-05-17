@@ -14,7 +14,7 @@ namespace Blazorise;
 public partial class StepPanel : BaseComponent, IDisposable
 {
     #region Members    
-    
+
     /// <summary>
     /// Tracks whether the component fulfills the requirements to be lazy loaded and then kept rendered to the DOM.
     /// </summary>
@@ -43,6 +43,7 @@ public partial class StepPanel : BaseComponent, IDisposable
     {
         if ( Active )
             lazyLoaded = ( RenderMode == StepsRenderMode.LazyLoad );
+
         return base.OnParametersSetAsync();
     }
 

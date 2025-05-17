@@ -47,7 +47,6 @@ public class StepsTests : BlazorisePageTest
         await DoNotExpectActiveStepContentClass( panels[0] );
         await DoNotExpectActiveStepContentClass( panels[1] );
         await ExpectActiveStepContentClass( panels[2] );
-
     }
 
     private async Task ExpectActiveStepClass( ILocator locator )
@@ -69,5 +68,4 @@ public class StepsTests : BlazorisePageTest
     {
         await Expect( locator ).Not.ToHaveClassAsync( expected: new Regex( "step-panel active" ) );
     }
-
 }

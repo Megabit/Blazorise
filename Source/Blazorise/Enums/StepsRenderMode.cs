@@ -1,7 +1,7 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// Defines the Steps Mode.
+/// Defines the rendering mode of the <see cref="Steps"/> component.
 /// </summary>
 public enum StepsRenderMode
 {
