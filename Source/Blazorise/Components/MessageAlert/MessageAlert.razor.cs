@@ -128,8 +128,8 @@ public partial class MessageAlert : BaseComponent, IDisposable
     /// <param name="eventArgs">Provides the data for the modal closing event.</param>
     protected virtual Task OnModalClosing( ModalClosingEventArgs eventArgs )
     {
-        eventArgs.Cancel = BackgroundCancel && ( eventArgs.CloseReason == CloseReason.EscapeClosing
-                                                 || eventArgs.CloseReason == CloseReason.FocusLostClosing );
+        eventArgs.Cancel = ( Options?.BackgroundCancel ?? BackgroundCancel )
+            && ( eventArgs.CloseReason == CloseReason.EscapeClosing || eventArgs.CloseReason == CloseReason.FocusLostClosing );
 
         return Task.CompletedTask;
     }

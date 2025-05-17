@@ -21,6 +21,7 @@
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
 		<PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+		<PackageReference Include="Bogus" Version="35.6.3" />
 	</ItemGroup>
 	
 </Project>
