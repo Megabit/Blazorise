@@ -1830,7 +1830,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in EditableColumns )
         {
             var cellValue = column.GetValue( editItem );
-            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue ) );
+            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue, EditState ) );
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
