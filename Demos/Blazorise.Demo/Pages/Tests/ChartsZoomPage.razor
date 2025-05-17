@@ -1,5 +1,16 @@
 ﻿@page "/tests/charts/zoom"
 <Row>
+    <Column>
+        <Button Color="Color.Primary" Clicked="@OnResetZoomLevelClicked">
+            Reset Zoom
+        </Button>
+        <Button Color="Color.Primary" Clicked="@OnSetZoomLevelClicked">
+            Zoom x2
+        </Button>
+    </Column>
+</Row>
+
+<Row>
     <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
@@ -7,7 +18,7 @@
             </CardHeader>
             <CardBody>
                 <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions">
-                    <ChartZoom TItem="double" Options="@lineChartZoomOptions" />
+                    <ChartZoom @ref="@lineChartZoom" TItem="double" Options="@lineChartZoomOptions" Zoomed="@OnZoomed" />
                 </LineChart>
             </CardBody>
         </Card>
@@ -20,7 +31,7 @@
             <CardBody>
                 <BarChart @ref="barChart" TItem="double" Options="@barChartOptions">
                     <ChartDataLabels TItem="double" Datasets="@barDataLabelsDatasets" Options="@barDataLabelsOptions" />
-                    <ChartZoom TItem="double" Options="@barChartZoomOptions" />
+                    <ChartZoom @ref="@barChartZoom" TItem="double" Options="@barChartZoomOptions" />
                 </BarChart>
             </CardBody>
         </Card>

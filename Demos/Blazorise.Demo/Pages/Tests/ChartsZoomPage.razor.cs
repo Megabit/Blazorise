@@ -14,6 +14,9 @@ public partial class ChartsZoomPage
     private LineChart<double> lineChart;
     private BarChart<double> barChart;
 
+    private ChartZoom<double> lineChartZoom;
+    private ChartZoom<double> barChartZoom;
+
     #region Line
 
     LineChartOptions lineChartOptions = new()
@@ -273,5 +276,22 @@ public partial class ChartsZoomPage
     List<double> RandomizeData( int min, int max )
     {
         return Enumerable.Range( 0, 6 ).Select( x => random.Next( min, max ) * random.NextDouble() ).ToList();
+    }
+
+    async Task OnResetZoomLevelClicked()
+    {
+        await lineChartZoom.ResetZoomLevel();
+    }
+
+    async Task OnSetZoomLevelClicked()
+    {
+        await lineChartZoom.SetZoomLevel( 2 );
+    }
+
+    Task OnZoomed( double zoomLevel )
+    {
+        Console.WriteLine( $"Zoomed to {zoomLevel}" );
+
+        return Task.CompletedTask;
     }
 }
