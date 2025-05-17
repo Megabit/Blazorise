@@ -3970,7 +3970,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string LazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""step1"">
+        public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""step1"">
     <Items>
         <Step Name=""step1"">Step 1</Step>
         <Step Name=""step2"">Step 2</Step>
@@ -3987,7 +3987,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </Content>
 </Steps>";
 
-        public const string LazyReloadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyReload"" SelectedStep=""step1"">
+        public const string StepLazyReloadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyReload"" SelectedStep=""step1"">
     <Items>
         <Step Name=""step1"">Step 1</Step>
         <Step Name=""step2"">Step 2</Step>
