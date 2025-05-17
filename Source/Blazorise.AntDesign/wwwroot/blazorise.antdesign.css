@@ -3514,6 +3514,12 @@ li.ant-list-item-actionable {
 .ant-table-link tbody + tbody {
   border-color: #94b6ed;
 }
+.ant-table .ant-table-caption-top {
+  caption-side: top;
+}
+.ant-table .ant-table-caption-bottom {
+  caption-side: bottom;
+}
 
 .ant-table-striped tbody tr:nth-of-type(odd) {
   background-color: #fbfbfb;

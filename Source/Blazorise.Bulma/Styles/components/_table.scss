@@ -12,6 +12,16 @@
             font-weight: 700;
         }
     }
+
+    .table-caption {
+        &-top {
+            caption-side: top;
+        }
+
+        &-bottom {
+            caption-side: bottom;
+        }
+    }
 }
 
 tr {

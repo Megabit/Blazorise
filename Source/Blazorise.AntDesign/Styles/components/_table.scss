@@ -45,6 +45,16 @@
             }
         }
     }
+
+    .ant-table-caption {
+        &-top {
+            caption-side: top;
+        }
+
+        &-bottom {
+            caption-side: bottom;
+        }
+    }
 }
 
 .ant-table-striped {

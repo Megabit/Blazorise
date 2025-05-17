@@ -1134,6 +1134,10 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "ant-table-mobile" : null;
 
+    public override string TableCaption() => "ant-table-caption";
+
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"ant-table-caption-{ToTableCaptionSide( side )}" : null;
+
     #endregion
 
     #region Badge

@@ -234,4 +234,19 @@
     <DocsPageSectionSource Code="TableGroupingExample" />
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Table),typeof(TableRowGroup), typeof(TableRowCell)]" />
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Caption">
+        <Paragraph>
+            The <Code>TableCaption</Code> component is used to provide a caption or title for the table. It is typically placed at the top of the table and can be styled to match the overall design of the table.
+        </Paragraph>
+        <Paragraph>
+            The <Code>TableCaption</Code> component is a child of the <Code>Table</Code> component and should be placed before the <Code>TableHeader</Code> and <Code>TableBody</Code> components.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableCaptionExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableCaptionExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(Table), typeof(TableBody), typeof(TableCaption), typeof(TableRow), typeof(TableRowCell), typeof(TableRowGroup), typeof(TableRowHeader), typeof(TableHeader), typeof(TableHeaderCell), typeof(TableFooter)]" />

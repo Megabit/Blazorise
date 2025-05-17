@@ -203,6 +203,16 @@
             }
         }
     }
+
+    .fui-TableCaption {
+        &-top {
+            caption-side: top;
+        }
+
+        &-bottom {
+            caption-side: bottom;
+        }
+    }
 }
 
 

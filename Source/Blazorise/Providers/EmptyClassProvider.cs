@@ -1023,6 +1023,10 @@ class EmptyClassProvider : IClassProvider
 
     public string TableResponsiveMode( TableResponsiveMode responsiveMode ) => null;
 
+    public string TableCaption() => null;
+
+    public string TableCaptionSide( TableCaptionSide side ) => null;
+
     #endregion
 
     #region Badge
@@ -1430,6 +1434,8 @@ class EmptyClassProvider : IClassProvider
     public string ToObjectFitType( ObjectFitType objectFitType ) => null;
 
     public string ToSkeletonAnimation( SkeletonAnimation animation ) => null;
+
+    public string ToTableCaptionSide( TableCaptionSide side ) => null;
 
     #endregion
 

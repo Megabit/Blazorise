@@ -10,6 +10,16 @@
             font-weight: 700;
         }
     }
+
+    .table-caption {
+        &-top {
+            caption-side: top;
+        }
+
+        &-bottom {
+            caption-side: bottom;
+        }
+    }
 }
 
 tr {
@@ -97,12 +107,10 @@ td:focus {
         [data-caption]:before {
             content: attr(data-caption);
         }
-
         /* Force table to not be like tables anymore */
         thead, tbody, th, td, tr {
             display: block;
         }
-
         /* Hide table headers (but not display: none;, for accessibility) */
         thead tr {
             position: absolute;

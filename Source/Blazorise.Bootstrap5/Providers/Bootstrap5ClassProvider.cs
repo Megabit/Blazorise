@@ -1158,6 +1158,10 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "table-mobile" : null;
 
+    public override string TableCaption() => "table-caption";
+
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"table-caption-{ToTableCaptionSide( side )}" : null;
+
     #endregion
 
     #region Badge

@@ -1018,6 +1018,10 @@ public interface IClassProvider
 
     string TableResponsiveMode( TableResponsiveMode responsiveMode );
 
+    string TableCaption();
+
+    string TableCaptionSide( TableCaptionSide side );
+
     #endregion
 
     #region Badge
@@ -1430,6 +1434,8 @@ public interface IClassProvider
     string ToObjectFitType( ObjectFitType objectFitType );
 
     string ToSkeletonAnimation( SkeletonAnimation animation );
+
+    string ToTableCaptionSide( TableCaptionSide side );
 
     #endregion
 

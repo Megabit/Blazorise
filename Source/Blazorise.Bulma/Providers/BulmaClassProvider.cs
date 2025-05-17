@@ -1167,6 +1167,10 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "is-table-mobile" : null;
 
+    public override string TableCaption() => "table-caption";
+
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"table-caption-{ToTableCaptionSide( side )}" : null;
+
     #endregion
 
     #region Badge
