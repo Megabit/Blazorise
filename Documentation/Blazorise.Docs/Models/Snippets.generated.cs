@@ -3970,6 +3970,41 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""step1"">
+    <Items>
+        <Step Name=""step1"">Step 1</Step>
+        <Step Name=""step2"">Step 2</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""step1"">
+            This Steps component is set to <code>LazyLoad</code> mode, meaning each step will only be rendered/loaded the first time it is visited.
+            This is specially useful when you want to delay some heavy or long waited operations for when the step is actually clicked instead.
+            <TextEdit></TextEdit>
+        </StepPanel>
+        <StepPanel Name=""step2"">
+            <TextEdit></TextEdit>
+        </StepPanel>
+    </Content>
+</Steps>";
+
+        public const string StepLazyReloadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyReload"" SelectedStep=""step1"">
+    <Items>
+        <Step Name=""step1"">Step 1</Step>
+        <Step Name=""step2"">Step 2</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""step1"">
+            This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
+            Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, 
+            therefore re-calculated.
+            <TextEdit></TextEdit>
+        </StepPanel>
+        <StepPanel Name=""step2"">
+            <TextEdit></TextEdit>
+        </StepPanel>
+    </Content>
+</Steps>";
+
         public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""selectedStep"" NavigationAllowed=""NavigationAllowed"">
     <Items>
         <Step Name=""1"">Step 1</Step>

@@ -103,4 +103,24 @@
     <DocsPageSectionSource Code="StepNavigationAllowedExample" />
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Steps),typeof(Step), typeof(StepsContent),typeof(StepPanel)]" />
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Lazy Load">
+        You are able to set the <Code>Steps</Code> component to lazy load your steps.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <StepLazyLoadStepExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StepLazyLoadStepExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Lazy Reload">
+        You are able to set the <Code>Steps</Code> component to lazy load your steps everytime.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <StepLazyReloadStepExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StepLazyReloadStepExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(Steps), typeof(Step), typeof(StepsContent), typeof(StepPanel)]" />

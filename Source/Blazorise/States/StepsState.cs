@@ -9,4 +9,9 @@ public record StepsState
     /// Gets the name of the selected step item.
     /// </summary>
     public string SelectedStep { get; init; }
+
+    /// <summary>
+    /// Gets or sets the steps rendering mode.
+    /// </summary>
+    public StepsRenderMode RenderMode { get; init; }
 }
