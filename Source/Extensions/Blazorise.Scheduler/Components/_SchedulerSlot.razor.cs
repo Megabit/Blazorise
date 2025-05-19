@@ -36,6 +36,10 @@ public partial class _SchedulerSlot<TItem>
         Background = Background.Info,
     };
 
+    private bool isThrottled = false;
+
+    private readonly TimeSpan throttleInterval = TimeSpan.FromMilliseconds( 150 );
+
     #endregion
 
     #region Methods
@@ -75,9 +79,25 @@ public partial class _SchedulerSlot<TItem>
     /// Handles the mouse move event of the slot.
     /// </summary>
     /// <param name="eventArgs">The mouse event arguments.</param>
-    protected Task OnSlotMouseMove( MouseEventArgs eventArgs )
+    protected async Task OnSlotMouseMove( MouseEventArgs eventArgs )
     {
-        return Scheduler.NotifySlotMouseMove( eventArgs, Section, SlotStart, SlotEnd );
+        if ( isThrottled )
+            return;
+
+        isThrottled = true;
+
+        try
+        {
+            await Scheduler.NotifySlotMouseMove( eventArgs, Section, SlotStart, SlotEnd );
+        }
+        finally
+        {
+            _ = Task.Run( async () =>
+            {
+                await Task.Delay( throttleInterval );
+                isThrottled = false;
+            } );
+        }
     }
 
     /// <summary>
