@@ -195,6 +195,62 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder OnMouseEnter<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "onmouseenter", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseLeave<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "onmouseleave", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseDown<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "onmousedown", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseMove<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "onmousemove", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseUp<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "onmouseup", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragEnter<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "ondragenter", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragLeave<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "ondragleave", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDrop<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "ondrop", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder Content( this RenderTreeBuilder builder, RenderFragment fragment, [CallerLineNumber] int line = 0 )
     {
         builder.AddContent( GetSequence( line ), fragment );
