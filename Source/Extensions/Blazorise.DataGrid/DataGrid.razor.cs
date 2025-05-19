@@ -4014,5 +4014,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </remarks>
     [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
 
+    /// <summary>
+    /// Defines the caption of the table, usually used to describe the table content.
+    /// </summary>
+    [Parameter] public string Caption { get; set; }
+
+    /// <summary>
+    /// Defines the placement of the <see cref="Caption"/> element.
+    /// </summary>
+    [Parameter] public TableCaptionSide CaptionSide { get; set; }
+
     #endregion
 }

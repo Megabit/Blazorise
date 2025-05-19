@@ -1715,6 +1715,10 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "b-table-mobile" : null;
 
+    public override string TableCaption() => "b-table-caption";
+
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"caption-{ToTableCaptionSide( side )}" : null;
+
     #endregion
 
     #region Badge

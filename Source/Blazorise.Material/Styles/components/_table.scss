@@ -1,4 +1,16 @@
-﻿table.table tbody tr.selected {
+﻿table.table {
+    .table-caption {
+        &-top {
+            caption-side: top;
+        }
+
+        &-bottom {
+            caption-side: bottom;
+        }
+    }
+}
+
+table.table tbody tr.selected {
     background-color: var(--primary);
 }
 
