@@ -181,6 +181,41 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder Attribute( this RenderTreeBuilder builder, string name, MulticastDelegate value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), name, value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder Attribute( this RenderTreeBuilder builder, string name, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), name, value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder Attribute( this RenderTreeBuilder builder, string name, string value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), name, value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder Attribute( this RenderTreeBuilder builder, string name, EventCallback value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), name, value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder Attribute<TArgument>( this RenderTreeBuilder builder, string name, EventCallback<TArgument> value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), name, value );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder OnClick<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
     {
         builder.AddAttribute( GetSequence( line ), "onclick", EventCallback.Factory.Create<T>( receiver, callback ) );
