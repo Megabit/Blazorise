@@ -21,7 +21,7 @@
             <_DataGridColumnDropZone TItem="TItem" Columns="@groupableColumns" ColumnRemoved="@RemoveGroupColumn" ColumnAdded="@AddGroupColumn" />
         }
         <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedColumns="@FixedColumns" FixedColumnsPositionSync="@FixedColumnsPositionSync" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" ResponsiveMode="@ResponsiveMode" @attributes="@Attributes">
-            @if ( Caption is not null )
+            @if ( !string.IsNullOrEmpty( Caption ) )
             {
                 <TableCaption Side="@CaptionSide">
                     @Caption
