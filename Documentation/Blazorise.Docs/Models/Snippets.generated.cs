@@ -3970,6 +3970,41 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""step1"">
+    <Items>
+        <Step Name=""step1"">Step 1</Step>
+        <Step Name=""step2"">Step 2</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""step1"">
+            This Steps component is set to <code>LazyLoad</code> mode, meaning each step will only be rendered/loaded the first time it is visited.
+            This is specially useful when you want to delay some heavy or long waited operations for when the step is actually clicked instead.
+            <TextEdit></TextEdit>
+        </StepPanel>
+        <StepPanel Name=""step2"">
+            <TextEdit></TextEdit>
+        </StepPanel>
+    </Content>
+</Steps>";
+
+        public const string StepLazyReloadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyReload"" SelectedStep=""step1"">
+    <Items>
+        <Step Name=""step1"">Step 1</Step>
+        <Step Name=""step2"">Step 2</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""step1"">
+            This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
+            Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, 
+            therefore re-calculated.
+            <TextEdit></TextEdit>
+        </StepPanel>
+        <StepPanel Name=""step2"">
+            <TextEdit></TextEdit>
+        </StepPanel>
+    </Content>
+</Steps>";
+
         public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""selectedStep"" NavigationAllowed=""NavigationAllowed"">
     <Items>
         <Step Name=""1"">Step 1</Step>
@@ -4136,6 +4171,40 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Table>";
 
         public const string TableBorderlessExample = @"<Table Borderless>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader>1</TableRowHeader>
+            <TableRowCell>Mark</TableRowCell>
+            <TableRowCell>Otto</TableRowCell>
+            <TableRowCell>@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>2</TableRowHeader>
+            <TableRowCell>Jacob</TableRowCell>
+            <TableRowCell>Thornton</TableRowCell>
+            <TableRowCell>@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader>3</TableRowHeader>
+            <TableRowCell>Larry</TableRowCell>
+            <TableRowCell>the Bird</TableRowCell>
+            <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string TableCaptionExample = @"<Table>
+    <TableCaption Side=""TableCaptionSide.Top"">
+        A table with a caption, for better accessibility.
+    </TableCaption>
     <TableHeader>
         <TableRow>
             <TableHeaderCell>#</TableHeaderCell>
@@ -7379,6 +7448,26 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridCaptionExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive Caption=""This is a caption for the DataGrid."">
+    <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" />
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" />
+    <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" />
+</DataGrid>
+
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;

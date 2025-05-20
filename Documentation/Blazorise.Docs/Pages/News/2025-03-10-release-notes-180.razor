@@ -111,6 +111,14 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Table Caption
+</Heading>
+
+<Paragraph>
+    The <Code>Table</Code> component now has a <Code>TableCaption</Code> child component, allowing you to add a caption to the table. This caption can be used to provide additional context or information about the data being displayed in the table. The <Code>caption</Code> element is usually used for accesibility purposes, and it is recommended to use it when the table contains a lot of data or when the table is complex.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     DataGrid: Programmatic Addition of Items to Batch Edit Collection
 </Heading>
 
@@ -132,6 +140,14 @@
 
 <Paragraph>
     The <Code>EditTemplate</Code> of <Code>DataGridColumn</Code> component now includes an <Code>EditState</Code> argument. This addition will allow to determine the current edit state of the row, enabling developers to customize the edit template based on whether the row is in edit mode or not. This can be useful for displaying different UI elements or providing additional functionality based on the edit state.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Add Caption to DataGrid
+</Heading>
+
+<Paragraph>
+    The <Code>DataGrid</Code> component now supports a <Code>Caption</Code> property, allowing you to add a caption to the grid. This caption can be used to provide additional context or information about the data being displayed in the grid.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -236,6 +252,26 @@
 
 <Paragraph>
     We have introduced a new new <Code>Flex.Basis</Code> utiities that will help more easily set the flex-basis property in your app without the need to write custom CSS. The new utilities are <Code>Flex.Basis.Auto</Code>, <Code>Flex.Basis.Full</Code>, and <Code>Flex.Basis.Is0</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Contribution from Community
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Steps Lazy Loading
+</Heading>
+
+<Paragraph>
+    The <Code>Steps</Code> component now supports lazy loading, and is working simillar to our <Anchor To="docs/components/tab" Title="Link to Tabs">Tabs</Anchor> component. This means that the content of each step is only loaded when the step is activated, which can improve performance and reduce initial load times for applications with many steps or complex content.
+</Paragraph>
+
+<Paragraph>
+    This feature was contributed by <Anchor To="https://github.com/brhinescot>" Title="Link to brhinescot">brhinescot</Anchor>, and we appreciate their contribution to the Blazorise community.
+</Paragraph>
+
+<Paragraph>
+    You can see it in action in the <Anchor To="docs/components/step" Title="Link to Steps">Steps documentation</Anchor>.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />

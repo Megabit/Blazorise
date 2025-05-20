@@ -2154,6 +2154,12 @@ table.table tbody tr.table-group {
   background-color: var(--b-theme-light, var(--light, #f5f5f5));
   font-weight: 700;
 }
+table.table .table-caption-top {
+  caption-side: top;
+}
+table.table .table-caption-bottom {
+  caption-side: bottom;
+}
 
 tr.table-row-selectable:hover {
   cursor: pointer;

@@ -6983,6 +6983,12 @@ input::file-selector-button {
 .fui-Table.fui-Table-borderless .fui-TableBody .fui-TableRow {
   border: 0;
 }
+.fui-Table .fui-TableCaption-top {
+  caption-side: top;
+}
+.fui-Table .fui-TableCaption-bottom {
+  caption-side: bottom;
+}
 
 @media (max-width: 599.98px) {
   .fui-Table-responsive-sm {
