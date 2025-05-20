@@ -14,8 +14,8 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
 {
     #region Members
 
-    private (DateTime, DateTime)? selectionSlot1;
-    private (DateTime, DateTime)? selectionSlot2;
+    private (DateTime, DateTime) selectionSlot1;
+    private (DateTime, DateTime) selectionSlot2;
 
     #endregion
 
@@ -43,7 +43,7 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     /// <param name="slotEnd">Indicates the end date for the selection range.</param>
     /// <returns>Returns true if the current selection slots match the specified date range, otherwise false.</returns>
     public bool IsSafeToUpdate( SchedulerSection section, DateTime slotStart, DateTime slotEnd )
-        => Section == section && selectionSlot1 != null && selectionSlot1.Value.Item1.Day == slotStart.Day && selectionSlot2.Value.Item2.Day == slotEnd.Day;
+        => Section == section && selectionSlot1.Item1.Day == slotStart.Day && selectionSlot2.Item2.Day == slotEnd.Day;
 
     /// <summary>
     /// Updates the selection with a new time range defined by two date and time values.
@@ -72,8 +72,8 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     /// <inheritdoc />
     protected override async Task RollbackImpl()
     {
-        selectionSlot1 = null;
-        selectionSlot2 = null;
+        selectionSlot1 = default;
+        selectionSlot2 = default;
 
         await base.RollbackImpl();
     }
@@ -85,19 +85,17 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     /// <summary>
     /// Gets the minimum start time from two selection slots.
     /// </summary>
-    public DateTime Start => selectionSlot1.Value.Item1.Min( selectionSlot2.Value.Item1 );
+    public DateTime Start => selectionSlot1.Item1.Min( selectionSlot2.Item1 );
 
     /// <summary>
     /// Gets the maximum end time from two selection slots.
     /// </summary>
-    public DateTime End => selectionSlot1.Value.Item2.Max( selectionSlot2.Value.Item2 );
+    public DateTime End => selectionSlot1.Item2.Max( selectionSlot2.Item2 );
 
     /// <summary>
     /// Indicates whether the selection spans more than one distinct slot.
     /// </summary>
-    public bool HasSelection =>
-        selectionSlot1.HasValue && selectionSlot2.HasValue &&
-        ( selectionSlot1.Value.Item1 != selectionSlot2.Value.Item1 || selectionSlot1.Value.Item2 != selectionSlot2.Value.Item2 );
+    public bool HasSelection => selectionSlot1.Item1 != selectionSlot2.Item1 || selectionSlot1.Item2 != selectionSlot2.Item2;
 
     #endregion
 }

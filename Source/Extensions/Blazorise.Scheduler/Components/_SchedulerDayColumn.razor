@@ -1,5 +1,6 @@
 ﻿@typeparam TItem
 @using System.Globalization
+@implements IDisposable
 <Div Class="b-scheduler-day" Position="PositionRelative" Flex="FlexGrowIs1BasisIs0" Style="min-width: 0;">
     @{
         @if ( ShowDayHeader )
@@ -39,27 +40,45 @@
 
     protected override void OnInitialized()
     {
-        Scheduler.SelectionChanged += ( start, end ) =>
-        {
-            if ( start != selectingStart || end != selectingEnd )
-            {
-                selectingStart = start;
-                selectingEnd = end;
-
-                if ( selectingStart is not null && selectingEnd is not null && selectingStart.Value.Day == Date.Day && selectingEnd.Value.Day == Date.Day )
-                {
-                    selectingStyle = GetSelectionStyle( selectingStart.Value, selectingEnd.Value );
-                }
-                else
-                {
-                    selectingStyle = null;
-                }
-
-                InvokeAsync( StateHasChanged );
-            }
-        };
+        Scheduler.SelectionChanged += OnSelectionChanged;
+        Scheduler.SelectionCanceled += OnSelectionCanceled;
 
         base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        Scheduler.SelectionChanged -= OnSelectionChanged;
+        Scheduler.SelectionCanceled -= OnSelectionCanceled;
+    }
+
+    void OnSelectionChanged( DateTime start, DateTime end )
+    {
+        if ( selectingStart != start || selectingEnd != end )
+        {
+            selectingStart = start;
+            selectingEnd = end;
+
+            if ( selectingStart is not null && selectingEnd is not null && selectingStart.Value.Day == Date.Day && selectingEnd.Value.Day == Date.Day )
+            {
+                selectingStyle = GetSelectionStyle( selectingStart.Value, selectingEnd.Value );
+            }
+            else
+            {
+                selectingStyle = null;
+            }
+
+            InvokeAsync( StateHasChanged );
+        }
+    }
+
+    void OnSelectionCanceled()
+    {
+        selectingStart = null;
+        selectingEnd = null;
+        selectingStyle = null;
+
+        InvokeAsync( StateHasChanged );
     }
 
     private string GetSelectionStyle( DateTime selectionStartTime, DateTime selectionEndTime )

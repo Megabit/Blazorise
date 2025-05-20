@@ -202,7 +202,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         if ( JSModule is null )
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
-            
+
             JSModule ??= new JSSchedulerModule( JSRuntime, VersionProvider, BlazoriseOptions, () => schedulerDivRef.ElementRef, () => ElementId );
         }
 
@@ -1812,7 +1812,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal Action<DateTime?, DateTime?> SelectionChanged;
+    internal Action<DateTime, DateTime> SelectionChanged;
+
+    internal Action SelectionCanceled;
 
     /// <summary>
     /// Handles mouse down events for slot selection in a scheduler, managing transactions and selection state.
@@ -1830,7 +1832,6 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         if ( currentSelectingTransaction is not null )
         {
             await currentSelectingTransaction.Rollback();
-            SelectionChanged?.Invoke( null, null );
             currentSelectingTransaction = null;
         }
 
@@ -1904,7 +1905,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 await JSModule.SelectionEnded();
 
                 currentSelectingTransaction = null;
-                SelectionChanged?.Invoke( null, null );
+                SelectionCanceled?.Invoke();
             }
         }
     }
@@ -1923,7 +1924,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             await currentSelectingTransaction.Rollback();
             currentSelectingTransaction = null;
 
-            SelectionChanged?.Invoke( null, null );
+            SelectionCanceled?.Invoke();
         }
     }
 
