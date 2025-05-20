@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -161,7 +162,7 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
     /// <summary>
     /// Called while the chart is being zoomed.
     /// </summary>
-    [Parameter] public EventCallback<double> Zoomed { get; set; }
+    [Parameter] public Func<double, string, Task> Zoomed { get; set; }
 
     #endregion
 }

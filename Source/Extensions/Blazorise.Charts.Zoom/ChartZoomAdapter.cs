@@ -38,11 +38,15 @@ public class ChartZoomAdapter<TItem>
     /// Notifies the system of a change in the zoom level.
     /// </summary>
     /// <param name="zoomLevel">The new zoom level, represented as a double. Must be a positive value.</param>
+    /// <param name="trigger">Indicates the event that triggered the zoom level change.</param>
     /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
     [JSInvokable]
-    public async ValueTask NotifyZoomLevel( double zoomLevel )
+    public async ValueTask NotifyZoomLevel( double zoomLevel, string trigger )
     {
-        await chartZoom.Zoomed.InvokeAsync( zoomLevel );
+        if ( chartZoom == null )
+            return;
+
+        await chartZoom.Zoomed.Invoke( zoomLevel, trigger );
     }
 
     #endregion

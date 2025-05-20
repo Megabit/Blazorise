@@ -288,9 +288,9 @@ public partial class ChartsZoomPage
         await lineChartZoom.SetZoomLevel( 2 );
     }
 
-    Task OnZoomed( double zoomLevel )
+    Task OnZoomed( double zoomLevel, string trigger )
     {
-        Console.WriteLine( $"Zoomed to {zoomLevel}" );
+        Console.WriteLine( $"Zoomed to {zoomLevel}; Triger: {trigger};" );
 
         return Task.CompletedTask;
     }
