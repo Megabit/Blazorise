@@ -24,7 +24,7 @@
         {
             var tempTime = new TimeOnly( time.Ticks );
 
-            <_SchedulerDayCell TItem="TItem" @key="@tempTime" Date="@Date" Time="@tempTime" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" Section="@Section" />
+            <_SchedulerDayCell @key="@tempTime" TItem="TItem" Date="@Date" Time="@tempTime" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" Section="@Section" />
         }
 
         @if ( selectingStyle is not null )

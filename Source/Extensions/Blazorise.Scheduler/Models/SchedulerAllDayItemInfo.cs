@@ -23,6 +23,7 @@ public class SchedulerAllDayItemInfo<TItem>
     /// <param name="overflowingOnEnd">Indicates whether the item overflows at the end time.</param>
     public SchedulerAllDayItemInfo( TItem item, DateTime start, DateTime end, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd )
     {
+        Key = Guid.NewGuid().ToString( "N" );
         Item = item;
         Start = start;
         End = end;
@@ -92,6 +93,11 @@ public class SchedulerAllDayItemInfo<TItem>
         RecurrenceRule = recurrenceRule;
         IsRecurring = isRecurring;
     }
+
+    /// <summary>
+    /// Gets the unique identifier associated with this instance.
+    /// </summary>
+    public string Key { get; }
 
     /// <summary>
     /// Represents an item of type TItem. It can be accessed and modified through its getter and setter.

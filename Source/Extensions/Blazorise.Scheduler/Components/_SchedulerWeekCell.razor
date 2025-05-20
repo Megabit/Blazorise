@@ -11,7 +11,7 @@
                 var title = Scheduler.GetItemTitle( viewItem.Item );
                 var startTime = Scheduler.GetItemStartTime( viewItem.Item );
 
-                <Div Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
+                <Div @key="@viewItem.Key" Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
                     @if ( itemTemplate is not null )
                     {
                         @itemTemplate( new SchedulerItemContext<TItem>( viewItem.Item, viewItem.IsRecurring ) )

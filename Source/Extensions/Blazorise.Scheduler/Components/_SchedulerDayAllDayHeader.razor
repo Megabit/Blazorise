@@ -14,7 +14,7 @@
                 var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( AllDayItems, itemInfo );
                 var top = height * numberOfPreviousItems;
 
-                <Div Flex="FlexDefault" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )" @onclick:stopPropagation>
+                <Div @key="@itemInfo.Key" Flex="FlexDefault" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )" @onclick:stopPropagation>
                     <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" IsRecurring="@itemInfo.IsRecurring" Clicked="@OnItemClicked" Section="@Section" />
                 </Div>
             }

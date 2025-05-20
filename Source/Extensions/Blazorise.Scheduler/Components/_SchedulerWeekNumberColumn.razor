@@ -11,7 +11,7 @@
     {
         var weekNumber = dateInWeek.GetWeekNumber( FirstDayOfWeek );
 
-        <Div Class="b-scheduler-weeknumber-cell" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="BorderIs1OnBottom">
+        <Div @key="@dateInWeek" Class="b-scheduler-weeknumber-cell" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="BorderIs1OnBottom">
             <Div Class="b-scheduler-weeknumber-cell-inner" TextWeight="TextWeight.SemiBold" Padding="PaddingIs3OnXIs1FromTop">
                 @weekNumber
             </Div>
