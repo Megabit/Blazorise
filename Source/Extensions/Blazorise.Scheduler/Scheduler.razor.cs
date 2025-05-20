@@ -202,8 +202,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         if ( JSModule is null )
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
-
-            JSModule = new JSSchedulerModule( JSRuntime, VersionProvider, BlazoriseOptions, () => schedulerDivRef.ElementRef, () => ElementId );
+            
+            JSModule ??= new JSSchedulerModule( JSRuntime, VersionProvider, BlazoriseOptions, () => schedulerDivRef.ElementRef, () => ElementId );
         }
 
         base.OnInitialized();
