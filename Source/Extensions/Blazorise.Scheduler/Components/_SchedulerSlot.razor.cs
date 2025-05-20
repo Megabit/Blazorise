@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -30,13 +31,19 @@ public class _SchedulerSlot<TItem> : ComponentBase
     /// </summary>
     private bool draggingOver;
 
-    private bool isThrottled = false;
-
-    private readonly TimeSpan throttleInterval = TimeSpan.FromMilliseconds( 150 );
+    private ThrottleDispatcher mouseMoveThrottleDispatcher;
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        mouseMoveThrottleDispatcher = new ThrottleDispatcher( 150 );
+
+        base.OnInitialized();
+    }
 
     /// <summary>
     /// Handles the mouse enter event and sets the hover flag.
@@ -75,23 +82,10 @@ public class _SchedulerSlot<TItem> : ComponentBase
     /// <param name="eventArgs">The mouse event arguments.</param>
     protected async Task OnSlotMouseMove( MouseEventArgs eventArgs )
     {
-        if ( isThrottled )
-            return;
-
-        isThrottled = true;
-
-        try
+        await mouseMoveThrottleDispatcher.ThrottleAsync( async () =>
         {
             await Scheduler.NotifySlotMouseMove( eventArgs, Section, SlotStart, SlotEnd );
-        }
-        finally
-        {
-            _ = Task.Run( async () =>
-            {
-                await Task.Delay( throttleInterval );
-                isThrottled = false;
-            } );
-        }
+        } );
     }
 
     /// <summary>
