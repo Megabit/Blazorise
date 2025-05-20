@@ -84,7 +84,6 @@
     private string GetSelectionStyle( DateTime selectionStartTime, DateTime selectionEndTime )
     {
         var totalMinutes = ( EndTime.Hour * 60 + EndTime.Minute ) - ( StartTime.Hour * 60 + StartTime.Minute );
-        var totalSlots = ( totalMinutes * SlotsPerCell ) / 60.0;
         var slotHeight = HeaderCellHeight / SlotsPerCell;
 
         var startTotalMinutes = ( selectionStartTime.Hour * 60 + selectionStartTime.Minute ) - ( StartTime.Hour * 60 + StartTime.Minute );
