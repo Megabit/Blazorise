@@ -3289,6 +3289,12 @@ table tbody tr.table-group {
   background-color: var(--b-theme-light, var(--bs-light, #f5f5f5));
   font-weight: 700;
 }
+table .table-caption-top {
+  caption-side: top;
+}
+table .table-caption-bottom {
+  caption-side: bottom;
+}
 
 tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
   cursor: pointer;

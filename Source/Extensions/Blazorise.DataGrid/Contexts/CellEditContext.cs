@@ -12,7 +12,7 @@ public class CellEditContext
     protected object cellValue;
 
     /// <summary>
-    /// Gets or sets the editor value.
+    /// Gets or sets the cell edit value.
     /// </summary>
     public object CellValue
     {
@@ -24,7 +24,15 @@ public class CellEditContext
         }
     }
 
+    /// <summary>
+    /// Indicates whether the cell value has been modified.
+    /// </summary>
     public bool Modified { get; private set; }
+
+    /// <summary>
+    /// Indicates the edit state of the cell.
+    /// </summary>
+    public DataGridEditState EditState { get; protected set; }
 }
 
 /// <summary>
@@ -50,12 +58,14 @@ public class CellEditContext<TItem> : CellEditContext
     /// <param name="cellValue">The initial cell value</param>
     /// <param name="setCellValue">Method that will be called when cell is manually updated.</param>
     /// <param name="getCellValue">Method that will be called when cell value is manually read.</param>
-    public CellEditContext( TItem item, object cellValue, Action<string, object> setCellValue, Func<string, object> getCellValue )
+    /// <param name="editState">Editing state.</param>
+    public CellEditContext( TItem item, object cellValue, Action<string, object> setCellValue, Func<string, object> getCellValue, DataGridEditState editState )
     {
-        this.Item = item;
+        Item = item;
         this.cellValue = cellValue;
-        this.SetCellValue = setCellValue;
-        this.GetCellValue = getCellValue;
+        SetCellValue = setCellValue;
+        GetCellValue = getCellValue;
+        EditState = editState;
     }
 
     /// <summary>

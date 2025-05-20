@@ -1798,6 +1798,13 @@ a.link-disabled[aria-disabled=true] {
   transform: translateX(2.3rem);
 }
 
+table.table .table-caption-top {
+  caption-side: top;
+}
+table.table .table-caption-bottom {
+  caption-side: bottom;
+}
+
 table.table tbody tr.selected {
   background-color: var(--primary);
 }
