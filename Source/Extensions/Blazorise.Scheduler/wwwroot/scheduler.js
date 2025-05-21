@@ -31,8 +31,12 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
 
 export function selectionStarted(element, elementId) {
     const instance = _instances[elementId];
-    if (!instance || instance.mouseUpHandler) {
+    if (!instance) {
         return;
+    }
+
+    if (instance.mouseUpHandler) {
+        document.removeEventListener("mouseup", instance.mouseUpHandler);
     }
 
     // Track the initial day column where selection started
