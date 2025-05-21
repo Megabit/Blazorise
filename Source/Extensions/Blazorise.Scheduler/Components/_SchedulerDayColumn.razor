@@ -103,10 +103,6 @@
         return $"pointer-events: none; user-select: none; -webkit-user-drag: none; top: {top.ToString( CultureInfo.InvariantCulture )}px; left: 0; width: 100%; height: {height.ToString( CultureInfo.InvariantCulture )}px;";
     }
 
-    private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
-        ? Blazorise.Background.Light
-        : Blazorise.Background.Default;
-
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     [Parameter] public DateOnly Date { get; set; }
