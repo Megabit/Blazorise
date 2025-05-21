@@ -20,7 +20,7 @@
         {
             var tempTime = new TimeOnly( time.Ticks );
 
-            <Div Class="b-scheduler-hour" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="BorderIs1OnBottom">
+            <Div @key="@tempTime" Class="b-scheduler-hour" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="BorderIs1OnBottom">
                 <_SchedulerHourCell Time="@tempTime" />
             </Div>
         }

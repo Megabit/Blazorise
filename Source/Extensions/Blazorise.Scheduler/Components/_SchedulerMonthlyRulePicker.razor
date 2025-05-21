@@ -32,7 +32,7 @@
                 <Select TValue="SchedulerWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByWeek" SelectedValueChanged="@ByWeekChanged">
                     @foreach ( var enumValue in Enum.GetValues<SchedulerWeek>() )
                     {
-                        <SelectItem Value="@enumValue">
+                        <SelectItem @key="@enumValue" Value="@enumValue">
                             @Localizer.Localize( Scheduler.Localizers?.WeekOfMonthLocalizer, enumValue.ToString() )
                         </SelectItem>
                     }
@@ -44,7 +44,7 @@
                 <Select TValue="DayOfWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByWeekDay" SelectedValueChanged="@ByWeekDayChanged">
                     @foreach ( var enumValue in Enum.GetValues<DayOfWeek>() )
                     {
-                        <SelectItem Value="@enumValue">
+                        <SelectItem @key="@enumValue" Value="@enumValue">
                             @Localizer.Localize( Scheduler.Localizers?.DayOfWeekLocalizer, enumValue.ToString() )
                         </SelectItem>
                     }
@@ -58,7 +58,7 @@
                     <Select TValue="SchedulerMonth ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByMonth" SelectedValueChanged="@ByMonthChanged">
                         @foreach ( var enumValue in Enum.GetValues<SchedulerMonth>() )
                         {
-                            <SelectItem Value="@enumValue">
+                            <SelectItem @key="@enumValue" Value="@enumValue">
                                 @Localizer.Localize( Scheduler.Localizers?.MonthOfYearLocalizer, enumValue.ToString() )
                             </SelectItem>
                         }

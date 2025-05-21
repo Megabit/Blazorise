@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using static Blazorise.Scheduler.Utilities.FluentConstants;
 #endregion
@@ -14,7 +17,7 @@ namespace Blazorise.Scheduler.Components;
 /// Represents a slot in a scheduler that can handle mouse events and manage items within it.
 /// </summary>
 /// <typeparam name="TItem">Represents the type of items that can be scheduled and displayed in the slot.</typeparam>
-public partial class _SchedulerSlot<TItem>
+public class _SchedulerSlot<TItem> : ComponentBase
 {
     #region Members
 
@@ -28,23 +31,25 @@ public partial class _SchedulerSlot<TItem>
     /// </summary>
     private bool draggingOver;
 
-    /// <summary>
-    /// Defines a static readonly instance of SchedulerItemStyling with a default background set to Info.
-    /// </summary>
-    private static readonly SchedulerItemStyling DefaultItemStyling = new SchedulerItemStyling
-    {
-        Background = Background.Info,
-    };
+    private ThrottleDispatcher mouseMoveThrottleDispatcher;
 
     #endregion
 
     #region Methods
 
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        mouseMoveThrottleDispatcher = new ThrottleDispatcher( 150 );
+
+        base.OnInitialized();
+    }
+
     /// <summary>
     /// Handles the mouse enter event and sets the hover flag.
     /// </summary>
     /// <param name="eventArgs">The mouse event arguments.</param>
-    protected Task OnMouseEnter( MouseEventArgs eventArgs )
+    protected Task OnSlotMouseEnter( MouseEventArgs eventArgs )
     {
         mouseHovering = true;
 
@@ -55,11 +60,41 @@ public partial class _SchedulerSlot<TItem>
     /// Handles the mouse leave event and clears the hover flag.
     /// </summary>
     /// <param name="eventArgs">The mouse event arguments.</param>
-    protected Task OnMouseLeave( MouseEventArgs eventArgs )
+    protected Task OnSlotMouseLeave( MouseEventArgs eventArgs )
     {
         mouseHovering = false;
 
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the mouse down event of the slot.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
+    protected Task OnSlotMouseDown( MouseEventArgs eventArgs )
+    {
+        return Scheduler.NotifySlotMouseDown( eventArgs, Section, SlotStart, SlotEnd );
+    }
+
+    /// <summary>
+    /// Handles the mouse move event of the slot.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
+    protected async Task OnSlotMouseMove( MouseEventArgs eventArgs )
+    {
+        await mouseMoveThrottleDispatcher.ThrottleAsync( async () =>
+        {
+            await Scheduler.NotifySlotMouseMove( eventArgs, Section, SlotStart, SlotEnd );
+        } );
+    }
+
+    /// <summary>
+    /// Handles the mouse up event of the slot.
+    /// </summary>
+    /// <param name="eventArgs">The mouse event arguments.</param>
+    protected Task OnSlotMouseUp( MouseEventArgs eventArgs )
+    {
+        return Scheduler.NotifySlotMouseUp( eventArgs, Section, SlotStart, SlotEnd );
     }
 
     /// <summary>
@@ -76,14 +111,14 @@ public partial class _SchedulerSlot<TItem>
     /// <summary>
     /// Handles the drag start event for a scheduler item.
     /// </summary>
-    /// <param name="e">The drag event arguments.</param>
+    /// <param name="eventArgs">The drag event arguments.</param>
     /// <param name="viewItem">The item being dragged.</param>
-    protected Task OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
+    protected Task OnItemDragStart( DragEventArgs eventArgs, SchedulerItemViewInfo<TItem> viewItem )
     {
         mouseHovering = false;
         draggingOver = false;
 
-        return Scheduler.StartDrag( viewItem.Item, DragSection );
+        return Scheduler.StartDrag( viewItem.Item, Section );
     }
 
     /// <summary>
@@ -116,7 +151,7 @@ public partial class _SchedulerSlot<TItem>
     {
         draggingOver = false;
 
-        return Scheduler.DropSlotItem( SlotStart, SlotEnd, DragSection );
+        return Scheduler.DropSlotItem( SlotStart, SlotEnd, Section );
     }
 
     /// <summary>
@@ -151,68 +186,95 @@ public partial class _SchedulerSlot<TItem>
         if ( LastSlot || IsDraggingOver )
             return null;
 
-        return "border-bottom-style: dashed !important";
+        return "border-bottom-style: dashed !important;";
     }
 
     /// <summary>
-    /// Returns a string representing the CSS class for a scheduler item. It includes a default class and appends a
-    /// custom class if provided.
+    /// Builds the render tree for the scheduler slot component.
     /// </summary>
-    /// <param name="customClass">Specifies an additional CSS class to be included in the returned string.</param>
-    /// <returns>A string that combines a default class with the custom class if it is not empty.</returns>
-    private string GetItemClass( string customClass )
+    /// <remarks>This method is responsible for rendering the scheduler slot, including its attributes, event
+    /// handlers,  and child content. It dynamically generates the slot's structure and styling based on the provided 
+    /// data and configuration. The slot supports various interactions such as mouse events, drag-and-drop,  and click
+    /// events.</remarks>
+    /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to construct the render tree for the component.</param>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
-        if ( string.IsNullOrEmpty( customClass ) )
-            return "b-scheduler-item";
+        builder.OpenComponent<Div>();
 
+        builder.Attribute( nameof( Div.Class ), "b-scheduler-slot" );
+        builder.Attribute( nameof( Div.Style ), GetSlotStyle() );
+        builder.Attribute( nameof( Div.Position ), PositionRelative );
+        builder.Attribute( nameof( Div.Margin ), MarginIsAuto );
+        builder.Attribute( nameof( Div.Width ), WidthIs100 );
+        builder.Attribute( nameof( Div.Height ), HeightIs100 );
+        builder.Attribute( nameof( Div.Border ), SlotBorderColor );
+        builder.Attribute( nameof( Div.Background ), SlotBackgroundColor );
 
-        return $"b-scheduler-item {customClass}";
-    }
+        builder.Data( "slot-start", DataSlotStart );
+        builder.Data( "slot-end", DataSlotEnd );
 
-    /// <summary>
-    /// Computes the CSS style for a scheduler item within the slot.
-    /// </summary>
-    /// <param name="viewItem">The item to style.</param>
-    /// <param name="index">The index of the item among all items in the slot.</param>
-    /// <param name="totalItems">The total number of items in the slot.</param>
-    /// <param name="customStyles">Any additional custom styles to apply.</param>
-    private string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem, int index, int totalItems, string customStyles )
-    {
-        var viewStart = viewItem.ViewStart;
-        var viewEnd = viewItem.ViewEnd;
-        var viewDuration = viewEnd - viewStart;
-        var top = ( viewStart - SlotStart ).TotalMinutes / 60 * ItemCellHeight;
-        var height = viewDuration.TotalMinutes / 60 * ItemCellHeight;
+        builder.OnMouseEnter( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnSlotMouseEnter ) );
+        builder.OnMouseLeave( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnSlotMouseLeave ) );
 
-        if ( totalItems == 1 )
+        builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnSlotClicked ) );
+
+        if ( Scheduler.Draggable )
         {
-            return $"cursor: pointer; left: 0; right: {5.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;{customStyles}";
+            builder.Attribute( "ondragover", "event.preventDefault();" );
+            builder.OnDragEnter( this, EventCallback.Factory.Create<DragEventArgs>( this, OnSlotDragEnter ) );
+            builder.OnDragLeave( this, EventCallback.Factory.Create<DragEventArgs>( this, OnSlotDragLeave ) );
+            builder.OnDrop( this, EventCallback.Factory.Create<DragEventArgs>( this, OnSlotDrop ) );
         }
 
-        double slotRightGap = 5.0;
-        double itemWidth = ( 100.0 - slotRightGap ) / totalItems;
-        double leftPercentage = index * itemWidth;
+        if ( Scheduler.SlotSelectionMode == SchedulerSlotSelectionMode.Mouse )
+        {
+            if ( Scheduler.IsSelecting )
+            {
+                builder.OnMouseMove( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnSlotMouseMove ) );
+            }
+            else
+            {
+                builder.OnMouseDown( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnSlotMouseDown ) );
+            }
 
-        if ( index == totalItems - 1 )
-        {
-            double rightPercentage = slotRightGap;
-            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;{customStyles}";
+            builder.OnMouseUp( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnSlotMouseUp ) );
         }
-        else
+
+        builder.Attribute( "ChildContent", (RenderFragment)delegate ( RenderTreeBuilder childBuilder )
         {
-            double rightPercentage = 100 - ( ( index + 1 ) * itemWidth );
-            rightPercentage += 1;
-            return $"cursor: pointer; left: {leftPercentage.ToString( CultureInfo.InvariantCulture )}%; right: {rightPercentage.ToString( CultureInfo.InvariantCulture )}%; top: {top.ToString( CultureInfo.InvariantCulture )}px; height: {height.ToString( CultureInfo.InvariantCulture )}px; z-index: 1;{customStyles}";
-        }
+            if ( ViewItems is not null )
+            {
+                var totalItems = ViewItems.Count;
+
+                foreach ( var viewItem in ViewItems )
+                {
+                    var index = ViewItems.IndexOf( viewItem );
+
+                    childBuilder.OpenComponent<_SchedulerSlotItem<TItem>>();
+
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.ViewItem ), viewItem );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.ItemIndex ), index );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.TotalItems ), totalItems );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.SlotStart ), SlotStart );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.SlotEnd ), SlotEnd );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.ItemCellHeight ), ItemCellHeight );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.EditItemClicked ), EditItemClicked );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.DeleteItemClicked ), DeleteItemClicked );
+                    childBuilder.Attribute( nameof( _SchedulerSlotItem<TItem>.DragStarted ), OnItemDragStart );
+
+                    childBuilder.CloseComponent();
+                }
+            }
+        } );
+
+        builder.CloseComponent();
     }
 
     #endregion
 
     #region Properties
 
-    private bool IsDraggingOver => draggingOver && DragSection == Scheduler.CurrentDragSection;
-
-    private bool IsEditAllowed => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true;
+    private bool IsDraggingOver => draggingOver && Section == Scheduler.CurrentDragSection;
 
     /// <summary>
     /// Gets the bottom border style if this is not the last slot.
@@ -222,27 +284,7 @@ public partial class _SchedulerSlot<TItem>
     /// <summary>
     /// Gets the background color of the slot based on mouse hover state.
     /// </summary>
-    private Blazorise.Background SlotBackgroundColor => mouseHovering ? Background.Light : Background.Default;
-
-    private SchedulerItemStyling GetItemStyling( TItem item )
-    {
-        if ( Scheduler?.ItemStyling is null )
-            return DefaultItemStyling;
-
-        var itemStyling = new SchedulerItemStyling
-        {
-            Background = Background.Info
-        };
-
-        Scheduler.ItemStyling( item, itemStyling );
-
-        return itemStyling;
-    }
-
-    /// <summary>
-    /// Gets a string that represents whether the slot is draggable.
-    /// </summary>
-    private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true && Scheduler?.Draggable == true ? "true" : "false";
+    private Background SlotBackgroundColor => mouseHovering ? Background.Light : Background.Default;
 
     /// <summary>
     /// Gets a string that represents the slot start time.
@@ -305,9 +347,9 @@ public partial class _SchedulerSlot<TItem>
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, Task> DeleteItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets the drag area associated with the slot.
+    /// Gets or sets the area to be used when initiating transactional operations.
     /// </summary>
-    [Parameter] public SchedulerSection DragSection { get; set; }
+    [Parameter] public SchedulerSection Section { get; set; }
 
     #endregion
 }

@@ -14,8 +14,8 @@
                 var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( AllDayItems, itemInfo );
                 var top = height * numberOfPreviousItems;
 
-                <Div Flex="FlexDefault" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )" @onclick:stopPropagation>
-                    <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" IsRecurring="@itemInfo.IsRecurring" Clicked="@OnItemClicked" DragSection="@DragSection" />
+                <Div @key="@itemInfo.Key" Flex="FlexDefault" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )" @onclick:stopPropagation>
+                    <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" IsRecurring="@itemInfo.IsRecurring" Clicked="@OnItemClicked" Section="@Section" />
                 </Div>
             }
         }
@@ -55,7 +55,7 @@
     {
         draggingOver = false;
 
-        return Scheduler.DropAllDayItem( Date, DragSection );
+        return Scheduler.DropAllDayItem( Date, Section );
     }
 
     string GetAllDayHeaderStyle()
@@ -68,7 +68,7 @@
         return $"position: absolute; left: 0; top: {top}px; width: {totalDays * 100}%; height: {height}px; z-index: 1; cursor: pointer;";
     }
 
-    private bool IsDraggingOver => draggingOver && DragSection == Scheduler.CurrentDragSection;
+    private bool IsDraggingOver => draggingOver && Section == Scheduler.CurrentDragSection;
 
     private IFluentBorder BorderColor => IsDraggingOver ? BorderIs1Dark : BorderIs1OnBottomIs1OnStart;
 
@@ -88,5 +88,5 @@
 
     [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
 
-    [Parameter] public SchedulerSection DragSection { get; set; }
+    [Parameter] public SchedulerSection Section { get; set; }
 }

@@ -8,7 +8,7 @@
 
     @for ( var dateInWeek = FirstDateOfWeek; dateInWeek <= MaxDate; dateInWeek = dateInWeek.AddDays( 7 ) )
     {
-        <_SchedulerWeekCell TItem="TItem" Date="@dateInWeek" SelectedDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" ItemCellHeight="@ItemCellHeight" Items="@Items" DragSection="SchedulerSection.MonthView" />
+        <_SchedulerWeekCell @key="@dateInWeek" TItem="TItem" Date="@dateInWeek" SelectedDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" ItemCellHeight="@ItemCellHeight" Items="@Items" Section="SchedulerSection.MonthView" />
     }
 </Div>
 

@@ -20,6 +20,7 @@ public class SchedulerItemViewInfo<TItem>
     /// <param name="isRecurring">Indicates whether the item is recurring.</param>
     public SchedulerItemViewInfo( TItem item, DateTime viewStart, DateTime viewEnd, bool overflowingFromStart, bool overflowingOnEnd, SchedulerRecurrenceRule recurrenceRule, bool isRecurring )
     {
+        Key = Guid.NewGuid().ToString( "N" );
         Item = item;
         ViewStart = viewStart;
         ViewEnd = viewEnd;
@@ -28,6 +29,11 @@ public class SchedulerItemViewInfo<TItem>
         RecurrenceRule = recurrenceRule;
         IsRecurring = isRecurring;
     }
+
+    /// <summary>
+    /// Gets the unique identifier associated with this instance.
+    /// </summary>
+    public string Key { get; }
 
     /// <summary>
     /// Represents an item of type TItem. It can be accessed and modified through its getter and setter.

@@ -12,6 +12,8 @@ using Blazorise.Scheduler.Extensions;
 using Blazorise.Scheduler.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Scheduler;
@@ -123,12 +125,24 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Holds the current transaction during a drag-and-drop operation.
     /// </summary>
-    protected SchedulerTransaction<TItem> currentTransaction;
+    protected SchedulerDraggingTransaction<TItem> currentDraggingTransaction;
+
+    /// <summary>
+    /// Holds the current transaction during a selection operation.
+    /// </summary>
+    protected SchedulerSelectingTransaction<TItem> currentSelectingTransaction;
 
     /// <summary>
     /// Indicates whether an item is currently being dragged.
     /// </summary>
     private bool isDragging;
+
+    /// <summary>
+    /// Indicates whether we are in the process of selecting slots.
+    /// </summary>
+    private bool isSelecting;
+
+    private Div schedulerDivRef;
 
     #endregion
 
@@ -183,6 +197,33 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( JSModule is null )
+        {
+            DotNetObjectRef ??= DotNetObjectReference.Create( this );
+
+            JSModule ??= new JSSchedulerModule( JSRuntime, VersionProvider, BlazoriseOptions, () => schedulerDivRef.ElementRef, () => ElementId );
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            if ( JSModule is not null )
+            {
+                await JSModule.Initialize( DotNetObjectRef );
+            }
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
     override protected void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-scheduler" );
@@ -202,6 +243,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             weekViewSubscriber?.Dispose();
             workWeekViewSubscriber?.Dispose();
             monthViewSubscriber?.Dispose();
+
+            if ( JSModule is not null )
+            {
+                await JSModule.SafeDestroy( schedulerDivRef.ElementRef, ElementId );
+
+                await JSModule.SafeDisposeAsync();
+            }
+
+            if ( DotNetObjectRef is not null )
+            {
+                DotNetObjectRef.Dispose();
+                DotNetObjectRef = null;
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -723,6 +777,23 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Invoked when a range of slots is selected, initiating the creation of a new appointment.
+    /// </summary>
+    /// <param name="start">The start time of the selected range.</param>
+    /// <param name="end">The end time of the selected range.</param>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
+    internal async Task NotifySlotsSelected( DateTime start, DateTime end )
+    {
+        editItem = CreateNewItem();
+        editState = SchedulerEditState.New;
+        SetItemDates( editItem, start, end );
+
+        await New( editItem );
+
+        await SlotsSelected.InvokeAsync( new SchedulerSlotsSelectedEventArgs( start, end ) );
+    }
+
+    /// <summary>
     /// Invoked when an empty scheduler all-day slot is clicked, initiating the creation of a new appointment.
     /// </summary>
     /// <param name="date">The date of the clicked slot.</param>
@@ -1097,9 +1168,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item ) ?? new List<DateTime>();
 
-        if ( deletedOccurrences.Contains( start ) )
+        if ( deletedOccurrences.Remove( start ) )
         {
-            deletedOccurrences.Remove( start );
             propertyMapper.SetDeletedOccurrences( item, deletedOccurrences );
         }
     }
@@ -1575,13 +1645,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             .Count();
     }
 
-    internal async Task StartDrag( TItem item, SchedulerSection dragSection )
+    internal async Task StartDrag( TItem item, SchedulerSection section )
     {
         // Cancel any existing transaction
-        if ( currentTransaction is not null )
+        if ( currentDraggingTransaction is not null )
         {
-            await currentTransaction.Rollback();
-            currentTransaction = null;
+            await currentDraggingTransaction.Rollback();
+            currentDraggingTransaction = null;
         }
 
         // Set the edit item and state
@@ -1589,7 +1659,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editState = SchedulerEditState.Edit;
 
         // Create a new transaction
-        currentTransaction = new SchedulerTransaction<TItem>( this, item, dragSection );
+        currentDraggingTransaction = new SchedulerDraggingTransaction<TItem>( this, item, section );
         isDragging = true;
 
         if ( DragStarted is not null )
@@ -1598,13 +1668,13 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
     internal async Task CancelDrag()
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return;
 
-        TItem item = currentTransaction.Item;
+        TItem item = currentDraggingTransaction.Item;
 
-        await currentTransaction.Rollback();
-        currentTransaction = null;
+        await currentDraggingTransaction.Rollback();
+        currentDraggingTransaction = null;
         isDragging = false;
 
         editItem = default;
@@ -1614,30 +1684,30 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             await DragCancelled.Invoke( new SchedulerDragEventArgs<TItem>( item ) );
     }
 
-    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerSection dragSection )
+    internal async Task<bool> DropSlotItem( DateTime newStart, DateTime newEnd, SchedulerSection section )
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragSection != dragSection )
+            if ( currentDraggingTransaction.Section != section )
             {
                 await CancelDrag();
 
                 return false;
             }
 
-            var duration = GetItemDuration( currentTransaction.Item );
-            SetItemDates( currentTransaction.Item, newStart, newStart.Add( duration ) );
+            var duration = GetItemDuration( currentDraggingTransaction.Item );
+            SetItemDates( currentDraggingTransaction.Item, newStart, newStart.Add( duration ) );
 
-            await currentTransaction.Commit();
+            await currentDraggingTransaction.Commit();
 
             if ( ItemDropped.HasDelegate )
-                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentDraggingTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
-            currentTransaction = null;
+            currentDraggingTransaction = null;
 
             return true;
         }
@@ -1653,35 +1723,35 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropDateItem( DateOnly date, SchedulerSection dragSection )
+    internal async Task<bool> DropDateItem( DateOnly date, SchedulerSection section )
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragSection != dragSection )
+            if ( currentDraggingTransaction.Section != section )
             {
                 await CancelDrag();
 
                 return false;
             }
 
-            var start = GetItemStartTime( currentTransaction.Item );
-            var end = GetItemEndTime( currentTransaction.Item );
+            var start = GetItemStartTime( currentDraggingTransaction.Item );
+            var end = GetItemEndTime( currentDraggingTransaction.Item );
 
             var newStart = new DateTime( date.Year, date.Month, date.Day, start.Hour, start.Minute, start.Second );
             var newEnd = new DateTime( date.Year, date.Month, date.Day, end.Hour, end.Minute, end.Second );
 
-            SetItemDates( currentTransaction.Item, newStart, newEnd );
+            SetItemDates( currentDraggingTransaction.Item, newStart, newEnd );
 
-            await currentTransaction.Commit();
+            await currentDraggingTransaction.Commit();
 
             if ( ItemDropped.HasDelegate )
-                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentDraggingTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
-            currentTransaction = null;
+            currentDraggingTransaction = null;
 
             return true;
         }
@@ -1697,35 +1767,35 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
-    internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerSection dragSection )
+    internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerSection section )
     {
-        if ( currentTransaction is null )
+        if ( currentDraggingTransaction is null )
             return false;
 
         try
         {
-            if ( currentTransaction.DragSection != dragSection )
+            if ( currentDraggingTransaction.Section != section )
             {
                 await CancelDrag();
 
                 return false;
             }
 
-            var start = GetItemStartTime( currentTransaction.Item );
-            var duration = GetItemDuration( currentTransaction.Item );
+            var start = GetItemStartTime( currentDraggingTransaction.Item );
+            var duration = GetItemDuration( currentDraggingTransaction.Item );
 
             var newStart = new DateTime( date.Year, date.Month, date.Day, start.Hour, start.Minute, start.Second );
             var newEnd = newStart.Add( duration );
 
-            SetItemDates( currentTransaction.Item, newStart, newEnd );
+            SetItemDates( currentDraggingTransaction.Item, newStart, newEnd );
 
-            await currentTransaction.Commit();
+            await currentDraggingTransaction.Commit();
 
             if ( ItemDropped.HasDelegate )
-                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentTransaction.Item, newStart, newEnd ) );
+                await ItemDropped.InvokeAsync( new SchedulerItemDroppedEventArgs<TItem>( currentDraggingTransaction.Item, newStart, newEnd ) );
 
             isDragging = false;
-            currentTransaction = null;
+            currentDraggingTransaction = null;
 
             return true;
         }
@@ -1738,6 +1808,122 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         finally
         {
             await Refresh();
+        }
+    }
+
+    internal Action<DateTime, DateTime> SelectionChanged;
+
+    internal Action SelectionCanceled;
+
+    /// <summary>
+    /// Handles mouse down events for slot selection in a scheduler, managing transactions and selection state.
+    /// </summary>
+    /// <param name="mouseEventArgs">Contains information about the mouse button event that triggered the selection.</param>
+    /// <param name="section">Represents the section of the scheduler where the selection is taking place.</param>
+    /// <param name="slotStart">Indicates the start time of the slot being selected.</param>
+    /// <param name="slotEnd">Indicates the end time of the slot being selected.</param>
+    /// <returns>This method does not return a value.</returns>
+    internal protected async Task NotifySlotMouseDown( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+    {
+        if ( SlotSelectionMode != SchedulerSlotSelectionMode.Mouse )
+            return;
+
+        if ( currentSelectingTransaction is not null )
+        {
+            await currentSelectingTransaction.Rollback();
+            currentSelectingTransaction = null;
+        }
+
+        if ( mouseEventArgs.Button == 0 )
+        {
+            await JSModule.SelectionStarted();
+
+            currentSelectingTransaction = new SchedulerSelectingTransaction<TItem>( this, CreateNewItem(), section, slotStart, slotEnd );
+            isSelecting = true;
+
+            SelectionChanged?.Invoke( currentSelectingTransaction.Start, currentSelectingTransaction.End );
+        }
+    }
+
+    /// <summary>
+    /// Handles mouse movement events to update the selection in a scheduling interface.
+    /// </summary>
+    /// <param name="mouseEventArgs">Contains information about the mouse event that triggered the selection update.</param>
+    /// <param name="section">Represents the section of the scheduler being interacted with during the mouse movement.</param>
+    /// <param name="slotStart">Indicates the start time of the time slot being selected.</param>
+    /// <param name="slotEnd">Indicates the end time of the time slot being selected.</param>
+    /// <returns>Completes the task without any specific result, indicating the operation has finished.</returns>
+    internal protected Task NotifySlotMouseMove( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+    {
+        if ( SlotSelectionMode != SchedulerSlotSelectionMode.Mouse )
+            return Task.CompletedTask;
+
+        if ( currentSelectingTransaction is null )
+            return Task.CompletedTask;
+
+        if ( isSelecting && currentSelectingTransaction.IsSafeToUpdate( section, slotStart, slotEnd ) )
+        {
+            currentSelectingTransaction.UpdateSelection( slotStart, slotEnd );
+
+            SelectionChanged?.Invoke( currentSelectingTransaction.Start, currentSelectingTransaction.End );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the mouse up event for a slot selection in a scheduler, updating the selection if conditions are met.
+    /// </summary>
+    /// <param name="mouseEventArgs">Contains information about the mouse event that triggered the action.</param>
+    /// <param name="section">Represents the section of the scheduler being interacted with.</param>
+    /// <param name="slotStart">Indicates the start time of the slot being selected.</param>
+    /// <param name="slotEnd">Indicates the end time of the slot being selected.</param>
+    /// <returns>Returns a completed task if no selection is made or if the conditions are not met.</returns>
+    internal protected async Task NotifySlotMouseUp( MouseEventArgs mouseEventArgs, SchedulerSection section, DateTime slotStart, DateTime slotEnd )
+    {
+        if ( SlotSelectionMode != SchedulerSlotSelectionMode.Mouse )
+            return;
+
+        if ( currentSelectingTransaction is null )
+            return;
+
+        if ( mouseEventArgs.Button == 0 && currentSelectingTransaction.IsSafeToUpdate( section, slotStart, slotEnd ) )
+        {
+            isSelecting = false;
+
+            try
+            {
+                await currentSelectingTransaction.Commit();
+            }
+            catch
+            {
+                await currentSelectingTransaction.Rollback();
+            }
+            finally
+            {
+                await JSModule.SelectionEnded();
+
+                currentSelectingTransaction = null;
+                SelectionCanceled?.Invoke();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Cancels the current selection if a transaction is in progress, rolling back any changes made during the selection. Should not be called directly by the user!
+    /// </summary>
+    /// <returns>No return value as this method is asynchronous and performs an operation without returning data.</returns>
+    [JSInvokable]
+    public async Task CancelSelection()
+    {
+        if ( currentSelectingTransaction is not null )
+        {
+            isSelecting = false;
+
+            await currentSelectingTransaction.Rollback();
+            currentSelectingTransaction = null;
+
+            SelectionCanceled?.Invoke();
         }
     }
 
@@ -1802,9 +1988,47 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal protected bool IsDragging => isDragging;
 
     /// <summary>
+    /// Indicates whether a view is on the selection mode.
+    /// </summary>
+    internal protected bool IsSelecting => isSelecting;
+
+    /// <summary>
     /// Returns the current drag area of a transaction if it exists; otherwise, it returns 'None'.
     /// </summary>
-    internal protected SchedulerSection CurrentDragSection => currentTransaction?.DragSection ?? SchedulerSection.None;
+    internal protected SchedulerSection CurrentDragSection => currentDraggingTransaction?.Section ?? SchedulerSection.None;
+
+    /// <summary>
+    /// Returns the current select area of a transaction if it exists; otherwise, it returns 'None'.
+    /// </summary>
+    internal protected SchedulerSection CurrentSelectingSection => currentSelectingTransaction?.Section ?? SchedulerSection.None;
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Reference to the object that should be accessed through JSInterop.
+    /// </summary>
+    protected DotNetObjectReference<Scheduler<TItem>> DotNetObjectRef { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="JSSchedulerModule"/> instance.
+    /// </summary>
+    internal protected JSSchedulerModule JSModule { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="IJSRuntime"/>.
+    /// </summary>
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="IVersionProvider"/> for the JS module.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Returns a RenderFragment based on the current view mode of the scheduler.
@@ -1932,6 +2156,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
+    /// Indicates how the slots can be selected.
+    /// </summary>
+    [Parameter] public SchedulerSlotSelectionMode SlotSelectionMode { get; set; }
+
+    /// <summary>
     /// Indicates whether internal editing is enabled. Defaults to true.
     /// </summary>
     [Parameter] public bool UseInternalEditing { get; set; } = true;
@@ -1980,6 +2209,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Occurs when an empty slot is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerSlotClickedEventArgs> SlotClicked { get; set; }
+
+    /// <summary>
+    /// Occurs when an empty slot is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<SchedulerSlotsSelectedEventArgs> SlotsSelected { get; set; }
 
     /// <summary>
     /// An event callback triggered when an item is clicked for editing.

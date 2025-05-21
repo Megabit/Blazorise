@@ -1,4 +1,6 @@
 ﻿@typeparam TItem
+@using System.Globalization
+@implements IDisposable
 <Div Class="b-scheduler-day" Position="PositionRelative" Flex="FlexGrowIs1BasisIs0" Style="min-width: 0;">
     @{
         @if ( ShowDayHeader )
@@ -8,7 +10,7 @@
 
         @if ( MaxStackedAllDayItems > 0 )
         {
-            <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" DragSection="SchedulerSection.AllDayHeader" />
+            <_SchedulerDayAllDayHeader TItem="TItem" FirstViewDate="@FirstViewDate" LastViewDate="@LastViewDate" Date="@Date" SelectedDate="@SelectedDate" HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" AllDayItems="@AllDayItems" Section="SchedulerSection.AllDayHeader" />
         }
 
         var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime, EndTime );
@@ -22,14 +24,84 @@
         {
             var tempTime = new TimeOnly( time.Ticks );
 
-            <_SchedulerDayCell TItem="TItem" @key="@tempTime" Date="@Date" Time="@tempTime" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" DragSection="@DragSection" />
+            <_SchedulerDayCell @key="@tempTime" TItem="TItem" Date="@Date" Time="@tempTime" SlotsPerCell="@SlotsPerCell" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" ViewItems="@viewItems" Section="@Section" />
+        }
+
+        @if ( selectingStyle is not null )
+        {
+            <Div Class="b-scheduler-selection" Position="PositionAbsolute" Style="@selectingStyle" Border="BorderIs1Dark" />
         }
     }
 </Div>
 @code {
-    private Blazorise.Background BackgroundColor => Date.Year == SelectedDate.Year && Date.Month == SelectedDate.Month && Date.Day == SelectedDate.Day
-        ? Blazorise.Background.Light
-        : Blazorise.Background.Default;
+    DateTime? selectingStart;
+    DateTime? selectingEnd;
+    string selectingStyle;
+
+    protected override void OnInitialized()
+    {
+        Scheduler.SelectionChanged += OnSelectionChanged;
+        Scheduler.SelectionCanceled += OnSelectionCanceled;
+
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        Scheduler.SelectionChanged -= OnSelectionChanged;
+        Scheduler.SelectionCanceled -= OnSelectionCanceled;
+    }
+
+    void OnSelectionChanged( DateTime start, DateTime end )
+    {
+        if ( selectingStart != start || selectingEnd != end )
+        {
+            selectingStart = start;
+            selectingEnd = end;
+
+            if ( selectingStart is not null && selectingEnd is not null && selectingStart.Value.Day == Date.Day && selectingEnd.Value.Day == Date.Day )
+            {
+                selectingStyle = GetSelectionStyle( selectingStart.Value, selectingEnd.Value );
+            }
+            else
+            {
+                selectingStyle = null;
+            }
+
+            InvokeAsync( StateHasChanged );
+        }
+    }
+
+    void OnSelectionCanceled()
+    {
+        selectingStart = null;
+        selectingEnd = null;
+        selectingStyle = null;
+
+        InvokeAsync( StateHasChanged );
+    }
+
+    private string GetSelectionStyle( DateTime selectionStartTime, DateTime selectionEndTime )
+    {
+        var totalMinutes = ( EndTime.Hour * 60 + EndTime.Minute ) - ( StartTime.Hour * 60 + StartTime.Minute );
+        var slotHeight = HeaderCellHeight / SlotsPerCell;
+
+        var startTotalMinutes = ( selectionStartTime.Hour * 60 + selectionStartTime.Minute ) - ( StartTime.Hour * 60 + StartTime.Minute );
+        var endTotalMinutes = ( selectionEndTime.Hour * 60 + selectionEndTime.Minute ) - ( StartTime.Hour * 60 + StartTime.Minute );
+
+        var startSlotIndex = ( startTotalMinutes * SlotsPerCell ) / 60.0;
+        var endSlotIndex = ( endTotalMinutes * SlotsPerCell ) / 60.0;
+
+        // Base top offset: includes day header and all-day header (if visible)
+        var dayHeaderOffset = ShowDayHeader ? HeaderCellHeight : 0;
+        var allDayHeaderOffset = MaxStackedAllDayItems > 0 ? HeaderCellHeight : 0;
+        var baseOffset = dayHeaderOffset + allDayHeaderOffset;
+
+        var top = baseOffset + Math.Min( startSlotIndex, endSlotIndex ) * slotHeight;
+        var height = Math.Abs( endSlotIndex - startSlotIndex ) * slotHeight;
+
+        return $"pointer-events: none; user-select: none; -webkit-user-drag: none; top: {top.ToString( CultureInfo.InvariantCulture )}px; left: 0; width: 100%; height: {height.ToString( CultureInfo.InvariantCulture )}px;";
+    }
 
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
@@ -63,5 +135,5 @@
 
     [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
 
-    [Parameter] public SchedulerSection DragSection { get; set; }
+    [Parameter] public SchedulerSection Section { get; set; }
 }

@@ -11,7 +11,7 @@
                 var title = Scheduler.GetItemTitle( viewItem.Item );
                 var startTime = Scheduler.GetItemStartTime( viewItem.Item );
 
-                <Div Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
+                <Div @key="@viewItem.Key" Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
                     @if ( itemTemplate is not null )
                     {
                         @itemTemplate( new SchedulerItemContext<TItem>( viewItem.Item, viewItem.IsRecurring ) )
@@ -66,7 +66,7 @@
         mouseHovering = false;
         draggingOver = false;
 
-        return Scheduler.StartDrag( viewItem.Item, DragSection );
+        return Scheduler.StartDrag( viewItem.Item, Section );
     }
 
     protected Task OnSlotDragEnter( DragEventArgs e )
@@ -87,7 +87,7 @@
     {
         draggingOver = false;
 
-        return Scheduler.DropDateItem( Date, DragSection );
+        return Scheduler.DropDateItem( Date, Section );
     }
 
     string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem )
@@ -95,7 +95,7 @@
         return "cursor: pointer;";
     }
 
-    private bool IsDraggingOver => draggingOver && DragSection == Scheduler.CurrentDragSection;
+    private bool IsDraggingOver => draggingOver && Section == Scheduler.CurrentDragSection;
 
     private IFluentBorder BorderColor => IsDraggingOver ? BorderIs1Dark : BorderIs1OnBottomIs1OnStart;
 
@@ -135,5 +135,5 @@
 
     [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
 
-    [Parameter] public SchedulerSection DragSection { get; set; }
+    [Parameter] public SchedulerSection Section { get; set; }
 }
