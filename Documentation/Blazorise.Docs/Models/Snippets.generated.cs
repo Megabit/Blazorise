@@ -7035,7 +7035,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 Install-Package Blazorise.Chart.Zoom";
 
         public const string ChartZoomResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/hammerjs@2.0.8""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js""></script>";
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js""></script>";
 
         public const string BasicCropperExample = @"<Row>
     <Column>
