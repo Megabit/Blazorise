@@ -287,11 +287,6 @@ public class _SchedulerSlot<TItem> : ComponentBase
     private Blazorise.Background SlotBackgroundColor => mouseHovering ? Background.Light : Background.Default;
 
     /// <summary>
-    /// Gets a string that represents whether the slot is draggable.
-    /// </summary>
-    private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true && Scheduler?.Draggable == true ? "true" : "false";
-
-    /// <summary>
     /// Gets a string that represents the slot start time.
     /// </summary>
     private string DataSlotStart => SlotStart.ToString( "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture );
