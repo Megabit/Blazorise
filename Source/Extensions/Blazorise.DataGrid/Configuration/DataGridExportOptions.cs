@@ -9,4 +9,15 @@ public class DataGridExportOptions
     /// -1 means all rows
     /// </summary>
     public int NumberOfRows { get; init; } = -1;
+
+    /// <summary>
+    /// null means All fields
+    /// </summary>
+    public string[] Fields { get; init; } = null;
+
+    /// <summary>
+    /// if true, the Captions will be used for export column names.
+    /// if false  Field is used.
+    /// </summary>
+    public bool UseCaptions { get; init; } = true;
 }
