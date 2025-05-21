@@ -1168,9 +1168,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         var deletedOccurrences = propertyMapper.GetDeletedOccurrences( item ) ?? new List<DateTime>();
 
-        if ( deletedOccurrences.Contains( start ) )
+        if ( deletedOccurrences.Remove( start ) )
         {
-            deletedOccurrences.Remove( start );
             propertyMapper.SetDeletedOccurrences( item, deletedOccurrences );
         }
     }

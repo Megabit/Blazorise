@@ -284,7 +284,7 @@ public class _SchedulerSlot<TItem> : ComponentBase
     /// <summary>
     /// Gets the background color of the slot based on mouse hover state.
     /// </summary>
-    private Blazorise.Background SlotBackgroundColor => mouseHovering ? Background.Light : Background.Default;
+    private Background SlotBackgroundColor => mouseHovering ? Background.Light : Background.Default;
 
     /// <summary>
     /// Gets a string that represents the slot start time.
