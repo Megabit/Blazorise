@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Bootstrap.Providers;
@@ -249,7 +250,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
         if ( options?.DisabledOpacity != null )
             sb.Append( ".btn.disabled, .btn:disabled" ).Append( "{" )
-                .Append( $"opacity: {options.DisabledOpacity};" )
+                .Append( $"opacity: {options.DisabledOpacity.ToCultureInvariantString()};" )
                 .AppendLine( "}" );
     }
 

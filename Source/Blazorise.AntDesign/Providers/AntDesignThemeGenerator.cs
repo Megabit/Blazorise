@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.AntDesign.Providers;
@@ -140,7 +141,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
         if ( options?.DisabledOpacity != null )
             sb.Append( $".ant-btn-{variant}[disabled]" ).Append( "{" )
-                .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
+                .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity.ToCultureInvariantString()}) !important;" )
                 .AppendLine( "}" );
     }
 
@@ -259,7 +260,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
         if ( options?.DisabledOpacity != null )
             sb.Append( ".ant-btn[disabled]" ).Append( "{" )
-                .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
+                .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity.ToCultureInvariantString()}) !important;" )
                 .AppendLine( "}" );
     }
 
