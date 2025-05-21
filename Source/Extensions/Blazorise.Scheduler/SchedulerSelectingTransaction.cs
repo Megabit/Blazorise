@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Scheduler.Extensions;
+using Blazorise.Scheduler.Utilities;
 #endregion
 
 namespace Blazorise.Scheduler;
@@ -85,12 +86,12 @@ public class SchedulerSelectingTransaction<TItem> : SchedulerTransaction<TItem>
     /// <summary>
     /// Gets the minimum start time from two selection slots.
     /// </summary>
-    public DateTime Start => selectionSlot1.Item1.Min( selectionSlot2.Item1 );
+    public DateTime Start => DateUtils.Min( selectionSlot1.Item1, selectionSlot2.Item1 );
 
     /// <summary>
     /// Gets the maximum end time from two selection slots.
     /// </summary>
-    public DateTime End => selectionSlot1.Item2.Max( selectionSlot2.Item2 );
+    public DateTime End => DateUtils.Max( selectionSlot1.Item2, selectionSlot2.Item2 );
 
     /// <summary>
     /// Indicates whether the selection spans more than one distinct slot.

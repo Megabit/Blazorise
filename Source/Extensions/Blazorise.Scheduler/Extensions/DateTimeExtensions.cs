@@ -118,26 +118,4 @@ public static class DateTimeExtensions
 
         return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear( dt, CalendarWeekRule.FirstFourDayWeek, firstDayOfWeek );
     }
-
-    /// <summary>
-    /// Returns the earlier of the two specified DateTime values.
-    /// </summary>
-    /// <param name="first">The first DateTime value.</param>
-    /// <param name="second">The second DateTime value.</param>
-    /// <returns>The earlier (minimum) of the two DateTime values.</returns>
-    public static DateTime Min( this DateTime first, DateTime second )
-    {
-        return first < second ? first : second;
-    }
-
-    /// <summary>
-    /// Returns the later of the two specified DateTime values.
-    /// </summary>
-    /// <param name="first">The first DateTime value.</param>
-    /// <param name="second">The second DateTime value.</param>
-    /// <returns>The later (maximum) of the two DateTime values.</returns>
-    public static DateTime Max( this DateTime first, DateTime second )
-    {
-        return first > second ? first : second;
-    }
 }
