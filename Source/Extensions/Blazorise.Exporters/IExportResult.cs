@@ -8,5 +8,10 @@ public interface IExportResult
     /// <summary>
     /// Indicates whether an operation was successful.
     /// </summary>
-    bool Success { get; init; }
+    bool Success { get; }
+
+    /// <summary>
+    /// Collection of error messages generated during an export operation.
+    /// </summary>
+    string[] Errors { get; init; }
 }

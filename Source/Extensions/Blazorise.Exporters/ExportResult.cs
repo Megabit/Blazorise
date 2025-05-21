@@ -8,5 +8,10 @@ public class ExportResult : IExportResult
     /// <summary>
     /// Gets a value indicating whether the export operation was successful.
     /// </summary>
-    public bool Success { get; init; }
+    public bool Success => Errors is null || Errors.Length == 0;
+
+    /// <summary>
+    /// Errors from export operation
+    /// </summary>
+    public string[] Errors { get; init; } = { };
 }

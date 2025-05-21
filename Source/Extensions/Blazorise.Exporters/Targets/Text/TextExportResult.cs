@@ -5,10 +5,11 @@ namespace Blazorise.Exporters;
 /// </summary>
 public class TextExportResult : ITextExportResult
 {
-    /// <summary>
-    /// Gets the success status of the export operation.
-    /// </summary>
+    ///<inheritdoc/>
     public bool Success { get; init; }
+
+    ///<inheritdoc/>
+    public string[] Errors { get; init; }
 
     /// <summary>
     /// Gets the exported text content.

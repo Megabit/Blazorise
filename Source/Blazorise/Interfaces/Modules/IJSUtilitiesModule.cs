@@ -172,8 +172,8 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// </summary>
     /// <param name="stringToCopy">The string content to copy to the clipboard.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask CopyStringToClipboard( string stringToCopy );
-
+    ValueTask<string[]> CopyStringToClipboard( string stringToCopy );
+    
     /// <summary>
     /// Writes a log message to the browser console.
     /// </summary>
@@ -194,6 +194,6 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <param name="data">The byte array containing the data to be exported.</param>
     /// <param name="fileName">The name of the file to which the data will be exported.</param>
     /// <param name="mimeType">The MIME type that describes the format of the data being exported.</param>
-    /// <returns>An integer indicating the result of the export operation.</returns>
-    ValueTask<int> ExportToFile( byte[] data, string fileName, string mimeType );
+    /// <returns>Array of error strings, empty means no error during export</returns>
+    ValueTask<string[]> ExportToFile( byte[] data, string fileName, string mimeType );
 }

@@ -25,11 +25,11 @@ public abstract class ExporterToFile<TOptions, TExportResult, TSourceData> : IEx
 
     public abstract Task<byte[]> GetDataForExport( TSourceData dataSource );
 
-    public virtual Task<TExportResult> GetExportResult( int exportToFileResult )
+    public virtual Task<TExportResult> GetExportResult( string[] exportToFileErrors)
     {
         var result = new TExportResult
         {
-            Success = exportToFileResult == 1,
+            Errors = exportToFileErrors
         };
 
         return Task.FromResult( result );

@@ -227,8 +227,16 @@ export function copyToClipboard(element, elementId) {
 }
 
 export function copyStringToClipboard(stringToCopy) {
-    if (navigator.clipboard) {
+    try {
+
+        if (!navigator.clipboard) {
+            return ["Clipboard API not available"];
+        }
+
         navigator.clipboard.writeText(stringToCopy);
+        return [];
+    } catch (error) {
+        return [`Error copying to clipboard: ${error.message}`];
     }
 }
 
@@ -364,27 +372,38 @@ export function isSystemDarkMode() {
 }
 
 export function exportToFile(data, fileName, mimeType) {
-    // Convert .NET byte array to Uint8Array
-    const uint8Array = new Uint8Array(data);
+    try {
+        if (!data || !fileName || !mimeType) {
+            return ["Missing required parameters"];
+        }
 
-    // Create Blob with specified MIME type
-    const blob = new Blob([uint8Array], { type: mimeType });
+        // Convert .NET byte array to Uint8Array
+        const uint8Array = new Uint8Array(data);
 
-    // Create temporary URL
-    const url = URL.createObjectURL(blob);
+        // Create Blob with specified MIME type
+        const blob = new Blob([uint8Array], {type: mimeType});
+        if (!blob) {
+            return ["Failed to create blob"];
+        }
 
-    // Create hidden anchor element
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
+        // Create temporary URL
+        const url = URL.createObjectURL(blob);
 
-    // Trigger download
-    a.click();
+        // Create hidden anchor element
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
 
-    // Cleanup
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+        // Trigger download
+        a.click();
 
-    return 1; // Success
+        // Cleanup
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        return [];
+    } catch (error) {
+        return [`Error exporting file: ${error.message}`];
+    }
 }

@@ -47,16 +47,16 @@ public abstract class ExporterToClipboard<TOptions, TExportResult, TSourceData> 
     {
         var text = await GetDataForExport( sourceData );
 
-        await JSUtilitiesModule.CopyStringToClipboard( text );
+        var errors =await JSUtilitiesModule.CopyStringToClipboard( text );
 
-        return await GetExportResult( true );
+        return await GetExportResult( errors );
     }
 
     public abstract Task<string> GetDataForExport( TSourceData sourceData );
 
-    public virtual Task<TExportResult> GetExportResult( bool success )
+    public virtual Task<TExportResult> GetExportResult( string[] errors )
     {
-        var res = new TExportResult { Success = success };
+        var res = new TExportResult { Errors = errors };
         return Task.FromResult( res );
     }
 

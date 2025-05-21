@@ -109,8 +109,8 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "copyToClipboard", elementRef, elementId );
 
     /// <inheritdoc/>
-    public ValueTask CopyStringToClipboard( string stringToCopy )
-        => InvokeSafeVoidAsync( "copyStringToClipboard", stringToCopy );
+    public ValueTask<string[]> CopyStringToClipboard( string stringToCopy )
+        => InvokeSafeAsync<string[]>( "copyStringToClipboard", stringToCopy );
 
     /// <inheritdoc/>
     public ValueTask Log( string message, params string[] args )
@@ -124,8 +124,8 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeAsync<bool>( "isSystemDarkMode" );
 
     /// <inheritdoc/>
-    public virtual async ValueTask<int> ExportToFile( byte[] data, string fileName, string mimeType )
-        => await InvokeSafeAsync<int>( "exportToFile", data, fileName, mimeType );
+    public virtual async ValueTask<string []> ExportToFile( byte[] data, string fileName, string mimeType )
+        => await InvokeSafeAsync<string []>( "exportToFile", data, fileName, mimeType );
 
     #endregion
 
