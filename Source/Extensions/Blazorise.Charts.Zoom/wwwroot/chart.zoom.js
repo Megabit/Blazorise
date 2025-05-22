@@ -16,7 +16,13 @@ export function initialize(dotNetAdapter, canvasId, pluginOptions) {
             if (pluginOptions.zoom) {
                 pluginOptions.zoom.onZoom = ({ chart, trigger }) => {
                     if (dotNetAdapter) {
-                        invokeDotNetMethodAsync(dotNetAdapter, "NotifyZoomLevel", chart.getZoomLevel(), trigger);
+                        const amount = chart.getZoomLevel();
+
+                        if (!isFinite(amount) || isNaN(amount)) {
+                            return;
+                        }
+
+                        invokeDotNetMethodAsync(dotNetAdapter, "NotifyZoomLevel", amount, trigger);
                     }
                 };
             }
