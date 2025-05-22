@@ -1,21 +1,13 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Scheduler TItem="Appointment" @bind-Date="@selectedDate"
-           Data="@Appointments"
-           @bind-SelectedView="@selectedView">
+<Scheduler TItem="Appointment" Data="@Appointments" SelectedView="SchedulerView.Week">
     <SchedulerToolbar />
     <SchedulerViews>
-        <SchedulerWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+        <SchedulerWeekView ViewHeight="500" />
     </SchedulerViews>
 </Scheduler>
 @code {
-    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
-    private SchedulerView selectedView = SchedulerView.Week;
     private static DateTime today10AM = DateTime.Today.AddHours( 10 );
-    private TimeOnly startTime = new TimeOnly( 7, 0 );
-    private TimeOnly endTime = new TimeOnly( 17, 0 );
-    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
-    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
 
     public class Appointment
     {

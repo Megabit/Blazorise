@@ -10701,15 +10701,12 @@ builder.Services
 	.AddBlazorise()
 	.AddBlazoriseRouterTabs();";
 
-        public const string SchedulerBasicExample = @"<Scheduler TItem=""SchedulerAppointment"" @bind-Date=""@selectedDate""
+        public const string SchedulerBasicExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
            Data=""@Appointments""
            @bind-SelectedView=""@selectedView"">
     <SchedulerToolbar />
     <SchedulerViews>
-        <SchedulerDayView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
         <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
-        <SchedulerWorkWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
-        <SchedulerMonthView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
     </SchedulerViews>
 </Scheduler>
 @code {
@@ -10721,13 +10718,13 @@ builder.Services
     private TimeOnly workDayStart = new TimeOnly( 8, 0 );
     private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
 
-    public class SchedulerAppointment
+    public class Appointment
     {
-        public SchedulerAppointment()
-        {            
+        public Appointment()
+        {
         }
 
-        public SchedulerAppointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
         {
             Id = Guid.NewGuid().ToString();
             Title = title;
@@ -10752,11 +10749,248 @@ builder.Services
         public string RecurrenceRule { get; set; }
     }
 
-    List<SchedulerAppointment> Appointments = new List<SchedulerAppointment>
+    List<Appointment> Appointments = new List<Appointment>
     {
-        new SchedulerAppointment( ""Meeting with the CEO"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
-        new SchedulerAppointment( ""Some other meeting"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
-        new SchedulerAppointment( ""Lunch with the team"", ""Discussing the new project"", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
+        new Appointment( ""Meeting with the CEO"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Some other meeting"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Lunch with the team"", ""Discussing the new project"", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
+        {
+            RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
+        },
+    };
+}";
+
+        public const string SchedulerDraggableExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
+           Data=""@Appointments""
+           @bind-SelectedView=""@selectedView""
+           Editable
+           Draggable>
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Meeting with the CEO"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Some other meeting"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Lunch with the team"", ""Discussing the new project"", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
+        {
+            RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
+        },
+    };
+}";
+
+        public const string SchedulerEditableExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
+           Data=""@Appointments""
+           @bind-SelectedView=""@selectedView""
+           Editable>
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Meeting with the CEO"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Some other meeting"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Lunch with the team"", ""Discussing the new project"", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
+        {
+            RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
+        },
+    };
+}";
+
+        public const string SchedulerFixedSizeExample = @"<Scheduler TItem=""Appointment"" Data=""@Appointments"" SelectedView=""SchedulerView.Week"">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView ViewHeight=""500"" />
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Meeting with the CEO"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Some other meeting"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Lunch with the team"", ""Discussing the new project"", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
+        {
+            RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
+        },
+    };
+}";
+
+        public const string SchedulerFullExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
+           Data=""@Appointments""
+           @bind-SelectedView=""@selectedView""
+           Editable
+           Draggable
+           SlotSelectionMode=""SchedulerSlotSelectionMode.Mouse"">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerDayView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+        <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+        <SchedulerWorkWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+        <SchedulerMonthView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Meeting with the CEO"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Some other meeting"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Lunch with the team"", ""Discussing the new project"", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
         {
             RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
         },
@@ -10766,6 +11000,64 @@ builder.Services
         public const string SchedulerImportsExample = @"@using Blazorise.Scheduler";
 
         public const string SchedulerNugetInstallExample = @"Install-Package Blazorise.Scheduler";
+
+        public const string SchedulerSelectableExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate"" Data=""@Appointments"" SelectedView=""SchedulerView.Week""
+           SlotSelectionMode=""SchedulerSlotSelectionMode.Mouse"">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Meeting with the CEO"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Some other meeting"", ""Regarding the new margeting strategy"", today10AM, today10AM.AddHours(1) ),
+        new Appointment( ""Lunch with the team"", ""Discussing the new project"", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
+        {
+            RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
+        },
+    };
+}";
 
         public const string SelectListExample = @"<SelectList TItem=""MyCountryModel""
             TValue=""int""

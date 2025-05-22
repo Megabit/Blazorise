@@ -2,10 +2,16 @@
 
 <Scheduler TItem="Appointment" @bind-Date="@selectedDate"
            Data="@Appointments"
-           @bind-SelectedView="@selectedView">
+           @bind-SelectedView="@selectedView"
+           Editable
+           Draggable
+           SlotSelectionMode="SchedulerSlotSelectionMode.Mouse">
     <SchedulerToolbar />
     <SchedulerViews>
+        <SchedulerDayView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
         <SchedulerWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+        <SchedulerWorkWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+        <SchedulerMonthView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
     </SchedulerViews>
 </Scheduler>
 @code {

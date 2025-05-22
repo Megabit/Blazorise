@@ -103,12 +103,62 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        Basic usage of the <Code>Scheduler</Code> component, with a few views, and defined start and end times.
+        To start with the Scheduler, just define it using one of the available views.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SchedulerBasicExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="SchedulerBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Editable">
+        The <Code>Editable</Code> parameter allows you to enable or disable editing of the scheduler items. When set to <Code>true</Code>, the scheduler will allow users to edit the items directly in the UI.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerEditableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerEditableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Draggable">
+        To be able to drag and drop items, set the <Code>Draggable</Code> parameter to <Code>true</Code>. This will allow you to move items around the calendar.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerDraggableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerDraggableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Slot Selection">
+        To easily create new items, set the <Code>SlotSelectionMode</Code> parameter to <Code>true</Code>. This will allow you to select slots in the calendar to create new items.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerSelectableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerSelectableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fixed Size">
+        To set a fixed size for the scheduler, set the <Code>ViewHeight</Code> parameter to a specific value. This will ensure that the scheduler maintains a consistent height across different views.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerFixedSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerFixedSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Full">
+        The full example shows all available views and how to use them. It also shows how to set the <Code>StartTime</Code>, <Code>EndTime</Code>, <Code>WorkDayStart</Code>, and <Code>WorkDayEnd</Code> parameters.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerFullExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerFullExample" />
 </DocsPageSection>
 
 <SchedulerApi />

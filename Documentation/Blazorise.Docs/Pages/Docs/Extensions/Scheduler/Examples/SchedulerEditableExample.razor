@@ -2,7 +2,8 @@
 
 <Scheduler TItem="Appointment" @bind-Date="@selectedDate"
            Data="@Appointments"
-           @bind-SelectedView="@selectedView">
+           @bind-SelectedView="@selectedView"
+           Editable>
     <SchedulerToolbar />
     <SchedulerViews>
         <SchedulerWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
