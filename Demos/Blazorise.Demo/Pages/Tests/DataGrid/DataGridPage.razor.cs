@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Blazorise.DataGrid.Utils;
+using Blazorise.Exporters.Bson;
+using Blazorise.Exporters.Csv;
 using Blazorise.Shared.Data;
 using Blazorise.Shared.Models;
 using Microsoft.AspNetCore.Components;
@@ -249,6 +251,24 @@ public partial class DataGridPage
             ? string.Empty
             : $" (SortField: {eventArgs.FieldName})";
         Console.WriteLine( $"Sort changed > Field: {eventArgs.ColumnFieldName}{sort}; Direction: {eventArgs.SortDirection};" );
+    }
+
+    private async Task OnExport()
+    {
+        // Simple export to CSV with default options
+        var result1 = await dataGrid.Export( new CsvToFileExporter() );
+
+        // Copy to clipboard without headers
+        var result2 = await dataGrid.Export( new CsvToClipboardExporter( new() { ExportHeader = false } ) );
+
+        // Export to CSV file with a custom file name and only the first 3 rows
+        var result3 = await dataGrid.Export(
+            new CsvToFileExporter( new() { FileName = "custom-csv-file.csv" } ),
+            new DataGridExportOptions { NumberOfRows = 3 }
+        );
+
+        // Bson export (defined in an external project)
+        var result4 = await dataGrid.Export( new BsonToFileExporter() );
     }
 
     #endregion
