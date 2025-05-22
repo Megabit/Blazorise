@@ -7035,7 +7035,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 Install-Package Blazorise.Chart.Zoom";
 
         public const string ChartZoomResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/hammerjs@2.0.8""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js""></script>";
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js""></script>";
 
         public const string BasicCropperExample = @"<Row>
     <Column>
@@ -10538,6 +10538,15 @@ Install-Package Blazorise.Icons.Material";
 }";
 
         public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
+
+        public const string QRCodeTextExample = @"<Div Padding=""Padding.Is2"" Border=""Border.Rounded"" Flex=""Flex.InlineFlex.Column.AlignItems.Center"" Background=""Background.Dark"" TextColor=""TextColor.Light"">
+    <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />
+    <Div Flex=""Flex.JustifyContent.Center.AlignItems.Center"">
+        <Span>
+            SCAN ME
+        </Span>
+    </Div>
+</Div>";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
