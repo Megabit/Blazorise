@@ -10539,6 +10539,15 @@ Install-Package Blazorise.Icons.Material";
 
         public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
 
+        public const string QRCodeTextExample = @"<Div Padding=""Padding.Is2"" Border=""Border.Rounded"" Flex=""Flex.InlineFlex.Column.AlignItems.Center"" Background=""Background.Dark"" TextColor=""TextColor.Light"">
+    <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />
+    <Div Flex=""Flex.JustifyContent.Center.AlignItems.Center"">
+        <Span>
+            SCAN ME
+        </Span>
+    </Div>
+</Div>";
+
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
 @* Define this configuration in a javascript file

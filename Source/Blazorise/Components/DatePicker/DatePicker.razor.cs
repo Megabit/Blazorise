@@ -617,12 +617,12 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     [Parameter] public Expression<Func<IReadOnlyList<TValue>>> DatesExpression { get; set; }
 
     /// <summary>
-    /// The earliest date to accept.
+    /// The earliest date to accept. Updating this value does not change the selected date, even if it falls below the new minimum.
     /// </summary>
     [Parameter] public DateTimeOffset? Min { get; set; }
 
     /// <summary>
-    /// The latest date to accept.
+    /// The latest date to accept. Updating this value does not change the selected date, even if it exceeds the new maximum.
     /// </summary>
     [Parameter] public DateTimeOffset? Max { get; set; }
 
