@@ -2146,9 +2146,9 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public string DeletedOccurrencesField { get; set; } = "DeletedOccurrences";
 
     /// <summary>
-    /// Indicates whether the component is editable. Defaults to true.
+    /// Indicates whether the component is editable. Defaults to false.
     /// </summary>
-    [Parameter] public bool Editable { get; set; } = true;
+    [Parameter] public bool Editable { get; set; }
 
     /// <summary>
     /// Indicates whether the items in the scheduler can be dragged and dropped. Defaults to false.
@@ -2156,7 +2156,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
-    /// Indicates how the slots can be selected.
+    /// Indicates how the slots can be selected. Defaults to <see cref="SchedulerSlotSelectionMode.Disabled"/>.
     /// </summary>
     [Parameter] public SchedulerSlotSelectionMode SlotSelectionMode { get; set; }
 
