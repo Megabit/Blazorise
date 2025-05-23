@@ -10,6 +10,7 @@
                 <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
                            Data="@Appointments"
                            @bind-SelectedView="@selectedView"
+                           Editable
                            Draggable
                            ItemStyling="@OnItemStyling"
                            SlotSelectionMode="SchedulerSlotSelectionMode.Mouse">
