@@ -95,7 +95,7 @@ public class Button : Blazorise.Button
         {
             builder.OpenElement( "svg" );
 
-            builder.Attribute( "data-accordion-icon", null );
+            builder.Data( "accordion-icon", null );
 
             builder.Class( CollapseVisible
                 ? "w-6 h-6 shrink-0 rotate-180"

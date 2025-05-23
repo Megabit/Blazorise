@@ -37,6 +37,7 @@ dotnet pack ../Source/Extensions/Blazorise.Splitter/Blazorise.Splitter.csproj -o
 dotnet pack ../Source/Extensions/Blazorise.TreeView/Blazorise.TreeView.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Video/Blazorise.Video.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.PdfViewer/Blazorise.PdfViewer.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Scheduler/Blazorise.Scheduler.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
 dotnet pack ../Source/Extensions/Blazorise.Icons.Bootstrap/Blazorise.Icons.Bootstrap.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg

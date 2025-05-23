@@ -1,0 +1,27 @@
+﻿@using Blazorise.Scheduler.Extensions
+@typeparam TItem
+<Div Class="b-scheduler-month-view" Style="@GetViewStyle()" Flex="FlexDefault" Width="WidthIs100">
+    @{
+        var firstDayOfMonth = SelectedDate.StartOfMonth();
+        var startOfWeek = FirstDayOfWeek;
+        var offset = ( (int)firstDayOfMonth.DayOfWeek - (int)startOfWeek + 7 ) % 7;
+        var minDate = firstDayOfMonth.AddDays( -offset );
+
+        var lastDayOfMonth = SelectedDate.EndOfMonth();
+        var endOfWeek = (DayOfWeek)( ( (int)startOfWeek + 6 ) % 7 );
+        var offsetEnd = ( (int)endOfWeek - (int)lastDayOfMonth.DayOfWeek + 7 ) % 7;
+        var maxDate = lastDayOfMonth.AddDays( offsetEnd );
+
+        var items = Scheduler.GetItemsInView( minDate.ToDateTime( TimeOnly.MinValue ), maxDate.ToDateTime( TimeOnly.MaxValue ) ).ToList();
+
+        @if ( ShowWeekNumbers )
+        {
+            <_SchedulerWeekNumberColumn TItem="TItem" MinDate="@minDate" MaxDate="@maxDate" FirstDayOfWeek="@FirstDayOfWeek" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" />
+        }
+
+        @for ( var firstDateOfWeek = minDate; firstDateOfWeek <= minDate.AddDays( 6 ); firstDateOfWeek = firstDateOfWeek.AddDays( 1 ) )
+        {
+            <_SchedulerWeekColumn @key="@firstDateOfWeek" TItem="TItem" MinDate="@minDate" MaxDate="@maxDate" FirstDateOfWeek="@firstDateOfWeek" SelectedDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@items" />
+        }
+    }
+</Div>

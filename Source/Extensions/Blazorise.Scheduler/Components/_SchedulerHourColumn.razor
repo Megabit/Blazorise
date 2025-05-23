@@ -1,0 +1,41 @@
+﻿@typeparam TItem
+<Div Position="Blazorise.Position.Relative">
+    @{
+        @if ( ShowDayHeader )
+        {
+            <_SchedulerHourHeader HeaderCellHeight="@HeaderCellHeight" />
+        }
+
+        @if ( MaxStackedAllDayItems > 0 )
+        {
+            <_SchedulerHourAllDayHeader HeaderCellHeight="@HeaderCellHeight" MaxStackedAllDayItems="@MaxStackedAllDayItems" />
+        }
+
+        // We're converting the TimeOnly to DateTime because TimeOnly will overflow
+        // when EndTime is 23:59, leading to infinite loop.
+        var dtStart = new DateTime( StartTime.Ticks );
+        var dtEnd = new DateTime( EndTime.Ticks );
+
+        @for ( var time = dtStart; time < dtEnd; time = time.AddHours( 1 ) )
+        {
+            var tempTime = new TimeOnly( time.Ticks );
+
+            <Div @key="@tempTime" Class="b-scheduler-hour" Flex="FlexDefaultGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Border="BorderIs1OnBottom">
+                <_SchedulerHourCell Time="@tempTime" />
+            </Div>
+        }
+    }
+</Div>
+@code {
+    [Parameter] public TimeOnly StartTime { get; set; }
+
+    [Parameter] public TimeOnly EndTime { get; set; }
+
+    [Parameter] public bool ShowDayHeader { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
+}

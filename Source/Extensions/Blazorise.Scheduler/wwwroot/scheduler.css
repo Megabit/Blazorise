@@ -1,0 +1,6 @@
+﻿.b-scheduler-day,
+.b-scheduler-slot,
+.b-scheduler-selection {
+    user-select: none;
+    -webkit-user-drag: none;
+}
