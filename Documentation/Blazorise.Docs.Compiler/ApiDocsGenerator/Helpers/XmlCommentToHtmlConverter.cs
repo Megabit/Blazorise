@@ -103,8 +103,10 @@ public class XmlCommentToHtmlConverter
             ? cref.Substring( 2 )
             : cref;
 
-        edited = Regex.Replace( edited, @"`\d+", string.Empty );//replaces `1 (type params)
-        edited = Regex.Replace( edited, "!:", string.Empty );//replace !: (not-reference type)
-        return edited.Replace( "Blazorise.", string.Empty );
+        edited = Regex.Replace( edited, @"`\d+", string.Empty ); //replaces `1 (type params)
+        edited = Regex.Replace( edited, "!:", string.Empty ); //replace !: (not-reference type)
+        return edited.StartsWith( "Blazorise." )
+               ? edited[(edited.LastIndexOf( '.' ) + 1)..]
+               : edited;
     }
 }
