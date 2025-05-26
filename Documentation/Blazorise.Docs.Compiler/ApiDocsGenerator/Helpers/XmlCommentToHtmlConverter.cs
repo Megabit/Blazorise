@@ -55,6 +55,7 @@ public class XmlCommentToHtmlConverter
         "para" => $"<p>{ProcessChildNodes( element )}</p>",
         "see" => ProcessSee( element ),
         "seealso" => ProcessSeeAlso( element ),
+        "typeparamref" => ProcessTypeParamRef(element),
         "code" => $"<pre><code>{element.Value}</code></pre>",
         "c" => $"<code>{element.Value}</code>",
         _ => ProcessChildNodes( element )// For unsupported tags, process their children
@@ -84,6 +85,14 @@ public class XmlCommentToHtmlConverter
         return href != null
             ? $"<a href=\"{href}\">{href}</a>"
             : string.Empty;
+    }
+    
+    private string ProcessTypeParamRef(XElement element)
+    {
+        var name = element.Attribute("name")?.Value;
+        return name != null
+               ? $"<typeparamref name=\"{name}\"/>"
+               : string.Empty;
     }
 
     private string ProcessChildNodes( XElement element )
