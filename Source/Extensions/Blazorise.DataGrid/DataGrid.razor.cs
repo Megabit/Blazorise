@@ -1844,8 +1844,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
         var exportedData = new List<List<TCellValue>>();
         
         var columnNames = (options.UseCaptions
-            ? columnsToExport.Select( c => c.Caption )
-            : columnsToExport.Select(x=> x.Field)).ToList();
+                           ? columnsToExport.Select( c => c.Caption ?? c.Field )
+                           : columnsToExport.Select(x=> x.Field)).ToList();
 
         var filteredDataToTake = options.NumberOfRows == -1 ? FilteredData : FilteredData.Take( options.NumberOfRows );
 
