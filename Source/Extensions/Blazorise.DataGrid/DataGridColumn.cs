@@ -146,7 +146,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( displayableChanged )
         {
-            await SetDisplaying( Displayable );
+            await SetDisplaying( Displayable, DisplayOrder );
         }
     }
 
@@ -289,11 +289,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Sets whether the column is displaying.
     /// </summary>
     /// <param name="displaying">The displaying value</param>
+    /// <param name="displayOrder">Display order of the column.</param>
     /// <returns></returns>
-    public async Task SetDisplaying( bool displaying )
+    public async Task SetDisplaying( bool displaying, int displayOrder )
     {
         Displaying = displaying;
-        await ParentDataGrid.ColumnDisplayingChanged.InvokeAsync( new ColumnDisplayChangedEventArgs<TItem>( this, displaying ) );
+        DisplayOrder = displayOrder;
+        await ParentDataGrid.ColumnDisplayingChanged.InvokeAsync( new ColumnDisplayChangedEventArgs<TItem>( this, displaying, displayOrder ) );
         await ParentDataGrid.Refresh();
     }
 
@@ -902,6 +904,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Gets or sets whether end-users can sort data by the column's values.
     /// </summary>
     [Parameter] public bool Sortable { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the column can be dragged by the user.
+    /// </summary>
+    [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
     /// Gets or sets whether end-users are prevented from editing the column's cell values.

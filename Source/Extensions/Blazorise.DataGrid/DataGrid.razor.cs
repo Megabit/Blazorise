@@ -197,7 +197,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
                 if ( column is not null )
                 {
-                    await column.SetDisplaying( displayingState.Displaying );
+                    await column.SetDisplaying( displayingState.Displaying, displayingState.DisplayOrder );
                 }
             }
         }
@@ -284,8 +284,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
 
-
-        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying ) ).ToList();
+        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.DisplayOrder ) ).ToList();
 
         return Task.FromResult( dataGridState );
     }
@@ -783,6 +782,37 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private Task OnColumnDragEnded( DragEventArgs e )
     {
         columnBeingDragged = null;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnColumnDropped( DataGridColumn<TItem> columnBeingDropped )
+    {
+        if ( columnBeingDragged is null || columnBeingDropped is null )
+            return Task.CompletedTask;
+
+        var orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
+
+        // If any column has DisplayOrder of 0, reinitialize all
+        if ( orderedColumns.Any( c => c.DisplayOrder == 0 ) )
+        {
+            for ( int i = 0; i < orderedColumns.Count; i++ )
+                orderedColumns[i].DisplayOrder = i + 1;
+        }
+
+        orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
+
+        var draggedIndex = orderedColumns.IndexOf( columnBeingDragged );
+        var droppedIndex = orderedColumns.IndexOf( columnBeingDropped );
+
+        if ( draggedIndex == -1 || droppedIndex == -1 || draggedIndex == droppedIndex )
+            return Task.CompletedTask;
+
+        orderedColumns.RemoveAt( draggedIndex );
+        orderedColumns.Insert( droppedIndex, columnBeingDragged );
+
+        for ( int i = 0; i < orderedColumns.Count; i++ )
+            orderedColumns[i].DisplayOrder = i + 1;
 
         return Task.CompletedTask;
     }
@@ -1574,7 +1604,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         foreach ( var column in Columns )
         {
-            await column.SetDisplaying( column.Displayable );
+            await column.SetDisplaying( column.Displayable, column.DisplayOrder );
         }
     }
 
