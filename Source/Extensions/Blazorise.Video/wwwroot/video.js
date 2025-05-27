@@ -1,9 +1,8 @@
-import { VidstackPlayer, PlyrLayout } from "./vendors/player.js?v=1.7.6.0";
+import { VidstackPlayer, PlyrLayout } from "./vendors/vidstack.js?v=1.7.6.0";
 
 import { getRequiredElement, isString, firstNonNull } from "../Blazorise/utilities.js?v=1.7.6.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/player.css\" />");
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/plyr.css\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/vidstack.css\" />");
 
 const _instances = [];
 
