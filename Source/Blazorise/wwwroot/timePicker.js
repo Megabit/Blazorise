@@ -51,9 +51,9 @@ export function initialize(element, elementId, options) {
         minTime: options.min,
         maxTime: options.max,
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
-        clickOpens: !(options.readOnly || false),
+        clickOpens: !(utilities.coalesce(options.readOnly, false)),
         locale: options.localization || {},
-        inline: options.inline || false,
+        inline: utilities.coalesce(options.inline, false),
         disableMobile: utilities.coalesce(options.disableMobile, true),
         static: options.staticPicker,
         hourIncrement: options.hourIncrement,
@@ -72,8 +72,8 @@ export function initialize(element, elementId, options) {
     });
 
     if (options) {
-        picker.altInput.disabled = options.disabled || false;
-        picker.altInput.readOnly = options.readOnly || false;
+        picker.altInput.disabled = utilities.coalesce(options.disabled, false);
+        picker.altInput.readOnly = utilities.coalesce(options.readOnly, false);
         picker.altInput.placeholder = utilities.coalesce(options.placeholder, "");
 
         picker.altInput.addEventListener("blur", (e) => {
@@ -140,7 +140,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.inline.changed) {
-            picker.set("inline", options.inline.value || false);
+            picker.set("inline", utilities.coalesce(options.inline.value, false));
         }
 
         if (options.disableMobile.changed) {
@@ -148,7 +148,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.placeholder.changed) {
-            picker.altInput.placeholder = options.placeholder.value;
+            picker.altInput.placeholder = utilities.coalesce(options.placeholder.value, "");
         }
 
         if (options.staticPicker.changed) {
