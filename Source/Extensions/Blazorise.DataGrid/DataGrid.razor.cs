@@ -137,9 +137,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected List<DataGridColumn<TItem>> groupableColumns;
 
     /// <summary>
-    /// Tracks the column currently being Dragged.
+    /// Tracks the column currently being dragged.
     /// </summary>
-    internal DataGridColumn<TItem> columnBeingDragged;
+    internal DataGridColumn<TItem> columnDragged;
 
     /// <summary>
     /// Tracks the current DataGridRowEdit reference.
@@ -769,7 +769,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragStarted( DataGridColumn<TItem> col )
     {
-        columnBeingDragged = col;
+        columnDragged = col;
 
         return Task.CompletedTask;
     }
@@ -781,14 +781,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragEnded( DragEventArgs e )
     {
-        columnBeingDragged = null;
+        columnDragged = null;
 
         return Task.CompletedTask;
     }
 
-    private Task OnColumnDropped( DataGridColumn<TItem> columnBeingDropped )
+    private Task OnColumnDropped( DataGridColumn<TItem> columnDropped )
     {
-        if ( columnBeingDragged is null || columnBeingDropped is null )
+        if ( columnDragged is null || columnDropped is null )
             return Task.CompletedTask;
 
         var orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
@@ -802,14 +802,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
 
-        var draggedIndex = orderedColumns.IndexOf( columnBeingDragged );
-        var droppedIndex = orderedColumns.IndexOf( columnBeingDropped );
+        var draggedIndex = orderedColumns.IndexOf( columnDragged );
+        var droppedIndex = orderedColumns.IndexOf( columnDropped );
 
         if ( draggedIndex == -1 || droppedIndex == -1 || draggedIndex == droppedIndex )
             return Task.CompletedTask;
 
         orderedColumns.RemoveAt( draggedIndex );
-        orderedColumns.Insert( droppedIndex, columnBeingDragged );
+        orderedColumns.Insert( droppedIndex, columnDragged );
 
         for ( int i = 0; i < orderedColumns.Count; i++ )
             orderedColumns[i].DisplayOrder = i + 1;
