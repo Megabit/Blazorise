@@ -54,6 +54,7 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
         inline: options.inline || false,
+        disableMobile: utilities.coalesce(options.disableMobile, true),
         static: options.staticPicker,
         hourIncrement: options.hourIncrement,
         minuteIncrement: options.minuteIncrement,
@@ -140,6 +141,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.inline.changed) {
             picker.set("inline", options.inline.value || false);
+        }
+
+        if (options.disableMobile.changed) {
+            picker.set("disableMobile", utilities.coalesce(options.disableMobile.value, true));
         }
 
         if (options.placeholder.changed) {

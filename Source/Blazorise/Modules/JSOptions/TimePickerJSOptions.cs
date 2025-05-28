@@ -51,6 +51,11 @@ public class TimePickerJSOptions
     public bool Inline { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to disable the mobile version of the time picker.
+    /// </summary>
+    public bool DisableMobile { get; set; }
+
+    /// <summary>
     /// Gets or sets the placeholder text displayed in the time input field.
     /// </summary>
     public string Placeholder { get; set; }
@@ -110,6 +115,11 @@ public class TimePickerUpdateJSOptions
     /// Gets or sets the option for displaying the time picker inline.
     /// </summary>
     public JSOptionChange<bool> Inline { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for disabling the mobile version of the time picker.
+    /// </summary>
+    public JSOptionChange<bool> DisableMobile { get; set; }
 
     /// <summary>
     /// Gets or sets the option for updating the placeholder text.
