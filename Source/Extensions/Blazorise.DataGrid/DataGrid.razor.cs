@@ -793,24 +793,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         var orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
 
-        // If any column has DisplayOrder of 0, reinitialize all
-        if ( orderedColumns.Any( c => c.DisplayOrder == 0 ) )
-        {
-            for ( int i = 0; i < orderedColumns.Count; i++ )
-                orderedColumns[i].DisplayOrder = i + 1;
-        }
-
-        orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
-
         var draggedIndex = orderedColumns.IndexOf( columnDragged );
         var droppedIndex = orderedColumns.IndexOf( columnDropped );
 
-        if ( draggedIndex == -1 || droppedIndex == -1 || draggedIndex == droppedIndex )
-            return Task.CompletedTask;
-
         orderedColumns.RemoveAt( draggedIndex );
         orderedColumns.Insert( droppedIndex, columnDragged );
-
         for ( int i = 0; i < orderedColumns.Count; i++ )
             orderedColumns[i].DisplayOrder = i + 1;
 
