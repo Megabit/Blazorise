@@ -99,6 +99,7 @@ public static class ManualPageEntries
     new( "docs/extensions/datagrid/features/fixed-header", "DataGrid Fixed Header", "The table header remains visible as you scroll, making it easy to identify and reference the data in your grid." ),
     new( "docs/extensions/datagrid/features/grouping", "DataGrid Grouping", "Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns." ),
     new( "docs/extensions/datagrid/features/paging", "DataGrid Paging", "Paginate your data with customizable page size options and intuitive navigation controls." ),
+    new( "docs/extensions/datagrid/features/reordering", "DataGrid Reordering", "Easily adjust the order of your columns with the Blazorise DataGrid's reordering feature. Drag and drop column by moving them with the mouse." ),
     new( "docs/extensions/datagrid/features/resizing", "DataGrid Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
     new( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
     new( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),

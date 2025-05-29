@@ -36,11 +36,11 @@
                 <DataGrid TItem="Employee" Data="@inMemoryData" Responsive Editable ShowPager Filterable>
                     <DataGridColumns>
                         <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
-                        <DataGridColumn Editable Field="@nameof(Employee.FirstName)" Caption="First Name"></DataGridColumn>
-                        <DataGridNumericColumn Editable Field="@nameof(Employee.Salary)" Caption="Salary"></DataGridNumericColumn>
-                        <DataGridDateColumn DisplayFormat="{0:dd.MM.yyyy}" Editable Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth"></DataGridDateColumn>
-                        <DataGridCheckColumn Editable Field="@nameof(Employee.IsActive)" Caption="Active"></DataGridCheckColumn>
-                        <DataGridSelectColumn Caption="Gender" Field="@nameof(Employee.Gender)" Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" Editable />
+                        <DataGridColumn Editable Field="@nameof( Employee.FirstName )" Caption="First Name" Reorderable></DataGridColumn>
+                        <DataGridNumericColumn Editable Field="@nameof( Employee.Salary )" Caption="Salary" Reorderable></DataGridNumericColumn>
+                        <DataGridDateColumn DisplayFormat="{0:dd.MM.yyyy}" Editable Field="@nameof( Employee.DateOfBirth )" Caption="Date Of Birth" Reorderable></DataGridDateColumn>
+                        <DataGridCheckColumn Editable Field="@nameof( Employee.IsActive )" Caption="Active"></DataGridCheckColumn>
+                        <DataGridSelectColumn Caption="Gender" Field="@nameof( Employee.Gender )" Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" Editable />
                     </DataGridColumns>
                 </DataGrid>
 

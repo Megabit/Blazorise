@@ -9186,6 +9186,25 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
+        public const string DataGridReorderingColumnsExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
+    <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Reorderable />
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Reorderable />
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Reorderable />
+    <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Reorderable />
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridResizableExample = @"<Field>
     <FieldLabel>
         Resize Mode

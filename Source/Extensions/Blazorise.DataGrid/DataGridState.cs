@@ -81,25 +81,27 @@ public class DataGridState<TItem>
     /// <summary>
     /// Adds a new displaying state for the DataGrid column.
     /// </summary>
-    /// <param name="fieldName"></param>
-    /// <param name="displaying"></param>
-    public void AddDisplayingState( string fieldName, bool displaying )
+    /// <param name="fieldName">Field name.</param>
+    /// <param name="displaying">Current displaying state.</param>
+    /// <param name="displayOrder">Display order of the column.</param>
+    public void AddDisplayingState( string fieldName, bool displaying, int displayOrder )
     {
         ColumnDisplayingStates ??= new();
-        ColumnDisplayingStates.Add( new DataGridColumnDisplayingState<TItem>( fieldName, displaying ) );
+        ColumnDisplayingStates.Add( new DataGridColumnDisplayingState<TItem>( fieldName, displaying, displayOrder ) );
     }
 
     /// <summary>
     /// Adds a new displaying state for the DataGrid column.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    /// <param name="fieldGetter"></param>
-    /// <param name="displaying"></param>
-    public void AddDisplayingState<TValue>( Expression<Func<TItem, TValue>> fieldGetter, bool displaying )
+    /// <param name="fieldGetter">Field getter.</param>
+    /// <param name="displaying">Current displaying state.</param>
+    /// <param name="displayOrder">Display order of the column.</param>
+    public void AddDisplayingState<TValue>( Expression<Func<TItem, TValue>> fieldGetter, bool displaying, int displayOrder )
     {
         var fieldName = ExtractFieldName( fieldGetter );
         ColumnDisplayingStates ??= new();
-        ColumnDisplayingStates.Add( new DataGridColumnDisplayingState<TItem>( fieldName, displaying ) );
+        ColumnDisplayingStates.Add( new DataGridColumnDisplayingState<TItem>( fieldName, displaying, displayOrder ) );
     }
 
     /// <summary>

@@ -358,6 +358,12 @@
     <DocsAttributesItem Name="CaptionSide" Type="TableCaptionSide" Default="TableCaptionSide.Default">
         Defines the placement of the <Code>Caption</Code> element.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnDisplayingChanged" Type="EventCallback<ColumnDisplayChangedEventArgs<TItem>>">
+        Event called after a column display change is made.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnDisplayOrderChanged" Type="EventCallback<ColumnDisplayOrderChangedEventArgs<TItem>>">
+        Event called after a column display order change is made.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="DataGrid Templates">
@@ -729,6 +735,9 @@
     <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="DataGridFilterMode.Default">
         Gets or sets the filter mode for the column.
         If set, this overrides the DataGrid FilterMethod.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Reorderable" Type="bool" Default="false">
+        Gets or sets a value indicating whether the column can be reordered by the user.
     </DocsAttributesItem>
 </DocsAttributes>
 
