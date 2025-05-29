@@ -57,7 +57,7 @@ public record ThemeColorTeal : ThemeColor
     /// The darkest shade of the teal theme color.
     /// </summary>
     public ThemeColorShade _900 { get; } = new( "900", "_900", "#004d40" );
-    
+
     /// <summary>
     /// A bright variant of the teal theme color.
     /// </summary>

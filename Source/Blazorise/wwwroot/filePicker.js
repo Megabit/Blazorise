@@ -31,7 +31,7 @@ function initializeDropZone(element) {
 function onDragHover(e, element) {
     if (element.fileInput.disabled) {
         e.dataTransfer.dropEffect = "none";
-        if (element.fileInput == e.target){
+        if (element.fileInput == e.target) {
             //Fallback to FileEdit behavior
             return;
         }

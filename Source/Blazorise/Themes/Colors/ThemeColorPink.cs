@@ -57,7 +57,7 @@ public record ThemeColorPink : ThemeColor
     /// The darkest shade of the pink theme color.
     /// </summary>
     public ThemeColorShade _900 { get; } = new( "900", "_900", "#880e4f" );
-    
+
     /// <summary>
     /// A bright variant of the pink theme color.
     /// </summary>
