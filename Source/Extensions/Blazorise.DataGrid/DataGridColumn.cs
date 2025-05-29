@@ -299,6 +299,15 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         await ParentDataGrid.Refresh();
     }
 
+    public async Task SetDisplayOrder( int displayOrder, bool forceParentRefresh = false )
+    {
+        DisplayOrder = displayOrder;
+        await ParentDataGrid.ColumnDisplayOrderChanged.InvokeAsync( new ColumnDisplayOrderChangedEventArgs<TItem>( this, displayOrder ) );
+
+        if ( forceParentRefresh )
+            await ParentDataGrid.Refresh();
+    }
+
     internal string BuildHeaderCellClass()
     {
         var sb = new StringBuilder();
