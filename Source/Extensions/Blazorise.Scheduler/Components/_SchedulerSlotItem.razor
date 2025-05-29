@@ -1,0 +1,27 @@
+﻿@typeparam TItem
+@{
+    var itemStyling = GetItemStyling( ViewItem.Item );
+    var itemTemplate = Scheduler.ItemTemplate;
+
+    <Span Class="@GetItemClass( itemStyling.Class )" Style="@GetItemStyle( ViewItem, ItemIndex, TotalItems, itemStyling.Style )" Position="PositionAbsolute" Border="BorderRounded" Background="@itemStyling.Background" TextColor="@itemStyling.TextColor" TextSize="@itemStyling.TextSize" Flex="FlexJustifyContentBetweenAlignItemsStart" Padding="PaddingIs1" TextOverflow="TextOverflow.Truncate" @onclick:stopPropagation @onmousedown:stopPropagation draggable="@DraggableAttribute" @ondragstart="@OnDragStart">
+        @if ( itemTemplate is not null )
+        {
+            @itemTemplate( new SchedulerItemContext<TItem>( ViewItem.Item, ViewItem.IsRecurring ) )
+        }
+        else
+        {
+            @if ( ViewItem.IsRecurring )
+            {
+                <Span>
+                    <Icon Name="IconName.Sync" />
+                </Span>
+            }
+            <Span @onclick="@(() => OnEditItemClicked( ViewItem ))" TextOverflow="TextOverflow.Truncate" Width="WidthIs100" Height="HeightIs100">
+                @Scheduler?.GetItemTitle( ViewItem.Item )
+            </Span>
+            <Span @onclick="@(() => OnDeleteItemClicked( ViewItem ))" Padding="PaddingIs1">
+                <Icon Name="IconName.Delete" />
+            </Span>
+        }
+    </Span>
+}

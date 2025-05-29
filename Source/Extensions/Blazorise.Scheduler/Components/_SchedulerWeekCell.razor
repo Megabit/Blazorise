@@ -1,0 +1,139 @@
+﻿@typeparam TItem
+@{
+    var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime, EndTime );
+    var itemTemplate = Scheduler.ItemTemplate;
+
+    <Div Flex="FlexColumnAlignItemsCenterGrowIs1ShrinkIs1" Width="WidthIs100" Height="Height.Px( ItemCellHeight )" Overflow="Overflow.Auto" Border="@BorderColor" Background="@BackgroundColor" @onmouseenter="@OnMouseEnter" @onmouseleave="@OnMouseLeave" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
+        <Div Flex="FlexJustifyContentEnd" Width="WidthIs100" Padding="PaddingIs1OnX" TextColor="@GetTextColor()" TextWeight="@GetTextWeight()" Style="@GetDayNumberStyle()" TextSize="TextSizeSmall">@Date.Day</Div>
+        <Div Flex="FlexColumn" Gap="GapIs1" TextSize="TextSizeSmall" Padding="PaddingIs1" Width="WidthIs100" Height="HeightIs100" @onclick="@(() => OnCellClick( Date ))">
+            @foreach ( var viewItem in viewItems )
+            {
+                var title = Scheduler.GetItemTitle( viewItem.Item );
+                var startTime = Scheduler.GetItemStartTime( viewItem.Item );
+
+                <Div @key="@viewItem.Key" Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
+                    @if ( itemTemplate is not null )
+                    {
+                        @itemTemplate( new SchedulerItemContext<TItem>( viewItem.Item, viewItem.IsRecurring ) )
+                    }
+                    else
+                    {
+                        <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate">
+                            <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSizeSmall" /></Span>
+                            <Span Margin="MarginIs1FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
+                            <Span Margin="MarginIs1FromStart">@title</Span>
+                        </Span>
+                    }
+                </Div>
+            }
+        </Div>
+    </Div>
+}
+@code {
+    private bool mouseHovering;
+
+    private bool draggingOver;
+
+    protected Task OnMouseEnter( MouseEventArgs eventArgs )
+    {
+        mouseHovering = true;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnMouseLeave( MouseEventArgs eventArgs )
+    {
+        mouseHovering = false;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnCellClick( DateOnly date )
+    {
+        var start = date.ToDateTime( WorkDayStart ?? StartTime );
+        var end = date.ToDateTime( WorkDayEnd ?? EndTime );
+
+        return Scheduler.NotifySlotClicked( start, end );
+    }
+
+    protected Task OnItemClicked( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        return Scheduler.NotifyEditItemClicked( viewItem.Item );
+    }
+
+    protected Task OnItemDragStart( DragEventArgs e, SchedulerItemViewInfo<TItem> viewItem )
+    {
+        mouseHovering = false;
+        draggingOver = false;
+
+        return Scheduler.StartDrag( viewItem.Item, Section );
+    }
+
+    protected Task OnSlotDragEnter( DragEventArgs e )
+    {
+        draggingOver = true;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnSlotDragLeave( DragEventArgs e )
+    {
+        draggingOver = false;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnSlotDrop( DragEventArgs e )
+    {
+        draggingOver = false;
+
+        return Scheduler.DropDateItem( Date, Section );
+    }
+
+    string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem )
+    {
+        return "cursor: pointer;";
+    }
+
+    private bool IsDraggingOver => draggingOver && Section == Scheduler.CurrentDragSection;
+
+    private IFluentBorder BorderColor => IsDraggingOver ? BorderIs1Dark : BorderIs1OnBottomIs1OnStart;
+
+    /// <summary>
+    /// Gets the background color of the slot.
+    /// </summary>
+    private Blazorise.Background BackgroundColor => mouseHovering
+       ? Background.Light
+       : Background.Default;
+
+    /// <summary>
+    /// Returns a string indicating whether the Scheduler is draggable. It returns 'true' if draggable, otherwise 'false'.
+    /// </summary>
+    private string DraggableAttribute => Scheduler?.Draggable == true ? "true" : "false";
+
+    bool IsCurrentMonth => Date.Month == SelectedDate.Month;
+    bool IsWeekend => Date.DayOfWeek == DayOfWeek.Saturday || Date.DayOfWeek == DayOfWeek.Sunday;
+    TextColor GetTextColor() => IsWeekend ? TextColor.Danger : TextColor.Default;
+    TextWeight GetTextWeight() => IsCurrentMonth ? TextWeight.SemiBold : TextWeight.Light;
+    string GetDayNumberStyle() => IsCurrentMonth ? IsWeekend ? "opacity: 0.5" : null : "opacity: 0.3";
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public TimeOnly StartTime { get; set; }
+
+    [Parameter] public TimeOnly EndTime { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayStart { get; set; }
+
+    [Parameter] public TimeOnly? WorkDayEnd { get; set; }
+
+    [Parameter] public double ItemCellHeight { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerItemInfo<TItem>> Items { get; set; }
+
+    [Parameter] public SchedulerSection Section { get; set; }
+}

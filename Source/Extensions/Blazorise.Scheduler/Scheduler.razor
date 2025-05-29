@@ -1,0 +1,91 @@
+﻿@inherits BaseComponent
+@typeparam TItem
+<Div @ref="@schedulerDivRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Flex="FlexColumnWrap" Border="BorderIs1" role="application">
+    <CascadingValue Value="@this" IsFixed>
+        <CascadingValue Value="@State">
+            @if ( schedulerToolbar is not null && ShowToolbar )
+            {
+                <_SchedulerToolbar TItem="TItem"
+                                   SelectedDate="@state.SelectedDate"
+                                   SelectedView="@SelectedView"
+                                   FirstDayOfWeek="@(schedulerWeekView?.FirstDayOfWeek ?? DayOfWeek.Sunday)"
+                                   FirstDayOfWorkWeek="@(schedulerWorkWeekView?.FirstDayOfWorkWeek ?? DayOfWeek.Monday)"
+                                   ShowDayViewButton="@(schedulerDayView is not null)"
+                                   ShowWeekViewButton="@(schedulerWeekView is not null)"
+                                   ShowWorkWeekViewButton="@(schedulerWorkWeekView is not null)"
+                                   ShowMonthViewButton="@(schedulerMonthView is not null)" />
+            }
+
+            <_SchedulerViews TItem="TItem">
+                @if ( ShowingDayView )
+                {
+                    <_SchedulerDayView TItem="TItem"
+                                       StartTime="@(schedulerDayView.StartTime ?? TimeOnly.MinValue)"
+                                       EndTime="@(schedulerDayView.EndTime ?? TimeOnly.MaxValue)"
+                                       WorkDayStart="@schedulerDayView.WorkDayStart"
+                                       WorkDayEnd="@schedulerDayView.WorkDayEnd"
+                                       SlotsPerCell="@schedulerDayView.SlotsPerCell"
+                                       SelectedDate="@state.SelectedDate"
+                                       HeaderCellHeight="@schedulerDayView.HeaderCellHeight"
+                                       ItemCellHeight="@schedulerDayView.ItemCellHeight"
+                                       ViewHeight="@schedulerDayView.ViewHeight" />
+                }
+                else if ( ShowingWeekView )
+                {
+                    <_SchedulerWeekView TItem="TItem"
+                                        StartTime="@(schedulerWeekView.StartTime ?? TimeOnly.MinValue)"
+                                        EndTime="@(schedulerWeekView.EndTime ?? TimeOnly.MaxValue)"
+                                        WorkDayStart="@schedulerWeekView.WorkDayStart"
+                                        WorkDayEnd="@schedulerWeekView.WorkDayEnd"
+                                        SlotsPerCell="@schedulerWeekView.SlotsPerCell"
+                                        FirstDayOfWeek="@schedulerWeekView.FirstDayOfWeek"
+                                        SelectedDate="@state.SelectedDate"
+                                        HeaderCellHeight="@schedulerWeekView.HeaderCellHeight"
+                                        ItemCellHeight="@schedulerWeekView.ItemCellHeight"
+                                        ViewHeight="@schedulerWeekView.ViewHeight" />
+                }
+                else if ( ShowingWorkWeekView )
+                {
+                    <_SchedulerWorkWeekView TItem="TItem"
+                                            StartTime="@(schedulerWorkWeekView.StartTime ?? TimeOnly.MinValue)"
+                                            EndTime="@(schedulerWorkWeekView.EndTime ?? TimeOnly.MaxValue)"
+                                            WorkDayStart="@schedulerWorkWeekView.WorkDayStart"
+                                            WorkDayEnd="@schedulerWorkWeekView.WorkDayEnd"
+                                            SlotsPerCell="@schedulerWorkWeekView.SlotsPerCell"
+                                            FirstDayOfWorkWeek="@schedulerWorkWeekView.FirstDayOfWorkWeek"
+                                            SelectedDate="@state.SelectedDate"
+                                            HeaderCellHeight="@schedulerWorkWeekView.HeaderCellHeight"
+                                            ItemCellHeight="@schedulerWorkWeekView.ItemCellHeight"
+                                            ViewHeight="@schedulerWorkWeekView.ViewHeight" />
+                }
+                else if ( ShowingMonthView )
+                {
+                    <_SchedulerMonthView TItem="TItem"
+                                         StartTime="@(schedulerMonthView.StartTime ?? TimeOnly.MinValue)"
+                                         EndTime="@(schedulerMonthView.EndTime ?? TimeOnly.MaxValue)"
+                                         WorkDayStart="@schedulerMonthView.WorkDayStart"
+                                         WorkDayEnd="@schedulerMonthView.WorkDayEnd"
+                                         SelectedDate="@state.SelectedDate"
+                                         FirstDayOfWeek="@schedulerMonthView.FirstDayOfWeek"
+                                         HeaderCellHeight="@schedulerMonthView.HeaderCellHeight"
+                                         ItemCellHeight="@schedulerMonthView.ItemCellHeight"
+                                         ViewHeight="@schedulerMonthView.ViewHeight" />
+                }
+            </_SchedulerViews>
+            <_SchedulerItemModal TItem="TItem" @ref="@schedulerItemModalRef"
+                                 FirstDayOfWeek="@FirstDayOfWeek"
+                                 SaveRequested="@SaveImpl"
+                                 DeleteRequested="@DeleteItemImpl" />
+
+            <_SchedulerItemOccurrenceModal TItem="TItem" @ref="@schedulerItemOccurrenceModalRef"
+                                           FirstDayOfWeek="@FirstDayOfWeek"
+                                           SaveOccurrenceRequested="@SaveOccurrenceImpl"
+                                           DeleteOccurrenceRequested="@DeleteOccurrenceImpl" />
+        </CascadingValue>
+    </CascadingValue>
+</Div>
+
+@* This one is to hold information about the scheduler *@
+<CascadingValue Value="@this" IsFixed>
+    @ChildContent
+</CascadingValue>

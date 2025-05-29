@@ -1,0 +1,66 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Scheduler TItem="Appointment" @bind-Date="@selectedDate"
+           Data="@Appointments"
+           @bind-SelectedView="@selectedView"
+           Editable
+           Draggable
+           SlotSelectionMode="SchedulerSlotSelectionMode.Mouse">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerDayView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+        <SchedulerWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+        <SchedulerWorkWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+        <SchedulerMonthView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( "Meeting with the CEO", "Regarding the new margeting strategy", today10AM, today10AM.AddHours(1) ),
+        new Appointment( "Some other meeting", "Regarding the new margeting strategy", today10AM, today10AM.AddHours(1) ),
+        new Appointment( "Lunch with the team", "Discussing the new project", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))
+        {
+            RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3"
+        },
+    };
+}
