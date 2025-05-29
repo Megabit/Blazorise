@@ -137,9 +137,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected List<DataGridColumn<TItem>> groupableColumns;
 
     /// <summary>
-    /// Tracks the column currently being dragged.
+    /// Represents the column in a data grid where a drag operation has started.
     /// </summary>
-    internal DataGridColumn<TItem> columnDragged;
+    internal DataGridColumn<TItem> columnDragStarted;
+
+    /// <summary>
+    /// Represents the column in a data grid that the drag operation has entered.
+    /// </summary>
+    internal DataGridColumn<TItem> columnDragEntered;
 
     /// <summary>
     /// Tracks the current DataGridRowEdit reference.
@@ -769,7 +774,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragStarted( DataGridColumn<TItem> col )
     {
-        columnDragged = col;
+        columnDragStarted = col;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnColumnDragEnter( DataGridColumn<TItem> col )
+    {
+        columnDragEntered = col;
 
         return Task.CompletedTask;
     }
@@ -781,14 +793,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragEnded( DragEventArgs e )
     {
-        columnDragged = null;
+        columnDragStarted = null;
+        columnDragEntered = null;
 
         return Task.CompletedTask;
     }
 
     private async Task OnColumnDropped( DataGridColumn<TItem> columnDropped )
     {
-        if ( columnDragged is null || columnDropped is null )
+        if ( columnDragStarted is null || columnDropped is null )
             return;
 
         // Normalize DisplayOrder if needed
@@ -803,7 +816,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         // Refresh ordered list in case we updated DisplayOrder
         orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
 
-        var draggedOrder = columnDragged.DisplayOrder;
+        var draggedOrder = columnDragStarted.DisplayOrder;
         var droppedOrder = columnDropped.DisplayOrder;
 
         if ( draggedOrder == droppedOrder )
@@ -828,7 +841,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        await columnDragged.SetDisplayOrder( droppedOrder );
+        await columnDragStarted.SetDisplayOrder( droppedOrder );
 
         await Refresh();
     }

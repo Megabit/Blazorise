@@ -19,6 +19,22 @@
     .b-table-resizing {
         cursor: col-resize !important;
     }
+
+    .b-table-reordering {
+        position: relative;
+        z-index: 1;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            height: 100%;
+            border-left: 2px solid var(--b-theme-primary, blue);
+            pointer-events: none;
+        }
+    }
 }
 
 //For low specificity

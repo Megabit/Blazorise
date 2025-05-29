@@ -315,6 +315,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         sb.Append( $" {ClassProvider.DropdownFixedHeaderVisible( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )}" );
 
+        if ( ParentDataGrid.columnDragEntered is not null && ParentDataGrid.columnDragEntered == this )
+        {
+            sb.Append( " b-table-reordering" );
+        }
+
         return sb.ToString().TrimStart( ' ' );
     }
 
