@@ -913,9 +913,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Sortable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the column can be dragged by the user.
+    /// Gets or sets a value indicating whether the column can be reordered by the user.
     /// </summary>
-    [Parameter] public bool Draggable { get; set; }
+    [Parameter] public bool Reorderable { get; set; }
 
     /// <summary>
     /// Gets or sets whether end-users are prevented from editing the column's cell values.
