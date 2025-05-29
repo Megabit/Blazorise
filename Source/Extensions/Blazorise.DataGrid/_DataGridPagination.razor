@@ -127,14 +127,14 @@
                         {
                             @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ) )
                             {
-                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged( column, value, column.DisplayOrder ))">@column.Caption</DropdownItem>
+                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged( column, value ))">@column.Caption</DropdownItem>
                             }
                         }
                         else
                         {
                             @ParentDataGrid.ColumnChooserTemplate(new(
                                 ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ),
-                                EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display, x.DisplayOrder ) ) ) );
+                                EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) );
                         }
                     </DropdownMenu>
                 </Dropdown>

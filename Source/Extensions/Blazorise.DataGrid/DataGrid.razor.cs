@@ -197,7 +197,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
                 if ( column is not null )
                 {
-                    await column.SetDisplaying( displayingState.Displaying, displayingState.DisplayOrder );
+                    await column.SetDisplaying( displayingState.Displaying );
                 }
             }
         }
@@ -1620,7 +1620,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         foreach ( var column in Columns )
         {
-            await column.SetDisplaying( column.Displayable, column.DisplayOrder );
+            await column.SetDisplaying( column.Displayable );
         }
     }
 

@@ -19,19 +19,13 @@ public class ColumnDisplayChangedEventArgs<TItem>
     public bool Display { get; set; }
 
     /// <summary>
-    /// Gets the display order of the column.
-    /// </summary>
-    public int DisplayOrder { get; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="ColumnDisplayChangedEventArgs{TItem}"/> class.
     /// </summary>
     /// <param name="column">The column whose display state is changing.</param>
     /// <param name="display">if set to <c>true</c>, the column will be displayed; otherwise, it will be hidden.</param>
-    public ColumnDisplayChangedEventArgs( DataGridColumn<TItem> column, bool display, int displayOrder )
+    public ColumnDisplayChangedEventArgs( DataGridColumn<TItem> column, bool display )
     {
         Column = column;
         Display = display;
-        DisplayOrder = displayOrder;
     }
 }

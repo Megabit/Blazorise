@@ -146,7 +146,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( displayableChanged )
         {
-            await SetDisplaying( Displayable, DisplayOrder );
+            await SetDisplaying( Displayable );
         }
     }
 
@@ -289,13 +289,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Sets whether the column is displaying.
     /// </summary>
     /// <param name="displaying">The displaying value</param>
-    /// <param name="displayOrder">Display order of the column.</param>
     /// <returns></returns>
-    public async Task SetDisplaying( bool displaying, int displayOrder )
+    public async Task SetDisplaying( bool displaying )
     {
         Displaying = displaying;
-        DisplayOrder = displayOrder;
-        await ParentDataGrid.ColumnDisplayingChanged.InvokeAsync( new ColumnDisplayChangedEventArgs<TItem>( this, displaying, displayOrder ) );
+        await ParentDataGrid.ColumnDisplayingChanged.InvokeAsync( new ColumnDisplayChangedEventArgs<TItem>( this, displaying ) );
         await ParentDataGrid.Refresh();
     }
 

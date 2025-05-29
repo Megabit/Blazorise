@@ -60,9 +60,9 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
         base.Dispose( disposing );
     }
 
-    private async Task ColumnDisplayingChanged( DataGridColumn<TItem> dataGridColumn, bool displaying, int displayOrder )
+    private async Task ColumnDisplayingChanged( DataGridColumn<TItem> dataGridColumn, bool displaying )
     {
-        await dataGridColumn.SetDisplaying( displaying, displayOrder );
+        await dataGridColumn.SetDisplaying( displaying );
     }
 
     private async void OnLocalizationChanged( object sender, EventArgs e )
