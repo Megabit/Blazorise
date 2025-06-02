@@ -15,7 +15,6 @@
 }
 
 @code {
-
     private RenderFragment NumericPickerFragment => builder =>
     {
         var underlyingType = Nullable.GetUnderlyingType(valueType) ?? valueType;
@@ -77,5 +76,4 @@
         builder.AddAttribute(6, nameof( NumericEdit<object>.ElementId ), elementId);
         builder.CloseComponent();
     };
-
 }
