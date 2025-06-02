@@ -55,6 +55,7 @@ public class XmlCommentToHtmlConverter
         "para" => $"<p>{ProcessChildNodes( element )}</p>",
         "see" => ProcessSee( element ),
         "seealso" => ProcessSeeAlso( element ),
+        "typeparamref" => ProcessTypeParamRef( element ),
         "code" => $"<pre><code>{element.Value}</code></pre>",
         "c" => $"<code>{element.Value}</code>",
         _ => ProcessChildNodes( element )// For unsupported tags, process their children
@@ -86,6 +87,14 @@ public class XmlCommentToHtmlConverter
             : string.Empty;
     }
 
+    private string ProcessTypeParamRef( XElement element )
+    {
+        var name = element.Attribute( "name" )?.Value;
+        return name != null
+               ? $"<typeparamref name=\"{name}\"/>"
+               : string.Empty;
+    }
+
     private string ProcessChildNodes( XElement element )
     {
         var sb = new StringBuilder();
@@ -103,8 +112,10 @@ public class XmlCommentToHtmlConverter
             ? cref.Substring( 2 )
             : cref;
 
-        edited = Regex.Replace( edited, @"`\d+", string.Empty );//replaces `1 (type params)
-        edited = Regex.Replace( edited, "!:", string.Empty );//replace !: (not-reference type)
-        return edited.Replace( "Blazorise.", string.Empty );
+        edited = Regex.Replace( edited, @"`\d+", string.Empty ); //replaces `1 (type params)
+        edited = Regex.Replace( edited, "!:", string.Empty ); //replace !: (not-reference type)
+        return edited.StartsWith( "Blazorise." )
+               ? edited[( edited.LastIndexOf( '.' ) + 1 )..]
+               : edited;
     }
 }
