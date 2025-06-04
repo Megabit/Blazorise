@@ -136,6 +136,11 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
     [Parameter] public string DecimalSeparator { get; set; } = ".";
 
     /// <summary>
+    /// String to use as the decimal separator in numeric values.
+    /// </summary>
+    [Parameter] public string GroupSeparator { get; set; } = ",";
+
+    /// <summary>
     /// Helps define the language of an element.
     /// </summary>
     /// <remarks>

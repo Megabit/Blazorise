@@ -595,6 +595,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 numericColumn.Step = numeric.Step;
                 numericColumn.Decimals = numeric.Decimals;
                 numericColumn.DecimalSeparator = numeric.DecimalSeparator;
+                numericColumn.GroupSeparator = numeric.GroupSeparator;
                 numericColumn.Culture = numeric.Culture;
                 numericColumn.ShowStepButtons = numeric.ShowStepButtons;
                 numericColumn.EnableStep = numeric.EnableStep;
