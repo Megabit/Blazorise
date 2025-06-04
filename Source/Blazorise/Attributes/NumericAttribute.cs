@@ -24,6 +24,11 @@ public sealed class NumericAttribute : Attribute
     public string DecimalSeparator { get; set; } = ".";
 
     /// <summary>
+    /// String to use as the group separator in numeric values.
+    /// </summary>
+    public string GroupSeparator { get; set; } = ",";
+
+    /// <summary>
     /// Helps define the language of an element.
     /// </summary>
     /// <remarks>

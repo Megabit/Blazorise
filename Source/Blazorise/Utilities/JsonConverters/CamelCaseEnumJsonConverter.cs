@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Text.Json;
-using System.Text.Json.Serialization; 
+using System.Text.Json.Serialization;
 #endregion
 
 namespace Blazorise.Utilities.JsonConverters;

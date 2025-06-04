@@ -595,6 +595,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 numericColumn.Step = numeric.Step;
                 numericColumn.Decimals = numeric.Decimals;
                 numericColumn.DecimalSeparator = numeric.DecimalSeparator;
+                numericColumn.GroupSeparator = numeric.GroupSeparator;
                 numericColumn.Culture = numeric.Culture;
                 numericColumn.ShowStepButtons = numeric.ShowStepButtons;
                 numericColumn.EnableStep = numeric.EnableStep;
@@ -1368,6 +1369,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
+        var oldItem = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         var editItemClone = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         SetItemEditedValues( editItemClone );
 
@@ -1396,7 +1398,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( oldItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
