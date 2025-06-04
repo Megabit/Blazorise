@@ -289,7 +289,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
 
-        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.DisplayOrder ) ).ToList();
+        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.GetDisplayOrder() ) ).ToList();
 
         return Task.FromResult( dataGridState );
     }
@@ -806,19 +806,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
 
         // Normalize DisplayOrder if needed
-        var orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
+        var orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
 
-        if ( orderedColumns.Any( c => c.DisplayOrder == 0 ) )
+        if ( orderedColumns.Any( c => c.GetDisplayOrder() == 0 ) )
         {
             for ( int i = 0; i < orderedColumns.Count; i++ )
                 await orderedColumns[i].SetDisplayOrder( i + 1 );
         }
 
         // Refresh ordered list in case we updated DisplayOrder
-        orderedColumns = Columns.OrderBy( c => c.DisplayOrder ).ToList();
+        orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
 
-        var draggedOrder = columnDragStarted.DisplayOrder;
-        var droppedOrder = columnDropped.DisplayOrder;
+        var draggedOrder = columnDragStarted.GetDisplayOrder();
+        var droppedOrder = columnDropped.GetDisplayOrder();
 
         if ( draggedOrder == droppedOrder )
             return;
@@ -828,8 +828,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             // Dragged column is moving forward → shift columns between up by 1
             foreach ( var column in Columns )
             {
-                if ( column.DisplayOrder > draggedOrder && column.DisplayOrder <= droppedOrder )
-                    await column.SetDisplayOrder( column.DisplayOrder - 1 );
+                if ( column.InternalDisplayOrder > draggedOrder && column.InternalDisplayOrder <= droppedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value - 1 );
             }
         }
         else
@@ -837,8 +837,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             // Dragged column is moving backward → shift columns between down by 1
             foreach ( var column in Columns )
             {
-                if ( column.DisplayOrder >= droppedOrder && column.DisplayOrder < draggedOrder )
-                    await column.SetDisplayOrder( column.DisplayOrder + 1 );
+                if ( column.InternalDisplayOrder >= droppedOrder && column.InternalDisplayOrder < draggedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value + 1 );
             }
         }
 
@@ -2988,7 +2988,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder );
+                .OrderBy( x => x.GetDisplayOrder() );
 
 
             if ( !IsGroupHeaderCaptionsEnabled )
@@ -3036,7 +3036,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder )
+                .OrderBy( x => x.GetDisplayOrder() )
                 .ToList();
 
 

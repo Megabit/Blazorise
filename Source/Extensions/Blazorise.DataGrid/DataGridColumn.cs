@@ -299,12 +299,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     public async Task SetDisplayOrder( int displayOrder, bool forceParentRefresh = false )
     {
-        DisplayOrder = displayOrder;
+        InternalDisplayOrder = displayOrder;
         await ParentDataGrid.ColumnDisplayOrderChanged.InvokeAsync( new ColumnDisplayOrderChangedEventArgs<TItem>( this, displayOrder ) );
 
         if ( forceParentRefresh )
             await ParentDataGrid.Refresh();
     }
+
+    /// <summary>
+    /// Gets the display order of the column, based on the internal display order if set, otherwise falls back to the DisplayOrder property.
+    /// </summary>
+    /// <returns>The display order of the column.</returns>
+    public int GetDisplayOrder() => InternalDisplayOrder ?? DisplayOrder;
 
     internal string BuildHeaderCellClass()
     {
@@ -659,6 +665,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal bool DropdownFilterVisible;
 
     /// <summary>
+    /// Represents the internal display order of an item.
+    /// </summary>
+    internal int? InternalDisplayOrder;
+
+    /// <summary>
     /// Returns true if the cell value is editable.
     /// </summary>
     public bool CellValueIsEditable => Editable && ParentDataGrid.EditState switch
@@ -893,12 +904,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Displayable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets where column will be displayed on a grid.
+    /// Defines the initial display order of the column.
     /// </summary>
     [Parameter] public int DisplayOrder { get; set; }
 
     /// <summary>
-    /// Gets or sets where column will be displayed on edit row/popup.
+    /// Defines the initial display order of the column.
     /// </summary>
     [Parameter] public int? EditOrder { get; set; }
 
