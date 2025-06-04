@@ -102,6 +102,7 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         builder.AddAttribute( 4, nameof( NumericPicker<object>.Step ), Column.Step );
         builder.AddAttribute( 5, nameof( NumericPicker<object>.Decimals ), Column.Decimals );
         builder.AddAttribute( 6, nameof( NumericPicker<object>.DecimalSeparator ), Column.DecimalSeparator );
+        builder.AddAttribute( 6, nameof( NumericPicker<object>.GroupSeparator ), Column.GroupSeparator );
         builder.AddAttribute( 7, nameof( NumericPicker<object>.Culture ), Column.Culture );
         builder.AddAttribute( 8, nameof( NumericPicker<object>.ShowStepButtons ), Column.ShowStepButtons );
         builder.AddAttribute( 9, nameof( NumericPicker<object>.EnableStep ), Column.EnableStep );
