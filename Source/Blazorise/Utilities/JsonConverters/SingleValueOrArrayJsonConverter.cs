@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Blazorise.Utilities; 
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Utilities.JsonConverters;
