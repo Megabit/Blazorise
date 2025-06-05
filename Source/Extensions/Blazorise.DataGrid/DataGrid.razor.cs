@@ -1661,6 +1661,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Resets the display order of all columns to their default state.
+    /// </summary>
+    /// <remarks>This method sets the internal display order of each column to <see langword="null"/>,
+    /// effectively clearing any custom display order. If the <see cref="Columns"/> collection is empty or <see
+    /// langword="null"/>, the method performs no action.</remarks>
+    public void ResetDisplayOrder()
+    {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
+        foreach ( var column in Columns )
+        {
+            column.InternalDisplayOrder = null;
+        }
+    }
+
+    /// <summary>
     /// Triggers the DataGrid to change data source page.
     /// </summary>
     /// <remarks>
