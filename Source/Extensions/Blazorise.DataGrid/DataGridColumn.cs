@@ -321,9 +321,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         sb.Append( $" {ClassProvider.DropdownFixedHeaderVisible( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )}" );
 
-        if ( ParentDataGrid.columnDragEntered is not null && ParentDataGrid.columnDragEntered == this )
+        if ( ParentDataGrid.columnDragStarted is not null && ParentDataGrid.columnDragEntered is not null && ParentDataGrid.columnDragEntered == this )
         {
             sb.Append( " b-table-reordering" );
+
+            if ( ParentDataGrid.columnDragEntered.InternalDisplayOrder < ParentDataGrid.columnDragStarted.InternalDisplayOrder )
+            {
+                sb.Append( " b-table-reordering-start" );
+            }
+            else if ( ParentDataGrid.columnDragEntered.InternalDisplayOrder > ParentDataGrid.columnDragStarted.InternalDisplayOrder )
+            {
+                sb.Append( " b-table-reordering-end" );
+            }
         }
 
         return sb.ToString().TrimStart( ' ' );
