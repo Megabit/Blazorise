@@ -9186,7 +9186,11 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DataGridReorderingColumnsExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
+        public const string DataGridReorderingColumnsExample = @"<Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ResetDisplayOrder())"">
+    Reset Columns Order
+</Button>
+
+<DataGrid @ref=""@dataGridRef"" TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Reorderable />
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Reorderable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Reorderable />
@@ -9194,8 +9198,8 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private DataGrid<Employee> dataGridRef;
+    [Inject] public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
