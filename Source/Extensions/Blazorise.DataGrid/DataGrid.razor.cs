@@ -203,12 +203,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( column is not null )
                 {
                     await column.SetDisplaying( displayingState.Displaying );
+                    await column.SetDisplayOrder( displayingState.DisplayOrder );
                 }
             }
         }
         else
         {
             await ResetDisplaying();
+            await ResetDisplayOrder();
         }
 
         if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
@@ -1638,6 +1640,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <summary>
+    /// Resets the display order of all columns to their default state.
+    /// </summary>
+    /// <remarks>This method sets the internal display order of each column to <see langword="null"/>,
+    /// effectively clearing any custom display order. If the <see cref="Columns"/> collection is empty or <see
+    /// langword="null"/>, the method performs no action.</remarks>
+    public async Task ResetDisplayOrder()
+    {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
+        foreach ( var column in Columns )
+        {
+            await column.SetDisplayOrder( column.DisplayOrder );
+        }
+    }
+
     private async Task ResetSorting()
     {
         foreach ( var column in SortByColumns )
@@ -1657,23 +1676,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in Columns )
         {
             column.Filter.SearchValue = null;
-        }
-    }
-
-    /// <summary>
-    /// Resets the display order of all columns to their default state.
-    /// </summary>
-    /// <remarks>This method sets the internal display order of each column to <see langword="null"/>,
-    /// effectively clearing any custom display order. If the <see cref="Columns"/> collection is empty or <see
-    /// langword="null"/>, the method performs no action.</remarks>
-    public void ResetDisplayOrder()
-    {
-        if ( Columns.IsNullOrEmpty() )
-            return;
-
-        foreach ( var column in Columns )
-        {
-            column.InternalDisplayOrder = null;
         }
     }
 
