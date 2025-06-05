@@ -11,10 +11,12 @@ public class DataGridColumnDisplayingState<TItem>
     /// </summary>
     /// <param name="fieldName">Field name.</param>
     /// <param name="displaying">Current displaying state.</param>
-    public DataGridColumnDisplayingState( string fieldName, bool displaying )
+    /// <param name="displayOrder">Display order of the column.</param>
+    public DataGridColumnDisplayingState( string fieldName, bool displaying, int displayOrder )
     {
         FieldName = fieldName;
         Displaying = displaying;
+        DisplayOrder = displayOrder;
     }
 
     /// <summary>
@@ -26,4 +28,9 @@ public class DataGridColumnDisplayingState<TItem>
     /// Gets the column displaying state.
     /// </summary>
     public bool Displaying { get; }
+
+    /// <summary>
+    /// Gets a value indicating the display order of the column.
+    /// </summary>
+    public int DisplayOrder { get; }
 }

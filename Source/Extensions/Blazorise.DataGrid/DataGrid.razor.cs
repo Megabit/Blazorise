@@ -137,9 +137,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected List<DataGridColumn<TItem>> groupableColumns;
 
     /// <summary>
-    /// Tracks the column currently being Dragged.
+    /// Represents the column in a data grid where a drag operation has started.
     /// </summary>
-    internal DataGridColumn<TItem> columnBeingDragged;
+    internal DataGridColumn<TItem> columnDragStarted;
+
+    /// <summary>
+    /// Represents the column in a data grid that the drag operation has entered.
+    /// </summary>
+    internal DataGridColumn<TItem> columnDragEntered;
 
     /// <summary>
     /// Tracks the current DataGridRowEdit reference.
@@ -198,12 +203,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( column is not null )
                 {
                     await column.SetDisplaying( displayingState.Displaying );
+                    await column.SetDisplayOrder( displayingState.DisplayOrder );
                 }
             }
         }
         else
         {
             await ResetDisplaying();
+            await ResetDisplayOrder();
         }
 
         if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
@@ -284,8 +291,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
 
-
-        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying ) ).ToList();
+        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.GetDisplayOrder() ) ).ToList();
 
         return Task.FromResult( dataGridState );
     }
@@ -771,7 +777,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragStarted( DataGridColumn<TItem> col )
     {
-        columnBeingDragged = col;
+        columnDragStarted = col;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnColumnDragEnter( DataGridColumn<TItem> col )
+    {
+        columnDragEntered = col;
 
         return Task.CompletedTask;
     }
@@ -783,9 +796,57 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragEnded( DragEventArgs e )
     {
-        columnBeingDragged = null;
+        columnDragStarted = null;
+        columnDragEntered = null;
 
         return Task.CompletedTask;
+    }
+
+    private async Task OnColumnDropped( DataGridColumn<TItem> columnDropped )
+    {
+        if ( columnDragStarted is null || columnDropped is null )
+            return;
+
+        // Normalize DisplayOrder if needed
+        var orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
+
+        if ( orderedColumns.Any( c => c.GetDisplayOrder() == 0 ) )
+        {
+            for ( int i = 0; i < orderedColumns.Count; i++ )
+                await orderedColumns[i].SetDisplayOrder( i + 1 );
+        }
+
+        // Refresh ordered list in case we updated DisplayOrder
+        orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
+
+        var draggedOrder = columnDragStarted.GetDisplayOrder();
+        var droppedOrder = columnDropped.GetDisplayOrder();
+
+        if ( draggedOrder == droppedOrder )
+            return;
+
+        if ( draggedOrder < droppedOrder )
+        {
+            // Dragged column is moving forward → shift columns between up by 1
+            foreach ( var column in Columns )
+            {
+                if ( column.InternalDisplayOrder > draggedOrder && column.InternalDisplayOrder <= droppedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value - 1 );
+            }
+        }
+        else
+        {
+            // Dragged column is moving backward → shift columns between down by 1
+            foreach ( var column in Columns )
+            {
+                if ( column.InternalDisplayOrder >= droppedOrder && column.InternalDisplayOrder < draggedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value + 1 );
+            }
+        }
+
+        await columnDragStarted.SetDisplayOrder( droppedOrder );
+
+        await Refresh();
     }
 
     /// <summary>
@@ -1576,6 +1637,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in Columns )
         {
             await column.SetDisplaying( column.Displayable );
+        }
+    }
+
+    /// <summary>
+    /// Resets the display order of all columns to their default state.
+    /// </summary>
+    /// <remarks>This method sets the internal display order of each column to <see langword="null"/>,
+    /// effectively clearing any custom display order. If the <see cref="Columns"/> collection is empty or <see
+    /// langword="null"/>, the method performs no action.</remarks>
+    public async Task ResetDisplayOrder()
+    {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
+        foreach ( var column in Columns )
+        {
+            await column.SetDisplayOrder( column.DisplayOrder );
         }
     }
 
@@ -2929,7 +3007,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder );
+                .OrderBy( x => x.GetDisplayOrder() );
 
 
             if ( !IsGroupHeaderCaptionsEnabled )
@@ -2977,7 +3055,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder )
+                .OrderBy( x => x.GetDisplayOrder() )
                 .ToList();
 
 
@@ -3973,9 +4051,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool ShowColumnChooser { get; set; }
 
     /// <summary>
-    /// Event called after a column display change is made. 
+    /// Event called after a column display change is made.
     /// </summary>
     [Parameter] public EventCallback<ColumnDisplayChangedEventArgs<TItem>> ColumnDisplayingChanged { get; set; }
+
+    /// <summary>
+    /// Event called after a column display order change is made.
+    /// </summary>
+    [Parameter] public EventCallback<ColumnDisplayOrderChangedEventArgs<TItem>> ColumnDisplayOrderChanged { get; set; }
 
     /// <summary>
     /// Gets or sets whether the DataGrid should automatically generate columns.

@@ -16,9 +16,9 @@ public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
 
     private Task OnDrop( DragEventArgs e )
     {
-        if ( ParentDataGrid.columnBeingDragged is not null )
+        if ( ParentDataGrid.columnDragStarted is not null )
         {
-            return ColumnAdded.InvokeAsync( ParentDataGrid.columnBeingDragged );
+            return ColumnAdded.InvokeAsync( ParentDataGrid.columnDragStarted );
         }
 
         return Task.CompletedTask;
