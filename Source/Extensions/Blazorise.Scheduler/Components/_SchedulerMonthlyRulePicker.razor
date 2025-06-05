@@ -1,0 +1,70 @@
+﻿@typeparam TItem
+@inherits RadioGroup<string>
+@using Blazorise.Extensions
+@using Blazorise.Localization
+@using Blazorise.Scheduler.Extensions
+@using Blazorise.Scheduler.Utilities
+<CascadingValue Value="@this" IsFixed>
+    <Fields>
+        <Field ColumnSize="ColumnSizeIs3" Flex="FlexAlignItemsCenter">
+            <FieldBody>
+                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-day")">
+                    @Localizer.Localize( Scheduler.Localizers?.DayLocalizer, LocalizationConstants.Day )
+                </Radio>
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSizeIs3">
+            <FieldBody>
+                <NumericPicker TValue="int" Min="1" Max="31" Decimals="0" Disabled="@(InternalMonthlyRule == "monthly-rule-by-week")" Value="@SingleByMonthDay" ValueChanged="@OnSingleByMonthDayChanged" />
+            </FieldBody>
+        </Field>
+    </Fields>
+    <Fields>
+        <Field ColumnSize="ColumnSizeIs3" Flex="FlexAlignItemsCenter">
+            <FieldBody>
+                <Radio TValue="string" Group="monthly-rule" Value="@("monthly-rule-by-week")">
+                    @Localizer.Localize( Scheduler.Localizers?.OnLocalizer, LocalizationConstants.On )
+                </Radio>
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSizeIs3">
+            <FieldBody>
+                <Select TValue="SchedulerWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByWeek" SelectedValueChanged="@ByWeekChanged">
+                    @foreach ( var enumValue in Enum.GetValues<SchedulerWeek>() )
+                    {
+                        <SelectItem @key="@enumValue" Value="@enumValue">
+                            @Localizer.Localize( Scheduler.Localizers?.WeekOfMonthLocalizer, enumValue.ToString() )
+                        </SelectItem>
+                    }
+                </Select>
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSizeIs3">
+            <FieldBody>
+                <Select TValue="DayOfWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByWeekDay" SelectedValueChanged="@ByWeekDayChanged">
+                    @foreach ( var enumValue in Enum.GetValues<DayOfWeek>() )
+                    {
+                        <SelectItem @key="@enumValue" Value="@enumValue">
+                            @Localizer.Localize( Scheduler.Localizers?.DayOfWeekLocalizer, enumValue.ToString() )
+                        </SelectItem>
+                    }
+                </Select>
+            </FieldBody>
+        </Field>
+        @if ( ShowMonth )
+        {
+            <Field ColumnSize="ColumnSizeIs3">
+                <FieldBody>
+                    <Select TValue="SchedulerMonth ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByMonth" SelectedValueChanged="@ByMonthChanged">
+                        @foreach ( var enumValue in Enum.GetValues<SchedulerMonth>() )
+                        {
+                            <SelectItem @key="@enumValue" Value="@enumValue">
+                                @Localizer.Localize( Scheduler.Localizers?.MonthOfYearLocalizer, enumValue.ToString() )
+                            </SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+        }
+    </Fields>
+</CascadingValue>
