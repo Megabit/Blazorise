@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Modules;
@@ -164,8 +165,15 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask CopyToClipboard( ElementReference elementRef, string elementId );
+    ValueTask CopyContentToClipboard( ElementReference elementRef, string elementId );
 
+    /// <summary>
+    /// Copies the specified string content to the clipboard.
+    /// </summary>
+    /// <param name="stringToCopy">The string content to copy to the clipboard.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask<string[]> CopyStringToClipboard( string stringToCopy );
+    
     /// <summary>
     /// Writes a log message to the browser console.
     /// </summary>
@@ -179,4 +187,13 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains true if the theme is in dark mode, otherwise false.</returns>
     ValueTask<bool> IsSystemDarkMode();
+
+    /// <summary>
+    /// Exports data to a specified file with a given MIME type asynchronously.
+    /// </summary>
+    /// <param name="data">The byte array containing the data to be exported.</param>
+    /// <param name="fileName">The name of the file to which the data will be exported.</param>
+    /// <param name="mimeType">The MIME type that describes the format of the data being exported.</param>
+    /// <returns>Array of error strings, empty means no error during export</returns>
+    ValueTask<string[]> ExportToFile( byte[] data, string fileName, string mimeType );
 }
