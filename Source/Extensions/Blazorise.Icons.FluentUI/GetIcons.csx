@@ -16,8 +16,8 @@ async Task ExtractFluentUIIcons()
 {
     var urls = new[]
     {
-        "https://raw.githubusercontent.com/microsoft/fluentui-system-icons/e195af77298bcfe2dcfac3647e30766bc3e5504b/fonts/FluentSystemIcons-Regular.json",
-        "https://raw.githubusercontent.com/microsoft/fluentui-system-icons/e195af77298bcfe2dcfac3647e30766bc3e5504b/fonts/FluentSystemIcons-Filled.json"
+        "https://raw.githubusercontent.com/microsoft/fluentui-system-icons/refs/heads/main/fonts/FluentSystemIcons-Regular.json",
+        "https://raw.githubusercontent.com/microsoft/fluentui-system-icons/refs/heads/main/fonts/FluentSystemIcons-Filled.json"
     };
     var outputFile = "FluentUIIcons.cs";
 
