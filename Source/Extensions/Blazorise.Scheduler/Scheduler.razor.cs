@@ -156,8 +156,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         propertyMapper = new SchedulerPropertyMapper<TItem>( this );
         newItemCreator = new( () => SchedulerFunctionCompiler.CreateNewItem<TItem>() );
 
-        prevDaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigatePrevious ) );
-        nextDaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigateNext ) );
+        prevDaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigatePreviousPeriod ) );
+        nextDaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigateNextPeriod ) );
         todaySubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NavigateToday ) );
         dayViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowDayView ) );
         weekViewSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, ShowWeekView ) );
@@ -307,10 +307,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Navigates to the previous date.
+    /// Navigates to the previous date or period based on the current view mode of the scheduler.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task NavigatePrevious()
+    public async Task NavigatePreviousPeriod()
     {
         if ( SelectedView == SchedulerView.Week && schedulerWeekView is not null )
         {
@@ -339,10 +339,10 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
 
     /// <summary>
-    /// Navigates to the next date.
+    /// Navigates to the next date or period based on the current view mode of the scheduler.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task NavigateNext()
+    public async Task NavigateNextPeriod()
     {
         if ( SelectedView == SchedulerView.Week && schedulerWeekView is not null )
         {
@@ -370,7 +370,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Navigates to the current date.
+    /// Navigates to today's date, updating the selected date to the current day and refreshing the view.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task NavigateToday()
