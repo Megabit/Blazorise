@@ -6,12 +6,12 @@
 public enum SchedulerSlotSelectionMode
 {
     /// <summary>
-    /// Indicates that the selection mode is disabled.
+    /// Slot selection is disabled.
     /// </summary>
     Disabled,
 
     /// <summary>
-    /// Indicates that the selection can be made with the mouse.
+    /// Slots can be selected using the mouse.
     /// </summary>
     Mouse,
 }
