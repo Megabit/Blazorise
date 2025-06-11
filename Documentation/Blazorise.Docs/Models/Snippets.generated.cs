@@ -11025,6 +11025,7 @@ builder.Services
         public const string SchedulerNugetInstallExample = @"Install-Package Blazorise.Scheduler";
 
         public const string SchedulerSelectableExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate"" Data=""@Appointments"" SelectedView=""SchedulerView.Week""
+           Editable
            SlotSelectionMode=""SchedulerSlotSelectionMode.Mouse"">
     <SchedulerToolbar />
     <SchedulerViews>

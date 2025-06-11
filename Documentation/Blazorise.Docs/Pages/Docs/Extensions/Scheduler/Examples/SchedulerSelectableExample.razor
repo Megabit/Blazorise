@@ -1,6 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Scheduler TItem="Appointment" @bind-Date="@selectedDate" Data="@Appointments" SelectedView="SchedulerView.Week"
+           Editable
            SlotSelectionMode="SchedulerSlotSelectionMode.Mouse">
     <SchedulerToolbar />
     <SchedulerViews>
