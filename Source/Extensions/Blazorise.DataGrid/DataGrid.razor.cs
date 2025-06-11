@@ -50,6 +50,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private List<TItem> filteredData = new();
 
     /// <summary>
+    /// Represents the last known count of data items processed or retrieved.
+    /// </summary>
+    private int lastKnownDataCount;
+
+    /// <summary>
     /// Holds the filtered data to display based on the current page.
     /// </summary>
     private IEnumerable<TItem> viewData;
@@ -468,8 +473,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
-        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
-            SetDirty();
+        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
+        {
+            var newCount = paramData?.Count() ?? 0;
+
+            if ( lastKnownDataCount != newCount || !Data.AreEqual( paramData ) )
+            {
+                SetDirty();
+            }
+
+            lastKnownDataCount = newCount;
+        }
 
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
@@ -1204,7 +1218,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( UseInternalEditing )
             {
                 if ( data.Contains( item ) )
+                {
                     data.Remove( item );
+
+                    lastKnownDataCount = Data?.Count() ?? 0;
+                }
 
                 if ( itemIsSelected )
                 {
@@ -1315,6 +1333,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             break;
                     }
                 }
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             await BatchSaved.InvokeAsync( new DataGridBatchSavedEventArgs<TItem>( batchChanges ) );
@@ -1439,6 +1459,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
                 data.Add( editItem );
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             if ( UseInternalEditing || editState == DataGridEditState.New )
@@ -1494,6 +1516,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
                     data2.Remove( newItem.NewItem );
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             batchChanges?.Clear();
@@ -2173,7 +2197,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Filtering
 
-    private void SetDirty()
+    /// <summary>
+    /// Marks the current filter and view as dirty, indicating that they require updating.
+    /// </summary>
+    protected void SetDirty()
     {
         dirtyFilter = dirtyView = true;
     }
