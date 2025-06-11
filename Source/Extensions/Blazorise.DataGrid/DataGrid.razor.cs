@@ -2173,7 +2173,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Filtering
 
-    private void SetDirty()
+    /// <summary>
+    /// Marks the current filter and view as dirty, indicating that they require updating.
+    /// </summary>
+    protected void SetDirty()
     {
         dirtyFilter = dirtyView = true;
     }
