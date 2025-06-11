@@ -1,0 +1,87 @@
+﻿@inherits BaseComponent
+@typeparam TItem
+@using Blazorise.Scheduler.Extensions
+@using Blazorise.Scheduler.Utilities
+<Div Class="@ClassNames" Style="@StyleNames" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenter">
+    <Buttons>
+        @{
+            var todayLabel = @Localizer.Localize( Scheduler.Localizers?.TodayLocalizer, LocalizationConstants.Today );
+            var previousLabel = @Localizer.Localize( Scheduler.Localizers?.PreviousLocalizer, LocalizationConstants.Previous );
+            var nextLabel = @Localizer.Localize( Scheduler.Localizers?.NextLocalizer, LocalizationConstants.Next );
+        }
+
+        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick" aria-label="@todayLabel">
+            @todayLabel
+        </Button>
+        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnPreviousClick" aria-label="@previousLabel">
+            <Icon Name="IconName.ChevronLeft" />
+        </Button>
+        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnNextClick" aria-label="@nextLabel">
+            <Icon Name="IconName.ChevronRight" />
+        </Button>
+    </Buttons>
+
+    <Span TextWeight="TextWeight.Bold">
+        @if ( WeekViewSelected )
+        {
+            var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWeek );
+
+            <Span>@startOfWeek.ToLongDateString()</Span>
+            <Span>-</Span>
+            <Span>@startOfWeek.AddDays( 6 ).ToLongDateString()</Span>
+        }
+        else if ( WorkWeekViewSelected )
+        {
+            var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWorkWeek );
+
+            <Span>@startOfWeek.ToLongDateString()</Span>
+            <Span>-</Span>
+            <Span>@startOfWeek.AddDays( 4 ).ToLongDateString()</Span>
+        }
+        else if ( MonthViewSelected )
+        {
+            <Span>@SelectedDate.ToString( "MMMM yyyy" )</Span>
+        }
+        else
+        {
+            @SelectedDate.ToLongDateString()
+        }
+    </Span>
+
+    <Buttons>
+        @if ( ShowDayViewButton )
+        {
+            var dayLabel = Localizer.Localize( Scheduler.Localizers?.DayLocalizer, LocalizationConstants.Day );
+
+            <Button Color="@(DayViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@DayViewSelected" Clicked="@OnDayViewClick" aria-label="@dayLabel">
+                @dayLabel
+            </Button>
+        }
+        @if ( ShowWeekViewButton )
+        {
+            var weekLabel = Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, LocalizationConstants.Week );
+
+            <Button Color="@(WeekViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@WeekViewSelected" Clicked="@OnWeekViewClick" aria-label="@weekLabel">
+                @weekLabel
+            </Button>
+        }
+        @if ( ShowWorkWeekViewButton )
+        {
+            var workWeekLabel = Localizer.Localize( Scheduler.Localizers?.WorkWeekLocalizer, LocalizationConstants.WorkWeek );
+
+            <Button Color="@(WorkWeekViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@WorkWeekViewSelected" Clicked="@OnWorkWeekViewClick" aria-label="@workWeekLabel">
+                @workWeekLabel
+            </Button>
+        }
+        @if ( ShowMonthViewButton )
+        {
+            var monthLabel = Localizer.Localize( Scheduler.Localizers?.MonthLocalizer, LocalizationConstants.Month );
+
+            <Button Color="@(MonthViewSelected ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@MonthViewSelected" Clicked="@OnMonthViewClick" aria-label="@monthLabel">
+                @monthLabel
+            </Button>
+        }
+    </Buttons>
+
+    @ChildContent
+</Div>

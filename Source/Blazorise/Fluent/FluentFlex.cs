@@ -36,6 +36,7 @@ public interface IFluentFlexAll :
     IFluentFlexWrap,
     IFluentFlexFill,
     IFluentFlexGrowShrink,
+    IFluentFlexBasis,
     IFluentFlexOrder,
     IFluentFlexCondition
 {

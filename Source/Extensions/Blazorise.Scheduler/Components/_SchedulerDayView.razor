@@ -1,0 +1,13 @@
+﻿@typeparam TItem
+<Div Class="b-scheduler-day-view" Style="@GetViewStyle()" Flex="FlexDefaultGrowIs1">
+    @{
+        var items = Scheduler.GetItemsInView( SelectedDate.ToDateTime( TimeOnly.MinValue ), SelectedDate.ToDateTime( TimeOnly.MaxValue ) ).ToList();
+
+        var allDayItems = Scheduler.GetAllDayItemsInRange( SelectedDate.ToDateTime( TimeOnly.MinValue ), SelectedDate.ToDateTime( TimeOnly.MinValue ) ).ToList();
+        var maxStackedAllDayItems = Scheduler.GetMaxStackedAllDayItems( allDayItems, SelectedDate, SelectedDate );
+
+        <_SchedulerHourColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxStackedAllDayItems="@maxStackedAllDayItems" />
+
+        <_SchedulerDayColumn TItem="TItem" FirstViewDate="@SelectedDate" LastViewDate="@SelectedDate" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@SelectedDate" SlotsPerCell="@SlotsPerCell" HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@items" MaxStackedAllDayItems="@maxStackedAllDayItems" AllDayItems="@allDayItems" Section="SchedulerSection.DayView" />
+    }
+</Div>

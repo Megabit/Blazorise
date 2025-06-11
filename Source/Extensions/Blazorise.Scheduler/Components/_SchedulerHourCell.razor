@@ -1,0 +1,8 @@
+﻿<Div Class="b-scheduler-hour-cell" TextWeight="Blazorise.TextWeight.SemiBold" Padding="PaddingIs3">
+    @HourString
+</Div>
+@code {
+    string HourString => $"{Time.ToString( "HH:mm" )}";
+
+    [Parameter] public TimeOnly Time { get; set; }
+}
