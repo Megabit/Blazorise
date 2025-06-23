@@ -6,18 +6,17 @@ namespace Blazorise.DataGrid;
 public class DataGridExportOptions
 {
     /// <summary>
-    /// -1 means all rows
+    /// Defines the number of rows to export from a data grid. If null, all rows will be exported.
     /// </summary>
-    public int NumberOfRows { get; init; } = -1;
+    public int? NumberOfRows { get; init; }
 
     /// <summary>
-    /// null means All fields
+    /// Defines the fields to export from a data grid. If null, all fields will be exported.
     /// </summary>
     public string[] Fields { get; init; } = null;
 
     /// <summary>
-    /// if true, the Captions will be used for export column names.
-    /// if false  Field is used.
+    /// Defines whether to include captions instead of field names in the export. Defaults to false.
     /// </summary>
-    public bool UseCaptions { get; init; } = true;
+    public bool UseCaptions { get; init; }
 }

@@ -1952,9 +1952,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
                            ? columnsToExport.Select( c => c.Caption ?? c.Field )
                            : columnsToExport.Select( x => x.Field ) ).ToList();
 
-        var filteredDataToTake = options.NumberOfRows == -1
+        var filteredDataToTake = options.NumberOfRows is null || options.NumberOfRows <= 0
             ? FilteredData
-            : FilteredData.Take( options.NumberOfRows );
+            : FilteredData.Take( options.NumberOfRows.Value );
 
         bool isCellValueString = typeof( TCellValue ) == typeof( string );
 
