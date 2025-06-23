@@ -1,0 +1,29 @@
+﻿<h2>Basic steps</h2>
+<p id="basic-steps">
+    <Steps SelectedStep="@selectedStep" SelectedStepChanged="@OnSelectedStepChanged">
+        <Items>
+            <Step Name="1">1</Step>
+            <Step Name="2">2</Step>
+            <Step Name="3">3</Step>
+        </Items>
+        <Content>
+            <StepPanel Name="1">
+                First step content
+            </StepPanel>
+            <StepPanel Name="2">
+                Second step content
+            </StepPanel>
+            <StepPanel Name="3">
+                Third step content
+            </StepPanel>
+        </Content>
+    </Steps>
+</p>
+@code {
+    string selectedStep = "2";
+
+    private void OnSelectedStepChanged( string name )
+    {
+        selectedStep = name;
+    }
+}

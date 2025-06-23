@@ -150,6 +150,12 @@ public class MessageOptions
     public IEnumerable<MessageOptionsChoice> Choices { get; set; }
 
     /// <summary>
+    /// If defined the message dialog will be closed when the user clicks outside of it.
+    /// Overrides the default behavior of the <see cref="MessageAlert.BackgroundCancel"/> parameter.
+    /// </summary>
+    public bool? BackgroundCancel { get; set; }
+
+    /// <summary>
     /// Creates the default message options.
     /// </summary>
     /// <returns>Default message options.</returns>

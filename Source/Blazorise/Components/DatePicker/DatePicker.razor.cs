@@ -58,6 +58,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
             var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
             var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool paramShowWeekNumbers ) && ShowWeekNumbers != paramShowWeekNumbers;
+            var showTodayButtonChanged = parameters.TryGetValue( nameof( ShowTodayButton ), out bool paramShowTodayButton ) && ShowTodayButton != paramShowTodayButton;
+            var showClearButtonChanged = parameters.TryGetValue( nameof( ShowClearButton ), out bool paramShowClearButton ) && ShowClearButton != paramShowClearButton;
 
             if ( dateChanged || datesChanged )
             {
@@ -89,7 +91,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || disableMobileChanged
                  || placeholderChanged
                  || staticPickerChanged
-                 || showWeekNumbersChanged )
+                 || showWeekNumbersChanged
+                 || showTodayButtonChanged
+                 || showClearButtonChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new DatePickerUpdateJSOptions()
                 {
@@ -110,6 +114,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
                     StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
                     ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers ),
+                    ShowTodayButton = new JSOptionChange<bool>( showTodayButtonChanged, paramShowTodayButton ),
+                    ShowClearButton = new JSOptionChange<bool>( showClearButtonChanged, paramShowClearButton ),
                 } ) );
             }
         }
@@ -190,6 +196,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
             ShowWeekNumbers = ShowWeekNumbers,
+            ShowTodayButton = ShowTodayButton,
+            ShowClearButton = ShowClearButton,
             ValidationStatus = new
             {
                 SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
@@ -480,6 +488,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             },
             amPM = new[] { Localizer["AM"], Localizer["PM"] },
             RangeSeparator = CurrentRangeSeparator,
+            Today = Localizer["Today"],
+            Clear = Localizer["Clear"],
         };
     }
 
@@ -607,12 +617,12 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     [Parameter] public Expression<Func<IReadOnlyList<TValue>>> DatesExpression { get; set; }
 
     /// <summary>
-    /// The earliest date to accept.
+    /// The earliest date to accept. Updating this value does not change the selected date, even if it falls below the new minimum.
     /// </summary>
     [Parameter] public DateTimeOffset? Min { get; set; }
 
     /// <summary>
-    /// The latest date to accept.
+    /// The latest date to accept. Updating this value does not change the selected date, even if it exceeds the new maximum.
     /// </summary>
     [Parameter] public DateTimeOffset? Max { get; set; }
 
@@ -656,7 +666,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     [Parameter] public bool Inline { get; set; }
 
     /// <summary>
-    /// If enabled, it disables the native input on mobile devices.
+    /// If enabled, it always uses the non-native picker. Default is true.
     /// </summary>
     [Parameter] public bool DisableMobile { get; set; } = true;
 
@@ -669,6 +679,16 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// Determines whether the calendar menu will show week numbers.
     /// </summary>
     [Parameter] public bool ShowWeekNumbers { get; set; }
+
+    /// <summary>
+    /// Determines whether to show the today button in the calendar menu.
+    /// </summary>
+    [Parameter] public bool ShowTodayButton { get; set; }
+
+    /// <summary>
+    /// Determines whether to show the clear button in the calendar menu.
+    /// </summary>
+    [Parameter] public bool ShowClearButton { get; set; }
 
     #endregion
 }

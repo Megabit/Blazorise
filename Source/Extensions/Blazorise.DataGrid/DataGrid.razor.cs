@@ -52,6 +52,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     private List<TItem> filteredData = new();
 
     /// <summary>
+    /// Represents the last known count of data items processed or retrieved.
+    /// </summary>
+    private int lastKnownDataCount;
+
+    /// <summary>
     /// Holds the filtered data to display based on the current page.
     /// </summary>
     private IEnumerable<TItem> viewData;
@@ -139,9 +144,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     protected List<DataGridColumn<TItem>> groupableColumns;
 
     /// <summary>
-    /// Tracks the column currently being Dragged.
+    /// Represents the column in a data grid where a drag operation has started.
     /// </summary>
-    internal DataGridColumn<TItem> columnBeingDragged;
+    internal DataGridColumn<TItem> columnDragStarted;
+
+    /// <summary>
+    /// Represents the column in a data grid that the drag operation has entered.
+    /// </summary>
+    internal DataGridColumn<TItem> columnDragEntered;
 
     /// <summary>
     /// Tracks the current DataGridRowEdit reference.
@@ -200,12 +210,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
                 if ( column is not null )
                 {
                     await column.SetDisplaying( displayingState.Displaying );
+                    await column.SetDisplayOrder( displayingState.DisplayOrder );
                 }
             }
         }
         else
         {
             await ResetDisplaying();
+            await ResetDisplayOrder();
         }
 
         if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
@@ -286,8 +298,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
 
-
-        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying ) ).ToList();
+        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.GetDisplayOrder() ) ).ToList();
 
         return Task.FromResult( dataGridState );
     }
@@ -464,8 +475,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
-        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
-            SetDirty();
+        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
+        {
+            var newCount = paramData?.Count() ?? 0;
+
+            if ( lastKnownDataCount != newCount || !Data.AreEqual( paramData ) )
+            {
+                SetDirty();
+            }
+
+            lastKnownDataCount = newCount;
+        }
 
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
@@ -598,6 +618,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
                 numericColumn.Step = numeric.Step;
                 numericColumn.Decimals = numeric.Decimals;
                 numericColumn.DecimalSeparator = numeric.DecimalSeparator;
+                numericColumn.GroupSeparator = numeric.GroupSeparator;
                 numericColumn.Culture = numeric.Culture;
                 numericColumn.ShowStepButtons = numeric.ShowStepButtons;
                 numericColumn.EnableStep = numeric.EnableStep;
@@ -773,7 +794,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     /// <returns></returns>
     private Task OnColumnDragStarted( DataGridColumn<TItem> col )
     {
-        columnBeingDragged = col;
+        columnDragStarted = col;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnColumnDragEnter( DataGridColumn<TItem> col )
+    {
+        columnDragEntered = col;
 
         return Task.CompletedTask;
     }
@@ -785,9 +813,57 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     /// <returns></returns>
     private Task OnColumnDragEnded( DragEventArgs e )
     {
-        columnBeingDragged = null;
+        columnDragStarted = null;
+        columnDragEntered = null;
 
         return Task.CompletedTask;
+    }
+
+    private async Task OnColumnDropped( DataGridColumn<TItem> columnDropped )
+    {
+        if ( columnDragStarted is null || columnDropped is null )
+            return;
+
+        // Normalize DisplayOrder if needed
+        var orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
+
+        if ( orderedColumns.Any( c => c.GetDisplayOrder() == 0 ) )
+        {
+            for ( int i = 0; i < orderedColumns.Count; i++ )
+                await orderedColumns[i].SetDisplayOrder( i + 1 );
+        }
+
+        // Refresh ordered list in case we updated DisplayOrder
+        orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
+
+        var draggedOrder = columnDragStarted.GetDisplayOrder();
+        var droppedOrder = columnDropped.GetDisplayOrder();
+
+        if ( draggedOrder == droppedOrder )
+            return;
+
+        if ( draggedOrder < droppedOrder )
+        {
+            // Dragged column is moving forward → shift columns between up by 1
+            foreach ( var column in Columns )
+            {
+                if ( column.InternalDisplayOrder > draggedOrder && column.InternalDisplayOrder <= droppedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value - 1 );
+            }
+        }
+        else
+        {
+            // Dragged column is moving backward → shift columns between down by 1
+            foreach ( var column in Columns )
+            {
+                if ( column.InternalDisplayOrder >= droppedOrder && column.InternalDisplayOrder < draggedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value + 1 );
+            }
+        }
+
+        await columnDragStarted.SetDisplayOrder( droppedOrder );
+
+        await Refresh();
     }
 
     /// <summary>
@@ -1145,7 +1221,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
             if ( UseInternalEditing )
             {
                 if ( data.Contains( item ) )
+                {
                     data.Remove( item );
+
+                    lastKnownDataCount = Data?.Count() ?? 0;
+                }
 
                 if ( itemIsSelected )
                 {
@@ -1256,6 +1336,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
                             break;
                     }
                 }
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             await BatchSaved.InvokeAsync( new DataGridBatchSavedEventArgs<TItem>( batchChanges ) );
@@ -1371,6 +1453,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
+        var oldItem = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         var editItemClone = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         SetItemEditedValues( editItemClone );
 
@@ -1379,6 +1462,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
                 data.Add( editItem );
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             if ( UseInternalEditing || editState == DataGridEditState.New )
@@ -1399,7 +1484,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( oldItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
@@ -1434,6 +1519,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
             {
                 foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
                     data2.Remove( newItem.NewItem );
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             batchChanges?.Clear();
@@ -1577,6 +1664,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
         foreach ( var column in Columns )
         {
             await column.SetDisplaying( column.Displayable );
+        }
+    }
+
+    /// <summary>
+    /// Resets the display order of all columns to their default state.
+    /// </summary>
+    /// <remarks>This method sets the internal display order of each column to <see langword="null"/>,
+    /// effectively clearing any custom display order. If the <see cref="Columns"/> collection is empty or <see
+    /// langword="null"/>, the method performs no action.</remarks>
+    public async Task ResetDisplayOrder()
+    {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
+        foreach ( var column in Columns )
+        {
+            await column.SetDisplayOrder( column.DisplayOrder );
         }
     }
 
@@ -1898,7 +2002,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
         foreach ( var column in EditableColumns )
         {
             var cellValue = column.GetValue( editItem );
-            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue ) );
+            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue, EditState ) );
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
@@ -2161,7 +2265,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
 
     #region Filtering
 
-    private void SetDirty()
+    /// <summary>
+    /// Marks the current filter and view as dirty, indicating that they require updating.
+    /// </summary>
+    protected void SetDirty()
     {
         dirtyFilter = dirtyView = true;
     }
@@ -2995,7 +3102,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder );
+                .OrderBy( x => x.GetDisplayOrder() );
 
 
             if ( !IsGroupHeaderCaptionsEnabled )
@@ -3043,7 +3150,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder )
+                .OrderBy( x => x.GetDisplayOrder() )
                 .ToList();
 
 
@@ -4039,9 +4146,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     [Parameter] public bool ShowColumnChooser { get; set; }
 
     /// <summary>
-    /// Event called after a column display change is made. 
+    /// Event called after a column display change is made.
     /// </summary>
     [Parameter] public EventCallback<ColumnDisplayChangedEventArgs<TItem>> ColumnDisplayingChanged { get; set; }
+
+    /// <summary>
+    /// Event called after a column display order change is made.
+    /// </summary>
+    [Parameter] public EventCallback<ColumnDisplayOrderChangedEventArgs<TItem>> ColumnDisplayOrderChanged { get; set; }
 
     /// <summary>
     /// Gets or sets whether the DataGrid should automatically generate columns.
@@ -4081,6 +4193,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
     /// Make sure to handle this event if you need to respond to cell selection changes.
     /// </remarks>
     [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
+
+    /// <summary>
+    /// Defines the caption of the table, usually used to describe the table content.
+    /// </summary>
+    [Parameter] public string Caption { get; set; }
+
+    /// <summary>
+    /// Defines the placement of the <see cref="Caption"/> element.
+    /// </summary>
+    [Parameter] public TableCaptionSide CaptionSide { get; set; }
 
     #endregion
 }

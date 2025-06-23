@@ -111,6 +111,16 @@ public class DatePickerJSOptions
     /// Determines whether the calendar menu will show week numbers.
     /// </summary>
     public bool ShowWeekNumbers { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show a "Today" button in the date picker calendar.
+    /// </summary>
+    public bool ShowTodayButton { get; set; }
+
+    /// <summary>
+    /// gets or sets a value indicating whether to show a "Clear" button in the date picker calendar.
+    /// </summary>
+    public bool ShowClearButton { get; set; }
 }
 
 /// <summary>
@@ -202,4 +212,14 @@ public class DatePickerUpdateJSOptions
     /// Gets or sets the option for updating the show week numbers setting.
     /// </summary>
     public JSOptionChange<bool> ShowWeekNumbers { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for showing or hiding the "Today" button.
+    /// </summary>
+    public JSOptionChange<bool> ShowTodayButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for showing or hiding the "Clear" button.
+    /// </summary>
+    public JSOptionChange<bool> ShowClearButton { get; set; }
 }

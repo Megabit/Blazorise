@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Blazorise.RichTextEdit;
 
 /// <summary>
@@ -16,6 +18,7 @@ public class RichTextEditHtmlOptions
     /// Gets the starting index from which to retrieve the content.
     /// Only used if <see cref="IsSemanticHtml"/> is <c>true</c>.
     /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? Index { get; init; }
 
     /// <summary>
@@ -23,6 +26,7 @@ public class RichTextEditHtmlOptions
     /// If not specified, the content will be retrieved from <see cref="Index"/> to the end of the document.
     /// Only used if <see cref="IsSemanticHtml"/> is <c>true</c>.
     /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? Length { get; init; }
 
     /// <summary>

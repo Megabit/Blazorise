@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Bulma.Providers;
@@ -162,7 +163,7 @@ public class BulmaThemeGenerator : ThemeGenerator
 
         if ( options?.DisabledOpacity != null )
             sb.Append( ".button[disabled], fieldset[disabled] .button" ).Append( "{" )
-                .Append( $"opacity: {options.DisabledOpacity};" )
+                .Append( $"opacity: {options.DisabledOpacity.ToCultureInvariantString()};" )
                 .AppendLine( "}" );
     }
 

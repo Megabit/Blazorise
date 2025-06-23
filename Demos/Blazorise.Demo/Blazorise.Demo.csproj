@@ -31,6 +31,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Exporters.Csv\Blazorise.Exporters.Csv.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Exporters.Bson\Blazorise.Exporters.Bson.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
     <ProjectReference Include="..\Apps\TodoApp\TodoApp.csproj" />
   </ItemGroup>
 

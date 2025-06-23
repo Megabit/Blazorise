@@ -26,7 +26,7 @@ public interface IFileEntry
     /// Returns the name of the file.
     /// </summary>
     string Name { get; }
-    
+
     /// <summary>
     /// Returns the relative path of the file.
     /// </summary>

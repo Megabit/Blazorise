@@ -1020,6 +1020,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableResponsiveMode( TableResponsiveMode responsiveMode );
 
+    public abstract string TableCaption();
+
+    public abstract string TableCaptionSide( TableCaptionSide side );
+
     #endregion
 
     #region Badge
@@ -1959,6 +1963,17 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
+    public virtual string ToBasisSize( FlexBasisSize basisSize )
+    {
+        return basisSize switch
+        {
+            Blazorise.FlexBasisSize.Is0 => "0",
+            Blazorise.FlexBasisSize.Auto => "auto",
+            Blazorise.FlexBasisSize.Full => "full",
+            _ => null,
+        };
+    }
+
     public virtual string ToWrap( FlexWrap wrap )
     {
         return wrap switch
@@ -2130,6 +2145,16 @@ public abstract class ClassProvider : IClassProvider
         {
             Blazorise.SkeletonAnimation.Wave => "wave",
             Blazorise.SkeletonAnimation.Pulse => "pulse",
+            _ => null
+        };
+    }
+
+    public virtual string ToTableCaptionSide( TableCaptionSide side )
+    {
+        return side switch
+        {
+            Blazorise.TableCaptionSide.Top => "top",
+            Blazorise.TableCaptionSide.Bottom => "bottom",
             _ => null
         };
     }

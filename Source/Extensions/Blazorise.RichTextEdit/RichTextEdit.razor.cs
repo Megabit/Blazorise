@@ -254,6 +254,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public bool SubmitOnEnter { get; set; } = false;
 
     /// <summary>
+    /// Indicates whether resizing functionality should be enabled.
+    /// </summary>
+    [Parameter] public bool UseResize { get; set; }
+
+    /// <summary>
     /// Occurs when the content within the editor changes.
     /// </summary>
     [Parameter] public EventCallback ContentChanged { get; set; }

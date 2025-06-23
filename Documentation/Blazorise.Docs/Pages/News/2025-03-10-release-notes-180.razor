@@ -31,6 +31,11 @@
             <Strong>MessageService</Strong>: New Choices Method
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>DataGrid</Strong>: Reordering and Batch Edit Enhancements
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -111,6 +116,14 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Table Caption
+</Heading>
+
+<Paragraph>
+    The <Code>Table</Code> component now has a <Code>TableCaption</Code> child component, allowing you to add a caption to the table. This caption can be used to provide additional context or information about the data being displayed in the table. The <Code>caption</Code> element is usually used for accesibility purposes, and it is recommended to use it when the table contains a lot of data or when the table is complex.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     DataGrid: Programmatic Addition of Items to Batch Edit Collection
 </Heading>
 
@@ -127,11 +140,55 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    DataGrid: EditState for EditTemplate
+</Heading>
+
+<Paragraph>
+    The <Code>EditTemplate</Code> of <Code>DataGridColumn</Code> component now includes an <Code>EditState</Code> argument. This addition will allow to determine the current edit state of the row, enabling developers to customize the edit template based on whether the row is in edit mode or not. This can be useful for displaying different UI elements or providing additional functionality based on the edit state.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Add Caption to DataGrid
+</Heading>
+
+<Paragraph>
+    The <Code>DataGrid</Code> component now supports a <Code>Caption</Code> property, allowing you to add a caption to the grid. This caption can be used to provide additional context or information about the data being displayed in the grid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Add GroupSeparator for numeric columns
+</Heading>
+
+<Paragraph>
+    The <Code>DataGridNumericColumn</Code> component now includes a <Code>GroupSeparator</Code> parameter. This allows you to specify a custom group separator for numeric columns, enhancing the readability of large numbers by grouping digits in a more user-friendly way.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid: Reordering Columns
+</Heading>
+
+<Paragraph>
+    The <Code>DataGrid</Code> component now supports reordering columns by dragging and dropping them. By simply enabling the <Code>Reorderable</Code> parameter on the <Code>DataGridColumn</Code>, users can rearrange columns to their preferred order. This feature enhances user experience by allowing customization of the grid layout according to user preferences.
+</Paragraph>
+
+<Paragraph>
+    On top of that, we have also added a <Code>ResetDisplayOrder</Code> method to the <Code>DataGrid</Code> component, which allows you to reset the column order to the default state. This can be useful in scenarios where you want to provide users with the option to revert any changes made to the column order.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Show Week Numbers On DatePicker
 </Heading>
 
 <Paragraph>
     The <Code>DatePicker</Code> component now includes a <Code>ShowWeekNumbers</Code> parameter. When enabled, the calendar displays ISO week numbers alongside each row. This can be helpful for planning or referencing by week.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    New Buttons on DatePicker Calendar
+</Heading>
+
+<Paragraph>
+    The <Code>DatePicker</Code> component now includes a <Code>ShowTodayButton</Code> parameter, and a <Code>ShowClearButton</Code> parameter. When enabled, these buttons appear on the calendar, allowing users to quickly select the current date or clear the selected date, respectively. This enhances usability and provides a more intuitive experience for users interacting with the date picker.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -144,6 +201,18 @@
 
 <Paragraph>
     The refactoring addresses longstanding pain points related to plugin lifecycle management and ensures that disposal and initialization are consistently handled. This unified approach not only improves maintainability but also helps prevent potential bugs across all plugins. As part of this effort, it was also noted that some plugins, such as the Streaming plugin, may require implementations of methods like OnParametersSetAsync to ensure all configuration parameters are properly updated during the component lifecycle.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Renamed Chart Options
+</Heading>
+
+<Paragraph>
+    We had a wrongly named option on the <Code>DoughnutChartOptions</Code>, and <Code>PieChartOptions</Code> classes. The <Code>CutoutPercentage</Code> property has been renamed to <Code>Cutout</Code>. This change aligns with the Chart.js documentation and ensures consistency across the API. Since the field was already wrongly named, this change should not break any existing code. However, if you were using the <Code>CutoutPercentage</Code> property, you will need to update your code to use the new <Code>Cutout</Code> property.
+</Paragraph>
+
+<Paragraph>
+    To make it more flexible we have also made it an <Code>object</Code> type, so you can use it as a percentage or a number. This change allows you to specify the cutout value in either pixels or as a percentage of the chart's radius, providing greater flexibility in how you configure your charts.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -160,6 +229,22 @@
 
 <Paragraph>
     The <Code>RichTextEdit</Code> component now includes an <Code>GetHtmlAsync</Code> overload that allows you to export the current content as semantic HTML. This is particularly useful for applications that require clean and structured HTML output, such as when saving or sharing content.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit Image and Video Resizing
+</Heading>
+
+<Paragraph>
+    We've introduced a new resizing feature for images and videos within the <Code>RichTextEdit</Code> component. Users can now directly resize multimedia content within the editor, enhancing flexibility and providing a smoother editing experience.
+</Paragraph>
+
+<Paragraph>
+    This functionality can be conveniently enabled or disabled via the <Code>UseResize</Code> parameter, allowing easy customization to meet your project's specific needs.
+</Paragraph>
+
+<Paragraph>
+    For comprehensive guidance, including usage instructions and integration examples, please refer to our <Anchor To="docs/extensions/richtextedit">RichTextEdit documentation</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -184,6 +269,46 @@
 
 <Paragraph>
     The <Code>ITextLocalizer</Code> interface now includes overloads for the <Code>GetString</Code> method that accept a <Code>CultureInfo</Code> parameter. The <Code>CultureInfo</Code> parameter can be used to specify the desired culture for localization, enabling you to retrieve strings that are tailored to the user's language and region. This is particularly useful in scenarios where you need to support multiple languages or regions within your application.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Flex Basis Utilities
+</Heading>
+
+<Paragraph>
+    We have introduced a new new <Code>Flex.Basis</Code> utiities that will help more easily set the flex-basis property in your app without the need to write custom CSS. The new utilities are <Code>Flex.Basis.Auto</Code>, <Code>Flex.Basis.Full</Code>, and <Code>Flex.Basis.Is0</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Chart Zoom Plugin
+</Heading>
+
+<Paragraph>
+    We have introduced new set of APIs for the <Code>ChartZoom</Code> plugin. The new API are <Code>Zoomed</Code>, <Code>SetZoomLevel</Code>, and <Code>GetZoomLevel</Code>, and <Code>ResetZoomLevel</Code>. These new APIs provide a more intuitive and flexible way to manage zoom levels in your charts. The <Code>Zoomed</Code> event is triggered when the chart is zoomed, allowing you to respond to zoom changes in real-time. The <Code>SetZoomLevel</Code> method allows you to programmatically set the zoom level of the chart, while the <Code>GetZoomLevel</Code> method allows you to retrieve the current zoom level. Finally, the <Code>ResetZoomLevel</Code> method allows you to reset the zoom level of the chart to its original state.
+</Paragraph>
+
+<Paragraph>
+    The <Code>ChartZoom</Code> plugin has been updated to support the latest <Code>chartjs-plugin-zoom.js</Code> version. It is recommended to update your references to use new <Code>https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js</Code> to ensure compatibility with the latest features and bug fixes.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Contribution from Community
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Steps Lazy Loading
+</Heading>
+
+<Paragraph>
+    The <Code>Steps</Code> component now supports lazy loading, and is working simillar to our <Anchor To="docs/components/tab" Title="Link to Tabs">Tabs</Anchor> component. This means that the content of each step is only loaded when the step is activated, which can improve performance and reduce initial load times for applications with many steps or complex content.
+</Paragraph>
+
+<Paragraph>
+    This feature was contributed by <Anchor To="https://github.com/brhinescot>" Title="Link to brhinescot">brhinescot</Anchor>, and we appreciate their contribution to the Blazorise community.
+</Paragraph>
+
+<Paragraph>
+    You can see it in action in the <Anchor To="docs/components/step" Title="Link to Steps">Steps documentation</Anchor>.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 10th, 2025" Read="7 min" />
