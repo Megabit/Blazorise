@@ -25,7 +25,7 @@ public abstract class ExporterToFile<TOptions, TExportResult, TSourceData> : IEx
 
     public abstract Task<byte[]> GetDataForExport( TSourceData dataSource );
 
-    public virtual Task<TExportResult> GetExportResult( string[] exportToFileErrors)
+    public virtual Task<TExportResult> GetExportResult( string[] exportToFileErrors )
     {
         var result = new TExportResult
         {

@@ -12,7 +12,7 @@ public abstract class BinaryExporterToFile<TOptions, TExportResult, TSourceData>
     /// Initializes a BinaryExporterToFile instance with specified options for exporting data in binary format.
     /// </summary>
     /// <param name="options">Specifies the configuration settings for the binary export process.</param>
-    protected BinaryExporterToFile( TOptions options ) 
+    protected BinaryExporterToFile( TOptions options )
         : base( options )
     {
     }

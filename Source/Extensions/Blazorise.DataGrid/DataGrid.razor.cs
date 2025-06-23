@@ -1939,19 +1939,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
 
         // Filter columns (exclude Command, MultiSelect, and DisplayTemplate columns)
         var columnsToExport = Columns
-                              .Where( column => column.ColumnType != DataGridColumnType.Command && 
-                                              column.ColumnType != DataGridColumnType.MultiSelect && 
-                                              column.Field != null && 
+                              .Where( column => column.ColumnType != DataGridColumnType.Command &&
+                                              column.ColumnType != DataGridColumnType.MultiSelect &&
+                                              column.Field != null &&
                                               column.DisplayTemplate == null &&
                                               ( options.Fields == null || options.Fields.Contains( column.Field ) ) )
                               .ToList();
-        var exportedData = new List<List<TCellValue>>();
-        
-        var columnNames = (options.UseCaptions
-                           ? columnsToExport.Select( c => c.Caption ?? c.Field )
-                           : columnsToExport.Select(x=> x.Field)).ToList();
 
-        var filteredDataToTake = options.NumberOfRows == -1 ? FilteredData : FilteredData.Take( options.NumberOfRows );
+        var exportedData = new List<List<TCellValue>>();
+
+        var columnNames = ( options.UseCaptions
+                           ? columnsToExport.Select( c => c.Caption ?? c.Field )
+                           : columnsToExport.Select( x => x.Field ) ).ToList();
+
+        var filteredDataToTake = options.NumberOfRows == -1
+            ? FilteredData
+            : FilteredData.Take( options.NumberOfRows );
 
         bool isCellValueString = typeof( TCellValue ) == typeof( string );
 
@@ -1962,9 +1965,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableCompone
             foreach ( var column in columnsToExport )
             {
                 var cellValue = column.GetValue( item );
-                object formattedValue = isCellValueString
-                                        ? column.FormatDisplayValue( cellValue ) ?? ""
-                                        : cellValue;
+
+                var formattedValue = isCellValueString
+                    ? column.FormatDisplayValue( cellValue ) ?? string.Empty
+                    : cellValue;
 
                 rowValues.Add( (TCellValue)formattedValue );
             }

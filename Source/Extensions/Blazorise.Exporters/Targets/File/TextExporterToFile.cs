@@ -12,7 +12,7 @@ public abstract class TextExporterToFile<TOptions, TExportResult, TSourceData> :
     /// Initializes a new instance of the TextExporterToFile class with specified options.
     /// </summary>
     /// <param name="options">Specifies the configuration settings for the text export functionality.</param>
-    protected TextExporterToFile( TOptions options ) 
+    protected TextExporterToFile( TOptions options )
         : base( options )
     {
     }

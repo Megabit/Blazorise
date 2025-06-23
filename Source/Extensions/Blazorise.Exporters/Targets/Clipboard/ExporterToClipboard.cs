@@ -47,7 +47,7 @@ public abstract class ExporterToClipboard<TOptions, TExportResult, TSourceData> 
     {
         var text = await GetDataForExport( sourceData );
 
-        var errors =await JSUtilitiesModule.CopyStringToClipboard( text );
+        var errors = await JSUtilitiesModule.CopyStringToClipboard( text );
 
         return await GetExportResult( errors );
     }
