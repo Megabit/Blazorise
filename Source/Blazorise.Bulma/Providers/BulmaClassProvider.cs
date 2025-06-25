@@ -719,6 +719,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-dropdown-item";
 
+    public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public override string BarDropdownDivider( BarMode mode ) => "navbar-divider";
 
     public override string BarTogglerIcon( BarMode mode ) => null;

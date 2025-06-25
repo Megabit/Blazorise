@@ -693,6 +693,8 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdownItem( BarMode mode ) => null;
 
+    public string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public string BarDropdownDivider( BarMode mode ) => null;
 
     public string BarTogglerIcon( BarMode mode ) => null;

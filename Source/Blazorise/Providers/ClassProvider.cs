@@ -689,6 +689,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownItem( BarMode mode );
 
+    public abstract string BarDropdownItemDisabled( BarMode mode, bool disabled );
+
     public abstract string BarDropdownDivider( BarMode mode );
 
     public abstract string BarTogglerIcon( BarMode mode );

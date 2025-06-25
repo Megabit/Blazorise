@@ -729,6 +729,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
+    public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
     public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";

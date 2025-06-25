@@ -710,6 +710,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 
+    public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public override string BarDropdownDivider( BarMode mode ) => "ant-menu-item-divider";
 
     public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
