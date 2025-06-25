@@ -688,6 +688,8 @@ public interface IClassProvider
 
     string BarDropdownItem( BarMode mode );
 
+    string BarDropdownItemDisabled( BarMode mode, bool disabled );
+
     string BarDropdownDivider( BarMode mode );
 
     string BarTogglerIcon( BarMode mode );

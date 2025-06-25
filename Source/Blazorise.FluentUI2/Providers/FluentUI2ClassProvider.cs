@@ -855,6 +855,8 @@ public class FluentUI2ClassProvider : ClassProvider
         ? "fui-NavigationBar__dropdown-item"
         : "b-bar-dropdown-item";
 
+    public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__toggler-icon"
         : "navbar-toggler-icon";

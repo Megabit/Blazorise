@@ -1,6 +1,6 @@
 ﻿@using Blazorise.Utilities;
 @inherits Blazorise.BaseLinkComponent
-<a id="@ElementId" href="@To" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+<a id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" aria-disabled="@AriaDisabledString" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
     @ChildContent
 </a>
 @code {
@@ -31,6 +31,11 @@
                 {
                     builder.Append( "text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 dark:hover:bg-gray-700 md:dark:hover:bg-transparent" );
                 }
+            }
+
+            if ( Disabled )
+            {
+                builder.Append( "cursor-not-allowed opacity-60" );
             }
         }
         else

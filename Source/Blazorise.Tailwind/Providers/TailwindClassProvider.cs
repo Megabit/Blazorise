@@ -1089,6 +1089,8 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-dropdown-item block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         : "b-bar-dropdown-item";
 
+    public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public override string BarTogglerIcon( BarMode mode ) => "b-bar-toggler-icon";
 
     public override string BarDropdownDivider( BarMode mode ) => "b-bar-dropdown-divider";

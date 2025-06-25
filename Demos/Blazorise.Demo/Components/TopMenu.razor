@@ -39,21 +39,21 @@
                 <BarDropdown>
                     <BarDropdownToggle>Layout</BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("fixed-header"))">
+                        <BarDropdownItem Clicked="@(() => OnLayoutTypeChecked( "fixed-header" ))">
                             @if ( LayoutType == "fixed-header" )
                             {
                                 <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
                             }
                             Fixed Header
                         </BarDropdownItem>
-                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("fixed-header-footer-only"))">
+                        <BarDropdownItem Clicked="@(() => OnLayoutTypeChecked( "fixed-header-footer-only" ))">
                             @if ( LayoutType == "fixed-header-footer-only" )
                             {
                                 <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
                             }
                             Fixed Header and Footer only
                         </BarDropdownItem>
-                        <BarDropdownItem Clicked="@(()=>OnLayoutTypeChecked("sider-with-header-on-top"))">
+                        <BarDropdownItem Clicked="@(() => OnLayoutTypeChecked( "sider-with-header-on-top" ))">
                             @if ( LayoutType == "sider-with-header-on-top" )
                             {
                                 <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
@@ -100,7 +100,7 @@
                     <BarDropdownMenu>
                         @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
                         {
-                            <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(()=>SelectCulture(cultureInfo.Name))">
+                            <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(() => SelectCulture( cultureInfo.Name ))">
                                 @if ( cultureInfo.IsNeutralCulture )
                                 {
                                     @cultureInfo.EnglishName

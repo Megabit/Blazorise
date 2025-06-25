@@ -17,6 +17,8 @@ public partial class BarDropdownItem : BaseComponent
 {
     #region Members
 
+    private bool disabled;
+
     private BarDropdownState parentDropdownState;
 
     #endregion
@@ -27,6 +29,7 @@ public partial class BarDropdownItem : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarDropdownItem( ParentDropdownState.Mode ) );
+        builder.Append( ClassProvider.BarDropdownItemDisabled( ParentDropdownState.Mode, Disabled ) );
 
         base.BuildClasses( builder );
     }
@@ -46,18 +49,45 @@ public partial class BarDropdownItem : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
-        if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+        if ( !Disabled )
         {
-            if ( !ParentBarDropdown.WasJustToggled )
-                await ParentBarDropdown.Hide( true );
-        }
+            if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+            {
+                if ( !ParentBarDropdown.WasJustToggled )
+                    await ParentBarDropdown.Hide( true );
+            }
 
-        await Clicked.InvokeAsync( eventArgs );
+            await Clicked.InvokeAsync( eventArgs );
+        }
     }
 
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Cascaded parent <see cref="BarDropdown"/> state.
+    /// </summary>
+    [CascadingParameter]
+    protected BarDropdownState ParentDropdownState
+    {
+        get => parentDropdownState;
+        set
+        {
+            if ( parentDropdownState == value )
+                return;
+
+            parentDropdownState = value;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the reference to the parent BarDropdown.
+    /// </summary>
+    [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
     /// <summary>
     /// Occurs when the item is clicked.
@@ -90,33 +120,27 @@ public partial class BarDropdownItem : BaseComponent
     [Parameter] public double Indentation { get; set; } = 1.5d;
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
+    /// Indicate the currently disabled item.
     /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
-    /// Cascaded parent <see cref="BarDropdown"/> state.
-    /// </summary>
-    [CascadingParameter]
-    protected BarDropdownState ParentDropdownState
+    [Parameter]
+    public bool Disabled
     {
-        get => parentDropdownState;
+        get => disabled;
         set
         {
-            if ( parentDropdownState == value )
+            if ( disabled == value )
                 return;
 
-            parentDropdownState = value;
+            disabled = value;
 
             DirtyClasses();
-            DirtyStyles();
         }
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent BarDropdown.
+    /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
     /// </summary>
-    [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }
