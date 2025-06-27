@@ -36,7 +36,7 @@ public abstract class BaseTypographyComponent : BaseComponent
     protected async Task OnClickHandler()
     {
         if ( CopyToClipboard )
-            await JSUtilitiesModule.CopyToClipboard( ElementRef, ElementId );
+            await JSUtilitiesModule.CopyContentToClipboard( ElementRef, ElementId );
     }
 
     #endregion
