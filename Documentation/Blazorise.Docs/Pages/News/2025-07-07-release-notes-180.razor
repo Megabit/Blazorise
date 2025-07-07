@@ -1,19 +1,19 @@
 ﻿@page "/news/release-notes/180"
 
-<Seo Canonical="news/release-notes/180" Title="Blazorise v1.8" Description="Blazorise 1.8 is a significant update that brings a host of new features, enhancements, and optimizations to the Blazorise framework." ImageUrl="img/news/180/v180.png" />
+<Seo Canonical="news/release-notes/180" Title="Blazorise v1.8" Description="Blazorise 1.8, codenamed Lokrum after the beautiful island in Croatia, is a significant update that brings a host of new features, enhancements, and optimizations to the framework. This release focuses on improving the developer experience, enhancing performance, and expanding the capabilities of Blazorise components." ImageUrl="img/news/180/v180.png" />
 
 <NewsPageImage Source="img/news/180/v180.png" Text="Blazorise v1.8" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.8 - Vis
+    Announcing Blazorise 1.8 - Lokrum
 </NewsPageTitle>
 
 <Paragraph>
-    When we released Blazorise 1.7, we promised that the next version would be a major one, 2.0. However, we realized that we still have a lot of work to do before we can release Blazorise 2.0, so we decided to release a new version, 1.8, with some exciting new features and improvements.
+    When we released Blazorise 1.7, we promised that the next version would be a major one, 2.0. However, we realized that we still have a lot of work to do before releasing Blazorise 2.0, so we decided to release version 1.8 with some exciting new features and improvements in the meantime.
 </Paragraph>
 
 <Paragraph>
-    Blazorise 1.8 is a significant update that brings a host of new features, enhancements, and optimizations to the Blazorise framework. This release focuses on improving the developer experience, enhancing performance, and expanding the capabilities of Blazorise components.
+    Blazorise 1.8, codenamed <Strong>Lokrum</Strong> after the beautiful island in Croatia, is a significant update that brings a host of new features, enhancements, and optimizations to the framework. This release focuses on improving the developer experience, enhancing performance, and expanding the capabilities of Blazorise components.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -32,7 +32,7 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>DataGrid</Strong>: Enhanced columns reordering and batch editing capabilities.
+            <Strong>DataGrid</Strong>: Enhanced column reordering and batch editing capabilities.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -67,7 +67,7 @@
     </OrderedListItem>
     <OrderedListItem>
         <Paragraph>
-            Blazorise should now work without any major breaking change to the API, but there are some necessary changes that we had to do to make Blazorise better. Continue reading the Migration section for more details.
+            Blazorise should now work without any major breaking changes to the API.
         </Paragraph>
     </OrderedListItem>
 </OrderedList>
@@ -81,17 +81,17 @@
 </Heading>
 
 <Paragraph>
-    By far, the most significant addition in this release is the <Code>Scheduler</Code> component. This powerful new component allows you to create and manage events in a calendar-like interface, making it ideal for applications that require scheduling functionality.
+    The most significant addition in this release is the <Code>Scheduler</Code> component. This powerful new component allows you to create and manage events in a calendar-like interface, making it ideal for applications that require scheduling functionality.
 </Paragraph>
 
 <NewsPageImageModal ImageSource="img/news/180/feature-scheduler.png" ImageTitle="Scheduler component" />
 
 <Paragraph>
-    Building it we wanted it to be fully built using Blazorise core elements, without any dependenices on third-party libraries, so it can be easily customized and extended to fit your specific needs. In the end we have succeeded in creating a fully functional scheduler component that is both powerful and flexible.
+    We built it fully using Blazorise core elements, without any dependencies on third-party libraries, making it easy to customize and extend to fit your specific needs. In the end, we succeeded in creating a fully functional scheduler component that is both powerful and flexible.
 </Paragraph>
 
 <Paragraph>
-    As expected from such component it offers various type of views (Day, Week, Month, etc), editing features, drag-and-drop, recurring events, and more. We don't doubt that it will become a valuable addition to your Blazorise toolkit.
+    As expected, it offers various types of views (Day, Week, Month, etc.), editing features, drag-and-drop, recurring events, and more. We have no doubt it will become a valuable addition to your Blazorise toolkit.
 </Paragraph>
 
 <Paragraph>
@@ -111,7 +111,7 @@
 </Heading>
 
 <Paragraph>
-    Thanks to community contributor from <Anchor To="https://github.com/11bthornton" Title="Link to 11bthornton">11bthornton</Anchor>, the component now supports the <Code>PrintRequested</Code> event callback, which triggers when the user requests to print the PDF document. It is a small but significant improvement that enhances the user experience.
+    Thanks to community contributor <Anchor To="https://github.com/11bthornton" Title="Link to 11bthornton">11bthornton</Anchor>, the component now supports the <Code>PrintRequested</Code> event callback, which triggers when the user requests to print the PDF document. It is a small but significant improvement that enhances the user experience.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -129,7 +129,7 @@
 </Heading>
 
 <Paragraph>
-    The <Code>PdfViewer</Code> component is now fully localized, allowing you to customize the toolbar text based on the current culture. This is particularly useful for applications that need to support multiple languages, ensuring that the PDF viewer is accessible and user-friendly for all users.
+    The <Code>PdfViewer</Code> component is now fully localized, allowing you to customize the toolbar text based on the current culture. This is particularly useful for applications that need to support multiple languages, ensuring accessibility and usability for all users.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -137,7 +137,7 @@
 </Heading>
 
 <Paragraph>
-    As always we have made some improvements to the <Code>DataGrid</Code> component, which is one of the most popular components in Blazorise. This time we have focused on improving the batch editing capabilities, adding new features, and enhancing the overall user experience.
+    As always, we have made improvements to the <Code>DataGrid</Code> component, one of the most popular components in Blazorise. This time we focused on enhancing batch editing capabilities, adding new features, and improving the overall user experience.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -145,7 +145,7 @@
 </Heading>
 
 <Paragraph>
-    Introduced the <Code>Task New( TItem newItem )</Code> overload method in DataGrid, enabling the programmatic addition of new items to the batch edit collection when batch editing is enabled. This method ensures that newly added items are tracked as <Strong>unsaved changes</Strong>, allowing them to be persisted upon saving or discarded upon cancellation.
+    Introduced the <Code>Task New( TItem newItem )</Code> overload method, enabling the programmatic addition of new items to the batch edit collection when batch editing is enabled. This ensures that newly added items are tracked as <Strong>unsaved changes</Strong>, allowing them to be persisted upon saving or discarded upon cancellation.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -153,7 +153,7 @@
 </Heading>
 
 <Paragraph>
-    New parameters <Code>FilterDefaultItemText</Code>, <Code>FilterDefaultItemValue</Code>, <Code>FilterDefaultItemDisabled</Code>, and <Code>FilterDefaultItemHidden</Code> allow customizing the default item shown in filter dropdowns of <Code>DataGridSelectColumn</Code>. This gives developers more control over how filter options are presented and improves the user experience when working with dropdown filters.
+    New parameters <Code>FilterDefaultItemText</Code>, <Code>FilterDefaultItemValue</Code>, <Code>FilterDefaultItemDisabled</Code>, and <Code>FilterDefaultItemHidden</Code> allow customizing the default item shown in filter dropdowns of <Code>DataGridSelectColumn</Code>. This gives developers more control over filter presentation and improves user experience when working with dropdown filters.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -161,7 +161,7 @@
 </Heading>
 
 <Paragraph>
-    The <Code>EditTemplate</Code> of <Code>DataGridColumn</Code> component now includes an <Code>EditState</Code> argument. This addition will allow to determine the current edit state of the row, enabling developers to customize the edit template based on whether the row is in edit mode or not. This can be useful for displaying different UI elements or providing additional functionality based on the edit state.
+    The <Code>EditTemplate</Code> of <Code>DataGridColumn</Code> now includes an <Code>EditState</Code> argument. This allows you to determine the current edit state of the row, enabling customization of the template based on whether the row is in edit mode or not.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -169,7 +169,7 @@
 </Heading>
 
 <Paragraph>
-    Based upon the work on <Code>TableCaption</Code>, the <Code>DataGrid</Code> component now supports a <Code>Caption</Code> property, allowing you to add a caption to the grid. This caption can be used to provide additional context or information about the data being displayed in the grid, which is especially useful for accessibility purposes. The caption is rendered as a <code>caption</code> element, which is semantically correct and improves the overall structure of the grid.
+    Based on our work with <Code>TableCaption</Code>, the <Code>DataGrid</Code> now supports a <Code>Caption</Code> property. This can be used to provide additional context about the displayed data, which is especially useful for accessibility. The caption is rendered as a <code>caption</code> element, improving the grid's semantic structure.
 </Paragraph>
 
 <Paragraph>
@@ -343,7 +343,7 @@
 </Heading>
 
 <Paragraph>
-    The <Code>Highlighter</Code> component now supports highlighting multiple phrases within the same text using the new <code>HighlightedTexts</code> parameter. This enhancement allows developers to pass a list of strings to be highlighted simultaneously, replacing the previous limitation of only a single <code>HighlightedText</code>. The update enables more dynamic and flexible highlighting scenarios, such as multi-word search, filtering, and complex keyword matching — all with minimal changes to existing implementations.
+    The <Code>Highlighter</Code> component now supports highlighting multiple phrases within the same text using the new <code>HighlightedTexts</code> parameter. This enhancement allows developers to pass a list of strings to be highlighted simultaneously, replacing the previous limitation of only a single <code>HighlightedText</code>. The update enables more dynamic and flexible highlighting scenarios, such as multi-word search, filtering, and complex keyword matching, all with minimal changes to existing implementations.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -380,6 +380,30 @@
 
 <Paragraph>
     You can see it in action in the <Anchor To="docs/components/step" Title="Link to Steps">Steps documentation</Anchor>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Final Notes
+</NewsPageSubtitle>
+
+<Paragraph>
+    We are thrilled to bring you Blazorise 1.8 with so many new features and improvements. This release reflects our commitment to continuously enhancing the framework based on community feedback and evolving application needs.
+</Paragraph>
+
+<Paragraph>
+    As always, we encourage you to upgrade, explore the new components and enhancements, and share your feedback with us. Your contributions, bug reports, and feature suggestions drive Blazorise forward and help make it the best it can be for everyone.
+</Paragraph>
+
+<Paragraph>
+    We greatly value community contributions. If you're interested in contributing, reporting issues, or suggesting features, visit our <Anchor To="https://github.com/Megabit/Blazorise" Title="GitHub Repository">GitHub repository</Anchor> and join the discussions.
+</Paragraph>
+
+<Paragraph>
+    Looking ahead, we are continuing work on Blazorise 2.0, which will introduce even more powerful features and architectural improvements. Stay tuned for previews and announcements in the coming months.
+</Paragraph>
+
+<Paragraph>
+    Once again, thank you for your continued support, feedback, and enthusiasm. Together, we're building an even stronger Blazor ecosystem.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="July 7th, 2025" Read="7 min" />
