@@ -81,42 +81,30 @@
 </Heading>
 
 <Paragraph>
-    Our biggest improvement in this release, the Scheduler component, is fully built using Blazorise core elements. It offers various views (Day, Week, Month), editing features, drag-and-drop, recurring events, and more.
+    By far, the most significant addition in this release is the <Code>Scheduler</Code> component. This powerful new component allows you to create and manage events in a calendar-like interface, making it ideal for applications that require scheduling functionality.
 </Paragraph>
 
 <NewsPageImageModal ImageSource="img/news/180/feature-scheduler.png" ImageTitle="Scheduler component" />
 
 <Paragraph>
-    You can see it in action in the <Anchor To="docsdocs/extensions/scheduler" Title="Link to Scheduler">Scheduler documentation</Anchor> pages.
+    Building it we wanted it to be fully built using Blazorise core elements, without any dependenices on third-party libraries, so it can be easily customized and extended to fit your specific needs. In the end we have succeeded in creating a fully functional scheduler component that is both powerful and flexible.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
-    Localization for RouterTabs
-</Heading>
-
 <Paragraph>
-    <Code>RouterTabs</Code> now supports localization, allowing dynamic tab titles based on the current culture. Titles can be set via resource files or other localization strategies, ensuring consistency with the app’s language settings.
+    As expected from such component it offers various type of views (Day, Week, Month, etc), editing features, drag-and-drop, recurring events, and more. We don't doubt that it will become a valuable addition to your Blazorise toolkit.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
-    Cropper Component Enhancements
-</Heading>
-
 <Paragraph>
-    The <Code>Cropper</Code> component has been enhanced with the <Code>ImageLoadingFailed</Code> event, which triggers when an image fails to load. This event provides a way to handle errors and display a custom message or image in place of the failed image.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Customizable TimePicker Increments
-</Heading>
-
-<Paragraph>
-    The <Code>TimePicker</Code> component now supports <Code>HourIncrement</Code> and <Code>MinuteIncrement</Code> parameters. These allow you to customize the step intervals shown in the time selection dropdown.
+    You can see it in action in the <Anchor To="docs/extensions/scheduler" Title="Link to Scheduler">Scheduler documentation</Anchor> pages.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     PdfViewer Component Enhancements
 </Heading>
+
+<Paragraph>
+    The <Code>PdfViewer</Code> component has received several enhancements in this release, making it more powerful and user-friendly.
+</Paragraph>
 
 <Heading Size="HeadingSize.Is4">
     PrintRequested Event
@@ -141,31 +129,27 @@
 </Heading>
 
 <Paragraph>
-    The <Code>PdfViewer</Code> component now supports localization for its toolbar UI. All interactive elements are now localized.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Table Caption
-</Heading>
-
-<Paragraph>
-    The <Code>Table</Code> component now has a <Code>TableCaption</Code> child component, allowing you to add a caption to the table. This caption can be used to provide additional context or information about the data being displayed in the table. The <Code>caption</Code> element is usually used for accesibility purposes, and it is recommended to use it when the table contains a lot of data or when the table is complex.
+    The <Code>PdfViewer</Code> component is now fully localized, allowing you to customize the toolbar text based on the current culture. This is particularly useful for applications that need to support multiple languages, ensuring that the PDF viewer is accessible and user-friendly for all users.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     DataGrid Enhancements
 </Heading>
 
-<Heading Size="HeadingSize.Is4">
-    Programmatic Addition of Items to Batch Edit Collection
-</Heading>
-
 <Paragraph>
-    Introduced the <Code>Task New( TItem newItem )</Code> overload method in DataGrid, enabling the programmatic addition of new items to the batch edit collection when batch editing is enabled. This method ensures that newly added items are tracked as unsaved changes, allowing them to be persisted upon saving or discarded upon cancellation.
+    As always we have made some improvements to the <Code>DataGrid</Code> component, which is one of the most popular components in Blazorise. This time we have focused on improving the batch editing capabilities, adding new features, and enhancing the overall user experience.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    Default item in filter for DataGridSelectColumn
+    The New Method Overload
+</Heading>
+
+<Paragraph>
+    Introduced the <Code>Task New( TItem newItem )</Code> overload method in DataGrid, enabling the programmatic addition of new items to the batch edit collection when batch editing is enabled. This method ensures that newly added items are tracked as <Strong>unsaved changes</Strong>, allowing them to be persisted upon saving or discarded upon cancellation.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Default Select Filter
 </Heading>
 
 <Paragraph>
@@ -185,7 +169,11 @@
 </Heading>
 
 <Paragraph>
-    Based upon the work on <Code>TableCaption</Code>, the <Code>DataGrid</Code> component now supports a <Code>Caption</Code> property, allowing you to add a caption to the grid. This caption can be used to provide additional context or information about the data being displayed in the grid.
+    Based upon the work on <Code>TableCaption</Code>, the <Code>DataGrid</Code> component now supports a <Code>Caption</Code> property, allowing you to add a caption to the grid. This caption can be used to provide additional context or information about the data being displayed in the grid, which is especially useful for accessibility purposes. The caption is rendered as a <code>caption</code> element, which is semantically correct and improves the overall structure of the grid.
+</Paragraph>
+
+<Paragraph>
+    You can see it in action in our new <Anchor To="docs/extensions/datagrid/features/accessibility" Title="Link to DataGrid Accessibility">DataGrid Accessibility</Anchor> section.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -204,6 +192,8 @@
     The <Code>DataGrid</Code> component now supports reordering columns by dragging and dropping them. By simply enabling the <Code>Reorderable</Code> parameter on the <Code>DataGridColumn</Code>, users can rearrange columns to their preferred order. This feature enhances user experience by allowing customization of the grid layout according to user preferences.
 </Paragraph>
 
+<NewsPageImageModal ImageSource="img/news/180/feature-datagrid-reordering.png" ImageTitle="Reordering Columns" />
+
 <Paragraph>
     On top of that, we have also added a <Code>ResetDisplayOrder</Code> method to the <Code>DataGrid</Code> component, which allows you to reset the column order to the default state. This can be useful in scenarios where you want to provide users with the option to revert any changes made to the column order.
 </Paragraph>
@@ -221,7 +211,7 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    New Buttons on Calendar
+    Calendar Buttons
 </Heading>
 
 <Paragraph>
@@ -241,7 +231,11 @@
 </Paragraph>
 
 <Paragraph>
-    The refactoring addresses longstanding pain points related to plugin lifecycle management and ensures that disposal and initialization are consistently handled. This unified approach not only improves maintainability but also helps prevent potential bugs across all plugins. As part of this effort, it was also noted that some plugins, such as the Streaming plugin, may require implementations of methods like OnParametersSetAsync to ensure all configuration parameters are properly updated during the component lifecycle.
+    The refactoring addresses longstanding pain points related to plugin lifecycle management and ensures that disposal and initialization are consistently handled. This unified approach not only improves maintainability but also helps prevent potential bugs across all plugins.
+</Paragraph>
+
+<Paragraph>
+    As part of this effort, it was also noted that some plugins, such as the Streaming plugin, may require implementations of methods like <Code>OnParametersSetAsync</Code> to ensure all configuration parameters are properly updated during the component lifecycle.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -293,11 +287,7 @@
 </Heading>
 
 <Paragraph>
-    We've introduced a new resizing feature for images and videos within the <Code>RichTextEdit</Code> component. Users can now directly resize multimedia content within the editor, enhancing flexibility and providing a smoother editing experience.
-</Paragraph>
-
-<Paragraph>
-    This functionality can be conveniently enabled or disabled via the <Code>UseResize</Code> parameter, allowing easy customization to meet your project's specific needs.
+    We've introduced a new resizing feature for images and videos within the <Code>RichTextEdit</Code> component. Users can now directly resize multimedia content within the editor, enhancing flexibility and providing a smoother editing experience. This functionality can be conveniently enabled or disabled via the <Code>UseResize</Code> parameter, allowing easy customization to meet your project's specific needs.
 </Paragraph>
 
 <Paragraph>
@@ -305,14 +295,58 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Multiple Highlights for Highlighter component
+    Some Other Improvements Worth Mentioning
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    RouterTabs Localization Support
+</Heading>
+
+<Paragraph>
+    <Code>RouterTabs</Code> now supports localization, allowing dynamic tab titles based on the current culture. Titles can be set via resource files or other localization strategies, ensuring consistency with the app's language settings.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Cropper Component Enhancements
+</Heading>
+
+<Paragraph>
+    The <Code>Cropper</Code> component has been enhanced with the <Code>ImageLoadingFailed</Code> event, which triggers when an image fails to load. This event provides a way to handle errors and display a custom message or image in place of the failed image.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Customizable TimePicker Increments
+</Heading>
+
+<Paragraph>
+    The <Code>TimePicker</Code> component now supports <Code>HourIncrement</Code> and <Code>MinuteIncrement</Code> parameters. These allow you to customize the step intervals shown in the time selection dropdown.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Table Caption
+</Heading>
+
+<Paragraph>
+    The <Code>Table</Code> component now has a <Code>TableCaption</Code> child component, allowing you to add a caption to the table. This caption can be used to provide additional context or information about the data being displayed in the table. The <Code>caption</Code> element is usually used for accesibility purposes, and it is recommended to use it when the table contains a lot of data or when the table is complex.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Flex Basis Utilities
+</Heading>
+
+<Paragraph>
+    We have introduced a new new <Code>Flex.Basis</Code> utiities that will help more easily set the flex-basis property in your app without the need to write custom CSS. The new utilities are <Code>Flex.Basis.Auto</Code>, <Code>Flex.Basis.Full</Code>, and <Code>Flex.Basis.Is0</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Multiple Highlights for Highlighter Component
 </Heading>
 
 <Paragraph>
     The <Code>Highlighter</Code> component now supports highlighting multiple phrases within the same text using the new <code>HighlightedTexts</code> parameter. This enhancement allows developers to pass a list of strings to be highlighted simultaneously, replacing the previous limitation of only a single <code>HighlightedText</code>. The update enables more dynamic and flexible highlighting scenarios, such as multi-word search, filtering, and complex keyword matching — all with minimal changes to existing implementations.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
+<Heading Size="HeadingSize.Is4">
     Choices on MessageService
 </Heading>
 
@@ -320,20 +354,12 @@
     The <Code>MessageService</Code> now supports the <Code>Choices</Code> method, allowing you to display a list of options in a message dialog. This feature is useful for scenarios where you want to present users with multiple choices and handle their selection accordingly.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is3">
-    Culture-specific overloads for text localization
+<Heading Size="HeadingSize.Is4">
+    Culture-specific overloads for Text Localization
 </Heading>
 
 <Paragraph>
     The <Code>ITextLocalizer</Code> interface now includes overloads for the <Code>GetString</Code> method that accept a <Code>CultureInfo</Code> parameter. The <Code>CultureInfo</Code> parameter can be used to specify the desired culture for localization, enabling you to retrieve strings that are tailored to the user's language and region. This is particularly useful in scenarios where you need to support multiple languages or regions within your application.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Flex Basis Utilities
-</Heading>
-
-<Paragraph>
-    We have introduced a new new <Code>Flex.Basis</Code> utiities that will help more easily set the flex-basis property in your app without the need to write custom CSS. The new utilities are <Code>Flex.Basis.Auto</Code>, <Code>Flex.Basis.Full</Code>, and <Code>Flex.Basis.Is0</Code>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
