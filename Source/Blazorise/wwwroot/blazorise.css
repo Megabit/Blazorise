@@ -38,6 +38,7 @@ hr.divider.divider-text {
   border: none;
   height: var(--b-divider-thickness, 1px);
   background: var(--b-divider-color, #999);
+  color: var(--b-divider-color, #999);
 }
 hr.divider.divider-text::before {
   content: attr(data-content);
@@ -45,7 +46,7 @@ hr.divider.divider-text::before {
   background: #fff;
   font-weight: bold;
   font-size: var(--b-divider-font-size, 0.85rem);
-  color: var(--b-divider-color, #999);
+  color: inherit;
   border-radius: 30rem;
   padding: 0.2rem 2rem;
   position: absolute;
