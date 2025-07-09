@@ -190,6 +190,9 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <inheritdoc />
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
     /// Gets or sets the <see cref="JSSplitModule"/> instance.
     /// </summary>
