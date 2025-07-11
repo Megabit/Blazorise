@@ -18,7 +18,7 @@
                         <Field>
                             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
                             <FieldBody>
-                                <TextEdit @bind-Text="@Title" Autofocus>
+                                <TextEdit @bind-Value="@Title" Autofocus>
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
@@ -34,7 +34,7 @@
                             <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                 <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
                                 <FieldBody>
-                                    <DatePicker TValue="DateOnly" Date="@StartDate" DateChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                    <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
                                         <Feedback>
                                             <ValidationError />
                                         </Feedback>
@@ -48,7 +48,7 @@
                                 <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                     <FieldLabel>&nbsp;</FieldLabel>
                                     <FieldBody>
-                                        <TimePicker TValue="TimeOnly" Time="@StartTime" TimeChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                        <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -62,7 +62,7 @@
                             <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                 <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
                                 <FieldBody>
-                                    <DatePicker @bind-Date="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                    <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
                                         <Feedback>
                                             <ValidationError />
                                         </Feedback>
@@ -76,7 +76,7 @@
                                 <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
                                     <FieldLabel>&nbsp;</FieldLabel>
                                     <FieldBody>
-                                        <TimePicker @bind-Time="@EndTime" StaticPicker="false" TimeAs24hr />
+                                        <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -87,7 +87,7 @@
                 {
                     <Field>
                         <FieldBody>
-                            <Check TValue="bool" @bind-Checked="@AllDay">
+                            <Check TValue="bool" @bind-Value="@AllDay">
                                 @Localizer.Localize( Scheduler.Localizers?.AllDayLocalizer, LocalizationConstants.AllDay )
                             </Check>
                         </FieldBody>
@@ -99,7 +99,7 @@
                     <Field>
                         <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
                         <FieldBody>
-                            <MemoEdit @bind-Text="@Description" Rows="4" />
+                            <MemoEdit @bind-Value="@Description" Rows="4" />
                         </FieldBody>
                     </Field>
                 }

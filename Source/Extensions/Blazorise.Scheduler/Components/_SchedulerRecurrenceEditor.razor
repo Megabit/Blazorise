@@ -15,7 +15,7 @@
     <Field ColumnSize="ColumnSizeIs9">
         <FieldLabel>&nbsp;</FieldLabel>
         <FieldBody>
-            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" CheckedValue="@Pattern" CheckedValueChanged="@OnPatternChanged" Buttons Width="WidthIs100">
+            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" Value="@Pattern" ValueChanged="@OnPatternChanged" Buttons Width="WidthIs100">
                 <Radio Value="SchedulerRecurrencePattern.Never">@Localizer.Localize( Scheduler.Localizers?.NeverLocalizer, LocalizationConstants.Never )</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Daily">@Localizer.Localize( Scheduler.Localizers?.DayLocalizer, LocalizationConstants.Day )</Radio>
                 <Radio Value="SchedulerRecurrencePattern.Weekly">@Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, LocalizationConstants.Week )</Radio>
@@ -32,7 +32,6 @@
 else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerRecurrencePattern.Yearly )
 {
     <_SchedulerMonthlyRulePicker TItem="TItem"
-                                 CheckedValue="@InternalMonthlyRule" CheckedValueChanged="@OnInternalMonthlyRuleChanged"
                                  ByMonthDay="@ByMonthDay" ByMonthDayChanged="@OnMonthlyRuleByMonthDayChanged"
                                  ByWeek="@ByWeek" ByWeekChanged="@OnMonthlyRuleByWeekChanged"
                                  ByWeekDay="@ByWeekDay" ByWeekDayChanged="@OnMonthlyRuleByWeekDayChanged"
@@ -45,7 +44,7 @@ else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerR
         <Field ColumnSize="ColumnSizeIs3">
             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
             <FieldBody>
-                <DatePicker TValue="DateTime?" Date="@EndDate" DateChanged="@OnEndDateChanged" Min="@MinEndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+                <DatePicker TValue="DateTime?" Value="@EndDate" ValueChanged="@OnEndDateChanged" Min="@MinEndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
             </FieldBody>
         </Field>
         <Field ColumnSize="ColumnSizeIs3">
