@@ -70,3 +70,29 @@ All input components have been updated to use a single `Value` parameter instead
 ### Link
 
 Removed `Match.Custom` enum value from the `Match` parameter. This change was made to simplify the API and make it more consistent across all components.
+
+## Validations
+
+When using the `Validator` rule of the `Validation` component, you need to update the use of the `Value` argument of `ValidatorEventArgs`. In Blazorise 2.0, the `Value` will match the `TValue` parameter of the input component, so you need to update your code accordingly.
+
+For example, if you were using the `Value` argument of `ValidatorEventArgs` like this:
+
+```csharp
+private void OnValidateStartDate( ValidatorEventArgs e )
+{
+    var startValue = ( e.Value as DateOnly[] )?[0];
+
+    // ...
+}
+```
+
+You need to update it to use the `Value` parameter directly, like this:
+
+```csharp
+private void OnValidateStartDate( ValidatorEventArgs e )
+{
+    var startValue = e.Value as DateOnly?;
+
+    // ...
+}
+```

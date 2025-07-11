@@ -146,4 +146,24 @@
     Removed <Code>Match.Custom</Code> enum value from the <Code>Match</Code> parameter. This change was made to simplify the API and make it more consistent across all components.
 </BlogPageParagraph>
 
+<BlogPageSubtitle>
+    Validations
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    When using the <Code>Validator</Code> rule of the <Code>Validation</Code> component, you need to update the use of the <Code>Value</Code> argument of <Code>ValidatorEventArgs</Code>. In Blazorise 2.0, the <Code>Value</Code> will match the <Code>TValue</Code> parameter of the input component, so you need to update your code accordingly.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    For example, if you were using the <Code>Value</Code> argument of <Code>ValidatorEventArgs</Code> like this:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="MigrationTo21" />
+
+<BlogPageParagraph>
+    You need to update it to use the <Code>Value</Code> parameter directly, like this:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="MigrationTo22" />
+
 <BlogPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="January 15th, 2025" Read="4 min" />
