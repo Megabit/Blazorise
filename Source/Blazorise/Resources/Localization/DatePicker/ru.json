@@ -41,6 +41,8 @@
     "December": "Декабрь",
     "AM": "ДП",
     "PM": "ПП",
-    "RangeSeparator": " — "
+    "RangeSeparator": " — ",
+    "Today": "Сегодня",
+    "Clear": "Очистить"
   }
 }

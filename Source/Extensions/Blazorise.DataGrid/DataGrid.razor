@@ -13,7 +13,7 @@
     <Form>
         @if ( PreventDefaultSubmitBehavior )
         {
-            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="Display.None"></Button>
+            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="DisplayNone"></Button>
         }
 
         @if ( IsGroupableByColumn )
@@ -21,6 +21,12 @@
             <_DataGridColumnDropZone TItem="TItem" Columns="@groupableColumns" ColumnRemoved="@RemoveGroupColumn" ColumnAdded="@AddGroupColumn" />
         }
         <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedColumns="@FixedColumns" FixedColumnsPositionSync="@FixedColumnsPositionSync" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" ResponsiveMode="@ResponsiveMode" @attributes="@Attributes">
+            @if ( !string.IsNullOrEmpty( Caption ) )
+            {
+                <TableCaption Side="@CaptionSide">
+                    @Caption
+                </TableCaption>
+            }
             <TableHeader ThemeContrast="HeaderThemeContrast">
                 @if ( IsGroupHeaderCaptionsEnabled )
                 {
@@ -87,11 +93,11 @@
                             }
                             else
                             {
-                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                                <TableHeaderCell Draggable="@(( IsGroupableByColumn && column.Groupable ) || column.Reorderable)" DragStart="@(() => OnColumnDragStarted( column ))" DragEnter="@(() => OnColumnDragEnter( column ))" DragEnd="@OnColumnDragEnded" ondragover="event.preventDefault();" Drop="@(() => OnColumnDropped( column ))"Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ))" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                                     <Div Display="Display.InlineFlex">
                                         @if ( IsGroupableByColumn && column.Groupable )
                                         {
-                                            <Icon Name="@IconName.GripVertical" Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />
+                                            <Icon Name="@IconName.GripVertical" Margin="MarginIs1FromEnd" Style="cursor:move" />
                                         }
                                         @if ( column.ShowCaption )
                                         {
@@ -179,7 +185,7 @@
                                     }
                                     else
                                     {
-                                        <_DataGridCellFilter Column="column" OnFilterChanged="@((newValue) => OnFilterChanged(column, newValue))" />
+                                        <_DataGridCellFilter Column="column" OnFilterChanged="@(( newValue ) => OnFilterChanged( column, newValue ))" />
                                     }
                                 </TableHeaderCell>
                             }
@@ -204,7 +210,7 @@
                 {
                     @if ( VirtualizeManualReadMode )
                     {
-                        <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
+                        <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler" OverscanCount="@(VirtualizeOptions?.OverscanCount ?? 10)">
                             <ChildContent>
                                 @rowFragment( item )
                             </ChildContent>
@@ -217,7 +223,7 @@
                     }
                     else if ( Virtualize )
                     {
-                        <Virtualize TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
+                        <Virtualize TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount ?? 10)">
                             <ChildContent>
                                 @rowFragment( item )
                             </ChildContent>
@@ -302,7 +308,7 @@
 
     private RenderFragment paginationFragment => __builder =>
     {
-        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>(this, Paginate))" SelectedRow="@SelectedRow" />
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@(EventCallback.Factory.Create<string>( this, Paginate ))" SelectedRow="@SelectedRow" />
     };
 
     protected RenderFragment<TItem> rowFragment => item => __builder =>

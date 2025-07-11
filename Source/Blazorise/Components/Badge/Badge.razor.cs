@@ -78,6 +78,14 @@ public partial class Badge : BaseComponent
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        CloseClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties

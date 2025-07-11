@@ -38,6 +38,7 @@ hr.divider.divider-text {
   border: none;
   height: var(--b-divider-thickness, 1px);
   background: var(--b-divider-color, #999);
+  color: var(--b-divider-color, #999);
 }
 hr.divider.divider-text::before {
   content: attr(data-content);
@@ -45,7 +46,7 @@ hr.divider.divider-text::before {
   background: #fff;
   font-weight: bold;
   font-size: var(--b-divider-font-size, 0.85rem);
-  color: var(--b-divider-color, #999);
+  color: inherit;
   border-radius: 30rem;
   padding: 0.2rem 2rem;
   position: absolute;
@@ -1051,6 +1052,30 @@ hr.divider.divider-text::before {
 .b-table.table .b-table-resizing {
   cursor: col-resize !important;
 }
+.b-table.table .b-table-reordering {
+  position: relative;
+  z-index: 1;
+}
+.b-table.table .b-table-reordering.b-table-reordering-start::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  border-left: 2px solid var(--b-theme-primary, blue);
+  pointer-events: none;
+}
+.b-table.table .b-table-reordering.b-table-reordering-end::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  border-right: 2px solid var(--b-theme-primary, blue);
+  pointer-events: none;
+}
 
 thead tr th {
   position: relative;
@@ -1258,6 +1283,10 @@ thead tr th {
 
 .flatpickr-months .flatpickr-prev-month,
 .flatpickr-months .flatpickr-next-month {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   text-decoration: none;
   cursor: pointer;
   position: absolute;
@@ -1507,11 +1536,9 @@ thead tr th {
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months {
-  appearance: menulist;
   background: transparent;
   border: none;
   border-radius: 0;
-  box-sizing: border-box;
   color: inherit;
   cursor: pointer;
   font-size: inherit;
@@ -1525,8 +1552,10 @@ thead tr th {
   position: relative;
   vertical-align: initial;
   -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   -webkit-appearance: menulist;
   -moz-appearance: menulist;
+  appearance: menulist;
   width: auto;
 }
 
@@ -1625,9 +1654,9 @@ span.flatpickr-weekday {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  -ms-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
   -ms-flex-pack: justify;
   -webkit-justify-content: space-around;
   justify-content: space-around;
@@ -1949,32 +1978,42 @@ span.flatpickr-weekday {
   cursor: pointer;
 }
 
-@-webkit-keyframes fpFadeInDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-  to {
-    opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+.flatpickr-footer-buttons {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 10px;
 }
-@keyframes fpFadeInDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-  to {
-    opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+
+.flatpickr-button {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 150px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #393939;
+  cursor: pointer;
+  font-weight: 400;
+  margin: 0;
 }
+
+.flatpickr-button:hover,
+.flatpickr-button:focus {
+  cursor: pointer;
+  outline: 0;
+  background: #e6e6e6;
+  border-color: #e6e6e6;
+}
+
 .flatpickr-monthSelect-months {
   margin: 10px 1px 3px 1px;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -2053,6 +2092,30 @@ span.flatpickr-weekday {
   border-color: #80cbc4;
 }
 
+@-webkit-keyframes fpFadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes fpFadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
 /*! Pickr 1.8.2 MIT | https://github.com/Simonwep/pickr */
 .pickr {
   position: relative;

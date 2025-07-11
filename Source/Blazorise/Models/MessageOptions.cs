@@ -1,4 +1,8 @@
-﻿namespace Blazorise;
+﻿#region Using directives
+using System.Collections.Generic;
+#endregion
+
+namespace Blazorise;
 
 /// <summary>
 /// Options to override message dialog appearance.
@@ -139,6 +143,17 @@ public class MessageOptions
     /// Defines the message dialog size.
     /// </summary>
     public ModalSize Size { get; set; }
+
+    /// <summary>
+    /// Represents a collection of options for message buttons. Each option is of type <see cref="MessageOptionsChoice"/>.
+    /// </summary>
+    public IEnumerable<MessageOptionsChoice> Choices { get; set; }
+
+    /// <summary>
+    /// If defined the message dialog will be closed when the user clicks outside of it.
+    /// Overrides the default behavior of the <see cref="MessageAlert.BackgroundCancel"/> parameter.
+    /// </summary>
+    public bool? BackgroundCancel { get; set; }
 
     /// <summary>
     /// Creates the default message options.

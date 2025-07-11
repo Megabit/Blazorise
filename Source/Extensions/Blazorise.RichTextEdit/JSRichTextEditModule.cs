@@ -49,6 +49,9 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         if ( options.UseTables )
             styles.Add( "quill-table-better" );
 
+        if ( options.UseResize )
+            styles.Add( "quill-resize-module" );
+
         if ( styles.Count > 0 )
         {
             await jsObjectReference.InvokeVoidAsync( "loadStylesheets", styles, VersionProvider.Version );
@@ -71,6 +74,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
             SubmitOnEnter = richTextEdit.SubmitOnEnter,
             ConfigureQuillJsMethod = richTextEdit.ConfigureQuillJsMethod,
             UseTables = options.UseTables,
+            UseResize = options.UseResize && richTextEdit.UseResize,
         } );
 
         return AsyncDisposable.Create( async () =>
@@ -93,8 +97,8 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     /// <summary>
     /// Gets the editor content as html asynchronous.
     /// </summary>
-    public ValueTask<string> GetHtmlAsync( ElementReference editorRef )
-        => InvokeSafeAsync<string>( "getHtml", editorRef );
+    public ValueTask<string> GetHtmlAsync( ElementReference editorRef, RichTextEditHtmlOptions htmlOptions )
+        => InvokeSafeAsync<string>( "getHtml", editorRef, htmlOptions );
 
     /// <summary>
     /// Sets the editor content as Quill delta json asynchronous.

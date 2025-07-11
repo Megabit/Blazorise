@@ -688,6 +688,8 @@ public interface IClassProvider
 
     string BarDropdownItem( BarMode mode );
 
+    string BarDropdownItemDisabled( BarMode mode, bool disabled );
+
     string BarDropdownDivider( BarMode mode );
 
     string BarTogglerIcon( BarMode mode );
@@ -1017,6 +1019,10 @@ public interface IClassProvider
     string TableFixedColumns( bool fixedColumns );
 
     string TableResponsiveMode( TableResponsiveMode responsiveMode );
+
+    string TableCaption();
+
+    string TableCaptionSide( TableCaptionSide side );
 
     #endregion
 
@@ -1430,6 +1436,8 @@ public interface IClassProvider
     string ToObjectFitType( ObjectFitType objectFitType );
 
     string ToSkeletonAnimation( SkeletonAnimation animation );
+
+    string ToTableCaptionSide( TableCaptionSide side );
 
     #endregion
 

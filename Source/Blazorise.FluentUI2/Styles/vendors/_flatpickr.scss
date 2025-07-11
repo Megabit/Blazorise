@@ -159,3 +159,33 @@ span.flatpickr-weekday {
 .flatpickr-monthSelect-month.selected {
     background-color: var(--colorBrandBackground);
 }
+
+.flatpickr-button {
+    margin-top: 3px;
+    margin-right: 16px;
+    line-height: 30px;
+    height: 30px;
+    font-family: inherit;
+    box-sizing: content-box;
+    align-self: flex-end;
+    bottom: 0px;
+    background-color: var(--colorTransparentBackground);
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    border-top-style: none;
+    font-size: var(--fontSizeBase200);
+    color: var(--colorNeutralForeground1);
+    padding: 0px 4px;
+    overflow: visible;
+
+    &:hover {
+        cursor: pointer;
+        color: var(--colorBrandForeground1);
+        background-color: var(--colorTransparentBackground);
+
+        &:active {
+            color: var(--colorBrandForeground2);
+        }
+    }
+}

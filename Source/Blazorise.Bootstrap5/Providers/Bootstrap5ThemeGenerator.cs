@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Bootstrap5.Providers;
@@ -249,7 +250,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         if ( options?.DisabledOpacity != null )
             sb.Append( ".btn.disabled, .btn:disabled" ).Append( "{" )
-                .Append( $"opacity: {options.DisabledOpacity};" )
+                .Append( $"opacity: {options.DisabledOpacity.ToCultureInvariantString()};" )
                 .AppendLine( "}" );
     }
 
@@ -435,8 +436,9 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         var background = ToHex( backgroundColor );
         var yiqBackground = ToHex( yiqBackgroundColor );
 
-        sb.Append( $".badge.bg-{variant}" ).Append( "{" )
-            .Append( $"color: {yiqBackground};" )
+        sb.Append( $".badge.text-bg-{variant}" ).Append( "{" )
+            .Append( $"color: {yiqBackground} !important;" )
+            .Append( $"background-color: {background} !important;" )
             .AppendLine( "}" );
     }
 
@@ -726,9 +728,12 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
     {
-        sb.Append( ".badge:not(.rounded-pill)" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".badge:not(.rounded-pill)" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )

@@ -1,6 +1,10 @@
-import './vendors/split.js?v=1.7.5.0';
+import './vendors/split.js?v=1.8.0.0';
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Splitter/blazorise.splitter.css?v=1.7.5.0\" />");
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.0.0";
+
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Splitter/blazorise.splitter.css?v=1.8.0.0\" />");
+
+const _instances = [];
 
 /**
  * Configuration options for Split
@@ -22,7 +26,12 @@ document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link 
  * @param {SplitOptions} splitterOptions Configuration options
  * @return A split instance
  */
-export function initializeSplitter(elements, splitterOptions, splitterGutterOptions) {
+export function initializeSplitter(element, elementId, elements, splitterOptions, splitterGutterOptions) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
     const parsedSplitterOptions = parseOptions(splitterOptions);
 
     if (splitterGutterOptions && splitterGutterOptions.backgroundImage) {
@@ -38,7 +47,32 @@ export function initializeSplitter(elements, splitterOptions, splitterGutterOpti
         return gutterElement;
     };
 
-    return Split(elements, parsedSplitterOptions);
+    const split = Split(elements, parsedSplitterOptions);
+
+    const instance = {
+        element: element,
+        elementId: elementId,
+        split: split
+    };
+
+    _instances[elementId] = instance;
+}
+
+export function destroy(element, elementId) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (instance && instance.split) {
+        if (instance.split) {
+            try {
+                instance.split.destroy();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        delete instances[elementId];
+    }
 }
 
 /**

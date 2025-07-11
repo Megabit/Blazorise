@@ -729,6 +729,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
+    public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
     public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";
@@ -1160,6 +1162,10 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "table-mobile" : null;
 
+    public override string TableCaption() => "table-caption";
+
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"table-caption-{ToTableCaptionSide( side )}" : null;
+
     #endregion
 
     #region Badge
@@ -1440,6 +1446,9 @@ public class BootstrapClassProvider : ClassProvider
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
             sb.Append( "flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+
+        if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
+            sb.Append( "flex-basis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
             sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="bunit" Version="1.34.0" />
+    <PackageReference Include="bunit" Version="1.34.0" />
     <PackageReference Include="Exceptionless.RandomData" Version="1.2.2" />
     <PackageReference Include="FluentAssertions" Version="6.12.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
     <ProjectReference Include="..\..\Source\Helpers\Blazorise.Tests.bUnit\Blazorise.Tests.bUnit.csproj" />
     <ProjectReference Include="..\BasicTestApp.Server\BasicTestApp.Server.csproj" />
   </ItemGroup>

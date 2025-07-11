@@ -1,29 +1,25 @@
 @using Blazorise.Extensions;
 @typeparam TItem
 @{
-    if ( Column is DataGridNumericColumn<TItem> numericColumn )
+    @if ( Column is DataGridNumericColumn<TItem> numericColumn )
     {
-        <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellNumericEdit>
-
+        <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" />
     }
     else if ( Column is DataGridSelectColumn<TItem> selectColumn )
     {
-        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellSelectEdit>
-
+        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" CellSection="DataGridCellSection.Filter" />
     }
     else if ( Column is DataGridCheckColumn<TItem> checkColumn )
     {
-        <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellCheckEdit>
-
+        <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" />
     }
     else if ( Column is DataGridDateColumn<TItem> dateColumn )
     {
-        <_DataGridCellDatePicker Column="@dateColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged"></_DataGridCellDatePicker>
-
+        <_DataGridCellDatePicker Column="@dateColumn" CellValue="@GetSearchValue()" CellValueChanged="@FilterChanged" />
     }
     else
     {
-        <TextEdit Value="@GetSearchValueAsString()" ValueChanged="@((newValue) => FilterChanged(newValue))" />
+        <TextEdit Value="@GetSearchValueAsString()" ValueChanged="@((newValue) => FilterChanged( newValue ))" />
     }
 }
 @code {
@@ -84,5 +80,4 @@
     {
         return ( Column.Filter.SearchValue as object[] )?[1];
     }
-
 }

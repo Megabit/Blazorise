@@ -33,9 +33,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
         var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
         var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
+        var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
         var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
         var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
         var secondsChanged = parameters.TryGetValue( nameof( Seconds ), out bool paramSeconds ) && Seconds != paramSeconds;
+        var hourIncrementChanged = parameters.TryGetValue( nameof( HourIncrement ), out int paramHourIncrement ) && HourIncrement != paramHourIncrement;
+        var minuteIncrementChanged = parameters.TryGetValue( nameof( MinuteIncrement ), out int paramMinuteIncrement ) && MinuteIncrement != paramMinuteIncrement;
 
         if ( paramValue.Changed )
         {
@@ -56,9 +59,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || disabledChanged
                            || readOnlyChanged
                            || inlineChanged
+                           || disableMobileChanged
                            || placeholderChanged
                            || staticPickerChanged
-                           || secondsChanged ) )
+                           || secondsChanged
+                           || hourIncrementChanged
+                           || minuteIncrementChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new TimePickerUpdateJSOptions
             {
@@ -69,9 +75,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 Disabled = new JSOptionChange<bool>( disabledChanged, disabled ),
                 ReadOnly = new JSOptionChange<bool>( readOnlyChanged, readOnly ),
                 Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
+                DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile ),
                 Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
                 StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
                 Seconds = new JSOptionChange<bool>( secondsChanged, paramSeconds ),
+                HourIncrement = new JSOptionChange<int>( hourIncrementChanged, paramHourIncrement ),
+                MinuteIncrement = new JSOptionChange<int>( minuteIncrementChanged, paramMinuteIncrement ),
             } ) );
         }
     }
@@ -98,9 +107,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             ReadOnly = ReadOnly,
             Localization = GetLocalizationObject(),
             Inline = Inline,
+            DisableMobile = DisableMobile,
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
             Seconds = Seconds,
+            HourIncrement = HourIncrement,
+            MinuteIncrement = MinuteIncrement,
         } );
 
 
@@ -303,6 +315,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     [Parameter] public bool Inline { get; set; }
 
     /// <summary>
+    /// If enabled, it always uses the non-native picker. Default is true.
+    /// </summary>
+    [Parameter] public bool DisableMobile { get; set; } = true;
+
+    /// <summary>
     /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
@@ -311,6 +328,16 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// If enabled, the time picker will include seconds in the selection.
     /// </summary>
     [Parameter] public bool Seconds { get; set; }
+
+    /// <summary>
+    /// Adjusts the step for the hour input.
+    /// </summary>
+    [Parameter] public int HourIncrement { get; set; } = 1;
+
+    /// <summary>
+    /// Adjusts the step for the minute input.
+    /// </summary>
+    [Parameter] public int MinuteIncrement { get; set; } = 1;
 
     #endregion
 }

@@ -243,6 +243,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
+        if ( ElementId is null )
+        {
+            ElementId = IdGenerator.Generate;
+        }
+
         InputElementId = IdGenerator.Generate;
 
         ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
@@ -1285,7 +1290,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Gets or sets the dropdown element id.
+    /// Gets or sets the main dropdown element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
 

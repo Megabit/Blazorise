@@ -105,7 +105,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 if ( column.ExcludeFromInit )
                     continue;
 
-                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, column.GetValue( Item ), ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue ) );
+                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, column.GetValue( Item ), ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue, ParentDataGrid.EditState ) );
             }
         }
 

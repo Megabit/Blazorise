@@ -855,6 +855,8 @@ public class FluentUI2ClassProvider : ClassProvider
         ? "fui-NavigationBar__dropdown-item"
         : "b-bar-dropdown-item";
 
+    public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__toggler-icon"
         : "navbar-toggler-icon";
@@ -1298,6 +1300,10 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "fui-Table-mobile" : null;
 
+    public override string TableCaption() => "fui-TableCaption";
+
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"fui-TableCaption-{ToTableCaptionSide( side )}" : null;
+
     #endregion
 
     #region Badge
@@ -1582,6 +1588,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
             sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+
+        if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
+            sb.Append( "fui-FlexBasis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
             sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );

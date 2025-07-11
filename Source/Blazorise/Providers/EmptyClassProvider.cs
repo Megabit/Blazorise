@@ -693,6 +693,8 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdownItem( BarMode mode ) => null;
 
+    public string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
+
     public string BarDropdownDivider( BarMode mode ) => null;
 
     public string BarTogglerIcon( BarMode mode ) => null;
@@ -1022,6 +1024,10 @@ class EmptyClassProvider : IClassProvider
     public string TableFixedColumns( bool fixedColumns ) => null;
 
     public string TableResponsiveMode( TableResponsiveMode responsiveMode ) => null;
+
+    public string TableCaption() => null;
+
+    public string TableCaptionSide( TableCaptionSide side ) => null;
 
     #endregion
 
@@ -1430,6 +1436,8 @@ class EmptyClassProvider : IClassProvider
     public string ToObjectFitType( ObjectFitType objectFitType ) => null;
 
     public string ToSkeletonAnimation( SkeletonAnimation animation ) => null;
+
+    public string ToTableCaptionSide( TableCaptionSide side ) => null;
 
     #endregion
 

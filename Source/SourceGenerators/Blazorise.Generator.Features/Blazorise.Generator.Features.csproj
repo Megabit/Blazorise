@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.7.5</Version>
-    <PackageVersion>1.7.5</PackageVersion>
+    <Version>1.8.0</Version>
+    <PackageVersion>1.8.0</PackageVersion>
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>

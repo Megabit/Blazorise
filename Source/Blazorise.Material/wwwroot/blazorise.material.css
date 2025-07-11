@@ -1,4 +1,8 @@
-﻿.badge-close {
+﻿:root {
+  --b-bar-horizontal-height: 60px;
+}
+
+.badge-close {
   cursor: pointer;
 }
 .badge-close::before {
@@ -1794,6 +1798,13 @@ a.link-disabled[aria-disabled=true] {
   transform: translateX(2.3rem);
 }
 
+table.table .table-caption-top {
+  caption-side: top;
+}
+table.table .table-caption-bottom {
+  caption-side: bottom;
+}
+
 table.table tbody tr.selected {
   background-color: var(--primary);
 }
@@ -3212,6 +3223,73 @@ td:focus {
   }
   .align-self-xxl-stretch {
     align-self: stretch !important;
+  }
+}
+.flex-basis-0 {
+  flex-basis: 0 !important;
+}
+
+.flex-basis-auto {
+  flex-basis: auto !important;
+}
+
+.flex-basis-full {
+  flex-basis: 100% !important;
+}
+
+@media (min-width: 576px) {
+  .flex-sm-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .flex-sm-basis-auto {
+    flex-basis: auto !important;
+  }
+  .flex-sm-basis-full {
+    flex-basis: 100% !important;
+  }
+}
+@media (min-width: 768px) {
+  .flex-md-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .flex-md-basis-auto {
+    flex-basis: auto !important;
+  }
+  .flex-md-basis-full {
+    flex-basis: 100% !important;
+  }
+}
+@media (min-width: 992px) {
+  .flex-lg-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .flex-lg-basis-auto {
+    flex-basis: auto !important;
+  }
+  .flex-lg-basis-full {
+    flex-basis: 100% !important;
+  }
+}
+@media (min-width: 1200px) {
+  .flex-xl-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .flex-xl-basis-auto {
+    flex-basis: auto !important;
+  }
+  .flex-xl-basis-full {
+    flex-basis: 100% !important;
+  }
+}
+@media (min-width: 1400px) {
+  .flex-xxl-basis-0 {
+    flex-basis: 0 !important;
+  }
+  .flex-xxl-basis-auto {
+    flex-basis: auto !important;
+  }
+  .flex-xxl-basis-full {
+    flex-basis: 100% !important;
   }
 }
 .no-gutters {
@@ -5378,4 +5456,75 @@ span.flatpickr-weekday {
 
 .flatpickr-monthSelect-month.selected {
   background-color: #9c27b0;
+}
+
+.flatpickr-button {
+  border-radius: valid-radius(4px);
+  transition: background-color, box-shadow, color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  align-items: center;
+  background-color: transparent;
+  background-image: none;
+  border: 0;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.87);
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 500;
+  height: 2.25rem;
+  justify-content: center;
+  letter-spacing: 0.0892857143em;
+  line-height: inherit;
+  margin: 0;
+  max-width: 100%;
+  min-width: 4rem;
+  outline: 0;
+  padding: 0 1rem;
+  position: relative;
+  text-transform: uppercase;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+@media (min-width: 576px) {
+  .flatpickr-button {
+    transition-duration: 390ms;
+  }
+}
+@media (min-width: 992px) {
+  .flatpickr-button {
+    transition-duration: 280ms;
+  }
+}
+.flatpickr-button:hover, .flatpickr-button:focus {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  outline: 0;
+  text-decoration: none;
+}
+.flatpickr-button:hover, .flatpickr-button.hover {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04));
+  color: inherit;
+}
+.flatpickr-button:focus, .flatpickr-button.focus {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12));
+}
+.flatpickr-button:active, .flatpickr-button.active {
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+.flatpickr-button.active {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24));
+  transition: background-image 0.2s;
+}
+.flatpickr-button:disabled, .flatpickr-button.disabled {
+  background-color: rgba(0, 0, 0, 0.12);
+  background-image: none;
+  box-shadow: none;
+  color: rgba(0, 0, 0, 0.37);
+  pointer-events: none;
+}
+.show > .flatpickr-button.dropdown-toggle {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.32));
+}
+
+.flatpickr-button:hover {
+  background: rgba(156, 39, 176, 0.15);
 }

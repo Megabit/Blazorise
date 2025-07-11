@@ -293,7 +293,7 @@ To get started quickly, just add the following to your `<head>` tag:
 <!-- CDN to enable Tailwind classes -->
 <script src="https://cdn.tailwindcss.com"></script>
 <!-- Config for custom Tailwind classes, e.g., primary, secondary, success, etc. -->
-<script src="_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.7.5.0"></script>
+<script src="_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.8.0.0"></script>
 
 <!-- Custom CSS shared among all style providers, usually classes with 'b-' prefix (like '.b-input-color-picker') -->
 <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />

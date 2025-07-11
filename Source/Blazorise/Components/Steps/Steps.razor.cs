@@ -209,6 +209,21 @@ public partial class Steps : BaseComponent
     [Parameter] public string SelectedStep { get; set; }
 
     /// <summary>
+    /// Defines how the steps content will be rendered.
+    /// </summary>
+    [Parameter]
+    public StepsRenderMode RenderMode
+    {
+        get => state.RenderMode;
+        set
+        {
+            state = state with { RenderMode = value };
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
     /// Occurs after the selected step has changed.
     /// </summary>
     [Parameter] public EventCallback<string> SelectedStepChanged { get; set; }
