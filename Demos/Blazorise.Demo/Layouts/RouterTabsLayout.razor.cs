@@ -6,5 +6,5 @@ namespace Blazorise.Demo.Layouts;
 
 public partial class RouterTabsLayout : MainLayout
 {
-    
+
 }
