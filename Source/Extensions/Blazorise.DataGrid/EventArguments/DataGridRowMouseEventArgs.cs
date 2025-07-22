@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -10,7 +11,7 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem"></typeparam>
 public class DataGridRowMouseEventArgs<TItem> : EventArgs
 {
-    public DataGridRowMouseEventArgs( TItem item, BLMouseEventArgs mouseEventArgs )
+    public DataGridRowMouseEventArgs( TItem item, MouseEventArgs mouseEventArgs )
     {
         Item = item;
         MouseEventArgs = mouseEventArgs;
@@ -24,5 +25,5 @@ public class DataGridRowMouseEventArgs<TItem> : EventArgs
     /// <summary>
     /// Gets the mouse event details.
     /// </summary>
-    public BLMouseEventArgs MouseEventArgs { get; }
+    public MouseEventArgs MouseEventArgs { get; }
 }

@@ -7687,20 +7687,20 @@ Install-Package Blazorise.Chart.Zoom";
           RowContextMenuPreventDefault=""true""
           Responsive
           Editable>
-    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
-    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
-    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
 </DataGrid>
 
 @if ( showContextMenu )
 {
-    <Div Position=""Position.Fixed"" Background=""Background.Danger"" Style=""@($""left:{contextMenuPos.X}px;top:{contextMenuPos.Y}px;"")"">
+    <Div Position=""Position.Fixed"" Background=""Background.Danger"" Style=""@($""left:{contextMenuPos.X}px; top:{contextMenuPos.Y}px;"")"">
         <ListGroup>
-            <ListGroupItem Clicked=""@(()=>OnContextItemEditClicked(contextMenuEmployee))"">
+            <ListGroupItem Clicked=""@(() => OnContextItemEditClicked( contextMenuEmployee ))"">
                 <Icon Name=""IconName.Edit"" TextColor=""TextColor.Secondary"" /> Edit
             </ListGroupItem>
-            <ListGroupItem Clicked=""@(()=>OnContextItemDeleteClicked(contextMenuEmployee))"">
+            <ListGroupItem Clicked=""@(() => OnContextItemDeleteClicked( contextMenuEmployee ))"">
                 <Icon Name=""IconName.Delete"" TextColor=""TextColor.Danger"" /> Delete
             </ListGroupItem>
         </ListGroup>
@@ -7728,7 +7728,7 @@ Install-Package Blazorise.Chart.Zoom";
     {
         showContextMenu = true;
         contextMenuEmployee = eventArgs.Item;
-        contextMenuPos = eventArgs.MouseEventArgs.Client;
+        contextMenuPos = new Point( (int)eventArgs.MouseEventArgs.ClientX, (int)eventArgs.MouseEventArgs.ClientY );
 
         return Task.CompletedTask;
     }

@@ -82,7 +82,7 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected Task OnClickHandler( MouseEventArgs eventArgs )
     {
-        return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+        return Clicked.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -193,7 +193,7 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     /// <summary>
     /// Occurs when the row cell is clicked.
     /// </summary>
-    [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="TableRowCell"/>.
