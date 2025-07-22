@@ -78,9 +78,9 @@ public partial class TableRow : BaseDraggableComponent
         // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.
         // We'll be treating any Detail higher then 2 as the user constantly clicking, therefore triggering Single Click.
         if ( eventArgs.Detail == 1 || eventArgs.Detail > 2 )
-            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+            return Clicked.InvokeAsync( eventArgs );
         else if ( eventArgs.Detail == 2 )
-            return DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+            return DoubleClicked.InvokeAsync( eventArgs );
         return Task.CompletedTask;
     }
 
@@ -91,7 +91,7 @@ public partial class TableRow : BaseDraggableComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected Task OnMouseLeaveHandler( MouseEventArgs eventArgs )
     {
-        return MouseLeave.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+        return MouseLeave.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public partial class TableRow : BaseDraggableComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
     {
-        return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+        return MouseOver.InvokeAsync( eventArgs );
     }
 
     internal void AddTableHeaderCell( TableHeaderCell tableHeaderCell )
@@ -391,22 +391,22 @@ public partial class TableRow : BaseDraggableComponent
     /// <summary>
     /// Occurs when the row is clicked.
     /// </summary>
-    [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
     /// Occurs when the row is double clicked.
     /// </summary>
-    [Parameter] public EventCallback<BLMouseEventArgs> DoubleClicked { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> DoubleClicked { get; set; }
 
     /// <summary>
     /// Occurs when the row is mouse overed.
     /// </summary>
-    [Parameter] public EventCallback<BLMouseEventArgs> MouseOver { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> MouseOver { get; set; }
 
     /// <summary>
     /// Occurs when the row is mouse leaved.
     /// </summary>
-    [Parameter] public EventCallback<BLMouseEventArgs> MouseLeave { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> MouseLeave { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="TableRow"/>.

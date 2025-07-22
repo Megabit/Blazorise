@@ -96,3 +96,7 @@ private void OnValidateStartDate( ValidatorEventArgs e )
     // ...
 }
 ```
+
+## Removed BLMouseEventArgs
+
+The `BLMouseEventArgs` class has been removed in Blazorise 2.0. You should use the `MouseEventArgs` class from the `Microsoft.AspNetCore.Components.Web` namespace instead.

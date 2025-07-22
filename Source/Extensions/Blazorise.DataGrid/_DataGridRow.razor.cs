@@ -179,18 +179,18 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected bool BindMouseOver()
         => ParentDataGrid.RowMouseOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 
-    protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
+    protected internal async Task HandleMouseLeave( MouseEventArgs eventArgs )
     {
         mouseIsOver = false;
         await ParentDataGrid.OnRowMouseLeaveCommand( new( Item, eventArgs ) );
     }
-    protected internal async Task HandleMouseOver( BLMouseEventArgs eventArgs )
+    protected internal async Task HandleMouseOver( MouseEventArgs eventArgs )
     {
         mouseIsOver = true;
         await ParentDataGrid.OnRowMouseOverCommand( new( Item, eventArgs ) );
     }
 
-    protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
+    protected internal async Task HandleClick( MouseEventArgs eventArgs )
     {
         await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
@@ -207,21 +207,21 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
-    private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
+    private async Task HandleMultiSelectClick( MouseEventArgs eventArgs )
     {
         var isSelected = ( ParentDataGrid.SelectedRows == null || ( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) ) );
-        var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
+        var shiftClick = ( eventArgs.ShiftKey && eventArgs.ToMouseButton() == MouseButton.Left );
 
         await OnMultiSelectCommand( new( Item, isSelected || shiftClick, shiftClick ) );
     }
 
-    private bool IsCtrlClick( BLMouseEventArgs eventArgs )
+    private bool IsCtrlClick( MouseEventArgs eventArgs )
     {
         var isMacOsCtrl = ParentDataGrid.IsClientMacintoshOS && eventArgs.MetaKey;
-        return ( eventArgs.CtrlKey || isMacOsCtrl ) && eventArgs.Button == MouseButton.Left;
+        return ( eventArgs.CtrlKey || isMacOsCtrl ) && eventArgs.ToMouseButton() == MouseButton.Left;
     }
 
-    private async Task HandleSingleSelectClick( BLMouseEventArgs eventArgs )
+    private async Task HandleSingleSelectClick( MouseEventArgs eventArgs )
     {
         // Un-select row if the user is holding the ctrl key on already selected row.
         if ( ParentDataGrid.SingleSelect && IsCtrlClick( eventArgs )
@@ -236,12 +236,12 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
-    protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
+    protected internal Task HandleDoubleClick( MouseEventArgs eventArgs )
     {
         return ParentDataGrid.OnRowDoubleClickedCommand( new( Item, eventArgs ) );
     }
 
-    protected internal Task HandleContextMenu( BLMouseEventArgs eventArgs )
+    protected internal Task HandleContextMenu( MouseEventArgs eventArgs )
     {
         return ParentDataGrid.OnRowContextMenuCommand( new( Item, eventArgs ) );
     }
