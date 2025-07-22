@@ -178,7 +178,7 @@ public partial class SnackbarStack : BaseComponent
     {
         var info = snackbarInfos.FirstOrDefault( x => x.Key == key );
 
-        if ( info != null )
+        if ( info is not null )
             snackbarInfos.Remove( info );
 
         await InvokeAsync( StateHasChanged );

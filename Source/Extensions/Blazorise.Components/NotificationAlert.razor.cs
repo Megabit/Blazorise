@@ -42,12 +42,12 @@ public partial class NotificationAlert : BaseComponent, IDisposable
         if ( e == null )
             return;
 
-        var okButtonText = e.Options?.OkButtonText ?? "OK";
-
         await SnackbarStack.PushAsync( e.Message, e.Title, GetSnackbarColor( e.NotificationType ), ( options ) =>
         {
             options.CloseButtonIcon = IconName.Times;
-            options.ActionButtonText = okButtonText;
+            options.ShowActionButton = e.Options?.ShowOkButton ?? false;
+            options.ActionButtonText = e.Options?.OkButtonText ?? "OK";
+            options.ActionButtonIcon = e.Options?.OkButtonIcon;
             options.Multiline = e.Options.Multiline;
 
             if ( e.Options.IntervalBeforeClose > 0 )

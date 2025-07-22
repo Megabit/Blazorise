@@ -8,12 +8,13 @@
 
     Task ShowWarningNotification()
     {
-        <span class="keyword">return</span> NotificationService.Warning( <span class="string">&quot;This is a simple notification message!&quot;</span>, <span class="string">&quot;Hello&quot;</span>, options =&gt;
+        <span class="keyword">return</span> NotificationService.Warning( <span class="string">&quot;Are you sure you want to remove the selected item!&quot;</span>, <span class="string">&quot;Removal&quot;</span>, options =&gt;
         {
             options.IntervalBeforeClose = <span class="number">500</span>;
             options.Multiline = <span class="keyword">true</span>;
-            options.OkButtonIcon = <span class="keyword">true</span>;
-            options.OkButtonText = <span class="string">&quot;OK&quot;</span>;
+            options.ShowOkButton = <span class="keyword">true</span>;
+            options.OkButtonIcon = IconName.Delete;
+            options.OkButtonText = <span class="string">&quot;Remove&quot;</span>;
         } );
     }
 }

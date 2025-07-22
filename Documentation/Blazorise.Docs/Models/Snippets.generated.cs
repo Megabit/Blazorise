@@ -13138,12 +13138,13 @@ builder.Services
 
     Task ShowWarningNotification()
     {
-        return NotificationService.Warning( ""This is a simple notification message!"", ""Hello"", options =>
+        return NotificationService.Warning( ""Are you sure you want to remove the selected item!"", ""Removal"", options =>
         {
             options.IntervalBeforeClose = 500;
             options.Multiline = true;
-            options.OkButtonIcon = true;
-            options.OkButtonText = ""OK"";
+            options.ShowOkButton = true;
+            options.OkButtonIcon = IconName.Delete;
+            options.OkButtonText = ""Remove"";
         } );
     }
 }";

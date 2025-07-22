@@ -78,7 +78,14 @@
 
     Task ShowWarningNotification()
     {
-        return NotificationService.Warning( "This is a simple notification message!", "Hello", options => options.IntervalBeforeClose = 10000 );
+        return NotificationService.Warning( "Are you sure you want to remove the selected item!", "Removal", options =>
+        {
+            options.IntervalBeforeClose = 500;
+            options.Multiline = true;
+            options.ShowOkButton = true;
+            options.OkButtonIcon = IconName.Delete;
+            options.OkButtonText = "Remove";
+        } );
     }
 
     Task SetPageProgress25()

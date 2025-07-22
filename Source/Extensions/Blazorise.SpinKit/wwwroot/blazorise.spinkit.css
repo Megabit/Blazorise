@@ -690,8 +690,7 @@
   25% {
     transform: translateX(var(--sk-wander-distance)) rotate(-90deg) scale(0.6);
   }
-  50% {
-    /* Make FF rotate in the right direction */
+  50% { /* Make FF rotate in the right direction */
     transform: translateX(var(--sk-wander-distance)) translateY(var(--sk-wander-distance)) rotate(-179deg);
   }
   50.1% {

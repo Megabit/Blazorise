@@ -436,7 +436,10 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         var background = ToHex( backgroundColor );
         var yiqBackground = ToHex( yiqBackgroundColor );
 
-        sb.Append( $".badge.text-bg-{variant}" ).Append( "{" )
+        sb
+            .Append( $".badge.text-bg-{variant}," )
+            .Append( $".badge-close.text-bg-{variant}" )
+            .Append( "{" )
             .Append( $"color: {yiqBackground} !important;" )
             .Append( $"background-color: {background} !important;" )
             .AppendLine( "}" );

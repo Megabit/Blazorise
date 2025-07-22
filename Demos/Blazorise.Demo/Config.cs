@@ -35,7 +35,7 @@ public static class Config
                 options.SiteKey = reCaptchaSiteKey;
             } )
             .AddBlazoriseRouterTabs();
-        
+
         services.AddBlazoredLocalStorage();
 
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );

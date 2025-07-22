@@ -110,6 +110,11 @@ public partial class BarDropdownItem : BaseComponent
     [Parameter] public Match Match { get; set; } = Match.All;
 
     /// <summary>
+    /// A callback function that is used to compare current uri with the user defined uri. If defined, the <see cref="Match"/> parameter will be ignored.
+    /// </summary>
+    [Parameter] public Func<string, bool> CustomMatch { get; set; }
+
+    /// <summary>
     /// Specify extra information about the link element.
     /// </summary>
     [Parameter] public string Title { get; set; }

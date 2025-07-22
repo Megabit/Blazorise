@@ -1,13 +1,13 @@
 ﻿@inherits Blazorise.BarDropdownItem
 @if ( ParentDropdownState.Mode == BarMode.Horizontal )
 {
-    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Disabled="@Disabled" Clicked="@ClickHandler" Attributes="@Attributes">
+    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" Clicked="@ClickHandler" Attributes="@Attributes">
         <span>@ChildContent</span>
     </Anchor>
 }
 else
 {
-    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Disabled="@Disabled" Clicked="@ClickHandler" Attributes="@Attributes">
+    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" Clicked="@ClickHandler" Attributes="@Attributes">
         <span class="fui-NavigationBar__dropdown-item__content">
             <span>@ChildContent</span>
         </span>

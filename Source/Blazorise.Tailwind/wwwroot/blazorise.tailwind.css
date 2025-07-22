@@ -509,7 +509,7 @@ td:focus {
 }
 p {
   --tw-text-opacity: 1;
-  color: rgb(75, 85, 99, var(--tw-text-opacity));
+  color: rgb(75 85 99/var(--tw-text-opacity));
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.5rem;
