@@ -1,3 +1,16 @@
+import "./vendors/chart.js?v=1.8.0.0";
+
+import "./vendors/chartjs-plugin-datalabels.js?v=1.8.0.0";
+import "./vendors/chartjs-plugin-annotation.js?v=1.8.0.0";
+
+
+//import "./vendors/moment.js?v=1.8.0.0";
+//import "./vendors/chartjs-adapter-date-fns.bundle.min.js?v=1.8.0.0";
+
+import "./vendors/luxon.js?v=1.8.0.0";
+import "./vendors/chartjs-adapter-luxon.js?v=1.8.0.0";
+import "./vendors/chartjs-plugin-streaming.js?v=1.8.0.0";
+
 import { parseFunction, deepClone } from "./utilities.js?v=1.8.0.0";
 
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
@@ -15,21 +28,21 @@ const _ChartLabelCallback = function (item) {
 // would have to first set them to null immediately after charts.js is loaded for this workaround
 // to have any effect.
 
-if (!Chart.overrides.pie.plugins.tooltip.callbacks.title) {
-    Chart.overrides.pie.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
-}
+//if (!Chart.overrides.pie.plugins.tooltip.callbacks.title) {
+//    Chart.overrides.pie.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
+//}
 
-if (!Chart.overrides.pie.plugins.tooltip.callbacks.label) {
-    Chart.overrides.pie.plugins.tooltip.callbacks.label = _ChartLabelCallback;
-}
+//if (!Chart.overrides.pie.plugins.tooltip.callbacks.label) {
+//    Chart.overrides.pie.plugins.tooltip.callbacks.label = _ChartLabelCallback;
+//}
 
-if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.title) {
-    Chart.overrides.doughnut.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
-}
+//if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.title) {
+//    Chart.overrides.doughnut.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
+//}
 
-if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.label) {
-    Chart.overrides.doughnut.plugins.tooltip.callbacks.label = _ChartLabelCallback;
-}
+//if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.label) {
+//    Chart.overrides.doughnut.plugins.tooltip.callbacks.label = _ChartLabelCallback;
+//}
 
 const _instances = [];
 
