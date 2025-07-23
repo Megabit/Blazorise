@@ -43,7 +43,7 @@ public class ChartZoomAdapter<TItem>
     [JSInvokable]
     public async ValueTask NotifyZoomLevel( double zoomLevel, string trigger )
     {
-        if ( chartZoom == null )
+        if ( chartZoom?.Zoomed is null )
             return;
 
         await chartZoom.Zoomed.Invoke( zoomLevel, trigger );
