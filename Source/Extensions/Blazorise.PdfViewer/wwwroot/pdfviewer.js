@@ -4,7 +4,7 @@ import { getRequiredElement, insertCSSIntoDocumentHead } from "../Blazorise/util
 const { pdfjsLib } = globalThis;
 
 if (pdfjsLib && pdfjsLib.GlobalWorkerOptions) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "./pdf.worker.min.mjs?v=1.8.0.0";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "_content/Blazorise.PdfViewer/vendors/pdf.worker.min.mjs?v=1.8.0.0";
 }
 else {
     console.error("Blazorise.PdfViewer: Could not find pdfjsLib.");
