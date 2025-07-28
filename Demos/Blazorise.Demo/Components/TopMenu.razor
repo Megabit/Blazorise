@@ -85,70 +85,7 @@
                 </BarDropdown>
             </BarItem>
         </BarStart>
-        <BarEnd>
-            @if ( gitHubDemoUrl != null )
-            {
-                <BarItem>
-                    <BarLink To="@gitHubDemoUrl" Target="Target.Blank">
-                        Source Code <Icon Name="IconName.ExternalLinkSquareAlt" Margin="Margin.Is2.FromStart" />
-                    </BarLink>
-                </BarItem>
-            }
-            <BarItem>
-                <BarDropdown RightAligned>
-                    <BarDropdownToggle><Icon Name="IconName.Language" /></BarDropdownToggle>
-                    <BarDropdownMenu>
-                        @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
-                        {
-                            <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(() => SelectCulture( cultureInfo.Name ))">
-                                @if ( cultureInfo.IsNeutralCulture )
-                                {
-                                    @cultureInfo.EnglishName
-                                }
-                                else
-                                {
-                                    @cultureInfo.Parent.EnglishName
-                                }
-                            </BarDropdownItem>
-                        }
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarDropdown RightAligned>
-                    <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
-                    <BarDropdownMenu Style="padding: 15px; min-width:550px;">
-                        <Row>
-                            <Column Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <Switch TValue="bool" Value="@(Theme?.Enabled == true)" ValueChanged="@ThemeEnabledChanged">Theme enabled</Switch>
-                                </Field>
-                            </Column>
-                        </Row>
-                        <Row>
-                            <Column Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <Check TValue="bool" Value="@(Theme?.IsGradient == true)" ValueChanged="@ThemeGradientChanged">Gradient colors</Check>
-                                </Field>
-                                <Field>
-                                    <Check TValue="bool" Value="@(Theme?.IsRounded == true)" ValueChanged="@ThemeRoundedChanged">Rounded elements</Check>
-                                </Field>
-                            </Column>
-                        </Row>
-                        <Row>
-                            <Column>
-                                <Container Fluid>
-                                    <ThemeColorSelector Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@ThemeColorChanged"></ThemeColorSelector>
-                                </Container>
-                            </Column>
-                        </Row>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
-            </BarItem>
-        </BarEnd>
+        
     </BarMenu>
 </Bar>
 @code {

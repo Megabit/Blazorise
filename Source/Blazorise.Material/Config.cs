@@ -35,10 +35,6 @@ public static class Config
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
     {
         // material overrides
-        [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
-        [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),
-        [typeof( Blazorise.Switch<> )] = typeof( Components.Switch<> ),
-        [typeof( Blazorise.Step )] = typeof( Components.Step ),
-        [typeof( Blazorise.Steps )] = typeof( Components.Steps )
+        [typeof( Blazorise.Badge )] = typeof( Components.Badge )
     };
 }
