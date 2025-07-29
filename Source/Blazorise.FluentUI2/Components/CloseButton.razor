@@ -14,9 +14,12 @@ else
     private RenderFragment CloseButtonElement => __builder =>
     {
         <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@DisabledString" aria-label="dismiss" @onclick="@ClickHandler" @attributes="@Attributes">
-            <svg fill="currentColor" class="fui-CloseButton__icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="m4.09 4.22.06-.07a.5.5 0 0 1 .63-.06l.07.06L10 9.29l5.15-5.14a.5.5 0 0 1 .63-.06l.07.06c.18.17.2.44.06.63l-.06.07L10.71 10l5.14 5.15c.18.17.2.44.06.63l-.06.07a.5.5 0 0 1-.63.06l-.07-.06L10 10.71l-5.15 5.14a.5.5 0 0 1-.63.06l-.07-.06a.5.5 0 0 1-.06-.63l.06-.07L9.29 10 4.15 4.85a.5.5 0 0 1-.06-.63l.06-.07-.06.07Z" fill="currentColor"></path>
-            </svg>
+           <span class="mud-icon-button-label">
+           <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
+           <path d="M0 0h24v24H0z" fill="none"></path><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+           </path>
+           </svg>
+           </span>
             @ChildContent
         </button>
     };

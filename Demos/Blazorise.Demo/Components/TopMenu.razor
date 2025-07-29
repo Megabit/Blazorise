@@ -14,78 +14,7 @@
     </BarBrand>
     <BarToggler />
     <BarMenu>
-        <BarStart>
-            <BarItem>
-                <BarLink To="https://blazorise.com/">Home</BarLink>
-            </BarItem>
-            <BarItem>
-                <BarLink To="https://blazorise.com/docs/">Documentation</BarLink>
-            </BarItem>
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>More</BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem To="https://blazorise.com/docs/start/">
-                            Quick-Start Guide
-                        </BarDropdownItem>
-                        <BarDropdownDivider />
-                        <BarDropdownItem To="https://blazorise.com/docs/usage/">
-                            Usage
-                        </BarDropdownItem>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>Layout</BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem Clicked="@(() => OnLayoutTypeChecked( "fixed-header" ))">
-                            @if ( LayoutType == "fixed-header" )
-                            {
-                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
-                            }
-                            Fixed Header
-                        </BarDropdownItem>
-                        <BarDropdownItem Clicked="@(() => OnLayoutTypeChecked( "fixed-header-footer-only" ))">
-                            @if ( LayoutType == "fixed-header-footer-only" )
-                            {
-                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
-                            }
-                            Fixed Header and Footer only
-                        </BarDropdownItem>
-                        <BarDropdownItem Clicked="@(() => OnLayoutTypeChecked( "sider-with-header-on-top" ))">
-                            @if ( LayoutType == "sider-with-header-on-top" )
-                            {
-                                <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
-                            }
-                            Sider with Header on top
-                        </BarDropdownItem>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>Level1</BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem>Level1.1</BarDropdownItem>
-                        <BarDropdown>
-                            <BarDropdownToggle>Level2</BarDropdownToggle>
-                            <BarDropdownMenu>
-                                <BarDropdownItem>Level2.1</BarDropdownItem>
-                                <BarDropdown>
-                                    <BarDropdownToggle>Level3</BarDropdownToggle>
-                                    <BarDropdownMenu>
-                                        <BarDropdownItem>Level3.1</BarDropdownItem>
-                                    </BarDropdownMenu>
-                                </BarDropdown>
-                            </BarDropdownMenu>
-                        </BarDropdown>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-        </BarStart>
-        
+               
     </BarMenu>
 </Bar>
 @code {

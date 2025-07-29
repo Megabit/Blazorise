@@ -1,0 +1,33 @@
+
+.mud-link {
+  &.mud-link-underline-none {
+    text-decoration: none;
+  }
+
+  &.mud-link-underline-hover {
+    text-decoration: none;
+
+    @media(hover: hover) and (pointer: fine) {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &:focus-visible, &:active {
+      text-decoration: underline;
+    }
+  }
+
+  &.mud-link-underline-always {
+    text-decoration: underline;
+  }
+
+  &.mud-link-disabled {
+    cursor: default;
+    color: var(--mud-palette-action-disabled) !important;
+
+    &:not(.mud-link-underline-always) {
+      text-decoration: none;
+    }
+  }
+}

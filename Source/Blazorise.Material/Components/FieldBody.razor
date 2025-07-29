@@ -1,0 +1,32 @@
+﻿@using Blazorise.Utilities
+@inherits Blazorise.FieldBody
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </div>
+</CascadingValue>
+@code {
+    object inputComponentValue;
+
+    public void NotifyInputComponentValue<TValue>( BaseInputComponent<TValue> inputComponent )
+    {
+        Console.WriteLine( $"NotifyInputComponentValue called with value: {inputComponent.Value}" );
+
+        inputComponentValue = inputComponent.Value;
+
+        DirtyClasses();
+        InvokeAsync( StateHasChanged );
+    }
+
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        var value = inputComponentValue?.ToString()?.Trim();
+
+        if ( !string.IsNullOrEmpty( value ) )
+        {
+            builder.Append( "mud-shrink" );
+        }
+
+        base.BuildClasses( builder );
+    }
+}

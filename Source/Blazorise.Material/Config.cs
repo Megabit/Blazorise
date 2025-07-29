@@ -35,6 +35,13 @@ public static class Config
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
     {
         // material overrides
-        [typeof( Blazorise.Badge )] = typeof( Components.Badge )
+        [typeof( Blazorise.Alert )] = typeof( Components.Alert ),
+        [typeof( Blazorise.AlertMessage )] = typeof( Components.AlertMessage ),
+        [typeof( Blazorise.AlertDescription )] = typeof( Components.AlertDescription ),
+        [typeof( Blazorise.Badge )] = typeof( Components.Badge ),
+        [typeof( Blazorise.CloseButton )] = typeof( Components.CloseButton ),
+        [typeof( Blazorise.Field )] = typeof( Components.Field ),
+        [typeof( Blazorise.FieldBody )] = typeof( Components.FieldBody ),
+        [typeof( Blazorise.TextEdit )] = typeof( Components.TextEdit ),
     };
 }

@@ -10,7 +10,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 {
     #region TextEdit
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "mud-input-slot mud-input-root mud-input-root-text";
 
     public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
@@ -295,7 +295,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Field
 
-    public override string Field() => "form-group";
+    public override string Field() => "mud-input-control mud-input-text-with-label mud-input-input-control";
 
     public override string FieldHorizontal( bool horizontal ) => horizontal ? "row" : null;
 
@@ -311,7 +311,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region FieldLabel
 
-    public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : null;
+    public override string FieldLabel( bool horizontal ) => horizontal ? "mud-input-label mud-input-label-animated mud-input-label-text mud-input-label-inputcontrol" : null;
 
     public override string FieldLabelRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
@@ -324,13 +324,13 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region FieldBody
 
-    public override string FieldBody() => null;
+    public override string FieldBody() => "mud-input mud-input-text mud-input-text-with-label mud-input-underline mud-typography-subtitle1";
 
     #endregion
 
     #region FieldHelp
 
-    public override string FieldHelp() => "form-text text-muted";
+    public override string FieldHelp() => "mud-input-control-helper-container";
 
     #endregion
 
@@ -430,7 +430,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "close";
+    public override string CloseButton() => "mud-button-root mud-icon-button mud-ripple mud-ripple-icon mud-icon-button-size-small";
 
     #endregion
 
@@ -867,11 +867,11 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Alert
 
-    public override string Alert() => "alert";
+    public override string Alert() => "mud-alert mud-elevation-0";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"mud-alert-text-{ToColor( color )}" : null;
 
-    public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
+    public override string AlertDismisable( bool dismissable ) => null;
 
     public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
 
@@ -881,9 +881,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string AlertHasDescription( bool hasDescription ) => null;
 
-    public override string AlertMessage() => null;
+    public override string AlertMessage() => "mud-alert-message";
 
-    public override string AlertDescription() => null;
+    public override string AlertDescription() => "mud-alert-description";
 
     #endregion
 
@@ -1232,13 +1232,13 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Heading
 
-    public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
+    public override string HeadingSize( HeadingSize headingSize ) => $"mud-typography mud-typography-h{ToHeadingSize( headingSize )}";
 
     #endregion
 
     #region DisplayHeading
 
-    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"mud-typography mud-typography-h{ToDisplayHeadingSize( displayHeadingSize )}";
 
     #endregion
 

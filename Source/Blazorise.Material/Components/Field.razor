@@ -1,0 +1,8 @@
+﻿@inherits Blazorise.Field
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div class="mud-input-control-input-container">
+            @ChildContent
+        </div>
+    </div>
+</CascadingValue>
