@@ -1,8 +1,0 @@
-﻿.figure {
-    @each $dimension in $figure-dimensions {
-        &.figure-is-#{$dimension}x#{$dimension} {
-            height: $dimension * 1px;
-            width: $dimension * 1px;
-        }
-    }
-}

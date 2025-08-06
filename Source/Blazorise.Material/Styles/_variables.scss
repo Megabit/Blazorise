@@ -1,516 +1,67 @@
 ﻿:root {
-    --b-bar-horizontal-height: 60px;
+    --mui-primary: #4355b9;
+    --mui-on-primary: #ffffff;
+    --mui-primary-container: #dee0ff;
+    --mui-on-primary-container: #00105c;
+    --mui-secondary: #5b5d72;
+    --mui-on-secondary: #ffffff;
+    --mui-secondary-container: #e0e1f9;
+    --mui-on-secondary-container: #181a2c;
+    --mui-tertiary: #7a5260;
+    --mui-on-tertiary: #ffffff;
+    --mui-tertiary-container: #ffd9e3;
+    --mui-on-tertiary-container: #31101d;
+    --mui-error: #ba1a1a;
+    --mui-on-error: #ffffff;
+    --mui-error-container: #ffdad6;
+    --mui-on-error-container: #410002;
+    --mui-success: #006d3d;
+    --mui-on-success: #ffffff;
+    --mui-success-container: #a0f9c6;
+    --mui-on-success-container: #00210a;
+    --mui-warning: #7a5800;
+    --mui-on-warning: #ffffff;
+    --mui-warning-container: #ffdea0;
+    --mui-on-warning-container: #261900;
+    --mui-info: #00629b;
+    --mui-on-info: #ffffff;
+    --mui-info-container: #a0d8ff;
+    --mui-on-info-container: #001f2a;
+    --mui-light: #fdf8fd;
+    --mui-on-light: #1c1b1e;
+    --mui-light-container: #f5eff6;
+    --mui-on-light-container: #322f33;
+    --mui-dark: #1c1b1e;
+    --mui-on-dark: #fdf8fd;
+    --mui-dark-container: #49454e;
+    --mui-on-dark-container: #e7e0eb;
+    --mui-size: 1rem;
+    --mui-size-xs: 1.5rem;
+    --mui-size-sm: 2rem;
+    --mui-size-md: 2.5rem;
+    --mui-size-lg: 3rem;
+    --mui-size-xl: 4rem;
+    --mui-font: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Noto Sans, Arial, sans-serif;
+    --mui-font-icon: "Material Symbols Outlined";
+    --mui-speed1: 0.1s;
+    --mui-speed2: 0.2s;
+    --mui-speed3: 0.3s;
+    --mui-speed4: 0.4s;
+    --mui-active: rgb(128 128 128 / 0.192);
+    --mui-overlay: rgb(0 0 0 / 0.5);
+    --mui-elevate1: 0 0.125rem 0.125rem 0 rgb(0 0 0 / 0.32);
+    --mui-elevate2: 0 0.25rem 0.5rem 0 rgb(0 0 0 / 0.4);
+    --mui-elevate3: 0 0.375rem 0.75rem 0 rgb(0 0 0 / 0.48);
+    --mui-top: env(safe-area-inset-top);
+    --mui-bottom: env(safe-area-inset-bottom);
+    --mui-left: env(safe-area-inset-left);
+    --mui-right: env(safe-area-inset-right);
+    --mui-surface: #fdf8fd;
+    --mui-surface-text: #1c1b1e;
+    --mui-surface-variant: #e7e0eb;
+    --mui-surface-variant-text: #49454e;
+    --mui-outline: #7a757f;
+    --mui-outline-variant: #cac4cf;
+    --mui-shadow: #000000;
+    --mui-scrim: #000000;
 }
-
-$white: #fff !default;
-$black: #000 !default;
-
-$text-light: #fff !default;
-$text-dark: #212529 !default;
-
-$yiq-text-light: $text-light !default;
-$yiq-text-dark: $text-dark !default;
-
-// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-$yiq-contrasted-threshold: 150 !default;
-
-$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
-
-$primary: #9c27b0 !default;
-$secondary: #ff4081 !default;
-$success: #4caf50 !default;
-$info: #2196f3 !default;
-$warning: #ff9800 !default;
-$danger: #f44336 !default;
-$light: #f5f5f5 !default;
-$dark: #424242 !default;
-$link: #3273dc !default;
-
-$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
-
-// Elevation
-//
-$elevations: ( 24: (24 * 10), 16: (16 * 10), 12: (12 * 10), 8: (8 * 10), 6: (6 * 10), 4: (4 * 10), 2: (2 * 10), 1: (1 * 10) ) !default;
-
-// Shadow
-// Based on https://material-components.github.io/material-components-web-catalog/#/component/elevation
-
-$shadow-color-1: rgba(0, 0, 0, 0.14) !default;
-$shadow-color-2: rgba(0, 0, 0, 0.12) !default;
-$shadow-color-3: rgba(0, 0, 0, 0.2) !default;
-
-$shadows: ( 24: unquote('0 24px 38px 3px #{$shadow-color-1}, 0 9px 46px 8px #{$shadow-color-2}, 0 11px 15px -7px #{$shadow-color-3}'), 16: unquote('0 16px 24px 2px #{$shadow-color-1}, 0 6px 30px 5px #{$shadow-color-2}, 0 8px 10px -5px #{$shadow-color-3}'), 12: unquote('0 12px 17px 2px #{$shadow-color-1}, 0 5px 22px 4px #{$shadow-color-2}, 0 7px 8px -4px #{$shadow-color-3}'), 8: unquote('0 8px 10px 1px #{$shadow-color-1}, 0 3px 14px 2px #{$shadow-color-2}, 0 5px 5px -3px #{$shadow-color-3}'), 6: unquote('0 6px 10px 0 #{$shadow-color-1}, 0 1px 18px 0 #{$shadow-color-2}, 0 3px 5px -1px #{$shadow-color-3}'), 4: unquote('0 4px 5px 0 #{$shadow-color-1}, 0 1px 10px 0 #{$shadow-color-2}, 0 2px 4px -1px #{$shadow-color-3}'), 2: unquote('0 2px 2px 0 #{$shadow-color-1}, 0 1px 5px 0 #{$shadow-color-2}, 0 3px 1px -2px #{$shadow-color-3}'), 1: unquote('0 1px 1px 0 #{$shadow-color-1}, 0 1px 3px 0 #{$shadow-color-2}, 0 2px 1px -1px #{$shadow-color-3}') ) !default;
-
-// Value pair
-// Combination of elevation and shadow
-
-$elevation-shadows: ( 24: ( elevation: map-get($elevations, 24), shadow: map-get($shadows, 24) ), 16: ( elevation: map-get($elevations, 16), shadow: map-get($shadows, 16) ), 12: ( elevation: map-get($elevations, 12), shadow: map-get($shadows, 12) ), 8: ( elevation: map-get($elevations, 8), shadow: map-get($shadows, 8) ), 6: ( elevation: map-get($elevations, 6), shadow: map-get($shadows, 6) ), 4: ( elevation: map-get($elevations, 4), shadow: map-get($shadows, 4) ), 2: ( elevation: map-get($elevations, 2), shadow: map-get($shadows, 2) ), 1: ( elevation: map-get($elevations, 1), shadow: map-get($shadows, 1) ) ) !default;
-
-
-// Grid
-//
-$grid-columns: 12 !default;
-$grid-rows: 12 !default;
-$grid-gutter-width: 1.5rem !default;
-$grid-row-columns: 6 !default;
-
-$grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px ) !default;
-
-$container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1320px ) !default;
-
-// Spacer
-//
-$border-color: $black-divider !default;
-$border-color-solid: #e1e1e1 !default;
-$border-radius: 4px !default;
-$border-radius-xs: 1px !default;
-$border-radius-sm: 2px !default;
-$border-radius-md: $border-radius * 3 !default;
-$border-radius-lg: $border-radius * 4 !default;
-$border-radius-xl: $border-radius * 5 !default;
-$border-width: 1px !default;
-
-$caret-width: .3em !default;
-$caret-vertical-align: $caret-width * .85 !default;
-$caret-spacing: $caret-width * .85 !default;
-
-$sizes: () !default;
-// stylelint-disable-next-line scss/dollar-variable-default
-$sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
-
-$spacer: 1rem !default;
-
-$spacer-xs: ($spacer * 0.25) !default;
-$spacer-sm: ($spacer * 0.5) !default;
-$spacer-lg: ($spacer * 1.5) !default;
-$spacer-xl: ($spacer * 3) !default;
-
-$spacers: () !default;
-// stylelint-disable-next-line scss/dollar-variable-default
-$spacers: map-merge( ( 0: 0, 1: $spacer-xs, 2: $spacer-sm, 3: $spacer, 4: $spacer-lg, 5: $spacer-xl ), $spacers );
-
-// Transition
-//
-$transition-scale: 0.87 !default;
-
-// The movement of an element is based on https://material.io/design/motion
-
-// Transition duration
-// Based on https://material.google.com/motion/duration-easing.html#duration-easing-common-durations
-
-// Accelerate easing : Elements exiting a screen use acceleration easing, where they start at rest and end at peak velocity.
-
-$transition-duration-desktop: 280ms !default;
-$transition-duration-desktop-complex: 250ms !default;
-$transition-duration-desktop-entering: 150ms !default;
-$transition-duration-desktop-leaving: 75ms !default;
-
-$transition-duration-mobile: 300ms !default;
-$transition-duration-mobile-complex: 375ms !default;
-$transition-duration-mobile-entering: 225ms !default;
-$transition-duration-mobile-leaving: 195ms !default;
-
-$transition-duration-tablet: 390ms !default;
-$transition-duration-tablet-complex: 487.5ms !default;
-$transition-duration-tablet-entering: 292.5ms !default;
-$transition-duration-tablet-leaving: 253.5ms !default;
-
-$transition-duration-control: 100ms !default;
-
-// Transition timing function
-// Based on https://material.io/design/motion/speed.html#easing
-
-$transition-timing-function-acceleration: cubic-bezier(0.4, 0, 1, 1) !default;
-$transition-timing-function-deceleration: cubic-bezier(0, 0, 0.2, 1) !default;
-$transition-timing-function-sharp: cubic-bezier(0.4, 0, 0.6, 1) !default;
-$transition-timing-function-standard: cubic-bezier(0.4, 0, 0.2, 1) !default;
-
-// Typography
-//
-// A base value used to responsively scale all typography, applied to the `<html>` element
-
-$font-size-root: 16px !default;
-
-// Font face
-// Based on https://material.google.com/style/typography.html#typography-typeface
-
-// N.B. Although some values are not used in this project
-// we leave them here just in case they may be required by your project
-
-$font-family-monospace: 'Roboto Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace !default;
-$font-family-sans-serif: 'Roboto', -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
-//$font-family-serif:      'Roboto Slab', Georgia, 'Times New Roman', Times, serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
-
-$font-family-base: $font-family-sans-serif !default;
-
-$font-weight-medium: 500 !default;
-$font-weight-bold: $font-weight-medium !default;
-$font-weight-bolder: 600 !default;
-$font-weight-regular: 400 !default;
-$font-weight-normal: $font-weight-regular !default;
-$font-weight-light: 300 !default;
-$font-weight-lighter: $font-weight-light !default;
-
-$font-weight-base: $font-weight-regular !default;
-
-// Font styles
-// Based on https://material.io/design/material-theming/implementing-your-theme.html#typography
-// and https://material-components.github.io/material-components-web-catalog/#/component/typography
-
-$font-size-base: 1rem !default; // 16px
-
-$font-size-headline-1: ($font-size-base * 6) !default; // 96px
-$font-size-headline-2: ($font-size-base * 3.75) !default; // 60px
-$font-size-headline-3: ($font-size-base * 3) !default; // 48px
-$font-size-headline-4: ($font-size-base * 2.125) !default; // 34px
-$font-size-headline-5: ($font-size-base * 1.5) !default; // 24px
-$font-size-headline-6: ($font-size-base * 1.25) !default; // 20px
-$font-size-subtitle-1: $font-size-base !default; // 16px
-$font-size-subtitle-2: ($font-size-base * 0.875) !default; // 14px
-$font-size-body-1: $font-size-base !default; // 16px
-$font-size-body-2: ($font-size-base * 0.875) !default; // 14px
-$font-size-caption: ($font-size-base * 0.75) !default; // 12px
-$font-size-overline: ($font-size-base * 0.75) !default; // 12px
-
-$font-weight-headline-1: $font-weight-light !default;
-$font-weight-headline-2: $font-weight-light !default;
-$font-weight-headline-3: $font-weight-regular !default;
-$font-weight-headline-4: $font-weight-regular !default;
-$font-weight-headline-5: $font-weight-regular !default;
-$font-weight-headline-6: $font-weight-medium !default;
-$font-weight-subtitle-1: $font-weight-regular !default;
-$font-weight-subtitle-2: $font-weight-medium !default;
-$font-weight-body-1: $font-weight-regular !default;
-$font-weight-body-2: $font-weight-regular !default;
-$font-weight-caption: $font-weight-regular !default;
-$font-weight-overline: $font-weight-medium !default;
-
-$letter-spacing-headline-1: -0.015625em !default;
-$letter-spacing-headline-2: -0.0083333333em !default;
-$letter-spacing-headline-3: 0 !default;
-$letter-spacing-headline-4: 0.0073529412em !default;
-$letter-spacing-headline-5: 0 !default;
-$letter-spacing-headline-6: 0.0125em !default;
-$letter-spacing-subtitle-1: 0.009375em !default;
-$letter-spacing-subtitle-2: 0.0071428571em !default;
-$letter-spacing-body-1: 0.03125em !default;
-$letter-spacing-body-2: 0.0178571429em !default;
-$letter-spacing-caption: 0.0333333333em !default;
-$letter-spacing-overline: 0.1666666667em !default;
-
-// Line height
-
-$line-height-base: 1.5 !default; // 1.428572
-
-$line-height-headline-1: 6rem !default;
-$line-height-headline-2: 3.75rem !default;
-$line-height-headline-3: 3.125rem !default;
-$line-height-headline-4: 2.5rem !default;
-$line-height-headline-5: 2rem !default;
-$line-height-headline-6: 2rem !default;
-$line-height-subtitle-1: 1.75rem !default;
-$line-height-subtitle-2: 1.375rem !default;
-$line-height-body-1: 1.5rem !default;
-$line-height-body-2: 1.25rem !default;
-$line-height-caption: 1.25rem !default;
-$line-height-overline: 2rem !default;
-
-// Material icons default size
-
-$material-icon-size: (24 / strip-unit($font-size-root) * 1rem) !default;
-
-// Alert
-
-$alert-border-radius: $border-radius !default;
-$alert-link-font-weight: $font-weight-medium !default;
-$alert-margin-y: $spacer !default;
-$alert-padding-x: $spacer !default;
-$alert-padding-y: $spacer !default;
-
-// Badge
-
-$badge-border-radius: $border-radius !default;
-$badge-font-weight: $font-weight-bold !default;
-$badge-btn-font-weight: $font-weight-bold !default;
-$badge-padding-x: 0.5em !default;
-$badge-width: 1.375rem !default; // 22px
-
-$rounded-pill: 50rem !default;
-
-// Body
-
-$body-bg: $white-primary !default;
-$body-color: $black-primary !default;
-
-// Breadcrumb
-
-$breadcrumb-bg: $white-primary !default;
-$breadcrumb-bg-hover: rgba($black, $overlay-hover-white-opacity) !default;
-//$breadcrumb-border-radius:    $border-radius !default;
-$breadcrumb-divider: 'chevron_right' !default;
-$breadcrumb-font-size: $font-size-base !default;
-$breadcrumb-inner-spacer-x: 0 !default;
-$breadcrumb-item-color: $black !default;
-//$breadcrumb-item-icon: 'chevron_right' !default;
-$breadcrumb-padding-x: $spacer-sm !default;
-$breadcrumb-padding-y: 0.375rem !default;
-
-// Caret
-
-$caret-bg: url('data:image/svg+xml;charset=utf8,<svg fill="#{$black}" fill-opacity="#{$black-secondary-opacity}" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') !default;
-$caret-icon: 'arrow_drop_down' !default;
-$caret-icon-left: 'arrow_left' !default;
-$caret-icon-right: 'arrow_right' !default;
-$caret-icon-up: 'arrow_drop_up' !default;
-$caret-spacer-x: 0.2em !default;
-
-// Modals
-
-// Padding applied to the modal body
-$modal-inner-padding: 1rem !default;
-
-// Margin between elements in footer, must be lower than or equal to 2 * $modal-inner-padding
-$modal-footer-margin-between: .5rem !default;
-
-$modal-dialog-margin: .5rem !default;
-$modal-dialog-margin-y-sm-up: 1.75rem !default;
-
-$modal-title-line-height: $line-height-base !default;
-
-$modal-content-color: null !default;
-$modal-content-bg: $white !default;
-$modal-content-border-color: rgba($black, .2) !default;
-$modal-content-border-width: $border-width !default;
-$modal-content-border-radius: $border-radius-lg !default;
-$modal-content-inner-border-radius: subtract($modal-content-border-radius, $modal-content-border-width) !default;
-$modal-content-box-shadow-xs: 0 .25rem .5rem rgba($black, .5) !default;
-$modal-content-box-shadow-sm-up: 0 .5rem 1rem rgba($black, .5) !default;
-
-$modal-backdrop-bg: $black !default;
-$modal-backdrop-opacity: .5 !default;
-$modal-header-border-color: $border-color !default;
-$modal-footer-border-color: $modal-header-border-color !default;
-$modal-header-border-width: $modal-content-border-width !default;
-$modal-footer-border-width: $modal-header-border-width !default;
-$modal-header-padding-y: 1rem !default;
-$modal-header-padding-x: 1rem !default;
-$modal-header-padding: $modal-header-padding-y $modal-header-padding-x !default; // Keep this for backwards compatibility
-
-$modal-sm: 300px !default;
-$modal-md: 500px !default;
-$modal-lg: 800px !default;
-$modal-xl: 1140px !default;
-
-$modal-fade-transform: translate(0, -50px) !default;
-$modal-show-transform: none !default;
-$modal-transition: transform .3s ease-out !default;
-$modal-scale-transform: scale(1.02) !default;
-
-//Offcanvas
-$zindex-offcanvas-backdrop: 1040 !default;
-$zindex-offcanvas: 1045 !default;
-$offcanvas-padding-y: $modal-inner-padding !default;
-$offcanvas-padding-x: $modal-inner-padding !default;
-$offcanvas-horizontal-width: 400px !default;
-$offcanvas-vertical-height: 30vh !default;
-$offcanvas-transition-duration: .3s !default;
-$offcanvas-border-color: $modal-content-border-color !default;
-$offcanvas-border-width: $modal-content-border-width !default;
-$offcanvas-title-line-height: $modal-title-line-height !default;
-$offcanvas-bg-color: var(--body-bg) !default;
-$offcanvas-color: var(--body-color) !default;
-$offcanvas-box-shadow: $modal-content-box-shadow-xs !default;
-$offcanvas-backdrop-bg: $modal-backdrop-bg !default;
-$offcanvas-backdrop-opacity: $modal-backdrop-opacity !default;
-
-// Carousel
-
-$carousel-caption-color: $white-primary !default;
-$carousel-caption-width: 50% !default;
-$carousel-control-bg: $white-divider !default;
-$carousel-control-bg-hover: rgba(204, 204, 204, 0.25) !default;
-$carousel-control-color: $white-primary !default;
-$carousel-control-elevation-shadow: map-get($elevation-shadows, 6) !default;
-$carousel-control-elevation-shadow-active: map-get($elevation-shadows, 12) !default;
-$carousel-control-font-size: 0.8125rem !default;
-$carousel-control-next-icon: 'chevron_right' !default;
-$carousel-control-prev-icon: 'chevron_left' !default;
-//$carousel-control-prev-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='#{$carousel-control-color}' viewBox='0 0 8 8'><path d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/></svg>") !default;
-//$carousel-control-next-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='#{$carousel-control-color}' viewBox='0 0 8 8'><path d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/></svg>") !default;
-$carousel-control-size: 2.5rem !default;
-$carousel-indicator-bg: rgba(204, 204, 204, 0.25) !default;
-$carousel-indicator-border-color: $white-divider !default;
-$carousel-indicator-border-width: $border-width !default;
-$carousel-indicator-size: 0.5rem !default;
-
-// Close
-
-$close-color: $black-hint !default;
-$close-color-hover: $black-primary !default;
-$close-font-size: $material-icon-size !default;
-$close-font-weight: $font-weight-light !default;
-
-// Code
-
-$code-bg: $material-color-grey-100 !default;
-$code-border-radius: $border-radius !default;
-$code-color: #bd4147 !default;
-$code-font-size: 87.5% !default;
-$code-padding-x: 0.4rem !default;
-$code-padding-y: 0.2rem !default;
-
-$kbd-bg: $black-primary !default;
-$kbd-color: $white-primary !default;
-
-$pre-color: $black-primary !default;
-$pre-margin-y: $spacer !default;
-$pre-scrollable-max-height: 340px !default;
-
-// Embed
-$embed-responsive-aspect-ratios: () !default;
-// stylelint-disable-next-line scss/dollar-variable-default
-$embed-responsive-aspect-ratios: join(((21 9), (16 9), (4 3), (1 1)), $embed-responsive-aspect-ratios);
-
-// Form
-
-$custom-file-button-icon: 'attachment' !default;
-
-$form-check-inline-margin-x: $spacer-sm !default;
-$form-check-inline-input-margin-x: 0.3125rem !default; // todo
-$form-check-input-gutter: 1.25rem !default;
-$form-feedback-invalid-color: theme-color(danger) !default;
-$form-feedback-icon-invalid-color: $form-feedback-invalid-color !default;
-$form-feedback-valid-color: theme-color(success) !default;
-$form-feedback-icon-valid-color: $form-feedback-valid-color !default;
-$form-feedback-icon-invalid: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M0 0h24v24H0z' fill='none'/><path fill='#{$form-feedback-icon-invalid-color}' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/></svg>") !default;
-$form-feedback-icon-valid: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M0 0h24v24H0z' fill='none'/><path fill='#{$form-feedback-icon-valid-color}' d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/></svg>") !default;
-
-$form-validation-states: () !default;
-
-@if $enable-validation-valid {
-    $form-validation-states: map-merge( ('valid': ('color': $form-feedback-valid-color, 'icon': $form-feedback-icon-valid), 'invalid': ('color': $form-feedback-invalid-color, 'icon': $form-feedback-icon-invalid)), $form-validation-states );
-}
-
-@else {
-    $form-validation-states: map-merge( ('invalid': ('color': $form-feedback-invalid-color, 'icon': $form-feedback-icon-invalid)), $form-validation-states );
-}
-
-$form-group-margin-y: $spacer !default;
-$input-group-inner-spacer-x: $spacer !default;
-
-// Jumbotron
-
-$jumbotron-bg: $white-primary !default;
-$jumbotron-border-radius: $border-radius !default;
-$jumbotron-color: $black-primary !default;
-$jumbotron-elevation-shadow: map-get($elevation-shadows, 2) !default;
-$jumbotron-padding-x: 2rem !default;
-$jumbotron-padding-y: $spacer-xl !default;
-
-// Link
-
-$link-color: selection-theme-color() !default;
-$link-color-hover: selection-theme-color() !default;
-$link-decoration: none !default;
-$link-decoration-hover: underline !default;
-
-// Misc
-
-$blockquote-border-color: theme-color(primary) !default;
-$blockquote-border-width: 0.3125rem !default;
-$blockquote-small-color: $black-hint !default;
-
-$dt-font-weight: $font-weight-medium !default;
-
-$figure-caption-color: $black-hint !default;
-$figure-img-margin-y: $spacer-sm !default;
-
-$headings-color: inherit !default;
-$headings-font-family: inherit !default;
-$headings-margin-y: $spacer-sm !default;
-
-$hr-border-color: $border-color !default;
-$hr-border-width: $border-width !default;
-
-$list-inline-inner-spacer-x: $spacer-sm !default;
-
-$mark-bg: $material-color-yellow-500 !default;
-$mark-color: $black-primary !default;
-$mark-padding: 0.2em !default;
-
-$paragraph-margin-y: $spacer !default;
-
-$small-font-size: 80% !default;
-
-$table-caption-color: $black-hint !default;
-
-$text-muted: $black-hint !default;
-
-$thumbnail-box-shadow: map-get($shadows, 2) !default;
-
-$webkit-tap-highlight-color: rgba($black, 0) !default;
-
-// Nav
-
-$nav-link-color-disabled: $black-hint !default;
-$nav-link-padding-x: $spacer !default;
-$nav-link-padding-y: $spacer-sm !default;
-
-$nav-pills-bg-hover: $black-divider !default;
-$nav-pills-border-radius: $border-radius !default;
-$nav-pills-color: $black-primary !default;
-$nav-pills-color-active: selection-theme-color() !default;
-$nav-pills-link-opacity: 0.7 !default;
-
-// Pagination
-
-$pagination-bg: transparent !default;
-$pagination-border-radius: 1.125rem !default;
-$pagination-color: $black-primary !default;
-$pagination-color-disabled: $black-hint !default;
-$pagination-font-size: $font-size-base !default;
-$pagination-font-size-xs: 0.75rem !default;
-$pagination-font-size-sm: 0.875rem !default;
-$pagination-font-size-md: 1.12rem !default;
-$pagination-font-size-lg: 1.25rem !default;
-$pagination-font-size-xl: 1.35rem !default;
-$pagination-font-weight: $font-weight-regular !default;
-$pagination-inner-spacer-x: 0.5em !default;
-$pagination-line-height: 2.25 !default; // 36px
-$pagination-margin-x: $spacer-sm !default;
-
-// Popover
-
-$popover-bg: $white !default;
-$popover-border-radius: $border-radius !default;
-$popover-breakpoint: md !default;
-$popover-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15) !default;
-$popover-elevation-shadow: map-get($elevation-shadows, 24) !default;
-$popover-font-size: $font-size-body-2 !default;
-$popover-margin: $spacer-lg !default;
-$popover-margin-desktop: 0.875rem !default;
-$popover-max-width: 21.25rem !default; // 17.5rem 280px
-$popover-padding-x: 1.375rem !default;
-$popover-padding-y: 0.875rem !default;
-
-// Utilities
-
-$displays: none, inline, inline-block, block, table, table-row, table-cell, flex, inline-flex !default;
-$overflows: auto, hidden, visible, scroll !default;
-$positions: static, relative, absolute, fixed, sticky !default;
-
-$user-selects: all, auto, none !default;
-
-// Printing
-
-$print-page-size: a3 !default;
-$print-body-min-width: map-get($grid-breakpoints, 'lg') !default;
-
-// Position
-
-$position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
-
-// Placeholders
-
-$placeholder-opacity-max: .5 !default;
-$placeholder-opacity-min: .2 !default;

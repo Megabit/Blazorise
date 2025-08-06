@@ -1,3 +1,10 @@
-﻿.card {
-    overflow: initial;
+﻿.mui-card {
+    --_padding: 1rem;
+    box-shadow: var(--mui-elevate1);
+    background-color: var(--mui-surface-container-low);
+    color: var(--mui-on-surface);
+    padding: var(--_padding);
+    border-radius: 0.75rem;
+    display: block;
+    transition: transform var(--mui-speed3), border-radius var(--mui-speed3), padding var(--mui-speed3);
 }

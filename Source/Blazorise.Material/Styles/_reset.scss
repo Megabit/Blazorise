@@ -1,0 +1,87 @@
+﻿* {
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    vertical-align: middle;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    border-radius: inherit;
+    box-sizing: border-box;
+}
+
+*::after,
+*::before {
+    all: unset;
+}
+
+body {
+    color: var(--mui-surface-text);
+    background-color: var(--mui-surface);
+    overflow-x: hidden;
+}
+
+label {
+    font-size: 0.75rem;
+    vertical-align: baseline;
+}
+
+a,
+b,
+i,
+span,
+strong,
+em,
+code {
+    vertical-align: baseline;
+}
+
+a,
+button,
+.button {
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    font-family: inherit;
+    outline: inherit;
+    justify-content: center;
+}
+
+a,
+button,
+.button,
+i,
+label {
+    user-select: none;
+}
+
+body ::-webkit-scrollbar,
+body ::-webkit-scrollbar-thumb,
+body ::-webkit-scrollbar-button {
+    background: none;
+    inline-size: 0.4rem;
+    block-size: 0.4rem;
+}
+
+body :is(:hover,:focus)::-webkit-scrollbar-thumb {
+    background: var(--mui-outline);
+    border-radius: 1rem;
+}
+
+* + :is(address, article, blockquote, code, .field, fieldset, form, .grid, h1, h2, h3, h4, h5, h6, nav, ol, p, pre, .row, section, aside, table, .tabs, ul) {
+    margin-block-start: 1rem;
+}
+
+:is(a, button, .button, .chip):focus-visible {
+    outline: 0.125rem solid var(--mui-palette-primary);
+    outline-offset: 0.25rem;
+}
+
+:is(nav, .row, li).group > :focus-visible {
+    z-index: 1;
+}
+
+:is(button, .button, .chip) > :is(span, i, img, svg) {
+    pointer-events: none;
+}
