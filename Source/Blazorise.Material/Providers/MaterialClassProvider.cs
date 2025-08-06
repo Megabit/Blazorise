@@ -767,30 +767,30 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Collapse
 
-    public override string Collapse() => "card";
+    public override string Collapse() => "mui-collapse";
 
-    public override string CollapseActive( bool active ) => null;
+    public override string CollapseActive( bool active ) => active ? "active" : null;
 
-    public override string CollapseHeader() => "card-header";
+    public override string CollapseHeader() => "mui-collapse-header";
 
-    public override string CollapseBody() => "collapse";
+    public override string CollapseBody() => "mui-collapse-body";
 
-    public override string CollapseBodyActive( bool active ) => active ? Show() : null;
+    public override string CollapseBodyActive( bool active ) => active ? "active" : null;
 
-    public override string CollapseBodyContent() => "card-body";
+    public override string CollapseBodyContent() => "mui-collapse-body-content";
 
     #endregion
 
     #region Row
 
-    public override string Row() => "row";
+    public override string Row() => "mui-row";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
         if ( rowColumnsDefinition.Breakpoint != Breakpoint.None && rowColumnsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"row-cols-{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
+            return $"mui-row-columns-{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
 
-        return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
+        return $"mui-row-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
     public override string RowNoGutters( bool noGutters ) => noGutters ? "g-0" : null;
@@ -799,13 +799,13 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Column
 
-    public override string Column( bool grid, bool hasSizes ) => hasSizes ? null : grid ? "g-col" : "col";
+    public override string Column( bool grid, bool hasSizes ) => hasSizes ? null : grid ? "mui-grid-column" : "mui-column";
 
     public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var baseClass = offset
-            ? grid ? "g-start" : "offset"
-            : grid ? "g-col" : "col";
+            ? grid ? "mui-grid-start" : "mui-column-offset"
+            : grid ? "mui-grid-column" : "mui-column";
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
@@ -1361,9 +1361,9 @@ public class MaterialClassProvider : BootstrapClassProvider
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Breakpoint.Mobile )
-            return $"{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
+            return $"mui-{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
-        return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+        return $"mui-{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
@@ -1614,6 +1614,16 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Enums
 
+    public override string ToSpacing( Spacing spacing )
+    {
+        return spacing switch
+        {
+            Blazorise.Spacing.Margin => "margin",
+            Blazorise.Spacing.Padding => "padding",
+            _ => null,
+        };
+    }
+
     public override string ToFloat( Float @float )
     {
         return @float switch
@@ -1678,10 +1688,10 @@ public class MaterialClassProvider : BootstrapClassProvider
     {
         return side switch
         {
-            Blazorise.Side.Top => "t",
-            Blazorise.Side.Bottom => "b",
-            Blazorise.Side.Start => "s",
-            Blazorise.Side.End => "e",
+            Blazorise.Side.Top => "top",
+            Blazorise.Side.Bottom => "bottom",
+            Blazorise.Side.Start => "start",
+            Blazorise.Side.End => "end",
             Blazorise.Side.X => "x",
             Blazorise.Side.Y => "y",
             _ => null,

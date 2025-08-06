@@ -1,0 +1,20 @@
+﻿.mui-row {
+    --_gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: calc(var(--_gap) * -1);
+    margin-left: calc(var(--_gap) * -1);
+
+    .mui-nogutters {
+        margin-right: 0;
+        margin-left: 0;
+
+        > .fui-Column,
+        > [class*="fui-Column-"] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    }
+}
+
+@include make-grid-columns();
