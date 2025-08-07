@@ -3,8 +3,31 @@
     box-shadow: var(--mui-elevate1);
     background-color: var(--mui-surface-container-low);
     color: var(--mui-on-surface);
-    padding: var(--_padding);
+    padding: 0;
     border-radius: 0.75rem;
     display: block;
     transition: transform var(--mui-speed3), border-radius var(--mui-speed3), padding var(--mui-speed3);
+    box-shadow: none;
+    border: .0625rem solid var(--mui-outline-variant);
+
+    .mui-card-header {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        padding: var(--_padding);
+    }
+
+    .mui-card-body {
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+        color: var(--mui-on-surface-variant);
+        padding: var(--_padding);
+    }
+
+    .mui-card-img-top {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: inherit;
+    }
 }

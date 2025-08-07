@@ -64,6 +64,8 @@
   --mui-outline-variant: #cac4cf;
   --mui-shadow: #000000;
   --mui-scrim: #000000;
+  --mui-outline: #767680;
+  --mui-outline-variant: #c7c5d0;
 }
 
 * {
@@ -375,10 +377,30 @@ body {
   box-shadow: var(--mui-elevate1);
   background-color: var(--mui-surface-container-low);
   color: var(--mui-on-surface);
-  padding: var(--_padding);
+  padding: 0;
   border-radius: 0.75rem;
   display: block;
   transition: transform var(--mui-speed3), border-radius var(--mui-speed3), padding var(--mui-speed3);
+  box-shadow: none;
+  border: 0.0625rem solid var(--mui-outline-variant);
+}
+.mui-card .mui-card-header {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  padding: var(--_padding);
+}
+.mui-card .mui-card-body {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  color: var(--mui-on-surface-variant);
+  padding: var(--_padding);
+}
+.mui-card .mui-card-img-top {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
 }
 
 .mui-row {
@@ -3664,4 +3686,81 @@ body {
 
 .fui-gap-x-5 {
   column-gap: 2rem !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+  display: block;
+  align-items: center;
+  line-height: normal;
+}
+
+h1 {
+  font-size: 3.5625rem;
+}
+
+h2 {
+  font-size: 2.8125rem;
+}
+
+h3 {
+  font-size: 2.25rem;
+}
+
+h4 {
+  font-size: 2rem;
+}
+
+h5 {
+  font-size: 1.75rem;
+}
+
+h6 {
+  font-size: 1.5rem;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+pre {
+  border-radius: 0;
+  background-color: var(--surface-container);
+  white-space: pre-wrap;
+  padding: 1rem;
+  border-inline-start: 0.25rem solid var(--primary);
+  font-family: inherit;
+}
+
+blockquote {
+  border-radius: 0;
+  padding: 1rem;
+  border-inline-start: 0.25rem solid var(--primary);
+  font-family: inherit;
+}
+
+code {
+  border-radius: 0;
+  background-color: var(--surface-container);
+  white-space: pre-wrap;
+  padding: 0.25rem;
+}
+
+pre > code,
+blockquote > code {
+  padding: 0;
+}
+
+.scroll > code {
+  white-space: pre;
+}
+
+pre:has(> code) {
+  direction: ltr;
+  text-align: start;
 }

@@ -1,1 +1,76 @@
-﻿
+﻿h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 400;
+    display: block;
+    align-items: center;
+    line-height: normal;
+}
+
+h1 {
+    font-size: 3.5625rem;
+}
+
+h2 {
+    font-size: 2.8125rem;
+}
+
+h3 {
+    font-size: 2.25rem;
+}
+
+h4 {
+    font-size: 2rem;
+}
+
+h5 {
+    font-size: 1.75rem;
+}
+
+h6 {
+    font-size: 1.5rem;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+pre {
+    border-radius: 0;
+    background-color: var(--surface-container);
+    white-space: pre-wrap;
+    padding: 1rem;
+    border-inline-start: 0.25rem solid var(--primary);
+    font-family: inherit;
+}
+
+blockquote {
+    border-radius: 0;
+    padding: 1rem;
+    border-inline-start: 0.25rem solid var(--primary);
+    font-family: inherit;
+}
+
+code {
+    border-radius: 0;
+    background-color: var(--surface-container);
+    white-space: pre-wrap;
+    padding: 0.25rem;
+}
+
+pre > code,
+blockquote > code {
+    padding: 0;
+}
+
+.scroll > code {
+    white-space: pre;
+}
+
+pre:has(> code) {
+    direction: ltr;
+    text-align: start;
+}
