@@ -31,8 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <ProjectReference Include="..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
 
     <PackageReference Include="Fody" Version="6.9.1" PrivateAssets="all" />
     <ProjectReference Include="..\SourceGenerators\Blazorise.Weavers\Blazorise.Weavers.csproj" PrivateAssets="all" />
@@ -45,7 +44,7 @@
   <PropertyGroup>
     <WeaverConfiguration>
       <Weavers>
-        <Blazorise.Weavers  />
+        <Blazorise.Weavers />
       </Weavers>
     </WeaverConfiguration>
   </PropertyGroup>
