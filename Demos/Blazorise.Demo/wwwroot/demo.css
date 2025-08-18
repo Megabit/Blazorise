@@ -1,8 +1,4 @@
-﻿html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.b-demo-loading {
+﻿.b-demo-loading {
     -moz-animation: spin-demo-horizontal 1.2s infinite linear;
     -o-animation: spin-demo-horizontal 1.2s infinite linear;
     -webkit-animation: spin-demo-horizontal 1.2s infinite linear;
