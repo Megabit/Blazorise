@@ -11,14 +11,15 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="bunit" Version="1.34.0" />
-		<PackageReference Include="Moq" Version="4.20.72" />
-	</ItemGroup>
-	
+  <ItemGroup>
+    <PackageReference Include="bunit" Version="1.34.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
+    <ProjectReference Include="..\..\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
