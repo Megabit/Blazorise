@@ -1481,8 +1481,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-				// If editing is managed internally by the DataGrid, use the old item (the clone instance) because its values have already been updated internally.
-				// If editing is managed externally (outside of DataGrid), use the edited item to allow for custom update scenarios.
+                // If editing is managed internally by the DataGrid, use the old item (the clone instance) because its values have already been updated internally.
+                // If editing is managed externally (outside of DataGrid), use the edited item to allow for custom update scenarios.
                 await RowUpdated.InvokeAsync( new( UseInternalEditing ? oldItem : editItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
