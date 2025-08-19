@@ -1,4 +1,4 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.0.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.1.0";
 
 const _instances = [];
 
