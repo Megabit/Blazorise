@@ -1,0 +1,129 @@
+﻿@page "/news/release-notes/181"
+
+<Seo Canonical="news/release-notes/181" Title="Blazorise v1.8.1" Description="We're happy to announce the release of Blazorise 1.8.1, a maintenance update that brings important bug fixes and enhancements to ensure a smoother and more stable experience for developers using Blazorise." ImageUrl="img/news/180/v181.png" />
+
+<NewsPageImage Source="img/news/180/v181.png" Text="Blazorise v1.8.1" />
+
+<NewsPageTitle>
+    Blazorise 1.8.1 – Maintenance Release
+</NewsPageTitle>
+
+<Paragraph>
+    Blazorise 1.8.1 is now available! This maintenance release focuses on resolving key issues and delivering refinements that improve overall stability, consistency, and usability across the framework.
+</Paragraph>
+
+<Paragraph>
+    Although primarily a maintenance update, version 1.8.1 introduces meaningful improvements to components such as <Strong>Bar</Strong>, <Strong>Badge</Strong>, <Strong>PdfViewer</Strong>, and <Strong>DataGrid</Strong>, ensuring a smoother developer experience and more polished UI behavior.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Key Highlights in 1.8.1
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Improved Component Stability
+</Heading>
+
+<Paragraph>
+    Several critical bugs have been fixed, including issues with <Strong>Divider styling</Strong>, <Strong>PdfViewer worker loading</Strong>, and <Strong>Badge close button colors</Strong>. Additionally, exceptions in <Strong>Splitter</Strong> and <Strong>ChartZoom</Strong> components have been resolved, leading to a more stable runtime experience.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Data & Layout Enhancements
+</Heading>
+
+<Paragraph>
+    The <Strong>DataGrid</Strong> now correctly passes updated objects in the <Strong>RowUpdated</Strong> event, ensuring proper synchronization with your data source. The grouping drop area has also been visually improved by removing unnecessary light background styling. Meanwhile, the <Strong>Bar</Strong> can now be collapsed externally, and <Strong>BarDropdownItem</Strong> supports a new <Code>CustomMatch</Code> parameter for better navigation scenarios.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Developer Quality of Life
+</Heading>
+
+<Paragraph>
+    The <Strong>JSRichTextEditModule</Strong> is now overridable, offering greater extensibility. We also added a dedicated unit test setup for <Strong>Charts</Strong>, helping ensure reliability and easier contributions moving forward.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Full Changelog
+</NewsPageSubtitle>
+
+<NewsPageList>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6164" Alt="Link to GitHub issue" ToText="#6164">
+        Divider styling not complete
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6166" Alt="Link to GitHub issue" ToText="#6166">
+        JSDisconnectedException in Splitter on circuit disconnect
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6173" Alt="Link to GitHub issue" ToText="#6173">
+        BarDropdownItem: add CustomMatch parameter
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6175" Alt="Link to GitHub issue" ToText="#6175">
+        Notification service example not showing options
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6177" Alt="Link to GitHub issue" ToText="#6177">
+        Possibility to collapse Bar from outside component
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6180" Alt="Link to GitHub issue" ToText="#6180">
+        Badge close button does not inherit correct theme color
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6184" Alt="Link to GitHub issue" ToText="#6184">
+        Exception by invoking 'NotifyZoomLevel' in ChartZoom
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6187" Alt="Link to GitHub issue" ToText="#6187">
+        PdfViewer loads pdf.worker.min.mjs from wrong location
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6178" Alt="Link to GitHub issue" ToText="#6178">
+        RowUpdated event passes cloned object, preventing updates
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6199" Alt="Link to GitHub issue" ToText="#6199">
+        Make JSRichTextEditModule overridable, remove sealed keyword
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6198" Alt="Link to GitHub issue" ToText="#6198">
+        Add unit tests setup for Charts
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6196" Alt="Link to GitHub issue" ToText="#6196">
+        Outline style support for Info icon
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6197" Alt="Link to GitHub issue" ToText="#6197">
+        Remove light background from DataGrid grouping drop area
+    </NewsPageListItem>
+</NewsPageList>
+
+<NewsPageSubtitle>
+    Feedback
+</NewsPageSubtitle>
+
+<Paragraph>
+    Your feedback is essential to us, and we appreciate your continued support and contributions to Blazorise. If you have any questions, suggestions, or feedback, please feel free to reach out to us on.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Known incompatibilities
+</NewsPageSubtitle>
+
+<Paragraph>
+    As of now, there are no known incompatibilities with the previous Blazorise <Strong>1.7.x</Strong> releases. We encourage all users to upgrade to <Strong>1.8.1</Strong>.
+</Paragraph>
+
+<Paragraph>
+    If you experience any unexpected behavior change in your projects after upgrading to 1.8.1, please <Anchor To="https://github.com/Megabit/Blazorise/issues">file an issue on GitHub</Anchor>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Commercial Support
+</NewsPageSubtitle>
+
+<Paragraph>
+    Blazorise is an open-source project that thrives on community contributions and support. To sustain ongoing development and improvements, we offer <Strong>commercial licenses</Strong> that provide additional benefits while ensuring the project's long-term success.
+</Paragraph>
+
+<Paragraph>
+    With a commercial license, you gain access to <Strong>premium forum support, private repositories, and exclusive community-licensed themes</Strong>. Your support directly contributes to the enhancement of Blazorise and ensures its continuous growth.
+</Paragraph>
+
+<Paragraph>
+    To explore commercial licensing options, visit our website at <Anchor To="https://blazorise.com/commercial" Target="Target.Blank">Blazorise Commercial</Anchor>.
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="August 19th, 2025" Read="3 min" />
