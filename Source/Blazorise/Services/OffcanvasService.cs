@@ -14,8 +14,8 @@ public  class OffcanvasService : IOffcanvasService
     public OffcanvasProvider OffcanvasProvider { get; private set; }
 
     /// <inheritdoc/>
-    public void SetOffcanvasProvider( OffcanvasProvider OffcanvasProvider )
-        => OffcanvasProvider = OffcanvasProvider;
+    public void SetOffcanvasProvider( OffcanvasProvider offcanvasProvider )
+        => OffcanvasProvider = offcanvasProvider;
 
     /// <inheritdoc/>
     public Task<OffcanvasInstance> Show<TComponent>() where TComponent : notnull, IComponent
