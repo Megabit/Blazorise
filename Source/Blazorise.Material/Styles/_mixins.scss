@@ -105,3 +105,19 @@
         max-width: 100% / $count;
     }
 }
+
+@mixin make-cssgrid($columns: $grid-columns, $breakpoints: $grid-breakpoints) {
+    @each $breakpoint in map-keys($breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            @if $columns > 0 {
+                @for $i from 1 through $columns {
+                    .mui-grid-column#{$infix}-#{$i} {
+                        grid-column: auto / span $i;
+                    }
+                }
+            }
+        }
+    }
+}

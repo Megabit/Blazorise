@@ -793,7 +793,7 @@ public class MaterialClassProvider : BootstrapClassProvider
         return $"mui-row-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "g-0" : null;
+    public override string RowNoGutters( bool noGutters ) => noGutters ? "mui-nogutters" : null;
 
     #endregion
 
@@ -822,22 +822,22 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Grid
 
-    public override string Grid() => "grid";
+    public override string Grid() => "mui-grid";
 
     public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
     {
         if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"g-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
+            return $"mui-grid-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
 
-        return $"g-rows-{ToGridRowsSize( gridRows )}";
+        return $"mui-grid-rows-{ToGridRowsSize( gridRows )}";
     }
 
     public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
     {
         if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"g-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+            return $"mui-grid-columns-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
 
-        return $"g-cols-{ToGridColumnsSize( gridColumns )}";
+        return $"mui-grid-columns-{ToGridColumnsSize( gridColumns )}";
     }
 
     #endregion
