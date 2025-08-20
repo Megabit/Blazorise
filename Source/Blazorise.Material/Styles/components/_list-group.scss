@@ -1,0 +1,66 @@
+﻿.mui-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+
+    > .mui-list-item {
+        all: unset;
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        align-items: center;
+        align-self: normal;
+        text-align: start;
+        justify-content: flex-start;
+        white-space: nowrap;
+        gap: 1rem;
+        min-block-size: 3.5rem;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        flex: 1;
+
+        &:has(ul, ol, details[open], a:only-child) {
+            padding: 0;
+        }
+
+        > *,
+        a:only-child,
+        details > summary > * {
+            margin: 0;
+        }
+
+        > .mui-list {
+            padding: 0 0 0 1rem;
+        }
+        /*&:hover {
+            background-color: var(--mui-surface-container-low-hover);
+        }
+
+        &.mui-list-item-selected {
+            background-color: var(--mui-primary-container);
+            color: var(--mui-on-primary-container);
+        }
+
+        &.mui-list-item-disabled {
+            color: var(--mui-on-surface-variant);
+            cursor: not-allowed;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }*/
+    }
+
+    &-flush {
+        > .mui-list-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            background-color: var(--mui-outline-variant);
+            inset: auto 0 0 0;
+            block-size: 0.0625rem;
+            inline-size: auto;
+        }
+    }
+}

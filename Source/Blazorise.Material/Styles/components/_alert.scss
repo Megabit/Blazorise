@@ -1,0 +1,67 @@
+﻿@mixin make-alert-variant($name, $color) {
+    &-#{$name} {
+        background-color: var(--mui-#{$color}-container);
+        color: var(--mui-on-#{$color}-container);
+        border-color: var(--mui-#{$color}-container);
+
+        &.mui-alert-closable {
+            .mui-button-close {
+                color: var(--mui-on-#{$color});
+
+                &:hover {
+                    color: var(--mui-#{$color}-hover);
+                }
+            }
+        }
+    }
+}
+
+.mui-alert {
+    display: flex;
+    box-shadow: var(--elevate2);
+    color: var(--inverse-on-surface);
+    background-color: var(--inverse-surface);
+    padding: 1rem;
+    text-align: start;
+    align-items: center;
+    border-radius: .75rem;
+    gap: 0.5rem;
+    transition: all var(--speed2);
+    border: 1px solid var(--mui-outline);
+    box-shadow: var(--mui-elevate1);
+
+    @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+        @include make-alert-variant($color, $color);
+    }
+
+    &link {
+        color: var(--mui-primary);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--mui-on-primary);
+        }
+    }
+
+    + .mui-alert {
+        margin-top: 1rem;
+    }
+
+    &.mui-alert-closable {
+        .mui-button-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            cursor: pointer;
+            color: var(--mui-on-surface);
+            background-color: transparent;
+            border: none;
+            font-size: 1.5rem;
+
+            &:hover {
+                color: var(--mui-on-surface-variant);
+            }
+        }
+    }
+}

@@ -1,10 +1,15 @@
 ﻿html {
-    font-size: var(--mui-size);
+    font-size: var(--mui-font-size);
 }
 
 body {
-    font-family: var(--mui-font);
+    font-family: var(--mui-font-family);
     font-size: 0.875rem;
     line-height: 1.5rem;
     letter-spacing: 0.0313rem;
+}
+
+body :is(:hover,:focus)::-webkit-scrollbar-thumb {
+    background: var(--mui-outline);
+    border-radius: 1rem;
 }

@@ -408,31 +408,31 @@ public class MaterialClassProvider : BootstrapClassProvider
     public override string Buttons( ButtonsRole role, Orientation orientation )
     {
         if ( role == ButtonsRole.Toolbar )
-            return "btn-toolbar";
+            return "mui-buttons-toolbar";
 
         if ( orientation == Orientation.Vertical )
-            return "btn-group-vertical";
+            return "mui-button-group-vertical";
 
-        return "btn-group";
+        return "mui-button-group";
     }
 
-    public override string ButtonsSize( Size size ) => size != Size.Default ? $"btn-group-{ToSize( size )}" : null;
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"mui-button-group-{ToSize( size )}" : null;
 
     #endregion
 
     #region CloseButton
 
-    public override string CloseButton() => "btn-close";
+    public override string CloseButton() => "mui-button-close";
 
     #endregion
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
+    public override string Dropdown( bool isDropdownSubmenu ) => "mui-dropdown";
 
-    public override string DropdownDisabled( bool disabled ) => disabled ? "dropdown-disabled" : null;
+    public override string DropdownDisabled( bool disabled ) => disabled ? "mui-dropdown-disabled" : null;
 
-    public override string DropdownGroup( bool group ) => group ? "btn-group" : null;
+    public override string DropdownGroup( bool group ) => group ? "mui-button-group" : null;
 
     public override string DropdownObserverShow() => Show();
 
@@ -440,25 +440,25 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string DropdownRight( bool rightAligned ) => null;
 
-    public override string DropdownItem() => "dropdown-item";
+    public override string DropdownItem() => "mui-dropdown-item";
 
     public override string DropdownItemActive( bool active ) => active ? Active() : null;
 
     public override string DropdownItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string DropdownDivider() => "dropdown-divider";
+    public override string DropdownDivider() => "mui-dropdown-divider";
 
-    public override string DropdownHeader() => "dropdown-header";
+    public override string DropdownHeader() => "mui-dropdown-header";
 
-    public override string DropdownMenu() => "dropdown-menu";
+    public override string DropdownMenu() => "mui-dropdown-menu";
 
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
-        => $"dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "dropdown-menu-position-strategy-fixed" : "dropdown-menu-position-strategy-absolute" )}";
+        => $"mui-dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "mui-dropdown-menu-position-strategy-fixed" : "mui-dropdown-menu-position-strategy-absolute" )}";
 
     public override string DropdownFixedHeaderVisible( bool visible )
-        => visible ? "dropdown-table-fixed-header-visible" : null;
+        => visible ? "mui-dropdown-table-fixed-header-visible" : null;
 
-    public override string DropdownMenuSelector() => "dropdown-menu";
+    public override string DropdownMenuSelector() => "mui-dropdown-menu";
 
     public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "dropdown-menu-scrollable" : null;
 
@@ -466,20 +466,20 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "dropdown-menu-end" : null;
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "mui-dropdown-item mui-dropdown-toggle" : "mui-button mui-dropdown-toggle";
 
-    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "mui-dropdown-item mui-dropdown-toggle" : "mui-button mui-dropdown-toggle";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
-        : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"mui-button-outline-{ToColor( color )}" : $"mui-button-outline"
+        : color.IsNotNullOrDefault() ? $"mui-button-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
-        => size != Size.Default ? $"btn-{ToSize( size )}" : null;
+        => size != Size.Default ? $"mui-button-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
+    public override string DropdownToggleSplit( bool split ) => split ? "mui-dropdown-toggle-split" : null;
 
-    public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
+    public override string DropdownToggleIcon( bool visible ) => visible ? null : "mui-dropdown-toggle-hidden";
 
     public override string DropdownDirection( Direction direction )
     {
@@ -636,15 +636,15 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region ListGroup
 
-    public override string ListGroup() => "list-group";
+    public override string ListGroup() => "mui-list";
 
-    public override string ListGroupFlush( bool flush ) => flush ? "list-group-flush" : null;
+    public override string ListGroupFlush( bool flush ) => flush ? "mui-list-flush" : null;
 
-    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "list-group-scrollable" : null;
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "mui-list-scrollable" : null;
 
-    public override string ListGroupItem() => "list-group-item";
+    public override string ListGroupItem() => "mui-list-item";
 
-    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "list-group-item-action" : null;
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "mui-list-item-action" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 
@@ -860,11 +860,11 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Alert
 
-    public override string Alert() => "alert";
+    public override string Alert() => "mui-alert";
 
     public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
 
-    public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
+    public override string AlertDismisable( bool dismissable ) => dismissable ? "mui-alert-closable" : null;
 
     public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
 
@@ -1167,15 +1167,15 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Badge
 
-    public override string Badge() => "badge";
+    public override string Badge() => "mui-chip";
 
-    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}" : null;
+    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-chip-{ToColor( color )}" : null;
 
-    public override string BadgePill( bool pill ) => pill ? "rounded-pill" : null;
+    public override string BadgePill( bool pill ) => pill ? "mui-chip-rounded" : null;
 
-    public override string BadgeClose() => "badge-close";
+    public override string BadgeClose() => "mui-chip-close";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}" : null;
+    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-chip-close-{ToColor( color )}" : null;
 
     #endregion
 
@@ -1617,6 +1617,14 @@ public class MaterialClassProvider : BootstrapClassProvider
     #endregion
 
     #region Enums
+
+    public override string ToColor( Color color )
+    {
+        if ( color == Color.Danger )
+            return "error";
+
+        return base.ToColor( color );
+    }
 
     public override string ToSpacing( Spacing spacing )
     {

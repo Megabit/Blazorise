@@ -1,0 +1,78 @@
+﻿.mui-dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &-menu {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        display: none;
+        box-shadow: var(--mui-elevate2);
+        background-color: var(--mui-surface-container);
+        z-index: 11;
+        /*inset: auto auto 0 0;*/
+        inline-size: 100%;
+        max-block-size: 50vh;
+        max-inline-size: none !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+        font-size: 0.875rem;
+        font-weight: normal;
+        text-transform: none;
+        color: var(--mui-on-surface);
+        line-height: normal;
+        text-align: start;
+        border-radius: 0.25rem;
+        transform: scale(0.8) translateY(120%);
+        transition: all var(--mui-speed2), 0s background-color;
+        justify-content: flex-start;
+
+        &.show { 
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(100%);
+        }
+
+        &-position-strategy {
+            top: 0;
+            left: 0;
+            --mui-match-target-size: 250px;
+            width: var(--mui-match-target-size);
+            z-index: calc(var(--zIndexDropdown) + 1);
+        }
+
+        &-position-strategy-absolute {
+            position: absolute;
+        }
+
+        &-position-strategy-fixed {
+            position: fixed;
+        }
+
+        > .mui-dropdown-item,
+        > .mui-dropdown-header {
+            all: unset;
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            align-items: center;
+            align-self: normal;
+            text-align: start;
+            justify-content: inherit;
+            white-space: nowrap;
+            gap: 1rem;
+            padding: .5rem 1rem;
+            min-block-size: 3rem;
+            flex: 1;
+            margin: 0 !important;
+            cursor: pointer;
+        }
+
+        > .mui-dropdown-header {
+            font-weight: 500;
+        }
+    }
+}

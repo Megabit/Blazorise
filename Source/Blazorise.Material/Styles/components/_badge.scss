@@ -1,0 +1,60 @@
+﻿@mixin make-badge-variant($name, $color) {
+    &-#{$name} {
+        background-color: var(--mui-#{$color}-container);
+        color: var(--mui-on-#{$color}-container);
+        border-color: var(--mui-#{$color}-container);
+
+        .mui-chip-close {
+            color: var(--mui-#{$color});
+
+            &:hover {
+                color: var(--mui-#{$color}-hover);
+            }
+        }
+    }
+}
+
+.mui-chip {
+    --mui-chip-padding: 0.75rem;
+    --mui-chip-size: 2rem;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    block-size: var(--mui-chip-size);
+    line-height: var(--mui-chip-size);
+    min-inline-size: var(--mui-chip-size);
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: transparent;
+    border: 0.0625rem solid var(--mui-outline-variant);
+    color: var(--mui-on-surface-variant);
+    padding: 0 var(--mui-chip-padding);
+    margin: 0;
+    text-transform: none;
+    border-radius: 0.5rem;
+    transition: transform var(--mui-speed3), border-radius var(--mui-speed3), padding var(--mui-speed3);
+    user-select: none;
+    gap: 0.5rem;
+    letter-spacing: normal;
+    vertical-align: baseline;
+
+    &-rounded {
+        --mui-chip-round: 2rem;
+        border-radius: var(--mui-chip-round) !important;
+    }
+
+    @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+        @include make-badge-variant($color, $color);
+    }
+
+    &-link {
+        color: var(--mui-primary);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .mui-chip-close {
+        cursor: pointer;
+    }
+}
