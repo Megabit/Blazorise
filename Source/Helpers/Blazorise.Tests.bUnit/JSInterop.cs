@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.Charts;
 using Blazorise.DataGrid;
 using Blazorise.Modules;
 using Bunit;
@@ -163,6 +164,33 @@ public static class JSInterop
         module.SetupVoid( "initializeThrottledDragEvents", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "destroyThrottledDragEvents", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseCharts( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSChartModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "update", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "changeChartType", _ => true ).SetVoidResult();
+        module.SetupVoid( "setOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "clear", _ => true ).SetVoidResult();
+        module.SetupVoid( "addLabel", _ => true ).SetVoidResult();
+        module.SetupVoid( "addDataset", _ => true ).SetVoidResult();
+        module.SetupVoid( "removeDataset", _ => true ).SetVoidResult();
+        module.SetupVoid( "addDatasetsAndUpdate", _ => true ).SetVoidResult();
+        module.SetupVoid( "addLabelsDatasetsAndUpdate", _ => true ).SetVoidResult();
+        module.SetupVoid( "setData", _ => true ).SetVoidResult();
+        module.SetupVoid( "addData", _ => true ).SetVoidResult();
+        module.SetupVoid( "shiftLabel", _ => true ).SetVoidResult();
+        module.SetupVoid( "shiftData", _ => true ).SetVoidResult();
+        module.SetupVoid( "popLabel", _ => true ).SetVoidResult();
+        module.SetupVoid( "popData", _ => true ).SetVoidResult();
+        module.SetupVoid( "resize", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

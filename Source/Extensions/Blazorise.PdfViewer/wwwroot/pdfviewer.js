@@ -1,16 +1,16 @@
-import "./vendors/pdf.min.mjs?v=1.8.0.0";
-import { getRequiredElement, insertCSSIntoDocumentHead } from "../Blazorise/utilities.js?v=1.8.0.0";
+import "./vendors/pdf.min.mjs?v=1.8.1.0";
+import { getRequiredElement, insertCSSIntoDocumentHead } from "../Blazorise/utilities.js?v=1.8.1.0";
 
 const { pdfjsLib } = globalThis;
 
 if (pdfjsLib && pdfjsLib.GlobalWorkerOptions) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "./pdf.worker.min.mjs?v=1.8.0.0";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "_content/Blazorise.PdfViewer/vendors/pdf.worker.min.mjs?v=1.8.1.0";
 }
 else {
     console.error("Blazorise.PdfViewer: Could not find pdfjsLib.");
 }
 
-insertCSSIntoDocumentHead("_content/Blazorise.PdfViewer/vendors/pdf_viewer.min.css?v=1.8.0.0");
+insertCSSIntoDocumentHead("_content/Blazorise.PdfViewer/vendors/pdf_viewer.min.css?v=1.8.1.0");
 
 const _instances = [];
 
