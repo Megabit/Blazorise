@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\Blazorise.Exporters\Blazorise.Exporters.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.DeepCloner;
+using Blazorise.Exporters;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
@@ -25,7 +27,7 @@ namespace Blazorise.DataGrid;
 /// </summary>
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 [CascadingTypeParameter( nameof( TItem ) )]
-public partial class DataGrid<TItem> : BaseDataGridComponent
+public partial class DataGrid<TItem> : BaseDataGridComponent, IExportableComponent
 {
     #region Members
 
@@ -508,6 +510,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
+
             if ( IsCellNavigable )
             {
                 await JSModule.InitializeTableCellNavigation( tableRef.ElementRef, ElementId );
@@ -1910,6 +1913,75 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask ScrollToRow( int row )
         => tableRef.ScrollToRow( row );
+
+    /// <summary>
+    /// Exports data using a specified exporter and options, returning the result of the export operation.
+    /// </summary>
+    /// <typeparam name="TExportResult">Defines the type of the result produced by the export operation.</typeparam>
+    /// <typeparam name="TCellValue">Specifies the type of the cell values in the data being exported.</typeparam>
+    /// <param name="exporter">An object responsible for handling the export process and generating the output.</param>
+    /// <param name="options">Configuration settings that influence the export behavior and output format.</param>
+    /// <returns>The result of the export operation, encapsulated in the specified result type.</returns>
+    public async Task<TExportResult> Export<TExportResult, TCellValue>( IExporter<TExportResult, TabularSourceData<TCellValue>> exporter, DataGridExportOptions options = null )
+        where TExportResult : IExportResult, new()
+    {
+        if ( exporter is IExporterWithJsModule exporterWithJsModule )
+        {
+            exporterWithJsModule.JSUtilitiesModule = JSUtilitiesModule;
+        }
+
+        var data = ExportData<TCellValue>( options );
+
+        TExportResult exportResult = await exporter.Export( data );
+
+        return exportResult;
+    }
+
+    private TabularSourceData<TCellValue> ExportData<TCellValue>( DataGridExportOptions options )
+    {
+        options ??= new();
+
+        // Filter columns (exclude Command, MultiSelect, and DisplayTemplate columns)
+        var columnsToExport = Columns
+                              .Where( column => column.ColumnType != DataGridColumnType.Command &&
+                                              column.ColumnType != DataGridColumnType.MultiSelect &&
+                                              column.Field != null &&
+                                              column.DisplayTemplate == null &&
+                                              ( options.Fields == null || options.Fields.Contains( column.Field ) ) )
+                              .ToList();
+
+        var exportedData = new List<List<TCellValue>>();
+
+        var columnNames = ( options.UseCaptions
+                           ? columnsToExport.Select( c => c.Caption ?? c.Field )
+                           : columnsToExport.Select( x => x.Field ) ).ToList();
+
+        var filteredDataToTake = options.NumberOfRows is null || options.NumberOfRows <= 0
+            ? FilteredData
+            : FilteredData.Take( options.NumberOfRows.Value );
+
+        bool isCellValueString = typeof( TCellValue ) == typeof( string );
+
+        foreach ( var item in filteredDataToTake )
+        {
+            var rowValues = new List<TCellValue>();
+
+            foreach ( var column in columnsToExport )
+            {
+                var cellValue = column.GetValue( item );
+
+                var formattedValue = isCellValueString
+                    ? column.FormatDisplayValue( cellValue ) ?? string.Empty
+                    : cellValue;
+
+                rowValues.Add( (TCellValue)formattedValue );
+            }
+
+            exportedData.Add( rowValues );
+        }
+
+        return new TabularSourceData<TCellValue> { Data = exportedData, ColumnNames = columnNames };
+    }
 
     #endregion
 
