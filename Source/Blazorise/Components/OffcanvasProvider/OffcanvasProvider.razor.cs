@@ -132,9 +132,9 @@ public partial class OffcanvasProvider : BaseComponent
     /// Keeps the OffCanvasInstance in memory after it has been closed.
     /// Defaults to false.
     /// </summary>
-    [Parameter] public bool Stateful { get; set; } = false;
+    [Parameter] public bool Stateful { get; set; }
 
-    [Parameter] public bool ShowCloseButton { get; set; } = true;
+    [Parameter] public bool ShowCloseButton { get; set; }
     [Parameter] public EventCallback CloseButtonClicked { get; set; }
 
     /// <summary>
@@ -142,7 +142,7 @@ public partial class OffcanvasProvider : BaseComponent
     /// Defaults to true.
     /// Global Option.
     /// </summary>
-    [Parameter] public bool UseOffCanvasStructure { get; set; } = true;
+    [Parameter] public bool UseOffCanvasStructure { get; set; }
 
     [Parameter] public Func<OffcanvasOpeningEventArgs, Task> Opening { get; set; }
     [Parameter] public EventCallback Opened { get; set; }
