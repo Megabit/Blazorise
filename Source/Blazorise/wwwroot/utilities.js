@@ -1,5 +1,5 @@
-import "./vendors/jsencrypt.js?v=1.8.0.0";
-import "./vendors/sha512.js?v=1.8.0.0";
+import "./vendors/jsencrypt.js?v=1.8.1.0";
+import "./vendors/sha512.js?v=1.8.1.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {

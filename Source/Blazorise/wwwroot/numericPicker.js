@@ -1,6 +1,6 @@
-import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=1.8.0.0";
+import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=1.8.1.0";
 
-import './vendors/autoNumeric.js?v=1.8.0.0';
+import './vendors/autoNumeric.js?v=1.8.1.0';
 
 let _instances = [];
 

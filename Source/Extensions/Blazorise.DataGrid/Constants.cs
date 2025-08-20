@@ -45,4 +45,7 @@ static class Constants
     internal static readonly IFluentColumn ColumnSizeIsAuto = ColumnSize.IsAuto;
     internal static readonly IFluentColumn ColumnSizeIs12 = ColumnSize.Is12;
     internal static readonly IFluentColumn ColumnSizeIsHalfOnDesktop = ColumnSize.IsHalf.OnDesktop;
+
+    // Border
+    internal static readonly IFluentBorder BorderIs1Rounded = Border.Is1.Rounded;
 }

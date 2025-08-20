@@ -1,4 +1,4 @@
-import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=1.8.0.0";
+import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=1.8.1.0";
 
 export function initialize(element, elementId, options) {
     options = Object.assign({}, options, { theme: "fluentui", zIndex: "var(--zIndexTooltip)" });

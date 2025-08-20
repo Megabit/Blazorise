@@ -11,7 +11,10 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.RichTextEdit;
 
-internal sealed class JSRichTextEditModule : BaseJSModule,
+/// <summary>
+/// JS module for the RichTextEdit component.
+/// </summary>
+public class JSRichTextEditModule : BaseJSModule,
     IJSDestroyableModule
 {
     #region Members
@@ -62,7 +65,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     /// Initializes given editor
     /// </summary>
     /// <returns>the cleanup routine</returns>
-    public async ValueTask<IAsyncDisposable> Initialize( RichTextEdit richTextEdit )
+    public virtual async ValueTask<IAsyncDisposable> Initialize( RichTextEdit richTextEdit )
     {
         var dotNetRef = DotNetObjectReference.Create( richTextEdit );
 
