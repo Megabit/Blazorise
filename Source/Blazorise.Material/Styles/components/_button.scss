@@ -210,38 +210,7 @@
     margin-top: 0.5rem;
 }
 
-.mui-button-group {
-    position: relative;
-    display: inline-flex;
-    vertical-align: middle;
-    background: none !important;
-    gap: .125rem;
 
-    > .mui-button {
-        margin: 0;
-    }
-
-    > .mui-button:not(:last-child) {
-        border-top-right-radius: 0.5rem;
-        border-bottom-right-radius: 0.5rem;
-    }
-
-    > .mui-button:not(:first-child) {
-        border-top-left-radius: 0.5rem;
-        border-bottom-left-radius: 0.5rem;
-    }
-}
-
-.mui-button-toolbar {
-    display: flex;
-    align-items: center;
-    align-self: normal;
-    text-align: start;
-    justify-content: flex-start;
-    white-space: nowrap;
-    gap: 1rem;
-    border-radius: 0;
-}
 
 /*
 .mui-button:hover {

@@ -1,0 +1,60 @@
+﻿.mui-button-group:not(.mui-dropdown) {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    background: none !important;
+    gap: .125rem;
+
+    > .mui-button {
+        margin: 0;
+    }
+
+    > .mui-button:not(:last-child) {
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+    }
+
+    > .mui-button:not(:first-child) {
+        border-top-left-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+    }
+}
+
+.mui-button-toolbar {
+    display: flex;
+    align-items: center;
+    align-self: normal;
+    text-align: start;
+    justify-content: flex-start;
+    white-space: nowrap;
+    gap: 1rem;
+    border-radius: 0;
+}
+/*
+.mui-button-group.mui-dropdown {
+    > .mui-button {
+        margin: 0;
+    }
+
+    @include border-radius(0.5rem);
+    // Prevent double borders when buttons are next to each other
+    > :not(.mui-button-check:first-child) + .mui-button,
+    > .mui-button-group:not(:first-child) {
+        margin-left: calc(.125rem * -1); // stylelint-disable-line function-disallowed-list
+    }
+    // Reset rounded corners
+    > .mui-button:not(:last-child):not(.mui-dropdown-toggle),
+    > .mui-button.mui-dropdown-toggle-split:first-child,
+    > .mui-button-group:not(:last-child) > .mui-button {
+        @include border-end-radius(0);
+    }
+    // The left radius should be 0 if the button is:
+    // - the "third or more" child
+    // - the second child and the previous element isn't `.btn-check` (making it the first child visually)
+    // - part of a btn-group which isn't the first child
+    > .mui-button:nth-child(n + 3),
+    > :not(.mui-button-check) + .mui-button,
+    > .mui-button-group:not(:first-child) > .mui-button {
+        @include border-start-radius(0);
+    }
+}*/
