@@ -33,7 +33,7 @@
     margin: 0;
     text-transform: none;
     border-radius: 0.5rem;
-    transition: transform var(--mui-speed3), border-radius var(--mui-speed3), padding var(--mui-speed3);
+    transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow), padding var(--mui-duration-slow);
     user-select: none;
     gap: 0.5rem;
     letter-spacing: normal;

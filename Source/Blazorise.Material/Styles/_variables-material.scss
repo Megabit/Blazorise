@@ -56,10 +56,14 @@
     --mui-size-xl: 4rem;
     --mui-font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Noto Sans, Arial, sans-serif;
     --mui-font-icon: "Material Symbols Outlined";
-    --mui-speed1: 0.1s;
-    --mui-speed2: 0.2s;
-    --mui-speed3: 0.3s;
-    --mui-speed4: 0.4s;
+    --mui-duration-ultra-fast: 50ms;
+    --mui-duration-faster: 100ms;
+    --mui-duration-fast: 150ms;
+    --mui-duration-normal: 200ms;
+    --mui-duration-gentle: 250ms;
+    --mui-duration-slow: 300ms;
+    --mui-duration-slower: 400ms;
+    --mui-duration-ultra-slow: 500ms;
     --mui-active: rgb(128 128 128 / 0.192);
     --mui-overlay: rgb(0 0 0 / 0.5);
     --mui-elevate1: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px rgba(0, 0, 0, 0.15);
@@ -103,4 +107,12 @@
     --mui-zindex-modal: 1055;
     --mui-zindex-popover: 1060;
     --mui-zindex-tooltip: 1070;
+    --mui-curve-accelerate-max: cubic-bezier(0.9,0.1,1,0.2);
+    --mui-curve-accelerate-mid: cubic-bezier(1,0,1,1);
+    --mui-curve-accelerate-min: cubic-bezier(0.8,0,0.78,1);
+    --mui-curve-decelerate-max: cubic-bezier(0.1,0.9,0.2,1);
+    --mui-curve-decelerate-mid: cubic-bezier(0,0,0,1);
+    --mui-curve-decelerate-min: cubic-bezier(0.33,0,0.1,1);
+    --mui-curve-easy-ease-max: cubic-bezier(0.8,0,0.2,1);
+    --mui-curve-easy-ease: cubic-bezier(0.33,0,0.67,1);
 }

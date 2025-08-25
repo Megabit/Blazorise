@@ -56,10 +56,14 @@
   --mui-size-xl: 4rem;
   --mui-font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Noto Sans, Arial, sans-serif;
   --mui-font-icon: "Material Symbols Outlined";
-  --mui-speed1: 0.1s;
-  --mui-speed2: 0.2s;
-  --mui-speed3: 0.3s;
-  --mui-speed4: 0.4s;
+  --mui-duration-ultra-fast: 50ms;
+  --mui-duration-faster: 100ms;
+  --mui-duration-fast: 150ms;
+  --mui-duration-normal: 200ms;
+  --mui-duration-gentle: 250ms;
+  --mui-duration-slow: 300ms;
+  --mui-duration-slower: 400ms;
+  --mui-duration-ultra-slow: 500ms;
   --mui-active: rgb(128 128 128 / 0.192);
   --mui-overlay: rgb(0 0 0 / 0.5);
   --mui-elevate1: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px rgba(0, 0, 0, 0.15);
@@ -103,6 +107,14 @@
   --mui-zindex-modal: 1055;
   --mui-zindex-popover: 1060;
   --mui-zindex-tooltip: 1070;
+  --mui-curve-accelerate-max: cubic-bezier(0.9,0.1,1,0.2);
+  --mui-curve-accelerate-mid: cubic-bezier(1,0,1,1);
+  --mui-curve-accelerate-min: cubic-bezier(0.8,0,0.78,1);
+  --mui-curve-decelerate-max: cubic-bezier(0.1,0.9,0.2,1);
+  --mui-curve-decelerate-mid: cubic-bezier(0,0,0,1);
+  --mui-curve-decelerate-min: cubic-bezier(0.33,0,0.1,1);
+  --mui-curve-easy-ease-max: cubic-bezier(0.8,0,0.2,1);
+  --mui-curve-easy-ease: cubic-bezier(0.33,0,0.67,1);
 }
 
 * {
@@ -366,7 +378,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   margin: 0;
   text-transform: none;
   border-radius: 0.5rem;
-  transition: transform var(--mui-speed3), border-radius var(--mui-speed3), padding var(--mui-speed3);
+  transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow), padding var(--mui-duration-slow);
   user-select: none;
   gap: 0.5rem;
   letter-spacing: normal;
@@ -503,7 +515,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   font-weight: 500;
   padding: 0 var(--mui-btn-padding);
   margin: 0 0.5rem;
-  transition: transform var(--mui-speed3), border-radius var(--mui-speed4), padding var(--mui-speed3);
+  transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slower), padding var(--mui-duration-slow);
   user-select: none;
   line-height: var(--mui-btn-size);
   box-shadow: none;
@@ -540,7 +552,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-button:hover:not(:active):not(.mui-button-active) {
   background-size: 15000%;
   opacity: 0.9;
-  transition: background-size var(--mui-speed2) linear;
+  transition: background-size var(--mui-duration-normal) linear;
 }
 .mui-button:active, .mui-button.mui-button-active {
   border-radius: 0.5rem !important;
@@ -715,7 +727,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   padding: 0;
   border-radius: 0.75rem;
   display: block;
-  transition: transform var(--mui-speed3), border-radius var(--mui-speed3), padding var(--mui-speed3);
+  transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow), padding var(--mui-duration-slow);
   box-shadow: var(--mui-elevate1);
   border: 0.0625rem solid var(--mui-outline-variant);
 }
@@ -757,49 +769,33 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 }
 @keyframes slidein {
   0% {
-    transform: translate(var(--fui-positioning-slide-distance-x), var(--fui-positioning-slide-distance-y));
+    transform: translate(var(--mui-positioning-slide-distance-x), var(--mui-positioning-slide-distance-y));
   }
 }
 .mui-dropdown.dropup > .mui-dropdown-menu {
-  --fui-positioning-slide-distance-y: 10px;
-  --fui-positioning-slide-distance-x: 0px;
+  --mui-positioning-slide-distance-y: 10px;
+  --mui-positioning-slide-distance-x: 0px;
   inset: 0 auto auto 0;
   inset-block-start: 0;
 }
 .mui-dropdown.dropstart > .mui-dropdown-menu {
-  --fui-positioning-slide-distance-y: 0px;
-  --fui-positioning-slide-distance-x: 10px;
+  --mui-positioning-slide-distance-y: 0px;
+  --mui-positioning-slide-distance-x: 10px;
   inset: auto 0 0 auto;
   inset-inline-start: 0;
 }
 .mui-dropdown.dropend > .mui-dropdown-menu {
-  --fui-positioning-slide-distance-y: 0px;
-  --fui-positioning-slide-distance-x: -10px;
+  --mui-positioning-slide-distance-y: 0px;
+  --mui-positioning-slide-distance-x: -10px;
   inset: auto auto 0 0;
   inset-inline-end: 0;
 }
 .mui-dropdown-menu {
-  --durationUltraFast: 50ms;
-  --durationFaster: 100ms;
-  --durationFast: 150ms;
-  --durationNormal: 200ms;
-  --durationGentle: 250ms;
-  --durationSlow: 300ms;
-  --durationSlower: 400ms;
-  --durationUltraSlow: 500ms;
-  --curveAccelerateMax: cubic-bezier(0.9,0.1,1,0.2);
-  --curveAccelerateMid: cubic-bezier(1,0,1,1);
-  --curveAccelerateMin: cubic-bezier(0.8,0,0.78,1);
-  --curveDecelerateMax: cubic-bezier(0.1,0.9,0.2,1);
-  --curveDecelerateMid: cubic-bezier(0,0,0,1);
-  --curveDecelerateMin: cubic-bezier(0.33,0,0.1,1);
-  --curveEasyEaseMax: cubic-bezier(0.8,0,0.2,1);
-  --curveEasyEase: cubic-bezier(0.33,0,0.67,1);
-  --fui-positioning-slide-distance-y: -10px;
-  --fui-positioning-slide-distance-x: 0px;
+  --mui-positioning-slide-distance-y: -10px;
+  --mui-positioning-slide-distance-x: 0px;
   animation-name: fadein, slidein;
-  animation-timing-function: var(--curveDecelerateMid);
-  animation-duration: var(--durationSlower);
+  animation-timing-function: var(--mui-curve-decelerate-mid);
+  animation-duration: var(--mui-duration-slower);
   animation-composition: accumulate;
   opacity: 0;
   visibility: hidden;
@@ -821,8 +817,6 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   line-height: normal;
   text-align: start;
   border-radius: 0.25rem;
-  /*transform: scale(0.8) translateY(120%);*/
-  /*transition: all var(--mui-speed2), 0s background-color;*/
   justify-content: flex-start;
   width: max-content;
   height: max-content;

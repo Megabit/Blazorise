@@ -17,7 +17,7 @@
     font-weight: 500;
     padding: 0 var(--mui-btn-padding);
     margin: 0 0.5rem;
-    transition: transform var(--mui-speed3), border-radius var(--mui-speed4), padding var(--mui-speed3);
+    transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slower), padding var(--mui-duration-slow);
     user-select: none;
     line-height: var(--mui-btn-size);
     box-shadow: none;
@@ -51,7 +51,7 @@
     &:hover:not(:active):not(.mui-button-active) {
         background-size: 15000%;
         opacity: 0.9;
-        transition: background-size var(--mui-speed2) linear;
+        transition: background-size var(--mui-duration-normal) linear;
     }
 
     &:active,

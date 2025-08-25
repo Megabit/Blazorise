@@ -16,14 +16,14 @@
 
     @keyframes slidein {
         0% {
-            transform: translate(var(--fui-positioning-slide-distance-x), var(--fui-positioning-slide-distance-y));
+            transform: translate(var(--mui-positioning-slide-distance-x), var(--mui-positioning-slide-distance-y));
         }
     }
 
     &.dropup {
         > .mui-dropdown-menu {
-            --fui-positioning-slide-distance-y: 10px;
-            --fui-positioning-slide-distance-x: 0px;
+            --mui-positioning-slide-distance-y: 10px;
+            --mui-positioning-slide-distance-x: 0px;
             inset: 0 auto auto 0;
             inset-block-start: 0;
         }
@@ -31,8 +31,8 @@
 
     &.dropstart {
         > .mui-dropdown-menu {
-            --fui-positioning-slide-distance-y: 0px;
-            --fui-positioning-slide-distance-x: 10px;
+            --mui-positioning-slide-distance-y: 0px;
+            --mui-positioning-slide-distance-x: 10px;
             inset: auto 0 0 auto;
             inset-inline-start: 0;
         }
@@ -40,35 +40,19 @@
 
     &.dropend {
         > .mui-dropdown-menu {
-            --fui-positioning-slide-distance-y: 0px;
-            --fui-positioning-slide-distance-x: -10px;
+            --mui-positioning-slide-distance-y: 0px;
+            --mui-positioning-slide-distance-x: -10px;
             inset: auto auto 0 0;
             inset-inline-end: 0;
         }
     }
 
     &-menu {
-        --durationUltraFast: 50ms;
-        --durationFaster: 100ms;
-        --durationFast: 150ms;
-        --durationNormal: 200ms;
-        --durationGentle: 250ms;
-        --durationSlow: 300ms;
-        --durationSlower: 400ms;
-        --durationUltraSlow: 500ms;
-        --curveAccelerateMax: cubic-bezier(0.9,0.1,1,0.2);
-        --curveAccelerateMid: cubic-bezier(1,0,1,1);
-        --curveAccelerateMin: cubic-bezier(0.8,0,0.78,1);
-        --curveDecelerateMax: cubic-bezier(0.1,0.9,0.2,1);
-        --curveDecelerateMid: cubic-bezier(0,0,0,1);
-        --curveDecelerateMin: cubic-bezier(0.33,0,0.1,1);
-        --curveEasyEaseMax: cubic-bezier(0.8,0,0.2,1);
-        --curveEasyEase: cubic-bezier(0.33,0,0.67,1);
-        --fui-positioning-slide-distance-y: -10px;
-        --fui-positioning-slide-distance-x: 0px;
+        --mui-positioning-slide-distance-y: -10px;
+        --mui-positioning-slide-distance-x: 0px;
         animation-name: fadein, slidein;
-        animation-timing-function: var(--curveDecelerateMid);
-        animation-duration: var(--durationSlower);
+        animation-timing-function: var(--mui-curve-decelerate-mid);
+        animation-duration: var(--mui-duration-slower);
         animation-composition: accumulate;
         opacity: 0;
         visibility: hidden;
@@ -90,8 +74,6 @@
         line-height: normal;
         text-align: start;
         border-radius: 0.25rem;
-        /*transform: scale(0.8) translateY(120%);*/
-        /*transition: all var(--mui-speed2), 0s background-color;*/
         justify-content: flex-start;
         width: max-content;
         height: max-content;
