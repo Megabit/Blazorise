@@ -36,9 +36,10 @@ public static class Config
     {
         // material overrides
         [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
+        [typeof( Blazorise.DropdownToggle )] = typeof( Components.DropdownToggle ),
         [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),
         [typeof( Blazorise.Switch<> )] = typeof( Components.Switch<> ),
         [typeof( Blazorise.Step )] = typeof( Components.Step ),
-        [typeof( Blazorise.Steps )] = typeof( Components.Steps )
+        [typeof( Blazorise.Steps )] = typeof( Components.Steps ),
     };
 }
