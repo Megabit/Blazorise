@@ -86,3 +86,21 @@
     --mui-surface-container-highest: #e6e1e6;
     --mui-spacing: 1rem;
 }
+
+:root {
+    --mui-zindex-tablefixed: 10;
+    --mui-zindex-tablefixed2: 11;
+    --mui-zindex-input-before: 10;
+    --mui-zindex-input: 20;
+    --mui-zindex-input-after: 30;
+    --mui-zindex-navigation: 1000;
+    --mui-zindex-dropdown: 1010;
+    --mui-zindex-sticky: 1020;
+    --mui-zindex-fixed: 1030;
+    --mui-zindex-drawerbackdrop: 1040;
+    --mui-zindex-drawer: 1045;
+    --mui-zindex-modalbackdrop: 1050;
+    --mui-zindex-modal: 1055;
+    --mui-zindex-popover: 1060;
+    --mui-zindex-tooltip: 1070;
+}

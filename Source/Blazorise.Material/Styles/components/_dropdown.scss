@@ -4,16 +4,81 @@
     align-items: center;
     justify-content: center;
 
+    @keyframes fadein {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slidein {
+        0% {
+            transform: translate(var(--fui-positioning-slide-distance-x), var(--fui-positioning-slide-distance-y));
+        }
+    }
+
+    &.dropup {
+        > .mui-dropdown-menu {
+            --fui-positioning-slide-distance-y: 10px;
+            --fui-positioning-slide-distance-x: 0px;
+            inset: 0 auto auto 0;
+            inset-block-start: 0;
+        }
+    }
+
+    &.dropstart {
+        > .mui-dropdown-menu {
+            --fui-positioning-slide-distance-y: 0px;
+            --fui-positioning-slide-distance-x: 10px;
+            inset: auto 0 0 auto;
+            inset-inline-start: 0;
+        }
+    }
+
+    &.dropend {
+        > .mui-dropdown-menu {
+            --fui-positioning-slide-distance-y: 0px;
+            --fui-positioning-slide-distance-x: -10px;
+            inset: auto auto 0 0;
+            inset-inline-end: 0;
+        }
+    }
+
     &-menu {
+        --durationUltraFast: 50ms;
+        --durationFaster: 100ms;
+        --durationFast: 150ms;
+        --durationNormal: 200ms;
+        --durationGentle: 250ms;
+        --durationSlow: 300ms;
+        --durationSlower: 400ms;
+        --durationUltraSlow: 500ms;
+        --curveAccelerateMax: cubic-bezier(0.9,0.1,1,0.2);
+        --curveAccelerateMid: cubic-bezier(1,0,1,1);
+        --curveAccelerateMin: cubic-bezier(0.8,0,0.78,1);
+        --curveDecelerateMax: cubic-bezier(0.1,0.9,0.2,1);
+        --curveDecelerateMid: cubic-bezier(0,0,0,1);
+        --curveDecelerateMin: cubic-bezier(0.33,0,0.1,1);
+        --curveEasyEaseMax: cubic-bezier(0.8,0,0.2,1);
+        --curveEasyEase: cubic-bezier(0.33,0,0.67,1);
+        --fui-positioning-slide-distance-y: -10px;
+        --fui-positioning-slide-distance-x: 0px;
+        animation-name: fadein, slidein;
+        animation-timing-function: var(--curveDecelerateMid);
+        animation-duration: var(--durationSlower);
+        animation-composition: accumulate;
         opacity: 0;
         visibility: hidden;
-        position: absolute;
         display: none;
         box-shadow: var(--mui-elevate2);
         background-color: var(--mui-surface-container);
-        z-index: 11;
-        /*inset: auto auto 0 0;*/
-        inline-size: 100%;
+        inset: auto auto 0 0;
+        inline-size: max-content;
+        inset-block-end: 0;
+        white-space: nowrap;
         max-block-size: 50vh;
         max-inline-size: none !important;
         overflow-x: hidden;
@@ -25,23 +90,20 @@
         line-height: normal;
         text-align: start;
         border-radius: 0.25rem;
-        transform: scale(0.8) translateY(120%);
-        transition: all var(--mui-speed2), 0s background-color;
+        /*transform: scale(0.8) translateY(120%);*/
+        /*transition: all var(--mui-speed2), 0s background-color;*/
         justify-content: flex-start;
+        width: max-content;
+        height: max-content;
 
-        &.show { 
+        &.show {
             display: block;
             opacity: 1;
             visibility: visible;
-            transform: scale(1) translateY(100%);
         }
 
         &-position-strategy {
-            top: 0;
-            left: 0;
-            --mui-match-target-size: 250px;
-            width: var(--mui-match-target-size);
-            z-index: calc(var(--zIndexDropdown) + 1);
+            z-index: calc(var(--mui-zindex-dropdown) + 1);
         }
 
         &-position-strategy-absolute {
