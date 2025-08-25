@@ -87,6 +87,24 @@
   --mui-spacing: 1rem;
 }
 
+:root {
+  --mui-zindex-tablefixed: 10;
+  --mui-zindex-tablefixed2: 11;
+  --mui-zindex-input-before: 10;
+  --mui-zindex-input: 20;
+  --mui-zindex-input-after: 30;
+  --mui-zindex-navigation: 1000;
+  --mui-zindex-dropdown: 1010;
+  --mui-zindex-sticky: 1020;
+  --mui-zindex-fixed: 1030;
+  --mui-zindex-drawerbackdrop: 1040;
+  --mui-zindex-drawer: 1045;
+  --mui-zindex-modalbackdrop: 1050;
+  --mui-zindex-modal: 1055;
+  --mui-zindex-popover: 1060;
+  --mui-zindex-tooltip: 1070;
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
   position: relative;
@@ -642,36 +660,6 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   margin-top: 0.5rem;
 }
 
-.mui-button-group {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-  background: none !important;
-  gap: 0.125rem;
-}
-.mui-button-group > .mui-button {
-  margin: 0;
-}
-.mui-button-group > .mui-button:not(:last-child) {
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-}
-.mui-button-group > .mui-button:not(:first-child) {
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-}
-
-.mui-button-toolbar {
-  display: flex;
-  align-items: center;
-  align-self: normal;
-  text-align: start;
-  justify-content: flex-start;
-  white-space: nowrap;
-  gap: 1rem;
-  border-radius: 0;
-}
-
 /*
 .mui-button:hover {
     background-color: var(--mui-palette-primary-hover);
@@ -696,6 +684,30 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
     opacity: 0;
   }
 }
+.mui-button-group {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  background: none !important;
+  gap: 0.125rem;
+}
+.mui-button-group > .mui-button {
+  margin: 0;
+}
+.mui-button-group .mui-button:not(:first-child) {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.mui-button-group .mui-button:not(:last-child):not(.mui-dropdown-toggle) {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+.mui-button-group > .mui-button-group:not(:first-child) > .mui-button,
+.mui-button-group .mui-button-group > .mui-button:not(:first-child) {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
 .mui-card {
   --_padding: 1rem;
   background-color: var(--mui-surface-container-low);
@@ -735,16 +747,69 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   align-items: center;
   justify-content: center;
 }
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes slidein {
+  0% {
+    transform: translate(var(--fui-positioning-slide-distance-x), var(--fui-positioning-slide-distance-y));
+  }
+}
+.mui-dropdown.dropup > .mui-dropdown-menu {
+  --fui-positioning-slide-distance-y: 10px;
+  --fui-positioning-slide-distance-x: 0px;
+  inset: 0 auto auto 0;
+  inset-block-start: 0;
+}
+.mui-dropdown.dropstart > .mui-dropdown-menu {
+  --fui-positioning-slide-distance-y: 0px;
+  --fui-positioning-slide-distance-x: 10px;
+  inset: auto 0 0 auto;
+  inset-inline-start: 0;
+}
+.mui-dropdown.dropend > .mui-dropdown-menu {
+  --fui-positioning-slide-distance-y: 0px;
+  --fui-positioning-slide-distance-x: -10px;
+  inset: auto auto 0 0;
+  inset-inline-end: 0;
+}
 .mui-dropdown-menu {
+  --durationUltraFast: 50ms;
+  --durationFaster: 100ms;
+  --durationFast: 150ms;
+  --durationNormal: 200ms;
+  --durationGentle: 250ms;
+  --durationSlow: 300ms;
+  --durationSlower: 400ms;
+  --durationUltraSlow: 500ms;
+  --curveAccelerateMax: cubic-bezier(0.9,0.1,1,0.2);
+  --curveAccelerateMid: cubic-bezier(1,0,1,1);
+  --curveAccelerateMin: cubic-bezier(0.8,0,0.78,1);
+  --curveDecelerateMax: cubic-bezier(0.1,0.9,0.2,1);
+  --curveDecelerateMid: cubic-bezier(0,0,0,1);
+  --curveDecelerateMin: cubic-bezier(0.33,0,0.1,1);
+  --curveEasyEaseMax: cubic-bezier(0.8,0,0.2,1);
+  --curveEasyEase: cubic-bezier(0.33,0,0.67,1);
+  --fui-positioning-slide-distance-y: -10px;
+  --fui-positioning-slide-distance-x: 0px;
+  animation-name: fadein, slidein;
+  animation-timing-function: var(--curveDecelerateMid);
+  animation-duration: var(--durationSlower);
+  animation-composition: accumulate;
   opacity: 0;
   visibility: hidden;
-  position: absolute;
   display: none;
   box-shadow: var(--mui-elevate2);
   background-color: var(--mui-surface-container);
-  z-index: 11;
-  /*inset: auto auto 0 0;*/
-  inline-size: 100%;
+  inset: auto auto 0 0;
+  inline-size: max-content;
+  inset-block-end: 0;
+  white-space: nowrap;
   max-block-size: 50vh;
   max-inline-size: none !important;
   overflow-x: hidden;
@@ -756,22 +821,19 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   line-height: normal;
   text-align: start;
   border-radius: 0.25rem;
-  transform: scale(0.8) translateY(120%);
-  transition: all var(--mui-speed2), 0s background-color;
+  /*transform: scale(0.8) translateY(120%);*/
+  /*transition: all var(--mui-speed2), 0s background-color;*/
   justify-content: flex-start;
+  width: max-content;
+  height: max-content;
 }
 .mui-dropdown-menu.show {
   display: block;
   opacity: 1;
   visibility: visible;
-  transform: scale(1) translateY(100%);
 }
 .mui-dropdown-menu-position-strategy {
-  top: 0;
-  left: 0;
-  --mui-match-target-size: 250px;
-  width: var(--mui-match-target-size);
-  z-index: calc(var(--zIndexDropdown) + 1);
+  z-index: calc(var(--mui-zindex-dropdown) + 1);
 }
 .mui-dropdown-menu-position-strategy-absolute {
   position: absolute;
