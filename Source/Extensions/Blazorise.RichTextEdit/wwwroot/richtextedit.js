@@ -5,12 +5,6 @@ import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.1.0";
 
 var rteSheetsLoaded = false;
 
-Quill.register(
-    {
-        'modules/table-better': QuillTableBetter,
-        'modules/resize': QuillResize
-    }, true);
-
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
 
@@ -35,19 +29,23 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         modules: {
             toolbar: toolbarRef,
             keyboard: undefined,
-            table: false,
-            'table-better': {
-                toolbarTable: true
-            },
-            keyboard: {
-                bindings: QuillTableBetter.keyboardBindings
-            }
+            table: false
         },
         bounds: element,
         placeholder: options.placeholder,
         readOnly: options.readOnly,
         theme: options.theme
     };
+
+    if(options.useTables === true) {
+        Quill.register({ 'modules/table-better': QuillTableBetter }, true);
+        quillOptions.modules['table-better'] = {
+            toolbarTable: true
+        };
+        quillOptions.modules.keyboard = {
+            bindings: QuillTableBetter.keyboardBindings
+        };
+    }
 
     if (options.submitOnEnter === true) {
         quillOptions.modules.keyboard = {
@@ -68,6 +66,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     }
 
     if (options.useResize) {
+        Quill.register({ 'modules/resize': QuillResize }, true);
         quillOptions.modules.resize = {
             tools: [
                 "left",
