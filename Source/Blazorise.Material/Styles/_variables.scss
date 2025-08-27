@@ -1,4 +1,6 @@
-﻿$spacer: var(--spacingHorizontalM) !default;
+﻿$theme-variants: ("primary", "secondary", "tertiary", "error", "success", "warning", "info", "light", "dark") !default;
+
+$spacer: var(--spacingHorizontalM) !default;
 $spacers: () !default;
 $spacers: map-merge( ( 0: 0, 1: 0.5rem, 2: 0.75rem, 3: 1rem, 4: 1.5rem, 5: 2rem ), $spacers );
 

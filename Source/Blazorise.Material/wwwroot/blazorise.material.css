@@ -117,6 +117,37 @@
   --mui-curve-easy-ease: cubic-bezier(0.33,0,0.67,1);
 }
 
+@font-face {
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(fonts/material-symbols-outlined.woff2) format("woff2");
+}
+/* rounded icons */
+@font-face {
+  font-family: "Material Symbols Rounded";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(fonts/material-symbols-rounded.woff2) format("woff2");
+}
+/* sharp icons */
+@font-face {
+  font-family: "Material Symbols Sharp";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(fonts/material-symbols-sharp.woff2) format("woff2");
+}
+/* subset of only required icons */
+@font-face {
+  font-family: "Material Symbols Subset";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(fonts/material-symbols-subset.woff2) format("woff2");
+}
 * {
   -webkit-tap-highlight-color: transparent;
   position: relative;
@@ -219,6 +250,28 @@ body {
 body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   background: var(--mui-outline);
   border-radius: 1rem;
+}
+
+.mui-addons {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+.mui-addons > .mui-input,
+.mui-addons > .mui-select {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+.mui-addons .mui-button {
+  position: relative;
+  z-index: 2;
+}
+.mui-addons .mui-button:focus {
+  z-index: 5;
 }
 
 .mui-alert {
@@ -821,7 +874,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   width: max-content;
   height: max-content;
 }
-.mui-dropdown-menu.show {
+.mui-dropdown-menu-active {
   display: block;
   opacity: 1;
   visibility: visible;
@@ -855,6 +908,130 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 }
 .mui-dropdown-menu > .mui-dropdown-header {
   font-weight: 500;
+}
+
+.mui-field {
+  all: unset;
+  position: relative;
+  margin-bottom: 1rem;
+}
+.mui-field-helper {
+  inset: auto auto 0 1rem;
+  transform: translateY(100%);
+  font-size: 0.75rem;
+  background: none !important;
+  padding-block-start: 0.125rem;
+}
+.mui-field-label {
+  --_start: 1rem;
+  position: absolute;
+  inset: -0.5rem 1rem 0 var(--_start);
+  display: flex;
+  block-size: calc(var(--mui-input-size) + 1rem);
+  line-height: calc(var(--mui-input-size) + 1rem);
+  font-size: 1rem;
+  transition: all 0.2s;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+.mui-field-label .mui-input:focus {
+  color: red;
+  clip-path: polygon(-2% -2%, 1.75rem -2%, 1.75rem 0.5rem, calc(100% - 1.25rem) 0.5rem, calc(100% - 1.25rem) -2%, 102% -2%, 102% 102%, -2% 102%);
+}
+
+.mui-input,
+.mui-input-plaintext,
+.mui-select {
+  --mui-input-padding: 1rem;
+  --mui-input-size: 2.5rem;
+  --mui-input-font-size: 1rem;
+  --mui-input-bg: transparent;
+  --mui-input-color: var(--mui-on-background);
+  --mui-input-border-width: 1px;
+  --mui-input-border-color: transparent;
+  --mui-input-border-style: solid;
+  --mui-input-border-radius: 2.5rem;
+  all: unset;
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: inherit;
+  border: 0.0625rem solid transparent;
+  padding: 0 0.9375rem;
+  font-family: inherit;
+  font-size: var(--mui-input-font-size);
+  inline-size: 100%;
+  block-size: 100%;
+  outline: none;
+  z-index: 1;
+  background: none;
+  resize: none;
+  text-align: start;
+  cursor: text;
+  padding-inline: 1.4376rem;
+  block-size: var(--mui-input-size);
+}
+.mui-input:not(.mui-input-plaintext),
+.mui-input-plaintext:not(.mui-input-plaintext),
+.mui-select:not(.mui-input-plaintext) {
+  border-color: var(--mui-outline);
+  border-radius: var(--mui-input-border-radius) !important;
+}
+.mui-input:not(.mui-input-plaintext):focus,
+.mui-input-plaintext:not(.mui-input-plaintext):focus,
+.mui-select:not(.mui-input-plaintext):focus {
+  border: 0.125rem solid transparent;
+  padding: 0 0.875rem;
+  border-color: var(--mui-primary);
+  padding-inline: 1.375rem;
+}
+.mui-input[type=file], .mui-input[type=color], .mui-input::-webkit-calendar-picker-indicator,
+.mui-input-plaintext[type=file],
+.mui-input-plaintext[type=color],
+.mui-input-plaintext::-webkit-calendar-picker-indicator,
+.mui-select[type=file],
+.mui-select[type=color],
+.mui-select::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  z-index: 2 !important;
+}
+.mui-input-xs,
+.mui-input-plaintext-xs,
+.mui-select-xs {
+  --mui-input-size: 1.5rem;
+  --mui-input-font-size: 0.625rem;
+}
+.mui-input-sm,
+.mui-input-plaintext-sm,
+.mui-select-sm {
+  --mui-input-size: 2rem;
+  --mui-input-font-size: 0.75rem;
+}
+.mui-input-md,
+.mui-input-plaintext-md,
+.mui-select-md {
+  --mui-input-size: 3rem;
+  --mui-input-font-size: 1.25rem;
+}
+.mui-input-lg,
+.mui-input-plaintext-lg,
+.mui-select-lg {
+  --mui-input-size: 3.5rem;
+  --mui-input-font-size: 1.5rem;
+}
+.mui-input-xl,
+.mui-input-plaintext-xl,
+.mui-select-xl {
+  --mui-input-size: 4rem;
+  --mui-input-font-size: 1.75rem;
 }
 
 .mui-list {
@@ -915,6 +1092,686 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   inset: auto 0 0 0;
   block-size: 0.0625rem;
   inline-size: auto;
+}
+
+.mui-check,
+.mui-radio,
+.mui-switch {
+  --_size: 1.5rem;
+}
+.mui-check-xs,
+.mui-radio-xs,
+.mui-switch-xs {
+  --_size: 0.75rem;
+}
+.mui-check-sm,
+.mui-radio-sm,
+.mui-switch-sm {
+  --_size: 1rem;
+}
+.mui-check-md,
+.mui-radio-md,
+.mui-switch-md {
+  --_size: 1.75rem;
+}
+.mui-check-lg,
+.mui-radio-lg,
+.mui-switch-lg {
+  --_size: 2rem;
+}
+.mui-check-xl,
+.mui-radio-xl,
+.mui-switch-xl {
+  --_size: 2.5rem;
+}
+.mui-check > .mui-check-label,
+.mui-check > .mui-radio-label,
+.mui-check > .mui-switch-label,
+.mui-radio > .mui-check-label,
+.mui-radio > .mui-radio-label,
+.mui-radio > .mui-switch-label,
+.mui-switch > .mui-check-label,
+.mui-switch > .mui-radio-label,
+.mui-switch > .mui-switch-label {
+  direction: ltr;
+  inline-size: auto;
+  block-size: auto;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+.mui-check > .mui-check-label > span::before,
+.mui-check > .mui-check-label > span > i,
+.mui-check > .mui-radio-label > span::before,
+.mui-check > .mui-radio-label > span > i,
+.mui-check > .mui-switch-label > span::before,
+.mui-check > .mui-switch-label > span > i,
+.mui-radio > .mui-check-label > span::before,
+.mui-radio > .mui-check-label > span > i,
+.mui-radio > .mui-radio-label > span::before,
+.mui-radio > .mui-radio-label > span > i,
+.mui-radio > .mui-switch-label > span::before,
+.mui-radio > .mui-switch-label > span > i,
+.mui-switch > .mui-check-label > span::before,
+.mui-switch > .mui-check-label > span > i,
+.mui-switch > .mui-radio-label > span::before,
+.mui-switch > .mui-radio-label > span > i,
+.mui-switch > .mui-switch-label > span::before,
+.mui-switch > .mui-switch-label > span > i {
+  --_size: 1.5rem;
+  font-family: var(--mui-font-icon);
+  font-weight: normal;
+  font-style: normal;
+  font-size: var(--_size);
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+  text-align: center;
+  overflow: hidden;
+  inline-size: var(--_size);
+  min-inline-size: var(--_size);
+  block-size: var(--_size);
+  min-block-size: var(--_size);
+  box-sizing: content-box;
+  line-height: normal;
+  border-radius: 0;
+}
+.mui-check > .mui-check-label > span,
+.mui-check > .mui-radio-label > span,
+.mui-check > .mui-switch-label > span,
+.mui-radio > .mui-check-label > span,
+.mui-radio > .mui-radio-label > span,
+.mui-radio > .mui-switch-label > span,
+.mui-switch > .mui-check-label > span,
+.mui-switch > .mui-radio-label > span,
+.mui-switch > .mui-switch-label > span {
+  display: inline-flex;
+  align-items: center;
+  color: var(--mui-on-surface);
+  font-size: 0.875rem;
+}
+.mui-check > .mui-check-label > span::before,
+.mui-check > .mui-check-label > span > i,
+.mui-check > .mui-radio-label > span::before,
+.mui-check > .mui-radio-label > span > i,
+.mui-check > .mui-switch-label > span::before,
+.mui-check > .mui-switch-label > span > i,
+.mui-radio > .mui-check-label > span::before,
+.mui-radio > .mui-check-label > span > i,
+.mui-radio > .mui-radio-label > span::before,
+.mui-radio > .mui-radio-label > span > i,
+.mui-radio > .mui-switch-label > span::before,
+.mui-radio > .mui-switch-label > span > i,
+.mui-switch > .mui-check-label > span::before,
+.mui-switch > .mui-check-label > span > i,
+.mui-switch > .mui-radio-label > span::before,
+.mui-switch > .mui-radio-label > span > i,
+.mui-switch > .mui-switch-label > span::before,
+.mui-switch > .mui-switch-label > span > i {
+  --_size: inherit;
+  content: "";
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  box-sizing: border-box;
+  margin: 0 auto;
+  outline: none;
+  color: var(--mui-primary);
+  position: absolute;
+  inset: auto auto auto calc(var(--_size) * -1);
+  border-radius: 50%;
+  user-select: none;
+  z-index: 1;
+}
+.mui-check > .mui-check-label.icon > span::before,
+.mui-check > .mui-radio-label.icon > span::before,
+.mui-check > .mui-switch-label.icon > span::before,
+.mui-radio > .mui-check-label.icon > span::before,
+.mui-radio > .mui-radio-label.icon > span::before,
+.mui-radio > .mui-switch-label.icon > span::before,
+.mui-switch > .mui-check-label.icon > span::before,
+.mui-switch > .mui-radio-label.icon > span::before,
+.mui-switch > .mui-switch-label.icon > span::before {
+  content: "" !important;
+  font-variation-settings: unset !important;
+}
+.mui-check > .mui-check-label.icon > input:checked + span > i:first-child, .mui-check > .mui-check-label.icon > span > i:last-child,
+.mui-check > .mui-radio-label.icon > input:checked + span > i:first-child,
+.mui-check > .mui-radio-label.icon > span > i:last-child,
+.mui-check > .mui-switch-label.icon > input:checked + span > i:first-child,
+.mui-check > .mui-switch-label.icon > span > i:last-child,
+.mui-radio > .mui-check-label.icon > input:checked + span > i:first-child,
+.mui-radio > .mui-check-label.icon > span > i:last-child,
+.mui-radio > .mui-radio-label.icon > input:checked + span > i:first-child,
+.mui-radio > .mui-radio-label.icon > span > i:last-child,
+.mui-radio > .mui-switch-label.icon > input:checked + span > i:first-child,
+.mui-radio > .mui-switch-label.icon > span > i:last-child,
+.mui-switch > .mui-check-label.icon > input:checked + span > i:first-child,
+.mui-switch > .mui-check-label.icon > span > i:last-child,
+.mui-switch > .mui-radio-label.icon > input:checked + span > i:first-child,
+.mui-switch > .mui-radio-label.icon > span > i:last-child,
+.mui-switch > .mui-switch-label.icon > input:checked + span > i:first-child,
+.mui-switch > .mui-switch-label.icon > span > i:last-child {
+  opacity: 0;
+}
+.mui-check > .mui-check-label.icon > input:checked + span > i:last-child, .mui-check > .mui-check-label.icon > span > i:first-child,
+.mui-check > .mui-radio-label.icon > input:checked + span > i:last-child,
+.mui-check > .mui-radio-label.icon > span > i:first-child,
+.mui-check > .mui-switch-label.icon > input:checked + span > i:last-child,
+.mui-check > .mui-switch-label.icon > span > i:first-child,
+.mui-radio > .mui-check-label.icon > input:checked + span > i:last-child,
+.mui-radio > .mui-check-label.icon > span > i:first-child,
+.mui-radio > .mui-radio-label.icon > input:checked + span > i:last-child,
+.mui-radio > .mui-radio-label.icon > span > i:first-child,
+.mui-radio > .mui-switch-label.icon > input:checked + span > i:last-child,
+.mui-radio > .mui-switch-label.icon > span > i:first-child,
+.mui-switch > .mui-check-label.icon > input:checked + span > i:last-child,
+.mui-switch > .mui-check-label.icon > span > i:first-child,
+.mui-switch > .mui-radio-label.icon > input:checked + span > i:last-child,
+.mui-switch > .mui-radio-label.icon > span > i:first-child,
+.mui-switch > .mui-switch-label.icon > input:checked + span > i:last-child,
+.mui-switch > .mui-switch-label.icon > span > i:first-child {
+  opacity: 1;
+}
+.mui-check > .mui-check-label > input:disabled + span,
+.mui-check > .mui-radio-label > input:disabled + span,
+.mui-check > .mui-switch-label > input:disabled + span,
+.mui-radio > .mui-check-label > input:disabled + span,
+.mui-radio > .mui-radio-label > input:disabled + span,
+.mui-radio > .mui-switch-label > input:disabled + span,
+.mui-switch > .mui-check-label > input:disabled + span,
+.mui-switch > .mui-radio-label > input:disabled + span,
+.mui-switch > .mui-switch-label > input:disabled + span {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mui-check > .mui-check-label > input,
+.mui-check > .mui-radio-label > input,
+.mui-radio > .mui-check-label > input,
+.mui-radio > .mui-radio-label > input {
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  opacity: 0;
+}
+.mui-check > .mui-check-label > span:not(:empty),
+.mui-check > .mui-radio-label > span:not(:empty),
+.mui-radio > .mui-check-label > span:not(:empty),
+.mui-radio > .mui-radio-label > span:not(:empty) {
+  padding-inline-start: 0.25rem;
+}
+.mui-check > .mui-check-label > span::after,
+.mui-check > .mui-radio-label > span::after,
+.mui-radio > .mui-check-label > span::after,
+.mui-radio > .mui-radio-label > span::after {
+  --_size: inherit;
+  content: "";
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  box-sizing: border-box;
+  margin: 0 auto;
+  outline: none;
+  color: var(--mui-primary);
+  position: absolute;
+  inset: auto auto auto calc(var(--_size) * -1);
+  border-radius: 50%;
+  user-select: none;
+  z-index: 1;
+}
+.mui-check > .mui-check-label > span::after,
+.mui-check > .mui-radio-label > span::after,
+.mui-radio > .mui-check-label > span::after,
+.mui-radio > .mui-radio-label > span::after {
+  transition: all var(--mui-duration-normal);
+  background-color: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+  opacity: 0;
+}
+.mui-check > .mui-check-label:hover > input:not(:disabled) + span::after,
+.mui-check > .mui-check-label > input:not(:disabled):focus + span::after,
+.mui-check > .mui-radio-label:hover > input:not(:disabled) + span::after,
+.mui-check > .mui-radio-label > input:not(:disabled):focus + span::after,
+.mui-radio > .mui-check-label:hover > input:not(:disabled) + span::after,
+.mui-radio > .mui-check-label > input:not(:disabled):focus + span::after,
+.mui-radio > .mui-radio-label:hover > input:not(:disabled) + span::after,
+.mui-radio > .mui-radio-label > input:not(:disabled):focus + span::after {
+  box-shadow: 0 0 0 0.5rem currentColor;
+  opacity: 0.1;
+}
+.mui-check > .mui-check-label > input:checked + span::before, .mui-check > .mui-check-label.icon > input:checked + span > i,
+.mui-check > .mui-radio-label > input:checked + span::before,
+.mui-check > .mui-radio-label.icon > input:checked + span > i,
+.mui-radio > .mui-check-label > input:checked + span::before,
+.mui-radio > .mui-check-label.icon > input:checked + span > i,
+.mui-radio > .mui-radio-label > input:checked + span::before,
+.mui-radio > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-primary);
+}
+.mui-check > .mui-check-label > :focus-visible + span::before,
+.mui-check > .mui-radio-label > :focus-visible + span::before,
+.mui-radio > .mui-check-label > :focus-visible + span::before,
+.mui-radio > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-primary);
+  outline-offset: 0.375rem;
+}
+
+.mui-check > .mui-check-label > span::before {
+  content: "check_box_outline_blank";
+}
+.mui-check > .mui-check-label > input:checked + span::before {
+  content: "check_box";
+  font-variation-settings: "FILL" 1;
+}
+.mui-check > .mui-check-label > input:indeterminate + span::before {
+  content: "indeterminate_check_box";
+}
+.mui-check-primary > .mui-check-label > span::before,
+.mui-check-primary > .mui-check-label > span > i,
+.mui-check-primary > .mui-check-label > span::after {
+  color: var(--mui-primary);
+}
+.mui-check-primary > .mui-check-label > input:checked + span::before, .mui-check-primary > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-primary);
+}
+.mui-check-primary > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-primary);
+}
+.mui-check-secondary > .mui-check-label > span::before,
+.mui-check-secondary > .mui-check-label > span > i,
+.mui-check-secondary > .mui-check-label > span::after {
+  color: var(--mui-secondary);
+}
+.mui-check-secondary > .mui-check-label > input:checked + span::before, .mui-check-secondary > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-secondary);
+}
+.mui-check-secondary > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-secondary);
+}
+.mui-check-tertiary > .mui-check-label > span::before,
+.mui-check-tertiary > .mui-check-label > span > i,
+.mui-check-tertiary > .mui-check-label > span::after {
+  color: var(--mui-tertiary);
+}
+.mui-check-tertiary > .mui-check-label > input:checked + span::before, .mui-check-tertiary > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-tertiary);
+}
+.mui-check-tertiary > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-tertiary);
+}
+.mui-check-error > .mui-check-label > span::before,
+.mui-check-error > .mui-check-label > span > i,
+.mui-check-error > .mui-check-label > span::after {
+  color: var(--mui-error);
+}
+.mui-check-error > .mui-check-label > input:checked + span::before, .mui-check-error > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-error);
+}
+.mui-check-error > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-error);
+}
+.mui-check-success > .mui-check-label > span::before,
+.mui-check-success > .mui-check-label > span > i,
+.mui-check-success > .mui-check-label > span::after {
+  color: var(--mui-success);
+}
+.mui-check-success > .mui-check-label > input:checked + span::before, .mui-check-success > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-success);
+}
+.mui-check-success > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-success);
+}
+.mui-check-warning > .mui-check-label > span::before,
+.mui-check-warning > .mui-check-label > span > i,
+.mui-check-warning > .mui-check-label > span::after {
+  color: var(--mui-warning);
+}
+.mui-check-warning > .mui-check-label > input:checked + span::before, .mui-check-warning > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-warning);
+}
+.mui-check-warning > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-warning);
+}
+.mui-check-info > .mui-check-label > span::before,
+.mui-check-info > .mui-check-label > span > i,
+.mui-check-info > .mui-check-label > span::after {
+  color: var(--mui-info);
+}
+.mui-check-info > .mui-check-label > input:checked + span::before, .mui-check-info > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-info);
+}
+.mui-check-info > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-info);
+}
+.mui-check-light > .mui-check-label > span::before,
+.mui-check-light > .mui-check-label > span > i,
+.mui-check-light > .mui-check-label > span::after {
+  color: var(--mui-light);
+}
+.mui-check-light > .mui-check-label > input:checked + span::before, .mui-check-light > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-light);
+}
+.mui-check-light > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-light);
+}
+.mui-check-dark > .mui-check-label > span::before,
+.mui-check-dark > .mui-check-label > span > i,
+.mui-check-dark > .mui-check-label > span::after {
+  color: var(--mui-dark);
+}
+.mui-check-dark > .mui-check-label > input:checked + span::before, .mui-check-dark > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-dark);
+}
+.mui-check-dark > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-dark);
+}
+.mui-check-link > .mui-check-label > span::before,
+.mui-check-link > .mui-check-label > span > i,
+.mui-check-link > .mui-check-label > span::after {
+  color: var(--mui-primary);
+}
+.mui-check-link > .mui-check-label > input:checked + span::before, .mui-check-link > .mui-check-label.icon > input:checked + span > i {
+  color: var(--mui-primary);
+}
+.mui-check-link > .mui-check-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-primary);
+}
+
+.mui-radio > .mui-radio-label > span::before {
+  content: "radio_button_unchecked";
+}
+.mui-radio > .mui-radio-label > input:checked + span::before {
+  content: "radio_button_checked";
+}
+.mui-radio-primary > .mui-radio-label > span::before,
+.mui-radio-primary > .mui-radio-label > span > i,
+.mui-radio-primary > .mui-radio-label > span::after {
+  color: var(--mui-primary);
+}
+.mui-radio-primary > .mui-radio-label > input:checked + span::before, .mui-radio-primary > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-primary);
+}
+.mui-radio-primary > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-primary);
+}
+.mui-radio-secondary > .mui-radio-label > span::before,
+.mui-radio-secondary > .mui-radio-label > span > i,
+.mui-radio-secondary > .mui-radio-label > span::after {
+  color: var(--mui-secondary);
+}
+.mui-radio-secondary > .mui-radio-label > input:checked + span::before, .mui-radio-secondary > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-secondary);
+}
+.mui-radio-secondary > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-secondary);
+}
+.mui-radio-tertiary > .mui-radio-label > span::before,
+.mui-radio-tertiary > .mui-radio-label > span > i,
+.mui-radio-tertiary > .mui-radio-label > span::after {
+  color: var(--mui-tertiary);
+}
+.mui-radio-tertiary > .mui-radio-label > input:checked + span::before, .mui-radio-tertiary > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-tertiary);
+}
+.mui-radio-tertiary > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-tertiary);
+}
+.mui-radio-error > .mui-radio-label > span::before,
+.mui-radio-error > .mui-radio-label > span > i,
+.mui-radio-error > .mui-radio-label > span::after {
+  color: var(--mui-error);
+}
+.mui-radio-error > .mui-radio-label > input:checked + span::before, .mui-radio-error > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-error);
+}
+.mui-radio-error > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-error);
+}
+.mui-radio-success > .mui-radio-label > span::before,
+.mui-radio-success > .mui-radio-label > span > i,
+.mui-radio-success > .mui-radio-label > span::after {
+  color: var(--mui-success);
+}
+.mui-radio-success > .mui-radio-label > input:checked + span::before, .mui-radio-success > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-success);
+}
+.mui-radio-success > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-success);
+}
+.mui-radio-warning > .mui-radio-label > span::before,
+.mui-radio-warning > .mui-radio-label > span > i,
+.mui-radio-warning > .mui-radio-label > span::after {
+  color: var(--mui-warning);
+}
+.mui-radio-warning > .mui-radio-label > input:checked + span::before, .mui-radio-warning > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-warning);
+}
+.mui-radio-warning > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-warning);
+}
+.mui-radio-info > .mui-radio-label > span::before,
+.mui-radio-info > .mui-radio-label > span > i,
+.mui-radio-info > .mui-radio-label > span::after {
+  color: var(--mui-info);
+}
+.mui-radio-info > .mui-radio-label > input:checked + span::before, .mui-radio-info > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-info);
+}
+.mui-radio-info > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-info);
+}
+.mui-radio-light > .mui-radio-label > span::before,
+.mui-radio-light > .mui-radio-label > span > i,
+.mui-radio-light > .mui-radio-label > span::after {
+  color: var(--mui-light);
+}
+.mui-radio-light > .mui-radio-label > input:checked + span::before, .mui-radio-light > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-light);
+}
+.mui-radio-light > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-light);
+}
+.mui-radio-dark > .mui-radio-label > span::before,
+.mui-radio-dark > .mui-radio-label > span > i,
+.mui-radio-dark > .mui-radio-label > span::after {
+  color: var(--mui-dark);
+}
+.mui-radio-dark > .mui-radio-label > input:checked + span::before, .mui-radio-dark > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-dark);
+}
+.mui-radio-dark > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-dark);
+}
+.mui-radio-link > .mui-radio-label > span::before,
+.mui-radio-link > .mui-radio-label > span > i,
+.mui-radio-link > .mui-radio-label > span::after {
+  color: var(--mui-primary);
+}
+.mui-radio-link > .mui-radio-label > input:checked + span::before, .mui-radio-link > .mui-radio-label.icon > input:checked + span > i {
+  color: var(--mui-primary);
+}
+.mui-radio-link > .mui-radio-label > :focus-visible + span::before {
+  outline: 0.125rem solid var(--mui-primary);
+}
+
+.mui-switch .mui-switch-label > input {
+  inline-size: 3.25rem;
+  block-size: 2rem;
+  opacity: 0;
+}
+.mui-switch .mui-switch-label > span {
+  padding-left: 0.5rem;
+}
+.mui-switch .mui-switch-label > span::before, .mui-switch .mui-switch-label.icon > span > i {
+  position: absolute;
+  inset: 50% auto auto 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all var(--mui-duration-normal);
+  font-size: calc(var(--_size) - 0.5rem);
+  user-select: none;
+  min-inline-size: var(--_size);
+  min-block-size: var(--_size);
+  content: "";
+  color: var(--mui-surface-variant);
+  background-color: var(--mui-outline);
+}
+.mui-switch .mui-switch-label > span::before, .mui-switch .mui-switch-label.icon > span > i {
+  transform: translate(-3rem, -50%) scale(0.6);
+}
+.mui-switch .mui-switch-label.icon > span > i {
+  transform: translate(-3rem, -50%) scale(1);
+}
+.mui-switch .mui-switch-label > input:not(:disabled):is(:focus, :hover) + span::before, .mui-switch .mui-switch-label.icon > input:not(:disabled):is(:focus, :hover) + span > i {
+  box-shadow: 0 0 0 0.5rem var(--mui-active);
+}
+.mui-switch .mui-switch-label > input:checked + span::after {
+  border: none;
+  background-color: var(--mui-primary);
+}
+.mui-switch .mui-switch-label > input:checked + span::before, .mui-switch .mui-switch-label.icon > input:checked + span > i {
+  content: "check";
+  color: var(--mui-primary);
+  background-color: var(--mui-on-primary);
+  transform: translate(-1.75rem, -50%) scale(1);
+}
+.mui-switch .mui-switch-label > input:checked + span::before, .mui-switch .mui-switch-label.icon > input:checked + span > i {
+  content: "check";
+  color: var(--mui-primary);
+  background-color: var(--mui-on-primary);
+  transform: translate(-1.75rem, -50%) scale(1);
+}
+.mui-switch .mui-switch-label > input:active:not(:disabled) + span::before, .mui-switch .mui-switch-label.icon > input:active:not(:disabled) + span > i {
+  transform: translate(-3rem, -50%) scale(1.2);
+}
+.mui-switch .mui-switch-label > input:active:checked:not(:disabled) + span::before, .mui-switch .mui-switch-label.icon > input:active:checked:not(:disabled) + span > i {
+  transform: translate(-1.75rem, -50%) scale(1.2);
+}
+.mui-switch .mui-switch-label > span::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 0;
+  background-color: var(--mui-active);
+  border: 0.125rem solid var(--mui-outline);
+  box-sizing: border-box;
+  inline-size: 3.25rem;
+  block-size: 2rem;
+  border-radius: 2rem;
+  transform: translate(-3.25rem, -50%);
+}
+.mui-switch .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-primary);
+  outline-offset: 0.25rem;
+}
+.mui-switch-primary > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-primary);
+}
+.mui-switch-primary > .mui-switch-label > input:checked + span::before, .mui-switch-primary > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-primary);
+  background-color: var(--mui-on-primary);
+}
+.mui-switch-primary > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-primary);
+}
+.mui-switch-secondary > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-secondary);
+}
+.mui-switch-secondary > .mui-switch-label > input:checked + span::before, .mui-switch-secondary > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-secondary);
+  background-color: var(--mui-on-secondary);
+}
+.mui-switch-secondary > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-secondary);
+}
+.mui-switch-tertiary > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-tertiary);
+}
+.mui-switch-tertiary > .mui-switch-label > input:checked + span::before, .mui-switch-tertiary > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-tertiary);
+  background-color: var(--mui-on-tertiary);
+}
+.mui-switch-tertiary > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-tertiary);
+}
+.mui-switch-error > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-error);
+}
+.mui-switch-error > .mui-switch-label > input:checked + span::before, .mui-switch-error > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-error);
+  background-color: var(--mui-on-error);
+}
+.mui-switch-error > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-error);
+}
+.mui-switch-success > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-success);
+}
+.mui-switch-success > .mui-switch-label > input:checked + span::before, .mui-switch-success > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-success);
+  background-color: var(--mui-on-success);
+}
+.mui-switch-success > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-success);
+}
+.mui-switch-warning > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-warning);
+}
+.mui-switch-warning > .mui-switch-label > input:checked + span::before, .mui-switch-warning > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-warning);
+  background-color: var(--mui-on-warning);
+}
+.mui-switch-warning > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-warning);
+}
+.mui-switch-info > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-info);
+}
+.mui-switch-info > .mui-switch-label > input:checked + span::before, .mui-switch-info > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-info);
+  background-color: var(--mui-on-info);
+}
+.mui-switch-info > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-info);
+}
+.mui-switch-light > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-light);
+}
+.mui-switch-light > .mui-switch-label > input:checked + span::before, .mui-switch-light > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-light);
+  background-color: var(--mui-on-light);
+}
+.mui-switch-light > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-light);
+}
+.mui-switch-dark > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-dark);
+}
+.mui-switch-dark > .mui-switch-label > input:checked + span::before, .mui-switch-dark > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-dark);
+  background-color: var(--mui-on-dark);
+}
+.mui-switch-dark > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-dark);
+}
+.mui-switch-link > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-primary);
+}
+.mui-switch-link > .mui-switch-label > input:checked + span::before, .mui-switch-link > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-primary);
+  background-color: var(--mui-on-primary);
+}
+.mui-switch-link > .mui-switch-label > :focus-visible + span::after {
+  outline: 0.125rem solid var(--mui-primary);
 }
 
 .mui-row {

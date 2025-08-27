@@ -10,9 +10,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 {
     #region TextEdit
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TextEdit( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TextEditSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -22,9 +22,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region MemoEdit
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string MemoEdit( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string MemoEditSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -32,11 +32,11 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Select
 
-    public override string Select() => "form-select";
+    public override string Select() => "mui-select";
 
     public override string SelectMultiple( bool multiple ) => null;
 
-    public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
+    public override string SelectSize( Size size ) => size != Size.Default ? $"mui-select-{ToSize( size )}" : null;
 
     public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -44,9 +44,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region NumericEdit
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string NumericEdit( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string NumericEditSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -56,9 +56,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DateEdit( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string DateEditSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -68,9 +68,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TimeEdit( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TimeEditSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -82,15 +82,15 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string ColorEdit() => "form-control";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string ColorEditSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     #endregion
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DatePicker( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string DatePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string DatePickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -100,9 +100,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TimePicker( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string TimePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TimePickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -114,15 +114,15 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string ColorPicker() => "form-control b-input-color-picker";
 
-    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     #endregion
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string NumericPicker( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -132,9 +132,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string InputMask( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
-    public override string InputMaskSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string InputMaskSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
@@ -144,13 +144,13 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Check
 
-    public override string Check() => "form-check-input";
+    public override string Check() => "mui-check";
 
-    public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
+    public override string CheckSize( Size size ) => size != Size.Default ? $"mui-check-{ToSize( size )}" : null;
 
-    public override string CheckInline( bool inline ) => inline ? "form-check-inline" : null;
+    public override string CheckInline( bool inline ) => inline ? "mui-check-inline" : null;
 
-    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
+    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"mui-check-{ToCursor( cursor )}" : null;
 
     public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -178,15 +178,13 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? "btn-check" : "form-check-input";
+    public override string Radio( bool button ) => button ? "mui-radio-button" : "mui-radio";
 
-    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"{Radio( button )}-{ToSize( size )}" : null;
+    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"mui-radio-{ToSize( size )}" : null;
 
-    public override string RadioInline( bool inline ) => inline
-        ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
-        : null;
+    public override string RadioInline( bool inline ) => inline ? "mui-radio-inline" : null;
 
-    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}" : null;
+    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"mui-radio-{ToCursor( cursor )}" : null;
 
     public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -194,15 +192,15 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Switch
 
-    public override string Switch() => "form-check-input";
+    public override string Switch() => "mui-switch";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-switch-{ToColor( color )}" : null;
 
-    public override string SwitchSize( Size size ) => size != Size.Default ? $"form-check-input-{ToSize( size )}" : null;
+    public override string SwitchSize( Size size ) => size != Size.Default ? $"mui-switch-{ToSize( size )}" : null;
 
     public override string SwitchChecked( bool @checked ) => null;
 
-    public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Switch()}-{ToCursor( cursor )}" : null;
+    public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"mui-switch-{ToCursor( cursor )}" : null;
 
     public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -210,9 +208,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region FileEdit
 
-    public override string FileEdit() => "form-control";
+    public override string FileEdit() => "mui-input";
 
-    public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
+    public override string FileEditSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -252,9 +250,11 @@ public class MaterialClassProvider : BootstrapClassProvider
     {
         return labelType switch
         {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "form-check-label",
-            Blazorise.LabelType.File => "input-group-text",
-            _ => "form-label",
+            Blazorise.LabelType.Check => "mui-check-label",
+            Blazorise.LabelType.Radio => "mui-radio-label",
+            Blazorise.LabelType.Switch => "mui-switch-label",
+            Blazorise.LabelType.File => "mui-file-label",
+            _ => "mui-label",
         };
     }
 
@@ -298,11 +298,11 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Field
 
-    public override string Field() => "form-group";
+    public override string Field() => "mui-field";
 
-    public override string FieldHorizontal( bool horizontal ) => horizontal ? "row" : null;
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "mui-row" : null;
 
-    public override string FieldColumn() => "col";
+    public override string FieldColumn() => "mui-column";
 
     public override string FieldSize( Size size ) => null;
 
@@ -314,11 +314,11 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region FieldLabel
 
-    public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : "form-label";
+    public override string FieldLabel( bool horizontal ) => horizontal ? "mui-field-label-horizontal" : "mui-field-label";
 
     public override string FieldLabelRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
-            ? "form-label-required"
+            ? "mui-field-required"
             : null;
 
     public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
@@ -327,13 +327,13 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region FieldBody
 
-    public override string FieldBody() => null;
+    public override string FieldBody() => "mui-field-body";
 
     #endregion
 
     #region FieldHelp
 
-    public override string FieldHelp() => "form-text text-muted";
+    public override string FieldHelp() => "mui-field-helper";
 
     #endregion
 
@@ -345,25 +345,25 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     #region Control
 
-    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? "form-check" : null;
+    public override string ControlCheck( ControlRole role ) => null;
 
-    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? "form-check" : null;
+    public override string ControlRadio( ControlRole role ) => null;
 
-    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? "form-check form-switch" : null;
+    public override string ControlSwitch( ControlRole role ) => null;
 
-    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? "input-group form-file" : null;
+    public override string ControlFile( ControlRole role ) => null;
 
     public override string ControlText( ControlRole role ) => null;
 
-    public override string ControlInline( ControlRole role, bool inline ) => ( role == ControlRole.Check || role == ControlRole.Radio || role == ControlRole.Switch ) && inline ? "form-check-inline" : null;
+    public override string ControlInline( ControlRole role, bool inline ) => null;
 
     #endregion
 
     #region Addons
 
-    public override string Addons() => "input-group";
+    public override string Addons() => "mui-addons";
 
-    public override string AddonsSize( Size size ) => size != Size.Default ? $"input-group-{ToSize( size )}" : null;
+    public override string AddonsSize( Size size ) => size != Size.Default ? $"mui-addons-{ToSize( size )}" : null;
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
@@ -371,7 +371,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string AddonSize( Size size ) => null;
 
-    public override string AddonLabel() => "input-group-text";
+    public override string AddonLabel() => "mui-addons-text";
 
     #endregion
 
@@ -434,9 +434,9 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string DropdownGroup( bool group ) => group ? "mui-button-group" : null;
 
-    public override string DropdownObserverShow() => Show();
+    public override string DropdownObserverShow() => "mui-dropdown-active";
 
-    public override string DropdownShow( bool show ) => show ? Show() : null;
+    public override string DropdownShow( bool show ) => show ? "mui-dropdown-active" : null;
 
     public override string DropdownRight( bool rightAligned ) => null;
 
@@ -460,11 +460,11 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string DropdownMenuSelector() => "mui-dropdown-menu";
 
-    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "dropdown-menu-scrollable" : null;
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "mui-dropdown-menu-scrollable" : null;
 
-    public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
+    public override string DropdownMenuVisible( bool visible ) => visible ? "mui-dropdown-menu-active" : null;
 
-    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "dropdown-menu-end" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "mui-dropdown-menu-end" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "mui-dropdown-item mui-dropdown-toggle" : "mui-button mui-dropdown-toggle";
 

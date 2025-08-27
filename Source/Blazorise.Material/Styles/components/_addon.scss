@@ -1,0 +1,24 @@
+﻿.mui-addons {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+
+    > .mui-input,
+    > .mui-select {
+        position: relative;
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0;
+    }
+
+    .mui-button {
+        position: relative;
+        z-index: 2;
+
+        &:focus {
+            z-index: 5;
+        }
+    }
+}

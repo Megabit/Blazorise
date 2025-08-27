@@ -1,0 +1,9 @@
+﻿@typeparam TValue
+@inherits Blazorise.Radio<TValue>
+<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+        <input @ref="@ElementRef" id="@ElementId" type="radio" disabled="@IsDisabled" readonly="@ReadOnly" checked="@Checked" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        <span>@ChildContent</span>
+    </Label>
+    @Feedback
+</div>

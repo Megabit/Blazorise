@@ -1,0 +1,84 @@
+﻿.mui-input,
+.mui-input-plaintext,
+.mui-select {
+    --mui-input-padding: 1rem;
+    --mui-input-size: 2.5rem;
+    --mui-input-font-size: 1rem;
+    --mui-input-bg: transparent;
+    --mui-input-color: var(--mui-on-background);
+    --mui-input-border-width: 1px;
+    --mui-input-border-color: transparent;
+    --mui-input-border-style: solid;
+    --mui-input-border-radius: 2.5rem;
+    all: unset;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: inherit;
+    border: 0.0625rem solid transparent;
+    padding: 0 0.9375rem;
+    font-family: inherit;
+    font-size: var(--mui-input-font-size);
+    inline-size: 100%;
+    block-size: 100%;
+    outline: none;
+    z-index: 1;
+    background: none;
+    resize: none;
+    text-align: start;
+    cursor: text;
+    padding-inline: 1.4376rem;
+    block-size: var(--mui-input-size);
+
+    &:not(.mui-input-plaintext) {
+        border-color: var(--mui-outline);
+        border-radius: var(--mui-input-border-radius) !important;
+
+        &:focus {
+            border: 0.125rem solid transparent;
+            padding: 0 0.875rem;
+            border-color: var(--mui-primary);
+            padding-inline: 1.375rem;
+        }
+    }
+
+    &[type=file],
+    &[type=color],
+    &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        inset: 0;
+        inline-size: 100%;
+        block-size: 100%;
+        margin: 0;
+        padding: 0;
+        outline: 0;
+        z-index: 2 !important;
+    }
+
+    &-xs {
+        --mui-input-size: 1.5rem;
+        --mui-input-font-size: 0.625rem;
+    }
+
+    &-sm {
+        --mui-input-size: 2rem;
+        --mui-input-font-size: 0.75rem;
+    }
+
+    &-md {
+        --mui-input-size: 3rem;
+        --mui-input-font-size: 1.25rem;
+    }
+
+    &-lg {
+        --mui-input-size: 3.5rem;
+        --mui-input-font-size: 1.5rem;
+    }
+
+    &-xl {
+        --mui-input-size: 4rem;
+        --mui-input-font-size: 1.75rem;
+    }
+}

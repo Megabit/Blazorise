@@ -1,7 +1,7 @@
 ﻿@typeparam TValue
-@inherits Blazorise.Switch<TValue>
+@inherits Blazorise.Check<TValue>
 <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Label Type="LabelType.Switch" For="@ElementId" Style="@Style" Cursor="@Cursor">
+    <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">
         <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" checked="@Value" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" />
         <span>@ChildContent</span>
     </Label>

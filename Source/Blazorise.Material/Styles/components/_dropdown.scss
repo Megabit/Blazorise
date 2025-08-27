@@ -78,7 +78,7 @@
         width: max-content;
         height: max-content;
 
-        &.show {
+        &-active {
             display: block;
             opacity: 1;
             visibility: visible;

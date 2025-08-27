@@ -1,0 +1,31 @@
+﻿.mui-field {
+    all: unset;
+    position: relative;
+    margin-bottom: 1rem;
+
+    > &-helper {
+        inset: auto auto 0 1rem;
+        transform: translateY(100%);
+        font-size: 0.75rem;
+        background: none !important;
+        padding-block-start: 0.125rem;
+    }
+
+    > &-label {
+        --_start: 1rem;
+        position: absolute;
+        inset: -0.5rem 1rem 0 var(--_start);
+        display: flex;
+        block-size: calc(var(--mui-input-size) + 1rem);
+        line-height: calc(var(--mui-input-size) + 1rem);
+        font-size: 1rem;
+        transition: all 0.2s;
+        gap: 0.25rem;
+        white-space: nowrap;
+
+        .mui-input:focus {
+            color:red;
+            clip-path: polygon(-2% -2%, 1.75rem -2%, 1.75rem 0.5rem, calc(100% - 1.25rem) 0.5rem, calc(100% - 1.25rem) -2%, 102% -2%, 102% 102%, -2% 102%);
+        }
+    }
+}
