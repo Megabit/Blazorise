@@ -365,13 +365,22 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string AddonsSize( Size size ) => size != Size.Default ? $"mui-addons-{ToSize( size )}" : null;
 
-    public override string AddonsHasButton( bool hasButton ) => null;
+    public override string AddonsHasButton( bool hasButton ) => hasButton ? "mui-addons-buttons" : null;
 
-    public override string Addon( AddonType addonType ) => null;
+    public override string Addon( AddonType addonType )
+    {
 
-    public override string AddonSize( Size size ) => null;
+        return addonType switch
+        {
+            AddonType.Start => "mui-addon-start",
+            AddonType.End => "mui-addon-end",
+            _ => "mui-addon-body",
+        };
+    }
 
-    public override string AddonLabel() => "mui-addons-text";
+    public override string AddonSize( Size size ) => size != Size.Default ? $"mui-addon-{ToSize( size )}" : null;
+
+    public override string AddonLabel() => "mui-addon-text";
 
     #endregion
 

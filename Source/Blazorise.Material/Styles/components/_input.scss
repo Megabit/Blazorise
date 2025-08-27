@@ -9,7 +9,7 @@
     --mui-input-border-width: 1px;
     --mui-input-border-color: transparent;
     --mui-input-border-style: solid;
-    --mui-input-border-radius: 2.5rem;
+    --mui-input-border-radius: 0.5rem;
     all: unset;
     position: relative;
     display: flex;
@@ -29,11 +29,10 @@
     text-align: start;
     cursor: text;
     padding-inline: 1.4376rem;
-    block-size: var(--mui-input-size);
 
     &:not(.mui-input-plaintext) {
         border-color: var(--mui-outline);
-        border-radius: var(--mui-input-border-radius) !important;
+        border-radius: var(--mui-input-border-radius);
 
         &:focus {
             border: 0.125rem solid transparent;
@@ -41,6 +40,12 @@
             border-color: var(--mui-primary);
             padding-inline: 1.375rem;
         }
+    }
+
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     &[type=file],
@@ -54,7 +59,20 @@
         margin: 0;
         padding: 0;
         outline: 0;
-        z-index: 2 !important;
+        z-index: 2;
+    }
+
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration,
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        display: none;
+    }
+
+    &[type=number] {
+        appearance: textfield;
     }
 
     &-xs {
@@ -68,17 +86,29 @@
     }
 
     &-md {
-        --mui-input-size: 3rem;
+        --mui-input-size: 2.75rem;
         --mui-input-font-size: 1.25rem;
     }
 
     &-lg {
-        --mui-input-size: 3.5rem;
+        --mui-input-size: 3rem;
         --mui-input-font-size: 1.5rem;
     }
 
     &-xl {
-        --mui-input-size: 4rem;
+        --mui-input-size: 3.5rem;
         --mui-input-font-size: 1.75rem;
+    }
+}
+
+.mui-input,
+.mui-input-plaintext {
+    block-size: var(--mui-input-size);
+}
+
+.mui-select {
+    &:not([multiple]):not([size]),
+    &:not([multiple])[size="1"] {
+        block-size: var(--mui-input-size);
     }
 }
