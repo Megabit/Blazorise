@@ -12099,6 +12099,16 @@ builder.Services
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
+        public const string FluentUI2GuideDarkThemeExample = @"<html lang=""en"" data-theme=""dark"">
+  <head>
+    <meta charset=""utf-8"" />
+    <title>My Fluent UI App</title>
+  </head>
+  <body>
+    <app>Loading...</app>
+  </body>
+</html>";
+
         public const string FluentUI2GuideNuget1Example = @"Install-Package Blazorise.FluentUI2";
 
         public const string FluentUI2GuideNuget2Example = @"Install-Package Blazorise.Icons.FluentUI";
