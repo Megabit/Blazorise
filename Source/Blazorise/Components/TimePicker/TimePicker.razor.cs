@@ -37,6 +37,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
         var hourIncrementChanged = parameters.TryGetValue( nameof( HourIncrement ), out int paramHourIncrement ) && HourIncrement != paramHourIncrement;
         var minuteIncrementChanged = parameters.TryGetValue( nameof( MinuteIncrement ), out int paramMinuteIncrement ) && MinuteIncrement != paramMinuteIncrement;
+        var defaultHourChanged = parameters.TryGetValue( nameof( DefaultHour ), out int paramDefaultHour ) && DefaultHour != paramDefaultHour;
+        var defaultMinuteChanged = parameters.TryGetValue( nameof( DefaultMinute ), out int paramDefaultMinute ) && DefaultMinute != paramDefaultMinute;
 
         if ( timeChanged )
         {
@@ -61,7 +63,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || placeholderChanged
                            || staticPickerChanged
                            || hourIncrementChanged
-                           || minuteIncrementChanged ) )
+                           || minuteIncrementChanged
+                           || defaultHourChanged
+                           || defaultMinuteChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new TimePickerUpdateJSOptions
             {
@@ -77,6 +81,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
                 HourIncrement = new JSOptionChange<int>( hourIncrementChanged, paramHourIncrement ),
                 MinuteIncrement = new JSOptionChange<int>( minuteIncrementChanged, paramMinuteIncrement ),
+                DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour ),
+                DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute ),
             } ) );
         }
 
@@ -118,6 +124,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
             TimeAs24hr = TimeAs24hr,
             Default = FormatValueAsString( Time ),
+            DefaultHour = DefaultHour,
+            DefaultMinute = DefaultMinute,
             Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
             Max = Max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
             Disabled = Disabled,
@@ -384,6 +392,16 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// Adjusts the step for the minute input.
     /// </summary>
     [Parameter] public int MinuteIncrement { get; set; } = 1;
+
+    /// <summary>
+    /// Defines the initial value of the hour element.
+    /// </summary>
+    [Parameter] public int DefaultHour { get; set; } = 12;
+
+    /// <summary>
+    /// Defines the initial value of the minute element.
+    /// </summary>
+    [Parameter] public int DefaultMinute { get; set; } = 0;
 
     #endregion
 }

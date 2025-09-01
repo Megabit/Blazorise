@@ -60,6 +60,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool paramShowWeekNumbers ) && ShowWeekNumbers != paramShowWeekNumbers;
             var showTodayButtonChanged = parameters.TryGetValue( nameof( ShowTodayButton ), out bool paramShowTodayButton ) && ShowTodayButton != paramShowTodayButton;
             var showClearButtonChanged = parameters.TryGetValue( nameof( ShowClearButton ), out bool paramShowClearButton ) && ShowClearButton != paramShowClearButton;
+            var defaultHourChanged = parameters.TryGetValue( nameof( DefaultHour ), out int paramDefaultHour ) && DefaultHour != paramDefaultHour;
+            var defaultMinuteChanged = parameters.TryGetValue( nameof( DefaultMinute ), out int paramDefaultMinute ) && DefaultMinute != paramDefaultMinute;
 
             if ( dateChanged || datesChanged )
             {
@@ -93,7 +95,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || staticPickerChanged
                  || showWeekNumbersChanged
                  || showTodayButtonChanged
-                 || showClearButtonChanged )
+                 || showClearButtonChanged
+                 || defaultHourChanged
+                 || defaultMinuteChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new DatePickerUpdateJSOptions()
                 {
@@ -116,6 +120,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers ),
                     ShowTodayButton = new JSOptionChange<bool>( showTodayButtonChanged, paramShowTodayButton ),
                     ShowClearButton = new JSOptionChange<bool>( showClearButtonChanged, paramShowClearButton ),
+                    DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour ),
+                    DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute ),
                 } ) );
             }
         }
@@ -183,6 +189,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             InputFormat = InputFormatConverter.Convert( InputFormat ),
             TimeAs24hr = TimeAs24hr,
             DefaultDate = defaultDate,
+            DefaultHour = DefaultHour,
+            DefaultMinute = DefaultMinute,
             Min = Min?.ToString( DateFormat ),
             Max = Max?.ToString( DateFormat ),
             Disabled = Disabled,
@@ -689,6 +697,16 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// Determines whether to show the clear button in the calendar menu.
     /// </summary>
     [Parameter] public bool ShowClearButton { get; set; }
+
+    /// <summary>
+    /// Defines the initial value of the hour element.
+    /// </summary>
+    [Parameter] public int DefaultHour { get; set; } = 12;
+
+    /// <summary>
+    /// Defines the initial value of the minute element.
+    /// </summary>
+    [Parameter] public int DefaultMinute { get; set; } = 0;
 
     #endregion
 }

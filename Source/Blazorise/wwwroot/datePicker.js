@@ -57,6 +57,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         altInput: true,
         altFormat: options.displayFormat ? options.displayFormat : (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
         defaultDate: options.defaultDate,
+        defaultHour: utilities.coalesce(options.defaultHour, 12),
+        defaultMinute: utilities.coalesce(options.defaultMinute, 0),
         minDate: options.min,
         maxDate: options.max,
         locale: options.localization || {
@@ -350,6 +352,26 @@ export function updateOptions(element, elementId, options) {
         if (options.showClearButton.changed) {
             picker.set("clearButton", options.showClearButton.value);
         }
+
+        if (options.defaultHour.changed) {
+            picker.set("defaultHour", options.defaultHour.value);
+
+            if (picker.hourElement) {
+                picker.hourElement.value = pad(
+                    !picker.config.time_24hr
+                        ? ((12 + options.defaultHour.value) % 12) + 12 * int(options.defaultHour.value % 12 === 0)
+                        : options.defaultHour.value
+                );
+            }
+        }
+
+        if (options.defaultMinute.changed) {
+            picker.set("defaultMinute", options.defaultMinute.value);
+
+            if (picker.minuteElement) {
+                picker.minuteElement.value = pad(options.defaultMinute.value);
+            }
+        }
     }
 }
 
@@ -440,4 +462,12 @@ function setInputMask(picker, inputFormat, placeholder) {
             inputFormat: inputFormat
         });
     }
+}
+
+function pad(number, length = 2) {
+    return `000${number}`.slice(length * -1);
+}
+
+function int(bool) {
+    return bool === true ? 1 : 0;
 }
