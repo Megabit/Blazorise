@@ -37,16 +37,6 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         theme: options.theme
     };
 
-    if(options.useTables === true) {
-        Quill.register({ 'modules/table-better': QuillTableBetter }, true);
-        quillOptions.modules['table-better'] = {
-            toolbarTable: true
-        };
-        quillOptions.modules.keyboard = {
-            bindings: QuillTableBetter.keyboardBindings
-        };
-    }
-
     if (options.submitOnEnter === true) {
         quillOptions.modules.keyboard = {
             bindings: {
@@ -65,8 +55,21 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         };
     }
 
-    if (options.useResize) {
+    if (options.useTables === true) {
+        Quill.register({ 'modules/table-better': QuillTableBetter }, true);
+
+        quillOptions.modules['table-better'] = {
+            toolbarTable: true
+        };
+
+        quillOptions.modules.keyboard = {
+            bindings: QuillTableBetter.keyboardBindings
+        };
+    }
+
+    if (options.useResize === true) {
         Quill.register({ 'modules/resize': QuillResize }, true);
+
         quillOptions.modules.resize = {
             tools: [
                 "left",
