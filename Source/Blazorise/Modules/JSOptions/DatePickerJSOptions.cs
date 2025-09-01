@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Modules;
 
@@ -41,6 +42,16 @@ public class DatePickerJSOptions
     /// Gets or sets the default date to be selected initially.
     /// </summary>
     public object DefaultDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public int DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public int DefaultMinute { get; set; }
 
     /// <summary>
     /// Gets or sets the minimum date that can be selected.
@@ -222,4 +233,14 @@ public class DatePickerUpdateJSOptions
     /// Gets or sets the option for showing or hiding the "Clear" button.
     /// </summary>
     public JSOptionChange<bool> ShowClearButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public JSOptionChange<int> DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public JSOptionChange<int> DefaultMinute { get; set; }
 }
