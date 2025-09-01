@@ -1870,6 +1870,8 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     }
 }";
 
+        public const string DatePickerDefaultTimesExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" DefaultHour=""9"" DefaultMinute=""15"" />";
+
         public const string DatePickerDisabledDatesExample = @"<DatePicker TValue=""DateTime?"" DisabledDates=""@disabledDates"" />
 
 @code {
@@ -4838,6 +4840,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         return Task.CompletedTask;
     }
 }";
+
+        public const string TimePickerDefaultTimesExample = @"<TimePicker TValue=""TimeSpan?"" DefaultHour=""9"" DefaultMinute=""15"" />";
 
         public const string TimePickerIncrementsExample = @"<TimePicker TValue=""TimeSpan?"" HourIncrement=""2"" MinuteIncrement=""30"" />";
 
