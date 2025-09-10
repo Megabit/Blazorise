@@ -119,7 +119,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         Filter?.Subscribe( OnSearchValueChanged );
     }
 
-
     /// <summary>
     /// Provides a way to generate column specific dependencies outside the Blazor engine.
     /// </summary>
@@ -428,8 +427,15 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
-            : DataGridColumnFilterMethod.Contains;
+            : GetDefaultFilterMethod();
     }
+
+    /// <summary>
+    /// Retrieves the default filter method for the column.
+    /// </summary>
+    /// <returns>The default <see cref="DataGridColumnFilterMethod"/> used for filtering, which is <see cref="DataGridColumnFilterMethod.Contains"/>.</returns>
+    internal virtual DataGridColumnFilterMethod GetDefaultFilterMethod()
+        => DataGridColumnFilterMethod.Contains;
 
     #endregion
 

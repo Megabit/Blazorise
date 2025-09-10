@@ -8,7 +8,13 @@ namespace Blazorise.DataGrid;
 
 public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
 {
-    public override DataGridColumnType ColumnType => DataGridColumnType.Date;
+    /// <inheritdoc/>
+    internal override DataGridColumnFilterMethod GetDefaultFilterMethod()
+        => DataGridColumnFilterMethod.Equals;
+
+    /// <inheritdoc/>
+    public override DataGridColumnType ColumnType
+        => DataGridColumnType.Date;
 
     /// <summary>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.

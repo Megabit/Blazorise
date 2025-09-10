@@ -2508,7 +2508,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                         query = from item in query
                                 let cellRealValue = column.GetValue( item )
                                 let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                                where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
+                                where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, currentFilterMode, column.ColumnType, column.GetValueType( item ) )
                                 select item;
 
                         continue;
@@ -2522,7 +2522,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, currentFilterMode, column.ColumnType, column.GetValueType( item ) )
                             select item;
                 }
             }
@@ -3625,9 +3625,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public int MaxPaginationLinks { get => paginationContext.MaxPaginationLinks; set => paginationContext.MaxPaginationLinks = value; }
 
     /// <summary>
-    /// Defines the filter method when searching the cell values.
+    /// Defines the filter method to be applied when filtering data in the grid.
     /// </summary>
-    [Parameter] public DataGridFilterMethod FilterMethod { get; set; } = DataGridFilterMethod.Contains;
+    [Parameter] public DataGridFilterMethod FilterMethod { get; set; }
 
     /// <summary>
     /// Gets or sets currently selected row.
