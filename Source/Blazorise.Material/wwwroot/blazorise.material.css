@@ -548,6 +548,9 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip .mui-chip-close {
   cursor: pointer;
 }
+.mui-chip + .mui-chip {
+  margin-left: 0.5rem;
+}
 
 .mui-button {
   --mui-btn-padding: 1rem;
@@ -915,14 +918,14 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   position: relative;
   margin-bottom: 1rem;
 }
-.mui-field-helper {
+> .mui-field-helper {
   inset: auto auto 0 1rem;
   transform: translateY(100%);
   font-size: 0.75rem;
   background: none !important;
   padding-block-start: 0.125rem;
 }
-.mui-field-label {
+> .mui-field-label {
   --_start: 1rem;
   position: absolute;
   inset: -0.5rem 1rem 0 var(--_start);
@@ -934,7 +937,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   gap: 0.25rem;
   white-space: nowrap;
 }
-.mui-field-label .mui-input:focus {
+> .mui-field-label .mui-input:focus {
   color: red;
   clip-path: polygon(-2% -2%, 1.75rem -2%, 1.75rem 0.5rem, calc(100% - 1.25rem) 0.5rem, calc(100% - 1.25rem) -2%, 102% -2%, 102% 102%, -2% 102%);
 }
@@ -950,7 +953,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   --mui-input-border-width: 1px;
   --mui-input-border-color: transparent;
   --mui-input-border-style: solid;
-  --mui-input-border-radius: 2.5rem;
+  --mui-input-border-radius: 0.5rem;
   all: unset;
   position: relative;
   display: flex;
@@ -970,13 +973,12 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   text-align: start;
   cursor: text;
   padding-inline: 1.4376rem;
-  block-size: var(--mui-input-size);
 }
 .mui-input:not(.mui-input-plaintext),
 .mui-input-plaintext:not(.mui-input-plaintext),
 .mui-select:not(.mui-input-plaintext) {
   border-color: var(--mui-outline);
-  border-radius: var(--mui-input-border-radius) !important;
+  border-radius: var(--mui-input-border-radius);
 }
 .mui-input:not(.mui-input-plaintext):focus,
 .mui-input-plaintext:not(.mui-input-plaintext):focus,
@@ -985,6 +987,12 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   padding: 0 0.875rem;
   border-color: var(--mui-primary);
   padding-inline: 1.375rem;
+}
+.mui-input:disabled,
+.mui-input-plaintext:disabled,
+.mui-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 .mui-input[type=file], .mui-input[type=color], .mui-input::-webkit-calendar-picker-indicator,
 .mui-input-plaintext[type=file],
@@ -1001,7 +1009,27 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   margin: 0;
   padding: 0;
   outline: 0;
-  z-index: 2 !important;
+  z-index: 2;
+}
+.mui-input::-webkit-search-decoration, .mui-input::-webkit-search-cancel-button, .mui-input::-webkit-search-results-button, .mui-input::-webkit-search-results-decoration, .mui-input::-webkit-inner-spin-button, .mui-input::-webkit-outer-spin-button,
+.mui-input-plaintext::-webkit-search-decoration,
+.mui-input-plaintext::-webkit-search-cancel-button,
+.mui-input-plaintext::-webkit-search-results-button,
+.mui-input-plaintext::-webkit-search-results-decoration,
+.mui-input-plaintext::-webkit-inner-spin-button,
+.mui-input-plaintext::-webkit-outer-spin-button,
+.mui-select::-webkit-search-decoration,
+.mui-select::-webkit-search-cancel-button,
+.mui-select::-webkit-search-results-button,
+.mui-select::-webkit-search-results-decoration,
+.mui-select::-webkit-inner-spin-button,
+.mui-select::-webkit-outer-spin-button {
+  display: none;
+}
+.mui-input[type=number],
+.mui-input-plaintext[type=number],
+.mui-select[type=number] {
+  appearance: textfield;
 }
 .mui-input-xs,
 .mui-input-plaintext-xs,
@@ -1018,20 +1046,29 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-input-md,
 .mui-input-plaintext-md,
 .mui-select-md {
-  --mui-input-size: 3rem;
+  --mui-input-size: 2.75rem;
   --mui-input-font-size: 1.25rem;
 }
 .mui-input-lg,
 .mui-input-plaintext-lg,
 .mui-select-lg {
-  --mui-input-size: 3.5rem;
+  --mui-input-size: 3rem;
   --mui-input-font-size: 1.5rem;
 }
 .mui-input-xl,
 .mui-input-plaintext-xl,
 .mui-select-xl {
-  --mui-input-size: 4rem;
+  --mui-input-size: 3.5rem;
   --mui-input-font-size: 1.75rem;
+}
+
+.mui-input,
+.mui-input-plaintext {
+  block-size: var(--mui-input-size);
+}
+
+.mui-select:not([multiple]):not([size]), .mui-select:not([multiple])[size="1"] {
+  block-size: var(--mui-input-size);
 }
 
 .mui-list {
