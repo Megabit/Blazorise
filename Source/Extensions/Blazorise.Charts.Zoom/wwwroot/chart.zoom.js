@@ -1,4 +1,4 @@
-import { getChart } from "../Blazorise.Charts/charts.js?v=1.8.1.0";
+import { getChart } from "../Blazorise.Charts/charts.js?v=1.8.2.0";
 
 export function initialize(dotNetAdapter, canvasId, pluginOptions) {
     const chart = getChart(canvasId);
