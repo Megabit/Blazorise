@@ -337,19 +337,16 @@ export function log(message, args) {
     const HOST_ID = "blazorise-license-banner-host";
     const GLOBAL = "__blazoriseBannerState__";
 
-    // Global state (lives until full page refresh)
     const st = (window[GLOBAL] ||= {
         dismissed: false,
         bodyObserver: null,
         attrObserver: null
     });
 
-    // If user already dismissed (in this page lifetime), don't show again
     if (st.dismissed) {
         return;
     }
 
-    // Prepare message for HTML (strip %c and escape)
     let cleanMessage = typeof message === "string" ? message.replace(/%c/g, "") : String(message);
     cleanMessage = cleanMessage
         .replace(/&/g, "&amp;")
@@ -358,7 +355,6 @@ export function log(message, args) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#39;");
 
-    // If banner exists, just update the message
     let host = document.getElementById(HOST_ID);
     if (host && host.shadowRoot) {
         const msgEl = host.shadowRoot.querySelector(".msg");
@@ -366,12 +362,10 @@ export function log(message, args) {
         return;
     }
 
-    // Create host + Shadow DOM (isolates styles)
     host = document.createElement("div");
     host.id = HOST_ID;
     const shadow = host.attachShadow({ mode: "open" });
 
-    // Styles: Blazorise purple, subtle sizing
     const style = document.createElement("style");
     style.textContent = `
 :host { all: initial !important; }
@@ -382,7 +376,7 @@ export function log(message, args) {
   bottom: 0 !important;
   z-index: 2147483647 !important;
   padding: 10px 14px !important;
-  background: #6C63FF !important; /* Blazorise purple */
+  background: #6C63FF !important;
   color: #FFFFFF !important;
   font: 500 14px/1.4 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
   box-shadow: 0 -4px 12px rgba(0,0,0,0.2) !important;
@@ -409,7 +403,6 @@ export function log(message, args) {
 
     shadow.appendChild(style);
 
-    // Markup
     const wrapperElement = document.createElement("div");
     wrapperElement.className = "wrapper";
 
@@ -422,7 +415,6 @@ export function log(message, args) {
     button.type = "button";
     button.textContent = "Dismiss";
     button.addEventListener("click", () => {
-        // Mark dismissed for current page lifetime and stop observers
         st.dismissed = true;
         if (st.bodyObserver) try { st.bodyObserver.disconnect(); } catch { }
         if (st.attrObserver) try { st.attrObserver.disconnect(); } catch { }
@@ -434,7 +426,6 @@ export function log(message, args) {
     shadow.appendChild(wrapperElement);
     document.body.appendChild(host);
 
-    // Re-add if removed from body
     if (!st.bodyObserver) {
         st.bodyObserver = new MutationObserver(() => {
             if (st.dismissed) return;
@@ -446,7 +437,6 @@ export function log(message, args) {
         st.bodyObserver.observe(document.body, { childList: true });
     }
 
-    // Undo display:none / hidden
     if (!st.attrObserver) {
         st.attrObserver = new MutationObserver(() => {
             if (st.dismissed) return;
