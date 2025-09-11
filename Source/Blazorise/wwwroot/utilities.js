@@ -333,6 +333,119 @@ export function verifyRsa(publicKey, content, signature) {
 
 export function log(message, args) {
     console.log(message, args);
+
+    const HOST_ID = "blazorise-license-banner-host";
+    const GLOBAL = "__blazoriseBannerState__";
+
+    const st = (window[GLOBAL] ||= {
+        dismissed: false,
+        bodyObserver: null,
+        attrObserver: null
+    });
+
+    if (st.dismissed) {
+        return;
+    }
+
+    let cleanMessage = typeof message === "string" ? message.replace(/%c/g, "") : String(message);
+    cleanMessage = cleanMessage
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    let host = document.getElementById(HOST_ID);
+    if (host && host.shadowRoot) {
+        const msgEl = host.shadowRoot.querySelector(".msg");
+        if (msgEl) msgEl.innerHTML = cleanMessage;
+        return;
+    }
+
+    host = document.createElement("div");
+    host.id = HOST_ID;
+    const shadow = host.attachShadow({ mode: "open" });
+
+    const style = document.createElement("style");
+    style.textContent = `
+:host { all: initial !important; }
+.wrapper {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 2147483647 !important;
+  padding: 10px 14px !important;
+  background: #6C63FF !important;
+  color: #FFFFFF !important;
+  font: 500 14px/1.4 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: .75rem !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+}
+.msg { flex: 1 1 auto !important; }
+.btn {
+  appearance: none !important;
+  border: 1px solid rgba(255,255,255,0.7) !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  padding: .3rem .6rem !important;
+  border-radius: .3rem !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  transition: background .2s ease-in-out, color .2s ease-in-out !important;
+}
+.btn:hover { background: rgba(255,255,255,0.2) !important; }
+    `.trim();
+
+    shadow.appendChild(style);
+
+    const wrapperElement = document.createElement("div");
+    wrapperElement.className = "wrapper";
+
+    const messageElement = document.createElement("span");
+    messageElement.className = "msg";
+    messageElement.innerHTML = cleanMessage;
+
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.type = "button";
+    button.textContent = "Dismiss";
+    button.addEventListener("click", () => {
+        st.dismissed = true;
+        if (st.bodyObserver) try { st.bodyObserver.disconnect(); } catch { }
+        if (st.attrObserver) try { st.attrObserver.disconnect(); } catch { }
+        host.remove();
+    });
+
+    wrapperElement.appendChild(messageElement);
+    wrapperElement.appendChild(button);
+    shadow.appendChild(wrapperElement);
+    document.body.appendChild(host);
+
+    if (!st.bodyObserver) {
+        st.bodyObserver = new MutationObserver(() => {
+            if (st.dismissed) return;
+            const exists = document.getElementById(HOST_ID);
+            if (!exists) {
+                try { document.body.appendChild(host); } catch { }
+            }
+        });
+        st.bodyObserver.observe(document.body, { childList: true });
+    }
+
+    if (!st.attrObserver) {
+        st.attrObserver = new MutationObserver(() => {
+            if (st.dismissed) return;
+            host.style.display = "block";
+            host.style.visibility = "visible";
+            host.style.opacity = "1";
+        });
+        st.attrObserver.observe(host, { attributes: true, attributeFilter: ["style", "class", "hidden"] });
+    }
 }
 
 export function createEvent(name) {
