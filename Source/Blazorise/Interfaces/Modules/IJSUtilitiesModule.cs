@@ -169,10 +169,11 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <summary>
     /// Writes a log message to the browser console.
     /// </summary>
+    /// <param name="showBanner">If true, shows the Blazorise banner.</param>
     /// <param name="message">Message to write.</param>
     /// <param name="args">Optional parameters.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Log( string message, params string[] args );
+    ValueTask Log( bool showBanner, string message, params string[] args );
 
     /// <summary>
     /// Checks if the current system theme is in dark mode.

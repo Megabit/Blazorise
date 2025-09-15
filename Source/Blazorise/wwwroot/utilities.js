@@ -331,8 +331,12 @@ export function verifyRsa(publicKey, content, signature) {
     return false;
 }
 
-export function log(message, args) {
+export function log(showBanner, message, args) {
     console.log(message, args);
+
+    if (!showBanner) {
+        return;
+    }
 
     const HOST_ID = "blazorise-license-banner-host";
     const GLOBAL = "__blazoriseBannerState__";
