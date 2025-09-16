@@ -20,6 +20,15 @@ public class TimePickerJSOptions
     /// </summary>
     public string Default { get; set; }
 
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public int DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public int DefaultMinute { get; set; }
+
     /// <summary>
     /// Gets or sets the minimum time that can be selected.
     /// </summary>
@@ -150,4 +159,14 @@ public class TimePickerUpdateJSOptions
     /// Gets or sets the option for updating the minute increment step.
     /// </summary>
     public JSOptionChange<int> MinuteIncrement { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public JSOptionChange<int> DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public JSOptionChange<int> DefaultMinute { get; set; }
 }
