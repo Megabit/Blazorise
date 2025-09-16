@@ -19,13 +19,23 @@
 <Container TextAlignment="TextAlignment.Center">
     <Row>
         <Column>
-            <Button Class="btn-primary-gradient" Color="Color.Primary" Size="Size.Large" Type="ButtonType.Link" To="https://blazorise.getrewardful.com/signup" Target="Target.Blank" title="Link to Blazorise Affiliate signup">
+            <Alert Color="Color.Danger" Visible>
+                <AlertMessage>
+                    <Strong>Note:</Strong> Blazorise has discontinued its affiliate program due to misuse and operational burden. This change is effective immediately starting from September 16th, 2025.
+                </AlertMessage>
+            </Alert>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column>
+            <Button Class="btn-primary-gradient" Color="Color.Primary" Size="Size.Large" Type="ButtonType.Link" To="https://blazorise.getrewardful.com/signup" Target="Target.Blank" Disabled title="Link to Blazorise Affiliate signup">
                 Join affiliate program
                 <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
             </Button>
 
             <Paragraph Margin="Margin.Is3.FromTop">
-                Already have an Affiliate account? <Anchor To="https://blazorise.getrewardful.com/login" Target="Target.Blank" Title="Link to Blazorise Affiliate account">Login here</Anchor>
+                Already have an Affiliate account? <Anchor To="https://blazorise.getrewardful.com/login" Disabled Target="Target.Blank" Title="Link to Blazorise Affiliate account">Login here</Anchor>
             </Paragraph>
         </Column>
     </Row>
@@ -104,7 +114,7 @@
                         <Paragraph TextSize="TextSize.Medium">
                             @textExample
                         </Paragraph>
-                        <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Clicked="@(()=>OnCopyText(textExample))">
+                        <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Clicked="@(() => OnCopyText( textExample ))">
                             Copy
                         </Button>
                     </Column>
@@ -121,7 +131,7 @@
                             <Div>
                                 <Image Source="@logoExample" Text="Blazorise logo" Fluid Style="max-width: 100px;" />
                             </Div>
-                            <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(logoExample))">
+                            <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(() => OnCopyUrl( logoExample ))">
                                 Copy URL
                             </Button>
                         }
@@ -137,7 +147,7 @@
                         <Div>
                             <Image Source="@imageExample" Text="Blazorise marketing image" Fluid Style="max-width: 420px;" Border="Border.Rounded.Is1.Light" />
                         </Div>
-                        <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(imageExample))">
+                        <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(() => OnCopyUrl( imageExample ))">
                             Copy Image URL
                         </Button>
                     </Column>
