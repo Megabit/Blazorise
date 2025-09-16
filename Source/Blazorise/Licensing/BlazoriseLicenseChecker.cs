@@ -47,6 +47,13 @@ public sealed class BlazoriseLicenseChecker
         return false;
     }
 
+    internal bool ShowBanner()
+    {
+        return !( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Licensed
+            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
+            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Trial );
+    }
+
     internal string GetPrintMessage()
     {
         if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community )
@@ -57,6 +64,11 @@ public sealed class BlazoriseLicenseChecker
         if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired )
         {
             return "Your Community License for the Blazorise component library has expired. To continue using our library and receive updates, please renew your license at https://blazorise.com/acount. Thank you for your continued interest in Blazorise!";
+        }
+
+        if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.TrialExpired )
+        {
+            return "Your trial period for the Blazorise component library has expired. To continue using our library and access premium features, please consider purchasing a commercial license at https://blazorise.com/commercial. We appreciate your interest in Blazorise and look forward to serving you!";
         }
 
         if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.LicensedExpired )

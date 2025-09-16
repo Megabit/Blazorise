@@ -1,15 +1,9 @@
-import "./vendors/quill.js?v=1.8.1.0";
-import "./vendors/quill-table-better.js?v=1.8.1.0";
-import "./vendors/quill-resize-module.js?v=1.8.1.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.1.0";
+import "./vendors/quill.js?v=1.8.2.0";
+import "./vendors/quill-table-better.js?v=1.8.2.0";
+import "./vendors/quill-resize-module.js?v=1.8.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.2.0";
 
 var rteSheetsLoaded = false;
-
-Quill.register(
-    {
-        'modules/table-better': QuillTableBetter,
-        'modules/resize': QuillResize
-    }, true);
 
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
@@ -35,13 +29,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         modules: {
             toolbar: toolbarRef,
             keyboard: undefined,
-            table: false,
-            'table-better': {
-                toolbarTable: true
-            },
-            keyboard: {
-                bindings: QuillTableBetter.keyboardBindings
-            }
+            table: false
         },
         bounds: element,
         placeholder: options.placeholder,
@@ -67,7 +55,21 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         };
     }
 
-    if (options.useResize) {
+    if (options.useTables === true) {
+        Quill.register({ 'modules/table-better': QuillTableBetter }, true);
+
+        quillOptions.modules['table-better'] = {
+            toolbarTable: true
+        };
+
+        quillOptions.modules.keyboard = {
+            bindings: QuillTableBetter.keyboardBindings
+        };
+    }
+
+    if (options.useResize === true) {
+        Quill.register({ 'modules/resize': QuillResize }, true);
+
         quillOptions.modules.resize = {
             tools: [
                 "left",

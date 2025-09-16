@@ -1,0 +1,124 @@
+﻿@page "/news/release-notes/182"
+
+<Seo Canonical="news/release-notes/182" Title="Blazorise v1.8.2" Description="Blazorise 1.8.2 brings critical improvements, a few new APIs, and a brand-new FluentUI dark theme-along with focused fixes that improve reliability for developers using Blazorise." ImageUrl="img/news/180/v182.png" />
+
+<NewsPageImage Source="img/news/180/v182.png" Text="Blazorise v1.8.2" />
+
+<NewsPageTitle>
+    Blazorise 1.8.2 – Maintenance Release (with extras!)
+</NewsPageTitle>
+
+<Paragraph>
+    Blazorise 1.8.2 is now available! While this is primarily a maintenance release, we decided to go a bit further than usual: alongside targeted fixes, we shipped several <Strong>critical improvements</Strong> and a couple of <Strong>new APIs</Strong> to immediately benefit real-world apps. This isn't something we typically do in a patch release, but we felt these updates were stable, safe, and genuinely useful-so you can take advantage of them right away.
+</Paragraph>
+
+<NewsPageSubtitle>
+    What's New in 1.8.2
+</NewsPageSubtitle>
+
+<Paragraph>
+    Here are the most notable additions and improvements:
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FluentUI Dark Theme
+</Heading>
+
+<Paragraph>
+    Added a <Strong>dark theme</Strong> for FluentUI, including tuned color tokens for comfortable contrast and consistent styling across components.
+</Paragraph>
+
+<Paragraph>
+    The dark palette covers surfaces, typography, and accent tokens so core components (DataGrid, Modal, Sidebar, Dropdown, Button, Tabs, etc.) look consistent out of the box. It also respects your existing light/dark toggling approach, so if you already switch color schemes at the app level, FluentUI will follow suit.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit Plug-in Registration Control
+</Heading>
+
+<Paragraph>
+    Only register additional plug-ins if explicitly specified in options-giving you finer control over payload and behavior.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DatePicker Initial Time Values
+</Heading>
+
+<Paragraph>
+    Added the ability to set the <Strong>initial hour</Strong> and <Strong>minute</Strong> values, making time-sensitive scenarios easier out of the box.
+</Paragraph>
+
+<Paragraph>
+    The initial time is applied when the control first renders (or when it's cleared), helping users jump straight to the intended time instead of scrolling from midnight. This is especially helpful for scheduling apps, calendar inputs, and any workflow where a common start time (e.g., 09:00) is expected.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid Numeric Filtering Fix
+</Heading>
+
+<Paragraph>
+    Numeric columns now default to <Strong>equals</Strong> instead of <Strong>contains</Strong> when filtering. This matches user expectations and avoids false positives (for example, filtering for <Code>10</Code> will no longer match <Code>210</Code>).
+</Paragraph>
+
+<NewsPageSubtitle>
+    Experimening
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Blazorise Outlook Clone
+</Heading>
+
+<Paragraph>
+    We've also been experimenting with <Strong>Blazorise FluentUI</Strong> by building a small <Strong>Outlook clone</Strong>. It's a fun demo that shows how far you can go with the Blazorise FluentUI provider-layout, navigation, and productivity UX all in one place.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/180/outlook-clone.png" ImageTitle="BlazoriseOutlookClone" />
+
+<Paragraph>
+    If you're curious, check out the source code here: <Anchor To="https://github.com/Megabit/BlazoriseOutlookClone" Target="Target.Blank">github.com/Megabit/BlazoriseOutlookClone</Anchor>.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Full changelog
+</NewsPageSubtitle>
+
+<Paragraph>
+    Everything that went into 1.8.2:
+</Paragraph>
+
+<NewsPageList>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/pull/6209" Alt="Link to GitHub issue" ToText="#6209">
+        RichTextEdit: Only register additional plug-ins if specified in options
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6213" Alt="Link to GitHub issue" ToText="#6213">
+        Add the ability to set initial value of the hour and minute element of the DatePicker
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/pull/6215" Alt="Link to GitHub issue" ToText="#6215">
+        FluentUI: add dark theme colors
+    </NewsPageListItem>
+    <NewsPageListItem To="https://github.com/Megabit/Blazorise/issues/6140" Alt="Link to GitHub issue" ToText="#6140">
+        [Bug]: Filtering DataGrid numeric column value defaults to contains instead of equals
+    </NewsPageListItem>
+</NewsPageList>
+
+<NewsPageSubtitle>
+    Upgrading
+</NewsPageSubtitle>
+
+<Paragraph>
+    This is a drop-in update within the <Strong>1.8.x</Strong> line. There are no breaking changes expected for typical setups. As always, review the items above if you rely on specific behaviors (e.g., RichTextEdit plug-in registration or DataGrid filtering defaults).
+</Paragraph>
+
+<NewsPageSubtitle>
+    Thank you & commercial support
+</NewsPageSubtitle>
+
+<Paragraph>
+    Blazorise thrives on community support. If you or your company relies on Blazorise, consider our <Strong>commercial licenses</Strong>-they help fund ongoing development while providing extra benefits like priority support, access to private repositories, and community-licensed themes.
+</Paragraph>
+
+<Paragraph>
+    Explore licensing options here: <Anchor To="https://blazorise.com/commercial" Target="Target.Self">Blazorise Commercial</Anchor>. Your support directly accelerates Blazorise development.
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="September 11th, 2025" Read="3 min" />

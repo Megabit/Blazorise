@@ -308,18 +308,39 @@ public static class ExpressionCompiler
     }
 
     /// <summary>
-    /// Applies the paging filter to the queryable data.
+    /// Applies paging to the specified <see cref="IQueryable{T}"/> based on the provided page number and page size.
     /// </summary>
-    /// <typeparam name="TItem"></typeparam>
-    /// <param name="data">The Data to be queried</param>
-    /// <param name="page">The current page</param>
-    /// <param name="pageSize">The page size</param>
-    /// <returns></returns>
+    /// <typeparam name="TItem">The type of the elements in the queryable data source.</typeparam>
+    /// <param name="data">The queryable data source to which paging will be applied.</param>
+    /// <param name="page">The page number to retrieve. Must be greater than 0.</param>
+    /// <param name="pageSize">The number of items per page. Must be greater than 0.</param>
+    /// <returns>A new <see cref="IQueryable{T}"/> containing the items for the specified page, or the original data source  if
+    /// <paramref name="page"/> or <paramref name="pageSize"/> is less than or equal to 0.</returns>
     public static IQueryable<TItem> ApplyDataGridPaging<TItem>( this IQueryable<TItem> data, int page, int pageSize )
     {
         if ( page > 0 && pageSize > 0 )
         {
             return data.Skip( ( page - 1 ) * pageSize ).Take( pageSize );
+        }
+
+        return data;
+    }
+
+    /// <summary>
+    /// Applies virtualization to the specified queryable data source by skipping a specified number of items  and
+    /// taking a specified number of items.
+    /// </summary>
+    /// <typeparam name="TItem">The type of the elements in the data source.</typeparam>
+    /// <param name="data">The queryable data source to apply virtualization to.</param>
+    /// <param name="offset">The number of items to skip. Must be greater than or equal to 0.</param>
+    /// <param name="count">The number of items to take. Must be greater than 0.</param>
+    /// <returns>A queryable data source containing the specified range of items. If <paramref name="offset"/> is less than 0  or
+    /// <paramref name="count"/> is less than or equal to 0, the original data source is returned.</returns>
+    public static IQueryable<TItem> ApplyDataGridVirtualization<TItem>( this IQueryable<TItem> data, int offset, int count )
+    {
+        if ( offset >= 0 && count > 0 )
+        {
+            return data.Skip( offset ).Take( count );
         }
 
         return data;
