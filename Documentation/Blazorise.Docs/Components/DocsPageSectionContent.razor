@@ -1,36 +1,65 @@
-﻿@if ( !string.IsNullOrWhiteSpace( FrameUrl ) )
+﻿@if ( SourceCode == null )
 {
-    <Div Flex="Flex.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is3" Padding="Padding.Is3" Border="Border.Is0.OnBottom.Is1.OnTop.Is1.RoundedTop.OnStart.Is1.OnEnd">
-        <Tooltip Text="Desktop View" Inline>
-            <Button Clicked="@OnDesktopViewClicked">
-                <Icon Name="IconName.Laptop" />
-            </Button>
-        </Tooltip>
-        <Tooltip Text="Tablet View" Inline>
-            <Button Clicked="@OnTabletViewClicked">
-                <Icon Name="IconName.Tablet" />
-            </Button>
-        </Tooltip>
-        <Tooltip Text="Mobile View" Inline>
-            <Button Clicked="@OnMobileViewClicked">
-                <Icon Name="IconName.Smartphone" />
-            </Button>
-        </Tooltip>
-    </Div>
+    // use older structure
+    @ExampleElements
 }
-<Div Class="@ClassNames" Border="@(Outlined ? ShowFrame ? Border.Is1.OnAll : Border.Is1.RoundedTop : null)">
-    <Div Class="b-docs-page-section-content-inner">
-        @if ( FrameView == "desktop" )
+else
+{
+    <Tabs @bind-SelectedTab="@selectedTab">
+        <Items>
+            <Tab Name="example">Example</Tab>
+            <Tab Name="source">Source Code</Tab>
+        </Items>
+        <Content>
+            <TabPanel Name="example">
+                @ExampleElements
+            </TabPanel>
+            <TabPanel Name="source">
+                <DocsPageSectionSource Code="@SourceCode" />
+            </TabPanel>
+        </Content>
+    </Tabs>
+}
+@code {
+    string selectedTab = "example";
+
+    protected RenderFragment ExampleElements => __builder =>
+    {
+        @if ( ShowFrame )
         {
-            @ChildContent
-        }
-        else
-        {
-            <Div Height="Height.Px(500)" Background="Background.Light">
-                <iframe src="@FrameUrl" style="@FrameStyle" />
+            <Div Flex="Flex.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is3" Padding="Padding.Is3" Border="Border.Is1.OnStart.Is1.OnEnd.Is1.OnBottom">
+                <Tooltip Text="Desktop View" Inline>
+                    <Button Clicked="@OnDesktopViewClicked">
+                        <Icon Name="IconName.Laptop" />
+                    </Button>
+                </Tooltip>
+                <Tooltip Text="Tablet View" Inline>
+                    <Button Clicked="@OnTabletViewClicked">
+                        <Icon Name="IconName.Tablet" />
+                    </Button>
+                </Tooltip>
+                <Tooltip Text="Mobile View" Inline>
+                    <Button Clicked="@OnMobileViewClicked">
+                        <Icon Name="IconName.Smartphone" />
+                    </Button>
+                </Tooltip>
             </Div>
         }
-    </Div>
-</Div>
+        <Div Class="@ClassNames" Border="@(Outlined ? Border.RoundedBottom.Is0.OnTop : null)">
+            <Div Class="b-docs-page-section-content-inner">
+                @if ( FrameView == "desktop" )
+                {
+                    @ChildContent
+                }
+                else
+                {
+                    <Div Height="Height.Px( 500 )" Background="Background.Light">
+                        <iframe src="@FrameUrl" style="@FrameStyle" />
+                    </Div>
+                }
+            </Div>
+        </Div>
+    };
+}
 
 

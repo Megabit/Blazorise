@@ -89,5 +89,7 @@ public partial class DocsPageSectionContent
 
     [Parameter] public string FrameUrl { get; set; }
 
+    [Parameter] public string SourceCode { get; set; }
+
     #endregion
 }
