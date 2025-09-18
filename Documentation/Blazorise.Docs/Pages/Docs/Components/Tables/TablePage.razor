@@ -77,75 +77,75 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Simple">
+    <DocsPageSectionHeader Title="Basic">
+        A simple table to display data, with light padding and only horizontal dividers.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="BasicTableExample">
         <BasicTableExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicTableExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Striped">
+        Striped tables with alternating background colors, better for readability of data.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableStrippedExample">
         <TableStrippedExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableStrippedExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Hoverable">
+        Highlight a row on hover to improve the user experience. Works well with striped tables.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableHoverableExample">
         <TableHoverableExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableHoverableExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Bordered">
+        Add borders and rounded corners to a table, better for tables that stand out.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableBorderedExample">
         <TableBorderedExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableBorderedExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Borderless">
+        Remove borders from a table, better for tables that blend in.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableBorderlessExample">
         <TableBorderlessExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableBorderlessExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Small table">
+        Add <Code>Narrow</Code> attribute to make tables more compact by cutting cell padding in half.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableNarrowExample">
         <TableNarrowExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableNarrowExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Light header">
+        Add <Code>ThemeContrast="ThemeContrast.Light"</Code> to make the table header appear lighter.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableLightHeaderExample">
         <TableLightHeaderExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableLightHeaderExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Dark header">
+        Add <Code>ThemeContrast="ThemeContrast.Dark"</Code> to make the table header appear darker.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableDarkHeaderExample">
         <TableDarkHeaderExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableDarkHeaderExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -157,38 +157,36 @@
             </AlertDescription>
         </Alert>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth FrameUrl="docs/components/table/mobile-mode-iframe">
+    <DocsPageSectionContent Outlined FullWidth FrameUrl="docs/components/table/mobile-mode-iframe" SourceCode="BasicMobileTableExample">
         <BasicMobileTableExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicMobileTableExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Fixed header">
+        To enable fixed header on a table, set the <Code>FixedHeader</Code> attribute to <Code>true</Code>. Additionally, you must specify a height for the table using the <Code>FixedHeaderTableHeight</Code> attribute.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableFixedHeaderExample">
         <TableFixedHeaderExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableFixedHeaderExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Fixed columns">
         Implementing this feature involves setting the <Code>FixedPosition</Code> attribute to <Code>TableColumnFixedPosition.Start</Code> for anchoring to the left, or <Code>TableColumnFixedPosition.End</Code> for anchoring to the right, on a cell. Additionally, you must enable fixed columns on a table with the <Code>FixedColumns</Code> attribute.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableFixedColumnsExample">
         <TableFixedColumnsExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableFixedColumnsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Scroll To a Row Or Pixel Offset">
+        Scrolling to a specific row or pixel offset within a table can be useful for improving the user experience and making it easier to navigate large tables of data. The Blazorise <Code>Table</Code> component provides built-in support for scrolling to a specific row or pixel offset using the <Code>ScrollToRow</Code> and <Code>ScrollToPixels</Code> methods.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableScrollToExample">
         <TableScrollToExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableScrollToExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -213,10 +211,9 @@
             To set the <Code>Resizable</Code> property of a <Code>Table</Code> component in Blazorise, you can use the following syntax:
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableResizableExample">
         <TableResizableExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableResizableExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -228,10 +225,9 @@
             In this example, the <Code>Table</Code> component is grouped by the "Category" column, and the rows are organized into two groups: "Fruits" and "Vegetables". The <Code>TableRowGroup</Code> component specifies the value of the grouped column (e.g. "Fruits" or "Vegetables") and wraps the rows that belong to that group.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableGroupingExample">
         <TableGroupingExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableGroupingExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -243,10 +239,9 @@
             The <Code>TableCaption</Code> component is a child of the <Code>Table</Code> component and should be placed before the <Code>TableHeader</Code> and <Code>TableBody</Code> components.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth SourceCode="TableCaptionExample">
         <TableCaptionExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TableCaptionExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(Table), typeof(TableBody), typeof(TableCaption), typeof(TableRow), typeof(TableRowCell), typeof(TableRowGroup), typeof(TableRowHeader), typeof(TableHeader), typeof(TableHeaderCell), typeof(TableFooter)]" />
