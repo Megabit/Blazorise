@@ -81,6 +81,24 @@
   --mui-scrim: #000000;
   --mui-outline: #767680;
   --mui-outline-variant: #c7c5d0;
+  --mui-outline-primary: #a2a7c2;
+  --mui-outline-primary-variant: #d7d9ea;
+  --mui-outline-secondary: #a5a6ad;
+  --mui-outline-secondary-variant: #dddde3;
+  --mui-outline-tertiary: #b2a5ab;
+  --mui-outline-tertiary-variant: #e7dde1;
+  --mui-outline-error: #c7a2a2;
+  --mui-outline-error-variant: #ecd7d7;
+  --mui-outline-success: #91a79b;
+  --mui-outline-success-variant: #d5e3da;
+  --mui-outline-warning: #b3a996;
+  --mui-outline-warning-variant: #e9e2d2;
+  --mui-outline-info: #9aacbc;
+  --mui-outline-info-variant: #dbe4ec;
+  --mui-outline-light: #dddce0;
+  --mui-outline-light-variant: #f1f0f2;
+  --mui-outline-dark: #97979a;
+  --mui-outline-dark-variant: #d8d8da;
   --mui-surface-dim: #ddd8dd;
   --mui-surface-bright: #fdf8fd;
   --mui-surface-container-lowest: #ffffff;
@@ -415,6 +433,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip {
   --mui-chip-padding: 0.75rem;
   --mui-chip-size: 2rem;
+  --mui-chip-close-size: 1.125rem;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -444,7 +463,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-primary {
   background-color: var(--mui-primary-container);
   color: var(--mui-on-primary-container);
-  border-color: var(--mui-primary-container);
+  border-color: var(--mui-outline-primary);
 }
 .mui-chip-primary .mui-chip-close {
   color: var(--mui-primary);
@@ -455,7 +474,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-secondary {
   background-color: var(--mui-secondary-container);
   color: var(--mui-on-secondary-container);
-  border-color: var(--mui-secondary-container);
+  border-color: var(--mui-outline-secondary);
 }
 .mui-chip-secondary .mui-chip-close {
   color: var(--mui-secondary);
@@ -466,7 +485,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-tertiary {
   background-color: var(--mui-tertiary-container);
   color: var(--mui-on-tertiary-container);
-  border-color: var(--mui-tertiary-container);
+  border-color: var(--mui-outline-tertiary);
 }
 .mui-chip-tertiary .mui-chip-close {
   color: var(--mui-tertiary);
@@ -477,7 +496,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-error {
   background-color: var(--mui-error-container);
   color: var(--mui-on-error-container);
-  border-color: var(--mui-error-container);
+  border-color: var(--mui-outline-error);
 }
 .mui-chip-error .mui-chip-close {
   color: var(--mui-error);
@@ -488,7 +507,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-success {
   background-color: var(--mui-success-container);
   color: var(--mui-on-success-container);
-  border-color: var(--mui-success-container);
+  border-color: var(--mui-outline-success);
 }
 .mui-chip-success .mui-chip-close {
   color: var(--mui-success);
@@ -499,7 +518,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-warning {
   background-color: var(--mui-warning-container);
   color: var(--mui-on-warning-container);
-  border-color: var(--mui-warning-container);
+  border-color: var(--mui-outline-warning);
 }
 .mui-chip-warning .mui-chip-close {
   color: var(--mui-warning);
@@ -510,7 +529,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-info {
   background-color: var(--mui-info-container);
   color: var(--mui-on-info-container);
-  border-color: var(--mui-info-container);
+  border-color: var(--mui-outline-info);
 }
 .mui-chip-info .mui-chip-close {
   color: var(--mui-info);
@@ -521,7 +540,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-light {
   background-color: var(--mui-light-container);
   color: var(--mui-on-light-container);
-  border-color: var(--mui-light-container);
+  border-color: var(--mui-outline-light);
 }
 .mui-chip-light .mui-chip-close {
   color: var(--mui-light);
@@ -532,7 +551,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip-dark {
   background-color: var(--mui-dark-container);
   color: var(--mui-on-dark-container);
-  border-color: var(--mui-dark-container);
+  border-color: var(--mui-outline-dark);
 }
 .mui-chip-dark .mui-chip-close {
   color: var(--mui-dark);
@@ -548,8 +567,12 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-chip .mui-chip-close {
   cursor: pointer;
 }
+.mui-chip .mui-chip-close > svg {
+  width: var(--mui-chip-close-size);
+  height: var(--mui-chip-close-size);
+}
 .mui-chip + .mui-chip {
-  margin-left: 0.5rem;
+  margin-left: 8px;
 }
 
 .mui-button {

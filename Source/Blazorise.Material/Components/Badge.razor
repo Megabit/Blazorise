@@ -1,0 +1,29 @@
+﻿@inherits Blazorise.Badge
+@if ( Link is not null )
+{
+    <a @ref="@ElementRef" id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+        @if ( Closable )
+        {
+            <span class="@CloseClassBuilder.Class" aria-label="Close" tabindex="0" @onclick="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler">
+                <svg viewBox="0 96 960 960">
+                    <path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path>
+                </svg>
+            </span>
+        }
+    </a>
+}
+else
+{
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+        @if ( Closable )
+        {
+            <span class="@CloseClassBuilder.Class" aria-label="Close" tabindex="0" @onclick="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler">
+                <svg viewBox="0 96 960 960">
+                    <path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"></path>
+                </svg>
+            </span>
+        }
+    </span>
+}

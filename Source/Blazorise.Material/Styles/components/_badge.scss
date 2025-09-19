@@ -2,7 +2,7 @@
     &-#{$name} {
         background-color: var(--mui-#{$color}-container);
         color: var(--mui-on-#{$color}-container);
-        border-color: var(--mui-#{$color}-container);
+        border-color: var(--mui-outline-#{$color});
 
         .mui-chip-close {
             color: var(--mui-#{$color});
@@ -17,6 +17,7 @@
 .mui-chip {
     --mui-chip-padding: 0.75rem;
     --mui-chip-size: 2rem;
+    --mui-chip-close-size: 1.125rem;
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -56,9 +57,14 @@
 
     .mui-chip-close {
         cursor: pointer;
+
+        > svg {
+            width: var(--mui-chip-close-size);
+            height: var(--mui-chip-close-size);
+        }
     }
 
     + .mui-chip {
-        margin-left: 0.5rem;
+        margin-left: 8px;
     }
 }
