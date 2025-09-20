@@ -289,7 +289,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Fields
 
-    public override string Fields() => "row g-3";
+    public override string Fields() => "row gx-3";
 
     public override string FieldsBody() => null;
 
