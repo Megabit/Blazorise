@@ -3,39 +3,39 @@
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
         .fui-Display-none#{$infix} {
-            display: none;
+            display: none !important;
         }
 
         .fui-Display-flex#{$infix} {
-            display: flex;
+            display: flex !important;
         }
 
         .fui-Display-inline-flex#{$infix} {
-            display: inline-flex;
+            display: inline-flex !important;
         }
 
         .fui-Display-block#{$infix} {
-            display: block;
+            display: block !important;
         }
 
         .fui-Display-inline-block#{$infix} {
-            display: inline-block;
+            display: inline-block !important;
         }
 
         .fui-Display-inline#{$infix} {
-            display: inline;
+            display: inline !important;
         }
 
         .fui-Display-table#{$infix} {
-            display: table;
+            display: table !important;
         }
 
         .fui-Display-table-row#{$infix} {
-            display: table-row;
+            display: table-row !important;
         }
 
         .fui-Display-table-cell#{$infix} {
-            display: table-cell;
+            display: table-cell !important;
         }
     }
 }
