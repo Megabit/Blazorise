@@ -616,9 +616,20 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
+        catch ( OperationCanceledException )
+        {
+            // Expected during rapid typing
+        }
         finally
         {
+            var wasCancelled = cancellationTokenSource?.IsCancellationRequested == true;
+
             Loading = false;
+
+            if ( wasCancelled )
+            {
+                await InvokeAsync( () => Reload() );
+            }
         }
     }
 
@@ -651,7 +662,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public async Task Reload( CancellationToken cancellationToken = default )
     {
         if ( Loading )
+        {
+            cancellationTokenSource?.Cancel();
             return;
+        }
 
         if ( VirtualizeManualReadMode )
         {
