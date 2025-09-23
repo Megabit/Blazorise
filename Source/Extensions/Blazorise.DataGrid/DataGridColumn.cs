@@ -429,6 +429,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
             : GetDefaultFilterMethod();
     }
+    
+    internal void SetWidthToNull()=> Width = null;//to supress BL0005
 
     /// <summary>
     /// Retrieves the default filter method for the column.
