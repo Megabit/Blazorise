@@ -19,7 +19,7 @@ namespace Blazorise.Docs.Pages.Commercial
 
             public string Unit { get; set; }
 
-            public int ProductId { get; set; }
+            public string ProductId { get; set; }
 
             public object Upsell { get; set; }
         }

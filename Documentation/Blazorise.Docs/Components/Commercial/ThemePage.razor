@@ -25,11 +25,11 @@
                     </Row>
                     <Form>
                         <Field>
-                            <RadioGroup TValue="int" Class="license-options" @bind-CheckedValue="@checkedProductId">
+                            <RadioGroup TValue="string" Class="license-options" @bind-CheckedValue="@checkedPriceId">
                                 @foreach ( var product in Products )
                                 {
-                                    <Radio TValue="int" Value="@product.Id">
-                                        <ThemePrice @key="@product.Id" Name="@product.LicenseName" Description="@product.LicenseDescription" Price="@product.Price" Currency="@product.Currency" />
+                                    <Radio TValue="string" Value="@product.PriceId">
+                                        <ThemePrice @key="@product.PriceId" Name="@product.LicenseName" Description="@product.LicenseDescription" Price="@product.Price" Currency="@product.Currency" />
                                     </Radio>
                                 }
                             </RadioGroup>

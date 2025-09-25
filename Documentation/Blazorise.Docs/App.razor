@@ -81,9 +81,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"></script>
 
-    <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <script type="text/javascript">
-        Paddle.Setup({ vendor: 130780 });
+        Paddle.Environment.set("sandbox");
+
+        Paddle.Initialize({
+          token: 'test_97e422d42921126750d6d2ed05f'
+        });
     </script>
 
     <script src="_content/Blazorise.Animate/blazorise.animate.js?v=1.8.3.0"></script>

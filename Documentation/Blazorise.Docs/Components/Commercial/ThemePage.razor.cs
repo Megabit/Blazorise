@@ -9,21 +9,21 @@ namespace Blazorise.Docs.Components.Commercial;
 
 public partial class ThemePage
 {
-    int checkedProductId;
+    string checkedPriceId;
 
     protected override Task OnInitializedAsync()
     {
-        checkedProductId = Products?.Select( x => x.Id )?.FirstOrDefault() ?? 0;
+        checkedPriceId = Products?.Select( x => x.PriceId )?.FirstOrDefault();
 
         return base.OnInitializedAsync();
     }
 
     async Task OnPurchaseClicked()
     {
-        await JSRuntime.InvokeVoidAsync( "blazorisePRO.paddle.openCheckout", checkedProductId );
+        await JSRuntime.InvokeVoidAsync( "blazorisePRO.paddle.openCheckout", checkedPriceId );
     }
 
-    bool PurchaseDisabled => checkedProductId == 0;
+    bool PurchaseDisabled => string.IsNullOrEmpty( checkedPriceId );
 
     [Inject] IJSRuntime JSRuntime { get; set; }
 
