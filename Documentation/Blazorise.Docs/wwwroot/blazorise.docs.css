@@ -113,7 +113,7 @@ a {
   padding-bottom: 2.4px;
 }
 .b-top-bar .navbar-nav .nav-link:hover {
-  background-color: hsla(201deg, 50%, 98%, 0.5);
+  background-color: hsla(201, 50%, 98%, 0.5);
   border-radius: 7px;
 }
 
@@ -867,6 +867,18 @@ div.developers-picker button:hover {
 
 .text-price-color-community {
   color: #787878;
+}
+
+.license-options {
+  width: 100%;
+}
+
+.license-options > .form-check.form-check-inline {
+  width: 100%;
+}
+
+.license-options .form-check-label {
+  width: 100%;
 }
 
 a.toc-link {
