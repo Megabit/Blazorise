@@ -26,7 +26,7 @@ namespace Blazorise.Docs.Pages.Commercial
 
         private Dictionary<string, PriceInfo> professionalPrices = new Dictionary<string, PriceInfo>()
         {
-            { "one-time", new PriceInfo { Unit = "year", Price = 659, Currency = "€", ProductId = PaddlePrices.ProfessionalOneTimePerDeveloper, Upsell = new { Id = PaddlePrices.ProfessionalBundle, Title = "Upgrade to Professional Bundle", Text = "<p>Consider the <strong>Blazorise Professional Bundle</strong>!</p><p>Besides standard features, it offers exclusive <strong>themes</strong> for a richer, more engaging user experience.</p><p>Stand out with stunning design, all in one upgrade. Enhance your project now!</p>", Action = "Buy Bundle »" } } },
+            { "one-time", new PriceInfo { Unit = "year", Price = 659, Currency = "€", ProductId = PaddlePrices.ProfessionalOneTimePerDeveloper } },
             { "annually", new PriceInfo { Unit = "year", Price = 590, Currency = "€", HigherPrice = 708, ProductId = PaddlePrices.ProfessionalYearlySubscriptionPerDeveloper } },
             { "monthly", new PriceInfo { Unit = "month", Price = 59, Currency = "€", ProductId = PaddlePrices.ProfessionalMonthlySubscriptionPerDeveloper } },
         };
