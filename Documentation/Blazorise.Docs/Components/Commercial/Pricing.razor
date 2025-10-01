@@ -22,9 +22,9 @@
         </Column>
     </Row>
 
-    <Row Margin="Margin.Is3.FromBottom" Gutter="(16,16)">
+    <Row Margin="Margin.Is3.FromBottom" Gutter="(16, 16)">
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is6.OnDesktop">
-            <PricingCard PlanName="Community" PlanPrice="Free" HigherPlanPrice="€0" ShowHigherPlan TextAccentColor="@("price-color-community")">
+            <PricingCard PlanName="Community" PlanPrice="0" ShowPlan ShowHigherPlan TextAccentColor="@("price-color-community")">
                 <ButtonContent>
                     <Button Type="ButtonType.Link" To="https://blazorise.com/account/login" Color="Color.Light" Size="Size.Large" Block>
                         Claim license
@@ -61,7 +61,7 @@
         </Column>
 
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is6.OnDesktop">
-            <PricingCard PlanName="Professional" PlanPrice="@($"{ProfessionalPrices[Plan].Currency}{( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")" HigherPlanPrice="@($"{ProfessionalPrices[Plan].Currency}{( ProfessionalPrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")" PlanUnit="@ProfessionalPrices[Plan].Unit" ShowHigherPlan="@(Plan == "annually")" ShowDiscount TextAccentColor="TextColor.Info">
+            <PricingCard PlanName="Professional" Quantity="@Quantity" PlanPrice="@ProfessionalPrices[Plan].Price" PlanUnit="@ProfessionalPrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@ProfessionalPrices[Plan].CurrencySymbol" CurrencyCode="@ProfessionalPrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Info">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Info" ProductId="@ProfessionalPrices[Plan].ProductId" Quantity="@Quantity" Upsell="@ProfessionalPrices[Plan].Upsell" ProductName="Blazorise Professional">
                         Buy Now
@@ -84,13 +84,17 @@
                             <Icon TextColor="TextColor.Info" Padding="Padding.Is2.FromEnd" Name="IconName.Circle" IconSize="IconSize.ExtraSmall" />
                             24 hour response time
                         </UnorderedListItem>
+                        <UnorderedListItem Padding="Padding.Is2.OnY">
+                            <Icon TextColor="TextColor.Info" Padding="Padding.Is2.FromEnd" Name="IconName.Circle" IconSize="IconSize.ExtraSmall" />
+                            License management dashboard for teams
+                        </UnorderedListItem>
                     </UnorderedList>
                 </ChildContent>
             </PricingCard>
         </Column>
 
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is6.OnDesktop">
-            <PricingCard PlanName="Enterprise" PlanPrice="@($"{EnterprisePrices[Plan].Currency}{( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")" HigherPlanPrice="@($"{EnterprisePrices[Plan].Currency}{( EnterprisePrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")" PlanUnit="@EnterprisePrices[Plan].Unit" ShowHigherPlan="@(Plan == "annually")" ShowDiscount TextAccentColor="TextColor.Primary">
+            <PricingCard PlanName="Enterprise" Quantity="@Quantity" PlanPrice="@EnterprisePrices[Plan].Price" PlanUnit="@EnterprisePrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@EnterprisePrices[Plan].CurrencySymbol" CurrencyCode="@EnterprisePrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Primary">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@EnterprisePrices[Plan].ProductId" Quantity="@Quantity" Upsell="@ProfessionalPrices[Plan].Upsell" ProductName="Blazorise Enterprise">
                         Buy Now
@@ -133,7 +137,7 @@
         </Column>
 
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is6.OnDesktop">
-            <PricingCard PlanName="Enterprise Plus" PlanPrice="Custom">
+            <PricingCard PlanName="Enterprise Plus" PlanPrice="decimal.MinusOne" ShowPlan>
                 <ButtonContent>
                     <Button Type="ButtonType.Link" To="contact" Color="Color.Dark" Size="Size.Large" Block>
                         Contact Us
@@ -177,7 +181,7 @@
     <Row Margin="Margin.Is4.OnDesktop">
         <Column TextAlignment="TextAlignment.Center">
             <Paragraph TextColor="TextColor.Muted">
-                * All prices are listed in USD and are charged per developer on a royalty-free subscription basis. Local taxes may apply.
+                * All prices are listed in EUR and are charged per developer on a royalty-free subscription basis. Local taxes may apply depending on your location.
             </Paragraph>
         </Column>
     </Row>
@@ -205,7 +209,7 @@
                         </Column>
                         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is3.OnDesktop" Flex="Flex.AlignItems.End.OnDesktop">
                             <Button Type="ButtonType.Link" To="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/11987636635.blazorise" Color="Color.Primary" Size="Size.Large" Outline Margin="Margin.IsAuto.OnDesktop.FromStart" Gap="Gap.Is2" Flex="Flex.InlineFlex">
-                                <Image Source="img/logos/microsoft-icon.svg" Text="Microsoft logo" Width="Width.Rem(2)" Height="Height.Rem(2)" />
+                                <Image Source="img/logos/microsoft-icon.svg" Text="Microsoft logo" Width="Width.Rem( 2 )" Height="Height.Rem( 2 )" />
                                 <Span>Purchase on Azure</Span>
                             </Button>
                         </Column>

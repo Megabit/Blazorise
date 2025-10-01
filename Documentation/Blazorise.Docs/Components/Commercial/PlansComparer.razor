@@ -24,7 +24,7 @@
                         Professional
                     </Div>
                     <Div Padding="Padding.Is2.OnY">
-                        <Span>@($"{ProfessionalPrices[Plan].Currency}{( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                        <Span>@($"{ProfessionalPrices[Plan].CurrencySymbol}{( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
                     </Div>
                 </Div>
             </TableHeaderCell>
@@ -34,7 +34,7 @@
                         Enterprise
                     </Div>
                     <Div Padding="Padding.Is2.OnY">
-                        <Span>@($"{EnterprisePrices[Plan].Currency}{( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@EnterprisePrices[Plan].Unit</Small>
+                        <Span>@($"{EnterprisePrices[Plan].CurrencySymbol}{( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@EnterprisePrices[Plan].Unit</Small>
                     </Div>
                 </Div>
             </TableHeaderCell>

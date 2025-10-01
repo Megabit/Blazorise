@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Blazorise.Docs.Models;
 
 namespace Blazorise.Docs.Pages.Commercial
@@ -13,9 +9,9 @@ namespace Blazorise.Docs.Pages.Commercial
         {
             public int Price { get; set; }
 
-            public string Currency { get; set; }
+            public string CurrencySymbol { get; set; }
 
-            public int HigherPrice { get; set; }
+            public string CurrencyCode { get; set; }
 
             public string Unit { get; set; }
 
@@ -26,16 +22,16 @@ namespace Blazorise.Docs.Pages.Commercial
 
         private Dictionary<string, PriceInfo> professionalPrices = new Dictionary<string, PriceInfo>()
         {
-            { "one-time", new PriceInfo { Unit = "year", Price = 659, Currency = "€", ProductId = PaddlePrices.ProfessionalOneTimePerDeveloper } },
-            { "annually", new PriceInfo { Unit = "year", Price = 590, Currency = "€", HigherPrice = 708, ProductId = PaddlePrices.ProfessionalYearlySubscriptionPerDeveloper } },
-            { "monthly", new PriceInfo { Unit = "month", Price = 59, Currency = "€", ProductId = PaddlePrices.ProfessionalMonthlySubscriptionPerDeveloper } },
+            { "one-time", new PriceInfo { Unit = "year", Price = 659, CurrencySymbol = "€", CurrencyCode = "EUR", ProductId = PaddlePrices.ProfessionalOneTimePerDeveloper } },
+            { "annually", new PriceInfo { Unit = "year", Price = 590, CurrencySymbol = "€", CurrencyCode = "EUR", ProductId = PaddlePrices.ProfessionalYearlySubscriptionPerDeveloper } },
+            { "monthly", new PriceInfo { Unit = "month", Price = 59, CurrencySymbol = "€", CurrencyCode = "EUR", ProductId = PaddlePrices.ProfessionalMonthlySubscriptionPerDeveloper } },
         };
 
         private Dictionary<string, PriceInfo> enterprisePrices = new Dictionary<string, PriceInfo>()
         {
-            { "one-time", new PriceInfo { Unit = "year", Price = 1080, Currency = "€", ProductId = PaddlePrices.EnterpriseOneTimePerDeveloper } },
-            { "annually", new PriceInfo { Unit = "year", Price = 990, Currency = "€", HigherPrice = 1188, ProductId = PaddlePrices.EnterpriseYearlySubscriptionPerDeveloper } },
-            { "monthly", new PriceInfo { Unit = "month", Price = 99, Currency = "€", ProductId = PaddlePrices.EnterpriseMonthlySubscriptionPerDeveloper } },
+            { "one-time", new PriceInfo { Unit = "year", Price = 1080, CurrencySymbol = "€", CurrencyCode = "EUR", ProductId = PaddlePrices.EnterpriseOneTimePerDeveloper } },
+            { "annually", new PriceInfo { Unit = "year", Price = 990, CurrencySymbol = "€", CurrencyCode = "EUR", ProductId = PaddlePrices.EnterpriseYearlySubscriptionPerDeveloper } },
+            { "monthly", new PriceInfo { Unit = "month", Price = 99, CurrencySymbol = "€", CurrencyCode = "EUR", ProductId = PaddlePrices.EnterpriseMonthlySubscriptionPerDeveloper } },
         };
 
         int quantity = 1;
