@@ -1518,8 +1518,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             if ( filteredData is ICollection<TItem> data2 )
             {
-                foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
-                    data2.Remove( newItem.NewItem );
+                if ( batchChanges is not null )
+                {
+                    foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
+                        data2.Remove( newItem.NewItem );
+                }
 
                 lastKnownDataCount = Data?.Count() ?? 0;
             }
