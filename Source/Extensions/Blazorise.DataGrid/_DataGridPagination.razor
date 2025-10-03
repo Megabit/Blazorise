@@ -117,10 +117,12 @@
     {
         @if ( ShowColumnChooser )
         {
+            var columnChooserString = Localizer.Localize( ParentDataGrid.Localizers?.ColumnChooserLocalizer, "Columns" );
+
             <Field Display="DisplayInlineBlock" Margin="ColumnChooserMargin">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
                     <DropdownToggle @onclick:stopPropagation>
-                        <Icon Name="@IconName.Table" Margin="MarginIs1FromStart" Clicked="() => {}" /> Columns
+                        <Icon Name="@IconName.Table" Margin="MarginIs1FromStart" Clicked="() => { }" /> @columnChooserString
                     </DropdownToggle>
                     <DropdownMenu MaxMenuHeight="200px">
                         @if ( ParentDataGrid.ColumnChooserTemplate is null )
