@@ -606,6 +606,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         try
         {
             cancellationTokenSource?.Cancel();
+            cancellationTokenSource?.Dispose();
             cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
 
             Loading = true;
@@ -934,6 +935,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         if ( disposing )
         {
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = null;
+
             if ( Rendered )
             {
                 var task = JSClosableModule.UnregisterLight( ElementRef );
