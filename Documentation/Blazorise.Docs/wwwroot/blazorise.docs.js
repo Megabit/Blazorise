@@ -103,7 +103,7 @@ window.myComponent = {
 
 window.blazorisePRO = {
     paddle: {
-        openCheckout: (product, quantity, upsell) => {
+        openCheckout: (product, quantity) => {
             Paddle.Checkout.open({
                 items: [
                     {

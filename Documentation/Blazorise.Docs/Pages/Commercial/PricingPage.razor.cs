@@ -16,8 +16,6 @@ namespace Blazorise.Docs.Pages.Commercial
             public string Unit { get; set; }
 
             public string ProductId { get; set; }
-
-            public object Upsell { get; set; }
         }
 
         private Dictionary<string, PriceInfo> professionalPrices = new Dictionary<string, PriceInfo>()
