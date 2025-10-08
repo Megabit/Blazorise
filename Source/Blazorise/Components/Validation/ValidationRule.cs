@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Blazorise.Extensions;
 using Blazorise.Utilities;
 #endregion
 
@@ -14,6 +12,19 @@ namespace Blazorise;
 /// </summary>
 public static class ValidationRule
 {
+    #region Members
+
+    /// <summary>
+    /// A regular expression used to validate email addresses.
+    /// </summary>
+    /// <remarks>The regular expression matches email addresses based on the standard format,  allowing
+    /// alphanumeric characters, dots, underscores, and other valid symbols  before the "@" symbol, followed by a domain
+    /// name and a top-level domain. The comparison is case-insensitive and the regex is precompiled for
+    /// performance.</remarks>
+    private static readonly Regex EmailRegex = new( @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$", RegexOptions.IgnoreCase | RegexOptions.Compiled );
+
+    #endregion
+
     #region Basic methods
 
     /// <summary>
@@ -38,21 +49,21 @@ public static class ValidationRule
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsEmpty( string value ) => string.IsNullOrEmpty( value );
+    public static bool IsEmpty( string value ) => string.IsNullOrWhiteSpace( value );
 
     /// <summary>
     /// Check if the string is not null or empty.
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsNotEmpty( string value ) => !string.IsNullOrEmpty( value );
+    public static bool IsNotEmpty( string value ) => !string.IsNullOrWhiteSpace( value );
 
     /// <summary>
     /// Check if the string is an email.
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsEmail( string value ) => value is not null && Regex.IsMatch( value, @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$", RegexOptions.IgnoreCase );
+    public static bool IsEmail( string value ) => !string.IsNullOrWhiteSpace( value ) && EmailRegex.IsMatch( value );
 
     /// <summary>
     /// Check if the string contains only letters (a-zA-Z).
@@ -167,7 +178,7 @@ public static class ValidationRule
     {
         var value = e.Value?.ToString();
 
-        e.Status = string.IsNullOrEmpty( value ) || value == "0" ? ValidationStatus.Error : ValidationStatus.Success;
+        e.Status = string.IsNullOrWhiteSpace( value ) || value == "0" ? ValidationStatus.Error : ValidationStatus.Success;
     }
 
     /// <summary>

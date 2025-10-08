@@ -36,6 +36,11 @@ public sealed class BlazoriseLicenseProvider
     public const int DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS = 1000;
 
     /// <summary>
+    /// The default maximum number of rows that can be displayed in a transfer view  for unlicensed users.
+    /// </summary>
+    public const int DEFAULT_UNLICENSED_LIMIT_TRANSFERVIEW_MAX_ROWS = 1000;
+
+    /// <summary>
     /// The default maximum number of rows displayed in a tree view for unlicensed users.
     /// </summary>
     public const int DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS = 100;

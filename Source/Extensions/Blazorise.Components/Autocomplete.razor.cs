@@ -433,9 +433,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-        if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+        if ( SelectionMode == AutocompleteSelectionMode.Checkbox && clickFromCheck )
         {
-            //Workaround for the issue where the dropdown closes when clicking on the checkbox
+            // Only defer when blur originated from a checkbox click
             ExecuteAfterRender( HandleBlurHandler );
         }
         else
@@ -606,6 +606,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         try
         {
             cancellationTokenSource?.Cancel();
+            cancellationTokenSource?.Dispose();
             cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
 
             Loading = true;
@@ -616,9 +617,20 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
+        catch ( OperationCanceledException )
+        {
+            // Expected during rapid typing
+        }
         finally
         {
+            var wasCancelled = cancellationTokenSource?.IsCancellationRequested == true;
+
             Loading = false;
+
+            if ( wasCancelled )
+            {
+                await InvokeAsync( () => Reload() );
+            }
         }
     }
 
@@ -651,7 +663,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public async Task Reload( CancellationToken cancellationToken = default )
     {
         if ( Loading )
+        {
+            cancellationTokenSource?.Cancel();
             return;
+        }
 
         if ( VirtualizeManualReadMode )
         {
@@ -920,6 +935,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         if ( disposing )
         {
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = null;
+
             if ( Rendered )
             {
                 var task = JSClosableModule.UnregisterLight( ElementRef );

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Docs.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using static Blazorise.Docs.Pages.Commercial.PricingPage;
@@ -9,11 +8,9 @@ namespace Blazorise.Docs.Components.Commercial;
 
 public partial class Pricing
 {
-
-
     protected async Task OnProfessionalClicked()
     {
-        await JSRuntime.InvokeVoidAsync( "blazorisePRO.paddle.openCheckout", ProfessionalPrices[Plan].ProductId, Quantity, ProfessionalPrices[Plan].Upsell );
+        await JSRuntime.InvokeVoidAsync( "blazorisePRO.paddle.openCheckout", ProfessionalPrices[Plan].ProductId, Quantity );
     }
 
     protected async Task OnEnterpriseClicked()
@@ -27,6 +24,8 @@ public partial class Pricing
 
         return Task.CompletedTask;
     }
+
+    private string DevLabel => Quantity == 1 ? "developer" : "developers";
 
     [Inject] IJSRuntime JSRuntime { get; set; }
 

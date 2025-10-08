@@ -1,4 +1,4 @@
-import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.8.2.0";
+import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.8.4.0";
 
 export function open(element, scrollToTop) {
     addClassToBody("modal-open");
