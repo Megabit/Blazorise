@@ -108,7 +108,7 @@ public record Enumeration<T>
         {
             if ( cachedName is null || cachedVersion != builderVersion )
             {
-                cachedName = NameBuilder.BuildName( this as T );
+                cachedName = NameBuilder.BuildName( this );
 
                 cachedVersion = builderVersion;
             }

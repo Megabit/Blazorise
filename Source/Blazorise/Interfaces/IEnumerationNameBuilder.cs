@@ -14,5 +14,5 @@ public interface IEnumerationNameBuilder<T> where T : Enumeration<T>
     /// A formatted string representing the complete name of the enumeration,
     /// typically including any parent enumeration names joined by a delimiter.
     /// </returns>
-    string BuildName( T enumeration );
+    string BuildName( Enumeration<T> enumeration );
 }

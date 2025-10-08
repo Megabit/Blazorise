@@ -19,7 +19,7 @@ public sealed class EnumerationNameBuilder<T> : IEnumerationNameBuilder<T>
     /// A space-separated string containing the concatenated names of all parent enumerations
     /// and the current enumeration.
     /// </returns>
-    public string BuildName( T enumeration )
+    public string BuildName( Enumeration<T> enumeration )
     {
         var sb = new StringBuilder();
 
@@ -34,7 +34,7 @@ public sealed class EnumerationNameBuilder<T> : IEnumerationNameBuilder<T>
     /// </summary>
     /// <param name="current">The current enumeration being processed.</param>
     /// <param name="sb">The <see cref="StringBuilder"/> used to construct the final name.</param>
-    private static void BuildRecursive( T current, StringBuilder sb )
+    private static void BuildRecursive( Enumeration<T> current, StringBuilder sb )
     {
         if ( current.ParentEnumeration is { } parent )
         {

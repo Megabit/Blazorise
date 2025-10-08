@@ -5,7 +5,7 @@ namespace Blazorise.Bootstrap5.Providers;
 public sealed class Bootstrap5EnumerationNameBuilder<T> : IEnumerationNameBuilder<T>
     where T : Enumeration<T>
 {
-    public string BuildName( T enumeration )
+    public string BuildName( Enumeration<T> enumeration )
     {
         var sb = new StringBuilder();
 
@@ -14,7 +14,7 @@ public sealed class Bootstrap5EnumerationNameBuilder<T> : IEnumerationNameBuilde
         return sb.ToString();
     }
 
-    private static void AppendRecursive( T current, StringBuilder sb )
+    private static void AppendRecursive( Enumeration<T> current, StringBuilder sb )
     {
         if ( current.ParentEnumeration is { } parent )
         {
