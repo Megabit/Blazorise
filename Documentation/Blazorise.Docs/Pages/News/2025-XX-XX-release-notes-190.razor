@@ -1,0 +1,74 @@
+﻿@page "/news/release-notes/190"
+
+<Seo Canonical="news/release-notes/190" Title="Blazorise v1.9" Description="Blazorise 1.9, codenamed Lokrum after the beautiful island in Croatia, is a significant update that brings a host of new features, enhancements, and optimizations to the framework. This release focuses on improving the developer experience, enhancing performance, and expanding the capabilities of Blazorise components." ImageUrl="img/news/190/v190.png" />
+
+<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.9" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.9 - TODO
+</NewsPageTitle>
+
+<Paragraph>
+
+</Paragraph>
+
+<Paragraph>
+
+</Paragraph>
+
+<NewsPageSubtitle>
+    Key Blazorise 1.9 Highlights 💡
+</NewsPageSubtitle>
+
+<Paragraph>
+    Here's a summary of what's new in this release:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Extended Color Variants</Strong>: for Background and TextColor utilties
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    Dive deeper below to discover the full potential of these features.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Upgrading from 1.8.x to 1.9 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    To smoothly upgrade your application, follow these simple steps:
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.9</Strong>.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Blazorise should now work without any major breaking changes to the API.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<NewsPageSubtitle>
+    New Features & Enhancements 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Extended Color Variants
+</Heading>
+
+<Paragraph>
+    Blazorise enumerations such as <Code>Extended Enumeration Variants</Code> and <Code>TextColor</Code> now support <Strong>nested variants</Strong>, enabling more expressive and fine-grained styling options. Previously, only base values like <Code>Background.Success</Code> or <Code>TextColor.Danger</Code> were available; now you can specify variants such as <Code>Background.Success.Subtle</Code> or <Code>TextColor.Success.Emphasis</Code> to match newer design systems and theme palettes.
+</Paragraph>
+
+<Paragraph>
+    This enhancement is powered by the new <Code>IEnumerationNameBuilder</Code> infrastructure, which allows each CSS provider to define how enumeration names are formatted. For example, the Bootstrap provider can automatically generate class names like <Code>bg-success-subtle</Code> or <Code>text-success-emphasis</Code>. The feature is fully backward-compatible with existing markup and ready for use in all supported frameworks.
+</Paragraph>
