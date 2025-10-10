@@ -1650,6 +1650,71 @@ public abstract class ThemeGenerator : IThemeGenerator
     }
 
     /// <summary>
+    /// Sass-compatible mix of two colors by weight percentage (0..100).
+    /// Equivalent to Sass mix($c1, $c2, $weight).
+    /// Weight favors c1. Handles alpha like Sass/Dart Sass.
+    /// </summary>
+    protected static System.Drawing.Color Mix( System.Drawing.Color c1, System.Drawing.Color c2, double weightPercent )
+    {
+        // Clamp weight
+        var p = Math.Max( 0.0, Math.Min( 100.0, weightPercent ) ) / 100.0;
+
+        // Convert channels to [0..255], alpha to [0..1]
+        double r1 = c1.R, g1 = c1.G, b1 = c1.B, a1 = c1.A / 255.0;
+        double r2 = c2.R, g2 = c2.G, b2 = c2.B, a2 = c2.A / 255.0;
+
+        // Sass/Dart Sass algorithm
+        var w = p * 2.0 - 1.0;
+        var a = a1 - a2;
+
+        double w1;
+        var wa = w * a;
+
+        if ( Math.Abs( wa + 1.0 ) < 1e-12 )
+        {
+            // Avoid division by zero; fall back
+            w1 = w;
+        }
+        else
+        {
+            w1 = ( w + a ) / ( 1.0 + wa );
+        }
+
+        w1 = ( w1 + 1.0 ) / 2.0;
+        var w2 = 1.0 - w1;
+
+        // Combine RGB
+        var r = (int)Math.Round( r1 * w1 + r2 * w2 );
+        var g = (int)Math.Round( g1 * w1 + g2 * w2 );
+        var b = (int)Math.Round( b1 * w1 + b2 * w2 );
+
+        // Combine alpha (simple weighted blend per Sass)
+        var aOut = a1 * p + a2 * ( 1.0 - p );
+        var aByte = (int)Math.Round( aOut * 255.0 );
+
+        r = Clamp8( r );
+        g = Clamp8( g );
+        b = Clamp8( b );
+        aByte = Clamp8( aByte );
+
+        return System.Drawing.Color.FromArgb( aByte, r, g, b );
+
+        static int Clamp8( int v ) => v < 0 ? 0 : ( v > 255 ? 255 : v );
+    }
+
+    /// <summary>
+    /// Sass tint-color($color, $weight) = mix(white, $color, $weight).
+    /// </summary>
+    public static System.Drawing.Color TintColor( System.Drawing.Color baseColor, double weightPercent )
+        => Mix( System.Drawing.Color.FromArgb( 255, 255, 255, 255 ), baseColor, weightPercent );
+
+    /// <summary>
+    /// Sass shade-color($color, $weight) = mix(black, $color, $weight). (Not used by Bootstrap’s subtle, but handy.)
+    /// </summary>
+    public static System.Drawing.Color ShadeColor( System.Drawing.Color baseColor, double weightPercent )
+        => Mix( System.Drawing.Color.FromArgb( 255, 0, 0, 0 ), baseColor, weightPercent );
+
+    /// <summary>
     /// Gets the first string that is not null or empty.
     /// </summary>
     /// <param name="first">First found string that is not empty.</param>
