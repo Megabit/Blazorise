@@ -23,7 +23,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 88 ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 88 ) );
 
         sb.Append( $".bg-{variant}" ).Append( "{" )
             .Append( $"background-color: {hexBackgroundColor} !important;" )
@@ -42,7 +42,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 80 ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 88 ) );
 
         sb.Append( $".ant-border-{variant}" ).Append( "{" )
             .Append( $"border-color: {hexBackgroundColor} !important;" )
@@ -871,7 +871,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
             : ParseColor( inTextColor );
 
         var hexTextColor = ToHex( textColor );
-        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, 22 ) );
+        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, theme.TextColorOptions.EmphasisShadeWeight ?? 22 ) );
 
         sb.Append( $".ant-typography-{variant}" )
             .Append( "{" )

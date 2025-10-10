@@ -38,7 +38,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 80 ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 80 ) );
 
         sb.Append( $".bg-{variant}" ).Append( "{" )
             .Append( $"background-color: {hexBackgroundColor} !important;" )
@@ -57,7 +57,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 80 ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 80 ) );
 
         sb.Append( $".border-{variant}" ).Append( "{" )
             .Append( $"border-color: {hexBackgroundColor} !important;" )
@@ -803,7 +803,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
             : ParseColor( inTextColor );
 
         var hexTextColor = ToHex( textColor );
-        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, 60 ) );
+        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, theme.TextColorOptions.EmphasisShadeWeight ?? 60 ) );
 
         sb.Append( $".text-{variant}" )
             .Append( "{" )
