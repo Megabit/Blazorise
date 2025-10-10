@@ -30,3 +30,9 @@ $border-sizes: (1, 2, 3, 4, 5);
         }
     }
 }
+
+@each $color-name, $color-value in $theme-colors-border-subtle {
+    .border-#{$color-name}-subtle {
+        border-color: #{$color-value} !important;
+    }
+}

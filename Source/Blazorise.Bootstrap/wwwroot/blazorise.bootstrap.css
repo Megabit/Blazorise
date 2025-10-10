@@ -187,7 +187,7 @@
 .b-is-autocomplete.b-is-autocomplete-multipleselection:focus {
   color: #495057;
   background-color: #fff;
-  border-color: #80bdff;
+  border-color: rgb(127.5, 189, 255);
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
@@ -2058,16 +2058,16 @@ li.list-group-item-action {
 }
 .custom-switch .custom-control-input.custom-control-input-xs + .custom-control-label::before {
   height: 0.5rem;
-  width: calc(0.75rem + (0.5rem / 2));
+  width: calc(0.75rem + 0.5rem / 2);
   border-radius: 1rem;
 }
 .custom-switch .custom-control-input.custom-control-input-xs + .custom-control-label::after {
   height: calc(0.5rem - 4px);
   width: calc(0.5rem - 4px);
-  border-radius: calc(0.75rem - (0.5rem / 2));
+  border-radius: calc(0.75rem - 0.5rem / 2);
 }
 .custom-switch .custom-control-input.custom-control-input-xs:checked ~ .custom-control-label::after {
-  transform: translateX(calc(0.75rem - (0.5rem / 2)));
+  transform: translateX(calc(0.75rem - 0.5rem / 2));
 }
 
 .custom-switch .custom-control-input.custom-control-input-sm + .custom-control-label {
@@ -2077,16 +2077,16 @@ li.list-group-item-action {
 }
 .custom-switch .custom-control-input.custom-control-input-sm + .custom-control-label::before {
   height: 0.75rem;
-  width: calc(1rem + (0.75rem / 2));
+  width: calc(1rem + 0.75rem / 2);
   border-radius: 1.5rem;
 }
 .custom-switch .custom-control-input.custom-control-input-sm + .custom-control-label::after {
   height: calc(0.75rem - 4px);
   width: calc(0.75rem - 4px);
-  border-radius: calc(1rem - (0.75rem / 2));
+  border-radius: calc(1rem - 0.75rem / 2);
 }
 .custom-switch .custom-control-input.custom-control-input-sm:checked ~ .custom-control-label::after {
-  transform: translateX(calc(1rem - (0.75rem / 2)));
+  transform: translateX(calc(1rem - 0.75rem / 2));
 }
 
 .custom-switch .custom-control-input.custom-control-input-md + .custom-control-label {
@@ -2096,16 +2096,16 @@ li.list-group-item-action {
 }
 .custom-switch .custom-control-input.custom-control-input-md + .custom-control-label::before {
   height: 1.5rem;
-  width: calc(2rem + (1.5rem / 2));
+  width: calc(2rem + 1.5rem / 2);
   border-radius: 3rem;
 }
 .custom-switch .custom-control-input.custom-control-input-md + .custom-control-label::after {
   height: calc(1.5rem - 4px);
   width: calc(1.5rem - 4px);
-  border-radius: calc(2rem - (1.5rem / 2));
+  border-radius: calc(2rem - 1.5rem / 2);
 }
 .custom-switch .custom-control-input.custom-control-input-md:checked ~ .custom-control-label::after {
-  transform: translateX(calc(2rem - (1.5rem / 2)));
+  transform: translateX(calc(2rem - 1.5rem / 2));
 }
 
 .custom-switch .custom-control-input.custom-control-input-lg + .custom-control-label {
@@ -2115,16 +2115,16 @@ li.list-group-item-action {
 }
 .custom-switch .custom-control-input.custom-control-input-lg + .custom-control-label::before {
   height: 2rem;
-  width: calc(3rem + (2rem / 2));
+  width: calc(3rem + 2rem / 2);
   border-radius: 4rem;
 }
 .custom-switch .custom-control-input.custom-control-input-lg + .custom-control-label::after {
   height: calc(2rem - 4px);
   width: calc(2rem - 4px);
-  border-radius: calc(3rem - (2rem / 2));
+  border-radius: calc(3rem - 2rem / 2);
 }
 .custom-switch .custom-control-input.custom-control-input-lg:checked ~ .custom-control-label::after {
-  transform: translateX(calc(3rem - (2rem / 2)));
+  transform: translateX(calc(3rem - 2rem / 2));
 }
 
 .custom-switch .custom-control-input.custom-control-input-xl + .custom-control-label {
@@ -2134,16 +2134,16 @@ li.list-group-item-action {
 }
 .custom-switch .custom-control-input.custom-control-input-xl + .custom-control-label::before {
   height: 2.5rem;
-  width: calc(4rem + (2.5rem / 2));
+  width: calc(4rem + 2.5rem / 2);
   border-radius: 5rem;
 }
 .custom-switch .custom-control-input.custom-control-input-xl + .custom-control-label::after {
   height: calc(2.5rem - 4px);
   width: calc(2.5rem - 4px);
-  border-radius: calc(4rem - (2.5rem / 2));
+  border-radius: calc(4rem - 2.5rem / 2);
 }
 .custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::after {
-  transform: translateX(calc(4rem - (2.5rem / 2)));
+  transform: translateX(calc(4rem - 2.5rem / 2));
 }
 
 table.table tbody tr:not(.table-group).selected {
@@ -2294,6 +2294,38 @@ td:focus {
     opacity: 0;
   }
 }
+.bg-primary-subtle {
+  background-color: rgb(204, 228.6, 255) !important;
+}
+
+.bg-secondary-subtle {
+  background-color: rgb(225.6, 227.4, 229) !important;
+}
+
+.bg-success-subtle {
+  background-color: rgb(212, 237.4, 217.8) !important;
+}
+
+.bg-info-subtle {
+  background-color: rgb(208.6, 236.4, 240.8) !important;
+}
+
+.bg-warning-subtle {
+  background-color: rgb(255, 242.6, 205.4) !important;
+}
+
+.bg-danger-subtle {
+  background-color: rgb(248, 214.6, 217.8) !important;
+}
+
+.bg-light-subtle {
+  background-color: rgb(251.5, 252, 252.5) !important;
+}
+
+.bg-dark-subtle {
+  background-color: #ced4da !important;
+}
+
 .border-1 {
   border: 1px solid #dee2e6 !important;
 }
@@ -3427,6 +3459,38 @@ td:focus {
 
 .border-link-left-5 {
   border-left: 5px solid #3273dc !important;
+}
+
+.border-primary-subtle {
+  border-color: rgb(153, 202.2, 255) !important;
+}
+
+.border-secondary-subtle {
+  border-color: rgb(196.2, 199.8, 203) !important;
+}
+
+.border-success-subtle {
+  border-color: rgb(169, 219.8, 180.6) !important;
+}
+
+.border-info-subtle {
+  border-color: rgb(162.2, 217.8, 226.6) !important;
+}
+
+.border-warning-subtle {
+  border-color: rgb(255, 230.2, 155.8) !important;
+}
+
+.border-danger-subtle {
+  border-color: rgb(241, 174.2, 180.6) !important;
+}
+
+.border-light-subtle {
+  border-color: #e9ecef !important;
+}
+
+.border-dark-subtle {
+  border-color: #adb5bd !important;
 }
 
 .cursor-pointer {
@@ -5583,6 +5647,38 @@ ol.ordered-list-upper-roman {
 }
 .text-decoration-inherit {
   text-decoration: inherit !important;
+}
+
+.text-primary-emphasis {
+  color: rgb(0, 49.2, 102) !important;
+}
+
+.text-secondary-emphasis {
+  color: rgb(43.2, 46.8, 50) !important;
+}
+
+.text-success-emphasis {
+  color: rgb(16, 66.8, 27.6) !important;
+}
+
+.text-info-emphasis {
+  color: rgb(9.2, 64.8, 73.6) !important;
+}
+
+.text-warning-emphasis {
+  color: rgb(102, 77.2, 2.8) !important;
+}
+
+.text-danger-emphasis {
+  color: rgb(88, 21.2, 27.6) !important;
+}
+
+.text-light-emphasis {
+  color: #495057 !important;
+}
+
+.text-dark-emphasis {
+  color: #495057 !important;
 }
 
 .flatpickr-months {
