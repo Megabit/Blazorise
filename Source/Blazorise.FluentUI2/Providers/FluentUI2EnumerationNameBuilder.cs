@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Blazorise.Bootstrap5.Providers;
+namespace Blazorise.FluentUI2.Providers;
 
 public sealed class FluentUI2EnumerationNameBuilder<T> : IEnumerationNameBuilder<T>
     where T : Enumeration<T>

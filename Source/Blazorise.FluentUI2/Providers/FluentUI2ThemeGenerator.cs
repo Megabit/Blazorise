@@ -2,7 +2,7 @@
 using System.Text;
 #endregion
 
-namespace Blazorise.FluentUI2;
+namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2ThemeGenerator : ThemeGenerator
 {

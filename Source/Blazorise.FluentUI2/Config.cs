@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using Blazorise.Bootstrap5.Providers;
+using Blazorise.FluentUI2.Providers;
 using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
