@@ -12214,6 +12214,92 @@ builder.Services
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 
+        public const string BackgroundColorsExample = @"<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Primary"" TextColor=""TextColor.White"">
+    Primary
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"">
+    Primary Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Secondary"" TextColor=""TextColor.White"">
+    Secondary
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Secondary.Subtle"" TextColor=""TextColor.Secondary.Emphasis"">
+    Secondary Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Success"" TextColor=""TextColor.White"">
+    Success
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Success.Subtle"" TextColor=""TextColor.Success.Emphasis"">
+    Success Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Danger"" TextColor=""TextColor.White"">
+    Danger
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Danger.Subtle"" TextColor=""TextColor.Danger.Emphasis"">
+    Danger Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Warning"" TextColor=""TextColor.Dark"">
+    Warning
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Warning.Subtle"" TextColor=""TextColor.Warning.Emphasis"">
+    Warning Subtle
+</Div>";
+
+        public const string TextColorsExample = @"<Paragraph TextColor=""TextColor.Primary"">
+    Primary
+</Paragraph>
+<Paragraph TextColor=""TextColor.Primary.Emphasis"">
+    Primary Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Secondary"">
+    Secondary
+</Paragraph>
+<Paragraph TextColor=""TextColor.Secondary.Emphasis"">
+    Secondary Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Success"">
+    Success
+</Paragraph>
+<Paragraph TextColor=""TextColor.Success.Emphasis"">
+    Success Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Danger"">
+    Danger
+</Paragraph>
+<Paragraph TextColor=""TextColor.Danger.Emphasis"">
+    Danger Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Warning"">
+    Warning
+</Paragraph>
+<Paragraph TextColor=""TextColor.Warning.Emphasis"">
+    Warning Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Info"" Background=""Background.Dark"">
+    Info
+</Paragraph>
+<Paragraph TextColor=""TextColor.Info.Emphasis"">
+    Info Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Light"">
+    Light
+</Paragraph>
+<Paragraph TextColor=""TextColor.Light.Emphasis"" Background=""Background.Dark"">
+    Light Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Dark"">
+    Dark
+</Paragraph>
+<Paragraph TextColor=""TextColor.Dark.Emphasis"">
+    Dark Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Body"">
+    Body
+</Paragraph>
+<Paragraph TextColor=""TextColor.Body.Emphasis"">
+    Body Emphasis
+</Paragraph>";
+
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />
     <FileEdit Multiple />
