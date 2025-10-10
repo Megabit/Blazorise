@@ -2,30 +2,36 @@
     --b-bar-horizontal-height: 60px;
 }
 
-$white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black: #000 !default;
+// ------------------------------------------------------------
+// Ant base tokens (keep/override as needed)
+// ------------------------------------------------------------
+$ant-white: #ffffff !default;
+$ant-black: #000000 !default;
 
+$ant-gray-1: #ffffff !default;
+$ant-gray-2: #fafafa !default;
+$ant-gray-3: #f5f5f5 !default;
+$ant-gray-4: #f0f0f0 !default;
+$ant-gray-5: #d9d9d9 !default;
+$ant-gray-6: #bfbfbf !default;
+$ant-gray-7: #8c8c8c !default;
+$ant-gray-8: #595959 !default;
+$ant-gray-9: #434343 !default;
+$ant-gray-10: #262626 !default;
+
+// Text contrast defaults
 $text-light: #fff !default;
-$text-dark: #212529 !default;
+$text-dark: $ant-gray-10 !default;
 $text-muted: #6c757d !default;
-
-$body-color: #212529 !default;
 
 $yiq-text-light: $text-light !default;
 $yiq-text-dark: $text-dark !default;
-
 // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
 $yiq-contrasted-threshold: 150 !default;
 
+// ------------------------------------------------------------
+// Theme semantic colors
+// ------------------------------------------------------------
 $primary: #1890ff !default;
 $secondary: #6c757d !default;
 $success: #35c613 !default;
@@ -36,14 +42,49 @@ $light: #fafafa !default;
 $dark: #343a40 !default;
 $link: #3273dc !default;
 
-$theme-colors: () !default;
-$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link), $theme-colors);
+// Body base tokens (treated like other variants)
+$body-bg: $ant-gray-1 !default; // usually white
+$body-color: $ant-gray-10 !default; // readable neutral
 
-$body-background: #fff;
+// ------------------------------------------------------------
+// Helpers + tunable weights
+// ------------------------------------------------------------
+@function tint-color($color, $weight) {
+    @return mix($ant-white, $color, $weight);
+}
+
+@function shade-color($color, $weight) {
+    @return mix($ant-black, $color, $weight);
+}
+
+$bg-subtle-tint-weight: 88% !default; // lightness for -subtle
+$text-emphasis-shade-weight: 22% !default; // depth for -emphasis
+
+// ------------------------------------------------------------
+// Theme maps
+// ------------------------------------------------------------
+
+// Background (and general) color variants
+$theme-colors: () !default;
+$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link": $link ), $theme-colors);
+
+// Subtle backgrounds (computed uniformly)
+$theme-colors-bg-subtle: () !default;
+$theme-colors-bg-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $bg-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $bg-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $bg-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $bg-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $bg-subtle-tint-weight), "danger": tint-color(map-get($theme-colors, "danger"), $bg-subtle-tint-weight), "light": mix($ant-gray-2, $ant-white, 50%), "dark": $ant-gray-6, "link": tint-color(map-get($theme-colors, "link"), $bg-subtle-tint-weight) ), $theme-colors-bg-subtle);
+
+// Text emphasis (also uniform, including body)
+$theme-colors-text-emphasis: () !default;
+$theme-colors-text-emphasis: map-merge(( "primary": shade-color(map-get($theme-colors, "primary"), $text-emphasis-shade-weight), "secondary": shade-color(map-get($theme-colors, "secondary"), $text-emphasis-shade-weight), "success": shade-color(map-get($theme-colors, "success"), $text-emphasis-shade-weight), "info": shade-color(map-get($theme-colors, "info"), $text-emphasis-shade-weight), "warning": shade-color(map-get($theme-colors, "warning"), $text-emphasis-shade-weight), "danger": shade-color(map-get($theme-colors, "danger"), $text-emphasis-shade-weight), "light": shade-color($ant-gray-7, 10%), "dark": tint-color($ant-gray-8, 15%), "link": shade-color(map-get($theme-colors, "link"), $text-emphasis-shade-weight) ), $theme-colors-text-emphasis);
+
+// ------------------------------------------------------------
+// Other ant tokens you had (unchanged)
+// ------------------------------------------------------------
 $component-background: #fff;
 
 $background-color-light: hsv_to_color(0, 0, 98%); // background of header and selected item
 $background-color-base: hsv_to_color(0, 0, 96%); // Default grey background color
+
+
 
 // Disabled states
 $disabled-color: fade(#000, 25%);
@@ -56,7 +97,7 @@ $border-radius: .25rem !default;
 $border-radius-lg: .3rem !default;
 $border-radius-sm: .2rem !default;
 
-$component-active-color: $white !default;
+$component-active-color: $ant-white !default;
 $component-active-bg: theme-color("primary") !default;
 
 // Set a specific jump point for requesting color jumps
@@ -221,7 +262,7 @@ $pagination-font-family: Arial;
 $pagination-font-weight-active: 500;
 $pagination-item-bg-active: $component-background;
 $pagination-item-link-bg: $component-background;
-$pagination-item-disabled-color-active: $white;
+$pagination-item-disabled-color-active: $ant-white;
 $pagination-item-disabled-bg-active: darken($disabled-bg, 10%);
 $pagination-item-input-bg: $component-background;
 
@@ -235,38 +276,38 @@ $border-color: #adb5bd;
 $sizes: () !default;
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
 
-$box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
-$box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
-$box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;
+$box-shadow-sm: 0 .125rem .25rem rgba($ant-black, .075) !default;
+$box-shadow: 0 .5rem 1rem rgba($ant-black, .15) !default;
+$box-shadow-lg: 0 1rem 3rem rgba($ant-black, .175) !default;
 
 // List group
 
 $list-group-color: null !default;
-$list-group-bg: $white !default;
-$list-group-border-color: rgba($black, .125) !default;
+$list-group-bg: $ant-white !default;
+$list-group-border-color: rgba($ant-black, .125) !default;
 $list-group-border-width: $border-width !default;
 $list-group-border-radius: $border-radius !default;
 
 $list-group-item-padding-y: .75rem !default;
 $list-group-item-padding-x: 1.25rem !default;
 
-$list-group-hover-bg: $gray-100 !default;
+$list-group-hover-bg: $ant-gray-1 !default;
 $list-group-active-color: $component-active-color !default;
 $list-group-active-bg: $component-active-bg !default;
 $list-group-active-border-color: $list-group-active-bg !default;
 
-$list-group-disabled-color: $gray-600 !default;
+$list-group-disabled-color: $ant-gray-6 !default;
 $list-group-disabled-bg: $list-group-bg !default;
 
-$list-group-action-color: $gray-700 !default;
+$list-group-action-color: $ant-gray-7 !default;
 $list-group-action-hover-color: $list-group-action-color !default;
 
 $list-group-action-active-color: $body-color !default;
-$list-group-action-active-bg: $gray-200 !default;
+$list-group-action-active-bg: $ant-gray-2 !default;
 
 // Blockquote
 
-$blockquote-small-color: $gray-600 !default;
+$blockquote-small-color: $ant-gray-6 !default;
 $blockquote-small-font-size: 12px !default;
 $blockquote-font-size: 16px * 1.25 !default;
 

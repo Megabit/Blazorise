@@ -22,8 +22,15 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 88 ) );
+
         sb.Append( $".bg-{variant}" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".bg-{variant}-subtle" ).Append( "{" )
+            .Append( $"background-color: {hexBackgroundColorSubtle} !important;" )
             .AppendLine( "}" );
 
         sb.Append( $".ant-hero-{variant}" ).Append( "{" )
@@ -34,8 +41,15 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 80 ) );
+
         sb.Append( $".ant-border-{variant}" ).Append( "{" )
-            .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"border-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".ant-border-{variant}-subtle" ).Append( "{" )
+            .Append( $"border-color: {hexBackgroundColorSubtle} !important;" )
             .AppendLine( "}" );
     }
 
@@ -857,10 +871,16 @@ public class AntDesignThemeGenerator : ThemeGenerator
             : ParseColor( inTextColor );
 
         var hexTextColor = ToHex( textColor );
+        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, 22 ) );
 
         sb.Append( $".ant-typography-{variant}" )
             .Append( "{" )
             .Append( $"color: {hexTextColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( $".ant-typography-{variant}-emphasis" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis} !important;" )
             .AppendLine( "}" );
     }
 

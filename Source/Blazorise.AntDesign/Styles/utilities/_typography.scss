@@ -23,12 +23,16 @@
 }
 
 .ant-typography-white {
-    color: $white !important;
+    color: $ant-white !important;
 }
 
 @each $name, $value in $theme-colors {
     .ant-typography-#{$name} {
         color: $value !important;
+    }
+
+    .ant-typography-#{$name}-emphasis {
+        color: #{map-get($theme-colors-text-emphasis, $name)} !important;
     }
 }
 
@@ -36,16 +40,32 @@
     color: $body-color !important;
 }
 
+.ant-typography-body-emphasis {
+    color: shade-color($body-color, $text-emphasis-shade-weight) !important;
+}
+
 .ant-typography-muted {
     color: $text-muted !important;
 }
 
+.ant-typography-muted-emphasis {
+    color: shade-color($text-muted, $text-emphasis-shade-weight) !important;
+}
+
 .ant-typography-black-50 {
-    color: rgba($black, .5) !important;
+    color: rgba($ant-black, .5) !important;
+}
+
+.ant-typography-black-50-emphasis {
+    color: rgba($ant-black, 0.7) !important;
 }
 
 .ant-typography-white-50 {
-    color: rgba($white, .5) !important;
+    color: rgba($ant-white, .5) !important;
+}
+
+.ant-typography-white-50-emphasis {
+    color: rgba($ant-white, 0.8) !important;
 }
 
 // Blockquotes
