@@ -37,26 +37,40 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 80 ) );
+
         sb.Append( $".bg-{variant}" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".bg-{variant}-subtle" ).Append( "{" )
+            .Append( $"background-color: {hexBackgroundColorSubtle} !important;" )
             .AppendLine( "}" );
 
         sb.Append( $".jumbotron-{variant}" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
-            .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .Append( $"color: {ToHex( Contrast( theme, hexBackgroundColor ) )} !important;" )
             .AppendLine( "}" );
     }
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), 80 ) );
+
         sb.Append( $".border-{variant}" ).Append( "{" )
-            .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"border-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".border-{variant}-subtle" ).Append( "{" )
+            .Append( $"border-color: {hexBackgroundColorSubtle} !important;" )
             .AppendLine( "}" );
 
         for ( int i = 1; i <= 5; ++i )
         {
             sb.Append( $".border-{i}.border-{variant}" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"border-color: {hexBackgroundColor} !important;" )
                 .AppendLine( "}" );
         }
     }
@@ -801,10 +815,16 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             : ParseColor( inTextColor );
 
         var hexTextColor = ToHex( textColor );
+        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, 60 ) );
 
         sb.Append( $".text-{variant}" )
             .Append( "{" )
             .Append( $"color: {hexTextColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".text-{variant}-emphasis" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis} !important;" )
             .AppendLine( "}" );
     }
 
