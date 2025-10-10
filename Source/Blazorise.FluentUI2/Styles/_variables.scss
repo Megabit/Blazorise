@@ -902,6 +902,29 @@
 $background-theme-colors: ( "primary": var(--colorBrandBackground), "secondary": var(--colorNeutralBackground3), "success": var(--colorStatusSuccessBackground3), "danger": var(--colorStatusDangerBackground3), "warning": var(--colorStatusWarningBackground3), "info": var(--colorNeutralForeground3), "light": var(--colorNeutralBackground2), "dark": var(--colorNeutralForeground1), "link": var(--colorBrandForegroundLink)) !default;
 $foreground-theme-colors: ( "primary": var(--colorBrandForeground1), "secondary": var(--colorNeutralForeground3), "success": var(--colorStatusSuccessForeground3), "danger": var(--colorPaletteRedForeground3), "warning": var(--colorStatusWarningBackground3), "info": var(--colorNeutralForeground3), "light": var(--colorNeutralForeground4), "dark": var(--colorNeutralForeground1), "link": var(--colorBrandForegroundLink)) !default;
 
+$background-theme-colors-subtle: (
+  "primary": var(--colorBrandBackground2),
+  "secondary": var(--colorNeutralBackground2),
+  "success": var(--colorStatusSuccessBackground1),
+  "danger": var(--colorStatusDangerBackground1),
+  "warning": var(--colorStatusWarningBackground1),
+  "info": var(--colorNeutralBackground2),
+  "light": var(--colorNeutralBackground1Hover), 
+  "dark": var(--colorNeutralBackground5)        
+) !default;
+
+$foreground-theme-colors-emphasis: (
+  "primary": var(--colorBrandForeground2),
+  "secondary": var(--colorNeutralForeground2),
+  "success": var(--colorStatusSuccessForeground2),
+  "danger": var(--colorStatusDangerForeground2),
+  "warning": var(--colorStatusWarningForeground2),
+   "info": var(--colorNeutralForeground2),
+  "light": var(--colorNeutralForeground2), // slightly stronger than Light base
+  "dark": var(--colorNeutralForeground4),  // slightly softer than Dark base
+  "link": var(--colorBrandForegroundOnLight) // softer link on light backgrounds
+) !default;
+
 $spacer: var(--spacingHorizontalM) !default;
 $spacers: () !default;
 $spacers: map-merge( ( 0: 0, 1: var(--spacingHorizontalXS), 2: var(--spacingHorizontalS), 3: var(--spacingHorizontalM), 4: var(--spacingHorizontalL), 5: var(--spacingHorizontalXL) ), $spacers );

@@ -30,6 +30,12 @@ $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--s
                 border-color: $color-value !important;
             }
         }
+
+        @each $color-name, $color-value in $background-theme-colors-subtle {
+            &.fui-Border-#{$color-name}-subtle {
+                border-color: $color-value !important;
+            }
+        }
     }
 
     @each $color-name, $color-value in $background-theme-colors {
@@ -38,6 +44,16 @@ $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--s
         }
 
         .fui-Border-white-#{$size-name} {
+            border-color: #fff !important;
+        }
+    }
+
+    @each $color-name, $color-value in $background-theme-colors-subtle {
+        .fui-Border-#{$color-name}-subtle-#{$size-name} {
+            border: #{$size-value} solid $color-value !important;
+        }
+
+        .fui-Border-white-subtle-#{$size-name} {
             border-color: #fff !important;
         }
     }
@@ -52,11 +68,22 @@ $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--s
                 border-#{$side-name}: #{$size-value} solid $color-value !important;
             }
         }
+        @each $color-name, $color-value in $background-theme-colors-subtle {
+            .fui-Border-#{$color-name}-subtle-#{$side-value}-#{$size-name} {
+                border-#{$side-name}: #{$size-value} solid $color-value !important;
+            }
+        }
     }
 }
 
 @each $color-name, $color-value in $background-theme-colors {
     .fui-Border-#{$color-name} {
+        border: var(--strokeWidthThin) solid $color-value !important;
+    }
+}
+
+@each $color-name, $color-value in $background-theme-colors-subtle {
+    .fui-Border-#{$color-name}-subtle {
         border: var(--strokeWidthThin) solid $color-value !important;
     }
 }

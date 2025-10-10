@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Bootstrap5.Providers;
 using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -27,6 +28,9 @@ public static class Config
 
         serviceCollection.AddScoped<IJSModalModule, Modules.FluentUI2JSModalModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.FluentUI2JSTooltipModule>();
+
+        Enumeration<Background>.SetNameBuilder( new FluentUI2EnumerationNameBuilder<Background>() );
+        Enumeration<TextColor>.SetNameBuilder( new FluentUI2EnumerationNameBuilder<TextColor>() );
 
         return serviceCollection;
     }
