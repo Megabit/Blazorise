@@ -1146,7 +1146,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Badge() => "ant-tag";
 
-    public override string BadgeColor( Color color )
+    public override string BadgeColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
@@ -1160,14 +1160,14 @@ public class AntDesignClassProvider : ClassProvider
             _ => name,
         };
 
-        return $"{Badge()}-{colorName}";
+        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
     }
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "anticon anticon-close";
 
-    public override string BadgeCloseColor( Color color )
+    public override string BadgeCloseColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
@@ -1181,7 +1181,7 @@ public class AntDesignClassProvider : ClassProvider
             _ => name,
         };
 
-        return $"{Badge()}-{colorName}";
+        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
     }
 
     #endregion

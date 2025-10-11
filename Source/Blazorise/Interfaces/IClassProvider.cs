@@ -1030,13 +1030,13 @@ public interface IClassProvider
 
     string Badge();
 
-    string BadgeColor( Color color );
+    string BadgeColor( Color color, bool subtle );
 
     string BadgePill( bool pill );
 
     string BadgeClose();
 
-    string BadgeCloseColor( Color color );
+    string BadgeCloseColor( Color color, bool subtle );
 
     #endregion
 

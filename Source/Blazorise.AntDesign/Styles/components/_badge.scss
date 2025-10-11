@@ -23,11 +23,31 @@
 }
 
 .ant-tag-link {
-    color: var(--ant-primary-color);   
+    color: var(--ant-primary-color);
 }
 
 .ant-tag-pill {
     padding-right: .6em;
     padding-left: .6em;
     border-radius: 10rem;
+}
+
+.ant-tag {
+    @each $color-name, $color-value in $theme-colors-text-emphasis {
+        &.ant-tag-#{$color-name}-subtle {
+            color: #{$color-value} !important;
+            background-color: #{map-get($theme-colors-bg-subtle, $color-name)} !important;
+            border-color: #{map-get($theme-colors-border-subtle, $color-name)} !important;
+        }
+    }
+
+    .anticon.anticon-close {
+        @each $color-name, $color-value in $theme-colors-text-emphasis {
+            &.ant-tag-#{$color-name}-subtle {
+                color: #{$color-value} !important;
+                background-color: #{map-get($theme-colors-bg-subtle, $color-name)} !important;
+                border-color: #{map-get($theme-colors-border-subtle, $color-name)} !important;
+            }
+        }
+    }
 }

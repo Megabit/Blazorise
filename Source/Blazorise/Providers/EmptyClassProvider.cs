@@ -1035,13 +1035,13 @@ class EmptyClassProvider : IClassProvider
 
     public string Badge() => null;
 
-    public string BadgeColor( Color color ) => null;
+    public string BadgeColor( Color color, bool subtle ) => null;
 
     public string BadgePill( bool pill ) => null;
 
     public string BadgeClose() => null;
 
-    public string BadgeCloseColor( Color color ) => null;
+    public string BadgeCloseColor( Color color, bool subtle ) => null;
 
     #endregion
 

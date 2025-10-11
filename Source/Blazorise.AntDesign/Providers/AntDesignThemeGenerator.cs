@@ -42,7 +42,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 88 ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BorderOptions?.SubtleTintWeight ?? 68 ) );
 
         sb.Append( $".ant-border-{variant}" ).Append( "{" )
             .Append( $"border-color: {hexBackgroundColor} !important;" )

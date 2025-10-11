@@ -1352,6 +1352,60 @@ html[data-theme=dark] .surface {
   cursor: pointer;
 }
 
+.fui-Badge-primary-subtle {
+  color: var(--colorBrandForeground2) !important;
+  background-color: var(--colorBrandBackground2) !important;
+  border-color: var(--colorBrandStroke1) !important;
+}
+
+.fui-Badge-secondary-subtle {
+  color: var(--colorNeutralForeground2) !important;
+  background-color: var(--colorNeutralBackground2) !important;
+  border-color: var(--colorNeutralStroke2) !important;
+}
+
+.fui-Badge-success-subtle {
+  color: var(--colorStatusSuccessForeground2) !important;
+  background-color: var(--colorStatusSuccessBackground1) !important;
+  border-color: var(--colorStatusSuccessForeground2) !important;
+}
+
+.fui-Badge-danger-subtle {
+  color: var(--colorStatusDangerForeground2) !important;
+  background-color: var(--colorStatusDangerBackground1) !important;
+  border-color: var(--colorStatusDangerForeground2) !important;
+}
+
+.fui-Badge-warning-subtle {
+  color: var(--colorStatusWarningForeground2) !important;
+  background-color: var(--colorStatusWarningBackground1) !important;
+  border-color: var(--colorStatusWarningForeground2) !important;
+}
+
+.fui-Badge-info-subtle {
+  color: var(--colorNeutralForeground2) !important;
+  background-color: var(--colorNeutralBackground2) !important;
+  border-color: var(--colorNeutralStroke2) !important;
+}
+
+.fui-Badge-light-subtle {
+  color: var(--colorNeutralForeground2) !important;
+  background-color: var(--colorNeutralBackground1Hover) !important;
+  border-color: var(--colorNeutralStroke2) !important;
+}
+
+.fui-Badge-dark-subtle {
+  color: var(--colorNeutralForeground4) !important;
+  background-color: var(--colorNeutralBackground5) !important;
+  border-color: var(--colorNeutralStroke3) !important;
+}
+
+.fui-Badge-link-subtle {
+  color: var(--colorBrandForegroundOnLight) !important;
+  background-color: var(--colorTransparentBackground) !important;
+  border-color: var(--colorBrandStroke1) !important;
+}
+
 .fui-NavigationBar {
   position: relative;
   display: flex;
@@ -8314,6 +8368,10 @@ code {
   background-color: var(--colorNeutralBackground5) !important;
 }
 
+.fui-Background-link-subtle {
+  background-color: var(--colorTransparentBackground) !important;
+}
+
 .fui-Background-white {
   background-color: var(--colorNeutralBackground1) !important;
 }
@@ -8395,6 +8453,9 @@ code {
 }
 .fui-Border-0.fui-Border-dark-subtle {
   border-color: var(--colorNeutralBackground5) !important;
+}
+.fui-Border-0.fui-Border-link-subtle {
+  border-color: var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-primary-0 {
@@ -8533,6 +8594,14 @@ code {
   border-color: #fff !important;
 }
 
+.fui-Border-link-subtle-0 {
+  border: var(--strokeWidthNone) solid var(--colorTransparentBackground) !important;
+}
+
+.fui-Border-white-subtle-0 {
+  border-color: #fff !important;
+}
+
 .fui-Border-top-0 {
   border-top: var(--strokeWidthNone) solid var(--colorNeutralStroke1) !important;
 }
@@ -8603,6 +8672,10 @@ code {
 
 .fui-Border-dark-subtle-top-0 {
   border-top: var(--strokeWidthNone) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-top-0 {
+  border-top: var(--strokeWidthNone) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-end-0 {
@@ -8677,6 +8750,10 @@ code {
   border-right: var(--strokeWidthNone) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-end-0 {
+  border-right: var(--strokeWidthNone) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-bottom-0 {
   border-bottom: var(--strokeWidthNone) solid var(--colorNeutralStroke1) !important;
 }
@@ -8747,6 +8824,10 @@ code {
 
 .fui-Border-dark-subtle-bottom-0 {
   border-bottom: var(--strokeWidthNone) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-bottom-0 {
+  border-bottom: var(--strokeWidthNone) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-start-0 {
@@ -8821,6 +8902,10 @@ code {
   border-left: var(--strokeWidthNone) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-start-0 {
+  border-left: var(--strokeWidthNone) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-1 {
   border: var(--strokeWidthThin) solid var(--colorNeutralStroke1) !important;
 }
@@ -8874,6 +8959,9 @@ code {
 }
 .fui-Border-1.fui-Border-dark-subtle {
   border-color: var(--colorNeutralBackground5) !important;
+}
+.fui-Border-1.fui-Border-link-subtle {
+  border-color: var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-primary-1 {
@@ -9012,6 +9100,14 @@ code {
   border-color: #fff !important;
 }
 
+.fui-Border-link-subtle-1 {
+  border: var(--strokeWidthThin) solid var(--colorTransparentBackground) !important;
+}
+
+.fui-Border-white-subtle-1 {
+  border-color: #fff !important;
+}
+
 .fui-Border-top-1 {
   border-top: var(--strokeWidthThin) solid var(--colorNeutralStroke1) !important;
 }
@@ -9082,6 +9178,10 @@ code {
 
 .fui-Border-dark-subtle-top-1 {
   border-top: var(--strokeWidthThin) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-top-1 {
+  border-top: var(--strokeWidthThin) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-end-1 {
@@ -9156,6 +9256,10 @@ code {
   border-right: var(--strokeWidthThin) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-end-1 {
+  border-right: var(--strokeWidthThin) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-bottom-1 {
   border-bottom: var(--strokeWidthThin) solid var(--colorNeutralStroke1) !important;
 }
@@ -9226,6 +9330,10 @@ code {
 
 .fui-Border-dark-subtle-bottom-1 {
   border-bottom: var(--strokeWidthThin) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-bottom-1 {
+  border-bottom: var(--strokeWidthThin) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-start-1 {
@@ -9300,6 +9408,10 @@ code {
   border-left: var(--strokeWidthThin) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-start-1 {
+  border-left: var(--strokeWidthThin) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-2 {
   border: var(--strokeWidthThick) solid var(--colorNeutralStroke1) !important;
 }
@@ -9353,6 +9465,9 @@ code {
 }
 .fui-Border-2.fui-Border-dark-subtle {
   border-color: var(--colorNeutralBackground5) !important;
+}
+.fui-Border-2.fui-Border-link-subtle {
+  border-color: var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-primary-2 {
@@ -9491,6 +9606,14 @@ code {
   border-color: #fff !important;
 }
 
+.fui-Border-link-subtle-2 {
+  border: var(--strokeWidthThick) solid var(--colorTransparentBackground) !important;
+}
+
+.fui-Border-white-subtle-2 {
+  border-color: #fff !important;
+}
+
 .fui-Border-top-2 {
   border-top: var(--strokeWidthThick) solid var(--colorNeutralStroke1) !important;
 }
@@ -9561,6 +9684,10 @@ code {
 
 .fui-Border-dark-subtle-top-2 {
   border-top: var(--strokeWidthThick) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-top-2 {
+  border-top: var(--strokeWidthThick) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-end-2 {
@@ -9635,6 +9762,10 @@ code {
   border-right: var(--strokeWidthThick) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-end-2 {
+  border-right: var(--strokeWidthThick) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-bottom-2 {
   border-bottom: var(--strokeWidthThick) solid var(--colorNeutralStroke1) !important;
 }
@@ -9705,6 +9836,10 @@ code {
 
 .fui-Border-dark-subtle-bottom-2 {
   border-bottom: var(--strokeWidthThick) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-bottom-2 {
+  border-bottom: var(--strokeWidthThick) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-start-2 {
@@ -9779,6 +9914,10 @@ code {
   border-left: var(--strokeWidthThick) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-start-2 {
+  border-left: var(--strokeWidthThick) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-3 {
   border: var(--strokeWidthThicker) solid var(--colorNeutralStroke1) !important;
 }
@@ -9832,6 +9971,9 @@ code {
 }
 .fui-Border-3.fui-Border-dark-subtle {
   border-color: var(--colorNeutralBackground5) !important;
+}
+.fui-Border-3.fui-Border-link-subtle {
+  border-color: var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-primary-3 {
@@ -9970,6 +10112,14 @@ code {
   border-color: #fff !important;
 }
 
+.fui-Border-link-subtle-3 {
+  border: var(--strokeWidthThicker) solid var(--colorTransparentBackground) !important;
+}
+
+.fui-Border-white-subtle-3 {
+  border-color: #fff !important;
+}
+
 .fui-Border-top-3 {
   border-top: var(--strokeWidthThicker) solid var(--colorNeutralStroke1) !important;
 }
@@ -10040,6 +10190,10 @@ code {
 
 .fui-Border-dark-subtle-top-3 {
   border-top: var(--strokeWidthThicker) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-top-3 {
+  border-top: var(--strokeWidthThicker) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-end-3 {
@@ -10114,6 +10268,10 @@ code {
   border-right: var(--strokeWidthThicker) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-end-3 {
+  border-right: var(--strokeWidthThicker) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-bottom-3 {
   border-bottom: var(--strokeWidthThicker) solid var(--colorNeutralStroke1) !important;
 }
@@ -10184,6 +10342,10 @@ code {
 
 .fui-Border-dark-subtle-bottom-3 {
   border-bottom: var(--strokeWidthThicker) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-bottom-3 {
+  border-bottom: var(--strokeWidthThicker) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-start-3 {
@@ -10258,6 +10420,10 @@ code {
   border-left: var(--strokeWidthThicker) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-start-3 {
+  border-left: var(--strokeWidthThicker) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-4 {
   border: var(--strokeWidthThickest) solid var(--colorNeutralStroke1) !important;
 }
@@ -10311,6 +10477,9 @@ code {
 }
 .fui-Border-4.fui-Border-dark-subtle {
   border-color: var(--colorNeutralBackground5) !important;
+}
+.fui-Border-4.fui-Border-link-subtle {
+  border-color: var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-primary-4 {
@@ -10449,6 +10618,14 @@ code {
   border-color: #fff !important;
 }
 
+.fui-Border-link-subtle-4 {
+  border: var(--strokeWidthThickest) solid var(--colorTransparentBackground) !important;
+}
+
+.fui-Border-white-subtle-4 {
+  border-color: #fff !important;
+}
+
 .fui-Border-top-4 {
   border-top: var(--strokeWidthThickest) solid var(--colorNeutralStroke1) !important;
 }
@@ -10519,6 +10696,10 @@ code {
 
 .fui-Border-dark-subtle-top-4 {
   border-top: var(--strokeWidthThickest) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-top-4 {
+  border-top: var(--strokeWidthThickest) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-end-4 {
@@ -10593,6 +10774,10 @@ code {
   border-right: var(--strokeWidthThickest) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-end-4 {
+  border-right: var(--strokeWidthThickest) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-bottom-4 {
   border-bottom: var(--strokeWidthThickest) solid var(--colorNeutralStroke1) !important;
 }
@@ -10663,6 +10848,10 @@ code {
 
 .fui-Border-dark-subtle-bottom-4 {
   border-bottom: var(--strokeWidthThickest) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-bottom-4 {
+  border-bottom: var(--strokeWidthThickest) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-start-4 {
@@ -10737,6 +10926,10 @@ code {
   border-left: var(--strokeWidthThickest) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-start-4 {
+  border-left: var(--strokeWidthThickest) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-5 {
   border: var(--strokeWidthMax) solid var(--colorNeutralStroke1) !important;
 }
@@ -10790,6 +10983,9 @@ code {
 }
 .fui-Border-5.fui-Border-dark-subtle {
   border-color: var(--colorNeutralBackground5) !important;
+}
+.fui-Border-5.fui-Border-link-subtle {
+  border-color: var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-primary-5 {
@@ -10928,6 +11124,14 @@ code {
   border-color: #fff !important;
 }
 
+.fui-Border-link-subtle-5 {
+  border: var(--strokeWidthMax) solid var(--colorTransparentBackground) !important;
+}
+
+.fui-Border-white-subtle-5 {
+  border-color: #fff !important;
+}
+
 .fui-Border-top-5 {
   border-top: var(--strokeWidthMax) solid var(--colorNeutralStroke1) !important;
 }
@@ -10998,6 +11202,10 @@ code {
 
 .fui-Border-dark-subtle-top-5 {
   border-top: var(--strokeWidthMax) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-top-5 {
+  border-top: var(--strokeWidthMax) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-end-5 {
@@ -11072,6 +11280,10 @@ code {
   border-right: var(--strokeWidthMax) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-end-5 {
+  border-right: var(--strokeWidthMax) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-bottom-5 {
   border-bottom: var(--strokeWidthMax) solid var(--colorNeutralStroke1) !important;
 }
@@ -11142,6 +11354,10 @@ code {
 
 .fui-Border-dark-subtle-bottom-5 {
   border-bottom: var(--strokeWidthMax) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle-bottom-5 {
+  border-bottom: var(--strokeWidthMax) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-start-5 {
@@ -11216,6 +11432,10 @@ code {
   border-left: var(--strokeWidthMax) solid var(--colorNeutralBackground5) !important;
 }
 
+.fui-Border-link-subtle-start-5 {
+  border-left: var(--strokeWidthMax) solid var(--colorTransparentBackground) !important;
+}
+
 .fui-Border-primary {
   border: var(--strokeWidthThin) solid var(--colorBrandBackground) !important;
 }
@@ -11282,6 +11502,10 @@ code {
 
 .fui-Border-dark-subtle {
   border: var(--strokeWidthThin) solid var(--colorNeutralBackground5) !important;
+}
+
+.fui-Border-link-subtle {
+  border: var(--strokeWidthThin) solid var(--colorTransparentBackground) !important;
 }
 
 .fui-Border-white {

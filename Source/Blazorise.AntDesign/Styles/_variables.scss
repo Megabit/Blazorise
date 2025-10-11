@@ -58,6 +58,7 @@ $body-color: $ant-gray-10 !default; // readable neutral
 }
 
 $bg-subtle-tint-weight: 88% !default; // lightness for -subtle
+$border-subtle-tint-weight: 66% !default; // lightness for -subtle
 $text-emphasis-shade-weight: 22% !default; // depth for -emphasis
 
 // ------------------------------------------------------------
@@ -70,11 +71,14 @@ $theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "succes
 
 // Subtle backgrounds (computed uniformly)
 $theme-colors-bg-subtle: () !default;
-$theme-colors-bg-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $bg-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $bg-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $bg-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $bg-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $bg-subtle-tint-weight), "danger": tint-color(map-get($theme-colors, "danger"), $bg-subtle-tint-weight), "light": mix($ant-gray-2, $ant-white, 50%), "dark": $ant-gray-6, "link": tint-color(map-get($theme-colors, "link"), $bg-subtle-tint-weight) ), $theme-colors-bg-subtle);
+$theme-colors-bg-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $bg-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $bg-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $bg-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $bg-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $bg-subtle-tint-weight), "error": tint-color(map-get($theme-colors, "danger"), $bg-subtle-tint-weight), "light": mix($ant-gray-2, $ant-white, 50%), "dark": $ant-gray-6, "link": tint-color(map-get($theme-colors, "link"), $bg-subtle-tint-weight) ), $theme-colors-bg-subtle);
+
+$theme-colors-border-subtle: ()!default;
+$theme-colors-border-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $border-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $border-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $border-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $border-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $border-subtle-tint-weight), "error": tint-color(map-get($theme-colors, "danger"), $border-subtle-tint-weight), "light": mix($ant-gray-2, $ant-white, 50%), "dark": $ant-gray-6, "link": tint-color(map-get($theme-colors, "link"), $border-subtle-tint-weight) ), $theme-colors-bg-subtle);
 
 // Text emphasis (also uniform, including body)
 $theme-colors-text-emphasis: () !default;
-$theme-colors-text-emphasis: map-merge(( "primary": shade-color(map-get($theme-colors, "primary"), $text-emphasis-shade-weight), "secondary": shade-color(map-get($theme-colors, "secondary"), $text-emphasis-shade-weight), "success": shade-color(map-get($theme-colors, "success"), $text-emphasis-shade-weight), "info": shade-color(map-get($theme-colors, "info"), $text-emphasis-shade-weight), "warning": shade-color(map-get($theme-colors, "warning"), $text-emphasis-shade-weight), "danger": shade-color(map-get($theme-colors, "danger"), $text-emphasis-shade-weight), "light": shade-color($ant-gray-7, 10%), "dark": tint-color($ant-gray-8, 15%), "link": shade-color(map-get($theme-colors, "link"), $text-emphasis-shade-weight) ), $theme-colors-text-emphasis);
+$theme-colors-text-emphasis: map-merge(( "primary": shade-color(map-get($theme-colors, "primary"), $text-emphasis-shade-weight), "secondary": shade-color(map-get($theme-colors, "secondary"), $text-emphasis-shade-weight), "success": shade-color(map-get($theme-colors, "success"), $text-emphasis-shade-weight), "info": shade-color(map-get($theme-colors, "info"), $text-emphasis-shade-weight), "warning": shade-color(map-get($theme-colors, "warning"), $text-emphasis-shade-weight), "error": shade-color(map-get($theme-colors, "danger"), $text-emphasis-shade-weight), "light": shade-color($ant-gray-7, 10%), "dark": tint-color($ant-gray-8, 15%), "link": shade-color(map-get($theme-colors, "link"), $text-emphasis-shade-weight) ), $theme-colors-text-emphasis);
 
 // ------------------------------------------------------------
 // Other ant tokens you had (unchanged)

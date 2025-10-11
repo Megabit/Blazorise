@@ -57,7 +57,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 80 ) );
+        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BorderOptions?.SubtleTintWeight ?? 60 ) );
 
         sb.Append( $".border-{variant}" ).Append( "{" )
             .Append( $"border-color: {hexBackgroundColor} !important;" )

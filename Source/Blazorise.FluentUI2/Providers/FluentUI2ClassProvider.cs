@@ -1310,13 +1310,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Badge() => "fui-Badge";
 
-    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
+    public override string BadgeColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "fui-Badge__close";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
+    public override string BadgeCloseColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

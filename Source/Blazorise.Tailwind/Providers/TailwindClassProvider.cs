@@ -1727,12 +1727,17 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Badge() => "b-badge inline-flex items-center text-[0.75em] leading-[1em] font-semibold px-2.5 py-1 rounded";
 
-    public override string BadgeColor( Color color )
+    public override string BadgeColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
 
         var name = color?.Name;
+
+        if ( subtle )
+        {
+            // 
+        }
 
         return name switch
         {
@@ -1753,7 +1758,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BadgeClose() => null;
 
-    public override string BadgeCloseColor( Color color ) => BadgeColor( color );
+    public override string BadgeCloseColor( Color color, bool subtle ) => BadgeColor( color, subtle );
 
     #endregion
 

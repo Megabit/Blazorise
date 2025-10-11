@@ -98,7 +98,7 @@ public record ThemeBackgroundOptions : IEnumerable<KeyValuePair<string, Func<str
     public string Muted { get; set; }
 
     /// <summary>
-    /// Gets the percentage of lightness for the 'subtle' effect.
+    /// Gets the percentage of lightness for the 'subtle' color effect.
     /// </summary>
     public int? SubtleTintWeight { get; set; }
 }

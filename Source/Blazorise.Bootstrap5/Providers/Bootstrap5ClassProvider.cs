@@ -1170,13 +1170,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Badge() => "badge";
 
-    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}" : null;
+    public override string BadgeColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? "rounded-pill" : null;
 
     public override string BadgeClose() => "badge-close";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}" : null;
+    public override string BadgeCloseColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 
