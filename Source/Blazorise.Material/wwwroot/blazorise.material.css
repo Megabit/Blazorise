@@ -21,49 +21,49 @@
 }
 
 .badge.badge-primary-subtle, .badge-close.badge-primary-subtle {
-  color: #4c00ba !important;
-  background-color: #e0ccfc !important;
-  border-color: #c099f8 !important;
+  color: #4c00ba;
+  background-color: #e0ccfc;
+  border-color: #c099f8;
 }
 .badge.badge-secondary-subtle, .badge-close.badge-secondary-subtle {
-  color: #02aa9a !important;
-  background-color: #cdf8f4 !important;
-  border-color: #9af0e8 !important;
+  color: #02aa9a;
+  background-color: #cdf8f4;
+  border-color: #9af0e8;
 }
 .badge.badge-success-subtle, .badge-close.badge-success-subtle {
-  color: #4ca800 !important;
-  background-color: #dff7cc !important;
-  border-color: #c0ef99 !important;
+  color: #4ca800;
+  background-color: #dff7cc;
+  border-color: #c0ef99;
 }
 .badge.badge-info-subtle, .badge-close.badge-info-subtle {
-  color: #583bc6 !important;
-  background-color: #e3dbff !important;
-  border-color: #c6b7ff !important;
+  color: #583bc6;
+  background-color: #e3dbff;
+  border-color: #c6b7ff;
 }
 .badge.badge-warning-subtle, .badge-close.badge-warning-subtle {
-  color: #c77700 !important;
-  background-color: #ffeacc !important;
-  border-color: #ffd699 !important;
+  color: #c77700;
+  background-color: #ffeacc;
+  border-color: #ffd699;
 }
 .badge.badge-danger-subtle, .badge-close.badge-danger-subtle {
-  color: #890019 !important;
-  background-color: #efccd2 !important;
-  border-color: #df99a6 !important;
+  color: #890019;
+  background-color: #efccd2;
+  border-color: #df99a6;
 }
 .badge.badge-light-subtle, .badge-close.badge-light-subtle {
-  color: #616161 !important;
-  background-color: #fafafa !important;
-  border-color: #eeeeee !important;
+  color: #616161;
+  background-color: #fafafa;
+  border-color: #eeeeee;
 }
 .badge.badge-dark-subtle, .badge-close.badge-dark-subtle {
-  color: #616161 !important;
-  background-color: #bdbdbd !important;
-  border-color: #9e9e9e !important;
+  color: #616161;
+  background-color: #bdbdbd;
+  border-color: #9e9e9e;
 }
 .badge.badge-link-subtle, .badge-close.badge-link-subtle {
-  color: #275aac !important;
-  background-color: #d6e3f8 !important;
-  border-color: #adc7f1 !important;
+  color: #275aac;
+  background-color: #d6e3f8;
+  border-color: #adc7f1;
 }
 
 .b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item {

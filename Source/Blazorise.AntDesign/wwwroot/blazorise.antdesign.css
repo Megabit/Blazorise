@@ -135,94 +135,94 @@ html {
 }
 
 .ant-tag.ant-tag-primary-subtle {
-  color: #1370c7 !important;
-  background-color: #e3f2ff !important;
-  border-color: #e3f2ff !important;
+  color: #1370c7;
+  background-color: #e3f2ff;
+  border-color: #e3f2ff;
 }
 .ant-tag.ant-tag-secondary-subtle {
-  color: #545b62 !important;
-  background-color: #edeeef !important;
-  border-color: #edeeef !important;
+  color: #545b62;
+  background-color: #edeeef;
+  border-color: #edeeef;
 }
 .ant-tag.ant-tag-success-subtle {
-  color: #299a0f !important;
-  background-color: #e7f8e3 !important;
-  border-color: #e7f8e3 !important;
+  color: #299a0f;
+  background-color: #e7f8e3;
+  border-color: #e7f8e3;
 }
 .ant-tag.ant-tag-info-subtle {
-  color: #4b8ebe !important;
-  background-color: #ecf6fe !important;
-  border-color: #ecf6fe !important;
+  color: #4b8ebe;
+  background-color: #ecf6fe;
+  border-color: #ecf6fe;
 }
 .ant-tag.ant-tag-warning-subtle {
-  color: #c19721 !important;
-  background-color: #fef8e5 !important;
-  border-color: #fef8e5 !important;
+  color: #c19721;
+  background-color: #fef8e5;
+  border-color: #fef8e5;
 }
 .ant-tag.ant-tag-error-subtle {
-  color: #c73c3e !important;
-  background-color: #ffeaea !important;
-  border-color: #ffeaea !important;
+  color: #c73c3e;
+  background-color: #ffeaea;
+  border-color: #ffeaea;
 }
 .ant-tag.ant-tag-light-subtle {
-  color: #7e7e7e !important;
-  background-color: #fdfdfd !important;
-  border-color: #fdfdfd !important;
+  color: #7e7e7e;
+  background-color: #fdfdfd;
+  border-color: #fdfdfd;
 }
 .ant-tag.ant-tag-dark-subtle {
-  color: #727272 !important;
-  background-color: #bfbfbf !important;
-  border-color: #bfbfbf !important;
+  color: #727272;
+  background-color: #bfbfbf;
+  border-color: #bfbfbf;
 }
 .ant-tag.ant-tag-link-subtle {
-  color: #275aac !important;
-  background-color: #e6eefb !important;
-  border-color: #e6eefb !important;
+  color: #275aac;
+  background-color: #e6eefb;
+  border-color: #e6eefb;
 }
 .ant-tag .anticon.anticon-close.ant-tag-primary-subtle {
-  color: #1370c7 !important;
-  background-color: #e3f2ff !important;
-  border-color: #e3f2ff !important;
+  color: #1370c7;
+  background-color: #e3f2ff;
+  border-color: #e3f2ff;
 }
 .ant-tag .anticon.anticon-close.ant-tag-secondary-subtle {
-  color: #545b62 !important;
-  background-color: #edeeef !important;
-  border-color: #edeeef !important;
+  color: #545b62;
+  background-color: #edeeef;
+  border-color: #edeeef;
 }
 .ant-tag .anticon.anticon-close.ant-tag-success-subtle {
-  color: #299a0f !important;
-  background-color: #e7f8e3 !important;
-  border-color: #e7f8e3 !important;
+  color: #299a0f;
+  background-color: #e7f8e3;
+  border-color: #e7f8e3;
 }
 .ant-tag .anticon.anticon-close.ant-tag-info-subtle {
-  color: #4b8ebe !important;
-  background-color: #ecf6fe !important;
-  border-color: #ecf6fe !important;
+  color: #4b8ebe;
+  background-color: #ecf6fe;
+  border-color: #ecf6fe;
 }
 .ant-tag .anticon.anticon-close.ant-tag-warning-subtle {
-  color: #c19721 !important;
-  background-color: #fef8e5 !important;
-  border-color: #fef8e5 !important;
+  color: #c19721;
+  background-color: #fef8e5;
+  border-color: #fef8e5;
 }
 .ant-tag .anticon.anticon-close.ant-tag-error-subtle {
-  color: #c73c3e !important;
-  background-color: #ffeaea !important;
-  border-color: #ffeaea !important;
+  color: #c73c3e;
+  background-color: #ffeaea;
+  border-color: #ffeaea;
 }
 .ant-tag .anticon.anticon-close.ant-tag-light-subtle {
-  color: #7e7e7e !important;
-  background-color: #fdfdfd !important;
-  border-color: #fdfdfd !important;
+  color: #7e7e7e;
+  background-color: #fdfdfd;
+  border-color: #fdfdfd;
 }
 .ant-tag .anticon.anticon-close.ant-tag-dark-subtle {
-  color: #727272 !important;
-  background-color: #bfbfbf !important;
-  border-color: #bfbfbf !important;
+  color: #727272;
+  background-color: #bfbfbf;
+  border-color: #bfbfbf;
 }
 .ant-tag .anticon.anticon-close.ant-tag-link-subtle {
-  color: #275aac !important;
-  background-color: #e6eefb !important;
-  border-color: #e6eefb !important;
+  color: #275aac;
+  background-color: #e6eefb;
+  border-color: #e6eefb;
 }
 
 :root {

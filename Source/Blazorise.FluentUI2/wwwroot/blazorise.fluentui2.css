@@ -1353,57 +1353,57 @@ html[data-theme=dark] .surface {
 }
 
 .fui-Badge-primary-subtle {
-  color: var(--colorBrandForeground2) !important;
-  background-color: var(--colorBrandBackground2) !important;
-  border-color: var(--colorBrandStroke1) !important;
+  color: var(--colorBrandForeground2);
+  background-color: var(--colorBrandBackground2);
+  border-color: var(--colorBrandStroke1);
 }
 
 .fui-Badge-secondary-subtle {
-  color: var(--colorNeutralForeground2) !important;
-  background-color: var(--colorNeutralBackground2) !important;
-  border-color: var(--colorNeutralStroke2) !important;
+  color: var(--colorNeutralForeground2);
+  background-color: var(--colorNeutralBackground2);
+  border-color: var(--colorNeutralStroke2);
 }
 
 .fui-Badge-success-subtle {
-  color: var(--colorStatusSuccessForeground2) !important;
-  background-color: var(--colorStatusSuccessBackground1) !important;
-  border-color: var(--colorStatusSuccessForeground2) !important;
+  color: var(--colorStatusSuccessForeground2);
+  background-color: var(--colorStatusSuccessBackground1);
+  border-color: var(--colorStatusSuccessForeground2);
 }
 
 .fui-Badge-danger-subtle {
-  color: var(--colorStatusDangerForeground2) !important;
-  background-color: var(--colorStatusDangerBackground1) !important;
-  border-color: var(--colorStatusDangerForeground2) !important;
+  color: var(--colorStatusDangerForeground2);
+  background-color: var(--colorStatusDangerBackground1);
+  border-color: var(--colorStatusDangerForeground2);
 }
 
 .fui-Badge-warning-subtle {
-  color: var(--colorStatusWarningForeground2) !important;
-  background-color: var(--colorStatusWarningBackground1) !important;
-  border-color: var(--colorStatusWarningForeground2) !important;
+  color: var(--colorStatusWarningForeground2);
+  background-color: var(--colorStatusWarningBackground1);
+  border-color: var(--colorStatusWarningForeground2);
 }
 
 .fui-Badge-info-subtle {
-  color: var(--colorNeutralForeground2) !important;
-  background-color: var(--colorNeutralBackground2) !important;
-  border-color: var(--colorNeutralStroke2) !important;
+  color: var(--colorNeutralForeground2);
+  background-color: var(--colorNeutralBackground2);
+  border-color: var(--colorNeutralStroke2);
 }
 
 .fui-Badge-light-subtle {
-  color: var(--colorNeutralForeground2) !important;
-  background-color: var(--colorNeutralBackground1Hover) !important;
-  border-color: var(--colorNeutralStroke2) !important;
+  color: var(--colorNeutralForeground2);
+  background-color: var(--colorNeutralBackground1Hover);
+  border-color: var(--colorNeutralStroke2);
 }
 
 .fui-Badge-dark-subtle {
-  color: var(--colorNeutralForeground4) !important;
-  background-color: var(--colorNeutralBackground5) !important;
-  border-color: var(--colorNeutralStroke3) !important;
+  color: var(--colorNeutralForeground4);
+  background-color: var(--colorNeutralBackground5);
+  border-color: var(--colorNeutralStroke3);
 }
 
 .fui-Badge-link-subtle {
-  color: var(--colorBrandForegroundOnLight) !important;
-  background-color: var(--colorTransparentBackground) !important;
-  border-color: var(--colorBrandStroke1) !important;
+  color: var(--colorBrandForegroundOnLight);
+  background-color: var(--colorTransparentBackground);
+  border-color: var(--colorBrandStroke1);
 }
 
 .fui-NavigationBar {

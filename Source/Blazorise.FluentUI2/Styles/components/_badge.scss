@@ -66,8 +66,8 @@
 
 @each $color-name, $color-value in $background-theme-colors {
     .fui-Badge-#{$color-name}-subtle {
-        color: #{map-get($foreground-theme-colors-emphasis, $color-name)} !important;
-        background-color: #{map-get($background-theme-colors-subtle, $color-name)} !important;
-        border-color: #{map-get($border-theme-colors-subtle, $color-name)} !important;
+        color: #{map-get($foreground-theme-colors-emphasis, $color-name)};
+        background-color: #{map-get($background-theme-colors-subtle, $color-name)};
+        border-color: #{map-get($border-theme-colors-subtle, $color-name)};
     }
 }
