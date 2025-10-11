@@ -45,6 +45,7 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "extensions/snackbar";
 
 @import "utilities/animations";
+@import "utilities/background-color";
 @import "utilities/border";
 @import "utilities/cursor";
 @import "utilities/display";
