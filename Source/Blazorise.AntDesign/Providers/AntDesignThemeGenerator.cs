@@ -23,7 +23,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 88 ) );
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
 
         sb.Append( $".bg-{variant}" ).Append( "{" )
             .Append( $"background-color: {hexBackgroundColor} !important;" )
@@ -41,15 +41,15 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
-        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BorderOptions?.SubtleTintWeight ?? 68 ) );
+        var hexBorderColor = Var( ThemeVariables.BorderColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
 
         sb.Append( $".ant-border-{variant}" ).Append( "{" )
-            .Append( $"border-color: {hexBackgroundColor} !important;" )
+            .Append( $"border-color: {hexBorderColor} !important;" )
             .AppendLine( "}" );
 
         sb.Append( $".ant-border-{variant}-subtle" ).Append( "{" )
-            .Append( $"border-color: {hexBackgroundColorSubtle} !important;" )
+            .Append( $"border-color: {hexBorderColorSubtle} !important;" )
             .AppendLine( "}" );
     }
 
@@ -471,6 +471,20 @@ public class AntDesignThemeGenerator : ThemeGenerator
         sb.Append( $".ant-tag-{variant}" ).Append( "{" )
             .Append( $"color: {yiqBackground};" )
             .Append( $"background-color: {background};" )
+            .AppendLine( "}" );
+
+        // Subtle variant
+
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
+        var hexTextColorEmphasis = Var( ThemeVariables.TextEmphasisColor( variant ) );
+
+        sb.Append( $".ant-tag.ant-tag-{variant}-subtle," )
+            .Append( $".ant-tag .anticon.anticon-close.ant-tag-{variant}-subtle" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis};" )
+            .Append( $"background-color: {hexBackgroundColorSubtle};" )
+            .Append( $"border-color: {hexBorderColorSubtle};" )
             .AppendLine( "}" );
     }
 

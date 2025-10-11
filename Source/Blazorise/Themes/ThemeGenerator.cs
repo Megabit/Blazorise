@@ -58,7 +58,10 @@ public abstract class ThemeGenerator : IThemeGenerator
             GenerateColorVariables( theme, name, color );
 
         foreach ( var (name, color) in theme.ValidBackgroundColors )
+        {
             GenerateBackgroundVariables( theme, name, color );
+            GenerateBorderVariables( theme, name, color );
+        }
 
         foreach ( var (name, color) in theme.ValidTextColors )
             GenerateTextColorVariables( theme, name, color );
@@ -337,6 +340,26 @@ public abstract class ThemeGenerator : IThemeGenerator
 
         Variables[ThemeVariables.BackgroundColor( variant )] = ToHex( backgroundColor );
         Variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
+        Variables[ThemeVariables.BackgroundSubtleColor( variant )] = ToHex( TintColor( backgroundColor, theme?.BackgroundOptions?.SubtleTintWeight ?? 80 ) );
+    }
+
+    /// <summary>
+    /// Generates the border CSS variables.
+    /// </summary>
+    /// <param name="theme">Currently used theme options.</param>
+    /// <param name="variant">Border variant name.</param>
+    /// <param name="inColor">Border color.</param>
+    protected virtual void GenerateBorderVariables( Theme theme, string variant, string inColor )
+    {
+        var backgroundColor = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor )
+            ? ParseColor( theme.BodyOptions.BackgroundColor )
+            : ParseColor( inColor );
+
+        if ( backgroundColor.IsEmpty )
+            return;
+
+        Variables[ThemeVariables.BorderColor( variant )] = ToHex( backgroundColor );
+        Variables[ThemeVariables.BorderSubtleColor( variant )] = ToHex( TintColor( backgroundColor, theme?.BorderOptions?.SubtleTintWeight ?? 60 ) );
     }
 
     /// <summary>
@@ -356,6 +379,7 @@ public abstract class ThemeGenerator : IThemeGenerator
             return;
 
         Variables[ThemeVariables.TextColor( variant )] = ToHex( color );
+        Variables[ThemeVariables.TextEmphasisColor( variant )] = ToHex( ShadeColor( color, theme.TextColorOptions.EmphasisShadeWeight ?? 60 ) );
     }
 
     /// <summary>

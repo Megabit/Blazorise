@@ -38,7 +38,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BackgroundOptions?.SubtleTintWeight ?? 80 ) );
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
 
         sb.Append( $".bg-{variant}" ).Append( "{" )
             .Append( $"background-color: {hexBackgroundColor} !important;" )
@@ -56,21 +56,21 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
-        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
-        var hexBackgroundColorSubtle = ToHex( TintColor( ParseColor( hexBackgroundColor ), theme?.BorderOptions?.SubtleTintWeight ?? 60 ) );
+        var hexBorderColor = Var( ThemeVariables.BorderColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
 
         sb.Append( $".border-{variant}" ).Append( "{" )
-            .Append( $"border-color: {hexBackgroundColor} !important;" )
+            .Append( $"border-color: {hexBorderColor} !important;" )
             .AppendLine( "}" );
 
         sb.Append( $".border-{variant}-subtle" ).Append( "{" )
-            .Append( $"border-color: {hexBackgroundColorSubtle} !important;" )
+            .Append( $"border-color: {hexBorderColorSubtle} !important;" )
             .AppendLine( "}" );
 
         for ( int i = 1; i <= 5; ++i )
         {
             sb.Append( $".border-{i}.border-{variant}" ).Append( "{" )
-                .Append( $"border-color: {hexBackgroundColor} !important;" )
+                .Append( $"border-color: {hexBorderColor} !important;" )
                 .AppendLine( "}" );
         }
     }
@@ -447,12 +447,26 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
         var yiqBackgroundColor = Contrast( theme, backgroundColor );
 
-        var background = ToHex( backgroundColor );
-        var yiqBackground = ToHex( yiqBackgroundColor );
+        var hexBackgroundColor = ToHex( backgroundColor );
+        var hexYiqBackgroundColor = ToHex( yiqBackgroundColor );
 
         sb.Append( $".badge-{variant}" ).Append( "{" )
-            .Append( $"color: {yiqBackground};" )
-            .Append( $"background-color: {background};" )
+            .Append( $"color: {hexYiqBackgroundColor};" )
+            .Append( $"background-color: {hexBackgroundColor};" )
+            .AppendLine( "}" );
+
+        // Subtle variant
+
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
+        var hexTextColorEmphasis = Var( ThemeVariables.TextEmphasisColor( variant ) );
+
+        sb.Append( $".badge.badge-{variant}-subtle," )
+            .Append( $".badge-close.badge-{variant}-subtle" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis};" )
+            .Append( $"background-color: {hexBackgroundColorSubtle};" )
+            .Append( $"border-color: {hexBorderColorSubtle};" )
             .AppendLine( "}" );
     }
 

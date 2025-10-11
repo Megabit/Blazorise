@@ -69,11 +69,39 @@ public static class ThemeVariables
     public static string BackgroundYiqColor( string variant ) => $"--b-theme-background-{variant}-yiq";
 
     /// <summary>
+    /// Gets the theme background subtle color variable name.
+    /// </summary>
+    /// <param name="variant">Color variant name.</param>
+    /// <returns>Subtle variant name.</returns>
+    public static string BackgroundSubtleColor( string variant ) => $"--b-theme-background-{variant}-subtle";
+
+    /// <summary>
     /// Gets the theme text color variable name.
     /// </summary>
     /// <param name="variant">Text color variant name.</param>
     /// <returns>Text color variant name.</returns>
     public static string TextColor( string variant ) => $"--b-theme-text-{variant}";
+
+    /// <summary>
+    /// Gets the theme text emphasis color variable name.
+    /// </summary>
+    /// <param name="variant">Text color variant name.</param>
+    /// <returns>Text color emphasis name.</returns>
+    public static string TextEmphasisColor( string variant ) => $"--b-theme-text-{variant}-emphasis";
+
+    /// <summary>
+    /// Gets the theme border color variable name.
+    /// </summary>
+    /// <param name="variant">Color variant name.</param>
+    /// <returns>Border variant name.</returns>
+    public static string BorderColor( string variant ) => $"--b-theme-border-{variant}";
+
+    /// <summary>
+    /// Gets the theme border subtle color variable name.
+    /// </summary>
+    /// <param name="variant">Color variant name.</param>
+    /// <returns>Subtle variant name.</returns>
+    public static string BorderSubtleColor( string variant ) => $"--b-theme-border-{variant}-subtle";
 
     /// <summary>
     /// Gets the breakpoint variable name.
