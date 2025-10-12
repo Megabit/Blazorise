@@ -246,12 +246,17 @@ public class FluentBorder :
     }
 
     /// <summary>
-    /// Currently used border rules.
+    /// Tracks the active size bucket for new/implicit rules.
+    /// </summary>
+    private BorderSize currentSize = BorderSize.Is1;
+
+    /// <summary>
+    /// Currently used border rule being built.
     /// </summary>
     private BorderDefinition currentBorderDefinition;
 
     /// <summary>
-    /// List of all border rules to build.
+    /// List of all border rules to build (grouped by size).
     /// </summary>
     private Dictionary<BorderSize, List<BorderDefinition>> rules;
 
@@ -266,7 +271,7 @@ public class FluentBorder :
     private bool dirty = true;
 
     /// <summary>
-    /// Holds the built classnames bases on the border rules.
+    /// Holds the built classnames based on the border rules.
     /// </summary>
     private string classNames;
 
@@ -281,10 +286,9 @@ public class FluentBorder :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules is not null )
+                if ( rules is not null && rules.Count > 0 )
                 {
-                    if ( rules.Count > 0 )
-                        builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( v => (v.Side, v.Color) ) ) ) );
+                    builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( v => (v.Side, v.Color) ) ) ) );
                 }
 
                 if ( borderRadius != BorderRadius.Default )
@@ -312,6 +316,29 @@ public class FluentBorder :
     }
 
     /// <summary>
+    /// Ensure there is a current border definition to work with.
+    /// If none exists yet, we implicitly start a rule with the current size (defaults to Is1).
+    /// </summary>
+    private void EnsureCurrentDefinition()
+    {
+        rules ??= new();
+
+        if ( currentBorderDefinition is not null )
+            return;
+
+        var def = new BorderDefinition { Side = BorderSide.All };
+
+        if ( rules.TryGetValue( currentSize, out var list ) )
+            list.Add( def );
+        else
+            rules.Add( currentSize, new() { def } );
+
+        currentBorderDefinition = def;
+
+        Dirty();
+    }
+
+    /// <summary>
     /// Starts the new size rule.
     /// </summary>
     /// <param name="borderSize">Border size to be applied.</param>
@@ -319,6 +346,8 @@ public class FluentBorder :
     public IFluentBorderWithAll WithSize( BorderSize borderSize )
     {
         rules ??= new();
+
+        currentSize = borderSize;
 
         var borderDefinition = new BorderDefinition { Side = BorderSide.All };
 
@@ -328,31 +357,57 @@ public class FluentBorder :
             rules.Add( borderSize, new() { borderDefinition } );
 
         currentBorderDefinition = borderDefinition;
+
         Dirty();
 
         return this;
     }
 
     /// <summary>
-    /// Starts the new side rule.
+    /// Apply a side to the current rule. If a side was already set, we add a new rule (same size &amp; color) so chaining multiple sides composes instead of overwriting.
     /// </summary>
     /// <param name="borderSide">Border side to be applied.</param>
     /// <returns>Next rule reference.</returns>
     public IFluentBorderWithAll WithSide( BorderSide borderSide )
     {
-        currentBorderDefinition.Side = borderSide;
+        rules ??= new();
+        EnsureCurrentDefinition();
+
+        // If we already targeted a specific side, append a new definition to allow composing:
+        if ( currentBorderDefinition.Side != BorderSide.All && currentBorderDefinition.Side != borderSide )
+        {
+            var newDef = new BorderDefinition
+            {
+                Side = borderSide,
+                Color = currentBorderDefinition.Color
+            };
+
+            if ( rules.TryGetValue( currentSize, out var list ) )
+                list.Add( newDef );
+            else
+                rules.Add( currentSize, new() { newDef } );
+
+            currentBorderDefinition = newDef;
+        }
+        else
+        {
+            currentBorderDefinition.Side = borderSide;
+        }
+
         Dirty();
 
         return this;
     }
 
     /// <summary>
-    /// Starts the new color rule.
+    /// Starts the new color rule (affects the current rule).
     /// </summary>
     /// <param name="borderColor">Border color to be applied.</param>
     /// <returns>Next rule reference.</returns>
     public IFluentBorderColorWithSide WithColor( BorderColor borderColor )
     {
+        EnsureCurrentDefinition();
+
         currentBorderDefinition.Color = borderColor;
         Dirty();
 
@@ -478,24 +533,20 @@ public static class Border
     /// </summary>
     public static IFluentBorderWithAll Is1 => new FluentBorder().Is1;
 
-
     /// <summary>
     /// Borders will be 2px wide.
     /// </summary>
     public static IFluentBorderWithAll Is2 => new FluentBorder().Is2;
-
 
     /// <summary>
     /// Borders will be 3px wide.
     /// </summary>
     public static IFluentBorderWithAll Is3 => new FluentBorder().Is3;
 
-
     /// <summary>
     /// Borders will be 4px wide.
     /// </summary>
     public static IFluentBorderWithAll Is4 => new FluentBorder().Is4;
-
 
     /// <summary>
     /// Borders will be 5px wide.
@@ -523,47 +574,47 @@ public static class Border
     public static IFluentBorderWithAll OnStart => new FluentBorder().Is1.OnStart;
 
     /// <summary>
-    /// Defines the border primary color on all sided of an element.
+    /// Defines the border primary color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Primary => new FluentBorder().Is1.Primary;
 
     /// <summary>
-    /// Defines the border primary color on all sided of an element.
+    /// Defines the border secondary color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Secondary => new FluentBorder().Is1.Secondary;
 
     /// <summary>
-    /// Defines the border success color on all sided of an element.
+    /// Defines the border success color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Success => new FluentBorder().Is1.Success;
 
     /// <summary>
-    /// Defines the border danger color on all sided of an element.
+    /// Defines the border danger color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Danger => new FluentBorder().Is1.Danger;
 
     /// <summary>
-    /// Defines the border warning color on all sided of an element.
+    /// Defines the border warning color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Warning => new FluentBorder().Is1.Warning;
 
     /// <summary>
-    /// Defines the border info color on all sided of an element.
+    /// Defines the border info color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Info => new FluentBorder().Is1.Info;
 
     /// <summary>
-    /// Defines the border light color on all sided of an element.
+    /// Defines the border light color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Light => new FluentBorder().Is1.Light;
 
     /// <summary>
-    /// Defines the border dark color on all sided of an element.
+    /// Defines the border dark color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide Dark => new FluentBorder().Is1.Dark;
 
     /// <summary>
-    /// Defines the border white color on all sided of an element.
+    /// Defines the border white color on all sides of an element.
     /// </summary>
     public static IFluentBorderColorWithSide White => new FluentBorder().Is1.White;
 
