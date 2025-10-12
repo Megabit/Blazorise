@@ -11,17 +11,16 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Components;
 
 /// <summary>
-/// Component for transferring items between two lists.
+/// Represents a component that allows transferring items between two list panes.
 /// </summary>
-/// <typeparam name="TItem">The type of items in the lists.</typeparam>
+/// <typeparam name="TItem">
+/// The type of data item displayed and managed within the transfer lists.
+/// </typeparam>
 public partial class TransferList<TItem> : ComponentBase
 {
-    #region Members
-
-    #endregion
-
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -57,8 +56,10 @@ public partial class TransferList<TItem> : ComponentBase
     }
 
     /// <summary>
-    /// Moves selected items from the start list to the end list.
+    /// Moves the currently selected item(s) from the start (left) list to the end (right) list,
+    /// based on <see cref="SelectionMode"/>.
     /// </summary>
+    /// <returns>A task that completes when the move operation finishes.</returns>
     public async Task MoveSelectedEnd()
     {
         ItemsEnd ??= new();
@@ -84,8 +85,10 @@ public partial class TransferList<TItem> : ComponentBase
     }
 
     /// <summary>
-    /// Moves selected items from the end list to the start list.
+    /// Moves the currently selected item(s) from the end (right) list to the start (left) list,
+    /// based on <see cref="SelectionMode"/>.
     /// </summary>
+    /// <returns>A task that completes when the move operation finishes.</returns>
     public async Task MoveSelectedStart()
     {
         ItemsStart ??= new();
@@ -111,8 +114,9 @@ public partial class TransferList<TItem> : ComponentBase
     }
 
     /// <summary>
-    /// Moves all items from the start list to the end list.
+    /// Moves all eligible items from the start (left) list to the end (right) list.
     /// </summary>
+    /// <returns>A task that completes when the move operation finishes.</returns>
     public async Task MoveAllEnd()
     {
         ItemsEnd ??= new();
@@ -121,7 +125,6 @@ public partial class TransferList<TItem> : ComponentBase
         {
             ItemsEnd.Add( selectedItemStart );
         }
-
 
         for ( int i = ItemsStart.Count - 1; i >= 0; i-- )
         {
@@ -135,8 +138,9 @@ public partial class TransferList<TItem> : ComponentBase
     }
 
     /// <summary>
-    /// Moves all items from the end list to the start list.
+    /// Moves all eligible items from the end (right) list to the start (left) list.
     /// </summary>
+    /// <returns>A task that completes when the move operation finishes.</returns>
     public async Task MoveAllStart()
     {
         ItemsStart ??= new();
@@ -157,7 +161,14 @@ public partial class TransferList<TItem> : ComponentBase
         await NotifyMove( true );
     }
 
-    private async Task NotifyMove( bool clearAllSelections )
+    /// <summary>
+    /// Notifies item list changes and optionally clears all selections.
+    /// </summary>
+    /// <param name="clearAllSelections">
+    /// If <c>true</c>, clears single- and multi-selection for both lists after notifications.
+    /// </param>
+    /// <returns>A task that completes when notifications (and optional clearing) finish.</returns>
+    protected virtual async Task NotifyMove( bool clearAllSelections )
     {
         await Task.WhenAll(
             ItemsStartChanged.InvokeAsync( ItemsStart ),
@@ -173,7 +184,12 @@ public partial class TransferList<TItem> : ComponentBase
         }
     }
 
-    private async Task ClearSelectedItemStart()
+    /// <summary>
+    /// Clears the currently selected item in the start (left) list, if any,
+    /// and raises <see cref="SelectedItemStartChanged"/>.
+    /// </summary>
+    /// <returns>A task that completes when the operation finishes.</returns>
+    protected virtual async Task ClearSelectedItemStart()
     {
         if ( !SelectedItemStart.IsEqual( default ) )
         {
@@ -183,7 +199,12 @@ public partial class TransferList<TItem> : ComponentBase
         }
     }
 
-    private async Task ClearSelectedItemEnd()
+    /// <summary>
+    /// Clears the currently selected item in the end (right) list, if any,
+    /// and raises <see cref="SelectedItemEndChanged"/>.
+    /// </summary>
+    /// <returns>A task that completes when the operation finishes.</returns>
+    protected virtual async Task ClearSelectedItemEnd()
     {
         if ( !SelectedItemEnd.IsEqual( default ) )
         {
@@ -193,7 +214,12 @@ public partial class TransferList<TItem> : ComponentBase
         }
     }
 
-    private async Task ClearSelectedItemsStart()
+    /// <summary>
+    /// Clears the multi-selection in the start (left) list, if any,
+    /// and raises <see cref="SelectedItemsStartChanged"/>.
+    /// </summary>
+    /// <returns>A task that completes when the operation finishes.</returns>
+    protected virtual async Task ClearSelectedItemsStart()
     {
         if ( !SelectedItemsStart.IsNullOrEmpty() )
         {
@@ -203,7 +229,12 @@ public partial class TransferList<TItem> : ComponentBase
         }
     }
 
-    private async Task ClearSelectedItemsEnd()
+    /// <summary>
+    /// Clears the multi-selection in the end (right) list, if any,
+    /// and raises <see cref="SelectedItemsEndChanged"/>.
+    /// </summary>
+    /// <returns>A task that completes when the operation finishes.</returns>
+    protected virtual async Task ClearSelectedItemsEnd()
     {
         if ( !SelectedItemsEnd.IsNullOrEmpty() )
         {
@@ -213,7 +244,14 @@ public partial class TransferList<TItem> : ComponentBase
         }
     }
 
-    private bool IsMoveToStartDisabled( TItem item )
+    /// <summary>
+    /// Returns whether moving the specified item to the start (left) list is disabled.
+    /// </summary>
+    /// <param name="item">The item to evaluate.</param>
+    /// <returns>
+    /// <c>true</c> if movement is disabled by <see cref="CanMoveToStart"/>; otherwise, <c>false</c>.
+    /// </returns>
+    protected virtual bool IsMoveToStartDisabled( TItem item )
     {
         if ( CanMoveToStart is not null )
         {
@@ -223,7 +261,14 @@ public partial class TransferList<TItem> : ComponentBase
         return false;
     }
 
-    private bool IsMoveToEndDisabled( TItem item )
+    /// <summary>
+    /// Returns whether moving the specified item to the end (right) list is disabled.
+    /// </summary>
+    /// <param name="item">The item to evaluate.</param>
+    /// <returns>
+    /// <c>true</c> if movement is disabled by <see cref="CanMoveToEnd"/>; otherwise, <c>false</c>.
+    /// </returns>
+    protected virtual bool IsMoveToEndDisabled( TItem item )
     {
         if ( CanMoveToEnd is not null )
         {
@@ -286,31 +331,31 @@ public partial class TransferList<TItem> : ComponentBase
     #region Properties
 
     /// <summary>
-    /// Returns the items that can be moved to the end list.
+    /// Gets the items from the start (left) list that can be moved to the end (right) list.
     /// </summary>
     public IEnumerable<TItem> MoveableItemsStart
         => ItemsStart?.Where( x => !IsMoveToEndDisabled( x ) );
 
     /// <summary>
-    /// Returns the items that can be moved to the start list.
+    /// Gets the items from the end (right) list that can be moved to the start (left) list.
     /// </summary>
     public IEnumerable<TItem> MoveableItemsEnd
         => ItemsEnd?.Where( x => !IsMoveToStartDisabled( x ) );
 
     /// <summary>
-    /// Gets a value indicating whether the "Move All End" action is disabled.
+    /// Gets a value indicating whether the "Move All to End" action is disabled.
     /// </summary>
     public bool IsMoveAllEndDisabled
         => MoveableItemsStart.IsNullOrEmpty();
 
     /// <summary>
-    /// Gets a value indicating whether the "Move All Start" action is disabled.
+    /// Gets a value indicating whether the "Move All to Start" action is disabled.
     /// </summary>
     public bool IsMoveAllStartDisabled
         => MoveableItemsEnd.IsNullOrEmpty();
 
     /// <summary>
-    /// Gets a value indicating whether the "Move End" action is disabled.
+    /// Gets a value indicating whether the "Move to End" action is disabled based on the current selection mode.
     /// </summary>
     public bool IsMoveEndDisabled => SelectionMode == ListGroupSelectionMode.Single
         ? SelectedItemStart is null
@@ -319,7 +364,7 @@ public partial class TransferList<TItem> : ComponentBase
             : false;
 
     /// <summary>
-    /// Gets a value indicating whether the "Move Start" action is disabled.
+    /// Gets a value indicating whether the "Move to Start" action is disabled based on the current selection mode.
     /// </summary>
     public bool IsMoveStartDisabled => SelectionMode == ListGroupSelectionMode.Single
         ? SelectedItemEnd is null
@@ -328,128 +373,127 @@ public partial class TransferList<TItem> : ComponentBase
             : true;
 
     /// <summary>
-    /// Defines the list-group behavior mode.
+    /// Defines how the list groups behave (e.g., selectable, static).
     /// </summary>
     [Parameter] public ListGroupMode Mode { get; set; } = ListGroupMode.Selectable;
 
     /// <summary>
-    /// Defines the list-group selection mode.
+    /// Defines how many items can be selected at once in each list.
     /// </summary>
     [Parameter] public ListGroupSelectionMode SelectionMode { get; set; } = ListGroupSelectionMode.Single;
 
     /// <summary>
-    /// Enables the "Move All" Actions.
+    /// Determines whether the "Move All" buttons are visible between lists.
     /// </summary>
     [Parameter] public bool ShowMoveAll { get; set; } = true;
 
     /// <summary>
-    /// Defines the color of the move buttons.
+    /// Specifies the color of the move and "Move All" buttons.
     /// </summary>
     [Parameter] public Color MoveButtonsColor { get; set; } = Color.Primary;
 
     /// <summary>
-    /// Makes the list group scrollable by adding a vertical scrollbar.
+    /// Enables a vertical scrollbar when the list exceeds the maximum height.
     /// </summary>
     [Parameter] public bool Scrollable { get; set; } = true;
 
     /// <summary>
-    /// Sets the TransferList MaxHeight. 
-    /// Defaults to 300px.
+    /// Sets the maximum height of each list pane. Defaults to 300px.
     /// </summary>
     [Parameter] public string MaxHeight { get; set; } = "300px";
 
     /// <summary>
-    /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
+    /// Defines the template used to render items in the start (left) list.
     /// </summary>
     [Parameter] public RenderFragment<ItemContext<TItem>> ItemStartTemplate { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
+    /// Defines the template used to render items in the end (right) list.
     /// </summary>
     [Parameter] public RenderFragment<ItemContext<TItem>> ItemEndTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets the items in the list.
+    /// Provides the complete collection of items managed by the transfer list.
     /// </summary>
     [EditorRequired][Parameter] public List<TItem> Items { get; set; }
 
     /// <summary>
-    /// Gets or sets the function to extract the value field from an item.
+    /// Function used to extract the unique value field from an item.
     /// </summary>
     [EditorRequired][Parameter] public Func<TItem, string> ValueField { get; set; }
 
     /// <summary>
-    /// Gets or sets the function to extract the text field from an item.
+    /// Function used to extract the display text field from an item.
     /// </summary>
     [EditorRequired][Parameter] public Func<TItem, string> TextField { get; set; }
 
     /// <summary>
-    /// Whether the item may be moved to the Start List.
+    /// Determines whether a specific item can be moved to the start (left) list.
     /// </summary>
     [Parameter] public Func<TItem, bool> CanMoveToStart { get; set; }
 
     /// <summary>
-    /// Whether the item may be moved to the End List.
+    /// Determines whether a specific item can be moved to the end (right) list.
     /// </summary>
     [Parameter] public Func<TItem, bool> CanMoveToEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the items in the start list.
+    /// Gets or sets the items displayed in the start (left) list.
     /// </summary>
     [Parameter] public List<TItem> ItemsStart { get; set; }
 
     /// <summary>
-    /// Gets or sets the event callback for changes in the start list.
+    /// Event callback triggered when the start list items change.
     /// </summary>
     [Parameter] public EventCallback<List<TItem>> ItemsStartChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the items in the end list.
+    /// Gets or sets the items displayed in the end (right) list.
     /// </summary>
     [Parameter] public List<TItem> ItemsEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the event callback for changes in the end list.
+    /// Event callback triggered when the end list items change.
     /// </summary>
     [Parameter] public EventCallback<List<TItem>> ItemsEndChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets item that is currently selected in the start list.
+    /// Gets or sets the currently selected item in the start (left) list.
     /// </summary>
     [Parameter] public TItem SelectedItemStart { get; set; }
 
     /// <summary>
-    /// Gets or sets the event callback for changes in the start list.
+    /// Event callback triggered when the selected item in the start list changes.
     /// </summary>
     [Parameter] public EventCallback<TItem> SelectedItemStartChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets item that is currently selected in the end list.
+    /// Gets or sets the currently selected item in the end (right) list.
     /// </summary>
     [Parameter] public TItem SelectedItemEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the event callback for changes in the end list.
+    /// Event callback triggered when the selected item in the end list changes.
     /// </summary>
     [Parameter] public EventCallback<TItem> SelectedItemEndChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets items that are currently selected in the start list.
+    /// Gets or sets the currently selected items in the start (left) list for multi-selection mode.
     /// </summary>
     [Parameter] public List<TItem> SelectedItemsStart { get; set; }
 
     /// <summary>
-    /// Gets or sets the event callback for changes to the items in the start list.
+    /// Event callback triggered when the selected items in the start list change.
     /// </summary>
     [Parameter] public EventCallback<List<TItem>> SelectedItemsStartChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets items that are currently selected in the end list.
+    /// Gets or sets the currently selected items in the end (right) list for multi-selection mode.
     /// </summary>
     [Parameter] public List<TItem> SelectedItemsEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the event callback for changes to the items in the end list.
+    /// Event callback triggered when the selected items in the end list change.
     /// </summary>
     [Parameter] public EventCallback<List<TItem>> SelectedItemsEndChanged { get; set; }
 
