@@ -4086,6 +4086,60 @@ td:focus {
 .ant-border-1 {
   border: 1px solid #adb5bd !important;
 }
+.ant-border-1.ant-border-primary {
+  border-color: #1890ff !important;
+}
+.ant-border-1.ant-border-secondary {
+  border-color: #6c757d !important;
+}
+.ant-border-1.ant-border-success {
+  border-color: #35c613 !important;
+}
+.ant-border-1.ant-border-info {
+  border-color: #60b6f4 !important;
+}
+.ant-border-1.ant-border-warning {
+  border-color: #f7c12a !important;
+}
+.ant-border-1.ant-border-danger {
+  border-color: #ff4d4f !important;
+}
+.ant-border-1.ant-border-light {
+  border-color: #fafafa !important;
+}
+.ant-border-1.ant-border-dark {
+  border-color: #343a40 !important;
+}
+.ant-border-1.ant-border-link {
+  border-color: #3273dc !important;
+}
+.ant-border-1.ant-border-primary-subtle {
+  border-color: #e3f2ff !important;
+}
+.ant-border-1.ant-border-secondary-subtle {
+  border-color: #edeeef !important;
+}
+.ant-border-1.ant-border-success-subtle {
+  border-color: #e7f8e3 !important;
+}
+.ant-border-1.ant-border-info-subtle {
+  border-color: #ecf6fe !important;
+}
+.ant-border-1.ant-border-warning-subtle {
+  border-color: #fef8e5 !important;
+}
+.ant-border-1.ant-border-error-subtle {
+  border-color: #ffeaea !important;
+}
+.ant-border-1.ant-border-light-subtle {
+  border-color: #fdfdfd !important;
+}
+.ant-border-1.ant-border-dark-subtle {
+  border-color: #bfbfbf !important;
+}
+.ant-border-1.ant-border-link-subtle {
+  border-color: #e6eefb !important;
+}
 
 .ant-border-primary-1 {
   border: 1px solid #1890ff !important;
@@ -4285,6 +4339,60 @@ td:focus {
 
 .ant-border-2 {
   border: 2px solid #adb5bd !important;
+}
+.ant-border-2.ant-border-primary {
+  border-color: #1890ff !important;
+}
+.ant-border-2.ant-border-secondary {
+  border-color: #6c757d !important;
+}
+.ant-border-2.ant-border-success {
+  border-color: #35c613 !important;
+}
+.ant-border-2.ant-border-info {
+  border-color: #60b6f4 !important;
+}
+.ant-border-2.ant-border-warning {
+  border-color: #f7c12a !important;
+}
+.ant-border-2.ant-border-danger {
+  border-color: #ff4d4f !important;
+}
+.ant-border-2.ant-border-light {
+  border-color: #fafafa !important;
+}
+.ant-border-2.ant-border-dark {
+  border-color: #343a40 !important;
+}
+.ant-border-2.ant-border-link {
+  border-color: #3273dc !important;
+}
+.ant-border-2.ant-border-primary-subtle {
+  border-color: #e3f2ff !important;
+}
+.ant-border-2.ant-border-secondary-subtle {
+  border-color: #edeeef !important;
+}
+.ant-border-2.ant-border-success-subtle {
+  border-color: #e7f8e3 !important;
+}
+.ant-border-2.ant-border-info-subtle {
+  border-color: #ecf6fe !important;
+}
+.ant-border-2.ant-border-warning-subtle {
+  border-color: #fef8e5 !important;
+}
+.ant-border-2.ant-border-error-subtle {
+  border-color: #ffeaea !important;
+}
+.ant-border-2.ant-border-light-subtle {
+  border-color: #fdfdfd !important;
+}
+.ant-border-2.ant-border-dark-subtle {
+  border-color: #bfbfbf !important;
+}
+.ant-border-2.ant-border-link-subtle {
+  border-color: #e6eefb !important;
 }
 
 .ant-border-primary-2 {
@@ -4486,6 +4594,60 @@ td:focus {
 .ant-border-3 {
   border: 3px solid #adb5bd !important;
 }
+.ant-border-3.ant-border-primary {
+  border-color: #1890ff !important;
+}
+.ant-border-3.ant-border-secondary {
+  border-color: #6c757d !important;
+}
+.ant-border-3.ant-border-success {
+  border-color: #35c613 !important;
+}
+.ant-border-3.ant-border-info {
+  border-color: #60b6f4 !important;
+}
+.ant-border-3.ant-border-warning {
+  border-color: #f7c12a !important;
+}
+.ant-border-3.ant-border-danger {
+  border-color: #ff4d4f !important;
+}
+.ant-border-3.ant-border-light {
+  border-color: #fafafa !important;
+}
+.ant-border-3.ant-border-dark {
+  border-color: #343a40 !important;
+}
+.ant-border-3.ant-border-link {
+  border-color: #3273dc !important;
+}
+.ant-border-3.ant-border-primary-subtle {
+  border-color: #e3f2ff !important;
+}
+.ant-border-3.ant-border-secondary-subtle {
+  border-color: #edeeef !important;
+}
+.ant-border-3.ant-border-success-subtle {
+  border-color: #e7f8e3 !important;
+}
+.ant-border-3.ant-border-info-subtle {
+  border-color: #ecf6fe !important;
+}
+.ant-border-3.ant-border-warning-subtle {
+  border-color: #fef8e5 !important;
+}
+.ant-border-3.ant-border-error-subtle {
+  border-color: #ffeaea !important;
+}
+.ant-border-3.ant-border-light-subtle {
+  border-color: #fdfdfd !important;
+}
+.ant-border-3.ant-border-dark-subtle {
+  border-color: #bfbfbf !important;
+}
+.ant-border-3.ant-border-link-subtle {
+  border-color: #e6eefb !important;
+}
 
 .ant-border-primary-3 {
   border: 3px solid #1890ff !important;
@@ -4685,6 +4847,60 @@ td:focus {
 
 .ant-border-4 {
   border: 4px solid #adb5bd !important;
+}
+.ant-border-4.ant-border-primary {
+  border-color: #1890ff !important;
+}
+.ant-border-4.ant-border-secondary {
+  border-color: #6c757d !important;
+}
+.ant-border-4.ant-border-success {
+  border-color: #35c613 !important;
+}
+.ant-border-4.ant-border-info {
+  border-color: #60b6f4 !important;
+}
+.ant-border-4.ant-border-warning {
+  border-color: #f7c12a !important;
+}
+.ant-border-4.ant-border-danger {
+  border-color: #ff4d4f !important;
+}
+.ant-border-4.ant-border-light {
+  border-color: #fafafa !important;
+}
+.ant-border-4.ant-border-dark {
+  border-color: #343a40 !important;
+}
+.ant-border-4.ant-border-link {
+  border-color: #3273dc !important;
+}
+.ant-border-4.ant-border-primary-subtle {
+  border-color: #e3f2ff !important;
+}
+.ant-border-4.ant-border-secondary-subtle {
+  border-color: #edeeef !important;
+}
+.ant-border-4.ant-border-success-subtle {
+  border-color: #e7f8e3 !important;
+}
+.ant-border-4.ant-border-info-subtle {
+  border-color: #ecf6fe !important;
+}
+.ant-border-4.ant-border-warning-subtle {
+  border-color: #fef8e5 !important;
+}
+.ant-border-4.ant-border-error-subtle {
+  border-color: #ffeaea !important;
+}
+.ant-border-4.ant-border-light-subtle {
+  border-color: #fdfdfd !important;
+}
+.ant-border-4.ant-border-dark-subtle {
+  border-color: #bfbfbf !important;
+}
+.ant-border-4.ant-border-link-subtle {
+  border-color: #e6eefb !important;
 }
 
 .ant-border-primary-4 {
@@ -4886,6 +5102,60 @@ td:focus {
 .ant-border-5 {
   border: 5px solid #adb5bd !important;
 }
+.ant-border-5.ant-border-primary {
+  border-color: #1890ff !important;
+}
+.ant-border-5.ant-border-secondary {
+  border-color: #6c757d !important;
+}
+.ant-border-5.ant-border-success {
+  border-color: #35c613 !important;
+}
+.ant-border-5.ant-border-info {
+  border-color: #60b6f4 !important;
+}
+.ant-border-5.ant-border-warning {
+  border-color: #f7c12a !important;
+}
+.ant-border-5.ant-border-danger {
+  border-color: #ff4d4f !important;
+}
+.ant-border-5.ant-border-light {
+  border-color: #fafafa !important;
+}
+.ant-border-5.ant-border-dark {
+  border-color: #343a40 !important;
+}
+.ant-border-5.ant-border-link {
+  border-color: #3273dc !important;
+}
+.ant-border-5.ant-border-primary-subtle {
+  border-color: #e3f2ff !important;
+}
+.ant-border-5.ant-border-secondary-subtle {
+  border-color: #edeeef !important;
+}
+.ant-border-5.ant-border-success-subtle {
+  border-color: #e7f8e3 !important;
+}
+.ant-border-5.ant-border-info-subtle {
+  border-color: #ecf6fe !important;
+}
+.ant-border-5.ant-border-warning-subtle {
+  border-color: #fef8e5 !important;
+}
+.ant-border-5.ant-border-error-subtle {
+  border-color: #ffeaea !important;
+}
+.ant-border-5.ant-border-light-subtle {
+  border-color: #fdfdfd !important;
+}
+.ant-border-5.ant-border-dark-subtle {
+  border-color: #bfbfbf !important;
+}
+.ant-border-5.ant-border-link-subtle {
+  border-color: #e6eefb !important;
+}
 
 .ant-border-primary-5 {
   border: 5px solid #1890ff !important;
@@ -5081,6 +5351,42 @@ td:focus {
 
 .ant-border-link-left-5 {
   border-left: 5px solid #3273dc !important;
+}
+
+.ant-border-primary-subtle {
+  border-color: #e3f2ff !important;
+}
+
+.ant-border-secondary-subtle {
+  border-color: #edeeef !important;
+}
+
+.ant-border-success-subtle {
+  border-color: #e7f8e3 !important;
+}
+
+.ant-border-info-subtle {
+  border-color: #ecf6fe !important;
+}
+
+.ant-border-warning-subtle {
+  border-color: #fef8e5 !important;
+}
+
+.ant-border-error-subtle {
+  border-color: #ffeaea !important;
+}
+
+.ant-border-light-subtle {
+  border-color: #fdfdfd !important;
+}
+
+.ant-border-dark-subtle {
+  border-color: #bfbfbf !important;
+}
+
+.ant-border-link-subtle {
+  border-color: #e6eefb !important;
 }
 
 .ant-cursor-pointer {

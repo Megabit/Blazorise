@@ -2096,24 +2096,33 @@ public class TailwindClassProvider : ClassProvider
 
     #region Borders
 
-    public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+    public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
         var sb = new StringBuilder( "!border" );
 
-        if ( borderSide != BorderSide.All )
-            sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+        if ( borderDefinition.Side != BorderSide.All )
+            sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
-        if ( borderColor != BorderColor.None )
-            sb.Append( " !border-" ).Append( ToBorderColor( borderColor ) );
+        if ( borderDefinition.Color != BorderColor.None )
+        {
+            sb.Append( " !border-" );
+
+            sb.Append( ToBorderColor( borderDefinition.Color ) );
+
+            if ( borderDefinition.Subtle )
+                sb.Append( "-300" );
+            else
+                sb.Append( "-600" );
+        }
 
         return sb.ToString();
     }
 
-    public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
-        => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+    public override string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules )
+        => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     #endregion
 
@@ -2512,7 +2521,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ToBorderColor( BorderColor borderColor )
     {
-        return $"{borderColor.Name}-600";
+        return $"{borderColor.Name}";
     }
 
     public override string ToBreakpoint( Breakpoint breakpoint )

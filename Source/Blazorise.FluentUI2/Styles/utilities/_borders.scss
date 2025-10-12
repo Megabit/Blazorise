@@ -32,7 +32,7 @@ $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--s
         }
 
         @each $color-name, $color-value in $background-theme-colors-subtle {
-            &.fui-Border-#{$color-name}-subtle {
+            &.fui-Border-#{$color-name}-subtle-#{$size-name} {
                 border-color: $color-value !important;
             }
         }
@@ -68,10 +68,17 @@ $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--s
                 border-#{$side-name}: #{$size-value} solid $color-value !important;
             }
         }
+
         @each $color-name, $color-value in $background-theme-colors-subtle {
             .fui-Border-#{$color-name}-subtle-#{$side-value}-#{$size-name} {
                 border-#{$side-name}: #{$size-value} solid $color-value !important;
             }
+        }
+    }
+
+    @each $color-name, $color-value in $background-theme-colors-subtle {
+        .fui-Border-#{$color-name}-subtle-#{$size-name} {
+            border-color: $color-value !important;
         }
     }
 }

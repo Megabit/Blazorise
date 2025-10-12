@@ -204,6 +204,10 @@ public interface IFluentBorderColorWithSide :
     IFluentBorder,
     IFluentBorderSide
 {
+    /// <summary>
+    /// Use a subtle tone for the currently selected border color (eg. border-primary-subtle).
+    /// </summary>
+    IFluentBorderColorWithSide Subtle { get; }
 }
 
 /// <summary>
@@ -221,6 +225,28 @@ public interface IFluentBorderWithAll :
 }
 
 /// <summary>
+/// Represents a single border rule definition used by the fluent border builder.
+/// </summary>
+/// <remarks>
+public record BorderDefinition
+{
+    /// <summary>
+    /// Gets or sets which side of the element the border is applied to.
+    /// </summary>
+    public BorderSide Side { get; set; }
+
+    /// <summary>
+    /// Gets or sets the color of the border.
+    /// </summary>
+    public BorderColor Color { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the border should use a subtle (lighter) color variant.
+    /// </summary>
+    public bool Subtle { get; set; }
+}
+
+/// <summary>
 /// Default implementation of fluent border builder.
 /// </summary>
 public class FluentBorder :
@@ -234,16 +260,6 @@ public class FluentBorder :
     IFluentBorderWithAll
 {
     #region Members
-
-    /// <summary>
-    /// Holds the additions information for current border rules.
-    /// </summary>
-    private class BorderDefinition
-    {
-        public BorderSide Side { get; set; }
-
-        public BorderColor Color { get; set; }
-    }
 
     /// <summary>
     /// Tracks the active size bucket for new/implicit rules.
@@ -288,7 +304,7 @@ public class FluentBorder :
             {
                 if ( rules is not null && rules.Count > 0 )
                 {
-                    builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( v => (v.Side, v.Color) ) ) ) );
+                    builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( v => v ) ) ) );
                 }
 
                 if ( borderRadius != BorderRadius.Default )
@@ -379,7 +395,8 @@ public class FluentBorder :
             var newDef = new BorderDefinition
             {
                 Side = borderSide,
-                Color = currentBorderDefinition.Color
+                Color = currentBorderDefinition.Color,
+                Subtle = currentBorderDefinition.Subtle
             };
 
             if ( rules.TryGetValue( currentSize, out var list ) )
@@ -409,6 +426,19 @@ public class FluentBorder :
         EnsureCurrentDefinition();
 
         currentBorderDefinition.Color = borderColor;
+        Dirty();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Marks the current color as subtle.
+    /// </summary>
+    public IFluentBorderColorWithSide WithSubtle()
+    {
+        EnsureCurrentDefinition();
+
+        currentBorderDefinition.Subtle = true;
         Dirty();
 
         return this;
@@ -490,6 +520,9 @@ public class FluentBorder :
 
     /// <inheritdoc/>
     public IFluentBorderColorWithSide White => WithColor( BorderColor.White );
+
+    /// <inheritdoc/>
+    public IFluentBorderColorWithSide Subtle => WithSubtle();
 
     /// <inheritdoc/>
     public IFluentBorderWithAll Rounded => WithRadius( BorderRadius.Rounded );

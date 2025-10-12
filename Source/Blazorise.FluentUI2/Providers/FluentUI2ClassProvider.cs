@@ -1535,15 +1535,20 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Borders
 
-    public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+    public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
         var sb = new StringBuilder( "fui-Border" );
 
-        if ( borderColor != BorderColor.None )
-            sb.Append( '-' ).Append( ToBorderColor( borderColor ) );
+        if ( borderDefinition.Color != BorderColor.None )
+        {
+            sb.Append( '-' ).Append( ToBorderColor( borderDefinition.Color ) );
 
-        if ( borderSide != BorderSide.All )
-            sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+            if ( borderDefinition.Subtle )
+                sb.Append( "-subtle" );
+        }
+
+        if ( borderDefinition.Side != BorderSide.All )
+            sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
@@ -1551,8 +1556,8 @@ public class FluentUI2ClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
-        => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+    public override string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules )
+        => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     #endregion
 

@@ -5,10 +5,6 @@
 /// </summary>
 public record Background : Enumeration<Background>
 {
-    #region Members
-
-    #endregion
-
     #region Constructors
 
     /// <inheritdoc/>
@@ -33,10 +29,6 @@ public record Background : Enumeration<Background>
     {
         return new Background( name );
     }
-
-    #endregion
-
-    #region Methods
 
     #endregion
 

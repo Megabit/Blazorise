@@ -1226,9 +1226,9 @@ public interface IClassProvider
 
     #region Borders
 
-    string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+    string Border( BorderSize borderSize, BorderDefinition borderDefinition );
 
-    string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+    string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules );
 
     string BorderRadius( BorderRadius borderRadius );
 

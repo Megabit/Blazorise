@@ -2065,6 +2065,33 @@ td:focus {
 .border-1.border-link {
   border-color: #3273dc !important;
 }
+.border-1.border-primary-subtle {
+  border-color: #c099f8 !important;
+}
+.border-1.border-secondary-subtle {
+  border-color: #9af0e8 !important;
+}
+.border-1.border-success-subtle {
+  border-color: #c0ef99 !important;
+}
+.border-1.border-info-subtle {
+  border-color: #c6b7ff !important;
+}
+.border-1.border-warning-subtle {
+  border-color: #ffd699 !important;
+}
+.border-1.border-danger-subtle {
+  border-color: #df99a6 !important;
+}
+.border-1.border-light-subtle {
+  border-color: #eeeeee !important;
+}
+.border-1.border-dark-subtle {
+  border-color: #9e9e9e !important;
+}
+.border-1.border-link-subtle {
+  border-color: #adc7f1 !important;
+}
 
 .border-primary-1 {
   border: 1px solid #6200ee !important;
@@ -2291,6 +2318,33 @@ td:focus {
 }
 .border-2.border-link {
   border-color: #3273dc !important;
+}
+.border-2.border-primary-subtle {
+  border-color: #c099f8 !important;
+}
+.border-2.border-secondary-subtle {
+  border-color: #9af0e8 !important;
+}
+.border-2.border-success-subtle {
+  border-color: #c0ef99 !important;
+}
+.border-2.border-info-subtle {
+  border-color: #c6b7ff !important;
+}
+.border-2.border-warning-subtle {
+  border-color: #ffd699 !important;
+}
+.border-2.border-danger-subtle {
+  border-color: #df99a6 !important;
+}
+.border-2.border-light-subtle {
+  border-color: #eeeeee !important;
+}
+.border-2.border-dark-subtle {
+  border-color: #9e9e9e !important;
+}
+.border-2.border-link-subtle {
+  border-color: #adc7f1 !important;
 }
 
 .border-primary-2 {
@@ -2519,6 +2573,33 @@ td:focus {
 .border-3.border-link {
   border-color: #3273dc !important;
 }
+.border-3.border-primary-subtle {
+  border-color: #c099f8 !important;
+}
+.border-3.border-secondary-subtle {
+  border-color: #9af0e8 !important;
+}
+.border-3.border-success-subtle {
+  border-color: #c0ef99 !important;
+}
+.border-3.border-info-subtle {
+  border-color: #c6b7ff !important;
+}
+.border-3.border-warning-subtle {
+  border-color: #ffd699 !important;
+}
+.border-3.border-danger-subtle {
+  border-color: #df99a6 !important;
+}
+.border-3.border-light-subtle {
+  border-color: #eeeeee !important;
+}
+.border-3.border-dark-subtle {
+  border-color: #9e9e9e !important;
+}
+.border-3.border-link-subtle {
+  border-color: #adc7f1 !important;
+}
 
 .border-primary-3 {
   border: 3px solid #6200ee !important;
@@ -2745,6 +2826,33 @@ td:focus {
 }
 .border-4.border-link {
   border-color: #3273dc !important;
+}
+.border-4.border-primary-subtle {
+  border-color: #c099f8 !important;
+}
+.border-4.border-secondary-subtle {
+  border-color: #9af0e8 !important;
+}
+.border-4.border-success-subtle {
+  border-color: #c0ef99 !important;
+}
+.border-4.border-info-subtle {
+  border-color: #c6b7ff !important;
+}
+.border-4.border-warning-subtle {
+  border-color: #ffd699 !important;
+}
+.border-4.border-danger-subtle {
+  border-color: #df99a6 !important;
+}
+.border-4.border-light-subtle {
+  border-color: #eeeeee !important;
+}
+.border-4.border-dark-subtle {
+  border-color: #9e9e9e !important;
+}
+.border-4.border-link-subtle {
+  border-color: #adc7f1 !important;
 }
 
 .border-primary-4 {
@@ -2973,6 +3081,33 @@ td:focus {
 .border-5.border-link {
   border-color: #3273dc !important;
 }
+.border-5.border-primary-subtle {
+  border-color: #c099f8 !important;
+}
+.border-5.border-secondary-subtle {
+  border-color: #9af0e8 !important;
+}
+.border-5.border-success-subtle {
+  border-color: #c0ef99 !important;
+}
+.border-5.border-info-subtle {
+  border-color: #c6b7ff !important;
+}
+.border-5.border-warning-subtle {
+  border-color: #ffd699 !important;
+}
+.border-5.border-danger-subtle {
+  border-color: #df99a6 !important;
+}
+.border-5.border-light-subtle {
+  border-color: #eeeeee !important;
+}
+.border-5.border-dark-subtle {
+  border-color: #9e9e9e !important;
+}
+.border-5.border-link-subtle {
+  border-color: #adc7f1 !important;
+}
 
 .border-primary-5 {
   border: 5px solid #6200ee !important;
@@ -3168,6 +3303,42 @@ td:focus {
 
 .border-link-left-5 {
   border-left: 5px solid #3273dc !important;
+}
+
+.border-primary-subtle {
+  border-color: #c099f8 !important;
+}
+
+.border-secondary-subtle {
+  border-color: #9af0e8 !important;
+}
+
+.border-success-subtle {
+  border-color: #c0ef99 !important;
+}
+
+.border-info-subtle {
+  border-color: #c6b7ff !important;
+}
+
+.border-warning-subtle {
+  border-color: #ffd699 !important;
+}
+
+.border-danger-subtle {
+  border-color: #df99a6 !important;
+}
+
+.border-light-subtle {
+  border-color: #eeeeee !important;
+}
+
+.border-dark-subtle {
+  border-color: #9e9e9e !important;
+}
+
+.border-link-subtle {
+  border-color: #adc7f1 !important;
 }
 
 .cursor-pointer {

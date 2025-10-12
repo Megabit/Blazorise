@@ -1231,9 +1231,9 @@ class EmptyClassProvider : IClassProvider
 
     #region Borders
 
-    public string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor ) => null;
+    public string Border( BorderSize borderSize, BorderDefinition borderDefinition ) => null;
 
-    public string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules ) => null;
+    public string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules ) => null;
 
     public string BorderRadius( BorderRadius borderRadius ) => null;
 
