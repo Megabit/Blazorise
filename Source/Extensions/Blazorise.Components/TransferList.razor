@@ -15,9 +15,9 @@
                   MaxHeight="@MaxHeight"
                   ItemTemplate="@ItemStartTemplate"
                   SelectedItem="@SelectedItemStart"
-                  SelectedItemChanged="@SelectedItemStartChanged"
+                  SelectedItemChanged="@OnSelectedItemStartChanged"
                   SelectedItems="@SelectedItemsStart"
-                  SelectedItemsChanged="@SelectedItemsStartChanged">
+                  SelectedItemsChanged="@OnSelectedItemsStartChanged">
         </ListView>
     </Div>
 
@@ -54,9 +54,9 @@
                   MaxHeight="@MaxHeight"
                   ItemTemplate="@ItemEndTemplate"
                   SelectedItem="@SelectedItemEnd"
-                  SelectedItemChanged="@SelectedItemEndChanged"
+                  SelectedItemChanged="@OnSelectedItemEndChanged"
                   SelectedItems="@SelectedItemsEnd"
-                  SelectedItemsChanged="@SelectedItemsEndChanged">
+                  SelectedItemsChanged="@OnSelectedItemsEndChanged">
         </ListView>
     </Div>
 </Div>

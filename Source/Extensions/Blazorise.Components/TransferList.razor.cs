@@ -233,6 +233,54 @@ public partial class TransferList<TItem> : ComponentBase
         return false;
     }
 
+    /// <summary>
+    /// Invoked when the selected item's start value changes.
+    /// </summary>
+    /// <param name="item">The new item that represents the start of the selected range.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
+    protected virtual Task OnSelectedItemStartChanged( TItem item )
+    {
+        SelectedItemStart = item;
+
+        return SelectedItemStartChanged.InvokeAsync( item );
+    }
+
+    /// <summary>
+    /// Invoked when the selected item's end value changes.
+    /// </summary>
+    /// <param name="item">The new selected item of type <typeparamref name="TItem"/>.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
+    protected virtual Task OnSelectedItemEndChanged( TItem item )
+    {
+        SelectedItemEnd = item;
+
+        return SelectedItemEndChanged.InvokeAsync( item );
+    }
+
+    /// <summary>
+    /// Invoked when the collection of selected items at the start of an operation changes.
+    /// </summary>
+    /// <param name="items">The new collection of selected items.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
+    protected virtual Task OnSelectedItemsStartChanged( List<TItem> items )
+    {
+        SelectedItemsStart = items;
+
+        return SelectedItemsStartChanged.InvokeAsync( items );
+    }
+
+    /// <summary>
+    /// Invoked when the selection of items has changed, allowing derived classes to handle the event.
+    /// </summary>
+    /// <param name="items">The list of items representing the updated selection.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
+    protected virtual Task OnSelectedItemsEndChanged( List<TItem> items )
+    {
+        SelectedItemsEnd = items;
+
+        return SelectedItemsEndChanged.InvokeAsync( items );
+    }
+
     #endregion
 
     #region Properties
