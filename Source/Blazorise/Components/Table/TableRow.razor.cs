@@ -86,8 +86,7 @@ public partial class TableRow : BaseDraggableComponent
                .Style( StyleNames )
                .Draggable( DraggableString );
 
-            if ( Clicked.HasDelegate )
-                builder2.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnClickHandler ) );
+            builder2.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnClickHandler ) );
 
             if ( MouseOver.HasDelegate )
             {
