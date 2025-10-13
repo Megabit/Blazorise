@@ -121,35 +121,38 @@ public partial class Table : BaseDraggableComponent
             .Attribute( "Value", this )
             .Attribute( "IsFixed", true );
 
-        if ( HasContainer )
+        builder.Attribute( "ChildContent", (RenderFragment)( ( builder2 ) =>
         {
-            builder.OpenElement( "div" )
-                .Class( ContainerClassNames )
-                .Style( ContainerStyleNames );
-        }
+            if ( HasContainer )
+            {
+                builder2.OpenElement( "div" )
+                    .Class( ContainerClassNames )
+                    .Style( ContainerStyleNames );
+            }
 
-        builder
-            .OpenElement( "table" )
-            .Id( ElementId )
-            .Class( ClassNames )
-            .Style( StyleNames )
-            .Draggable( DraggableString );
+            builder2
+                .OpenElement( "table" )
+                .Id( ElementId )
+                .Class( ClassNames )
+                .Style( StyleNames )
+                .Draggable( DraggableString );
 
-        // build drag-and-drop related events
-        BuildDraggableEventsRenderTree( builder );
+            // build drag-and-drop related events
+            BuildDraggableEventsRenderTree( builder2 );
 
-        if ( Attributes is not null )
-            builder.Attributes( Attributes );
+            if ( Attributes is not null )
+                builder2.Attributes( Attributes );
 
-        builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+            builder2.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-        if ( ChildContent is not null )
-            builder.Content( ChildContent );
+            if ( ChildContent is not null )
+                builder2.Content( ChildContent );
 
-        builder.CloseElement(); // </table>
+            builder2.CloseElement(); // </table>
 
-        if ( HasContainer )
-            builder.CloseElement(); // </div>
+            if ( HasContainer )
+                builder2.CloseElement(); // </div>
+        } ) );
 
         builder.CloseComponent(); // </CascadingValue>
 
