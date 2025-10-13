@@ -199,6 +199,12 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
 
         if ( DropPreventDefault )
             builder.OnDropPreventDefault( true );
+
+        if ( ContextMenu.HasDelegate )
+            builder.OnContextMenu( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnContextMenuHandler ) );
+
+        if ( ContextMenuPreventDefault )
+            builder.OnContextMenuPreventDefault( true );
     }
 
     #endregion

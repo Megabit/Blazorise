@@ -104,13 +104,6 @@ public partial class TableRow : BaseDraggableComponent
             // build drag-and-drop related events
             BuildDraggableEventsRenderTree( builder2 );
 
-            if ( ContextMenu.HasDelegate )
-            {
-                builder2.OnContextMenu( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnContextMenuHandler ) );
-            }
-
-            builder2.OnContextMenuPreventDefault( ContextMenuPreventDefault );
-
             if ( Attributes is not null )
                 builder2.Attributes( Attributes );
 

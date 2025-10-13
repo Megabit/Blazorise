@@ -156,6 +156,20 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder ColSpan( this RenderTreeBuilder builder, int? value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "colspan", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder RowSpan( this RenderTreeBuilder builder, int? value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "rowspan", value );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder AriaPressed( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
     {
         return Aria( builder, "pressed", value, line );
@@ -240,6 +254,13 @@ public static class RenderTreeBuilderExtensions
     public static RenderTreeBuilder OnClickPreventDefault( this RenderTreeBuilder builder, bool preventDefault, [CallerLineNumber] int line = 0 )
     {
         builder.AddEventPreventDefaultAttribute( GetSequence( line ), "onclick", preventDefault );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnClickStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "onclick", value );
 
         return builder;
     }
