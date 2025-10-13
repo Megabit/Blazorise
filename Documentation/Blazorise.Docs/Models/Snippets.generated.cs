@@ -1198,6 +1198,15 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 <Badge Color=""Color.Light"">Light</Badge>
 <Badge Color=""Color.Dark"">Dark</Badge>";
 
+        public const string BadgeSubtleColorsExample = @"<Badge Color=""Color.Primary"" Subtle>Primary</Badge>
+<Badge Color=""Color.Secondary"" Subtle>Secondary</Badge>
+<Badge Color=""Color.Success"" Subtle>Success</Badge>
+<Badge Color=""Color.Danger"" Subtle>Danger</Badge>
+<Badge Color=""Color.Warning"" Subtle>Warning</Badge>
+<Badge Color=""Color.Info"" Subtle>Info</Badge>
+<Badge Color=""Color.Light"" Subtle>Light</Badge>
+<Badge Color=""Color.Dark"" Subtle>Dark</Badge>";
+
         public const string BasicBadgeExample = @"<Badge Color=""Color.Primary"">Hello</Badge>";
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";

@@ -27,12 +27,17 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Extended Color Variants</Strong>: for Background and TextColor utilties
+            <Strong>Extended Color Variants</Strong>: for Background and TextColor utilties.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>FluentUI Theme Generator</Strong>: dynamically generate FluentUI themes
+            <Strong>Badge Subtle</Strong>: a softer color palette.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>FluentUI Theme Generator</Strong>: dynamically generate FluentUI themes.
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -71,15 +76,35 @@
 </Heading>
 
 <Paragraph>
-    In modern web design, color is more than just a visual accent, it's a vital part of hierarchy, accessibility, and user experience. Contemporary design systems use multiple shades and tones to convey meaning and create visual depth. To align with this practice, Blazorise 1.9 introduces full support for <Strong>extended color variants</Strong> within its utility classes.
+    Color plays a key role in user interface design, conveying hierarchy, meaning, and accessibility. With Blazorise 1.9, developers can now use <Strong>extended color variants</Strong> to fine-tune tones and add greater visual depth.
 </Paragraph>
 
 <Paragraph>
-    Enumerations such as <Code>Background</Code> and <Code>TextColor</Code> now support <Strong>nested color variants</Strong>, offering finer control over tone and emphasis. Previously, developers could only use base color values like <Code>Background.Success</Code> or <Code>TextColor.Danger</Code>. With extended variants, you can now specify nuanced options like <Code>Background.Success.Subtle</Code> or <Code>TextColor.Success.Emphasis</Code>, bringing Blazorise utilities in line with modern frameworks such as Bootstrap 5.3 and Fluent.
+    Enumerations such as <Code>Background</Code> and <Code>TextColor</Code> now support <Strong>nested variants</Strong> for subtle and emphasized shades. Previously limited to base colors like <Code>Background.Success</Code> or <Code>TextColor.Danger</Code>, you can now use variants such as <Code>Background.Success.Subtle</Code> or <Code>TextColor.Success.Emphasis</Code>. This brings Blazorise utilities in line with modern design systems like Bootstrap 5.3 and FluentUI.
 </Paragraph>
 
 <Paragraph>
-    This capability is powered by the new <Code>IEnumerationNameBuilder</Code> infrastructure, which standardizes how enumeration names are translated into CSS class names. For example, the Bootstrap provider automatically maps values to classes like <Code>bg-success-subtle</Code> or <Code>text-success-emphasis</Code>. The feature is fully backward compatible, ensuring that existing components and markup continue to work seamlessly across all supported Blazorise providers.
+    This new system is powered by the <Code>IEnumerationNameBuilder</Code> infrastructure, which standardizes how enumeration values map to CSS class names across providers. For example, Bootstrap automatically generates classes such as <Code>bg-success-subtle</Code> or <Code>text-success-emphasis</Code>. It’s fully backward-compatible, ensuring a seamless upgrade path for existing applications.
+</Paragraph>
+
+<Paragraph>
+    Yuu can explore the full range of extended color variants in the <Anchor To="docs/helpers/colors" Title="Link to Colors documentation">Colors documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Badge Subtle
+</Heading>
+
+<Paragraph>
+    The <Code>Badge</Code> component has been enhanced with a new <Strong>Subtle</Strong> color mode. This feature introduces lighter, less saturated background tones—ideal for modern, minimalist interfaces or secondary indicators where softer emphasis is preferred.
+</Paragraph>
+
+<Paragraph>
+    By setting the <Code>Subtle</Code> parameter to <Code>true</Code>, badges automatically adopt the new muted color variants. This ensures they blend naturally into the surrounding UI while maintaining clarity and readability. Subtle badges are particularly effective when used alongside extended color variants, allowing designers to build refined, theme-consistent experiences.
+</Paragraph>
+
+<Paragraph>
+    You can see examples of subtle badges in the updated <Anchor To="docs/components/badge" Title="Link to Badge documentation">Badge documentation</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -87,9 +112,9 @@
 </Heading>
 
 <Paragraph>
-    For the first time, Blazorise now includes a built-in theme generator for FluentUI. This allows developers to easily create and customize themes that align with Microsoft's Fluent Design System, enhancing the visual consistency of applications built with Blazorise.
+    Blazorise 1.9 also introduces the <Strong>FluentUI Theme Generator</Strong>, enabling developers to easily build and customize themes based on Microsoft’s Fluent Design System. This generator allows quick configuration of colors, typography, and surface elements to create professional and consistent Fluent-inspired UIs.
 </Paragraph>
 
 <Paragraph>
-    We tried to keep the theme as close to the original FluentUI design as possible, while also allowing for customization to fit your application's needs. The theme generator provides a straightforward way to apply FluentUI styles across all Blazorise components, ensuring a cohesive look and feel.
+    The goal is to provide a balance between flexibility and faithfulness to the FluentUI aesthetic, giving developers the ability to tailor visual themes while maintaining familiar design principles across all Blazorise components.
 </Paragraph>
