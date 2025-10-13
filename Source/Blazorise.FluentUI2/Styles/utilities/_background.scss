@@ -4,6 +4,12 @@
     }
 }
 
+@each $name, $value in $background-theme-colors-subtle {
+    .fui-Background-#{$name}-subtle {
+        background-color: #{$value} !important;
+    }
+}
+
 .fui-Background-white {
     background-color: var(--colorNeutralBackground1) !important;
 }

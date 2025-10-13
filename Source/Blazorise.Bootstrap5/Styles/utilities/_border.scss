@@ -10,6 +10,12 @@ $border-sizes: (1, 2, 3, 4, 5);
                 border-color: $color-value !important;
             }
         }
+
+        @each $color-name, $color-value in $theme-colors-border-subtle {
+            &.border-#{$color-name}-subtle {
+                border-color: #{$color-value} !important;
+            }
+        }
     }
 
     @each $color-name, $color-value in $theme-colors {

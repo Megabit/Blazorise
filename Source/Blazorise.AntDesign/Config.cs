@@ -34,6 +34,9 @@ public static class Config
         serviceCollection.AddScoped<IJSModalModule, Modules.AntDesignJSModalModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.AntDesignJSTooltipModule>();
 
+        Enumeration<Background>.SetNameBuilder( new AntDesignEnumerationNameBuilder<Background>() );
+        Enumeration<TextColor>.SetNameBuilder( new AntDesignEnumerationNameBuilder<TextColor>() );
+
         return serviceCollection;
     }
 

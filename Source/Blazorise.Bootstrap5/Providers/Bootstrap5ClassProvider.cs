@@ -1170,13 +1170,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Badge() => "badge";
 
-    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}" : null;
+    public override string BadgeColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? "rounded-pill" : null;
 
     public override string BadgeClose() => "badge-close";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}" : null;
+    public override string BadgeCloseColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 
@@ -1389,24 +1391,29 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Borders
 
-    public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+    public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
         var sb = new StringBuilder( "border" );
 
-        if ( borderSide != BorderSide.All )
-            sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+        if ( borderDefinition.Side != BorderSide.All )
+            sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
-        if ( borderColor != BorderColor.None )
-            sb.Append( " border-" ).Append( ToBorderColor( borderColor ) );
+        if ( borderDefinition.Color != BorderColor.None )
+        {
+            sb.Append( " border-" ).Append( ToBorderColor( borderDefinition.Color ) );
+
+            if ( borderDefinition.Subtle )
+                sb.Append( "-subtle" );
+        }
 
         return sb.ToString();
     }
 
-    public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
-        => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+    public override string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules )
+        => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     #endregion
 

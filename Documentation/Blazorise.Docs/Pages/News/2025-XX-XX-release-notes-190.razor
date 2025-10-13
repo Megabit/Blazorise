@@ -1,0 +1,120 @@
+﻿@page "/news/release-notes/190"
+
+<Seo Canonical="news/release-notes/190" Title="Blazorise v1.9" Description="Blazorise 1.9, codenamed Lokrum after the beautiful island in Croatia, is a significant update that brings a host of new features, enhancements, and optimizations to the framework. This release focuses on improving the developer experience, enhancing performance, and expanding the capabilities of Blazorise components." ImageUrl="img/news/190/v190.png" />
+
+<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.9" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.9 - TODO
+</NewsPageTitle>
+
+<Paragraph>
+
+</Paragraph>
+
+<Paragraph>
+
+</Paragraph>
+
+<NewsPageSubtitle>
+    Key Blazorise 1.9 Highlights 💡
+</NewsPageSubtitle>
+
+<Paragraph>
+    Here's a summary of what's new in this release:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Extended Color Variants</Strong>: for Background and TextColor utilties.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Badge Subtle</Strong>: a softer color palette.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>FluentUI Theme Generator</Strong>: dynamically generate FluentUI themes.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    Dive deeper below to discover the full potential of these features.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Upgrading from 1.8.x to 1.9 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    To smoothly upgrade your application, follow these simple steps:
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.9</Strong>.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Blazorise should now work without any major breaking changes to the API.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<NewsPageSubtitle>
+    New Features & Enhancements 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Extended Color Variants
+</Heading>
+
+<Paragraph>
+    Color plays a key role in user interface design, conveying hierarchy, meaning, and accessibility. With Blazorise 1.9, developers can now use <Strong>extended color variants</Strong> to fine-tune tones and add greater visual depth.
+</Paragraph>
+
+<Paragraph>
+    Enumerations such as <Code>Background</Code> and <Code>TextColor</Code> now support <Strong>nested variants</Strong> for subtle and emphasized shades. Previously limited to base colors like <Code>Background.Success</Code> or <Code>TextColor.Danger</Code>, you can now use variants such as <Code>Background.Success.Subtle</Code> or <Code>TextColor.Success.Emphasis</Code>. This brings Blazorise utilities in line with modern design systems like Bootstrap 5.3 and FluentUI.
+</Paragraph>
+
+<Paragraph>
+    This new system is powered by the <Code>IEnumerationNameBuilder</Code> infrastructure, which standardizes how enumeration values map to CSS class names across providers. For example, Bootstrap automatically generates classes such as <Code>bg-success-subtle</Code> or <Code>text-success-emphasis</Code>. It’s fully backward-compatible, ensuring a seamless upgrade path for existing applications.
+</Paragraph>
+
+<Paragraph>
+    Yuu can explore the full range of extended color variants in the <Anchor To="docs/helpers/colors" Title="Link to Colors documentation">Colors documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Badge Subtle
+</Heading>
+
+<Paragraph>
+    The <Code>Badge</Code> component has been enhanced with a new <Strong>Subtle</Strong> color mode. This feature introduces lighter, less saturated background tones—ideal for modern, minimalist interfaces or secondary indicators where softer emphasis is preferred.
+</Paragraph>
+
+<Paragraph>
+    By setting the <Code>Subtle</Code> parameter to <Code>true</Code>, badges automatically adopt the new muted color variants. This ensures they blend naturally into the surrounding UI while maintaining clarity and readability. Subtle badges are particularly effective when used alongside extended color variants, allowing designers to build refined, theme-consistent experiences.
+</Paragraph>
+
+<Paragraph>
+    You can see examples of subtle badges in the updated <Anchor To="docs/components/badge" Title="Link to Badge documentation">Badge documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FluentUI Theme Generator
+</Heading>
+
+<Paragraph>
+    Blazorise 1.9 also introduces the <Strong>FluentUI Theme Generator</Strong>, enabling developers to easily build and customize themes based on Microsoft’s Fluent Design System. This generator allows quick configuration of colors, typography, and surface elements to create professional and consistent Fluent-inspired UIs.
+</Paragraph>
+
+<Paragraph>
+    The goal is to provide a balance between flexibility and faithfulness to the FluentUI aesthetic, giving developers the ability to tailor visual themes while maintaining familiar design principles across all Blazorise components.
+</Paragraph>

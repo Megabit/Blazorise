@@ -1035,13 +1035,13 @@ class EmptyClassProvider : IClassProvider
 
     public string Badge() => null;
 
-    public string BadgeColor( Color color ) => null;
+    public string BadgeColor( Color color, bool subtle ) => null;
 
     public string BadgePill( bool pill ) => null;
 
     public string BadgeClose() => null;
 
-    public string BadgeCloseColor( Color color ) => null;
+    public string BadgeCloseColor( Color color, bool subtle ) => null;
 
     #endregion
 
@@ -1231,9 +1231,9 @@ class EmptyClassProvider : IClassProvider
 
     #region Borders
 
-    public string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor ) => null;
+    public string Border( BorderSize borderSize, BorderDefinition borderDefinition ) => null;
 
-    public string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules ) => null;
+    public string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules ) => null;
 
     public string BorderRadius( BorderRadius borderRadius ) => null;
 

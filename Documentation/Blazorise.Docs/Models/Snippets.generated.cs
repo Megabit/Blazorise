@@ -1198,6 +1198,15 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 <Badge Color=""Color.Light"">Light</Badge>
 <Badge Color=""Color.Dark"">Dark</Badge>";
 
+        public const string BadgeSubtleColorsExample = @"<Badge Color=""Color.Primary"" Subtle>Primary</Badge>
+<Badge Color=""Color.Secondary"" Subtle>Secondary</Badge>
+<Badge Color=""Color.Success"" Subtle>Success</Badge>
+<Badge Color=""Color.Danger"" Subtle>Danger</Badge>
+<Badge Color=""Color.Warning"" Subtle>Warning</Badge>
+<Badge Color=""Color.Info"" Subtle>Info</Badge>
+<Badge Color=""Color.Light"" Subtle>Light</Badge>
+<Badge Color=""Color.Dark"" Subtle>Dark</Badge>";
+
         public const string BasicBadgeExample = @"<Badge Color=""Color.Primary"">Hello</Badge>";
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
@@ -12214,6 +12223,92 @@ builder.Services
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 
+        public const string BackgroundColorsExample = @"<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Primary"" TextColor=""TextColor.White"">
+    Primary
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"">
+    Primary Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Secondary"" TextColor=""TextColor.White"">
+    Secondary
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Secondary.Subtle"" TextColor=""TextColor.Secondary.Emphasis"">
+    Secondary Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Success"" TextColor=""TextColor.White"">
+    Success
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Success.Subtle"" TextColor=""TextColor.Success.Emphasis"">
+    Success Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Danger"" TextColor=""TextColor.White"">
+    Danger
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Danger.Subtle"" TextColor=""TextColor.Danger.Emphasis"">
+    Danger Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Warning"" TextColor=""TextColor.Dark"">
+    Warning
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Warning.Subtle"" TextColor=""TextColor.Warning.Emphasis"">
+    Warning Subtle
+</Div>";
+
+        public const string TextColorsExample = @"<Paragraph TextColor=""TextColor.Primary"">
+    Primary
+</Paragraph>
+<Paragraph TextColor=""TextColor.Primary.Emphasis"">
+    Primary Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Secondary"">
+    Secondary
+</Paragraph>
+<Paragraph TextColor=""TextColor.Secondary.Emphasis"">
+    Secondary Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Success"">
+    Success
+</Paragraph>
+<Paragraph TextColor=""TextColor.Success.Emphasis"">
+    Success Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Danger"">
+    Danger
+</Paragraph>
+<Paragraph TextColor=""TextColor.Danger.Emphasis"">
+    Danger Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Warning"">
+    Warning
+</Paragraph>
+<Paragraph TextColor=""TextColor.Warning.Emphasis"">
+    Warning Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Info"" Background=""Background.Dark"">
+    Info
+</Paragraph>
+<Paragraph TextColor=""TextColor.Info.Emphasis"">
+    Info Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Light"">
+    Light
+</Paragraph>
+<Paragraph TextColor=""TextColor.Light.Emphasis"" Background=""Background.Dark"">
+    Light Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Dark"">
+    Dark
+</Paragraph>
+<Paragraph TextColor=""TextColor.Dark.Emphasis"">
+    Dark Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Body"">
+    Body
+</Paragraph>
+<Paragraph TextColor=""TextColor.Body.Emphasis"">
+    Body Emphasis
+</Paragraph>";
+
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />
     <FileEdit Multiple />
@@ -12418,15 +12513,54 @@ builder.Services
     </Column>
 </Grid>";
 
-        public const string BorderExample = @"<Span Border=""Border.Is1"">Border on all sides</Span>
+        public const string BorderExample = @"<Div Border=""Border.Is1"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Default border on all sides
+</Div>
 
-<Span Border=""Border.Is1.Rounded"">Rounded</Span>
+<Div Border=""Border.Is1.Rounded"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Rounded
+</Div>
 
-<Span Border=""Border.Primary"">Borders with primary color</Span>";
+<Div Border=""Border.Primary"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with primary color
+</Div>
+
+<Div Border=""Border.Is3.Success.Subtle"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with subtle color
+</Div>";
 
         public const string ColumnSizeExample = @"<Row>
-    <Column ColumnSize=""ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile"">
-    Some content...    
+    <Column ColumnSize=""ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Profile</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    This column adjusts automatically based on screen size.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>Desktop: 4 columns</UnorderedListItem>
+                    <UnorderedListItem>Tablet: 6 columns</UnorderedListItem>
+                    <UnorderedListItem>Mobile: full width (12 columns)</UnorderedListItem>
+                </UnorderedList>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize=""ColumnSize.Is8.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Details</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Combine multiple breakpoint sizes with a fluent builder pattern.
+                    This allows you to create flexible, responsive layouts
+                    without manually writing CSS grid rules.
+                </Paragraph>
+            </CardBody>
+        </Card>
     </Column>
 </Row>";
 

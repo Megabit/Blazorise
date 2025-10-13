@@ -73,6 +73,12 @@
     }
 }
 
+@each $name, $value in $foreground-theme-colors-emphasis {
+    .fui-TextColor-#{$name}-emphasis {
+        color: #{$value} !important;
+    }
+}
+
 .fui-TextColor-white {
     color: #fff !important;
 }

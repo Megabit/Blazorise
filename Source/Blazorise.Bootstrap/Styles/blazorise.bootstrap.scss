@@ -2,6 +2,7 @@
 @import "_vendors/bootstrap/variables";
 @import "_vendors/bootstrap/mixins";
 
+@import "functions";
 @import "variables";
 
 @import "components/badge";
@@ -28,6 +29,7 @@
 @import "extensions/snackbar";
 
 @import "utilities/animations";
+@import "utilities/background-color";
 @import "utilities/border";
 @import "utilities/cursor";
 @import "utilities/display";

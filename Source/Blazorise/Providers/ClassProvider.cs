@@ -1032,13 +1032,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Badge();
 
-    public abstract string BadgeColor( Color color );
+    public abstract string BadgeColor( Color color, bool subtle );
 
     public abstract string BadgePill( bool pill );
 
     public abstract string BadgeClose();
 
-    public abstract string BadgeCloseColor( Color color );
+    public abstract string BadgeCloseColor( Color color, bool subtle );
 
     #endregion
 
@@ -1228,9 +1228,9 @@ public abstract class ClassProvider : IClassProvider
 
     #region Borders
 
-    public abstract string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+    public abstract string Border( BorderSize borderSize, BorderDefinition borderDefinition );
 
-    public abstract string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+    public abstract string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules );
 
     public virtual string BorderRadius( BorderRadius borderRadius )
         => ToBorderRadius( borderRadius );

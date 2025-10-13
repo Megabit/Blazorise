@@ -1,0 +1,5 @@
+﻿@each $color-name, $color-value in $theme-colors-bg-subtle {
+    .bg-#{$color-name}-subtle {
+        background-color: #{$color-value} !important;
+    }
+}

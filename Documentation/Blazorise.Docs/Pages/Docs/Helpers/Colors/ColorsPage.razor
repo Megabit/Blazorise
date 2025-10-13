@@ -1,86 +1,100 @@
 ﻿@page "/docs/helpers/colors"
 
-<Seo Canonical="/docs/helpers/colors" Title="Blazorise Color Utilities" Description="Learn to use and work with the Blazorise contextual color classes that can be applied to most of your components." />
+<Seo Canonical="/docs/helpers/colors" Title="Blazorise Color Utilities" Description="Discover how to use Blazorise color utilities to add meaning, highlight content, and style components with contextual and theme-aware colors." />
 
 <DocsPageTitle>
-    Color Utilities
+    Blazorise Color Utilities
 </DocsPageTitle>
 
 <DocsPageLead>
-    Convey meaning through <Code>Color</Code> with a handful of color utility classes. Includes support for styling links with hover states, too.
+    Use Blazorise color utilities to visually convey meaning, highlight important content, and maintain consistent design across your application.
+    These utilities work seamlessly with all contextual variants and include built-in support for link styling and hover states.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Here is a list of contextual classes that can be applied to most of your components:
+    Below is a list of available contextual color classes that can be applied to most Blazorise components to customize their appearance and improve user experience.
 </DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
-    <AlertDescription>Keep in mind: All elements have a color <Code>None</Code> specified by default.</AlertDescription>
+    <AlertDescription>
+        Note: Every component has a <Code>Default</Code> color applied automatically unless a specific color is defined.
+    </AlertDescription>
 </Alert>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Color">
-        <Paragraph>
-            Colorize component with color utilities.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem><Code>None</Code> - no color will be assigned to an element.</UnorderedListItem>
-            <UnorderedListItem><Code>Primary</Code> - used to represent primary interface elements for a user. It's the color displayed most frequently across your app's screens and components.</UnorderedListItem>
-            <UnorderedListItem><Code>Secondary</Code> - used to represent secondary interface elements for a user. It provides more ways to accent and distinguish your product. Having it is optional.</UnorderedListItem>
-            <UnorderedListItem><Code>Success</Code> - used to indicate the successful completion of an action that user triggered.</UnorderedListItem>
-            <UnorderedListItem><Code>Danger</Code> - used to represent interface elements that the user should be made aware of.</UnorderedListItem>
-            <UnorderedListItem><Code>Warning</Code> - used to represent potentially dangerous actions or important messages.</UnorderedListItem>
-            <UnorderedListItem><Code>Info</Code> - used to present information to the user that is neutral and not necessarily important.</UnorderedListItem>
-            <UnorderedListItem><Code>Light</Code> - used to indicate a lighter element that is a not important to the user.</UnorderedListItem>
-            <UnorderedListItem><Code>Dark</Code> - used to indicate a dark element to bring it more into the user attention.</UnorderedListItem>
-            <UnorderedListItem><Code>Link</Code> - used to indicate a link alike element color.</UnorderedListItem>
-        </UnorderedList>
-    </DocsPageSectionHeader>
-</DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Background">
         <Paragraph>
-            Colorize background with color utilities.
+            The <Code>Background</Code> utility allows you to quickly set contextual background colors
+            for any component. It supports the same color palette used across all Blazorise themes.
         </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem><Code>None</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Primary</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Secondary</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Success</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Danger</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Warning</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Info</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Light</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Dark</Code></UnorderedListItem>
-            <UnorderedListItem><Code>White</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Transparent</Code></UnorderedListItem>
-        </UnorderedList>
+        <Paragraph>
+            Background colors can be applied through the <Code>Background</Code> parameter on components
+            such as <Code>Div</Code>, <Code>Card</Code>, or <Code>Alert</Code>.
+            Each color corresponds to a contextual variant that adapts automatically to the selected theme.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem><Code>@nameof( Background.Default )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Primary )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Secondary )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Success )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Danger )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Warning )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Info )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Light )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Dark )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.White )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Transparent )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( Background.Body )</Code></UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
     </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BackgroundColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BackgroundColorsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="TextColor">
+    <DocsPageSectionHeader Title="Text Colors">
         <Paragraph>
-            Colorize text with color utilities.
+            The <Code>TextColor</Code> utility provides an easy way to apply contextual color
+            to text elements. These color variants are consistent with the overall theme
+            and can be used to emphasize status, importance, or hierarchy in your content.
         </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem><Code>None</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Primary</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Secondary</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Success</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Danger</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Warning</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Info</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Light</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Dark</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Body</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Muted</Code></UnorderedListItem>
-            <UnorderedListItem><Code>White</Code></UnorderedListItem>
-            <UnorderedListItem><Code>Black50</Code></UnorderedListItem>
-            <UnorderedListItem><Code>White50</Code></UnorderedListItem>
-        </UnorderedList>
+        <Paragraph>
+            You can assign text colors using the <Code>TextColor</Code> parameter on any component
+            that renders text, such as <Code>Paragraph</Code>, <Code>Span</Code>, or <Code>Div</Code>.
+        </Paragraph>
+        <Paragraph>
+            The available text color values include:
+            <UnorderedList>
+                <UnorderedListItem><Code>@nameof( TextColor.Default )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Primary )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Secondary )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Success )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Danger )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Warning )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Info )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Light )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Dark )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Body )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Muted )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.White )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.Black50 )</Code></UnorderedListItem>
+                <UnorderedListItem><Code>@nameof( TextColor.White50 )</Code></UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            Some frameworks, such as Bootstrap&nbsp;5, also support additional text variants
+            like <Code>Emphasis</Code>, allowing you to write <Code>TextColor.Success.Emphasis</Code>
+            for softer, more modern tone variations that align with the current theme palette.
+        </Paragraph>
     </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextColorsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
