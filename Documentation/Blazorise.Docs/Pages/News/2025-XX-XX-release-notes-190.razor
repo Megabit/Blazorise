@@ -71,11 +71,15 @@
 </Heading>
 
 <Paragraph>
-    Blazorise enumerations such as <Code>Extended Enumeration Variants</Code> and <Code>TextColor</Code> now support <Strong>nested variants</Strong>, enabling more expressive and fine-grained styling options. Previously, only base values like <Code>Background.Success</Code> or <Code>TextColor.Danger</Code> were available; now you can specify variants such as <Code>Background.Success.Subtle</Code> or <Code>TextColor.Success.Emphasis</Code> to match newer design systems and theme palettes.
+    In modern web design, color is more than just a visual accent, it's a vital part of hierarchy, accessibility, and user experience. Contemporary design systems use multiple shades and tones to convey meaning and create visual depth. To align with this practice, Blazorise 1.9 introduces full support for <Strong>extended color variants</Strong> within its utility classes.
 </Paragraph>
 
 <Paragraph>
-    This enhancement is powered by the new <Code>IEnumerationNameBuilder</Code> infrastructure, which allows each CSS provider to define how enumeration names are formatted. For example, the Bootstrap provider can automatically generate class names like <Code>bg-success-subtle</Code> or <Code>text-success-emphasis</Code>. The feature is fully backward-compatible with existing markup and ready for use in all supported frameworks.
+    Enumerations such as <Code>Background</Code> and <Code>TextColor</Code> now support <Strong>nested color variants</Strong>, offering finer control over tone and emphasis. Previously, developers could only use base color values like <Code>Background.Success</Code> or <Code>TextColor.Danger</Code>. With extended variants, you can now specify nuanced options like <Code>Background.Success.Subtle</Code> or <Code>TextColor.Success.Emphasis</Code>, bringing Blazorise utilities in line with modern frameworks such as Bootstrap 5.3 and Fluent.
+</Paragraph>
+
+<Paragraph>
+    This capability is powered by the new <Code>IEnumerationNameBuilder</Code> infrastructure, which standardizes how enumeration names are translated into CSS class names. For example, the Bootstrap provider automatically maps values to classes like <Code>bg-success-subtle</Code> or <Code>text-success-emphasis</Code>. The feature is fully backward compatible, ensuring that existing components and markup continue to work seamlessly across all supported Blazorise providers.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
