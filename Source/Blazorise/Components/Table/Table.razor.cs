@@ -1,8 +1,10 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -109,6 +111,49 @@ public partial class Table : BaseDraggableComponent
             if ( !string.IsNullOrEmpty( FixedHeaderTableMaxHeight ) )
                 builder.Append( $"max-height: {FixedHeaderTableMaxHeight};" );
         }
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        builder
+            .OpenComponent<CascadingValue<Table>>()
+            .Attribute( "Value", this )
+            .Attribute( "IsFixed", true );
+
+        if ( HasContainer )
+        {
+            builder.OpenElement( "div" )
+                .Class( ContainerClassNames )
+                .Style( ContainerStyleNames );
+        }
+
+        builder
+            .OpenElement( "table" )
+            .Id( ElementId )
+            .Class( ClassNames )
+            .Style( StyleNames )
+            .Draggable( DraggableString );
+
+        // build drag-and-drop related events
+        BuildDraggableEventsRenderTree( builder );
+
+        if ( Attributes is not null )
+            builder.Attributes( Attributes );
+
+        builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+
+        if ( ChildContent is not null )
+            builder.Content( ChildContent );
+
+        builder.CloseElement(); // </table>
+
+        if ( HasContainer )
+            builder.CloseElement(); // </div>
+
+        builder.CloseComponent(); // </CascadingValue>
+
+        base.BuildRenderTree( builder );
     }
 
     /// <inheritdoc/>
