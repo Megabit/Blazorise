@@ -156,6 +156,13 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder Scope( this RenderTreeBuilder builder, string value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "scope", value );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder ColSpan( this RenderTreeBuilder builder, int? value, [CallerLineNumber] int line = 0 )
     {
         builder.AddAttribute( GetSequence( line ), "colspan", value );
