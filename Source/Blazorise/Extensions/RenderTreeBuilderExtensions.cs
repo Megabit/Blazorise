@@ -475,6 +475,20 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder Content( this RenderTreeBuilder builder, string textContent, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddContent( GetSequence( line ), textContent );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder Content( this RenderTreeBuilder builder, MarkupString markupContent, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddContent( GetSequence( line ), markupContent );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder Attributes( this RenderTreeBuilder builder, Dictionary<string, object> attributes, [CallerLineNumber] int line = 0 )
     {
         builder.AddMultipleAttributes( GetSequence( line ), attributes );
