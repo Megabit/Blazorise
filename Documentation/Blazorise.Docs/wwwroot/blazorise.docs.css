@@ -113,7 +113,7 @@ a {
   padding-bottom: 2.4px;
 }
 .b-top-bar .navbar-nav .nav-link:hover {
-  background-color: hsla(201deg, 50%, 98%, 0.5);
+  background-color: hsla(201, 50%, 98%, 0.5);
   border-radius: 7px;
 }
 
@@ -181,6 +181,10 @@ html, body * {
 }
 .page-header-img {
   aspect-ratio: 3;
+}
+
+body[data-bs-theme=dark] .page-header {
+  background-image: linear-gradient(180deg, rgba(17, 24, 39, 0.85), rgba(var(--bs-body-bg-rgb), 1) 90%), radial-gradient(ellipse at top left, rgba(147, 51, 234, 0.5), transparent 60%), radial-gradient(ellipse at top right, rgba(99, 102, 241, 0.4), transparent 60%), radial-gradient(ellipse at center right, rgba(59, 130, 246, 0.35), transparent 60%), radial-gradient(ellipse at center left, rgba(236, 72, 153, 0.3), transparent 65%), radial-gradient(ellipse at bottom left, rgba(244, 114, 182, 0.25), transparent 70%), radial-gradient(ellipse at bottom right, rgba(251, 191, 36, 0.1), transparent 75%);
 }
 
 .home-community-readmore-link {
@@ -867,6 +871,18 @@ div.developers-picker button:hover {
 
 .text-price-color-community {
   color: #787878;
+}
+
+.license-options {
+  width: 100%;
+}
+
+.license-options > .form-check.form-check-inline {
+  width: 100%;
+}
+
+.license-options .form-check-label {
+  width: 100%;
 }
 
 a.toc-link {

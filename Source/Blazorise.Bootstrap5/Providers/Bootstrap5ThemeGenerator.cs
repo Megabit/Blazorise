@@ -37,26 +37,40 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
+
         sb.Append( $".bg-{variant}" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".bg-{variant}-subtle" ).Append( "{" )
+            .Append( $"background-color: {hexBackgroundColorSubtle} !important;" )
             .AppendLine( "}" );
 
         sb.Append( $".jumbotron-{variant}" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
-            .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .Append( $"color: {ToHex( Contrast( theme, hexBackgroundColor ) )} !important;" )
             .AppendLine( "}" );
     }
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBorderColor = Var( ThemeVariables.BorderColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
+
         sb.Append( $".border-{variant}" ).Append( "{" )
-            .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"border-color: {hexBorderColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".border-{variant}-subtle" ).Append( "{" )
+            .Append( $"border-color: {hexBorderColorSubtle} !important;" )
             .AppendLine( "}" );
 
         for ( int i = 1; i <= 5; ++i )
         {
             sb.Append( $".border-{i}.border-{variant}" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"border-color: {hexBorderColor} !important;" )
                 .AppendLine( "}" );
         }
     }
@@ -433,15 +447,29 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         var yiqBackgroundColor = Contrast( theme, backgroundColor );
 
-        var background = ToHex( backgroundColor );
-        var yiqBackground = ToHex( yiqBackgroundColor );
+        var hexBackgroundColor = ToHex( backgroundColor );
+        var hexYiqBackgroundColor = ToHex( yiqBackgroundColor );
 
         sb
             .Append( $".badge.text-bg-{variant}," )
             .Append( $".badge-close.text-bg-{variant}" )
             .Append( "{" )
-            .Append( $"color: {yiqBackground} !important;" )
-            .Append( $"background-color: {background} !important;" )
+            .Append( $"color: {hexYiqBackgroundColor} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        // Subtle variant
+
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
+        var hexTextColorEmphasis = Var( ThemeVariables.TextEmphasisColor( variant ) );
+
+        sb.Append( $".badge.text-bg-{variant}-subtle," )
+            .Append( $".badge-close.text-bg-{variant}-subtle" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis};" )
+            .Append( $"background-color: {hexBackgroundColorSubtle};" )
+            .Append( $"border-color: {hexBorderColorSubtle};" )
             .AppendLine( "}" );
     }
 
@@ -801,10 +829,16 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             : ParseColor( inTextColor );
 
         var hexTextColor = ToHex( textColor );
+        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, theme.TextColorOptions.EmphasisShadeWeight ?? 60 ) );
 
         sb.Append( $".text-{variant}" )
             .Append( "{" )
             .Append( $"color: {hexTextColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".text-{variant}-emphasis" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis} !important;" )
             .AppendLine( "}" );
     }
 

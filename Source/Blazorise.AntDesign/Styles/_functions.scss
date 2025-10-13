@@ -28,7 +28,7 @@
 
 @function theme-color-level($color-name: "primary", $level: 0) {
     $color: theme-color($color-name);
-    $color-base: if($level > 0, $black, $white);
+    $color-base: if($level > 0, $ant-black, $ant-white);
     $level: abs($level);
 
     @return mix($color-base, $color, $level * $theme-color-interval);
@@ -125,4 +125,12 @@
 @function hsv_to_color($h, $s: 0, $v: 0) {
     $hsl: hsv_to_hsl($h, $s, $v);
     @return hsl(nth($hsl, 1), nth($hsl, 2), nth($hsl, 3));
+}
+
+@function tint-color($color, $weight) {
+    @return mix(white, $color, $weight);
+}
+
+@function shade-color($color, $weight) {
+    @return mix(black, $color, $weight);
 }

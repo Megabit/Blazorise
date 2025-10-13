@@ -31,6 +31,9 @@ public static class Config
         serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.BootstrapJSTooltipModule>();
 
+        Enumeration<Background>.SetNameBuilder( new BootstrapEnumerationNameBuilder<Background>() );
+        Enumeration<TextColor>.SetNameBuilder( new BootstrapEnumerationNameBuilder<TextColor>() );
+
         return serviceCollection;
     }
 

@@ -4,10 +4,32 @@
     }
 }
 
+@each $name, $value in $theme-colors {
+    .bg-#{$name}-subtle {
+        background-color: #{map-get($theme-colors-bg-subtle, $name)} !important;
+    }
+}
+
+.bg-body {
+    background-color: $body-bg !important;
+}
+
+.bg-body-subtle {
+    background-color: tint-color($body-bg, $bg-subtle-tint-weight) !important;
+}
+
 .bg-white {
-    background-color: $white !important;
+    background-color: $ant-white !important;
+}
+
+.bg-white-subtle {
+    background-color: tint-color($ant-white, 10%) !important;
 }
 
 .bg-transparent {
     background-color: transparent !important;
+}
+
+.bg-transparent-subtle {
+    background-color: rgba($ant-black, 0.02) !important;
 }

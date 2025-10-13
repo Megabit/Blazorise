@@ -58,18 +58,43 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Badge Color="Color.Primary" CloseClicked="@(()=>Console.WriteLine("Primary closed"))">Primary</Badge>
-                <Badge Color="Color.Secondary" CloseClicked="@(()=>Console.WriteLine("Secondary closed"))">Secondary</Badge>
-                <Badge Color="Color.Success" CloseClicked="@(()=>Console.WriteLine("Success closed"))">Success</Badge>
-                <Badge Color="Color.Danger" CloseClicked="@(()=>Console.WriteLine("Danger closed"))">Danger</Badge>
-                <Badge Color="Color.Warning" CloseClicked="@(()=>Console.WriteLine("Warning closed"))">Warning</Badge>
-                <Badge Color="Color.Info" CloseClicked="@(()=>Console.WriteLine("Info closed"))">Info</Badge>
-                <Badge Color="Color.Light" CloseClicked="@(()=>Console.WriteLine("Light closed"))">Light</Badge>
-                <Badge Color="Color.Dark" CloseClicked="@(()=>Console.WriteLine("Dark closed"))">Dark</Badge>
+                <Badge Color="Color.Primary" CloseClicked="@(() => Console.WriteLine( "Primary closed" ))">Primary</Badge>
+                <Badge Color="Color.Secondary" CloseClicked="@(() => Console.WriteLine( "Secondary closed" ))">Secondary</Badge>
+                <Badge Color="Color.Success" CloseClicked="@(() => Console.WriteLine( "Success closed" ))">Success</Badge>
+                <Badge Color="Color.Danger" CloseClicked="@(() => Console.WriteLine( "Danger closed" ))">Danger</Badge>
+                <Badge Color="Color.Warning" CloseClicked="@(() => Console.WriteLine( "Warning closed" ))">Warning</Badge>
+                <Badge Color="Color.Info" CloseClicked="@(() => Console.WriteLine( "Info closed" ))">Info</Badge>
+                <Badge Color="Color.Light" CloseClicked="@(() => Console.WriteLine( "Light closed" ))">Light</Badge>
+                <Badge Color="Color.Dark" CloseClicked="@(() => Console.WriteLine( "Dark closed" ))">Dark</Badge>
             </CardBody>
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Subtle Colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Use the <Code>Subtle</Code> parameter to make the badges appear lighter.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Badge Color="Color.Primary" Subtle>Primary</Badge>
+                <Badge Color="Color.Secondary" Subtle>Secondary</Badge>
+                <Badge Color="Color.Success" Subtle>Success</Badge>
+                <Badge Color="Color.Danger" Subtle>Danger</Badge>
+                <Badge Color="Color.Warning" Subtle>Warning</Badge>
+                <Badge Color="Color.Info" Subtle>Info</Badge>
+                <Badge Color="Color.Light" Subtle>Light</Badge>
+                <Badge Color="Color.Dark" Subtle>Dark</Badge>
+                <Badge Color="Color.Link" Subtle>Link</Badge>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Badge scaling</CardTitle>

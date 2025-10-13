@@ -103,27 +103,15 @@ window.myComponent = {
 
 window.blazorisePRO = {
     paddle: {
-        openCheckout: (product, quantity, upsell) => {
-            const referral = window.Rewardful && window.Rewardful.referral;
-
-            if (upsell) {
-                Paddle.Checkout.open({
-                    product: product,
-                    quantity: quantity,
-                    upsell: upsell.id,
-                    upsellTitle: upsell.title,
-                    upsellText: upsell.text,
-                    upsellAction: upsell.action,
-                    passthrough: JSON.stringify({ rewardful: { referral: referral } })
-                });
-            }
-            else {
-                Paddle.Checkout.open({
-                    product: product,
-                    quantity: quantity,
-                    passthrough: JSON.stringify({ rewardful: { referral: referral } })
-                });
-            }
+        openCheckout: (product, quantity) => {
+            Paddle.Checkout.open({
+                items: [
+                    {
+                        priceId: product,
+                        quantity: quantity
+                    }
+                ]
+            });
         }
     }
 };

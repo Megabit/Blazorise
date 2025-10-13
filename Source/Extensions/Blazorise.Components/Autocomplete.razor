@@ -6,6 +6,7 @@
 
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@InputElementId" Disabled="@Disabled">
     <Validation @ref=validationRef Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
+
         @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
         {
             @foreach ( var selectedText in SelectedTexts )
@@ -103,9 +104,11 @@
         var value = GetItemValue( item );
 
         <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames( itemIndex )" Value="@value"
-                        Disabled="@disabled"
-                        Clicked="() => isCheckbox ? Task.CompletedTask : OnDropdownItemSelected( value )"
-                        CheckedChanged="() => isCheckbox ? OnDropdownItemSelected( value ) : Task.CompletedTask">
+                      Disabled="@disabled"
+                      @onmousedown="@(() => clickFromCheck = true)"
+                      @onpointerdown="@(() => clickFromCheck = true)"
+                      Clicked="() => isCheckbox ? Task.CompletedTask : OnDropdownItemSelected(value)"
+                      CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
             @if ( ItemContent is not null )
             {
                 @ItemContent( new( item, value, text ) )

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -72,11 +73,46 @@ public partial class TableRowHeader : BaseDraggableComponent, IDisposable
         base.BuildStyles( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        builder
+            .OpenElement( "th" )
+            .Id( ElementId )
+            .Class( ClassNames )
+            .Style( StyleNames )
+            .Draggable( DraggableString )
+            .Scope( "row" )
+            .ColSpan( ColumnSpan )
+            .RowSpan( RowSpan );
+
+        if ( Clicked.HasDelegate )
+            builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnClickHandler ) );
+
+        // build drag-and-drop related events
+        BuildDraggableEventsRenderTree( builder );
+
+        builder
+            .Data( "caption", MobileModeCaption );
+
+        if ( Attributes is not null )
+            builder.Attributes( Attributes );
+
+        builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+
+        if ( ChildContent is not null )
+            builder.Content( ChildContent );
+
+        builder.CloseElement(); // </th>
+
+        base.BuildRenderTree( builder );
+    }
+
     /// <summary>
     /// Handles the row onclick event.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected Task ClickHandler( MouseEventArgs eventArgs )
+    protected Task OnClickHandler( MouseEventArgs eventArgs )
     {
         return Clicked.InvokeAsync( eventArgs );
     }

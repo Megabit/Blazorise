@@ -1,17 +1,17 @@
 ﻿@page "/docs/components/badge"
 
-<Seo Canonical="/docs/components/badge" Title="Blazorise Badge component" Description="Learn to use and work with the Blazorise Badge component, which conveys small pieces of information." />
+<Seo Canonical="/docs/components/badge" Title="Blazorise Badge Component – Labels, Status Indicators, and Counts" Description="Learn how to use the Blazorise Badge component to display labels, notifications, or status indicators. Explore color variants, shapes, subtle themes, icons, and interactive badges with close functionality." />
 
 <DocsPageTitle Path="Components/Badge">
-    Blazorise Badge component
+    Blazorise Badge Component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Badges are used to draw attention and display statuses or counts.
+    Badges are small UI elements used to highlight key information, display status indicators, or show counts in a clear and compact format.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Badge</Code> component is used to convey small pieces of information. They are used for labeling content, displaying metadata and/or highlighting information. Using the <Code>CloseClicked</Code> property, the badge becomes interactive, allowing user interaction.
+    The <Code Tag>Badge</Code> component in Blazorise provides a simple way to display contextual information or metadata alongside other content. Common use cases include labeling items, showing unread message counts, or highlighting states such as <Code>Success</Code> or <Code>Warning</Code>. By handling the <Code>CloseClicked</Code> event, a badge can also become interactive, allowing users to dismiss or respond to its content.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -20,7 +20,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        Simply set the <Code>Color</Code> attribute and you’re good to go.
+        Use the <Code>Color</Code> attribute to quickly set the appearance of a badge. Badges can easily match your application's theme by selecting from predefined color variants.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicBadgeExample />
@@ -29,8 +29,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Colors">
-        Add any of the following variants via the <Code>Color</Code> parameter to change the appearance of a <Code>Badge</Code>.
+    <DocsPageSectionHeader Title="Color Variants">
+        Customize your badge using the <Code>Color</Code> parameter to represent different meanings, such as success, warning, or danger. This helps users instantly understand the badge's context.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BadgeColorsExample />
@@ -39,8 +39,18 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Subtle Colors">
+        In addition to the standard color themes, badges also support <Strong>subtle color variants</Strong>. Enable them by setting the <Code>Subtle</Code> parameter to <Code>true</Code> for a softer, more modern appearance that works well in light or minimalistic interfaces.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BadgeSubtleColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BadgeSubtleColorsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Shape">
-        Applying the <Code>Pill</Code> parameter produces a badge with rounded corners. It can aid in making badges and buttons more distinct from one another.
+        Add the <Code>Pill</Code> parameter to create rounded, pill-style badges. This style is great for differentiating badges from buttons or when you want a softer, more organic look.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <PillBadgeExample />
@@ -49,8 +59,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Icon-only">
-        Badges can also be used with icons without a label. For accessibility, a <Anchor To="docs/components/tooltip">Tooltip</Anchor> and <Code>aria-label</Code> attribute is recommended to ensure that all users can identify their meaning.
+    <DocsPageSectionHeader Title="Icon-only Badges">
+        Badges can also display icons without accompanying text. For accessibility, pair icon-only badges with a <Anchor To="docs/components/tooltip">Tooltip</Anchor> and include an <Code>aria-label</Code> to describe their purpose for screen readers.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <IconBadgeExample />
@@ -59,8 +69,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="With close button">
-        To enable close button you only need to define the <Code>CloseClicked</Code> event. Blazorise will automatically pickup and show close button.
+    <DocsPageSectionHeader Title="Interactive Badges with Close Button">
+        To make a badge dismissible, simply handle the <Code>CloseClicked</Code> event. Once defined, Blazorise automatically renders a close icon, enabling the user to remove the badge dynamically.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <CloseBadgeExample />
@@ -73,15 +83,21 @@
 </DocsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-    Badge vs Button
+    Badge vs. Button
 </Heading>
 
 <DocsPageParagraph>
-    Badges and Buttons are similar in appearance. This might lead users to think that badges are interactive.
+    Badges and buttons can appear visually similar, which might confuse users into thinking badges are interactive elements. To avoid this, ensure badges are used for displaying information rather than triggering actions.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Placement, language, shape, and color can all help mitigate any confusion. First, badges should not be labeled with active verbs. This is because they are not actions but relatively static text/content. Second, avoid placing badges directly next to Buttons, in particular, if they are using similar themes. The pill theme variant may aid in making badges and Buttons more distinct from one another.
+    You can reduce confusion through careful <Strong>placement</Strong>, <Strong>language</Strong>, <Strong>shape</Strong>, and <Strong>color choices</Strong>.
+    For example:
+    <UnorderedList>
+        <UnorderedListItem>Use descriptive or static text instead of action verbs on badges.</UnorderedListItem>
+        <UnorderedListItem>Avoid placing badges directly next to buttons with similar colors or shapes.</UnorderedListItem>
+        <UnorderedListItem>Consider using the <Code>Pill</Code> variant to visually differentiate badges from buttons.</UnorderedListItem>
+    </UnorderedList>
 </DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Badge)]" />

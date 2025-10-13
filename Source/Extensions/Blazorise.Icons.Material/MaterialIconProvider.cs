@@ -139,7 +139,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.FilePdf, MaterialIcons.PictureAsPdf },
         { IconName.FileUpload, MaterialIcons.FileUpload },
         { IconName.Film, MaterialIcons.Theaters },
-        { IconName.Filter, MaterialIcons.Filter },
+        { IconName.Filter, MaterialIcons.FilterAlt },
         { IconName.Fingerprint, MaterialIcons.Fingerprint },
         { IconName.Fire, MaterialIcons.Whatshot },
         { IconName.Flag, MaterialIcons.Flag },
