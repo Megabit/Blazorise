@@ -40,6 +40,13 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder Key( this RenderTreeBuilder builder, object value )
+    {
+        builder.SetKey( value );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder Type( this RenderTreeBuilder builder, string value, [CallerLineNumber] int line = 0 )
     {
         builder.AddAttribute( GetSequence( line ), "type", value );
@@ -138,6 +145,13 @@ public static class RenderTreeBuilderExtensions
     public static RenderTreeBuilder TabIndex( this RenderTreeBuilder builder, int? value, [CallerLineNumber] int line = 0 )
     {
         builder.AddAttribute( GetSequence( line ), "tabindex", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder Draggable( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "draggable", value );
 
         return builder;
     }
@@ -265,9 +279,142 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder OnMouseOver<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "onmouseover", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseOverStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "onmouseover", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseOverPreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "onmouseover", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseLeaveStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "onmouseleave", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnMouseLeavePreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "onmouseleave", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragStartStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "ondragstart", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragStartPreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "ondragstart", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragEnterStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "ondragenter", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragEnterPreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "ondragenter", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragEndStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "ondragend", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragEndPreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "ondragend", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragLeaveStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "ondragleave", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragLeavePreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "ondragleave", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDropStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "ondrop", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDropPreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "ondrop", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnContextMenuStopPropagation( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), "oncontextmenu", value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnContextMenuPreventDefault( this RenderTreeBuilder builder, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), "oncontextmenu", value );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder OnDragEnter<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
     {
         builder.AddAttribute( GetSequence( line ), "ondragenter", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragStart<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "ondragstart", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnDragEnd<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "ondragend", EventCallback.Factory.Create<T>( receiver, callback ) );
 
         return builder;
     }
@@ -282,6 +429,13 @@ public static class RenderTreeBuilderExtensions
     public static RenderTreeBuilder OnDrop<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
     {
         builder.AddAttribute( GetSequence( line ), "ondrop", EventCallback.Factory.Create<T>( receiver, callback ) );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder OnContextMenu<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddAttribute( GetSequence( line ), "oncontextmenu", EventCallback.Factory.Create<T>( receiver, callback ) );
 
         return builder;
     }
