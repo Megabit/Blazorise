@@ -665,6 +665,25 @@ public abstract class ThemeGenerator : IThemeGenerator
         return defaultValue;
     }
 
+    /// <summary>
+    /// Adds or updates a variable in the collection with the specified name and value.
+    /// </summary>
+    /// <remarks>If the <paramref name="name"/> is null, empty, or consists only of white-space characters,
+    /// the method does nothing. If a variable with the specified name already exists, its value is updated; otherwise,
+    /// a new variable is added.</remarks>
+    /// <param name="name">The name of the variable. Cannot be null, empty, or consist only of white-space characters.</param>
+    /// <param name="value">The value to associate with the specified variable name. Can be null.</param>
+    protected void SetVar( string name, string value )
+    {
+        if ( string.IsNullOrWhiteSpace( name ) || string.IsNullOrWhiteSpace( value ) )
+            return;
+
+        if ( Variables.ContainsKey( name ) )
+            Variables[name] = value;
+        else
+            Variables.Add( name, value );
+    }
+
     #endregion
 
     #region Styles
