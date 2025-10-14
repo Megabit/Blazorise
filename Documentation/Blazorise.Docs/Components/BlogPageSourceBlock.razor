@@ -1,6 +1,8 @@
 ﻿@using System.Text
 @using System.IO
+@using System.Linq
 @using Blazorise.Docs.Models
+
 <Paragraph>
     <Div Class="blog-page-section-source">
         <Div Class="blog-page-section-source-toolbar">
@@ -15,11 +17,24 @@
                 </Button>
             </Tooltip>
         </Div>
+
         <Div Class="@SourceCodeClassNames">
-            @CodeComponent( CurrentCode )
+            @if ( !string.IsNullOrWhiteSpace( Source ) )
+            {
+                <pre>
+                    <code class="@LangClass">
+                        @Source
+                    </code>
+                </pre>
+            }
+            else
+            {
+                @CodeComponent( CurrentCode )
+            }
         </Div>
     </Div>
 </Paragraph>
+
 @code {
     protected override void OnInitialized()
     {
@@ -29,31 +44,47 @@
     private Task OnToggleCode()
     {
         ShowCode = !ShowCode;
-
         return Task.CompletedTask;
     }
 
     private async Task OnCopyCode()
     {
-        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( Code ) );
-        await NotificationService.Info( $"Copied code example!" );
+        if ( !string.IsNullOrWhiteSpace( Source ) )
+        {
+            // NEW: copy inline runtime source
+            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Source );
+        }
+        else
+        {
+            // Legacy behavior
+            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( Code ) );
+        }
+
+        await NotificationService.Info( "Copied code example!" );
     }
 
     private RenderFragment CodeComponent( string code ) => builder =>
     {
+        // Legacy embedded HTML snippet lookup remains exactly the same
         try
         {
-            var key = typeof( DocsPageSectionSource ).Assembly.GetManifestResourceNames().FirstOrDefault( x => x.Contains( $".{code}Code.html" ) );
+            var key = typeof( DocsPageSectionSource ).Assembly
+                .GetManifestResourceNames()
+                .FirstOrDefault( x => x.Contains( $".{code}Code.html" ) );
 
-            if ( key != null )
+            if ( key is not null )
             {
                 using var stream = typeof( DocsPageSectionSource ).Assembly.GetManifestResourceStream( key );
-                using var reader = new StreamReader( stream );
-                builder.AddMarkupContent( 0, reader.ReadToEnd() );
+                if ( stream is not null )
+                {
+                    using var reader = new StreamReader( stream );
+                    builder.AddMarkupContent( 0, reader.ReadToEnd() );
+                }
             }
         }
-        catch ( Exception )
+        catch
         {
+            // swallow to preserve legacy behavior (no breakage)
         }
     };
 
@@ -62,25 +93,36 @@
         get
         {
             var sb = new StringBuilder( "blog-page-section-source-code" );
-
-            if ( ShowCode )
-                sb.Append( " blog-page-section-source-code-show" );
-            else
-                sb.Append( " blog-page-section-source-code-hide" );
-
+            sb.Append( ShowCode ? " blog-page-section-source-code-show" : " blog-page-section-source-code-hide" );
             return sb.ToString();
         }
     }
+
+    // Adds "language-xxx" when Language is provided; many highlighters use this convention
+    private string LangClass => string.IsNullOrWhiteSpace( Language ) ? string.Empty : $"language-{Language}";
 
     private string CurrentCode { get; set; }
 
     private TextColor ButtonColor => ShowCode ? TextColor.White : TextColor.Dark;
 
     [Inject] public INotificationService NotificationService { get; set; }
-
     [Inject] public IJSRuntime JSRuntime { get; set; }
 
+    /// <summary>
+    /// Legacy identifier for embedded snippet (eg. "{blogName}_Snippet1").
+    /// </summary>
     [Parameter] public string Code { get; set; }
+
+    /// <summary>
+    /// NEW: Raw source code to render inline (runtime Markdown path).
+    /// When provided, the component renders <pre><code> with this content.
+    /// </summary>
+    [Parameter] public string? Source { get; set; }
+
+    /// <summary>
+    /// NEW: Optional language token for syntax highlighting (e.g., "csharp", "html", "bash").
+    /// </summary>
+    [Parameter] public string? Language { get; set; }
 
     [Parameter] public bool ShowCode { get; set; } = true;
 }
