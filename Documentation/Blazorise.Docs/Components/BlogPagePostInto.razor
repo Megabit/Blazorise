@@ -1,6 +1,14 @@
 ﻿<Div Class="b-blog-post-info" Flex="Flex.AlignItems.Center" Margin="Margin.Is3.OnY">
     <Div Margin="Margin.Is2.FromEnd">
-        <Image Source="@($"img/avatars/{ImageName}.png")" Text="Blog creator avatar image" Border="Border.Rounded" Class="img-circle" Style="width:48px;height:48px;" />
+        @{
+            // If the ImageName already looks like a URL, use it as-is
+            var avatarSrc = string.IsNullOrWhiteSpace( ImageName )
+            ? "img/avatars/default.png"
+            : ( ImageName.StartsWith( "http", StringComparison.OrdinalIgnoreCase ) || ImageName.StartsWith( "/" ) )
+            ? ImageName
+            : $"img/avatars/{ImageName}.png";
+        }
+        <Image Source="@avatarSrc" Text="Blog creator avatar image" Border="Border.Rounded" Class="img-circle" Style="width:48px;height:48px;" />
     </Div>
     <Div>
         <Div Class="b-blog-post-info-user">

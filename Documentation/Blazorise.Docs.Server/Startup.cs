@@ -6,6 +6,7 @@ using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Captcha.ReCaptcha;
 using Blazorise.Components;
+using Blazorise.Docs.BlogRuntime;
 using Blazorise.Docs.Core;
 using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
@@ -66,6 +67,9 @@ public class Startup
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
             .AddBlazoriseRouterTabs();
+
+        services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );
+        services.AddSingleton<IBlogProvider, GithubBlogProvider>();
 
         services.Configure<AppSettings>( options => Configuration.Bind( options ) );
         services.AddHttpClient();
