@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.8.4</Version>
-		<PackageVersion>1.8.4</PackageVersion>
+		<Version>1.8.5</Version>
+		<PackageVersion>1.8.5</PackageVersion>
 
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
