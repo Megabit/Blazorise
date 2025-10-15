@@ -2,65 +2,6 @@
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
-@* <PageTitle>Blog</PageTitle>
-
-<Div>
-    <Heading Size="HeadingSize.Is1" Margin="Margin.Is4.FromBottom">
-        Blog
-    </Heading>
-
-    @if ( items is null )
-    {
-        <Skeleton Animation="SkeletonAnimation.Pulse">
-            <SkeletonItem ColumnSize="ColumnSize.Is7" />
-            <SkeletonItem ColumnSize="ColumnSize.Is4" />
-            <SkeletonItem ColumnSize="ColumnSize.Is4" />
-            <SkeletonItem ColumnSize="ColumnSize.Is6" />
-            <SkeletonItem ColumnSize="ColumnSize.Is8" />
-        </Skeleton>
-    }
-    else if ( items.Count == 0 )
-    {
-        <Alert Color="Color.Warning" Visible>
-            <AlertMessage>
-                No posts yet.
-            </AlertMessage>
-        </Alert>
-    }
-    else
-    {
-        <Row>
-            @foreach ( var post in items )
-            {
-                <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is4.OnWidescreen" Margin="Margin.Is4.FromBottom">
-                    <Card Height="Height.Is100">
-                        <CardBody>
-                            <Heading Size="HeadingSize.Is5" Margin="Margin.Is2.FromBottom">
-                                @post.Title
-                            </Heading>
-                            @if ( !string.IsNullOrWhiteSpace( post.PostedOn ) )
-                            {
-                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
-                                    @post.PostedOn
-                                </Paragraph>
-                            }
-                            @if ( !string.IsNullOrWhiteSpace( post.Summary ) )
-                            {
-                                <Paragraph>
-                                    @post.Summary
-                                </Paragraph>
-                            }
-                            <Anchor To="@($"/blog/{post.Permalink}")">
-                                Read
-                            </Anchor>
-                        </CardBody>
-                    </Card>
-                </Column>
-            }
-        </Row>
-    }
-</Div> *@
-
 <Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries.FirstOrDefault( /* x => x.Pinned */ )?.ImageUrl" />
 
 <BlogPageTitle>
