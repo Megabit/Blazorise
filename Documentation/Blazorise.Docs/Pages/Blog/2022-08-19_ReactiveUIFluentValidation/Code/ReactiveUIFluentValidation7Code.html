@@ -1,7 +1,0 @@
-<div class="blazorise-codeblock">
-<div class="csharp"><pre>
-_registrationModel = <span class="keyword">this</span>.WhenAnyValue(x =&gt; x.EmailAddress, y =&gt; y.Password)
-                .Select(model =&gt; <span class="keyword">new</span> RegistrationModel { Email = model.Item1, Password = model.Item2})
-                .ToProperty(<span class="keyword">this</span>, x =&gt; x.RegistrationModel);
-</pre></div>
-</div>
