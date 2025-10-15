@@ -149,7 +149,10 @@ public class Startup
         app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
-        app.MapGet( "/feed.rss", SeoGenerator.GenerateRssFeed );
+        app.MapGet( "/feed.rss", async ( HttpContext httpContext, IBlogProvider blogProvider ) =>
+        {
+            await SeoGenerator.GenerateRssFeed( httpContext, blogProvider );
+        } );
 
         //permanent redirects
         app.Use( async ( context, next ) =>
