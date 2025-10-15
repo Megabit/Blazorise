@@ -70,6 +70,7 @@ public class Startup
 
         services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );
         services.AddSingleton<IBlogProvider, GithubBlogProvider>();
+        services.AddHostedService<BlogPreheater>();
 
         services.Configure<AppSettings>( options => Configuration.Bind( options ) );
         services.AddHttpClient();
