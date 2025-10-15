@@ -1,61 +1,59 @@
-﻿@page "/blog/{Slug}"
+﻿@page "/blog/{*Permalink}"
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
-@code {
-    [Parameter] public string Slug { get; set; } = string.Empty;
-
-    BlogPageModel pageModel;
-
-    bool loading = true;
-
-    protected override async Task OnParametersSetAsync()
-    {
-        loading = true;
-        pageModel = await BlogProvider.GetBySlugAsync( Slug );
-        loading = false;
-    }
-}
-
-@if ( loading )
+@if ( pageModel is null )
 {
-    <Div>
-        <Skeleton Animation="SkeletonAnimation.Pulse">
-            <SkeletonItem ColumnSize="ColumnSize.Is7" />
-            <SkeletonItem ColumnSize="ColumnSize.Is4" />
-            <SkeletonItem ColumnSize="ColumnSize.Is4" />
-            <SkeletonItem ColumnSize="ColumnSize.Is6" />
-            <SkeletonItem ColumnSize="ColumnSize.Is8" />
-            <SkeletonItem ColumnSize="ColumnSize.Is7" />
-            <SkeletonItem ColumnSize="ColumnSize.Is4" />
-            <SkeletonItem ColumnSize="ColumnSize.Is4" />
-            <SkeletonItem ColumnSize="ColumnSize.Is6" />
-            <SkeletonItem ColumnSize="ColumnSize.Is8" />
-        </Skeleton>
+    <Div Margin="Margin.Is4.OnY">
+        <Alert Color="Color.Danger" Visible>
+            <AlertMessage>
+                Post not found.
+            </AlertMessage>
+        </Alert>
     </Div>
-}
-else if ( pageModel is null )
-{
-    <Alert Color="Color.Danger" Visible>
-        <AlertMessage>
-            Post not found.
-        </AlertMessage>
-    </Alert>
 }
 else
 {
-    <Div>
-        <Heading Size="HeadingSize.Is1" Margin="Margin.Is1.FromBottom">
-            @pageModel.Title
-        </Heading>
-        <Div TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
-            @pageModel.PostedOn
-            @if ( !string.IsNullOrWhiteSpace( pageModel.ReadTime ) )
-            {
-                <Span Margin="Margin.Is2.FromStart">· @pageModel.ReadTime</Span>
-            }
-        </Div>
+    @pageModel.Content
+}
 
-        @pageModel.Content
-    </Div>
+@code {
+    [Parameter] public string Permalink { get; set; } = string.Empty;
+
+    BlogPageModel pageModel;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            // Build a canonical permalink for the provider:
+            // if it already starts with /blog/, keep it; otherwise prefix /blog/
+            var canonical = Canonicalize( Permalink );
+
+            pageModel = await BlogProvider.GetByPermalinkAsync( canonical );
+        }
+        catch
+        {
+        }
+    }
+
+    private static string Canonicalize( string p )
+    {
+        var s = ( p ?? string.Empty ).Trim().Replace( '\\', '/' );
+
+        if ( !s.StartsWith( "/" ) )
+            s = "/" + s;
+
+        if ( !s.StartsWith( "/blog/", StringComparison.OrdinalIgnoreCase ) )
+            s = "/blog" + ( s == "/" ? "" : s );
+
+        // collapse // and remove trailing slash (except root)
+        while ( s.Contains( "//", StringComparison.Ordinal ) )
+            s = s.Replace( "//", "/" );
+
+        if ( s.Length > 1 && s.EndsWith( '/' ) )
+            s = s.TrimEnd( '/' );
+
+        return s;
+    }
 }

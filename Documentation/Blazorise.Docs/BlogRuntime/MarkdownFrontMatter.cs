@@ -13,6 +13,7 @@ internal sealed class FrontMatter
     public string AuthorImage { get; set; } = "";
     public string PostedOn { get; set; } = "";
     public string ReadTime { get; set; } = "";
+    public string Category { get; set; } = "";
     public string MarkdownText { get; set; } = "";
 }
 
@@ -55,6 +56,8 @@ internal static class MarkdownFrontMatter
                     result.PostedOn = Val( line, "posted-on:" );
                 else if ( line.StartsWith( "read-time:" ) )
                     result.ReadTime = Val( line, "read-time:" );
+                else if ( line.StartsWith( "category:" ) )
+                    result.Category = Val( line, "category:" );
             }
 
             result.MarkdownText = markdownText.Substring( end + 3 ).TrimStart();
@@ -70,6 +73,7 @@ internal static class MarkdownFrontMatter
         result.AuthorImage = Unquote( result.AuthorImage );
         result.PostedOn = Unquote( result.PostedOn );
         result.ReadTime = Unquote( result.ReadTime );
+        result.Category = Unquote( result.Category );
 
         return result;
     }

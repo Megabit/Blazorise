@@ -1,8 +1,8 @@
-﻿@page "/blog-v2"
+﻿@page "/blog"
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
-<PageTitle>Blog</PageTitle>
+@* <PageTitle>Blog</PageTitle>
 
 <Div>
     <Heading Size="HeadingSize.Is1" Margin="Margin.Is4.FromBottom">
@@ -50,7 +50,7 @@
                                     @post.Summary
                                 </Paragraph>
                             }
-                            <Anchor To="@($"/blog/{post.Slug}")">
+                            <Anchor To="@($"/blog/{post.Permalink}")">
                                 Read
                             </Anchor>
                         </CardBody>
@@ -59,13 +59,74 @@
             }
         </Row>
     }
-</Div>
+</Div> *@
+
+<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries.FirstOrDefault( /* x => x.Pinned */ )?.ImageUrl" />
+
+<BlogPageTitle>
+    Blazorise Blog
+</BlogPageTitle>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is8.OnDesktop">
+        <BlogCategorySelect Categories="@BlogEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
+        <TextEdit Placeholder="Search..." @bind-Text="@search" />
+    </Column>
+</Row>
+
+@if ( !IsCustomSearch )
+{
+    <Row>
+        <Column ColumnSize="ColumnSize.Is8.OnDesktop">
+            @{
+                var pinnedBlog = BlogEntries.FirstOrDefault( /* x => x.Pinned */ );
+
+                if ( pinnedBlog != null )
+                {
+                    <Card Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default" Border="Border.Is0">
+                        <CardImage Source="@pinnedBlog.ImageUrl" Alt="Blog post image"></CardImage>
+                        <CardBody Padding="Padding.Is0.FromBottom">
+                            <CardTitle>
+                                @if ( pinnedBlog.Permalink != null )
+                                {
+                                    <Anchor To="@pinnedBlog.Permalink" Stretched>
+                                        @pinnedBlog.Summary
+                                    </Anchor>
+                                }
+                            </CardTitle>
+                        </CardBody>
+                        <CardBody Padding="Padding.Is0.OnY">
+                            <BlogPagePostInto UserName="@pinnedBlog.AuthorName" ImageName="@pinnedBlog.AuthorImage" PostedOn="@pinnedBlog.PostedOn" Read="@pinnedBlog.ReadTime" />
+                        </CardBody>
+                    </Card>
+                }
+            }
+        </Column>
+        <Column ColumnSize="ColumnSize.Is4.OnDesktop">
+            <NewsletterWidget />
+
+            <LatestBlogItems BlogItems="@BlogEntries" />
+        </Column>
+    </Row>
+}
+
+<BlogPageEntries Year="2022">
+    @foreach ( var item in BlogEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
+    {
+        <BlogPageEntriesItem @key="@item" To="@item.Permalink" ToText="@item.Title" ImageSource="@item.ImageUrl" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
+    }
+</BlogPageEntries>
 
 @code {
-    private IReadOnlyList<BlogIndexItem> items = new List<BlogIndexItem>();
+    private IReadOnlyList<BlogIndexItem> BlogEntries = new List<BlogIndexItem>();
+    bool IsCustomSearch => selectedCategory != "All" || !string.IsNullOrEmpty( search );
+    string search = "";
+    string selectedCategory = "All";
 
     protected override async Task OnInitializedAsync()
     {
-        items = await BlogProvider.GetListAsync();
+        BlogEntries = await BlogProvider.GetListAsync();
     }
 }

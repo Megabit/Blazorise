@@ -37,7 +37,7 @@ public sealed class BlogPreheater : IHostedService
                 foreach ( var item in list.Take( PREHEAT_TOP_N ) )
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    await blog.GetBySlugAsync( item.Slug, cancellationToken );
+                    await blog.GetByPermalinkAsync( item.Permalink, cancellationToken );
                 }
 
                 _logger.LogInformation( "Blog preheat complete: {Count} posts warmed", Math.Min( PREHEAT_TOP_N, list.Count ) );
