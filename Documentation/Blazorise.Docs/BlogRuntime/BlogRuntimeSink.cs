@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Blazorise.Docs.Components;
+using ColorCode;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Newtonsoft.Json.Linq;
 
 namespace Blazorise.Docs.BlogRuntime;
 
@@ -31,6 +33,8 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
     private int codeIndex = 0;
     private readonly string blogName;
     private readonly Func<string, string> rewriteImageUrl;
+    private static readonly HtmlClassFormatter htmlClassFormatter = new();
+    private static readonly MarkupBuilder markupBuilder = new( htmlClassFormatter );
 
     public BlogRuntimeSink( string blogName, Func<string, string> rewriteImageUrl )
     {
@@ -236,82 +240,47 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
 
     private void PersistCodeBlockInternal( RenderTreeBuilder b, FencedCodeBlock code )
     {
-        // Keep your naming so examples/snippets continue to match
+        // Preserve your naming scheme so legacy "Code" lookup keeps working if needed
         var info = code.Info ?? string.Empty;
         var codeName = ( info.Contains( '|' )
             ? $"{blogName}_{info[( info.IndexOf( '|' ) + 1 )..]}"
             : $"{blogName}{++codeIndex}" ).Replace( ".razor", "" );
 
-        // 1) Parse language token from info (eg. "cs", "csharp", "html", "bash", "json", etc.)
-        var lang = GetLanguageClass( info );
+        // Extract the raw code text from the fenced block
+        var raw = code.Lines.ToString();
 
-        // 2) Extract the raw code text from the fenced block
-        var sb = new StringBuilder();
-        foreach ( var segment in code.Lines.Lines )
+        // Map Markdig info to the language tokens your MarkupBuilder expects ("cs","css","powershell", or default HTML/Razor handling)
+        var lang = ParseLanguage( info );
+
+        // Build fully formatted HTML (same as your previous compile-time generator)
+        var html = markupBuilder.Build( raw, lang );
+
+        // Render BlogPageSourceBlock with inner HTML
+        b.OpenComponent( 0, typeof( BlogPageSourceBlock ) );
+        //b.AddAttribute( 1, "Code", codeName );
+        b.AddAttribute( 2, "ChildContent", (RenderFragment)( bb =>
         {
-            var slice = segment.Slice;
-            if ( slice.Text is not null )
-                sb.AppendLine( slice.ToString() );
-        }
-        var raw = sb.ToString();
-
-        b.OpenComponent( 160, typeof( BlogPageSourceBlock ) );
-        b.AddAttribute( 161, "Code", codeName );         // legacy continuity
-        b.AddAttribute( 162, "Source", raw );            // inline source (new)
-        if ( !string.IsNullOrWhiteSpace( lang ) )
-            b.AddAttribute( 163, "Language", lang );     // e.g., "csharp", "html", "bash"
+            bb.AddMarkupContent( 0, html );
+        } ) );
         b.CloseComponent();
-
-        //// 3) Render inline <pre><code> with a language-* class (works with Prism/Highlight.js, or plain <pre> if no CSS)
-        ////    We do NOT HTML-encode manually; Blazor will safely encode with AddContent.
-        //b.OpenElement( 160, "div" );
-        //b.AddAttribute( 161, "class", "blog-source-block" );
-
-        //// Optional: show the generated codeName above the block (useful for continuity with existing BlogPageSourceBlock)
-        //// Comment out if you don't want a caption.
-        //// b.OpenElement( 162, "div" );
-        //// b.AddAttribute( 163, "class", "blog-source-caption text-muted mb-1" );
-        //// b.AddContent( 164, codeName );
-        //// b.CloseElement();
-
-        //b.OpenElement( 165, "pre" );
-        //b.OpenElement( 166, "code" );
-        //if ( !string.IsNullOrWhiteSpace( langClass ) )
-        //    b.AddAttribute( 167, "class", $"language-{langClass}" );
-
-        //// Add the code content (Blazor escapes it for safety, preserving newlines inside <pre>)
-        //b.AddContent( 168, raw );
-
-        //b.CloseElement(); // code
-        //b.CloseElement(); // pre
-        //b.CloseElement(); // container
     }
 
-    // Map common Markdig info strings to syntax highlighter language classes
-    private static string GetLanguageClass( string info )
+    private static string ParseLanguage( string info )
     {
         if ( string.IsNullOrWhiteSpace( info ) )
-            return string.Empty;
+            return ""; // triggers HTML/Razor path in MarkupBuilder
 
-        var token = info.Split( new[] { ' ', '|', '\t' }, StringSplitOptions.RemoveEmptyEntries )
-                        .FirstOrDefault()?.ToLowerInvariant() ?? string.Empty;
+        var t = info.Split( new[] { ' ', '|', '\t' }, StringSplitOptions.RemoveEmptyEntries )
+                    .FirstOrDefault()?.ToLowerInvariant() ?? "";
 
-        return token switch
+        // Match your MarkupBuilder’s cases
+        return t switch
         {
-            "csharp" or "cs" or "net" => "csharp",
-            "razor" or "razorcs" => "csharp",
-            "html" or "htm" => "html",
+            "csharp" or "cs" => "cs",
             "css" => "css",
-            "js" or "javascript" => "javascript",
-            "ts" or "typescript" => "typescript",
-            "json" => "json",
-            "xml" => "xml",
-            "yml" or "yaml" => "yaml",
-            "sql" => "sql",
-            "bash" or "sh" => "bash",
             "powershell" or "ps" or "ps1" => "powershell",
-            "docker" or "dockerfile" => "docker",
-            _ => token
+            // anything else (html, razor, etc.) falls into the "else" branch in MarkupBuilder
+            _ => ""
         };
     }
 }
