@@ -164,15 +164,15 @@ public sealed class GithubBlogProvider : IBlogProvider
             if ( url.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
                 return url;
 
-            // Repo-root absolute ("/images/...") => RawBase + images/...
+            // Repo-root absolute ("/img/...") => RawBase + img/...
             if ( url.StartsWith( "/" ) )
                 return $"{RawBaseUrl}{url.TrimStart( '/' )}";
 
-            // Post-relative: ensure "images/" prefix under the post folder
+            // Post-relative: ensure "img/" prefix under the post folder
             var postDir = $"{opt.ContentRoot.TrimEnd( '/' )}/{slug}";
             var rel = url.TrimStart( '.', '/' );
-            if ( !rel.StartsWith( "images/", StringComparison.OrdinalIgnoreCase ) )
-                rel = $"images/{rel}";
+            if ( !rel.StartsWith( "img/", StringComparison.OrdinalIgnoreCase ) )
+                rel = $"img/{rel}";
 
             return $"{RawBaseUrl}{postDir}/{rel}";
         }
