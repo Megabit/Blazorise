@@ -17,6 +17,7 @@ public sealed class BlogIndexItem
     public string AuthorImage { get; init; }
     public string ReadTime { get; init; }
     public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>(); // keep if you later add tags
+    public string Root { get; init; }
 }
 
 public sealed class BlogPageModel
@@ -33,4 +34,5 @@ public sealed class BlogPageModel
     public string AuthorImage { get; init; }
     public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>();
     public required RenderFragment Content { get; init; }
+    public string Root { get; init; }
 }

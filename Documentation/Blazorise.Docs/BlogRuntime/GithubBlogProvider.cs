@@ -37,12 +37,13 @@ public sealed class GithubBlogProvider : IBlogProvider
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", this.opt.GitHubToken );
     }
 
-    private string ApiListUrl => $"https://api.github.com/repos/{opt.Owner}/{opt.Repo}/contents/{opt.ContentRoot}?ref={opt.Branch}";
+    // CHANGED: now parameterized by a root ("blog", "news", etc.)
+    private string ApiListUrl( string root ) => $"https://api.github.com/repos/{opt.Owner}/{opt.Repo}/contents/{root}?ref={opt.Branch}";
     private string RawBaseUrl => $"https://raw.githubusercontent.com/{opt.Owner}/{opt.Repo}/{opt.Branch}/";
     private static string KeyList => "blog:list";
     private static string KeyPage( string permalink ) => $"blog:page:{permalink}";
     private static string KeyEtag( string relativePath ) => $"blog:etag:{relativePath}";
-    private static string KeyMap => "blog:map"; // permalink -> folder
+    private static string KeyMap => "blog:map"; // permalink -> relativeDir ("root/folder")
 
     private sealed class GhItem
     {
@@ -58,71 +59,82 @@ public sealed class GithubBlogProvider : IBlogProvider
         if ( cache.TryGetValue<IReadOnlyList<BlogIndexItem>>( KeyList, out var cached ) )
             return cached!;
 
-        using var req = new HttpRequestMessage( HttpMethod.Get, ApiListUrl );
-        using var res = await http.SendAsync( req, ct );
-        res.EnsureSuccessStatusCode();
+        var items = new List<BlogIndexItem>();
+        var map = new Dictionary<string, string>( StringComparer.OrdinalIgnoreCase ); // permalink -> relativeDir ("root/folder")
 
-        var json = await res.Content.ReadAsStringAsync( ct );
-        var entries = JsonSerializer.Deserialize<List<GhItem>>( json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true } ) ?? new();
-
-        var folders = entries.Where( e => e.type == "dir" ).Select( e => e.name ).ToList();
-
-        var map = new Dictionary<string, string>( StringComparer.OrdinalIgnoreCase ); // permalink -> folder
-        var items = new List<BlogIndexItem>( folders.Count );
-
-        foreach ( var folder in folders )
+        // iterate over all configured roots
+        foreach ( var root in opt.ContentRoot ?? Array.Empty<string>() )
         {
-            var meta = await TryReadFrontMatterAsync( folder, ct );
-            if ( meta is null )
+            if ( string.IsNullOrWhiteSpace( root ) )
                 continue;
 
-            var (fm, _) = meta.Value;
+            using var req = new HttpRequestMessage( HttpMethod.Get, ApiListUrl( root ) );
+            using var res = await http.SendAsync( req, ct );
+            if ( !res.IsSuccessStatusCode )
+                continue;
 
-            var permalink = NormalizePermalink( fm.Permalink ) ?? $"/blog/{folder}";
-            var slug = ExtractSlug( permalink );
+            var json = await res.Content.ReadAsStringAsync( ct );
+            var entries = JsonSerializer.Deserialize<List<GhItem>>( json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true } ) ?? new();
 
-            string ImageRewriter( string url )
+            var folders = entries.Where( e => e.type == "dir" ).Select( e => e.name ).ToList();
+
+            foreach ( var folder in folders )
             {
-                if ( string.IsNullOrWhiteSpace( url ) )
-                    return url;
-                url = TrimQuotes( url );
+                var meta = await TryReadFrontMatterAsync( root, folder, ct );
+                if ( meta is null )
+                    continue;
 
-                if ( Uri.TryCreate( url, UriKind.Absolute, out _ ) )
-                    return url;
-                if ( url.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
-                    return url;
+                var (fm, _) = meta.Value;
 
-                if ( url.StartsWith( "/" ) )
-                    return $"{RawBaseUrl}{url.TrimStart( '/' )}";
+                var permalink = NormalizePermalink( fm.Permalink ) ?? $"/{root.TrimEnd( '/' )}/{folder}";
+                var slug = ExtractSlug( permalink );
 
-                var rel = url.TrimStart( '.', '/' );
-                if ( !rel.StartsWith( "img/", StringComparison.OrdinalIgnoreCase ) )
-                    rel = $"img/{rel}";
+                // image rewriter aware of root/folder
+                string ImageRewriter( string url )
+                {
+                    if ( string.IsNullOrWhiteSpace( url ) )
+                        return url;
+                    url = TrimQuotes( url );
 
-                var postDir = $"{opt.ContentRoot.TrimEnd( '/' )}/{folder}";
-                return $"{RawBaseUrl}{postDir}/{rel}";
+                    if ( Uri.TryCreate( url, UriKind.Absolute, out _ ) )
+                        return url;
+                    if ( url.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
+                        return url;
+
+                    if ( url.StartsWith( "/" ) )
+                        return $"{RawBaseUrl}{url.TrimStart( '/' )}";
+
+                    var rel = url.TrimStart( '.', '/' );
+                    if ( !rel.StartsWith( "img/", StringComparison.OrdinalIgnoreCase ) )
+                        rel = $"img/{rel}";
+
+                    var postDir = $"{root.TrimEnd( '/' )}/{folder}";
+                    return $"{RawBaseUrl}{postDir}/{rel}";
+                }
+
+                // map permalink → relativeDir
+                var relativeDir = $"{root.TrimEnd( '/' )}/{folder}";
+                map[permalink] = relativeDir;
+
+                items.Add( new BlogIndexItem
+                {
+                    Permalink = permalink,
+                    Slug = slug,
+                    Title = string.IsNullOrWhiteSpace( fm.Title ) ? slug : fm.Title,
+                    Summary = fm.Description,
+                    PostedOn = fm.PostedOn,
+                    Category = string.IsNullOrWhiteSpace( fm.Category ) ? null : fm.Category,
+                    Tags = Array.Empty<string>(),
+                    ImageUrl = string.IsNullOrWhiteSpace( fm.ImageUrl ) ? null : ImageRewriter( fm.ImageUrl ),
+                    AuthorName = string.IsNullOrWhiteSpace( fm.AuthorName ) ? null : fm.AuthorName,
+                    AuthorImage = string.IsNullOrWhiteSpace( fm.AuthorImage ) ? null : ImageRewriter( fm.AuthorImage ),
+                    ReadTime = string.IsNullOrWhiteSpace( fm.ReadTime ) ? null : fm.ReadTime,
+                    Root = root
+                } );
             }
-
-            // keep mapping for permalink → folder
-            map[permalink] = folder;
-
-            items.Add( new BlogIndexItem
-            {
-                Permalink = permalink,
-                Slug = slug,
-                Title = string.IsNullOrWhiteSpace( fm.Title ) ? slug : fm.Title,
-                Summary = fm.Description,
-                PostedOn = fm.PostedOn,
-                Category = string.IsNullOrWhiteSpace( fm.Category ) ? null : fm.Category,
-                Tags = Array.Empty<string>(),
-                ImageUrl = string.IsNullOrWhiteSpace( fm.ImageUrl ) ? null : ImageRewriter( fm.ImageUrl ),
-                AuthorName = string.IsNullOrWhiteSpace( fm.AuthorName ) ? null : fm.AuthorName,
-                AuthorImage = string.IsNullOrWhiteSpace( fm.AuthorImage ) ? null : ImageRewriter( fm.AuthorImage ),
-                ReadTime = string.IsNullOrWhiteSpace( fm.ReadTime ) ? null : fm.ReadTime,
-            } );
         }
 
-        // sort
+        // sort (same as before)
         items = items
             .OrderByDescending( i => i.PostedOn ?? string.Empty, StringComparer.Ordinal )
             .ThenBy( i => i.Title, StringComparer.OrdinalIgnoreCase )
@@ -141,11 +153,11 @@ public sealed class GithubBlogProvider : IBlogProvider
         if ( cache.TryGetValue<BlogPageModel>( KeyPage( permalink ), out var cached ) )
             return cached!;
 
-        var folder = await ResolveFolderByPermalink( permalink, ct );
-        if ( folder is null )
+        var relativeDir = await ResolveFolderByPermalink( permalink, ct ); // eg. "blog/how-to-post"
+        if ( relativeDir is null )
             return null;
 
-        var mdPath = $"{opt.ContentRoot.TrimEnd( '/' )}/{folder}/post.md";
+        var mdPath = $"{relativeDir}/post.md";
         var rawUrl = RawBaseUrl + mdPath;
 
         using var req = new HttpRequestMessage( HttpMethod.Get, rawUrl );
@@ -175,7 +187,7 @@ public sealed class GithubBlogProvider : IBlogProvider
         else
             return null;
 
-        // image rewriter relative to folder
+        // image rewriter relative to the resolved dir
         string ImageRewriter( string url )
         {
             if ( string.IsNullOrWhiteSpace( url ) )
@@ -194,7 +206,7 @@ public sealed class GithubBlogProvider : IBlogProvider
             if ( !rel.StartsWith( "img/", StringComparison.OrdinalIgnoreCase ) )
                 rel = $"img/{rel}";
 
-            var postDir = $"{opt.ContentRoot.TrimEnd( '/' )}/{folder}";
+            var postDir = relativeDir; // already "root/folder"
             return $"{RawBaseUrl}{postDir}/{rel}";
         }
 
@@ -213,7 +225,8 @@ public sealed class GithubBlogProvider : IBlogProvider
             AuthorImage = string.IsNullOrWhiteSpace( fm.AuthorImage ) ? null : ImageRewriter( fm.AuthorImage ),
             ReadTime = fm.ReadTime,
             ImageUrl = string.IsNullOrWhiteSpace( fm.ImageUrl ) ? null : ImageRewriter( fm.ImageUrl ),
-            Content = fragment
+            Content = fragment,
+            Root = relativeDir.Split( '/' )[0],
         };
 
         cache.Set( KeyPage( permalink ), page, opt.PostCache );
@@ -236,9 +249,11 @@ public sealed class GithubBlogProvider : IBlogProvider
     }
 
     // ===== helpers =====
-    private async Task<(FrontMatter fm, string markdown)?> TryReadFrontMatterAsync( string folder, CancellationToken ct )
+
+    // CHANGED: now takes root+folder (for list pass), returns fm & markdown
+    private async Task<(FrontMatter fm, string markdown)?> TryReadFrontMatterAsync( string root, string folder, CancellationToken ct )
     {
-        var mdPath = $"{opt.ContentRoot.TrimEnd( '/' )}/{folder}/post.md";
+        var mdPath = $"{root.TrimEnd( '/' )}/{folder}/post.md";
         var rawUrl = RawBaseUrl + mdPath;
 
         using var res = await http.GetAsync( rawUrl, ct );
@@ -250,15 +265,16 @@ public sealed class GithubBlogProvider : IBlogProvider
         return (fm, markdown);
     }
 
+    // CHANGED: returns a relativeDir ("root/folder") instead of only folder
     private async Task<string?> ResolveFolderByPermalink( string permalink, CancellationToken ct )
     {
-        if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap, out var map ) && map.TryGetValue( permalink, out var folder ) )
-            return folder;
+        if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap, out var map ) && map.TryGetValue( permalink, out var relativeDir ) )
+            return relativeDir;
 
         // rebuild map if missing or stale
         await GetListAsync( ct );
-        if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap, out map ) && map.TryGetValue( permalink, out folder ) )
-            return folder;
+        if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap, out map ) && map.TryGetValue( permalink, out relativeDir ) )
+            return relativeDir;
 
         return null;
     }

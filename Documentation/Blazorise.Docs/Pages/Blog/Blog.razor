@@ -68,6 +68,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        BlogEntries = await BlogProvider.GetListAsync();
+        var all = await BlogProvider.GetListAsync();
+        BlogEntries = all.Where( x => x.Root == "blog" ).OrderByDescending( x => x.PostedOn ).ToList();
     }
 }

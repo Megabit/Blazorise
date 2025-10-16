@@ -63,23 +63,10 @@ public class SeoGenerator
         await context.Response.WriteAsync( sitemap.ToString() );
     }
 
-    // temprary class to hold page info
-    // TODO: remove this once we have a proper blog system in place
-    private class PageEntry
-    {
-        public string Title { get; set; }
-        public string Permalink { get; set; }
-        public string Summary { get; set; }
-        public string PostedOn { get; set; }
-    }
-
     public static async Task GenerateRssFeed( HttpContext context, IBlogProvider blogProvider )
     {
         var baseUrl = GetBaseUrl( context );
-        var blogPages = ( await blogProvider.GetListAsync() ).Select( x => new PageEntry { Title = x.Title, Permalink = x.Permalink, PostedOn = x.PostedOn, Summary = x.Summary } ).ToList();
-        var newsPages = Pages.News.Index.NewsEntries.Select( x => new PageEntry { Title = x.Text, Permalink = x.Url, PostedOn = x.PostedOn, Summary = x.Description } ).ToList();
-
-        var pages = blogPages.Concat( newsPages ).ToList();
+        var pages = await blogProvider.GetListAsync();
 
         var sitemap = new XElement( "rss",
                  new XAttribute( XNamespace.Xmlns + "atom", "http://www.w3.org/2005/Atom" ),
