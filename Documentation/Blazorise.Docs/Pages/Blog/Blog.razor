@@ -2,7 +2,7 @@
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
-<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries.FirstOrDefault( /* x => x.Pinned */ )?.ImageUrl" />
+<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries.FirstOrDefault(/* x => x.Pinned */)?.ImageUrl" />
 
 <BlogPageTitle>
     Blazorise Blog
@@ -22,7 +22,7 @@
     <Row>
         <Column ColumnSize="ColumnSize.Is8.OnDesktop">
             @{
-                var pinnedBlog = BlogEntries.FirstOrDefault( /* x => x.Pinned */ );
+                var pinnedBlog = BlogEntries.FirstOrDefault(/* x => x.Pinned */);
 
                 if ( pinnedBlog != null )
                 {
@@ -54,11 +54,29 @@
 }
 
 <BlogPageEntries Year="2022">
-    @foreach ( var item in BlogEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
+    @foreach ( var item in BlogEntries.Where( x =>
+        ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory )
+        && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
     {
-        <BlogPageEntriesItem @key="@item" To="@item.Permalink" ToText="@item.Title" ImageSource="@item.ImageUrl" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
+        <BlogPageEntriesItem @key="@item.Permalink"
+                             To="@item.Permalink"
+                             ToText="@item.Title"
+                             ImageSource="@item.ImageUrl"
+                             AuthorName="@item.AuthorName"
+                             AuthorImage="@item.AuthorImage"
+                             PostedOn="@item.PostedOn"
+                             ReadTime="@item.ReadTime" />
     }
 </BlogPageEntries>
+
+@if ( canLoadMore )
+{
+    <Div Class="text-center" Margin="Margin.Is4.FromTop">
+        <Button Color="Color.Primary" Disabled="@isLoading" Clicked="@LoadMoreAsync">
+            @(isLoading ? "Loading..." : "Load more")
+        </Button>
+    </Div>
+}
 
 @code {
     private IReadOnlyList<BlogIndexItem> BlogEntries = new List<BlogIndexItem>();
@@ -66,8 +84,58 @@
     string search = "";
     string selectedCategory = "All";
 
+    // paging
+    const int pageSize = 20;      // tweak as you like
+    int skip = 0;
+    bool isLoading = false;
+    bool canLoadMore = true;
+
     protected override async Task OnInitializedAsync()
     {
-        BlogEntries = await BlogProvider.GetListAsync( "blog" );
+        await LoadInitialAsync();
+    }
+
+    private async Task LoadInitialAsync()
+    {
+        isLoading = true;
+        try
+        {
+            skip = 0;
+            var firstPage = await BlogProvider.GetListAsync( "blog", take: pageSize, skip: skip );
+            BlogEntries = firstPage;
+            canLoadMore = firstPage.Count >= pageSize; // if fewer than pageSize, no more pages
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadMoreAsync()
+    {
+        if ( isLoading || !canLoadMore )
+            return;
+
+        isLoading = true;
+        try
+        {
+            skip += pageSize;
+            var nextPage = await BlogProvider.GetListAsync( "blog", take: pageSize, skip: skip );
+
+            // append, avoiding duplicates by Permalink
+            var merged = BlogEntries.ToList();
+            foreach ( var it in nextPage )
+                if ( !merged.Any( x => string.Equals( x.Permalink, it.Permalink, StringComparison.OrdinalIgnoreCase ) ) )
+                    merged.Add( it );
+
+            BlogEntries = merged;
+            canLoadMore = nextPage.Count >= pageSize;
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
     }
 }

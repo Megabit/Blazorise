@@ -13,7 +13,7 @@ namespace Blazorise.Docs.BlogRuntime;
 
 public interface IBlogProvider
 {
-    Task<IReadOnlyList<BlogIndexItem>> GetListAsync( string root, CancellationToken ct = default );
+    Task<IReadOnlyList<BlogIndexItem>> GetListAsync( string root, int? take = null, int skip = 0, CancellationToken ct = default );
     Task<BlogPageModel> GetByPermalinkAsync( string permalink, CancellationToken ct = default );
     Task InvalidateAsync( string slug = null );
 }
@@ -40,7 +40,7 @@ public sealed class GithubBlogProvider : IBlogProvider
     // CHANGED: now parameterized by a root ("blog", "news", etc.)
     private string ApiListUrl( string root ) => $"https://api.github.com/repos/{opt.Owner}/{opt.Repo}/contents/{root}?ref={opt.Branch}";
     private string RawBaseUrl => $"https://raw.githubusercontent.com/{opt.Owner}/{opt.Repo}/{opt.Branch}/";
-    private static string KeyList( string root ) => $"blog:list:{root ?? "*"}";
+    private static string KeyList( string root, int? take, int skip ) => $"blog:list:{root ?? "*"}:{skip}:{( take?.ToString() ?? "all" )}";
     private static string KeyMap( string root ) => $"blog:map:{root ?? "*"}";
     private static string KeyPage( string permalink ) => $"blog:page:{permalink}";
     private static string KeyEtag( string relativePath ) => $"blog:etag:{relativePath}";
@@ -53,9 +53,9 @@ public sealed class GithubBlogProvider : IBlogProvider
         public string url { get; set; } = "";
     }
 
-    public async Task<IReadOnlyList<BlogIndexItem>> GetListAsync( string root, CancellationToken ct = default )
+    public async Task<IReadOnlyList<BlogIndexItem>> GetListAsync( string root, int? take = null, int skip = 0, CancellationToken ct = default )
     {
-        if ( cache.TryGetValue<IReadOnlyList<BlogIndexItem>>( KeyList( root ), out var cached ) )
+        if ( cache.TryGetValue<IReadOnlyList<BlogIndexItem>>( KeyList( root, take, skip ), out var cached ) )
             return cached!;
 
         var items = new List<BlogIndexItem>();
@@ -80,11 +80,18 @@ public sealed class GithubBlogProvider : IBlogProvider
             var json = await res.Content.ReadAsStringAsync( ct );
             var entries = JsonSerializer.Deserialize<List<GhItem>>( json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true } ) ?? new();
 
-            var folders = entries.Where( e => e.type == "dir" ).Select( e => e.name ).ToList();
+            // 1) sort by folder date, 2) apply paging BEFORE downloading front matter
+            var folders = entries
+                .Where( e => e.type == "dir" )
+                .Select( e => e.name )
+                .OrderByDescending( ParseDateFromFolder )
+                .Skip( skip )
+                .Take( take ?? int.MaxValue )
+                .ToList();
 
             foreach ( var folder in folders )
             {
-                var meta = await TryReadFrontMatterAsync( r, folder, ct ); // now partial (see below)
+                var meta = await TryReadFrontMatterAsync( r, folder, ct );
                 if ( meta is null )
                     continue;
 
@@ -96,7 +103,10 @@ public sealed class GithubBlogProvider : IBlogProvider
 
                 if ( !seenDirs.Add( relativeDir ) )
                     continue;
-                map[permalink] = relativeDir;
+                // Only store in the map if we're building the full list (not a paged slice)
+                if ( take is null && skip == 0 )
+                    map[permalink] = relativeDir;
+
                 if ( !seenPermalinks.Add( permalink ) )
                     continue;
 
@@ -140,8 +150,12 @@ public sealed class GithubBlogProvider : IBlogProvider
             .ThenBy( i => i.Title, StringComparer.OrdinalIgnoreCase )
             .ToList();
 
-        cache.Set( KeyList( root ), items, opt.ListCache );
-        cache.Set( KeyMap( root ), map, opt.ListCache );
+        cache.Set( KeyList( root, take, skip ), items, opt.ListCache );
+
+        // Only persist the permalink map for full lists
+        if ( root is not null && take is null && skip == 0 )
+            cache.Set( KeyMap( root ), map, opt.ListCache );
+
         return items;
     }
 
@@ -282,24 +296,38 @@ public sealed class GithubBlogProvider : IBlogProvider
 
     private async Task<string?> ResolveFolderByPermalink( string permalink, CancellationToken ct )
     {
-        // Try all maps (blog, news, all) to be safe:
-        if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( null ), out var all ) && all.TryGetValue( permalink, out var dir ) )
-            return dir;
+        var roots = opt.ContentRoot ?? Array.Empty<string>();
 
-        foreach ( var r in opt.ContentRoot ?? Array.Empty<string>() )
-            if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( r ), out var map ) && map.TryGetValue( permalink, out dir ) )
+        // 1) Fast path: check existing per-root maps
+        foreach ( var r in roots )
+        {
+            if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( r ), out var map )
+                 && map.TryGetValue( permalink, out var dir ) )
                 return dir;
+        }
 
-        // Rebuild per-root maps if needed (lightweight due to Range)
-        foreach ( var r in opt.ContentRoot ?? Array.Empty<string>() )
-            _ = await GetListAsync( r, ct );
+        // 2) Rebuild per-root maps (full, unpaged) in parallel; lightweight due to Range in TryReadFrontMatterAsync
+        var tasks = roots
+            .Where( r => !string.IsNullOrWhiteSpace( r ) )
+            .Select( r => GetListAsync( r, take: null, skip: 0, ct: ct ) )
+            .ToArray();
 
-        if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( null ), out all ) && all.TryGetValue( permalink, out dir ) )
-            return dir;
+        try
+        {
+            await Task.WhenAll( tasks );
+        }
+        catch
+        {
+            // ignore; we'll attempt to read whatever maps were built
+        }
 
-        foreach ( var r in opt.ContentRoot ?? Array.Empty<string>() )
-            if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( r ), out var map ) && map.TryGetValue( permalink, out dir ) )
+        // 3) Try again after rebuild
+        foreach ( var r in roots )
+        {
+            if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( r ), out var map )
+                 && map.TryGetValue( permalink, out var dir ) )
                 return dir;
+        }
 
         return null;
     }
@@ -338,6 +366,14 @@ public sealed class GithubBlogProvider : IBlogProvider
             s = s.TrimEnd( '/' );
 
         return s;
+    }
+
+    private static DateTime ParseDateFromFolder( string folder )
+    {
+        // expect "YYYY-MM-DD-..." — take first 10 chars if they look like a date
+        if ( folder?.Length >= 10 && DateTime.TryParse( folder.Substring( 0, 10 ), out var dt ) )
+            return dt;
+        return DateTime.MinValue;
     }
 
     private static string ExtractSlug( string permalink )

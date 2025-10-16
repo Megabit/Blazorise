@@ -30,7 +30,7 @@ public sealed class BlogPreheater : IHostedService
                 var blog = scope.ServiceProvider.GetRequiredService<IBlogProvider>();
 
                 // 1) Warm list (populates in-memory cache + lets us know the latest slugs)
-                var list = await blog.GetListAsync( null, cancellationToken );
+                var list = await blog.GetListAsync( null, null, 0, cancellationToken );
 
                 // 2) Warm top N posts (configurable)
                 const int PREHEAT_TOP_N = 7;
