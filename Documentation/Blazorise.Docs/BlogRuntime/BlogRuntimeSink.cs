@@ -20,6 +20,7 @@ internal interface IBlogSink<TOut>
     void AddPageTitle( HeadingBlock h1 );
     void AddPageSubtitle( HeadingBlock h2 );
     void AddPageHeading( HeadingBlock hN );
+    void AddPageLead( ParagraphBlock p );
     void AddPageParagraph( ParagraphBlock p );
     void AddPageQuote( QuoteBlock q );
     void AddPageList( ListBlock list );
@@ -83,6 +84,16 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
             b.OpenComponent( 20, typeof( Heading ) );
             b.AddAttribute( 21, nameof( Heading.Size ), Enum.Parse( typeof( HeadingSize ), $"Is{h.Level}" ) );
             b.AddAttribute( 22, nameof( Heading.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, h.Inline ) ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageLead( ParagraphBlock p )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 20, typeof( Lead ) );
+            b.AddAttribute( 22, nameof( Lead.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, p.Inline ) ) );
             b.CloseComponent();
         } );
     }
