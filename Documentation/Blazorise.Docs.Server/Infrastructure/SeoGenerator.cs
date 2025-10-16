@@ -66,7 +66,7 @@ public class SeoGenerator
     public static async Task GenerateRssFeed( HttpContext context, IBlogProvider blogProvider )
     {
         var baseUrl = GetBaseUrl( context );
-        var pages = await blogProvider.GetListAsync();
+        var pages = await blogProvider.GetListAsync( null );
 
         var sitemap = new XElement( "rss",
                  new XAttribute( XNamespace.Xmlns + "atom", "http://www.w3.org/2005/Atom" ),

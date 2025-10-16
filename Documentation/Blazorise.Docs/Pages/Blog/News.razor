@@ -1,16 +1,16 @@
-﻿@page "/blog"
+﻿@page "/news"
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
-<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries.FirstOrDefault( /* x => x.Pinned */ )?.ImageUrl" />
+<Seo Canonical="/news" Title="Blazorise News" Description="Read latest news about the Blazorise UI controls, Megabit company details, releases, bug fixes, and more." />
 
-<BlogPageTitle>
-    Blazorise Blog
-</BlogPageTitle>
+<NewsPageTitle>
+    Blazorise News
+</NewsPageTitle>
 
 <Row>
     <Column ColumnSize="ColumnSize.Is8.OnDesktop">
-        <BlogCategorySelect Categories="@BlogEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
+        <BlogCategorySelect Categories="@NewsEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
     </Column>
     <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
         <TextEdit Placeholder="Search..." @bind-Text="@search" />
@@ -22,7 +22,7 @@
     <Row>
         <Column ColumnSize="ColumnSize.Is8.OnDesktop">
             @{
-                var pinnedBlog = BlogEntries.FirstOrDefault( /* x => x.Pinned */ );
+                var pinnedBlog = NewsEntries.FirstOrDefault( /* x => x.Pinned */ );
 
                 if ( pinnedBlog != null )
                 {
@@ -48,26 +48,26 @@
         <Column ColumnSize="ColumnSize.Is4.OnDesktop">
             <NewsletterWidget />
 
-            <LatestBlogItems BlogItems="@BlogEntries" />
+            <LatestBlogItems BlogItems="@NewsEntries" />
         </Column>
     </Row>
 }
 
 <BlogPageEntries Year="2022">
-    @foreach ( var item in BlogEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
+    @foreach ( var item in NewsEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
     {
         <BlogPageEntriesItem @key="@item" To="@item.Permalink" ToText="@item.Title" ImageSource="@item.ImageUrl" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
     }
 </BlogPageEntries>
 
 @code {
-    private IReadOnlyList<BlogIndexItem> BlogEntries = new List<BlogIndexItem>();
+    private IReadOnlyList<BlogIndexItem> NewsEntries = new List<BlogIndexItem>();
     bool IsCustomSearch => selectedCategory != "All" || !string.IsNullOrEmpty( search );
     string search = "";
     string selectedCategory = "All";
 
     protected override async Task OnInitializedAsync()
     {
-        BlogEntries = await BlogProvider.GetListAsync( "blog" );
+        NewsEntries = await BlogProvider.GetListAsync( "news" );
     }
 }

@@ -30,11 +30,11 @@ public sealed class BlogPreheater : IHostedService
                 var blog = scope.ServiceProvider.GetRequiredService<IBlogProvider>();
 
                 // 1) Warm list (populates in-memory cache + lets us know the latest slugs)
-                var list = await blog.GetListAsync( cancellationToken );
+                var list = await blog.GetListAsync( null, cancellationToken );
 
                 // 2) Warm top N posts (configurable)
-                const int PREHEAT_TOP_N = 100;
-                foreach ( var item in list.Take( PREHEAT_TOP_N ) )
+                const int PREHEAT_TOP_N = 7;
+                foreach ( var item in list.Where( x => x.Root == "blog" ).Take( PREHEAT_TOP_N ).Concat( list.Where( x => x.Root == "news" ).Take( PREHEAT_TOP_N ) ) )
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await blog.GetByPermalinkAsync( item.Permalink, cancellationToken );
