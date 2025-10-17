@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Docs.Components;
 using ColorCode;
+using Markdig.Extensions.Tables;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
@@ -277,49 +278,58 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
             switch ( child )
             {
                 case EmphasisInline em when em.DelimiterCount == 2:
-                    b.OpenElement( 110, "strong" );
-                    b.AddContent( 111, string.Join( "", em ) );
-                    b.CloseElement();
+                    b.OpenComponent( 110, typeof( Strong ) );
+                    b.AddAttribute( 111, nameof( Strong.ChildContent ), (RenderFragment)( bb =>
+                    {
+                        bb.AddContent( 112, string.Join( "", em ) );
+                    } ) );
+                    b.CloseComponent();
                     break;
 
                 case EmphasisInline em1 when em1.DelimiterCount == 1:
-                    b.OpenElement( 112, "span" );
-                    b.AddAttribute( 113, "class", "fst-italic" );
-                    b.AddContent( 114, string.Join( "", em1 ) );
-                    b.CloseElement();
+                    b.OpenComponent( 120, typeof( Text ) );
+                    b.AddAttribute( 121, nameof( Text.Italic ), true );
+                    b.AddAttribute( 122, nameof( Text.ChildContent ), (RenderFragment)( bb =>
+                    {
+                        bb.AddContent( 123, string.Join( "", em1 ) );
+                    } ) );
+                    b.CloseComponent();
                     break;
 
                 case LinkInline link when !link.IsImage:
-                    b.OpenComponent( 120, typeof( Anchor ) );
-                    b.AddAttribute( 121, nameof( Anchor.To ), link.Url );
+                    b.OpenComponent( 130, typeof( Anchor ) );
+                    b.AddAttribute( 131, nameof( Anchor.To ), link.Url );
                     var title = string.IsNullOrEmpty( link.Title ) ? link.FirstChild?.ToString() : link.Title;
-                    b.AddAttribute( 122, nameof( Anchor.Title ), $"Link to {title}" );
-                    b.AddAttribute( 123, nameof( Anchor.ChildContent ), (RenderFragment)( bb => bb.AddContent( 124, link.FirstChild?.ToString() ) ) );
+                    b.AddAttribute( 132, nameof( Anchor.Title ), $"Link to {title}" );
+                    b.AddAttribute( 133, nameof( Anchor.ChildContent ), (RenderFragment)( bb =>
+                    {
+                        bb.AddContent( 134, link.FirstChild?.ToString() );
+                    } ) );
                     b.CloseComponent();
                     break;
 
                 case LinkInline img when img.IsImage:
                     var t = string.IsNullOrEmpty( img.Title ) ? img.FirstChild?.ToString() : img.Title;
                     var imageSource = rewriteImageUrl is null ? img.Url : rewriteImageUrl( img.Url );
-                    b.OpenComponent( 130, typeof( BlogPageImageModal ) );
-                    b.AddAttribute( 131, nameof( BlogPageImageModal.ImageSource ), imageSource );
-                    b.AddAttribute( 132, nameof( BlogPageImageModal.ImageTitle ), t );
+                    b.OpenComponent( 140, typeof( BlogPageImageModal ) );
+                    b.AddAttribute( 141, nameof( BlogPageImageModal.ImageSource ), imageSource );
+                    b.AddAttribute( 142, nameof( BlogPageImageModal.ImageTitle ), t );
                     b.CloseComponent();
                     break;
 
                 case CodeInline ci:
                     var content = ci.Content;
                     var isTag = content.StartsWith( '<' ) && content.EndsWith( '>' );
-                    b.OpenComponent( 140, typeof( Code ) );
+                    b.OpenComponent( 150, typeof( Code ) );
                     if ( isTag )
-                        b.AddAttribute( 141, nameof( Code.Tag ), true );
-                    b.AddAttribute( 142, nameof( Code.ChildContent ), (RenderFragment)( bb => bb.AddMarkupContent( 143,
+                        b.AddAttribute( 151, nameof( Code.Tag ), true );
+                    b.AddAttribute( 152, nameof( Code.ChildContent ), (RenderFragment)( bb => bb.AddMarkupContent( 153,
                         isTag ? content.Trim( '<', '>' ) : content.Replace( "<", "&lt;" ).Replace( ">", "&gt;" ) ) ) );
                     b.CloseComponent();
                     break;
 
                 default:
-                    b.AddContent( 150, child.ToString() );
+                    b.AddContent( 160, child.ToString() );
                     break;
             }
         }
