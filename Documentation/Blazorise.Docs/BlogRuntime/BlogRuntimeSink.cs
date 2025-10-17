@@ -20,6 +20,7 @@ internal interface IBlogSink<TOut>
     void AddPageTitle( HeadingBlock h1 );
     void AddPageSubtitle( HeadingBlock h2 );
     void AddPageHeading( HeadingBlock hN );
+    void AddPageLead( ParagraphBlock p );
     void AddPageParagraph( ParagraphBlock p );
     void AddPageQuote( QuoteBlock q );
     void AddPageList( ListBlock list );
@@ -65,10 +66,10 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         ops.Add( b =>
         {
             b.OpenComponent( 10, typeof( BlogPagePostInto ) );
-            b.AddAttribute( 11, "UserName", authorName );
-            b.AddAttribute( 12, "ImageName", authorImage );
-            b.AddAttribute( 13, "PostedOn", postedOn );
-            b.AddAttribute( 14, "Read", readTime );
+            b.AddAttribute( 11, nameof( BlogPagePostInto.UserName ), authorName );
+            b.AddAttribute( 12, nameof( BlogPagePostInto.ImageName ), authorImage );
+            b.AddAttribute( 13, nameof( BlogPagePostInto.PostedOn ), postedOn );
+            b.AddAttribute( 14, nameof( BlogPagePostInto.Read ), readTime );
             b.CloseComponent();
         } );
     }
@@ -81,8 +82,18 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         ops.Add( b =>
         {
             b.OpenComponent( 20, typeof( Heading ) );
-            b.AddAttribute( 21, "Size", Enum.Parse( typeof( HeadingSize ), $"Is{h.Level}" ) );
-            b.AddAttribute( 22, "ChildContent", (RenderFragment)( bb => RenderInlines( bb, h.Inline ) ) );
+            b.AddAttribute( 21, nameof( Heading.Size ), Enum.Parse( typeof( HeadingSize ), $"Is{h.Level}" ) );
+            b.AddAttribute( 22, nameof( Heading.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, h.Inline ) ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageLead( ParagraphBlock p )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 20, typeof( Lead ) );
+            b.AddAttribute( 22, nameof( Lead.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, p.Inline ) ) );
             b.CloseComponent();
         } );
     }
@@ -99,8 +110,8 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
             ops.Add( b =>
             {
                 b.OpenComponent( 30, typeof( BlogPageImageModal ) );
-                b.AddAttribute( 31, "ImageSource", imageSource );
-                b.AddAttribute( 32, "ImageTitle", title );
+                b.AddAttribute( 31, nameof( BlogPageImageModal.ImageSource ), imageSource );
+                b.AddAttribute( 32, nameof( BlogPageImageModal.ImageTitle ), title );
                 b.CloseComponent();
             } );
             return;
@@ -109,7 +120,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         ops.Add( b =>
         {
             b.OpenComponent( 40, typeof( BlogPageParagraph ) );
-            b.AddAttribute( 41, "ChildContent", (RenderFragment)( bb => RenderInlines( bb, p.Inline ) ) );
+            b.AddAttribute( 41, nameof( BlogPageParagraph.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, p.Inline ) ) );
             b.CloseComponent();
         } );
     }
@@ -123,7 +134,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                 ops.Add( b =>
                 {
                     b.OpenComponent( 50, typeof( BlogPageParagraph ) );
-                    b.AddAttribute( 51, "ChildContent", (RenderFragment)( bb =>
+                    b.AddAttribute( 51, nameof( BlogPageParagraph.ChildContent ), (RenderFragment)( bb =>
                     {
                         bb.OpenElement( 52, "blockquote" );
                         RenderInlines( bb, p.Inline );
@@ -141,13 +152,13 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         {
             b.OpenComponent( 60, typeof( BlogPageList ) );
             if ( list.IsOrdered )
-                b.AddAttribute( 61, "Ordered", true );
-            b.AddAttribute( 62, "ChildContent", (RenderFragment)( bb =>
+                b.AddAttribute( 61, nameof( BlogPageList.Ordered ), true );
+            b.AddAttribute( 62, nameof( BlogPageList.ChildContent ), (RenderFragment)( bb =>
             {
                 foreach ( ListItemBlock item in list )
                 {
                     bb.OpenComponent( 63, typeof( BlogPageListItem ) );
-                    bb.AddAttribute( 64, "ChildContent", (RenderFragment)( bbb =>
+                    bb.AddAttribute( 64, nameof( BlogPageListItem.ChildContent ), (RenderFragment)( bbb =>
                     {
                         foreach ( var child in item )
                         {
@@ -201,10 +212,10 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
 
                 case LinkInline link when !link.IsImage:
                     b.OpenComponent( 120, typeof( Anchor ) );
-                    b.AddAttribute( 121, "To", link.Url );
+                    b.AddAttribute( 121, nameof( Anchor.To ), link.Url );
                     var title = string.IsNullOrEmpty( link.Title ) ? link.FirstChild?.ToString() : link.Title;
-                    b.AddAttribute( 122, "Title", $"Link to {title}" );
-                    b.AddAttribute( 123, "ChildContent", (RenderFragment)( bb => bb.AddContent( 124, link.FirstChild?.ToString() ) ) );
+                    b.AddAttribute( 122, nameof( Anchor.Title ), $"Link to {title}" );
+                    b.AddAttribute( 123, nameof( Anchor.ChildContent ), (RenderFragment)( bb => bb.AddContent( 124, link.FirstChild?.ToString() ) ) );
                     b.CloseComponent();
                     break;
 
@@ -212,8 +223,8 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     var t = string.IsNullOrEmpty( img.Title ) ? img.FirstChild?.ToString() : img.Title;
                     var imageSource = rewriteImageUrl is null ? img.Url : rewriteImageUrl( img.Url );
                     b.OpenComponent( 130, typeof( BlogPageImageModal ) );
-                    b.AddAttribute( 131, "ImageSource", imageSource );
-                    b.AddAttribute( 132, "ImageTitle", t );
+                    b.AddAttribute( 131, nameof( BlogPageImageModal.ImageSource ), imageSource );
+                    b.AddAttribute( 132, nameof( BlogPageImageModal.ImageTitle ), t );
                     b.CloseComponent();
                     break;
 
@@ -222,8 +233,8 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     var isTag = content.StartsWith( '<' ) && content.EndsWith( '>' );
                     b.OpenComponent( 140, typeof( Code ) );
                     if ( isTag )
-                        b.AddAttribute( 141, "Tag", true );
-                    b.AddAttribute( 142, "ChildContent", (RenderFragment)( bb => bb.AddMarkupContent( 143,
+                        b.AddAttribute( 141, nameof( Code.Tag ), true );
+                    b.AddAttribute( 142, nameof( Code.ChildContent ), (RenderFragment)( bb => bb.AddMarkupContent( 143,
                         isTag ? content.Trim( '<', '>' ) : content.Replace( "<", "&lt;" ).Replace( ">", "&gt;" ) ) ) );
                     b.CloseComponent();
                     break;
@@ -258,7 +269,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         // Render BlogPageSourceBlock with inner HTML
         b.OpenComponent( 0, typeof( BlogPageSourceBlock ) );
         //b.AddAttribute( 1, "Code", codeName );
-        b.AddAttribute( 2, "ChildContent", (RenderFragment)( bb =>
+        b.AddAttribute( 2, nameof( BlogPageSourceBlock.ChildContent ), (RenderFragment)( bb =>
         {
             bb.AddMarkupContent( 0, html );
         } ) );

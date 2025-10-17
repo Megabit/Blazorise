@@ -1,4 +1,6 @@
 ﻿using System;
+using Markdig;
+using Markdig.Renderers.Html;
 using Markdig.Syntax;
 
 namespace Blazorise.Docs.BlogRuntime;
@@ -17,7 +19,11 @@ internal static class BlogAstWalker
         var resolvedCover = string.IsNullOrWhiteSpace( info.ImageUrl ) ? info.ImageUrl : imageRewriter( info.ImageUrl );
         var resolvedAuthor = string.IsNullOrWhiteSpace( info.AuthorImage ) ? info.AuthorImage : imageRewriter( info.AuthorImage );
 
-        var doc = Markdig.Markdown.Parse( info.MarkdownText );
+        var pipeline = new MarkdownPipelineBuilder()
+            .UseAdvancedExtensions() // includes GenericAttributes among others
+            .Build();
+
+        var doc = Markdig.Markdown.Parse( info.MarkdownText, pipeline );
 
         sink.AddPageAndSeo( info.Permalink, info.Title, info.Description, resolvedCover ?? "", info.ImageTitle );
 
@@ -35,7 +41,11 @@ internal static class BlogAstWalker
                     sink.AddPageHeading( h );
                     break;
                 case ParagraphBlock p:
-                    sink.AddPageParagraph( p );
+                    var hasLeadClass = p.GetAttributes()?.Classes?.Contains( "lead" ) == true;
+                    if ( hasLeadClass )
+                        sink.AddPageLead( p );
+                    else
+                        sink.AddPageParagraph( p );
                     break;
                 case QuoteBlock q:
                     sink.AddPageQuote( q );
