@@ -119,6 +119,8 @@ public class Startup
         } );
 
         services.AddHealthChecks();
+
+        services.AddControllers();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,6 +145,8 @@ public class Startup
 
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
+
+        app.MapControllers();
 
         //app.UseRouting();
 
