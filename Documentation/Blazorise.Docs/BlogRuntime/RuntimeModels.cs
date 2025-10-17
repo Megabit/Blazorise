@@ -16,6 +16,7 @@ public sealed class BlogIndexItem
     public string AuthorName { get; init; }
     public string AuthorImage { get; init; }
     public string ReadTime { get; init; }
+    public bool Pinned { get; init; }
     public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>(); // keep if you later add tags
     public string Root { get; init; }
 }

@@ -2,7 +2,7 @@
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
-<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries.FirstOrDefault( /* x => x.Pinned */ )?.ImageUrl" />
+<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries?.FirstOrDefault( x => x.Pinned )?.ImageUrl" />
 
 <BlogPageTitle>
     Blazorise Blog
@@ -22,7 +22,10 @@
     <Row>
         <Column ColumnSize="ColumnSize.Is8.OnDesktop">
             @{
-                var pinnedBlog = BlogEntries.FirstOrDefault( /* x => x.Pinned */ );
+                var pinnedBlog = BlogEntries.FirstOrDefault( x => x.Pinned );
+
+                if ( pinnedBlog == null )
+                    pinnedBlog = BlogEntries.FirstOrDefault();
 
                 if ( pinnedBlog != null )
                 {
@@ -39,7 +42,7 @@
                             </CardTitle>
                         </CardBody>
                         <CardBody Padding="Padding.Is0.OnY">
-                            <BlogPagePostInto UserName="@pinnedBlog.AuthorName" ImageName="@pinnedBlog.AuthorImage" PostedOn="@pinnedBlog.PostedOn" Read="@pinnedBlog.ReadTime" />
+                            <BlogPagePostInfo UserName="@pinnedBlog.AuthorName" ImageName="@pinnedBlog.AuthorImage" PostedOn="@pinnedBlog.PostedOn" Read="@pinnedBlog.ReadTime" />
                         </CardBody>
                     </Card>
                 }

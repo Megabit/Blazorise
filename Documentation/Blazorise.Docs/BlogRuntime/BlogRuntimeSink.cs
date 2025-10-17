@@ -63,11 +63,11 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
     {
         ops.Add( b =>
         {
-            b.OpenComponent( 10, typeof( BlogPagePostInto ) );
-            b.AddAttribute( 11, nameof( BlogPagePostInto.UserName ), authorName );
-            b.AddAttribute( 12, nameof( BlogPagePostInto.ImageName ), authorImage );
-            b.AddAttribute( 13, nameof( BlogPagePostInto.PostedOn ), postedOn );
-            b.AddAttribute( 14, nameof( BlogPagePostInto.Read ), readTime );
+            b.OpenComponent( 10, typeof( BlogPagePostInfo ) );
+            b.AddAttribute( 11, nameof( BlogPagePostInfo.UserName ), authorName );
+            b.AddAttribute( 12, nameof( BlogPagePostInfo.ImageName ), authorImage );
+            b.AddAttribute( 13, nameof( BlogPagePostInfo.PostedOn ), postedOn );
+            b.AddAttribute( 14, nameof( BlogPagePostInfo.Read ), readTime );
             b.CloseComponent();
         } );
     }

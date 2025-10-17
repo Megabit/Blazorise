@@ -210,7 +210,8 @@ public sealed class GithubBlogProvider : IBlogProvider
                 AuthorName = string.IsNullOrWhiteSpace( i.authorName ) ? null : i.authorName,
                 AuthorImage = string.IsNullOrWhiteSpace( i.authorImage ) ? null : RewriteUrlForDir( i.dir?.Trim(), i.authorImage ),
                 ReadTime = string.IsNullOrWhiteSpace( i.readTime ) ? null : i.readTime,
-                Root = i.root
+                Root = i.root,
+                Pinned = i.pinned,
             } ).ToList();
 
             // permalink -> dir
@@ -329,6 +330,7 @@ public sealed class GithubBlogProvider : IBlogProvider
             public string authorName { get; init; } = "";
             public string authorImage { get; init; } = "";
             public string readTime { get; init; } = "";
+            public bool pinned { get; init; }
         }
     }
 
