@@ -6,6 +6,7 @@ using Blazorise.Docs.BlogRuntime;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Blazorise.Docs.Server.Infrastructure;
 
@@ -24,28 +25,31 @@ public sealed class BlogPreheater : IHostedService
     {
         _ = Task.Run( async () =>
         {
-            try
+            using var scope = _services.CreateScope();
+            var provider = (GithubBlogProvider)scope.ServiceProvider.GetRequiredService<IBlogProvider>();
+            var opt = scope.ServiceProvider.GetRequiredService<IOptions<BlogOptions>>().Value;
+
+            // Load bundle once
+            await provider.PreheatAsync( cancellationToken );
+
+            // Optional warm a few posts (parsing markdown)
+            var top = await provider.GetListAsync( null, take: 6, skip: 0, cancellationToken );
+            foreach ( var it in top )
+                await provider.GetByPermalinkAsync( it.Permalink, cancellationToken );
+
+            // Optional polling
+            if ( opt.RuntimeVersionPoll is TimeSpan period && period > TimeSpan.Zero )
             {
-                using var scope = _services.CreateScope();
-                var blog = scope.ServiceProvider.GetRequiredService<IBlogProvider>();
-
-                // 1) Warm list (populates in-memory cache + lets us know the latest slugs)
-                var list = await blog.GetListAsync( null, null, 0, cancellationToken );
-
-                // 2) Warm top N posts (configurable)
-                const int PREHEAT_TOP_N = 7;
-                foreach ( var item in list.Where( x => x.Root == "blog" ).Take( PREHEAT_TOP_N ).Concat( list.Where( x => x.Root == "news" ).Take( PREHEAT_TOP_N ) ) )
+                while ( !cancellationToken.IsCancellationRequested )
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    await blog.GetByPermalinkAsync( item.Permalink, cancellationToken );
+                    try
+                    {
+                        await Task.Delay( period, cancellationToken );
+                        await provider.RefreshAsync( cancellationToken ); // will no-op if version unchanged
+                    }
+                    catch ( OperationCanceledException ) { }
+                    catch ( Exception ex ) { _logger.LogWarning( ex, "Version poll failed" ); }
                 }
-
-                _logger.LogInformation( "Blog preheat complete: {Count} posts warmed", Math.Min( PREHEAT_TOP_N, list.Count ) );
-            }
-            catch ( OperationCanceledException ) { /* shutting down */ }
-            catch ( Exception ex )
-            {
-                _logger.LogError( ex, "Blog preheat failed" );
             }
         }, cancellationToken );
 

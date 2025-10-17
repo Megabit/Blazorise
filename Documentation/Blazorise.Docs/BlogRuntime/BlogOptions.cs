@@ -31,17 +31,15 @@ public sealed class BlogOptions
     public string[] ContentRoot { get; init; } = { "blog" };
 
     /// <summary>
-    /// Gets the duration for which the list cache remains valid.
-    /// </summary>
-    public TimeSpan ListCache { get; init; } = TimeSpan.FromMinutes( 10 );
-
-    /// <summary>
-    /// Gets the duration for which posts are cached.
-    /// </summary>
-    public TimeSpan PostCache { get; init; } = TimeSpan.FromMinutes( 30 );
-
-    /// <summary>
     /// Gets the GitHub personal access token used for authentication.
     /// </summary>
     public string GitHubToken { get; init; }
+
+    // CI bundle location
+    public string RuntimeFolder { get; init; } = "runtime";
+    public string RuntimeBaseUrlOverride { get; init; } // optional absolute base for the runtime folder
+
+    // refresh strategy
+    public TimeSpan? RuntimeVersionPoll { get; init; } = TimeSpan.FromMinutes( 5 );
+    public string RuntimeRefreshSecret { get; init; } // for webhook
 }

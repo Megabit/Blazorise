@@ -63,7 +63,7 @@ internal static class MarkdownFrontMatter
             result.MarkdownText = markdownText.Substring( end + 3 ).TrimStart();
         }
 
-        // 🔧 normalize once
+        // normalize once
         result.Title = Unquote( result.Title );
         result.Description = Unquote( result.Description );
         result.Permalink = Unquote( result.Permalink );

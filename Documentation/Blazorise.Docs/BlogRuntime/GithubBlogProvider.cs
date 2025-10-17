@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+#endregion
 
 namespace Blazorise.Docs.BlogRuntime;
 
@@ -15,197 +19,98 @@ public interface IBlogProvider
 {
     Task<IReadOnlyList<BlogIndexItem>> GetListAsync( string root, int? take = null, int skip = 0, CancellationToken ct = default );
     Task<BlogPageModel> GetByPermalinkAsync( string permalink, CancellationToken ct = default );
-    Task InvalidateAsync( string slug = null );
+    Task PreheatAsync( CancellationToken ct = default );
+    Task RefreshAsync( CancellationToken ct = default );
 }
 
 public sealed class GithubBlogProvider : IBlogProvider
 {
+    #region Members
+
     private readonly HttpClient http;
-    private readonly IMemoryCache cache;
     private readonly BlogOptions opt;
+    private readonly SemaphoreSlim loadLock = new( 1, 1 );
 
-    private const string UA = "BlazoriseDocsBlogRuntime/1.0";
+    // immutable swap on refresh
+    private volatile BundleState state = BundleState.Empty;
 
-    public GithubBlogProvider( HttpClient http, IMemoryCache cache, IOptions<BlogOptions> opt )
+    // parsed-page cache (permalink -> model), invalidated on refresh
+    private ConcurrentDictionary<string, BlogPageModel> pageCache = new( StringComparer.OrdinalIgnoreCase );
+
+    private string RawBaseUrl =>
+        $"https://raw.githubusercontent.com/{opt.Owner}/{opt.Repo}/{opt.Branch}/";
+
+    private string RuntimeBaseUrl =>
+        string.IsNullOrWhiteSpace( opt.RuntimeBaseUrlOverride )
+            ? $"{RawBaseUrl}{opt.RuntimeFolder.TrimEnd( '/' )}/"
+            : opt.RuntimeBaseUrlOverride!.TrimEnd( '/' ) + "/";
+
+    #endregion
+
+    #region Constructors
+
+    public GithubBlogProvider( HttpClient http, IOptions<BlogOptions> options )
     {
         this.http = http;
-        this.cache = cache;
-        this.opt = opt.Value;
+        this.opt = options.Value;
 
-        http.DefaultRequestHeaders.UserAgent.ParseAdd( UA );
-        if ( !string.IsNullOrWhiteSpace( this.opt.GitHubToken ) )
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", this.opt.GitHubToken );
+        http.DefaultRequestHeaders.UserAgent.ParseAdd( "BlazoriseDocsBundle/1.0" );
+
+        if ( !string.IsNullOrWhiteSpace( opt.GitHubToken ) )
+            http.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue( "Bearer", opt.GitHubToken );
     }
 
-    // CHANGED: now parameterized by a root ("blog", "news", etc.)
-    private string ApiListUrl( string root ) => $"https://api.github.com/repos/{opt.Owner}/{opt.Repo}/contents/{root}?ref={opt.Branch}";
-    private string RawBaseUrl => $"https://raw.githubusercontent.com/{opt.Owner}/{opt.Repo}/{opt.Branch}/";
-    private static string KeyList( string root, int? take, int skip ) => $"blog:list:{root ?? "*"}:{skip}:{( take?.ToString() ?? "all" )}";
-    private static string KeyMap( string root ) => $"blog:map:{root ?? "*"}";
-    private static string KeyPage( string permalink ) => $"blog:page:{permalink}";
-    private static string KeyEtag( string relativePath ) => $"blog:etag:{relativePath}";
+    #endregion
 
-    private sealed class GhItem
-    {
-        public string name { get; set; } = "";
-        public string path { get; set; } = "";
-        public string type { get; set; } = ""; // "file" | "dir"
-        public string url { get; set; } = "";
-    }
+    #region Methods
+
+    public async Task PreheatAsync( CancellationToken ct = default )
+       => await EnsureLoadedAsync( force: false, ct );
+
+    public async Task RefreshAsync( CancellationToken ct = default )
+        => await EnsureLoadedAsync( force: true, ct );
 
     public async Task<IReadOnlyList<BlogIndexItem>> GetListAsync( string root, int? take = null, int skip = 0, CancellationToken ct = default )
     {
-        if ( cache.TryGetValue<IReadOnlyList<BlogIndexItem>>( KeyList( root, take, skip ), out var cached ) )
-            return cached!;
+        await EnsureLoadedAsync( force: false, ct );
 
-        var items = new List<BlogIndexItem>();
-        var map = new Dictionary<string, string>( StringComparer.OrdinalIgnoreCase );
-        var seenPermalinks = new HashSet<string>( StringComparer.OrdinalIgnoreCase );
-        var seenDirs = new HashSet<string>( StringComparer.OrdinalIgnoreCase );
+        var s = state; // local
+        IEnumerable<BlogIndexItem> q = s.Items;
 
-        var roots = root is not null
-            ? new[] { root }
-            : ( opt.ContentRoot ?? Array.Empty<string>() );
+        if ( !string.IsNullOrWhiteSpace( root ) )
+            q = q.Where( i => string.Equals( i.Root, root, StringComparison.OrdinalIgnoreCase ) );
 
-        foreach ( var r in roots )
-        {
-            if ( string.IsNullOrWhiteSpace( r ) )
-                continue;
+        if ( skip > 0 )
+            q = q.Skip( skip );
+        if ( take is > 0 )
+            q = q.Take( take.Value );
 
-            using var req = new HttpRequestMessage( HttpMethod.Get, ApiListUrl( r ) );
-            using var res = await http.SendAsync( req, ct );
-            if ( !res.IsSuccessStatusCode )
-                continue;
-
-            var json = await res.Content.ReadAsStringAsync( ct );
-            var entries = JsonSerializer.Deserialize<List<GhItem>>( json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true } ) ?? new();
-
-            // 1) sort by folder date, 2) apply paging BEFORE downloading front matter
-            var folders = entries
-                .Where( e => e.type == "dir" )
-                .Select( e => e.name )
-                .OrderByDescending( ParseDateFromFolder )
-                .Skip( skip )
-                .Take( take ?? int.MaxValue )
-                .ToList();
-
-            foreach ( var folder in folders )
-            {
-                var meta = await TryReadFrontMatterAsync( r, folder, ct );
-                if ( meta is null )
-                    continue;
-
-                var (fm, _) = meta.Value;
-
-                var permalink = NormalizePermalink( fm.Permalink ) ?? $"/{r.TrimEnd( '/' )}/{folder}";
-                var slug = ExtractSlug( permalink );
-                var relativeDir = $"{r.TrimEnd( '/' )}/{folder}";
-
-                if ( !seenDirs.Add( relativeDir ) )
-                    continue;
-                // Only store in the map if we're building the full list (not a paged slice)
-                if ( take is null && skip == 0 )
-                    map[permalink] = relativeDir;
-
-                if ( !seenPermalinks.Add( permalink ) )
-                    continue;
-
-                string ImageRewriter( string url )
-                {
-                    if ( string.IsNullOrWhiteSpace( url ) )
-                        return url;
-                    url = TrimQuotes( url );
-                    if ( Uri.TryCreate( url, UriKind.Absolute, out _ ) )
-                        return url;
-                    if ( url.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
-                        return url;
-                    if ( url.StartsWith( "/" ) )
-                        return $"{RawBaseUrl}{url.TrimStart( '/' )}";
-                    var rel = url.TrimStart( '.', '/' );
-                    if ( !rel.StartsWith( "img/", StringComparison.OrdinalIgnoreCase ) )
-                        rel = $"img/{rel}";
-                    return $"{RawBaseUrl}{relativeDir}/{rel}";
-                }
-
-                items.Add( new BlogIndexItem
-                {
-                    Permalink = permalink,
-                    Slug = slug,
-                    Title = string.IsNullOrWhiteSpace( fm.Title ) ? slug : fm.Title,
-                    Summary = fm.Description,
-                    PostedOn = fm.PostedOn,
-                    Category = string.IsNullOrWhiteSpace( fm.Category ) ? null : fm.Category,
-                    Tags = Array.Empty<string>(),
-                    ImageUrl = string.IsNullOrWhiteSpace( fm.ImageUrl ) ? null : ImageRewriter( fm.ImageUrl ),
-                    AuthorName = string.IsNullOrWhiteSpace( fm.AuthorName ) ? null : fm.AuthorName,
-                    AuthorImage = string.IsNullOrWhiteSpace( fm.AuthorImage ) ? null : ImageRewriter( fm.AuthorImage ),
-                    ReadTime = string.IsNullOrWhiteSpace( fm.ReadTime ) ? null : fm.ReadTime,
-                    Root = r
-                } );
-            }
-        }
-
-        items = items
-            .OrderByDescending( i => i.PostedOn ?? string.Empty, StringComparer.Ordinal )
-            .ThenBy( i => i.Title, StringComparer.OrdinalIgnoreCase )
-            .ToList();
-
-        cache.Set( KeyList( root, take, skip ), items, opt.ListCache );
-
-        // Only persist the permalink map for full lists
-        if ( root is not null && take is null && skip == 0 )
-            cache.Set( KeyMap( root ), map, opt.ListCache );
-
-        return items;
+        return q.ToList();
     }
 
     public async Task<BlogPageModel> GetByPermalinkAsync( string permalink, CancellationToken ct = default )
     {
+        await EnsureLoadedAsync( force: false, ct );
         permalink = NormalizePermalink( permalink ) ?? "/";
-        if ( cache.TryGetValue<BlogPageModel>( KeyPage( permalink ), out var cached ) )
-            return cached!;
 
-        var relativeDir = await ResolveFolderByPermalink( permalink, ct ); // eg. "blog/how-to-post"
-        if ( relativeDir is null )
+        // parsed-page cache first
+        if ( pageCache.TryGetValue( permalink, out var cached ) )
+            return cached;
+
+        var s = state;
+        if ( !s.PermalinkToDir.TryGetValue( permalink, out var relativeDir ) )
             return null;
 
-        var mdPath = $"{relativeDir}/post.md";
-        var rawUrl = RawBaseUrl + mdPath;
-
-        using var req = new HttpRequestMessage( HttpMethod.Get, rawUrl );
-        if ( cache.TryGetValue<string>( KeyEtag( mdPath ), out var etag ) && !string.IsNullOrWhiteSpace( etag ) )
-            req.Headers.TryAddWithoutValidation( "If-None-Match", etag );
-
-        using var res = await http.SendAsync( req, ct );
-
-        string markdown;
-        if ( res.StatusCode == System.Net.HttpStatusCode.NotModified )
-        {
-            if ( cache.TryGetValue<BlogPageModel>( KeyPage( permalink ), out var existing ) )
-                return existing!;
-            req.Headers.Remove( "If-None-Match" );
-            using var res2 = await http.SendAsync( req, ct );
-            res2.EnsureSuccessStatusCode();
-            markdown = await res2.Content.ReadAsStringAsync( ct );
-            if ( res2.Headers.ETag is not null )
-                cache.Set( KeyEtag( mdPath ), res2.Headers.ETag.Tag!, TimeSpan.FromHours( 12 ) );
-        }
-        else if ( res.IsSuccessStatusCode )
-        {
-            markdown = await res.Content.ReadAsStringAsync( ct );
-            if ( res.Headers.ETag is not null )
-                cache.Set( KeyEtag( mdPath ), res.Headers.ETag.Tag!, TimeSpan.FromHours( 12 ) );
-        }
-        else
+        if ( !s.MarkdownByDir.TryGetValue( relativeDir, out var markdown ) )
             return null;
 
-        // image rewriter relative to the resolved dir
+        // build image rewriter
         string ImageRewriter( string url )
         {
             if ( string.IsNullOrWhiteSpace( url ) )
                 return url;
             url = TrimQuotes( url );
-
             if ( Uri.TryCreate( url, UriKind.Absolute, out _ ) )
                 return url;
             if ( url.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
@@ -218,8 +123,8 @@ public sealed class GithubBlogProvider : IBlogProvider
             if ( !rel.StartsWith( "img/", StringComparison.OrdinalIgnoreCase ) )
                 rel = $"img/{rel}";
 
-            var postDir = relativeDir; // already "root/folder"
-            return $"{RawBaseUrl}{postDir}/{rel}";
+            // relativeDir is "blog/2024-xx-slug"
+            return $"{RawBaseUrl}{relativeDir}/{rel}";
         }
 
         var sink = new BlogRuntimeSink( blogName: ExtractSlug( permalink ), rewriteImageUrl: ImageRewriter );
@@ -241,95 +146,140 @@ public sealed class GithubBlogProvider : IBlogProvider
             Root = relativeDir.Split( '/' )[0],
         };
 
-        cache.Set( KeyPage( permalink ), page, opt.PostCache );
+        pageCache[permalink] = page;
         return page;
     }
 
-    public Task InvalidateAsync( string key = null )
+    private async Task EnsureLoadedAsync( bool force, CancellationToken ct )
     {
-        if ( string.IsNullOrWhiteSpace( key ) )
-        {
-            cache.Remove( KeyList );
-            cache.Remove( KeyMap );
-        }
-        else
-        {
-            // key can be a permalink or a folder; drop both variants just in case
-            cache.Remove( KeyPage( NormalizePermalink( key ) ?? key ) );
-        }
-        return Task.CompletedTask;
-    }
+        if ( state.IsLoaded && !force )
+            return;
 
-    // ===== helpers =====
-
-    private async Task<(FrontMatter fm, string markdown)?> TryReadFrontMatterAsync( string root, string folder, CancellationToken ct )
-    {
-        var mdPath = $"{root.TrimEnd( '/' )}/{folder}/post.md";
-        var rawUrl = RawBaseUrl + mdPath;
-
-        using var req = new HttpRequestMessage( HttpMethod.Get, rawUrl );
-        // pull just the first 16KB (front matter is at the top)
-        req.Headers.TryAddWithoutValidation( "Range", "bytes=0-16383" );
-
-        using var res = await http.SendAsync( req, ct );
-        if ( res.StatusCode != System.Net.HttpStatusCode.PartialContent &&
-             res.StatusCode != System.Net.HttpStatusCode.OK )
-            return null;
-
-        var text = await res.Content.ReadAsStringAsync( ct );
-
-        // Extract only the YAML front matter to avoid needing full body
-        // But MarkdownFrontMatter.Parse already handles full strings; partial is fine.
-        var fm = MarkdownFrontMatter.Parse( text );
-        if ( fm is null || string.IsNullOrWhiteSpace( fm.Title ) )
-        {
-            // Fallback: if the range wasn’t enough (very large front matter), fetch full once
-            using var res2 = await http.GetAsync( rawUrl, ct );
-            if ( !res2.IsSuccessStatusCode )
-                return null;
-            text = await res2.Content.ReadAsStringAsync( ct );
-            fm = MarkdownFrontMatter.Parse( text );
-        }
-
-        return (fm, text);
-    }
-
-    private async Task<string?> ResolveFolderByPermalink( string permalink, CancellationToken ct )
-    {
-        var roots = opt.ContentRoot ?? Array.Empty<string>();
-
-        // 1) Fast path: check existing per-root maps
-        foreach ( var r in roots )
-        {
-            if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( r ), out var map )
-                 && map.TryGetValue( permalink, out var dir ) )
-                return dir;
-        }
-
-        // 2) Rebuild per-root maps (full, unpaged) in parallel; lightweight due to Range in TryReadFrontMatterAsync
-        var tasks = roots
-            .Where( r => !string.IsNullOrWhiteSpace( r ) )
-            .Select( r => GetListAsync( r, take: null, skip: 0, ct: ct ) )
-            .ToArray();
-
+        await loadLock.WaitAsync( ct );
         try
         {
-            await Task.WhenAll( tasks );
-        }
-        catch
-        {
-            // ignore; we'll attempt to read whatever maps were built
-        }
+            if ( state.IsLoaded && !force )
+                return;
 
-        // 3) Try again after rebuild
-        foreach ( var r in roots )
-        {
-            if ( cache.TryGetValue<Dictionary<string, string>>( KeyMap( r ), out var map )
-                 && map.TryGetValue( permalink, out var dir ) )
-                return dir;
-        }
+            // read version
+            var version = await GetJsonAsync<VersionDoc>( $"{RuntimeBaseUrl}version.json", ct );
+            var newCommit = version?.commit?.Trim() ?? "";
 
-        return null;
+            // if we already have same commit and not forcing, keep
+            if ( state.IsLoaded && !force && string.Equals( state.Commit, newCommit, StringComparison.OrdinalIgnoreCase ) )
+                return;
+
+            // load index
+            var index = await GetJsonAsync<IndexDoc>( $"{RuntimeBaseUrl}index.json", ct ) ?? new();
+
+            // load posts.zip into memory
+            using var stream = await http.GetStreamAsync( $"{RuntimeBaseUrl}posts.zip", ct );
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync( ms, ct );
+            ms.Position = 0;
+
+            var mdByDir = new Dictionary<string, string>( StringComparer.OrdinalIgnoreCase );
+            using ( var zip = new ZipArchive( ms, ZipArchiveMode.Read, leaveOpen: true ) )
+            {
+                foreach ( var entry in zip.Entries )
+                {
+                    if ( !entry.FullName.EndsWith( "/post.md", StringComparison.OrdinalIgnoreCase ) )
+                        continue;
+
+                    using var er = new StreamReader( entry.Open() );
+                    var text = await er.ReadToEndAsync();
+                    var dir = entry.FullName[..^( "/post.md".Length )].TrimEnd( '/' );
+                    mdByDir[dir] = text;
+                }
+            }
+
+            // map to runtime models
+            var items = ( index.items ?? new() ).Select( i => new BlogIndexItem
+            {
+                Permalink = NormalizePermalink( i.permalink ) ?? "/",
+                Slug = i.slug,
+                Title = string.IsNullOrWhiteSpace( i.title ) ? i.slug : i.title,
+                Summary = string.IsNullOrWhiteSpace( i.summary ) ? null : i.summary,
+                PostedOn = string.IsNullOrWhiteSpace( i.postedOn ) ? null : i.postedOn,
+                Category = string.IsNullOrWhiteSpace( i.category ) ? null : i.category,
+                ImageUrl = string.IsNullOrWhiteSpace( i.imageUrl ) ? null : RewriteUrlForDir( i.dir?.Trim(), i.imageUrl ),
+                AuthorName = string.IsNullOrWhiteSpace( i.authorName ) ? null : i.authorName,
+                AuthorImage = string.IsNullOrWhiteSpace( i.authorImage ) ? null : RewriteUrlForDir( i.dir?.Trim(), i.authorImage ),
+                ReadTime = string.IsNullOrWhiteSpace( i.readTime ) ? null : i.readTime,
+                Root = i.root
+            } ).ToList();
+
+            // permalink -> dir
+            var p2d = new Dictionary<string, string>( StringComparer.OrdinalIgnoreCase );
+            foreach ( var i in index.items ?? new() )
+                if ( !string.IsNullOrWhiteSpace( i.permalink ) && !string.IsNullOrWhiteSpace( i.dir ) )
+                    p2d[NormalizePermalink( i.permalink )!] = i.dir;
+
+            // swap state atomically, reset page cache
+            state = new BundleState
+            {
+                Commit = newCommit,
+                Items = items,
+                PermalinkToDir = p2d,
+                MarkdownByDir = mdByDir
+            };
+            pageCache = new( StringComparer.OrdinalIgnoreCase );
+        }
+        finally
+        {
+            loadLock.Release();
+        }
+    }
+
+    private string RewriteUrlForDir( string relativeDir, string url )
+    {
+        if ( string.IsNullOrWhiteSpace( url ) )
+            return url;
+
+        url = TrimQuotes( url );
+
+        // Absolute URLs and data URIs stay as-is
+        if ( Uri.TryCreate( url, UriKind.Absolute, out _ ) )
+            return url;
+        if ( url.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
+            return url;
+
+        // Leading slash means repo-root relative (keep prior behavior)
+        if ( url.StartsWith( "/" ) )
+            return $"{RawBaseUrl}{url.TrimStart( '/' )}";
+
+        // Otherwise treat as post-local asset; ensure "img/" prefix
+        var rel = url.TrimStart( '.', '/' );
+        if ( !rel.StartsWith( "img/", StringComparison.OrdinalIgnoreCase ) )
+            rel = $"img/{rel}";
+
+        // relativeDir example: "blog/2023-04-18-v094-4"
+        return $"{RawBaseUrl}{relativeDir.TrimEnd( '/' )}/{rel}";
+    }
+
+    private async Task<T> GetJsonAsync<T>( string url, CancellationToken ct )
+    {
+        using var req = new HttpRequestMessage( HttpMethod.Get, url );
+        using var res = await http.SendAsync( req, HttpCompletionOption.ResponseHeadersRead, ct );
+        res.EnsureSuccessStatusCode();
+        await using var s = await res.Content.ReadAsStreamAsync( ct );
+        return await JsonSerializer.DeserializeAsync<T>( s, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }, ct );
+    }
+
+    // ================= helpers & DTOs =================
+
+    private static string NormalizePermalink( string p )
+    {
+        if ( string.IsNullOrWhiteSpace( p ) )
+            return null;
+        var s = p.Trim().Replace( '\\', '/' );
+        if ( !s.StartsWith( '/' ) )
+            s = "/" + s;
+        while ( s.Contains( "//", StringComparison.Ordinal ) )
+            s = s.Replace( "//", "/" );
+        if ( s.Length > 1 && s.EndsWith( '/' ) )
+            s = s.TrimEnd( '/' );
+        return s;
     }
 
     private static string TrimQuotes( string s )
@@ -345,37 +295,55 @@ public sealed class GithubBlogProvider : IBlogProvider
         return s;
     }
 
-    private static string NormalizePermalink( string p )
-    {
-        if ( string.IsNullOrWhiteSpace( p ) )
-            return null;
-
-        // trim and unify slashes, but DO NOT add or remove the "blog" segment
-        var s = p.Trim().Replace( '\\', '/' );
-
-        // ensure a single leading slash
-        if ( !s.StartsWith( "/" ) )
-            s = "/" + s;
-
-        // collapse duplicate slashes (e.g., "/blog//how-to" -> "/blog/how-to")
-        while ( s.Contains( "//", StringComparison.Ordinal ) )
-            s = s.Replace( "//", "/", StringComparison.Ordinal );
-
-        // remove trailing slash (but keep "/" for root)
-        if ( s.Length > 1 && s.EndsWith( '/' ) )
-            s = s.TrimEnd( '/' );
-
-        return s;
-    }
-
-    private static DateTime ParseDateFromFolder( string folder )
-    {
-        // expect "YYYY-MM-DD-..." — take first 10 chars if they look like a date
-        if ( folder?.Length >= 10 && DateTime.TryParse( folder.Substring( 0, 10 ), out var dt ) )
-            return dt;
-        return DateTime.MinValue;
-    }
-
     private static string ExtractSlug( string permalink )
         => permalink.Trim( '/' ).Split( '/', StringSplitOptions.RemoveEmptyEntries ).LastOrDefault() ?? "";
+
+    private sealed record VersionDoc
+    {
+        public string commit { get; init; } = "";
+        public string generatedAt { get; init; } = "";
+    }
+
+    private sealed record IndexDoc
+    {
+        public int version { get; init; }
+        public string generatedAt { get; init; } = "";
+        public string commit { get; init; } = "";
+        public int count { get; init; }
+        public List<Item> items { get; init; } = new();
+        public sealed record Item
+        {
+            public string root { get; init; } = "";
+            public string dir { get; init; } = "";
+            public string slug { get; init; } = "";
+            public string permalink { get; init; } = "";
+            public string title { get; init; } = "";
+            public string summary { get; init; } = "";
+            public string postedOn { get; init; } = "";
+            public string category { get; init; } = "";
+            public string imageUrl { get; init; } = "";
+            public string authorName { get; init; } = "";
+            public string authorImage { get; init; } = "";
+            public string readTime { get; init; } = "";
+        }
+    }
+
+    private sealed class BundleState
+    {
+        public static readonly BundleState Empty = new()
+        {
+            Commit = "",
+            Items = new List<BlogIndexItem>(),
+            PermalinkToDir = new( StringComparer.OrdinalIgnoreCase ),
+            MarkdownByDir = new( StringComparer.OrdinalIgnoreCase )
+        };
+
+        public required string Commit { get; init; }
+        public required IReadOnlyList<BlogIndexItem> Items { get; init; }
+        public required Dictionary<string, string> PermalinkToDir { get; init; }
+        public required Dictionary<string, string> MarkdownByDir { get; init; }
+        public bool IsLoaded => !string.IsNullOrWhiteSpace( Commit ) && Items.Count > 0 && MarkdownByDir.Count > 0;
+    }
+
+    #endregion
 }
