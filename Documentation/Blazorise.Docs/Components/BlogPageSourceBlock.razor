@@ -1,6 +1,7 @@
 ﻿@using System.Text
 @using System.IO
 @using Blazorise.Docs.Models
+
 <Paragraph>
     <Div Class="blog-page-section-source">
         <Div Class="blog-page-section-source-toolbar">
@@ -16,26 +17,30 @@
             </Tooltip>
         </Div>
         <Div Class="@SourceCodeClassNames">
-            @CodeComponent( CurrentCode )
+            @if ( ChildContent != null )
+            {
+                @ChildContent
+            }
+            else
+            {
+                @CodeComponent( CurrentCode )
+            }
         </Div>
     </Div>
 </Paragraph>
+
 @code {
-    protected override void OnInitialized()
-    {
-        CurrentCode = Code;
-    }
+    protected override void OnInitialized() => CurrentCode = Code;
 
     private Task OnToggleCode()
     {
         ShowCode = !ShowCode;
-
         return Task.CompletedTask;
     }
 
     private async Task OnCopyCode()
     {
-        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( Code ) );
+        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", CurrentCode );
         await NotificationService.Info( $"Copied code example!" );
     }
 
@@ -43,7 +48,9 @@
     {
         try
         {
-            var key = typeof( DocsPageSectionSource ).Assembly.GetManifestResourceNames().FirstOrDefault( x => x.Contains( $".{code}Code.html" ) );
+            var key = typeof( DocsPageSectionSource ).Assembly
+                .GetManifestResourceNames()
+                .FirstOrDefault( x => x.Contains( $".{code}Code.html" ) );
 
             if ( key != null )
             {
@@ -52,35 +59,21 @@
                 builder.AddMarkupContent( 0, reader.ReadToEnd() );
             }
         }
-        catch ( Exception )
-        {
-        }
+        catch { }
     };
 
     private string SourceCodeClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder( "blog-page-section-source-code" );
-
-            if ( ShowCode )
-                sb.Append( " blog-page-section-source-code-show" );
-            else
-                sb.Append( " blog-page-section-source-code-hide" );
-
-            return sb.ToString();
-        }
-    }
+        => $"blog-page-section-source-code{( ShowCode ? " blog-page-section-source-code-show" : " blog-page-section-source-code-hide" )}";
 
     private string CurrentCode { get; set; }
 
-    private TextColor ButtonColor => ShowCode ? TextColor.White : TextColor.Dark;
+    [Inject] public INotificationService NotificationService { get; set; } = default!;
 
-    [Inject] public INotificationService NotificationService { get; set; }
+    [Inject] public IJSRuntime JSRuntime { get; set; } = default!;
 
-    [Inject] public IJSRuntime JSRuntime { get; set; }
-
-    [Parameter] public string Code { get; set; }
+    [Parameter] public string Code { get; set; } = string.Empty;
 
     [Parameter] public bool ShowCode { get; set; } = true;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
 }

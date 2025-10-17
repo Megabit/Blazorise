@@ -1,9 +1,0 @@
-<div class="blazorise-codeblock">
-<div class="html"><pre>
-uses: docker/build-push-action<span class="atSign">&#64;</span>v5
-with:
-  push: true
-  tags: ${{ env.CONTAINER_REGISTRY_SERVER }}/${{ github.actor }}/${{ env.PACKAGE_NAME }}:${{ github.sha }} 
-  file: ${{ env.DOCKER_FILE_PATH }}
-</pre></div>
-</div>

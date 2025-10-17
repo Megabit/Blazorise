@@ -1,8 +1,0 @@
-public class RegistrationViewModelValidator : AbstractValidator<RegistrationViewModel>
-{
-    public RegistrationViewModelValidator()
-    {
-        RuleFor(x => x.EmailAddress).EmailAddress().NotEmpty();
-        RuleFor(x => x.Password).NotEmpty().Length(1, 24);
-    }
-}

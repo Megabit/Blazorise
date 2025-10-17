@@ -45,6 +45,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
     <PackageReference Include="MimeKit" Version="4.8.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+    <PackageReference Include="ColorCode.HTML" Version="2.0.15" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->

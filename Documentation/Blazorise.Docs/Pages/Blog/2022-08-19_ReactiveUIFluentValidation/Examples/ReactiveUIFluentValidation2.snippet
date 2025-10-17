@@ -1,5 +1,0 @@
-public RegisterModelValidator()
-{
-    RuleFor(register => register.Email).EmailAddress().NotEmpty();
-    RuleFor(register => register.Password).NotEmpty().Length(1, 24);
-}  
