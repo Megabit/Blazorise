@@ -79,7 +79,11 @@ public sealed class GithubBlogProvider : IBlogProvider
         IEnumerable<BlogIndexItem> q = s.Items;
 
         if ( !string.IsNullOrWhiteSpace( root ) )
-            q = q.Where( i => string.Equals( i.Root, root, StringComparison.OrdinalIgnoreCase ) );
+        {
+            q = q
+                .Where( i => string.Equals( i.Root, root, StringComparison.OrdinalIgnoreCase ) )
+                .OrderByDescending( x => x.PostedOn );
+        }
 
         if ( skip > 0 )
             q = q.Skip( skip );

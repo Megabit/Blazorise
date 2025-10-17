@@ -35,11 +35,23 @@ public sealed class BlogOptions
     /// </summary>
     public string GitHubToken { get; init; }
 
-    // CI bundle location
+    /// <summary>
+    /// Gets the folder path where runtime files are stored.
+    /// </summary>
     public string RuntimeFolder { get; init; } = "runtime";
+
+    /// <summary>
+    /// Gets or initializes an optional absolute base URL for the runtime folder.
+    /// </summary>
     public string RuntimeBaseUrlOverride { get; init; } // optional absolute base for the runtime folder
 
-    // refresh strategy
+    /// <summary>
+    /// Gets the interval at which the runtime version is polled for updates.
+    /// </summary>
     public TimeSpan? RuntimeVersionPoll { get; init; } = TimeSpan.FromMinutes( 5 );
-    public string RuntimeRefreshSecret { get; init; } // for webhook
+
+    /// <summary>
+    /// Gets the secret used to authenticate runtime refresh requests.
+    /// </summary>
+    public string RuntimeRefreshSecret { get; init; }
 }
