@@ -23,6 +23,8 @@ internal interface IBlogSink<TOut>
     void AddPageQuote( QuoteBlock q );
     void AddPageList( ListBlock list );
     void PersistCodeBlock( FencedCodeBlock code, int indentLevel );
+    void AddPageTable( Markdig.Extensions.Tables.Table table );
+    void AddPageDivider();
     TOut Build();
 }
 
@@ -164,6 +166,85 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                                 RenderInlines( bbb, p.Inline );
                             else if ( child is FencedCodeBlock code )
                                 PersistCodeBlockInternal( bbb, code );
+                        }
+                    } ) );
+                    bb.CloseComponent();
+                }
+            } ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageDivider()
+        => ops.Add( b =>
+        {
+            b.OpenComponent( 70, typeof( Blazorise.Divider ) );
+            b.CloseComponent();
+        } );
+
+    public void AddPageTable( Markdig.Extensions.Tables.Table table )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 80, typeof( Blazorise.Table ) );
+            b.AddAttribute( 81, "ChildContent", (RenderFragment)( bb =>
+            {
+                // Header rows
+                var headerRows = table.OfType<Markdig.Extensions.Tables.TableRow>().Where( r => r.IsHeader ).ToList();
+                if ( headerRows.Count > 0 )
+                {
+                    bb.OpenComponent( 82, typeof( Blazorise.TableHeader ) );
+                    bb.AddAttribute( 83, "ChildContent", (RenderFragment)( hb =>
+                    {
+                        foreach ( var row in headerRows )
+                        {
+                            hb.OpenComponent( 84, typeof( Blazorise.TableRow ) );
+                            hb.AddAttribute( 85, "ChildContent", (RenderFragment)( hrb =>
+                            {
+                                foreach ( var cell in row.OfType<TableCell>() )
+                                {
+                                    hrb.OpenComponent( 86, typeof( Blazorise.TableHeaderCell ) );
+                                    hrb.AddAttribute( 87, "ChildContent", (RenderFragment)( hcb =>
+                                    {
+                                        // Cells typically contain a ParagraphBlock with Inlines
+                                        foreach ( var child in cell )
+                                            if ( child is ParagraphBlock p )
+                                                RenderInlines( hcb, p.Inline );
+                                    } ) );
+                                    hrb.CloseComponent();
+                                }
+                            } ) );
+                            hb.CloseComponent();
+                        }
+                    } ) );
+                    bb.CloseComponent();
+                }
+
+                // Body rows
+                var bodyRows = table.OfType<Markdig.Extensions.Tables.TableRow>().Where( r => !r.IsHeader ).ToList();
+                if ( bodyRows.Count > 0 )
+                {
+                    bb.OpenComponent( 88, typeof( Blazorise.TableBody ) );
+                    bb.AddAttribute( 89, "ChildContent", (RenderFragment)( tb =>
+                    {
+                        foreach ( var row in bodyRows )
+                        {
+                            tb.OpenComponent( 90, typeof( Blazorise.TableRow ) );
+                            tb.AddAttribute( 91, "ChildContent", (RenderFragment)( trb =>
+                            {
+                                foreach ( var cell in row.OfType<TableCell>() )
+                                {
+                                    trb.OpenComponent( 92, typeof( Blazorise.TableRowCell ) );
+                                    trb.AddAttribute( 93, "ChildContent", (RenderFragment)( tcb =>
+                                    {
+                                        foreach ( var child in cell )
+                                            if ( child is ParagraphBlock p )
+                                                RenderInlines( tcb, p.Inline );
+                                    } ) );
+                                    trb.CloseComponent();
+                                }
+                            } ) );
+                            tb.CloseComponent();
                         }
                     } ) );
                     bb.CloseComponent();

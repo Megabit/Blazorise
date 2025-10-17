@@ -56,6 +56,12 @@ internal static class BlogAstWalker
                 case FencedCodeBlock c:
                     sink.PersistCodeBlock( c, 0 );
                     break;
+                case Markdig.Extensions.Tables.Table t:
+                    sink.AddPageTable( t );
+                    break;
+                case ThematicBreakBlock:
+                    sink.AddPageDivider();
+                    break;
             }
         }
 
