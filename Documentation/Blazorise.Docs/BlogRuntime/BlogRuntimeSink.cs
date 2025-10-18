@@ -128,23 +128,19 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
 
     public void AddPageQuote( QuoteBlock q )
     {
-        foreach ( var block in q )
+        ops.Add( b =>
         {
-            if ( block is ParagraphBlock p )
+            b.OpenComponent( 50, typeof( BlogPageBlockquote ) );
+            b.AddAttribute( 51, nameof( BlogPageBlockquote.ChildContent ), (RenderFragment)( bb =>
             {
-                ops.Add( b =>
+                foreach ( var block in q )
                 {
-                    b.OpenComponent( 50, typeof( BlogPageParagraph ) );
-                    b.AddAttribute( 51, nameof( BlogPageParagraph.ChildContent ), (RenderFragment)( bb =>
-                    {
-                        bb.OpenElement( 52, "blockquote" );
+                    if ( block is ParagraphBlock p )
                         RenderInlines( bb, p.Inline );
-                        bb.CloseElement();
-                    } ) );
-                    b.CloseComponent();
-                } );
-            }
-        }
+                }
+            } ) );
+            b.CloseComponent();
+        } );
     }
 
     public void AddPageList( ListBlock list )
