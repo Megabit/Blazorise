@@ -128,52 +128,68 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
 
     public void AddPageQuote( QuoteBlock q )
     {
-        foreach ( var block in q )
-        {
-            if ( block is ParagraphBlock p )
-            {
-                ops.Add( b =>
-                {
-                    b.OpenComponent( 50, typeof( BlogPageParagraph ) );
-                    b.AddAttribute( 51, nameof( BlogPageParagraph.ChildContent ), (RenderFragment)( bb =>
-                    {
-                        bb.OpenElement( 52, "blockquote" );
-                        RenderInlines( bb, p.Inline );
-                        bb.CloseElement();
-                    } ) );
-                    b.CloseComponent();
-                } );
-            }
-        }
-    }
-
-    public void AddPageList( ListBlock list )
-    {
         ops.Add( b =>
         {
-            b.OpenComponent( 60, typeof( BlogPageList ) );
-            if ( list.IsOrdered )
-                b.AddAttribute( 61, nameof( BlogPageList.Ordered ), true );
-            b.AddAttribute( 62, nameof( BlogPageList.ChildContent ), (RenderFragment)( bb =>
+            b.OpenComponent( 50, typeof( BlogPageBlockquote ) );
+            b.AddAttribute( 51, nameof( BlogPageBlockquote.ChildContent ), (RenderFragment)( bb =>
             {
-                foreach ( ListItemBlock item in list )
+                foreach ( var block in q )
                 {
-                    bb.OpenComponent( 63, typeof( BlogPageListItem ) );
-                    bb.AddAttribute( 64, nameof( BlogPageListItem.ChildContent ), (RenderFragment)( bbb =>
-                    {
-                        foreach ( var child in item )
-                        {
-                            if ( child is ParagraphBlock p )
-                                RenderInlines( bbb, p.Inline );
-                            else if ( child is FencedCodeBlock code )
-                                PersistCodeBlockInternal( bbb, code );
-                        }
-                    } ) );
-                    bb.CloseComponent();
+                    if ( block is ParagraphBlock p )
+                        RenderInlines( bb, p.Inline );
                 }
             } ) );
             b.CloseComponent();
         } );
+    }
+
+    public void AddPageList( ListBlock list )
+    {
+        ops.Add( b => RenderList( b, list ) );
+    }
+
+    private void RenderList( RenderTreeBuilder b, ListBlock list )
+    {
+        b.OpenComponent( 60, typeof( BlogPageList ) );
+        b.AddAttribute( 61, nameof( BlogPageList.Ordered ), list.IsOrdered );
+        b.AddAttribute( 62, nameof( BlogPageList.ChildContent ), (RenderFragment)( bb =>
+        {
+            foreach ( ListItemBlock item in list )
+            {
+                bb.OpenComponent( 63, typeof( BlogPageListItem ) );
+                bb.AddAttribute( 64, nameof( BlogPageListItem.ChildContent ), (RenderFragment)( bbb =>
+                {
+                    foreach ( var child in item )
+                    {
+                        switch ( child )
+                        {
+                            case ParagraphBlock p:
+                                RenderInlines( bbb, p.Inline );
+                                break;
+
+                            case FencedCodeBlock code:
+                                PersistCodeBlockInternal( bbb, code );
+                                break;
+
+                            case ListBlock nested:
+                                RenderList( bbb, nested );
+                                break;
+
+                            case QuoteBlock q:
+                                foreach ( var qChild in q )
+                                    if ( qChild is ParagraphBlock qp )
+                                        RenderInlines( bbb, qp.Inline );
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                } ) );
+                bb.CloseComponent();
+            }
+        } ) );
+        b.CloseComponent();
     }
 
     public void AddPageDivider()
@@ -202,7 +218,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                             hb.OpenComponent( 84, typeof( Blazorise.TableRow ) );
                             hb.AddAttribute( 85, "ChildContent", (RenderFragment)( hrb =>
                             {
-                                foreach ( var cell in row.OfType<TableCell>() )
+                                foreach ( var cell in row.OfType<Markdig.Extensions.Tables.TableCell>() )
                                 {
                                     hrb.OpenComponent( 86, typeof( Blazorise.TableHeaderCell ) );
                                     hrb.AddAttribute( 87, "ChildContent", (RenderFragment)( hcb =>
@@ -233,7 +249,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                             tb.OpenComponent( 90, typeof( Blazorise.TableRow ) );
                             tb.AddAttribute( 91, "ChildContent", (RenderFragment)( trb =>
                             {
-                                foreach ( var cell in row.OfType<TableCell>() )
+                                foreach ( var cell in row.OfType<Markdig.Extensions.Tables.TableCell>() )
                                 {
                                     trb.OpenComponent( 92, typeof( Blazorise.TableRowCell ) );
                                     trb.AddAttribute( 93, "ChildContent", (RenderFragment)( tcb =>
@@ -277,25 +293,24 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         {
             switch ( child )
             {
-                case EmphasisInline em when em.DelimiterCount == 2:
-                    b.OpenComponent( 110, typeof( Strong ) );
-                    b.AddAttribute( 111, nameof( Strong.ChildContent ), (RenderFragment)( bb =>
+                // Bold + Italic + Strikethrough
+                case EmphasisInline em:
+                    var isStrike = em.DelimiterChar == '~';
+                    var isBold = !isStrike && em.DelimiterCount >= 2;
+                    var isItalic = !isStrike && ( em.DelimiterCount == 1 || em.DelimiterCount == 3 );
+
+                    b.OpenComponent( 101, typeof( Blazorise.Text ) );
+                    b.AddAttribute( 102, nameof( Blazorise.Text.Italic ), isItalic );
+                    b.AddAttribute( 103, nameof( Blazorise.Text.TextWeight ), isBold ? TextWeight.Bold : TextWeight.Default );
+                    b.AddAttribute( 104, nameof( Blazorise.Text.TextDecoration ), isStrike ? TextDecoration.LineThrough : TextDecoration.Default );
+                    b.AddAttribute( 105, nameof( Blazorise.Text.ChildContent ), (RenderFragment)( bb =>
                     {
-                        bb.AddContent( 112, string.Join( "", em ) );
+                        RenderInlines( bb, em );
                     } ) );
                     b.CloseComponent();
                     break;
 
-                case EmphasisInline em1 when em1.DelimiterCount == 1:
-                    b.OpenComponent( 120, typeof( Text ) );
-                    b.AddAttribute( 121, nameof( Text.Italic ), true );
-                    b.AddAttribute( 122, nameof( Text.ChildContent ), (RenderFragment)( bb =>
-                    {
-                        bb.AddContent( 123, string.Join( "", em1 ) );
-                    } ) );
-                    b.CloseComponent();
-                    break;
-
+                // Links
                 case LinkInline link when !link.IsImage:
                     b.OpenComponent( 130, typeof( Anchor ) );
                     b.AddAttribute( 131, nameof( Anchor.To ), link.Url );
@@ -308,6 +323,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     b.CloseComponent();
                     break;
 
+                // Image
                 case LinkInline img when img.IsImage:
                     var t = string.IsNullOrEmpty( img.Title ) ? img.FirstChild?.ToString() : img.Title;
                     var imageSource = rewriteImageUrl is null ? img.Url : rewriteImageUrl( img.Url );
@@ -317,6 +333,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     b.CloseComponent();
                     break;
 
+                // Code
                 case CodeInline ci:
                     var content = ci.Content;
                     var isTag = content.StartsWith( '<' ) && content.EndsWith( '>' );
@@ -328,8 +345,12 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     b.CloseComponent();
                     break;
 
+                case LineBreakInline:
+                    b.AddMarkupContent( 160, "<br />" );
+                    break;
+
                 default:
-                    b.AddContent( 160, child.ToString() );
+                    b.AddContent( 180, child.ToString() );
                     break;
             }
         }
