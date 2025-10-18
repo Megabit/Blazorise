@@ -145,31 +145,51 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
 
     public void AddPageList( ListBlock list )
     {
-        ops.Add( b =>
+        ops.Add( b => RenderList( b, list ) );
+    }
+
+    private void RenderList( RenderTreeBuilder b, ListBlock list )
+    {
+        b.OpenComponent( 60, typeof( BlogPageList ) );
+        b.AddAttribute( 61, nameof( BlogPageList.Ordered ), list.IsOrdered );
+        b.AddAttribute( 62, nameof( BlogPageList.ChildContent ), (RenderFragment)( bb =>
         {
-            b.OpenComponent( 60, typeof( BlogPageList ) );
-            if ( list.IsOrdered )
-                b.AddAttribute( 61, nameof( BlogPageList.Ordered ), list.IsOrdered );
-            b.AddAttribute( 62, nameof( BlogPageList.ChildContent ), (RenderFragment)( bb =>
+            foreach ( ListItemBlock item in list )
             {
-                foreach ( ListItemBlock item in list )
+                bb.OpenComponent( 63, typeof( BlogPageListItem ) );
+                bb.AddAttribute( 64, nameof( BlogPageListItem.ChildContent ), (RenderFragment)( bbb =>
                 {
-                    bb.OpenComponent( 63, typeof( BlogPageListItem ) );
-                    bb.AddAttribute( 64, nameof( BlogPageListItem.ChildContent ), (RenderFragment)( bbb =>
+                    foreach ( var child in item )
                     {
-                        foreach ( var child in item )
+                        switch ( child )
                         {
-                            if ( child is ParagraphBlock p )
+                            case ParagraphBlock p:
                                 RenderInlines( bbb, p.Inline );
-                            else if ( child is FencedCodeBlock code )
+                                break;
+
+                            case FencedCodeBlock code:
                                 PersistCodeBlockInternal( bbb, code );
+                                break;
+
+                            case ListBlock nested:
+                                RenderList( bbb, nested );
+                                break;
+
+                            case QuoteBlock q:
+                                foreach ( var qChild in q )
+                                    if ( qChild is ParagraphBlock qp )
+                                        RenderInlines( bbb, qp.Inline );
+                                break;
+
+                            default:
+                                break;
                         }
-                    } ) );
-                    bb.CloseComponent();
-                }
-            } ) );
-            b.CloseComponent();
-        } );
+                    }
+                } ) );
+                bb.CloseComponent();
+            }
+        } ) );
+        b.CloseComponent();
     }
 
     public void AddPageDivider()
