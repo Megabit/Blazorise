@@ -295,13 +295,17 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
             {
                 // Bold + Italic + Strikethrough
                 case EmphasisInline em:
+                    var isStrike = em.DelimiterChar == '~';
+                    var isBold = !isStrike && em.DelimiterCount >= 2;
+                    var isItalic = !isStrike && ( em.DelimiterCount == 1 || em.DelimiterCount == 3 );
+
                     b.OpenComponent( 101, typeof( Blazorise.Text ) );
-                    b.AddAttribute( 102, nameof( Blazorise.Text.Italic ), em.DelimiterCount == 1 || em.DelimiterCount == 3 );
-                    b.AddAttribute( 103, nameof( Blazorise.Text.TextWeight ), em.DelimiterCount == 2 || em.DelimiterCount == 3 ? TextWeight.Bold : TextWeight.Default );
-                    b.AddAttribute( 104, nameof( Blazorise.Text.TextDecoration ), em.DelimiterChar == '~' ? TextDecoration.LineThrough : TextDecoration.Default );
+                    b.AddAttribute( 102, nameof( Blazorise.Text.Italic ), isItalic );
+                    b.AddAttribute( 103, nameof( Blazorise.Text.TextWeight ), isBold ? TextWeight.Bold : TextWeight.Default );
+                    b.AddAttribute( 104, nameof( Blazorise.Text.TextDecoration ), isStrike ? TextDecoration.LineThrough : TextDecoration.Default );
                     b.AddAttribute( 105, nameof( Blazorise.Text.ChildContent ), (RenderFragment)( bb =>
                     {
-                        bb.AddContent( 106, string.Join( "", em ) );
+                        RenderInlines( bb, em );
                     } ) );
                     b.CloseComponent();
                     break;
