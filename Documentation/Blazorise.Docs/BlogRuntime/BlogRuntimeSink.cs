@@ -149,7 +149,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         {
             b.OpenComponent( 60, typeof( BlogPageList ) );
             if ( list.IsOrdered )
-                b.AddAttribute( 61, nameof( BlogPageList.Ordered ), true );
+                b.AddAttribute( 61, nameof( BlogPageList.Ordered ), list.IsOrdered );
             b.AddAttribute( 62, nameof( BlogPageList.ChildContent ), (RenderFragment)( bb =>
             {
                 foreach ( ListItemBlock item in list )
@@ -198,7 +198,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                             hb.OpenComponent( 84, typeof( Blazorise.TableRow ) );
                             hb.AddAttribute( 85, "ChildContent", (RenderFragment)( hrb =>
                             {
-                                foreach ( var cell in row.OfType<TableCell>() )
+                                foreach ( var cell in row.OfType<Markdig.Extensions.Tables.TableCell>() )
                                 {
                                     hrb.OpenComponent( 86, typeof( Blazorise.TableHeaderCell ) );
                                     hrb.AddAttribute( 87, "ChildContent", (RenderFragment)( hcb =>
@@ -229,7 +229,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                             tb.OpenComponent( 90, typeof( Blazorise.TableRow ) );
                             tb.AddAttribute( 91, "ChildContent", (RenderFragment)( trb =>
                             {
-                                foreach ( var cell in row.OfType<TableCell>() )
+                                foreach ( var cell in row.OfType<Markdig.Extensions.Tables.TableCell>() )
                                 {
                                     trb.OpenComponent( 92, typeof( Blazorise.TableRowCell ) );
                                     trb.AddAttribute( 93, "ChildContent", (RenderFragment)( tcb =>
