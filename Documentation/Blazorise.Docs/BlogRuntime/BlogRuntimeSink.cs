@@ -273,25 +273,20 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         {
             switch ( child )
             {
-                case EmphasisInline em when em.DelimiterCount == 2:
-                    b.OpenComponent( 110, typeof( Strong ) );
-                    b.AddAttribute( 111, nameof( Strong.ChildContent ), (RenderFragment)( bb =>
+                // Bold + Italic + Strikethrough
+                case EmphasisInline em:
+                    b.OpenComponent( 101, typeof( Blazorise.Text ) );
+                    b.AddAttribute( 102, nameof( Blazorise.Text.Italic ), em.DelimiterCount == 1 || em.DelimiterCount == 3 );
+                    b.AddAttribute( 103, nameof( Blazorise.Text.TextWeight ), em.DelimiterCount == 2 || em.DelimiterCount == 3 ? TextWeight.Bold : TextWeight.Default );
+                    b.AddAttribute( 104, nameof( Blazorise.Text.TextDecoration ), em.DelimiterChar == '~' ? TextDecoration.LineThrough : TextDecoration.Default );
+                    b.AddAttribute( 105, nameof( Blazorise.Text.ChildContent ), (RenderFragment)( bb =>
                     {
-                        bb.AddContent( 112, string.Join( "", em ) );
+                        bb.AddContent( 106, string.Join( "", em ) );
                     } ) );
                     b.CloseComponent();
                     break;
 
-                case EmphasisInline em1 when em1.DelimiterCount == 1:
-                    b.OpenComponent( 120, typeof( Text ) );
-                    b.AddAttribute( 121, nameof( Text.Italic ), true );
-                    b.AddAttribute( 122, nameof( Text.ChildContent ), (RenderFragment)( bb =>
-                    {
-                        bb.AddContent( 123, string.Join( "", em1 ) );
-                    } ) );
-                    b.CloseComponent();
-                    break;
-
+                // Links
                 case LinkInline link when !link.IsImage:
                     b.OpenComponent( 130, typeof( Anchor ) );
                     b.AddAttribute( 131, nameof( Anchor.To ), link.Url );
@@ -304,6 +299,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     b.CloseComponent();
                     break;
 
+                // Image
                 case LinkInline img when img.IsImage:
                     var t = string.IsNullOrEmpty( img.Title ) ? img.FirstChild?.ToString() : img.Title;
                     var imageSource = rewriteImageUrl is null ? img.Url : rewriteImageUrl( img.Url );
@@ -313,6 +309,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     b.CloseComponent();
                     break;
 
+                // Code
                 case CodeInline ci:
                     var content = ci.Content;
                     var isTag = content.StartsWith( '<' ) && content.EndsWith( '>' );
@@ -324,8 +321,12 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     b.CloseComponent();
                     break;
 
+                case LineBreakInline:
+                    b.AddMarkupContent( 160, "<br />" );
+                    break;
+
                 default:
-                    b.AddContent( 160, child.ToString() );
+                    b.AddContent( 180, child.ToString() );
                     break;
             }
         }
