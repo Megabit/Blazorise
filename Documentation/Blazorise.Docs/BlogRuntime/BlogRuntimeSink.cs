@@ -4,6 +4,7 @@ using System.Linq;
 using Blazorise.Docs.Components;
 using ColorCode;
 using Markdig.Extensions.Tables;
+using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
@@ -312,11 +313,29 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
 
                 // Links
                 case LinkInline link when !link.IsImage:
+                    var attrs = link.GetAttributes();
+                    var targetAttr = attrs?.Properties?.FirstOrDefault( p => p.Key.Equals( "target", StringComparison.OrdinalIgnoreCase ) ).Value;
+
+                    // Heuristic: treat absolute http(s) URLs as external
+                    bool isExternal = Uri.TryCreate( link.Url, UriKind.Absolute, out var uri ) &&
+                                      ( uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps );
+
+                    // Map to Blazorise target
+                    var target = targetAttr?.ToLowerInvariant() switch
+                    {
+                        "_blank" => Target.Blank,
+                        "_self" => Target.Self,
+                        "_parent" => Target.Parent,
+                        "_top" => Target.Top,
+                        _ => isExternal ? Target.Blank : Target.Default
+                    };
+
                     b.OpenComponent( 130, typeof( Anchor ) );
                     b.AddAttribute( 131, nameof( Anchor.To ), link.Url );
                     var title = string.IsNullOrEmpty( link.Title ) ? link.FirstChild?.ToString() : link.Title;
                     b.AddAttribute( 132, nameof( Anchor.Title ), $"Link to {title}" );
-                    b.AddAttribute( 133, nameof( Anchor.ChildContent ), (RenderFragment)( bb =>
+                    b.AddAttribute( 133, nameof( Anchor.Target ), target );
+                    b.AddAttribute( 134, nameof( Anchor.ChildContent ), (RenderFragment)( bb =>
                     {
                         bb.AddContent( 134, link.FirstChild?.ToString() );
                     } ) );
