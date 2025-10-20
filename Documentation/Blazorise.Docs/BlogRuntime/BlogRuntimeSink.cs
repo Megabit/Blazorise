@@ -17,6 +17,7 @@ internal interface IBlogSink<TOut>
 {
     void AddPageAndSeo( string url, string title, string desc, string imageUrl, string imageTitle );
     void AddPagePostInfo( string authorName, string authorImage, string postedOn, string readTime );
+    void AddPageComments();
     void AddPageTitle( HeadingBlock h1 );
     void AddPageSubtitle( HeadingBlock h2 );
     void AddPageHeading( HeadingBlock hN );
@@ -72,6 +73,15 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
             b.AddAttribute( 12, nameof( BlogPagePostInfo.ImageName ), authorImage );
             b.AddAttribute( 13, nameof( BlogPagePostInfo.PostedOn ), postedOn );
             b.AddAttribute( 14, nameof( BlogPagePostInfo.Read ), readTime );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageComments()
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 15, typeof( BlogPageComments ) );
             b.CloseComponent();
         } );
     }

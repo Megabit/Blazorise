@@ -67,6 +67,8 @@ internal static class BlogAstWalker
 
         sink.AddPagePostInfo( info.AuthorName, resolvedAuthor ?? "", info.PostedOn, info.ReadTime );
 
+        sink.AddPageComments();
+
         return sink.Build();
     }
 }
