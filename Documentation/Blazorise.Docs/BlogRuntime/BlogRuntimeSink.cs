@@ -278,7 +278,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
     public RenderFragment Build() => b => { foreach ( var op in ops ) op( b ); };
 
     // helpers
-    private static void RenderSimpleBlock( RenderTreeBuilder b, Type component, ContainerInline? inline )
+    private static void RenderSimpleBlock( RenderTreeBuilder b, Type component, ContainerInline inline )
     {
         b.OpenComponent( 100, component );
         b.AddAttribute( 101, "ChildContent", (RenderFragment)( bb => RenderInlines( bb, inline ) ) );
