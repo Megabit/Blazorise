@@ -1,0 +1,19 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Collapse @ref="@collapseRef">
+    <CollapseHeader>
+        <Button Color="Color.Primary" Clicked="@collapseRef.Toggle">
+            Toggle collapse
+        </Button>
+    </CollapseHeader>
+    <CollapseBody>
+        <Card>
+            <CardBody>
+                This is some collapsible content. It can be shown or hidden by clicking the button.
+            </CardBody>
+        </Card>
+    </CollapseBody>
+</Collapse>
+@code {
+    Collapse collapseRef;
+}

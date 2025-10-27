@@ -793,6 +793,42 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string CollapseBasicExample = @"<Collapse @bind-Visible=""@visible"">
+    <CollapseHeader>
+        <Button Color=""Color.Primary"" Clicked=""@(() => visible = !visible)"">
+            Toggle collapse
+        </Button>
+    </CollapseHeader>
+    <CollapseBody>
+        <Card>
+            <CardBody>
+                This is some collapsible content. It can be shown or hidden by clicking the button.
+            </CardBody>
+        </Card>
+    </CollapseBody>
+</Collapse>
+@code {
+    bool visible = true;
+}";
+
+        public const string CollapseToggleExample = @"<Collapse @ref=""@collapseRef"">
+    <CollapseHeader>
+        <Button Color=""Color.Primary"" Clicked=""@collapseRef.Toggle"">
+            Toggle collapse
+        </Button>
+    </CollapseHeader>
+    <CollapseBody>
+        <Card>
+            <CardBody>
+                This is some collapsible content. It can be shown or hidden by clicking the button.
+            </CardBody>
+        </Card>
+    </CollapseBody>
+</Collapse>
+@code {
+    Collapse collapseRef;
+}";
+
         public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
 
         public const string ColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
