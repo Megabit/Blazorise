@@ -1,9 +1,0 @@
-public Task<string> GetDocumentContent()
-{
-    var content = File.ReadAllTextAsync(@"Document.txt")
-        .ContinueWith(t =>
-        {
-            return t.Result;
-        });
-    return content;
-}
