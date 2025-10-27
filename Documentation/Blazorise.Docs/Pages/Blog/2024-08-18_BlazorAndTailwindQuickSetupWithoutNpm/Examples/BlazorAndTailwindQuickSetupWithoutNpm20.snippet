@@ -1,6 +1,0 @@
-<Target Name="UpdateTailwindCSS" BeforeTargets="Compile">
-  <Exec Command="./tailwindcss .\wwwroot\app.css -o .\wwwroot\app.min.css" ContinueOnError="true">
-    <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-  </Exec>
-  <Error Condition="'$(ErrorCode)' != '0'" Text="Error building CSS file"/>
-</Target>

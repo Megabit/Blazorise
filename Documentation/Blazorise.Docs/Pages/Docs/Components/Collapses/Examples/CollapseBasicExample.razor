@@ -1,0 +1,19 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Collapse @bind-Visible="@visible">
+    <CollapseHeader>
+        <Button Color="Color.Primary" Clicked="@(() => visible = !visible)">
+            Toggle collapse
+        </Button>
+    </CollapseHeader>
+    <CollapseBody>
+        <Card>
+            <CardBody>
+                This is some collapsible content. It can be shown or hidden by clicking the button.
+            </CardBody>
+        </Card>
+    </CollapseBody>
+</Collapse>
+@code {
+    bool visible = true;
+}
