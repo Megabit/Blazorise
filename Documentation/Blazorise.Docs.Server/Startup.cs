@@ -2,6 +2,7 @@
 using System;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http.Headers;
 using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Captcha.ReCaptcha;
@@ -75,6 +76,15 @@ public class Startup
         services.Configure<AppSettings>( options => Configuration.Bind( options ) );
         services.AddHttpClient();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
+
+        services.Configure<BrevoApiOptions>( Configuration.GetSection( BrevoApiOptions.SectionName ) );
+        services.AddHttpClient<IBrevoApiClient, BrevoApiClient>( ( sp, client ) =>
+        {
+            var options = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<BrevoApiOptions>>().Value;
+            client.BaseAddress = new Uri( options.BaseUrl.TrimEnd( '/' ) + "/" );
+            client.DefaultRequestHeaders.Add( "api-key", options.ApiKey );
+            client.DefaultRequestHeaders.Accept.Add( new MediaTypeWithQualityHeaderValue( "application/json" ) );
+        } );
 
         services.AddBlazoredLocalStorage();
 
