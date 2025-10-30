@@ -1,7 +1,7 @@
-﻿@using Microsoft.Extensions.Configuration
+﻿@using Blazorise.Docs.Services
+@using Microsoft.Extensions.Configuration
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Logging
-@using SendGrid
 @using System.Text.Json
 <Row Class="home-newsletter-container">
     <Column ColumnSize="ColumnSize.Is12.Is6.OnWidescreen" Padding="Padding.Is0.FromStart">
@@ -78,7 +78,7 @@
 
     [Inject] public ILogger<NewsletterWidget> Logger { get; set; }
 
-    [Inject] public IConfiguration Configuration { get; set; }
+    [Inject] public IBrevoApiClient BrevoApiClient { get; set; }
 
     class CustomFieldsResult
     {
@@ -100,29 +100,9 @@
         {
             if ( await validationsRef.ValidateAll() )
             {
-                var apiKey = Configuration["SendGrid:ApiKey"];
+                var response = await BrevoApiClient.CreateContactAsync( email, null, [2] );
 
-                var sendGridClient = new SendGridClient( apiKey );
-
-                var response = await sendGridClient.RequestAsync( method: SendGridClient.Method.GET, urlPath: "marketing/field_definitions" );
-
-                // Sending field names is not supported by the SendGrid API. To contruct the contacts request we must know the custom_fields IDs.
-                var customFields = JsonSerializer.Deserialize<CustomFieldsResult>( await response.Body.ReadAsStringAsync() );
-                var terms_field_id = customFields.custom_fields.First( x => x.name == "terms" ).id;
-                var marketing_field_id = customFields.custom_fields.First( x => x.name == "marketing" ).id;
-
-                var content = JsonSerializer.Serialize( new
-                {
-                    list_ids = new[] { Configuration["SendGrid:ListId"] },
-                    contacts = new[] { new { email = email, custom_fields = new { terms_field_placeholder = termsAgreed.ToString().ToLowerInvariant(), marketing_field_placeholder = marketingAgreed.ToString().ToLowerInvariant() } } },
-                } );
-
-                content = content.Replace( "terms_field_placeholder", terms_field_id );
-                content = content.Replace( "marketing_field_placeholder", marketing_field_id );
-
-                response = await sendGridClient.RequestAsync( BaseClient.Method.PUT, content, null, "marketing/contacts" );
-
-                if ( response.IsSuccessStatusCode )
+                if ( response != null )
                 {
                     email = null;
                     emailSent = true;
