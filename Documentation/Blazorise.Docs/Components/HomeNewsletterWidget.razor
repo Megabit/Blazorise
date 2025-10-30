@@ -100,7 +100,7 @@
         {
             if ( await validationsRef.ValidateAll() )
             {
-                var response = await BrevoApiClient.CreateContactAsync( email );
+                var response = await BrevoApiClient.CreateContactAsync( email, null, [2] );
 
                 if ( response != null )
                 {

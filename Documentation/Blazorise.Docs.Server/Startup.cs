@@ -78,13 +78,7 @@ public class Startup
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
         services.Configure<BrevoApiOptions>( Configuration.GetSection( BrevoApiOptions.SectionName ) );
-        services.AddHttpClient<IBrevoApiClient, BrevoApiClient>( ( sp, client ) =>
-        {
-            var options = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<BrevoApiOptions>>().Value;
-            client.BaseAddress = new Uri( options.BaseUrl.TrimEnd( '/' ) + "/" );
-            client.DefaultRequestHeaders.Add( "api-key", options.ApiKey );
-            client.DefaultRequestHeaders.Accept.Add( new MediaTypeWithQualityHeaderValue( "application/json" ) );
-        } );
+        services.AddHttpClient<IBrevoApiClient, BrevoApiClient>();
 
         services.AddBlazoredLocalStorage();
 
