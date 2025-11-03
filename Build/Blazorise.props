@@ -14,7 +14,7 @@
     <Company>Megabit</Company>
     <Copyright>Copyright 2018-2025 Megabit</Copyright>
 
-    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
     <LangVersion>11.0</LangVersion>
@@ -49,6 +49,10 @@
     <DefineConstants>$(DefineConstants);NET9_0</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+    <DefineConstants>$(DefineConstants);NET10_0</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.*" />
@@ -71,6 +75,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.0-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0-*" />
   </ItemGroup>
 
   <UsingTask

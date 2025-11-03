@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<LangVersion>11.0</LangVersion>
@@ -9,8 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.0-*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0-*" />
 		<PackageReference Include="FluentValidation" Version="11.10.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
 	</ItemGroup>
