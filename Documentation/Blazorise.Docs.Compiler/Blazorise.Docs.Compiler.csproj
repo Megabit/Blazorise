@@ -9,7 +9,7 @@
     <PackageReference Include="ColorCode.HTML" Version="2.0.15" />
     <PackageReference Include="Markdig" Version="0.38.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.0-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.0-rc.2.25502.107" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
   </ItemGroup>
 
