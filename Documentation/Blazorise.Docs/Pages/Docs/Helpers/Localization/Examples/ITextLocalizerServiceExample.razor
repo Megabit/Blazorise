@@ -1,5 +1,6 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 @using System.Globalization
+@using Blazorise.Localization
 
 <Field>
     <FileEdit />
@@ -12,7 +13,7 @@
                         Data="@LocalizationService.AvailableCultures"
                         TextField="@((item)=>item.IsNeutralCulture ? item.EnglishName : item.Parent.EnglishName)"
                         ValueField="@((item)=>item.Name)"
-                        @bind-SelectedValue="selectedCulture"
+                        @bind-Value="selectedCulture"
                         DefaultItemText="Choose your culture" />
         </Addon>
         <Addon AddonType="AddonType.Body">
@@ -21,9 +22,8 @@
     </Addons>
 </Field>
 
-@code{
-    [Inject]
-    Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
+@code {
+    [Inject] ITextLocalizerService LocalizationService { get; set; }
 
     private string selectedCulture;
 
