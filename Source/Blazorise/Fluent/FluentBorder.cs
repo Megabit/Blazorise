@@ -227,7 +227,6 @@ public interface IFluentBorderWithAll :
 /// <summary>
 /// Represents a single border rule definition used by the fluent border builder.
 /// </summary>
-/// <remarks>
 public record BorderDefinition
 {
     /// <summary>

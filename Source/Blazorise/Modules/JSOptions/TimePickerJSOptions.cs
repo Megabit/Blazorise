@@ -20,6 +20,7 @@ public class TimePickerJSOptions
     /// </summary>
     public string Default { get; set; }
 
+    /// <summary>
     /// Gets or sets the initial value of the hour element.
     /// </summary>
     public int DefaultHour { get; set; }
