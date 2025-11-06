@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,11 +31,6 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     protected DropdownToggle dropdownToggleRef;
 
     /// <summary>
-    /// List of selected values, used in the Checkbox mode.
-    /// </summary>
-    private List<TValue> selectedValues;
-
-    /// <summary>
     /// Determines if the filter is dirty and needs to be updated.
     /// </summary>
     private bool dirtyFilter = true;
@@ -48,24 +44,6 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
 
     #region Methods
 
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        selectedValues = SelectedValues?.ToList();
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        var selectedValuesChanged = parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues );
-
-        await base.SetParametersAsync( parameters );
-
-        if ( selectedValuesChanged )
-            selectedValues = paramSelectedValues?.ToList();
-    }
-
     /// <summary>
     /// Handles the selected value change event.
     /// </summary>
@@ -73,20 +51,32 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     protected Task HandleDropdownItemClicked( object value )
     {
-        SelectedValue = Converters.ChangeType<TValue>( value );
-        return SelectedValueChanged.InvokeAsync( SelectedValue );
+        if ( Multiple )
+            return Task.CompletedTask;
+
+        return ValueChanged.InvokeAsync( Converters.ChangeType<TValue>( value ) );
     }
 
-    protected Task HandleDropdownItemChecked( bool isChecked, TValue value )
+    protected Task HandleDropdownItemChecked( bool isChecked, object fieldValue )
     {
-        selectedValues ??= new();
+        if ( !Multiple )
+            return Task.CompletedTask;
+
+        List<object> selectedValues;
+
+        if ( Value is IEnumerable<TValue> values )
+            selectedValues = values.Select( x => (object)x ).ToList();
+        else if ( Value is IEnumerable objects && Value is not string )
+            selectedValues = objects.Cast<object>().ToList();
+        else
+            selectedValues = new List<object>();
 
         if ( isChecked )
-            selectedValues.Add( value );
+            selectedValues.Add( fieldValue );
         else
-            selectedValues.Remove( value );
+            selectedValues.Remove( fieldValue );
 
-        return SelectedValuesChanged.InvokeAsync( selectedValues );
+        return ValueChanged.InvokeAsync( Converters.ConvertListToReadOnlyList<TValue>( selectedValues ) );
     }
 
     /// <summary>
@@ -107,7 +97,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         return TextField.Invoke( item );
     }
 
-    private TValue GetItemValue( TItem item )
+    private object GetItemValue( TItem item )
     {
         if ( ValueField is null )
             return default;
@@ -153,20 +143,58 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Check if the internal value is same as the new value.
+    /// </summary>
+    /// <param name="value">Value to check against the internal value.</param>
+    /// <returns>True if the internal value matched the supplied value.</returns>
+    protected bool IsSameAsInternalValue( TValue value )
+    {
+        if ( value is IEnumerable<TValue> values1 && Value is IEnumerable<TValue> values2 )
+        {
+            return values1.AreEqual( values2 );
+        }
+        else if ( value is IEnumerable objects1 && Value is IEnumerable objects2 )
+        {
+            return objects1.AreEqual( objects2 );
+        }
+
+        return value.IsEqual( Value );
+    }
+
+    /// <summary>
+    /// Whether the value is currently selected.
+    /// </summary>
+    protected bool IsSelected( object value )
+    {
+        if ( Value is null )
+            return false;
+
+        if ( Value is IEnumerable<TValue> values )
+        {
+            return values.Any( x => x.IsEqual( value ) );
+        }
+        else if ( Value is IEnumerable objects && Value is not string )
+        {
+            return objects.Cast<object>().Any( x => x.IsEqual( value ) );
+        }
+
+        return Value.IsEqual( value );
+    }
+
     #endregion
 
     #region Properties
 
     /// <summary>
+    /// Indicates if the multiple items can be selected.
+    /// </summary>
+    protected bool Multiple => SelectionMode == DropdownListSelectionMode.Checkbox;
+
+    /// <summary>
     /// Gets or sets the filter text.
     /// </summary>
     private string FilterText { get; set; }
-
-    /// <summary>
-    /// Whether the value is currently selected.
-    /// </summary>
-    protected bool IsSelected( TValue value )
-        => selectedValues?.Any( x => x.Equals( value ) ) ?? false;
 
     /// <summary>
     /// Gets or sets the dropdown element id.
@@ -225,17 +253,17 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// <summary>
     /// Method used to get the value field from the supplied data source.
     /// </summary>
-    [Parameter] public Func<TItem, TValue> ValueField { get; set; }
+    [Parameter] public Func<TItem, object> ValueField { get; set; }
 
     /// <summary>
     /// Currently selected item value.
     /// </summary>
-    [Parameter] public TValue SelectedValue { get; set; }
+    [Parameter] public TValue Value { get; set; }
 
     /// <summary>
     /// Occurs after the selected value has changed.
     /// </summary>
-    [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
+    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
     /// <summary>
     /// Enebles filter text input on the top of the items list.
@@ -282,16 +310,6 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Gets or sets the <see cref="DropdownList{TItem, TValue}"/> Selection Mode.
     /// </summary>
     [Parameter] public DropdownListSelectionMode SelectionMode { get; set; } = DropdownListSelectionMode.Default;
-
-    /// <summary>
-    /// Currently selected item values.
-    /// </summary>
-    [Parameter] public IReadOnlyList<TValue> SelectedValues { get; set; }
-
-    /// <summary>
-    /// Occurs after the selected item values have changed.
-    /// </summary>
-    [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
 
     /// <summary>
     /// Method used to get the disabled items from the supplied data source.

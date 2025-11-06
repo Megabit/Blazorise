@@ -2879,7 +2879,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </SelectGroup>
 </Select>";
 
-        public const string MultipleSelectExample = @"<Select TValue=""int"" Multiple>
+        public const string MultipleSelectExample = @"<Select TValue=""int[]"" Multiple>
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
@@ -8898,11 +8898,11 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""string""
+        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
-              @bind-SelectedValues=""@selectedDropValues""
+              @bind-Value=""@selectedDropValues""
               SelectionMode=""DropdownListSelectionMode.Checkbox""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
@@ -8938,7 +8938,7 @@ Install-Package Blazorise.Chart.Zoom";
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
-              @bind-SelectedValue=""@selectedDropValue""
+              @bind-Value=""@selectedDropValue""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
     Select item
@@ -8971,7 +8971,7 @@ Install-Package Blazorise.Chart.Zoom";
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
-              @bind-SelectedValue=""@selectedDropValue""
+              @bind-Value=""@selectedDropValue""
               Color=""Color.Primary""
               MaxMenuHeight=""200px""
               Filterable>
@@ -10161,7 +10161,7 @@ builder.Services
             Data=""@IndexedCountries""
             TextField=""@((item)=>item.Name)""
             ValueField=""@((item)=>item.Id)""
-            @bind-SelectedValue=""@selectedListValue""
+            @bind-Value=""@selectedListValue""
             DefaultItemText=""Choose your country"" />
 
 @code {
@@ -10178,12 +10178,12 @@ builder.Services
 }";
 
         public const string SelectListMultipleExample = @"<SelectList TItem=""MyFruitModel""
-            TValue=""int""
+            TValue=""IReadOnlyList<int>""
             Data=""@IndexedFruits""
             TextField=""@((item)=>item.Name)""
             ValueField=""@((item)=>item.Id)""
             Multiple
-            @bind-SelectedValues=""@selectedListValues""
+            @bind-Value=""@selectedListValues""
             DefaultItemText=""Choose your fruit"" />
 
 @code {
@@ -11427,6 +11427,7 @@ builder.Services
     } );";
 
         public const string ITextLocalizerServiceExample = @"@using System.Globalization
+@using Blazorise.Localization
 
 <Field>
     <FileEdit />
@@ -11439,7 +11440,7 @@ builder.Services
                         Data=""@LocalizationService.AvailableCultures""
                         TextField=""@((item)=>item.IsNeutralCulture ? item.EnglishName : item.Parent.EnglishName)""
                         ValueField=""@((item)=>item.Name)""
-                        @bind-SelectedValue=""selectedCulture""
+                        @bind-Value=""selectedCulture""
                         DefaultItemText=""Choose your culture"" />
         </Addon>
         <Addon AddonType=""AddonType.Body"">
@@ -11448,9 +11449,8 @@ builder.Services
     </Addons>
 </Field>
 
-@code{
-    [Inject]
-    Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
+@code {
+    [Inject] ITextLocalizerService LocalizationService { get; set; }
 
     private string selectedCulture;
 
