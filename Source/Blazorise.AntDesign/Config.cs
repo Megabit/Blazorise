@@ -104,7 +104,7 @@ public static class Config
         { typeof( Blazorise.TabPanel ), typeof( Components.TabPanel ) },
         { typeof( Blazorise.Tabs ), typeof( Components.Tabs ) },
         { typeof( Blazorise.TabsContent ), typeof( Components.TabsContent ) },
-        { typeof( Blazorise.TextEdit ), typeof( Components.TextEdit ) },
+        { typeof( Blazorise.TextInput ), typeof( Components.TextInput ) },
         { typeof( Blazorise.Toast ), typeof( Components.Toast ) },
     };
 }

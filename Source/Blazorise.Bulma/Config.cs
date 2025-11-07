@@ -69,7 +69,7 @@ public static class Config
         { typeof( Blazorise.Button ), typeof( Components.Button ) },
         { typeof( Blazorise.Table ), typeof( Components.Table ) },
         { typeof( Blazorise.Tabs ), typeof( Components.Tabs ) },
-        { typeof( Blazorise.TextEdit ), typeof( Components.TextEdit ) },
+        { typeof( Blazorise.TextInput ), typeof( Components.TextInput ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( Components.TimeEdit<> ) },
         { typeof( Blazorise.NumericEdit<> ), typeof( Components.NumericEdit<> ) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },

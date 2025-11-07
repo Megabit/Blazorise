@@ -49,7 +49,7 @@ namespace Blazorise.Docs.Models
         public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
     <Addons>
         <Addon AddonType=""AddonType.Body"">
-            <TextEdit Placeholder=""Enter name"" />
+            <TextInput Placeholder=""Enter name"" />
         </Addon>
         <Addon AddonType=""AddonType.End"">
             <AddonLabel>This is a label</AddonLabel>
@@ -62,7 +62,7 @@ namespace Blazorise.Docs.Models
 
         public const string ButtonAddonExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <TextEdit Placeholder=""Recipient's username"" />
+        <TextInput Placeholder=""Recipient's username"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Secondary"">Button</Button>
@@ -83,7 +83,7 @@ namespace Blazorise.Docs.Models
         </Dropdown>
     </Addon>
     <Addon AddonType=""AddonType.Body"">
-        <TextEdit />
+        <TextInput />
     </Addon>
 </Addons>";
 
@@ -92,7 +92,7 @@ namespace Blazorise.Docs.Models
         <AddonLabel>Start</AddonLabel>
     </Addon>
     <Addon AddonType=""AddonType.Body"">
-        <TextEdit Placeholder=""Placeholder"" />
+        <TextInput Placeholder=""Placeholder"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <AddonLabel>End</AddonLabel>
@@ -104,7 +104,7 @@ namespace Blazorise.Docs.Models
         <AddonLabel>@@</AddonLabel>
     </Addon>
     <Addon AddonType=""AddonType.Body"">
-        <TextEdit Placeholder=""Username"" />
+        <TextInput Placeholder=""Username"" />
     </Addon>
 </Addons>";
 
@@ -475,19 +475,19 @@ namespace Blazorise.Docs.Models
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>First name</FieldLabel>
         <FieldBody>
-            <TextEdit Value=""John"" />
+            <TextInput Value=""John"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>Last name</FieldLabel>
         <FieldBody>
-            <TextEdit Value=""Smith"" />
+            <TextInput Value=""Smith"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull"">
         <FieldLabel>Email address</FieldLabel>
         <FieldBody>
-            <TextEdit Value=""john.smith@example.com"" />
+            <TextInput Value=""john.smith@example.com"" />
         </FieldBody>
     </Field>
     <Field Flex=""Flex.JustifyContent.Between"">
@@ -503,19 +503,19 @@ namespace Blazorise.Docs.Models
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>First name</FieldLabel>
         <FieldBody>
-            <TextEdit Value=""John"" />
+            <TextInput Value=""John"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>Last name</FieldLabel>
         <FieldBody>
-            <TextEdit Value=""Smith"" />
+            <TextInput Value=""Smith"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull"">
         <FieldLabel>Email address</FieldLabel>
         <FieldBody>
-            <TextEdit Value=""john.smith@example.com"" />
+            <TextInput Value=""john.smith@example.com"" />
         </FieldBody>
     </Field>
     <Field>
@@ -610,7 +610,7 @@ namespace Blazorise.Docs.Models
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.Is10"">
-            <TextEdit Placeholder=""Some text value..."" />
+            <TextInput Placeholder=""Some text value..."" />
         </FieldBody>
     </Field>
     <Field>
@@ -1260,13 +1260,13 @@ namespace Blazorise.Docs.Models
 </Dropdown>";
 
         public const string BasicFieldExample = @"<Field>
-    <TextEdit Placeholder=""Name"" />
+    <TextInput Placeholder=""Name"" />
 </Field>";
 
         public const string BasicFieldsExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop"">
         <FieldLabel>City</FieldLabel>
-        <TextEdit />
+        <TextInput />
     </Field>
     <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
         <FieldLabel>State</FieldLabel>
@@ -1275,48 +1275,48 @@ namespace Blazorise.Docs.Models
     </Field>
     <Field ColumnSize=""ColumnSize.Is2.OnDesktop"">
         <FieldLabel>Zip</FieldLabel>
-        <TextEdit />
+        <TextInput />
     </Field>
 </Fields>";
 
         public const string FieldHiddenExample = @"<Field Visibility=""Visibility.Invisible"">
-    <TextEdit />
+    <TextInput />
 </Field>";
 
         public const string FieldWithDisabledExample = @"<Field>
     <FieldLabel>Disabled</FieldLabel>
-    <TextEdit Value=""Value"" Disabled />
+    <TextInput Value=""Value"" Disabled />
 </Field>";
 
         public const string FieldWithHelpExample = @"<Fields>
     <Field>
         <FieldLabel>Phone number</FieldLabel>
-        <TextEdit>
+        <TextInput>
             <FieldHelp>Include country and area prefixes</FieldHelp>
-        </TextEdit>
+        </TextInput>
     </Field>
     <Field>
         <FieldLabel>Password</FieldLabel>
-        <TextEdit>
+        <TextInput>
             <FieldHelp>Password strength: <Text TextColor=""TextColor.Danger"">weak</Text></FieldHelp>
-        </TextEdit>
+        </TextInput>
     </Field>
 </Fields>";
 
         public const string FieldWithLabelExample = @"<Field>
     <FieldLabel>Email address</FieldLabel>
-    <TextEdit Placeholder=""Enter email"" />
+    <TextInput Placeholder=""Enter email"" />
 </Field>";
 
         public const string FieldWithReadOnlyExample = @"<Field>
     <FieldLabel>Read-Only</FieldLabel>
-    <TextEdit Value=""Value"" ReadOnly />
+    <TextInput Value=""Value"" ReadOnly />
 </Field>";
 
         public const string HorizontalFieldExample = @"<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.Is10"">
-        <TextEdit Placeholder=""Some text value..."" />
+        <TextInput Placeholder=""Some text value..."" />
     </FieldBody>
 </Field>
 <Field Horizontal>
@@ -1331,7 +1331,7 @@ namespace Blazorise.Docs.Models
         Name
     </FieldLabel>
     <FieldBody>
-        <TextEdit Placeholder=""Name"" />
+        <TextInput Placeholder=""Name"" />
     </FieldBody>
 </Field>";
 
@@ -1711,19 +1711,19 @@ namespace Blazorise.Docs.Models
             <Field Horizontal>
                 <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">First Name</FieldLabel>
                 <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-                    <TextEdit Autofocus />
+                    <TextInput Autofocus />
                 </FieldBody>
             </Field>
             <Field Horizontal>
                 <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Last Name</FieldLabel>
                 <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-                    <TextEdit />
+                    <TextInput />
                 </FieldBody>
             </Field>
             <Field Horizontal>
                 <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Address</FieldLabel>
                 <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-                    <TextEdit />
+                    <TextInput />
                 </FieldBody>
             </Field>
         </FocusTrap>
@@ -1737,7 +1737,7 @@ namespace Blazorise.Docs.Models
         public const string BasicHighlighterExample = @"<Field>
     <FieldLabel>Search value</FieldLabel>
     <FieldBody>
-        <TextEdit @bind-Value=""@searchValue"" />
+        <TextInput @bind-Value=""@searchValue"" />
     </FieldBody>
 </Field>
 
@@ -1764,7 +1764,7 @@ namespace Blazorise.Docs.Models
     <Field>
         <FieldLabel>Search value</FieldLabel>
         <FieldBody>
-            <TextEdit @bind-Value=""@searchValue"" />
+            <TextInput @bind-Value=""@searchValue"" />
         </FieldBody>
     </Field>
     <Field>
@@ -1797,7 +1797,7 @@ namespace Blazorise.Docs.Models
         public const string MultipleTextsHighlighterExample = @"<Field>
     <FieldLabel>Search values (comma separated)</FieldLabel>
     <FieldBody>
-        <TextEdit @bind-Text=""@searchValue"" />
+        <TextInput @bind-Text=""@searchValue"" />
     </FieldBody>
 </Field>
 
@@ -2133,11 +2133,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ModalBody>
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Placeholder=""Enter name..."" />
+                <TextInput Placeholder=""Enter name..."" />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextEdit Placeholder=""Enter surname..."" />
+                <TextInput Placeholder=""Enter surname..."" />
             </Field>
         </ModalBody>
         <ModalFooter>
@@ -2175,11 +2175,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ModalBody>
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Placeholder=""Enter name..."" />
+                <TextInput Placeholder=""Enter name..."" />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextEdit Placeholder=""Enter surname..."" />
+                <TextInput Placeholder=""Enter surname..."" />
             </Field>
         </ModalBody>
         <ModalFooter>
@@ -2270,11 +2270,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ModalBody>
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Placeholder=""Enter name..."" />
+                <TextInput Placeholder=""Enter name..."" />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextEdit Placeholder=""Enter surname..."" />
+                <TextInput Placeholder=""Enter surname..."" />
             </Field>
         </ModalBody>
         <ModalFooter>
@@ -3013,10 +3013,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <StepPanel Name=""step1"">
             This Steps component is set to <code>LazyLoad</code> mode, meaning each step will only be rendered/loaded the first time it is visited.
             This is specially useful when you want to delay some heavy or long waited operations for when the step is actually clicked instead.
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </StepPanel>
         <StepPanel Name=""step2"">
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </StepPanel>
     </Content>
 </Steps>";
@@ -3031,10 +3031,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
             Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, 
             therefore re-calculated.
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </StepPanel>
         <StepPanel Name=""step2"">
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </StepPanel>
     </Content>
 </Steps>";
@@ -3053,9 +3053,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <StepPanel Name=""2"">
             <Field>
                 <FieldLabel>Email address</FieldLabel>
-                <TextEdit @bind-Value=""email"" Placeholder=""Enter email"">
+                <TextInput @bind-Value=""email"" Placeholder=""Enter email"">
                     <FieldHelp>This field is required in order to proceed to the next step.</FieldHelp>
-                </TextEdit>
+                </TextInput>
             </Field>
         </StepPanel>
         <StepPanel Name=""3"">
@@ -3620,10 +3620,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <TabPanel Name=""tab1"">
             This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
             This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </TabPanel>
         <TabPanel Name=""tab2"">
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </TabPanel>
     </Content>
 </Tabs>";
@@ -3638,25 +3638,25 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
             Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded, 
             therefore re-calculated.
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </TabPanel>
         <TabPanel Name=""tab2"">
-            <TextEdit></TextEdit>
+            <TextInput></TextInput>
         </TabPanel>
     </Content>
 </Tabs>";
 
-        public const string BasicTextEditExample = @"<TextEdit />";
+        public const string TextInputBasicExample = @"<TextInput />";
 
-        public const string TextEditDisabledExample = @"<TextEdit Disabled />";
+        public const string TextInputDisabledExample = @"<TextInput Disabled />";
 
-        public const string TextEditMaskExample = @"<Fields>
+        public const string TextInputMaskExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
         <FieldLabel>
             Text only
         </FieldLabel>
         <FieldBody>
-            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />
+            <TextInput MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
@@ -3664,32 +3664,32 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Numbers only
         </FieldLabel>
         <FieldBody>
-            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^(\d+(.\d{0,2})?|.?\d{1,2})$"" />
+            <TextInput MaskType=""MaskType.RegEx"" EditMask=""^(\d+(.\d{0,2})?|.?\d{1,2})$"" />
         </FieldBody>
     </Field>
 </Fields>";
 
-        public const string TextEditPatternExample = @"<Validation UsePattern>
-    <TextEdit Pattern=""[A-Za-z]{3}"">
+        public const string TextInputPatternExample = @"<Validation UsePattern>
+    <TextInput Pattern=""[A-Za-z]{3}"">
         <Feedback>
             <ValidationError>Pattern does not match!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>";
 
-        public const string TextEditPlaceholderExample = @"<TextEdit Placeholder=""Some text value..."" />";
+        public const string TextInputPlaceholderExample = @"<TextInput Placeholder=""Some text value..."" />";
 
-        public const string TextEditPlaintextExample = @"<TextEdit Plaintext />";
+        public const string TextInputPlaintextExample = @"<TextInput Plaintext />";
 
-        public const string TextEditReadonlyExample = @"<TextEdit ReadOnly />";
+        public const string TextInputReadonlyExample = @"<TextInput ReadOnly />";
 
-        public const string TextEditRoleExample = @"<Fields>
+        public const string TextInputRoleExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
         <FieldLabel>
             Email
         </FieldLabel>
         <FieldBody>
-            <TextEdit Role=""TextRole.Email"" />
+            <TextInput Role=""TextRole.Email"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
@@ -3697,19 +3697,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Password
         </FieldLabel>
         <FieldBody>
-            <TextEdit Role=""TextRole.Password"" autocomplete=""new-password"" />
+            <TextInput Role=""TextRole.Password"" autocomplete=""new-password"" />
         </FieldBody>
     </Field>
 </Fields>";
 
-        public const string TextEditSizingExample = @"<Field>
-    <TextEdit Size=""Size.Small"" />
+        public const string TextInputSizingExample = @"<Field>
+    <TextInput Size=""Size.Small"" />
 </Field>
 <Field>
-    <TextEdit Size=""Size.Large"" />
+    <TextInput Size=""Size.Large"" />
 </Field>";
 
-        public const string TextEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string TextInputTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -3718,7 +3718,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string TextEditTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string TextInputTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -3728,13 +3728,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string TextEditWithBindExample = @"<TextEdit @bind-Value=""@name"" />
+        public const string TextInputWithBindExample = @"<TextInput @bind-Value=""@name"" />
 
 @code{
     string name;
 }";
 
-        public const string TextEditWithEventExample = @"<TextEdit Value=""@name"" ValueChanged=""@OnNameChanged"" />
+        public const string TextInputWithEventExample = @"<TextInput Value=""@name"" ValueChanged=""@OnNameChanged"" />
 
 @code{
     string name;
@@ -4175,11 +4175,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string AsyncValidationExample = @"@using System.Threading
 
 <Validation AsyncValidator=""@ValidateNameAsync"">
-    <TextEdit Placeholder=""Enter name"">
+    <TextInput Placeholder=""Enter name"">
         <Feedback>
             <ValidationError>Enter valid name!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>
 @code{
     Random random = new Random();
@@ -4202,23 +4202,23 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Validations>";
 
         public const string BasicValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
-    <TextEdit Placeholder=""Enter name"">
+    <TextInput Placeholder=""Enter name"">
         <Feedback>
             <ValidationNone>Please enter the name.</ValidationNone>
             <ValidationSuccess>Name is good.</ValidationSuccess>
             <ValidationError>Enter valid name!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>
 
 <Validation Validator=""ValidateEmail"">
-    <TextEdit Placeholder=""Enter email"">
+    <TextInput Placeholder=""Enter email"">
         <Feedback>
             <ValidationNone>Please enter the email.</ValidationNone>
             <ValidationSuccess>Email is good.</ValidationSuccess>
             <ValidationError>Enter valid email!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>
 @code{
     void ValidateEmail( ValidatorEventArgs e )
@@ -4237,11 +4237,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Full Name</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Placeholder=""First and last name"" @bind-Value=""@user.Name"">
+                <TextInput Placeholder=""First and last name"" @bind-Value=""@user.Name"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
@@ -4249,11 +4249,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Email</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Placeholder=""Enter email"" @bind-Value=""@user.Email"">
+                <TextInput Placeholder=""Enter email"" @bind-Value=""@user.Email"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
@@ -4261,11 +4261,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Password</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Role=""TextRole.Password"" Placeholder=""Password"" @bind-Value=""@user.Password"">
+                <TextInput Role=""TextRole.Password"" Placeholder=""Password"" @bind-Value=""@user.Password"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
@@ -4273,11 +4273,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Re Password</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextEdit Role=""TextRole.Password"" Placeholder=""Retype password"" @bind-Value=""@user.ConfirmPassword"">
+                <TextInput Role=""TextRole.Password"" Placeholder=""Retype password"" @bind-Value=""@user.ConfirmPassword"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
@@ -4343,12 +4343,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string ManualValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
     <Validation Validator=""@ValidationRule.IsNotEmpty"">
         <Field>
-            <TextEdit Placeholder=""Enter first name"" />
+            <TextInput Placeholder=""Enter first name"" />
         </Field>
     </Validation>
     <Validation Validator=""@ValidationRule.IsNotEmpty"">
         <Field>
-            <TextEdit Placeholder=""Enter last name"" />
+            <TextInput Placeholder=""Enter last name"" />
         </Field>
     </Validation>
     <Button Color=""Color.Primary"" Clicked=""@Submit"">Submit</Button>
@@ -4366,11 +4366,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string PatternValidationExample = @"<Validation UsePattern>
-    <TextEdit Pattern=""[A-Za-z]{3}"">
+    <TextInput Pattern=""[A-Za-z]{3}"">
         <Feedback>
             <ValidationError>Pattern does not match!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>";
 
         public const string ValidationFeedbackExample = @"<Validation Validator=""@ValidateCheck"">
@@ -4397,11 +4397,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field>
             <FieldLabel>Name</FieldLabel>
             <FieldBody>
-                <TextEdit @bind-Text=""@Company.Name"">
+                <TextInput @bind-Text=""@Company.Name"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
@@ -4409,11 +4409,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field>
             <FieldLabel>Description</FieldLabel>
             <FieldBody>
-                <TextEdit @bind-Text=""@Company.Description"">
+                <TextInput @bind-Text=""@Company.Description"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
@@ -4425,11 +4425,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             <Field>
                 <FieldLabel>AlphaCode</FieldLabel>
                 <FieldBody>
-                    <TextEdit @bind-Text=""@Company.AlphaCode"">
+                    <TextInput @bind-Text=""@Company.AlphaCode"">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
-                    </TextEdit>
+                    </TextInput>
                 </FieldBody>
             </Field>
         </Validation>
@@ -4437,11 +4437,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             <Field>
                 <FieldLabel>BetaCode</FieldLabel>
                 <FieldBody>
-                    <TextEdit @bind-Text=""@Company.BetaCode"">
+                    <TextInput @bind-Text=""@Company.BetaCode"">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
-                    </TextEdit>
+                    </TextInput>
                 </FieldBody>
             </Field>
         </Validation>
@@ -4541,7 +4541,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise/numericPicker.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/observer.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/table.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=1.8.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/textInput.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/theme.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/timePicker.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/tooltip.js?v=1.8.5.0"" type=""module""></script>
@@ -6551,18 +6551,18 @@ Install-Package Blazorise.Chart.Zoom";
                     <Field>
                         <FieldLabel>Row Index</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Value=""@selectedCell?.RowIndex.ToString()""></TextEdit>
+                            <TextInput ReadOnly Value=""@selectedCell?.RowIndex.ToString()""></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Field</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Value=""@selectedCell?.ColumnInfo?.Field""></TextEdit>
+                            <TextInput ReadOnly Value=""@selectedCell?.ColumnInfo?.Field""></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Value</FieldLabel>
-                        <TextEdit ReadOnly Value=""@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)""></TextEdit>
+                        <TextInput ReadOnly Value=""@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)""></TextInput>
                     </Field>
                 </Fields>
             </CardBody>
@@ -6853,7 +6853,7 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit Value=""@customFilterValue"" ValueChanged=""@OnCustomFilterValueChanged""></TextEdit>
+        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextInput Value=""@customFilterValue"" ValueChanged=""@OnCustomFilterValueChanged""></TextInput>
 
 <DataGrid @ref=""dataGrid""
           TItem=""Employee""
@@ -7434,12 +7434,12 @@ Install-Package Blazorise.Chart.Zoom";
                 <Field @key=context.GetFilterMethod()>
                     @if ( context.GetFilterMethod() == DataGridColumnFilterMethod.Between )
                     {
-                        <TextEdit Value=""@GetFilterValue1(context)"" ValueChanged=""@((newValue) => SetFilterValue1(context.Column.Filter, newValue))"" />
-                        <TextEdit Value=""@GetFilterValue2(context)"" ValueChanged=""@((newValue) => SetFilterValue2(context.Column.Filter, newValue))"" />
+                        <TextInput Value=""@GetFilterValue1(context)"" ValueChanged=""@((newValue) => SetFilterValue1(context.Column.Filter, newValue))"" />
+                        <TextInput Value=""@GetFilterValue2(context)"" ValueChanged=""@((newValue) => SetFilterValue2(context.Column.Filter, newValue))"" />
                     }
                     else
                     {
-                        <TextEdit Value=""@context.GetSearchValue()?.ToString()"" ValueChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
+                        <TextInput Value=""@context.GetSearchValue()?.ToString()"" ValueChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
                     }
                 </Field>
             </Column>
@@ -8818,11 +8818,11 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable>
         <EditTemplate>
             <Validation Validator=""@CheckName"">
-                <TextEdit Value=""@((string)context.CellValue)"" ValueChanged=""(value => context.CellValue = value)"">
+                <TextInput Value=""@((string)context.CellValue)"" ValueChanged=""(value => context.CellValue = value)"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </Validation>
         </EditTemplate>
     </DataGridColumn>
@@ -9007,21 +9007,21 @@ Install-Package Blazorise.Chart.Zoom";
     <Validation>
         <Field>
             <FieldLabel>First name</FieldLabel>
-            <TextEdit Placeholder=""Enter first name..."" @bind-Value=""@person.FirstName"">
+            <TextInput Placeholder=""Enter first name..."" @bind-Value=""@person.FirstName"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Field>
     </Validation>
     <Validation>
         <Field>
             <FieldLabel>Last name</FieldLabel>
-            <TextEdit Placeholder=""Enter last name..."" @bind-Value=""@person.LastName"">
+            <TextInput Placeholder=""Enter last name..."" @bind-Value=""@person.LastName"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Field>
     </Validation>
     <Validation>
@@ -12113,14 +12113,14 @@ builder.Services
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextEdit @bind-Value=""model.FirstName""></TextEdit>
+            <TextInput @bind-Value=""model.FirstName""></TextInput>
         </FieldBody>
     </Field>
 
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextEdit @bind-Value=""model.Email""></TextEdit>
+            <TextInput @bind-Value=""model.Email""></TextInput>
         </FieldBody>
     </Field>
 
@@ -12176,7 +12176,7 @@ builder.Services
         public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-        <TextEdit @bind-Value=""userName""></TextEdit>
+        <TextInput @bind-Value=""userName""></TextInput>
     </FieldBody>
 </Field>
 

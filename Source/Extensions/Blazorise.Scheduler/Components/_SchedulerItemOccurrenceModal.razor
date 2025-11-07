@@ -18,11 +18,11 @@
                         <Field>
                             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
                             <FieldBody>
-                                <TextEdit @bind-Value="@Title" Autofocus>
+                                <TextInput @bind-Value="@Title" Autofocus>
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </TextEdit>
+                                </TextInput>
                             </FieldBody>
                         </Field>
                     </Validation>

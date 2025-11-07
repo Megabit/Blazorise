@@ -3,7 +3,7 @@
 @inherits ComponentBase
 @if ( ValueType == typeof( string ) )
 {
-    <TextEdit ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+    <TextInput ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }
 else if ( ValueType == typeof( decimal ) )
 {
@@ -95,5 +95,5 @@ else if ( ValueType == typeof( TimeSpan? ) )
 }
 else
 {
-    <TextEdit ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+    <TextInput ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }

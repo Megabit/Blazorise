@@ -26,11 +26,11 @@
                     <Column ColumnSize="ColumnSize.Is8.Is9.OnDesktop" Padding="Padding.Is2.FromEnd">
                         <Validation Validator="ValidationRule.IsEmail">
                             <Field>
-                                <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email" aria-label="Subscription email">
+                                <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email" aria-label="Subscription email">
                                     <Feedback>
                                         <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Warning">Please complete this required field.</ValidationError>
                                     </Feedback>
-                                </TextEdit>
+                                </TextInput>
                             </Field>
                         </Validation>
 

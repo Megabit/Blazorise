@@ -46,7 +46,7 @@ public static class Configuration
         services.AddScoped<IJSButtonModule, JSButtonModule>();
         services.AddScoped<IJSClosableModule, JSClosableModule>();
         services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
-        services.AddScoped<IJSTextEditModule, JSTextEditModule>();
+        services.AddScoped<IJSTextInputModule, JSTextInputModule>();
         services.AddScoped<IJSMemoEditModule, JSMemoEditModule>();
         services.AddScoped<IJSNumericPickerModule, JSNumericPickerModule>();
         services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();

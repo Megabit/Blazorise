@@ -64,10 +64,10 @@
             </CardHeader>
             <CardBody>
                 Message
-                <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
-                    <TextEdit Disabled="textEditIndicator.Visible" Value="disabled when busy" />
+                <LoadingIndicator @ref="textInputIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
+                    <TextInput Disabled="textInputIndicator.Visible" Value="disabled when busy" />
                 </LoadingIndicator>
-                <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send</Button>
+                <Button Color="Color.Primary" Disabled="@(textInputIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send</Button>
             </CardBody>
         </Card>
         <Card Margin="Margin.Is4.OnY">
@@ -148,7 +148,7 @@
 
     private LoadingIndicatorService sharedLoadingIndicatorService = new();
 
-    private LoadingIndicator textEditIndicator;
+    private LoadingIndicator textInputIndicator;
     private LoadingIndicator customBasicIndicator;
     private LoadingIndicator customIndicator;
 
@@ -186,9 +186,9 @@
 
     async Task ShowInlineBusy()
     {
-        await textEditIndicator.Show();
+        await textInputIndicator.Show();
         await Task.Delay( 3000 );
-        await textEditIndicator.Hide();
+        await textInputIndicator.Hide();
     }
 
     async Task ShowMultipleIndicators()

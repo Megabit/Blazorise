@@ -7,15 +7,15 @@ namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public abstract class ClassProvider : IClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public abstract string TextEdit( bool plaintext );
+    public abstract string TextInput( bool plaintext );
 
-    public abstract string TextEditSize( Size size );
+    public abstract string TextInputSize( Size size );
 
-    public abstract string TextEditColor( Color color );
+    public abstract string TextInputColor( Color color );
 
-    public abstract string TextEditValidation( ValidationStatus validationStatus );
+    public abstract string TextInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

@@ -9,15 +9,15 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
+    public override string TextInput( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 

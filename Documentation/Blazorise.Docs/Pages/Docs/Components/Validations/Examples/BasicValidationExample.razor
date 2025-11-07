@@ -1,23 +1,23 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Validation Validator="ValidationRule.IsNotEmpty">
-    <TextEdit Placeholder="Enter name">
+    <TextInput Placeholder="Enter name">
         <Feedback>
             <ValidationNone>Please enter the name.</ValidationNone>
             <ValidationSuccess>Name is good.</ValidationSuccess>
             <ValidationError>Enter valid name!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>
 
 <Validation Validator="ValidateEmail">
-    <TextEdit Placeholder="Enter email">
+    <TextInput Placeholder="Enter email">
         <Feedback>
             <ValidationNone>Please enter the email.</ValidationNone>
             <ValidationSuccess>Email is good.</ValidationSuccess>
             <ValidationError>Enter valid email!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>
 @code{
     void ValidateEmail( ValidatorEventArgs e )

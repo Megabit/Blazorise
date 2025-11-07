@@ -17,11 +17,11 @@
                         <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Full Name</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Autofocus Placeholder="First and last name">
+                                 <TextInput Autofocus Placeholder="First and last name">
                                      <Feedback>
                                          <ValidationError>Enter full name!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -29,12 +29,12 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Email address</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Placeholder="Enter email">
+                                 <TextInput Placeholder="Enter email">
                                      <Feedback>
                                          <ValidationSuccess>Email is good</ValidationSuccess>
                                          <ValidationError>Enter valid email!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -42,11 +42,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Value="@passwordAuto">
+                                 <TextInput Role="TextRole.Password" Placeholder="Password" @bind-Value="@passwordAuto">
                                      <Feedback>
                                          <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -55,11 +55,11 @@
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Re Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
 
-                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password">
+                                 <TextInput Role="TextRole.Password" Placeholder="Retype password">
                                      <Feedback>
                                          <ValidationError>Password does not match!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -98,11 +98,11 @@
                         <Field Horizontal JustifyContent="JustifyContent.End">
                              <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Pattern</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Pattern="[A-Za-z]{3}">
+                                 <TextInput Pattern="[A-Za-z]{3}">
                                      <Feedback>
                                          <ValidationError>Pattern [A-Za-z]{3} does not match!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -143,11 +143,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Full Name</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Placeholder="First and last name">
+                                 <TextInput Placeholder="First and last name">
                                      <Feedback>
                                          <ValidationError>Enter full name!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -155,12 +155,12 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Email address</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Placeholder="Enter email">
+                                 <TextInput Placeholder="Enter email">
                                      <Feedback>
                                          <ValidationSuccess>Email is good</ValidationSuccess>
                                          <ValidationError>Enter valid email!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -168,11 +168,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Value="@passwordManual">
+                                 <TextInput Role="TextRole.Password" Placeholder="Password" @bind-Value="@passwordManual">
                                      <Feedback>
                                          <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -180,11 +180,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Re Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password">
+                                 <TextInput Role="TextRole.Password" Placeholder="Retype password">
                                      <Feedback>
                                          <ValidationError>Password does not match!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -223,11 +223,11 @@
                         <Field Horizontal JustifyContent="JustifyContent.End">
                              <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Pattern</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Pattern="[A-Za-z]{3}">
+                                 <TextInput Pattern="[A-Za-z]{3}">
                                      <Feedback>
                                          <ValidationError>Pattern [A-Za-z]{3} does not match!</ValidationError>
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -270,11 +270,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Full Name</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Placeholder="First and last name" @bind-Value="@user.Name">
+                                 <TextInput Placeholder="First and last name" @bind-Value="@user.Name">
                                      <Feedback>
                                          <ValidationError />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -282,11 +282,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Email</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Placeholder="Enter email" @bind-Value="@user.Email">
+                                 <TextInput Placeholder="Enter email" @bind-Value="@user.Email">
                                      <Feedback>
                                          <ValidationError />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -294,11 +294,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Value="@user.Password">
+                                 <TextInput Role="TextRole.Password" Placeholder="Password" @bind-Value="@user.Password">
                                      <Feedback>
                                          <ValidationError />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -306,11 +306,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Re Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Value="@user.ConfirmPassword">
+                                 <TextInput Role="TextRole.Password" Placeholder="Retype password" @bind-Value="@user.ConfirmPassword">
                                      <Feedback>
                                          <ValidationError Multiline />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -368,11 +368,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Full Name</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Placeholder="First and last name" @bind-Value="@manualUser.Name">
+                                 <TextInput Placeholder="First and last name" @bind-Value="@manualUser.Name">
                                      <Feedback>
                                          <ValidationError />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -380,11 +380,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Email</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Placeholder="Enter email" @bind-Value="@manualUser.Email">
+                                 <TextInput Placeholder="Enter email" @bind-Value="@manualUser.Email">
                                      <Feedback>
                                          <ValidationError />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -392,11 +392,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Value="@manualUser.Password">
+                                 <TextInput Role="TextRole.Password" Placeholder="Password" @bind-Value="@manualUser.Password">
                                      <Feedback>
                                          <ValidationError />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -404,11 +404,11 @@
                          <Field Horizontal>
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Re Password</FieldLabel>
                              <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Value="@manualUser.ConfirmPassword">
+                                 <TextInput Role="TextRole.Password" Placeholder="Retype password" @bind-Value="@manualUser.ConfirmPassword">
                                      <Feedback>
                                          <ValidationError />
                                      </Feedback>
-                                 </TextEdit>
+                                 </TextInput>
                              </FieldBody>
                          </Field>
                      </Validation>
@@ -481,11 +481,11 @@
                             <Field Horizontal>
                                 <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Full Name</FieldLabel>
                                  <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                     <TextEdit Placeholder="First and last name" @bind-Value="@modalUser.Name">
+                                     <TextInput Placeholder="First and last name" @bind-Value="@modalUser.Name">
                                          <Feedback>
                                              <ValidationError />
                                          </Feedback>
-                                     </TextEdit>
+                                     </TextInput>
                                  </FieldBody>
                              </Field>
                          </Validation>
@@ -493,11 +493,11 @@
                              <Field Horizontal>
                                 <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Email</FieldLabel>
                                  <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                                     <TextEdit Placeholder="Enter email" @bind-Value="@modalUser.Email">
+                                     <TextInput Placeholder="Enter email" @bind-Value="@modalUser.Email">
                                          <Feedback>
                                              <ValidationError />
                                          </Feedback>
-                                     </TextEdit>
+                                     </TextInput>
                                  </FieldBody>
                              </Field>
                          </Validation>
@@ -522,21 +522,21 @@
                      <Validation>
                          <Field>
                              <FieldLabel RequiredIndicator>First name</FieldLabel>
-                            <TextEdit Placeholder="Enter first name..." @bind-Value="@person.FirstName">
+                            <TextInput Placeholder="Enter first name..." @bind-Value="@person.FirstName">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
-                            </TextEdit>
+                            </TextInput>
                         </Field>
                     </Validation>
                     <Validation>
                         <Field>
                             <FieldLabel RequiredIndicator>Last name</FieldLabel>
-                            <TextEdit Placeholder="Enter last name..." @bind-Value="@person.LastName">
+                            <TextInput Placeholder="Enter last name..." @bind-Value="@person.LastName">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
-                            </TextEdit>
+                            </TextInput>
                         </Field>
                     </Validation>
                     <Validation>
@@ -566,11 +566,11 @@
                         <Field>
                             <FieldLabel>Name</FieldLabel>
                             <FieldBody>
-                                <TextEdit @bind-Value="@Company.Name">
+                                <TextInput @bind-Value="@Company.Name">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </TextEdit>
+                                </TextInput>
                             </FieldBody>
                         </Field>
                     </Validation>
@@ -578,11 +578,11 @@
                         <Field>
                             <FieldLabel>Description</FieldLabel>
                             <FieldBody>
-                                <TextEdit @bind-Value="@Company.Description">
+                                <TextInput @bind-Value="@Company.Description">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </TextEdit>
+                                </TextInput>
                             </FieldBody>
                         </Field>
                     </Validation>
@@ -594,11 +594,11 @@
                             <Field>
                                 <FieldLabel>AlphaCode</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Value="@Company.AlphaCode">
+                                    <TextInput @bind-Value="@Company.AlphaCode">
                                         <Feedback>
                                             <ValidationError />
                                         </Feedback>
-                                    </TextEdit>
+                                    </TextInput>
                                 </FieldBody>
                             </Field>
                         </Validation>
@@ -606,11 +606,11 @@
                             <Field>
                                 <FieldLabel>BetaCode</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Value="@Company.BetaCode">
+                                    <TextInput @bind-Value="@Company.BetaCode">
                                         <Feedback>
                                             <ValidationError />
                                         </Feedback>
-                                    </TextEdit>
+                                    </TextInput>
                                 </FieldBody>
                             </Field>
                         </Validation>

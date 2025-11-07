@@ -10,15 +10,15 @@ namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TextInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 

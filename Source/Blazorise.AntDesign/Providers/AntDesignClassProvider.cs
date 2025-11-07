@@ -10,15 +10,15 @@ namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string TextInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 

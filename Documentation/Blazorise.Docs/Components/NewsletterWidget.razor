@@ -19,8 +19,8 @@
                         <FieldBody>
                             <Addons>
                                 <Addon AddonType="AddonType.Body">
-                                    <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
-                                    </TextEdit>
+                                    <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
+                                    </TextInput>
                                 </Addon>
                                 <Addon AddonType="AddonType.End">
                                     <Button Color="Color.Primary" Clicked="@OnSubscribeClicked">Subscribe</Button>
@@ -58,11 +58,11 @@ else
                         <Validation Validator="ValidationRule.IsEmail">
                             <Field>
                                 <FieldBody>
-                                    <TextEdit Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
+                                    <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
                                         <Feedback>
                                             <ValidationError Style="font-size: .8rem;">Please complete this required field.</ValidationError>
                                         </Feedback>
-                                    </TextEdit>
+                                    </TextInput>
                                 </FieldBody>
                             </Field>
                             <Paragraph Style="font-size: .8rem;">

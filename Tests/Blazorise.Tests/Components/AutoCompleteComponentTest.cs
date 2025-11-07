@@ -14,7 +14,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseTextEdit()
+            .AddBlazoriseTextInput()
             .AddBlazoriseUtilities()
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();

@@ -3,12 +3,12 @@
 <Validations @ref="validations" Mode="ValidationMode.Manual">
     <Validation Validator="@ValidationRule.IsNotEmpty">
         <Field>
-            <TextEdit Placeholder="Enter first name" />
+            <TextInput Placeholder="Enter first name" />
         </Field>
     </Validation>
     <Validation Validator="@ValidationRule.IsNotEmpty">
         <Field>
-            <TextEdit Placeholder="Enter last name" />
+            <TextInput Placeholder="Enter last name" />
         </Field>
     </Validation>
     <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>

@@ -1,0 +1,85 @@
+﻿<h2>Without bind or event</h2>
+<p id="validate-text-initially-blank">
+    Initially blank:
+    <Validation AsyncValidator="@IsNotEmptyAsync">
+        <TextInput>
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+<p id="validate-text-initially-populated">
+    Initially populated:
+    <Validation AsyncValidator="@IsNotEmptyAsync">
+        <TextInput Value="a">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+
+<h2>With bind</h2>
+<p id="validate-text-with-bind-initially-blank">
+    Initially blank:
+    <Validation AsyncValidator="@IsNotEmptyAsync">
+        <TextInput @bind-Value="@textWithBindInitiallyBlank">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+<p id="validate-text-with-bind-initially-populated">
+    Initially populated:
+    <Validation AsyncValidator="@IsNotEmptyAsync">
+        <TextInput @bind-Value="@textWithBindInitiallyPopulated">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+
+<h2>With event</h2>
+<p id="validate-text-with-event-initially-blank">
+    Initially blank:
+    <Validation AsyncValidator="@IsNotEmptyAsync">
+        <TextInput Value="@textWithEventInitiallyBlank" ValueChanged="@((v)=> { textWithEventInitiallyBlank = v; })">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+<p id="validate-text-with-event-initially-populated">
+    Initially populated:
+    <Validation AsyncValidator="@IsNotEmptyAsync">
+        <TextInput Value="@textWithEventInitiallyPopulated" ValueChanged="@((v)=> {textWithEventInitiallyPopulated = v; })">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+@code{
+    Random random = new();
+
+    async Task IsNotEmptyAsync( ValidatorEventArgs e, System.Threading.CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await Task.Delay( random.Next( 300 ) );
+
+        e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
+            ? ValidationStatus.Error
+            : ValidationStatus.Success;
+    }
+
+    string textWithBindInitiallyBlank;
+    string textWithBindInitiallyPopulated = "a";
+
+    string textWithEventInitiallyBlank;
+    string textWithEventInitiallyPopulated = "a";
+}

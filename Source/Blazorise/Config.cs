@@ -104,7 +104,7 @@ public static class Config
         { typeof( IJSButtonModule ), typeof( JSButtonModule ) },
         { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
         { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
-        { typeof( IJSTextEditModule ), typeof( JSTextEditModule ) },
+        { typeof( IJSTextInputModule ), typeof( JSTextInputModule ) },
         { typeof( IJSMemoEditModule ), typeof( JSMemoEditModule ) },
         { typeof( IJSNumericPickerModule ), typeof( JSNumericPickerModule ) },
         { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },

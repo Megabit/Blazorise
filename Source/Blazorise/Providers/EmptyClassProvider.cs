@@ -9,15 +9,15 @@ namespace Blazorise.Providers;
 /// </summary>
 class EmptyClassProvider : IClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public string TextEdit( bool plaintext ) => null;
+    public string TextInput( bool plaintext ) => null;
 
-    public string TextEditSize( Size size ) => null;
+    public string TextInputSize( Size size ) => null;
 
-    public string TextEditColor( Color color ) => null;
+    public string TextInputColor( Color color ) => null;
 
-    public string TextEditValidation( ValidationStatus validationStatus ) => null;
+    public string TextInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 

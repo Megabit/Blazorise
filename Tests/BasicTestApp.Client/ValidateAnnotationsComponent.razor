@@ -5,11 +5,11 @@
     Initially blank:
     <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Value="@autoModelForName.Name">
+            <TextInput @bind-Value="@autoModelForName.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
 </div>
@@ -17,11 +17,11 @@
     Initially populated:
     <Validations Model="@autoModelForName2" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Value="@autoModelForName2.Name">
+            <TextInput @bind-Value="@autoModelForName2.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
 </div>
@@ -31,11 +31,11 @@
     Initially blank:
     <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Value="@autoModelForName.Password">
+            <TextInput @bind-Value="@autoModelForName.Password">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
 </div>
@@ -43,11 +43,11 @@
     Initially populated:
     <Validations Model="@autoModelForName2" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Value="@autoModelForName2.Password">
+            <TextInput @bind-Value="@autoModelForName2.Password">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
 </div>
@@ -58,11 +58,11 @@
     Initially blank:
     <Validations Model="@autoModelForName" ValidateOnLoad>
         <Validation MessageLocalizer="@((m,a)=>a?.Count() > 0 ? string.Format(m,a?.ToArray()) : m)">
-            <TextEdit @bind-Value="@autoModelForName.PasswordWithDisplay">
+            <TextInput @bind-Value="@autoModelForName.PasswordWithDisplay">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
 </div>
@@ -73,11 +73,11 @@
     Initially blank:
     <Validations @ref="@manualValidationsNameRef" Model="@manualModelForName" Mode="ValidationMode.Manual" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Value="@manualModelForName.Name">
+            <TextInput @bind-Value="@manualModelForName.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
     <Button Clicked="@(()=>manualValidationsNameRef.ValidateAll())">Validate</Button>
@@ -86,11 +86,11 @@
     Initially populated:
     <Validations @ref="@manualValidationsName2Ref" Model="@manualModelForName2" Mode="ValidationMode.Manual" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Value="@manualModelForName2.Name">
+            <TextInput @bind-Value="@manualModelForName2.Name">
                 <Feedback>
                     <ValidationError></ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
     <Button Clicked="@(()=>manualValidationsName2Ref.ValidateAll())">Validate</Button>
@@ -101,11 +101,11 @@
     Initially populated:
     <Validations Model="@autoModelForName3" ValidateOnLoad>
         <Validation>
-            <TextEdit @bind-Value="@autoModelForName3.Name">
+            <TextInput @bind-Value="@autoModelForName3.Name">
                 <Feedback>
                     <ValidationError>error override message</ValidationError>
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Validation>
     </Validations>
 </div>

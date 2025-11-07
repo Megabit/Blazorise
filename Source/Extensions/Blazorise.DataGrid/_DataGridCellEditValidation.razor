@@ -3,14 +3,14 @@
 @inherits _DataGridCellEdit<TItem>
 @if ( ValueType == typeof( string ) )
 {
-    <TextEdit ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ValueExpression="@stringExpression" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+    <TextInput ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ValueExpression="@stringExpression" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
                 <ValidationError />
             }
         </Feedback>
-    </TextEdit>
+    </TextInput>
 }
 else if ( ValueType == typeof( decimal ) )
 {
@@ -256,12 +256,12 @@ else if ( ValueType == typeof( TimeOnly? ) )
 }
 else
 {
-    <TextEdit ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+    <TextInput ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
                 <ValidationError />
             }
         </Feedback>
-    </TextEdit>
+    </TextInput>
 }

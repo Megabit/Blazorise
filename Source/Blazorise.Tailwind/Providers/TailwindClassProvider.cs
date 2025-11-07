@@ -11,13 +11,13 @@ namespace Blazorise.Tailwind.Providers;
 
 public class TailwindClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext
+    public override string TextInput( bool plaintext ) => plaintext
         ? "text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
         : "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
 
-    public override string TextEditSize( Size size )
+    public override string TextInputSize( Size size )
     {
         return size switch
         {
@@ -30,9 +30,9 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TextEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
@@ -42,7 +42,7 @@ public class TailwindClassProvider : ClassProvider
         ? "block w-full text-gray-900 border-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         : "block w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
-    public override string MemoEditSize( Size size ) => TextEditSize( size );
+    public override string MemoEditSize( Size size ) => TextInputSize( size );
 
     public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -50,11 +50,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Select
 
-    public override string Select() => TextEdit( false );
+    public override string Select() => TextInput( false );
 
     public override string SelectMultiple( bool multiple ) => null;
 
-    public override string SelectSize( Size size ) => TextEditSize( size );
+    public override string SelectSize( Size size ) => TextInputSize( size );
 
     public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -62,9 +62,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericEdit
 
-    public override string NumericEdit( bool plaintext ) => TextEdit( plaintext );
+    public override string NumericEdit( bool plaintext ) => TextInput( plaintext );
 
-    public override string NumericEditSize( Size size ) => TextEditSize( size );
+    public override string NumericEditSize( Size size ) => TextInputSize( size );
 
     public override string NumericEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -74,9 +74,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => TextEdit( plaintext );
+    public override string DateEdit( bool plaintext ) => TextInput( plaintext );
 
-    public override string DateEditSize( Size size ) => TextEditSize( size );
+    public override string DateEditSize( Size size ) => TextInputSize( size );
 
     public override string DateEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -86,9 +86,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => TextEdit( plaintext );
+    public override string TimeEdit( bool plaintext ) => TextInput( plaintext );
 
-    public override string TimeEditSize( Size size ) => TextEditSize( size );
+    public override string TimeEditSize( Size size ) => TextInputSize( size );
 
     public override string TimeEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -98,7 +98,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region ColorEdit
 
-    public override string ColorEdit() => TextEdit( false );
+    public override string ColorEdit() => TextInput( false );
 
     public override string ColorEditSize( Size size )
     {
@@ -117,9 +117,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => TextEdit( plaintext );
+    public override string DatePicker( bool plaintext ) => TextInput( plaintext );
 
-    public override string DatePickerSize( Size size ) => TextEditSize( size );
+    public override string DatePickerSize( Size size ) => TextInputSize( size );
 
     public override string DatePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -129,9 +129,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => TextEdit( plaintext );
+    public override string TimePicker( bool plaintext ) => TextInput( plaintext );
 
-    public override string TimePickerSize( Size size ) => TextEditSize( size );
+    public override string TimePickerSize( Size size ) => TextInputSize( size );
 
     public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -141,7 +141,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => TextEdit( false );
+    public override string ColorPicker() => TextInput( false );
 
     public override string ColorPickerSize( Size size )
     {
@@ -160,9 +160,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => TextEdit( plaintext );
+    public override string NumericPicker( bool plaintext ) => TextInput( plaintext );
 
-    public override string NumericPickerSize( Size size ) => TextEditSize( size );
+    public override string NumericPickerSize( Size size ) => TextInputSize( size );
 
     public override string NumericPickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -172,9 +172,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => TextEdit( plaintext );
+    public override string InputMask( bool plaintext ) => TextInput( plaintext );
 
-    public override string InputMaskSize( Size size ) => TextEditSize( size );
+    public override string InputMaskSize( Size size ) => TextInputSize( size );
 
     public override string InputMaskColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -274,7 +274,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FileEdit() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
 
-    public override string FileEditSize( Size size ) => TextEditSize( size );
+    public override string FileEditSize( Size size ) => TextInputSize( size );
 
     public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 

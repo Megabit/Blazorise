@@ -2,11 +2,11 @@
 @using System.Threading
 
 <Validation AsyncValidator="@ValidateNameAsync">
-    <TextEdit Placeholder="Enter name">
+    <TextInput Placeholder="Enter name">
         <Feedback>
             <ValidationError>Enter valid name!</ValidationError>
         </Feedback>
-    </TextEdit>
+    </TextInput>
 </Validation>
 @code{
     Random random = new Random();

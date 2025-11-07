@@ -64,7 +64,7 @@ public static class ManualPageEntries
     new( "docs/components/time-picker", "Time Picker", "A customizable time input component with an option to manually write time or choose from a menu." ),
     new( "docs/components/toast", "Toast", "Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems." ),
     new( "docs/components/tooltip", "Tooltip", "Tooltips display additional information based on a specific action." ),
-    new( "docs/components/text-edit", "Text Edit", "The TextEdit allows the user to input and edit text." ),
+    new( "docs/components/text-edit", "Text Edit", "The TextInput allows the user to input and edit text." ),
     new( "docs/components/typography", "Typography", "Control text size, alignment, wrapping, overflow, transforms and more." ),
     new( "docs/components/validation", "Validation", "The Validation component allows you to verify your data, helping you find and correct errors." ),
 

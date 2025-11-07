@@ -7,7 +7,7 @@
         @if ( Filterable )
         {
             <Field Padding="Padding.Is2" Margin="Margin.Is0" Position="Position.Sticky.Top.Is0">
-                <TextEdit Role="TextRole.Search" Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler" />
+                <TextInput Role="TextRole.Search" Value="@FilterText" ValueChanged="@OnFilterTextChangedHandler" />
             </Field>
         }
         @if ( Virtualize )

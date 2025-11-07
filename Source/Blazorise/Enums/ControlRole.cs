@@ -31,7 +31,7 @@ public enum ControlRole
     File,
 
     /// <summary>
-    /// Control is meant to be used with <see cref="TextEdit"/> component.
+    /// Control is meant to be used with <see cref="TextInput"/> component.
     /// </summary>
     Text,
 }

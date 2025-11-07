@@ -55,7 +55,7 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Checked` parameter. Use the `Value` parameter instead.
 
-### TextEdit
+### TextInput
 
 - Dropping the `Text` parameter. Use the `Value` parameter instead.
 
