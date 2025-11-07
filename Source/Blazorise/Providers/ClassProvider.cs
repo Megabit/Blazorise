@@ -41,15 +41,15 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public abstract string NumericEdit( bool plaintext );
+    public abstract string NumericInput( bool plaintext );
 
-    public abstract string NumericEditSize( Size size );
+    public abstract string NumericInputSize( Size size );
 
-    public abstract string NumericEditColor( Color color );
+    public abstract string NumericInputColor( Color color );
 
-    public abstract string NumericEditValidation( ValidationStatus validationStatus );
+    public abstract string NumericInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

@@ -71,7 +71,7 @@ public static class Config
         { typeof( Blazorise.Tabs ), typeof( Components.Tabs ) },
         { typeof( Blazorise.TextInput ), typeof( Components.TextInput ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( Components.TimeEdit<> ) },
-        { typeof( Blazorise.NumericEdit<> ), typeof( Components.NumericEdit<> ) },
+        { typeof( Blazorise.NumericInput<> ), typeof( Components.NumericInput<> ) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },
         { typeof( Blazorise.Pagination ), typeof( Components.Pagination ) },
         { typeof( Blazorise.PaginationLink ), typeof( Components.PaginationLink ) },

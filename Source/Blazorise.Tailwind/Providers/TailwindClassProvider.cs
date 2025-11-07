@@ -60,15 +60,15 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => TextInput( plaintext );
+    public override string NumericInput( bool plaintext ) => TextInput( plaintext );
 
-    public override string NumericEditSize( Size size ) => TextInputSize( size );
+    public override string NumericInputSize( Size size ) => TextInputSize( size );
 
-    public override string NumericEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

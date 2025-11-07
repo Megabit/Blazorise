@@ -6,19 +6,19 @@ using Xunit;
 namespace Blazorise.Tests.Components;
 
 
-public class ValidateNumericEditComponentTest : TestContext
+public class ValidateNumericInputComponentTest : TestContext
 {
-    public ValidateNumericEditComponentTest()
+    public ValidateNumericInputComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
-        JSInterop.AddBlazoriseNumericEdit();
+        JSInterop.AddBlazoriseNumericInput();
     }
 
     [Fact]
     public async Task CanValidateNumeric_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateNumericEditComponent>();
+        var comp = RenderComponent<ValidateNumericInputComponent>();
         var paragraph = comp.Find( "#validate-numeric-initially-blank" );
         var edit = comp.Find( "#validate-numeric-initially-blank input" );
 
@@ -38,7 +38,7 @@ public class ValidateNumericEditComponentTest : TestContext
     public async Task CanValidateNumeric_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateNumericEditComponent>();
+        var comp = RenderComponent<ValidateNumericInputComponent>();
         var paragraph = comp.Find( "#validate-numeric-initially-populated" );
         var edit = comp.Find( "#validate-numeric-initially-populated input" );
 
@@ -57,7 +57,7 @@ public class ValidateNumericEditComponentTest : TestContext
     public async Task CanValidateNumericWithBind_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateNumericEditComponent>();
+        var comp = RenderComponent<ValidateNumericInputComponent>();
         var paragraph = comp.Find( "#validate-numeric-with-bind-initially-blank" );
         var edit = comp.Find( "#validate-numeric-with-bind-initially-blank input" );
 
@@ -76,7 +76,7 @@ public class ValidateNumericEditComponentTest : TestContext
     public async Task CanValidateNumericWithBind_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateNumericEditComponent>();
+        var comp = RenderComponent<ValidateNumericInputComponent>();
         var paragraph = comp.Find( "#validate-numeric-with-bind-initially-populated" );
         var edit = comp.Find( "#validate-numeric-with-bind-initially-populated input" );
 
@@ -95,7 +95,7 @@ public class ValidateNumericEditComponentTest : TestContext
     public async Task CanValidateNumericWithEvent_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateNumericEditComponent>();
+        var comp = RenderComponent<ValidateNumericInputComponent>();
         var paragraph = comp.Find( "#validate-numeric-with-event-initially-blank" );
         var edit = comp.Find( "#validate-numeric-with-event-initially-blank input" );
 
@@ -114,7 +114,7 @@ public class ValidateNumericEditComponentTest : TestContext
     public async Task CanValidateNumericWithEvent_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateNumericEditComponent>();
+        var comp = RenderComponent<ValidateNumericInputComponent>();
         var paragraph = comp.Find( "#validate-numeric-with-event-initially-populated" );
         var edit = comp.Find( "#validate-numeric-with-event-initially-populated input" );
 

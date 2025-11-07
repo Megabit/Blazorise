@@ -4,11 +4,11 @@ using Blazorise.Utilities;
 
 namespace Blazorise.FluentUI2.Components;
 
-public partial class NumericEdit<TValue> : Blazorise.NumericEdit<TValue>
+public partial class NumericInput<TValue> : Blazorise.NumericInput<TValue>
 {
     #region Constructors
 
-    public NumericEdit()
+    public NumericInput()
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses );
     }

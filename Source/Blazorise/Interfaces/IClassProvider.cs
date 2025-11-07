@@ -40,15 +40,15 @@ public interface IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    string NumericEdit( bool plaintext );
+    string NumericInput( bool plaintext );
 
-    string NumericEditSize( Size size );
+    string NumericInputSize( Size size );
 
-    string NumericEditColor( Color color );
+    string NumericInputColor( Color color );
 
-    string NumericEditValidation( ValidationStatus validationStatus );
+    string NumericInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

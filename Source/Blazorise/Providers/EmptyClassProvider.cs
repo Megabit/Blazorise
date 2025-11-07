@@ -43,15 +43,15 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public string NumericEdit( bool plaintext ) => null;
+    public string NumericInput( bool plaintext ) => null;
 
-    public string NumericEditSize( Size size ) => null;
+    public string NumericInputSize( Size size ) => null;
 
-    public string NumericEditColor( Color color ) => null;
+    public string NumericInputColor( Color color ) => null;
 
-    public string NumericEditValidation( ValidationStatus validationStatus ) => null;
+    public string NumericInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 

@@ -44,15 +44,15 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string NumericInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string NumericInputColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

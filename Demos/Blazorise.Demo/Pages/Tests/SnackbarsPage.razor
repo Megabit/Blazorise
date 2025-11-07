@@ -13,7 +13,7 @@
                                 Animation Duration (ms)
                             </FieldLabel>
                             <FieldBody>
-                                <NumericEdit TValue="int" @bind-Value="@animationDuration" />
+                                <NumericInput TValue="int" @bind-Value="@animationDuration" />
                             </FieldBody>
                         </Field>
                     </Column>
@@ -85,7 +85,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Interval(ms)</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
+                        <NumericInput @bind-Value="this.intervalBeforeMsgClose" />
                     </FieldBody>
                 </Field>
                 <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync((MarkupString)("Some success message with &nbsp;<strong>some HTML markup</strong>! Timeout: " + intervalBeforeMsgClose), SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; options.AnimationDuration = animationDuration; } ))">

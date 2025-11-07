@@ -2,21 +2,21 @@
 <p id="validate-numeric-initially-blank">
     Initially blank:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit TValue="int?">
+        <NumericInput TValue="int?">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
-        </NumericEdit>
+        </NumericInput>
     </Validation>
 </p>
 <p id="validate-numeric-initially-populated">
     Initially populated:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit Value="1">
+        <NumericInput Value="1">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
-        </NumericEdit>
+        </NumericInput>
     </Validation>
 </p>
 
@@ -24,21 +24,21 @@
 <p id="validate-numeric-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit @bind-Value="@intWithBindInitiallyBlank">
+        <NumericInput @bind-Value="@intWithBindInitiallyBlank">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
-        </NumericEdit>
+        </NumericInput>
     </Validation>
 </p>
 <p id="validate-numeric-with-bind-initially-populated">
     Initially populated:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit @bind-Value="@intWithBindInitiallyPopulated">
+        <NumericInput @bind-Value="@intWithBindInitiallyPopulated">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
-        </NumericEdit>
+        </NumericInput>
     </Validation>
 </p>
 
@@ -46,21 +46,21 @@
 <p id="validate-numeric-with-event-initially-blank">
     Initially blank:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit TValue="int" Value="@intWithEventInitiallyBlank" ValueChanged="@(( v ) => { intWithEventInitiallyBlank = v; })">
+        <NumericInput TValue="int" Value="@intWithEventInitiallyBlank" ValueChanged="@(( v ) => { intWithEventInitiallyBlank = v; })">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
-        </NumericEdit>
+        </NumericInput>
     </Validation>
 </p>
 <p id="validate-numeric-with-event-initially-populated">
     Initially populated:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit TValue="int" Value="@intWithEventInitiallyPopulated" ValueChanged="@(( v ) => { intWithEventInitiallyPopulated = v; })">
+        <NumericInput TValue="int" Value="@intWithEventInitiallyPopulated" ValueChanged="@(( v ) => { intWithEventInitiallyPopulated = v; })">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
-        </NumericEdit>
+        </NumericInput>
     </Validation>
 </p>
 @code{

@@ -15,7 +15,7 @@ namespace Blazorise;
 /// An editor that displays a numeric value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue}.Value"/> property.</typeparam>
-public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposable
+public partial class NumericInput<TValue> : BaseTextInput<TValue>, IAsyncDisposable
 {
     #region Members
 
@@ -44,9 +44,9 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     #region Constructors
 
     /// <summary>
-    /// Default NumericEdit constructor.
+    /// Default NumericInput constructor.
     /// </summary>
-    public NumericEdit() : base()
+    public NumericInput() : base()
     {
         isIntegerType = TypeHelper.IsInteger( typeof( TValue ) );
         inputMode = isIntegerType ? "numeric" : "decimal";
@@ -70,10 +70,10 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.NumericEdit( Plaintext ) );
-        builder.Append( ClassProvider.NumericEditSize( ThemeSize ) );
-        builder.Append( ClassProvider.NumericEditColor( Color ) );
-        builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.NumericInput( Plaintext ) );
+        builder.Append( ClassProvider.NumericInputSize( ThemeSize ) );
+        builder.Append( ClassProvider.NumericInputColor( Color ) );
+        builder.Append( ClassProvider.NumericInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

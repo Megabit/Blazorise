@@ -72,7 +72,7 @@ public static class JSInterop
         return jsInterop;
     }
 
-    public static BunitJSInterop AddBlazoriseNumericEdit( this BunitJSInterop jsInterop )
+    public static BunitJSInterop AddBlazoriseNumericInput( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
 

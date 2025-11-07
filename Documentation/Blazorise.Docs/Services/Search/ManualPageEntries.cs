@@ -45,7 +45,7 @@ public static class ManualPageEntries
     new( "docs/components/input-mask", "Input Mask", "Input mask allows the user to input a value in a specific format while typing." ),
     new( "docs/components/memo-edit", "Memo Edit", "MemoEdit collect data from the user and allow multiple lines of text." ),
     new( "docs/components/modal", "Modal", "Dialog is a small window that can be used to present information and user interface elements in an overlay." ),
-    new( "docs/components/numeric-edit", "Numeric Edit", "A native numeric <input> component built around the <input type=\"number\">." ),
+    new( "docs/components/numeric-input", "Numeric Edit", "A native numeric <input> component built around the <input type=\"number\">." ),
     new( "docs/components/numeric-picker", "Numeric Picker", "A customizable NumericPicker component allows you to enter numeric values and contains controls for increasing and reducing the value." ),
     new( "docs/components/offcanvas", "Offcanvas", "Offcanvas is a sidebar component that can be toggled to appear from the left, right, top, or bottom edge of the viewport." ),
     new( "docs/components/pagination", "Pagination", "A responsive, usable, and flexible pagination." ),

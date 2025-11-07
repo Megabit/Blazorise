@@ -1,13 +1,13 @@
 ﻿<h2>Integers</h2>
 <p id="int-event-initially-undefined">
-    <NumericEdit id="int-undefined-numeric" TValue="int" Value="@intValue" ValueChanged="@((v)=> { intValue = v; } )" />
+    <NumericInput id="int-undefined-numeric" TValue="int" Value="@intValue" ValueChanged="@((v)=> { intValue = v; } )" />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
     <span id="int-event-initially-undefined-result">@intValue</span>
 </p>
 <p id="nullable-int-event-initially-null">
-    <NumericEdit id="int-nullable-numeric" TValue="int?" Value="@nullableIntValue" ValueChanged="@((v)=> { nullableIntValue = v; } )" />
+    <NumericInput id="int-nullable-numeric" TValue="int?" Value="@nullableIntValue" ValueChanged="@((v)=> { nullableIntValue = v; } )" />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
@@ -16,14 +16,14 @@
 
 <h2>Decimals</h2>
 <p id="decimal-event-initially-undefined">
-    <NumericEdit id="decimal-undefined-numeric" TValue="decimal" Value="@decimalValue" ValueChanged="@((v)=> { decimalValue = v; } )" />
+    <NumericInput id="decimal-undefined-numeric" TValue="decimal" Value="@decimalValue" ValueChanged="@((v)=> { decimalValue = v; } )" />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
     <span id="decimal-event-initially-undefined-result">@decimalValue</span>
 </p>
 <p id="nullable-decimal-event-initially-null">
-    <NumericEdit id="decimal-nullable-numeric" TValue="decimal?" Value="@nullableDecimalValue" ValueChanged="@((v)=> { nullableDecimalValue = v; } )" />
+    <NumericInput id="decimal-nullable-numeric" TValue="decimal?" Value="@nullableDecimalValue" ValueChanged="@((v)=> { nullableDecimalValue = v; } )" />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
@@ -32,14 +32,14 @@
 
 <h2>Steps</h2>
 <p id="step-change-default">
-    <NumericEdit id="step-default-numeric" TValue="decimal" Value="@stepValue1" ValueChanged="@((v)=> { stepValue1 = v; } )" />
+    <NumericInput id="step-default-numeric" TValue="decimal" Value="@stepValue1" ValueChanged="@((v)=> { stepValue1 = v; } )" />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
     <span id="step-change-default-result">@stepValue1</span>
 </p>
 <p id="step-change-by-2">
-    <NumericEdit id="step-2-numeric" TValue="decimal" Value="@stepValue2" ValueChanged="@((v)=> { stepValue2 = v; } )" Step="2" />
+    <NumericInput id="step-2-numeric" TValue="decimal" Value="@stepValue2" ValueChanged="@((v)=> { stepValue2 = v; } )" Step="2" />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
@@ -48,14 +48,14 @@
 
 <h2>Decimal separator</h2>
 <p id="decimal-separator-with-dot">
-    <NumericEdit id="dot-decimal-numeric" TValue="decimal" @bind-Value="@decimalSeparator1" DecimalSeparator="." />
+    <NumericInput id="dot-decimal-numeric" TValue="decimal" @bind-Value="@decimalSeparator1" DecimalSeparator="." />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
     <span id="decimal-separator-with-dot-result">@decimalSeparator1.ToString( System.Globalization.CultureInfo.InvariantCulture )</span>
 </p>
 <p id="decimal-separator-with-comma">
-    <NumericEdit id="comma-decimal-numeric" TValue="decimal" Culture="hr" @bind-Value="@decimalSeparator2" DecimalSeparator="," />
+    <NumericInput id="comma-decimal-numeric" TValue="decimal" Culture="hr" @bind-Value="@decimalSeparator2" DecimalSeparator="," />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
@@ -64,7 +64,7 @@
 
 <h2>Min And Max</h2>
 <p id="decimal-min-max-non-nullable">
-    <NumericEdit id="decimal-min-max-non-nullable-numeric" TValue="decimal" @bind-Value="@minMax1" Min="10" Max="20" />
+    <NumericInput id="decimal-min-max-non-nullable-numeric" TValue="decimal" @bind-Value="@minMax1" Min="10" Max="20" />
 
     <span>The Value should update automatically as you type in the numeric field</span>
 

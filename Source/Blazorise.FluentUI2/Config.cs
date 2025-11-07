@@ -71,7 +71,7 @@ public static class Config
         { typeof( Blazorise.Modal ), typeof( Components.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent ) },
         { typeof( Blazorise.Offcanvas ), typeof( Components.Offcanvas ) },
-        { typeof( Blazorise.NumericEdit<> ), typeof( Components.NumericEdit<> ) },
+        { typeof( Blazorise.NumericInput<> ), typeof( Components.NumericInput<> ) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },
         { typeof( Blazorise.TextInput ), typeof( Components.TextInput ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( Components.TimeEdit<> ) },

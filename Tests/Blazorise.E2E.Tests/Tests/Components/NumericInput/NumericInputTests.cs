@@ -1,13 +1,13 @@
-﻿namespace Blazorise.E2E.Tests.Tests.Components.NumericEdit;
+﻿namespace Blazorise.E2E.Tests.Tests.Components.NumericInput;
 
 [Parallelizable( ParallelScope.Self )]
 [TestFixture]
-public class NumericEditTests : BlazorisePageTest
+public class NumericInputTests : BlazorisePageTest
 {
     [Test]
     public async Task CanChangeUndefinedIntegerUsingEvent()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#int-event-initially-undefined" );
         var input = sut.Locator( "input[type=number]" );
@@ -25,7 +25,7 @@ public class NumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanChangeNullableIntegerUsingEvent()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#nullable-int-event-initially-null" );
         var input = sut.Locator( "input[type=number]" );
@@ -43,7 +43,7 @@ public class NumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanChangeUndefinedDecimalUsingEvent()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#decimal-event-initially-undefined" );
         var input = sut.Locator( "input[type=number]" );
@@ -61,7 +61,7 @@ public class NumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanChangeNullableDecimalUsingEvent()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#nullable-decimal-event-initially-null" );
         var input = sut.Locator( "input[type=number]" );
@@ -79,7 +79,7 @@ public class NumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanChangeValueWithStepDefault()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#step-change-default" );
         var input = sut.Locator( "input[type=number]" );
@@ -99,7 +99,7 @@ public class NumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanChangeValueWithStepBy2()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#step-change-by-2" );
         var input = sut.Locator( "input[type=number]" );
@@ -121,7 +121,7 @@ public class NumericEditTests : BlazorisePageTest
     // Have to figure out if it's something with playwright configuration... or something else...
     public async Task CanTypeNumberWithDotDecimalSeparator()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#decimal-separator-with-dot" );
         var input = sut.Locator( "input[type=number]" );
@@ -146,7 +146,7 @@ public class NumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanTypeMinMax()
     {
-        await SelectTestComponent<NumericEditComponent>();
+        await SelectTestComponent<NumericInputComponent>();
 
         var sut = Page.Locator( "#decimal-min-max-non-nullable" );
         var input = sut.Locator( "input[type=number]" );

@@ -1,14 +1,14 @@
-﻿namespace Blazorise.E2E.Tests.Tests.Components.NumericEdit;
+﻿namespace Blazorise.E2E.Tests.Tests.Components.NumericInput;
 
 
 [Parallelizable( ParallelScope.Self )]
 [TestFixture]
-public class ValidateNumericEditTests : BlazorisePageTest
+public class ValidateNumericInputTests : BlazorisePageTest
 {
     [Test]
     public async Task CanValidateNumeric_InitiallyBlank()
     {
-        await SelectTestComponent<ValidateNumericEditComponent>();
+        await SelectTestComponent<ValidateNumericInputComponent>();
 
         var sut = Page.Locator( "#validate-numeric-initially-blank" );
         var textBox = sut.Locator( "input[type=number]" );
@@ -20,7 +20,7 @@ public class ValidateNumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanValidateNumeric_InitiallyPopulated()
     {
-        await SelectTestComponent<ValidateNumericEditComponent>();
+        await SelectTestComponent<ValidateNumericInputComponent>();
 
         var sut = Page.Locator( "#validate-numeric-initially-populated" );
         var textBox = sut.Locator( "input[type=number]" );
@@ -32,7 +32,7 @@ public class ValidateNumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanValidateNumericWithBind_InitiallyBlank()
     {
-        await SelectTestComponent<ValidateNumericEditComponent>();
+        await SelectTestComponent<ValidateNumericInputComponent>();
 
         var sut = Page.Locator( "#validate-numeric-with-bind-initially-blank" );
         var textBox = sut.Locator( "input[type=number]" );
@@ -45,7 +45,7 @@ public class ValidateNumericEditTests : BlazorisePageTest
     public async Task CanValidateNumericWithBind_InitiallyPopulated()
     {
 
-        await SelectTestComponent<ValidateNumericEditComponent>();
+        await SelectTestComponent<ValidateNumericInputComponent>();
 
         var sut = Page.Locator( "#validate-numeric-with-bind-initially-populated" );
         var textBox = sut.Locator( "input[type=number]" );
@@ -58,7 +58,7 @@ public class ValidateNumericEditTests : BlazorisePageTest
     public async Task CanValidateNumericWithEvent_InitiallyBlank()
     {
 
-        await SelectTestComponent<ValidateNumericEditComponent>();
+        await SelectTestComponent<ValidateNumericInputComponent>();
 
         var sut = Page.Locator( "#validate-numeric-with-event-initially-blank" );
         var textBox = sut.Locator( "input[type=number]" );
@@ -70,7 +70,7 @@ public class ValidateNumericEditTests : BlazorisePageTest
     [Test]
     public async Task CanValidateNumericWithEvent_InitiallyPopulated()
     {
-        await SelectTestComponent<ValidateNumericEditComponent>();
+        await SelectTestComponent<ValidateNumericInputComponent>();
 
         var sut = Page.Locator( "#validate-numeric-with-event-initially-populated" );
         var textBox = sut.Locator( "input[type=number]" );
