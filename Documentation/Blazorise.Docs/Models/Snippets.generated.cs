@@ -1345,8 +1345,8 @@ namespace Blazorise.Docs.Models
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
-        public const string DirectoryFileEditExample = @"<Field>
-    <FileEdit Changed=""@OnChanged"" Directory />
+        public const string FileInputDirectoryExample = @"<Field>
+    <FileInput Changed=""@OnChanged"" Directory />
 </Field>
 
 @code {
@@ -1356,32 +1356,185 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
+        public const string FileInputExtensionsLimitExample = @"<!-- Accept all image formats by IANA media type wildcard-->
 <Field>
-    <FileEdit Filter=""image/*"" />
+    <FileInput Filter=""image/*"" />
 </Field>
 
 <!-- Accept specific image formats by IANA type -->
 <Field>
-    <FileEdit Filter=""image/jpeg, image/png, image/gif"" />
+    <FileInput Filter=""image/jpeg, image/png, image/gif"" />
 </Field>
 
 <!-- Accept specific image formats by extension -->
 <Field>
-    <FileEdit Filter="".jpg, .png, .gif"" />
+    <FileInput Filter="".jpg, .png, .gif"" />
 </Field>";
 
-        public const string FileEditShowPickerExample = @"<Field>
-    <Button Color=""Color.Primary"" Clicked=""@(()=>fileEditRef.ShowPicker())"">
+        public const string FileInputMultipleDirectoryExample = @"<Field>
+    <FileInput Changed=""@OnChanged"" Directory Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string FileInputMultipleExample = @"<Field>
+    <FileInput Changed=""@OnChanged"" Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string FileInputOpenReadStreamExample = @"@using System.IO
+
+<Field>
+    <FileInput Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
+
+@code {
+    async Task OnChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            var file = e.Files.FirstOrDefault();
+            if ( file == null )
+            {
+                return;
+            }
+
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    void OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
+    }
+
+    void OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
+    }
+}";
+
+        public const string FileInputResetExample = @"<Field>
+    <FileInput @ref=""@fileInput"" AutoReset=""false"" Changed=""@OnChanged"" />
+</Field>
+<Field>
+    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
+</Field>
+
+@code {
+    FileInput fileInput;
+
+    Task OnChanged(FileChangedEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    Task Reset()
+    {
+        return fileInput.Reset().AsTask();
+    }
+}";
+
+        public const string FileInputShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(() => fileInput.ShowPicker())"">
         Show Picker
     </Button>
 </Field>
 <Field>
-    <FileEdit @ref=""@fileEditRef"" />
+    <FileInput @ref=""@fileInput"" />
 </Field>
 
 @code {
-    FileEdit fileEditRef;
+    FileInput fileInput;
+}";
+
+        public const string FileInputSingleExample = @"<Field>
+    <FileInput Changed=""@OnChanged"" />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string FileInputWriteToStreamExample = @"@using System.IO
+
+<Field>
+    <FileInput Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
+
+@code {
+    string fileContent;
+
+    async Task OnChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            foreach ( var file in e.Files )
+            {
+                // A stream is going to be the destination stream we're writing to.
+                using ( var stream = new MemoryStream() )
+                {
+                    // Here we're telling the FileInput where to write the upload result
+                    await file.WriteToStreamAsync( stream );
+
+                    // Once we reach this line it means the file is fully uploaded.
+                    // In this case we're going to offset to the beginning of file
+                    // so we can read it.
+                    stream.Seek( 0, SeekOrigin.Begin );
+
+                    // Use the stream reader to read the content of uploaded file,
+                    // in this case we can assume it is a textual file.
+                    using ( var reader = new StreamReader( stream ) )
+                    {
+                        fileContent = await reader.ReadToEndAsync();
+                    }
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    void OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
+    }
+
+    void OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
+    }
 }";
 
         public const string FilePickerCustomExample = @"@using System.IO
@@ -1494,7 +1647,7 @@ namespace Blazorise.Docs.Models
             // A stream is going to be the destination stream we're writing to.
             using ( var stream = new MemoryStream() )
             {
-                // Here we're telling the FileEdit where to write the upload result
+                // Here we're telling the FileInput where to write the upload result
                 await e.File.WriteToStreamAsync( stream );
 
                 // Once we reach this line it means the file is fully uploaded.
@@ -1546,159 +1699,6 @@ namespace Blazorise.Docs.Models
         {
             this.StateHasChanged();
         }
-    }
-}";
-
-        public const string MultipleDirectoryFileEditExample = @"<Field>
-    <FileEdit Changed=""@OnChanged"" Directory Multiple />
-</Field>
-
-@code {
-    Task OnChanged( FileChangedEventArgs e )
-    {
-        return Task.CompletedTask;
-    }
-}";
-
-        public const string MultipleFileEditExample = @"<Field>
-    <FileEdit Changed=""@OnChanged"" Multiple />
-</Field>
-
-@code {
-    Task OnChanged( FileChangedEventArgs e )
-    {
-        return Task.CompletedTask;
-    }
-}";
-
-        public const string OpenReadStreamFileEditExample = @"@using System.IO
-
-<Field>
-    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
-</Field>
-
-@code {
-    async Task OnChanged( FileChangedEventArgs e )
-    {
-        try
-        {
-            var file = e.Files.FirstOrDefault();
-            if ( file == null )
-            {
-                return;
-            }
-
-            using ( MemoryStream result = new MemoryStream() )
-            {
-                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
-            }
-        }
-        catch ( Exception exc )
-        {
-            Console.WriteLine( exc.Message );
-        }
-        finally
-        {
-            this.StateHasChanged();
-        }
-    }
-
-    void OnWritten( FileWrittenEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
-    }
-
-    void OnProgressed( FileProgressedEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
-    }
-}";
-
-        public const string ResetFileEditExample = @"<Field>
-    <FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
-</Field>
-<Field>
-    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
-</Field>
-
-@code {
-    FileEdit fileEdit;
-
-    Task OnChanged(FileChangedEventArgs e)
-    {
-        return Task.CompletedTask;
-    }
-
-    Task Reset()
-    {
-        return fileEdit.Reset().AsTask();
-    }
-}";
-
-        public const string SingleFileEditExample = @"<Field>
-    <FileEdit Changed=""@OnChanged"" />
-</Field>
-
-@code {
-    Task OnChanged( FileChangedEventArgs e )
-    {
-        return Task.CompletedTask;
-    }
-}";
-
-        public const string WriteToStreamFileEditExample = @"@using System.IO
-
-<Field>
-    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
-</Field>
-
-@code {
-    string fileContent;
-
-    async Task OnChanged( FileChangedEventArgs e )
-    {
-        try
-        {
-            foreach ( var file in e.Files )
-            {
-                // A stream is going to be the destination stream we're writing to.
-                using ( var stream = new MemoryStream() )
-                {
-                    // Here we're telling the FileEdit where to write the upload result
-                    await file.WriteToStreamAsync( stream );
-
-                    // Once we reach this line it means the file is fully uploaded.
-                    // In this case we're going to offset to the beginning of file
-                    // so we can read it.
-                    stream.Seek( 0, SeekOrigin.Begin );
-
-                    // Use the stream reader to read the content of uploaded file,
-                    // in this case we can assume it is a textual file.
-                    using ( var reader = new StreamReader( stream ) )
-                    {
-                        fileContent = await reader.ReadToEndAsync();
-                    }
-                }
-            }
-        }
-        catch ( Exception exc )
-        {
-            Console.WriteLine( exc.Message );
-        }
-        finally
-        {
-            this.StateHasChanged();
-        }
-    }
-
-    void OnWritten( FileWrittenEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
-    }
-
-    void OnProgressed( FileProgressedEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
     }
 }";
 
@@ -4533,7 +4533,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise/datePicker.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/dragDrop.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/dropdown.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js?v=1.8.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileInput.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/filePicker.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/inputMask.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/io.js?v=1.8.5.0"" type=""module""></script>
@@ -11371,25 +11371,25 @@ builder.Services
 </Paragraph>";
 
         public const string CustomLanguageExample = @"<Field>
-    <FileEdit Multiple=""false"" />
-    <FileEdit Multiple />
+    <FileInput Multiple=""false"" />
+    <FileInput Multiple />
 </Field>
 <Field>
     <Button Clicked=""OnButtonClick"">Change culture to polish</Button>
 </Field>
 
-@code{
+@code {
     [Inject]
     Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
 
-    // By using FileEdit as generic typeparam, Blazorise will know
+    // By using FileInput as generic typeparam, Blazorise will know
     // what component need to update localization resources.
     [Inject]
-    Blazorise.Localization.ITextLocalizer<FileEdit> FileEditLocalizer { get; set; }
+    Blazorise.Localization.ITextLocalizer<FileInput> FileInputLocalizer { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        FileEditLocalizer.AddLanguageResource( new Blazorise.Localization.TextLocalizationResource
+        FileInputLocalizer.AddLanguageResource( new Blazorise.Localization.TextLocalizationResource
         {
             Culture = ""pl-PL"",
             Translations = new Dictionary<string, string>()
@@ -11430,7 +11430,7 @@ builder.Services
 @using Blazorise.Localization
 
 <Field>
-    <FileEdit />
+    <FileInput />
 </Field>
 <Field>
     <Addons>
@@ -11471,7 +11471,7 @@ builder.Services
 }";
 
         public const string TextLocalizerHandlerExample = @"<Field>
-    <FileEdit BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
+    <FileInput BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
 </Field>";
 
         public const string GridAutoColumns2Example = @"<Grid>

@@ -198,13 +198,13 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => "file-input";
+    public override string FileInput() => "file-input";
 
-    public override string FileEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string FileInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

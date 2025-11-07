@@ -16,7 +16,7 @@
                         Upload Image
                     </FieldLabel>
                     <FieldBody>
-                        <FileEdit @ref="fileRef" Filter="image/*" Changed="@OnFileChanged" Placeholder="Select a file" />
+                        <FileInput @ref="fileRef" Filter="image/*" Changed="@OnFileChanged" Placeholder="Select a file" />
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -162,7 +162,7 @@
 
 @code {
     private Cropper cropper;
-    private FileEdit fileRef;
+    private FileInput fileRef;
     private CropperState cropperState = new CropperState();
     private string source = "_content/Blazorise.Demo/img/gallery/3.jpg";
     private string result;

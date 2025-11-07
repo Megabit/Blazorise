@@ -195,13 +195,13 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public abstract string FileEdit();
+    public abstract string FileInput();
 
-    public abstract string FileEditSize( Size size );
+    public abstract string FileInputSize( Size size );
 
-    public abstract string FileEditValidation( ValidationStatus validationStatus );
+    public abstract string FileInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

@@ -26,7 +26,7 @@ public enum ControlRole
     Switch,
 
     /// <summary>
-    /// Control is meant to be used with <see cref="FileEdit"/> component.
+    /// Control is meant to be used with <see cref="FileInput"/> component.
     /// </summary>
     File,
 

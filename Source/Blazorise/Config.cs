@@ -110,7 +110,7 @@ public static class Config
         { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },
         { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },
         { typeof( IJSColorPickerModule ), typeof( JSColorPickerModule ) },
-        { typeof( IJSFileEditModule ), typeof( JSFileEditModule ) },
+        { typeof( IJSFileInputModule ), typeof( JSFileInputModule ) },
         { typeof( IJSFilePickerModule ), typeof( JSFilePickerModule ) },
         { typeof( IJSFileModule ), typeof( JSFileModule ) },
         { typeof( IJSTableModule ), typeof( JSTableModule ) },

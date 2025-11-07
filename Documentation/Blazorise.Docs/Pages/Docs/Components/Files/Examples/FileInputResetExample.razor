@@ -1,0 +1,22 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <FileInput @ref="@fileInput" AutoReset="false" Changed="@OnChanged" />
+</Field>
+<Field>
+    <Button Color="Color.Primary" Clicked="Reset">Reset</Button>
+</Field>
+
+@code {
+    FileInput fileInput;
+
+    Task OnChanged(FileChangedEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    Task Reset()
+    {
+        return fileInput.Reset().AsTask();
+    }
+}

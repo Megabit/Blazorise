@@ -58,7 +58,7 @@ public static class Config
         { typeof( Blazorise.FieldHelp ), typeof( Components.FieldHelp ) },
         { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
         { typeof( Blazorise.Fields ), typeof( Components.Fields ) },
-        { typeof( Blazorise.FileEdit ), typeof( Components.FileEdit ) },
+        { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },
         { typeof( Blazorise.Heading ), typeof( Components.Heading ) },
         { typeof( Blazorise.Jumbotron ), typeof( Components.Jumbotron ) },
         { typeof( Blazorise.JumbotronSubtitle ), typeof( Components.JumbotronSubtitle ) },

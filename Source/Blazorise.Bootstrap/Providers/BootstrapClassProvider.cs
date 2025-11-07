@@ -210,13 +210,13 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+    public override string FileInput() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
 
-    public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
+    public override string FileInputSize( Size size ) => size != Size.Default ? $"{FileInput()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

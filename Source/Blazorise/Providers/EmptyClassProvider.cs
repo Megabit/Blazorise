@@ -197,13 +197,13 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public string FileEdit() => null;
+    public string FileInput() => null;
 
-    public string FileEditSize( Size size ) => null;
+    public string FileInputSize( Size size ) => null;
 
-    public string FileEditValidation( ValidationStatus validationStatus ) => null;
+    public string FileInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 

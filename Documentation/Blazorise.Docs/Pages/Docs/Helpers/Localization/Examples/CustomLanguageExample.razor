@@ -1,25 +1,25 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Field>
-    <FileEdit Multiple="false" />
-    <FileEdit Multiple />
+    <FileInput Multiple="false" />
+    <FileInput Multiple />
 </Field>
 <Field>
     <Button Clicked="OnButtonClick">Change culture to polish</Button>
 </Field>
 
-@code{
+@code {
     [Inject]
     Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
 
-    // By using FileEdit as generic typeparam, Blazorise will know
+    // By using FileInput as generic typeparam, Blazorise will know
     // what component need to update localization resources.
     [Inject]
-    Blazorise.Localization.ITextLocalizer<FileEdit> FileEditLocalizer { get; set; }
+    Blazorise.Localization.ITextLocalizer<FileInput> FileInputLocalizer { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        FileEditLocalizer.AddLanguageResource( new Blazorise.Localization.TextLocalizationResource
+        FileInputLocalizer.AddLanguageResource( new Blazorise.Localization.TextLocalizationResource
         {
             Culture = "pl-PL",
             Translations = new Dictionary<string, string>()

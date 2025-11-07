@@ -194,13 +194,13 @@ public interface IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    string FileEdit();
+    string FileInput();
 
-    string FileEditSize( Size size );
+    string FileInputSize( Size size );
 
-    string FileEditValidation( ValidationStatus validationStatus );
+    string FileInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

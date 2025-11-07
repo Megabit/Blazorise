@@ -270,13 +270,13 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
+    public override string FileInput() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
 
-    public override string FileEditSize( Size size ) => TextInputSize( size );
+    public override string FileInputSize( Size size ) => TextInputSize( size );
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

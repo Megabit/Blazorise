@@ -15,7 +15,7 @@
             // A stream is going to be the destination stream we're writing to.
             using ( var stream = new MemoryStream() )
             {
-                // Here we're telling the FileEdit where to write the upload result
+                // Here we're telling the FileInput where to write the upload result
                 await e.File.WriteToStreamAsync( stream );
 
                 // Once we reach this line it means the file is fully uploaded.

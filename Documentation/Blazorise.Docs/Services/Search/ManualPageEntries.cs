@@ -33,7 +33,7 @@ public static class ManualPageEntries
     new( "docs/components/dropdown", "Dropdown", "Dropdowns expose additional content that \"drops down\" in a menu." ),
     new( "docs/components/field", "Field", "A generic container used to properly layout input elements on a form." ),
     new( "docs/components/figure", "Figure", "Documentation and examples for displaying related images and text with the figure component in Blazorise." ),
-    new( "docs/components/file-edit", "File Edit", "The FileEdit component is a specialized input that provides a clean interface for selecting files." ),
+    new( "docs/components/file-input", "File Input", "The FileInput component is a specialized input that provides a clean interface for selecting files." ),
     new( "docs/components/file-picker", "File Picker", "The FilePicker component provides extra functionality, listing and detailing files, providing clear and upload buttons, and inbuilt progress." ),
     new( "docs/components/focus-trap", "FocusTrap", "Manages focus of the forms and its input elements." ),
     new( "docs/components/grid", "Grid", "A simple way to build responsive columns." ),

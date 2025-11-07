@@ -82,7 +82,7 @@ public static class Config
         { typeof( Blazorise.Field ), typeof( Components.Field ) },
         { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
         { typeof( Blazorise.FieldLabel ), typeof( Components.FieldLabel ) },
-        { typeof( Blazorise.FileEdit ), typeof( Components.FileEdit ) },
+        { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },
         { typeof( Blazorise.ListGroup ), typeof( Components.ListGroup ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent ) },
         { typeof( Blazorise.Offcanvas ), typeof( Components.Offcanvas ) },

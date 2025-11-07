@@ -833,7 +833,7 @@ public static class FontAwesomeIcons
     public const string FileContract = "fa-file-contract";
     public const string FileCsv = "fa-file-csv";
     public const string FileDownload = "fa-file-arrow-down";
-    public const string FileEdit = "fa-file-pen";
+    public const string FileInput = "fa-file-pen";
     public const string FileExcel = "fa-file-excel";
     public const string FileExport = "fa-file-export";
     public const string FileImage = "fa-file-image";

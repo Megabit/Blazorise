@@ -199,13 +199,13 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => null;
+    public override string FileInput() => null;
 
-    public override string FileEditSize( Size size ) => null;
+    public override string FileInputSize( Size size ) => null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

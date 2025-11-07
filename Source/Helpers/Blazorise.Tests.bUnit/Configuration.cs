@@ -52,7 +52,7 @@ public static class Configuration
         services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();
         services.AddScoped<IJSTimePickerModule, JSTimePickerModule>();
         services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
-        services.AddScoped<IJSFileEditModule, JSFileEditModule>();
+        services.AddScoped<IJSFileInputModule, JSFileInputModule>();
         services.AddScoped<IJSTableModule, JSTableModule>();
         services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
         services.AddScoped<IJSDropdownModule, JSDropdownModule>();
