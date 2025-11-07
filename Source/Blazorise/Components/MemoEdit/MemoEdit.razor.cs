@@ -14,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// Component that allows you to display and edit multi-line text.
 /// </summary>
-public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent, IAsyncDisposable
+public partial class MemoInput : BaseInputComponent<string>, ISelectableComponent, IAsyncDisposable
 {
     #region Members
 
@@ -112,7 +112,7 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.MemoEdit( Plaintext ) );
+        builder.Append( ClassProvider.MemoInput( Plaintext ) );
         builder.Append( ClassProvider.MemoEditSize( ThemeSize ) );
         builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
@@ -257,7 +257,7 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
     /// </summary>
     /// <remarks>
-    /// Please be aware that <see cref="Pattern"/> on <see cref="MemoEdit"/> is used only for the validation process.
+    /// Please be aware that <see cref="Pattern"/> on <see cref="MemoInput"/> is used only for the validation process.
     /// </remarks>
     [Parameter] public string Pattern { get; set; }
 
