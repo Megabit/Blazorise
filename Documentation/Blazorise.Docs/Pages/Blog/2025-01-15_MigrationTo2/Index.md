@@ -59,7 +59,7 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Text` parameter. Use the `Value` parameter instead.
 
-### TimeEdit
+### TimeInput
 
 - Dropping the `Time` parameter. Use the `Value` parameter instead.
 

@@ -1,9 +1,9 @@
-﻿@page "/docs/components/time-edit"
+﻿@page "/docs/components/time-input"
 
-<Seo Canonical="/docs/components/time-edit" Title="Blazorise TimeEdit Component" Description="Learn to use and work with the Blazorise TimeEdit component, which is a native time selection component that lets users select a time." />
+<Seo Canonical="/docs/components/time-input" Title="Blazorise TimeInput Component" Description="Learn to use and work with the Blazorise TimeInput component, which is a native time selection component that lets users select a time." />
 
-<DocsPageTitle Path="Components/Time Edit">
-    Blazorise TimeEdit component
+<DocsPageTitle Path="Components/TimeInput">
+    Blazorise TimeInput component
 </DocsPageTitle>
 
 <DocsPageLead>
@@ -19,9 +19,9 @@
         A native time field example with <Code>type="time"</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicTimeEditExample />
+        <TimeInputBasicExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicTimeEditExample" />
+    <DocsPageSectionSource Code="TimeInputBasicExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -33,9 +33,9 @@
         By using <Code>bind-*</Code> attribute the selected time will be automatically assigned to the member variable.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <TimeEditWithBindExample />
+        <TimeInputWithBindExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TimeEditWithBindExample" />
+    <DocsPageSectionSource Code="TimeInputWithBindExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -43,9 +43,9 @@
         When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <TimeEditWithEventExample />
+        <TimeInputWithEventExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TimeEditWithEventExample" />
+    <DocsPageSectionSource Code="TimeInputWithEventExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -58,9 +58,9 @@
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <TimeEditShowPickerExample />
+        <TimeInputShowPickerExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TimeEditShowPickerExample" />
+    <DocsPageSectionSource Code="TimeInputShowPickerExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -82,4 +82,4 @@
     </TableBody>
 </Table>
 
-<ComponentApiDocs ComponentTypes="[typeof(TimeEdit<>)]" />
+<ComponentApiDocs ComponentTypes="[typeof(TimeInput<>)]" />

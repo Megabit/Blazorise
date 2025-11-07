@@ -3827,40 +3827,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     };
 }";
 
-        public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
+        public const string TimeInputBasicExample = @"<TimeInput TValue=""TimeSpan?"" />";
 
-        public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" />
-
-@code {
-    TimeSpan? value;
-}";
-
-        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" Inline />
-
-@code {
-    TimeSpan? value;
-}";
-
-        public const string TimeEditShowPickerExample = @"<Field>
-    <Button Color=""Color.Primary"" Clicked=""@(()=>timeEditRef.ShowPicker())"">
+        public const string TimeInputShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(() => timeInputRef.ShowPicker())"">
         Show Picker
     </Button>
 </Field>
 <Field>
-    <TimeEdit @ref=""@timeEditRef"" TValue=""DateTime"" />
+    <TimeInput @ref=""@timeInputRef"" TValue=""DateTime"" />
 </Field>
 
 @code {
-    TimeEdit<DateTime> timeEditRef;
+    TimeInput<DateTime> timeInputRef;
 }";
 
-        public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Value=""@selectedTime"" />
+        public const string TimeInputWithBindExample = @"<TimeInput TValue=""TimeSpan?"" @bind-Value=""@selectedTime"" />
 
 @code{
     TimeSpan? selectedTime;
 }";
 
-        public const string TimeEditWithEventExample = @"<TimeEdit TValue=""TimeSpan?"" Value=""@selectedTime"" ValueChanged=""@OnValueChanged"" />
+        public const string TimeInputWithEventExample = @"<TimeInput TValue=""TimeSpan?"" Value=""@selectedTime"" ValueChanged=""@OnValueChanged"" />
 
 @code{
     TimeSpan? selectedTime;
@@ -3873,9 +3861,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string TimePickerBasicExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" />
+
+@code {
+    TimeSpan? value;
+}";
+
         public const string TimePickerDefaultTimesExample = @"<TimePicker TValue=""TimeSpan?"" DefaultHour=""9"" DefaultMinute=""15"" />";
 
         public const string TimePickerIncrementsExample = @"<TimePicker TValue=""TimeSpan?"" HourIncrement=""2"" MinuteIncrement=""30"" />";
+
+        public const string TimePickerInlineExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" Inline />
+
+@code {
+    TimeSpan? value;
+}";
 
         public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" StaticPicker=""false"" />
 

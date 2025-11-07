@@ -84,15 +84,15 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    public override string TimeEdit( bool plaintext ) => TextInput( plaintext );
+    public override string TimeInput( bool plaintext ) => TextInput( plaintext );
 
-    public override string TimeEditSize( Size size ) => TextInputSize( size );
+    public override string TimeInputSize( Size size ) => TextInputSize( size );
 
-    public override string TimeEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

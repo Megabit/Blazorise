@@ -74,7 +74,7 @@ public static class Config
         { typeof( Blazorise.NumericInput<> ), typeof( Components.NumericInput<> ) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },
         { typeof( Blazorise.TextInput ), typeof( Components.TextInput ) },
-        { typeof( Blazorise.TimeEdit<> ), typeof( Components.TimeEdit<> ) },
+        { typeof( Blazorise.TimeInput<> ), typeof( Components.TimeInput<> ) },
         { typeof( Blazorise.TimePicker<> ), typeof( Components.TimePicker<> ) },
         { typeof( Blazorise.ProgressBar ), typeof( Components.ProgressBar ) },
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },

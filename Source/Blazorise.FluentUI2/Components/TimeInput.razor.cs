@@ -4,11 +4,11 @@ using Blazorise.Utilities;
 
 namespace Blazorise.FluentUI2.Components;
 
-public partial class TimeEdit<TValue>
+public partial class TimeInput<TValue>
 {
     #region Constructors
 
-    public TimeEdit()
+    public TimeInput()
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses );
     }

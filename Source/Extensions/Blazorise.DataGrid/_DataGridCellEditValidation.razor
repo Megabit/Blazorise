@@ -212,47 +212,47 @@ else if ( ValueType == typeof( DateTimeOffset? ) )
 }
 else if ( ValueType == typeof( TimeSpan ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeSpan" Value="@((TimeSpan)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@timeSpanExpression" ReadOnly="@Readonly">
+    <TimeInput ElementId="@elementId" TValue="TimeSpan" Value="@((TimeSpan)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@timeSpanExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
                 <ValidationError />
             }
         </Feedback>
-    </TimeEdit>
+    </TimeInput>
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeSpan?" Value="@((TimeSpan?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableTimeSpanExpression" ReadOnly="@Readonly">
+    <TimeInput ElementId="@elementId" TValue="TimeSpan?" Value="@((TimeSpan?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableTimeSpanExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
                 <ValidationError />
             }
         </Feedback>
-    </TimeEdit>
+    </TimeInput>
 }
 else if ( ValueType == typeof( TimeOnly ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeOnly" Value="@((TimeOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@timeOnlyExpression" ReadOnly="@Readonly">
+    <TimeInput ElementId="@elementId" TValue="TimeOnly" Value="@((TimeOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@timeOnlyExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
                 <ValidationError />
             }
         </Feedback>
-    </TimeEdit>
+    </TimeInput>
 }
 else if ( ValueType == typeof( TimeOnly? ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeOnly?" Value="@((TimeOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableTimeOnlyExpression" ReadOnly="@Readonly">
+    <TimeInput ElementId="@elementId" TValue="TimeOnly?" Value="@((TimeOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableTimeOnlyExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
                 <ValidationError />
             }
         </Feedback>
-    </TimeEdit>
+    </TimeInput>
 }
 else
 {

@@ -13,18 +13,18 @@ namespace Blazorise;
 /// <summary>
 /// An editor that displays a time value and allows a user to edit the value.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="TimeEdit{TValue}"/> property.</typeparam>
-public partial class TimeEdit<TValue> : BaseTextInput<TValue>
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="TimeInput{TValue}"/> property.</typeparam>
+public partial class TimeInput<TValue> : BaseTextInput<TValue>
 {
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TimeEdit( Plaintext ) );
-        builder.Append( ClassProvider.TimeEditSize( ThemeSize ) );
-        builder.Append( ClassProvider.TimeEditColor( Color ) );
-        builder.Append( ClassProvider.TimeEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.TimeInput( Plaintext ) );
+        builder.Append( ClassProvider.TimeInputSize( ThemeSize ) );
+        builder.Append( ClassProvider.TimeInputColor( Color ) );
+        builder.Append( ClassProvider.TimeInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

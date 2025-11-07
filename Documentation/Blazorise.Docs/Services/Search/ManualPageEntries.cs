@@ -60,7 +60,7 @@ public static class ManualPageEntries
     new( "docs/components/switch", "Switch", "Switch is used for switching between two opposing states." ),
     new( "docs/components/tab", "Tab", "Tabs are used to organize and group content into sections that the user can navigate between." ),
     new( "docs/components/table", "Table", "Basic table is just for data display." ),
-    new( "docs/components/time-edit", "Time Edit", "A native time input component build around the <input type=\"time\">." ),
+    new( "docs/components/time-input", "Time Input", "A native time input component build around the <input type=\"time\">." ),
     new( "docs/components/time-picker", "Time Picker", "A customizable time input component with an option to manually write time or choose from a menu." ),
     new( "docs/components/toast", "Toast", "Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems." ),
     new( "docs/components/tooltip", "Tooltip", "Tooltips display additional information based on a specific action." ),

@@ -79,19 +79,19 @@ else if ( ValueType == typeof( DateTimeOffset? ) )
 }
 else if ( ValueType == typeof( TimeSpan ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeSpan" Value="@((TimeSpan)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeInput ElementId="@elementId" TValue="TimeSpan" Value="@((TimeSpan)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeSpan?" Value="@((TimeSpan?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeInput ElementId="@elementId" TValue="TimeSpan?" Value="@((TimeSpan?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeOnly ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeOnly" Value="@((TimeOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeInput ElementId="@elementId" TValue="TimeOnly" Value="@((TimeOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeOnly?" Value="@((TimeOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeInput ElementId="@elementId" TValue="TimeOnly?" Value="@((TimeOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else
 {

@@ -64,15 +64,15 @@ public interface IClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    string TimeEdit( bool plaintext );
+    string TimeInput( bool plaintext );
 
-    string TimeEditSize( Size size );
+    string TimeInputSize( Size size );
 
-    string TimeEditColor( Color color );
+    string TimeInputColor( Color color );
 
-    string TimeEditValidation( ValidationStatus validationStatus );
+    string TimeInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

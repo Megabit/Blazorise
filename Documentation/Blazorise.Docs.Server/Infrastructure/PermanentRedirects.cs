@@ -11,7 +11,7 @@ static class PermanentRedirects
         ["/docs/components/memo"] = "/docs/components/memo-edit",
         ["/docs/components/numeric"] = "/docs/components/numeric-input",
         ["/docs/components/text"] = "/docs/components/text-edit",
-        ["/docs/components/time"] = "/docs/components/time-edit",
+        ["/docs/components/time"] = "/docs/components/time-input",
         ["/docs/components/color"] = "/docs/components/color-edit",
         ["/docs/components/dragdrop"] = "/docs/components/drag-drop",
     };

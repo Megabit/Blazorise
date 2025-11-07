@@ -68,15 +68,15 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

@@ -67,15 +67,15 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

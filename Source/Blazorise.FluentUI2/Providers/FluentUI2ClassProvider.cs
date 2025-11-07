@@ -67,15 +67,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "fui-TimeInput fui-Input__input-plaintext" : "fui-TimeInput fui-Input__input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "fui-TimeInput fui-Input__input-plaintext" : "fui-TimeInput fui-Input__input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 

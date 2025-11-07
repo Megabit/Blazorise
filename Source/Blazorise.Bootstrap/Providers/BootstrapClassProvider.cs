@@ -68,15 +68,15 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TimeInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

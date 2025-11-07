@@ -67,15 +67,15 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    public string TimeEdit( bool plaintext ) => null;
+    public string TimeInput( bool plaintext ) => null;
 
-    public string TimeEditSize( Size size ) => null;
+    public string TimeInputSize( Size size ) => null;
 
-    public string TimeEditColor( Color color ) => null;
+    public string TimeInputColor( Color color ) => null;
 
-    public string TimeEditValidation( ValidationStatus validationStatus ) => null;
+    public string TimeInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 

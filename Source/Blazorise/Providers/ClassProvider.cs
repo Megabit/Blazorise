@@ -65,15 +65,15 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region TimeEdit
+    #region TimeInput
 
-    public abstract string TimeEdit( bool plaintext );
+    public abstract string TimeInput( bool plaintext );
 
-    public abstract string TimeEditSize( Size size );
+    public abstract string TimeInputSize( Size size );
 
-    public abstract string TimeEditColor( Color color );
+    public abstract string TimeInputColor( Color color );
 
-    public abstract string TimeEditValidation( ValidationStatus validationStatus );
+    public abstract string TimeInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
