@@ -1,13 +1,13 @@
-﻿@page "/docs/components/date-edit"
+﻿@page "/docs/components/date-input"
 
-<Seo Canonical="/docs/components/date-edit" Title="Blazorise DateEdit component" Description="Learn to use and work with the Blazorise DateEdit component, which is a native date selection component that lets users select a date." />
+<Seo Canonical="/docs/components/date-input" Title="Blazorise DateInput component" Description="Learn to use and work with the Blazorise DateInput component, which is a native date selection component that lets users select a date." />
 
-<DocsPageTitle Path="Components/Date Edit">
-    Blazorise DateEdit component
+<DocsPageTitle Path="Components/DateInput">
+    Blazorise DateInput component
 </DocsPageTitle>
 
 <DocsPageLead>
-    DateEdit is an input field that allows the user to enter a date by typing or by selecting from a calendar overlay.
+    DateInput is an input field that allows the user to enter a date by typing or by selecting from a calendar overlay.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -15,7 +15,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Being built around native <Code Tag>input type="date"</Code> input element, the <Code>DateEdit</Code> component
+    Being built around native <Code Tag>input type="date"</Code> input element, the <Code>DateInput</Code> component
     comes with a few limitations that you must be aware of. First and foremost, the input display format is fully
     controlled by the browser and the system locale. This means that for you to change the input format you would
     need to change the browser settings.
@@ -25,9 +25,9 @@
     <DocsPageSectionHeader Title="Basic example">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicDateEditExample />
+        <DateInputBasicExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicDateEditExample" />
+    <DocsPageSectionSource Code="DateInputBasicExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -39,9 +39,9 @@
         By using <Code>bind-*</Code> attribute the selected date will be automatically assigned to the member variable.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <DateEditWithBindExample />
+        <DateInputWithBindExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DateEditWithBindExample" />
+    <DocsPageSectionSource Code="DateInputWithBindExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -49,19 +49,19 @@
         When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <DateEditWithEventExample />
+        <DateInputWithEventExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DateEditWithEventExample" />
+    <DocsPageSectionSource Code="DateInputWithEventExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="DateTime">
-        DateEdit component also support entering a time part. To enable it just set <Code>InputMode</Code> parameter.
+        DateInput component also support entering a time part. To enable it just set <Code>InputMode</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <DateEditDateTimeExample />
+        <DateInputDateTimeExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DateEditDateTimeExample" />
+    <DocsPageSectionSource Code="DateInputDateTimeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -74,9 +74,9 @@
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <DateEditShowPickerExample />
+        <DateInputShowPickerExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DateEditShowPickerExample" />
+    <DocsPageSectionSource Code="DateInputShowPickerExample" />
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(DateEdit<>)]" />
+<ComponentApiDocs ComponentTypes="[typeof(DateInput<>)]" />

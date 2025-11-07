@@ -48,7 +48,7 @@ public static class Config
         { typeof( Blazorise.Carousel ), typeof( Components.Carousel ) },
         { typeof( Blazorise.CarouselSlide ), typeof( Components.CarouselSlide ) },
         { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
-        { typeof( Blazorise.DateEdit<> ), typeof( Components.DateEdit<> ) },
+        { typeof( Blazorise.DateInput<> ), typeof( Components.DateInput<> ) },
         { typeof( Blazorise.DropdownDivider ), typeof( Components.DropdownDivider ) },
         { typeof( Blazorise.Dropdown ), typeof( Components.Dropdown ) },
         { typeof( Blazorise.DropdownMenu ), typeof( Components.DropdownMenu ) },

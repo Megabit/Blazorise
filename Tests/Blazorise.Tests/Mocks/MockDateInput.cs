@@ -6,9 +6,9 @@ using Moq;
 
 namespace Blazorise.Tests.Mocks;
 
-internal class MockDateEdit<T> : DateEdit<T>
+internal class MockDateInput<T> : DateInput<T>
 {
-    public MockDateEdit( Validation validation = null, Expression<Func<T>> dateExpression = null )
+    public MockDateInput( Validation validation = null, Expression<Func<T>> dateExpression = null )
     {
         var mockIdGenerator = new Mock<IIdGenerator>();
 

@@ -4,9 +4,9 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DateEditComponentTest : TestContext
+public class DateInputComponentTest : TestContext
 {
-    public DateEditComponentTest()
+    public DateInputComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseUtilities();
@@ -24,7 +24,7 @@ public class DateEditComponentTest : TestContext
         var nullableOutput = @"<span id=""nullable-date-event-initially-null-result""></span>";
 
         // test
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // validate
         Assert.Contains( dateOpen, comp.Markup );
@@ -53,7 +53,7 @@ public class DateEditComponentTest : TestContext
         var nullableOutput = @"<span id=""nullable-date-only-event-initially-null-result""></span>";
 
         // test
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // validate
         Assert.Contains( dateOpen, comp.Markup );
@@ -82,7 +82,7 @@ public class DateEditComponentTest : TestContext
         var nullableOutput = @"<span id=""nullable-date-offset-event-initially-null-result""></span>";
 
         // test
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // validate
         Assert.Contains( dateOpen, comp.Markup );
@@ -104,7 +104,7 @@ public class DateEditComponentTest : TestContext
     {
         // setup
         var dateOutput = @"<span id=""date-event-initially-undefined-result"">" + new DateTime( 1970, 5, 3 ).ToString() + "</span>";
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // test
         comp.Instance.DateValue = new( 1970, 5, 3 );
@@ -119,7 +119,7 @@ public class DateEditComponentTest : TestContext
     {
         // setup
         var dateOutput = @"<span id=""nullable-date-event-initially-null-result"">" + new DateTime( 1970, 5, 3 ).ToString() + "</span>";
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // test
         comp.Instance.NullableDateValue = new DateTime( 1970, 5, 3 );
@@ -135,7 +135,7 @@ public class DateEditComponentTest : TestContext
         // setup
         var dateonly = new DateOnly( 2020, 4, 13 );
         var dateOutput = @"<span id=""date-only-event-initially-undefined-result"">" + dateonly.ToString() + "</span>";
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // test
         comp.Instance.DateOnlyValue = dateonly;
@@ -151,7 +151,7 @@ public class DateEditComponentTest : TestContext
         // setup
         var dateonly = new DateOnly( 2020, 4, 13 );
         var dateOutput = @"<span id=""nullable-date-only-event-initially-null-result"">" + dateonly.ToString() + "</span>";
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // test
         comp.Instance.NullableDateOnlyValue = dateonly;
@@ -167,7 +167,7 @@ public class DateEditComponentTest : TestContext
         // setup
         var offset = new DateTimeOffset( new( 2020, 4, 13 ) );
         var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + offset.ToString() + "</span>";
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // test
         comp.Instance.OffsetValue = offset;
@@ -183,7 +183,7 @@ public class DateEditComponentTest : TestContext
         // setup
         var offset = new DateTimeOffset( new( 2020, 4, 13 ) );
         var dateOutput = @"<span id=""nullable-date-offset-event-initially-null-result"">" + offset.ToString() + "</span>";
-        var comp = RenderComponent<DateEditComponent>();
+        var comp = RenderComponent<DateInputComponent>();
 
         // test
         comp.Instance.NullableOffsetValue = offset;

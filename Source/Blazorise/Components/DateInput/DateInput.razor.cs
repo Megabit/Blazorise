@@ -13,18 +13,18 @@ namespace Blazorise;
 /// <summary>
 /// An editor that displays a date value and allows a user to edit the value.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="DateEdit{TValue}"/> property.</typeparam>
-public partial class DateEdit<TValue> : BaseTextInput<TValue>
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="DateInput{TValue}"/> property.</typeparam>
+public partial class DateInput<TValue> : BaseTextInput<TValue>
 {
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DateEdit( Plaintext ) );
-        builder.Append( ClassProvider.DateEditSize( ThemeSize ) );
-        builder.Append( ClassProvider.DateEditColor( Color ) );
-        builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.DateInput( Plaintext ) );
+        builder.Append( ClassProvider.DateInputSize( ThemeSize ) );
+        builder.Append( ClassProvider.DateInputColor( Color ) );
+        builder.Append( ClassProvider.DateInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

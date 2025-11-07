@@ -55,27 +55,27 @@ else if ( ValueType == typeof( bool? ) )
 }
 else if ( ValueType == typeof( DateTime ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTime" Value="@((DateTime)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateInput ElementId="@elementId" TValue="DateTime" Value="@((DateTime)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTime? ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTime?" Value="@((DateTime?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateInput ElementId="@elementId" TValue="DateTime?" Value="@((DateTime?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateOnly ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateOnly" Value="@((DateOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateInput ElementId="@elementId" TValue="DateOnly" Value="@((DateOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateOnly? ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateOnly?" Value="@((DateOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateInput ElementId="@elementId" TValue="DateOnly?" Value="@((DateOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTimeOffset ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTimeOffset" Value="@((DateTimeOffset)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateInput ElementId="@elementId" TValue="DateTimeOffset" Value="@((DateTimeOffset)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTimeOffset? ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTimeOffset?" Value="@((DateTimeOffset?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateInput ElementId="@elementId" TValue="DateTimeOffset?" Value="@((DateTimeOffset?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( TimeSpan ) )
 {

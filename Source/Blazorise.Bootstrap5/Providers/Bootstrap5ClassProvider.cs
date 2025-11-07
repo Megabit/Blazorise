@@ -55,15 +55,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #endregion
 
-    #region DateEdit
+    #region DateInput
 
-    public override string DateEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DateInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string DateInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

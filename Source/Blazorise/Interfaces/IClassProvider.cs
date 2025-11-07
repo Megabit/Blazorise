@@ -52,15 +52,15 @@ public interface IClassProvider
 
     #endregion
 
-    #region DateEdit
+    #region DateInput
 
-    string DateEdit( bool plaintext );
+    string DateInput( bool plaintext );
 
-    string DateEditSize( Size size );
+    string DateInputSize( Size size );
 
-    string DateEditColor( Color color );
+    string DateInputColor( Color color );
 
-    string DateEditValidation( ValidationStatus validationStatus );
+    string DateInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

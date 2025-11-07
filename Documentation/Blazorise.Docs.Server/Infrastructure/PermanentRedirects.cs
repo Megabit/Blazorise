@@ -6,7 +6,7 @@ static class PermanentRedirects
 {
     public static readonly Dictionary<string, string> Map = new()
     {
-        ["/docs/components/date"] = "/docs/components/date-edit",
+        ["/docs/components/date"] = "/docs/components/date-input",
         ["/docs/components/file"] = "/docs/components/file-edit",
         ["/docs/components/memo"] = "/docs/components/memo-edit",
         ["/docs/components/numeric"] = "/docs/components/numeric-input",

@@ -53,15 +53,15 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region DateEdit
+    #region DateInput
 
-    public abstract string DateEdit( bool plaintext );
+    public abstract string DateInput( bool plaintext );
 
-    public abstract string DateEditSize( Size size );
+    public abstract string DateInputSize( Size size );
 
-    public abstract string DateEditColor( Color color );
+    public abstract string DateInputColor( Color color );
 
-    public abstract string DateEditValidation( ValidationStatus validationStatus );
+    public abstract string DateInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

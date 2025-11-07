@@ -865,36 +865,36 @@ namespace Blazorise.Docs.Models
     string colorValue = ""#ff00ff"";
 }";
 
-        public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
-
         public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" />
 
 @code {
     DateTime? value;
 }";
 
-        public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
+        public const string DateInputBasicExample = @"<DateInput TValue=""DateTime?"" />";
 
-        public const string DateEditShowPickerExample = @"<Field>
-    <Button Color=""Color.Primary"" Clicked=""@(()=>dateEditRef.ShowPicker())"">
+        public const string DateInputDateTimeExample = @"<DateInput TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
+
+        public const string DateInputShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(() => dateInputRef.ShowPicker())"">
         Show Picker
     </Button>
 </Field>
 <Field>
-    <DateEdit @ref=""@dateEditRef"" TValue=""DateTime"" />
+    <DateInput @ref=""@dateInputRef"" TValue=""DateTime"" />
 </Field>
 
 @code {
-    DateEdit<DateTime> dateEditRef;
+    DateInput<DateTime> dateInputRef;
 }";
 
-        public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Value=""@selectedDate"" />
+        public const string DateInputWithBindExample = @"<DateInput TValue=""DateTime?"" @bind-Value=""@selectedDate"" />
 
 @code{
     DateTime? selectedDate;
 }";
 
-        public const string DateEditWithEventExample = @"<DateEdit TValue=""DateTime?"" Value=""@selectedDate"" ValueChanged=""@OnDateChanged"" />
+        public const string DateInputWithEventExample = @"<DateInput TValue=""DateTime?"" Value=""@selectedDate"" ValueChanged=""@OnDateChanged"" />
 
 @code{
     DateTime? selectedDate;

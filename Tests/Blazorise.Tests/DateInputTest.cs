@@ -5,13 +5,13 @@ using Xunit;
 
 namespace Blazorise.Tests;
 
-public class DateEditTest
+public class DateInputTest
 {
     [Fact]
     public void SetDate_WithDateTime()
     {
         // setup
-        var edit = new DateEdit<DateTime>();
+        var edit = new DateInput<DateTime>();
 
         // test
         edit.Value = new( 2020, 4, 12 );
@@ -26,7 +26,7 @@ public class DateEditTest
     public void SetDate_WithDateTimeOffset()
     {
         // setup
-        var edit = new DateEdit<DateTimeOffset>();
+        var edit = new DateInput<DateTimeOffset>();
 
         // test
         edit.Value = new( new DateTime( 2020, 4, 12 ), new( 0, 0, 0 ) );
@@ -41,7 +41,7 @@ public class DateEditTest
     public void SetDate_WithNull()
     {
         // setup
-        var edit = new DateEdit<DateTime?>();
+        var edit = new DateInput<DateTime?>();
 
         // test
         edit.Value = null;
@@ -54,7 +54,7 @@ public class DateEditTest
     public void SetDate_WithInvalidType()
     {
         // setup
-        var edit = new MockDateEdit<int>();
+        var edit = new MockDateInput<int>();
 
         // test
         edit.Value = 100;
@@ -67,7 +67,7 @@ public class DateEditTest
     public async Task ParseValueFromStringAsync_ValidDateString()
     {
         // setup
-        var edit = new MockDateEdit<DateTime>();
+        var edit = new MockDateInput<DateTime>();
         var expected = new DateTime( 2018, 7, 12 );
 
         // test
@@ -82,7 +82,7 @@ public class DateEditTest
     public async Task ParseValueFromStringAsync_InvalidDateString()
     {
         // setup
-        var edit = new MockDateEdit<DateTime>();
+        var edit = new MockDateInput<DateTime>();
 
         // test
         var result = await edit.ParseValueAsync( "3/12/2020-invalid" );
@@ -100,7 +100,7 @@ public class DateEditTest
         System.Linq.Expressions.Expression<Func<DateTime>> expr = () => DateTime.Today;
 
         // test
-        var edit = new MockDateEdit<DateTime>( validation, null );
+        var edit = new MockDateInput<DateTime>( validation, null );
 
         // validate
         Assert.NotNull( edit );
@@ -110,7 +110,7 @@ public class DateEditTest
     public void ChangeValue_DateTime()
     {
         // setup
-        var edit = new MockDateEdit<DateTime>();
+        var edit = new MockDateInput<DateTime>();
         var expected = new DateTime( 2007, 1, 5 );
 
         // test
@@ -124,7 +124,7 @@ public class DateEditTest
     public void ChangeValue_DateTime_NullValue()
     {
         // setup
-        var edit = new MockDateEdit<DateTime?>();
+        var edit = new MockDateInput<DateTime?>();
 
         // test
         edit.OnChange( new() );
@@ -137,7 +137,7 @@ public class DateEditTest
     public void ChangeValue_DateTime_NullEventArgs()
     {
         // setup
-        var edit = new MockDateEdit<DateTime?>();
+        var edit = new MockDateInput<DateTime?>();
 
         // test
         edit.OnChange( null );
@@ -150,7 +150,7 @@ public class DateEditTest
     public void ChangeValue_DateOnly()
     {
         // setup
-        var edit = new MockDateEdit<DateOnly>();
+        var edit = new MockDateInput<DateOnly>();
         var expected = new DateOnly( 2007, 1, 5 );
 
         // test
@@ -164,7 +164,7 @@ public class DateEditTest
     public void ChangeValue_DateOnly_NullValue()
     {
         // setup
-        var edit = new MockDateEdit<DateOnly?>();
+        var edit = new MockDateInput<DateOnly?>();
 
         // test
         edit.OnChange( new() );
@@ -177,7 +177,7 @@ public class DateEditTest
     public void ChangeValue_DateOnly_NullEventArgs()
     {
         // setup
-        var edit = new MockDateEdit<DateOnly?>();
+        var edit = new MockDateInput<DateOnly?>();
 
         // test
         edit.OnChange( null );
@@ -190,7 +190,7 @@ public class DateEditTest
     public void ChangeValue_DateTimeOffset()
     {
         // setup
-        var edit = new MockDateEdit<DateTimeOffset>();
+        var edit = new MockDateInput<DateTimeOffset>();
         var expected = new DateTime( 2007, 1, 5 );
 
         // test
@@ -204,7 +204,7 @@ public class DateEditTest
     public void ChangeValue_DateTimeOffset_NullValue()
     {
         // setup
-        var edit = new MockDateEdit<DateTimeOffset?>();
+        var edit = new MockDateInput<DateTimeOffset?>();
 
         // test
         edit.OnChange( new() );
@@ -217,7 +217,7 @@ public class DateEditTest
     public void ChangeValue_DateTimeOffset_NullEventArgs()
     {
         // setup
-        var edit = new MockDateEdit<DateTimeOffset?>();
+        var edit = new MockDateInput<DateTimeOffset?>();
 
         // test
         edit.OnChange( null );
@@ -230,7 +230,7 @@ public class DateEditTest
     public void MinMaxRange_Within()
     {
         // setup
-        var edit = new DateEdit<DateTime>();
+        var edit = new DateInput<DateTime>();
         var date = new DateTime( 2020, 3, 15 );
 
         // test
@@ -249,7 +249,7 @@ public class DateEditTest
     public void MinMaxRange_After()
     {
         // setup
-        var edit = new DateEdit<DateTime?>();
+        var edit = new DateInput<DateTime?>();
         var date = new DateTime( 2020, 4, 15 );
 
         // test
@@ -265,7 +265,7 @@ public class DateEditTest
     public void MinMaxRange_Before()
     {
         // setup
-        var edit = new DateEdit<DateTime?>();
+        var edit = new DateInput<DateTime?>();
         var date = new DateTime( 2018, 3, 15 );
 
         // test

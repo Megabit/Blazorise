@@ -55,15 +55,15 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region DateEdit
+    #region DateInput
 
-    public string DateEdit( bool plaintext ) => null;
+    public string DateInput( bool plaintext ) => null;
 
-    public string DateEditSize( Size size ) => null;
+    public string DateInputSize( Size size ) => null;
 
-    public string DateEditColor( Color color ) => null;
+    public string DateInputColor( Color color ) => null;
 
-    public string DateEditValidation( ValidationStatus validationStatus ) => null;
+    public string DateInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 
