@@ -79,11 +79,11 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    public string ColorEdit() => null;
+    public string ColorInput() => null;
 
-    public string ColorEditSize( Size size ) => null;
+    public string ColorInputSize( Size size ) => null;
 
     #endregion
 

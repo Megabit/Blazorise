@@ -12,7 +12,7 @@ static class PermanentRedirects
         ["/docs/components/numeric"] = "/docs/components/numeric-input",
         ["/docs/components/text"] = "/docs/components/text-input",
         ["/docs/components/time"] = "/docs/components/time-input",
-        ["/docs/components/color"] = "/docs/components/color-edit",
+        ["/docs/components/color"] = "/docs/components/color-input",
         ["/docs/components/dragdrop"] = "/docs/components/drag-drop",
     };
 }

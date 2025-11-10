@@ -5,11 +5,11 @@ using Blazorise.Utilities;
 
 namespace Blazorise.FluentUI2.Components;
 
-public partial class ColorEdit
+public partial class ColorInput
 {
     #region Constructors
 
-    public ColorEdit()
+    public ColorInput()
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses );
     }

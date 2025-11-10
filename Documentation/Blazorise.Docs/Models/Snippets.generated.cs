@@ -838,19 +838,19 @@ namespace Blazorise.Docs.Models
     Collapse collapseRef;
 }";
 
-        public const string ColorEditDisabledExample = @"<ColorEdit Value=""#888888"" Disabled />";
+        public const string ColorInputDisabledExample = @"<ColorInput Value=""#888888"" Disabled />";
 
-        public const string ColorEditExample = @"<ColorEdit @bind-Value=""@colorValue"" />
+        public const string ColorInputExample = @"<ColorInput @bind-Value=""@colorValue"" />
 
 @code {
     string colorValue = ""#ff0000"";
 }";
 
-        public const string ColorEditSizeExample = @"<Field>
-    <ColorEdit Value=""#888888"" Size=""Size.Small"" />
+        public const string ColorInputSizeExample = @"<Field>
+    <ColorInput Value=""#888888"" Size=""Size.Small"" />
 </Field>
 <Field>
-    <ColorEdit Value=""#444444"" Size=""Size.Large"" />
+    <ColorInput Value=""#444444"" Size=""Size.Large"" />
 </Field>";
 
         public const string ColorPickerExample = @"<ColorPicker @bind-Value=""@colorValue"" />

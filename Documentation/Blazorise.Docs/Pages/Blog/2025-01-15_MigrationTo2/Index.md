@@ -27,7 +27,7 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Checked` parameter. Use the `Value` parameter instead.
 
-### ColorEdit
+### ColorInput
 
 - Dropping the `Color` parameter. Use the `Value` parameter instead.
 

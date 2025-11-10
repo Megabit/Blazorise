@@ -80,11 +80,11 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    public override string ColorEdit() => "ant-input";
+    public override string ColorInput() => "ant-input";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
     #endregion
 

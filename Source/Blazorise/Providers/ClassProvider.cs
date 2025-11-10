@@ -77,11 +77,11 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    public abstract string ColorEdit();
+    public abstract string ColorInput();
 
-    public abstract string ColorEditSize( Size size );
+    public abstract string ColorInputSize( Size size );
 
     #endregion
 

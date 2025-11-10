@@ -79,11 +79,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    public override string ColorEdit() => "fui-ColorInput fui-Input__input";
+    public override string ColorInput() => "fui-ColorInput fui-Input__input";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     #endregion
 

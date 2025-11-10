@@ -79,11 +79,11 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    public override string ColorEdit() => "input";
+    public override string ColorInput() => "input";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     #endregion
 

@@ -96,11 +96,11 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    public override string ColorEdit() => TextInput( false );
+    public override string ColorInput() => TextInput( false );
 
-    public override string ColorEditSize( Size size )
+    public override string ColorInputSize( Size size )
     {
         return size switch
         {

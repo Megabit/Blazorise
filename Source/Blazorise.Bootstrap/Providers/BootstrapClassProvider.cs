@@ -80,11 +80,11 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    public override string ColorEdit() => "form-control";
+    public override string ColorInput() => "form-control";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
     #endregion
 

@@ -53,7 +53,7 @@ public static class Config
         { typeof( Blazorise.CardHeader ), typeof( Components.CardHeader ) },
         { typeof( Blazorise.Carousel ), typeof( Components.Carousel ) },
         { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
-        { typeof( Blazorise.ColorEdit ), typeof( Components.ColorEdit ) },
+        { typeof( Blazorise.ColorInput ), typeof( Components.ColorInput ) },
         { typeof( Blazorise.ColorPicker ), typeof( Components.ColorPicker ) },
         { typeof( Blazorise.CloseButton ), typeof( Components.CloseButton ) },
         { typeof( Blazorise.DateInput<> ), typeof( Components.DateInput<> ) },

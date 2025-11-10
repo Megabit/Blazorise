@@ -76,11 +76,11 @@ public interface IClassProvider
 
     #endregion
 
-    #region ColorEdit
+    #region ColorInput
 
-    string ColorEdit();
+    string ColorInput();
 
-    string ColorEditSize( Size size );
+    string ColorInputSize( Size size );
 
     #endregion
 

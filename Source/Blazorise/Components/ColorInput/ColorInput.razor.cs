@@ -12,15 +12,15 @@ namespace Blazorise;
 /// <summary>
 /// The editor that allows you to select a color from a dropdown menu.
 /// </summary>
-public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponent
+public partial class ColorInput : BaseInputComponent<string>, ISelectableComponent
 {
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.ColorEdit() );
-        builder.Append( ClassProvider.ColorEditSize( ThemeSize ) );
+        builder.Append( ClassProvider.ColorInput() );
+        builder.Append( ClassProvider.ColorInputSize( ThemeSize ) );
 
         base.BuildClasses( builder );
     }
