@@ -1644,9 +1644,9 @@ public class TailwindClassProvider : ClassProvider
             return "b-table-row odd:bg-white even:bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
         if ( hoverable )
-            return "b-table-row hover:bg-gray-100 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
+            return "b-table-row bg-white hover:bg-gray-100 group-[:not(.border-0)]:border-b group-[:not(.border-0)]:border-gray-200 dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
-        return "b-table-row group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
+        return "b-table-row bg-white group-[:not(.border-0)]:border-b group-[:not(.border-0)]:border-gray-200 dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
     }
 
     public override string TableRowColor( Color color )
