@@ -145,7 +145,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Manual validation">
-        Sometimes you don’t want to do validation on every input change. In that case you use <Code Tag>Validations</Code> component
+        Sometimes you don't want to do validation on every input change. In that case you use <Code Tag>Validations</Code> component
         to group multiple validations and then run the validation manually.
         <br />
         <br />
@@ -170,7 +170,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    A <Code>MessageLocalizer</Code> is fairly straight forward. It accepts two parameters and returns a string. It’s
+    A <Code>MessageLocalizer</Code> is fairly straight forward. It accepts two parameters and returns a string. It's
     signature is as following <Code>string Localize(string message, IEnumerable&lt;string&gt; arguments)</Code>.
 </DocsPageParagraph>
 
@@ -201,7 +201,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Example">
-        For the basic example we’re going to use <Code>MessageLocalizer</Code> directly on a <Code>Validation</Code> component.
+        For the basic example we're going to use <Code>MessageLocalizer</Code> directly on a <Code>Validation</Code> component.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="LocalizationValidationExample" />
 </DocsPageSection>
@@ -218,9 +218,17 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validation summary">
-        Sometimes you don’t want to show error messages under each field. In those situations you can
-        use <Code>ValidationSummary</Code> component. Once placed inside of Validations it will show
-        all error messages as a bullet list.
+        <Paragraph>
+            Sometimes you don't want to show error messages under each field. In those situations you can
+            use <Code>ValidationSummary</Code> component. Once placed inside of Validations it will show
+            all error messages as a bullet list.
+        </Paragraph>
+        <Paragraph>
+            <Strong>Note:</Strong> The <Code>ValidationSummary</Code> component name conflicts with the
+            built-in <Code>Microsoft.AspNetCore.Components.Forms.ValidationSummary</Code> from Blazor.
+            If you are using both in the same project, reference Blazorise's version explicitly as
+            <Code Tag>Blazorise.ValidationSummary</Code>.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ValidationSummaryExample" />
 </DocsPageSection>

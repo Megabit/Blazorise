@@ -8,7 +8,7 @@ export function initializeTableFixedHeader(element, elementId) {
 
     let resizeTimeout = null
 
-    function resizeThottler() {
+    const resizeThottler = () => {
         if (!resizeTimeout) {
             resizeTimeout = setTimeout(function () {
                 resizeTimeout = null;
@@ -32,6 +32,8 @@ export function initializeTableFixedHeader(element, elementId) {
 
     resizeHandler(element);
 
+    // Save reference so destroy can remove it
+    this.resizeThottler = resizeThottler;
     window.addEventListener("resize", this.resizeThottler, false);
 }
 

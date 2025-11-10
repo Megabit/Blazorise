@@ -10,6 +10,16 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem">The type of the model that the <see cref="DataGrid{TItem}"/> will handle.</typeparam>
 public partial class DataGridMultiSelectColumn<TItem> : DataGridColumn<TItem>
 {
+    #region Constructors
+
+    public DataGridMultiSelectColumn()
+    {
+        // Avoid row click side-effects when interacting with the header/body checkboxes.
+        PreventRowClick = true;
+    }
+
+    #endregion
+
     #region Properties
 
     /// <inheritdoc/>
