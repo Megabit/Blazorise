@@ -166,6 +166,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private List<DataGridBatchEditItem<TItem>> batchChanges;
 
+    /// <summary>
+    /// Indicates whether the DataGrid is currently applying a saved state.
+    /// </summary>
+    private bool applyingState;
+
     #endregion
 
     #region Constructors
@@ -196,78 +201,105 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-        PageSize = dataGridState.PageSize;
-        Page = dataGridState.Page;
-
-        if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
+        // Prevent re-entrancy and suppress event storms during state application
+        if ( applyingState )
         {
-            foreach ( var displayingState in dataGridState.ColumnDisplayingStates )
-            {
-                var column = Columns?.Find( x => x.Field == displayingState.FieldName );
+            return;
+        }
 
-                if ( column is not null )
+        applyingState = true;
+
+        try
+        {
+            // Keep the overlay on while we batch changes
+            SetLoading( true );
+
+            PageSize = dataGridState.PageSize;
+            Page = dataGridState.Page;
+
+            // Column displaying + order
+            if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
+            {
+                foreach ( var displayingState in dataGridState.ColumnDisplayingStates )
                 {
-                    await column.SetDisplaying( displayingState.Displaying );
-                    await column.SetDisplayOrder( displayingState.DisplayOrder );
+                    var column = Columns?.Find( x => x.Field == displayingState.FieldName );
+
+                    if ( column is not null )
+                    {
+                        await column.SetDisplaying( displayingState.Displaying );
+                        await column.SetDisplayOrder( displayingState.DisplayOrder );
+                    }
                 }
             }
-        }
-        else
-        {
-            await ResetDisplaying();
-            await ResetDisplayOrder();
-        }
-
-        if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
-        {
-            await ResetSorting();
-        }
-        else
-        {
-            foreach ( var sortState in dataGridState.ColumnSortStates )
+            else
             {
-                await Sort( sortState.FieldName, sortState.SortDirection );
+                await ResetDisplaying();
+                await ResetDisplayOrder();
             }
-        }
 
-        if ( dataGridState.ColumnFilterStates.IsNullOrEmpty() )
-        {
-            ResetFiltering();
-        }
-        else
-        {
-            foreach ( var filterState in dataGridState.ColumnFilterStates )
+            // Sorting
+            if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
             {
-                var column = Columns?.Find( x => x.Field == filterState.FieldName );
-                if ( column is not null )
+                await ResetSorting();
+            }
+            else
+            {
+                // Keep existing behavior; apply sequentially
+                await ResetSorting();
+
+                foreach ( var sortState in dataGridState.ColumnSortStates )
                 {
-                    column.Filter.SearchValue = filterState.SearchValue;
+                    await Sort( sortState.FieldName, sortState.SortDirection );
                 }
             }
 
-            FilterData();
+            // Filtering
+            if ( dataGridState.ColumnFilterStates.IsNullOrEmpty() )
+            {
+                ResetFiltering();
+            }
+            else
+            {
+                foreach ( var filterState in dataGridState.ColumnFilterStates )
+                {
+                    var column = Columns?.Find( x => x.Field == filterState.FieldName );
+                    if ( column is not null )
+                    {
+                        column.Filter.SearchValue = filterState.SearchValue;
+                    }
+                }
+
+                FilterData();
+            }
+
+            // Selection (defer event callbacks until after ReloadInternal)
+            SelectedRow = dataGridState.SelectedRow;
+            SelectedRows = dataGridState.SelectedRows;
+
+            if ( dataGridState.EditState == DataGridEditState.None )
+            {
+                await Cancel();
+            }
+            else if ( dataGridState.EditState == DataGridEditState.New )
+            {
+                await New();
+            }
+            else if ( dataGridState.EditState == DataGridEditState.Edit && dataGridState.EditItem is not null )
+            {
+                await Edit( dataGridState.EditItem );
+            }
+
+            await ReloadInternal();
+
+            await SelectedRowChanged.InvokeAsync( dataGridState.SelectedRow );
+            await SelectedRowsChanged.InvokeAsync( dataGridState.SelectedRows );
         }
-
-        SelectedRow = dataGridState.SelectedRow;
-        await SelectedRowChanged.InvokeAsync( dataGridState.SelectedRow );
-
-        SelectedRows = dataGridState.SelectedRows;
-        await SelectedRowsChanged.InvokeAsync( dataGridState.SelectedRows );
-
-        if ( dataGridState.EditState == DataGridEditState.None )
+        finally
         {
-            await Cancel();
+            SetLoading( false );
+            applyingState = false;
+            await InvokeAsync( StateHasChanged );
         }
-        else if ( dataGridState.EditState == DataGridEditState.New )
-        {
-            await New();
-        }
-        else if ( dataGridState.EditState == DataGridEditState.Edit && dataGridState.EditItem is not null )
-        {
-            await Edit( dataGridState.EditItem );
-        }
-
-        await ReloadInternal();
     }
 
     /// <summary>
@@ -1103,10 +1135,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         InvokeAsync( StateHasChanged );
     }
 
+    private void ResetPaginationCts()
+    {
+        var oldCts = paginationContext.CancellationTokenSource;
+        oldCts?.Cancel();
+        paginationContext.CancellationTokenSource = new();
+        oldCts?.Dispose();
+    }
+
     private async void OnPageSizeChanged( int pageSize )
     {
-        paginationContext.CancellationTokenSource?.Cancel();
-        paginationContext.CancellationTokenSource = new();
+        ResetPaginationCts();
 
         await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
@@ -1115,8 +1154,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private async void OnPageChanged( int currentPage )
     {
-        paginationContext.CancellationTokenSource?.Cancel();
-        paginationContext.CancellationTokenSource = new();
+        ResetPaginationCts();
 
         await InvokeAsync( () => PageChanged.InvokeAsync( currentPage ) );
 
@@ -2576,10 +2614,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             ( ManualReadMode ? TotalItems : Data?.Count() ) ?? 0 ) );
     }
 
+    private void ResetFilterCts()
+    {
+        var oldCts = filterCancellationTokenSource;
+        oldCts?.Cancel();
+        filterCancellationTokenSource = new();
+        oldCts?.Dispose();
+    }
+
     protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
     {
-        filterCancellationTokenSource?.Cancel();
-        filterCancellationTokenSource = new();
+        ResetFilterCts();
 
         virtualizeFilterChanged = true;
         column.Filter.SearchValue = value;
