@@ -7,9 +7,9 @@ using Microsoft.JSInterop;
 namespace Blazorise.Modules;
 
 /// <summary>
-/// Default implementation of the <see cref="MemoEdit"/> JS module.
+/// Default implementation of the <see cref="MemoInput"/> JS module.
 /// </summary>
-public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
+public class JSMemoInputModule : BaseJSModule, IJSMemoInputModule
 {
     #region Constructors
 
@@ -19,7 +19,7 @@ public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
     /// <param name="jsRuntime">JavaScript runtime instance.</param>
     /// <param name="versionProvider">Version provider.</param>
     /// <param name="options">Blazorise options.</param>
-    public JSMemoEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+    public JSMemoInputModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
         : base( jsRuntime, versionProvider, options )
     {
     }
@@ -29,7 +29,7 @@ public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, MemoEditJSOptions options )
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, MemoInputJSOptions options )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
 
     /// <inheritdoc/>
@@ -42,7 +42,7 @@ public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
     }
 
     /// <inheritdoc/>
-    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, MemoEditUpdateJSOptions options )
+    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, MemoInputUpdateJSOptions options )
     {
         if ( IsUnsafe )
             return;
@@ -59,7 +59,7 @@ public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
     #region Properties
 
     /// <inheritdoc/>
-    public override string ModuleFileName => $"./_content/Blazorise/memoEdit.js?v={VersionProvider.Version}";
+    public override string ModuleFileName => $"./_content/Blazorise/memoInput.js?v={VersionProvider.Version}";
 
     #endregion
 }

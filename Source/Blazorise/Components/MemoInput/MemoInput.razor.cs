@@ -113,8 +113,8 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.MemoInput( Plaintext ) );
-        builder.Append( ClassProvider.MemoEditSize( ThemeSize ) );
-        builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        builder.Append( ClassProvider.MemoInputSize( ThemeSize ) );
+        builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
@@ -229,9 +229,9 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
         => IsImmediate ? "oninput" : "onchange";
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSMemoEditModule"/> instance.
+    /// Gets or sets the <see cref="IJSMemoInputModule"/> instance.
     /// </summary>
-    [Inject] public IJSMemoEditModule JSModule { get; set; }
+    [Inject] public IJSMemoInputModule JSModule { get; set; }
 
     /// <summary>
     /// Sets the placeholder for the empty text.

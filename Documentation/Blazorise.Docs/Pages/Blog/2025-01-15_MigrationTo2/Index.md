@@ -43,7 +43,7 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Date` and `Dates` parameters. Use the `Value` parameter instead.
 
-### MemoEdit
+### MemoInput
 
 - Dropping the `Text` parameter. Use the `Value` parameter instead.
 

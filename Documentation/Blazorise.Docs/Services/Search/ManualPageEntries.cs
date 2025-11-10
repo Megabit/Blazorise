@@ -43,7 +43,7 @@ public static class ManualPageEntries
     new( "docs/components/link", "Link", "Provides declarative, accessible navigation around your application." ),
     new( "docs/components/list-group", "List Group", "List groups are a flexible and powerful component for displaying a series of content." ),
     new( "docs/components/input-mask", "Input Mask", "Input mask allows the user to input a value in a specific format while typing." ),
-    new( "docs/components/memo-edit", "Memo Edit", "MemoEdit collect data from the user and allow multiple lines of text." ),
+    new( "docs/components/memo-input", "Memo Input", "MemoInput collect data from the user and allow multiple lines of text." ),
     new( "docs/components/modal", "Modal", "Dialog is a small window that can be used to present information and user interface elements in an overlay." ),
     new( "docs/components/numeric-input", "Numeric Input", "A native numeric <input> component built around the <input type=\"number\">." ),
     new( "docs/components/numeric-picker", "Numeric Picker", "A customizable NumericPicker component allows you to enter numeric values and contains controls for increasing and reducing the value." ),

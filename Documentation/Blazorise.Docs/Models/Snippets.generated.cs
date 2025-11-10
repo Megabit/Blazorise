@@ -2072,9 +2072,7 @@ namespace Blazorise.Docs.Models
     private string selectedItem = ""first"";
 }";
 
-        public const string BasicMemoEditExample = @"<MemoEdit Rows=""5"" />";
-
-        public const string MemoEditAutoSizeExample = @"<MemoEdit Value=""@loremipsum"" AutoSize />
+        public const string MemoInputAutoSizeExample = @"<MemoInput Value=""@loremipsum"" AutoSize />
 
 @code {
     string loremipsum = @""Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
@@ -2082,9 +2080,11 @@ namespace Blazorise.Docs.Models
 Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultrices mi libero quis ante. Curabitur scelerisque metus et libero convallis consequat. Pellentesque feugiat pulvinar nisl sed pellentesque."";
 }";
 
-        public const string MemoEditTabExample = @"<MemoEdit Rows=""5"" ReplaceTab TabSize=""4"" />";
+        public const string MemoInputBasicExample = @"<MemoInput Rows=""5"" />";
 
-        public const string MemoEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string MemoInputTabExample = @"<MemoInput Rows=""5"" ReplaceTab TabSize=""4"" />";
+
+        public const string MemoInputTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -2093,7 +2093,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string MemoEditTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string MemoInputTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -2103,13 +2103,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string MemoEditWithBindExample = @"<MemoEdit @bind-Value=""@description"" />
+        public const string MemoInputWithBindExample = @"<MemoInput @bind-Value=""@description"" />
 
 @code{
     string description;
 }";
 
-        public const string MemoEditWithEventExample = @"<MemoEdit Value=""@description"" ValueChanged=""@OnDescriptionChanged"" />
+        public const string MemoInputWithEventExample = @"<MemoInput Value=""@description"" ValueChanged=""@OnDescriptionChanged"" />
 
 @code{
     string description;
@@ -4537,7 +4537,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise/filePicker.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/inputMask.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/io.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=1.8.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoInput.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/numericPicker.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/observer.js?v=1.8.5.0"" type=""module""></script>
 <script src=""_content/Blazorise/table.js?v=1.8.5.0"" type=""module""></script>

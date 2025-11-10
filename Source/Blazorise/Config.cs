@@ -105,7 +105,7 @@ public static class Config
         { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
         { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
         { typeof( IJSTextInputModule ), typeof( JSTextInputModule ) },
-        { typeof( IJSMemoEditModule ), typeof( JSMemoEditModule ) },
+        { typeof( IJSMemoInputModule ), typeof( JSMemoInputModule ) },
         { typeof( IJSNumericPickerModule ), typeof( JSNumericPickerModule ) },
         { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },
         { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },

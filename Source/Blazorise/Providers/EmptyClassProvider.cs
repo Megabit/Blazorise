@@ -21,13 +21,13 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public string MemoEdit( bool plaintext ) => null;
+    public string MemoInput( bool plaintext ) => null;
 
-    public string MemoEditSize( Size size ) => null;
+    public string MemoInputSize( Size size ) => null;
 
-    public string MemoEditValidation( ValidationStatus validationStatus ) => null;
+    public string MemoInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 

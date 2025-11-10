@@ -6,28 +6,28 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Modules;
 
 /// <summary>
-/// Contracts for the <see cref="MemoEdit"/> JS module.
+/// Contracts for the <see cref="MemoInput"/> JS module.
 /// </summary>
-public interface IJSMemoEditModule : IBaseJSModule,
+public interface IJSMemoInputModule : IBaseJSModule,
     IJSDestroyableModule
 {
     /// <summary>
-    /// Initializes the new <see cref="MemoEdit"/> within the JS module.
+    /// Initializes the new <see cref="MemoInput"/> within the JS module.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
-    /// <param name="options">Options to initialize the memoedit.</param>
+    /// <param name="options">Options to initialize the memo input.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, MemoEditJSOptions options );
+    ValueTask Initialize( ElementReference elementRef, string elementId, MemoInputJSOptions options );
 
     /// <summary>
     /// Updates the memo options.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
-    /// <param name="options">New options to initialize the memoedit.</param>
+    /// <param name="options">New options to initialize the memo input.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask UpdateOptions( ElementReference elementRef, string elementId, MemoEditUpdateJSOptions options );
+    ValueTask UpdateOptions( ElementReference elementRef, string elementId, MemoInputUpdateJSOptions options );
 
     /// <summary>
     /// Recalculates the textarea height.

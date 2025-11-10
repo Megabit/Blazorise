@@ -19,13 +19,13 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public abstract string MemoEdit( bool plaintext );
+    public abstract string MemoInput( bool plaintext );
 
-    public abstract string MemoEditSize( Size size );
+    public abstract string MemoInputSize( Size size );
 
-    public abstract string MemoEditValidation( ValidationStatus validationStatus );
+    public abstract string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

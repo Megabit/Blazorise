@@ -1,9 +1,9 @@
 ﻿namespace Blazorise.Modules;
 
 /// <summary>
-/// Represents JavaScript options for initializing a memo edit (multi-line text editor) component.
+/// Represents JavaScript options for initializing a memo input (multi-line text editor) component.
 /// </summary>
-public class MemoEditJSOptions
+public class MemoInputJSOptions
 {
     /// <summary>
     /// Gets or sets a value indicating whether the Tab key should be replaced with spaces or used to navigate.
@@ -28,9 +28,9 @@ public class MemoEditJSOptions
 }
 
 /// <summary>
-/// Represents JavaScript options for updating specific settings of a memo edit (multi-line text editor) component.
+/// Represents JavaScript options for updating specific settings of a memo input (multi-line text editor) component.
 /// </summary>
-public class MemoEditUpdateJSOptions
+public class MemoInputUpdateJSOptions
 {
     /// <summary>
     /// Gets or sets the option for updating the Tab replacement setting.

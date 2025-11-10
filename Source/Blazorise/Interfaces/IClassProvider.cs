@@ -18,13 +18,13 @@ public interface IClassProvider
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    string MemoEdit( bool plaintext );
+    string MemoInput( bool plaintext );
 
-    string MemoEditSize( Size size );
+    string MemoInputSize( Size size );
 
-    string MemoEditValidation( ValidationStatus validationStatus );
+    string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

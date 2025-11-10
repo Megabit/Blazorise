@@ -21,13 +21,13 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
+    public override string MemoInput( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string MemoInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

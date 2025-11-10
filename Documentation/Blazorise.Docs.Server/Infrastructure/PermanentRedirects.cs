@@ -8,7 +8,7 @@ static class PermanentRedirects
     {
         ["/docs/components/date"] = "/docs/components/date-input",
         ["/docs/components/file"] = "/docs/components/file-input",
-        ["/docs/components/memo"] = "/docs/components/memo-edit",
+        ["/docs/components/memo"] = "/docs/components/memo-input",
         ["/docs/components/numeric"] = "/docs/components/numeric-input",
         ["/docs/components/text"] = "/docs/components/text-input",
         ["/docs/components/time"] = "/docs/components/time-input",

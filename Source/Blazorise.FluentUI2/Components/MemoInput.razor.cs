@@ -4,11 +4,11 @@ using Blazorise.Utilities;
 
 namespace Blazorise.FluentUI2.Components;
 
-public partial class MemoEdit
+public partial class MemoInput
 {
     #region Constructors
 
-    public MemoEdit()
+    public MemoInput()
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses );
     }

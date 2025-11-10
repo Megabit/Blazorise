@@ -1,26 +1,27 @@
 ﻿@page "/docs/components/memo-edit"
+@page "/docs/components/memo-input"
 
-<Seo Canonical="/docs/components/memo-edit" Title="Blazorise MemoEdit system" Description="Learn to use and work with the Blazorise MemoEdit component, which is used to create multiline text input (textarea)." />
+<Seo Canonical="/docs/components/memo-input" Title="Blazorise MemoInput system" Description="Learn to use and work with the Blazorise MemoInput component, which is used to create multiline text input (textarea)." />
 
-<DocsPageTitle Path="Components/Memo Edit">
-    Blazorise MemoEdit component
+<DocsPageTitle Path="Components/Memo Input">
+    Blazorise MemoInput component
 </DocsPageTitle>
 
 <DocsPageLead>
-    MemoEdit collect data from the user and allow multiple lines of text.
+    MemoInput collect data from the user and allow multiple lines of text.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    MemoEdit is an input field component for multi-line text input based on a <Code Tag>textarea</Code> element.
+    MemoInput is an input field component for multi-line text input based on a <Code Tag>textarea</Code> element.
 </DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicMemoEditExample />
+        <MemoInputBasicExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicMemoEditExample" />
+    <DocsPageSectionSource Code="MemoInputBasicExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -29,19 +30,19 @@
         you just need to enable it with <Code>ReplaceTab</Code>, and optionally a <Code>TabSize</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <MemoEditTabExample />
+        <MemoInputTabExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="MemoEditTabExample" />
+    <DocsPageSectionSource Code="MemoInputTabExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Auto size">
-        Unless set to a fixed height, MemoEdit adjusts its height automatically based on its content. The default and minimum height is two rows of text.
+        Unless set to a fixed height, MemoInput adjusts its height automatically based on its content. The default and minimum height is two rows of text.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <MemoEditAutoSizeExample />
+        <MemoInputAutoSizeExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="MemoEditAutoSizeExample" />
+    <DocsPageSectionSource Code="MemoInputAutoSizeExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -53,9 +54,9 @@
         By using <Code>bind-*</Code> attribute the text will be automatically assigned to the member variable.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <MemoEditWithBindExample />
+        <MemoInputWithBindExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="MemoEditWithBindExample" />
+    <DocsPageSectionSource Code="MemoInputWithBindExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -63,9 +64,9 @@
         When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <MemoEditWithEventExample />
+        <MemoInputWithEventExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="MemoEditWithEventExample" />
+    <DocsPageSectionSource Code="MemoInputWithEventExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -79,7 +80,7 @@
         keypress you must set the <Code>Immediate</Code> to <Code>false</Code> on application start.
         After setting it to <Code>false</Code> the event will be raised only after the input loses focus.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="MemoEditTextChangedModeExample" />
+    <DocsPageSectionSource Code="MemoInputTextChangedModeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -90,14 +91,14 @@
         slightly delay every value entered into the field to allow the Blazor engine to do it’s thing.
         By default this option is disabled.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="MemoEditTextDelayModeExample" />
+    <DocsPageSectionSource Code="MemoInputTextDelayModeExample" />
 </DocsPageSection>
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        <Strong>Note:</Strong> All of the options above can also be defined on each <Code>MemoEdit</Code> individually.
-        Defining them on <Code>MemoEdit</Code> will override any global settings.
+        <Strong>Note:</Strong> All of the options above can also be defined on each <Code>MemoInput</Code> individually.
+        Defining them on <Code>MemoInput</Code> will override any global settings.
     </AlertDescription>
 </Alert>
 
-<ComponentApiDocs ComponentTypes="[typeof(MemoEdit)]" />
+<ComponentApiDocs ComponentTypes="[typeof(MemoInput)]" />
