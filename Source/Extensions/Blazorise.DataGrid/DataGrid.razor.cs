@@ -1092,10 +1092,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         InvokeAsync( StateHasChanged );
     }
 
+    private void ResetPaginationCts()
+    {
+        var oldCts = paginationContext.CancellationTokenSource;
+        oldCts?.Cancel();
+        paginationContext.CancellationTokenSource = new();
+        oldCts?.Dispose();
+    }
+
     private async void OnPageSizeChanged( int pageSize )
     {
-        paginationContext.CancellationTokenSource?.Cancel();
-        paginationContext.CancellationTokenSource = new();
+        ResetPaginationCts();
 
         await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
@@ -1104,8 +1111,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private async void OnPageChanged( int currentPage )
     {
-        paginationContext.CancellationTokenSource?.Cancel();
-        paginationContext.CancellationTokenSource = new();
+        ResetPaginationCts();
 
         await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
 
@@ -2563,10 +2569,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             ( ManualReadMode ? TotalItems : Data?.Count() ) ?? 0 ) );
     }
 
+    private void ResetFilterCts()
+    {
+        var oldCts = filterCancellationTokenSource;
+        oldCts?.Cancel();
+        filterCancellationTokenSource = new();
+        oldCts?.Dispose();
+    }
+
     protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
     {
-        filterCancellationTokenSource?.Cancel();
-        filterCancellationTokenSource = new();
+        ResetFilterCts();
 
         virtualizeFilterChanged = true;
         column.Filter.SearchValue = value;
