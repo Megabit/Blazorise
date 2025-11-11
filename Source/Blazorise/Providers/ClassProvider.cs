@@ -1226,9 +1226,9 @@ public abstract class ClassProvider : IClassProvider
 
     #region Gutter
 
-    public abstract string Gutter( GutterSize gutterSize, GutterSide gutterSide );
+    public abstract string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint );
 
-    public abstract string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules );
+    public abstract string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules );
 
     #endregion
 

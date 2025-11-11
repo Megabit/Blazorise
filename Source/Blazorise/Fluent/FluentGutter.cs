@@ -22,18 +22,20 @@ public interface IFluentGutter
 /// <summary>
 /// Contains all the allowed gutter rules, except sizes.
 /// </summary>
-public interface IFluentGutterWithSide :
+public interface IFluentGutterOnBreakpointWithSide :
     IFluentGutter,
-    IFluentGutterFromSide
+    IFluentGutterFromSide,
+    IFluentGutterOnBreakpoint
 {
 }
 
 /// <summary>
-/// Contains all the allowed gutter rules.
+/// Contains all the allowed spacing rules.
 /// </summary>
-public interface IFluentGutterWithSideAndSize :
+public interface IFluentGutterOnBreakpointWithSideAndSize :
     IFluentGutter,
     IFluentGutterFromSide,
+    IFluentGutterOnBreakpoint,
     IFluentGutterWithSize
 {
 }
@@ -47,17 +49,55 @@ public interface IFluentGutterFromSide :
     /// <summary>
     /// For classes that set both *-left and *-right.
     /// </summary>
-    IFluentGutterWithSideAndSize OnX { get; }
+    IFluentGutterOnBreakpointWithSideAndSize OnX { get; }
 
     /// <summary>
     /// For classes that set both *-top and *-bottom.
     /// </summary>
-    IFluentGutterWithSideAndSize OnY { get; }
+    IFluentGutterOnBreakpointWithSideAndSize OnY { get; }
 
     /// <summary>
     /// For classes that set a margin or padding on all 4 sides of the element.
     /// </summary>
-    IFluentGutterWithSideAndSize OnAll { get; }
+    IFluentGutterOnBreakpointWithSideAndSize OnAll { get; }
+}
+
+/// <summary>
+/// Breakpoints allowed for gutter.
+/// </summary>
+public interface IFluentGutterOnBreakpoint :
+    IFluentGutter,
+    IFluentGutterFromSide
+{
+    /// <summary>
+    /// Valid on all devices. (extra small)
+    /// </summary>
+    IFluentGutterOnBreakpointWithSideAndSize OnMobile { get; }
+
+    /// <summary>
+    /// Breakpoint on tablets (small).
+    /// </summary>
+    IFluentGutterOnBreakpointWithSideAndSize OnTablet { get; }
+
+    /// <summary>
+    ///  Breakpoint on desktop (medium).
+    /// </summary>
+    IFluentGutterOnBreakpointWithSideAndSize OnDesktop { get; }
+
+    /// <summary>
+    /// Breakpoint on widescreen (large).
+    /// </summary>
+    IFluentGutterOnBreakpointWithSideAndSize OnWidescreen { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra large).
+    /// </summary>
+    IFluentGutterOnBreakpointWithSideAndSize OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on extra large desktops (extra extra large).
+    /// </summary>
+    IFluentGutterOnBreakpointWithSideAndSize OnQuadHD { get; }
 }
 
 /// <summary>
@@ -69,32 +109,32 @@ public interface IFluentGutterWithSize :
     /// <summary>
     /// For classes that eliminate the margin or padding by setting it to 0.
     /// </summary>
-    IFluentGutterWithSideAndSize Is0 { get; }
+    IFluentGutterOnBreakpointWithSideAndSize Is0 { get; }
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * .25
     /// </summary>
-    IFluentGutterWithSideAndSize Is1 { get; }
+    IFluentGutterOnBreakpointWithSideAndSize Is1 { get; }
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * .5
     /// </summary>
-    IFluentGutterWithSideAndSize Is2 { get; }
+    IFluentGutterOnBreakpointWithSideAndSize Is2 { get; }
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer
     /// </summary>
-    IFluentGutterWithSideAndSize Is3 { get; }
+    IFluentGutterOnBreakpointWithSideAndSize Is3 { get; }
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * 1.5
     /// </summary>
-    IFluentGutterWithSideAndSize Is4 { get; }
+    IFluentGutterOnBreakpointWithSideAndSize Is4 { get; }
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * 3
     /// </summary>
-    IFluentGutterWithSideAndSize Is5 { get; }
+    IFluentGutterOnBreakpointWithSideAndSize Is5 { get; }
 
     /// <summary>
     /// Used to add custom gutter rule.
@@ -109,15 +149,18 @@ public interface IFluentGutterWithSize :
 public class FluentGutter :
     IFluentGutter,
     IFluentGutterWithSize,
+    IFluentGutterOnBreakpoint,
     IFluentGutterFromSide,
-    IFluentGutterWithSide,
-    IFluentGutterWithSideAndSize
+    IFluentGutterOnBreakpointWithSide,
+    IFluentGutterOnBreakpointWithSideAndSize
 {
     #region Members
 
     private class GutterDefinition
     {
         public GutterSide Side { get; set; }
+
+        public Breakpoint Breakpoint { get; set; }
     }
 
     private GutterDefinition currentGutter;
@@ -142,7 +185,7 @@ public class FluentGutter :
             void BuildClasses( ClassBuilder builder )
             {
                 if ( rules.Count > 0 )
-                    builder.Append( rules.Select( r => classProvider.Gutter( r.Key, r.Value.Select( v => v.Side ) ) ) );
+                    builder.Append( rules.Select( r => classProvider.Gutter( r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ) );
 
                 if ( customRules?.Count > 0 )
                     builder.Append( customRules );
@@ -168,7 +211,7 @@ public class FluentGutter :
     /// </summary>
     /// <param name="gutterSize">Gutter size to append.</param>
     /// <returns>Next rule reference.</returns>
-    public IFluentGutterWithSideAndSize WithSize( GutterSize gutterSize )
+    public IFluentGutterOnBreakpointWithSideAndSize WithSize( GutterSize gutterSize )
     {
         var gutterDefinition = new GutterDefinition { Side = GutterSide.All };
 
@@ -188,9 +231,22 @@ public class FluentGutter :
     /// </summary>
     /// <param name="side">Side to append.</param>
     /// <returns>Next rule reference.</returns>
-    public IFluentGutterWithSideAndSize WithSide( GutterSide side )
+    public IFluentGutterOnBreakpointWithSideAndSize WithSide( GutterSide side )
     {
         currentGutter.Side = side;
+        Dirty();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Appends the new breakpoint rule.
+    /// </summary>
+    /// <param name="breakpoint">Breakpoint to append.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentGutterOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
+    {
+        currentGutter.Breakpoint = breakpoint;
         Dirty();
 
         return this;
@@ -221,47 +277,77 @@ public class FluentGutter :
     /// <summary>
     /// For classes that eliminate the margin or padding by setting it to 0.
     /// </summary>
-    public IFluentGutterWithSideAndSize Is0 => WithSize( GutterSize.Is0 );
+    public IFluentGutterOnBreakpointWithSideAndSize Is0 => WithSize( GutterSize.Is0 );
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * .25
     /// </summary>
-    public IFluentGutterWithSideAndSize Is1 => WithSize( GutterSize.Is1 );
+    public IFluentGutterOnBreakpointWithSideAndSize Is1 => WithSize( GutterSize.Is1 );
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * .5
     /// </summary>
-    public IFluentGutterWithSideAndSize Is2 => WithSize( GutterSize.Is2 );
+    public IFluentGutterOnBreakpointWithSideAndSize Is2 => WithSize( GutterSize.Is2 );
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer
     /// </summary>
-    public IFluentGutterWithSideAndSize Is3 => WithSize( GutterSize.Is3 );
+    public IFluentGutterOnBreakpointWithSideAndSize Is3 => WithSize( GutterSize.Is3 );
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * 1.5
     /// </summary>
-    public IFluentGutterWithSideAndSize Is4 => WithSize( GutterSize.Is4 );
+    public IFluentGutterOnBreakpointWithSideAndSize Is4 => WithSize( GutterSize.Is4 );
 
     /// <summary>
     /// (by default) for classes that set the margin or padding to $spacer * 3
     /// </summary>
-    public IFluentGutterWithSideAndSize Is5 => WithSize( GutterSize.Is5 );
+    public IFluentGutterOnBreakpointWithSideAndSize Is5 => WithSize( GutterSize.Is5 );
 
     /// <summary>
     /// For classes that set both *-left and *-right.
     /// </summary>
-    public IFluentGutterWithSideAndSize OnX => WithSide( GutterSide.X );
+    public IFluentGutterOnBreakpointWithSideAndSize OnX => WithSide( GutterSide.X );
 
     /// <summary>
     /// For classes that set both *-top and *-bottom.
     /// </summary>
-    public IFluentGutterWithSideAndSize OnY => WithSide( GutterSide.Y );
+    public IFluentGutterOnBreakpointWithSideAndSize OnY => WithSide( GutterSide.Y );
 
     /// <summary>
     /// For classes that set a margin or padding on all 4 sides of the element.
     /// </summary>
-    public IFluentGutterWithSideAndSize OnAll => WithSide( GutterSide.All );
+    public IFluentGutterOnBreakpointWithSideAndSize OnAll => WithSide( GutterSide.All );
+
+    /// <summary>
+    /// Valid on all devices. (extra small)
+    /// </summary>
+    public IFluentGutterOnBreakpointWithSideAndSize OnMobile => WithBreakpoint( Breakpoint.Mobile );
+
+    /// <summary>
+    /// Breakpoint on tablets (small).
+    /// </summary>
+    public IFluentGutterOnBreakpointWithSideAndSize OnTablet => WithBreakpoint( Breakpoint.Tablet );
+
+    /// <summary>
+    ///  Breakpoint on desktop (medium).
+    /// </summary>
+    public IFluentGutterOnBreakpointWithSideAndSize OnDesktop => WithBreakpoint( Breakpoint.Desktop );
+
+    /// <summary>
+    /// Breakpoint on widescreen (large).
+    /// </summary>
+    public IFluentGutterOnBreakpointWithSideAndSize OnWidescreen => WithBreakpoint( Breakpoint.Widescreen );
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra large).
+    /// </summary>
+    public IFluentGutterOnBreakpointWithSideAndSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    public IFluentGutterOnBreakpointWithSideAndSize OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     #endregion
 }
@@ -274,32 +360,32 @@ public static class Gutter
     /// <summary>
     /// for classes that eliminate the margin by setting it to 0
     /// </summary>
-    public static IFluentGutterWithSideAndSize Is0 => new FluentGutter().Is0;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is0 => new FluentGutter().Is0;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * .25
     /// </summary>
-    public static IFluentGutterWithSideAndSize Is1 => new FluentGutter().Is1;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is1 => new FluentGutter().Is1;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * .5
     /// </summary>
-    public static IFluentGutterWithSideAndSize Is2 => new FluentGutter().Is2;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is2 => new FluentGutter().Is2;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer
     /// </summary>
-    public static IFluentGutterWithSideAndSize Is3 => new FluentGutter().Is3;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is3 => new FluentGutter().Is3;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * 1.5
     /// </summary>
-    public static IFluentGutterWithSideAndSize Is4 => new FluentGutter().Is4;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is4 => new FluentGutter().Is4;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * 3
     /// </summary>
-    public static IFluentGutterWithSideAndSize Is5 => new FluentGutter().Is5;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is5 => new FluentGutter().Is5;
 
     /// <summary>
     /// Add custom margin rule.

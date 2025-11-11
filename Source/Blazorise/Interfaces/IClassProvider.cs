@@ -1224,9 +1224,9 @@ public interface IClassProvider
 
     #region Gutter
 
-    string Gutter( GutterSize gutterSize, GutterSide gutterSide );
+    string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint );
 
-    string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules );
+    string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules );
 
     #endregion
 

@@ -1229,9 +1229,9 @@ class EmptyClassProvider : IClassProvider
 
     #region Gutter
 
-    public string Gutter( GutterSize gutterSize, GutterSide gutterSide ) => null;
+    public string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint ) => null;
 
-    public string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules ) => null;
+    public string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules ) => null;
 
     #endregion
 

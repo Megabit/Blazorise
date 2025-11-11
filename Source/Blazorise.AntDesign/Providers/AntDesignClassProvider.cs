@@ -1393,7 +1393,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Gutter
 
-    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide )
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
     {
         var side = gutterSide != GutterSide.None && gutterSide != GutterSide.All
              ? $"{ToGutterSide( gutterSide )}-"
@@ -1402,8 +1402,8 @@ public class AntDesignClassProvider : ClassProvider
         return $"g{side}{ToGutterSize( gutterSize )}";
     }
 
-    public override string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules )
-        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x ) ) );
+    public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x.Item1, x.Item2 ) ) );
 
     #endregion
 

@@ -1391,17 +1391,23 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Gutter
 
-    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide )
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
     {
-        var side = gutterSide != GutterSide.None && gutterSide != GutterSide.All
-             ? $"{ToGutterSide( gutterSide )}-"
-             : null;
+        var sb = new StringBuilder( "g" );
 
-        return $"g{side}{ToGutterSize( gutterSize )}";
+        if ( gutterSide != GutterSide.None && gutterSide != GutterSide.All )
+            sb.Append( ToGutterSide( gutterSide ) );
+
+        if ( breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile )
+            sb.Append( '-' ).Append( ToBreakpoint( breakpoint ) );
+
+        sb.Append( '-' ).Append( ToGutterSize( gutterSize ) );
+
+        return sb.ToString();
     }
 
-    public override string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules )
-        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x ) ) );
+    public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x.Item1, x.Item2 ) ) );
 
     #endregion
 
