@@ -46,13 +46,13 @@ public static class Configuration
         services.AddScoped<IJSButtonModule, JSButtonModule>();
         services.AddScoped<IJSClosableModule, JSClosableModule>();
         services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
-        services.AddScoped<IJSTextEditModule, JSTextEditModule>();
-        services.AddScoped<IJSMemoEditModule, JSMemoEditModule>();
+        services.AddScoped<IJSTextInputModule, JSTextInputModule>();
+        services.AddScoped<IJSMemoInputModule, JSMemoInputModule>();
         services.AddScoped<IJSNumericPickerModule, JSNumericPickerModule>();
         services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();
         services.AddScoped<IJSTimePickerModule, JSTimePickerModule>();
         services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
-        services.AddScoped<IJSFileEditModule, JSFileEditModule>();
+        services.AddScoped<IJSFileInputModule, JSFileInputModule>();
         services.AddScoped<IJSTableModule, JSTableModule>();
         services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
         services.AddScoped<IJSDropdownModule, JSDropdownModule>();

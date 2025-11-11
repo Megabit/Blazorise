@@ -6,13 +6,13 @@ static class PermanentRedirects
 {
     public static readonly Dictionary<string, string> Map = new()
     {
-        ["/docs/components/date"] = "/docs/components/date-edit",
-        ["/docs/components/file"] = "/docs/components/file-edit",
-        ["/docs/components/memo"] = "/docs/components/memo-edit",
-        ["/docs/components/numeric"] = "/docs/components/numeric-edit",
-        ["/docs/components/text"] = "/docs/components/text-edit",
-        ["/docs/components/time"] = "/docs/components/time-edit",
-        ["/docs/components/color"] = "/docs/components/color-edit",
+        ["/docs/components/date"] = "/docs/components/date-input",
+        ["/docs/components/file"] = "/docs/components/file-input",
+        ["/docs/components/memo"] = "/docs/components/memo-input",
+        ["/docs/components/numeric"] = "/docs/components/numeric-input",
+        ["/docs/components/text"] = "/docs/components/text-input",
+        ["/docs/components/time"] = "/docs/components/time-input",
+        ["/docs/components/color"] = "/docs/components/color-input",
         ["/docs/components/dragdrop"] = "/docs/components/drag-drop",
     };
 }

@@ -5,31 +5,31 @@
     <Validation>
         <Field>
             <FieldLabel>First name</FieldLabel>
-            <TextEdit Placeholder="Enter first name..." @bind-Value="@person.FirstName">
+            <TextInput Placeholder="Enter first name..." @bind-Value="@person.FirstName">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Field>
     </Validation>
     <Validation>
         <Field>
             <FieldLabel>Last name</FieldLabel>
-            <TextEdit Placeholder="Enter last name..." @bind-Value="@person.LastName">
+            <TextInput Placeholder="Enter last name..." @bind-Value="@person.LastName">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </TextEdit>
+            </TextInput>
         </Field>
     </Validation>
     <Validation>
         <Field>
             <FieldLabel>Age</FieldLabel>
-            <NumericEdit Placeholder="Enter age..." @bind-Value="@person.Age">
+            <NumericInput Placeholder="Enter age..." @bind-Value="@person.Age">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </NumericEdit>
+            </NumericInput>
         </Field>
     </Validation>
 </Validations>

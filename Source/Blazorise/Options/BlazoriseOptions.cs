@@ -49,17 +49,17 @@ public class BlazoriseOptions
     public string ProductToken { get; set; }
 
     /// <summary>
-    /// If true the text in <see cref="TextEdit"/> will be changed after each key press.
+    /// If true the text in <see cref="TextInput"/> will be changed after each key press.
     /// </summary>
     public bool Immediate { get; set; } = true;
 
     /// <summary>
-    /// If true the entered into <see cref="TextEdit"/> will be slightly delayed before submitting it to the internal value.
+    /// If true the entered into <see cref="TextInput"/> will be slightly delayed before submitting it to the internal value.
     /// </summary>
     public bool? Debounce { get; set; } = false;
 
     /// <summary>
-    /// Interval in milliseconds that entered text will be delayed from submitting to the <see cref="TextEdit"/> internal value.
+    /// Interval in milliseconds that entered text will be delayed from submitting to the <see cref="TextInput"/> internal value.
     /// </summary>
     public int? DebounceInterval { get; set; } = 300;
 

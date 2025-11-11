@@ -27,7 +27,7 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Checked` parameter. Use the `Value` parameter instead.
 
-### ColorEdit
+### ColorInput
 
 - Dropping the `Color` parameter. Use the `Value` parameter instead.
 
@@ -35,7 +35,7 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Color` parameter. Use the `Value` parameter instead.
 
-### DateEdit
+### DateInput
 
 - Dropping the `Date` parameter. Use the `Value` parameter instead.
 
@@ -43,7 +43,7 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Date` and `Dates` parameters. Use the `Value` parameter instead.
 
-### MemoEdit
+### MemoInput
 
 - Dropping the `Text` parameter. Use the `Value` parameter instead.
 
@@ -55,11 +55,11 @@ All input components have been updated to use a single `Value` parameter instead
 
 - Dropping the `Checked` parameter. Use the `Value` parameter instead.
 
-### TextEdit
+### TextInput
 
 - Dropping the `Text` parameter. Use the `Value` parameter instead.
 
-### TimeEdit
+### TimeInput
 
 - Dropping the `Time` parameter. Use the `Value` parameter instead.
 

@@ -36,11 +36,11 @@ public static class JSInterop
         return jsInterop;
     }
 
-    public static BunitJSInterop AddBlazoriseTextEdit( this BunitJSInterop jsInterop )
+    public static BunitJSInterop AddBlazoriseTextInput( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSTextInputModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
@@ -72,7 +72,7 @@ public static class JSInterop
         return jsInterop;
     }
 
-    public static BunitJSInterop AddBlazoriseNumericEdit( this BunitJSInterop jsInterop )
+    public static BunitJSInterop AddBlazoriseNumericInput( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
 
@@ -128,7 +128,7 @@ public static class JSInterop
     public static BunitJSInterop AddBlazoriseDataGrid( this BunitJSInterop jsInterop )
     {
         AddBlazoriseButton( jsInterop );
-        AddBlazoriseTextEdit( jsInterop );
+        AddBlazoriseTextInput( jsInterop );
         AddBlazoriseModal( jsInterop );
         AddBlazoriseTable( jsInterop );
         AddBlazoriseClosable( jsInterop );

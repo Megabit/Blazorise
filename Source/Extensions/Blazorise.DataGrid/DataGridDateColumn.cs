@@ -72,7 +72,7 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public bool StaticPicker { get; set; }
 
     /// <summary>
-    /// Renders the native based input <see cref="Blazorise.DateEdit{TValue}"/> instead of the <see cref="Blazorise.DatePicker{TValue}"/>.
+    /// Renders the native based input <see cref="Blazorise.DateInput{TValue}"/> instead of the <see cref="Blazorise.DatePicker{TValue}"/>.
     /// </summary>
     [Parameter] public bool NativeInputMode { get; set; }
 }

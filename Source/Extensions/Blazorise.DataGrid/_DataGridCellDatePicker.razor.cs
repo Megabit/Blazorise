@@ -111,12 +111,12 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
         builder.CloseComponent();
     };
 
-    private RenderFragment DateEditFragment => builder =>
+    private RenderFragment DateInputFragment => builder =>
     {
-        var type = typeof( DateEdit<> ).MakeGenericType( new[] { valueType } );
+        var type = typeof( DateInput<> ).MakeGenericType( new[] { valueType } );
 
         builder.OpenComponent( 0, type );
-        builder.AddAttribute( 1, nameof( DateEdit<object>.Value ), valueType switch
+        builder.AddAttribute( 1, nameof( DateInput<object>.Value ), valueType switch
         {
             Type typeDateTime when typeDateTime == typeof( DateTime ) => (DateTime)( CellValue ?? (DateTime)default ),
             Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => (DateTime?)( CellValue ?? (DateTime?)default ),
@@ -126,7 +126,7 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
             Type typeDateTimeOffsetNull when typeDateTimeOffsetNull == typeof( DateTimeOffset? ) => (DateTimeOffset?)( CellValue ?? (DateTimeOffset?)default ),
             _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
         } );
-        builder.AddAttribute( 2, nameof( DateEdit<object>.ValueChanged ), valueType switch
+        builder.AddAttribute( 2, nameof( DateInput<object>.ValueChanged ), valueType switch
         {
             Type typeDateTime when typeDateTime == typeof( DateTime ) => EventCallback.Factory.Create<DateTime>( this, ( OnCellValueChanged<DateTime> ) ),
             Type typeDateTimeNull when typeDateTimeNull == typeof( DateTime? ) => EventCallback.Factory.Create<DateTime?>( this, ( OnCellValueChanged<DateTime?> ) ),
@@ -137,10 +137,10 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
             _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
         } );
         builder.AddAttribute( 3, nameof( BaseInputComponent<object>.ReadOnly ), Column.Readonly );
-        builder.AddAttribute( 4, nameof( DateEdit<object>.Pattern ), Column.ValidationPattern );
-        builder.AddAttribute( 5, nameof( DateEdit<object>.InputMode ), Column.InputMode );
-        builder.AddAttribute( 6, nameof( DateEdit<object>.Min ), Column.Min );
-        builder.AddAttribute( 7, nameof( DateEdit<object>.Max ), Column.Max );
+        builder.AddAttribute( 4, nameof( DateInput<object>.Pattern ), Column.ValidationPattern );
+        builder.AddAttribute( 5, nameof( DateInput<object>.InputMode ), Column.InputMode );
+        builder.AddAttribute( 6, nameof( DateInput<object>.Min ), Column.Min );
+        builder.AddAttribute( 7, nameof( DateInput<object>.Max ), Column.Max );
         builder.CloseComponent();
     };
 

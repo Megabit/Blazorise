@@ -18,11 +18,11 @@
                         <Field>
                             <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
                             <FieldBody>
-                                <TextEdit @bind-Value="@Title" Autofocus>
+                                <TextInput @bind-Value="@Title" Autofocus>
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </TextEdit>
+                                </TextInput>
                             </FieldBody>
                         </Field>
                     </Validation>
@@ -99,7 +99,7 @@
                     <Field>
                         <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
                         <FieldBody>
-                            <MemoEdit @bind-Value="@Description" Rows="4" />
+                            <MemoInput @bind-Value="@Description" Rows="4" />
                         </FieldBody>
                     </Field>
                 }

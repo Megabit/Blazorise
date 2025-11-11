@@ -48,9 +48,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     private CancellationTokenSource cancellationTokenSource;
 
     /// <summary>
-    /// Reference to the TextEdit component.
+    /// Reference to the TextInput component.
     /// </summary>
-    private TextEdit textEditRef;
+    private TextInput textInputRef;
 
     /// <summary>
     /// Original data-source.
@@ -449,7 +449,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             {
                 clickFromCheck = false;
                 focusFromCheck = true;
-                await textEditRef.Focus();
+                await textInputRef.Focus();
                 return;
             }
             await Close();
@@ -686,9 +686,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private Task Revalidate()
     {
-        if ( textEditRef is not null )
+        if ( textInputRef is not null )
         {
-            return textEditRef.Revalidate();
+            return textInputRef.Revalidate();
         }
         return Task.CompletedTask;
     }
@@ -965,8 +965,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Focus( bool scrollToElement = true )
     {
-        if ( textEditRef != null )
-            return textEditRef.Focus( scrollToElement );
+        if ( textInputRef != null )
+            return textInputRef.Focus( scrollToElement );
 
         return Task.CompletedTask;
     }
@@ -1230,7 +1230,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Gets the Element Reference
     /// </summary>
-    public ElementReference ElementRef => textEditRef.ElementRef;
+    public ElementReference ElementRef => textInputRef.ElementRef;
 
     /// <summary>
     /// Gets the Element Id

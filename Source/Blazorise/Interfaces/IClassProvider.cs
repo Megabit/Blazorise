@@ -6,25 +6,25 @@ namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public interface IClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    string TextEdit( bool plaintext );
+    string TextInput( bool plaintext );
 
-    string TextEditSize( Size size );
+    string TextInputSize( Size size );
 
-    string TextEditColor( Color color );
+    string TextInputColor( Color color );
 
-    string TextEditValidation( ValidationStatus validationStatus );
+    string TextInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    string MemoEdit( bool plaintext );
+    string MemoInput( bool plaintext );
 
-    string MemoEditSize( Size size );
+    string MemoInputSize( Size size );
 
-    string MemoEditValidation( ValidationStatus validationStatus );
+    string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
@@ -40,47 +40,47 @@ public interface IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    string NumericEdit( bool plaintext );
+    string NumericInput( bool plaintext );
 
-    string NumericEditSize( Size size );
+    string NumericInputSize( Size size );
 
-    string NumericEditColor( Color color );
+    string NumericInputColor( Color color );
 
-    string NumericEditValidation( ValidationStatus validationStatus );
-
-    #endregion
-
-    #region DateEdit
-
-    string DateEdit( bool plaintext );
-
-    string DateEditSize( Size size );
-
-    string DateEditColor( Color color );
-
-    string DateEditValidation( ValidationStatus validationStatus );
+    string NumericInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    string TimeEdit( bool plaintext );
+    string DateInput( bool plaintext );
 
-    string TimeEditSize( Size size );
+    string DateInputSize( Size size );
 
-    string TimeEditColor( Color color );
+    string DateInputColor( Color color );
 
-    string TimeEditValidation( ValidationStatus validationStatus );
+    string DateInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    string ColorEdit();
+    string TimeInput( bool plaintext );
 
-    string ColorEditSize( Size size );
+    string TimeInputSize( Size size );
+
+    string TimeInputColor( Color color );
+
+    string TimeInputValidation( ValidationStatus validationStatus );
+
+    #endregion
+
+    #region ColorInput
+
+    string ColorInput();
+
+    string ColorInputSize( Size size );
 
     #endregion
 
@@ -194,13 +194,13 @@ public interface IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    string FileEdit();
+    string FileInput();
 
-    string FileEditSize( Size size );
+    string FileInputSize( Size size );
 
-    string FileEditValidation( ValidationStatus validationStatus );
+    string FileInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

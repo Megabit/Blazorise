@@ -7,7 +7,7 @@
             </CardHeader>
             <CardBody>
                 <Field>
-                    Custom Filter: <TextEdit @bind-Value="@customFilterValue"></TextEdit>
+                    Custom Filter: <TextInput @bind-Value="@customFilterValue"></TextInput>
                 </Field>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"

@@ -25,7 +25,7 @@
             }
         }
 
-        <TextEdit @ref="@textEditRef"
+        <TextInput @ref="@textInputRef"
                   ElementId="@InputElementId"
                   Role="TextRole.Search"
                   Value="@Search"
@@ -51,7 +51,7 @@
                 <ValidationSuccess />
                 <ValidationNone />
             </Feedback>
-        </TextEdit>
+        </TextInput>
     </Validation>
     <DropdownMenu>
         @if ( DropdownVisible )

@@ -43,12 +43,12 @@
                 <Field @key=context.GetFilterMethod()>
                     @if ( context.GetFilterMethod() == DataGridColumnFilterMethod.Between )
                     {
-                        <TextEdit Value="@GetFilterValue1(context)" ValueChanged="@((newValue) => SetFilterValue1(context.Column.Filter, newValue))" />
-                        <TextEdit Value="@GetFilterValue2(context)" ValueChanged="@((newValue) => SetFilterValue2(context.Column.Filter, newValue))" />
+                        <TextInput Value="@GetFilterValue1(context)" ValueChanged="@((newValue) => SetFilterValue1(context.Column.Filter, newValue))" />
+                        <TextInput Value="@GetFilterValue2(context)" ValueChanged="@((newValue) => SetFilterValue2(context.Column.Filter, newValue))" />
                     }
                     else
                     {
-                        <TextEdit Value="@context.GetSearchValue()?.ToString()" ValueChanged="@((newValue) => context.Column.Filter.SearchValue = newValue)" />
+                        <TextInput Value="@context.GetSearchValue()?.ToString()" ValueChanged="@((newValue) => context.Column.Filter.SearchValue = newValue)" />
                     }
                 </Field>
             </Column>

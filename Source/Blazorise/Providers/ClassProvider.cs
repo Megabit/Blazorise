@@ -7,25 +7,25 @@ namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public abstract class ClassProvider : IClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public abstract string TextEdit( bool plaintext );
+    public abstract string TextInput( bool plaintext );
 
-    public abstract string TextEditSize( Size size );
+    public abstract string TextInputSize( Size size );
 
-    public abstract string TextEditColor( Color color );
+    public abstract string TextInputColor( Color color );
 
-    public abstract string TextEditValidation( ValidationStatus validationStatus );
+    public abstract string TextInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public abstract string MemoEdit( bool plaintext );
+    public abstract string MemoInput( bool plaintext );
 
-    public abstract string MemoEditSize( Size size );
+    public abstract string MemoInputSize( Size size );
 
-    public abstract string MemoEditValidation( ValidationStatus validationStatus );
+    public abstract string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
@@ -41,47 +41,47 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public abstract string NumericEdit( bool plaintext );
+    public abstract string NumericInput( bool plaintext );
 
-    public abstract string NumericEditSize( Size size );
+    public abstract string NumericInputSize( Size size );
 
-    public abstract string NumericEditColor( Color color );
+    public abstract string NumericInputColor( Color color );
 
-    public abstract string NumericEditValidation( ValidationStatus validationStatus );
-
-    #endregion
-
-    #region DateEdit
-
-    public abstract string DateEdit( bool plaintext );
-
-    public abstract string DateEditSize( Size size );
-
-    public abstract string DateEditColor( Color color );
-
-    public abstract string DateEditValidation( ValidationStatus validationStatus );
+    public abstract string NumericInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public abstract string TimeEdit( bool plaintext );
+    public abstract string DateInput( bool plaintext );
 
-    public abstract string TimeEditSize( Size size );
+    public abstract string DateInputSize( Size size );
 
-    public abstract string TimeEditColor( Color color );
+    public abstract string DateInputColor( Color color );
 
-    public abstract string TimeEditValidation( ValidationStatus validationStatus );
+    public abstract string DateInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public abstract string ColorEdit();
+    public abstract string TimeInput( bool plaintext );
 
-    public abstract string ColorEditSize( Size size );
+    public abstract string TimeInputSize( Size size );
+
+    public abstract string TimeInputColor( Color color );
+
+    public abstract string TimeInputValidation( ValidationStatus validationStatus );
+
+    #endregion
+
+    #region ColorInput
+
+    public abstract string ColorInput();
+
+    public abstract string ColorInputSize( Size size );
 
     #endregion
 
@@ -195,13 +195,13 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public abstract string FileEdit();
+    public abstract string FileInput();
 
-    public abstract string FileEditSize( Size size );
+    public abstract string FileInputSize( Size size );
 
-    public abstract string FileEditValidation( ValidationStatus validationStatus );
+    public abstract string FileInputValidation( ValidationStatus validationStatus );
 
     #endregion
 

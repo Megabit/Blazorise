@@ -208,7 +208,7 @@
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit Value="@customFilterValue" ValueChanged="@OnCustomFilterValueChanged" />
+                                    <TextInput Value="@customFilterValue" ValueChanged="@OnCustomFilterValueChanged" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -321,7 +321,7 @@
                         <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" PreventRowClick />
                         <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable>
                             <FilterTemplate>
-                                <TextEdit Placeholder="Search name" Value="@context.SearchValue?.ToString()" ValueChanged="@(v=> context.TriggerFilterChange(v))" />
+                                <TextInput Placeholder="Search name" Value="@context.SearchValue?.ToString()" ValueChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable ValidationPattern="[A-Za-z]{3}" />
@@ -359,7 +359,7 @@
                                                 Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
                         <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                             <EditTemplate>
-                                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+                                <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
                         <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" HelpText="Whether this employee is active." />
@@ -419,24 +419,24 @@
                     <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Value="@selectedEmployee?.FirstName"></TextEdit>
+                            <TextInput ReadOnly Value="@selectedEmployee?.FirstName"></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly Value="@selectedEmployee?.LastName"></TextEdit>
+                        <TextInput ReadOnly Value="@selectedEmployee?.LastName"></TextInput>
                     </Field>
                 </Fields>
                 <Fields>
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Value="@selectedEmployee?.Email"></TextEdit>
+                            <TextInput ReadOnly Value="@selectedEmployee?.Email"></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly Value="@selectedEmployee?.City"></TextEdit>
+                        <TextInput ReadOnly Value="@selectedEmployee?.City"></TextInput>
                     </Field>
                 </Fields>
             </CardBody>
@@ -462,24 +462,24 @@
                                 <Field>
                                     <FieldLabel>First Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Value="@employee?.FirstName"></TextEdit>
+                                        <TextInput ReadOnly Value="@employee?.FirstName"></TextInput>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>Last Name</FieldLabel>
-                                    <TextEdit ReadOnly Value="@employee?.LastName"></TextEdit>
+                                    <TextInput ReadOnly Value="@employee?.LastName"></TextInput>
                                 </Field>
                             </Fields>
                             <Fields>
                                 <Field>
                                     <FieldLabel>Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Value="@employee?.Email"></TextEdit>
+                                        <TextInput ReadOnly Value="@employee?.Email"></TextInput>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>City</FieldLabel>
-                                    <TextEdit ReadOnly Value="@employee?.City"></TextEdit>
+                                    <TextInput ReadOnly Value="@employee?.City"></TextInput>
                                 </Field>
                             </Fields>
                         </CardBody>
@@ -501,7 +501,7 @@
                             <Field>
                                 <FieldLabel>Quantity</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit ReadOnly Value="@selectedEmployees.Count.ToString()"></TextEdit>
+                                    <TextInput ReadOnly Value="@selectedEmployees.Count.ToString()"></TextInput>
                                 </FieldBody>
                             </Field>
                         </Fields>
