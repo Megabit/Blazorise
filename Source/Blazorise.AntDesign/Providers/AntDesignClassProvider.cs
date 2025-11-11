@@ -780,8 +780,6 @@ public class AntDesignClassProvider : ClassProvider
         return $"ant-row-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "ant-row-no-gutters" : null;
-
     #endregion
 
     #region Column

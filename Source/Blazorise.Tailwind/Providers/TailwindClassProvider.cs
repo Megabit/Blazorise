@@ -1173,8 +1173,6 @@ public class TailwindClassProvider : ClassProvider
         return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "mx-0 no-gutters" : null;
-
     #endregion
 
     #region Column

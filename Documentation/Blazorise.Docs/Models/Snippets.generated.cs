@@ -11851,7 +11851,7 @@ builder.Services
     </Alert>
 </Container>";
 
-        public const string GridGutterExample = @"<Row HorizontalGutter=""32"" VerticalGutter=""16"">
+        public const string GridGutterExample = @"<Row Gutter=""Gutter.Is5.OnX.Is3.OnY"">
     <Column ColumnSize=""ColumnSize.Is8"">
         <Alert Color=""Color.Primary"" Visible>
             I have padding

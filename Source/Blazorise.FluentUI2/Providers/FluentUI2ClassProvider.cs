@@ -939,8 +939,6 @@ public class FluentUI2ClassProvider : ClassProvider
         return $"fui-RowColumns-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "fui-NoGutters" : null;
-
     #endregion
 
     #region Column

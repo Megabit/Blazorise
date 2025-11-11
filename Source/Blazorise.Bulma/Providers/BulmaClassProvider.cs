@@ -789,8 +789,6 @@ public class BulmaClassProvider : ClassProvider
         return $"are-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "is-gapless" : null;
-
     #endregion
 
     #region Column
