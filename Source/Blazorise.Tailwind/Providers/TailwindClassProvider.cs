@@ -2092,6 +2092,22 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Gutter
+
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide )
+    {
+        var side = gutterSide != GutterSide.None && gutterSide != GutterSide.All
+             ? $"{ToGutterSide( gutterSide )}-"
+             : null;
+
+        return $"g{side}{ToGutterSize( gutterSize )}";
+    }
+
+    public override string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x ) ) );
+
+    #endregion
+
     #region Borders
 
     public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )

@@ -1229,6 +1229,14 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Gutter
+
+    public string Gutter( GutterSize gutterSize, GutterSide gutterSide ) => null;
+
+    public string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules ) => null;
+
+    #endregion
+
     #region Borders
 
     public string Border( BorderSize borderSize, BorderDefinition borderDefinition ) => null;
@@ -1374,6 +1382,8 @@ class EmptyClassProvider : IClassProvider
     public string ToSpacingSize( SpacingSize spacingSize ) => null;
 
     public string ToGapSize( GapSize gapSize ) => null;
+
+    public string ToGutterSize( GutterSize gutterSize ) => null;
 
     public string ToJustifyContent( JustifyContent justifyContent ) => null;
 

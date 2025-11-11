@@ -1224,6 +1224,14 @@ public interface IClassProvider
 
     #endregion
 
+    #region Gutter
+
+    string Gutter( GutterSize gutterSize, GutterSide gutterSide );
+
+    string Gutter( GutterSize gutterSize, IEnumerable<GutterSide> rules );
+
+    #endregion
+
     #region Borders
 
     string Border( BorderSize borderSize, BorderDefinition borderDefinition );
@@ -1374,6 +1382,8 @@ public interface IClassProvider
     string ToSpacingSize( SpacingSize spacingSize );
 
     string ToGapSize( GapSize gapSize );
+
+    string ToGutterSize( GutterSize gutterSize );
 
     string ToJustifyContent( JustifyContent justifyContent );
 
