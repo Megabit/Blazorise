@@ -7,20 +7,20 @@ using Blazorise.Utilities;
 namespace Blazorise;
 
 /// <summary>
-/// Base interface for all fluent gutter builders.
+/// Defines the base contract for all fluent gutter builders used to configure horizontal and vertical spacing between grid columns.
 /// </summary>
 public interface IFluentGutter
 {
     /// <summary>
-    /// Builds the classnames based on gutter rules.
+    /// Builds and returns the CSS class string that represents the configured gutter rules.
     /// </summary>
-    /// <param name="classProvider">Currently used class provider.</param>
-    /// <returns>List of classnames for the given rules and the class provider.</returns>
+    /// <param name="classProvider">The current <see cref="IClassProvider"/> used to generate provider-specific class names.</param>
+    /// <returns>A string containing all CSS classes that represent the configured gutter rules.</returns>
     string Class( IClassProvider classProvider );
 }
 
 /// <summary>
-/// Contains all the allowed gutter rules, except sizes.
+/// Represents the set of available gutter configuration rules, excluding size definitions.
 /// </summary>
 public interface IFluentGutterOnBreakpointWithSide :
     IFluentGutter,
@@ -30,7 +30,7 @@ public interface IFluentGutterOnBreakpointWithSide :
 }
 
 /// <summary>
-/// Contains all the allowed spacing rules.
+/// Represents the complete set of available gutter configuration rules, including sides, breakpoints, and sizes.
 /// </summary>
 public interface IFluentGutterOnBreakpointWithSideAndSize :
     IFluentGutter,
@@ -41,110 +41,110 @@ public interface IFluentGutterOnBreakpointWithSideAndSize :
 }
 
 /// <summary>
-/// Allowed sides for gutter rules.
+/// Defines the available axes/sides for applying gutter spacing rules.
 /// </summary>
 public interface IFluentGutterFromSide :
     IFluentGutter
 {
     /// <summary>
-    /// For classes that set both *-left and *-right.
+    /// Applies gutter spacing on the horizontal axis (left and right).
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnX { get; }
 
     /// <summary>
-    /// For classes that set both *-top and *-bottom.
+    /// Applies gutter spacing on the vertical axis (top and bottom).
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnY { get; }
 
     /// <summary>
-    /// For classes that set a margin or padding on all 4 sides of the element.
+    /// Applies gutter spacing uniformly on both axes.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnAll { get; }
 }
 
 /// <summary>
-/// Breakpoints allowed for gutter.
+/// Defines the responsive breakpoints at which gutter spacing can be applied.
 /// </summary>
 public interface IFluentGutterOnBreakpoint :
     IFluentGutter,
     IFluentGutterFromSide
 {
     /// <summary>
-    /// Valid on all devices. (extra small)
+    /// Applies gutter spacing on all devices (smallest breakpoint).
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnMobile { get; }
 
     /// <summary>
-    /// Breakpoint on tablets (small).
+    /// Applies gutter spacing from the tablet breakpoint and above.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnTablet { get; }
 
     /// <summary>
-    ///  Breakpoint on desktop (medium).
+    /// Applies gutter spacing from the desktop breakpoint and above.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnDesktop { get; }
 
     /// <summary>
-    /// Breakpoint on widescreen (large).
+    /// Applies gutter spacing from the widescreen breakpoint and above.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnWidescreen { get; }
 
     /// <summary>
-    /// Breakpoint on large desktops (extra large).
+    /// Applies gutter spacing from the full HD breakpoint and above.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnFullHD { get; }
 
     /// <summary>
-    /// Breakpoint on extra large desktops (extra extra large).
+    /// Applies gutter spacing from the Quad HD breakpoint and above.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnQuadHD { get; }
 }
 
 /// <summary>
-/// Allowed sizes for gutter rules.
+/// Defines the allowed size levels for gutter spacing. The meaning of each level is determined by the active provider.
 /// </summary>
 public interface IFluentGutterWithSize :
     IFluentGutter
 {
     /// <summary>
-    /// For classes that eliminate the margin or padding by setting it to 0.
+    /// Applies size level 0 (no gutter spacing).
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize Is0 { get; }
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * .25
+    /// Applies size level 1 as defined by the active provider.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize Is1 { get; }
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * .5
+    /// Applies size level 2 as defined by the active provider.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize Is2 { get; }
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer
+    /// Applies size level 3 as defined by the active provider.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize Is3 { get; }
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * 1.5
+    /// Applies size level 4 as defined by the active provider.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize Is4 { get; }
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * 3
+    /// Applies size level 5 as defined by the active provider.
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize Is5 { get; }
 
     /// <summary>
-    /// Used to add custom gutter rule.
+    /// Adds a custom CSS class to represent a non-standard gutter rule. The value is passed through to the output unchanged.
     /// </summary>
-    /// <param name="value">Custom css classname.</param>
+    /// <param name="value">A custom CSS class representing a gutter spacing rule.</param>
     IFluentGutterWithSize Is( string value );
 }
 
 /// <summary>
-/// Default implementation of <see cref="IFluentGutter"/>.
+/// Default implementation of the fluent gutter builder used to compose provider-specific class names.
 /// </summary>
 public class FluentGutter :
     IFluentGutter,
@@ -207,10 +207,10 @@ public class FluentGutter :
     }
 
     /// <summary>
-    /// Appends the new gutter size rule.
+    /// Appends a new size rule to the configuration.
     /// </summary>
-    /// <param name="gutterSize">Gutter size to append.</param>
-    /// <returns>Next rule reference.</returns>
+    /// <param name="gutterSize">The size level to apply.</param>
+    /// <returns>The fluent builder instance for further configuration.</returns>
     public IFluentGutterOnBreakpointWithSideAndSize WithSize( GutterSize gutterSize )
     {
         var gutterDefinition = new GutterDefinition { Side = GutterSide.All };
@@ -227,10 +227,10 @@ public class FluentGutter :
     }
 
     /// <summary>
-    /// Appends the new side rule.
+    /// Specifies the axis (horizontal, vertical, or both) to which the current rule applies.
     /// </summary>
-    /// <param name="side">Side to append.</param>
-    /// <returns>Next rule reference.</returns>
+    /// <param name="side">The axis/sides to apply the rule on.</param>
+    /// <returns>The fluent builder instance for further configuration.</returns>
     public IFluentGutterOnBreakpointWithSideAndSize WithSide( GutterSide side )
     {
         currentGutter.Side = side;
@@ -240,10 +240,10 @@ public class FluentGutter :
     }
 
     /// <summary>
-    /// Appends the new breakpoint rule.
+    /// Specifies the responsive breakpoint at which the current rule becomes active.
     /// </summary>
-    /// <param name="breakpoint">Breakpoint to append.</param>
-    /// <returns>Next rule reference.</returns>
+    /// <param name="breakpoint">The responsive breakpoint value.</param>
+    /// <returns>The fluent builder instance for further configuration.</returns>
     public IFluentGutterOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
     {
         currentGutter.Breakpoint = breakpoint;
@@ -265,9 +265,9 @@ public class FluentGutter :
     }
 
     /// <summary>
-    /// Used to add custom column rule.
+    /// Adds a custom CSS class that represents a user-defined gutter rule.
     /// </summary>
-    /// <param name="value">Custom css classname.</param>
+    /// <param name="value">A custom CSS class name.</param>
     public IFluentGutterWithSize Is( string value ) => WithSize( value );
 
     #endregion
@@ -275,77 +275,77 @@ public class FluentGutter :
     #region Properties
 
     /// <summary>
-    /// For classes that eliminate the margin or padding by setting it to 0.
+    /// Applies size level 0 (no gutter spacing).
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize Is0 => WithSize( GutterSize.Is0 );
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * .25
+    /// Applies size level 1 as defined by the active provider.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize Is1 => WithSize( GutterSize.Is1 );
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * .5
+    /// Applies size level 2 as defined by the active provider.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize Is2 => WithSize( GutterSize.Is2 );
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer
+    /// Applies size level 3 as defined by the active provider.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize Is3 => WithSize( GutterSize.Is3 );
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * 1.5
+    /// Applies size level 4 as defined by the active provider.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize Is4 => WithSize( GutterSize.Is4 );
 
     /// <summary>
-    /// (by default) for classes that set the margin or padding to $spacer * 3
+    /// Applies size level 5 as defined by the active provider.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize Is5 => WithSize( GutterSize.Is5 );
 
     /// <summary>
-    /// For classes that set both *-left and *-right.
+    /// Targets the horizontal axis (left and right).
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnX => WithSide( GutterSide.X );
 
     /// <summary>
-    /// For classes that set both *-top and *-bottom.
+    /// Targets the vertical axis (top and bottom).
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnY => WithSide( GutterSide.Y );
 
     /// <summary>
-    /// For classes that set a margin or padding on all 4 sides of the element.
+    /// Targets both axes.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnAll => WithSide( GutterSide.All );
 
     /// <summary>
-    /// Valid on all devices. (extra small)
+    /// Applies the rule on all devices (smallest breakpoint).
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnMobile => WithBreakpoint( Breakpoint.Mobile );
 
     /// <summary>
-    /// Breakpoint on tablets (small).
+    /// Applies the rule from the tablet breakpoint and above.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnTablet => WithBreakpoint( Breakpoint.Tablet );
 
     /// <summary>
-    ///  Breakpoint on desktop (medium).
+    /// Applies the rule from the desktop breakpoint and above.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnDesktop => WithBreakpoint( Breakpoint.Desktop );
 
     /// <summary>
-    /// Breakpoint on widescreen (large).
+    /// Applies the rule from the widescreen breakpoint and above.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnWidescreen => WithBreakpoint( Breakpoint.Widescreen );
 
     /// <summary>
-    /// Breakpoint on large desktops (extra large).
+    /// Applies the rule from the full HD breakpoint and above.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
     /// <summary>
-    /// Breakpoint on large desktops (extra extra large).
+    /// Applies the rule from the Quad HD breakpoint and above.
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
@@ -353,43 +353,43 @@ public class FluentGutter :
 }
 
 /// <summary>
-/// Gutter builder.
+/// Provides convenient entry points for creating fluent gutter rules.
 /// </summary>
 public static class Gutter
 {
     /// <summary>
-    /// for classes that eliminate the margin by setting it to 0
+    /// Applies size level 0 (no gutter spacing).
     /// </summary>
     public static IFluentGutterOnBreakpointWithSideAndSize Is0 => new FluentGutter().Is0;
 
     /// <summary>
-    /// (by default) for classes that set the margin to $spacer * .25
+    /// Applies size level 1 as defined by the active provider.
     /// </summary>
     public static IFluentGutterOnBreakpointWithSideAndSize Is1 => new FluentGutter().Is1;
 
     /// <summary>
-    /// (by default) for classes that set the margin to $spacer * .5
+    /// Applies size level 2 as defined by the active provider.
     /// </summary>
     public static IFluentGutterOnBreakpointWithSideAndSize Is2 => new FluentGutter().Is2;
 
     /// <summary>
-    /// (by default) for classes that set the margin to $spacer
+    /// Applies size level 3 as defined by the active provider.
     /// </summary>
     public static IFluentGutterOnBreakpointWithSideAndSize Is3 => new FluentGutter().Is3;
 
     /// <summary>
-    /// (by default) for classes that set the margin to $spacer * 1.5
+    /// Applies size level 4 as defined by the active provider.
     /// </summary>
     public static IFluentGutterOnBreakpointWithSideAndSize Is4 => new FluentGutter().Is4;
 
     /// <summary>
-    /// (by default) for classes that set the margin to $spacer * 3
+    /// Applies size level 5 as defined by the active provider.
     /// </summary>
     public static IFluentGutterOnBreakpointWithSideAndSize Is5 => new FluentGutter().Is5;
 
     /// <summary>
-    /// Add custom margin rule.
+    /// Adds a custom CSS class to represent a user-defined gutter rule. The value is passed through unchanged.
     /// </summary>
-    /// <param name="value">Custom css classname.</param>
+    /// <param name="value">A custom CSS class name.</param>
     public static IFluentGutterWithSize Is( string value ) => new FluentGutter().Is( value );
 }
