@@ -1,5 +1,5 @@
-import { getChart } from "../Blazorise.Charts/charts.js?v=1.8.5.0";
-import { parseFunction } from "../Blazorise.Charts/utilities.js?v=1.8.5.0";
+import { getChart } from "../Blazorise.Charts/charts.js?v=1.8.6.0";
+import { parseFunction } from "../Blazorise.Charts/utilities.js?v=1.8.6.0";
 
 export function setDataLabels(canvasId, datasets, options) {
     const chart = getChart(canvasId);

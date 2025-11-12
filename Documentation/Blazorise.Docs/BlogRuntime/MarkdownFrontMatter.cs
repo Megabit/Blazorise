@@ -78,7 +78,7 @@ internal static class MarkdownFrontMatter
         return result;
     }
 
-    private static string Unquote( string? v )
+    private static string Unquote( string v )
     {
         var s = ( v ?? string.Empty ).Trim();
         if ( s.Length >= 2 )

@@ -14,16 +14,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
                
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: |
             6.0.x
             7.0.x
             8.0.x
             9.0.x
+            10.0.x
 
     - name: Restore NuGet Packages
       run: dotnet restore
@@ -35,7 +36,7 @@ jobs:
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
 
     - name: Prepare E2E Tests Dependencies 
-      run: pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net9.0/playwright.ps1 install --with-deps
+      run: pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net10.0/playwright.ps1 install --with-deps
 
     - name: Run E2E Tests - Release
       run: dotnet test ./Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal

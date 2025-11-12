@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Docs.Layouts;
 
-public partial class DocsLayout : IDisposable
+public partial class DocsLayout
 {
     #region Members
 
@@ -76,7 +76,7 @@ public partial class DocsLayout : IDisposable
         }
     }
 
-    protected virtual void Dispose( bool disposing )
+    protected override void Dispose( bool disposing )
     {
         if ( !disposed )
         {
@@ -84,15 +84,9 @@ public partial class DocsLayout : IDisposable
             {
                 NavigationManager.LocationChanged -= OnLocationChanged;
             }
-
-            disposed = true;
         }
-    }
 
-    public void Dispose()
-    {
-        Dispose( true );
-        GC.SuppressFinalize( this );
+        base.Dispose( disposing );
     }
 
     #endregion

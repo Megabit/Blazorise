@@ -49,7 +49,7 @@ namespace Blazorise.Docs.Models
         public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
     <Addons>
         <Addon AddonType=""AddonType.Body"">
-            <TextInput Placeholder=""Enter name"" />
+            <TextEdit Placeholder=""Enter name"" />
         </Addon>
         <Addon AddonType=""AddonType.End"">
             <AddonLabel>This is a label</AddonLabel>
@@ -62,7 +62,7 @@ namespace Blazorise.Docs.Models
 
         public const string ButtonAddonExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <TextInput Placeholder=""Recipient's username"" />
+        <TextEdit Placeholder=""Recipient's username"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Secondary"">Button</Button>
@@ -83,7 +83,7 @@ namespace Blazorise.Docs.Models
         </Dropdown>
     </Addon>
     <Addon AddonType=""AddonType.Body"">
-        <TextInput />
+        <TextEdit />
     </Addon>
 </Addons>";
 
@@ -92,7 +92,7 @@ namespace Blazorise.Docs.Models
         <AddonLabel>Start</AddonLabel>
     </Addon>
     <Addon AddonType=""AddonType.Body"">
-        <TextInput Placeholder=""Placeholder"" />
+        <TextEdit Placeholder=""Placeholder"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <AddonLabel>End</AddonLabel>
@@ -104,7 +104,7 @@ namespace Blazorise.Docs.Models
         <AddonLabel>@@</AddonLabel>
     </Addon>
     <Addon AddonType=""AddonType.Body"">
-        <TextInput Placeholder=""Username"" />
+        <TextEdit Placeholder=""Username"" />
     </Addon>
 </Addons>";
 
@@ -475,19 +475,19 @@ namespace Blazorise.Docs.Models
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>First name</FieldLabel>
         <FieldBody>
-            <TextInput Value=""John"" />
+            <TextEdit Text=""John"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>Last name</FieldLabel>
         <FieldBody>
-            <TextInput Value=""Smith"" />
+            <TextEdit Text=""Smith"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull"">
         <FieldLabel>Email address</FieldLabel>
         <FieldBody>
-            <TextInput Value=""john.smith@example.com"" />
+            <TextEdit Text=""john.smith@example.com"" />
         </FieldBody>
     </Field>
     <Field Flex=""Flex.JustifyContent.Between"">
@@ -503,19 +503,19 @@ namespace Blazorise.Docs.Models
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>First name</FieldLabel>
         <FieldBody>
-            <TextInput Value=""John"" />
+            <TextEdit Text=""John"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsHalf"">
         <FieldLabel>Last name</FieldLabel>
         <FieldBody>
-            <TextInput Value=""Smith"" />
+            <TextEdit Text=""Smith"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull"">
         <FieldLabel>Email address</FieldLabel>
         <FieldBody>
-            <TextInput Value=""john.smith@example.com"" />
+            <TextEdit Text=""john.smith@example.com"" />
         </FieldBody>
     </Field>
     <Field>
@@ -610,7 +610,7 @@ namespace Blazorise.Docs.Models
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.Is10"">
-            <TextInput Placeholder=""Some text value..."" />
+            <TextEdit Placeholder=""Some text value..."" />
         </FieldBody>
     </Field>
     <Field>
@@ -737,13 +737,13 @@ namespace Blazorise.Docs.Models
 
         public const string CheckExample = @"<Check TValue=""bool"">Check me out</Check>";
 
-        public const string CheckWithBindExample = @"<Check TValue=""bool"" @bind-Value=""@rememberMe"">Remember Me</Check>
+        public const string CheckWithBindExample = @"<Check TValue=""bool"" @bind-Checked=""@rememberMe"">Remember Me</Check>
 
 @code{
     bool rememberMe;
 }";
 
-        public const string CheckWithEventExample = @"<Check TValue=""bool"" Value=""@rememberMe"" ValueChanged=""@OnRememberMeChanged"">Remember Me</Check>
+        public const string CheckWithEventExample = @"<Check TValue=""bool"" Checked=""@rememberMe"" CheckedChanged=""@OnRememberMeChanged"">Remember Me</Check>
 
 @code{
     bool rememberMe;
@@ -838,63 +838,63 @@ namespace Blazorise.Docs.Models
     Collapse collapseRef;
 }";
 
-        public const string ColorInputDisabledExample = @"<ColorInput Value=""#888888"" Disabled />";
+        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
 
-        public const string ColorInputExample = @"<ColorInput @bind-Value=""@colorValue"" />
+        public const string ColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
 
 @code {
     string colorValue = ""#ff0000"";
 }";
 
-        public const string ColorInputSizeExample = @"<Field>
-    <ColorInput Value=""#888888"" Size=""Size.Small"" />
+        public const string ColorEditSizeExample = @"<Field>
+    <ColorEdit Color=""#888888"" Size=""Size.Small"" />
 </Field>
 <Field>
-    <ColorInput Value=""#444444"" Size=""Size.Large"" />
+    <ColorEdit Color=""#444444"" Size=""Size.Large"" />
 </Field>";
 
-        public const string ColorPickerExample = @"<ColorPicker @bind-Value=""@colorValue"" />
+        public const string ColorPickerExample = @"<ColorPicker @bind-Color=""@colorValue"" />
 
 @code {
     string colorValue = ""#ff0000"";
 }";
 
-        public const string ColorPickerShowHueExample = @"<ColorPicker @bind-Value=""@colorValue"" ShowHueSlider />
+        public const string ColorPickerShowHueExample = @"<ColorPicker @bind-Color=""@colorValue"" ShowHueSlider />
 
 @code {
     string colorValue = ""#ff00ff"";
 }";
 
-        public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" />
+        public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
+
+        public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" />
 
 @code {
     DateTime? value;
 }";
 
-        public const string DateInputBasicExample = @"<DateInput TValue=""DateTime?"" />";
+        public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
-        public const string DateInputDateTimeExample = @"<DateInput TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
-
-        public const string DateInputShowPickerExample = @"<Field>
-    <Button Color=""Color.Primary"" Clicked=""@(() => dateInputRef.ShowPicker())"">
+        public const string DateEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>dateEditRef.ShowPicker())"">
         Show Picker
     </Button>
 </Field>
 <Field>
-    <DateInput @ref=""@dateInputRef"" TValue=""DateTime"" />
+    <DateEdit @ref=""@dateEditRef"" TValue=""DateTime"" />
 </Field>
 
 @code {
-    DateInput<DateTime> dateInputRef;
+    DateEdit<DateTime> dateEditRef;
 }";
 
-        public const string DateInputWithBindExample = @"<DateInput TValue=""DateTime?"" @bind-Value=""@selectedDate"" />
+        public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
 
 @code{
     DateTime? selectedDate;
 }";
 
-        public const string DateInputWithEventExample = @"<DateInput TValue=""DateTime?"" Value=""@selectedDate"" ValueChanged=""@OnDateChanged"" />
+        public const string DateEditWithEventExample = @"<DateEdit TValue=""DateTime?"" Date=""@selectedDate"" DateChanged=""@OnDateChanged"" />
 
 @code{
     DateTime? selectedDate;
@@ -942,13 +942,13 @@ namespace Blazorise.Docs.Models
     <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
 </Field>";
 
-        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />
+        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />
 
 @code {
     DateTime? value;
 }";
 
-        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" StaticPicker=""false"" />
+        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" StaticPicker=""false"" />
 
 @code {
     DateTime? value;
@@ -960,7 +960,7 @@ namespace Blazorise.Docs.Models
 
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" @bind-Value=""@value"" />
+        <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" @bind-Date=""@value"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Light"" Clicked=""@(()=>datePicker.ToggleAsync())"">
@@ -974,19 +974,19 @@ namespace Blazorise.Docs.Models
     DateTime? value;
 }";
 
-        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" Inline />
+        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" Inline />
 
 @code {
     DateTime? value;
 }";
 
-        public const string MultipleDatePickerExample = @"<DatePicker @bind-Value=""selectedDates"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />
+        public const string MultipleDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />
 
 @code{
     IReadOnlyList<DateTime?> selectedDates;
 }";
 
-        public const string RangeDatePickerExample = @"<DatePicker @bind-Value=""selectedDates"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
+        public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Dates=""selectedDates"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
 
 @code {
     IReadOnlyList<DateTime?> selectedDates;
@@ -1260,13 +1260,13 @@ namespace Blazorise.Docs.Models
 </Dropdown>";
 
         public const string BasicFieldExample = @"<Field>
-    <TextInput Placeholder=""Name"" />
+    <TextEdit Placeholder=""Name"" />
 </Field>";
 
         public const string BasicFieldsExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop"">
         <FieldLabel>City</FieldLabel>
-        <TextInput />
+        <TextEdit />
     </Field>
     <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
         <FieldLabel>State</FieldLabel>
@@ -1275,48 +1275,48 @@ namespace Blazorise.Docs.Models
     </Field>
     <Field ColumnSize=""ColumnSize.Is2.OnDesktop"">
         <FieldLabel>Zip</FieldLabel>
-        <TextInput />
+        <TextEdit />
     </Field>
 </Fields>";
 
         public const string FieldHiddenExample = @"<Field Visibility=""Visibility.Invisible"">
-    <TextInput />
+    <TextEdit />
 </Field>";
 
         public const string FieldWithDisabledExample = @"<Field>
     <FieldLabel>Disabled</FieldLabel>
-    <TextInput Value=""Value"" Disabled />
+    <TextEdit Text=""Value"" Disabled />
 </Field>";
 
         public const string FieldWithHelpExample = @"<Fields>
     <Field>
         <FieldLabel>Phone number</FieldLabel>
-        <TextInput>
+        <TextEdit>
             <FieldHelp>Include country and area prefixes</FieldHelp>
-        </TextInput>
+        </TextEdit>
     </Field>
     <Field>
         <FieldLabel>Password</FieldLabel>
-        <TextInput>
+        <TextEdit>
             <FieldHelp>Password strength: <Text TextColor=""TextColor.Danger"">weak</Text></FieldHelp>
-        </TextInput>
+        </TextEdit>
     </Field>
 </Fields>";
 
         public const string FieldWithLabelExample = @"<Field>
     <FieldLabel>Email address</FieldLabel>
-    <TextInput Placeholder=""Enter email"" />
+    <TextEdit Placeholder=""Enter email"" />
 </Field>";
 
         public const string FieldWithReadOnlyExample = @"<Field>
     <FieldLabel>Read-Only</FieldLabel>
-    <TextInput Value=""Value"" ReadOnly />
+    <TextEdit Text=""Value"" ReadOnly />
 </Field>";
 
         public const string HorizontalFieldExample = @"<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.Is10"">
-        <TextInput Placeholder=""Some text value..."" />
+        <TextEdit Placeholder=""Some text value..."" />
     </FieldBody>
 </Field>
 <Field Horizontal>
@@ -1331,7 +1331,7 @@ namespace Blazorise.Docs.Models
         Name
     </FieldLabel>
     <FieldBody>
-        <TextInput Placeholder=""Name"" />
+        <TextEdit Placeholder=""Name"" />
     </FieldBody>
 </Field>";
 
@@ -1345,8 +1345,8 @@ namespace Blazorise.Docs.Models
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
-        public const string FileInputDirectoryExample = @"<Field>
-    <FileInput Changed=""@OnChanged"" Directory />
+        public const string DirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory />
 </Field>
 
 @code {
@@ -1356,185 +1356,32 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string FileInputExtensionsLimitExample = @"<!-- Accept all image formats by IANA media type wildcard-->
+        public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
 <Field>
-    <FileInput Filter=""image/*"" />
+    <FileEdit Filter=""image/*"" />
 </Field>
 
 <!-- Accept specific image formats by IANA type -->
 <Field>
-    <FileInput Filter=""image/jpeg, image/png, image/gif"" />
+    <FileEdit Filter=""image/jpeg, image/png, image/gif"" />
 </Field>
 
 <!-- Accept specific image formats by extension -->
 <Field>
-    <FileInput Filter="".jpg, .png, .gif"" />
+    <FileEdit Filter="".jpg, .png, .gif"" />
 </Field>";
 
-        public const string FileInputMultipleDirectoryExample = @"<Field>
-    <FileInput Changed=""@OnChanged"" Directory Multiple />
-</Field>
-
-@code {
-    Task OnChanged( FileChangedEventArgs e )
-    {
-        return Task.CompletedTask;
-    }
-}";
-
-        public const string FileInputMultipleExample = @"<Field>
-    <FileInput Changed=""@OnChanged"" Multiple />
-</Field>
-
-@code {
-    Task OnChanged( FileChangedEventArgs e )
-    {
-        return Task.CompletedTask;
-    }
-}";
-
-        public const string FileInputOpenReadStreamExample = @"@using System.IO
-
-<Field>
-    <FileInput Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
-</Field>
-
-@code {
-    async Task OnChanged( FileChangedEventArgs e )
-    {
-        try
-        {
-            var file = e.Files.FirstOrDefault();
-            if ( file == null )
-            {
-                return;
-            }
-
-            using ( MemoryStream result = new MemoryStream() )
-            {
-                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
-            }
-        }
-        catch ( Exception exc )
-        {
-            Console.WriteLine( exc.Message );
-        }
-        finally
-        {
-            this.StateHasChanged();
-        }
-    }
-
-    void OnWritten( FileWrittenEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
-    }
-
-    void OnProgressed( FileProgressedEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
-    }
-}";
-
-        public const string FileInputResetExample = @"<Field>
-    <FileInput @ref=""@fileInput"" AutoReset=""false"" Changed=""@OnChanged"" />
-</Field>
-<Field>
-    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
-</Field>
-
-@code {
-    FileInput fileInput;
-
-    Task OnChanged(FileChangedEventArgs e)
-    {
-        return Task.CompletedTask;
-    }
-
-    Task Reset()
-    {
-        return fileInput.Reset().AsTask();
-    }
-}";
-
-        public const string FileInputShowPickerExample = @"<Field>
-    <Button Color=""Color.Primary"" Clicked=""@(() => fileInput.ShowPicker())"">
+        public const string FileEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>fileEditRef.ShowPicker())"">
         Show Picker
     </Button>
 </Field>
 <Field>
-    <FileInput @ref=""@fileInput"" />
+    <FileEdit @ref=""@fileEditRef"" />
 </Field>
 
 @code {
-    FileInput fileInput;
-}";
-
-        public const string FileInputSingleExample = @"<Field>
-    <FileInput Changed=""@OnChanged"" />
-</Field>
-
-@code {
-    Task OnChanged( FileChangedEventArgs e )
-    {
-        return Task.CompletedTask;
-    }
-}";
-
-        public const string FileInputWriteToStreamExample = @"@using System.IO
-
-<Field>
-    <FileInput Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
-</Field>
-
-@code {
-    string fileContent;
-
-    async Task OnChanged( FileChangedEventArgs e )
-    {
-        try
-        {
-            foreach ( var file in e.Files )
-            {
-                // A stream is going to be the destination stream we're writing to.
-                using ( var stream = new MemoryStream() )
-                {
-                    // Here we're telling the FileInput where to write the upload result
-                    await file.WriteToStreamAsync( stream );
-
-                    // Once we reach this line it means the file is fully uploaded.
-                    // In this case we're going to offset to the beginning of file
-                    // so we can read it.
-                    stream.Seek( 0, SeekOrigin.Begin );
-
-                    // Use the stream reader to read the content of uploaded file,
-                    // in this case we can assume it is a textual file.
-                    using ( var reader = new StreamReader( stream ) )
-                    {
-                        fileContent = await reader.ReadToEndAsync();
-                    }
-                }
-            }
-        }
-        catch ( Exception exc )
-        {
-            Console.WriteLine( exc.Message );
-        }
-        finally
-        {
-            this.StateHasChanged();
-        }
-    }
-
-    void OnWritten( FileWrittenEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
-    }
-
-    void OnProgressed( FileProgressedEventArgs e )
-    {
-        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
-    }
+    FileEdit fileEditRef;
 }";
 
         public const string FilePickerCustomExample = @"@using System.IO
@@ -1647,7 +1494,7 @@ namespace Blazorise.Docs.Models
             // A stream is going to be the destination stream we're writing to.
             using ( var stream = new MemoryStream() )
             {
-                // Here we're telling the FileInput where to write the upload result
+                // Here we're telling the FileEdit where to write the upload result
                 await e.File.WriteToStreamAsync( stream );
 
                 // Once we reach this line it means the file is fully uploaded.
@@ -1702,28 +1549,181 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string MultipleDirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string MultipleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string OpenReadStreamFileEditExample = @"@using System.IO
+
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
+
+@code {
+    async Task OnChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            var file = e.Files.FirstOrDefault();
+            if ( file == null )
+            {
+                return;
+            }
+
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await file.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    void OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
+    }
+
+    void OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
+    }
+}";
+
+        public const string ResetFileEditExample = @"<Field>
+    <FileEdit @ref=""@fileEdit"" AutoReset=""false"" Changed=""@OnChanged"" />
+</Field>
+<Field>
+    <Button Color=""Color.Primary"" Clicked=""Reset"">Reset</Button>
+</Field>
+
+@code {
+    FileEdit fileEdit;
+
+    Task OnChanged(FileChangedEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    Task Reset()
+    {
+        return fileEdit.Reset().AsTask();
+    }
+}";
+
+        public const string SingleFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string WriteToStreamFileEditExample = @"@using System.IO
+
+<Field>
+    <FileEdit Changed=""@OnChanged"" Written=""@OnWritten"" Progressed=""@OnProgressed"" />
+</Field>
+
+@code {
+    string fileContent;
+
+    async Task OnChanged( FileChangedEventArgs e )
+    {
+        try
+        {
+            foreach ( var file in e.Files )
+            {
+                // A stream is going to be the destination stream we're writing to.
+                using ( var stream = new MemoryStream() )
+                {
+                    // Here we're telling the FileEdit where to write the upload result
+                    await file.WriteToStreamAsync( stream );
+
+                    // Once we reach this line it means the file is fully uploaded.
+                    // In this case we're going to offset to the beginning of file
+                    // so we can read it.
+                    stream.Seek( 0, SeekOrigin.Begin );
+
+                    // Use the stream reader to read the content of uploaded file,
+                    // in this case we can assume it is a textual file.
+                    using ( var reader = new StreamReader( stream ) )
+                    {
+                        fileContent = await reader.ReadToEndAsync();
+                    }
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+    void OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}"" );
+    }
+
+    void OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $""File: {e.File.Name} Progress: {e.Percentage}"" );
+    }
+}";
+
         public const string BasicFocusTrapExample = @"<Card>
     <CardBody>
-        <Switch TValue=""bool"" @bind-Value=""@focusTrapActive"">Active</Switch>
+        <Switch TValue=""bool"" @bind-Checked=""@focusTrapActive"">Active</Switch>
     </CardBody>
     <CardBody>
         <FocusTrap Active=""@focusTrapActive"">
             <Field Horizontal>
                 <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">First Name</FieldLabel>
                 <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-                    <TextInput Autofocus />
+                    <TextEdit Autofocus />
                 </FieldBody>
             </Field>
             <Field Horizontal>
                 <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Last Name</FieldLabel>
                 <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-                    <TextInput />
+                    <TextEdit />
                 </FieldBody>
             </Field>
             <Field Horizontal>
                 <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">Address</FieldLabel>
                 <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-                    <TextInput />
+                    <TextEdit />
                 </FieldBody>
             </Field>
         </FocusTrap>
@@ -1737,7 +1737,7 @@ namespace Blazorise.Docs.Models
         public const string BasicHighlighterExample = @"<Field>
     <FieldLabel>Search value</FieldLabel>
     <FieldBody>
-        <TextInput @bind-Value=""@searchValue"" />
+        <TextEdit @bind-Text=""@searchValue"" />
     </FieldBody>
 </Field>
 
@@ -1764,19 +1764,19 @@ namespace Blazorise.Docs.Models
     <Field>
         <FieldLabel>Search value</FieldLabel>
         <FieldBody>
-            <TextInput @bind-Value=""@searchValue"" />
+            <TextEdit @bind-Text=""@searchValue"" />
         </FieldBody>
     </Field>
     <Field>
         <FieldLabel>Until Next Boundary</FieldLabel>
         <FieldBody>
-            <Switch @bind-Value=""@untilNextBoundary""></Switch>
+            <Switch @bind-Checked=""@untilNextBoundary""></Switch>
         </FieldBody>
     </Field>
     <Field>
         <FieldLabel>Case Sensitive</FieldLabel>
         <FieldBody>
-            <Switch @bind-Value=""@caseSensitive""></Switch>
+            <Switch @bind-Checked=""@caseSensitive""></Switch>
         </FieldBody>
     </Field>
 </Fields>
@@ -1797,7 +1797,7 @@ namespace Blazorise.Docs.Models
         public const string MultipleTextsHighlighterExample = @"<Field>
     <FieldLabel>Search values (comma separated)</FieldLabel>
     <FieldBody>
-        <TextInput @bind-Text=""@searchValue"" />
+        <TextEdit @bind-Text=""@searchValue"" />
     </FieldBody>
 </Field>
 
@@ -2072,7 +2072,9 @@ namespace Blazorise.Docs.Models
     private string selectedItem = ""first"";
 }";
 
-        public const string MemoInputAutoSizeExample = @"<MemoInput Value=""@loremipsum"" AutoSize />
+        public const string BasicMemoEditExample = @"<MemoEdit Rows=""5"" />";
+
+        public const string MemoEditAutoSizeExample = @"<MemoEdit Text=""@loremipsum"" AutoSize />
 
 @code {
     string loremipsum = @""Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.
@@ -2080,11 +2082,9 @@ namespace Blazorise.Docs.Models
 Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultrices mi libero quis ante. Curabitur scelerisque metus et libero convallis consequat. Pellentesque feugiat pulvinar nisl sed pellentesque."";
 }";
 
-        public const string MemoInputBasicExample = @"<MemoInput Rows=""5"" />";
+        public const string MemoEditTabExample = @"<MemoEdit Rows=""5"" ReplaceTab TabSize=""4"" />";
 
-        public const string MemoInputTabExample = @"<MemoInput Rows=""5"" ReplaceTab TabSize=""4"" />";
-
-        public const string MemoInputTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string MemoEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -2093,7 +2093,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string MemoInputTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string MemoEditTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -2103,13 +2103,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string MemoInputWithBindExample = @"<MemoInput @bind-Value=""@description"" />
+        public const string MemoEditWithBindExample = @"<MemoEdit @bind-Text=""@description"" />
 
 @code{
     string description;
 }";
 
-        public const string MemoInputWithEventExample = @"<MemoInput Value=""@description"" ValueChanged=""@OnDescriptionChanged"" />
+        public const string MemoEditWithEventExample = @"<MemoEdit Text=""@description"" TextChanged=""@OnDescriptionChanged"" />
 
 @code{
     string description;
@@ -2133,11 +2133,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ModalBody>
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextInput Placeholder=""Enter name..."" />
+                <TextEdit Placeholder=""Enter name..."" />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextInput Placeholder=""Enter surname..."" />
+                <TextEdit Placeholder=""Enter surname..."" />
             </Field>
         </ModalBody>
         <ModalFooter>
@@ -2175,11 +2175,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ModalBody>
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextInput Placeholder=""Enter name..."" />
+                <TextEdit Placeholder=""Enter name..."" />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextInput Placeholder=""Enter surname..."" />
+                <TextEdit Placeholder=""Enter surname..."" />
             </Field>
         </ModalBody>
         <ModalFooter>
@@ -2270,11 +2270,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ModalBody>
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextInput Placeholder=""Enter name..."" />
+                <TextEdit Placeholder=""Enter name..."" />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextInput Placeholder=""Enter surname..."" />
+                <TextEdit Placeholder=""Enter surname..."" />
             </Field>
         </ModalBody>
         <ModalFooter>
@@ -2299,17 +2299,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string NumericInputBasicExample = @"<NumericInput @bind-Value=""@value"" />
+        public const string BasicNumericEditExample = @"<NumericEdit @bind-Value=""@value"" />
 @code {
     decimal? value = 123;
 }";
 
-        public const string NumericInputGenericExample = @"<NumericInput TValue=""decimal?"" @bind-Value=""@value"" />
+        public const string BasicNumericPickerExample = @"<NumericPicker Value=""123"" />";
+
+        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" @bind-Value=""@value"" />
 @code {
     decimal? value = 123;
 }";
-
-        public const string NumericPickerBasicExample = @"<NumericPicker Value=""123"" />";
 
         public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
 
@@ -2769,7 +2769,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
-        public const string RadioGroupWithBindExample = @"<RadioGroup TValue=""string"" Name=""colors"" @bind-Value=""@checkedValue"">
+        public const string RadioGroupWithBindExample = @"<RadioGroup TValue=""string"" Name=""colors"" @bind-CheckedValue=""@checkedValue"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
     <Radio Value=""@(""blue"")"">Blue</Radio>
@@ -2779,7 +2779,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     string checkedValue = ""green"";
 }";
 
-        public const string RadioGroupWithEventExample = @"<RadioGroup TValue=""string"" Name=""colors"" Value=""@checkedValue"" ValueChanged=""@OnValueChanged"">
+        public const string RadioGroupWithEventExample = @"<RadioGroup TValue=""string""
+            Name=""colors""
+            CheckedValue=""@checkedValue""
+            CheckedValueChanged=""@OnCheckedValueChanged"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
     <Radio Value=""@(""blue"")"">Blue</Radio>
@@ -2788,7 +2791,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 @code{
     string checkedValue = ""green"";
 
-    Task OnValueChanged(string value)
+    Task OnCheckedValueChanged( string value )
     {
         checkedValue = value;
 
@@ -2879,14 +2882,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </SelectGroup>
 </Select>";
 
-        public const string MultipleSelectExample = @"<Select TValue=""int[]"" Multiple>
+        public const string MultipleSelectExample = @"<Select TValue=""int"" Multiple>
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
     <SelectItem Value=""4"">Four</SelectItem>
 </Select>";
 
-        public const string SelectWithBindExample = @"<Select @bind-Value=""@selectedValue"">
+        public const string SelectWithBindExample = @"<Select @bind-SelectedValue=""@selectedValue"">
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
@@ -2897,7 +2900,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     int selectedValue;
 }";
 
-        public const string SelectWithEventExample = @"<Select TValue=""int"" Value=""@selectedValue"" ValueChanged=""@OnSelectedValueChanged"">
+        public const string SelectWithEventExample = @"<Select TValue=""int"" SelectedValue=""@selectedValue"" SelectedValueChanged=""@OnSelectedValueChanged"">
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>
     <SelectItem Value=""3"">Three</SelectItem>
@@ -3013,10 +3016,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <StepPanel Name=""step1"">
             This Steps component is set to <code>LazyLoad</code> mode, meaning each step will only be rendered/loaded the first time it is visited.
             This is specially useful when you want to delay some heavy or long waited operations for when the step is actually clicked instead.
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </StepPanel>
         <StepPanel Name=""step2"">
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </StepPanel>
     </Content>
 </Steps>";
@@ -3031,15 +3034,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
             Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, 
             therefore re-calculated.
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </StepPanel>
         <StepPanel Name=""step2"">
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </StepPanel>
     </Content>
 </Steps>";
 
-        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""@selectedStep"" NavigationAllowed=""NavigationAllowed"">
+        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""selectedStep"" NavigationAllowed=""NavigationAllowed"">
     <Items>
         <Step Name=""1"">Step 1</Step>
         <Step Name=""2"">Step 2</Step>
@@ -3053,9 +3056,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <StepPanel Name=""2"">
             <Field>
                 <FieldLabel>Email address</FieldLabel>
-                <TextInput @bind-Value=""email"" Placeholder=""Enter email"">
-                    <FieldHelp>This field is required in order to proceed to the next step.</FieldHelp>
-                </TextInput>
+                <TextEdit @bind-Text=""email"" Placeholder=""Enter email"">
+                    <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
+                </TextEdit>
             </Field>
         </StepPanel>
         <StepPanel Name=""3"">
@@ -3079,26 +3082,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     private string email;
     private string selectedStep = ""2"";
 
-    private Task<bool> NavigationAllowed( StepNavigationContext context )
+    private bool NavigationAllowed( StepNavigationContext context )
     {
         if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
         {
-            return Task.FromResult( false );
+            return false;
         }
 
-        return Task.FromResult( true );
+        return true;
     }
 }";
 
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
 
-        public const string SwitchWithBindExample = @"<Switch TValue=""bool"" @bind-Value=""@rememberMe"">Remember Me</Switch>
+        public const string SwitchWithBindExample = @"<Switch TValue=""bool"" @bind-Checked=""@rememberMe"">Remember Me</Switch>
 
 @code{
     bool rememberMe;
 }";
 
-        public const string SwitchWithEventExample = @"<Switch TValue=""bool"" Value=""@rememberMe"" ValueChanged=""@OnRememberMeChanged"">Remember Me</Switch>
+        public const string SwitchWithEventExample = @"<Switch TValue=""bool"" Checked=""@rememberMe"" CheckedChanged=""@OnRememberMeChanged"">Remember Me</Switch>
 
 @code{
     bool rememberMe;
@@ -3620,10 +3623,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <TabPanel Name=""tab1"">
             This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
             This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </TabPanel>
         <TabPanel Name=""tab2"">
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </TabPanel>
     </Content>
 </Tabs>";
@@ -3638,25 +3641,25 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
             Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded, 
             therefore re-calculated.
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </TabPanel>
         <TabPanel Name=""tab2"">
-            <TextInput></TextInput>
+            <TextEdit></TextEdit>
         </TabPanel>
     </Content>
 </Tabs>";
 
-        public const string TextInputBasicExample = @"<TextInput />";
+        public const string BasicTextEditExample = @"<TextEdit />";
 
-        public const string TextInputDisabledExample = @"<TextInput Disabled />";
+        public const string TextEditDisabledExample = @"<TextEdit Disabled />";
 
-        public const string TextInputMaskExample = @"<Fields>
+        public const string TextEditMaskExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
         <FieldLabel>
             Text only
         </FieldLabel>
         <FieldBody>
-            <TextInput MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
@@ -3664,32 +3667,32 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Numbers only
         </FieldLabel>
         <FieldBody>
-            <TextInput MaskType=""MaskType.RegEx"" EditMask=""^(\d+(.\d{0,2})?|.?\d{1,2})$"" />
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^(\d+(.\d{0,2})?|.?\d{1,2})$"" />
         </FieldBody>
     </Field>
 </Fields>";
 
-        public const string TextInputPatternExample = @"<Validation UsePattern>
-    <TextInput Pattern=""[A-Za-z]{3}"">
+        public const string TextEditPatternExample = @"<Validation UsePattern>
+    <TextEdit Pattern=""[A-Za-z]{3}"">
         <Feedback>
             <ValidationError>Pattern does not match!</ValidationError>
         </Feedback>
-    </TextInput>
+    </TextEdit>
 </Validation>";
 
-        public const string TextInputPlaceholderExample = @"<TextInput Placeholder=""Some text value..."" />";
+        public const string TextEditPlaceholderExample = @"<TextEdit Placeholder=""Some text value..."" />";
 
-        public const string TextInputPlaintextExample = @"<TextInput Plaintext />";
+        public const string TextEditPlaintextExample = @"<TextEdit Plaintext />";
 
-        public const string TextInputReadonlyExample = @"<TextInput ReadOnly />";
+        public const string TextEditReadonlyExample = @"<TextEdit ReadOnly />";
 
-        public const string TextInputRoleExample = @"<Fields>
+        public const string TextEditRoleExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
         <FieldLabel>
             Email
         </FieldLabel>
         <FieldBody>
-            <TextInput Role=""TextRole.Email"" />
+            <TextEdit Role=""TextRole.Email"" />
         </FieldBody>
     </Field>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
@@ -3697,19 +3700,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Password
         </FieldLabel>
         <FieldBody>
-            <TextInput Role=""TextRole.Password"" autocomplete=""new-password"" />
+            <TextEdit Role=""TextRole.Password"" autocomplete=""new-password"" />
         </FieldBody>
     </Field>
 </Fields>";
 
-        public const string TextInputSizingExample = @"<Field>
-    <TextInput Size=""Size.Small"" />
+        public const string TextEditSizingExample = @"<Field>
+    <TextEdit Size=""Size.Small"" />
 </Field>
 <Field>
-    <TextInput Size=""Size.Large"" />
+    <TextEdit Size=""Size.Large"" />
 </Field>";
 
-        public const string TextInputTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string TextEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -3718,7 +3721,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string TextInputTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
+        public const string TextEditTextDelayModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBlazorise( options =>
@@ -3728,13 +3731,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     } );
 }";
 
-        public const string TextInputWithBindExample = @"<TextInput @bind-Value=""@name"" />
+        public const string TextEditWithBindExample = @"<TextEdit @bind-Text=""@name"" />
 
 @code{
     string name;
 }";
 
-        public const string TextInputWithEventExample = @"<TextInput Value=""@name"" ValueChanged=""@OnNameChanged"" />
+        public const string TextEditWithEventExample = @"<TextEdit Text=""@name"" TextChanged=""@OnNameChanged"" />
 
 @code{
     string name;
@@ -3827,33 +3830,45 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     };
 }";
 
-        public const string TimeInputBasicExample = @"<TimeInput TValue=""TimeSpan?"" />";
+        public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
 
-        public const string TimeInputShowPickerExample = @"<Field>
-    <Button Color=""Color.Primary"" Clicked=""@(() => timeInputRef.ShowPicker())"">
+        public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" />
+
+@code {
+    TimeSpan? value;
+}";
+
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" Inline />
+
+@code {
+    TimeSpan? value;
+}";
+
+        public const string TimeEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>timeEditRef.ShowPicker())"">
         Show Picker
     </Button>
 </Field>
 <Field>
-    <TimeInput @ref=""@timeInputRef"" TValue=""DateTime"" />
+    <TimeEdit @ref=""@timeEditRef"" TValue=""DateTime"" />
 </Field>
 
 @code {
-    TimeInput<DateTime> timeInputRef;
+    TimeEdit<DateTime> timeEditRef;
 }";
 
-        public const string TimeInputWithBindExample = @"<TimeInput TValue=""TimeSpan?"" @bind-Value=""@selectedTime"" />
+        public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
     TimeSpan? selectedTime;
 }";
 
-        public const string TimeInputWithEventExample = @"<TimeInput TValue=""TimeSpan?"" Value=""@selectedTime"" ValueChanged=""@OnValueChanged"" />
+        public const string TimeEditWithEventExample = @"<TimeEdit TValue=""TimeSpan?"" Time=""@selectedTime"" TimeChanged=""@OnTimeChanged"" />
 
 @code{
     TimeSpan? selectedTime;
 
-    Task OnValueChanged(TimeSpan? Time)
+    Task OnTimeChanged( TimeSpan? Time )
     {
         selectedTime = Time;
 
@@ -3861,35 +3876,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string TimePickerBasicExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" />
-
-@code {
-    TimeSpan? value;
-}";
-
         public const string TimePickerDefaultTimesExample = @"<TimePicker TValue=""TimeSpan?"" DefaultHour=""9"" DefaultMinute=""15"" />";
 
         public const string TimePickerIncrementsExample = @"<TimePicker TValue=""TimeSpan?"" HourIncrement=""2"" MinuteIncrement=""30"" />";
 
-        public const string TimePickerInlineExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" Inline />
+        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" StaticPicker=""false"" />
 
 @code {
     TimeSpan? value;
 }";
 
-        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" StaticPicker=""false"" />
-
-@code {
-    TimeSpan? value;
-}";
-
-        public const string TimePickerSecondsExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Value=""@value"" Seconds />
-
-@code {
-    TimeSpan? value;
-}";
-
-        public const string TimePickerWithDateTimeExample = @"<TimePicker TValue=""DateTime?"" @bind-Value=""@value"" />
+        public const string TimePickerWithDateTimeExample = @"<TimePicker TValue=""DateTime?"" @bind-Time=""@value"" />
 
 @code {
     DateTime? value;
@@ -3897,7 +3894,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TimePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" @bind-Value=""@value"" />
+        <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" @bind-Time=""@value"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Light"" Clicked=""@(()=>timePicker.ToggleAsync())"">
@@ -4017,22 +4014,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <Heading Size=""HeadingSize.Is5"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h5. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is6"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h6. Blazorise heading</Heading>";
 
-        public const string TypographyDisplayHeadingAliasesExample = @"<DisplayHeading1>Display 1</DisplayHeading1>
-<DisplayHeading2>Display 2</DisplayHeading2>
-<DisplayHeading3>Display 3</DisplayHeading3>
-<DisplayHeading4>Display 4</DisplayHeading4>";
-
         public const string TypographyDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"">Display 1</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is2"">Display 2</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is3"">Display 3</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is4"">Display 4</DisplayHeading>";
-
-        public const string TypographyHeadingAliasesExample = @"<Heading1>h1. Blazorise heading</Heading1>
-<Heading2>h2. Blazorise heading</Heading2>
-<Heading3>h3. Blazorise heading</Heading3>
-<Heading4>h4. Blazorise heading</Heading4>
-<Heading5>h5. Blazorise heading</Heading5>
-<Heading6>h6. Blazorise heading</Heading6>";
 
         public const string TypographyHeadingExample = @"<Heading Size=""HeadingSize.Is1"">h1. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is2"">h2. Blazorise heading</Heading>
@@ -4187,11 +4172,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string AsyncValidationExample = @"@using System.Threading
 
 <Validation AsyncValidator=""@ValidateNameAsync"">
-    <TextInput Placeholder=""Enter name"">
+    <TextEdit Placeholder=""Enter name"">
         <Feedback>
             <ValidationError>Enter valid name!</ValidationError>
         </Feedback>
-    </TextInput>
+    </TextEdit>
 </Validation>
 @code{
     Random random = new Random();
@@ -4214,23 +4199,23 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Validations>";
 
         public const string BasicValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
-    <TextInput Placeholder=""Enter name"">
+    <TextEdit Placeholder=""Enter name"">
         <Feedback>
             <ValidationNone>Please enter the name.</ValidationNone>
             <ValidationSuccess>Name is good.</ValidationSuccess>
             <ValidationError>Enter valid name!</ValidationError>
         </Feedback>
-    </TextInput>
+    </TextEdit>
 </Validation>
 
 <Validation Validator=""ValidateEmail"">
-    <TextInput Placeholder=""Enter email"">
+    <TextEdit Placeholder=""Enter email"">
         <Feedback>
             <ValidationNone>Please enter the email.</ValidationNone>
             <ValidationSuccess>Email is good.</ValidationSuccess>
             <ValidationError>Enter valid email!</ValidationError>
         </Feedback>
-    </TextInput>
+    </TextEdit>
 </Validation>
 @code{
     void ValidateEmail( ValidatorEventArgs e )
@@ -4249,11 +4234,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Full Name</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextInput Placeholder=""First and last name"" @bind-Value=""@user.Name"">
+                <TextEdit Placeholder=""First and last name"" @bind-Text=""@user.Name"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextInput>
+                </TextEdit>
             </FieldBody>
         </Field>
     </Validation>
@@ -4261,11 +4246,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Email</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextInput Placeholder=""Enter email"" @bind-Value=""@user.Email"">
+                <TextEdit Placeholder=""Enter email"" @bind-Text=""@user.Email"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextInput>
+                </TextEdit>
             </FieldBody>
         </Field>
     </Validation>
@@ -4273,11 +4258,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Password</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextInput Role=""TextRole.Password"" Placeholder=""Password"" @bind-Value=""@user.Password"">
+                <TextEdit Role=""TextRole.Password"" Placeholder=""Password"" @bind-Text=""@user.Password"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextInput>
+                </TextEdit>
             </FieldBody>
         </Field>
     </Validation>
@@ -4285,11 +4270,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field Horizontal>
             <FieldLabel ColumnSize=""ColumnSize.Is2"">Re Password</FieldLabel>
             <FieldBody ColumnSize=""ColumnSize.Is10"">
-                <TextInput Role=""TextRole.Password"" Placeholder=""Retype password"" @bind-Value=""@user.ConfirmPassword"">
+                <TextEdit Role=""TextRole.Password"" Placeholder=""Retype password"" @bind-Text=""@user.ConfirmPassword"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextInput>
+                </TextEdit>
             </FieldBody>
         </Field>
     </Validation>
@@ -4355,12 +4340,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string ManualValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
     <Validation Validator=""@ValidationRule.IsNotEmpty"">
         <Field>
-            <TextInput Placeholder=""Enter first name"" />
+            <TextEdit Placeholder=""Enter first name"" />
         </Field>
     </Validation>
     <Validation Validator=""@ValidationRule.IsNotEmpty"">
         <Field>
-            <TextInput Placeholder=""Enter last name"" />
+            <TextEdit Placeholder=""Enter last name"" />
         </Field>
     </Validation>
     <Button Color=""Color.Primary"" Clicked=""@Submit"">Submit</Button>
@@ -4378,11 +4363,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string PatternValidationExample = @"<Validation UsePattern>
-    <TextInput Pattern=""[A-Za-z]{3}"">
+    <TextEdit Pattern=""[A-Za-z]{3}"">
         <Feedback>
             <ValidationError>Pattern does not match!</ValidationError>
         </Feedback>
-    </TextInput>
+    </TextEdit>
 </Validation>";
 
         public const string ValidationFeedbackExample = @"<Validation Validator=""@ValidateCheck"">
@@ -4409,11 +4394,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field>
             <FieldLabel>Name</FieldLabel>
             <FieldBody>
-                <TextInput @bind-Text=""@Company.Name"">
+                <TextEdit @bind-Text=""@Company.Name"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextInput>
+                </TextEdit>
             </FieldBody>
         </Field>
     </Validation>
@@ -4421,27 +4406,27 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field>
             <FieldLabel>Description</FieldLabel>
             <FieldBody>
-                <TextInput @bind-Text=""@Company.Description"">
+                <TextEdit @bind-Text=""@Company.Description"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextInput>
+                </TextEdit>
             </FieldBody>
         </Field>
     </Validation>
     <Field>
-        <Switch @bind-Value=""@Company.UseAlphaCode"">Use AlphaCode</Switch>
+        <Switch @bind-Checked=""@Company.UseAlphaCode"">Use AlphaCode</Switch>
     </Field>
     <Fields>
         <Validation>
             <Field>
                 <FieldLabel>AlphaCode</FieldLabel>
                 <FieldBody>
-                    <TextInput @bind-Text=""@Company.AlphaCode"">
+                    <TextEdit @bind-Text=""@Company.AlphaCode"">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
-                    </TextInput>
+                    </TextEdit>
                 </FieldBody>
             </Field>
         </Validation>
@@ -4449,11 +4434,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             <Field>
                 <FieldLabel>BetaCode</FieldLabel>
                 <FieldBody>
-                    <TextInput @bind-Text=""@Company.BetaCode"">
+                    <TextEdit @bind-Text=""@Company.BetaCode"">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
-                    </TextInput>
+                    </TextEdit>
                 </FieldBody>
             </Field>
         </Validation>
@@ -4518,50 +4503,50 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 	.AddBootstrapProviders()
 	.AddEmptyIconProvider();";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.8.5.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.8.5.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.8.5.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.8.5.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.8.6.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.8.5.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.8.5.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.8.5.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileInput.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoInput.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/textInput.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=1.8.5.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.8.6.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.8.5.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.8.6.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4569,15 +4554,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.8.5.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=1.8.5.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.8.5.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.8.6.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.8.5.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.8.5.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.8.6.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.8.6.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -4587,10 +4572,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.8.5.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.8.6.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
-    <Select TValue=""string"" ValueChanged=""@OnSelectedAnimationChanged"">
+    <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
         @foreach ( var availableAnimation in Animations.GetNames() )
         {
             <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
@@ -4655,7 +4640,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.8.5.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.8.6.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -6190,7 +6175,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
             <EditTemplate>
-                <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
         </DataGridColumn>
     </DataGridColumns>
@@ -6230,7 +6215,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
             <EditTemplate>
-                <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
         </DataGridColumn>
     </DataGridColumns>
@@ -6396,7 +6381,7 @@ Install-Package Blazorise.Chart.Zoom";
         Edit Mode
     </FieldLabel>
     <FieldBody>
-        <Select @bind-Value=""@editMode"">
+        <Select @bind-SelectedValue=""@editMode"">
             <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
             <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
             <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
@@ -6490,7 +6475,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
             <EditTemplate>
-                <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
         </DataGridColumn>
     </DataGridColumns>
@@ -6547,7 +6532,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -6563,18 +6548,18 @@ Install-Package Blazorise.Chart.Zoom";
                     <Field>
                         <FieldLabel>Row Index</FieldLabel>
                         <FieldBody>
-                            <TextInput ReadOnly Value=""@selectedCell?.RowIndex.ToString()""></TextInput>
+                            <TextEdit ReadOnly Text=""@selectedCell?.RowIndex.ToString()""></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Field</FieldLabel>
                         <FieldBody>
-                            <TextInput ReadOnly Value=""@selectedCell?.ColumnInfo?.Field""></TextInput>
+                            <TextEdit ReadOnly Text=""@selectedCell?.ColumnInfo?.Field""></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Value</FieldLabel>
-                        <TextInput ReadOnly Value=""@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)""></TextInput>
+                        <TextEdit ReadOnly Text=""@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)""></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>
@@ -6710,7 +6695,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -6738,20 +6723,20 @@ Install-Package Blazorise.Chart.Zoom";
           RowContextMenuPreventDefault=""true""
           Responsive
           Editable>
-    <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
-    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
 </DataGrid>
 
 @if ( showContextMenu )
 {
-    <Div Position=""Position.Fixed"" Background=""Background.Danger"" Style=""@($""left:{contextMenuPos.X}px; top:{contextMenuPos.Y}px;"")"">
+    <Div Position=""Position.Fixed"" Background=""Background.Danger"" Style=""@($""left:{contextMenuPos.X}px;top:{contextMenuPos.Y}px;"")"">
         <ListGroup>
-            <ListGroupItem Clicked=""@(() => OnContextItemEditClicked( contextMenuEmployee ))"">
+            <ListGroupItem Clicked=""@(()=>OnContextItemEditClicked(contextMenuEmployee))"">
                 <Icon Name=""IconName.Edit"" TextColor=""TextColor.Secondary"" /> Edit
             </ListGroupItem>
-            <ListGroupItem Clicked=""@(() => OnContextItemDeleteClicked( contextMenuEmployee ))"">
+            <ListGroupItem Clicked=""@(()=>OnContextItemDeleteClicked(contextMenuEmployee))"">
                 <Icon Name=""IconName.Delete"" TextColor=""TextColor.Danger"" /> Delete
             </ListGroupItem>
         </ListGroup>
@@ -6779,7 +6764,7 @@ Install-Package Blazorise.Chart.Zoom";
     {
         showContextMenu = true;
         contextMenuEmployee = eventArgs.Item;
-        contextMenuPos = new Point( (int)eventArgs.MouseEventArgs.ClientX, (int)eventArgs.MouseEventArgs.ClientY );
+        contextMenuPos = eventArgs.MouseEventArgs.Client;
 
         return Task.CompletedTask;
     }
@@ -6809,7 +6794,7 @@ Install-Package Blazorise.Chart.Zoom";
             @context.FirstName.Length chars
         </DisplayTemplate>
         <FilterTemplate>
-            <Select TValue=""NameLengthFilter"" ValueChanged=""@(e => { context.TriggerFilterChange( e ); })"">
+            <Select TValue=""NameLengthFilter"" SelectedValueChanged=""@(e => { context.TriggerFilterChange( e ); })"">
                 @foreach ( var filter in Enum.GetValues<NameLengthFilter>() )
                 {
                     <SelectItem Value=""@(filter)"">
@@ -6865,7 +6850,7 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextInput Value=""@customFilterValue"" ValueChanged=""@OnCustomFilterValueChanged""></TextInput>
+        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit Text=""@customFilterValue"" TextChanged=""@OnCustomFilterValueChanged""></TextEdit>
 
 <DataGrid @ref=""dataGrid""
           TItem=""Employee""
@@ -6912,7 +6897,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -7155,7 +7140,7 @@ Install-Package Blazorise.Chart.Zoom";
         </DataGridColumn>
         <DataGridCheckColumn Field=""IsActive"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>
-                <Check TValue=""bool"" Value='(context as dynamic).IsActive' Disabled ReadOnly />
+                <Check TValue=""bool"" Checked='(context as dynamic).IsActive' Disabled ReadOnly />
             </DisplayTemplate>
         </DataGridCheckColumn>
     </DataGridColumns>
@@ -7206,7 +7191,7 @@ Install-Package Blazorise.Chart.Zoom";
         Edit Mode
     </FieldLabel>
     <FieldBody>
-        <Select @bind-Value=""@editMode"">
+        <Select @bind-SelectedValue=""@editMode"">
             <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
             <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
             <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
@@ -7267,7 +7252,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -7298,7 +7283,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
             <EditTemplate>
-                <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
         </DataGridColumn>
     </DataGridColumns>
@@ -7356,7 +7341,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -7418,7 +7403,7 @@ Install-Package Blazorise.Chart.Zoom";
     <FilterMenuTemplate>
         <Row>
             <Column ColumnSize=""ColumnSize.Is4"">
-                <Select TValue=""DataGridColumnFilterMethod"" Value=""@context.GetFilterMethod()"" ValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+                <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
                     @{
                         var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
                     }
@@ -7446,12 +7431,12 @@ Install-Package Blazorise.Chart.Zoom";
                 <Field @key=context.GetFilterMethod()>
                     @if ( context.GetFilterMethod() == DataGridColumnFilterMethod.Between )
                     {
-                        <TextInput Value=""@GetFilterValue1(context)"" ValueChanged=""@((newValue) => SetFilterValue1(context.Column.Filter, newValue))"" />
-                        <TextInput Value=""@GetFilterValue2(context)"" ValueChanged=""@((newValue) => SetFilterValue2(context.Column.Filter, newValue))"" />
+                        <TextEdit Text=""@GetFilterValue1(context)"" TextChanged=""@((newValue) => SetFilterValue1(context.Column.Filter, newValue))"" />
+                        <TextEdit Text=""@GetFilterValue2(context)"" TextChanged=""@((newValue) => SetFilterValue2(context.Column.Filter, newValue))"" />
                     }
                     else
                     {
-                        <TextInput Value=""@context.GetSearchValue()?.ToString()"" ValueChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
+                        <TextEdit Text=""@context.GetSearchValue()?.ToString()"" TextChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
                     }
                 </Field>
             </Column>
@@ -7554,7 +7539,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -7610,7 +7595,7 @@ Install-Package Blazorise.Chart.Zoom";
             <SelectList Data=""@dataGridRef?.DisplayGroupedData""
                         TItem=""GroupContext<Employee>"" TValue=""string""
                         TextField=""x=> x.Key"" ValueField=""x=> x.Key""
-                        @bind-SelectedValue=""selectedGroupKey""></SelectList>
+            @bind-SelectedValue=""selectedGroupKey""></SelectList>
         </FieldLabel>
         <FieldBody>
             <Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ExpandGroups(selectedGroupKey))"">Expand Selected Group</Button>
@@ -7740,7 +7725,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -7876,7 +7861,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
             <EditTemplate>
-                <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
         </DataGridColumn>
     </DataGridColumns>
@@ -7942,7 +7927,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8000,7 +7985,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8033,7 +8018,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8141,7 +8126,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
             <EditTemplate>
-                <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
             </EditTemplate>
         </DataGridColumn>
     </DataGridColumns>
@@ -8158,7 +8143,7 @@ Install-Package Blazorise.Chart.Zoom";
     <TotalItemsShortTemplate><Badge Color=""Color.Success"">@context.TotalItems</Badge></TotalItemsShortTemplate>
     <ItemsPerPageTemplate></ItemsPerPageTemplate>
     <PageSelectorTemplate>
-        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.Page"" Size=""Size.Small"">
+        <Select TextColor=""TextColor.Success"" @bind-SelectedValue=""@context.CurrentPage"" Size=""Size.Small"">
             @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
             {
                 var pageNumber = i;
@@ -8167,7 +8152,7 @@ Install-Package Blazorise.Chart.Zoom";
         </Select>
     </PageSelectorTemplate>
     <PageSizesTemplate>
-        <Select TextColor=""TextColor.Success"" @bind-Value=""@context.PageSize"" Size=""Size.Small"">
+        <Select TextColor=""TextColor.Success"" @bind-SelectedValue=""@context.CurrentPageSize"" Size=""Size.Small"">
             @foreach ( var curPageSize in context.PageSizes )
             {
                 <SelectItem Value=""@curPageSize"">@curPageSize</SelectItem>
@@ -8191,7 +8176,7 @@ Install-Package Blazorise.Chart.Zoom";
 
         public const string DataGridRapidEditExample = @"<Field>
     <FieldBody>
-        <Switch @bind-Value=""@showCommandColumn"" Size=""Size.Medium"">Show Command Column</Switch>
+        <Switch @bind-Checked=""@showCommandColumn"" Size=""Size.Medium"">Show Command Column</Switch>
     </FieldBody>
 </Field>
 
@@ -8267,7 +8252,7 @@ Install-Package Blazorise.Chart.Zoom";
         Resize Mode
     </FieldLabel>
     <FieldBody>
-        <Select @bind-Value=""@resizeMode"">
+        <Select @bind-SelectedValue=""@resizeMode"">
             <SelectItem Value=""TableResizeMode.Header"">Header</SelectItem>
             <SelectItem Value=""TableResizeMode.Columns"">Columns</SelectItem>
         </Select>
@@ -8287,7 +8272,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8340,7 +8325,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8381,7 +8366,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8545,7 +8530,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8595,7 +8580,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
     <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Editable Filterable=""false""
@@ -8628,7 +8613,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8659,7 +8644,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8713,7 +8698,7 @@ Install-Package Blazorise.Chart.Zoom";
         </DataGridColumn>
         <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>
-                <Check TValue=""bool"" Value=""context.IsActive"" Disabled ReadOnly />
+                <Check TValue=""bool"" Checked=""context.IsActive"" Disabled ReadOnly />
             </DisplayTemplate>
         </DataGridCheckColumn>
     </DataGridColumns>
@@ -8749,7 +8734,7 @@ Install-Package Blazorise.Chart.Zoom";
 
         var state = new DataGridState<Employee>()
         {
-            Page = 1,
+            CurrentPage = 1,
             PageSize = 10,
         };
 
@@ -8792,7 +8777,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
-            <NumericInput TValue=""decimal""
+            <NumericEdit TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
                          ValueChanged=""@( v => {
                             context.CellValue = v;
@@ -8802,7 +8787,7 @@ Install-Package Blazorise.Chart.Zoom";
     </DataGridColumn>
     <DataGridColumn Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
-            <NumericInput TValue=""decimal""
+            <NumericEdit TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
                          Disabled />
         </EditTemplate>
@@ -8830,11 +8815,11 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable>
         <EditTemplate>
             <Validation Validator=""@CheckName"">
-                <TextInput Value=""@((string)context.CellValue)"" ValueChanged=""(value => context.CellValue = value)"">
+                <TextEdit Text=""@((string)context.CellValue)"" TextChanged=""(value => context.CellValue = value)"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextInput>
+                </TextEdit>
             </Validation>
         </EditTemplate>
     </DataGridColumn>
@@ -8892,7 +8877,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
-            <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -8910,11 +8895,11 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
+        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
-              TextField=""@(( item ) => item.Name)""
-              ValueField=""@(( item ) => item.Iso)""
-              @bind-Value=""@selectedDropValues""
+              TextField=""@((item)=>item.Name)""
+              ValueField=""@((item)=>item.Iso)""
+              @bind-SelectedValues=""@selectedDropValues""
               SelectionMode=""DropdownListSelectionMode.Checkbox""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
@@ -8926,13 +8911,13 @@ Install-Package Blazorise.Chart.Zoom";
         Selected values: @(selectedDropValues is not null ? string.Join( ',', selectedDropValues ) : """");
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected texts: @(selectedDropValues is not null
-            ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty ))
-            : string.Empty )
+        Selected texts: @(selectedDropValues is not null 
+                        ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty )) 
+                        : string.Empty )
     </FieldBody>
 </Field>
 
-@code {
+@code{
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -8944,13 +8929,14 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
+
 }";
 
         public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
-              TextField=""@(( item ) => item.Name)""
-              ValueField=""@(( item ) => item.Iso)""
-              @bind-Value=""@selectedDropValue""
+              TextField=""@((item)=>item.Name)""
+              ValueField=""@((item)=>item.Iso)""
+              @bind-SelectedValue=""@selectedDropValue""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
     Select item
@@ -8961,11 +8947,11 @@ Install-Package Blazorise.Chart.Zoom";
         Selected item: @selectedDropValue
     </FieldBody>
     <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected text: @Countries?.FirstOrDefault( x => x.Iso == @selectedDropValue )?.Name
+        Selected text: @Countries?.FirstOrDefault(x=> x.Iso == @selectedDropValue)?.Name
     </FieldBody>
 </Field>
 
-@code {
+@code{
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -8977,40 +8963,7 @@ Install-Package Blazorise.Chart.Zoom";
     }
 
     string selectedDropValue { get; set; } = ""CN"";
-}";
 
-        public const string DropdownListSearchExample = @"<DropdownList TItem=""Country"" TValue=""string""
-              Data=""@Countries""
-              TextField=""@(( item ) => item.Name)""
-              ValueField=""@(( item ) => item.Iso)""
-              @bind-Value=""@selectedDropValue""
-              Color=""Color.Primary""
-              MaxMenuHeight=""200px""
-              Filterable>
-    Select item
-</DropdownList>
-
-<Field Horizontal>
-    <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected item: @selectedDropValue
-    </FieldBody>
-    <FieldBody ColumnSize=""ColumnSize.Is12"">
-        Selected text: @Countries?.FirstOrDefault( x => x.Iso == @selectedDropValue )?.Name
-    </FieldBody>
-</Field>
-
-@code {
-    [Inject]
-    public CountryData CountryData { get; set; }
-    public IEnumerable<Country> Countries;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Countries = await CountryData.GetDataAsync();
-        await base.OnInitializedAsync();
-    }
-
-    string selectedDropValue { get; set; } = ""CN"";
 }";
 
         public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
@@ -9019,31 +8972,31 @@ Install-Package Blazorise.Chart.Zoom";
     <Validation>
         <Field>
             <FieldLabel>First name</FieldLabel>
-            <TextInput Placeholder=""Enter first name..."" @bind-Value=""@person.FirstName"">
+            <TextEdit Placeholder=""Enter first name..."" @bind-Text=""@person.FirstName"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </TextInput>
+            </TextEdit>
         </Field>
     </Validation>
     <Validation>
         <Field>
             <FieldLabel>Last name</FieldLabel>
-            <TextInput Placeholder=""Enter last name..."" @bind-Value=""@person.LastName"">
+            <TextEdit Placeholder=""Enter last name..."" @bind-Text=""@person.LastName"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </TextInput>
+            </TextEdit>
         </Field>
     </Validation>
     <Validation>
         <Field>
             <FieldLabel>Age</FieldLabel>
-            <NumericInput Placeholder=""Enter age..."" @bind-Value=""@person.Age"">
+            <NumericEdit Placeholder=""Enter age..."" @bind-Value=""@person.Age"">
                 <Feedback>
                     <ValidationError />
                 </Feedback>
-            </NumericInput>
+            </NumericEdit>
         </Field>
     </Validation>
 </Validations>
@@ -9101,7 +9054,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
 
-        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.5.0"" rel=""stylesheet"" />";
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
@@ -10173,7 +10126,7 @@ builder.Services
             Data=""@IndexedCountries""
             TextField=""@((item)=>item.Name)""
             ValueField=""@((item)=>item.Id)""
-            @bind-Value=""@selectedListValue""
+            @bind-SelectedValue=""@selectedListValue""
             DefaultItemText=""Choose your country"" />
 
 @code {
@@ -10190,12 +10143,12 @@ builder.Services
 }";
 
         public const string SelectListMultipleExample = @"<SelectList TItem=""MyFruitModel""
-            TValue=""IReadOnlyList<int>""
+            TValue=""int""
             Data=""@IndexedFruits""
             TextField=""@((item)=>item.Name)""
             ValueField=""@((item)=>item.Id)""
             Multiple
-            @bind-Value=""@selectedListValues""
+            @bind-SelectedValues=""@selectedListValues""
             DefaultItemText=""Choose your fruit"" />
 
 @code {
@@ -11101,10 +11054,10 @@ builder.Services
     .AddFontAwesomeIcons();";
 
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css"" integrity=""sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q=="" crossorigin=""anonymous"" referrerpolicy=""no-referrer"" />
-<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=1.8.5.0"" rel=""stylesheet"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=1.8.6.0"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=1.8.5.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -11127,8 +11080,8 @@ builder.Services
         public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.8.5.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -11151,8 +11104,8 @@ builder.Services
         public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.8.5.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -11175,8 +11128,8 @@ builder.Services
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=1.8.5.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
@@ -11203,11 +11156,11 @@ builder.Services
     .AddFluentUI2Providers()
     .AddFluentUIIcons();";
 
-        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.5.0"" rel=""stylesheet"" />
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.6.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/reboot.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=1.8.5.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
@@ -11245,9 +11198,9 @@ builder.Services
 <link href=""https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700"" rel=""stylesheet"">
 <link href=""https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Material/blazorise.material.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=1.8.5.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Material/blazorise.material.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=1.8.6.0"" rel=""stylesheet"" />
 
 <!-- Optional JavaScript -->
 <!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
@@ -11258,7 +11211,7 @@ builder.Services
 
 <!-- Mandatory JavaScript -->
 <script src=""js/material.min.js""></script>
-<script src=""_content/Blazorise.Material/blazorise.material.js?v=1.8.5.0""></script>";
+<script src=""_content/Blazorise.Material/blazorise.material.js?v=1.8.6.0""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
 
@@ -11280,10 +11233,10 @@ builder.Services
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <script src=""https://cdn.tailwindcss.com""></script>
-<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.8.5.0""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.8.6.0""></script>
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=1.8.5.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideSourceFiles2Example = @"<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
 
@@ -11291,8 +11244,8 @@ builder.Services
 <link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.5.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.prod.css?v=1.8.5.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.6.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.prod.css?v=1.8.6.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 
@@ -11383,25 +11336,25 @@ builder.Services
 </Paragraph>";
 
         public const string CustomLanguageExample = @"<Field>
-    <FileInput Multiple=""false"" />
-    <FileInput Multiple />
+    <FileEdit Multiple=""false"" />
+    <FileEdit Multiple />
 </Field>
 <Field>
     <Button Clicked=""OnButtonClick"">Change culture to polish</Button>
 </Field>
 
-@code {
+@code{
     [Inject]
     Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
 
-    // By using FileInput as generic typeparam, Blazorise will know
+    // By using FileEdit as generic typeparam, Blazorise will know
     // what component need to update localization resources.
     [Inject]
-    Blazorise.Localization.ITextLocalizer<FileInput> FileInputLocalizer { get; set; }
+    Blazorise.Localization.ITextLocalizer<FileEdit> FileEditLocalizer { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        FileInputLocalizer.AddLanguageResource( new Blazorise.Localization.TextLocalizationResource
+        FileEditLocalizer.AddLanguageResource( new Blazorise.Localization.TextLocalizationResource
         {
             Culture = ""pl-PL"",
             Translations = new Dictionary<string, string>()
@@ -11439,10 +11392,9 @@ builder.Services
     } );";
 
         public const string ITextLocalizerServiceExample = @"@using System.Globalization
-@using Blazorise.Localization
 
 <Field>
-    <FileInput />
+    <FileEdit />
 </Field>
 <Field>
     <Addons>
@@ -11452,7 +11404,7 @@ builder.Services
                         Data=""@LocalizationService.AvailableCultures""
                         TextField=""@((item)=>item.IsNeutralCulture ? item.EnglishName : item.Parent.EnglishName)""
                         ValueField=""@((item)=>item.Name)""
-                        @bind-Value=""selectedCulture""
+                        @bind-SelectedValue=""selectedCulture""
                         DefaultItemText=""Choose your culture"" />
         </Addon>
         <Addon AddonType=""AddonType.Body"">
@@ -11461,8 +11413,9 @@ builder.Services
     </Addons>
 </Field>
 
-@code {
-    [Inject] ITextLocalizerService LocalizationService { get; set; }
+@code{
+    [Inject]
+    Blazorise.Localization.ITextLocalizerService LocalizationService { get; set; }
 
     private string selectedCulture;
 
@@ -11483,7 +11436,7 @@ builder.Services
 }";
 
         public const string TextLocalizerHandlerExample = @"<Field>
-    <FileInput BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
+    <FileEdit BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
 </Field>";
 
         public const string GridAutoColumns2Example = @"<Grid>
@@ -12125,14 +12078,14 @@ builder.Services
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextInput @bind-Value=""model.FirstName""></TextInput>
+            <TextEdit @bind-Text=""model.FirstName""></TextEdit>
         </FieldBody>
     </Field>
 
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextInput @bind-Value=""model.Email""></TextInput>
+            <TextEdit @bind-Text=""model.Email""></TextEdit>
         </FieldBody>
     </Field>
 
@@ -12188,7 +12141,7 @@ builder.Services
         public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-        <TextInput @bind-Value=""userName""></TextInput>
+        <TextEdit @bind-Text=""userName""></TextEdit>
     </FieldBody>
 </Field>
 
@@ -12403,22 +12356,6 @@ builder.Services
         toastInstanceOptions.AutohideDelay = 3000;
         toastInstanceOptions.Closing = ( e ) => { Console.WriteLine(""Closing""); return Task.CompletedTask; };
         toastInstanceOptions.Opening = ( e ) => { Console.WriteLine(""Opening""); return Task.CompletedTask; };
-    }
-}";
-
-        public const string ToastProviderHideIconExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowToast"">Show toast message!</Button>
-
-@code {
-    [Inject] IToastService ToastService { get; set; }
-
-    Task ShowToast()
-    {
-        return ToastService.Info( ""This is a simple toast message!"", ""Hello"", BuildToastInstanceOptions );
-    }
-
-    private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
-    {
-        toastInstanceOptions.ShowIcon = false;
     }
 }";
 
