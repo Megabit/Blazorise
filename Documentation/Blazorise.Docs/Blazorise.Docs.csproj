@@ -49,12 +49,12 @@
 
   <!--Binary path for the code generator-->
   <PropertyGroup>
-    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net10.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+    <BinDocsCompiler>$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/bin/Debug/net10.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
   </PropertyGroup>
 
   <!--Project path for code generator-->
   <PropertyGroup>
-    <ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
+    <ProjectDocsCompiler>dotnet run --configuration release --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
   </PropertyGroup>
 
   <!--Execute the code generator-->
