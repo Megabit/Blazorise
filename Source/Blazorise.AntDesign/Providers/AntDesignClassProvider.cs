@@ -10,25 +10,25 @@ namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string TextInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "ant-input ant-input-static" : "ant-input";
+    public override string MemoInput( bool plaintext ) => plaintext ? "ant-input ant-input-static" : "ant-input";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string MemoInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -44,47 +44,47 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string NumericInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string NumericInputColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
-
-    #endregion
-
-    #region DateEdit
-
-    public override string DateEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
-
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
-
-    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
-
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string DateInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string DateInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public override string ColorEdit() => "ant-input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
+    #region ColorInput
+
+    public override string ColorInput() => "ant-input";
+
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
     #endregion
 
@@ -199,13 +199,13 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => null;
+    public override string FileInput() => null;
 
-    public override string FileEditSize( Size size ) => null;
+    public override string FileInputSize( Size size ) => null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -1146,7 +1146,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Badge() => "ant-tag";
 
-    public override string BadgeColor( Color color )
+    public override string BadgeColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
@@ -1160,14 +1160,14 @@ public class AntDesignClassProvider : ClassProvider
             _ => name,
         };
 
-        return $"{Badge()}-{colorName}";
+        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
     }
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "anticon anticon-close";
 
-    public override string BadgeCloseColor( Color color )
+    public override string BadgeCloseColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
@@ -1181,7 +1181,7 @@ public class AntDesignClassProvider : ClassProvider
             _ => name,
         };
 
-        return $"{Badge()}-{colorName}";
+        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
     }
 
     #endregion
@@ -1395,24 +1395,29 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Borders
 
-    public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+    public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
         var sb = new StringBuilder( "ant-border" );
 
-        if ( borderSide != BorderSide.All )
-            sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+        if ( borderDefinition.Side != BorderSide.All )
+            sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
-        if ( borderColor != BorderColor.None )
-            sb.Append( " ant-border-" ).Append( ToBorderColor( borderColor ) );
+        if ( borderDefinition.Color != BorderColor.None )
+        {
+            sb.Append( " ant-border-" ).Append( ToBorderColor( borderDefinition.Color ) );
+
+            if ( borderDefinition.Subtle )
+                sb.Append( "-subtle" );
+        }
 
         return sb.ToString();
     }
 
-    public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
-        => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+    public override string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules )
+        => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     public override string BorderRadius( BorderRadius borderRadius )
         => $"ant-{ToBorderRadius( borderRadius )}";

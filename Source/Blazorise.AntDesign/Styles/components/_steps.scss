@@ -3,7 +3,7 @@
         background-color: $primary;
 
         .ant-steps-icon {
-            color: $white;
+            color: $ant-white;
         }
     }
 }
@@ -24,7 +24,7 @@
             &.ant-steps-item-wait {
                 .ant-steps-item-icon {
                     border-color: $color;
-                    color: $white;
+                    color: $ant-white;
                 }
 
                 .ant-steps-item-content {
@@ -39,14 +39,14 @@
                     .ant-steps-item-icon {
                         background-color: $primary;
                         border-color: $primary;
-                        color: $white;
+                        color: $ant-white;
                     }
                 }
 
                 &.ant-steps-item-process {
                     .ant-steps-icon {
                         border-color: $primary;
-                        color: $white;
+                        color: $ant-white;
                     }
 
                     .ant-steps-item-content {

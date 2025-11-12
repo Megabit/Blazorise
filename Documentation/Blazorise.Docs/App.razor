@@ -1,5 +1,6 @@
 ﻿@using Blazorise.Components
 @using System.Reflection;
+@using Blazorise.Docs.Infrastructure
 @using Blazorise.Docs.Layouts;
 
 <!DOCTYPE html>
@@ -19,21 +20,22 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="preload">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
+    <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=1.8.6.0" rel="stylesheet">
 
-    <link href="_content/Blazorise/blazorise.min.css?v=1.8.2.0" rel="stylesheet" />
-    <link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.min.css?v=1.8.2.0" rel="stylesheet" />
+    <link href="_content/Blazorise/blazorise.min.css?v=1.8.6.0" rel="stylesheet" />
+    <link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.min.css?v=1.8.6.0" rel="stylesheet" />
 
-    <link href="_content/Blazorise.Snackbar/blazorise.snackbar.min.css?v=1.8.2.0" rel="stylesheet" />
-    <link href="_content/Blazorise.SpinKit/blazorise.spinkit.min.css?v=1.8.2.0" rel="stylesheet" />
-    <link href="_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.min.css?v=1.8.2.0" rel="stylesheet" />
-    <link href="_content/Blazorise.TreeView/blazorise.treeview.min.css?v=1.8.2.0" rel="stylesheet" />
-    <link href="_content/Blazorise.Docs/blazorise.docs.min.css?v=1.8.2.0" rel="stylesheet" />
-
-    <link href="css/site.css?v=1.8.2.0" rel="stylesheet" />
+    <link href="_content/Blazorise.Snackbar/blazorise.snackbar.min.css?v=1.8.6.0" rel="stylesheet" />
+    <link href="_content/Blazorise.SpinKit/blazorise.spinkit.min.css?v=1.8.6.0" rel="stylesheet" />
+    <link href="_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.min.css?v=1.8.6.0" rel="stylesheet" />
+    <link href="_content/Blazorise.TreeView/blazorise.treeview.min.css?v=1.8.6.0" rel="stylesheet" />
+    
+    <link href="_content/Blazorise.Docs/blazorise.docs.min.css?v=@BuildStamp.V" rel="stylesheet" />
+    <link href="css/site.css?v=@BuildStamp.V" rel="stylesheet" />
 
     <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
 
@@ -62,9 +64,6 @@
     </script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script defer data-domain="blazorise.com" src="https://plausible.io/js/script.js"></script>
-
-    <script>(function (w, r) { w._rwq = r; w[r] = w[r] || function () { (w[r].q = w[r].q || []).push(arguments) } })(window, 'rewardful');</script>
-    <script async src='https://r.wdfl.co/rw.js' data-rewardful='42a4f3'></script>
 </head>
 <body>
     <Routes @rendermode="RenderMode.InteractiveServer" />
@@ -81,13 +80,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"></script>
 
-    <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <script type="text/javascript">
-        Paddle.Setup({ vendor: 130780 });
+        Paddle.Environment.set("production");
+
+        Paddle.Initialize({
+          token: 'live_a317e126a9c8d3219be59e4f85d'
+        });
     </script>
 
-    <script src="_content/Blazorise.Animate/blazorise.animate.js?v=1.8.2.0"></script>
-    <script src="_content/Blazorise.Docs/blazorise.docs.min.js?v=1.8.2.0"></script>
+    <script src="_content/Blazorise.Animate/blazorise.animate.js?v=1.8.6.0"></script>
+    <script src="_content/Blazorise.Docs/blazorise.docs.min.js?v=@BuildStamp.V"></script>
 
     <script src="_framework/blazor.web.js" suppress-error="BL9992"></script>
 

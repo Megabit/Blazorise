@@ -8,7 +8,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Docs.Layouts;
 
-public partial class BlogLayout : IDisposable
+public partial class BlogLayout
 {
     #region Members
 
@@ -32,7 +32,7 @@ public partial class BlogLayout : IDisposable
         await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToTop" );
     }
 
-    protected virtual void Dispose( bool disposing )
+    protected override void Dispose( bool disposing )
     {
         if ( !disposed )
         {
@@ -40,15 +40,9 @@ public partial class BlogLayout : IDisposable
             {
                 NavigationManager.LocationChanged -= OnLocationChanged;
             }
-
-            disposed = true;
         }
-    }
 
-    public void Dispose()
-    {
-        Dispose( true );
-        GC.SuppressFinalize( this );
+        base.Dispose( disposing );
     }
 
     #endregion

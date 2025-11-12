@@ -19,7 +19,7 @@
                                     <Addon AddonType="AddonType.Body">
                                         <Validations @ref="validations" Mode="ValidationMode.Manual">
                                             <Validation Validator="@ValidationRule.IsNotEmpty">
-                                                <TextEdit @bind-Value="@description" Placeholder="What needs to be done?"></TextEdit>
+                                                <TextInput @bind-Value="@description" Placeholder="What needs to be done?"></TextInput>
                                             </Validation>
                                         </Validations>
                                     </Addon>

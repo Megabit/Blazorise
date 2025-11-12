@@ -11,7 +11,7 @@
                         <Switch @bind-Value="@animation">Animation</Switch>
                     </Column>
                     <Column>
-                        <NumericEdit TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericEdit>
+                        <NumericInput TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericInput>
                     </Column>
                 </Row>
             </CardBody>
@@ -113,15 +113,15 @@
         <ModalBody MaxHeight="@maxHeight">
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Autofocus Placeholder="Enter name..." />
+                <TextInput Autofocus Placeholder="Enter name..." />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextEdit Placeholder="Enter surname..." />
+                <TextInput Placeholder="Enter surname..." />
             </Field>
             <Field>
                 <FieldLabel>Date of birth</FieldLabel>
-                <DateEdit TValue="DateTime?" Placeholder="Pick a date" />
+                <DateInput TValue="DateTime?" Placeholder="Pick a date" />
             </Field>
             <Field>
                 <Button Color="Color.Primary" Clicked="@ShowModal2">Show second modal</Button>

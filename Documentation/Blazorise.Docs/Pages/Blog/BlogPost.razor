@@ -1,0 +1,78 @@
+﻿@page "/blog/{*Permalink}"
+@page "/news/{*Permalink}"
+@using Blazorise.Docs.BlogRuntime
+@inject IBlogProvider BlogProvider
+@inject NavigationManager NavigationManager
+
+@if ( pageModel is null )
+{
+    <Div Margin="Margin.Is4.OnY">
+        <Alert Color="Color.Danger" Visible>
+            <AlertMessage>
+                Post not found.
+            </AlertMessage>
+        </Alert>
+    </Div>
+}
+else
+{
+    @pageModel.Content
+}
+
+@code {
+    [Parameter] public string Permalink { get; set; } = string.Empty;
+
+    BlogPageModel pageModel;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var canonical = CanonicalizeWithSection( Permalink, GetSectionFromUri( NavigationManager.Uri ) );
+
+            pageModel = await BlogProvider.GetByPermalinkAsync( canonical );
+        }
+        catch
+        {
+            // swallow; pageModel stays null -> "Post not found."
+        }
+    }
+
+    private static string GetSectionFromUri( string uri )
+    {
+        // returns "blog" or "news" (defaults to blog)
+        var path = new Uri( uri ).AbsolutePath ?? "/";
+        if ( path.StartsWith( "/news", StringComparison.OrdinalIgnoreCase ) )
+            return "news";
+        return "blog";
+    }
+
+    private static string CanonicalizeWithSection( string p, string section )
+    {
+        section = string.IsNullOrWhiteSpace( section ) ? "blog" : section.Trim().Trim( '/' );
+
+        // If p already has a section (/blog/... or /news/...), just normalize and return it.
+        var s = ( p ?? string.Empty ).Trim().Replace( '\\', '/' );
+        if ( !s.StartsWith( "/" ) )
+            s = "/" + s;
+
+        if ( s.StartsWith( "/blog/", StringComparison.OrdinalIgnoreCase )
+          || s.StartsWith( "/news/", StringComparison.OrdinalIgnoreCase ) )
+        {
+            // normalize // and trailing /
+            while ( s.Contains( "//", StringComparison.Ordinal ) )
+                s = s.Replace( "//", "/" );
+            if ( s.Length > 1 && s.EndsWith( '/' ) )
+                s = s.TrimEnd( '/' );
+            return s;
+        }
+
+        // Otherwise, prefix with detected section
+        s = $"/{section}/{s.TrimStart( '/' )}";
+        while ( s.Contains( "//", StringComparison.Ordinal ) )
+            s = s.Replace( "//", "/" );
+        if ( s.Length > 1 && s.EndsWith( '/' ) )
+            s = s.TrimEnd( '/' );
+        return s;
+    }
+}

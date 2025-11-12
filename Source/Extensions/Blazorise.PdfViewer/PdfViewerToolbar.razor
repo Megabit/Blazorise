@@ -11,7 +11,7 @@
                         <Icon Name="IconName.ChevronLeft" />
                     </Button>
                 </Tooltip>
-                <NumericEdit TValue="int" Value="@pageNumber" ValueChanged="@OnPageNumberChanged" Size="Size.Small" TextAlignment="TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
+                <NumericInput TValue="int" Value="@pageNumber" ValueChanged="@OnPageNumberChanged" Size="Size.Small" TextAlignment="TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
                 <Tooltip Text="@Localizer["Next page"]">
                     <Button Size="Size.Small" Clicked="@OnNextPageClicked" Margin="Blazorise.Margin.Is2.FromStart">
                         <Icon Name="IconName.ChevronRight" />

@@ -74,3 +74,9 @@ pre:has(> code) {
     direction: ltr;
     text-align: start;
 }
+
+@each $color-name, $color-value in $theme-colors-text-emphasis {
+    .text-#{$color-name}-emphasis {
+        color: #{$color-value} !important;
+    }
+}

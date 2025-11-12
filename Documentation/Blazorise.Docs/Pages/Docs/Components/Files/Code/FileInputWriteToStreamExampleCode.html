@@ -1,0 +1,60 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.IO
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileInput</span> <span class="htmlAttributeName">Changed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnChanged</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Written</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnWritten</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Progressed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnProgressed</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">string</span> fileContent;
+
+    <span class="keyword">async</span> Task OnChanged( FileChangedEventArgs e )
+    {
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">foreach</span> ( <span class="keyword">var</span> file <span class="keyword">in</span> e.Files )
+            {
+                <span class="comment">// A stream is going to be the destination stream we&#39;re writing to.</span>
+                <span class="keyword">using</span> ( <span class="keyword">var</span> stream = <span class="keyword">new</span> MemoryStream() )
+                {
+                    <span class="comment">// Here we&#39;re telling the FileInput where to write the upload result</span>
+                    <span class="keyword">await</span> file.WriteToStreamAsync( stream );
+
+                    <span class="comment">// Once we reach this line it means the file is fully uploaded.</span>
+                    <span class="comment">// In this case we&#39;re going to offset to the beginning of file</span>
+                    <span class="comment">// so we can read it.</span>
+                    stream.Seek( <span class="number">0</span>, SeekOrigin.Begin );
+
+                    <span class="comment">// Use the stream reader to read the content of uploaded file,</span>
+                    <span class="comment">// in this case we can assume it is a textual file.</span>
+                    <span class="keyword">using</span> ( <span class="keyword">var</span> reader = <span class="keyword">new</span> StreamReader( stream ) )
+                    {
+                        fileContent = <span class="keyword">await</span> reader.ReadToEndAsync();
+                    }
+                }
+            }
+        }
+        <span class="keyword">catch</span> ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        <span class="keyword">finally</span>
+        {
+            <span class="keyword">this</span>.StateHasChanged();
+        }
+    }
+
+    <span class="keyword">void</span> OnWritten( FileWrittenEventArgs e )
+    {
+        Console.WriteLine( $<span class="string">&quot;File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}&quot;</span> );
+    }
+
+    <span class="keyword">void</span> OnProgressed( FileProgressedEventArgs e )
+    {
+        Console.WriteLine( $<span class="string">&quot;File: {e.File.Name} Progress: {e.Percentage}&quot;</span> );
+    }
+}
+</pre></div>
+</div>

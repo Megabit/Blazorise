@@ -3,10 +3,10 @@
     directive matching the current URI.
 *@
 <Blazorise.ThemeProvider Theme="@theme">
-    <Router AppAssembly="typeof(App).Assembly">
+    <Router AppAssembly="typeof( App ).Assembly">
         <Found Context="routeData">
             <CascadingValue Value="routeData">
-                <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
+                <RouteView RouteData="routeData" DefaultLayout="typeof( MainLayout )" />
             </CascadingValue>
         </Found>
         <NotFound>
@@ -19,7 +19,7 @@
     <ModalProvider UseModalStructure Animated Size="ModalSize.ExtraLarge" />
     <ApplicationLoadingIndicator />
 </Blazorise.ThemeProvider>
-@code{
+@code {
     private Theme theme = new()
     {
         Enabled = false,
@@ -35,7 +35,7 @@
         //},
         ColorOptions = new()
         {
-            Primary = "#3b82f6",
+            Primary = "#6200ea",
             Secondary = "#6B7280",
             Success = "#0E9F6E",
             Danger = "#F05252",
@@ -46,7 +46,7 @@
         },
         BackgroundOptions = new()
         {
-            Primary = "#3b82f6",
+            Primary = "#6200ea",
             Secondary = "#6B7280",
             Success = "#0E9F6E",
             Danger = "#F05252",
@@ -57,7 +57,7 @@
         },
         TextColorOptions = new()
         {
-            Primary = "#3b82f6",
+            Primary = "#6200ea",
             Secondary = "#6B7280",
             Success = "#0E9F6E",
             Danger = "#F05252",

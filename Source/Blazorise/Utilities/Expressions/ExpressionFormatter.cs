@@ -52,7 +52,7 @@ public static class ExpressionFormatter
     /// <param name="expression">The lambda expression to format.</param>
     /// <param name="prefix">The prefix to prepend to the formatted string.</param>
     /// <returns>The formatted string representation of the lambda expression with the prefix.</returns>
-    public static string FormatLambda( LambdaExpression expression, string? prefix = null )
+    public static string FormatLambda( LambdaExpression expression, string prefix = null )
     {
         var builder = new ReverseStringBuilder( stackalloc char[StackAllocBufferSize] );
         var node = expression.Body;

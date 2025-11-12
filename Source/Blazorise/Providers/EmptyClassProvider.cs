@@ -9,25 +9,25 @@ namespace Blazorise.Providers;
 /// </summary>
 class EmptyClassProvider : IClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public string TextEdit( bool plaintext ) => null;
+    public string TextInput( bool plaintext ) => null;
 
-    public string TextEditSize( Size size ) => null;
+    public string TextInputSize( Size size ) => null;
 
-    public string TextEditColor( Color color ) => null;
+    public string TextInputColor( Color color ) => null;
 
-    public string TextEditValidation( ValidationStatus validationStatus ) => null;
+    public string TextInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public string MemoEdit( bool plaintext ) => null;
+    public string MemoInput( bool plaintext ) => null;
 
-    public string MemoEditSize( Size size ) => null;
+    public string MemoInputSize( Size size ) => null;
 
-    public string MemoEditValidation( ValidationStatus validationStatus ) => null;
+    public string MemoInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 
@@ -43,47 +43,47 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public string NumericEdit( bool plaintext ) => null;
+    public string NumericInput( bool plaintext ) => null;
 
-    public string NumericEditSize( Size size ) => null;
+    public string NumericInputSize( Size size ) => null;
 
-    public string NumericEditColor( Color color ) => null;
+    public string NumericInputColor( Color color ) => null;
 
-    public string NumericEditValidation( ValidationStatus validationStatus ) => null;
-
-    #endregion
-
-    #region DateEdit
-
-    public string DateEdit( bool plaintext ) => null;
-
-    public string DateEditSize( Size size ) => null;
-
-    public string DateEditColor( Color color ) => null;
-
-    public string DateEditValidation( ValidationStatus validationStatus ) => null;
+    public string NumericInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public string TimeEdit( bool plaintext ) => null;
+    public string DateInput( bool plaintext ) => null;
 
-    public string TimeEditSize( Size size ) => null;
+    public string DateInputSize( Size size ) => null;
 
-    public string TimeEditColor( Color color ) => null;
+    public string DateInputColor( Color color ) => null;
 
-    public string TimeEditValidation( ValidationStatus validationStatus ) => null;
+    public string DateInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public string ColorEdit() => null;
+    public string TimeInput( bool plaintext ) => null;
 
-    public string ColorEditSize( Size size ) => null;
+    public string TimeInputSize( Size size ) => null;
+
+    public string TimeInputColor( Color color ) => null;
+
+    public string TimeInputValidation( ValidationStatus validationStatus ) => null;
+
+    #endregion
+
+    #region ColorInput
+
+    public string ColorInput() => null;
+
+    public string ColorInputSize( Size size ) => null;
 
     #endregion
 
@@ -197,13 +197,13 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public string FileEdit() => null;
+    public string FileInput() => null;
 
-    public string FileEditSize( Size size ) => null;
+    public string FileInputSize( Size size ) => null;
 
-    public string FileEditValidation( ValidationStatus validationStatus ) => null;
+    public string FileInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 
@@ -1035,13 +1035,13 @@ class EmptyClassProvider : IClassProvider
 
     public string Badge() => null;
 
-    public string BadgeColor( Color color ) => null;
+    public string BadgeColor( Color color, bool subtle ) => null;
 
     public string BadgePill( bool pill ) => null;
 
     public string BadgeClose() => null;
 
-    public string BadgeCloseColor( Color color ) => null;
+    public string BadgeCloseColor( Color color, bool subtle ) => null;
 
     #endregion
 
@@ -1231,9 +1231,9 @@ class EmptyClassProvider : IClassProvider
 
     #region Borders
 
-    public string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor ) => null;
+    public string Border( BorderSize borderSize, BorderDefinition borderDefinition ) => null;
 
-    public string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules ) => null;
+    public string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules ) => null;
 
     public string BorderRadius( BorderRadius borderRadius ) => null;
 

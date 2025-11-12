@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=1.8.2.0";
+import { getRequiredElement } from "./utilities.js?v=1.8.6.0";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -8,7 +8,7 @@ export function initializeTableFixedHeader(element, elementId) {
 
     let resizeTimeout = null
 
-    function resizeThottler() {
+    const resizeThottler = () => {
         if (!resizeTimeout) {
             resizeTimeout = setTimeout(function () {
                 resizeTimeout = null;
@@ -32,6 +32,8 @@ export function initializeTableFixedHeader(element, elementId) {
 
     resizeHandler(element);
 
+    // Save reference so destroy can remove it
+    this.resizeThottler = resizeThottler;
     window.addEventListener("resize", this.resizeThottler, false);
 }
 

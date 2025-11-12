@@ -31,3 +31,9 @@
         text-decoration: inherit !important;
     }
 }
+
+@each $color-name, $color-value in $theme-colors-text {
+    .text-#{$color-name}-emphasis {
+        color: #{$color-value} !important;
+    }
+}

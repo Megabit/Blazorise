@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 #endregion
@@ -66,6 +67,7 @@ public class FileEntry : IFileEntry
     /// <summary>
     /// Gets or sets the file-entry parent component.
     /// </summary>
+    [JsonIgnore]
     public IFileEntryOwner Owner { get; set; }
 
     /// <summary>
@@ -100,6 +102,7 @@ public class FileEntry : IFileEntry
     /// <summary>
     /// Provides a completion source to delay completion until after the file operation has been fully completed.
     /// </summary>
+    [JsonIgnore]
     public TaskCompletionSource FileUploadEndedCallback { get; set; }
 
     #endregion

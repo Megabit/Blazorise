@@ -1,0 +1,52 @@
+﻿@page "/docs/components/color-edit"
+@page "/docs/components/color-input"
+
+<Seo Canonical="/docs/components/color-input" Title="Blazorise Color component" Description="Learn to use and work with the Blazorise ColorInput component, a native color picker that allows you to select different colors." />
+
+<DocsPageTitle Path="Components/Color Input">
+    Blazorise ColorInput component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>ColorInput</Code> allow the user to select a color.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    This component works with standard <Code Tag>input type="color"</Code> elements. That is, the browser will control the look and feel, which may differ between Chrome, Firefox, and Edge.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        In this example for Blazorise, the <Code>ColorInput</Code> component is utilized to provide a color selection interface. It's bound to a <Code>colorValue</Code> variable via the <Code>@@bind-Value</Code> directive. Initially set to red (<Strong>#ff0000</Strong>, this <Code>colorValue</Code> automatically updates to reflect the user's color selection made through the <Code>ColorInput</Code> component, showcasing a straightforward way to integrate color picking functionality into a Blazor application.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ColorInputExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColorInputExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Sizes">
+        In the provided example, two <Code>ColorInput</Code> components in a Blazorise application are showcased, each with a distinct <Code>Size</Code> attribute. The first <Code>ColorInput</Code> is configured with <Code>Size="Size.Small"</Code>, making it smaller in appearance, and the second is set with <Code>Size="Size.Large"</Code>, resulting in a larger size. This demonstrates the flexibility of the <Code>ColorInput</Code> component in Blazorise, where the Size attribute can be adjusted to control the component's display size according to the application's design requirements.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ColorInputSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColorInputSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Disabled">
+        In this Blazorise example, the <Code>ColorInput</Code> component is demonstrated with the <Code>Disabled</Code> attribute. The addition of the <Code>Disabled</Code> attribute renders the <Code>ColorInput</Code> component non-interactive, meaning the user will not be able to change the color value presented. This is useful in scenarios where you want to display a color but prevent any user interaction, such as in view-only forms or to maintain consistency in certain UI states.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ColorInputDisabledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColorInputDisabledExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(ColorInput)]" />

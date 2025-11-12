@@ -110,16 +110,16 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         builder.CloseComponent();
     };
 
-    private RenderFragment NumericEditFragment => builder =>
+    private RenderFragment NumericInputFragment => builder =>
     {
         var underlyingType = Nullable.GetUnderlyingType( valueType ) ?? valueType;
         var nullableType = typeof( Nullable<> ).MakeGenericType( underlyingType );
-        var type = typeof( NumericEdit<> ).MakeGenericType( nullableType );
+        var type = typeof( NumericInput<> ).MakeGenericType( nullableType );
 
         var cellValue = CellValue;
 
         builder.OpenComponent( 0, type );
-        builder.AddAttribute( 1, nameof( NumericEdit<object>.Value ), cellValue );
+        builder.AddAttribute( 1, nameof( NumericInput<object>.Value ), cellValue );
 
         object valueChanged = underlyingType switch
         {
@@ -131,11 +131,11 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
             _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
         };
 
-        builder.AddAttribute( 2, nameof( NumericEdit<object>.ValueChanged ), valueChanged );
+        builder.AddAttribute( 2, nameof( NumericInput<object>.ValueChanged ), valueChanged );
         builder.AddAttribute( 3, nameof( BaseInputComponent<object>.ReadOnly ), Column.Readonly );
-        builder.AddAttribute( 4, nameof( NumericEdit<object>.Step ), Column.Step );
-        builder.AddAttribute( 5, nameof( NumericEdit<object>.Culture ), Column.Culture );
-        builder.AddAttribute( 6, nameof( NumericEdit<object>.ElementId ), elementId );
+        builder.AddAttribute( 4, nameof( NumericInput<object>.Step ), Column.Step );
+        builder.AddAttribute( 5, nameof( NumericInput<object>.Culture ), Column.Culture );
+        builder.AddAttribute( 6, nameof( NumericInput<object>.ElementId ), elementId );
         builder.CloseComponent();
     };
 

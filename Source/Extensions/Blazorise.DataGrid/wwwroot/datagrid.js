@@ -1,4 +1,4 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.6.0";
 
 const QUERYSELECTOR_ALL_COLUMNS = "tbody tr td";
 const QUERYSELECTOR_ALL_TABLE_HEAD_INPUT = "tbody tr td";
@@ -70,6 +70,11 @@ function findAncestorByTagName(el, tagName) {
 }
 
 function clickCellNavigation(e) {
+    // Do not hijack clicks coming from interactive elements
+    const interactiveClosest = e.target.closest('input,select,textarea,button,label,a,[role="button"],[role="checkbox"],[contenteditable="true"]');
+    if (interactiveClosest) {
+        return;
+    }
 
     let element = findAncestorByTagName(e.target, TAG_NAME_TABLE);
 
@@ -78,7 +83,10 @@ function clickCellNavigation(e) {
         return;
     }
 
-    let index = [].indexOf.call(allCells, e.target);
+    // If the click was inside a TD (e.g., nested spans), resolve the containing cell first
+    const targetCell = e.target.closest('td');
+    let index = [].indexOf.call(allCells, targetCell ?? e.target);
+
     if (index >= 0) {
         let toFocus = allCells[index];
         if (toFocus && toFocus.getAttribute("tabindex") == 0) {

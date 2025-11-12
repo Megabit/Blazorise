@@ -9,7 +9,7 @@
     <DataGridCommandColumn />
     <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
         <EditTemplate>
-            <NumericEdit TValue="decimal"
+            <NumericInput TValue="decimal"
                          Value="@((decimal)context.CellValue)"
                          ValueChanged="@( v => {
                             context.CellValue = v;
@@ -19,7 +19,7 @@
     </DataGridColumn>
     <DataGridColumn Field="@nameof( Employee.Tax )" Caption="Tax" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
         <EditTemplate>
-            <NumericEdit TValue="decimal"
+            <NumericInput TValue="decimal"
                          Value="@((decimal)context.CellValue)"
                          Disabled />
         </EditTemplate>

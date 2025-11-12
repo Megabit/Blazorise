@@ -1,0 +1,86 @@
+﻿@page "/docs/components/time-edit"
+@page "/docs/components/time-input"
+
+<Seo Canonical="/docs/components/time-input" Title="Blazorise TimeInput Component" Description="Learn to use and work with the Blazorise TimeInput component, which is a native time selection component that lets users select a time." />
+
+<DocsPageTitle Path="Components/TimeInput">
+    Blazorise TimeInput component
+</DocsPageTitle>
+
+<DocsPageLead>
+    A native time input component build around the <Code Tag>input type="time"</Code>.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        A native time field example with <Code>type="time"</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimeInputBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimeInputBasicExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Binding
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+        By using <Code>bind-*</Code> attribute the selected time will be automatically assigned to the member variable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimeInputWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimeInputWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual event binding">
+        When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimeInputWithEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimeInputWithEventExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show Picker">
+        <Paragraph>
+            If you want to show the <Anchor To="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/showPicker">default picker</Anchor> that comes with the time input element you can make it by using the <Code>ShowPicker()</Code> function.
+        </Paragraph>
+        <Paragraph>
+            <Strong TextColor="TextColor.Info">Note:</Strong> Keep in mind that not all browser will support the <Code>ShowPicker()</Code> function.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimeInputShowPickerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimeInputShowPickerExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Functions
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>ShowPicker()</Code></TableRowCell>
+            <TableRowCell>Show a browser picker for the time input.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<ComponentApiDocs ComponentTypes="[typeof(TimeInput<>)]" />

@@ -1,3 +1,0 @@
-_registrationModel = this.WhenAnyValue(x => x.EmailAddress, y => y.Password)
-                .Select(model => new RegistrationModel { Email = model.Item1, Password = model.Item2})
-                .ToProperty(this, x => x.RegistrationModel);

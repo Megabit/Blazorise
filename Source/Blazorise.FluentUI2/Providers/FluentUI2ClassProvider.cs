@@ -5,29 +5,29 @@ using System.Text;
 using Blazorise.Extensions;
 #endregion
 
-namespace Blazorise.FluentUI2;
+namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2ClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string TextInput( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TextInputValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "fui-Textarea__input-plaintext" : "fui-Textarea__input";
+    public override string MemoInput( bool plaintext ) => plaintext ? "fui-Textarea__input-plaintext" : "fui-Textarea__input";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
+    public override string MemoInputSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Textarea__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Textarea__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -43,47 +43,47 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "fui-NumericInput fui-Input__input-plaintext" : "fui-NumericInput fui-Input__input";
+    public override string NumericInput( bool plaintext ) => plaintext ? "fui-NumericInput fui-Input__input-plaintext" : "fui-NumericInput fui-Input__input";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string NumericInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
-
-    #endregion
-
-    #region DateEdit
-
-    public override string DateEdit( bool plaintext ) => plaintext ? "fui-DateInput fui-Input__input-plaintext" : "fui-DateInput fui-Input__input";
-
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
-
-    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
-
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "fui-TimeInput fui-Input__input-plaintext" : "fui-TimeInput fui-Input__input";
+    public override string DateInput( bool plaintext ) => plaintext ? "fui-DateInput fui-Input__input-plaintext" : "fui-DateInput fui-Input__input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string DateInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public override string ColorEdit() => "fui-ColorInput fui-Input__input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "fui-TimeInput fui-Input__input-plaintext" : "fui-TimeInput fui-Input__input";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+
+    #endregion
+
+    #region ColorInput
+
+    public override string ColorInput() => "fui-ColorInput fui-Input__input";
+
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     #endregion
 
@@ -209,13 +209,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => "fui-Input__input";
+    public override string FileInput() => "fui-Input__input";
 
-    public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
+    public override string FileInputSize( Size size ) => size != Size.Default ? $"{FileInput()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -1310,13 +1310,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Badge() => "fui-Badge";
 
-    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
+    public override string BadgeColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "fui-Badge__close";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
+    public override string BadgeCloseColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 
@@ -1533,15 +1535,20 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Borders
 
-    public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+    public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
         var sb = new StringBuilder( "fui-Border" );
 
-        if ( borderColor != BorderColor.None )
-            sb.Append( '-' ).Append( ToBorderColor( borderColor ) );
+        if ( borderDefinition.Color != BorderColor.None )
+        {
+            sb.Append( '-' ).Append( ToBorderColor( borderDefinition.Color ) );
 
-        if ( borderSide != BorderSide.All )
-            sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+            if ( borderDefinition.Subtle )
+                sb.Append( "-subtle" );
+        }
+
+        if ( borderDefinition.Side != BorderSide.All )
+            sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
@@ -1549,8 +1556,8 @@ public class FluentUI2ClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
-        => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+    public override string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules )
+        => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     #endregion
 
