@@ -100,3 +100,57 @@
         column-gap: $length !important;
     }
 }
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint) {
+        @each $size, $gutter in $gutters {
+            $half-gutter: if($gutter == 0, 0, $gutter / 2);
+
+            // ===============================
+            // g-*  (BOTH axes)
+            // ===============================
+            .row.g#{$infix}-#{$size} {
+                margin-right: -$half-gutter;
+                margin-left: -$half-gutter;
+                margin-top: -$half-gutter;
+                margin-bottom: -$half-gutter;
+
+                > .col,
+                > [class*="col-"] {
+                    padding-right: $half-gutter;
+                    padding-left: $half-gutter;
+                    padding-top: $half-gutter;
+                    padding-bottom: $half-gutter;
+                }
+            }
+            // ===============================
+            // gx-*  (horizontal only)
+            // ===============================
+            .row.gx#{$infix}-#{$size} {
+                margin-right: -$half-gutter;
+                margin-left: -$half-gutter;
+
+                > .col,
+                > [class*="col-"] {
+                    padding-right: $half-gutter;
+                    padding-left: $half-gutter;
+                }
+            }
+            // ===============================
+            // gy-*  (vertical only)
+            // ===============================
+            .row.gy#{$infix}-#{$size} {
+                margin-top: -$half-gutter;
+                margin-bottom: -$half-gutter;
+
+                > .col,
+                > [class*="col-"] {
+                    padding-top: $half-gutter;
+                    padding-bottom: $half-gutter;
+                }
+            }
+        }
+    }
+}
