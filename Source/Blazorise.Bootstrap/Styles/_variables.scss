@@ -249,3 +249,6 @@ $placeholder-opacity-min: .2 !default;
 $overflows: join($overflows, (visible, scroll));
 
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
+
+$gutters: () !default;
+$gutters: map-merge( ( 0: 0, 1: $grid-gutter-width * .25, 2: $grid-gutter-width * .5, 3: $grid-gutter-width, 4: $grid-gutter-width * 1.5, 5: $grid-gutter-width * 3 ), $gutters );
