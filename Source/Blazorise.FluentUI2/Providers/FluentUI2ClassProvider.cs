@@ -1535,11 +1535,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
     {
-        var side = gutterSide != GutterSide.None && gutterSide != GutterSide.All
-             ? $"{ToGutterSide( gutterSide )}-"
-             : null;
+        var sb = new StringBuilder( "fui-Gutter" );
 
-        return $"g{side}{ToGutterSize( gutterSize )}";
+        if ( gutterSide != GutterSide.None && gutterSide != GutterSide.All )
+            sb.Append( '-' ).Append( ToGutterSide( gutterSide ) );
+
+        if ( breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile )
+            sb.Append( '-' ).Append( ToBreakpoint( breakpoint ) );
+
+        sb.Append( '-' ).Append( ToGutterSize( gutterSize ) );
+
+        return sb.ToString();
     }
 
     public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
