@@ -106,49 +106,41 @@
 
     @include media-breakpoint-up($breakpoint) {
         @each $size, $gutter in $gutters {
-            $half-gutter: if($gutter == 0, 0, $gutter / 2);
+            $gx: $gutter;
+            $gy: $gutter;
+            $gx-half: if($gx == 0, 0, $gx / 2);
 
-            // ===============================
-            // g-*  (BOTH axes)
-            // ===============================
+            // --------------------------------------------------
             .row.g#{$infix}-#{$size} {
-                margin-right: -$half-gutter;
-                margin-left: -$half-gutter;
-                margin-top: -$half-gutter;
-                margin-bottom: -$half-gutter;
-
-                > .col,
-                > [class*="col-"] {
-                    padding-right: $half-gutter;
-                    padding-left: $half-gutter;
-                    padding-top: $half-gutter;
-                    padding-bottom: $half-gutter;
+                // "make-row" part
+                margin-right: -$gx-half;
+                margin-left: -$gx-half;
+                margin-top: -$gy;
+                // "make-col-ready" part
+                > * {
+                    padding-right: $gx-half;
+                    padding-left: $gx-half;
+                    margin-top: $gy;
                 }
             }
-            // ===============================
-            // gx-*  (horizontal only)
-            // ===============================
+
             .row.gx#{$infix}-#{$size} {
-                margin-right: -$half-gutter;
-                margin-left: -$half-gutter;
+                // Horizontal only
+                margin-right: -$gx-half;
+                margin-left: -$gx-half;
 
-                > .col,
-                > [class*="col-"] {
-                    padding-right: $half-gutter;
-                    padding-left: $half-gutter;
+                > * {
+                    padding-right: $gx-half;
+                    padding-left: $gx-half;
                 }
             }
-            // ===============================
-            // gy-*  (vertical only)
-            // ===============================
-            .row.gy#{$infix}-#{$size} {
-                margin-top: -$half-gutter;
-                margin-bottom: -$half-gutter;
 
-                > .col,
-                > [class*="col-"] {
-                    padding-top: $half-gutter;
-                    padding-bottom: $half-gutter;
+            .row.gy#{$infix}-#{$size} {
+                // Vertical only
+                margin-top: -$gy;
+
+                > * {
+                    margin-top: $gy;
                 }
             }
         }
