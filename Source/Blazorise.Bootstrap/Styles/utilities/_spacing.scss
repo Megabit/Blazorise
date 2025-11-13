@@ -106,41 +106,33 @@
 
     @include media-breakpoint-up($breakpoint) {
         @each $size, $gutter in $gutters {
-            $gx: $gutter;
-            $gy: $gutter;
-            $gx-half: if($gx == 0, 0, $gx / 2);
-
-            // --------------------------------------------------
             .row.g#{$infix}-#{$size} {
-                // "make-row" part
-                margin-right: -$gx-half;
-                margin-left: -$gx-half;
-                margin-top: -$gy;
-                // "make-col-ready" part
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
+                margin-top: calc(-1 * #{$gutter});
+
                 > * {
-                    padding-right: $gx-half;
-                    padding-left: $gx-half;
-                    margin-top: $gy;
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
+                    margin-top: #{$gutter};
                 }
             }
 
             .row.gx#{$infix}-#{$size} {
-                // Horizontal only
-                margin-right: -$gx-half;
-                margin-left: -$gx-half;
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
 
                 > * {
-                    padding-right: $gx-half;
-                    padding-left: $gx-half;
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
                 }
             }
 
             .row.gy#{$infix}-#{$size} {
-                // Vertical only
-                margin-top: -$gy;
+                margin-top: calc(-1 * #{$gutter});
 
                 > * {
-                    margin-top: $gy;
+                    margin-top: #{$gutter};
                 }
             }
         }
