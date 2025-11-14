@@ -753,8 +753,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
 
-    public abstract string RowNoGutters( bool noGutters );
-
     #endregion
 
     #region Column
@@ -1226,6 +1224,14 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Gutter
+
+    public abstract string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint );
+
+    public abstract string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules );
+
+    #endregion
+
     #region Borders
 
     public abstract string Border( BorderSize borderSize, BorderDefinition borderDefinition );
@@ -1437,6 +1443,16 @@ public abstract class ClassProvider : IClassProvider
         {
             Blazorise.GapSide.X => "x",
             Blazorise.GapSide.Y => "y",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGutterSide( GutterSide gutterSide )
+    {
+        return gutterSide switch
+        {
+            Blazorise.GutterSide.X => "x",
+            Blazorise.GutterSide.Y => "y",
             _ => null,
         };
     }
@@ -1674,6 +1690,20 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.GapSize.Is3 => "3",
             Blazorise.GapSize.Is4 => "4",
             Blazorise.GapSize.Is5 => "5",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGutterSize( GutterSize gutterSize )
+    {
+        return gutterSize switch
+        {
+            Blazorise.GutterSize.Is0 => "0",
+            Blazorise.GutterSize.Is1 => "1",
+            Blazorise.GutterSize.Is2 => "2",
+            Blazorise.GutterSize.Is3 => "3",
+            Blazorise.GutterSize.Is4 => "4",
+            Blazorise.GutterSize.Is5 => "5",
             _ => null,
         };
     }

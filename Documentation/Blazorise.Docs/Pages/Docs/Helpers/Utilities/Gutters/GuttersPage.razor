@@ -1,0 +1,111 @@
+﻿@page "/docs/helpers/utilities/gutters"
+
+<Seo Canonical="/docs/helpers/utilities/gutters" Title="Blazorise Gutters Utilities" Description="Control horizontal and vertical spacing between grid columns and rows using Blazorise gutter utilities." />
+
+<DocsPageTitle Path="Helpers/Utilities/Gutters" AddedVersion="Added in v2.0">
+    Blazorise Gutters Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Use the gutters utilities to control the horizontal and vertical spacing between columns and rows in your layouts.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Gutters are applied to row-like containers and automatically affect their direct children.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Gutters in Blazorise are configured through the <Code>Gutter</Code> parameter on row-like components, usually the <Code Tag>Row</Code>.
+    They are expressed using <Code>Gutter.Is*</Code> utilities and optional axis helpers like <Code>.OnX</Code> and <Code>.OnY</Code>.
+    Internally, these are mapped to the underlying CSS framework (Bootstrap, Tailwind, Bulma, etc.) and translated into the proper
+    combination of margins and paddings to emulate Bootstrap 5–style gutters.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A gutter has a <Strong>size</Strong> and an optional <Strong>side</Strong>. When no side is specified, gutters apply on both
+    axes (horizontal and vertical). Use <Code>OnX</Code> to control only the horizontal spacing between columns and <Code>OnY</Code>
+    to control only the vertical spacing when columns wrap onto new lines.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    For example, in Tailwind, horizontal gutters are implemented using negative margins on the container and half-gutter padding
+    on the children, while vertical gutters use a full gutter size on the top margin of the children with a matching negative
+    margin on the container. This mirrors the Bootstrap 5 approach where the container uses half and full gutter values and the
+    child elements use half-gutter padding on the left and right.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal gutters">
+        <Paragraph>
+            Use <Code>Gutter.Is*</Code> with <Code>OnX</Code> utilities to control the horizontal gutter width between columns.
+            This affects only the spacing on the X axis, leaving the vertical spacing unchanged.
+        </Paragraph>
+        <Paragraph>
+            In this example we add horizontal padding to the container so that the negative margins introduced by the gutters
+            do not visually overflow outside of the container.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GuttersHorizontalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GuttersHorizontalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal gutters with overflow">
+        <Paragraph>
+            When using larger horizontal gutters, the negative margins can extend the row outside of its container.
+            One option to handle this is to wrap the row in a container with <Code>Overflow.Hidden</Code> so that any overflow is clipped.
+        </Paragraph>
+        <Paragraph>
+            This approach is useful when you want strong horizontal separation between columns but still keep the layout visually
+            aligned with the rest of the page.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GuttersHorizontalOverflowExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GuttersHorizontalOverflowExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Vertical gutters">
+        <Paragraph>
+            Use <Code>Gutter.Is*</Code> with <Code>OnY</Code> utilities to control the vertical gutter width between wrapped columns.
+            Vertical gutters are especially useful when your columns span multiple rows and you want consistent spacing between them.
+        </Paragraph>
+        <Paragraph>
+            In the following example, the columns wrap onto multiple lines, and the vertical gutter is applied so each row of columns
+            is separated by the specified gutter size.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GuttersVerticalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GuttersVerticalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal &amp; vertical gutters">
+        <Paragraph>
+            When you omit the axis helper, <Code>Gutter.Is*</Code> applies gutters on both the horizontal and vertical axes.
+            This controls the spacing between columns and rows at the same time.
+        </Paragraph>
+        <Paragraph>
+            In this example we use a smaller gutter size, which keeps the layout compact enough that there is no need for an
+            additional overflow wrapper. This is often a good default for simple grid layouts.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GuttersAllExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GuttersAllExample" />
+</DocsPageSection>

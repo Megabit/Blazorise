@@ -41,18 +41,6 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
-    #region Row
-
-    public string RowGutter( (int Horizontal, int Vertical) gutter ) => null;
-
-    #endregion
-
-    #region Column
-
-    public string ColumnGutter( (int Horizontal, int Vertical) gutter ) => null;
-
-    #endregion
-
     #region Offcanvas
 
     public string OffcanvasAnimationDuration( bool animated, int AnimationDuration ) => null;

@@ -170,6 +170,7 @@ public static class ManualPageEntries
     new( "docs/helpers/enums/validation", "Enums: Validation" ),
     new( "docs/helpers/localization", "Localization" ),
     new( "docs/helpers/sizes", "Sizes" ),
+    new( "docs/helpers/utilities/gutters", "Gutters", "Control horizontal and vertical spacing between grid columns and rows using Blazorise gutter utilities." ),
     new( "docs/helpers/utilities/object-fit", "Object Fit", "Use the object fit utilities to modify how the content of a replaced element, such as an <img> or <video>, should be resized to fit its container." ),
     new( "docs/helpers/utilities/position", "Position" ),
     new( "docs/helpers/utilities", "Utilities" ),

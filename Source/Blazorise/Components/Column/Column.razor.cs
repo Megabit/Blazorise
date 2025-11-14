@@ -24,22 +24,5 @@ public partial class Column : BaseColumnComponent, IDisposable
         base.BuildClasses( builder );
     }
 
-    /// <inheritdoc/>
-    protected override void BuildStyles( StyleBuilder builder )
-    {
-        builder.Append( StyleProvider.ColumnGutter( Gutter ) );
-
-        base.BuildStyles( builder );
-    }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Column grid spacing, we recommend setting it to (16 + 8n). (n stands for natural number.)
-    /// </summary>
-    [CascadingParameter] public (int Horizontal, int Vertical) Gutter { get; set; }
-
     #endregion
 }

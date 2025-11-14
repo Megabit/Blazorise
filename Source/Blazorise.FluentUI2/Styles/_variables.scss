@@ -942,6 +942,8 @@ $spacer: var(--spacingHorizontalM) !default;
 $spacers: () !default;
 $spacers: map-merge( ( 0: 0, 1: var(--spacingHorizontalXS), 2: var(--spacingHorizontalS), 3: var(--spacingHorizontalM), 4: var(--spacingHorizontalL), 5: var(--spacingHorizontalXL) ), $spacers );
 
+$gutters: $spacers !default;
+
 $sizes: () !default;
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
 

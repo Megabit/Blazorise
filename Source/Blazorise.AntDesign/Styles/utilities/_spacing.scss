@@ -126,15 +126,53 @@
 }
 
 @each $size, $length in $spacers {
-    .gap-#{$size} {
+    .ant-gap-#{$size} {
         gap: $length !important;
     }
 
-    .gap-y-#{$size} {
+    .ant-gap-y-#{$size} {
         row-gap: $length !important;
     }
 
-    .gap-x-#{$size} {
+    .ant-gap-x-#{$size} {
         column-gap: $length !important;
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint) {
+        @each $size, $gutter in $gutters {
+            .ant-row.ant-gutter#{$infix}-#{$size} {
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
+                margin-top: calc(-1 * #{$gutter});
+
+                > * {
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
+                    margin-top: #{$gutter};
+                }
+            }
+
+            .ant-row.ant-gutter-x#{$infix}-#{$size} {
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
+
+                > * {
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
+                }
+            }
+
+            .ant-row.ant-gutter-y#{$infix}-#{$size} {
+                margin-top: calc(-1 * #{$gutter});
+
+                > * {
+                    margin-top: #{$gutter};
+                }
+            }
+        }
     }
 }
