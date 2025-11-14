@@ -70,32 +70,32 @@ public interface IFluentGutterOnBreakpoint :
     IFluentGutterFromSide
 {
     /// <summary>
-    /// Applies gutter spacing on all devices (smallest breakpoint).
+    /// Applies gutter spacing on all devices. (extra small)
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnMobile { get; }
 
     /// <summary>
-    /// Applies gutter spacing from the tablet breakpoint and above.
+    /// Applies gutter spacing from the tablet breakpoint and above. (small)
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnTablet { get; }
 
     /// <summary>
-    /// Applies gutter spacing from the desktop breakpoint and above.
+    /// Applies gutter spacing from the desktop breakpoint and above. (medium)
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnDesktop { get; }
 
     /// <summary>
-    /// Applies gutter spacing from the widescreen breakpoint and above.
+    /// Applies gutter spacing from the widescreen breakpoint and above. (large)
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnWidescreen { get; }
 
     /// <summary>
-    /// Applies gutter spacing from the full HD breakpoint and above.
+    /// Applies gutter spacing from the full HD breakpoint and above. (extra large)
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnFullHD { get; }
 
     /// <summary>
-    /// Applies gutter spacing from the Quad HD breakpoint and above.
+    /// Applies gutter spacing from the Quad HD breakpoint and above. (extra extra large)
     /// </summary>
     IFluentGutterOnBreakpointWithSideAndSize OnQuadHD { get; }
 }
@@ -320,32 +320,32 @@ public class FluentGutter :
     public IFluentGutterOnBreakpointWithSideAndSize OnAll => WithSide( GutterSide.All );
 
     /// <summary>
-    /// Applies the rule on all devices (smallest breakpoint).
+    /// Applies the rule on all devices. (extra small)
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnMobile => WithBreakpoint( Breakpoint.Mobile );
 
     /// <summary>
-    /// Applies the rule from the tablet breakpoint and above.
+    /// Applies the rule from the tablet breakpoint and above. (small)
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnTablet => WithBreakpoint( Breakpoint.Tablet );
 
     /// <summary>
-    /// Applies the rule from the desktop breakpoint and above.
+    /// Applies the rule from the desktop breakpoint and above. (medium)
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnDesktop => WithBreakpoint( Breakpoint.Desktop );
 
     /// <summary>
-    /// Applies the rule from the widescreen breakpoint and above.
+    /// Applies the rule from the widescreen breakpoint and above. (large)
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnWidescreen => WithBreakpoint( Breakpoint.Widescreen );
 
     /// <summary>
-    /// Applies the rule from the full HD breakpoint and above.
+    /// Applies the rule from the full HD breakpoint and above. (extra large)
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
     /// <summary>
-    /// Applies the rule from the Quad HD breakpoint and above.
+    /// Applies the rule from the Quad HD breakpoint and above. (extra extra large)
     /// </summary>
     public IFluentGutterOnBreakpointWithSideAndSize OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
