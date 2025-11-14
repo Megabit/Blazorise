@@ -2094,11 +2094,40 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
     {
-        var side = gutterSide != GutterSide.None && gutterSide != GutterSide.All
-             ? $"{ToGutterSide( gutterSide )}-"
-             : null;
+        var fullSize = ToGutterSize( gutterSize );
+        if ( string.IsNullOrEmpty( fullSize ) || gutterSide == GutterSide.None )
+            return null;
 
-        return $"g{side}{ToGutterSize( gutterSize )}";
+        var halfSize = fullSize;
+
+        if ( int.TryParse( fullSize, NumberStyles.Integer, CultureInfo.InvariantCulture, out var fullInt ) )
+        {
+            float halfFloat = fullInt > 0 ? fullInt / 2f : 0f;
+
+            halfSize = halfFloat.ToString( "0.##", CultureInfo.InvariantCulture );
+        }
+
+        var breakpointPart = breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+            ? $"{ToBreakpoint( breakpoint )}:"
+            : null;
+
+        var classes = new List<string>();
+
+        if ( gutterSide == GutterSide.All || gutterSide == GutterSide.X )
+        {
+            classes.Add( $"{breakpointPart}-mx-{halfSize}" );
+            classes.Add( $"{breakpointPart}[&>*]:px-{halfSize}" );
+        }
+
+        if ( gutterSide == GutterSide.All || gutterSide == GutterSide.Y )
+        {
+            classes.Add( $"{breakpointPart}-mt-{fullSize}" );
+            classes.Add( $"{breakpointPart}[&>*]:mt-{fullSize}" );
+        }
+
+        return classes.Count > 0
+            ? string.Join( " ", classes )
+            : null;
     }
 
     public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
