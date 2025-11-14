@@ -33,8 +33,8 @@ export function initializeTableFixedHeader(element, elementId) {
     resizeHandler(element);
 
     // Save reference so destroy can remove it
-    this.resizeThottler = resizeThottler;
-    window.addEventListener("resize", this.resizeThottler, false);
+    element._resizeThottler = resizeThottler;
+    window.addEventListener("resize", element._resizeThottler, false);
 }
 
 export function destroyTableFixedHeader(element, elementId) {
@@ -43,8 +43,8 @@ export function destroyTableFixedHeader(element, elementId) {
     if (!element)
         return;
 
-    if (typeof this.resizeThottler === "function") {
-        window.removeEventListener("resize", this.resizeThottler);
+    if (typeof element._resizeThottler === "function") {
+        window.removeEventListener("resize", element._resizeThottler);
     }
 
     const thead = element.querySelector("thead:first-child");

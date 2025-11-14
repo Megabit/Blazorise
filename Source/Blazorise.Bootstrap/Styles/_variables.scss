@@ -249,3 +249,5 @@ $placeholder-opacity-min: .2 !default;
 $overflows: join($overflows, (visible, scroll));
 
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
+
+$gutters: $spacers !default;

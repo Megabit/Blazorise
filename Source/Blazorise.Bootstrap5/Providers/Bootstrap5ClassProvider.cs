@@ -794,8 +794,6 @@ public class Bootstrap5ClassProvider : ClassProvider
         return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "g-0" : null;
-
     #endregion
 
     #region Column
@@ -1386,6 +1384,28 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
         => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
+
+    #endregion
+
+    #region Gutter
+
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
+    {
+        var sb = new StringBuilder( "g" );
+
+        if ( gutterSide != GutterSide.None && gutterSide != GutterSide.All )
+            sb.Append( ToGutterSide( gutterSide ) );
+
+        if ( breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile )
+            sb.Append( '-' ).Append( ToBreakpoint( breakpoint ) );
+
+        sb.Append( '-' ).Append( ToGutterSize( gutterSize ) );
+
+        return sb.ToString();
+    }
+
+    public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x.Item1, x.Item2 ) ) );
 
     #endregion
 

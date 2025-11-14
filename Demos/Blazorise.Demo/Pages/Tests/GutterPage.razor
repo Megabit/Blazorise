@@ -1,0 +1,106 @@
+﻿@page "/tests/utilities/gutter"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Horizontal gutters</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Code>Gutter.Is*</Code> with on <Code>OnX</Code> utilities can be used to control the horizontal gutter widths.
+            </CardBody>
+            <CardBody>
+                <Container Padding="Padding.Is4.OnX" TextAlignment="TextAlignment.Center">
+                    <Row Gutter="Gutter.Is5.OnX">
+                        @for ( int i = 1; i <= 2; i++ )
+                        {
+                            <Column>
+                                <Div Padding="Padding.Is3" Background="Background.Primary.Subtle" Border="Border.Primary">
+                                    Custom column padding
+                                </Div>
+                            </Column>
+                        }
+                    </Row>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Horizontal gutters with overflow</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                An alternative solution is to add a wrapper around the <Code>Row</Code> with the <Code></Code>:
+            </CardBody>
+            <CardBody>
+                <Container Overflow="Overflow.Hidden" TextAlignment="TextAlignment.Center">
+                    <Row Gutter="Gutter.Is5.OnX">
+                        @for ( int i = 1; i <= 2; i++ )
+                        {
+                            <Column>
+                                <Div Padding="Padding.Is3" Background="Background.Primary.Subtle" Border="Border.Primary">
+                                    Custom column padding
+                                </Div>
+                            </Column>
+                        }
+                    </Row>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Vertical gutters</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Code>Gutter.Is*</Code> with on <Code>OnY</Code> utilities can be used to control the vertical gutter widths within a row when columns wrap to new lines.
+            </CardBody>
+            <CardBody>
+                <Container Overflow="Overflow.Hidden" TextAlignment="TextAlignment.Center">
+                    <Row Gutter="Gutter.Is5.OnY">
+                        @for ( int i = 1; i <= 4; i++ )
+                        {
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Div Padding="Padding.Is3" Background="Background.Primary.Subtle" Border="Border.Primary">
+                                    Custom column padding
+                                </Div>
+                            </Column>
+                        }
+                    </Row>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Horizontal & vertical gutters</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                Use <Code>Gutter.Is*</Code> utilities to control the horizontal and vertical grid gutters. In the example below, we use a smaller gutter width, so there isn’t a need for the Overflow.Hidden wrapper class.
+            </CardBody>
+            <CardBody>
+                <Container TextAlignment="TextAlignment.Center">
+                    <Row Gutter="Gutter.Is2">
+                        @for ( int i = 1; i <= 4; i++ )
+                        {
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Div Padding="Padding.Is3" Background="Background.Primary.Subtle" Border="Border.Primary">
+                                    Custom column padding
+                                </Div>
+                            </Column>
+                        }
+                    </Row>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

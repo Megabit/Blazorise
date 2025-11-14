@@ -752,8 +752,6 @@ public interface IClassProvider
 
     string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
 
-    string RowNoGutters( bool noGutters );
-
     #endregion
 
     #region Column
@@ -1224,6 +1222,14 @@ public interface IClassProvider
 
     #endregion
 
+    #region Gutter
+
+    string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint );
+
+    string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules );
+
+    #endregion
+
     #region Borders
 
     string Border( BorderSize borderSize, BorderDefinition borderDefinition );
@@ -1374,6 +1380,8 @@ public interface IClassProvider
     string ToSpacingSize( SpacingSize spacingSize );
 
     string ToGapSize( GapSize gapSize );
+
+    string ToGutterSize( GutterSize gutterSize );
 
     string ToJustifyContent( JustifyContent justifyContent );
 

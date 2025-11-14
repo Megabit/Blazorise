@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -12,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// The <see cref="Table"/> component is used for displaying tabular data.
 /// </summary>
-public partial class Table : BaseDraggableComponent
+public partial class Table : BaseDraggableComponent, IAsyncDisposable
 {
     #region Members
 
@@ -67,6 +68,21 @@ public partial class Table : BaseDraggableComponent
         await RecalculateResize();
 
         await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( fixedHeader )
+                await DestroyFixedHeader();
+
+            if ( resizable )
+                await DestroyResizable();
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc/>
