@@ -66,7 +66,7 @@ public partial class DropdownItem : BaseComponent
             if ( ParentDropdown is not null )
             {
                 if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
-                    await ParentDropdown.Hide( true );
+                    await ParentDropdown.Hide( CloseParentDropdowns );
             }
 
             if ( ShowCheckbox )
@@ -166,6 +166,11 @@ public partial class DropdownItem : BaseComponent
     /// Occurs after the Checked state is changed, whenever the DropdownItem is in checkbox mode.
     /// </summary>
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+
+    /// <summary>
+    /// Defines whether clicking this item should close the entire dropdown hierarchy or only the current dropdown.
+    /// </summary>
+    [Parameter] public bool CloseParentDropdowns { get; set; } = true;
 
     #endregion
 }
