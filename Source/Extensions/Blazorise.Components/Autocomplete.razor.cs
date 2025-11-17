@@ -1752,5 +1752,13 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// </summary>
     [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether parent dropdown menus should be closed when this component is activated.
+    /// </summary>
+    /// <remarks>Set this property to <see langword="true"/> to automatically close any open parent dropdowns
+    /// when the component is triggered. This can be useful for ensuring only one dropdown is open at a time in nested
+    /// menu scenarios.</remarks>
+    [Parameter] public bool CloseParentDropdowns { get; set; }
+
     #endregion
 }
