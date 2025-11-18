@@ -4631,7 +4631,8 @@ button {
 .fui-Select + .fui-Field__validationMessage,
 .fui-SpinButton + .fui-Field__validationMessage,
 .fui-Checkbox + .fui-Field__validationMessage,
-.fui-ColorPicker + .fui-Field__validationMessage {
+.fui-ColorPicker + .fui-Field__validationMessage,
+.fui-RadioGroup__horizontal + .fui-Field__validationMessage {
   margin-top: var(--spacingVerticalXXS);
   color: var(--colorNeutralForeground3);
   font-family: var(--fontFamilyBase);
@@ -4644,7 +4645,8 @@ button {
 .fui-Select + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
-.fui-ColorPicker + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+.fui-ColorPicker + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
   display: inline-block;
   font-size: 12px;
   margin-left: calc(-12px - var(--spacingHorizontalXS));
@@ -4652,80 +4654,111 @@ button {
   line-height: 0;
   vertical-align: -1px;
 }
-.fui-Input.fui-Input-error + .fui-Field__validationMessage, .fui-Input.fui-Select-error + .fui-Field__validationMessage, .fui-Input.fui-SpinButton-error + .fui-Field__validationMessage, .fui-Input.fui-Checkbox-error + .fui-Field__validationMessage, .fui-Input.fui-ColorPicker-error + .fui-Field__validationMessage,
+.fui-Input.fui-Input-error + .fui-Field__validationMessage, .fui-Input.fui-Select-error + .fui-Field__validationMessage, .fui-Input.fui-SpinButton-error + .fui-Field__validationMessage, .fui-Input.fui-Checkbox-error + .fui-Field__validationMessage, .fui-Input.fui-ColorPicker-error + .fui-Field__validationMessage, .fui-Input.fui-RadioGroup-error + .fui-Field__validationMessage,
 .fui-Select.fui-Input-error + .fui-Field__validationMessage,
 .fui-Select.fui-Select-error + .fui-Field__validationMessage,
 .fui-Select.fui-SpinButton-error + .fui-Field__validationMessage,
 .fui-Select.fui-Checkbox-error + .fui-Field__validationMessage,
 .fui-Select.fui-ColorPicker-error + .fui-Field__validationMessage,
+.fui-Select.fui-RadioGroup-error + .fui-Field__validationMessage,
 .fui-SpinButton.fui-Input-error + .fui-Field__validationMessage,
 .fui-SpinButton.fui-Select-error + .fui-Field__validationMessage,
 .fui-SpinButton.fui-SpinButton-error + .fui-Field__validationMessage,
 .fui-SpinButton.fui-Checkbox-error + .fui-Field__validationMessage,
 .fui-SpinButton.fui-ColorPicker-error + .fui-Field__validationMessage,
+.fui-SpinButton.fui-RadioGroup-error + .fui-Field__validationMessage,
 .fui-Checkbox.fui-Input-error + .fui-Field__validationMessage,
 .fui-Checkbox.fui-Select-error + .fui-Field__validationMessage,
 .fui-Checkbox.fui-SpinButton-error + .fui-Field__validationMessage,
 .fui-Checkbox.fui-Checkbox-error + .fui-Field__validationMessage,
 .fui-Checkbox.fui-ColorPicker-error + .fui-Field__validationMessage,
+.fui-Checkbox.fui-RadioGroup-error + .fui-Field__validationMessage,
 .fui-ColorPicker.fui-Input-error + .fui-Field__validationMessage,
 .fui-ColorPicker.fui-Select-error + .fui-Field__validationMessage,
 .fui-ColorPicker.fui-SpinButton-error + .fui-Field__validationMessage,
 .fui-ColorPicker.fui-Checkbox-error + .fui-Field__validationMessage,
-.fui-ColorPicker.fui-ColorPicker-error + .fui-Field__validationMessage {
+.fui-ColorPicker.fui-ColorPicker-error + .fui-Field__validationMessage,
+.fui-ColorPicker.fui-RadioGroup-error + .fui-Field__validationMessage,
+.fui-RadioGroup__horizontal.fui-Input-error + .fui-Field__validationMessage,
+.fui-RadioGroup__horizontal.fui-Select-error + .fui-Field__validationMessage,
+.fui-RadioGroup__horizontal.fui-SpinButton-error + .fui-Field__validationMessage,
+.fui-RadioGroup__horizontal.fui-Checkbox-error + .fui-Field__validationMessage,
+.fui-RadioGroup__horizontal.fui-ColorPicker-error + .fui-Field__validationMessage,
+.fui-RadioGroup__horizontal.fui-RadioGroup-error + .fui-Field__validationMessage {
   color: var(--colorPaletteRedForeground1);
 }
-.fui-Input.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-SpinButton-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Checkbox-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-Input.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-SpinButton-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Checkbox-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-RadioGroup-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-SpinButton-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-Checkbox-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-Select.fui-RadioGroup-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-SpinButton-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-Checkbox-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-SpinButton.fui-RadioGroup-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-SpinButton-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-Checkbox-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-Checkbox.fui-RadioGroup-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-SpinButton-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-Checkbox-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
-.fui-ColorPicker.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+.fui-ColorPicker.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-ColorPicker.fui-RadioGroup-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-SpinButton-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-Checkbox-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-ColorPicker-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-RadioGroup-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
   color: var(--colorPaletteRedForeground1);
 }
-.fui-Input.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-SpinButton-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Checkbox-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-Input.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-SpinButton-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-Checkbox-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon, .fui-Input.fui-RadioGroup-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-SpinButton-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-Checkbox-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Select.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-Select.fui-RadioGroup-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-SpinButton-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-Checkbox-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-SpinButton.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-SpinButton.fui-RadioGroup-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-SpinButton-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-Checkbox-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-Checkbox.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-Checkbox.fui-RadioGroup-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-SpinButton-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
 .fui-ColorPicker.fui-Checkbox-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
-.fui-ColorPicker.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+.fui-ColorPicker.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-ColorPicker.fui-RadioGroup-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-SpinButton-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-Checkbox-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-ColorPicker-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon,
+.fui-RadioGroup__horizontal.fui-RadioGroup-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
   color: var(--colorPaletteGreenForeground1);
 }
 .fui-Input.fui-Input-xs,
 .fui-Select.fui-Input-xs,
 .fui-SpinButton.fui-Input-xs,
 .fui-Checkbox.fui-Input-xs,
-.fui-ColorPicker.fui-Input-xs {
+.fui-ColorPicker.fui-Input-xs,
+.fui-RadioGroup__horizontal.fui-Input-xs {
   min-height: 16px;
   padding-left: var(--spacingHorizontalXS);
   padding-right: var(--spacingHorizontalXS);
@@ -4738,7 +4771,8 @@ button {
 .fui-Select.fui-Input-sm,
 .fui-SpinButton.fui-Input-sm,
 .fui-Checkbox.fui-Input-sm,
-.fui-ColorPicker.fui-Input-sm {
+.fui-ColorPicker.fui-Input-sm,
+.fui-RadioGroup__horizontal.fui-Input-sm {
   min-height: 24px;
   padding-left: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalSNudge);
@@ -4751,7 +4785,8 @@ button {
 .fui-Select.fui-Input-md,
 .fui-SpinButton.fui-Input-md,
 .fui-Checkbox.fui-Input-md,
-.fui-ColorPicker.fui-Input-md {
+.fui-ColorPicker.fui-Input-md,
+.fui-RadioGroup__horizontal.fui-Input-md {
   min-height: 36px;
   row-gap: var(--spacingHorizontalSNudge);
   padding-left: var(--spacingHorizontalM);
@@ -4766,7 +4801,8 @@ button {
 .fui-Select.fui-Input-lg,
 .fui-SpinButton.fui-Input-lg,
 .fui-Checkbox.fui-Input-lg,
-.fui-ColorPicker.fui-Input-lg {
+.fui-ColorPicker.fui-Input-lg,
+.fui-RadioGroup__horizontal.fui-Input-lg {
   min-height: 40px;
   row-gap: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalL);
@@ -4781,7 +4817,8 @@ button {
 .fui-Select.fui-Input-xl,
 .fui-SpinButton.fui-Input-xl,
 .fui-Checkbox.fui-Input-xl,
-.fui-ColorPicker.fui-Input-xl {
+.fui-ColorPicker.fui-Input-xl,
+.fui-RadioGroup__horizontal.fui-Input-xl {
   min-height: 48px;
   row-gap: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalXL);
