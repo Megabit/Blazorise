@@ -66,13 +66,15 @@
 
 .input-group {
     > .b-numeric:not(:last-child) > input,
-    > .flatpickr-wrapper:not(:last-child) > input {
+    > .flatpickr-wrapper:not(:last-child) > input,
+    > .input-group-prepend > .custom-select {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
 
     > .b-numeric:not(:first-child) > input,
-    > .flatpickr-wrapper:not(:first-child) > input {
+    > .flatpickr-wrapper:not(:first-child) > input,
+    > .input-group-append > .custom-select {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
