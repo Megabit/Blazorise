@@ -581,8 +581,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await HandleVirtualize();
 
-        await ProcessPendingSelectionAsync();
-
         await base.OnAfterRenderAsync( firstRender );
     }
 
@@ -1615,17 +1613,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        pendingSelectionItem = item;
-        pendingSelectionFocus = true;
-
         if ( Virtualize )
         {
-            var index = DisplayData.Index( x => x.IsEqual( item ) );
-            pendingVirtualizeScrollIndex = index >= 0 ? index : null;
-        }
-        else
-        {
-            pendingVirtualizeScrollIndex = null;
+            var displayData = DisplayData;
+            var index = displayData?.Index( x => x.IsEqual( item ) ) ?? -1;
+
+            if ( index >= 0 )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    if ( tableRef is null )
+                        return;
+
+                    await JSModule.ScrollVirtualizedRowIntoView( tableRef.ElementRef, ElementId, index );
+                } );
+            }
         }
 
         await Refresh();
@@ -2965,42 +2967,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         SelectedRow = item;
         return SelectedRowChanged.InvokeAsync( item );
-    }
-
-    private async Task ProcessPendingSelectionAsync()
-    {
-        if ( !pendingSelectionFocus )
-            return;
-
-        var targetItem = pendingSelectionItem;
-        var rowInfo = targetItem is null ? null : GetRowInfo( targetItem );
-
-        if ( Virtualize )
-        {
-            if ( rowInfo?.TableRow is null )
-            {
-                if ( pendingVirtualizeScrollIndex.HasValue )
-                {
-                    await JSModule.ScrollVirtualizedRowIntoView( tableRef.ElementRef, ElementId, pendingVirtualizeScrollIndex.Value );
-                    await InvokeAsync( StateHasChanged );
-                }
-                else
-                {
-                    pendingSelectionFocus = false;
-                    pendingSelectionItem = default;
-                    pendingVirtualizeScrollIndex = null;
-                }
-
-                return;
-            }
-        }
-
-        if ( IsRowNavigable && rowInfo?.TableRow is not null )
-            await rowInfo.TableRow.ElementRef.FocusAsync();
-
-        pendingSelectionFocus = false;
-        pendingSelectionItem = default;
-        pendingVirtualizeScrollIndex = null;
     }
 
     internal int GetRowNavigationPageSize()
