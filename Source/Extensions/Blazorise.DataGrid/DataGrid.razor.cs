@@ -171,6 +171,26 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool applyingState;
 
+    /// <summary>
+    /// Tracks whether a selection change requires focusing the row after render.
+    /// </summary>
+    private bool pendingSelectionFocus;
+
+    /// <summary>
+    /// Holds the item that should be focused after the next render.
+    /// </summary>
+    private TItem pendingSelectionItem;
+
+    /// <summary>
+    /// Holds the index of the row that should be scrolled into view when virtualization is active.
+    /// </summary>
+    private int? pendingVirtualizeScrollIndex;
+
+    /// <summary>
+    /// True when a virtualized scroll request is already in progress for the pending selection.
+    /// </summary>
+    private bool virtualizeScrollRequested;
+
     #endregion
 
     #region Constructors
@@ -560,6 +580,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await HandleVirtualize();
+
+        await ProcessPendingSelectionAsync();
 
         await base.OnAfterRenderAsync( firstRender );
     }
@@ -1593,11 +1615,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        if ( IsRowNavigable )
+        pendingSelectionItem = item;
+        pendingSelectionFocus = true;
+
+        if ( Virtualize )
         {
-            var selectedTableRow = GetRowInfo( item )?.TableRow;
-            if ( selectedTableRow is not null )
-                await selectedTableRow.ElementRef.FocusAsync();
+            var index = DisplayData.Index( x => x.IsEqual( item ) );
+            pendingVirtualizeScrollIndex = index >= 0 ? index : null;
+        }
+        else
+        {
+            pendingVirtualizeScrollIndex = null;
         }
 
         await Refresh();
@@ -2930,7 +2958,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return filteredData;
     }
 
-
     private Task SelectRow( TItem item, bool forceSelect = false )
     {
         if ( editState != DataGridEditState.None && !forceSelect )
@@ -2938,6 +2965,65 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         SelectedRow = item;
         return SelectedRowChanged.InvokeAsync( item );
+    }
+
+    private async Task ProcessPendingSelectionAsync()
+    {
+        if ( !pendingSelectionFocus )
+            return;
+
+        var targetItem = pendingSelectionItem;
+        var rowInfo = targetItem is null ? null : GetRowInfo( targetItem );
+
+        if ( Virtualize )
+        {
+            if ( rowInfo?.TableRow is null )
+            {
+                if ( pendingVirtualizeScrollIndex.HasValue )
+                {
+                    await JSModule.ScrollVirtualizedRowIntoView( tableRef.ElementRef, ElementId, pendingVirtualizeScrollIndex.Value );
+                    await InvokeAsync( StateHasChanged );
+                }
+                else
+                {
+                    pendingSelectionFocus = false;
+                    pendingSelectionItem = default;
+                    pendingVirtualizeScrollIndex = null;
+                }
+
+                return;
+            }
+        }
+
+        if ( IsRowNavigable && rowInfo?.TableRow is not null )
+            await rowInfo.TableRow.ElementRef.FocusAsync();
+
+        pendingSelectionFocus = false;
+        pendingSelectionItem = default;
+        pendingVirtualizeScrollIndex = null;
+    }
+
+    internal int GetRowNavigationPageSize()
+    {
+        if ( Virtualize )
+        {
+            var visibleRowCount = Rows?.Count ?? 0;
+            if ( visibleRowCount <= 0 )
+                return 1;
+
+            var overscan = VirtualizeOptions?.OverscanCount ?? 0;
+            var adjusted = visibleRowCount - Math.Min( overscan, Math.Max( visibleRowCount - 1, 0 ) );
+            return Math.Max( 1, adjusted );
+        }
+
+        if ( !ManualReadMode )
+            return Math.Max( 1, PageSize );
+
+        var renderedRows = Rows?.Count ?? 0;
+        if ( renderedRows > 0 )
+            return renderedRows;
+
+        return Math.Max( 1, PageSize );
     }
 
     public DataGridRowInfo<TItem> GetRowInfo( TItem item )
