@@ -41,6 +41,92 @@ export function scrollTo(table, rowUnselectedClass) {
     return scrollTo;
 }
 
+function findScrollContainer(table) {
+    if (!table)
+        return null;
+
+    const candidates = [];
+
+    // Virtualize renders its own scroll container element under tbody when virtualization is enabled.
+    const virtualizeContainer = table.querySelector("tbody > div[style*='overflow']");
+    if (virtualizeContainer)
+        candidates.push(virtualizeContainer);
+
+    if (table.parentElement)
+        candidates.push(table.parentElement);
+
+    let ancestor = table.parentElement ? table.parentElement.parentElement : null;
+    while (ancestor && candidates.length < 3) {
+        candidates.push(ancestor);
+        ancestor = ancestor.parentElement;
+    }
+
+    for (const candidate of candidates) {
+        if (!candidate)
+            continue;
+
+        const style = getComputedStyle(candidate);
+        const overflowY = style ? style.overflowY : null;
+        if (overflowY === "auto" || overflowY === "scroll")
+            return candidate;
+    }
+
+    return table.parentElement;
+}
+
+export function scrollVirtualizedRowIntoView(table, elementId, rowIndex) {
+    table = getRequiredElement(table, elementId);
+
+    if (!table || rowIndex < 0)
+        return;
+
+    const container = findScrollContainer(table);
+    if (!container)
+        return;
+
+    const renderedRows = table.querySelectorAll("tbody tr[data-row-index]");
+    if (!renderedRows || renderedRows.length === 0)
+        return;
+
+    let totalHeight = 0;
+    let minIndex = Number.POSITIVE_INFINITY;
+    let maxIndex = Number.NEGATIVE_INFINITY;
+
+    for (const row of renderedRows) {
+        totalHeight += row.offsetHeight;
+
+        const indexAttr = row.getAttribute("data-row-index");
+        if (!indexAttr)
+            continue;
+
+        const parsedIndex = parseInt(indexAttr, 10);
+        if (Number.isNaN(parsedIndex))
+            continue;
+
+        if (parsedIndex < minIndex)
+            minIndex = parsedIndex;
+
+        if (parsedIndex > maxIndex)
+            maxIndex = parsedIndex;
+
+        if (parsedIndex === rowIndex) {
+            row.scrollIntoView({ block: "nearest" });
+            return;
+        }
+    }
+
+    const averageRowHeight = totalHeight / renderedRows.length;
+    if (!averageRowHeight || !Number.isFinite(minIndex) || !Number.isFinite(maxIndex))
+        return;
+
+    const direction = rowIndex < minIndex ? -1 : 1;
+    const boundaryIndex = direction < 0 ? minIndex : maxIndex;
+    const distance = Math.max(1, Math.abs(rowIndex - boundaryIndex));
+    const delta = direction * distance * averageRowHeight;
+
+    container.scrollTop += delta;
+}
+
 export function destroy(element, elementId) {
     element = getRequiredElement(element, elementId);
 

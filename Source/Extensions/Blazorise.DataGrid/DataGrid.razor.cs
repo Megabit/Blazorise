@@ -1593,11 +1593,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        if ( IsRowNavigable )
+        if ( Virtualize )
         {
-            var selectedTableRow = GetRowInfo( item )?.TableRow;
-            if ( selectedTableRow is not null )
-                await selectedTableRow.ElementRef.FocusAsync();
+            var displayData = DisplayData;
+            var index = displayData?.Index( x => x.IsEqual( item ) ) ?? -1;
+
+            if ( index >= 0 )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    if ( tableRef is null )
+                        return;
+
+                    await JSModule.ScrollVirtualizedRowIntoView( tableRef.ElementRef, ElementId, index );
+                } );
+            }
         }
 
         await Refresh();
@@ -2930,7 +2940,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return filteredData;
     }
 
-
     private Task SelectRow( TItem item, bool forceSelect = false )
     {
         if ( editState != DataGridEditState.None && !forceSelect )
@@ -2938,6 +2947,29 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         SelectedRow = item;
         return SelectedRowChanged.InvokeAsync( item );
+    }
+
+    internal int GetRowNavigationPageSize()
+    {
+        if ( Virtualize )
+        {
+            var visibleRowCount = Rows?.Count ?? 0;
+            if ( visibleRowCount <= 0 )
+                return 1;
+
+            var overscan = VirtualizeOptions?.OverscanCount ?? 0;
+            var adjusted = visibleRowCount - Math.Min( overscan, Math.Max( visibleRowCount - 1, 0 ) );
+            return Math.Max( 1, adjusted );
+        }
+
+        if ( !ManualReadMode )
+            return Math.Max( 1, PageSize );
+
+        var renderedRows = Rows?.Count ?? 0;
+        if ( renderedRows > 0 )
+            return renderedRows;
+
+        return Math.Max( 1, PageSize );
     }
 
     public DataGridRowInfo<TItem> GetRowInfo( TItem item )

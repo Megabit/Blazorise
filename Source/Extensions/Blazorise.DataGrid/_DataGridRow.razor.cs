@@ -49,7 +49,20 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// </summary>
     protected TableRow TableRowRef;
 
+    /// <summary>
+    /// Indicates whether a cell is currently being edited.
+    /// </summary>
     protected bool cellEditing;
+
+    /// <summary>
+    /// Indicates whether the row should focus itself after render.
+    /// </summary>
+    private bool shouldFocusSelf;
+
+    /// <summary>
+    /// Indicates whether the row was selected during the last render.
+    /// </summary>
+    private bool wasSelected;
 
     #endregion
 
@@ -99,7 +112,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await base.OnInitializedAsync();
     }
 
-    protected override Task OnAfterRenderAsync( bool firstRender )
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
         {
@@ -115,37 +128,73 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             }
         }
 
-        return base.OnAfterRenderAsync( firstRender );
+        if ( shouldFocusSelf && ParentDataGrid.IsRowNavigable && TableRowRef is not null )
+        {
+            shouldFocusSelf = false;
+            await TableRowRef.ElementRef.FocusAsync();
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        var isSelected = IsSelected;
+
+        if ( ParentDataGrid.IsRowNavigable && isSelected && !wasSelected )
+            shouldFocusSelf = true;
+
+        wasSelected = isSelected;
+
+        return base.OnParametersSetAsync();
     }
 
     protected internal async Task HandleKeyDown( KeyboardEventArgs eventArgs )
     {
         if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" )
         {
-            if ( !ParentDataGrid.SelectedRow.IsEqual( this.Item ) )
-                await ParentDataGrid.Select( this.Item );
+            if ( !ParentDataGrid.SelectedRow.IsEqual( Item ) )
+                await ParentDataGrid.Select( Item );
             return;
         }
 
-        if ( eventArgs.Code == "ArrowUp" )
+        var navigationItem = ParentDataGrid.SelectedRow ?? Item;
+        var displayData = ParentDataGrid.DisplayData;
+        var displayList = displayData as IList<TItem> ?? displayData.ToList();
+
+        if ( displayList.Count == 0 )
+            return;
+
+        var idx = displayList.Index( x => x.IsEqual( navigationItem ) );
+        if ( idx < 0 )
+            return;
+
+        var lastIndex = displayList.Count - 1;
+        var pageSize = ParentDataGrid.GetRowNavigationPageSize();
+        var targetIndex = idx;
+
+        switch ( eventArgs.Code )
         {
-            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
-            if ( idx > 0 )
-            {
-                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx - 1 ) );
+            case "ArrowUp" when idx > 0:
+                targetIndex = idx - 1;
+                break;
+            case "ArrowDown" when idx < lastIndex:
+                targetIndex = idx + 1;
+                break;
+            case "PageUp" when idx > 0:
+                targetIndex = Math.Max( 0, idx - pageSize );
+                break;
+            case "PageDown" when idx < lastIndex:
+                targetIndex = Math.Min( lastIndex, idx + pageSize );
+                break;
+            default:
                 return;
-            }
         }
 
-        if ( eventArgs.Code == "ArrowDown" )
-        {
-            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
-            if ( idx < ParentDataGrid.DisplayData.Count() - 1 )
-            {
-                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx + 1 ) );
-                return;
-            }
-        }
+        if ( targetIndex == idx )
+            return;
+
+        await ParentDataGrid.Select( displayList[targetIndex] );
     }
 
     protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
