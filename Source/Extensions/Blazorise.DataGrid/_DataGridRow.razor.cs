@@ -49,10 +49,19 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// </summary>
     protected TableRow TableRowRef;
 
+    /// <summary>
+    /// Indicates whether a cell is currently being edited.
+    /// </summary>
     protected bool cellEditing;
 
+    /// <summary>
+    /// Indicates whether the row should focus itself after render.
+    /// </summary>
     private bool shouldFocusSelf;
 
+    /// <summary>
+    /// Indicates whether the row was selected during the last render.
+    /// </summary>
     private bool wasSelected;
 
     #endregion
