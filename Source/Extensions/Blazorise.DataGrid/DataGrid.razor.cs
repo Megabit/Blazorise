@@ -171,26 +171,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool applyingState;
 
-    /// <summary>
-    /// Tracks whether a selection change requires focusing the row after render.
-    /// </summary>
-    private bool pendingSelectionFocus;
-
-    /// <summary>
-    /// Holds the item that should be focused after the next render.
-    /// </summary>
-    private TItem pendingSelectionItem;
-
-    /// <summary>
-    /// Holds the index of the row that should be scrolled into view when virtualization is active.
-    /// </summary>
-    private int? pendingVirtualizeScrollIndex;
-
-    /// <summary>
-    /// True when a virtualized scroll request is already in progress for the pending selection.
-    /// </summary>
-    private bool virtualizeScrollRequested;
-
     #endregion
 
     #region Constructors
