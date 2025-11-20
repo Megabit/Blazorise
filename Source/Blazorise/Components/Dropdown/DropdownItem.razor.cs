@@ -61,21 +61,22 @@ public partial class DropdownItem : BaseComponent
     /// <returns></returns>
     protected async Task ClickHandler()
     {
-        if ( !Disabled )
+        if ( Disabled )
+            return;
+
+        if ( ParentDropdown is not null )
         {
-            if ( ParentDropdown is not null )
-            {
-                if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
-                    await ParentDropdown.Hide( CloseParentDropdowns );
-            }
-
-            if ( ShowCheckbox )
-            {
-                await CheckedChangedHandler( !@checked );
-            }
-
-            await Clicked.InvokeAsync( Value );
+            if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
+                await ParentDropdown.Hide( CloseParentDropdowns );
         }
+
+        if ( ShowCheckbox )
+        {
+            await CheckedChangedHandler( !@checked );
+        }
+
+        await Clicked.InvokeAsync( Value );
+    }
 
     /// <summary>
     /// Handles the oncheck event, if not disabled.
