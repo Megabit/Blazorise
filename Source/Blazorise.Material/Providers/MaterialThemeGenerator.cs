@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Text;
-using Blazorise.Bootstrap;
 using Blazorise.Bootstrap.Providers;
-using Microsoft.Extensions.Options;
 #endregion
 
 namespace Blazorise.Material.Providers;
