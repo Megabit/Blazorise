@@ -61,22 +61,21 @@ public partial class DropdownItem : BaseComponent
     /// <returns></returns>
     protected async Task ClickHandler()
     {
-        if ( Disabled )
-            return;
-
-        if ( ParentDropdown is not null )
+        if ( !Disabled )
         {
-            if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
-                await ParentDropdown.Hide( true );
-        }
+            if ( ParentDropdown is not null )
+            {
+                if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
+                    await ParentDropdown.Hide( CloseParentDropdowns );
+            }
 
-        if ( ShowCheckbox )
-        {
-            await CheckedChangedHandler( !@checked );
-        }
+            if ( ShowCheckbox )
+            {
+                await CheckedChangedHandler( !@checked );
+            }
 
-        await Clicked.InvokeAsync( Value );
-    }
+            await Clicked.InvokeAsync( Value );
+        }
 
     /// <summary>
     /// Handles the oncheck event, if not disabled.
@@ -171,6 +170,11 @@ public partial class DropdownItem : BaseComponent
     /// Occurs after the Checked state is changed, whenever the DropdownItem is in checkbox mode.
     /// </summary>
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+
+    /// <summary>
+    /// Defines whether clicking this item should close the entire dropdown hierarchy or only the current dropdown.
+    /// </summary>
+    [Parameter] public bool CloseParentDropdowns { get; set; } = true;
 
     #endregion
 }

@@ -1,18 +1,19 @@
 ﻿@page "/docs/components/field"
 
-<Seo Canonical="/docs/components/field" Title="Blazorise Field component" Description="Learn to use and work with the Blazorise Field component, which is a simple container or wrapper for input elements." />
+<Seo Canonical="/docs/components/field" Title="Blazorise Field Component - Form Layout & Input Grouping" Description="Learn how to use the Blazorise Field component to structure form layouts, align labels, add help text, and group input controls using Bootstrap-inspired patterns." />
 
 <DocsPageTitle Path="Components/Field">
     Blazorise Field component
 </DocsPageTitle>
 
 <DocsPageLead>
-    A generic container used to properly layout input elements on a form.
+    A flexible layout container used to organize and align form input components for better usability, accessibility, and structure.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Field</Code> is a container for input components such as <Code>TextInput</Code>, <Code>Select</Code>, <Code>DateInput</Code>,
-    <Code>Check</Code>, <Code>MemoInput</Code>, and optionally for <Code>Button</Code>. Structure is very simple:
+    The <Code Tag>Field</Code> component acts as a lightweight form layout wrapper that groups a label, input control, help text, and validation message into a single, consistent container.
+    It works with common Blazorise form controls such as <Code>TextInput</Code>, <Code>Select</Code>, <Code>DateInput</Code>, <Code>Check</Code>, <Code>MemoInput</Code>, and optionally <Code>Button</Code>.
+    Its structure is intentionally minimal, making it easy to build clear, predictable, and accessible form layouts.
 </DocsPageParagraph>
 
 <UnorderedList>
@@ -46,8 +47,8 @@
 </UnorderedList>
 
 <DocsPageParagraph>
-    It is recommended to always place input components inside of a field. That way you will keep the right spacing
-    and arrangement between input controls.
+    It is recommended to always place input components inside of a <Code>Field</Code>. That way you will keep consistent spacing,
+    alignment, and arrangement between input controls across your forms.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -56,7 +57,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        To properly structure your form you just need to place an input inside of a Field.
+        To properly structure your form, wrap each input control inside a <Code>Field</Code> component to keep labels, help text, and validation messages aligned consistently.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicFieldExample />
@@ -66,7 +67,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Label">
-        An input field should generally have a label for identifying it. Labels should be clear, concise, and written in sentence case. Avoid unclear and verbose language. Use <Code>FieldHelp</Code> to provide more guidance.
+        Every input should have a clear, descriptive label that explains its purpose in plain language. Use <Code Tag>FieldLabel</Code> to associate the label with the control, and <Code>FieldHelp</Code> when additional guidance is needed.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldWithLabelExample />
@@ -76,7 +77,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Helper">
-        Helpers provide information when needed so that end users can fill in a form or field without errors. They are helpful, for example, when the field requires a specific format. Helpers typically consist of plain text but HTML and other components are also supported.
+        Helper text provides inline guidance or additional context for a field. It can contain plain text, HTML, or other components and should clarify how to fill out the input without repeating the label.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldWithHelpExample />
@@ -86,7 +87,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Read-Only">
-        Set a field as read-only when the content needs to be accessible but not editable. Read-only elements cannot be edited, but they are in the tabbing order and can thus receive focus. The contents of a read-only input can be selected and copied.
+        Set a field as read-only when the value should be visible but not editable. Read-only inputs remain in the tab order, can receive focus, and their contents can still be selected and copied by the user.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldWithReadOnlyExample />
@@ -97,13 +98,10 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Disabled">
         <Paragraph>
-            Disable a field to mark it as unavailable. The disabled state is used for fields that are not editable and do not need to be readable. Disabled elements cannot be focused and may be inaccessible to assistive technologies like screen readers.
+            Disable a field to mark it as unavailable when the user should not interact with it. Disabled inputs cannot receive focus or be edited.
         </Paragraph>
         <Paragraph>
-            Disabling can be preferable to hiding an element to prevent changes in layout when the element’s visibility changes, and to make users aware of its existence even when currently unavailable.
-        </Paragraph>
-        <Paragraph>
-            If the user needs to be able to read (or copy) the value, use read-only instead.
+            Disabling a field is often preferable to hiding it because it preserves the layout and lets users see that the option exists, even if it is currently unavailable.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -115,10 +113,13 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Horizontal field">
         <Paragraph>
-            When using horizontal field you must place input controls inside of the <Code>FieldBody</Code> tag and also set the <Code>ColumnSize</Code> to define the actual sizes of the body and a label.
+            Use a horizontal field when you want the label and input to appear side-by-side in a single row. Combine <Code Tag>FieldLabel</Code> and <Code Tag>FieldBody</Code> with <Code>ColumnSize</Code> to control how much space each part occupies.
         </Paragraph>
         <Paragraph>
-            When using a <Code>Check</Code> component as input control, it has to be horizontally aligned using with <Code>Margin="Margin.IsAuto"</Code>.
+            When using a <Code Tag>Check</Code> component inside a horizontal field, align it with the label by applying <Code>Margin="Margin.IsAuto"</Code> or similar spacing utilities.
+        </Paragraph>
+        <Paragraph>
+            <Strong>Note</Strong>: Horizontal fields are inspired by Bootstrap horizontal form layout, and only one horizontal field should be placed per row to keep the grid aligned.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -129,7 +130,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Visibility">
-        Use <Code>Visibility</Code> attribute to hide a field while still preserving it’s space.
+        Use the <Code>Visibility</Code> attribute to hide a field while still preserving its space in the layout, so surrounding content does not shift unexpectedly.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldHiddenExample />
@@ -139,8 +140,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Fields">
-        <Code>Fields</Code> component is used to group multiple <Code>Field</Code> components. For example if you need to group
-        fields into columns you must use fields component.
+        The <Code Tag>Fields</Code> component is used to group multiple <Code Tag>Field</Code> components. Use it to build rows or columns of related fields that share layout settings and spacing.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicFieldsExample />
@@ -150,7 +150,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validation Indicator">
-        In Blazorise, you can take advantage of the <Code>RequiredIndicator</Code> feature on a FieldLabel to automatically signal required input fields. By using this feature, an indicator is automatically displayed next to the label, thereby making it clear to the user that the corresponding input is required. It's a practical tool for enhancing user interface design and improving form usability. This feature enhances user understanding of the form requirements, helping to make form interactions more intuitive.
+        In Blazorise, you can use the <Code>RequiredIndicator</Code> feature to automatically display an indicator (such as an asterisk) next to labels of required fields. This helps users quickly understand which inputs are mandatory and improves overall form usability.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <RequiredIndicatorExample />
@@ -169,10 +169,13 @@
 <DocsPageParagraph>
     <UnorderedList>
         <UnorderedListItem>
-            <Paragraph>Use Field to add a label and validation message to form controls.</Paragraph>
+            <Paragraph>Use <Code Tag>Field</Code> to provide a consistent label, layout, and validation message for each form control.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
-            <Paragraph>Use Field to label other unlabeled controls like ProgressBar.</Paragraph>
+            <Paragraph>Use <Code Tag>Field</Code> to label controls that do not have built-in labels, such as <Code Tag>ProgressBar</Code> or custom components.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use <Code Tag>Fields</Code> to group related <Code Tag>Field</Code> components when building multi-column or sectioned form layouts.</Paragraph>
         </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
@@ -184,13 +187,20 @@
 <DocsPageParagraph>
     <UnorderedList>
         <UnorderedListItem>
-            <Paragraph>Avoid including both a validation message and hint text.</Paragraph>
+            <Paragraph>Avoid combining a long validation message and extensive helper text in the same field, as this can overwhelm users.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
-            <Paragraph>Don't add multiple controls as a child of a single Field. The label is only associated with one control.</Paragraph>
+            <Paragraph>Don't add multiple interactive controls as children of a single <Code Tag>Field</Code>. The label should clearly describe one primary control for better accessibility.</Paragraph>
         </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Related components include <Code Tag>FieldLabel</Code>, <Code Tag>FieldBody</Code>, <Code Tag>FieldHelp</Code>, <Code Tag>TextEdit</Code>, <Code Tag>Select</Code>, and <Code Tag>Check</Code>. Together they help you build accessible and visually consistent forms.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    In summary, the <Code Tag>Field</Code> component simplifies form layout in Blazorise by aligning labels, inputs, help text, and validation messages, while the <Code Tag>Fields</Code> container lets you organize multiple fields into structured sections.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Field),typeof(FieldLabel),typeof(Fields)]" />
