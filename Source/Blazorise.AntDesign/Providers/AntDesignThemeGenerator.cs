@@ -41,9 +41,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
-        if ( options is null )
-            return;
-
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
@@ -150,9 +147,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
-        if ( options is null )
-            return;
-
         var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
         var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
         var activeColor = Var( ThemeVariables.OutlineButtonActiveColor( variant ) );
@@ -242,9 +236,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-btn" ).Append( "{" )
@@ -284,9 +275,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-dropdown-menu" ).Append( "{" )
@@ -312,9 +300,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-form-item input" ).Append( "{" )
@@ -424,9 +409,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( string.IsNullOrEmpty( options?.CheckColor ) )
             return;
 
@@ -458,9 +440,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( string.IsNullOrEmpty( options?.SliderColor ) )
             return;
 
@@ -504,9 +483,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
     {
-        if ( options is null )
-            return;
-
         var backgroundColor = ParseColor( inBackgroundColor );
 
         if ( backgroundColor.IsEmpty )
@@ -614,9 +590,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
     {
-        if ( ratingOptions is null )
-            return;
-
         if ( ratingOptions?.HoverOpacity != null )
         {
             sb
@@ -639,9 +612,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
-        if ( options is null )
-            return;
-
         var backgroundColor = ParseColor( inBackgroundColor );
         var borderColor = ParseColor( inBorderColor );
         var textColor = ParseColor( inColor );
@@ -703,9 +673,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-card" ).Append( "{" )
@@ -732,9 +699,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".modal-content" ).Append( "{" )
@@ -745,9 +709,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-tabs .ant-tabs-tab" ).Append( "{" )
@@ -788,9 +749,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb
@@ -813,9 +771,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-alert" ).Append( "{" )
@@ -826,9 +781,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-breadcrumb" ).Append( "{" )
@@ -846,9 +798,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-tag:not(.ant-tag-pill)" ).Append( "{" )
@@ -859,9 +808,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
@@ -991,9 +937,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             var white = Var( ThemeVariables.White );
@@ -1011,9 +954,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
     {
-        if ( options is null )
-            return;
-
         var backgroundColor = ParseColor( inBackgroundColor );
         var textColor = ParseColor( inColor );
 

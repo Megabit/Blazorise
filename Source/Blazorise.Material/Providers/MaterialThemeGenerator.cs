@@ -23,9 +23,6 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
-        if ( options is null )
-            return;
-
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
@@ -317,9 +314,6 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        if ( options is null )
-            return;
-
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".progress" ).Append( "{" )
