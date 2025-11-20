@@ -139,17 +139,26 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
     {
-        sb.Append( ".button" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".button" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".button.is-small" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.SmallBorderRadius ) )
+        {
+            sb.Append( ".button.is-small" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".button.is-large" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
+        {
+            sb.Append( ".button.is-large" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.Padding ) )
             sb.Append( ".button" ).Append( "{" )
@@ -169,28 +178,34 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
     {
-        sb.Append( ".dropdown-content" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".dropdown-content" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        sb.Append( ".input" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".input" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".select select" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".select select" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".textarea" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".textarea" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.CheckColor ) )
         {
@@ -310,6 +325,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( ".steps .step-item.is-completed::before" ).Append( "{" )
             .Append( "background-position: left bottom;" )
@@ -336,6 +354,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( $".steps .step-item.is-{variant}::before" ).Append( "{" )
             .Append( $"background: linear-gradient(to left, #dbdbdb 50%, {Var( ThemeVariables.VariantStepsItemIcon( variant ) )} 50%);" )
@@ -494,18 +515,24 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        sb.Append( ".progress" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".progress" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         base.GenerateProgressStyles( sb, theme, options );
     }
 
     protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
     {
-        sb.Append( ".notification" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".notification" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
@@ -520,20 +547,29 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
     {
-        sb.Append( ".tag:not(body)" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".tag:not(body)" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
     {
-        sb.Append( ".pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".pagination.is-large .pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
+        {
+            sb.Append( ".pagination.is-large .pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -546,7 +582,10 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
-        foreach ( var (variant, _) in theme.ValidBackgroundColors )
+        if ( options is null )
+            return;
+
+        foreach ( var (variant, _) in theme?.ValidBackgroundColors )
         {
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
 
@@ -585,7 +624,7 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
     {
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        if ( !string.IsNullOrEmpty( theme?.ColorOptions?.Primary ) )
         {
             var white = Var( ThemeVariables.White );
             var primary = Var( ThemeVariables.Color( "primary" ) );
