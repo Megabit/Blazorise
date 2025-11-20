@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using Blazorise.Bootstrap;
 using Blazorise.Bootstrap.Providers;
+using Microsoft.Extensions.Options;
 #endregion
 
 namespace Blazorise.Material.Providers;
@@ -22,6 +23,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        if ( options is null )
+            return;
+
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
@@ -94,6 +98,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        if ( options is null )
+            return;
+
         var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
 
         sb
@@ -121,6 +128,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( options is null )
+            return;
+
         base.GenerateInputStyles( sb, theme, options );
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
@@ -158,6 +168,12 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( options is null )
+            return;
+
+        if ( string.IsNullOrEmpty( options?.CheckColor ) )
+            return;
+
         sb
             .Append( ".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
             .Append( $"background-color: {options.CheckColor};" )
@@ -214,6 +230,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
     {
+        if ( options is null )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
 
         if ( backgroundColor.IsEmpty )
@@ -249,6 +268,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( ".stepper.active .stepper-icon" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
@@ -258,6 +280,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( $".stepper-{variant}.done .stepper-icon" ).Append( "{" )
             .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
@@ -292,9 +317,15 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        sb.Append( ".progress" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( options is null )
+            return;
+
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".progress" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {

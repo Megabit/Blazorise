@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using Blazorise.Extensions;
+using Microsoft.Extensions.Options;
 #endregion
 
 namespace Blazorise.Bulma.Providers;
@@ -41,6 +42,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        if ( options is null )
+            return;
+
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
@@ -104,6 +108,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions )
     {
+        if ( buttonOptions is null )
+            return;
+
         var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
         var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
         //var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
@@ -139,17 +146,29 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
     {
-        sb.Append( ".button" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( options is null )
+            return;
 
-        sb.Append( ".button.is-small" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".button" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".button.is-large" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.SmallBorderRadius ) )
+        {
+            sb.Append( ".button.is-small" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
+        {
+            sb.Append( ".button.is-large" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.Padding ) )
             sb.Append( ".button" ).Append( "{" )
@@ -169,28 +188,40 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
     {
-        sb.Append( ".dropdown-content" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( options is null )
+            return;
+
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".dropdown-content" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        sb.Append( ".input" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( options is null )
+            return;
 
-        sb.Append( ".select select" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".input" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".textarea" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".select select" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".textarea" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.CheckColor ) )
         {
@@ -284,6 +315,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
     {
+        if ( options is null )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
 
         if ( backgroundColor.IsEmpty )
@@ -310,6 +344,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( ".steps .step-item.is-completed::before" ).Append( "{" )
             .Append( "background-position: left bottom;" )
@@ -336,6 +373,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( $".steps .step-item.is-{variant}::before" ).Append( "{" )
             .Append( $"background: linear-gradient(to left, #dbdbdb 50%, {Var( ThemeVariables.VariantStepsItemIcon( variant ) )} 50%);" )
@@ -376,6 +416,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
     {
+        if ( ratingOptions is null )
+            return;
+
         if ( ratingOptions?.HoverOpacity != null )
         {
             sb
@@ -387,6 +430,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
     {
+        if ( ratingOptions is null )
+            return;
+
         sb
             .Append( $".rating .rating-item.is-{variant}" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
@@ -395,6 +441,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
+        if ( options is null )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
         var borderColor = ParseColor( inBorderColor );
         var textColor = ParseColor( inColor );
@@ -452,6 +501,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
     {
+        if ( options is null )
+            return;
+
         //if ( !string.IsNullOrEmpty( options.BorderRadius ) )
         //    sb.Append( $".card" ).Append( "{" )
         //        .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
@@ -466,6 +518,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
     {
+        if ( options is null )
+            return;
+
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".modal-card-head" ).Append( "{" )
@@ -482,6 +537,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
     {
+        if ( options is null )
+            return;
+
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             sb
@@ -494,6 +552,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
+        if ( options is null )
+            return;
+
         sb.Append( ".progress" ).Append( "{" )
             .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
             .AppendLine( "}" );
@@ -503,6 +564,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
     {
+        if ( options is null )
+            return;
+
         sb.Append( ".notification" ).Append( "{" )
             .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
             .AppendLine( "}" );
@@ -510,6 +574,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
     {
+        if ( options is null )
+            return;
+
         if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
         {
             sb.Append( ".breadcrumb a" ).Append( "{" )
@@ -520,6 +587,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
     {
+        if ( options is null )
+            return;
+
         sb.Append( ".tag:not(body)" ).Append( "{" )
             .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
             .AppendLine( "}" );
@@ -527,6 +597,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
     {
+        if ( options is null )
+            return;
+
         sb.Append( ".pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
             .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
             .AppendLine( "}" );
@@ -546,6 +619,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
+        if ( options is null )
+            return;
+
         foreach ( var (variant, _) in theme.ValidBackgroundColors )
         {
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
@@ -585,6 +661,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
     {
+        if ( options is null )
+            return;
+
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             var white = Var( ThemeVariables.White );
@@ -602,6 +681,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
     {
+        if ( options is null )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
         var textColor = ParseColor( inColor );
 
