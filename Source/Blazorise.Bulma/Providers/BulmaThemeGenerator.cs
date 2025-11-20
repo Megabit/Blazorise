@@ -3,7 +3,6 @@ using System;
 using System.Globalization;
 using System.Text;
 using Blazorise.Extensions;
-using Microsoft.Extensions.Options;
 #endregion
 
 namespace Blazorise.Bulma.Providers;
