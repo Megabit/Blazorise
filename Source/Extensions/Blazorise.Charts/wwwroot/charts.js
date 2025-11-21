@@ -1,17 +1,17 @@
-import "./vendors/chart.js?v=1.8.0.0";
+import "./vendors/chart.js?v=1.8.7.0";
 
-import "./vendors/chartjs-plugin-datalabels.js?v=1.8.0.0";
-import "./vendors/chartjs-plugin-annotation.js?v=1.8.0.0";
+import "./vendors/chartjs-plugin-datalabels.js?v=1.8.7.0";
+import "./vendors/chartjs-plugin-annotation.js?v=1.8.7.0";
 
 
-//import "./vendors/moment.js?v=1.8.0.0";
-//import "./vendors/chartjs-adapter-date-fns.bundle.min.js?v=1.8.0.0";
+//import "./vendors/moment.js?v=1.8.7.0";
+//import "./vendors/chartjs-adapter-date-fns.bundle.min.js?v=1.8.7.0";
 
-import "./vendors/luxon.js?v=1.8.0.0";
-import "./vendors/chartjs-adapter-luxon.js?v=1.8.0.0";
-import "./vendors/chartjs-plugin-streaming.js?v=1.8.0.0";
+import "./vendors/luxon.js?v=1.8.7.0";
+import "./vendors/chartjs-adapter-luxon.js?v=1.8.7.0";
+import "./vendors/chartjs-plugin-streaming.js?v=1.8.7.0";
 
-import { parseFunction, deepClone } from "./utilities.js?v=1.8.0.0";
+import { parseFunction, deepClone } from "./utilities.js?v=1.8.7.0";
 
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
 const _ChartTitleCallbacks = function (item) {
