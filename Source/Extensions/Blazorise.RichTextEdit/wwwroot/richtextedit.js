@@ -105,6 +105,23 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const quill = new Quill(editorRef, quillOptions);
 
+    const stopArrowKeyPropagation = (event) => {
+        const arrowKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
+        if (!arrowKeys.includes(event.key))
+            return;
+
+        if (!editorRef.contains(event.target))
+            return;
+
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+    };
+
+    editorRef._stopArrowKeyPropagation = stopArrowKeyPropagation;
+    document.addEventListener("keydown", stopArrowKeyPropagation, true);
+    document.addEventListener("keyup", stopArrowKeyPropagation, true);
+
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
             contentUpdating = true;
@@ -153,10 +170,16 @@ export function destroy(editorRef, editorId) {
     if (!editorRef)
         return false;
 
+    if (editorRef._stopArrowKeyPropagation) {
+        document.removeEventListener("keydown", editorRef._stopArrowKeyPropagation, true);
+        document.removeEventListener("keyup", editorRef._stopArrowKeyPropagation, true);
+    }
+
     if (editorRef.quill.contentObserver)
         editorRef.quill.contentObserver.disconnect();
 
     delete editorRef.quill;
+    delete editorRef._stopArrowKeyPropagation;
     return true;
 }
 
