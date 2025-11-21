@@ -52,7 +52,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
             var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
-            var enabledDatesChanged = parameters.TryGetValue( nameof( EnabledDates ), out IEnumerable<TValue>? paramEnabledDates ) && !EnabledDates.AreEqual( paramEnabledDates );
+            var enabledDatesChanged = parameters.TryGetValue( nameof( EnabledDates ), out IEnumerable<TValue> paramEnabledDates ) && !EnabledDates.AreEqual( paramEnabledDates );
             var disabledDaysChanged = parameters.TryGetValue( nameof( DisabledDays ), out IEnumerable<DayOfWeek> paramDisabledDays ) && !DisabledDays.AreEqual( paramDisabledDays );
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
@@ -62,6 +62,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool paramShowWeekNumbers ) && ShowWeekNumbers != paramShowWeekNumbers;
             var showTodayButtonChanged = parameters.TryGetValue( nameof( ShowTodayButton ), out bool paramShowTodayButton ) && ShowTodayButton != paramShowTodayButton;
             var showClearButtonChanged = parameters.TryGetValue( nameof( ShowClearButton ), out bool paramShowClearButton ) && ShowClearButton != paramShowClearButton;
+            var defaultHourChanged = parameters.TryGetValue( nameof( DefaultHour ), out int paramDefaultHour ) && DefaultHour != paramDefaultHour;
+            var defaultMinuteChanged = parameters.TryGetValue( nameof( DefaultMinute ), out int paramDefaultMinute ) && DefaultMinute != paramDefaultMinute;
 
             if ( paramValue.Changed )
             {
@@ -93,7 +95,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                  || staticPickerChanged
                  || showWeekNumbersChanged
                  || showTodayButtonChanged
-                 || showClearButtonChanged )
+                 || showClearButtonChanged
+                 || defaultHourChanged
+                 || defaultMinuteChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
@@ -116,6 +120,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                     ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers ),
                     ShowTodayButton = new JSOptionChange<bool>( showTodayButtonChanged, paramShowTodayButton ),
                     ShowClearButton = new JSOptionChange<bool>( showClearButtonChanged, paramShowClearButton ),
+                    DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour ),
+                    DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute ),
                 } ) );
             }
         }
@@ -144,6 +150,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             InputFormat = InputFormatConverter.Convert( InputFormat ),
             TimeAs24hr = TimeAs24hr,
             DefaultDate = defaultDate,
+            DefaultHour = DefaultHour,
+            DefaultMinute = DefaultMinute,
             Min = Min?.ToString( DateFormat ),
             Max = Max?.ToString( DateFormat ),
             Disabled = Disabled,
@@ -517,7 +525,6 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     [Parameter] public string RangeSeparator { get; set; }
 
     /// <summary>
-    /// <summary>
     /// The earliest date to accept. Updating this value does not change the selected date, even if it falls below the new minimum.
     /// </summary>
     [Parameter] public DateTimeOffset? Min { get; set; }
@@ -590,6 +597,16 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// Determines whether to show the clear button in the calendar menu.
     /// </summary>
     [Parameter] public bool ShowClearButton { get; set; }
+
+    /// <summary>
+    /// Defines the initial value of the hour element.
+    /// </summary>
+    [Parameter] public int DefaultHour { get; set; } = 12;
+
+    /// <summary>
+    /// Defines the initial value of the minute element.
+    /// </summary>
+    [Parameter] public int DefaultMinute { get; set; } = 0;
 
     #endregion
 }

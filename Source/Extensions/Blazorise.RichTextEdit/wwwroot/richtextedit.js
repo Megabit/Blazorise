@@ -1,15 +1,9 @@
-import "./vendors/quill.js?v=1.8.0.0";
-import "./vendors/quill-table-better.js?v=1.8.0.0";
-import "./vendors/quill-resize-module.js?v=1.8.0.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.0.0";
+import "./vendors/quill.js?v=1.8.7.0";
+import "./vendors/quill-table-better.js?v=1.8.7.0";
+import "./vendors/quill-resize-module.js?v=1.8.7.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.7.0";
 
 var rteSheetsLoaded = false;
-
-Quill.register(
-    {
-        'modules/table-better': QuillTableBetter,
-        'modules/resize': QuillResize
-    }, true);
 
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
@@ -35,13 +29,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         modules: {
             toolbar: toolbarRef,
             keyboard: undefined,
-            table: false,
-            'table-better': {
-                toolbarTable: true
-            },
-            keyboard: {
-                bindings: QuillTableBetter.keyboardBindings
-            }
+            table: false
         },
         bounds: element,
         placeholder: options.placeholder,
@@ -67,7 +55,21 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         };
     }
 
-    if (options.useResize) {
+    if (options.useTables === true) {
+        Quill.register({ 'modules/table-better': QuillTableBetter }, true);
+
+        quillOptions.modules['table-better'] = {
+            toolbarTable: true
+        };
+
+        quillOptions.modules.keyboard = {
+            bindings: QuillTableBetter.keyboardBindings
+        };
+    }
+
+    if (options.useResize === true) {
+        Quill.register({ 'modules/resize': QuillResize }, true);
+
         quillOptions.modules.resize = {
             tools: [
                 "left",
@@ -102,6 +104,23 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     var contentUpdating = false;
 
     const quill = new Quill(editorRef, quillOptions);
+
+    const stopArrowKeyPropagation = (event) => {
+        const arrowKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
+        if (!arrowKeys.includes(event.key))
+            return;
+
+        if (!editorRef.contains(event.target))
+            return;
+
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+    };
+
+    editorRef._stopArrowKeyPropagation = stopArrowKeyPropagation;
+    document.addEventListener("keydown", stopArrowKeyPropagation, true);
+    document.addEventListener("keyup", stopArrowKeyPropagation, true);
 
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
@@ -151,10 +170,16 @@ export function destroy(editorRef, editorId) {
     if (!editorRef)
         return false;
 
+    if (editorRef._stopArrowKeyPropagation) {
+        document.removeEventListener("keydown", editorRef._stopArrowKeyPropagation, true);
+        document.removeEventListener("keyup", editorRef._stopArrowKeyPropagation, true);
+    }
+
     if (editorRef.quill.contentObserver)
         editorRef.quill.contentObserver.disconnect();
 
     delete editorRef.quill;
+    delete editorRef._stopArrowKeyPropagation;
     return true;
 }
 

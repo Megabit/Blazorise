@@ -57,6 +57,13 @@ public class JSDataGridModule : BaseJSModule
         return await moduleInstance.InvokeAsync<int>( "scrollTo", elementRef, classname );
     }
 
+    public virtual async ValueTask ScrollVirtualizedRowIntoView( ElementReference elementRef, string elementId, int rowIndex )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "scrollVirtualizedRowIntoView", elementRef, elementId, rowIndex );
+    }
+
     #endregion
 
     #region Properties

@@ -73,3 +73,19 @@
         @return $primary;
     }
 }
+
+@function opaque($background, $foreground) {
+    @return mix(rgba($foreground, 1), $background, opacity($foreground) * 100%);
+}
+
+@function tint-color($color, $weight) {
+    @return mix(white, $color, $weight);
+}
+
+@function shade-color($color, $weight) {
+    @return mix(black, $color, $weight);
+}
+
+@function shift-color($color, $weight) {
+    @return if($weight > 0, shade-color($color, $weight), tint-color($color, -$weight));
+}

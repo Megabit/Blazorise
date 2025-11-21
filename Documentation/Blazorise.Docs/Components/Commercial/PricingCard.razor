@@ -5,27 +5,33 @@
             @PlanName
         </Heading>
         <Div Width="Width.Is100">
-            <Div Height="Height.Px(50)" Flex="Flex.AlignItems.Baseline" Gap="Gap.Is3">
-                @if ( HigherPlanPrice != null && ShowHigherPlan )
+            <Div Height="Height.Px( 50 )" Flex="Flex.AlignItems.Baseline" Gap="Gap.Is3">
+                @if ( ShowHigherPlan )
                 {
-                    <Span TextSize="TextSize.Heading3" TextColor="TextColor.Muted" Style="@(ShowDiscount ? "text-decoration: line-through;" : null)">@HigherPlanPrice</Span>
+                    <Span TextSize="TextSize.Heading3" TextColor="TextColor.Muted" TextDecoration="@(ShowDiscount ? TextDecoration.LineThrough : TextDecoration.Default)">@TotalHigherPlanPriceString</Span>
                     @if ( ShowDiscount )
                     {
                         <Span TextSize="TextSize.Heading4" TextColor="TextColor.Success" TextWeight="TextWeight.SemiBold">
                             <Icon Name="IconName.ArrowDown" />
-                            16%
+                            @PercentageDiscountString
                         </Span>
                     }
                 }
             </Div>
-            <Div>
-                @if ( PlanPrice != null )
+            <Div Flex="Flex.JustifyContent.Start.AlignItems.Center" Gap="Gap.Is1">
+                @if ( ShowPlan )
                 {
-                    <Span TextSize="TextSize.Heading2">@PlanPrice</Span>
+                    <Span TextSize="TextSize.Heading1" Flex="Flex.InlineFlex">
+                        <Span>@CurrencySymbol</Span>
+                        <Span>@TotalPlanPriceString</Span>
+                    </Span>
 
-                    @if ( PlanUnit != null )
+                    @if ( PlanPrice > 0 )
                     {
-                        <Small TextSize="TextSize.Heading3" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@PlanUnit</Small>
+                        <Span Flex="Flex.InlineFlex.Column">
+                            <Span TextSize="TextSize.ExtraSmall" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">@CurrencyCode</Span>
+                            <Span TextSize="TextSize.Small" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@PlanUnit</Span>
+                        </Span>
                     }
                 }
             </Div>
@@ -40,7 +46,7 @@
                 <Div TextSize="TextSize.Default" TextColor="@TextAccentColor">
                     @IncludesContent
                 </Div>
-                <hr />
+                <Divider />
             }
             @ChildContent
         </Div>
@@ -48,17 +54,37 @@
 </Card>
 
 @code {
+    string TotalPlanPriceString => PlanPrice switch
+    {
+        0 => "Free",
+        -1 => "Custom",
+        _ => ( PlanPrice * Quantity ).ToString( CultureInfo.InvariantCulture )
+    };
+
+    string TotalHigherPlanPriceString
+        => ShowHigherPlan ? ( HigherPlanPrice * Quantity ).ToString( CultureInfo.InvariantCulture ) : null;
+
+    decimal HigherPlanPrice => ( PlanPrice * 12 ) / 10;
+
+    string PercentageDiscountString => $"{( 100 - ( ( PlanPrice / HigherPlanPrice ) * 100 ) ).ToString( "F0", CultureInfo.InvariantCulture )}%";
+
     [Parameter] public string PlanName { get; set; }
+
+    [Parameter] public bool ShowPlan { get; set; }
 
     [Parameter] public bool ShowHigherPlan { get; set; }
 
     [Parameter] public bool ShowDiscount { get; set; }
 
-    [Parameter] public string PlanPrice { get; set; }
+    [Parameter] public decimal Quantity { get; set; }
 
-    [Parameter] public string HigherPlanPrice { get; set; }
+    [Parameter] public decimal PlanPrice { get; set; }
 
     [Parameter] public string PlanUnit { get; set; }
+
+    [Parameter] public string CurrencySymbol { get; set; }
+
+    [Parameter] public string CurrencyCode { get; set; }
 
     [Parameter] public TextColor TextAccentColor { get; set; }
 

@@ -27,7 +27,7 @@ public partial class PurchaseButton
 
     [Parameter] public Color Color { get; set; }
 
-    [Parameter] public int ProductId { get; set; }
+    [Parameter] public string ProductId { get; set; }
 
     [Parameter] public int Quantity { get; set; }
 

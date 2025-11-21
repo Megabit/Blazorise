@@ -1,0 +1,426 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Blazorise.Docs.Components;
+using ColorCode;
+using Markdig.Extensions.Tables;
+using Markdig.Renderers.Html;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise.Docs.BlogRuntime;
+
+// Same surface as your builder but returning a RenderFragment instead of text
+internal interface IBlogSink<TOut>
+{
+    void AddPageAndSeo( string url, string title, string desc, string imageUrl, string imageTitle );
+    void AddPagePostInfo( string authorName, string authorImage, string postedOn, string readTime );
+    void AddPageTitle( HeadingBlock h1 );
+    void AddPageSubtitle( HeadingBlock h2 );
+    void AddPageHeading( HeadingBlock hN );
+    void AddPageLead( ParagraphBlock p );
+    void AddPageParagraph( ParagraphBlock p );
+    void AddPageQuote( QuoteBlock q );
+    void AddPageList( ListBlock list );
+    void PersistCodeBlock( FencedCodeBlock code, int indentLevel );
+    void AddPageTable( Markdig.Extensions.Tables.Table table );
+    void AddPageDivider();
+    TOut Build();
+}
+
+internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
+{
+    private readonly List<Action<RenderTreeBuilder>> ops = new();
+    private int codeIndex = 0;
+    private readonly string blogName;
+    private readonly Func<string, string> rewriteImageUrl;
+    private static readonly HtmlClassFormatter htmlClassFormatter = new();
+    private static readonly MarkupBuilder markupBuilder = new( htmlClassFormatter );
+
+    public BlogRuntimeSink( string blogName, Func<string, string> rewriteImageUrl )
+    {
+        this.blogName = blogName;
+        this.rewriteImageUrl = rewriteImageUrl;
+    }
+
+    public void AddPageAndSeo( string url, string title, string description, string imageUrl, string imageTitle )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 0, typeof( Seo ) );
+            b.AddAttribute( 1, nameof( Seo.Canonical ), url );
+            b.AddAttribute( 2, nameof( Seo.Title ), title );
+            b.AddAttribute( 3, nameof( Seo.Description ), description );
+            b.AddAttribute( 4, nameof( Seo.ImageUrl ), imageUrl );
+            b.CloseComponent();
+
+            b.OpenComponent( 5, typeof( BlogPageImage ) );
+            b.AddAttribute( 6, nameof( BlogPageImage.Source ), imageUrl );
+            b.AddAttribute( 7, nameof( BlogPageImage.Text ), imageTitle );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPagePostInfo( string authorName, string authorImage, string postedOn, string readTime )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 10, typeof( BlogPagePostInfo ) );
+            b.AddAttribute( 11, nameof( BlogPagePostInfo.UserName ), authorName );
+            b.AddAttribute( 12, nameof( BlogPagePostInfo.ImageName ), authorImage );
+            b.AddAttribute( 13, nameof( BlogPagePostInfo.PostedOn ), postedOn );
+            b.AddAttribute( 14, nameof( BlogPagePostInfo.Read ), readTime );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageTitle( HeadingBlock h ) => ops.Add( b => RenderSimpleBlock( b, typeof( BlogPageTitle ), h.Inline ) );
+    public void AddPageSubtitle( HeadingBlock h ) => ops.Add( b => RenderSimpleBlock( b, typeof( BlogPageSubtitle ), h.Inline ) );
+
+    public void AddPageHeading( HeadingBlock h )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 20, typeof( Heading ) );
+            b.AddAttribute( 21, nameof( Heading.Size ), Enum.Parse( typeof( HeadingSize ), $"Is{h.Level}" ) );
+            b.AddAttribute( 22, nameof( Heading.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, h.Inline ) ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageLead( ParagraphBlock p )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 20, typeof( Lead ) );
+            b.AddAttribute( 22, nameof( Lead.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, p.Inline ) ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageParagraph( ParagraphBlock p )
+    {
+        if ( p.Inline is null )
+            return;
+
+        if ( p.Inline.FirstChild is LinkInline li && li.IsImage )
+        {
+            var title = string.IsNullOrEmpty( li.Title ) ? li.FirstChild?.ToString() : li.Title;
+            var imageSource = rewriteImageUrl( li.Url );
+            ops.Add( b =>
+            {
+                b.OpenComponent( 30, typeof( BlogPageImageModal ) );
+                b.AddAttribute( 31, nameof( BlogPageImageModal.ImageSource ), imageSource );
+                b.AddAttribute( 32, nameof( BlogPageImageModal.ImageTitle ), title );
+                b.CloseComponent();
+            } );
+            return;
+        }
+
+        ops.Add( b =>
+        {
+            b.OpenComponent( 40, typeof( BlogPageParagraph ) );
+            b.AddAttribute( 41, nameof( BlogPageParagraph.ChildContent ), (RenderFragment)( bb => RenderInlines( bb, p.Inline ) ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageQuote( QuoteBlock q )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 50, typeof( BlogPageBlockquote ) );
+            b.AddAttribute( 51, nameof( BlogPageBlockquote.ChildContent ), (RenderFragment)( bb =>
+            {
+                foreach ( var block in q )
+                {
+                    if ( block is ParagraphBlock p )
+                        RenderInlines( bb, p.Inline );
+                }
+            } ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void AddPageList( ListBlock list )
+    {
+        ops.Add( b => RenderList( b, list ) );
+    }
+
+    private void RenderList( RenderTreeBuilder b, ListBlock list )
+    {
+        b.OpenComponent( 60, typeof( BlogPageList ) );
+        b.AddAttribute( 61, nameof( BlogPageList.Ordered ), list.IsOrdered );
+        b.AddAttribute( 62, nameof( BlogPageList.ChildContent ), (RenderFragment)( bb =>
+        {
+            foreach ( ListItemBlock item in list )
+            {
+                bb.OpenComponent( 63, typeof( BlogPageListItem ) );
+                bb.AddAttribute( 64, nameof( BlogPageListItem.ChildContent ), (RenderFragment)( bbb =>
+                {
+                    foreach ( var child in item )
+                    {
+                        switch ( child )
+                        {
+                            case ParagraphBlock p:
+                                RenderInlines( bbb, p.Inline );
+                                break;
+
+                            case FencedCodeBlock code:
+                                PersistCodeBlockInternal( bbb, code );
+                                break;
+
+                            case ListBlock nested:
+                                RenderList( bbb, nested );
+                                break;
+
+                            case QuoteBlock q:
+                                foreach ( var qChild in q )
+                                    if ( qChild is ParagraphBlock qp )
+                                        RenderInlines( bbb, qp.Inline );
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                } ) );
+                bb.CloseComponent();
+            }
+        } ) );
+        b.CloseComponent();
+    }
+
+    public void AddPageDivider()
+        => ops.Add( b =>
+        {
+            b.OpenComponent( 70, typeof( Blazorise.Divider ) );
+            b.CloseComponent();
+        } );
+
+    public void AddPageTable( Markdig.Extensions.Tables.Table table )
+    {
+        ops.Add( b =>
+        {
+            b.OpenComponent( 80, typeof( Blazorise.Table ) );
+            b.AddAttribute( 81, "ChildContent", (RenderFragment)( bb =>
+            {
+                // Header rows
+                var headerRows = table.OfType<Markdig.Extensions.Tables.TableRow>().Where( r => r.IsHeader ).ToList();
+                if ( headerRows.Count > 0 )
+                {
+                    bb.OpenComponent( 82, typeof( Blazorise.TableHeader ) );
+                    bb.AddAttribute( 83, "ChildContent", (RenderFragment)( hb =>
+                    {
+                        foreach ( var row in headerRows )
+                        {
+                            hb.OpenComponent( 84, typeof( Blazorise.TableRow ) );
+                            hb.AddAttribute( 85, "ChildContent", (RenderFragment)( hrb =>
+                            {
+                                foreach ( var cell in row.OfType<Markdig.Extensions.Tables.TableCell>() )
+                                {
+                                    hrb.OpenComponent( 86, typeof( Blazorise.TableHeaderCell ) );
+                                    hrb.AddAttribute( 87, "ChildContent", (RenderFragment)( hcb =>
+                                    {
+                                        // Cells typically contain a ParagraphBlock with Inlines
+                                        foreach ( var child in cell )
+                                            if ( child is ParagraphBlock p )
+                                                RenderInlines( hcb, p.Inline );
+                                    } ) );
+                                    hrb.CloseComponent();
+                                }
+                            } ) );
+                            hb.CloseComponent();
+                        }
+                    } ) );
+                    bb.CloseComponent();
+                }
+
+                // Body rows
+                var bodyRows = table.OfType<Markdig.Extensions.Tables.TableRow>().Where( r => !r.IsHeader ).ToList();
+                if ( bodyRows.Count > 0 )
+                {
+                    bb.OpenComponent( 88, typeof( Blazorise.TableBody ) );
+                    bb.AddAttribute( 89, "ChildContent", (RenderFragment)( tb =>
+                    {
+                        foreach ( var row in bodyRows )
+                        {
+                            tb.OpenComponent( 90, typeof( Blazorise.TableRow ) );
+                            tb.AddAttribute( 91, "ChildContent", (RenderFragment)( trb =>
+                            {
+                                foreach ( var cell in row.OfType<Markdig.Extensions.Tables.TableCell>() )
+                                {
+                                    trb.OpenComponent( 92, typeof( Blazorise.TableRowCell ) );
+                                    trb.AddAttribute( 93, "ChildContent", (RenderFragment)( tcb =>
+                                    {
+                                        foreach ( var child in cell )
+                                            if ( child is ParagraphBlock p )
+                                                RenderInlines( tcb, p.Inline );
+                                    } ) );
+                                    trb.CloseComponent();
+                                }
+                            } ) );
+                            tb.CloseComponent();
+                        }
+                    } ) );
+                    bb.CloseComponent();
+                }
+            } ) );
+            b.CloseComponent();
+        } );
+    }
+
+    public void PersistCodeBlock( FencedCodeBlock code, int _ ) =>
+        ops.Add( b => PersistCodeBlockInternal( b, code ) );
+
+    public RenderFragment Build() => b => { foreach ( var op in ops ) op( b ); };
+
+    // helpers
+    private static void RenderSimpleBlock( RenderTreeBuilder b, Type component, ContainerInline inline )
+    {
+        b.OpenComponent( 100, component );
+        b.AddAttribute( 101, "ChildContent", (RenderFragment)( bb => RenderInlines( bb, inline ) ) );
+        b.CloseComponent();
+    }
+
+    private static void RenderInlines( RenderTreeBuilder b, ContainerInline inline, Func<string, string> rewriteImageUrl = null )
+    {
+        if ( inline is null )
+            return;
+
+        foreach ( var child in inline )
+        {
+            switch ( child )
+            {
+                // Bold + Italic + Strikethrough
+                case EmphasisInline em:
+                    var isStrike = em.DelimiterChar == '~';
+                    var isBold = !isStrike && em.DelimiterCount >= 2;
+                    var isItalic = !isStrike && ( em.DelimiterCount == 1 || em.DelimiterCount == 3 );
+
+                    b.OpenComponent( 101, typeof( Blazorise.Text ) );
+                    b.AddAttribute( 102, nameof( Blazorise.Text.Italic ), isItalic );
+                    b.AddAttribute( 103, nameof( Blazorise.Text.TextWeight ), isBold ? TextWeight.Bold : TextWeight.Default );
+                    b.AddAttribute( 104, nameof( Blazorise.Text.TextDecoration ), isStrike ? TextDecoration.LineThrough : TextDecoration.Default );
+                    b.AddAttribute( 105, nameof( Blazorise.Text.ChildContent ), (RenderFragment)( bb =>
+                    {
+                        RenderInlines( bb, em );
+                    } ) );
+                    b.CloseComponent();
+                    break;
+
+                // Links
+                case LinkInline link when !link.IsImage:
+                    var attrs = link.GetAttributes();
+                    var targetAttr = attrs?.Properties?.FirstOrDefault( p => p.Key.Equals( "target", StringComparison.OrdinalIgnoreCase ) ).Value;
+
+                    // Heuristic: treat absolute http(s) URLs as external
+                    bool isExternal = Uri.TryCreate( link.Url, UriKind.Absolute, out var uri ) &&
+                                      ( uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps );
+
+                    // Map to Blazorise target
+                    var target = targetAttr?.ToLowerInvariant() switch
+                    {
+                        "_blank" => Target.Blank,
+                        "_self" => Target.Self,
+                        "_parent" => Target.Parent,
+                        "_top" => Target.Top,
+                        _ => isExternal ? Target.Blank : Target.Default
+                    };
+
+                    b.OpenComponent( 130, typeof( Anchor ) );
+                    b.AddAttribute( 131, nameof( Anchor.To ), link.Url );
+                    var title = string.IsNullOrEmpty( link.Title ) ? link.FirstChild?.ToString() : link.Title;
+                    b.AddAttribute( 132, nameof( Anchor.Title ), $"Link to {title}" );
+                    b.AddAttribute( 133, nameof( Anchor.Target ), target );
+                    b.AddAttribute( 134, nameof( Anchor.ChildContent ), (RenderFragment)( bb =>
+                    {
+                        bb.AddContent( 134, link.FirstChild?.ToString() );
+                    } ) );
+                    b.CloseComponent();
+                    break;
+
+                // Image
+                case LinkInline img when img.IsImage:
+                    var t = string.IsNullOrEmpty( img.Title ) ? img.FirstChild?.ToString() : img.Title;
+                    var imageSource = rewriteImageUrl is null ? img.Url : rewriteImageUrl( img.Url );
+                    b.OpenComponent( 140, typeof( BlogPageImageModal ) );
+                    b.AddAttribute( 141, nameof( BlogPageImageModal.ImageSource ), imageSource );
+                    b.AddAttribute( 142, nameof( BlogPageImageModal.ImageTitle ), t );
+                    b.CloseComponent();
+                    break;
+
+                // Code
+                case CodeInline ci:
+                    var content = ci.Content;
+                    var isTag = content.StartsWith( '<' ) && content.EndsWith( '>' );
+                    b.OpenComponent( 150, typeof( Code ) );
+                    if ( isTag )
+                        b.AddAttribute( 151, nameof( Code.Tag ), true );
+                    b.AddAttribute( 152, nameof( Code.ChildContent ), (RenderFragment)( bb => bb.AddMarkupContent( 153,
+                        isTag ? content.Trim( '<', '>' ) : content.Replace( "<", "&lt;" ).Replace( ">", "&gt;" ) ) ) );
+                    b.CloseComponent();
+                    break;
+
+                case LineBreakInline:
+                    b.AddMarkupContent( 160, "<br />" );
+                    break;
+
+                default:
+                    b.AddContent( 180, child.ToString() );
+                    break;
+            }
+        }
+    }
+
+    private void RenderInlines( RenderTreeBuilder b, ContainerInline inline )
+        => RenderInlines( b, inline, rewriteImageUrl );
+
+    private void PersistCodeBlockInternal( RenderTreeBuilder b, FencedCodeBlock code )
+    {
+        // Preserve your naming scheme so legacy "Code" lookup keeps working if needed
+        var info = code.Info ?? string.Empty;
+        var codeName = ( info.Contains( '|' )
+            ? $"{blogName}_{info[( info.IndexOf( '|' ) + 1 )..]}"
+            : $"{blogName}{++codeIndex}" ).Replace( ".razor", "" );
+
+        // Extract the raw code text from the fenced block
+        var raw = code.Lines.ToString();
+
+        // Map Markdig info to the language tokens your MarkupBuilder expects ("cs","css","powershell", or default HTML/Razor handling)
+        var lang = ParseLanguage( info );
+
+        // Build fully formatted HTML (same as your previous compile-time generator)
+        var html = markupBuilder.Build( raw, lang );
+
+        // Render BlogPageSourceBlock with inner HTML
+        b.OpenComponent( 0, typeof( BlogPageSourceBlock ) );
+        //b.AddAttribute( 1, "Code", codeName );
+        b.AddAttribute( 2, nameof( BlogPageSourceBlock.ChildContent ), (RenderFragment)( bb =>
+        {
+            bb.AddMarkupContent( 0, html );
+        } ) );
+        b.CloseComponent();
+    }
+
+    private static string ParseLanguage( string info )
+    {
+        if ( string.IsNullOrWhiteSpace( info ) )
+            return ""; // triggers HTML/Razor path in MarkupBuilder
+
+        var t = info.Split( new[] { ' ', '|', '\t' }, StringSplitOptions.RemoveEmptyEntries )
+                    .FirstOrDefault()?.ToLowerInvariant() ?? "";
+
+        // Match your MarkupBuilder’s cases
+        return t switch
+        {
+            "csharp" or "cs" => "cs",
+            "css" => "css",
+            "powershell" or "ps" or "ps1" => "powershell",
+            // anything else (html, razor, etc.) falls into the "else" branch in MarkupBuilder
+            _ => ""
+        };
+    }
+}

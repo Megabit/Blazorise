@@ -113,6 +113,11 @@ namespace Blazorise
         public ThemeBackgroundOptions BackgroundOptions { get; set; }
 
         /// <summary>
+        /// Used to override default border styles.
+        /// </summary>
+        public ThemeBorderOptions BorderOptions { get; set; }
+
+        /// <summary>
         /// Used to override default background colors.
         /// </summary>
         public ThemeTextColorOptions TextColorOptions { get; set; }

@@ -1,0 +1,81 @@
+﻿@page "/docs/components/collapse"
+
+<Seo Canonical="/docs/components/collapse" Title="Blazorise Collapse Component" Description="Learn how to use the Blazorise Collapse component in Blazor to toggle sections, menus, and panels. Includes structure overview, header/body pattern, accessibility tips, and a basic example." />
+
+<DocsPageTitle Path="Components/Collapse">
+    Blazorise Collapse Component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Add expandable sections to your Blazor apps. Use <Code>Collapse</Code> to reveal or hide content-perfect for menus, filters, FAQs, and additional details.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The <Code>Collapse</Code> component provides an accessible way to show and hide content in Blazor applications. It's ideal for progressive disclosure patterns, such as "read more" areas, filter panels, or navigation sections. Pair it with a toggle (like a <Code>Button</Code>) in the header to control visibility through user interaction or programmatically.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Using collapsible sections helps organize information, keeping the interface clean and easy to navigate. This approach also complements accordions when you need a single collapsible block rather than multiple linked items.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The <Code>Collapse</Code> structure is simple and intuitive:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Code Tag>Collapse</Code> - the root container that manages the expanded or collapsed state.
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>CollapseHeader</Code> - always visible header; place your toggle control here (commonly a <Code>Button</Code> or clickable heading).
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>CollapseBody</Code> - the collapsible region that holds the main content.
+                </Paragraph>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+        <Paragraph>
+            Click the button to toggle the collapsible content. This example shows the standard header and body structure for collapsible sections.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <CollapseBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CollapseBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Programmatic Example">
+        <Paragraph>
+            This example demonstrates programmatic control of the collapse state using a button in the header to toggle visibility.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <CollapseToggleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CollapseToggleExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(Collapse), typeof(CollapseHeader), typeof(CollapseBody)]" />

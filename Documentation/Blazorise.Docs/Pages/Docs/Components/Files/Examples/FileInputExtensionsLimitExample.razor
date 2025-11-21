@@ -1,0 +1,16 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<!-- Accept all image formats by IANA media type wildcard-->
+<Field>
+    <FileInput Filter="image/*" />
+</Field>
+
+<!-- Accept specific image formats by IANA type -->
+<Field>
+    <FileInput Filter="image/jpeg, image/png, image/gif" />
+</Field>
+
+<!-- Accept specific image formats by extension -->
+<Field>
+    <FileInput Filter=".jpg, .png, .gif" />
+</Field>

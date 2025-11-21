@@ -2,10 +2,50 @@
     --b-bar-horizontal-height: 60px;
 }
 
+// Theme colors
+
 $link: #3273dc !default;
 
 $theme-colors: map-merge($theme-colors, ("link": $link));
 
+// Text colors
+
+$primary-text-emphasis: shade-color($primary, 60%) !default;
+$secondary-text-emphasis: shade-color($secondary, 60%) !default;
+$success-text-emphasis: shade-color($success, 60%) !default;
+$info-text-emphasis: shade-color($info, 60%) !default;
+$warning-text-emphasis: shade-color($warning, 60%) !default;
+$danger-text-emphasis: shade-color($danger, 60%) !default;
+$light-text-emphasis: $gray-700 !default;
+$dark-text-emphasis: $gray-700 !default;
+
+$theme-colors-text: ( "primary": $primary-text-emphasis, "secondary": $secondary-text-emphasis, "success": $success-text-emphasis, "info": $info-text-emphasis, "warning": $warning-text-emphasis, "danger": $danger-text-emphasis, "light": $light-text-emphasis, "dark": $dark-text-emphasis, ) !default;
+
+// Background color variants
+
+$primary-bg-subtle: tint-color($primary, 80%) !default;
+$secondary-bg-subtle: tint-color($secondary, 80%) !default;
+$success-bg-subtle: tint-color($success, 80%) !default;
+$info-bg-subtle: tint-color($info, 80%) !default;
+$warning-bg-subtle: tint-color($warning, 80%) !default;
+$danger-bg-subtle: tint-color($danger, 80%) !default;
+$light-bg-subtle: mix($gray-100, $white) !default;
+$dark-bg-subtle: $gray-400 !default;
+
+$theme-colors-bg-subtle: ( "primary": $primary-bg-subtle, "secondary": $secondary-bg-subtle, "success": $success-bg-subtle, "info": $info-bg-subtle, "warning": $warning-bg-subtle, "danger": $danger-bg-subtle, "light": $light-bg-subtle, "dark": $dark-bg-subtle, ) !default;
+
+// Border color variants
+
+$primary-border-subtle: tint-color($primary, 60%) !default;
+$secondary-border-subtle: tint-color($secondary, 60%) !default;
+$success-border-subtle: tint-color($success, 60%) !default;
+$info-border-subtle: tint-color($info, 60%) !default;
+$warning-border-subtle: tint-color($warning, 60%) !default;
+$danger-border-subtle: tint-color($danger, 60%) !default;
+$light-border-subtle: $gray-200 !default;
+$dark-border-subtle: $gray-500 !default;
+
+$theme-colors-border-subtle: ( "primary": $primary-border-subtle, "secondary": $secondary-border-subtle, "success": $success-border-subtle, "info": $info-border-subtle, "warning": $warning-border-subtle, "danger": $danger-border-subtle, "light": $light-border-subtle, "dark": $dark-border-subtle, ) !default;
 
 // Spacing
 
@@ -209,3 +249,5 @@ $placeholder-opacity-min: .2 !default;
 $overflows: join($overflows, (visible, scroll));
 
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
+
+$gutters: $spacers !default;

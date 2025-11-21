@@ -61,7 +61,7 @@ public class SearchHelper
         DirectoryNameToKebabCase // Append the containing folder name to the base URL // Append the type name to the base URL
     }
 
-    //FileEdit -> file-edit
+    //FileInput -> file-edit
     static string ToKebabCase( string input ) =>
         string.Concat(
         input.Select( ( c, i ) =>

@@ -1,4 +1,6 @@
-﻿$btn-bg-active: rgba(153, 153, 153, 0.4) !default;
+﻿@import "_vendors/material/variables";
+
+$btn-bg-active: rgba(153, 153, 153, 0.4) !default;
 $btn-bg-active-inverse: rgba(204, 204, 204, 0.25) !default;
 $btn-bg-disabled: $black-divider !default;
 $btn-bg-disabled-inverse: $white-divider !default;

@@ -14,8 +14,10 @@
                   Scrollable="@Scrollable"
                   MaxHeight="@MaxHeight"
                   ItemTemplate="@ItemStartTemplate"
-                  @bind-SelectedItem="@SelectedItemStart"
-                  @bind-SelectedItems="@SelectedItemsStart">
+                  SelectedItem="@SelectedItemStart"
+                  SelectedItemChanged="@OnSelectedItemStartChanged"
+                  SelectedItems="@SelectedItemsStart"
+                  SelectedItemsChanged="@OnSelectedItemsStartChanged">
         </ListView>
     </Div>
 
@@ -51,8 +53,10 @@
                   Scrollable="@Scrollable"
                   MaxHeight="@MaxHeight"
                   ItemTemplate="@ItemEndTemplate"
-                  @bind-SelectedItem="@SelectedItemEnd"
-                  @bind-SelectedItems="@SelectedItemsEnd">
+                  SelectedItem="@SelectedItemEnd"
+                  SelectedItemChanged="@OnSelectedItemEndChanged"
+                  SelectedItems="@SelectedItemsEnd"
+                  SelectedItemsChanged="@OnSelectedItemsEndChanged">
         </ListView>
     </Div>
 </Div>

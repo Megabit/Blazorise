@@ -1,90 +1,151 @@
 ﻿@page "/docs/helpers/utilities"
 
-<Seo Canonical="/docs/helpers/utilities" Title="Blazorise Utilities" Description="Learn to use and work with the Blazorise utility helpers for quickly configuring the various properties an element." />
+<Seo Canonical="/docs/helpers/utilities" Title="Blazorise Utilities – Helper Classes for Layout, Spacing, and Styling" Description="Master Blazorise utility helpers to quickly configure layout, spacing, borders, display, flex, and overflow properties. Learn how to efficiently style and align elements using fluent builder patterns in Blazorise." />
 
 <DocsPageTitle>
-    Utilities
+    Blazorise Utilities
 </DocsPageTitle>
+
+<DocsPageLead>
+    Simplify your component styling and layout management with Blazorise utility helpers.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Blazorise Utilities offer a set of helper methods and classes designed to streamline your front-end development.
+    With a focus on flexibility and responsiveness, these utilities let you easily define spacing, flex behavior, overflow handling, and more-all through C# fluent builders that adapt to various breakpoints.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Whether you're fine-tuning the layout of a single component or building complex responsive interfaces, Blazorise Utilities help you maintain a clean and consistent design system.
+</DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Spacing">
-        <Paragraph>To define spacing between components you have an option to use a fluent-builder pattern. This way you can combine multiple spacings at once.</Paragraph>
-        <Paragraph>The following example will set the margins for mobile(xs) and desktop(md) breakpoints:</Paragraph>
+        <Paragraph>
+            The Blazorise utility helpers include a fluent builder pattern for defining spacing between components.
+            This approach allows you to easily combine multiple margin and padding settings across different breakpoints.
+        </Paragraph>
+        <Paragraph>
+            For example, the following snippet sets custom margins for mobile (<Code>xs</Code>) and desktop (<Code>md</Code>) screen sizes:
+        </Paragraph>
     </DocsPageSectionHeader>
+
     <Alert Color="Color.Info" Visible>
         <AlertDescription>
-            <Strong>Note:</Strong> The same rules can also be applied for paddings.
+            <Strong>Tip:</Strong> The same fluent pattern also applies to paddings.
         </AlertDescription>
     </Alert>
+
     <DocsPageSectionContent Outlined FullWidth>
         <SpacingExample />
     </DocsPageSectionContent>
+
     <DocsPageSectionSource Code="SpacingExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Display">
-        <Paragraph>Quickly and responsively toggle the display value of components and more with display utilities.</Paragraph>
+        <Paragraph>
+            Use display utilities to quickly and responsively toggle the visibility and display behavior of components.
+            These helpers make it simple to switch between display values like <Code>block</Code>, <Code>inline</Code>, or <Code>flex</Code> based on device size.
+        </Paragraph>
     </DocsPageSectionHeader>
+
     <DocsPageSectionContent Outlined FullWidth>
         <DisplayExample />
     </DocsPageSectionContent>
+
     <DocsPageSectionSource Code="DisplayExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="ColumnSize">
-        <Paragraph>Similar to the spacing builder you can also define column sizes using the same pattern.</Paragraph>
+    <DocsPageSectionHeader Title="Column Size">
+        <Paragraph>
+            Similar to the spacing builder, you can define responsive column sizes using a fluent pattern.
+            This makes it straightforward to control grid layouts across multiple breakpoints.
+        </Paragraph>
     </DocsPageSectionHeader>
+
     <DocsPageSectionContent Outlined FullWidth>
         <ColumnSizeExample />
     </DocsPageSectionContent>
+
     <DocsPageSectionSource Code="ColumnSizeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Flex">
-        <Paragraph>Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities.</Paragraph>
-        <Paragraph>For more complex implementations, custom CSS may be necessary.</Paragraph>
+        <Paragraph>
+            Manage layout, alignment, and sizing with ease using Blazorise flexbox utilities.
+            These helpers let you create responsive grid layouts, control component alignment, and fine-tune spacing without writing custom CSS.
+        </Paragraph>
+        <Paragraph>
+            For advanced or complex use cases, you can always extend with custom CSS rules.
+        </Paragraph>
     </DocsPageSectionHeader>
+
     <DocsPageSectionContent Outlined FullWidth>
         <FlexAlignItemsExample />
     </DocsPageSectionContent>
+
     <DocsPageSectionSource Code="FlexAlignItemsExample" />
+
     <DocsPageSectionContent Outlined FullWidth>
         <FlexJustifyContentExample />
     </DocsPageSectionContent>
+
     <DocsPageSectionSource Code="FlexJustifyContentExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Border">
-        <Paragraph>Use border utilities to quickly style the border and border-radius of an element. Great for images, buttons, or any other element.</Paragraph>
+        <Paragraph>
+            Border utilities allow you to quickly style an element's border and border-radius-ideal for images, buttons, or any bordered UI element.
+            You can easily combine these with background and color utilities for custom appearances.
+        </Paragraph>
     </DocsPageSectionHeader>
+
     <Alert Color="Color.Info" Visible>
         <AlertDescription>
-            <Code>Note:</Code> Please note that if your element doesn’t have any styles you will not be able to see any changes once you apply the <Code>Borders</Code>. You still need to add your own CSS rules like <Code>background-color</Code> so that visually you can see the applied borders on an element.
+            <Strong>Note:</Strong> If your element doesn't already have visible styles, such as a background color,
+            applying borders may not be visually noticeable. Consider adding custom CSS, like <Code>background-color</Code>,
+            to make borders stand out.
         </AlertDescription>
     </Alert>
+
     <DocsPageSectionContent Outlined FullWidth>
         <BorderExample />
     </DocsPageSectionContent>
+
     <DocsPageSectionSource Code="BorderExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Overflow">
-        <Paragraph>Use overflow shorthand utilities for quickly configuring how content overflows an element.</Paragraph>
+        <Paragraph>
+            Use overflow utilities to control how content behaves when it exceeds its container boundaries.
+            These helpers make it simple to manage scrollable areas and hidden overflows without writing custom CSS.
+        </Paragraph>
     </DocsPageSectionHeader>
+
     <DocsPageSectionContent Outlined FullWidth>
         <OverflowExample />
     </DocsPageSectionContent>
+
     <DocsPageSectionSource Code="OverflowExample" />
 </DocsPageSection>
 
-<Heading Class="b-docs-page-attributes-title" Size="HeadingSize.Is3">
-    Breakpoints by frameworks
+<Heading Size="HeadingSize.Is3">
+    Breakpoints by Framework
 </Heading>
+
+<DocsPageParagraph>
+    Different CSS frameworks use their own naming conventions for responsive breakpoints. While the behavior (e.g., mobile, tablet, desktop) is conceptually similar across all frameworks, the specific identifiers can vary.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The table below shows how Blazorise maps these breakpoints across <Strong>Bootstrap</Strong>, <Strong>Material</Strong>, <Strong>Bulma</Strong>, <Strong>Fluent</Strong>, and <Strong>AntDesign</Strong>.
+</DocsPageParagraph>
 
 <Table>
     <TableHeader ThemeContrast="ThemeContrast.Light">
@@ -93,6 +154,8 @@
             <TableHeaderCell>Bootstrap</TableHeaderCell>
             <TableHeaderCell>Material</TableHeaderCell>
             <TableHeaderCell>Bulma</TableHeaderCell>
+            <TableHeaderCell>Fluent</TableHeaderCell>
+            <TableHeaderCell>AntDesign</TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>
@@ -101,32 +164,44 @@
             <TableRowCell>xs</TableRowCell>
             <TableRowCell>xs</TableRowCell>
             <TableRowCell>mobile</TableRowCell>
+            <TableRowCell>sm</TableRowCell>
+            <TableRowCell>xs</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell>Tablet</TableRowCell>
             <TableRowCell>sm</TableRowCell>
             <TableRowCell>sm</TableRowCell>
             <TableRowCell>tablet</TableRowCell>
+            <TableRowCell>md</TableRowCell>
+            <TableRowCell>sm</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell>Desktop</TableRowCell>
             <TableRowCell>md</TableRowCell>
             <TableRowCell>md</TableRowCell>
             <TableRowCell>desktop</TableRowCell>
+            <TableRowCell>lg</TableRowCell>
+            <TableRowCell>md</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell>Widescreen</TableRowCell>
             <TableRowCell>lg</TableRowCell>
             <TableRowCell>lg</TableRowCell>
             <TableRowCell>widescreen</TableRowCell>
+            <TableRowCell>xl</TableRowCell>
+            <TableRowCell>lg</TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowCell>FullHD</TableRowCell>
+            <TableRowCell>Full HD</TableRowCell>
             <TableRowCell>xl</TableRowCell>
             <TableRowCell>xl</TableRowCell>
-            <TableRowCell>fullHD</TableRowCell>
+            <TableRowCell>fullhd</TableRowCell>
+            <TableRowCell>xxl</TableRowCell>
+            <TableRowCell>xl</TableRowCell>
         </TableRow>
     </TableBody>
 </Table>
 
-
+<DocsPageParagraph>
+    In summary, while each framework uses slightly different names, their purpose is the same: to define responsive behavior across various screen sizes. Blazorise provides a unified <Code>Breakpoint</Code> abstraction layer, letting you use a consistent API regardless of the underlying CSS provider.
+</DocsPageParagraph>

@@ -13,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// A slider to select a value from a given range.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue}.Value"/> property.</typeparam>
 public partial class Slider<TValue> : BaseInputComponent<TValue>
 {
     #region Members
@@ -39,8 +39,8 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
 
         // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
         // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
-        minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
-        maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
+        minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var _ );
+        maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var _ );
     }
 
     /// <inheritdoc/>

@@ -35,7 +35,7 @@
             <CardBody>
                 <FilePicker @ref=filePicker
                             Multiple
-                            MaxChunkSize=FileEditMaxChunkSize
+                            MaxChunkSize=FileMaxChunkSize
                             Written=OnFilePartReceived
                             Ended=OnFileUploadEnded
                             Progressed=OnFileUploadProgressChanged
@@ -55,7 +55,7 @@
             <CardBody>
                 <FilePicker @ref=filePickerBuffered
                             Multiple
-                            MaxChunkSize=FileEditMaxChunkSize
+                            MaxChunkSize=FileMaxChunkSize
                             Written=OnFilePartReceived
                             Ended=OnFileUploadEnded
                             Progressed=OnFileUploadProgressChanged
@@ -78,7 +78,7 @@
             <CardBody>
                 <FilePicker @ref=filePickerDropdown
                             Multiple
-                            MaxChunkSize=FileEditMaxChunkSize
+                            MaxChunkSize=FileMaxChunkSize
                             Written=OnFilePartReceived
                             Ended=OnFileUploadEnded
                             Progressed=OnFileUploadProgressChanged
@@ -98,7 +98,7 @@
             <CardBody>
                 <FilePicker @ref=filePickerCustom
                             Multiple
-                            MaxChunkSize=FileEditMaxChunkSize
+                            MaxChunkSize=FileMaxChunkSize
                             Written=OnFilePartReceived
                             Ended=OnFileUploadEnded
                             Progressed=OnFileUploadProgressChanged
@@ -153,7 +153,7 @@
     private bool disableProgressReport = false;
     private bool directory = false;
     private Stopwatch sw = new();
-    private readonly int FileEditMaxChunkSize = 24 * 1024;
+    private readonly int FileMaxChunkSize = 24 * 1024;
     private FilePicker filePicker { get; set; }
     private FilePicker filePickerBuffered { get; set; }
     private FilePicker filePickerDropdown { get; set; }

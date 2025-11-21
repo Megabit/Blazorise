@@ -10,15 +10,15 @@ namespace Blazorise;
 /// </summary>
 public class NumericPickerAdapter
 {
-    private readonly INumericPicker numericEdit;
+    private readonly INumericPicker numericPicker;
 
     /// <summary>
     /// Default constructor for <see cref="NumericPickerAdapter"/>.
     /// </summary>
-    /// <param name="numericEdit">Numeric input to which the adapter is referenced.</param>
-    public NumericPickerAdapter( INumericPicker numericEdit )
+    /// <param name="numericPicker">Numeric input to which the adapter is referenced.</param>
+    public NumericPickerAdapter( INumericPicker numericPicker )
     {
-        this.numericEdit = numericEdit;
+        this.numericPicker = numericPicker;
     }
 
     /// <summary>
@@ -29,6 +29,6 @@ public class NumericPickerAdapter
     [JSInvokable]
     public Task SetValue( string value )
     {
-        return numericEdit.SetValue( value );
+        return numericPicker.SetValue( value );
     }
 }

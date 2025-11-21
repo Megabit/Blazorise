@@ -1,6 +1,0 @@
-- name: Tailwind - Download and Run CLI
-  run: |
-    wget https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 -O /usr/local/bin/tailwindcss
-    chmod +x /usr/local/bin/tailwindcss
-    cd ./YourProject # where the tailwind.config.js is located
-    tailwindcss -o ./wwwroot/app.css -o ./wwwroot/app.min.css --minify

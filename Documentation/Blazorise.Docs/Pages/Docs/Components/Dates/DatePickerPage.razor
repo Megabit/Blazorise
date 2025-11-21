@@ -13,7 +13,7 @@
 <DocsPageParagraph>
     <Code Tag>DatePicker</Code> is a fully featured date selection component that lets users select a date.
     <Code>DatePicker</Code> is based on a <Blazorise.Link To="https://flatpickr.js.org/">flatpickr</Blazorise.Link> datetime picker
-    and as such is not a native date input element. That means that unlike <code>DateEdit</code> which will render <Code>type="date"</Code>,
+    and as such is not a native date input element. That means that unlike <code>DateInput</code> which will render <Code>type="date"</Code>,
     <Code>DatePicker</Code> will render <Code>type="text"</Code> in the DOM.
 </DocsPageParagraph>
 
@@ -158,6 +158,18 @@
         <DatePickerShowButtonsExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DatePickerShowButtonsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Default time">
+        <Paragraph>
+            By default the time elements are set to <Strong>12:00</Strong>. To change it use the <Code>DefaultHour</Code> and <Code>DefaultMinute</Code> parameters.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerDefaultTimesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerDefaultTimesExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

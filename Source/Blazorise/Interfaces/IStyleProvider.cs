@@ -38,18 +38,6 @@ public interface IStyleProvider
 
     #endregion
 
-    #region Row
-
-    string RowGutter( (int Horizontal, int Vertical) gutter );
-
-    #endregion
-
-    #region Column
-
-    string ColumnGutter( (int Horizontal, int Vertical) gutter );
-
-    #endregion
-
     #region Offcanvas
 
     string OffcanvasAnimationDuration( bool animated, int animationDuration );

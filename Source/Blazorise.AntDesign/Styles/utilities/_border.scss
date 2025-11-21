@@ -92,6 +92,18 @@ $border-sizes: (1, 2, 3, 4, 5);
 @each $size in $border-sizes {
     .ant-border-#{$size} {
         border: #{$size}px solid $border-color !important;
+
+        @each $color-name, $color-value in $theme-colors {
+            &.ant-border-#{$color-name} {
+                border-color: $color-value !important;
+            }
+        }
+
+        @each $color-name, $color-value in $theme-colors-border-subtle {
+            &.ant-border-#{$color-name}-subtle {
+                border-color: #{$color-value} !important;
+            }
+        }
     }
 
     @each $color-name, $color-value in $theme-colors {
@@ -110,5 +122,11 @@ $border-sizes: (1, 2, 3, 4, 5);
                 border-#{$side}: #{$size}px solid $color-value !important;
             }
         }
+    }
+}
+
+@each $color-name, $color-value in $theme-colors-border-subtle {
+    .ant-border-#{$color-name}-subtle {
+        border-color: #{$color-value} !important;
     }
 }

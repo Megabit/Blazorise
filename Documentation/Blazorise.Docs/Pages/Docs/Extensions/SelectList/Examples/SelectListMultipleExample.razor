@@ -1,12 +1,12 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <SelectList TItem="MyFruitModel"
-            TValue="int"
+            TValue="IReadOnlyList<int>"
             Data="@IndexedFruits"
             TextField="@((item)=>item.Name)"
             ValueField="@((item)=>item.Id)"
             Multiple
-            @bind-SelectedValues="@selectedListValues"
+            @bind-Value="@selectedListValues"
             DefaultItemText="Choose your fruit" />
 
 @code {

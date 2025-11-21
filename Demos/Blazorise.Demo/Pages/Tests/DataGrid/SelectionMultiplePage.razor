@@ -75,24 +75,24 @@
                                 <Field>
                                     <FieldLabel>First Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Value="@employee?.FirstName"></TextEdit>
+                                        <TextInput ReadOnly Value="@employee?.FirstName"></TextInput>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>Last Name</FieldLabel>
-                                    <TextEdit ReadOnly Value="@employee?.LastName"></TextEdit>
+                                    <TextInput ReadOnly Value="@employee?.LastName"></TextInput>
                                 </Field>
                             </Fields>
                             <Fields>
                                 <Field>
                                     <FieldLabel>Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Value="@employee?.Email"></TextEdit>
+                                        <TextInput ReadOnly Value="@employee?.Email"></TextInput>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>City</FieldLabel>
-                                    <TextEdit ReadOnly Value="@employee?.City"></TextEdit>
+                                    <TextInput ReadOnly Value="@employee?.City"></TextInput>
                                 </Field>
                             </Fields>
                         </CardBody>
@@ -114,7 +114,7 @@
                             <Field>
                                 <FieldLabel>Quantity</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit ReadOnly Value="@selectedEmployees.Count.ToString()"></TextEdit>
+                                    <TextInput ReadOnly Value="@selectedEmployees.Count.ToString()"></TextInput>
                                 </FieldBody>
                             </Field>
                         </Fields>

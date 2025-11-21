@@ -64,18 +64,18 @@
                     <Field>
                         <FieldLabel>Row Index</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Value="@selectedCell?.RowIndex.ToString()"></TextEdit>
+                            <TextInput ReadOnly Value="@selectedCell?.RowIndex.ToString()"></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Field</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Value="@selectedCell?.ColumnInfo?.Field"></TextEdit>
+                            <TextInput ReadOnly Value="@selectedCell?.ColumnInfo?.Field"></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Value</FieldLabel>
-                        <TextEdit ReadOnly Value="@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)"></TextEdit>
+                        <TextInput ReadOnly Value="@selectedCell?.Column?.FormatDisplayValue(selectedCell?.Item)"></TextInput>
                     </Field>
                 </Fields>
             </CardBody>

@@ -48,9 +48,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     private CancellationTokenSource cancellationTokenSource;
 
     /// <summary>
-    /// Reference to the TextEdit component.
+    /// Reference to the TextInput component.
     /// </summary>
-    private TextEdit textEditRef;
+    private TextInput textInputRef;
 
     /// <summary>
     /// Original data-source.
@@ -82,6 +82,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     private List<string> selectedTextsParam;
 
     private Validation validationRef;
+
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool clickFromCheck;
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool focusFromCheck;
 
     #endregion
 
@@ -403,6 +412,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
     {
+        if ( focusFromCheck )
+        {
+            focusFromCheck = false;
+            return;
+        }
+
         TextFocused = true;
         if ( ManualReadMode || MinLength <= 0 )
             await Reload();
@@ -418,28 +433,48 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-        await Close();
-
-        if ( IsMultiple )
+        if ( SelectionMode == AutocompleteSelectionMode.Checkbox && clickFromCheck )
         {
-            await ResetSelected();
-            await ResetCurrentSearch();
+            // Only defer when blur originated from a checkbox click
+            ExecuteAfterRender( HandleBlurHandler );
         }
         else
         {
-            if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+            await HandleBlurHandler();
+        }
+
+        async Task HandleBlurHandler()
+        {
+            if ( clickFromCheck )
+            {
+                clickFromCheck = false;
+                focusFromCheck = true;
+                await textInputRef.Focus();
+                return;
+            }
+            await Close();
+
+            if ( IsMultiple )
             {
                 await ResetSelected();
                 await ResetCurrentSearch();
-                return;
+            }
+            else
+            {
+                if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+                {
+                    await ResetSelected();
+                    await ResetCurrentSearch();
+                    return;
+                }
+
+                await SelectedOrResetOnCommit();
             }
 
-            await SelectedOrResetOnCommit();
+            TextFocused = false;
+
+            await SearchBlur.InvokeAsync( eventArgs );
         }
-
-        TextFocused = false;
-
-        await SearchBlur.InvokeAsync( eventArgs );
     }
 
     private async Task InvokeSearchChanged( string searchValue )
@@ -482,7 +517,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task OnDropdownItemSelected( object value )
     {
-        if ( SelectionMode == AutocompleteSelectionMode.Default )
+        clickFromCheck = ( SelectionMode == AutocompleteSelectionMode.Checkbox );
+
+        //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
+        if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
         {
             await Close();
         }
@@ -568,6 +606,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         try
         {
             cancellationTokenSource?.Cancel();
+            cancellationTokenSource?.Dispose();
             cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
 
             Loading = true;
@@ -578,9 +617,20 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
+        catch ( OperationCanceledException )
+        {
+            // Expected during rapid typing
+        }
         finally
         {
+            var wasCancelled = cancellationTokenSource?.IsCancellationRequested == true;
+
             Loading = false;
+
+            if ( wasCancelled )
+            {
+                await InvokeAsync( () => Reload() );
+            }
         }
     }
 
@@ -613,7 +663,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public async Task Reload( CancellationToken cancellationToken = default )
     {
         if ( Loading )
+        {
+            cancellationTokenSource?.Cancel();
             return;
+        }
 
         if ( VirtualizeManualReadMode )
         {
@@ -633,9 +686,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private Task Revalidate()
     {
-        if ( textEditRef is not null )
+        if ( textInputRef is not null )
         {
-            return textEditRef.Revalidate();
+            return textInputRef.Revalidate();
         }
         return Task.CompletedTask;
     }
@@ -818,14 +871,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.IndexOf( Search, 0, StringComparison ) >= 0
+                        where text.IndexOf( Search, 0, StringComparison.OrdinalIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.StartsWith( Search, StringComparison )
+                        where text.StartsWith( Search, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
         }
@@ -882,6 +935,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         if ( disposing )
         {
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = null;
+
             if ( Rendered )
             {
                 var task = JSClosableModule.UnregisterLight( ElementRef );
@@ -909,8 +965,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Focus( bool scrollToElement = true )
     {
-        if ( textEditRef != null )
-            return textEditRef.Focus( scrollToElement );
+        if ( textInputRef != null )
+            return textInputRef.Focus( scrollToElement );
 
         return Task.CompletedTask;
     }
@@ -1174,7 +1230,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Gets the Element Reference
     /// </summary>
-    public ElementReference ElementRef => textEditRef.ElementRef;
+    public ElementReference ElementRef => textInputRef.ElementRef;
 
     /// <summary>
     /// Gets the Element Id
@@ -1262,7 +1318,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Tracks whether the Autocomplete is in a multiple selection state.
     /// </summary>
-    protected bool IsMultiple => SelectionMode is AutocompleteSelectionMode.Multiple or AutocompleteSelectionMode.Checkbox;
+#pragma warning disable CS0618 // Type or member is obsolete
+    protected bool IsMultiple => Multiple || SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
+#pragma warning restore CS0618 // Type or member is obsolete
 
     /// <summary>
     /// Gets or sets the classname provider.
@@ -1588,9 +1646,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
 
     /// <summary>
-    /// Specifies the string comparison used for data filtering.
+    /// Allows for multiple selection.
     /// </summary>
-    [Parameter] public StringComparison StringComparison { get; set; } = StringComparison.OrdinalIgnoreCase;
+    [Obsolete( "Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead." )]
+    [Parameter] public bool Multiple { get; set; }
 
     /// <summary>
     /// Sets the Badge color for the multiple selection values. Used when multiple selection is set.
@@ -1692,6 +1751,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Method used to get the determine if the item should be disabled.
     /// </summary>
     [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether parent dropdown menus should be closed when this component is activated.
+    /// </summary>
+    /// <remarks>Set this property to <see langword="true"/> to automatically close any open parent dropdowns
+    /// when the component is triggered. This can be useful for ensuring only one dropdown is open at a time in nested
+    /// menu scenarios.</remarks>
+    [Parameter] public bool CloseParentDropdowns { get; set; }
 
     #endregion
 }

@@ -5,6 +5,12 @@
 /// </summary>
 public record TextColor : Enumeration<TextColor>
 {
+    #region Members
+
+    #endregion
+
+    #region Constructors
+
     /// <inheritdoc/>
     public TextColor( string name ) : base( name )
     {
@@ -15,6 +21,10 @@ public record TextColor : Enumeration<TextColor>
     {
     }
 
+    #endregion
+
+    #region Operators
+
     /// <summary>
     /// Creates the new custom text color based on the supplied enum value.
     /// </summary>
@@ -23,6 +33,10 @@ public record TextColor : Enumeration<TextColor>
     {
         return new TextColor( name );
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.
@@ -93,4 +107,33 @@ public record TextColor : Enumeration<TextColor>
     /// White text with 50% opacity on black background.
     /// </summary>
     public static readonly TextColor White50 = new( "white-50" );
+
+    /// <summary>
+    /// Emphasized text color, used to emphasize certain parts of the text.
+    /// </summary>
+    public TextColor Emphasis => new( new TextColor( this, "emphasis" ) );
+
+    #endregion
+}
+
+/// <summary>
+/// A wrapper returned by variant properties to prevent further chaining in IntelliSense.
+/// Implicitly converts back to <see cref="TextColor"/> so it can be assigned wherever a TextColor is expected.
+/// </summary>
+public readonly struct TextColorVariant
+{
+    internal TextColorVariant( TextColor textColor ) => Value = textColor;
+
+    internal TextColor Value { get; }
+
+    /// <summary>
+    /// Implicitly converts the <see cref="TextColorVariant"/> back to <see cref="TextColor"/>.
+    /// </summary>
+    /// <param name="textColorVariant">The <see cref="TextColorVariant"/> instance to convert.</param>
+    public static implicit operator TextColor( TextColorVariant textColorVariant ) => textColorVariant.Value;
+
+    /// <summary>
+    /// Returns a string representation of the current object.
+    /// </summary>
+    public override string ToString() => Value?.ToString() ?? string.Empty;
 }

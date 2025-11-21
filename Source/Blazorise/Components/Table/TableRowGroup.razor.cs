@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -66,6 +68,71 @@ public partial class TableRowGroup : BaseDraggableComponent
         RowIndentCellClassBuilder.Dirty();
 
         base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        builder
+            .OpenElement( "tr" )
+            .Id( ElementId )
+            .Class( ClassNames )
+            .Style( StyleNames )
+            .Draggable( DraggableString );
+
+        builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnClickHandler ) );
+
+        // build drag-and-drop related events
+        BuildDraggableEventsRenderTree( builder );
+
+        for ( var i = 0; i < IndentTableCells; i++ )
+        {
+            builder
+                .OpenElement( "td" )
+                .Class( RowIndentCellClassBuilder.Class );
+
+            if ( IndentTableCellTemplate is not null )
+                builder.Content( IndentTableCellTemplate( i ) );
+
+            builder.CloseElement(); // </td>
+        }
+
+        builder
+            .OpenElement( "td" )
+            .Class( RowCellClassBuilder.Class )
+            .ColSpan( ColumnSpan - IndentTableCells );
+
+        if ( Toggleable )
+        {
+            builder.OpenComponent<Icon>()
+                .Attribute( "Name", Expanded ? IconName.ChevronUp : IconName.ChevronDown )
+                .Attribute( "Padding", Blazorise.Padding.Is3.FromEnd );
+
+            builder.CloseComponent(); // </Icon>;
+        }
+
+        builder.OpenElement( "span" );
+
+        if ( TitleTemplate is not null )
+            builder.Content( TitleTemplate );
+        else if ( !string.IsNullOrEmpty( Title ) )
+            builder.Content( Title );
+
+        builder.CloseElement(); // </span>
+
+        builder.CloseElement(); // </td>
+
+        if ( Attributes is not null )
+            builder.Attributes( Attributes );
+
+        builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+
+        builder.CloseElement(); // </tr>
+
+        if ( Expanded && ChildContent is not null )
+            builder.Content( ChildContent );
+
+        base.BuildRenderTree( builder );
     }
 
     /// <summary>

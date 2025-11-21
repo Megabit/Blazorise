@@ -1,5 +1,5 @@
-import "./vendors/flatpickr.js?v=1.8.0.0";
-import * as utilities from "./utilities.js?v=1.8.0.0";
+import "./vendors/flatpickr.js?v=1.8.7.0";
+import * as utilities from "./utilities.js?v=1.8.7.0";
 
 const _pickers = [];
 
@@ -48,6 +48,8 @@ export function initialize(element, elementId, options) {
         altInput: true,
         altFormat: options.displayFormat ? options.displayFormat : (options.seconds ? "H:i:S" : "H:i"),
         defaultValue: options.default,
+        defaultHour: utilities.coalesce(options.defaultHour, 12),
+        defaultMinute: utilities.coalesce(options.defaultMinute, 0),
         minTime: options.min,
         maxTime: options.max,
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
@@ -177,6 +179,26 @@ export function updateOptions(element, elementId, options) {
                 picker.minuteElement.step = options.minuteIncrement.value;
             }
         }
+
+        if (options.defaultHour.changed) {
+            picker.set("defaultHour", options.defaultHour.value);
+
+            if (picker.hourElement) {
+                picker.hourElement.value = pad(
+                    !picker.config.time_24hr
+                        ? ((12 + options.defaultHour.value) % 12) + 12 * int(options.defaultHour.value % 12 === 0)
+                        : options.defaultHour.value
+                );
+            }
+        }
+
+        if (options.defaultMinute.changed) {
+            picker.set("defaultMinute", options.defaultMinute.value);
+
+            if (picker.minuteElement) {
+                picker.minuteElement.value = pad(options.defaultMinute.value);
+            }
+        }
     }
 }
 
@@ -240,4 +262,12 @@ export function select(element, elementId, focus) {
     if (picker && picker.altInput) {
         utilities.select(picker.altInput, null, focus);
     }
+}
+
+function pad(number, length = 2) {
+    return `000${number}`.slice(length * -1);
+}
+
+function int(bool) {
+    return bool === true ? 1 : 0;
 }

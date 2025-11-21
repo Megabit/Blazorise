@@ -1,0 +1,14 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <Button Color="Color.Primary" Clicked="@(() => dateInputRef.ShowPicker())">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <DateInput @ref="@dateInputRef" TValue="DateTime" />
+</Field>
+
+@code {
+    DateInput<DateTime> dateInputRef;
+}

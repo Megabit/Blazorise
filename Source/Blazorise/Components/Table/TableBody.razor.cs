@@ -1,6 +1,9 @@
 ﻿#region Using directives
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -22,6 +25,32 @@ public partial class TableBody : BaseDraggableComponent
         builder.Append( ClassProvider.TableBody() );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        builder
+            .OpenElement( "tbody" )
+            .Id( ElementId )
+            .Class( ClassNames )
+            .Style( StyleNames )
+            .Draggable( DraggableString );
+
+        // build drag-and-drop related events
+        BuildDraggableEventsRenderTree( builder );
+
+        if ( Attributes is not null )
+            builder.Attributes( Attributes );
+
+        builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+
+        if ( ChildContent is not null )
+            builder.Content( ChildContent );
+
+        builder.CloseElement(); // </tbody>
+
+        base.BuildRenderTree( builder );
     }
 
     #endregion

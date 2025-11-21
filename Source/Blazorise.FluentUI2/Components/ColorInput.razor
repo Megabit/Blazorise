@@ -1,0 +1,22 @@
+﻿@using System.Text
+@inherits Blazorise.ColorInput
+@if ( ParentIsAddons )
+{
+    <span class="@AddonClassNames">
+        @InputElement
+    </span>
+}
+else
+{
+    <span class="@InputClassNames">
+        @InputElement
+    </span>
+}
+@ChildContent
+@Feedback
+@code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="color" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    };
+}

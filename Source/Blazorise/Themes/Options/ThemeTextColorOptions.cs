@@ -114,4 +114,9 @@ public record ThemeTextColorOptions : IEnumerable<KeyValuePair<string, Func<stri
     /// Gets or sets the text white-50% color.
     /// </summary>
     public string White50 { get; set; } = "#FFFFFF";
+
+    /// <summary>
+    /// Gets the percentage of depth for the 'emphasis' effect.
+    /// </summary>
+    public int? EmphasisShadeWeight { get; set; }
 }
