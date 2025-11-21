@@ -9,44 +9,6 @@ import "./vendors/chartjs-plugin-streaming.js?v=1.8.7.0";
 
 import { parseFunction, deepClone } from "./utilities.js?v=1.8.7.0";
 
-// workaround for: https://github.com/Megabit/Blazorise/issues/2287
-const _ChartTitleCallbacks = function (item) {
-    return item[0].dataset.label;
-};
-
-const _ChartLabelCallback = function (item) {
-    const label = item.label;
-    const value = item.dataset.data[item.dataIndex];
-    return label + ': ' + value;
-};
-
-// In Chart v3 callbacks are now defined by default. So to override them by the Blazorise the user
-// would have to first set them to null immediately after charts.js is loaded for this workaround
-// to have any effect.
-
-const _overrideTooltipCallbacks = function (chartType) {
-    const overrides = Chart?.overrides?.[chartType];
-
-    if (!overrides) {
-        return;
-    }
-
-    overrides.plugins = overrides.plugins || {};
-    overrides.plugins.tooltip = overrides.plugins.tooltip || {};
-    overrides.plugins.tooltip.callbacks = overrides.plugins.tooltip.callbacks || {};
-
-    if (!overrides.plugins.tooltip.callbacks.title) {
-        overrides.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
-    }
-
-    if (!overrides.plugins.tooltip.callbacks.label) {
-        overrides.plugins.tooltip.callbacks.label = _ChartLabelCallback;
-    }
-};
-
-_overrideTooltipCallbacks('pie');
-_overrideTooltipCallbacks('doughnut');
-
 const _instances = [];
 
 export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject, pluginNames) {
