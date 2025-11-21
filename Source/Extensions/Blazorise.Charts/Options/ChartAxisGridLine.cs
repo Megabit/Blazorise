@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -119,7 +118,7 @@ public class ChartAxisGridLine
     /// <summary>
     /// z-index of gridline layer. Values &lt;= 0 are drawn under datasets, > 0 on top.
     /// </summary>
-    [JsonPropertyName( "y" )]
+    [JsonPropertyName( "z" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Z { get; set; }
 }
