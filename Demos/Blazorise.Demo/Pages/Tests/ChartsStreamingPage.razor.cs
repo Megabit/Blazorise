@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Demo.Pages.Tests;
 
-public partial class LiveChartsPage : ComponentBase
+public partial class ChartsStreamingPage : ComponentBase
 {
     private LineChart<LiveDataPoint> horizontalLineChart;
     private LineChart<LiveDataPoint> verticalLineChart;
