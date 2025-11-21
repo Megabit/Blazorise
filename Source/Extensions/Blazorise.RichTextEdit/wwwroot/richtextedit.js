@@ -105,6 +105,17 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const quill = new Quill(editorRef, quillOptions);
 
+    const stopArrowKeyPropagation = (event) => {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.stopImmediatePropagation();
+            event.stopPropagation();
+        }
+    };
+
+    quill.root.addEventListener("keydown", stopArrowKeyPropagation);
+    quill.root.addEventListener("keyup", stopArrowKeyPropagation);
+    quill.stopArrowKeyPropagation = stopArrowKeyPropagation;
+
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
             contentUpdating = true;
