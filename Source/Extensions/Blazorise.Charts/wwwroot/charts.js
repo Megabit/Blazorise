@@ -3,10 +3,6 @@ import "./vendors/chart.js?v=1.8.7.0";
 import "./vendors/chartjs-plugin-datalabels.js?v=1.8.7.0";
 import "./vendors/chartjs-plugin-annotation.js?v=1.8.7.0";
 
-
-//import "./vendors/moment.js?v=1.8.7.0";
-//import "./vendors/chartjs-adapter-date-fns.bundle.min.js?v=1.8.7.0";
-
 import "./vendors/luxon.js?v=1.8.7.0";
 import "./vendors/chartjs-adapter-luxon.js?v=1.8.7.0";
 import "./vendors/chartjs-plugin-streaming.js?v=1.8.7.0";
@@ -30,7 +26,6 @@ const _ChartLabelCallback = function (item) {
 
 const _overrideTooltipCallbacks = function (chartType) {
     const overrides = Chart?.overrides?.[chartType];
-
 
     if (!overrides) {
         return;
