@@ -35,6 +35,12 @@ public class ChartAxis
     public ChartAxisGridLine Grid { get; set; }
 
     /// <summary>
+    /// Border configuration. <see href="https://www.chartjs.org/docs/latest/axes/styling.html#border-configuration">more...</see>
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public ChartAxisBorder Border { get; set; }
+
+    /// <summary>
     /// User defined minimum number for the scale, overrides minimum value from data. <see href="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</see>
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
