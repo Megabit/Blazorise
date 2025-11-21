@@ -122,6 +122,14 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     document.addEventListener("keydown", stopArrowKeyPropagation, true);
     document.addEventListener("keyup", stopArrowKeyPropagation, true);
 
+    quill.on("text-change", function (dx, dy, source) {
+        if (source === "user") {
+            contentUpdating = true;
+            dotnetAdapter.invokeMethodAsync("OnContentChanged")
+                .finally(_ => contentUpdating = false);
+        }
+    });
+
     quill.on("selection-change", function (range, oldRange, source) {
         if (range === null && oldRange !== null) {
             dotnetAdapter.invokeMethodAsync("OnEditorBlur");
