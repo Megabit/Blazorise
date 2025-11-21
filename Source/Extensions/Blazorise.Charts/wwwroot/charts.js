@@ -28,21 +28,29 @@ const _ChartLabelCallback = function (item) {
 // would have to first set them to null immediately after charts.js is loaded for this workaround
 // to have any effect.
 
-//if (!Chart.overrides.pie.plugins.tooltip.callbacks.title) {
-//    Chart.overrides.pie.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
-//}
+const _overrideTooltipCallbacks = function (chartType) {
+    const overrides = Chart?.overrides?.[chartType];
 
-//if (!Chart.overrides.pie.plugins.tooltip.callbacks.label) {
-//    Chart.overrides.pie.plugins.tooltip.callbacks.label = _ChartLabelCallback;
-//}
 
-//if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.title) {
-//    Chart.overrides.doughnut.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
-//}
+    if (!overrides) {
+        return;
+    }
 
-//if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.label) {
-//    Chart.overrides.doughnut.plugins.tooltip.callbacks.label = _ChartLabelCallback;
-//}
+    overrides.plugins = overrides.plugins || {};
+    overrides.plugins.tooltip = overrides.plugins.tooltip || {};
+    overrides.plugins.tooltip.callbacks = overrides.plugins.tooltip.callbacks || {};
+
+    if (!overrides.plugins.tooltip.callbacks.title) {
+        overrides.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
+    }
+
+    if (!overrides.plugins.tooltip.callbacks.label) {
+        overrides.plugins.tooltip.callbacks.label = _ChartLabelCallback;
+    }
+};
+
+_overrideTooltipCallbacks('pie');
+_overrideTooltipCallbacks('doughnut');
 
 const _instances = [];
 
