@@ -106,23 +106,21 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     const quill = new Quill(editorRef, quillOptions);
 
     const stopArrowKeyPropagation = (event) => {
-        if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
-            event.stopImmediatePropagation();
-            event.stopPropagation();
-        }
+        const arrowKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
+        if (!arrowKeys.includes(event.key))
+            return;
+
+        if (!editorRef.contains(event.target))
+            return;
+
+        event.stopImmediatePropagation();
+        event.stopPropagation();
     };
 
-    quill.root.addEventListener("keydown", stopArrowKeyPropagation);
-    quill.root.addEventListener("keyup", stopArrowKeyPropagation);
-    quill.stopArrowKeyPropagation = stopArrowKeyPropagation;
-
-    quill.on("text-change", function (dx, dy, source) {
-        if (source === "user") {
-            contentUpdating = true;
-            dotnetAdapter.invokeMethodAsync("OnContentChanged")
-                .finally(_ => contentUpdating = false);
-        }
-    });
+    editorRef._stopArrowKeyPropagation = stopArrowKeyPropagation;
+    document.addEventListener("keydown", stopArrowKeyPropagation, true);
+    document.addEventListener("keyup", stopArrowKeyPropagation, true);
 
     quill.on("selection-change", function (range, oldRange, source) {
         if (range === null && oldRange !== null) {
@@ -164,10 +162,16 @@ export function destroy(editorRef, editorId) {
     if (!editorRef)
         return false;
 
+    if (editorRef._stopArrowKeyPropagation) {
+        document.removeEventListener("keydown", editorRef._stopArrowKeyPropagation, true);
+        document.removeEventListener("keyup", editorRef._stopArrowKeyPropagation, true);
+    }
+
     if (editorRef.quill.contentObserver)
         editorRef.quill.contentObserver.disconnect();
 
     delete editorRef.quill;
+    delete editorRef._stopArrowKeyPropagation;
     return true;
 }
 
