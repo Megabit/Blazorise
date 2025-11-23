@@ -20,9 +20,27 @@ public partial class ChartsStreamingPage : ComponentBase
 
     private Random random = new( DateTime.Now.Millisecond );
 
-    private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    private List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.5f ), ChartColor.FromRgba( 54, 162, 235, 0.5f ), ChartColor.FromRgba( 255, 206, 86, 0.5f ), ChartColor.FromRgba( 75, 192, 192, 0.5f ), ChartColor.FromRgba( 153, 102, 255, 0.5f ), ChartColor.FromRgba( 255, 159, 64, 0.5f ) };
-    private List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private string[] Labels = { "A", "B", "C", "D", "E", "F" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     public struct LiveDataPoint
     {
@@ -138,14 +156,14 @@ public partial class ChartsStreamingPage : ComponentBase
 
     private async Task AddNewHorizontalLineDataSet()
     {
-        var colorIndex = horizontalLineChart.Data.Datasets.Count % backgroundColors.Count;
+        var colorIndex = horizontalLineChart.Data.Datasets.Count % BackgroundColors.Count;
 
         await horizontalLineChart.AddDatasetsAndUpdate( new LineChartDataset<LiveDataPoint>
         {
             Data = new(),
             Label = $"Dataset {horizontalLineChart.Data.Datasets.Count + 1}",
-            BackgroundColor = backgroundColors[colorIndex],
-            BorderColor = borderColors[colorIndex],
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
             Fill = false,
             Tension = 0,
         } );
@@ -177,14 +195,14 @@ public partial class ChartsStreamingPage : ComponentBase
 
     private async Task AddNewVerticalLineDataSet()
     {
-        var colorIndex = verticalLineChart.Data.Datasets.Count % backgroundColors.Count;
+        var colorIndex = verticalLineChart.Data.Datasets.Count % BackgroundColors.Count;
 
         await verticalLineChart.AddDatasetsAndUpdate( new LineChartDataset<LiveDataPoint>
         {
             Data = new(),
             Label = $"Dataset {verticalLineChart.Data.Datasets.Count + 1}",
-            BackgroundColor = backgroundColors[colorIndex],
-            BorderColor = borderColors[colorIndex],
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
             Fill = false,
             Tension = 0,
         } );
@@ -206,14 +224,14 @@ public partial class ChartsStreamingPage : ComponentBase
 
     private async Task AddNewHorizontalBarDataSet()
     {
-        var colorIndex = horizontalBarChart.Data.Datasets.Count % backgroundColors.Count;
+        var colorIndex = horizontalBarChart.Data.Datasets.Count % BackgroundColors.Count;
 
         await horizontalBarChart.AddDatasetsAndUpdate( new BarChartDataset<LiveDataPoint>
         {
             Data = new(),
             Label = $"Dataset {horizontalBarChart.Data.Datasets.Count + 1}",
-            BackgroundColor = backgroundColors[colorIndex],
-            BorderColor = borderColors[colorIndex],
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
         } );
     }
 
@@ -233,14 +251,14 @@ public partial class ChartsStreamingPage : ComponentBase
 
     private async Task AddNewVerticalBarDataSet()
     {
-        var colorIndex = verticalBarChart.Data.Datasets.Count % backgroundColors.Count;
+        var colorIndex = verticalBarChart.Data.Datasets.Count % BackgroundColors.Count;
 
         await verticalBarChart.AddDatasetsAndUpdate( new BarChartDataset<LiveDataPoint>
         {
             Data = new(),
             Label = $"Dataset {verticalBarChart.Data.Datasets.Count + 1}",
-            BackgroundColor = backgroundColors[colorIndex],
-            BorderColor = borderColors[colorIndex],
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
         } );
     }
 
@@ -264,8 +282,8 @@ public partial class ChartsStreamingPage : ComponentBase
         {
             Data = new(),
             Label = "Dataset 1 (linear interpolation)",
-            BackgroundColor = backgroundColors[0],
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0],
+            BorderColor = BorderColors[0],
             Fill = false,
             Tension = 0,
             BorderDash = new() { 8, 4 },
@@ -278,8 +296,8 @@ public partial class ChartsStreamingPage : ComponentBase
         {
             Data = new(),
             Label = "Dataset 2 (cubic interpolation)",
-            BackgroundColor = backgroundColors[1],
-            BorderColor = borderColors[1],
+            BackgroundColor = BackgroundColors[1],
+            BorderColor = BorderColors[1],
             Fill = false,
             CubicInterpolationMode = "monotone",
         };
@@ -291,8 +309,8 @@ public partial class ChartsStreamingPage : ComponentBase
         {
             Data = new(),
             Label = "Dataset 1",
-            BackgroundColor = backgroundColors[0],
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0],
+            BorderColor = BorderColors[0],
         };
     }
 
@@ -303,8 +321,8 @@ public partial class ChartsStreamingPage : ComponentBase
             Type = "bar",
             Data = new(),
             Label = "Dataset 1",
-            BackgroundColor = backgroundColors[0],
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0],
+            BorderColor = BorderColors[0],
         };
     }
 

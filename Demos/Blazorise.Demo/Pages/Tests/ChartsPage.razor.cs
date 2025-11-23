@@ -102,9 +102,27 @@ public partial class ChartsPage
 
     private LineChart<double> lineChartWithData;
 
-    private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    private List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    private List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private string[] Labels = { "A", "B", "C", "D", "E", "F" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     private bool isAlreadyInitialised;
 
@@ -155,8 +173,8 @@ public partial class ChartsPage
         {
             Label = "# of randoms",
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors
         };
     }
 
@@ -166,12 +184,12 @@ public partial class ChartsPage
         {
             Label = "# of randoms",
             Data = RandomizeData( 3000, 50000 ),
-            BackgroundColor = backgroundColors[0], // line chart can only have one color
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0], // line chart can only have one color
+            BorderColor = BorderColors[0],
             Fill = true,
             PointRadius = 3,
             BorderWidth = 1,
-            PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList(),
+            PointBorderColor = Enumerable.Repeat( BorderColors.First(), 6 ).ToList(),
             CubicInterpolationMode = "monotone",
         };
     }
@@ -182,11 +200,11 @@ public partial class ChartsPage
         {
             Label = "# of randoms",
             Data = RandomizeScatterData( 3000, 50000 ),
-            BackgroundColor = backgroundColors[0], // line chart can only have one color
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0], // line chart can only have one color
+            BorderColor = BorderColors[0],
             PointRadius = 3,
             BorderWidth = 1,
-            PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList()
+            PointBorderColor = Enumerable.Repeat( BorderColors.First(), 6 ).ToList()
         };
     }
 
@@ -196,8 +214,8 @@ public partial class ChartsPage
         {
             Label = "# of randoms",
             Data = RandomizeBubbleData( 3000, 50000 ),
-            BackgroundColor = backgroundColors[0], // line chart can only have one color
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0], // line chart can only have one color
+            BorderColor = BorderColors[0],
         };
     }
 
@@ -207,8 +225,8 @@ public partial class ChartsPage
         {
             Label = "# of randoms",
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
             BorderWidth = 1
         };
     }
@@ -221,8 +239,8 @@ public partial class ChartsPage
         {
             Label = $"#{++pieLabel} of randoms",
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
             BorderWidth = 1
         };
     }
@@ -233,8 +251,8 @@ public partial class ChartsPage
         {
             Label = "# of randoms",
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
             BorderWidth = 1
         };
     }
@@ -245,8 +263,8 @@ public partial class ChartsPage
         {
             Label = "# of randoms",
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
             BorderWidth = 1
         };
     }
@@ -257,8 +275,8 @@ public partial class ChartsPage
         {
             Label = "custom radar",
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors[0], // radar chart can only have one color
-            BorderColor = borderColors,
+            BackgroundColor = BackgroundColors[0], // radar chart can only have one color
+            BorderColor = BorderColors,
             Tension = 0.0f,
             BorderWidth = 1,
             Fill = true,
