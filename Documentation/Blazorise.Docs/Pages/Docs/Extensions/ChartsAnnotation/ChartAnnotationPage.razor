@@ -33,35 +33,17 @@
     <DocsPageSectionSource Code="ChartAnnotationNugetInstallExample" />
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static Files">
-        Include the necessary files into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    <DocsPageSectionHeader Title="Line Annotations">
+        <Paragraph>
+            Line annotations are used to draw lines on the chart area. This can be useful for highlighting information such as a threshold.
+        </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ChartAnnotationResourcesExample" />
-    <DocsPageSectionContent FullWidth>
-        <Alert Visible Color="Color.Warning">
-             <AlertMessage>
-                 IMPORTANT
-             </AlertMessage>
-             <AlertDescription>
-                 chartjs-plugin-annotation must be loaded after the Chart.js library!
-             </AlertDescription>
-         </Alert>
-     </DocsPageSectionContent>
- </DocsPageSection>
-
-
- <DocsPageSubtitle>
-     Examples
- </DocsPageSubtitle>
-
- <DocsPageSection>
-     <DocsPageSectionHeader Title="Line Annotations">
-         <Paragraph>
-             Line annotations are used to draw lines on the chart area. This can be useful for highlighting information such as a threshold.
-         </Paragraph>
-     </DocsPageSectionHeader>
-     <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth>
         <ChartAnnotationLineExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ChartAnnotationLineExample" />
