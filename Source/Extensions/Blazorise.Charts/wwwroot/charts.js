@@ -74,7 +74,8 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
             dotnetAdapter: dotnetAdapter,
             eventOptions: eventOptions,
             canvas: canvas,
-            chart: chart
+            chart: chart,
+            pluginNames: pluginNames
         };
     }
 }
@@ -82,10 +83,11 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
 export function changeChartType(canvas, canvasId, type) {
     let chart = getChart(canvasId);
 
-    if (chart) {
+    const instance = _instances[canvasId];
+
+    if (chart && instance) {
         const data = chart.data;
         const options = deepClone(chart.options);
-        const instance = _instances[canvasId];
 
         if (data && data.datasets) {
             data.datasets.forEach((ds) => {
@@ -95,7 +97,7 @@ export function changeChartType(canvas, canvasId, type) {
 
         chart.destroy();
 
-        chart = createChart(instance.dotnetAdapter, instance.eventOptions, canvas, canvas, type, data, options, instance.pluginNames);
+        chart = createChart(instance.dotnetAdapter, instance.eventOptions, canvas, canvasId, type, data, options, instance.pluginNames);
 
         _instances[canvasId].chart = chart;
     }
@@ -471,13 +473,15 @@ export function wireEvents(dotnetAdapter, eventOptions, canvas, type, chart) {
 }
 
 export function getChart(canvasId) {
-    let chart = null;
+    const instance = _instances[canvasId];
 
-    Chart.helpers.each(Chart.instances, function (instance) {
-        if (instance.canvas.id === canvasId) {
-            chart = instance;
-        }
-    });
+    if (instance && instance.chart) {
+        return instance.chart;
+    }
 
-    return chart;
+    if (typeof Chart !== "undefined" && typeof Chart.getChart === "function") {
+        return Chart.getChart(canvasId);
+    }
+
+    return null;
 }
