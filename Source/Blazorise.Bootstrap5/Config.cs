@@ -63,6 +63,7 @@ public static class Config
         { typeof( Blazorise.CloseButton ), typeof( Components.CloseButton ) },
         { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
         { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
+        { typeof( Blazorise.Fields ), typeof( Components.Fields ) },
         { typeof( Blazorise.Field ), typeof( Components.Field ) },
         { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
         { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },

@@ -1263,22 +1263,6 @@ namespace Blazorise.Docs.Models
     <TextInput Placeholder=""Name"" />
 </Field>";
 
-        public const string BasicFieldsExample = @"<Fields>
-    <Field ColumnSize=""ColumnSize.Is6.OnDesktop"">
-        <FieldLabel>City</FieldLabel>
-        <TextInput />
-    </Field>
-    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
-        <FieldLabel>State</FieldLabel>
-        <Select TValue=""string"">
-        </Select>
-    </Field>
-    <Field ColumnSize=""ColumnSize.Is2.OnDesktop"">
-        <FieldLabel>Zip</FieldLabel>
-        <TextInput />
-    </Field>
-</Fields>";
-
         public const string FieldHiddenExample = @"<Field Visibility=""Visibility.Invisible"">
     <TextInput />
 </Field>";
@@ -1312,6 +1296,38 @@ namespace Blazorise.Docs.Models
     <FieldLabel>Read-Only</FieldLabel>
     <TextInput Value=""Value"" ReadOnly />
 </Field>";
+
+        public const string FieldsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop"">
+        <FieldLabel>City</FieldLabel>
+        <TextInput />
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>State</FieldLabel>
+        <Select TValue=""string"">
+        </Select>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is2.OnDesktop"">
+        <FieldLabel>Zip</FieldLabel>
+        <TextInput />
+    </Field>
+</Fields>";
+
+        public const string FieldsGutterExample = @"<Fields Gutter=""Gutter.Is1"">
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop"">
+        <FieldLabel>City</FieldLabel>
+        <TextInput />
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>State</FieldLabel>
+        <Select TValue=""string"">
+        </Select>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is2.OnDesktop"">
+        <FieldLabel>Zip</FieldLabel>
+        <TextInput />
+    </Field>
+</Fields>";
 
         public const string HorizontalFieldExample = @"<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
