@@ -5058,8 +5058,25 @@ builder.Services
         }
     };
 
-    private List<string> backgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    private List<string> borderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     private bool isAlreadyInitialised;
 
@@ -5095,12 +5112,12 @@ builder.Services
                 new WatcherEvent { Sector = ""C"", Count = 1800 },
                 new WatcherEvent { Sector = ""D"", Count = 1300 },
             },
-            BackgroundColor = backgroundColors[0], // line chart can only have one color
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0], // line chart can only have one color
+            BorderColor = BorderColors[0],
             Fill = true,
             PointRadius = 3,
             BorderWidth = 1,
-            PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList(),
+            PointBorderColor = Enumerable.Repeat( BorderColors.First(), 6 ).ToList(),
             CubicInterpolationMode = ""monotone"",
         };
     }
@@ -5131,15 +5148,33 @@ builder.Services
             {
                 Label = ""# of randoms"",
                 Data = RandomizeData(),
-                BackgroundColor = backgroundColors,
-                BorderColor = borderColors,
+                BackgroundColor = BackgroundColors,
+                BorderColor = BorderColors,
                 BorderWidth = 1
             };
     }
 
-    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static string[] Labels = { ""A"", ""B"", ""C"", ""D"", ""E"", ""F"" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     List<double> RandomizeData()
     {
@@ -5191,17 +5226,35 @@ builder.Services
         {
             Label = ""# of randoms"",
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
             Fill = true,
             PointRadius = 3,
             CubicInterpolationMode = ""monotone"",
         };
     }
 
-    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static string[] Labels = { ""A"", ""B"", ""C"", ""D"", ""E"", ""F"" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     List<double> RandomizeData()
     {
@@ -5272,14 +5325,33 @@ builder.Services
         {
             Label = label,
             Data = RandomizeData(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
         };
     }
 
-    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static string[] Labels = { ""A"", ""B"", ""C"", ""D"", ""E"", ""F"" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
+
     Random random = new Random( DateTime.Now.Millisecond );
 
     List<double> RandomizeData()
@@ -5297,8 +5369,6 @@ builder.Services
         public const string ChartImportsExample = @"@using Blazorise.Charts";
 
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
-
-        public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>";
 
         public const string ChartDataLabelsExample = @"<LineChart @ref=""@lineChart"" TItem=""int"" Options=""@lineChartOptions"">
     <ChartDataLabels TItem=""int"" Datasets=""@lineDataLabelsDatasets"" Options=""@lineDataLabelsOptions"" />
@@ -5446,8 +5516,6 @@ builder.Services
 
         public const string ChartDataLabelsNugetInstallExample = @"Install-Package Blazorise.Charts.DataLabels";
 
-        public const string ChartDataLabelsResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0""></script>";
-
         public const string ChartDataLabelsScriptableExample = @"static Expression<Func<ScriptableOptionsContext, string>> TestScriptableColor = ( context ) => context.Active ? ""#ff0000"" : ""#4bc0c0"";
 
 List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
@@ -5472,13 +5540,31 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
                     Refreshed=""@OnHorizontalLineRefreshed"" />
 </LineChart>
 
-@code{
+@code {
     LineChart<LiveDataPoint> horizontalLineChart;
     Random random = new Random( DateTime.Now.Millisecond );
 
-    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static string[] Labels = { ""A"", ""B"", ""C"", ""D"", ""E"", ""F"" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     public struct LiveDataPoint
     {
@@ -5531,8 +5617,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         {
             Data = new List<LiveDataPoint>(),
             Label = ""Dataset 1 (linear interpolation)"",
-            BackgroundColor = backgroundColors[0],
-            BorderColor = borderColors[0],
+            BackgroundColor = BackgroundColors[0],
+            BorderColor = BorderColors[0],
             Fill = false,
             Tension = 0,
             BorderDash = new List<int> { 8, 4 },
@@ -5657,10 +5743,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
-        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.28.1""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0""></script>";
-
         public const string ChartTrendlineExample = @"@using Blazorise.Charts
 @using Blazorise.Charts.Trendline
 
@@ -5722,20 +5804,38 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     LineChartDataset<double?> GetLineChartDataset()
     {
         return new LineChartDataset<double?>
-            {
-                Label = ""# of randoms"",
-                Data = RandomizeData(),
-                BackgroundColor = backgroundColors,
-                BorderColor = borderColors,
-                Fill = true,
-                PointRadius = 2,
-                BorderDash = new List<int> { }
-            };
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData(),
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
+            Fill = true,
+            PointRadius = 2,
+            BorderDash = new List<int> { }
+        };
     }
 
-    string[] Labels = { ""0"", ""1"", ""2"", ""3"", ""4"", ""5"" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static string[] Labels = { ""A"", ""B"", ""C"", ""D"", ""E"", ""F"" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     List<double?> RandomizeData()
     {
@@ -5746,9 +5846,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 }";
 
         public const string ChartTrendlineNugetInstallExample = @"Install-Package Blazorise.Charts.Trendline";
-
-        public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
 
         public const string ChartAnnotationBoxExample = @"<LineChart @ref=""lineChartWithBoxes"" TItem=""int"" Options=""@lineChartWithBoxesOptions"">
     <ChartAnnotation TItem=""int"" Options=""@boxAnnotationOptions"" />
@@ -5990,8 +6087,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string ChartAnnotationNugetInstallExample = @"Install-Package Blazorise.Charts.Annotation";
 
-        public const string ChartAnnotationResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1""></script>";
-
         public const string ChartZoomExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
 
 <LineChart @ref=""lineChart"" TItem=""double"">
@@ -6019,20 +6114,38 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     LineChartDataset<double> GetLineChartDataset()
     {
         return new LineChartDataset<double>
-            {
-                Label = ""# of randoms"",
-                Data = RandomizeData(),
-                BackgroundColor = backgroundColors,
-                BorderColor = borderColors,
-                Fill = true,
-                PointRadius = 3,
-                CubicInterpolationMode = ""monotone"",
-            };
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData(),
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
+            Fill = true,
+            PointRadius = 3,
+            CubicInterpolationMode = ""monotone"",
+        };
     }
 
-    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static string[] Labels = { ""A"", ""B"", ""C"", ""D"", ""E"", ""F"" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     List<double> RandomizeData()
     {
@@ -6048,48 +6161,45 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 
     private ChartZoomPluginOptions lineChartZoomOptions = new()
+    {
+        Zoom = new()
         {
-            Zoom = new()
+            Mode = ""y"",
+            Wheel = new()
             {
-                Mode = ""y"",
-                Wheel = new()
-                {
-                    Enabled = true,
-                },
-                Pinch = new()
-                {
-                    Enabled = true
-                },
-                Drag = new()
-                {
-                    Enabled = true
-                }
+                Enabled = true,
             },
-            Limits = new()
+            Pinch = new()
             {
-                Y = new()
-                {
-                    Min = 0,
-                    Max = 50,
-                    MinRange = 25
-                }
+                Enabled = true
             },
-            Transition = new ChartZoomTransitionOptions()
+            Drag = new()
             {
-                Animation = new ChartAnimation()
-                {
-                    Duration = 1000,
-                    Easing = ""easeOutCubic""
-                }
+                Enabled = true
             }
-        };
+        },
+        Limits = new()
+        {
+            Y = new()
+            {
+                Min = 0,
+                Max = 50,
+                MinRange = 25
+            }
+        },
+        Transition = new ChartZoomTransitionOptions()
+        {
+            Animation = new ChartAnimation()
+            {
+                Duration = 1000,
+                Easing = ""easeOutCubic""
+            }
+        }
+    };
 }";
 
         public const string ChartZoomNugetInstallExample = @"Install-Package Blazorise.Charts
 Install-Package Blazorise.Chart.Zoom";
-
-        public const string ChartZoomResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/hammerjs@2.0.8""></script>
-<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js""></script>";
 
         public const string BasicCropperExample = @"<Row>
     <Column>

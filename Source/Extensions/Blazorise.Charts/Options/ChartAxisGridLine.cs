@@ -12,31 +12,6 @@ namespace Blazorise.Charts;
 public class ChartAxisGridLine
 {
     /// <summary>
-    /// The color of the border line.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-    public IndexableOption<object> BorderColor { get; set; }
-
-    /// <summary>
-    /// The width of the border line.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public double? BorderWidth { get; set; }
-
-    /// <summary>
-    /// Length and spacing of dashes on grid lines
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public List<int> BorderDash { get; set; }
-
-    /// <summary>
-    /// Offset for line dashes.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public double? BorderDashOffset { get; set; }
-
-    /// <summary>
     /// If true, gridlines are circular (on radar chart only).
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
@@ -54,12 +29,6 @@ public class ChartAxisGridLine
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public bool? Display { get; set; }
-
-    /// <summary>
-    /// If true, draw border at the edge between the axis and the chart area.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public bool? DrawBorder { get; set; }
 
     /// <summary>
     /// If true, draw lines on the chart area inside the axis lines. This is useful when there are multiple axes and you need to control which grid lines are drawn.
@@ -119,7 +88,7 @@ public class ChartAxisGridLine
     /// <summary>
     /// z-index of gridline layer. Values &lt;= 0 are drawn under datasets, > 0 on top.
     /// </summary>
-    [JsonPropertyName( "y" )]
+    [JsonPropertyName( "z" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Z { get; set; }
 }
