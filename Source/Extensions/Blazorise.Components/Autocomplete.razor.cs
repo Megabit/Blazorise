@@ -479,11 +479,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task InvokeSearchChanged( string searchValue )
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         await Task.WhenAll(
-        CurrentSearchChanged.InvokeAsync( searchValue ),
         SearchChanged.InvokeAsync( searchValue ) );
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 
     private async Task SelectedOrResetOnCommit()
@@ -519,7 +516,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         clickFromCheck = ( SelectionMode == AutocompleteSelectionMode.Checkbox );
 
-        //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
         if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
         {
             await Close();
@@ -1318,9 +1314,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Tracks whether the Autocomplete is in a multiple selection state.
     /// </summary>
-#pragma warning disable CS0618 // Type or member is obsolete
-    protected bool IsMultiple => Multiple || SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
-#pragma warning restore CS0618 // Type or member is obsolete
+    protected bool IsMultiple => SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
 
     /// <summary>
     /// Gets or sets the classname provider.
@@ -1484,23 +1478,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or sets the currently selected item text.
     /// </summary>
     [Parameter]
-    [Obsolete( "CurrentSearch is deprecated and will be removed in a future version, please use Search instead." )]
-    public string CurrentSearch
-    {
-        get => Search;
-        set => Search = value;
-    }
-
-    /// <summary>
-    /// Occurs on every search text change.
-    /// </summary>
-    [Obsolete( "CurrentSearchChanged is deprecated and will be removed in a future version, please use SearchChanged instead." )]
-    [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets the currently selected item text.
-    /// </summary>
-    [Parameter]
     public string Search
     {
         get => currentSearch ?? currentSearchParam ?? string.Empty;
@@ -1644,12 +1621,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Handler for custom filtering on Autocomplete's data source.
     /// </summary>
     [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
-
-    /// <summary>
-    /// Allows for multiple selection.
-    /// </summary>
-    [Obsolete( "Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead." )]
-    [Parameter] public bool Multiple { get; set; }
 
     /// <summary>
     /// Sets the Badge color for the multiple selection values. Used when multiple selection is set.
