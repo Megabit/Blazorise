@@ -46,7 +46,7 @@ public class JSRichTextEditModule : BaseJSModule,
         if ( options.UseBubbleTheme )
             styles.Add( "quill.bubble" );
 
-        if ( options.UseShowTheme )
+        if ( options.UseSnowTheme )
             styles.Add( "quill.snow" );
 
         if ( options.UseTables )

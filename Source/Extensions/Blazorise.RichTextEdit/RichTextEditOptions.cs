@@ -13,7 +13,7 @@ public sealed class RichTextEditOptions
     /// <summary>
     /// Load the QuillJs snow theme related resources.
     /// </summary>
-    public bool UseShowTheme { get; set; } = true;
+    public bool UseSnowTheme { get; set; } = true;
 
     /// <summary>
     /// Load the QuillJs bubble theme related resources.
