@@ -1016,18 +1016,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Custom classname for the aggregate cell.
     /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellClass parameter is deprecated, please use the AggregateCellClass parameter instead." )]
-    [Parameter] public string GroupCellClass { get => AggregateCellClass; set => AggregateCellClass = value; }
-
-    /// <summary>
-    /// Custom style for the aggregate cell.
-    /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellStyle parameter is deprecated, please use the AggregateCellStyle parameter instead." )]
-    [Parameter] public string GroupCellStyle { get => AggregateCellStyle; set => AggregateCellStyle = value; }
-
-    /// <summary>
-    /// Custom classname for the aggregate cell.
-    /// </summary>
     [Parameter] public string AggregateCellClass { get; set; }
 
     /// <summary>
@@ -1099,12 +1087,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Template for custom column filter rendering.
     /// </summary>
     [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
-
-    /// <summary>
-    /// Defines the size of field for popup modal.
-    /// </summary>
-    [Obsolete( "DataGridColumn: PopupFieldColumnSize is deprecated and will be removed in the future version. Please use the EditFieldColumnSize instead." )]
-    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; }
 
     /// <summary>
     /// Defines the size of an edit field for popup modal and edit form.

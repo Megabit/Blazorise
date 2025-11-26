@@ -3042,9 +3042,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Whether the Datagrid is Row Navigable.
     /// </summary>
     internal bool IsRowNavigable
-#pragma warning disable CS0618 // Type or member is obsolete
-        => ( Navigable && NavigationMode == DataGridNavigationMode.Default ) || NavigationMode == DataGridNavigationMode.Row;
-#pragma warning restore CS0618 // Type or member is obsolete
+        => NavigationMode == DataGridNavigationMode.Row;
 
     /// <summary>
     /// Whether the TIem is a dynamic item.
@@ -3973,12 +3971,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Custom styles for aggregate row.
     /// </summary>
-    [Obsolete( "DataGrid: The GroupRowStyling parameter is deprecated, please use the AggregateRowStyling parameter instead." )]
-    [Parameter] public DataGridRowStyling GroupRowStyling { get => AggregateRowStyling; set => AggregateRowStyling = value; }
-
-    /// <summary>
-    /// Custom styles for aggregate row.
-    /// </summary>
     [Parameter] public DataGridRowStyling AggregateRowStyling { get; set; }
 
     /// <summary>
@@ -4088,9 +4080,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
     /// </summary>
-
-    [Obsolete( "DataGrid: The Navigable parameter is deprecated, please replace with NavigationMode.Row" )]
-    [Parameter] public bool Navigable { get; set; }
 
     /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
