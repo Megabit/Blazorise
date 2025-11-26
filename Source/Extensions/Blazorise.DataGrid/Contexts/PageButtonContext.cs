@@ -26,12 +26,6 @@ public class PageButtonContext
     public int PageNumber { get; private set; }
 
     /// <summary>
-    /// Gets the page number.
-    /// </summary>
-    [Obsolete( "PageNumer is deprecated and will be removed in future versions, please use PageNumber instead.", true )]
-    public int PageNumer { get { return PageNumber; } set { PageNumber = value; } }
-
-    /// <summary>
     /// Get the flag that indicates if the page is active.
     /// </summary>
     public bool Active { get; }
