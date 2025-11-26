@@ -92,6 +92,8 @@ body:not([data-bs-theme=dark]) {
   --b-codeblock-color: #3f4d62;
   --b-codeblock-background-color: #f5f8fd;
   --b-codeblock-enum-value-color: #6823d4;
+  --b-blockquote-color: #6c757d;
+  --b-blockquote-background-color: #f5f8fd;
 }
 body[data-bs-theme=dark] {
   --b-link-color: inherit;
@@ -100,6 +102,8 @@ body[data-bs-theme=dark] {
   --b-codeblock-color: inherit;
   --b-codeblock-background-color: #262d38;
   --b-codeblock-enum-value-color: #be95ff;
+  --b-blockquote-color: #ced4da;
+  --b-blockquote-background-color: #262d38;
 }
 
 a {
@@ -687,9 +691,23 @@ code {
   padding-bottom: 0.5em;
 }
 .b-blog .b-blog-content p .blockquote {
-  border-left: 4px solid #d6d6d7;
+  border-left: 4px solid var(--b-theme-primary);
   padding: 0 0 0 1.25rem;
   margin: 0 0 1.25rem 0;
+}
+.b-blog .b-blog-content .blockquote {
+  margin: 1rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--b-theme-primary);
+  background-color: var(--b-blockquote-background-color);
+  color: var(--b-blockquote-color);
+  font-style: normal;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-radius: 4px;
+}
+.b-blog .b-blog-content .blockquote > p {
+  margin: 0.25rem 0;
 }
 .b-blog .b-blog-content h2 {
   padding-bottom: 0.5em;
