@@ -40,20 +40,4 @@ public partial class CardLink : BaseLinkComponent
     }
 
     #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Link url.
-    /// </summary>
-    [Obsolete( "CardLink: Source parameter is deprecated, please use the To parameter instead." )]
-    [Parameter] public string Source { get; set; }
-
-    /// <summary>
-    /// Alternative link text.
-    /// </summary>
-    [Obsolete( "CardLink: Alt parameter is deprecated, please use the Title parameter instead." )]
-    [Parameter] public string Alt { get; set; }
-
-    #endregion
 }
