@@ -90,9 +90,9 @@ public partial class NotificationProvider : BaseComponent, IDisposable
     {
         return notificationLocation switch
         {
-            NotificationLocation.Start => SnackbarStackLocation.Start,
-            NotificationLocation.End => SnackbarStackLocation.End,
-            _ => SnackbarStackLocation.Center,
+            NotificationLocation.Start => SnackbarStackLocation.BottomStart,
+            NotificationLocation.End => SnackbarStackLocation.BottomEnd,
+            _ => SnackbarStackLocation.Default,
         };
     }
 
