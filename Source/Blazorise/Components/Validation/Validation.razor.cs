@@ -215,7 +215,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
 
         if ( Mode == ValidationMode.Auto )
         {
-            return ValidateAsync( newValidationValue );
+            return TriggerValidation( newValidationValue );
         }
 
         return Task.CompletedTask;
@@ -265,7 +265,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         if ( inputComponent is null )
             throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
 
-        return ValidateAsync( inputComponent.ValidationValue );
+        return TriggerValidation( inputComponent.ValidationValue );
     }
 
     /// <summary>
@@ -273,7 +273,27 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// </summary>
     /// <param name="newValidationValue">New validation value to validate.</param>
     /// <returns>Returns the validation result.</returns>
-    public async Task<ValidationStatus> ValidateAsync( object newValidationValue )
+    public Task<ValidationStatus> ValidateAsync( object newValidationValue )
+        => TriggerValidation( newValidationValue );
+
+    /// <summary>
+    /// Runs the asynchronous validation process using the current input value. Can be used to manually retrigger validation.
+    /// </summary>
+    /// <returns>Returns the validation result.</returns>
+    public Task<ValidationStatus> RetriggerValidation()
+    {
+        if ( inputComponent is null )
+            throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
+
+        return TriggerValidation( inputComponent.ValidationValue );
+    }
+
+    /// <summary>
+    /// Runs the asynchronous validation process.
+    /// </summary>
+    /// <param name="newValidationValue">New validation value to validate.</param>
+    /// <returns>Returns the validation result.</returns>
+    private async Task<ValidationStatus> TriggerValidation( object newValidationValue )
     {
         if ( !inputComponent.Disabled )
         {
