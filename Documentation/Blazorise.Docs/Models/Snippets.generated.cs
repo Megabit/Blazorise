@@ -4419,13 +4419,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ValidationIValidatableObjectExample = @"@using System.ComponentModel.DataAnnotations
-
-<Validations Model=""@Company"" Mode=""ValidationMode.Auto"">
+<Validations @ref=""@validationsRef"" Model=""@Company"" Mode=""ValidationMode.Auto"">
     <Validation>
         <Field>
             <FieldLabel>Name</FieldLabel>
             <FieldBody>
-                <TextInput @bind-Text=""@Company.Name"">
+                <TextInput @bind-Value=""@Company.Name"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -4437,7 +4436,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Field>
             <FieldLabel>Description</FieldLabel>
             <FieldBody>
-                <TextInput @bind-Text=""@Company.Description"">
+                <TextInput @bind-Value=""@Company.Description"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -4446,14 +4445,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         </Field>
     </Validation>
     <Field>
-        <Switch @bind-Value=""@Company.UseAlphaCode"">Use AlphaCode</Switch>
+        <Switch TValue=""bool"" Value=""@Company.UseAlphaCode"" ValueChanged=""@OnUseAlphaCodeChanged"" ValueExpression=""@(() => Company.UseAlphaCode)"">Use AlphaCode</Switch>
     </Field>
     <Fields>
         <Validation>
             <Field>
                 <FieldLabel>AlphaCode</FieldLabel>
                 <FieldBody>
-                    <TextInput @bind-Text=""@Company.AlphaCode"">
+                    <TextInput @bind-Value=""@Company.AlphaCode"">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
@@ -4465,7 +4464,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             <Field>
                 <FieldLabel>BetaCode</FieldLabel>
                 <FieldBody>
-                    <TextInput @bind-Text=""@Company.BetaCode"">
+                    <TextInput @bind-Value=""@Company.BetaCode"">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
@@ -4477,6 +4476,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Validations>
 
 @code {
+    async Task OnUseAlphaCodeChanged( bool value )
+    {
+        Company.UseAlphaCode = value;
+
+        if ( validationsRef != null )
+        {
+            // retrigger validation for dependent properties
+            await validationsRef.RetriggerValidation(
+                () => Company.AlphaCode,
+                () => Company.BetaCode );
+        }
+    }
+
+    Validations validationsRef;
+
     CompanyInfo Company = new CompanyInfo()
     {
         UseAlphaCode = true,
