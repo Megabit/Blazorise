@@ -21,6 +21,8 @@ body {
         --b-codeblock-color: #3f4d62;
         --b-codeblock-background-color: #f5f8fd;
         --b-codeblock-enum-value-color: #6823d4;
+        --b-blockquote-color: #6c757d;
+        --b-blockquote-background-color: #f5f8fd;
     }
 
     &[data-bs-theme="dark"] {
@@ -30,6 +32,8 @@ body {
         --b-codeblock-color: inherit;
         --b-codeblock-background-color: #262d38;
         --b-codeblock-enum-value-color: #be95ff;
+        --b-blockquote-color: #ced4da;
+        --b-blockquote-background-color: #262d38;
     }
 }
 
