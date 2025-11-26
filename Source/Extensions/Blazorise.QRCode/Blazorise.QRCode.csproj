@@ -23,4 +23,8 @@
     <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="QRCoder" Version="1.7.0" />
+  </ItemGroup>
+
 </Project>
