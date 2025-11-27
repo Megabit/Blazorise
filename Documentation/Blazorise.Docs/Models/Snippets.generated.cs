@@ -2812,10 +2812,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string StandaloneRadioExample = @"<Radio TValue=""string"" Group=""colors"" Value=""@(""red"")"">Red</Radio>
-<Radio TValue=""string"" Group=""colors"" Value=""@(""green"")"">Green</Radio>
-<Radio TValue=""string"" Group=""colors"" Value=""@(""blue"")"">Blue</Radio>";
-
         public const string BasicRatingExample = @"<Rating Color=""Color.Primary"" />";
 
         public const string RatingWithBindExample = @"<Rating Color=""Color.Primary"" @bind-SelectedValue=""@SelectedValue"" MaxValue=""10"" />
