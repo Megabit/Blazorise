@@ -40,7 +40,7 @@ public class DataGridDetailRowComponentTest : TestContext
         var rows = comp.FindAll( "#lblFraction" );
 
         // validate
-        Assert.Equal( 0, rows.Count );
+        Assert.Empty( rows );
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class DataGridDetailRowComponentTest : TestContext
         var rows = comp.FindAll( "#lblFraction" );
 
         // validate
-        Assert.Equal( 0, rows.Count );
+        Assert.Empty( rows );
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class DataGridDetailRowComponentTest : TestContext
 
         // validate
         Assert.Equal( comp.Instance.InMemoryData.Count, rowsBefore.Count );
-        Assert.Equal( 0, rowsAfter.Count );
+        Assert.Empty( rowsAfter );
         Assert.Equal( comp.Instance.InMemoryData.Count, rowsAfter2.Count );
     }
 
@@ -109,24 +109,24 @@ public class DataGridDetailRowComponentTest : TestContext
 
         // test
         var rowsBefore = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 0, rowsBefore.Count );
+        Assert.Empty( rowsBefore );
 
         var selectableRows = comp.FindAll( "tr.table-row-selectable" );
 
         //Click First row , validate one detail row shows.
         await selectableRows[0].ClickAsync();
         var checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 1, checkDetailRows.Count );
+        Assert.Single( checkDetailRows );
 
         //Click second row , validate still only one detail row shows.
         await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 1, checkDetailRows.Count );
+        Assert.Single( checkDetailRows );
 
         //Click second row again , validate still only one detail row shows.
         await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 1, checkDetailRows.Count );
+        Assert.Single( checkDetailRows );
     }
 
     [Fact]
@@ -147,24 +147,24 @@ public class DataGridDetailRowComponentTest : TestContext
 
         // test
         var rowsBefore = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 0, rowsBefore.Count );
+        Assert.Empty( rowsBefore );
 
         var selectableRows = comp.FindAll( "tr.table-row-selectable" );
 
         //Click First row , validate one detail row shows.
         await selectableRows[0].ClickAsync();
         var checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 1, checkDetailRows.Count );
+        Assert.Single( checkDetailRows );
 
         //Click second row , validate still only one detail row shows.
         await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 1, checkDetailRows.Count );
+        Assert.Single( checkDetailRows );
 
         //Click second row again , validate that no detail row shows as toggleable is set to true.
         await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 0, checkDetailRows.Count );
+        Assert.Empty( checkDetailRows );
     }
 
 
@@ -185,30 +185,28 @@ public class DataGridDetailRowComponentTest : TestContext
 
         // test
         var rowsBefore = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 0, rowsBefore.Count );
+        Assert.Empty( rowsBefore );
 
         var selectableRows = comp.FindAll( "tr.table-row-selectable" );
 
         //Validate 1 row detail
         await selectableRows[0].ClickAsync();
         var checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 1, checkDetailRows.Count );
+        Assert.Single( checkDetailRows );
 
         //Validate still 1 row detail 
         await selectableRows[0].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 1, checkDetailRows.Count );
+        Assert.Single( checkDetailRows );
 
         //Validate 2 row detail 
         await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 2, checkDetailRows.Count );
+        Assert.Collection( checkDetailRows, _ => { }, _ => { } );
 
         //Validate still 2 row detail 
         await selectableRows[1].ClickAsync();
         checkDetailRows = comp.FindAll( "#lblFraction" );
-        Assert.Equal( 2, checkDetailRows.Count );
+        Assert.Collection( checkDetailRows, _ => { }, _ => { } );
     }
-
-
 }
