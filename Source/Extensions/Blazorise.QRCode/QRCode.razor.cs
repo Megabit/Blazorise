@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using QRCoder;
 #endregion
 
 namespace Blazorise.QRCode;
