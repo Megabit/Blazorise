@@ -23,7 +23,7 @@ public partial class Carousel : Blazorise.Carousel
     private int totalWidth = -1;
 
     private long slickListLastRenderTimeStamp;
-    private TimeSpan slickListThrottleTimeSpan = TimeSpan.FromMilliseconds( 500 );
+    private readonly TimeSpan slickListThrottleTimeSpan = TimeSpan.FromMilliseconds( 500 );
 
     #endregion
 
