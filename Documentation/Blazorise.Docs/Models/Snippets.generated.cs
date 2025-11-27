@@ -6661,7 +6661,6 @@ Install-Package Blazorise.Chart.Zoom";
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
-    private Employee selectedEmployee;
 
     protected override async Task OnInitializedAsync()
     {
@@ -10255,7 +10254,6 @@ builder.Services
 </Scheduler>
 @code {
     private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
-    private SchedulerView selectedView = SchedulerView.Week;
     private static DateTime today10AM = DateTime.Today.AddHours( 10 );
     private TimeOnly startTime = new TimeOnly( 7, 0 );
     private TimeOnly endTime = new TimeOnly( 17, 0 );
