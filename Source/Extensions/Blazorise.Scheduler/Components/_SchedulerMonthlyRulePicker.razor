@@ -29,7 +29,7 @@
         </Field>
         <Field ColumnSize="ColumnSizeIs3">
             <FieldBody>
-                <Select TValue="SchedulerWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByWeek" SelectedValueChanged="@ByWeekChanged">
+                <Select TValue="SchedulerWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeek" ValueChanged="@ByWeekChanged">
                     @foreach ( var enumValue in Enum.GetValues<SchedulerWeek>() )
                     {
                         <SelectItem @key="@enumValue" Value="@enumValue">
@@ -41,7 +41,7 @@
         </Field>
         <Field ColumnSize="ColumnSizeIs3">
             <FieldBody>
-                <Select TValue="DayOfWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByWeekDay" SelectedValueChanged="@ByWeekDayChanged">
+                <Select TValue="DayOfWeek ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByWeekDay" ValueChanged="@ByWeekDayChanged">
                     @foreach ( var enumValue in Enum.GetValues<DayOfWeek>() )
                     {
                         <SelectItem @key="@enumValue" Value="@enumValue">
@@ -55,7 +55,7 @@
         {
             <Field ColumnSize="ColumnSizeIs3">
                 <FieldBody>
-                    <Select TValue="SchedulerMonth ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" SelectedValue="@ByMonth" SelectedValueChanged="@ByMonthChanged">
+                    <Select TValue="SchedulerMonth ?" Disabled="@(InternalMonthlyRule == "monthly-rule-by-day")" Value="@ByMonth" ValueChanged="@ByMonthChanged">
                         @foreach ( var enumValue in Enum.GetValues<SchedulerMonth>() )
                         {
                             <SelectItem @key="@enumValue" Value="@enumValue">

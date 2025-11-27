@@ -1813,7 +1813,7 @@ namespace Blazorise.Docs.Models
         public const string MultipleTextsHighlighterExample = @"<Field>
     <FieldLabel>Search values (comma separated)</FieldLabel>
     <FieldBody>
-        <TextInput @bind-Text=""@searchValue"" />
+        <TextInput @bind-Value=""@searchValue"" />
     </FieldBody>
 </Field>
 
@@ -7750,7 +7750,7 @@ Install-Package Blazorise.Chart.Zoom";
             <SelectList Data=""@dataGridRef?.DisplayGroupedData""
                         TItem=""GroupContext<Employee>"" TValue=""string""
                         TextField=""x=> x.Key"" ValueField=""x=> x.Key""
-                        @bind-SelectedValue=""selectedGroupKey""></SelectList>
+                        @bind-Value=""selectedGroupKey""></SelectList>
         </FieldLabel>
         <FieldBody>
             <Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ExpandGroups(selectedGroupKey))"">Expand Selected Group</Button>
