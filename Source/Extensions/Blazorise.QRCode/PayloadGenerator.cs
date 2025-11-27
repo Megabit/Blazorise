@@ -934,18 +934,6 @@ public static class PayloadGenerator
 
             private AddressType adrType;
 
-            [Obsolete( "This constructor is deprecated. Use WithStructuredAddress instead." )]
-            public Contact( string name, string zipCode, string city, string country, string street = null, string houseNumber = null )
-                : this( name, zipCode, city, country, street, houseNumber, AddressType.StructuredAddress )
-            {
-            }
-
-            [Obsolete( "This constructor is deprecated. Use WithCombinedAddress instead." )]
-            public Contact( string name, string country, string addressLine1, string addressLine2 )
-                : this( name, null, null, country, addressLine1, addressLine2, AddressType.CombinedAddress )
-            {
-            }
-
             public static Contact WithStructuredAddress( string name, string zipCode, string city, string country, string street = null, string houseNumber = null )
             {
                 return new Contact( name, zipCode, city, country, street, houseNumber, AddressType.StructuredAddress );
@@ -1556,14 +1544,8 @@ public static class PayloadGenerator
 
         public enum AuthorityType
         {
-            [Obsolete]
-            singlepayment,
             singlepaymentsepa,
-            [Obsolete]
-            singledirectdebit,
             singledirectdebitsepa,
-            [Obsolete]
-            periodicsinglepayment,
             periodicsinglepaymentsepa,
             contact,
             contact_v2
@@ -1608,8 +1590,6 @@ public static class PayloadGenerator
 
         private readonly decimal amount;
 
-        private readonly int postingKey;
-
         private readonly int periodicTimeunitRotation;
 
         private readonly Currency currency;
@@ -1625,21 +1605,16 @@ public static class PayloadGenerator
         private readonly DateTime periodicLastExecutionDate;
 
         public BezahlCode( AuthorityType authority, string name, string account = "", string bnc = "", string iban = "", string bic = "", string reason = "" )
-            : this( authority, name, account, bnc, iban, bic, 0m, string.Empty, 0, null, null, string.Empty, string.Empty, null, reason, 0, string.Empty, Currency.EUR, null, 1 )
-        {
-        }
-
-        public BezahlCode( AuthorityType authority, string name, string account, string bnc, decimal amount, string periodicTimeunit = "", int periodicTimeunitRotation = 0, DateTime? periodicFirstExecutionDate = null, DateTime? periodicLastExecutionDate = null, string reason = "", int postingKey = 0, Currency currency = Currency.EUR, DateTime? executionDate = null )
-            : this( authority, name, account, bnc, string.Empty, string.Empty, amount, periodicTimeunit, periodicTimeunitRotation, periodicFirstExecutionDate, periodicLastExecutionDate, string.Empty, string.Empty, null, reason, postingKey, string.Empty, currency, executionDate, 2 )
+            : this( authority, name, account, bnc, iban, bic, 0m, string.Empty, 0, null, null, string.Empty, string.Empty, null, reason, string.Empty, Currency.EUR, null, 1 )
         {
         }
 
         public BezahlCode( AuthorityType authority, string name, string iban, string bic, decimal amount, string periodicTimeunit = "", int periodicTimeunitRotation = 0, DateTime? periodicFirstExecutionDate = null, DateTime? periodicLastExecutionDate = null, string creditorId = "", string mandateId = "", DateTime? dateOfSignature = null, string reason = "", string sepaReference = "", Currency currency = Currency.EUR, DateTime? executionDate = null )
-            : this( authority, name, string.Empty, string.Empty, iban, bic, amount, periodicTimeunit, periodicTimeunitRotation, periodicFirstExecutionDate, periodicLastExecutionDate, creditorId, mandateId, dateOfSignature, reason, 0, sepaReference, currency, executionDate, 3 )
+            : this( authority, name, string.Empty, string.Empty, iban, bic, amount, periodicTimeunit, periodicTimeunitRotation, periodicFirstExecutionDate, periodicLastExecutionDate, creditorId, mandateId, dateOfSignature, reason, sepaReference, currency, executionDate, 3 )
         {
         }
 
-        public BezahlCode( AuthorityType authority, string name, string account, string bnc, string iban, string bic, decimal amount, string periodicTimeunit = "", int periodicTimeunitRotation = 0, DateTime? periodicFirstExecutionDate = null, DateTime? periodicLastExecutionDate = null, string creditorId = "", string mandateId = "", DateTime? dateOfSignature = null, string reason = "", int postingKey = 0, string sepaReference = "", Currency currency = Currency.EUR, DateTime? executionDate = null, int internalMode = 0 )
+        public BezahlCode( AuthorityType authority, string name, string account, string bnc, string iban, string bic, decimal amount, string periodicTimeunit = "", int periodicTimeunitRotation = 0, DateTime? periodicFirstExecutionDate = null, DateTime? periodicLastExecutionDate = null, string creditorId = "", string mandateId = "", DateTime? dateOfSignature = null, string reason = "", string sepaReference = "", Currency currency = Currency.EUR, DateTime? executionDate = null, int internalMode = 0 )
         {
             switch ( internalMode )
             {
@@ -1662,18 +1637,6 @@ public static class PayloadGenerator
                         {
                             throw new BezahlCodeException( "When using authority type 'contact_v2' either the parameters 'account' and 'bnc' or the parameters 'iban' and 'bic' must be set. Leave the other parameter pair empty." );
                         }
-                    }
-
-                    break;
-                case 2:
-                    if ( authority != AuthorityType.periodicsinglepayment && authority != AuthorityType.singledirectdebit && authority != 0 )
-                    {
-                        throw new BezahlCodeException( "The constructor with 'account' and 'bnc' may only be used with 'non SEPA' authority types. Either choose another authority type or switch constructor." );
-                    }
-
-                    if ( authority == AuthorityType.periodicsinglepayment && ( string.IsNullOrEmpty( periodicTimeunit ) || periodicTimeunitRotation == 0 ) )
-                    {
-                        throw new BezahlCodeException( "When using 'periodicsinglepayment' as authority type, the parameters 'periodicTimeunit' and 'periodicTimeunitRotation' must be set." );
                     }
 
                     break;
@@ -1706,7 +1669,7 @@ public static class PayloadGenerator
             this.reason = reason;
             bool flag3 = !string.IsNullOrEmpty( account ) && !string.IsNullOrEmpty( bnc );
             bool flag4 = !string.IsNullOrEmpty( iban ) && !string.IsNullOrEmpty( bic );
-            if ( authority == AuthorityType.periodicsinglepayment || authority == AuthorityType.singledirectdebit || authority == AuthorityType.singlepayment || authority == AuthorityType.contact || ( authority == AuthorityType.contact_v2 && flag3 ) )
+            if ( authority == AuthorityType.contact || ( authority == AuthorityType.contact_v2 && flag3 ) )
             {
                 if ( !Regex.IsMatch( account.Replace( " ", "" ), "^[0-9]{1,9}$" ) )
                 {
@@ -1720,15 +1683,6 @@ public static class PayloadGenerator
                 }
 
                 this.bnc = bnc.Replace( " ", "" ).ToUpper();
-                if ( authority != AuthorityType.contact && authority != AuthorityType.contact_v2 )
-                {
-                    if ( postingKey < 0 || postingKey >= 100 )
-                    {
-                        throw new BezahlCodeException( "PostingKey must be within 0 and 99." );
-                    }
-
-                    this.postingKey = postingKey;
-                }
             }
 
             if ( authority == AuthorityType.periodicsinglepaymentsepa || authority == AuthorityType.singledirectdebitsepa || authority == AuthorityType.singlepaymentsepa || ( authority == AuthorityType.contact_v2 && flag4 ) )
@@ -1803,7 +1757,7 @@ public static class PayloadGenerator
                 this.executionDate = executionDate.Value;
             }
 
-            if ( authority == AuthorityType.periodicsinglepayment || authority == AuthorityType.periodicsinglepaymentsepa )
+            if ( authority == AuthorityType.periodicsinglepaymentsepa )
             {
                 if ( periodicTimeunit.ToUpper() != "M" && periodicTimeunit.ToUpper() != "W" )
                 {
@@ -1835,40 +1789,28 @@ public static class PayloadGenerator
             text = text + "name=" + Uri.EscapeDataString( name ) + "&";
             if ( authority != AuthorityType.contact && authority != AuthorityType.contact_v2 )
             {
-                if ( authority == AuthorityType.periodicsinglepayment || authority == AuthorityType.singledirectdebit || authority == AuthorityType.singlepayment )
+                text = text + "iban=" + iban + "&";
+                text = text + "bic=" + bic + "&";
+                if ( !string.IsNullOrEmpty( sepaReference ) )
                 {
-                    text = text + "account=" + account + "&";
-                    text = text + "bnc=" + bnc + "&";
-                    if ( postingKey > 0 )
-                    {
-                        text += $"postingkey={postingKey}&";
-                    }
+                    text = text + "separeference=" + Uri.EscapeDataString( sepaReference ) + "&";
                 }
-                else
+
+                if ( authority == AuthorityType.singledirectdebitsepa )
                 {
-                    text = text + "iban=" + iban + "&";
-                    text = text + "bic=" + bic + "&";
-                    if ( !string.IsNullOrEmpty( sepaReference ) )
+                    if ( !string.IsNullOrEmpty( creditorId ) )
                     {
-                        text = text + "separeference=" + Uri.EscapeDataString( sepaReference ) + "&";
+                        text = text + "creditorid=" + Uri.EscapeDataString( creditorId ) + "&";
                     }
 
-                    if ( authority == AuthorityType.singledirectdebitsepa )
+                    if ( !string.IsNullOrEmpty( mandateId ) )
                     {
-                        if ( !string.IsNullOrEmpty( creditorId ) )
-                        {
-                            text = text + "creditorid=" + Uri.EscapeDataString( creditorId ) + "&";
-                        }
+                        text = text + "mandateid=" + Uri.EscapeDataString( mandateId ) + "&";
+                    }
 
-                        if ( !string.IsNullOrEmpty( mandateId ) )
-                        {
-                            text = text + "mandateid=" + Uri.EscapeDataString( mandateId ) + "&";
-                        }
-
-                        if ( dateOfSignature != DateTime.MinValue )
-                        {
-                            text = text + "dateofsignature=" + dateOfSignature.ToString( "ddMMyyyy" ) + "&";
-                        }
+                    if ( dateOfSignature != DateTime.MinValue )
+                    {
+                        text = text + "dateofsignature=" + dateOfSignature.ToString( "ddMMyyyy" ) + "&";
                     }
                 }
 
@@ -1880,7 +1822,7 @@ public static class PayloadGenerator
 
                 text += $"currency={currency}&";
                 text = text + "executiondate=" + executionDate.ToString( "ddMMyyyy" ) + "&";
-                if ( authority == AuthorityType.periodicsinglepayment || authority == AuthorityType.periodicsinglepaymentsepa )
+                if ( authority == AuthorityType.periodicsinglepaymentsepa )
                 {
                     text = text + "periodictimeunit=" + periodicTimeunit + "&";
                     text += $"periodictimeunitrotation={periodicTimeunitRotation}&";
@@ -1990,32 +1932,11 @@ public static class PayloadGenerator
             SHA512
         }
 
-        [Obsolete( "This enum is obsolete, use OneTimePasswordAuthAlgorithm instead", false )]
-        public enum OoneTimePasswordAuthAlgorithm
-        {
-            SHA1,
-            SHA256,
-            SHA512
-        }
-
         public OneTimePasswordAuthType Type { get; set; }
 
         public string Secret { get; set; }
 
-        public OneTimePasswordAuthAlgorithm AuthAlgorithm { get; set; }
-
-        [Obsolete( "This property is obsolete, use AuthAlgorithm instead", false )]
-        public OoneTimePasswordAuthAlgorithm Algorithm
-        {
-            get
-            {
-                return (OoneTimePasswordAuthAlgorithm)Enum.Parse( typeof( OoneTimePasswordAuthAlgorithm ), AuthAlgorithm.ToString() );
-            }
-            set
-            {
-                AuthAlgorithm = (OneTimePasswordAuthAlgorithm)Enum.Parse( typeof( OneTimePasswordAuthAlgorithm ), value.ToString() );
-            }
-        }
+        public OneTimePasswordAuthAlgorithm AuthAlgorithm { get; set; } = OneTimePasswordAuthAlgorithm.SHA1;
 
         public string Issuer { get; set; }
 
