@@ -12,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// Component that allows you to display and edit single-line text.
 /// </summary>
-public partial class TextInput : BaseTextInput<string>, IAsyncDisposable
+public partial class TextInput : BaseBufferedTextInput<string>, IAsyncDisposable
 {
     #region Methods
 
