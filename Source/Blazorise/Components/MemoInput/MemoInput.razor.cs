@@ -14,14 +14,8 @@ namespace Blazorise;
 /// <summary>
 /// Component that allows you to display and edit multi-line text.
 /// </summary>
-public partial class MemoInput : BaseInputComponent<string>, ISelectableComponent, IAsyncDisposable
+public partial class MemoInput : BaseBufferedTextInput<string>, IAsyncDisposable
 {
-    #region Members
-
-    private ValueDebouncer inputValueDebouncer;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc/>
@@ -67,18 +61,6 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
     }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        if ( IsDebounce )
-        {
-            inputValueDebouncer = new( DebounceIntervalValue );
-            inputValueDebouncer.Debounce += OnInputValueDebounce;
-        }
-
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
     protected async override Task OnFirstAfterRenderAsync()
     {
         await JSModule.Initialize( ElementRef, ElementId, new()
@@ -99,11 +81,6 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
         if ( disposing && Rendered )
         {
             await JSModule.SafeDestroy( ElementRef, ElementId );
-
-            if ( inputValueDebouncer is not null )
-            {
-                inputValueDebouncer.Debounce -= OnInputValueDebounce;
-            }
         }
 
         await base.DisposeAsync( disposing );
@@ -126,30 +103,21 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
     }
 
     /// <inheritdoc/>
-    protected Task OnChangeHandler( ChangeEventArgs e )
-    {
-        if ( !IsImmediate )
-        {
-            return CurrentValueHandler( e?.Value?.ToString() );
-        }
-
-        return Task.CompletedTask;
-    }
-
-    /// <inheritdoc/>
-    protected async Task OnInputHandler( ChangeEventArgs e )
+    protected override async Task OnInputHandler( ChangeEventArgs e )
     {
         if ( IsImmediate )
         {
+            var value = e?.Value?.ToString();
+
             if ( IsDebounce )
             {
-                inputValueDebouncer?.Update( e?.Value?.ToString() );
+                InputValueDebouncer?.Update( value );
             }
             else
             {
                 var caret = await JSUtilitiesModule.GetCaret( ElementRef );
 
-                await CurrentValueHandler( e?.Value?.ToString() );
+                await CurrentValueHandler( value );
 
                 await JSUtilitiesModule.SetCaret( ElementRef, caret );
             }
@@ -163,7 +131,7 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
              && IsDebounce
              && ( eventArgs?.Key?.Equals( "Enter", StringComparison.OrdinalIgnoreCase ) ?? false ) )
         {
-            inputValueDebouncer?.Flush();
+            InputValueDebouncer?.Flush();
         }
 
         return base.OnKeyPressHandler( eventArgs );
@@ -175,26 +143,10 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
         if ( IsImmediate
              && IsDebounce )
         {
-            inputValueDebouncer?.Flush();
+            InputValueDebouncer?.Flush();
         }
 
         return base.OnBlurHandler( eventArgs );
-    }
-
-    /// <summary>
-    /// Event raised after the delayed value time has expired.
-    /// </summary>
-    /// <param name="sender">Object that raised an event.</param>
-    /// <param name="value">Latest received value.</param>
-    private void OnInputValueDebounce( object sender, string value )
-    {
-        InvokeAsync( () => CurrentValueHandler( value ) );
-    }
-
-    /// <inheritdoc/>
-    public virtual async Task Select( bool focus = true )
-    {
-        await JSUtilitiesModule.Select( ElementRef, ElementId, focus );
     }
 
     #endregion
@@ -203,30 +155,6 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
 
     /// <inheritdoc/>
     protected override string DefaultValue => string.Empty;
-
-    /// <summary>
-    /// Returns true if internal value should be updated with each key press.
-    /// </summary>
-    protected bool IsImmediate
-        => Immediate.GetValueOrDefault( Options?.Immediate ?? true );
-
-    /// <summary>
-    /// Returns true if updating of internal value should be delayed.
-    /// </summary>
-    protected bool IsDebounce
-        => Debounce.GetValueOrDefault( Options?.Debounce ?? false );
-
-    /// <summary>
-    /// Time in milliseconds by which internal value update should be delayed.
-    /// </summary>
-    protected int DebounceIntervalValue
-        => DebounceInterval.GetValueOrDefault( Options?.DebounceInterval ?? 300 );
-
-    /// <summary>
-    /// The name of the event for the textarea element.
-    /// </summary>
-    protected string BindValueEventName
-        => IsImmediate ? "oninput" : "onchange";
 
     /// <summary>
     /// Gets or sets the <see cref="IJSMemoInputModule"/> instance.
@@ -260,24 +188,6 @@ public partial class MemoInput : BaseInputComponent<string>, ISelectableComponen
     /// Please be aware that <see cref="Pattern"/> on <see cref="MemoInput"/> is used only for the validation process.
     /// </remarks>
     [Parameter] public string Pattern { get; set; }
-
-    /// <summary>
-    /// If true the text in will be changed after each key press.
-    /// </summary>
-    /// <remarks>
-    /// Note that setting this will override global settings in <see cref="BlazoriseOptions.Immediate"/>.
-    /// </remarks>
-    [Parameter] public bool? Immediate { get; set; }
-
-    /// <summary>
-    /// If true the entered text will be slightly delayed before submitting it to the internal value.
-    /// </summary>
-    [Parameter] public bool? Debounce { get; set; }
-
-    /// <summary>
-    /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
-    /// </summary>
-    [Parameter] public int? DebounceInterval { get; set; }
 
     /// <summary>
     /// If set to true, <see cref="ReplaceTab"/> will insert a tab instead of cycle input focus.

@@ -14,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// Format input text content when you are typing.
 /// </summary>
-public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
+public partial class InputMask : BaseBufferedTextInput<string>, IAsyncDisposable
 {
     #region Members
 
