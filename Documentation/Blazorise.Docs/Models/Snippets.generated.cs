@@ -1813,7 +1813,7 @@ namespace Blazorise.Docs.Models
         public const string MultipleTextsHighlighterExample = @"<Field>
     <FieldLabel>Search values (comma separated)</FieldLabel>
     <FieldBody>
-        <TextInput @bind-Text=""@searchValue"" />
+        <TextInput @bind-Value=""@searchValue"" />
     </FieldBody>
 </Field>
 
@@ -2811,10 +2811,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         return Task.CompletedTask;
     }
 }";
-
-        public const string StandaloneRadioExample = @"<Radio TValue=""string"" Group=""colors"" Value=""@(""red"")"">Red</Radio>
-<Radio TValue=""string"" Group=""colors"" Value=""@(""green"")"">Green</Radio>
-<Radio TValue=""string"" Group=""colors"" Value=""@(""blue"")"">Blue</Radio>";
 
         public const string BasicRatingExample = @"<Rating Color=""Color.Primary"" />";
 
@@ -4609,7 +4605,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.8.7.0"" type=""module""></script>
 <script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
+        public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net10.0";
 
         public const string TemplatesInstallExample = @"dotnet new install Blazorise.Templates";
 
@@ -6665,7 +6661,6 @@ Install-Package Blazorise.Chart.Zoom";
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
-    private Employee selectedEmployee;
 
     protected override async Task OnInitializedAsync()
     {
@@ -7750,7 +7745,7 @@ Install-Package Blazorise.Chart.Zoom";
             <SelectList Data=""@dataGridRef?.DisplayGroupedData""
                         TItem=""GroupContext<Employee>"" TValue=""string""
                         TextField=""x=> x.Key"" ValueField=""x=> x.Key""
-                        @bind-SelectedValue=""selectedGroupKey""></SelectList>
+                        @bind-Value=""selectedGroupKey""></SelectList>
         </FieldLabel>
         <FieldBody>
             <Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ExpandGroups(selectedGroupKey))"">Expand Selected Group</Button>
@@ -10259,7 +10254,6 @@ builder.Services
 </Scheduler>
 @code {
     private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
-    private SchedulerView selectedView = SchedulerView.Week;
     private static DateTime today10AM = DateTime.Today.AddHours( 10 );
     private TimeOnly startTime = new TimeOnly( 7, 0 );
     private TimeOnly endTime = new TimeOnly( 17, 0 );

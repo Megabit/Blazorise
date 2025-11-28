@@ -26,13 +26,6 @@ public class SavedRowItem<TItem, TValues> : EventArgs
     }
 
     /// <summary>
-    /// Gets the model that was saved.
-    /// </summary>
-    [Obsolete( "CancellableRowChange: The Item is deprecated, please use the OldItem instead." )]
-    [EditorBrowsable( EditorBrowsableState.Never )]
-    public TItem Item => OldItem;
-
-    /// <summary>
     /// Gets the model with the values before being edited.
     /// </summary>
     public TItem OldItem { get; }
