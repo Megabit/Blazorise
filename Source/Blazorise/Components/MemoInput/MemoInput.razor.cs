@@ -162,16 +162,6 @@ public partial class MemoInput : BaseBufferedTextInput<string>, IAsyncDisposable
     [Inject] public IJSMemoInputModule JSModule { get; set; }
 
     /// <summary>
-    /// Sets the placeholder for the empty text.
-    /// </summary>
-    [Parameter] public string Placeholder { get; set; }
-
-    /// <summary>
-    /// Sets the class to remove the default form field styling and preserve the correct margin and padding.
-    /// </summary>
-    [Parameter] public bool Plaintext { get; set; }
-
-    /// <summary>
     /// Specifies the maximum number of characters allowed in the input element.
     /// </summary>
     [Parameter] public int? MaxLength { get; set; }
@@ -180,14 +170,6 @@ public partial class MemoInput : BaseBufferedTextInput<string>, IAsyncDisposable
     /// Specifies the number lines in the input element.
     /// </summary>
     [Parameter] public int? Rows { get; set; }
-
-    /// <summary>
-    /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
-    /// </summary>
-    /// <remarks>
-    /// Please be aware that <see cref="Pattern"/> on <see cref="MemoInput"/> is used only for the validation process.
-    /// </remarks>
-    [Parameter] public string Pattern { get; set; }
 
     /// <summary>
     /// If set to true, <see cref="ReplaceTab"/> will insert a tab instead of cycle input focus.
