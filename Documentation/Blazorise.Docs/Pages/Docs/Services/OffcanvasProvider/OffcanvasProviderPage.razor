@@ -1,0 +1,234 @@
+@page "/docs/services/offcanvas-provider"
+
+<Seo Canonical="/docs/services/offcanvas-provider" Title="Blazorise OffcanvasProvider component" Description="The offcanvas provider component provides an abstraction on top of Blazorise's Offcanvas, enabling you to programatically instantiate offcanvas panels with custom content/components." />
+
+<DocsPageTitle Path="Services/Offcanvas provider">
+    Blazorise OffcanvasProvider component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Programatically instantiate offcanvas panels with custom content.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The offcanvas provider component provides an abstraction on top of Blazorise's <Anchor To="docs/components/offcanvas">Offcanvas component</Anchor>, enabling you to programatically instantiate offcanvas panels with custom content/components.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Usage">
+        <Paragraph>
+            You need to place <Code Tag>OffcanvasProvider</Code> somewhere in your application
+            razor code. It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code>, or <Code>Routes.razor</Code> like in
+            the following example.
+        </Paragraph>
+        <Paragraph>
+            An <Code>IOffcanvasService</Code> will be registered by Blazorise providing you with an API to programatically instantiate offcanvas panels.
+            Examples are provided further below.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OffcanvasProviderUsageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="The IOffcanvasService">
+        The <Code>IOffcanvasService</Code> is an important feature that lets you control <Code Tag>OffcanvasProvider</Code> instantiation.
+        You are provided with various overloads of <Code>Show()</Code> to instantiate the <Code Tag>Offcanvas</Code> to your liking.
+        This will return a <Code>OffcanvasInstance</Code> that represents the <Code Tag>Offcanvas</Code> you've instantiated with all of its configuration.
+        You may also use the provided <Code>Hide()</Code> method to close offcanvas panels.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Options">
+        You may provide options to <Code Tag>OffcanvasProvider</Code> globally by setting them on the <Code Tag>OffcanvasProvider</Code> component itself.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OffcanvasProviderOptionsExample" />
+    <DocsPageSectionHeader>
+        Optionally you can override these when instantiating an offcanvas through the <Code>OffcanvasService</Code> usage.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OffcanvasServiceOptionsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Closing the instantiated Offcanvas panels">
+        <Paragraph>
+            <Code Tag>OffcanvasProvider</Code> will only keep track of the offcanvas panels that have been instantiated by itself.
+        </Paragraph>
+        <Paragraph>
+            To close an Offcanvas:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    You can use Blazorise's <Code Tag>CloseButton</Code> component, which automatically knows how to close the currently opened <Code Tag>Offcanvas</Code> when placed inside of it.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Use the provided <Code>IOffcanvasService</Code> and call <Code>IOffcanvasService.Hide()</Code>, this will close the last opened <Code Tag>Offcanvas</Code> tracked by the <Code Tag>OffcanvasProvider</Code>.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    You may keep track of the <Code>OffcanvasInstance</Code> and call <Code>IOffcanvasService.Hide(offcanvasInstance)</Code>, this will close the provided instance.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    You may keep track of the <Code>OffcanvasInstance</Code> and call <Code>offcanvasInstance.OffcanvasRef.Hide()</Code>.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Stateful instantiated Offcanvas panels">
+        <Paragraph>
+            <Code Tag>OffcanvasProvider</Code> can keep the state of the offcanvas even after they have been closed.
+        </Paragraph>
+        <Paragraph>
+            To do this you will need to:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    Set <Code>Stateful</Code> to true in the <Code>OffcanvasProvider</Code> or in the <Code>OffcanvasInstanceOptions</Code>.
+                    The reason why you need to explicitly opt-in for this feature is because the instances you open will be kept in memory, and you should be mindful that you need to properly manage these.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Provide a unique Id so the instance can be tracked and reopen. This can be set in <Code>OffcanvasInstanceOptions.ElementId</Code>.
+                    Optionally you may keep track of the <Code>OffcanvasInstance</Code> returned by the <Code>IOffcanvasService.Show()</Code> method to reopen the same instance.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate an offcanvas with a custom component">
+        Instantiates an offcanvas with a counter example taking in the counter number from the provided parameter.
+        <Code>OffcanvasService.Show</Code> provides various overloads you can use to instantiate your custom content.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasProviderInstantiationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasProviderInstantiationExample" />
+    <Divider />
+    <Paragraph>
+        <Strong>ShowCounter.razor</Strong>
+    </Paragraph>
+    <DocsPageSectionSource Code="CounterExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate an offcanvas with a custom render fragment">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasProviderCustomRenderFragmentExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasProviderCustomRenderFragmentExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate an offcanvas with custom structure">
+        <Paragraph>
+            If you want to customize the offcanvas structure, you can do so, by setting <Code>UseOffcanvasStructure</Code> to <Code>false</Code> and providing the structure inside the custom content you are instantiating.
+            You may do this by providing your custom html or by using the internal <Code>Offcanvas</Code> components.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Code Tag>OffcanvasHeader</Code>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code Tag>OffcanvasBody</Code>
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code Tag>OffcanvasFooter</Code>
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasProviderCustomStructureExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasProviderCustomStructureExample" />
+    <Divider></Divider>
+    <Paragraph>
+        <Strong>CustomStructureOffcanvasExample.razor</Strong>
+    </Paragraph>
+    <DocsPageSectionSource Code="CustomStructureOffcanvasExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Interaction">
+        Since you can pass in parameters into your component, you can take advantage of this to interact with your <Code Tag>Offcanvas</Code>.
+        A common example, might be a generic formulary where the validation and success logic are not necessarily known by this component and are provided from "outside".
+        The following example setups a simple formulary showcasing this.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasProviderFormularyExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasProviderFormularyExample" />
+    <Divider></Divider>
+    <Paragraph>
+        <Strong>FormularyOffcanvasExample.razor</Strong>
+    </Paragraph>
+    <DocsPageSectionSource Code="FormularyOffcanvasExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate a stateful offcanvas">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasProviderStatefulExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasProviderStatefulExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsPageParagraph>
+    You will find that <Code Tag>OffcanvasProvider</Code> provides most regular <Code Tag>Offcanvas</Code> parameters for you to override the panel behaviour.
+</DocsPageParagraph>
+
+<DocsAttributes Title="OffcanvasProvider">
+    <DocsAttributesItem Name="UseOffcanvasStructure" Type="boolean" Default="true">
+        Uses the offcanvas standard structure, by setting this to true you are only in charge of providing the custom content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Stateful" Type="boolean" Default="false">
+        Keeps the OffcanvasInstance in memory after it has been closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowCloseButton" Type="boolean" Default="true">
+        Shows a close button in the offcanvas header when using the provider structure.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opening" Type="Func&lt;OffcanvasOpeningEventArgs, Task&gt;">
+        Occurs before the offcanvas is opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closing" Type="Func&lt;OffcanvasClosingEventArgs, Task&gt;">
+        Occurs before the offcanvas is closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Occurs after the offcanvas has opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback">
+        Occurs after the offcanvas has closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowBackdrop" Type="boolean" Default="true">
+        Specifies the backdrop needs to be rendered for this Offcanvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="boolean" Default="true">
+        Gets or sets whether the component has any animations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="150">
+        Gets or sets the animation duration.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placement" Type="Placement" Default="End">
+        Specifies the position of the offcanvas.
+    </DocsAttributesItem>
+</DocsAttributes>

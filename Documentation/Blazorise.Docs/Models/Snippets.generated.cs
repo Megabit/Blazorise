@@ -12528,6 +12528,212 @@ builder.Services
     }
 }";
 
+        public const string CustomStructureOffcanvasExample = @"<OffcanvasHeader>
+    <Heading Size=""HeadingSize.Is5"">My Custom Structure</Heading>
+    <CloseButton />
+</OffcanvasHeader>
+<OffcanvasBody>
+    Welcome @UserName!
+</OffcanvasBody>
+<OffcanvasFooter>
+    <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+</OffcanvasFooter>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    [Parameter] public string UserName { get; set; }
+
+    private Task Confirm()
+    {
+        return OffcanvasService.Hide();
+    }
+}";
+
+        public const string FormularyOffcanvasExample = @"<OffcanvasHeader>
+    <Heading Size=""HeadingSize.Is5"">Please fill in the formulary</Heading>
+    <CloseButton />
+</OffcanvasHeader>
+<OffcanvasBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.FirstName""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.Email""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    @if ( !isValid )
+    {
+        <Paragraph>
+            <Label>Invalid Submission!</Label>
+        </Paragraph>
+    }
+</OffcanvasBody>
+<OffcanvasFooter>
+    <Button Color=""Color.Success"" Clicked=""Confirm"">Confirm</Button>
+    <Button Color=""Color.Secondary"" Clicked=""OffcanvasService.Hide"">Close</Button>
+</OffcanvasFooter>
+@code {
+    private Employee model = new();
+    private bool isValid = true;
+
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    [Parameter] public Func<Employee, Task<bool>> OnValidate { get; set; }
+
+    [Parameter] public Func<Employee, Task> OnSuccess { get; set; }
+
+    private async Task Confirm()
+    {
+        if ( OnValidate is not null )
+            isValid = await OnValidate( model );
+
+        if ( !isValid )
+        {
+            return;
+        }
+
+        await OnSuccess( model );
+        await OffcanvasService.Hide();
+    }
+}";
+
+        public const string OffcanvasProviderCustomRenderFragmentExample = @"<Button Color=""Color.Primary"" Clicked=""ShowRenderFragment"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    private RenderFragment customFragment => __builder =>
+    {
+        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>
+    };
+
+    public Task ShowRenderFragment()
+    {
+        return OffcanvasService.Show( ""My Custom RenderFragment!"", customFragment );
+    }
+}";
+
+        public const string OffcanvasProviderCustomStructureExample = @"<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+        <TextEdit @bind-Text=""userName""></TextEdit>
+    </FieldBody>
+</Field>
+
+<Button Color=""Color.Primary"" Clicked=""ShowCustomStructure"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+    private string userName = ""John Doe"";
+
+    public Task ShowCustomStructure()
+    {
+        return OffcanvasService.Show<CustomStructureOffcanvasExample>(
+            parameters => parameters.Add( x => x.UserName, userName ),
+            new OffcanvasInstanceOptions() { UseOffcanvasStructure = false } );
+    }
+}";
+
+        public const string OffcanvasProviderFormularyExample = @"<Paragraph>
+    @formularyMessage
+</Paragraph>
+<Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    private string formularyMessage = string.Empty;
+
+    public Task ShowFormulary()
+    {
+        formularyMessage = string.Empty;
+        return OffcanvasService.Show<FormularyOffcanvasExample>( x =>
+        {
+            x.Add( x => x.OnValidate, FormularyValidate );
+            x.Add( x => x.OnSuccess, FormularySuccess );
+        },
+        new OffcanvasInstanceOptions()
+            {
+                UseOffcanvasStructure = false
+            } );
+    }
+
+    private Task<bool> FormularyValidate( Employee employee )
+        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );
+
+    private Task FormularySuccess( Employee employee )
+    {
+        formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
+        return InvokeAsync( StateHasChanged );
+    }
+}";
+
+        public const string OffcanvasProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    public Task ShowCounter()
+    {
+        Random random = new();
+        var newValue = random.NextInt64( 100 );
+        return OffcanvasService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+    }
+}";
+
+        public const string OffcanvasProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found>...</Found>
+    <NotFound>...</NotFound>
+</Router>
+
+<OffcanvasProvider UseOffcanvasStructure Animated Placement=""Placement.Start"" />";
+
+        public const string OffcanvasProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    public Task ShowStateful()
+    {
+        return OffcanvasService.Show<CounterExample>( ""My Stateful content"", new OffcanvasInstanceOptions()
+        {
+            Stateful = true,
+            ElementId = ""StatefulOffcanvas"",
+            Placement = Placement.Start
+        } );
+    }
+}";
+
+        public const string OffcanvasProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found>...</Found>
+    <NotFound>...</NotFound>
+</Router>
+
+<OffcanvasProvider />";
+
+        public const string OffcanvasServiceOptionsExample = @"<Button Color=""Color.Primary"" Clicked=""InstantiateOffcanvas"">Override Options Example</Button>
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    public Task InstantiateOffcanvas()
+    {
+        return OffcanvasService.Show<CustomStructureOffcanvasExample>( ""Override Options Example"", new OffcanvasInstanceOptions()
+        {
+            Animated = false,
+            UseOffcanvasStructure = false,
+            Placement = Placement.Top
+        } );
+    }
+}";
+
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress50"">50 %</Button>
 <Button Color=""Color.Primary"" Clicked=""@SetPageProgress75"">75 %</Button>
