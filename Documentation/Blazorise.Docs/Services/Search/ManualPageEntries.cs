@@ -176,6 +176,7 @@ public static class ManualPageEntries
 
     new( "docs/services/message-provider", "Message Provider", "Message service is used for quick user confirmation actions." ),
     new( "docs/services/modal-provider", "Modal Provider", "Programatically instantiate modals with custom content." ),
+    new( "docs/services/offcanvas-provider", "Offcanvas Provider", "Programatically instantiate offcanvases with custom content." ),
     new( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
     new( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
     new( "docs/services/toast-provider", "Toast Provider", "Programatically instantiate toasts with custom messages." ),
