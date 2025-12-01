@@ -1,7 +1,7 @@
-﻿@using Microsoft.Extensions.Configuration
+﻿@using Blazorise.Docs.Services
+@using Microsoft.Extensions.Configuration
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Logging
-@using SendGrid
 @using System.Text.Json
 @if ( Small )
 {
@@ -96,7 +96,7 @@ else
 
     [Inject] public ILogger<NewsletterWidget> Logger { get; set; }
 
-    [Inject] public IConfiguration Configuration { get; set; }
+    [Inject] public IBrevoApiClient BrevoApiClient { get; set; }
 
     async Task OnSubscribeClicked()
     {
@@ -106,19 +106,9 @@ else
         {
             if ( await validationsRef.ValidateAll() )
             {
-                var apiKey = Configuration["SendGrid:ApiKey"];
+                var response = await BrevoApiClient.CreateContactAsync(email, null, [2]);
 
-                var content = JsonSerializer.Serialize( new
-                {
-                    list_ids = new[] { Configuration["SendGrid:ListId"] },
-                    contacts = new[] { new { email = email } }
-                } );
-
-                var sendGridClient = new SendGridClient( apiKey );
-
-                var response = await sendGridClient.RequestAsync( BaseClient.Method.PUT, content, null, "marketing/contacts" );
-
-                if ( response.IsSuccessStatusCode )
+                if ( response != null )
                 {
                     email = null;
                     emailSent = true;

@@ -44,7 +44,8 @@
 .fui-Select,
 .fui-SpinButton,
 .fui-Checkbox,
-.fui-ColorPicker {
+.fui-ColorPicker,
+.fui-RadioGroup__horizontal {
     & + .fui-Field__validationMessage {
         margin-top: var(--spacingVerticalXXS);
         color: var(--colorNeutralForeground3);
@@ -68,7 +69,8 @@
     &.fui-Select-error,
     &.fui-SpinButton-error,
     &.fui-Checkbox-error,
-    &.fui-ColorPicker-error {
+    &.fui-ColorPicker-error,
+    &.fui-RadioGroup-error {
         & + .fui-Field__validationMessage {
             color: var(--colorPaletteRedForeground1);
 
@@ -82,7 +84,8 @@
     &.fui-Select-success,
     &.fui-SpinButton-success,
     &.fui-Checkbox-success,
-    &.fui-ColorPicker-success {
+    &.fui-ColorPicker-success,
+    &.fui-RadioGroup-success {
         & + .fui-Field__validationMessage {
             .fui-Field__validationMessageIcon {
                 color: var(--colorPaletteGreenForeground1);

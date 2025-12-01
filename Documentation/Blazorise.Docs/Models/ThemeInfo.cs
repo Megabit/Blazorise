@@ -2,16 +2,16 @@
 
 public class ThemeInfo
 {
-    public ThemeInfo( int id, string licenseName, string licenseDescription, decimal price, string currency )
+    public ThemeInfo( string priceId, string licenseName, string licenseDescription, decimal price, string currency )
     {
-        Id = id;
+        PriceId = priceId;
         LicenseName = licenseName;
         LicenseDescription = licenseDescription;
         Price = price;
         Currency = currency;
     }
 
-    public int Id { get; set; }
+    public string PriceId { get; set; }
 
     public string LicenseName { get; set; }
 

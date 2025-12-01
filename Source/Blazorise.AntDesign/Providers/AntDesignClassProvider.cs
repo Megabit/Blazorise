@@ -1146,7 +1146,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Badge() => "ant-tag";
 
-    public override string BadgeColor( Color color )
+    public override string BadgeColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
@@ -1160,14 +1160,14 @@ public class AntDesignClassProvider : ClassProvider
             _ => name,
         };
 
-        return $"{Badge()}-{colorName}";
+        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
     }
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "anticon anticon-close";
 
-    public override string BadgeCloseColor( Color color )
+    public override string BadgeCloseColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
@@ -1181,7 +1181,7 @@ public class AntDesignClassProvider : ClassProvider
             _ => name,
         };
 
-        return $"{Badge()}-{colorName}";
+        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
     }
 
     #endregion
@@ -1395,24 +1395,29 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Borders
 
-    public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+    public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
         var sb = new StringBuilder( "ant-border" );
 
-        if ( borderSide != BorderSide.All )
-            sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+        if ( borderDefinition.Side != BorderSide.All )
+            sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
-        if ( borderColor != BorderColor.None )
-            sb.Append( " ant-border-" ).Append( ToBorderColor( borderColor ) );
+        if ( borderDefinition.Color != BorderColor.None )
+        {
+            sb.Append( " ant-border-" ).Append( ToBorderColor( borderDefinition.Color ) );
+
+            if ( borderDefinition.Subtle )
+                sb.Append( "-subtle" );
+        }
 
         return sb.ToString();
     }
 
-    public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
-        => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+    public override string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules )
+        => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     public override string BorderRadius( BorderRadius borderRadius )
         => $"ant-{ToBorderRadius( borderRadius )}";

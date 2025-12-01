@@ -223,7 +223,7 @@
                     }
                     else if ( Virtualize )
                     {
-                        <Virtualize TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount ?? 10)">
+                        <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount ?? 10)">
                             <ChildContent>
                                 @rowFragment( item )
                             </ChildContent>

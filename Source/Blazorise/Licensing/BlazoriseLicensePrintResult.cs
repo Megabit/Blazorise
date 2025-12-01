@@ -36,6 +36,11 @@ public enum BlazoriseLicensePrintResult
     Trial,
 
     /// <summary>
+    /// Indicates whether the trial period for the application has expired.
+    /// </summary>
+    TrialExpired,
+
+    /// <summary>
     /// License was unable to be validated.
     /// </summary>
     InvalidProductToken,

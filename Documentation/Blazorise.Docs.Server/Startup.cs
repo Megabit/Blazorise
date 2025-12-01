@@ -2,10 +2,12 @@
 using System;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http.Headers;
 using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Captcha.ReCaptcha;
 using Blazorise.Components;
+using Blazorise.Docs.BlogRuntime;
 using Blazorise.Docs.Core;
 using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
@@ -67,9 +69,16 @@ public class Startup
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
             .AddBlazoriseRouterTabs();
 
+        services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );
+        services.AddSingleton<IBlogProvider, GithubBlogProvider>();
+        services.AddHostedService<BlogPreheater>();
+
         services.Configure<AppSettings>( options => Configuration.Bind( options ) );
         services.AddHttpClient();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
+
+        services.Configure<BrevoApiOptions>( Configuration.GetSection( BrevoApiOptions.SectionName ) );
+        services.AddHttpClient<IBrevoApiClient, BrevoApiClient>();
 
         services.AddBlazoredLocalStorage();
 
@@ -114,6 +123,8 @@ public class Startup
         } );
 
         services.AddHealthChecks();
+
+        services.AddControllers();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -139,12 +150,17 @@ public class Startup
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
 
+        app.MapControllers();
+
         //app.UseRouting();
 
         app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
-        app.MapGet( "/feed.rss", SeoGenerator.GenerateRssFeed );
+        app.MapGet( "/feed.rss", async ( HttpContext httpContext, IBlogProvider blogProvider ) =>
+        {
+            await SeoGenerator.GenerateRssFeed( httpContext, blogProvider );
+        } );
 
         //permanent redirects
         app.Use( async ( context, next ) =>

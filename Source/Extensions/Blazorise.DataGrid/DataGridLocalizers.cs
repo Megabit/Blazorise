@@ -163,4 +163,9 @@ public class DataGridLocalizers
     /// Custom localization handler for FilterMethod 'Between' text.
     /// </summary>
     public TextLocalizerHandler FilterMethodBetweenLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for column chooser text.
+    /// </summary>
+    public TextLocalizerHandler ColumnChooserLocalizer { get; set; }
 }

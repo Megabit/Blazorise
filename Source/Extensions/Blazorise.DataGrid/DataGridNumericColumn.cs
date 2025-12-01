@@ -10,10 +10,13 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 public class DataGridNumericColumn<TItem> : DataGridColumn<TItem>
 {
-    /// <summary>
-    /// Gets the column type.
-    /// </summary>
-    public override DataGridColumnType ColumnType => DataGridColumnType.Numeric;
+    /// <inheritdoc/>
+    internal override DataGridColumnFilterMethod GetDefaultFilterMethod()
+        => DataGridColumnFilterMethod.Equals;
+
+    /// <inheritdoc/>
+    public override DataGridColumnType ColumnType
+        => DataGridColumnType.Numeric;
 
     /// <summary>
     /// Specifies the interval between valid values.

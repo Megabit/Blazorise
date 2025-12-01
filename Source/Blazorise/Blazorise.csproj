@@ -33,7 +33,7 @@
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
 
-    <PackageReference Include="Fody" Version="6.9.1" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all" />
     <ProjectReference Include="..\SourceGenerators\Blazorise.Weavers\Blazorise.Weavers.csproj" PrivateAssets="all" />
     <WeaverFiles Include="..\SourceGenerators\Blazorise.Weavers.Fody\bin\$(Configuration)\netstandard2.0\Blazorise.Weavers.Fody.dll" />
 

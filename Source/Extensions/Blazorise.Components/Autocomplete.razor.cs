@@ -433,9 +433,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-        if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+        if ( SelectionMode == AutocompleteSelectionMode.Checkbox && clickFromCheck )
         {
-            //Workaround for the issue where the dropdown closes when clicking on the checkbox
+            // Only defer when blur originated from a checkbox click
             ExecuteAfterRender( HandleBlurHandler );
         }
         else
@@ -606,6 +606,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         try
         {
             cancellationTokenSource?.Cancel();
+            cancellationTokenSource?.Dispose();
             cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
 
             Loading = true;
@@ -616,9 +617,20 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
+        catch ( OperationCanceledException )
+        {
+            // Expected during rapid typing
+        }
         finally
         {
+            var wasCancelled = cancellationTokenSource?.IsCancellationRequested == true;
+
             Loading = false;
+
+            if ( wasCancelled )
+            {
+                await InvokeAsync( () => Reload() );
+            }
         }
     }
 
@@ -651,7 +663,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public async Task Reload( CancellationToken cancellationToken = default )
     {
         if ( Loading )
+        {
+            cancellationTokenSource?.Cancel();
             return;
+        }
 
         if ( VirtualizeManualReadMode )
         {
@@ -920,6 +935,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         if ( disposing )
         {
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = null;
+
             if ( Rendered )
             {
                 var task = JSClosableModule.UnregisterLight( ElementRef );
@@ -1733,6 +1751,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Method used to get the determine if the item should be disabled.
     /// </summary>
     [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether parent dropdown menus should be closed when this component is activated.
+    /// </summary>
+    /// <remarks>Set this property to <see langword="true"/> to automatically close any open parent dropdowns
+    /// when the component is triggered. This can be useful for ensuring only one dropdown is open at a time in nested
+    /// menu scenarios.</remarks>
+    [Parameter] public bool CloseParentDropdowns { get; set; }
 
     #endregion
 }

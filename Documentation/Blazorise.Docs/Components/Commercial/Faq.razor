@@ -6,14 +6,17 @@
 }
 
 <Accordion>
-    @foreach ( var faqInfo in faqInfos )
+    @for ( var i = 0; i < faqInfos.Count; i++ )
     {
-        var index = faqInfos.IndexOf( faqInfo ) + 1;
+        var faqInfo = faqInfos[i];
+        var index = i + 1;
 
         <Collapse @key="@faqInfo" Visible="@faqInfo.Visible">
             <CollapseHeader Padding="Padding.Is1.OnY">
-                <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Style="text-decoration: " Margin="Margin.Is0.OnY">
-                    <AccordionToggle Clicked="@(()=>faqInfo.Visible = !faqInfo.Visible)">@($"{index}. {faqInfo.Title}")</AccordionToggle>
+                <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                    <AccordionToggle Clicked="@(() => faqInfo.Visible = !faqInfo.Visible)">
+                        @($"{index}. {faqInfo.Title}")
+                    </AccordionToggle>
                 </Heading>
             </CollapseHeader>
             <CollapseBody TextAlignment="TextAlignment.Start">
@@ -49,7 +52,7 @@
             Title = "Is subscription renewal automatic?",
             Body = (__builder) => {
                 <Paragraph>
-                    The renewal is automatic if the license was purchased through our webpage and paid with the credit card. It will recur after the subscription period ends. You can cancel your subscription at any time.
+                    Renewal is automatic if the license was purchased through our website and paid by credit card. It will recur after the subscription period ends. You can cancel your subscription at any time.
                 </Paragraph>
             }
         },
@@ -58,7 +61,7 @@
             Title = "What happens if I stop with yearly subscription?",
             Body = (__builder) => {
                 <Paragraph>
-                    By ending the yearly subscription you will no longer get free Blazorise updates, access to our support web and access to our private repositories. The last Blazorise version that was at the time of ending the yearly subscription will stay with you and you can continue to use it.
+                    If you end your yearly subscription, you will no longer receive Blazorise updates, access to our support site, or access to private repositories. You may continue to use the last version available at the time your subscription ended.
                 </Paragraph>
             }
         },
@@ -67,7 +70,7 @@
             Title = "Is the license perpetual?",
             Body = (__builder) => {
                 <Paragraph>
-                    <Strong>Yes.</Strong> Blazorise licenses are perpetual. Perpetual means that the Professional features are available after the subscription ends. Product updates and support are only available during the subscription period.
+                    <Strong>Yes.</Strong> You can continue to use the product in production after the entitlement expires. To keep developing, receive new features, or access technical support, an active subscription is required.
                 </Paragraph>
             }
         },
@@ -79,7 +82,7 @@
                     <Strong>Yes.</Strong> You can continue to use the product in production environments after the entitlement expires. But you will need to keep your subscription active to continue development, update for new features, or gain access to technical support.
                 </Paragraph>
                 <Paragraph>
-                    To renew your license, please <Anchor To="mailto:sales@blazorise.com" Title="Link to contact sales">contact sales</Anchor>.
+                    To renew your license, please <Anchor To="mailto:sales@blazorise.com" Title="Contact Sales">contact sales</Anchor>.
                 </Paragraph>
             }
         },
@@ -88,7 +91,7 @@
             Title = "Does the license include support?",
             Body = (__builder) => {
                 <Paragraph>
-                    <Strong>Yes.</Strong> Blazorise Professional and Blazorise Enterprise include dedicated support over our <Anchor To="https://blazorise.com/support" Title="Link to support forum">support forum</Anchor> during the subscription period.
+                    <Strong>Yes.</Strong> Blazorise Professional and Blazorise Enterprise include dedicated support via our <Anchor To="https://blazorise.com/support" Title="Support forum">support forum</Anchor> during the subscription period.
                 </Paragraph>
             }
         },
@@ -100,10 +103,10 @@
                     The number of licenses purchased must correspond to the maximum number of concurrent developers contributing changes to the front-end code of projects that use Blazorise.
                 </Paragraph>
                 <Paragraph>
-                    <Strong>Example 1.</Strong> Company 'A' is developing an application named 'AppA'. The app needs to render 10k rows of data in a table and allow users to group, filter, and sort. The dev team adds Blazorise to the project to satisfy this requirement. 5 front-end and 10 back-end developers are working on 'AppA'. Only 1 developer is tasked with configuring and modifying the data grid. Only the front-end developers are contributing code to the front-end so Company 'A' purchases 5 licenses.
+                    <Strong>Example 1.</Strong> Company A is developing an application named 'AppA'. The app needs to render 10k rows of data in a table and allow users to group, filter, and sort. The dev team adds Blazorise to the project to satisfy this requirement. 5 front-end and 10 back-end developers are working on 'AppA'. Only 1 developer is tasked with configuring and modifying the data grid. Only the front-end developers are contributing code to the front-end so Company 'A' purchases 5 licenses.
                 </Paragraph>
                 <Paragraph>
-                    <Strong>Example 2.</Strong> A UI development team at Company 'A' creates its own UI library for internal development and includes Blazorise as a component. The team working on 'AppA' uses the new library and so does the team working on 'AppB'. 'AppA' has 5 front-end developers and 'AppB' has 3. There are 2 front-end developers on the UI development team. Company 'B' purchases 10 licenses.
+                    <Strong>Example 2.</Strong> A UI team at Company A creates an internal UI library that includes Blazorise as a component. Teams working on 'AppA' (5 front-end devs) and 'AppB' (3 front-end devs) use it. There are 2 front-end devs on the UI team. Company B purchases 10 licenses.
                 </Paragraph>
             }
         },
@@ -112,10 +115,7 @@
             Title = "Do I need to purchase license if I'm freelancer and work with Blazorise for my clients?",
             Body = (__builder) => {
                 <Paragraph>
-                    If freelancers are using Blazorise for their client projects, they would be considered as developers who are using Blazorise in their work.
-                </Paragraph>
-                <Paragraph>
-                    Therefore, they would need to obtain a commercial license for Blazorise. The responsibility for obtaining the necessary Blazorise licenses would depend on the terms of the agreement between the freelancer and their client company.
+                    If freelancers use Blazorise for client projects, they are considered developers using Blazorise in their work and need a commercial license. Who purchases the license depends on the agreement between the freelancer and the client.
                 </Paragraph>
             }
         },
@@ -124,7 +124,7 @@
             Title = "If I deploy Blazorise based apps to my client, do they also need to purchase license?",
             Body = (__builder) => {
                 <Paragraph>
-                    <Strong>No.</Strong> Your client doesn't need to purchase Blazorise license.
+                    <Strong>No.</Strong> Your client doesn't need to purchase a Blazorise license.
                 </Paragraph>
             }
         },
@@ -133,10 +133,10 @@
             Title = "What is a customized agreement?",
             Body = (__builder) => {
                 <Paragraph>
-                    You have the option to tailor the agreements that best suit your company and your project requirements.
+                    You can tailor the agreement to suit your company and project requirements.
                 </Paragraph>
                 <Paragraph>
-                    To learn more, please <Anchor To="mailto:sales@blazorise.com" Title="Link to contact sales">contact sales</Anchor>.
+                    To learn more, please <Anchor To="mailto:sales@blazorise.com" Title="Contact Sales">contact sales</Anchor>.
                 </Paragraph>
             }
         },
@@ -145,10 +145,7 @@
             Title = "What does the Blazorise Mentor service include?",
             Body = (__builder) => {
                 <Paragraph>
-                    Blazorise Mentor provides you with a personal Blazorise expert to assist you on your Blazorise journey. 
-                </Paragraph>
-                <Paragraph>
-                    Consider your mentor to be a senior developer who can answer difficult questions about Blazorise and web development in person or via the communication tool of your choice. Blazorise Mentor keeps you out of common pitfalls and can have a significant impact on the productivity and quality of your team.
+                    Blazorise Mentor pairs you with a senior Blazorise expert who can answer complex questions, review decisions, and guide your team via your preferred channel, helping you avoid pitfalls and improve velocity and quality.
                 </Paragraph>
             }
         },
@@ -157,7 +154,7 @@
             Title = "What is the currency your prices are shown in?",
             Body = (__builder) => {
                 <Paragraph>
-                    Our prices are shown in USD, and are charged in your local currency if available. Otherwise it is charged in USD.
+                    Our prices are shown in EUR. Charges are made in your local currency when available; otherwise, they are charged in EUR.
                 </Paragraph>
             }
         },
@@ -166,7 +163,7 @@
             Title = "Do you offer volume discounts?",
             Body = (__builder) => {
                 <Paragraph>
-                    <Strong>Yes.</Strong> Get in touch with us at <Anchor To="mailto:sales@blazorise.com" Title="Link to contact sales">sales team</Anchor>.
+                    <Strong>Yes.</Strong> Get in touch with our <Anchor To="mailto:sales@blazorise.com" Title="Contact Sales">sales team</Anchor>.
                 </Paragraph>
             }
         },
@@ -175,10 +172,7 @@
             Title = "What is the difference between Blazorise and Blazorise Blocks?",
             Body = (__builder) => {
                 <Paragraph>
-                    Blazorise is a component library for Blazor that provides a range of UI components and utilities to help developers build web applications more easily.
-                </Paragraph>
-                <Paragraph>
-                     Blazorise Blocks are a set of predefined UI elements or modules built on top of the Blazorise library. These blocks simplify the web development process by offering ready-to-use sections (like checkout, stats, login forms, etc.) that developers can integrate into their projects without having to design or code them from scratch.
+                    Blazorise Blocks are ready-made sections (e.g., checkout, stats, login forms) built on top of Blazorise components, so you can integrate them without designing or coding from scratch.
                 </Paragraph>
                 <Paragraph>
                     In essence, while Blazorise provides the foundational components and tools, Blazorise Blocks offer higher-level, more specialized modules that are based on those foundational components for specific use cases.
@@ -199,7 +193,7 @@
             Title = "What is escrow service?",
             Body = (__builder) => {
                 <Paragraph>
-                    Blazorise offers third-party escrow services if your company policy requires you to use them for continuity purposes. In practice, we can store the required source code in an escrow service and make this available to you. In this way, if something unforeseen happens, you can continue developing based on the stored source code. The service is optional and available for Enterprise subscribers.
+                    Blazorise offers third-party escrow services where required for continuity. We can store the required source code with an escrow provider and release it under agreed conditions so your team can continue development if needed. Available for Enterprise subscribers.
                 </Paragraph>
             }
         },
@@ -208,7 +202,7 @@
             Title = "Can I really have unlimited tickets with the Enterprise Plus tier?",
             Body = (__builder) => {
                 <Paragraph>
-                    Yes, the enterprise tier does offer unlimited support tickets. However, this is subject to a fair use policy. Our goal is to provide comprehensive support to all our enterprise customers. Should we notice an unusually high volume of tickets from a single agreement indicative of misuse, we reserve the right to limit the number of tickets in line with our fair use policy. This ensures all our customers receive timely and efficient support.
+                    Yes, Enterprise Plus offers unlimited support tickets, subject to a fair use policy. If we detect usage indicative of misuse, we may limit tickets to ensure timely support for all enterprise customers.
                 </Paragraph>
             }
         },
@@ -217,7 +211,7 @@
             Title = "What is the process for requesting new features or enhancements?",
             Body = (__builder) => {
                 <Paragraph>
-                    Feature requests fall outside the scope of developer support, though we're happy to quote for development services.
+                    Feature requests fall outside the scope of developer support, but we're happy to provide a quote for custom development.
                 </Paragraph>
             }
         },
@@ -226,7 +220,7 @@
             Title = "Do you have a refund policy?",
             Body = (__builder) => {
                 <Paragraph>
-                    You can request a refund within 30 days of your license purchase. The Professional and Enterprise license types have source-code download options; therefore, we provide a 60% refund within 30 days for Professional and Enterprise licenses. In addition, no refunds are made for renewals and second license purchases.
+                    You can request a refund within 30 days of purchase. Because Professional and Enterprise include source-code access, refunds for these licenses are 60% within 30 days. Renewals and subsequent license purchases are non-refundable.
                 </Paragraph>
             }
         },
@@ -235,7 +229,7 @@
             Title = "How can I obtain a copy of your latest software license agreement?",
             Body = (__builder) => {
                 <Paragraph>
-                    To obtain a copy of our latest software license agreement, please go to our <Anchor To="license">license page</Anchor> download the PDV version.
+                    To obtain a copy of our latest software license agreement, please visit our <Anchor To="license">license page</Anchor> and download the PDF version.
                 </Paragraph>
             }
         },
@@ -244,7 +238,7 @@
             Title = "Why do you require a LinkedIn for the Community License?",
             Body = (__builder) => {
                 <Paragraph>
-                    We must confirm your eligibility before offering a Community License at no cost. We can accomplish that and save time by using LinkedIn, an established website. Here at Blazorise, we value your privacy. Your profile will only be verified in read-only mode, and LinkedIn won't be able to follow your Blazorise activity.
+                    To offer a Community License at no cost, we confirm eligibility using LinkedIn. We verify your profile in read-only mode; LinkedIn does not receive information about your Blazorise activity.
                 </Paragraph>
             }
         },
@@ -253,7 +247,7 @@
             Title = "Am I eligible for a non-commercial license if my company doesn't do commercial development?",
             Body = (__builder) => {
                 <Paragraph>
-                    If you're employed and receiving payment, even if your employer isn't benefiting commercially from the end product (e.g., in a non-profit organization), a commercial license is still required.
+                    If you're employed and receiving payment, even at a non-profit, a commercial license is required.
                 </Paragraph>
             }
         },

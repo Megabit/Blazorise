@@ -1,6 +1,6 @@
-import "./vendors/tippy.js?v=1.8.0.0";
-import "./vendors/popper.js?v=1.8.0.0";
-import { getRequiredElement } from "./utilities.js?v=1.8.0.0";
+import "./vendors/tippy.js?v=1.8.7.0";
+import "./vendors/popper.js?v=1.8.7.0";
+import { getRequiredElement } from "./utilities.js?v=1.8.7.0";
 
 const _instances = [];
 

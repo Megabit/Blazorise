@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Blazorise.Docs.BlogRuntime;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 
@@ -62,10 +63,10 @@ public class SeoGenerator
         await context.Response.WriteAsync( sitemap.ToString() );
     }
 
-    public static async Task GenerateRssFeed( HttpContext context )
+    public static async Task GenerateRssFeed( HttpContext context, IBlogProvider blogProvider )
     {
         var baseUrl = GetBaseUrl( context );
-        var pages = Pages.News.Index.NewsEntries.Concat( Pages.Blog.Index.BlogEntries );
+        var pages = await blogProvider.GetListAsync( null );
 
         var sitemap = new XElement( "rss",
                  new XAttribute( XNamespace.Xmlns + "atom", "http://www.w3.org/2005/Atom" ),
@@ -79,12 +80,27 @@ public class SeoGenerator
                      from p in pages
                      orderby p.PostedOn descending
                      select new XElement( "item",
-                         new XElement( "title", p.Text ),
-                         new XElement( "link", $"{baseUrl}/{p.Url}" ),
-                         new XElement( "description", p.Description ),
+                         new XElement( "title", p.Title ),
+                         new XElement( "link", CombineUrl( baseUrl, p.Permalink ) ),
+                         new XElement( "description", p.Summary ),
                          new XElement( "pubDate", DateTime.TryParse( p.PostedOn, CultureInfo.InvariantCulture, out var dt ) ? dt.ToString( "R" ) : null ) ) ) );
 
         await context.Response.WriteAsync( sitemap.ToString() );
+    }
+
+    private static string CombineUrl( string baseUrl, string permalink )
+    {
+        if ( string.IsNullOrWhiteSpace( permalink ) )
+            return baseUrl;
+
+        permalink = permalink.Trim();
+        if ( permalink.StartsWith( "http", StringComparison.OrdinalIgnoreCase ) )
+            return permalink;
+
+        if ( !permalink.StartsWith( "/" ) )
+            permalink = "/" + permalink;
+
+        return baseUrl + permalink;
     }
 
     private static string GetBaseUrl( HttpContext context )

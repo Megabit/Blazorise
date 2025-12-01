@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -65,6 +66,57 @@ public partial class TableRow : BaseDraggableComponent
         builder.Append( ClassProvider.TableRowHoverCursor( HoverCursor ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        builder
+            .OpenComponent<CascadingValue<TableRow>>()
+            .Attribute( "Value", this )
+            .Attribute( "IsFixed", true );
+
+        builder.Attribute( "ChildContent", (RenderFragment)( ( builder2 ) =>
+        {
+            builder2
+               .OpenElement( "tr" )
+               .Key( elementHashCode )
+               .Id( ElementId )
+               .Class( ClassNames )
+               .Style( StyleNames )
+               .Draggable( DraggableString );
+
+            builder2.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnClickHandler ) );
+
+            if ( MouseOver.HasDelegate )
+            {
+                builder2.OnMouseOver( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnMouseOverHandler ) );
+                builder2.OnMouseOverStopPropagation( true );
+            }
+
+            if ( MouseLeave.HasDelegate )
+            {
+                builder2.OnMouseLeave( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnMouseLeaveHandler ) );
+                builder2.OnMouseLeaveStopPropagation( true );
+            }
+
+            // build drag-and-drop related events
+            BuildDraggableEventsRenderTree( builder2 );
+
+            if ( Attributes is not null )
+                builder2.Attributes( Attributes );
+
+            builder2.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+
+            if ( ChildContent is not null )
+                builder2.Content( ChildContent );
+
+            builder2.CloseElement(); // </tr>
+        } ) );
+
+        builder.CloseComponent(); // </CascadingValue>
+
+        base.BuildRenderTree( builder );
     }
 
     /// <summary>

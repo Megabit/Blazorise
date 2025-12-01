@@ -8,1016 +8,6 @@ namespace Blazorise.Docs.Models
 {
     public static partial class Snippets
     {
-        public const string BeginnersGuideToCreateBlazoriseApp_CounterExample = @"<Heading Size=""HeadingSize.Is1"">Counter with Blazorise</Heading>
-
-<Paragraph>Current count: @currentCount</Paragraph>
-
-<Button Color=""Color.Primary"" Clicked=""IncrementCount"">Click me</Button>
-
-@code {
-    int currentCount = 0;
-
-    void IncrementCount()
-    {
-        currentCount++;
-    }
-}";
-
-        public const string BeginnersGuideToCreateBlazoriseApp_ServicesExample = @"using Blazorise;
-using Blazorise.Bootstrap5;
-using Blazorise.Icons.FontAwesome;
-using BlazoriseSampleApplication;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-
-namespace Company.WebApplication1
-{
-    public class Program
-    {
-        public static async Task Main( string[] args )
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault( args );
-            builder.RootComponents.Add<App>( ""#app"" );
-            builder.RootComponents.Add<HeadOutlet>( ""head::after"" );
-
-            builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
-
-            builder.Services
-                .AddBlazorise( options =>
-                {
-                    options.Immediate = true;
-                } )
-                .AddBootstrap5Providers()
-                .AddFontAwesomeIcons();
-
-            await builder.Build().RunAsync();
-        }
-    }
-}";
-
-        public const string BeginnersGuideToCreateBlazoriseApp_StaticFilesExample = @"<!DOCTYPE html>
-<html lang=""en"">
-
-<head>
-    <meta charset=""utf-8"" />
-    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"" />
-    <title>BlazoriseSampleApplication</title>
-    <base href=""/"" />
-    <link href=""css/bootstrap/bootstrap.min.css"" rel=""stylesheet"" />
-
-    <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-    <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
-
-    <link href=""css/app.css"" rel=""stylesheet"" />
-    <link href=""BlazoriseSampleApplication.styles.css"" rel=""stylesheet"" />
-</head>
-
-<body>
-    <div id=""app"">Loading...</div>
-
-    <div id=""blazor-error-ui"">
-        An unhandled error has occurred.
-        <a href="""" class=""reload"">Reload</a>
-        <a class=""dismiss"">🗙</a>
-    </div>
-    <script src=""_framework/blazor.webassembly.js""></script>
-</body>
-
-</html>";
-
-        public const string BeginnersGuideToCreateBlazoriseApp_UsingsExample = @"@using Blazorise";
-
-        public const string ValidationWithDataAnnotations_FormExample = @"@using ValidationWithDataAnnotations.Models
-
-<Row>
-    <Column>
-        <Validations @ref=""@ValidationsRef"" Mode=""ValidationMode.Manual"" Model=""@EmployeeModel"" ValidateOnLoad=""false"">
-            <Fields>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>First Name</FieldLabel>
-                        <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.FirstName"">
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </TextEdit>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>Last Name</FieldLabel>
-                        <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.LastName"">
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </TextEdit>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-            </Fields>
-            <Fields>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>Email Address</FieldLabel>
-                        <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.Email"" Role=""TextRole.Email"">
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </TextEdit>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>Date of Birth</FieldLabel>
-                        <FieldBody>
-                            <DatePicker @bind-Date=""@EmployeeModel.DateOfBirth"">
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </DatePicker>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-            </Fields>
-            <Fields>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>Years of Experience</FieldLabel>
-                        <FieldBody>
-                            <NumericPicker @bind-Value=""@EmployeeModel.YearsOfExperience"">
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </NumericPicker>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>Gender</FieldLabel>
-                        <FieldBody>
-                            <Select @bind-SelectedValue=""@EmployeeModel.Gender"">
-                                <ChildContent>
-                                    <SelectItem TValue=""string""></SelectItem>
-                                    @foreach ( var g in Gender.GetGenders() )
-                                    {
-                                        <SelectItem TValue=""string"" Value=""@g.Code"">@g.Name</SelectItem>
-                                    }
-                                </ChildContent>
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-            </Fields>
-            <Validation>
-                <Field>
-                    <FieldLabel>Address</FieldLabel>
-                    <FieldBody>
-                        <TextEdit @bind-Text=""@EmployeeModel.Address.Street"">
-                            <Feedback>
-                                <ValidationError />
-                            </Feedback>
-                        </TextEdit>
-                    </FieldBody>
-                </Field>
-            </Validation>
-            <Fields>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>City</FieldLabel>
-                        <FieldBody>
-                            <Select @bind-SelectedValue=""@EmployeeModel.Address.City"">
-                                <ChildContent>
-                                    <SelectItem TValue=""string""></SelectItem>
-                                    @foreach ( var c in City.GetCities() )
-                                    {
-                                        <SelectItem TValue=""string"" Value=""@c.Code"">@c.Name</SelectItem>
-                                    }
-                                </ChildContent>
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-                <Validation>
-                    <Field ColumnSize=""ColumnSize.IsHalf"">
-                        <FieldLabel>Zip</FieldLabel>
-                        <FieldBody>
-                            <TextEdit @bind-Text=""@EmployeeModel.Address.Zip"">
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </TextEdit>
-                        </FieldBody>
-                    </Field>
-                </Validation>
-            </Fields>
-            <Validation>
-                <Field>
-                    <FieldLabel>Country</FieldLabel>
-                    <FieldBody>
-                        <Select @bind-SelectedValue=""@EmployeeModel.Address.Country"">
-                            <ChildContent>
-                                <SelectItem TValue=""string""></SelectItem>
-                                @foreach ( var c in Country.GetCountries() )
-                                {
-                                    <SelectItem TValue=""string"" Value=""@c.Code"">@c.Name</SelectItem>
-                                }
-                            </ChildContent>
-                            <Feedback>
-                                <ValidationError />
-                            </Feedback>
-                        </Select>
-                    </FieldBody>
-                </Field>
-            </Validation>
-        </Validations>
-        <Button Color=""Color.Primary"" Clicked=""@OnSaveClicked"">
-            Validate and Submit
-        </Button>
-    </Column>
-</Row>
-@code {
-    [Inject] IMessageService MessageService { get; set; }
-
-    Validations ValidationsRef { get; set; }
-
-    Employee EmployeeModel { get; set; } = new Employee();
-
-    async Task OnSaveClicked()
-    {
-        if ( await ValidationsRef.ValidateAll() )
-        {
-            await MessageService.Info( ""Thank you for filling the form."" );
-
-            await ValidationsRef.ClearAll();
-        }
-    }
-}";
-
-        public const string ValidationWithDataAnnotations_MessageProviderExample = @"<Router AppAssembly=""@typeof(App).Assembly"">
-    <Found Context=""routeData"">
-        <RouteView RouteData=""@routeData"" DefaultLayout=""@typeof(MainLayout)"" />
-        <FocusOnNavigate RouteData=""@routeData"" Selector=""h1"" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout=""@typeof(MainLayout)"">
-            <p role=""alert"">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
-
-<MessageAlert />";
-
-        public const string ValidationWithDataAnnotations_ModelsExample = @"public class Employee
-{
-    [Required]
-    public string FirstName { get; set; }
-
-    [Required]
-    public string LastName { get; set; }
-
-    [Required]
-    [EmailAddress]
-    public string Email { get; set; }
-
-    [Required]
-    public string Gender { get; set; }
-
-    [Required]
-    public DateTime? DateOfBirth { get; set; }
-
-    [Required]
-    public decimal? YearsOfExperience { get; set; }
-
-    public Address Address { get; set; } = new Address();
-}
-
-public class Address
-{
-    [Required]
-    public string Street { get; set; }
-
-    [Required]
-    public string City { get; set; }
-
-    [Required]
-    public string Zip { get; set; }
-
-    [Required]
-    public string Country { get; set; }
-}
-
-public class Country
-{
-    public string Name { get; set; }
-
-    public string Code { get; set; }
-
-    public static IEnumerable<Country> GetCountries()
-    {
-        return new List<Country>
-        {
-            new() { Name = ""Croatia"", Code = ""HR"" },
-            new() { Name = ""United Kingdom"", Code = ""UK"" },
-            new() { Name = ""United States"", Code = ""US"" },
-        };
-    }
-}
-
-public class City
-{
-    public string Name { get; set; }
-
-    public string Code { get; set; }
-
-    public string CountryCode { get; set; }
-
-    public static IEnumerable<City> GetCities()
-    {
-        return new List<City>
-        {
-            new() { Name = ""San Francisco"", CountryCode = ""US"", Code=""US-101"" },
-            new() { Name = ""Los Angeles"", CountryCode = ""US"", Code=""US-102"" },
-            new() { Name = ""Boston"", CountryCode = ""US"", Code=""US-103"" },
-            new() { Name = ""Portland"", CountryCode = ""US"", Code=""US-104"" },
-            new() { Name = ""Split"", CountryCode = ""HR"", Code=""HR-101"" },
-            new() { Name = ""Zagreb"", CountryCode = ""HR"", Code=""HR-102"" },
-            new() { Name = ""Dubrovnik"", CountryCode = ""HR"", Code=""HR-103"" },
-            new() { Name = ""London"", CountryCode = ""UK"", Code=""UK-101"" },
-            new() { Name = ""Glasgow"", CountryCode = ""UK"", Code=""UK-102"" },
-            new() { Name = ""Liverpool"", CountryCode = ""UK"", Code=""UK-103"" }
-        };
-    }
-}
-
-public class Gender
-{
-    public string Name { get; set; }
-
-    public string Code { get; set; }
-
-    public static IEnumerable<Gender> GetGenders()
-    {
-        return new List<Gender>
-        {
-            new() { Name = ""Male"", Code = ""A"" },
-            new() { Name = ""Female"", Code = ""B"" },
-            new() { Name = ""Non-binary"", Code = ""C"" },
-            new() { Name = ""Transgender"", Code = ""D"" },
-            new() { Name = ""Intersex"", Code = ""E"" },
-            new() { Name = ""I prefer not to say"", Code = ""F"" },
-        };
-    }
-}";
-
-        public const string UsingTheSelectComponent_SelectComponentWithComplexTypeExample = @"<Row>
-    <Column>
-        <Field>
-            <Select TValue=""int"" SelectedValueChanged=""@(value => selectedEmployee = employeeData.First(emp => emp.Id == value))"">
-                @foreach ( var employee in employeeData )
-                {
-                    <SelectItem @key=""employee.Id"" Value=""@employee.Id"">@employee.Name</SelectItem>
-                }
-            </Select>
-        </Field>
-    </Column>
-</Row>
-<Row>
-    <Column>
-        Selected Employee is : @selectedEmployee.Name
-    </Column>
-</Row>
-
-@code {
-    public Employee selectedEmployee;
-    public class Employee
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public List<Employee> employeeData;
-
-    protected override void OnInitialized()
-    {
-        employeeData = new()
-        {
-            new (){ Id = 11500, Name = ""John"" },
-            new (){ Id = 11566, Name = ""Julia"" },
-            new (){ Id = 11612, Name = ""Maria"" },
-            new (){ Id = 10989, Name = ""Peter"" }
-        };
-        selectedEmployee = employeeData.First();
-        base.OnInitialized();
-    }
-}";
-
-        public const string UsingTheSelectComponent_SelectComponentWithEnumTypeExample = @"@using System.Text.Json.Serialization
-
-<Row>
-    <Column>
-        <Field>
-            <Select TValue=""Day"" @bind-SelectedValue=""@selectedDay"">
-                @foreach ( var enumValue in Enum.GetValues<Day>() )
-                {
-                    <SelectItem @key=""enumValue"" Value=""@enumValue"">@enumValue</SelectItem>
-                }
-            </Select>
-        </Field>
-    </Column>
-</Row>
-<Row>
-    <Column>
-        Selected Day is : @selectedDay.ToString(""g"")
-    </Column>
-</Row>
-
-@code {
-    public Day selectedDay;
-
-    [Flags]
-    [JsonConverter( typeof( System.Text.Json.Serialization.JsonStringEnumConverter ) )]
-    public enum Day
-    {
-        None = 0,
-        Sunday = 1,
-        Monday = 2,
-        Tuesday = 4,
-        Wednesday = 8,
-        Thursday = 16,
-        Friday = 32,
-        Saturday = 64
-    }
-}";
-
-        public const string UsingTheSelectComponent_SelectComponentWithNullableTypeExample = @"<Row>
-    <Column>
-        <Field>
-            <Select TValue=""int?"" @bind-SelectedValue=""@selectedEmployeeId"">
-                <SelectItem Value=""(int?)null""></SelectItem>
-                <SelectItem Value=""11500"">John</SelectItem>
-                <SelectItem Value=""11566"">Julia</SelectItem>
-                <SelectItem Value=""11612"">Maria</SelectItem>
-                <SelectItem Value=""10989"">Peter</SelectItem>
-            </Select>
-        </Field>
-    </Column>
-</Row>
-
-<Row>
-    <Column>
-        Selected Employee Id is : @(selectedEmployeeId.HasValue ? selectedEmployeeId.Value : ""empty"")
-    </Column>
-</Row>
-
-@code {
-    private int? selectedEmployeeId = null;
-}";
-
-        public const string UsingTheSelectComponent_SelectComponentWithPrimitiveTypeExample = @"<Row>
-    <Column>
-        <Field>
-            <Select TValue=""int"">
-                <SelectItem Value=""11500"">John</SelectItem>
-                <SelectItem Value=""11566"">Julia</SelectItem>
-                <SelectItem Value=""11612"">Maria</SelectItem>
-                <SelectItem Value=""10989"">Peter</SelectItem>
-            </Select>
-        </Field>
-    </Column>
-</Row>";
-
-        public const string WhatIsBlazoriseAllAbout_ButtonExample = @"<Button Color=""Color.Primary"">
-    Click Me!
-</Button>";
-
-        public const string WhatIsBlazoriseAllAbout_FluentSyntaxExample = @"<Button Margin=""Margin.Is2.OnDesktop.Is4.OnMobile"">
-    Click me!
-</Button>";
-
-        public const string HowToEnhanceDataGridMenuFilter_CustomFilterExample = @"@code{
-    private bool MyCustomFilter( FilterExample row )
-    {
-        return _filterTracker.columnFilters is null
-            ? true
-            : _filterTracker.columnFilters.All( x => EvaluateColumnFilter( x, row ) );
-    }
-
-    private bool EvaluateColumnFilter( ColumnFilter<FilterExample> columnFilter, FilterExample row )
-    {
-        Console.WriteLine( $""Evaluating... {columnFilter.Column.Field}"" );
-        Console.WriteLine( $""Filter to apply... {columnFilter.SelectedFilter}"" );
-        Console.WriteLine( $""Search for... {columnFilter.SearchValue}"" );
-
-
-        //You might need some reflection based or expression based getter to get the value of the corresponding field dynamically
-        //Do whatever boolean logic you need to do here
-        //We opted to use the DataGrid.Utils.FunctionCompiler.CreateValueGetter to create a dynamic getter for the field and using a simple comparer with the new GreaterThan and LessThan comparisons.
-        var columnFieldGetter = DataGrid.Utils.FunctionCompiler.CreateValueGetter<FilterExample>( columnFilter.Column.Field );
-        var columnValue = columnFieldGetter( row );
-
-        return CompareFilterValues( columnValue.ToString(), columnFilter.SearchValue, columnFilter.SelectedFilter );
-
-    }
-
-    private bool CompareFilterValues( string searchValue, string compareTo, MyFilter filterMethod )
-    {
-        switch (filterMethod)
-        {
-            case MyFilter.StartsWith:
-                return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-            case MyFilter.EndsWith:
-                return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-            case MyFilter.Equals:
-                return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-            case MyFilter.NotEquals:
-                return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-            case MyFilter.GreaterThan:
-                if (int.TryParse( searchValue, out var parsedSearchValue ) && int.TryParse( compareTo, out var parsedCompareToValue ))
-                {
-                    return parsedSearchValue > parsedCompareToValue;
-                }
-                return false;
-            case MyFilter.LessThan:
-                if (int.TryParse( searchValue, out var parsedSearchValueLessThan ) && int.TryParse( compareTo, out var parsedCompareToValueLessThan ))
-                {
-                    return parsedSearchValueLessThan < parsedCompareToValueLessThan;
-                }
-                return false;
-            case MyFilter.Contains:
-            default:
-                return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
-        }
-    }
-}";
-
-        public const string HowToEnhanceDataGridMenuFilter_FilterMenuTemplateExample = @"<FilterMenuTemplate>
-    <Row>
-        <Column ColumnSize=""ColumnSize.Is4"">
-            <Select TValue=""MyFilter"" SelectedValue=""@_filterTracker.GetColumnFilterValue(context.Column.Field)"" SelectedValueChanged=""e => { _filterTracker.SetColumnFilter(context.Column, e); }"">
-                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Contains"">Contains</SelectItem>
-                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.StartsWith"">Starts With</SelectItem>
-                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.EndsWith"">Ends With</SelectItem>
-                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Equals"">Equals</SelectItem>
-                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.NotEquals"">Not Equals</SelectItem>
-                @if (context.Column.ColumnType == DataGridColumnType.Numeric)
-                {
-                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.GreaterThan"">GreaterThan</SelectItem>
-                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.LessThan"">LessThan</SelectItem>
-                }
-            </Select>
-        </Column>
-        <Column ColumnSize=""ColumnSize.Is4"">
-            <TextEdit Text=""@_filterTracker.GetColumnSearchValue(context.Column.Field)"" TextChanged=""@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))"" />
-        </Column>
-
-        <Column ColumnSize=""ColumnSize.Is4"">
-            <Button Clicked=""context.Filter"" Color=""Color.Primary""><Icon Name=""IconName.Filter""></Icon> Filter</Button>
-            <Button Clicked=""@(() => { _filterTracker.ClearColumnFilter(context.Column); context.ClearFilter.InvokeAsync(); })"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
-        </Column>
-    </Row>
-</FilterMenuTemplate>";
-
-        public const string HowToEnhanceDataGridMenuFilter_FilterTrackerExample = @"@code{
-    private FilterTracker<FilterExample> _filterTracker = new();
-
-    public class ColumnFilter<T>
-    {
-        public DataGridColumn<T> Column;
-        public string SearchValue;
-        public MyFilter SelectedFilter { get; set; } = MyFilter.Contains;
-    }
-
-    public class FilterTracker<T>
-    {
-        public List<ColumnFilter<T>> columnFilters { get; set; }
-
-        public void ClearColumnFilter( DataGridColumn<T> column )
-        {
-            columnFilters ??= new();
-
-            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
-            if (columnFilter is not null)
-            {
-                columnFilters.Remove( columnFilter );
-            }
-        }
-
-        public void SetColumnFilter( DataGridColumn<T> column, MyFilter myFilter )
-        {
-            columnFilters ??= new();
-
-            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
-            if (columnFilter is null)
-            {
-                columnFilters.Add( new()
-                    {
-                        Column = column,
-                        SelectedFilter = myFilter
-                    } );
-            }
-            else
-            {
-                columnFilter.SelectedFilter = myFilter;
-            }
-        }
-
-        public void SetColumnSearchValue( DataGridColumn<T> column, string searchValue )
-        {
-            columnFilters ??= new();
-
-            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
-            if (columnFilter is null)
-            {
-                columnFilters.Add( new()
-                    {
-                        Column = column,
-                        SearchValue = searchValue
-                    } );
-            }
-            else
-            {
-                columnFilter.SearchValue = searchValue;
-            }
-        }
-
-        public ColumnFilter<T> GetColumnFilter( string fieldName )
-            => columnFilters?.FirstOrDefault( x => x.Column.Field == fieldName );
-
-        public MyFilter GetColumnFilterValue( string fieldName )
-            => GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
-
-        public string GetColumnSearchValue( string fieldName )
-            => GetColumnFilter( fieldName )?.SearchValue;
-
-    }
-}";
-
-        public const string HowToEnhanceDataGridMenuFilter_MyFilterExample = @"public enum MyFilter
-{
-	Equals, NotEquals, Contains, StartsWith, EndsWith, GreaterThan, LessThan
-}";
-
-        public const string HowToHandleLocalizationInBlazoriseValidation_MessageLocalizerHelperExample = @"public class MessageLocalizerHelper<T>
-{
-    private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
-
-    public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
-    {
-        this.stringLocalizer = stringLocalizer;
-    }
-
-    public string Localize( string message, IEnumerable<string>? arguments )
-    {
-        try
-        {
-            return arguments?.Count() > 0
-                ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
-                : stringLocalizer[message];
-        }
-        catch
-        {
-            return stringLocalizer[message];
-        }
-    }
-
-    private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
-    {
-        foreach (var argument in arguments)
-        {
-            // first try to localize with ""DisplayName:{Name}""
-            var localization = stringLocalizer[$""DisplayName:{argument}""];
-
-            if (localization.ResourceNotFound)
-            {
-                // then try to localize with just ""{Name}""
-                localization = stringLocalizer[argument];
-
-                yield return localization;
-            }
-        }
-    }
-}";
-
-        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
-    <Validation>
-        <Field>
-            <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
-                <Feedback>
-                    <ValidationError />
-                </Feedback>
-            </TextEdit>
-        </Field>
-    </Validation>
-</Validations>
-
-<Button Clicked=""Submit"">Submit</Button>
-@code {
-    private ValidationLocalizationExample _model = new();
-    private Validations _validationsRef;
-    public class ValidationLocalizationExample
-    {
-        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
-        public string PhoneCountryCode { get; set; }
-    }
-
-    private async Task Submit()
-    {
-        if (await _validationsRef.ValidateAll())
-        {
-            Console.WriteLine( ""Validation Success!"" );
-        }
-    }
-}";
-
-        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationFullExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
-    <Validation MessageLocalizer=""MessageLocalizer.Localize"">
-        <Field>
-            <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
-                <Feedback>
-                    <ValidationError />
-                </Feedback>
-            </TextEdit>
-        </Field>
-    </Validation>
-</Validations>
-
-<Button Clicked=""Submit"">Submit</Button>
-@code {
-    [Inject] public MessageLocalizerHelper<Dashboard> MessageLocalizer { get; set; }
-
-    private ValidationLocalizationExample _model = new();
-    private Validations _validationsRef;
-
-    private async Task Submit()
-    {
-        if (await _validationsRef.ValidateAll())
-        {
-            Console.WriteLine( ""Validation Success!"" );
-        }
-    }
-
-    public class ValidationLocalizationExample
-    {
-        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
-        public string PhoneCountryCode { get; set; }
-    }
-
-
-    public class MessageLocalizerHelper<T>
-    {
-        private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
-
-        public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
-        {
-            this.stringLocalizer = stringLocalizer;
-        }
-
-        public string Localize( string message, IEnumerable<string>? arguments )
-        {
-            try
-            {
-                return arguments?.Count() > 0
-                    ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
-                    : stringLocalizer[message];
-            }
-            catch
-            {
-                return stringLocalizer[message];
-            }
-        }
-
-        private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
-        {
-            foreach (var argument in arguments)
-            {
-                // first try to localize with ""DisplayName:{Name}""
-                var localization = stringLocalizer[$""DisplayName:{argument}""];
-
-                if (localization.ResourceNotFound)
-                {
-                    // then try to localize with just ""{Name}""
-                    localization = stringLocalizer[argument];
-
-                    yield return localization;
-                }
-            }
-        }
-    }
-}";
-
-        public const string HowToOverrideFluentDesignTokens_FluentProviderThemeVariables2Example = @"<link href=""site.css"" rel=""stylesheet"" />";
-
-        public const string HowToOverrideFluentDesignTokens_FluentProviderThemeVariablesExample = @":root {
-    --borderRadiusNone: 0;
-    --borderRadiusSmall: 2px;
-    --borderRadiusMedium: 4px;
-    --borderRadiusLarge: 6px;
-    --borderRadiusXLarge: 8px;
-    // other variables
-}";
-
-        public const string HowToImplementvalidationWithCaptcha_CaptchaInputCsExample = @"#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Linq.Expressions;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Blazorise.Captcha;
-using Blazorise.Docs.Domain;
-using Blazorise.Extensions;
-using Blazorise.Utilities;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
-#endregion
-
-namespace Blazorise.Docs.Pages.Home.Components;
-
-public partial class CaptchaInput : BaseInputComponent<bool>
-{
-    #region Members
-
-    public class GoogleResponse
-    {
-        public bool Success { get; set; }
-        public double Score { get; set; } //V3 only - The score for this request (0.0 - 1.0)
-        public string Action { get; set; } //v3 only - An identifier
-        public string Challenge_ts { get; set; }
-        public string Hostname { get; set; }
-        public string ErrorCodes { get; set; }
-    }
-
-    protected Captcha.Captcha captchaRef;
-
-    #endregion
-
-    #region Methods
-
-    /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<bool>( nameof( Value ), out var paramChecked ) && !paramChecked.IsEqual( Value ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<bool>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            await InitializeValidation();
-        }
-
-        if ( Rendered && captchaRef.State.Valid && !Value )
-        {
-            await captchaRef.Reset();
-        }
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
-
-        base.BuildClasses( builder );
-    }
-
-    protected async Task Solved( CaptchaState state )
-    {
-        await CurrentValueHandler( state.Valid.ToString() );
-    }
-
-    protected async Task Expired()
-    {
-        await CurrentValueHandler( false.ToString() );
-    }
-
-    protected async Task<bool> Validate( CaptchaState state )
-    {
-        //Perform server side validation
-        //You should make sure to implement server side validation
-        //https://developers.google.com/recaptcha/docs/verify
-        //Here's a simple example:
-        var content = new FormUrlEncodedContent( new[]
-        {
-            new KeyValuePair<string, string>(""secret"", AppSettings.Value.ReCaptchaServerKey),
-            new KeyValuePair<string, string>(""response"", state.Response),
-         } );
-
-        var httpClient = HttpClientFactory.CreateClient();
-        var response = await httpClient.PostAsync( ""https://www.google.com/recaptcha/api/siteverify"", content );
-
-        var result = await response.Content.ReadAsStringAsync();
-        var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        } );
-
-        return googleResponse.Success;
-    }
-
-    protected override Task<ParseValue<bool>> ParseValueFromStringAsync( string value )
-    {
-        return Task.FromResult( new ParseValue<bool>( true, bool.Parse( value ), null ) );
-    }
-
-    protected override Task OnInternalValueChanged( bool value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    public static void ValidateRobot( ValidatorEventArgs eventArgs )
-    {
-        eventArgs.Status = bool.Parse( eventArgs.Value.ToString() ) ? ValidationStatus.Success : ValidationStatus.Error;
-
-        if ( eventArgs.Status == ValidationStatus.Error )
-            eventArgs.ErrorText = ""Please check to confirm you're a real human!"";
-        else
-            eventArgs.ErrorText = null;
-    }
-
-    #endregion
-
-    #region Properties
-
-    /// <inheritdoc/>
-    protected override bool InternalValue { get => Value; set => Value = value; }
-
-    [Inject] IOptions<AppSettings> AppSettings { get; set; }
-    [Inject] IHttpClientFactory HttpClientFactory { get; set; }
-
-    [Parameter] public bool Value { get; set; }
-    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the captcha valid value.
-    /// </summary>
-    [Parameter] public Expression<Func<bool>> ValueExpression { get; set; }
-
-    #endregion
-}";
-
-        public const string HowToImplementvalidationWithCaptcha_CaptchaInputExample = @"@inherits BaseInputComponent<bool>
-<div id=""@ElementId"" class=""@ClassNames"" style=""@StyleNames"">
-    <Captcha @ref=captchaRef Solved=""@Solved"" Validate=""@Validate"" Expired=""Expired"" />
-</div>
-@Feedback";
-
-        public const string HowToImplementvalidationWithCaptcha_ValidationLocalizationExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
-    <Validation>
-        <Field>
-            <FieldLabel>Phone Country Code</FieldLabel>
-            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
-                <Feedback>
-                    <ValidationError />
-                </Feedback>
-            </TextEdit>
-        </Field>
-    </Validation>
-</Validations>
-
-<Button Clicked=""Submit"">Submit</Button>
-@code {
-    private ValidationLocalizationExample _model = new();
-    private Validations _validationsRef;
-    public class ValidationLocalizationExample
-    {
-        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
-        public string PhoneCountryCode { get; set; }
-    }
-
-    private async Task Submit()
-    {
-        if (await _validationsRef.ValidateAll())
-        {
-            Console.WriteLine( ""Validation Success!"" );
-        }
-    }
-}";
-
         public const string BasicAccordionExample = @"<Accordion>
     <AccordionItem @bind-Visible=""@accordionItem1Visible"">
         <AccordionHeader>
@@ -1197,6 +187,15 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 <Badge Color=""Color.Info"">Info</Badge>
 <Badge Color=""Color.Light"">Light</Badge>
 <Badge Color=""Color.Dark"">Dark</Badge>";
+
+        public const string BadgeSubtleColorsExample = @"<Badge Color=""Color.Primary"" Subtle>Primary</Badge>
+<Badge Color=""Color.Secondary"" Subtle>Secondary</Badge>
+<Badge Color=""Color.Success"" Subtle>Success</Badge>
+<Badge Color=""Color.Danger"" Subtle>Danger</Badge>
+<Badge Color=""Color.Warning"" Subtle>Warning</Badge>
+<Badge Color=""Color.Info"" Subtle>Info</Badge>
+<Badge Color=""Color.Light"" Subtle>Light</Badge>
+<Badge Color=""Color.Dark"" Subtle>Dark</Badge>";
 
         public const string BasicBadgeExample = @"<Badge Color=""Color.Primary"">Hello</Badge>";
 
@@ -1803,6 +802,42 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     }
 }";
 
+        public const string CollapseBasicExample = @"<Collapse @bind-Visible=""@visible"">
+    <CollapseHeader>
+        <Button Color=""Color.Primary"" Clicked=""@(() => visible = !visible)"">
+            Toggle collapse
+        </Button>
+    </CollapseHeader>
+    <CollapseBody>
+        <Card>
+            <CardBody>
+                This is some collapsible content. It can be shown or hidden by clicking the button.
+            </CardBody>
+        </Card>
+    </CollapseBody>
+</Collapse>
+@code {
+    bool visible = true;
+}";
+
+        public const string CollapseToggleExample = @"<Collapse @ref=""@collapseRef"">
+    <CollapseHeader>
+        <Button Color=""Color.Primary"" Clicked=""@collapseRef.Toggle"">
+            Toggle collapse
+        </Button>
+    </CollapseHeader>
+    <CollapseBody>
+        <Card>
+            <CardBody>
+                This is some collapsible content. It can be shown or hidden by clicking the button.
+            </CardBody>
+        </Card>
+    </CollapseBody>
+</Collapse>
+@code {
+    Collapse collapseRef;
+}";
+
         public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
 
         public const string ColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
@@ -1869,6 +904,8 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         selectedDate = date;
     }
 }";
+
+        public const string DatePickerDefaultTimesExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" DefaultHour=""9"" DefaultMinute=""15"" />";
 
         public const string DatePickerDisabledDatesExample = @"<DatePicker TValue=""DateTime?"" DisabledDates=""@disabledDates"" />
 
@@ -4839,6 +3876,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string TimePickerDefaultTimesExample = @"<TimePicker TValue=""TimeSpan?"" DefaultHour=""9"" DefaultMinute=""15"" />";
+
         public const string TimePickerIncrementsExample = @"<TimePicker TValue=""TimeSpan?"" HourIncrement=""2"" MinuteIncrement=""30"" />";
 
         public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" StaticPicker=""false"" />
@@ -5464,50 +4503,50 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 	.AddBootstrapProviders()
 	.AddEmptyIconProvider();";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.8.0.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.8.0.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.8.0.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.8.0.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.8.7.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.8.0.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.8.0.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.8.0.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=1.8.0.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.8.7.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.8.0.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.8.7.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -5515,15 +4554,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.8.0.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=1.8.0.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.8.0.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.8.7.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.8.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.8.0.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.8.7.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.8.7.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -5533,7 +4572,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.8.0.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.8.7.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
@@ -5601,7 +4640,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.8.0.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.8.7.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -8757,9 +7796,9 @@ Install-Package Blazorise.Chart.Zoom";
           Filterable
           FilterMode=""DataGridFilterMode.Menu"">
     <DataGridCommandColumn />
-    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
-    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
-    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
+    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" />
     <DataGridNumericColumn Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Editable />
     <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
 </DataGrid>
@@ -8778,28 +7817,27 @@ Install-Package Blazorise.Chart.Zoom";
 
     private int totalEmployees;
 
-    private async Task OnReadData(DataGridReadDataEventArgs<Employee> e)
+    private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
-
-        if (!e.CancellationToken.IsCancellationRequested)
+        if ( !e.CancellationToken.IsCancellationRequested )
         {
-            var query = employeeListSource.AsQueryable().ApplyDataGridSort(e.Columns).ApplyDataGridSearch(e.Columns);
+            var query = employeeListSource.AsQueryable().ApplyDataGridSort( e.Columns ).ApplyDataGridSearch( e.Columns );
 
-            if (dataGridRef.CustomFilter is not null)
-                query = query.Where(item => item != null && dataGridRef.CustomFilter(item));
+            if ( dataGridRef.CustomFilter is not null )
+                query = query.Where( item => item != null && dataGridRef.CustomFilter( item ) );
 
             var response = new List<Employee>();
 
-            if (e.ReadDataMode is DataGridReadDataMode.Virtualize)
-                response = query.ApplyDataGridPaging(e.VirtualizeOffset + 1, e.VirtualizeCount).ToList();
-            else if (e.ReadDataMode is DataGridReadDataMode.Paging)
-                response = query.ApplyDataGridPaging(e.Page, e.PageSize).ToList();
+            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
+                response = query.ApplyDataGridVirtualization( e.VirtualizeOffset, e.VirtualizeCount ).ToList();
+            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
+                response = query.ApplyDataGridPaging( e.Page, e.PageSize ).ToList();
             else
-                throw new Exception(""Unhandled ReadDataMode"");
+                throw new Exception( ""Unhandled ReadDataMode"" );
 
-            await Task.Delay(Random.Shared.Next(100));
+            await Task.Delay( Random.Shared.Next( 100 ) );
 
-            if (!e.CancellationToken.IsCancellationRequested)
+            if ( !e.CancellationToken.IsCancellationRequested )
             {
                 totalEmployees = query.Count();
                 employeeList = response;
@@ -10016,7 +9054,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
 
-        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.0.0"" rel=""stylesheet"" />";
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
@@ -12016,10 +11054,10 @@ builder.Services
     .AddFontAwesomeIcons();";
 
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css"" integrity=""sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q=="" crossorigin=""anonymous"" referrerpolicy=""no-referrer"" />
-<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=1.8.0.0"" rel=""stylesheet"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=1.8.7.0"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=1.8.0.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -12042,8 +11080,8 @@ builder.Services
         public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.8.0.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -12066,8 +11104,8 @@ builder.Services
         public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.8.0.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -12090,10 +11128,20 @@ builder.Services
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=1.8.0.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
+
+        public const string FluentUI2GuideDarkThemeExample = @"<html lang=""en"" data-theme=""dark"">
+  <head>
+    <meta charset=""utf-8"" />
+    <title>My Fluent UI App</title>
+  </head>
+  <body>
+    <app>Loading...</app>
+  </body>
+</html>";
 
         public const string FluentUI2GuideNuget1Example = @"Install-Package Blazorise.FluentUI2";
 
@@ -12108,11 +11156,11 @@ builder.Services
     .AddFluentUI2Providers()
     .AddFluentUIIcons();";
 
-        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.0.0"" rel=""stylesheet"" />
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.8.7.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/reboot.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=1.8.0.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
@@ -12148,11 +11196,11 @@ builder.Services
 
 <!-- Add Material font (Roboto) and Material icon as needed -->
 <link href=""https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700"" rel=""stylesheet"">
-<link href=""https://fonts.googleapis.com/icon?family=Material+Icons"" rel=""stylesheet"">
+<link href=""https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Material/blazorise.material.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=1.8.0.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Material/blazorise.material.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=1.8.7.0"" rel=""stylesheet"" />
 
 <!-- Optional JavaScript -->
 <!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
@@ -12163,7 +11211,7 @@ builder.Services
 
 <!-- Mandatory JavaScript -->
 <script src=""js/material.min.js""></script>
-<script src=""_content/Blazorise.Material/blazorise.material.js?v=1.8.0.0""></script>";
+<script src=""_content/Blazorise.Material/blazorise.material.js?v=1.8.7.0""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
 
@@ -12185,10 +11233,10 @@ builder.Services
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <script src=""https://cdn.tailwindcss.com""></script>
-<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.8.0.0""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.8.7.0""></script>
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=1.8.0.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideSourceFiles2Example = @"<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
 
@@ -12196,10 +11244,96 @@ builder.Services
 <link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.prod.css?v=1.8.0.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=1.8.7.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.prod.css?v=1.8.7.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
+
+        public const string BackgroundColorsExample = @"<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Primary"" TextColor=""TextColor.White"">
+    Primary
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"">
+    Primary Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Secondary"" TextColor=""TextColor.White"">
+    Secondary
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Secondary.Subtle"" TextColor=""TextColor.Secondary.Emphasis"">
+    Secondary Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Success"" TextColor=""TextColor.White"">
+    Success
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Success.Subtle"" TextColor=""TextColor.Success.Emphasis"">
+    Success Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Danger"" TextColor=""TextColor.White"">
+    Danger
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Danger.Subtle"" TextColor=""TextColor.Danger.Emphasis"">
+    Danger Subtle
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Warning"" TextColor=""TextColor.Dark"">
+    Warning
+</Div>
+<Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Warning.Subtle"" TextColor=""TextColor.Warning.Emphasis"">
+    Warning Subtle
+</Div>";
+
+        public const string TextColorsExample = @"<Paragraph TextColor=""TextColor.Primary"">
+    Primary
+</Paragraph>
+<Paragraph TextColor=""TextColor.Primary.Emphasis"">
+    Primary Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Secondary"">
+    Secondary
+</Paragraph>
+<Paragraph TextColor=""TextColor.Secondary.Emphasis"">
+    Secondary Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Success"">
+    Success
+</Paragraph>
+<Paragraph TextColor=""TextColor.Success.Emphasis"">
+    Success Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Danger"">
+    Danger
+</Paragraph>
+<Paragraph TextColor=""TextColor.Danger.Emphasis"">
+    Danger Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Warning"">
+    Warning
+</Paragraph>
+<Paragraph TextColor=""TextColor.Warning.Emphasis"">
+    Warning Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Info"" Background=""Background.Dark"">
+    Info
+</Paragraph>
+<Paragraph TextColor=""TextColor.Info.Emphasis"">
+    Info Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Light"">
+    Light
+</Paragraph>
+<Paragraph TextColor=""TextColor.Light.Emphasis"" Background=""Background.Dark"">
+    Light Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Dark"">
+    Dark
+</Paragraph>
+<Paragraph TextColor=""TextColor.Dark.Emphasis"">
+    Dark Emphasis
+</Paragraph>
+<Paragraph TextColor=""TextColor.Body"">
+    Body
+</Paragraph>
+<Paragraph TextColor=""TextColor.Body.Emphasis"">
+    Body Emphasis
+</Paragraph>";
 
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />
@@ -12405,15 +11539,54 @@ builder.Services
     </Column>
 </Grid>";
 
-        public const string BorderExample = @"<Span Border=""Border.Is1"">Border on all sides</Span>
+        public const string BorderExample = @"<Div Border=""Border.Is1"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Default border on all sides
+</Div>
 
-<Span Border=""Border.Is1.Rounded"">Rounded</Span>
+<Div Border=""Border.Is1.Rounded"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Rounded
+</Div>
 
-<Span Border=""Border.Primary"">Borders with primary color</Span>";
+<Div Border=""Border.Primary"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with primary color
+</Div>
+
+<Div Border=""Border.Is3.Success.Subtle"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with subtle color
+</Div>";
 
         public const string ColumnSizeExample = @"<Row>
-    <Column ColumnSize=""ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile"">
-    Some content...    
+    <Column ColumnSize=""ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Profile</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    This column adjusts automatically based on screen size.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>Desktop: 4 columns</UnorderedListItem>
+                    <UnorderedListItem>Tablet: 6 columns</UnorderedListItem>
+                    <UnorderedListItem>Mobile: full width (12 columns)</UnorderedListItem>
+                </UnorderedList>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize=""ColumnSize.Is8.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Details</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Combine multiple breakpoint sizes with a fluent builder pattern.
+                    This allows you to create flexible, responsive layouts
+                    without manually writing CSS grid rules.
+                </Paragraph>
+            </CardBody>
+        </Card>
     </Column>
 </Row>";
 
@@ -13194,13 +12367,6 @@ builder.Services
 <ToastProvider />";
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
-
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.8.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.8.0.0"" rel=""stylesheet"" />
-
-<script src=""_content/Blazorise/blazorise.js?v=1.8.0.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.8.0.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.8.0.0""></script>";
 
     }
 }

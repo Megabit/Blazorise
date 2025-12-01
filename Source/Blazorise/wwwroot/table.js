@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=1.8.0.0";
+import { getRequiredElement } from "./utilities.js?v=1.8.7.0";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -8,7 +8,7 @@ export function initializeTableFixedHeader(element, elementId) {
 
     let resizeTimeout = null
 
-    function resizeThottler() {
+    const resizeThottler = () => {
         if (!resizeTimeout) {
             resizeTimeout = setTimeout(function () {
                 resizeTimeout = null;
@@ -32,7 +32,9 @@ export function initializeTableFixedHeader(element, elementId) {
 
     resizeHandler(element);
 
-    window.addEventListener("resize", this.resizeThottler, false);
+    // Save reference so destroy can remove it
+    element._resizeThottler = resizeThottler;
+    window.addEventListener("resize", element._resizeThottler, false);
 }
 
 export function destroyTableFixedHeader(element, elementId) {
@@ -41,8 +43,8 @@ export function destroyTableFixedHeader(element, elementId) {
     if (!element)
         return;
 
-    if (typeof this.resizeThottler === "function") {
-        window.removeEventListener("resize", this.resizeThottler);
+    if (typeof element._resizeThottler === "function") {
+        window.removeEventListener("resize", element._resizeThottler);
     }
 
     const thead = element.querySelector("thead:first-child");

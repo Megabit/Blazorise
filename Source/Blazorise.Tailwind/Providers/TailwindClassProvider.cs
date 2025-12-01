@@ -1575,6 +1575,19 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
+            // Subtle variants
+            "primary-subtle" => "!bg-primary-100",
+            "secondary-subtle" => "!bg-secondary-100",
+            "success-subtle" => "!bg-success-100",
+            "danger-subtle" => "!bg-danger-100",
+            "warning-subtle" => "!bg-warning-100",
+            "info-subtle" => "!bg-info-100",
+            "light-subtle" => "!bg-light-50",
+            "dark-subtle" => "!bg-dark-600",
+            "link-subtle" => "!bg-link-100",
+            "body-subtle" => "!bg-body-subtle",
+
+            // Base variants
             "primary" => "!bg-primary-500",
             "secondary" => "!bg-secondary-500",
             "success" => "!bg-success-500",
@@ -1586,7 +1599,7 @@ public class TailwindClassProvider : ClassProvider
             "white" => "!bg-white",
             "transparent" => "!bg-transparent",
             "body" => "!bg-body",
-            _ => name,
+            _ => name
         };
     }
 
@@ -1644,9 +1657,9 @@ public class TailwindClassProvider : ClassProvider
             return "b-table-row odd:bg-white even:bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
         if ( hoverable )
-            return "b-table-row hover:bg-gray-100 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
+            return "b-table-row bg-white hover:bg-gray-100 group-[:not(.border-0)]:border-b group-[:not(.border-0)]:border-gray-200 dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
-        return "b-table-row group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
+        return "b-table-row bg-white group-[:not(.border-0)]:border-b group-[:not(.border-0)]:border-gray-200 dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
     }
 
     public override string TableRowColor( Color color )
@@ -1727,12 +1740,29 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Badge() => "b-badge inline-flex items-center text-[0.75em] leading-[1em] font-semibold px-2.5 py-1 rounded";
 
-    public override string BadgeColor( Color color )
+    public override string BadgeColor( Color color, bool subtle )
     {
         if ( color.IsNullOrDefault() )
             return null;
 
         var name = color?.Name;
+
+        if ( subtle )
+        {
+            return name switch
+            {
+                "primary" => "bg-primary-50 text-primary-700 border border-primary-100 dark:bg-primary-900/30 dark:text-primary-300 dark:border-primary-800",
+                "secondary" => "bg-secondary-50 text-secondary-700 border border-secondary-100 dark:bg-secondary-900/30 dark:text-secondary-300 dark:border-secondary-800",
+                "success" => "bg-success-50 text-success-700 border border-success-100 dark:bg-success-900/30 dark:text-success-300 dark:border-success-800",
+                "danger" => "bg-danger-50 text-danger-700 border border-danger-100 dark:bg-danger-900/30 dark:text-danger-300 dark:border-danger-800",
+                "warning" => "bg-warning-50 text-warning-700 border border-warning-100 dark:bg-warning-900/30 dark:text-warning-300 dark:border-warning-800",
+                "info" => "bg-info-50 text-info-700 border border-info-100 dark:bg-info-900/30 dark:text-info-300 dark:border-info-800",
+                "light" => "bg-light-50 text-light-700 border border-light-100 dark:bg-light-900/30 dark:text-light-300 dark:border-light-800",
+                "dark" => "bg-dark-700 text-dark-100 border border-dark-600 dark:bg-dark-300 dark:text-dark-900 dark:border-dark-400",
+                "link" => "bg-primary-50 text-primary-700 border border-primary-100 dark:bg-primary-900/30 dark:text-primary-300 dark:border-primary-800",
+                _ => name,
+            };
+        }
 
         return name switch
         {
@@ -1749,11 +1779,12 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+
     public override string BadgePill( bool pill ) => pill ? "b-badge-pill rounded-full" : null;
 
     public override string BadgeClose() => null;
 
-    public override string BadgeCloseColor( Color color ) => BadgeColor( color );
+    public override string BadgeCloseColor( Color color, bool subtle ) => BadgeColor( color, subtle );
 
     #endregion
 
@@ -1777,6 +1808,21 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
+            // Emphasis variants
+            "primary-emphasis" => "!text-primary-700 !dark:text-primary-400",
+            "secondary-emphasis" => "!text-secondary-700 !dark:text-secondary-400",
+            "success-emphasis" => "!text-success-700 !dark:text-success-400",
+            "danger-emphasis" => "!text-danger-700 !dark:text-danger-400",
+            "warning-emphasis" => "!text-warning-600 !dark:text-warning-300",
+            "info-emphasis" => "!text-info-700 !dark:text-info-400",
+            "light-emphasis" => "!text-light-700 !dark:text-light-500",
+            "dark-emphasis" => "!text-gray-900 !dark:text-gray-100",
+            "body-emphasis" => "!text-gray-700 !dark:text-gray-300",
+            "muted-emphasis" => "!text-gray-400 !dark:text-gray-500",
+            "black-50-emphasis" => "!text-gray-700 !dark:text-gray-400",
+            "white-50-emphasis" => "!text-gray-200 !dark:text-gray-400",
+
+            // Base variants
             "primary" => "!text-primary-600 !dark:text-primary-500",
             "secondary" => "!text-secondary-600 !dark:text-secondary-500",
             "success" => "!text-success-500 !dark:text-success-400",
@@ -2050,24 +2096,33 @@ public class TailwindClassProvider : ClassProvider
 
     #region Borders
 
-    public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+    public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
         var sb = new StringBuilder( "!border" );
 
-        if ( borderSide != BorderSide.All )
-            sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+        if ( borderDefinition.Side != BorderSide.All )
+            sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
-        if ( borderColor != BorderColor.None )
-            sb.Append( " !border-" ).Append( ToBorderColor( borderColor ) );
+        if ( borderDefinition.Color != BorderColor.None )
+        {
+            sb.Append( " !border-" );
+
+            sb.Append( ToBorderColor( borderDefinition.Color ) );
+
+            if ( borderDefinition.Subtle )
+                sb.Append( "-300" );
+            else
+                sb.Append( "-600" );
+        }
 
         return sb.ToString();
     }
 
-    public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
-        => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+    public override string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules )
+        => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     #endregion
 
@@ -2466,7 +2521,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ToBorderColor( BorderColor borderColor )
     {
-        return $"{borderColor.Name}-600";
+        return $"{borderColor.Name}";
     }
 
     public override string ToBreakpoint( Breakpoint breakpoint )
