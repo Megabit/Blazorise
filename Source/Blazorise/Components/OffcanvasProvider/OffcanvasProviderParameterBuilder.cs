@@ -1,11 +1,11 @@
-﻿using System;
+#region Using directives
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+#endregion
 
-namespace Blazorise.Components.OffcanvasProvider;
+namespace Blazorise;
+
 /// <summary>
 /// Provides a builder with helper methods to help you build your component parameters.
 /// </summary>

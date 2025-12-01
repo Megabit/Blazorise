@@ -1,14 +1,17 @@
-﻿using System;
+#region Using directives
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Blazorise.Components.OffcanvasProvider;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
-public  class OffcanvasService : IOffcanvasService
+
+/// <summary>
+/// Together with <see cref="OffcanvasProvider"/>, handles the instantiation of offcanvas panels with custom content.
+/// </summary>
+public class OffcanvasService : IOffcanvasService
 {
     /// <inheritdoc/>
     public OffcanvasProvider OffcanvasProvider { get; private set; }
@@ -26,26 +29,26 @@ public  class OffcanvasService : IOffcanvasService
         => Show( title, typeof( TComponent ) );
 
     /// <inheritdoc/>
-    public Task<OffcanvasInstance> Show<TComponent>( string title, OffcanvasInstanceOptions OffcanvasProviderOptions ) where TComponent : notnull, IComponent
-        => Show<TComponent>( title, null, OffcanvasProviderOptions );
+    public Task<OffcanvasInstance> Show<TComponent>( string title, OffcanvasInstanceOptions offcanvasInstanceOptions ) where TComponent : notnull, IComponent
+        => Show<TComponent>( title, null, offcanvasInstanceOptions );
 
     /// <inheritdoc/>
     public Task<OffcanvasInstance> Show<TComponent>( Action<OffcanvasProviderParameterBuilder<TComponent>> parameters ) where TComponent : notnull, IComponent
         => Show<TComponent>( string.Empty, parameters, null );
 
     /// <inheritdoc/>
-    public Task<OffcanvasInstance> Show<TComponent>( Action<OffcanvasProviderParameterBuilder<TComponent>> parameters, OffcanvasInstanceOptions OffcanvasInstanceOptions ) where TComponent : notnull, IComponent
-        => Show<TComponent>( string.Empty, parameters, OffcanvasInstanceOptions );
+    public Task<OffcanvasInstance> Show<TComponent>( Action<OffcanvasProviderParameterBuilder<TComponent>> parameters, OffcanvasInstanceOptions offcanvasInstanceOptions ) where TComponent : notnull, IComponent
+        => Show<TComponent>( string.Empty, parameters, offcanvasInstanceOptions );
 
     /// <inheritdoc/>
     public Task<OffcanvasInstance> Show<TComponent>( string title, Action<OffcanvasProviderParameterBuilder<TComponent>> parameters ) where TComponent : notnull, IComponent
         => Show<TComponent>( title, parameters, null );
 
     /// <inheritdoc/>
-    public Task<OffcanvasInstance> Show<TComponent>( string title, Action<OffcanvasProviderParameterBuilder<TComponent>> parameters, OffcanvasInstanceOptions OffcanvasInstanceOptions ) where TComponent : notnull, IComponent
+    public Task<OffcanvasInstance> Show<TComponent>( string title, Action<OffcanvasProviderParameterBuilder<TComponent>> parameters, OffcanvasInstanceOptions offcanvasInstanceOptions ) where TComponent : notnull, IComponent
     {
         RenderFragment childContent = BuildParameterfulContent<TComponent>( parameters );
-        return Show( title, childContent, OffcanvasInstanceOptions );
+        return Show( title, childContent, offcanvasInstanceOptions );
     }
 
     /// <inheritdoc/>
@@ -65,29 +68,29 @@ public  class OffcanvasService : IOffcanvasService
         => Show( title, content, null );
 
     /// <inheritdoc/>
-    public Task<OffcanvasInstance> Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, OffcanvasInstanceOptions OffcanvasInstanceOptions = null )
+    public Task<OffcanvasInstance> Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, OffcanvasInstanceOptions offcanvasInstanceOptions = null )
     {
         RenderFragment childContent = BuildParameterfulContent( componentType, componentParameters );
-        return Show( title, childContent, OffcanvasInstanceOptions );
+        return Show( title, childContent, offcanvasInstanceOptions );
     }
 
     /// <inheritdoc/>
-    public Task<OffcanvasInstance> Show( string title, RenderFragment childContent, OffcanvasInstanceOptions OffcanvasInstanceOptions = null )
+    public Task<OffcanvasInstance> Show( string title, RenderFragment childContent, OffcanvasInstanceOptions offcanvasInstanceOptions = null )
     {
-        return OffcanvasProvider.Show( title, childContent, OffcanvasInstanceOptions ?? new() );
+        return OffcanvasProvider.Show( title, childContent, offcanvasInstanceOptions );
     }
 
     /// <inheritdoc/>
-    public Task Show( OffcanvasInstance OffcanvasInstance )
-        => OffcanvasProvider.Show( OffcanvasInstance );
+    public Task Show( OffcanvasInstance offcanvasInstance )
+        => OffcanvasProvider.Show( offcanvasInstance );
 
     /// <inheritdoc/>
     public Task Hide()
         => OffcanvasProvider.Hide();
 
     /// <inheritdoc/>
-    public Task Hide( OffcanvasInstance OffcanvasInstance )
-        => OffcanvasProvider.Hide( OffcanvasInstance );
+    public Task Hide( OffcanvasInstance offcanvasInstance )
+        => OffcanvasProvider.Hide( offcanvasInstance );
 
     /// <inheritdoc/>
     public IEnumerable<OffcanvasInstance> GetInstances()
@@ -98,8 +101,8 @@ public  class OffcanvasService : IOffcanvasService
         => OffcanvasProvider.Reset();
 
     /// <inheritdoc/>
-    public Task Remove( OffcanvasInstance OffcanvasInstance )
-        => OffcanvasProvider.Remove( OffcanvasInstance );
+    public Task Remove( OffcanvasInstance offcanvasInstance )
+        => OffcanvasProvider.Remove( offcanvasInstance );
 
     private static RenderFragment BuildParameterfulContent( Type componentType, Dictionary<string, object> componentParameters )
     {

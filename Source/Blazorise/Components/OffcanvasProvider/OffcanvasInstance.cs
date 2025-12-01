@@ -1,13 +1,14 @@
-﻿using System;
+#region Using directives
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+#endregion
 
-namespace Blazorise.Components.OffcanvasProvider;
+namespace Blazorise;
+
 /// <summary>
-/// Generates a new instance of a OffCanvas
+/// Generates a new instance of an <see cref="Offcanvas"/>.
 /// </summary>
 public class OffcanvasInstance
 {
@@ -16,21 +17,21 @@ public class OffcanvasInstance
     /// <summary>
     /// A default <see cref="OffcanvasInstance"/> constructor.
     /// </summary>
-    /// <param name="offcanvasProvider">Parent offCanvas provider.</param>
-    /// <param name="id">An id of the offCanvas instance.</param>
-    /// <param name="title">Title of the offCanvas.</param>
-    /// <param name="childContent">OffCanvas child content.</param>
-    /// <param name="offcanvasInstanceOptions">OffCanvas options.</param>
+    /// <param name="offcanvasProvider">Parent offcanvas provider.</param>
+    /// <param name="id">An id of the offcanvas instance.</param>
+    /// <param name="title">Title of the offcanvas.</param>
+    /// <param name="childContent">Offcanvas content.</param>
+    /// <param name="offcanvasInstanceOptions">Offcanvas options.</param>
     public OffcanvasInstance( OffcanvasProvider offcanvasProvider, string id, string title, RenderFragment childContent, OffcanvasInstanceOptions offcanvasInstanceOptions )
     {
-        OffCanvasId = string.IsNullOrWhiteSpace( offcanvasInstanceOptions?.ElementId )
+        OffcanvasId = string.IsNullOrWhiteSpace( offcanvasInstanceOptions?.ElementId )
             ? id
             : offcanvasInstanceOptions.ElementId;
         OffcanvasProvider = offcanvasProvider;
         Title = title;
         ChildContent = childContent;
         OffcanvasInstanceOptions = offcanvasInstanceOptions;
-        Visible = false;
+        Visible = true;
     }
 
     #endregion
@@ -38,52 +39,63 @@ public class OffcanvasInstance
     #region Properties
 
     /// <summary>
-    /// Tracks the OffCanvas reference.
+    /// Tracks the <see cref="Offcanvas"/> reference.
     /// </summary>
-    public Offcanvas OffCanvasRef { get; set; }
+    public Offcanvas OffcanvasRef { get; set; }
 
     /// <summary>
-    /// Tracks the OffCanvas id.
+    /// Tracks the offcanvas id.
     /// </summary>
-    public string OffCanvasId { get; set; }
+    public string OffcanvasId { get; set; }
 
     /// <summary>
-    /// Control's the OffCanvas visibility.
+    /// Controls the offcanvas visibility.
     /// </summary>
     public bool Visible { get; set; }
 
     /// <summary>
-    /// The OffCanvas Provider
+    /// The offcanvas provider.
     /// </summary>
-    public OffcanvasProvider OffcanvasProvider { get; private set; }
+    public OffcanvasProvider OffcanvasProvider { get; }
 
     /// <summary>
     /// Child content to be rendered.
     /// </summary>
-    public RenderFragment ChildContent { get; private set; }
+    public RenderFragment ChildContent { get; }
 
     /// <summary>
-    /// OffCanvas's Header Title.
+    /// Offcanvas header title.
     /// </summary>
-    public string Title { get; private set; }
+    public string Title { get; }
 
     /// <summary>
-    /// Sets the options for OffCanvas Provider.
+    /// Sets the options for Offcanvas provider.
     /// </summary>
-    public OffcanvasInstanceOptions OffcanvasInstanceOptions { get; private set; }
+    public OffcanvasInstanceOptions OffcanvasInstanceOptions { get; }
 
     /// <summary>
-    /// Determines if the OffCanvasInstance should be kept in memory after it has been closed.
+    /// Uses the offcanvas standard structure, by setting this to true you are only in charge of providing the custom content.
+    /// Defaults to true.
+    /// </summary>
+    public bool UseOffcanvasStructure => OffcanvasInstanceOptions?.UseOffcanvasStructure ?? OffcanvasProvider.UseOffcanvasStructure;
+
+    /// <summary>
+    /// Determines if the <see cref="OffcanvasInstance"/> should be kept in memory after it has been closed.
     /// Defaults to false.
     /// </summary>
     public bool Stateful => OffcanvasInstanceOptions?.Stateful ?? OffcanvasProvider.Stateful;
 
+    /// <summary>
+    /// Shows a close button in the offcanvas header when using the provider structure.
+    /// </summary>
     public bool ShowCloseButton => OffcanvasInstanceOptions?.ShowCloseButton ?? OffcanvasProvider.ShowCloseButton;
+
+    /// <summary>
+    /// Callback executed when the close button is clicked.
+    /// </summary>
     public EventCallback CloseButtonClicked => OffcanvasInstanceOptions?.CloseButtonClicked ?? OffcanvasProvider.CloseButtonClicked;
 
-    public bool UseOffCanvasStructure => OffcanvasProvider.UseOffCanvasStructure;
-
-    #region OffCanvas
+    #region Offcanvas
 
     /// <inheritdoc/>
     public Dictionary<string, object> Attributes => OffcanvasInstanceOptions?.Attributes ?? OffcanvasProvider.Attributes;
@@ -157,29 +169,28 @@ public class OffcanvasInstance
     /// <inheritdoc/>
     public string Class => OffcanvasInstanceOptions?.Class ?? OffcanvasProvider.Class;
 
-
     /// <summary>
-    /// Occurs before the offCanvas is opened.
+    /// Occurs before the offcanvas is opened.
     /// </summary>
     public Func<OffcanvasOpeningEventArgs, Task> Opening => OffcanvasInstanceOptions?.Opening ?? OffcanvasProvider.Opening;
 
     /// <summary>
-    /// Occurs before the offCanvas is closed.
+    /// Occurs before the offcanvas is closed.
     /// </summary>
     public Func<OffcanvasClosingEventArgs, Task> Closing => OffcanvasInstanceOptions?.Closing ?? OffcanvasProvider.Closing;
 
     /// <summary>
-    /// Occurs after the offCanvas has opened.
+    /// Occurs after the offcanvas has opened.
     /// </summary>
     public EventCallback Opened => OffcanvasInstanceOptions?.Opened ?? OffcanvasProvider.Opened;
 
     /// <summary>
-    /// Occurs after the offCanvas has closed.
+    /// Occurs after the offcanvas has closed.
     /// </summary>
     public EventCallback Closed => OffcanvasInstanceOptions?.Closed ?? OffcanvasProvider.Closed;
 
     /// <summary>
-    /// Specifies the backdrop needs to be rendered for this <see cref="OffCanvas"/>.
+    /// Specifies the backdrop needs to be rendered for this <see cref="Offcanvas"/>.
     /// </summary>
     public bool ShowBackdrop => OffcanvasInstanceOptions?.ShowBackdrop ?? OffcanvasProvider.ShowBackdrop;
 
@@ -193,6 +204,9 @@ public class OffcanvasInstance
     /// </summary>
     public int AnimationDuration => OffcanvasInstanceOptions?.AnimationDuration ?? OffcanvasProvider.AnimationDuration;
 
+    /// <summary>
+    /// Specifies the position of the offcanvas.
+    /// </summary>
     public Placement Placement => OffcanvasInstanceOptions?.Placement ?? OffcanvasProvider.Placement;
 
     #endregion

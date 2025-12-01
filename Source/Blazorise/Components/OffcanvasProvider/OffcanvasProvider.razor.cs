@@ -1,16 +1,22 @@
-﻿using System;
+#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+#endregion
 
-namespace Blazorise.Components.OffcanvasProvider;
+namespace Blazorise;
+
+/// <summary>
+/// An offcanvas provider to be set at the root of your app, providing a programmatic way to invoke offcanvas panels with custom content by using <see cref="OffcanvasService"/>.
+/// </summary>
 public partial class OffcanvasProvider : BaseComponent
 {
     #region Members
 
-    private List<OffcanvasInstance> offCanvasInstances;
+    private List<OffcanvasInstance> offcanvasInstances;
 
     #endregion
 
@@ -26,88 +32,85 @@ public partial class OffcanvasProvider : BaseComponent
 
     internal Task<OffcanvasInstance> Show( string title, RenderFragment childContent, OffcanvasInstanceOptions offcanvasInstanceOptions )
     {
-        var newOffCanvasInstance = new OffcanvasInstance( this, IdGenerator.Generate, title, childContent, offcanvasInstanceOptions );
+        var newOffcanvasInstance = new OffcanvasInstance( this, IdGenerator.Generate, title, childContent, offcanvasInstanceOptions );
 
-        return Show( newOffCanvasInstance );
+        return Show( newOffcanvasInstance );
     }
 
     internal async Task<OffcanvasInstance> Show( OffcanvasInstance offcanvasInstance )
     {
-        offCanvasInstances ??= new();
+        offcanvasInstances ??= new();
 
-        var existingOffCanvasInstance = offCanvasInstances.FirstOrDefault( x => x.OffCanvasId == offcanvasInstance.OffCanvasId );
+        var existingOffcanvasInstance = offcanvasInstances.FirstOrDefault( x => x.OffcanvasId == offcanvasInstance.OffcanvasId );
 
-        if ( existingOffCanvasInstance is null && !offCanvasInstances.Contains( offcanvasInstance ) )
+        if ( existingOffcanvasInstance is not null )
         {
-            offCanvasInstances.Add( offcanvasInstance );
+            existingOffcanvasInstance.Visible = true;
+        }
+        else if ( offcanvasInstances.Contains( offcanvasInstance ) )
+        {
+            offcanvasInstance.Visible = true;
+        }
+        else
+        {
+            offcanvasInstance.Visible = true;
+            offcanvasInstances.Add( offcanvasInstance );
         }
 
         await InvokeAsync( StateHasChanged );
 
-        //HACK:: This is a workaround to ensure the offCanvas is rendered before showing it.
-        await Task.Delay( 10 );
-
-        var currentOffCanvasInstance = existingOffCanvasInstance ?? offcanvasInstance;
-
-        await currentOffCanvasInstance.OffCanvasRef.Show();
-
-        return existingOffCanvasInstance ?? offcanvasInstance;
+        return existingOffcanvasInstance ?? offcanvasInstance;
     }
 
     /// <summary>
-    /// Closes currently opened offCanvas.
+    /// Closes currently opened offcanvas.
     /// </summary>
-    /// <returns></returns>
     internal Task Hide()
-        => offCanvasInstances?.LastOrDefault()?.OffCanvasRef?.Hide() ?? Task.CompletedTask;
+        => offcanvasInstances?.LastOrDefault()?.OffcanvasRef?.Hide() ?? Task.CompletedTask;
 
     /// <summary>
-    /// Closes the offCanvas.
+    /// Closes the offcanvas.
     /// </summary>
-    /// <returns></returns>
     internal Task Hide( OffcanvasInstance offcanvasInstance )
-        => offCanvasInstances?.FirstOrDefault( x => x.IsEqual( offcanvasInstance ) )?.OffCanvasRef?.Hide() ?? Task.CompletedTask;
+        => offcanvasInstances?.FirstOrDefault( x => x.IsEqual( offcanvasInstance ) )?.OffcanvasRef?.Hide() ?? Task.CompletedTask;
 
     /// <summary>
-    /// Returns all the offCanvas instances.
+    /// Returns all the offcanvas instances.
     /// </summary>
     internal IEnumerable<OffcanvasInstance> GetInstances()
-        => offCanvasInstances;
+        => offcanvasInstances;
 
     /// <summary>
-    /// Resets the state of the OffCanvasProvider.
+    /// Resets the state of the <see cref="OffcanvasProvider"/>.
     /// Any existing instances will be cleared.
     /// </summary>
-    /// <returns></returns>
     internal async Task Reset()
     {
-        offCanvasInstances = null;
+        offcanvasInstances = null;
 
         await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
-    /// Explicitly removes the offCanvas instance from the OffCanvasProvider.
+    /// Explicitly removes the offcanvas instance from the <see cref="OffcanvasProvider"/>.
     /// </summary>
-    /// <param name="offcanvasInstance">The offCanvas instance</param>
-    /// <returns></returns>
+    /// <param name="offcanvasInstance">The offcanvas instance.</param>
     internal async Task Remove( OffcanvasInstance offcanvasInstance )
     {
-        if ( offCanvasInstances.IsNullOrEmpty() )
+        if ( offcanvasInstances.IsNullOrEmpty() )
         {
             return;
         }
 
-        offCanvasInstances.Remove( offcanvasInstance );
+        offcanvasInstances.Remove( offcanvasInstance );
 
         await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
-    /// Handles the closing of the offCanvas.
+    /// Handles the closing of the offcanvas.
     /// </summary>
-    /// <returns></returns>
-    protected async Task OnOffCanvasClosed( OffcanvasInstance offcanvasInstance )
+    protected async Task OnOffcanvasClosed( OffcanvasInstance offcanvasInstance )
     {
         await offcanvasInstance.Closed.InvokeAsync();
 
@@ -124,33 +127,80 @@ public partial class OffcanvasProvider : BaseComponent
     #region Properties
 
     /// <summary>
-    /// The SlateOffCanvasService
+    /// The <see cref="OffcanvasService"/>.
     /// </summary>
     [Inject] protected IOffcanvasService OffcanvasService { get; set; }
 
     /// <summary>
-    /// Keeps the OffCanvasInstance in memory after it has been closed.
+    /// Uses the offcanvas standard structure, by setting this to true you are only in charge of providing the custom content.
+    /// Defaults to true.
+    /// Global option.
+    /// </summary>
+    [Parameter] public bool UseOffcanvasStructure { get; set; } = true;
+
+    /// <summary>
+    /// Keeps the <see cref="OffcanvasInstance"/> in memory after it has been closed.
     /// Defaults to false.
     /// </summary>
     [Parameter] public bool Stateful { get; set; }
 
-    [Parameter] public bool ShowCloseButton { get; set; }
+    /// <summary>
+    /// Shows a close button in the offcanvas header when using the provider structure.
+    /// Global option.
+    /// </summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    /// <summary>
+    /// Callback executed when the close button is clicked.
+    /// Global option.
+    /// </summary>
     [Parameter] public EventCallback CloseButtonClicked { get; set; }
 
     /// <summary>
-    /// Uses the offCanvas standard structure, by setting this to true you are only in charge of providing the custom content.
-    /// Defaults to true.
-    /// Global Option.
+    /// Occurs before the offcanvas is opened.
+    /// Global option.
     /// </summary>
-    [Parameter] public bool UseOffCanvasStructure { get; set; }
-
     [Parameter] public Func<OffcanvasOpeningEventArgs, Task> Opening { get; set; }
+
+    /// <summary>
+    /// Occurs after the offcanvas has opened.
+    /// Global option.
+    /// </summary>
     [Parameter] public EventCallback Opened { get; set; }
+
+    /// <summary>
+    /// Occurs before the offcanvas is closed.
+    /// Global option.
+    /// </summary>
     [Parameter] public Func<OffcanvasClosingEventArgs, Task> Closing { get; set; }
+
+    /// <summary>
+    /// Occurs after the offcanvas has closed.
+    /// Global option.
+    /// </summary>
     [Parameter] public EventCallback Closed { get; set; }
+
+    /// <summary>
+    /// Specifies the backdrop needs to be rendered for this <see cref="Offcanvas"/>.
+    /// Global option.
+    /// </summary>
     [Parameter] public bool ShowBackdrop { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether the component has any animations.
+    /// Global option.
+    /// </summary>
     [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the animation duration.
+    /// Global option.
+    /// </summary>
     [Parameter] public int AnimationDuration { get; set; } = 150;
+
+    /// <summary>
+    /// Specifies the position of the offcanvas.
+    /// </summary>
     [Parameter] public Placement Placement { get; set; } = Placement.End;
 
     #endregion

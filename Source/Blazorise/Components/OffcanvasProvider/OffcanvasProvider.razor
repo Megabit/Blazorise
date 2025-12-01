@@ -1,67 +1,68 @@
-﻿@inherits BaseComponent
+@namespace Blazorise
+@inherits BaseComponent
+@using Blazorise.Extensions
 
 <CascadingValue Value="@this" IsFixed>
-    @if (offCanvasInstances != null && offCanvasInstances.Any())
+    @if ( !offcanvasInstances.IsNullOrEmpty() )
     {
-        @foreach (var offCanvas in offCanvasInstances)
+        @foreach ( var offcanvas in offcanvasInstances )
         {
-            <Offcanvas @key="offCanvas.OffCanvasId"
-                       @ref="offCanvas.OffCanvasRef"
-                       @bind-Visible="offCanvas.Visible"
-                       Attributes="@offCanvas.Attributes"
-                       Animated="@offCanvas.Animated"
-                       AnimationDuration="@offCanvas.AnimationDuration"
-                       Background="@offCanvas.Background"
-                       Border="@offCanvas.Border"
-                       Casing="@offCanvas.Casing"
-                       Class="@offCanvas.Class"
-                       Closed="() => OnOffCanvasClosed(offCanvas)"
-                       Closing="@offCanvas.Closing"
-                       Clearfix="@offCanvas.Clearfix"
-                       ElementId="@offCanvas.OffCanvasId"
-                       Display="@offCanvas.Display"
-                       Float="@offCanvas.Float"
-                       Height="@offCanvas.Height"
-                       Margin="@offCanvas.Margin"
-                       Opened="@offCanvas.Opened"
-                       Opening="@offCanvas.Opening"
-                       Overflow="@offCanvas.Overflow"
-                       Padding="@offCanvas.Padding"
-                       Position="@offCanvas.Position"
-                       Shadow="@offCanvas.Shadow"
-                       ShowBackdrop="@offCanvas.ShowBackdrop"
-                       Style="@offCanvas.Style"
-                       TextAlignment="@offCanvas.TextAlignment"
-                       TextColor="@offCanvas.TextColor"
-                       TextOverflow="@offCanvas.TextOverflow"
-                       TextTransform="@offCanvas.TextTransform"
-                       TextWeight="@offCanvas.TextWeight"
-                       VerticalAlignment="@offCanvas.VerticalAlignment"
-                       Width="@offCanvas.Width"
-                       Visibility="@offCanvas.Visibility"
-                       Placement="@offCanvas.Placement">
-                @if (offCanvas.UseOffCanvasStructure)
+            <Offcanvas @key="offcanvas.OffcanvasId"
+                       @ref="offcanvas.OffcanvasRef"
+                       @bind-Visible="offcanvas.Visible"
+                       Attributes="@offcanvas.Attributes"
+                       Animated="@offcanvas.Animated"
+                       AnimationDuration="@offcanvas.AnimationDuration"
+                       Background="@offcanvas.Background"
+                       Border="@offcanvas.Border"
+                       Casing="@offcanvas.Casing"
+                       Class="@offcanvas.Class"
+                       Closed="() => OnOffcanvasClosed(offcanvas)"
+                       Closing="@offcanvas.Closing"
+                       Clearfix="@offcanvas.Clearfix"
+                       ElementId="@offcanvas.OffcanvasId"
+                       Display="@offcanvas.Display"
+                       Float="@offcanvas.Float"
+                       Height="@offcanvas.Height"
+                       Margin="@offcanvas.Margin"
+                       Opened="@offcanvas.Opened"
+                       Opening="@offcanvas.Opening"
+                       Overflow="@offcanvas.Overflow"
+                       Padding="@offcanvas.Padding"
+                       Position="@offcanvas.Position"
+                       Shadow="@offcanvas.Shadow"
+                       ShowBackdrop="@offcanvas.ShowBackdrop"
+                       Style="@offcanvas.Style"
+                       TextAlignment="@offcanvas.TextAlignment"
+                       TextColor="@offcanvas.TextColor"
+                       TextOverflow="@offcanvas.TextOverflow"
+                       TextTransform="@offcanvas.TextTransform"
+                       TextWeight="@offcanvas.TextWeight"
+                       VerticalAlignment="@offcanvas.VerticalAlignment"
+                       Width="@offcanvas.Width"
+                       Visibility="@offcanvas.Visibility"
+                       Placement="@offcanvas.Placement">
+                @if ( offcanvas.UseOffcanvasStructure )
                 {
                     <OffcanvasHeader>
-                        @if (string.IsNullOrWhiteSpace(offCanvas.Title))
+                        @if ( !string.IsNullOrWhiteSpace( offcanvas.Title ) )
                         {
-                            @offCanvas.Title
+                            @offcanvas.Title
                         }
-                        @if (offCanvas.ShowCloseButton)
+                        @if ( offcanvas.ShowCloseButton )
                         {
-                            <CloseButton Clicked="offCanvas.CloseButtonClicked" />
+                            <CloseButton Clicked="offcanvas.CloseButtonClicked" />
                         }
                     </OffcanvasHeader>
                     <OffcanvasBody>
-                        @offCanvas.ChildContent
+                        @offcanvas.ChildContent
                     </OffcanvasBody>
                 }
                 else
                 {
-                    @offCanvas.ChildContent
+                    @offcanvas.ChildContent
                 }
             </Offcanvas>
         }
     }
 </CascadingValue>
-
