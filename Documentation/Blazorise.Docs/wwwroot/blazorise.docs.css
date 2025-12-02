@@ -705,9 +705,16 @@ code {
   font-size: 0.95rem;
   line-height: 1.6;
   border-radius: 4px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 .b-blog .b-blog-content .blockquote > p {
   margin: 0.25rem 0;
+}
+.b-blog .b-blog-content .blockquote a {
+  word-break: break-all;
 }
 .b-blog .b-blog-content h2 {
   padding-bottom: 0.5em;
