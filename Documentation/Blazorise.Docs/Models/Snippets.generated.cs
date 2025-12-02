@@ -12558,14 +12558,14 @@ builder.Services
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextEdit @bind-Text=""model.FirstName""></TextEdit>
+            <TextInput @bind-Value=""model.FirstName""></TextInput>
         </FieldBody>
     </Field>
 
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
         <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
-            <TextEdit @bind-Text=""model.Email""></TextEdit>
+            <TextInput @bind-Value=""model.Email""></TextInput>
         </FieldBody>
     </Field>
 
@@ -12624,7 +12624,7 @@ builder.Services
         public const string OffcanvasProviderCustomStructureExample = @"<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
-        <TextEdit @bind-Text=""userName""></TextEdit>
+        <TextInput @bind-Value=""userName""></TextInput>
     </FieldBody>
 </Field>
 
