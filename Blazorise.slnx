@@ -30,6 +30,7 @@
     <File Path=".editorconfig" />
     <File Path=".runsettings" />
     <File Path="CREDITS.md" />
+    <File Path="Directory.Packages.props" />
     <File Path="DotnetWatchRunAll.bat" />
     <File Path="README.md" />
   </Folder>

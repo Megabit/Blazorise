@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="bunit" Version="1.34.0" />
-    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Moq" />
   </ItemGroup>
 
   <ItemGroup>
