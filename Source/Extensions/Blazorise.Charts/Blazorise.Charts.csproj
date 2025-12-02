@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Lambda2Js" Version="3.1.4" />
+    <PackageReference Include="Lambda2Js" />
   </ItemGroup>
 
 </Project>
