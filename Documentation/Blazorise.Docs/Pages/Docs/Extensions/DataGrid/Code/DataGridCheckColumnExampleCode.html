@@ -1,25 +1,21 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span> <span class="htmlAttributeName">PageSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Responsive</span> <span class="htmlAttributeName">Editable</span> <span class="htmlAttributeName">Filterable</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCheckColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.IsActive )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Active</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCheckColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.IsActive )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Active</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject]
-        <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
+    <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
     {
         employeeList = <span class="keyword">await</span> EmployeeData.GetDataAsync();
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

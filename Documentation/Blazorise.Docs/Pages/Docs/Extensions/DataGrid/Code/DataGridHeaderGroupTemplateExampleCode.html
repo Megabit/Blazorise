@@ -1,49 +1,45 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">inMemoryData</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">ShowPager</span>
-        <span class="htmlAttributeName">ShowPageSizes</span>
-        <span class="htmlAttributeName">ShowHeaderGroupCaptions</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">inMemoryData</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ShowPager</span>
+          <span class="htmlAttributeName">ShowPageSizes</span>
+          <span class="htmlAttributeName">ShowHeaderGroupCaptions</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">DisplayOrder</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">2</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.LastName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HeaderGroupCaption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">PersonalInfo</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Last Name</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TextAlignment</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextAlignment</span><span class="enumValue">.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Id )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 60 )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.FirstName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HeaderGroupCaption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">PersonalInfo</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">First Name</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Zip )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HeaderGroupCaption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Address</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Zip</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.City )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HeaderGroupCaption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Address</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">City</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.City</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span> <span class="atSign">&#64;</span>context.Caption
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.City</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span> <span class="atSign">&#64;</span>context.Caption
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Email )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HeaderGroupCaption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">PersonalInfo</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Email</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">HeaderGroupCaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">HeaderGroupCaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="atSign">&#64;</span>if ( context.HeaderGroupCaption == &quot;PersonalInfo&quot; )
         {
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Personal Information<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Personal Information<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
         }
         else if ( context.HeaderGroupCaption == &quot;Address&quot; )
         {
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Success</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Address<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Success</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Address<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
         }
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">HeaderGroupCaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">HeaderGroupCaptionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">private</span> List&lt;Employee&gt; inMemoryData;
+    <span class="keyword">private</span> List&lt;Employee&gt; inMemoryData;
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
     {
         inMemoryData = ( <span class="keyword">await</span> EmployeeData.GetDataAsync().ConfigureAwait( <span class="keyword">false</span> ) ).Take( <span class="number">25</span> ).ToList();
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>
