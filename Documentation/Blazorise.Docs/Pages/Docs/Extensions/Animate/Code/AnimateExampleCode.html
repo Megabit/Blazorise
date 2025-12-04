@@ -1,40 +1,43 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Select</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSelectedAnimationChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Select</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSelectedAnimationChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="atSign">&#64;</span>foreach ( var availableAnimation in Animations.GetNames() )
         {
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>availableAnimation</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>availableAnimation<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>availableAnimation</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>availableAnimation<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
         }
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Select</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Select</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="atSign">&#64;</span>if ( showAnimate )
 {
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">ElementId</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#b-animate</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">ElementId</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#b-animate</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Animate</span> <span class="htmlAttributeName">Anchor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#b-animate</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Auto</span> <span class="htmlAttributeName">Animation</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedAnimation</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DelayMilliseconds</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">500</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is4.OnY</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardTitle</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Animation Example<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardTitle</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardText</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is4.OnY</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardTitle</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Animation Example<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardTitle</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardText</span><span class="htmlTagDelimiter">&gt;</span>
                         Some content.
-                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardText</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardText</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Animate</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
 }
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Animate</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="atSign">&#64;</span>buttonText
+        <span class="atSign">&#64;</span>buttonText
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> IAnimation selectedAnimation = Animations.FadeIn;
-    <span class="keyword">private</span> <span class="keyword">bool</span> showAnimate = <span class="keyword">false</span>;
-    <span class="keyword">private</span> <span class="keyword">string</span> buttonText = <span class="string">&quot;Animate!&quot;</span>;
+        <span class="keyword">private</span> IAnimation selectedAnimation = Animations.FadeIn;
+        <span class="keyword">private</span> <span class="keyword">bool</span> showAnimate = <span class="keyword">false</span>;
+        <span class="keyword">private</span> <span class="keyword">string</span> buttonText = <span class="string">&quot;Animate!&quot;</span>;
 
-    <span class="keyword">private</span> Task OnSelectedAnimationChanged( <span class="keyword">string</span> selectedAnimationName )
+        <span class="keyword">private</span> Task OnSelectedAnimationChanged( <span class="keyword">string</span> selectedAnimationName )
     {
         showAnimate = <span class="keyword">false</span>;
 
@@ -46,12 +49,12 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> <span class="keyword">async</span> Task Animate()
+        <span class="keyword">private</span> <span class="keyword">async</span> Task Animate()
     {
         <span class="keyword">if</span> ( !showAnimate )
         {
             showAnimate = <span class="keyword">true</span>;
-            <span class="keyword">await</span> InvokeAsync( StateHasChanged );
+        <span class="keyword">await</span> InvokeAsync( StateHasChanged );
             buttonText = <span class="string">&quot;Restart!&quot;</span>;
         }
         <span class="keyword">else</span>
@@ -63,5 +66,6 @@
         <span class="keyword">await</span> InvokeAsync( StateHasChanged );
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

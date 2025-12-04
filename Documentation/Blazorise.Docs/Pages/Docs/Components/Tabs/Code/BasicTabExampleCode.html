@@ -1,13 +1,14 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Tabs</span> <span class="htmlAttributeName">SelectedTab</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedTab</span><span class="quot">&quot;</span> <span class="htmlAttributeName">SelectedTabChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSelectedTabChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Items</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Items</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Tab</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">home</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Home<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Tab</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Tab</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">profile</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Profile<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Tab</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Tab</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">messages</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Messages<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Tab</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Tab</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">settings</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Settings<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Tab</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Items</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Content</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Items</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Content</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TabPanel</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">home</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
             Content for home.
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TabPanel</span><span class="htmlTagDelimiter">&gt;</span>
@@ -20,19 +21,22 @@
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TabPanel</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">settings</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
             Content for settings.
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TabPanel</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Content</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Content</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Tabs</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code{
-    <span class="keyword">string</span> selectedTab = <span class="string">&quot;profile&quot;</span>;
+        <span class="keyword">string</span> selectedTab = <span class="string">&quot;profile&quot;</span>;
 
-    <span class="keyword">private</span> Task OnSelectedTabChanged( <span class="keyword">string</span> name )
+        <span class="keyword">private</span> Task OnSelectedTabChanged( <span class="keyword">string</span> name )
     {
         selectedTab = name;
 
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

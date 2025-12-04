@@ -1,33 +1,36 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="atSign">&#64;</span>using System.IO
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FilePicker</span> <span class="htmlAttributeName">Multiple</span> <span class="htmlAttributeName">Upload</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnFileUpload</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">FilePickerShowMode</span><span class="enumValue">.Dropdown</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FilePicker</span> <span class="htmlAttributeName">Multiple</span> <span class="htmlAttributeName">Upload</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnFileUpload</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">FilePickerShowMode</span><span class="enumValue">.Dropdown</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">string</span> fileContent;
+        <span class="keyword">string</span> fileContent;
 
-    <span class="keyword">async</span> Task OnFileUpload( FileUploadEventArgs e )
+        <span class="keyword">async</span> Task OnFileUpload( FileUploadEventArgs e )
     {
         <span class="keyword">try</span>
         {
-            <span class="comment">// A stream is going to be the destination stream we&#39;re writing to.</span>
-            <span class="keyword">using</span> ( <span class="keyword">var</span> stream = <span class="keyword">new</span> MemoryStream() )
+        <span class="comment">// A stream is going to be the destination stream we&#39;re writing to.</span>
+        <span class="keyword">using</span> ( <span class="keyword">var</span> stream = <span class="keyword">new</span> MemoryStream() )
             {
-                <span class="comment">// Here we&#39;re telling the FileInput where to write the upload result</span>
-                <span class="keyword">await</span> e.File.WriteToStreamAsync( stream );
+        <span class="comment">// Here we&#39;re telling the FileInput where to write the upload result</span>
+        <span class="keyword">await</span> e.File.WriteToStreamAsync( stream );
 
-                <span class="comment">// Once we reach this line it means the file is fully uploaded.</span>
-                <span class="comment">// In this case we&#39;re going to offset to the beginning of file</span>
-                <span class="comment">// so we can read it.</span>
+        <span class="comment">// Once we reach this line it means the file is fully uploaded.</span>
+        <span class="comment">// In this case we&#39;re going to offset to the beginning of file</span>
+        <span class="comment">// so we can read it.</span>
                 stream.Seek( <span class="number">0</span>, SeekOrigin.Begin );
 
-                <span class="comment">// Use the stream reader to read the content of uploaded file,</span>
-                <span class="comment">// in this case we can assume it is a textual file.</span>
-                <span class="keyword">using</span> ( <span class="keyword">var</span> reader = <span class="keyword">new</span> StreamReader( stream ) )
+        <span class="comment">// Use the stream reader to read the content of uploaded file,</span>
+        <span class="comment">// in this case we can assume it is a textual file.</span>
+        <span class="keyword">using</span> ( <span class="keyword">var</span> reader = <span class="keyword">new</span> StreamReader( stream ) )
                 {
                     fileContent = <span class="keyword">await</span> reader.ReadToEndAsync();
                 }
@@ -39,9 +42,10 @@
         }
         <span class="keyword">finally</span>
         {
-            <span class="keyword">this</span>.StateHasChanged();
+        <span class="keyword">this</span>.StateHasChanged();
         }
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

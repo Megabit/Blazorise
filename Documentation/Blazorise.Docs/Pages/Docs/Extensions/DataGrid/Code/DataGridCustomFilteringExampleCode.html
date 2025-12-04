@@ -1,37 +1,41 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 Custom Filter: <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>customFilterValue</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCustomFilterValueChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextInput</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">dataGrid</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">CustomFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCustomFilter</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">Responsive</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.FirstName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">CustomFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCustomFilter</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">Responsive</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.FirstName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> DataGrid&lt;Employee&gt; dataGrid;
-    <span class="keyword">private</span> List&lt;Employee&gt; employeeList = <span class="keyword">new</span>() { <span class="keyword">new</span>() { FirstName = <span class="string">&quot;David&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;MLaden&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;John&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Ana&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Jessica&quot;</span> } };
+        <span class="keyword">private</span> DataGrid&lt;Employee&gt; dataGrid;
+        <span class="keyword">private</span> List&lt;Employee&gt; employeeList = <span class="keyword">new</span>() { <span class="keyword">new</span>() { FirstName = <span class="string">&quot;David&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;MLaden&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;John&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Ana&quot;</span> }, <span class="keyword">new</span>() { FirstName = <span class="string">&quot;Jessica&quot;</span> } };
 
-    <span class="keyword">private</span> <span class="keyword">string</span> customFilterValue;
+        <span class="keyword">private</span> <span class="keyword">string</span> customFilterValue;
 
-    <span class="keyword">private</span> Task OnCustomFilterValueChanged( <span class="keyword">string</span> e )
+        <span class="keyword">private</span> Task OnCustomFilterValueChanged( <span class="keyword">string</span> e )
     {
         customFilterValue = e;
         <span class="keyword">return</span> dataGrid.Reload();
     }
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> OnCustomFilter( Employee model )
+        <span class="keyword">private</span> <span class="keyword">bool</span> OnCustomFilter( Employee model )
     {
         <span class="comment">// We want to accept empty value as valid or otherwise</span>
         <span class="comment">// datagrid will not show anything.</span>
         <span class="keyword">if</span> ( <span class="keyword">string</span>.IsNullOrEmpty( customFilterValue ) )
-            <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">return</span> <span class="keyword">true</span>;
 
         <span class="keyword">return</span> model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == <span class="keyword">true</span>;
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

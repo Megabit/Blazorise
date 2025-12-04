@@ -1,26 +1,29 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="atSign">&#64;</span>using System.Timers
 <span class="atSign">&#64;</span>implements IDisposable
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Progress</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">42</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Value</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
         There have been <span class="atSign">&#64;</span>Value files downloaded
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> <span class="keyword">int</span> Value = <span class="number">0</span>;
-    <span class="keyword">private</span> Timer timer;
+        <span class="keyword">private</span> <span class="keyword">int</span> Value = <span class="number">0</span>;
+        <span class="keyword">private</span> Timer timer;
 
-    <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">int</span> IntervalDelay = <span class="number">100</span>; <span class="comment">// milliseconds</span>
-    <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">int</span> IntervalIncrement = <span class="number">1</span>;
+        <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">int</span> IntervalDelay = <span class="number">100</span>; <span class="comment">// milliseconds</span>
+        <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">int</span> IntervalIncrement = <span class="number">1</span>;
 
-    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
+        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
     {
         timer = <span class="keyword">new</span> Timer(IntervalDelay);
         timer.Elapsed += OnTimerElapsed;
@@ -28,17 +31,18 @@
         timer.Start();
     }
 
-    <span class="keyword">private</span> <span class="keyword">void</span> OnTimerElapsed(<span class="keyword">object</span> sender, ElapsedEventArgs e)
+        <span class="keyword">private</span> <span class="keyword">void</span> OnTimerElapsed(<span class="keyword">object</span> sender, ElapsedEventArgs e)
     {
         Value = Value &lt; <span class="number">42</span> ? Value + IntervalIncrement : <span class="number">0</span>;
         InvokeAsync(StateHasChanged);
     }
 
-    <span class="keyword">public</span> <span class="keyword">void</span> Dispose()
+        <span class="keyword">public</span> <span class="keyword">void</span> Dispose()
     {
         timer?.Stop();
         timer?.Dispose();
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

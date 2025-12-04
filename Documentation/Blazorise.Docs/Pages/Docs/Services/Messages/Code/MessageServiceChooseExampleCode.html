@@ -1,29 +1,33 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowChooseDialog</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Choose an option<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
     You selected: <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>selectedOption<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
     [Inject] IMessageService MessageService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-    <span class="keyword">object</span> selectedOption;
+        <span class="keyword">object</span> selectedOption;
 
-    <span class="keyword">async</span> Task ShowChooseDialog()
+        <span class="keyword">async</span> Task ShowChooseDialog()
     {
         selectedOption = <span class="keyword">await</span> MessageService.Choose( <span class="string">&quot;Make a Selection&quot;</span>, <span class="string">&quot;Choose one&quot;</span>, options =&gt;
         {
             options.Choices = <span class="keyword">new</span> List&lt;MessageOptionsChoice&gt;
             {
-                <span class="keyword">new</span>(<span class="string">&quot;option-1&quot;</span>, <span class="string">&quot;Primary Option&quot;</span>, Color.Primary),
-                <span class="keyword">new</span>(<span class="string">&quot;option-2&quot;</span>, <span class="string">&quot;Secondary Option&quot;</span>, Color.Secondary),
-                <span class="keyword">new</span>(<span class="string">&quot;option-3&quot;</span>, <span class="string">&quot;Success Option&quot;</span>, Color.Success)
+        <span class="keyword">new</span>(<span class="string">&quot;option-1&quot;</span>, <span class="string">&quot;Primary Option&quot;</span>, Color.Primary),
+        <span class="keyword">new</span>(<span class="string">&quot;option-2&quot;</span>, <span class="string">&quot;Secondary Option&quot;</span>, Color.Secondary),
+        <span class="keyword">new</span>(<span class="string">&quot;option-3&quot;</span>, <span class="string">&quot;Success Option&quot;</span>, Color.Success)
             };
         } );
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>
