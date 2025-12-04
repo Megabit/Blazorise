@@ -4,11 +4,11 @@ namespace Blazorise.Docs.Services;
 
 public class ThemeService
 {
-    const string DarkTheme = "Dark";
-    const string LightTheme = "Light";
-    const string SystemTheme = "System";
+    public const string DarkTheme = "Dark";
+    public const string LightTheme = "Light";
+    public const string SystemTheme = "System";
 
-    public string CurrentTheme = LightTheme;
+    public string CurrentTheme { get; private set; } = SystemTheme;
     public bool SystemIsDarkMode { get; private set; }
 
     public EventHandler<string> ThemeChanged;
@@ -35,7 +35,7 @@ public class ThemeService
 
     public void SetTheme( string theme, bool systemIsDarkMode )
     {
-        CurrentTheme = theme;
+        CurrentTheme = NormalizeTheme( theme );
         SystemIsDarkMode = systemIsDarkMode;
 
         if ( ShouldDark )
@@ -51,4 +51,13 @@ public class ThemeService
 
         ThemeChanged?.Invoke( this, CurrentTheme );
     }
+
+    private static string NormalizeTheme( string theme )
+        => theme switch
+        {
+            DarkTheme => DarkTheme,
+            LightTheme => LightTheme,
+            SystemTheme => SystemTheme,
+            _ => SystemTheme
+        };
 }
