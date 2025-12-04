@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid/filter/custom-column-filter"
+@page "/tests/datagrid/filter/custom-column-filter"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -14,7 +14,7 @@
                           Filterable
                           FilterMethod="DataGridFilterMethod.Contains">
                     <DataGridColumns>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable="false" />
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="@Width.Px( 60 )" Filterable="false" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Filterable="false">
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Filterable="false" />
@@ -28,10 +28,10 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable Filterable="false" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn CustomFilter="OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End" Filterable="false">
+                        <DataGridSelectColumn CustomFilter="OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="@Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End" Filterable="false">
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof( Employee.IsActive )" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
                                 <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>

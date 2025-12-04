@@ -127,7 +127,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                                       Flex="@column.Flex"
                                       Gap="@column.Gap"
                                       FixedPosition="@column.FixedPosition"
-                                      Width="@column.BuildCellFluentSizing()"
+                                      Width="@column.Width"
                                       MobileModeCaption="@column.Caption">
                         </TableRowCell>
                     }
@@ -139,7 +139,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                                   @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
                                   @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
                                   TextAlignment="@column.TextAlignment" TextTransform="@column.TextTransform" TextDecoration="@column.TextDecoration" TextWeight="@column.TextWeight" TextOverflow="@column.TextOverflow" TextSize="@column.TextSize"
-                                  VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"
+                                  VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.Width"
                                   MobileModeCaption="@column.Caption">
                         @if ( column.CellValueIsEditable )
                         {

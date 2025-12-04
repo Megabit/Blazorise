@@ -35,9 +35,6 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
         if ( !string.IsNullOrEmpty( style ) )
             sb.Append( style );
 
-        if ( Column.Width is not null && Column.FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Column.Width}" );
-
         return sb.ToString().TrimStart( ' ', ';' );
     }
 

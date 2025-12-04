@@ -3,7 +3,7 @@
 
 @if ( EditState == DataGridEditState.Edit )
 {
-    <TableRowCell Class="@(Column.CellClass?.Invoke( Item ))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
+    <TableRowCell Class="@(Column.CellClass?.Invoke( Item ))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.Width">
         <Div Flex="@DefaultFlex" Gap="@DefaultGap">
             @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true )
             {
@@ -59,7 +59,7 @@
 }
 else if ( EditState == DataGridEditState.None && ParentDataGrid.IsCommandVisible )
 {
-    <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke( Item ))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
+    <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke( Item ))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.Width">
         <Div Flex="@DefaultFlex" Gap="@DefaultGap">
             @if ( ParentDataGrid.CommandColumn?.EditCommandAllowed == true )
             {
@@ -107,7 +107,7 @@ else if ( EditState == DataGridEditState.None && ParentDataGrid.IsCommandVisible
 else if ( EditState == DataGridEditState.None && !ParentDataGrid.IsCommandVisible && ( ( ParentDataGrid.EditMode == DataGridEditMode.Inline || ParentDataGrid.EditMode == DataGridEditMode.Cell ) ) )
 {
 
-    <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke( Item ))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.BuildCellFluentSizing()">
+    <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke( Item ))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" TextTransform="@Column.TextTransform" TextDecoration="@Column.TextDecoration" TextWeight="@Column.TextWeight" TextOverflow="@Column.TextOverflow" TextSize="@Column.TextSize" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" FixedPosition="@Column.FixedPosition" Width="@Column.Width">
         <Span></Span>
     </TableRowCell>
 }

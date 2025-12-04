@@ -344,9 +344,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( HeaderCellStyle ) )
             sb.Append( HeaderCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
     }
 
@@ -356,9 +353,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( FilterCellStyle ) )
             sb.Append( FilterCellStyle );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -370,20 +364,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( AggregateCellStyle ) )
             sb.Append( AggregateCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
-    }
-
-    internal IFluentSizing BuildCellFluentSizing()
-    {
-        if ( Width is not null && FixedPosition != TableColumnFixedPosition.None )
-        {
-            return Blazorise.Width.Px( int.Parse( Width.Replace( "px", string.Empty ) ) );
-        }
-
-        return null;
     }
 
     internal string BuildCellStyle( TItem item )
@@ -394,9 +375,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width}" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -981,7 +959,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// The width of the column.
     /// </summary>
-    [Parameter] public string Width { get; set; }
+    [Parameter] public IFluentSizing Width { get; set; }
 
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
