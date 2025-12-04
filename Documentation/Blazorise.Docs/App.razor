@@ -13,6 +13,27 @@
 
     <HeadOutlet @rendermode="RenderMode.InteractiveServer" />
 
+    <script>
+        (function () {
+            const themeCookieName = "bdocs-theme";
+            const systemCookieName = "bdocs-system";
+            const readCookie = (name) => document.cookie.split('; ').find((row) => row.startsWith(name + '='))?.split('=')[1];
+            const storedTheme = readCookie(themeCookieName) || "System";
+            const systemIsDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const shouldUseDark = storedTheme === "Dark" || (storedTheme === "System" && systemIsDark);
+            const target = document.documentElement;
+
+            if (shouldUseDark) {
+                target.setAttribute("data-bs-theme", "dark");
+            }
+            else {
+                target.removeAttribute("data-bs-theme");
+            }
+
+            document.cookie = `${systemCookieName}=${systemIsDark};path=/;max-age=31536000;SameSite=Lax`;
+        })();
+    </script>
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
