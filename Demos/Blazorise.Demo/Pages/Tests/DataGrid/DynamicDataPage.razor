@@ -33,7 +33,7 @@
                     </DataGridAggregates>
                     <DataGridColumns>
                         <DataGridCommandColumn></DataGridCommandColumn>
-                        <DataGridColumn Editable TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Width="@Width.Px( 60 )" />
+                        <DataGridColumn Editable TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Width="Width.Px( 60 )" />
                         <DataGridColumn Editable Field="FirstName" Caption="First Name">
                         </DataGridColumn>
                         <DataGridColumn Editable Field="LastName" Caption="Last Name" />
@@ -48,7 +48,7 @@
                         <DataGridDateColumn Field="DateOfBirth" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
                         <DataGridNumericColumn Field="Childrens" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
                         <DataGridSelectColumn Field="Gender" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" />
-                        <DataGridColumn Field="Salary" Caption="Salary" Editable Width="@Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
+                        <DataGridColumn Field="Salary" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
                         <DataGridCheckColumn Field="IsActive" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>

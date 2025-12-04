@@ -27,7 +27,7 @@
                           Editable
                           EditMode="editMode">
                     <DataGridColumns>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="@Width.Px( 60 )" />
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="Width.Px( 60 )" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable />
@@ -52,7 +52,7 @@
                             </EditTemplate>
                         </DataGridSelectColumn>
 
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="@Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof( Employee.IsActive )" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>

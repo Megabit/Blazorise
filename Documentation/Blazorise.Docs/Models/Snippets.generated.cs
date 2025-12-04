@@ -3315,14 +3315,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string TableFixedColumnsExample = @"<Table Bordered FixedColumns>
     <TableHeader>
         <TableRow>
-            <TableHeaderCell Width=""@Width.Px(50)"" FixedPosition=""TableColumnFixedPosition.Start"">#</TableHeaderCell>
-            <TableHeaderCell Width=""@Width.Px(100)"">Column 1</TableHeaderCell>
-            <TableHeaderCell Width=""@Width.Px(150)"" FixedPosition=""TableColumnFixedPosition.Start"">Fixed heading</TableHeaderCell>
-            <TableHeaderCell Width=""@Width.Px(100)"">Column 2</TableHeaderCell>
-            <TableHeaderCell Width=""@Width.Px(450)"">Column 3</TableHeaderCell>
-            <TableHeaderCell Width=""@Width.Px(230)"">Column 4</TableHeaderCell>
-            <TableHeaderCell Width=""@Width.Px(220)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end heading</TableHeaderCell>
-            <TableHeaderCell Width=""@Width.Px(200)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end heading</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(50)"" FixedPosition=""TableColumnFixedPosition.Start"">#</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(100)"">Column 1</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(150)"" FixedPosition=""TableColumnFixedPosition.Start"">Fixed heading</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(100)"">Column 2</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(450)"">Column 3</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(230)"">Column 4</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(220)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end heading</TableHeaderCell>
+            <TableHeaderCell Width=""Width.Px(200)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end heading</TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>
@@ -3331,14 +3331,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             var index = i.ToString();
 
             <TableRow @key=""@index"">
-                <TableRowHeader Width=""@Width.Px(50)"" FixedPosition=""TableColumnFixedPosition.Start"">@index</TableRowHeader>
-                <TableRowCell Width=""@Width.Px(100)"">Column 1</TableRowCell>
-                <TableRowCell Width=""@Width.Px(150)"" FixedPosition=""TableColumnFixedPosition.Start"">Fixed column</TableRowCell>
-                <TableRowCell Width=""@Width.Px(200)"">Column 2</TableRowCell>
-                <TableRowCell Width=""@Width.Px(450)"">Column 3</TableRowCell>
-                <TableRowCell Width=""@Width.Px(230)"">Column 4</TableRowCell>
-                <TableRowCell Width=""@Width.Px(220)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end content</TableRowCell>
-                <TableRowCell Width=""@Width.Px(200)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end content</TableRowCell>
+                <TableRowHeader Width=""Width.Px(50)"" FixedPosition=""TableColumnFixedPosition.Start"">@index</TableRowHeader>
+                <TableRowCell Width=""Width.Px(100)"">Column 1</TableRowCell>
+                <TableRowCell Width=""Width.Px(150)"" FixedPosition=""TableColumnFixedPosition.Start"">Fixed column</TableRowCell>
+                <TableRowCell Width=""Width.Px(200)"">Column 2</TableRowCell>
+                <TableRowCell Width=""Width.Px(450)"">Column 3</TableRowCell>
+                <TableRowCell Width=""Width.Px(230)"">Column 4</TableRowCell>
+                <TableRowCell Width=""Width.Px(220)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end content</TableRowCell>
+                <TableRowCell Width=""Width.Px(200)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end content</TableRowCell>
             </TableRow>
         }
     </TableBody>
@@ -6560,11 +6560,11 @@ Install-Package Blazorise.Chart.Zoom";
           ShowValidationsSummary>
     <DataGridColumns>
         <DataGridCommandColumn SaveBatchCommandAllowed=false CancelBatchCommandAllowed=false />
-        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""@Width.Px( 60 )"" />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""Width.Px( 60 )"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""@Width.Px( 140 )"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""Width.Px( 140 )"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" />
     </DataGridColumns>
     <ButtonRowTemplate>
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
@@ -6674,7 +6674,7 @@ Install-Package Blazorise.Chart.Zoom";
           NavigationMode=""DataGridNavigationMode.Cell""
           @bind-Selectedcell=""@selectedCell""
           Responsive>
-    <DataGridMultiSelectColumn Width=""@Width.Px( 30 )""></DataGridMultiSelectColumn>
+    <DataGridMultiSelectColumn Width=""Width.Px( 30 )""></DataGridMultiSelectColumn>
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
@@ -7268,7 +7268,7 @@ Install-Package Blazorise.Chart.Zoom";
     </DataGridAggregates>
     <DataGridColumns>
         <DataGridCommandColumn></DataGridCommandColumn>
-        <DataGridColumn Editable TextAlignment=""TextAlignment.Center"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""@Width.Px( 60 )"" />
+        <DataGridColumn Editable TextAlignment=""TextAlignment.Center"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""Width.Px( 60 )"" />
         <DataGridColumn Editable Field=""FirstName"" Caption=""First Name"">
         </DataGridColumn>
         <DataGridColumn Editable Field=""LastName"" Caption=""Last Name"" />
@@ -7283,7 +7283,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridDateColumn Field=""DateOfBirth"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
         <DataGridNumericColumn Field=""Childrens"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
         <DataGridSelectColumn Field=""Gender"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" />
-        <DataGridColumn Field=""Salary"" Caption=""Salary"" Editable Width=""@Width.Px( 140 )"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"">
+        <DataGridColumn Field=""Salary"" Caption=""Salary"" Editable Width=""Width.Px( 140 )"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"">
         </DataGridColumn>
         <DataGridCheckColumn Field=""IsActive"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>
@@ -7645,17 +7645,17 @@ Install-Package Blazorise.Chart.Zoom";
           ShowPageSizes
           @bind-SelectedRow=""@selectedEmployee"">
     <DataGridColumns>
-        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""@Width.Px( 60 )"" FixedPosition=""TableColumnFixedPosition.Start"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Width=""@Width.Px( 150 )"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Width=""@Width.Px( 150 )"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Width=""@Width.Px( 250 )"" FixedPosition=""TableColumnFixedPosition.Start"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"" Width=""@Width.Px( 150 )"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"" Width=""@Width.Px( 100 )"" />
-        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Width=""@Width.Px( 100 )"" />
-        <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Filterable=""false"" Width=""@Width.Px( 100 )"" />
-        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" Width=""@Width.Px( 100 )"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" Width=""@Width.Px( 100 )"" FixedPosition=""TableColumnFixedPosition.End"" />
-        <DataGridCheckColumn TItem=""Employee"" Field=""@nameof( Employee.IsActive )"" Caption=""Active"" Filterable=""false"" Width=""@Width.Px( 100 )"" />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""Width.Px( 60 )"" FixedPosition=""TableColumnFixedPosition.Start"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Width=""Width.Px( 150 )"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Width=""Width.Px( 150 )"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Width=""Width.Px( 250 )"" FixedPosition=""TableColumnFixedPosition.Start"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"" Width=""Width.Px( 150 )"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"" Width=""Width.Px( 100 )"" />
+        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Width=""Width.Px( 100 )"" />
+        <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Filterable=""false"" Width=""Width.Px( 100 )"" />
+        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" Width=""Width.Px( 100 )"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" Width=""Width.Px( 100 )"" FixedPosition=""TableColumnFixedPosition.End"" />
+        <DataGridCheckColumn TItem=""Employee"" Field=""@nameof( Employee.IsActive )"" Caption=""Active"" Filterable=""false"" Width=""Width.Px( 100 )"" />
     </DataGridColumns>
 </DataGrid>
 
@@ -7790,7 +7790,7 @@ Install-Package Blazorise.Chart.Zoom";
           ShowHeaderGroupCaptions>
     <DataGridColumns>
         <DataGridColumn DisplayOrder=2 TItem=""Employee"" Field=""@nameof( Employee.LastName )"" HeaderGroupCaption=""Personal Info"" Caption=""Last Name"" />
-        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""@Width.Px( 60 )"" />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""Width.Px( 60 )"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" HeaderGroupCaption=""Personal Info"" Caption=""First Name"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" HeaderGroupCaption=""Address"" Caption=""Zip"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" HeaderGroupCaption=""Address"" Caption=""City"">
@@ -7821,7 +7821,7 @@ Install-Package Blazorise.Chart.Zoom";
           ShowHeaderGroupCaptions>
     <DataGridColumns>
         <DataGridColumn DisplayOrder=2 TItem=""Employee"" Field=""@nameof( Employee.LastName )"" HeaderGroupCaption=""PersonalInfo"" Caption=""Last Name"" />
-        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""@Width.Px( 60 )"" />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""Width.Px( 60 )"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" HeaderGroupCaption=""PersonalInfo"" Caption=""First Name"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" HeaderGroupCaption=""Address"" Caption=""Zip"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" HeaderGroupCaption=""Address"" Caption=""City"">
@@ -8124,7 +8124,7 @@ Install-Package Blazorise.Chart.Zoom";
           SelectionMode=""DataGridSelectionMode.Multiple""
           @bind-SelectedRows=""selectedEmployees""
           Responsive>
-    <DataGridMultiSelectColumn Width=""@Width.Px( 30 )""></DataGridMultiSelectColumn>
+    <DataGridMultiSelectColumn Width=""Width.Px( 30 )""></DataGridMultiSelectColumn>
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
@@ -8464,7 +8464,7 @@ Install-Package Blazorise.Chart.Zoom";
           @bind-SelectedRows=""selectedEmployees""
           Responsive
           RowSelectable=""RowSelectableHandler"">
-    <DataGridMultiSelectColumn TItem=""Employee"" Width=""@Width.Px( 30 )""></DataGridMultiSelectColumn>
+    <DataGridMultiSelectColumn TItem=""Employee"" Width=""Width.Px( 30 )""></DataGridMultiSelectColumn>
     <DataGridCommandColumn TItem=""Employee"" />
     <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
@@ -8826,7 +8826,7 @@ Install-Package Blazorise.Chart.Zoom";
           ShowColumnChooser
           PagerPosition=""DataGridPagerPosition.Top"">
     <DataGridColumns>
-        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""@Width.Px(60)"" />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""Width.Px(60)"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"">
         </DataGridColumn>
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" />
@@ -8841,7 +8841,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
         <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""@Width.Px(140)"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""Width.Px(140)"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
         </DataGridColumn>
         <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>

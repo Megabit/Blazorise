@@ -6,7 +6,7 @@
           SelectionMode="DataGridSelectionMode.Multiple"
           @bind-SelectedRows="selectedEmployees"
           Responsive>
-    <DataGridMultiSelectColumn Width="@Width.Px( 30 )"></DataGridMultiSelectColumn>
+    <DataGridMultiSelectColumn Width="Width.Px( 30 )"></DataGridMultiSelectColumn>
     <DataGridCommandColumn />
     <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
