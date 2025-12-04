@@ -1,26 +1,30 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectList</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">MyFruitModel</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">IReadOnlyList&lt;int&gt;</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>IndexedFruits</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.Name)</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.Id)</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">Multiple</span>
-            <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedListValues</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">DefaultItemText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Choose your fruit</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+        <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">IReadOnlyList&lt;int&gt;</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>IndexedFruits</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.Name)</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.Id)</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">Multiple</span>
+        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedListValues</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">DefaultItemText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Choose your fruit</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">public</span> <span class="keyword">class</span> MyFruitModel
+        <span class="keyword">public</span> <span class="keyword">class</span> MyFruitModel
     {
         <span class="keyword">public</span> <span class="keyword">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
         <span class="keyword">public</span> <span class="keyword">string</span> Name { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 
-    <span class="keyword">static</span> <span class="keyword">string</span>[] Fruits = { <span class="string">&quot;Avocado&quot;</span>, <span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Blackberries&quot;</span>, <span class="string">&quot;Blueberries&quot;</span>, <span class="string">&quot;Cherries&quot;</span>, <span class="string">&quot;Cranberries&quot;</span>, <span class="string">&quot;Lemon&quot;</span>, <span class="string">&quot;Mango&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Pineapple&quot;</span>, <span class="string">&quot;Watermelon&quot;</span> };
-    <span class="keyword">static</span> IEnumerable&lt;MyFruitModel&gt; IndexedFruits = Enumerable.Range( <span class="number">1</span>, Fruits.Length ).Select( x =&gt; <span class="keyword">new</span> MyFruitModel { Name = Fruits[x - <span class="number">1</span>], Id = x } );
+        <span class="keyword">static</span> <span class="keyword">string</span>[] Fruits = { <span class="string">&quot;Avocado&quot;</span>, <span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Blackberries&quot;</span>, <span class="string">&quot;Blueberries&quot;</span>, <span class="string">&quot;Cherries&quot;</span>, <span class="string">&quot;Cranberries&quot;</span>, <span class="string">&quot;Lemon&quot;</span>, <span class="string">&quot;Mango&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Pineapple&quot;</span>, <span class="string">&quot;Watermelon&quot;</span> };
+        <span class="keyword">static</span> IEnumerable&lt;MyFruitModel&gt; IndexedFruits = Enumerable.Range( <span class="number">1</span>, Fruits.Length ).Select( x =&gt; <span class="keyword">new</span> MyFruitModel { Name = Fruits[x - <span class="number">1</span>], Id = x } );
 
     IReadOnlyList&lt;<span class="keyword">int</span>&gt; selectedListValues { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

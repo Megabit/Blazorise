@@ -1,10 +1,13 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LineChart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">lineChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">WatcherEvent</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>lineChartOptions</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> LineChart&lt;WatcherEvent&gt; lineChart;
+        <span class="keyword">private</span> LineChart&lt;WatcherEvent&gt; lineChart;
 
     LineChartOptions lineChartOptions = <span class="keyword">new</span>()
     {
@@ -15,7 +18,7 @@
         }
     };
 
-    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BackgroundColors = <span class="keyword">new</span>()
+        <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BackgroundColors = <span class="keyword">new</span>()
     {
         ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, <span class="number">0</span>.25f ),   <span class="comment">// Indigo</span>
         ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, <span class="number">0</span>.25f ),   <span class="comment">// Teal</span>
@@ -25,7 +28,7 @@
         ChartColor.FromRgba( <span class="number">34</span>, <span class="number">139</span>, <span class="number">230</span>, <span class="number">0</span>.25f )    <span class="comment">// Blue</span>
     };
 
-    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BorderColors = <span class="keyword">new</span>()
+        <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BorderColors = <span class="keyword">new</span>()
     {
         ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, 1f ),      <span class="comment">// Indigo</span>
         ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, 1f ),      <span class="comment">// Teal</span>
@@ -35,9 +38,9 @@
         ChartColor.FromRgba( <span class="number">34</span>, <span class="number">139</span>, <span class="number">230</span>, 1f )       <span class="comment">// Blue</span>
     };
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> isAlreadyInitialised;
+        <span class="keyword">private</span> <span class="keyword">bool</span> isAlreadyInitialised;
 
-    <span class="keyword">public</span> <span class="keyword">class</span> WatcherEvent
+        <span class="keyword">public</span> <span class="keyword">class</span> WatcherEvent
     {
         <span class="keyword">public</span> <span class="keyword">string</span> Sector { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
@@ -46,28 +49,28 @@
         <span class="keyword">public</span> DateTime Date { <span class="keyword">get</span>; } = DateTime.Now;
     }
 
-    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
     {
         <span class="keyword">if</span> ( !isAlreadyInitialised )
         {
             isAlreadyInitialised = <span class="keyword">true</span>;
 
-            <span class="keyword">await</span> lineChart.Clear();
-            <span class="keyword">await</span> lineChart.AddDataSet( GetLineChartDataset() );
+        <span class="keyword">await</span> lineChart.Clear();
+        <span class="keyword">await</span> lineChart.AddDataSet( GetLineChartDataset() );
         }
     }
 
-    <span class="keyword">private</span> LineChartDataset&lt;WatcherEvent&gt; GetLineChartDataset()
+        <span class="keyword">private</span> LineChartDataset&lt;WatcherEvent&gt; GetLineChartDataset()
     {
         <span class="keyword">return</span> <span class="keyword">new</span>()
         {
             Label = <span class="string">&quot;# of randoms&quot;</span>,
             Data = <span class="keyword">new</span> List&lt;WatcherEvent&gt;
             {
-                <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;A&quot;</span>, Count = <span class="number">1400</span> },
-                <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;B&quot;</span>, Count = <span class="number">900</span> },
-                <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;C&quot;</span>, Count = <span class="number">1800</span> },
-                <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;D&quot;</span>, Count = <span class="number">1300</span> },
+        <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;A&quot;</span>, Count = <span class="number">1400</span> },
+        <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;B&quot;</span>, Count = <span class="number">900</span> },
+        <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;C&quot;</span>, Count = <span class="number">1800</span> },
+        <span class="keyword">new</span> WatcherEvent { Sector = <span class="string">&quot;D&quot;</span>, Count = <span class="number">1300</span> },
             },
             BackgroundColor = BackgroundColors[<span class="number">0</span>], <span class="comment">// line chart can only have one color</span>
             BorderColor = BorderColors[<span class="number">0</span>],
@@ -79,5 +82,6 @@
         };
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

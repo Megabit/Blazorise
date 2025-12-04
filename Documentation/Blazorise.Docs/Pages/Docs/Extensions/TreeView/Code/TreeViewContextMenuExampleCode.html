@@ -1,42 +1,45 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="atSign">&#64;</span>using System.Drawing
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TreeView</span> <span class="htmlAttributeName">TNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Item</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">Nodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Items</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">AutoExpandAll</span>
-          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedNode</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">NodeContextMenu</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnNodeContextMenu</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">NodeContextMenuPreventDefault</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlAttributeName">Nodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Items</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">AutoExpandAll</span>
+        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedNode</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">NodeContextMenu</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnNodeContextMenu</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">NodeContextMenuPreventDefault</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Folder</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="atSign">&#64;</span>context.Text
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TreeView</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="atSign">&#64;</span>if ( showContextMenu )
 {
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Position</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Position</span><span class="enumValue">.Fixed</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>($&quot;left:{contextMenuPosX}px; top:{contextMenuPosY}px;&quot;)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Position</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Position</span><span class="enumValue">.Fixed</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>($&quot;left:{contextMenuPosX}px; top:{contextMenuPosY}px;&quot;)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroup</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Node: <span class="atSign">&#64;</span>contextMenuNode?.Text<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroupItem</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(()=&gt;OnContextItemEditClicked(contextMenuNode))</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">cursor: pointer;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Edit</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span> Edit
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroupItem</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(()=&gt;OnContextItemDeleteClicked(contextMenuNode))</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">cursor: pointer;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Delete</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span> Delete
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Node: <span class="atSign">&#64;</span>contextMenuNode?.Text<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroupItem</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(()=&gt;OnContextItemEditClicked(contextMenuNode))</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">cursor: pointer;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Edit</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span> Edit
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroupItem</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(()=&gt;OnContextItemDeleteClicked(contextMenuNode))</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">cursor: pointer;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Delete</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span> Delete
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroup</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
 }
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">public</span> <span class="keyword">class</span> Item
+        <span class="keyword">public</span> <span class="keyword">class</span> Item
     {
         <span class="keyword">public</span> <span class="keyword">string</span> Text { <span class="keyword">get</span>; <span class="keyword">set</span>; }
         <span class="keyword">public</span> IEnumerable&lt;Item&gt; Children { <span class="keyword">get</span>; <span class="keyword">set</span>; }
@@ -50,20 +53,20 @@
             Text = <span class="string">&quot;Item 2&quot;</span>,
             Children = <span class="keyword">new</span> []
             {
-                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.1&quot;</span> },
-                <span class="keyword">new</span> Item
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.1&quot;</span> },
+        <span class="keyword">new</span> Item
                 {
                     Text = <span class="string">&quot;Item 2.2&quot;</span>,
                     Children = <span class="keyword">new</span> []
                     {
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.1&quot;</span> },
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.2&quot;</span> },
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.3&quot;</span> },
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.4&quot;</span> }
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.1&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.2&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.3&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.4&quot;</span> }
                     }
                 },
-                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.3&quot;</span> },
-                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.4&quot;</span> }
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.3&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.4&quot;</span> }
             }
         },
         <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 3&quot;</span> },
@@ -72,12 +75,12 @@
     IList&lt;Item&gt; expandedNodes = <span class="keyword">new</span> List&lt;Item&gt;();
     Item selectedNode;
 
-    <span class="keyword">bool</span> showContextMenu = <span class="keyword">false</span>;
-    <span class="keyword">double</span> contextMenuPosX;
-    <span class="keyword">double</span> contextMenuPosY;
+        <span class="keyword">bool</span> showContextMenu = <span class="keyword">false</span>;
+        <span class="keyword">double</span> contextMenuPosX;
+        <span class="keyword">double</span> contextMenuPosY;
     Item contextMenuNode;
 
-    <span class="keyword">protected</span> Task OnNodeContextMenu( TreeViewNodeMouseEventArgs&lt;Item&gt; eventArgs )
+        <span class="keyword">protected</span> Task OnNodeContextMenu( TreeViewNodeMouseEventArgs&lt;Item&gt; eventArgs )
     {
         showContextMenu = <span class="keyword">true</span>;
         contextMenuNode = eventArgs.Node;
@@ -87,19 +90,20 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">protected</span> Task OnContextItemEditClicked( Item item )
+        <span class="keyword">protected</span> Task OnContextItemEditClicked( Item item )
     {
         showContextMenu = <span class="keyword">false</span>;
 
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">protected</span> Task OnContextItemDeleteClicked( Item item )
+        <span class="keyword">protected</span> Task OnContextItemDeleteClicked( Item item )
     {
         showContextMenu = <span class="keyword">false</span>;
 
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

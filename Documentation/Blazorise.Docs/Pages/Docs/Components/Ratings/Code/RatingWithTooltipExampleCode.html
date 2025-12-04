@@ -1,26 +1,30 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Rating</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>SelectedValue</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MaxValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">10</span><span class="quot">&quot;</span> <span class="htmlAttributeName">GetTooltip</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>GetTooltip</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">int</span> SelectedValue = <span class="number">7</span>;
+        <span class="keyword">int</span> SelectedValue = <span class="number">7</span>;
 
     RatingTooltip GetTooltip( <span class="keyword">int</span> value )
     {
         <span class="keyword">if</span> ( value &lt;= <span class="number">2</span> )
-            <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Very bad&quot;</span> );
+        <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Very bad&quot;</span> );
         <span class="keyword">else</span> <span class="keyword">if</span> ( value &lt;= <span class="number">4</span> )
-            <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Bad&quot;</span>, TooltipPlacement.Bottom );
+        <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Bad&quot;</span>, TooltipPlacement.Bottom );
         <span class="keyword">else</span> <span class="keyword">if</span> ( value &lt;= <span class="number">6</span> )
-            <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Fair&quot;</span> );
+        <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Fair&quot;</span> );
         <span class="keyword">else</span> <span class="keyword">if</span> ( value &lt;= <span class="number">8</span> )
-            <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Good&quot;</span>, TooltipPlacement.Top, <span class="keyword">false</span>, <span class="keyword">false</span> );
+        <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Good&quot;</span>, TooltipPlacement.Top, <span class="keyword">false</span>, <span class="keyword">false</span> );
         <span class="keyword">else</span> <span class="keyword">if</span> ( value &lt;= <span class="number">10</span> )
-            <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Very good&quot;</span> );
+        <span class="keyword">return</span> <span class="keyword">new</span> RatingTooltip( <span class="string">&quot;Very good&quot;</span> );
 
         <span class="keyword">return</span> <span class="keyword">null</span>;
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

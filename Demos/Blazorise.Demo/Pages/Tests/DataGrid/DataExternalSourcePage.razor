@@ -1,4 +1,4 @@
-﻿@using Blazorise.DataGrid.Extensions;
+@using Blazorise.DataGrid.Extensions;
 @page "/tests/datagrid/data/read-data"
 <Row>
     <Column>
@@ -9,7 +9,7 @@
             <CardBody>
                 <Paragraph>
                     In this demo, the Blazorise DataGrid is simulating a connection to an external datasets.
-                    Navigate between grid pages, sort data, or filter data to experience our DataGrid’s responsiveness
+                    Navigate between grid pages, sort data, or filter data to experience our DataGrid�s responsiveness
                     and performance capabilities when binding to large datasets.
                 </Paragraph>
                 <Paragraph>
@@ -30,7 +30,7 @@
                           ShowPager
                           ShowPageSizes>
                     <DataGridColumns>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="Width.Px( 60 )" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
@@ -44,10 +44,10 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof( Employee.IsActive )" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
                                 <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>

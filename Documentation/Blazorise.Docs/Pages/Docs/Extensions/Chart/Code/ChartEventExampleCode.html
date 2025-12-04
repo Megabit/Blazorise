@@ -1,27 +1,30 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Chart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">barChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Type</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ChartType</span><span class="enumValue">.Bar</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnClicked</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
     Chart&lt;<span class="keyword">double</span>&gt; barChart;
 
-    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
     {
         <span class="keyword">if</span> ( firstRender )
         {
-            <span class="keyword">await</span> HandleRedraw();
+        <span class="keyword">await</span> HandleRedraw();
         }
     }
 
-    <span class="keyword">async</span> Task HandleRedraw()
+        <span class="keyword">async</span> Task HandleRedraw()
     {
         <span class="keyword">await</span> barChart.Clear();
 
         <span class="keyword">await</span> barChart.AddLabelsDatasetsAndUpdate( Labels, GetBarChartDataset() );
     }
 
-    <span class="keyword">private</span> BarChartDataset&lt;<span class="keyword">double</span>&gt; GetBarChartDataset()
+        <span class="keyword">private</span> BarChartDataset&lt;<span class="keyword">double</span>&gt; GetBarChartDataset()
     {
         <span class="keyword">return</span> <span class="keyword">new</span>()
             {
@@ -33,9 +36,9 @@
             };
     }
 
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] Labels = { <span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>, <span class="string">&quot;F&quot;</span> };
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] Labels = { <span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>, <span class="string">&quot;F&quot;</span> };
 
-    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BackgroundColors = <span class="keyword">new</span>()
+        <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BackgroundColors = <span class="keyword">new</span>()
     {
         ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, <span class="number">0</span>.25f ),   <span class="comment">// Indigo</span>
         ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, <span class="number">0</span>.25f ),   <span class="comment">// Teal</span>
@@ -45,7 +48,7 @@
         ChartColor.FromRgba( <span class="number">34</span>, <span class="number">139</span>, <span class="number">230</span>, <span class="number">0</span>.25f )    <span class="comment">// Blue</span>
     };
 
-    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BorderColors = <span class="keyword">new</span>()
+        <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BorderColors = <span class="keyword">new</span>()
     {
         ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, 1f ),      <span class="comment">// Indigo</span>
         ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, 1f ),      <span class="comment">// Teal</span>
@@ -76,5 +79,6 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

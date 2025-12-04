@@ -1,19 +1,22 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LineChart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">horizontalLineChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">LiveDataPoint</span><span class="quot">&quot;</span> <span class="htmlAttributeName">OptionsObject</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>horizontalLineChartOptions</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChartStreaming</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">LiveDataPoint</span><span class="quot">&quot;</span>
-                    <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">new ChartStreamingOptions { Delay = 2000 }</span><span class="quot">&quot;</span>
-                    <span class="htmlAttributeName">Refreshed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnHorizontalLineRefreshed</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChartStreaming</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">LiveDataPoint</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">new ChartStreamingOptions { Delay = 2000 }</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">Refreshed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnHorizontalLineRefreshed</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LineChart</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
     LineChart&lt;LiveDataPoint&gt; horizontalLineChart;
     Random random = <span class="keyword">new</span> Random( DateTime.Now.Millisecond );
 
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] Labels = { <span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>, <span class="string">&quot;F&quot;</span> };
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] Labels = { <span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>, <span class="string">&quot;F&quot;</span> };
 
-    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BackgroundColors = <span class="keyword">new</span>()
+        <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BackgroundColors = <span class="keyword">new</span>()
     {
         ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, <span class="number">0</span>.25f ),   <span class="comment">// Indigo</span>
         ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, <span class="number">0</span>.25f ),   <span class="comment">// Teal</span>
@@ -23,7 +26,7 @@
         ChartColor.FromRgba( <span class="number">34</span>, <span class="number">139</span>, <span class="number">230</span>, <span class="number">0</span>.25f )    <span class="comment">// Blue</span>
     };
 
-    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BorderColors = <span class="keyword">new</span>()
+        <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BorderColors = <span class="keyword">new</span>()
     {
         ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, 1f ),      <span class="comment">// Indigo</span>
         ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, 1f ),      <span class="comment">// Teal</span>
@@ -33,14 +36,14 @@
         ChartColor.FromRgba( <span class="number">34</span>, <span class="number">139</span>, <span class="number">230</span>, 1f )       <span class="comment">// Blue</span>
     };
 
-    <span class="keyword">public</span> <span class="keyword">struct</span> LiveDataPoint
+        <span class="keyword">public</span> <span class="keyword">struct</span> LiveDataPoint
     {
         <span class="keyword">public</span> <span class="keyword">object</span> X { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
         <span class="keyword">public</span> <span class="keyword">object</span> Y { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 
-    <span class="keyword">object</span> horizontalLineChartOptions = <span class="keyword">new</span>
+        <span class="keyword">object</span> horizontalLineChartOptions = <span class="keyword">new</span>
     {
         Scales = <span class="keyword">new</span>
         {
@@ -59,16 +62,16 @@
         }
     };
 
-    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
     {
         <span class="keyword">if</span> ( firstRender )
         {
-            <span class="keyword">await</span> Task.WhenAll(
+        <span class="keyword">await</span> Task.WhenAll(
                 HandleRedraw( horizontalLineChart, GetLineChartDataset1 ) );
         }
     }
 
-    <span class="keyword">async</span> Task HandleRedraw&lt;TDataSet, TItem, TOptions, TModel&gt;( BaseChart&lt;TDataSet, TItem, TOptions, TModel&gt; chart, <span class="keyword">params</span> Func&lt;TDataSet&gt;[] getDataSets )
+        <span class="keyword">async</span> Task HandleRedraw&lt;TDataSet, TItem, TOptions, TModel&gt;( BaseChart&lt;TDataSet, TItem, TOptions, TModel&gt; chart, <span class="keyword">params</span> Func&lt;TDataSet&gt;[] getDataSets )
         <span class="keyword">where</span> TDataSet : ChartDataset&lt;TItem&gt;
         <span class="keyword">where</span> TOptions : ChartOptions
         <span class="keyword">where</span> TModel : ChartModel
@@ -103,10 +106,11 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">double</span> RandomScalingFactor()
+        <span class="keyword">double</span> RandomScalingFactor()
     {
         <span class="keyword">return</span> ( random.NextDouble() &gt; <span class="number">0</span>.<span class="number">5</span> ? <span class="number">1</span>.<span class="number">0</span> : -<span class="number">1</span>.<span class="number">0</span> ) * Math.Round( random.NextDouble() * <span class="number">100</span> );
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

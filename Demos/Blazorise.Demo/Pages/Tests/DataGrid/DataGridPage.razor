@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid"
+@page "/tests/datagrid"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -282,7 +282,7 @@
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
                     </DataGridAggregates>
                     <DataGridColumns>
-                        <DataGridMultiSelectColumn Width="30px">
+                        <DataGridMultiSelectColumn Width="Width.Px( 30 )">
                             <FilterTemplate>
                                 <Button Clicked="@Reset" title="Reload">
                                     <Icon Name="IconName.Sync" />
@@ -318,18 +318,18 @@
                                 <Span TextWeight="TextWeight.Bold">Totals:</Span>
                             </AggregateTemplate>
                         </DataGridCommandColumn>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" PreventRowClick />
+                        <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="Width.Px( 60 )" PreventRowClick />
                         <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable>
                             <FilterTemplate>
-                                <TextInput Placeholder="Search name" Value="@context.SearchValue?.ToString()" ValueChanged="@(v=> context.TriggerFilterChange(v))" />
+                                <TextInput Placeholder="Search name" Value="@context.SearchValue?.ToString()" ValueChanged="@(v => context.TriggerFilterChange( v ))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable EditFieldColumnSize="ColumnSize.IsFull.OnDesktop" >
+                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable EditFieldColumnSize="ColumnSize.IsFull.OnDesktop">
                             <AggregateTemplate>
                                 <Icon Name="@IconName.Mail"></Icon> @($"{context.Value}")
                             </AggregateTemplate>
-                            </DataGridColumn>
+                        </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.City )" Caption="City" Editable>
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -349,20 +349,20 @@
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable HelpText="Please provide a Zip in the format = 'xxxxx-xxxx'">
                             <SortDirectionTemplate>
-                                <Icon Name="@( context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp )" />
+                                <Icon Name="@(context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp)" />
                             </SortDirectionTemplate>
                         </DataGridColumn>
                         <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
-                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable/>
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" 
-                                                CustomFilter="@OnGenderCustomFilter"
-                                                Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender"
+                                              CustomFilter="@OnGenderCustomFilter"
+                                              Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
                             <EditTemplate>
-                                <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+                                <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@(v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" HelpText="Whether this employee is active." />
+                        <DataGridCheckColumn Field="@nameof( Employee.IsActive )" Caption="Active" Editable Filterable="false" HelpText="Whether this employee is active." />
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
@@ -373,8 +373,8 @@
                                       Sortable="false"
                                       ShowCaptions="false">
                                 <DataGridCommandColumn />
-                                <DataGridDateColumn Field="@nameof(Salary.Date)" Caption="Date" />
-                                <DataGridNumericColumn Field="@nameof(Salary.Total)" Caption="Total" />
+                                <DataGridDateColumn Field="@nameof( Salary.Date )" Caption="Date" />
+                                <DataGridNumericColumn Field="@nameof( Salary.Total )" Caption="Total" />
                             </DataGrid>
                         }
                     </DetailRowTemplate>

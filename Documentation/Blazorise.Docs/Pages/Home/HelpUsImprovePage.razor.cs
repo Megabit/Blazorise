@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blazorise.Docs.Pages.Home;
 
-public partial class HelpUsImprovePage 
+public partial class HelpUsImprovePage
 {
     #region Members
 
@@ -28,7 +28,7 @@ public partial class HelpUsImprovePage
     {
         try
         {
-            if (await validationsRef.ValidateAll())
+            if ( await validationsRef.ValidateAll() )
             {
                 var message = new StringBuilder();
 
@@ -46,7 +46,7 @@ public partial class HelpUsImprovePage
 
                 result = await EmailSender.Send( emailMessage, CancellationToken.None );
 
-                if (result.Succeeded)
+                if ( result.Succeeded )
                 {
                     await MessageService.Success( "Your message was sent successfully." );
 

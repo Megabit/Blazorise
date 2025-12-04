@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid/auto-generate-columns"
+@page "/tests/datagrid/auto-generate-columns"
 @using System.ComponentModel.DataAnnotations
 <Row>
     <Column>
@@ -24,14 +24,14 @@
     public class Example
     {
         [Order( DisplayOrder = 1, EditOrder = 2 )]
-        [Display(Name = "Name")]
+        [Display( Name = "Name" )]
         public string FirstName { get; set; }
 
         [Order( DisplayOrder = 2, EditOrder = 3 )]
         public string LastName { get; set; }
 
         [Order( DisplayOrder = 3, EditOrder = 4 )]
-        [Numeric(EnableStep = true, ShowStepButtons = true, Step = 1)]
+        [Numeric( EnableStep = true, ShowStepButtons = true, Step = 1 )]
         public int Age { get; set; }
 
         [Order( DisplayOrder = 5, EditOrder = 0 )]

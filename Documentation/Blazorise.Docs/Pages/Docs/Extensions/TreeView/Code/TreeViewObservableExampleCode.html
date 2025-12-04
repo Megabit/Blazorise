@@ -1,54 +1,57 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="atSign">&#64;</span>using System.Collections.ObjectModel;
 <span class="atSign">&#64;</span>using Blazorise.Extensions
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Row</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnAddNodeClick</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Add node<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnRemoveNodeClick</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Remove node<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TreeView</span> <span class="htmlAttributeName">Nodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Items</span><span class="quot">&quot;</span>
-                  <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
-                  <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
-                  <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedNode</span><span class="quot">&quot;</span>
-                  <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Folder</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-                <span class="atSign">&#64;</span>context.Text
-            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedNode</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Folder</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="atSign">&#64;</span>context.Text
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TreeView</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Row</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> Task OnAddNodeClick()
+        <span class="keyword">private</span> Task OnAddNodeClick()
     {
         Items.Add( <span class="keyword">new</span> Item { Text = $<span class="string">&quot;Item {Items.Count + 1}&quot;</span> } );
 
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> <span class="keyword">async</span> Task OnRemoveNodeClick()
+        <span class="keyword">private</span> <span class="keyword">async</span> Task OnRemoveNodeClick()
     {
         <span class="keyword">if</span> ( selectedNode <span class="keyword">is</span> <span class="keyword">null</span> )
-            <span class="keyword">return</span>;
+        <span class="keyword">return</span>;
 
         <span class="keyword">await</span> RemoveItem( selectedNode );
     }
 
-    <span class="keyword">public</span> Task RemoveItem( Item item )
+        <span class="keyword">public</span> Task RemoveItem( Item item )
     {
         SearchTryRemoveItem( Items, item );
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> <span class="keyword">void</span> SearchTryRemoveItem( ObservableCollection&lt;Item&gt; rows, Item item )
+        <span class="keyword">private</span> <span class="keyword">void</span> SearchTryRemoveItem( ObservableCollection&lt;Item&gt; rows, Item item )
     {
         <span class="keyword">if</span> ( rows.IsNullOrEmpty() )
-            <span class="keyword">return</span>;
+        <span class="keyword">return</span>;
 
         <span class="keyword">var</span> nodeToRemove = rows.FirstOrDefault( x =&gt; x.Equals( item ) );
 
@@ -58,14 +61,14 @@
         }
         <span class="keyword">else</span>
         {
-            <span class="keyword">foreach</span> ( <span class="keyword">var</span> row <span class="keyword">in</span> rows )
+        <span class="keyword">foreach</span> ( <span class="keyword">var</span> row <span class="keyword">in</span> rows )
             {
                 SearchTryRemoveItem( row.Children, item );
             }
         }
     }
 
-    <span class="keyword">public</span> <span class="keyword">class</span> Item
+        <span class="keyword">public</span> <span class="keyword">class</span> Item
     {
         <span class="keyword">public</span> <span class="keyword">string</span> Text { <span class="keyword">get</span>; <span class="keyword">set</span>; }
         <span class="keyword">public</span> ObservableCollection&lt;Item&gt; Children { <span class="keyword">get</span>; <span class="keyword">set</span>; }
@@ -79,20 +82,20 @@
             Text = <span class="string">&quot;Item 2&quot;</span>,
             Children = <span class="keyword">new</span> ObservableCollection&lt;Item&gt;()
             {
-                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.1&quot;</span> },
-                <span class="keyword">new</span> Item
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.1&quot;</span> },
+        <span class="keyword">new</span> Item
                 {
                     Text = <span class="string">&quot;Item 2.2&quot;</span>,
                     Children = <span class="keyword">new</span> ObservableCollection&lt;Item&gt;()
                     {
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.1&quot;</span> },
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.2&quot;</span> },
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.3&quot;</span> },
-                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.4&quot;</span> }
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.1&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.2&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.3&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.4&quot;</span> }
                     }
                 },
-                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.3&quot;</span> },
-                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.4&quot;</span> }
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.3&quot;</span> },
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.4&quot;</span> }
             }
         },
         <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 3&quot;</span> },
@@ -101,5 +104,6 @@
     IList&lt;Item&gt; expandedNodes = <span class="keyword">new</span> List&lt;Item&gt;();
     Item selectedNode;
 }
-</pre></div>
+</pre>
+    </div>
 </div>

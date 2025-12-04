@@ -1,12 +1,15 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">UnorderedList</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Repeater</span> <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>items</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CollectionChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCollectionChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Repeater</span> <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>items</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CollectionChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCollectionChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">UnorderedListItem</span> <span class="htmlAttributeName">style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>GetColor( context )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">UnorderedListItem</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Repeater</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Repeater</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">UnorderedList</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code{
     System.Collections.ObjectModel.ObservableCollection&lt;<span class="keyword">int</span>&gt; items { <span class="keyword">get</span>; } = <span class="keyword">new</span>( Enumerable.Range( <span class="number">1</span>, <span class="number">4</span> ) );
 
@@ -17,7 +20,7 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> GetColor( <span class="keyword">int</span> number )
+        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> GetColor( <span class="keyword">int</span> number )
     {
         <span class="keyword">const</span> <span class="keyword">string</span> letters = <span class="string">&quot;0123456789ABCDEF&quot;</span>;
 
@@ -31,5 +34,6 @@
         <span class="keyword">return</span> $<span class="string">&quot;color: #{color}&quot;</span>;
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>

@@ -1,19 +1,23 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+    <div class="html">
+        <pre>
 <span class="atSign">&#64;</span>using Blazorise.Localization
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span> <span class="htmlAttributeName">MessageLocalizer</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Localize</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
-</pre></div>
-<div class="csharp"><pre>
+</pre>
+    </div>
+    <div class="csharp">
+        <pre>
 <span class="atSign">&#64;</span>code{
     [Inject] ITextLocalizer&lt;LocalizationValidationExample&gt; L { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-    <span class="keyword">string</span> Localize( <span class="keyword">string</span> message, IEnumerable&lt;<span class="keyword">string</span>&gt; arguments )
+        <span class="keyword">string</span> Localize( <span class="keyword">string</span> message, IEnumerable&lt;<span class="keyword">string</span>&gt; arguments )
     {
         <span class="comment">// You should probably do null checks here!</span>
         <span class="keyword">return</span> <span class="keyword">string</span>.Format( L[message], arguments.ToArray() );
     }
 }
-</pre></div>
+</pre>
+    </div>
 </div>
