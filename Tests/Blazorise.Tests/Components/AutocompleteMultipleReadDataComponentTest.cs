@@ -1,5 +1,7 @@
 ﻿#region Using directives
+using System.Linq;
 using System.Threading.Tasks;
+using Bunit;
 using Xunit;
 #endregion
 
@@ -53,5 +55,36 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
     public Task RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
     {
         return TestRemoveValues<AutocompleteMultipleReadDataComponent>( startTexts, removeTexts, expectedTexts );
+    }
+
+    [Fact]
+    public async Task RemovePreviousSelection_WhenLastReadDataDoesNotContainIt_ShouldKeepRemainingSelection()
+    {
+        var comp = RenderComponent<AutocompleteMultipleReadDataComponent>( parameters =>
+            parameters.Add( p => p.MinLength, 0 ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "Antarctica" );
+        AutocompleteBaseComponentTest.WaitAndClickfirstOption( comp, "Antarctica", true );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "Zambia" );
+        AutocompleteBaseComponentTest.WaitAndClickfirstOption( comp, "Zambia", true );
+
+        var badges = comp.FindAll( ".b-is-autocomplete .badge" );
+        var badgeToRemove = badges.Single( x => x.TextContent.Replace( "×", "" ) == "Antarctica" );
+        var removeButton = badgeToRemove.GetElementsByTagName( "span" )[0];
+        await removeButton.ClickAsync( new() );
+
+        comp.WaitForAssertion( () =>
+        {
+            badges.Refresh();
+            Assert.Single( badges );
+            Assert.Equal( "Zambia", badges[0].TextContent.Replace( "×", "" ) );
+            Assert.Equal( new[] { "Zambia" }, comp.Instance.SelectedTexts );
+            Assert.Equal( new[] { "ZM" }, comp.Instance.SelectedValues );
+        }, TestExtensions.WaitTime );
     }
 }
