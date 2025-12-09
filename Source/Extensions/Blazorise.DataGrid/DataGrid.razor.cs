@@ -505,12 +505,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
+        var dataChanged = false;
+
         if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
         {
             var newCount = paramData?.Count() ?? 0;
 
             if ( lastKnownDataCount != newCount || !Data.AreEqual( paramData ) )
             {
+                dataChanged = true;
                 SetDirty();
             }
 
@@ -527,6 +530,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( Data is INotifyCollectionChanged observableCollectionAfterParamSet )
             observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
+
+        if ( dataChanged )
+            await SyncSelectedItemsWithData();
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -1102,6 +1108,42 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Task.CompletedTask;
     }
 
+    private async Task SyncSelectedItemsWithData()
+    {
+        var dataList = Data?.ToList();
+        var selectedRowChanged = false;
+        var selectedRowsChanged = false;
+
+        if ( !( SelectedRow?.Equals( default ) ?? true )
+            && ( dataList.IsNullOrEmpty() || !dataList.Any( dataItem => dataItem.IsEqual( SelectedRow ) ) ) )
+        {
+            SelectedRow = default;
+            selectedRowChanged = true;
+        }
+
+        if ( SelectedRows is not null )
+        {
+            if ( dataList.IsNullOrEmpty() )
+            {
+                if ( SelectedRows.Any() )
+                {
+                    SelectedRows.Clear();
+                    selectedRowsChanged = true;
+                }
+            }
+            else
+            {
+                selectedRowsChanged = SelectedRows.RemoveAll( selected => !dataList.Any( dataItem => dataItem.IsEqual( selected ) ) ) > 0;
+            }
+        }
+
+        if ( selectedRowChanged )
+            await SelectedRowChanged.InvokeAsync( SelectedRow );
+
+        if ( selectedRowsChanged )
+            await SelectedRowsChanged.InvokeAsync( SelectedRows );
+    }
+
     #endregion
 
     #region Events
@@ -1110,7 +1152,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Move || e.Action == NotifyCollectionChangedAction.Replace )
         {
-            await InvokeAsync( async () => await Reload() );
+            await InvokeAsync( async () =>
+            {
+                await SyncSelectedItemsWithData();
+                lastKnownDataCount = Data?.Count() ?? 0;
+                await Reload();
+            } );
         }
     }
 
@@ -1252,20 +1299,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data is ICollection<TItem> data && await IsSafeToProceed( RowRemoving, item, item ) )
         {
             var itemIsSelected = SelectedRow.IsEqual( item );
+            var itemRemoved = false;
 
             if ( UseInternalEditing )
             {
                 if ( data.Contains( item ) )
                 {
                     data.Remove( item );
+                    itemRemoved = true;
 
                     lastKnownDataCount = Data?.Count() ?? 0;
                 }
 
-                if ( itemIsSelected )
+                if ( itemRemoved )
                 {
-                    SelectedRow = default;
-                    await SelectedRowChanged.InvokeAsync( SelectedRow );
+                    await SyncSelectedItemsWithData();
                 }
             }
 

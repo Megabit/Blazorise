@@ -1,0 +1,50 @@
+@using System.Collections.ObjectModel
+
+<DataGrid TItem="Employee"
+          Data="@Items"
+          SelectionMode="DataGridSelectionMode.Multiple"
+          SelectedRows="@SelectedRows"
+          SelectedRowsChanged="OnSelectedRowsChanged">
+    <DataGridColumns>
+        <DataGridMultiSelectColumn TItem="Employee" />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name" />
+    </DataGridColumns>
+</DataGrid>
+
+<Button ElementId="btnRemove" Color="Color.Danger" Clicked="RemoveSelected">Remove selected</Button>
+
+@code {
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public ObservableCollection<Employee> Items { get; set; } = new()
+    {
+        new() { Id = 1, Name = "John" },
+        new() { Id = 2, Name = "Sarah" },
+        new() { Id = 3, Name = "Paul" },
+    };
+
+    public List<Employee> SelectedRows { get; set; } = new();
+
+    private Task OnSelectedRowsChanged( List<Employee> selectedRows )
+    {
+        SelectedRows = selectedRows;
+        return Task.CompletedTask;
+    }
+
+    private Task RemoveSelected()
+    {
+        foreach ( var item in SelectedRows.ToArray() )
+        {
+            Items.Remove( item );
+        }
+
+        return Task.CompletedTask;
+    }
+}
