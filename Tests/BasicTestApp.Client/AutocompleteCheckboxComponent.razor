@@ -1,17 +1,18 @@
 ﻿<Autocomplete TItem="Country"
-                TValue="string"
-                Data="@Countries"
-                TextField="@(( item ) => item.Name)"
-                ValueField="@(( item ) => item.Iso)"
-              @bind-SelectedValues="SelectedValues"
+              TValue="string"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              SelectedValues="SelectedValues"
+              SelectedValuesChanged="OnSelectedValuesChanged"
               @bind-SelectedTexts="SelectedTexts"
-                Placeholder="Search..."
-                FreeTyping
-                SelectionMode="AutocompleteSelectionMode.Checkbox">
+              Placeholder="Search..."
+              FreeTyping
+              SelectionMode="AutocompleteSelectionMode.Checkbox">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -22,8 +23,17 @@
         await base.OnInitializedAsync();
     }
 
+    Task OnSelectedValuesChanged( List<string> newValues )
+    {
+        SelectedValues = newValues;
+        return SelectedValuesChanged.InvokeAsync( SelectedValues );
+    }
+
     [Parameter]
     public List<string> SelectedValues { get; set; }
+
+    [Parameter]
+    public EventCallback<List<string>> SelectedValuesChanged { get; set; }
 
     [Parameter]
     public List<string> SelectedTexts { get; set; }

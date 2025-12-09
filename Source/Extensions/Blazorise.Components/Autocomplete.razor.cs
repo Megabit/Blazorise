@@ -380,6 +380,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 return;
             }
 
+            if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+            {
+                await SearchKeyDown.InvokeAsync( eventArgs );
+                return;
+            }
+
             await SelectedOrResetOnCommit();
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
