@@ -1299,20 +1299,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data is ICollection<TItem> data && await IsSafeToProceed( RowRemoving, item, item ) )
         {
             var itemIsSelected = SelectedRow.IsEqual( item );
+            var itemRemoved = false;
 
             if ( UseInternalEditing )
             {
                 if ( data.Contains( item ) )
                 {
                     data.Remove( item );
+                    itemRemoved = true;
 
                     lastKnownDataCount = Data?.Count() ?? 0;
                 }
 
-                if ( itemIsSelected )
+                if ( itemRemoved )
                 {
-                    SelectedRow = default;
-                    await SelectedRowChanged.InvokeAsync( SelectedRow );
+                    await SyncSelectedItemsWithData();
                 }
             }
 
