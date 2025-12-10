@@ -1,16 +1,21 @@
 ## Run command
 
-Run the following:
+From `Source/Blazorise.Tailwind` install the toolchain and build:
 
 ```
-tailwindcss -i tailwind-build/blazorise.tailwind.prebuild.css -o wwwroot/blazorise.tailwind.min.css --minify
+npm install
+npm run build:css
 ```
 
-from the root of this project (not from this directory)
+For local development you can watch changes:
+
+```
+npm run watch:css
+```
 
 ## Description
 
 - `blazorise.tailwind.css` - blazorise custom classes, that need to be in the output.
-- `blazorise.tailwind.prebuild.css` - the tw v4 css, contains all the imports and custom utilities 
+- `blazorise.tailwind.prebuild.css` - the Tailwind v4 entry point; contains imports, theme overrides, content sources, Flowbite plugin, and custom utilities.
 - `btw-colors.css` - blazorise tailwind colors, 3 of them are actually used in the blazorise codebase
 - `safelist.txt` - classes that need to be part of the output file. Mainly gathered from the TailwindClassProvider.
