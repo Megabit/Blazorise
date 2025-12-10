@@ -1,0 +1,30 @@
+﻿@using Blazorise.Docs.BlogRuntime
+<Row>
+    <Column>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is3.FromTop">
+            <CardBody>
+                <Heading Size="HeadingSize.Is5">
+                    Latest Posts
+                </Heading>
+                @foreach ( var item in BlogItems.Take( 2 ) )
+                {
+                    <Row @key="@item" Margin="Margin.Is3.FromBottom">
+                        <Column ColumnSize="ColumnSize.Is5">
+                            <Anchor To="@item.Permalink">
+                                <Image Source="@item.ImageUrl" Text="Blog post image" Fluid />
+                            </Anchor>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is7">
+                            <Anchor To="@item.Permalink" Style="font-size: 1rem;-webkit-box-orient: vertical;display: -webkit-box;overflow: hidden;-webkit-line-clamp: 3;">
+                                @item.Summary
+                            </Anchor>
+                        </Column>
+                    </Row>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    [Parameter] public IEnumerable<BlogIndexItem> BlogItems { get; set; }
+}

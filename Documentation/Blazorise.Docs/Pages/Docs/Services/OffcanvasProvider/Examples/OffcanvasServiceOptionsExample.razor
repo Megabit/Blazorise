@@ -1,0 +1,16 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="InstantiateOffcanvas">Override Options Example</Button>
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    public Task InstantiateOffcanvas()
+    {
+        return OffcanvasService.Show<CustomStructureOffcanvasExample>( "Override Options Example", new OffcanvasInstanceOptions()
+        {
+            Animated = false,
+            UseOffcanvasStructure = false,
+            Placement = Placement.Top
+        } );
+    }
+}

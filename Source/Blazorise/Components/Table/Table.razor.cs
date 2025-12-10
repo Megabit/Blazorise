@@ -1,8 +1,11 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -10,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// The <see cref="Table"/> component is used for displaying tabular data.
 /// </summary>
-public partial class Table : BaseDraggableComponent
+public partial class Table : BaseDraggableComponent, IAsyncDisposable
 {
     #region Members
 
@@ -68,6 +71,21 @@ public partial class Table : BaseDraggableComponent
     }
 
     /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( fixedHeader )
+                await DestroyFixedHeader();
+
+            if ( resizable )
+                await DestroyResizable();
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-table" );
@@ -109,6 +127,52 @@ public partial class Table : BaseDraggableComponent
             if ( !string.IsNullOrEmpty( FixedHeaderTableMaxHeight ) )
                 builder.Append( $"max-height: {FixedHeaderTableMaxHeight};" );
         }
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        builder
+            .OpenComponent<CascadingValue<Table>>()
+            .Attribute( "Value", this )
+            .Attribute( "IsFixed", true );
+
+        builder.Attribute( "ChildContent", (RenderFragment)( ( builder2 ) =>
+        {
+            if ( HasContainer )
+            {
+                builder2.OpenElement( "div" )
+                    .Class( ContainerClassNames )
+                    .Style( ContainerStyleNames );
+            }
+
+            builder2
+                .OpenElement( "table" )
+                .Id( ElementId )
+                .Class( ClassNames )
+                .Style( StyleNames )
+                .Draggable( DraggableString );
+
+            // build drag-and-drop related events
+            BuildDraggableEventsRenderTree( builder2 );
+
+            if ( Attributes is not null )
+                builder2.Attributes( Attributes );
+
+            builder2.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+
+            if ( ChildContent is not null )
+                builder2.Content( ChildContent );
+
+            builder2.CloseElement(); // </table>
+
+            if ( HasContainer )
+                builder2.CloseElement(); // </div>
+        } ) );
+
+        builder.CloseComponent(); // </CascadingValue>
+
+        base.BuildRenderTree( builder );
     }
 
     /// <inheritdoc/>

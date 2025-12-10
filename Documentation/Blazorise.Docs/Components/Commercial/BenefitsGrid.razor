@@ -1,66 +1,70 @@
 ﻿<Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-    Save up to <Span Class="gradient-commercial">17% resources</Span> on your next project
+    Save up to <Span Class="gradient-commercial">17%</Span> on your next project
 </Heading>
 
-@* <Paragraph>
-    Anual saving, etc.
-</Paragraph> *@
-
 <Paragraph>
-    Explore the Blazorise Benefits Grid to see how our Blazor UI components save you development <Strong>time and costs</Strong>. Quickly understand the hours and expenses you'll save with each component, streamlining your project while ensuring quality and functionality.
+    Explore the Blazorise Benefits Grid to see how our Blazor UI components save you <Strong>time and costs</Strong>.
+    Quickly estimate hours and expenses saved per component to streamline delivery without compromising quality.
 </Paragraph>
 
-<Paragraph>
+<Div>
     <Table Responsive Bordered Striped TextAlignment="TextAlignment.Center">
         <TableHeader>
             <TableRow>
-                <TableHeaderCell Style="width: 65%;" TextAlignment="TextAlignment.Start">Component, Work Name</TableHeaderCell>
+                <TableHeaderCell Style="width: 65%;" TextAlignment="TextAlignment.Start">Component / Work</TableHeaderCell>
                 <TableHeaderCell Style="width: 20%;">Development Hours</TableHeaderCell>
                 <TableHeaderCell Style="width: 15%;" TextAlignment="TextAlignment.End">Total Savings</TableHeaderCell>
             </TableRow>
         </TableHeader>
+
         <TableBody>
             @foreach ( var work in Works )
             {
-                <TableRow @key="@work">
+                <TableRow @key="work.Name">
                     <TableRowCell TextAlignment="TextAlignment.Start">@work.Name</TableRowCell>
-                    <TableRowCell TextAlignment="TextAlignment.Center">@($"{work.HoursWorked:n0} hours")</TableRowCell>
-                    <TableRowCell TextAlignment="TextAlignment.End">@($"${work.HoursWorked * @HourlyRate:n0}")</TableRowCell>
+                    <TableRowCell TextAlignment="TextAlignment.Center">@PluralizeHours( work.HoursWorked )</TableRowCell>
+                    <TableRowCell TextAlignment="TextAlignment.End">@($"€{work.HoursWorked * HourlyRate:n0}")</TableRowCell>
                 </TableRow>
             }
         </TableBody>
+
         <TableFooter>
             <TableRow>
                 <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Total</Strong></TableRowCell>
-                <TableRowCell TextAlignment="TextAlignment.Center">@($"{Works.Sum( x => x.HoursWorked )} hours")</TableRowCell>
-                <TableRowCell TextAlignment="TextAlignment.End"><Strong>@($"${Works.Sum( x => x.HoursWorked * HourlyRate ):n2}")</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center">@PluralizeHours( TotalHours )</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.End"><Strong>@($"€{TotalSavings:n0}")</Strong></TableRowCell>
             </TableRow>
         </TableFooter>
     </Table>
+</Div>
+
+<Paragraph Class="text-muted">
+    <Span>*</Span> Savings are calculated using an hourly rate of <Strong>€50/hour</Strong> for an average enterprise-level application.
 </Paragraph>
 
-<Paragraph>
-    <Span>*</Span> Savings are calculated using an hourly rate of <Strong>$50/hour</Strong> of an average enterprise level application.
-</Paragraph>
+@code {
+    const decimal HourlyRate = 50m;
 
- @code{
-    const decimal HourlyRate = 50;
-
-    class WorkInfo
+    sealed class WorkInfo
     {
-        public string Name { get; set; }
-
-        public decimal HoursWorked { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int HoursWorked { get; set; }
     }
 
-    List<WorkInfo> Works = new List<WorkInfo>()
+    List<WorkInfo> Works = new()
     {
         new WorkInfo { Name = "Button and other interaction components", HoursWorked = 90 },
         new WorkInfo { Name = "DataGrid component with sorting, filtering, paging, editing, etc.", HoursWorked = 240 },
-        new WorkInfo { Name = "Modal with keyboard navigation, and form validation", HoursWorked = 120 },
+        new WorkInfo { Name = "Modal with keyboard navigation and form validation", HoursWorked = 120 },
         new WorkInfo { Name = "Form inputs and validation", HoursWorked = 180 },
-        new WorkInfo { Name = "Navigation Bar and Sidebar", HoursWorked = 90 },
-        new WorkInfo { Name = "Charting Components", HoursWorked = 160 },
-        new WorkInfo { Name = "Notifications and Messaging System", HoursWorked = 60 },
+        new WorkInfo { Name = "Navigation bar and sidebar", HoursWorked = 90 },
+        new WorkInfo { Name = "Charting components", HoursWorked = 160 },
+        new WorkInfo { Name = "Notifications and messaging system", HoursWorked = 60 },
     };
+
+    int TotalHours => Works.Sum( x => x.HoursWorked );
+    decimal TotalSavings => Works.Sum( x => x.HoursWorked * HourlyRate );
+
+    static string PluralizeHours( int hours )
+        => hours == 1 ? "1 hour" : $"{hours:n0} hours";
 }

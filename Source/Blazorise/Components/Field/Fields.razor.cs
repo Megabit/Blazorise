@@ -18,6 +18,8 @@ public partial class Fields : BaseColumnComponent
 
     private string help;
 
+    private IFluentGutter gutter;
+
     #endregion
 
     #region Methods
@@ -31,6 +33,9 @@ public partial class Fields : BaseColumnComponent
         {
             builder.Append( ClassProvider.FieldsColumn() );
         }
+
+        if ( gutter is not null )
+            builder.Append( Gutter.Class( ClassProvider ) );
 
         base.BuildClasses( builder );
     }
@@ -64,6 +69,24 @@ public partial class Fields : BaseColumnComponent
         set
         {
             help = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the padding between your columns, used to responsively space and align content in the Blazorise grid system.
+    /// </summary>
+    [Parameter]
+    public IFluentGutter Gutter
+    {
+        get => gutter;
+        set
+        {
+            if ( gutter == value )
+                return;
+
+            gutter = value;
 
             DirtyClasses();
         }

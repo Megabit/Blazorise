@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Modules;
 
@@ -41,6 +42,16 @@ public class DatePickerJSOptions
     /// Gets or sets the default date to be selected initially.
     /// </summary>
     public object DefaultDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public int DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public int DefaultMinute { get; set; }
 
     /// <summary>
     /// Gets or sets the minimum date that can be selected.
@@ -106,6 +117,21 @@ public class DatePickerJSOptions
     /// Gets or sets the validation status for the date picker.
     /// </summary>
     public object ValidationStatus { get; set; }
+
+    /// <summary>
+    /// Determines whether the calendar menu will show week numbers.
+    /// </summary>
+    public bool ShowWeekNumbers { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to show a "Today" button in the date picker calendar.
+    /// </summary>
+    public bool ShowTodayButton { get; set; }
+
+    /// <summary>
+    /// gets or sets a value indicating whether to show a "Clear" button in the date picker calendar.
+    /// </summary>
+    public bool ShowClearButton { get; set; }
 }
 
 /// <summary>
@@ -192,4 +218,29 @@ public class DatePickerUpdateJSOptions
     /// Gets or sets the option for displaying the date picker as a static element.
     /// </summary>
     public JSOptionChange<bool> StaticPicker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating the show week numbers setting.
+    /// </summary>
+    public JSOptionChange<bool> ShowWeekNumbers { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for showing or hiding the "Today" button.
+    /// </summary>
+    public JSOptionChange<bool> ShowTodayButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for showing or hiding the "Clear" button.
+    /// </summary>
+    public JSOptionChange<bool> ShowClearButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public JSOptionChange<int> DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public JSOptionChange<int> DefaultMinute { get; set; }
 }

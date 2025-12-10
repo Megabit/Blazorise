@@ -12,10 +12,8 @@ static class Extensions
                 return "top-start";
             case SnackbarLocation.TopEnd:
                 return "top-end";
-            case SnackbarLocation.Start:
             case SnackbarLocation.BottomStart:
                 return "bottom-start";
-            case SnackbarLocation.End:
             case SnackbarLocation.BottomEnd:
                 return "bottom-end";
             case SnackbarLocation.Default:
@@ -36,13 +34,11 @@ static class Extensions
                 return "top-start";
             case SnackbarStackLocation.TopEnd:
                 return "top-end";
-            case SnackbarStackLocation.Start:
             case SnackbarStackLocation.BottomStart:
                 return "bottom-start";
-            case SnackbarStackLocation.End:
             case SnackbarStackLocation.BottomEnd:
                 return "bottom-end";
-            case SnackbarStackLocation.Center:
+            case SnackbarStackLocation.Default:
             case SnackbarStackLocation.Bottom:
                 return "bottom";
             default:

@@ -1,0 +1,19 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Steps RenderMode="StepsRenderMode.LazyReload" SelectedStep="step1">
+    <Items>
+        <Step Name="step1">Step 1</Step>
+        <Step Name="step2">Step 2</Step>
+    </Items>
+    <Content>
+        <StepPanel Name="step1">
+            This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
+            Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, 
+            therefore re-calculated.
+            <TextInput></TextInput>
+        </StepPanel>
+        <StepPanel Name="step2">
+            <TextInput></TextInput>
+        </StepPanel>
+    </Content>
+</Steps>

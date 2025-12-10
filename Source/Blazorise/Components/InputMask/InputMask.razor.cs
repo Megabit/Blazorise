@@ -14,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// Format input text content when you are typing.
 /// </summary>
-public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
+public partial class InputMask : BaseBufferedTextInput<string>, IAsyncDisposable
 {
     #region Members
 
@@ -185,7 +185,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     [Parameter] public string InputFormat { get; set; }
 
     /// <summary>
-    /// Defines the output format of the <see cref="Value"/> when the <see cref="Alias"/> is used.
+    /// Defines the output format of the <see cref="BaseInputComponent{TValue}.Value"/> when the <see cref="Alias"/> is used.
     /// </summary>
     [Parameter] public string OutputFormat { get; set; }
 

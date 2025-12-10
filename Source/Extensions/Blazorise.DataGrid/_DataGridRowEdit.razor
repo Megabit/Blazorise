@@ -7,7 +7,7 @@
             <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
                 @if ( ParentDataGrid.ShowValidationsSummary )
                 {
-                    <Row Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Display.Always : Display.None)">
+                    <Row Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? DisplayAlways : DisplayNone)">
                         <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                     </Row>
                 }
@@ -16,7 +16,7 @@
                         <Fields>
                             @foreach ( var column in OrderedEditableColumns )
                             {
-                                <Field ColumnSize="@(column.EditFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                <Field ColumnSize="@(column.EditFieldColumnSize ?? ColumnSizeIsHalfOnDesktop)">
                                     <FieldLabel>
                                         @column.Caption
                                     </FieldLabel>
@@ -51,7 +51,7 @@
                                         @if ( ParentDataGrid.SubmitFormOnEnter )
                                         {
                                             <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
-                                                 @saveButtonString
+                                                @saveButtonString
                                             </Button>
                                         }
                                         else
@@ -95,7 +95,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
     <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem" HandlerType="@ParentDataGrid?.ValidationsHandlerType">
         @if ( ParentDataGrid.ShowValidationsSummary )
         {
-            <TableRow Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? Display.TableRow : Display.None)">
+            <TableRow Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? DisplayTableRow : DisplayNone)">
                 <TableRowCell ColumnSpan="@Columns.Count()">
                     <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                 </TableRowCell>
@@ -114,8 +114,8 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 {
                     if ( ParentDataGrid.MultiSelect )
                     {
-                        <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)"
-                                      Style="@column.BuildCellStyle(Item)"
+                        <TableRowCell @key=column Class="@column.CellClass?.Invoke( Item )"
+                                      Style="@column.BuildCellStyle( Item )"
                                       TextAlignment="@column.TextAlignment"
                                       TextTransform="@column.TextTransform"
                                       TextDecoration="@column.TextDecoration"
@@ -127,19 +127,19 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                                       Flex="@column.Flex"
                                       Gap="@column.Gap"
                                       FixedPosition="@column.FixedPosition"
-                                      Width="@column.BuildCellFluentSizing()"
+                                      Width="@column.Width"
                                       MobileModeCaption="@column.Caption">
                         </TableRowCell>
                     }
                 }
                 else if ( column.Displaying )
                 {
-                    <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
-                                  @onkeydown="@(ParentDataGrid.IsCellEdit ? async (args) =>  await HandleCellKeyDown(args, column) : default)"
-                                  @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
-                                  @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
+                    <TableRowCell @key=column Class="@column.CellClass?.Invoke( Item )" Style="@column.BuildCellStyle( Item )"
+                                  @onkeydown="@(ParentDataGrid.IsCellEdit? async( args) => await HandleCellKeyDown( args, column ) : default)"
+                                  @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
+                                  @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
                                   TextAlignment="@column.TextAlignment" TextTransform="@column.TextTransform" TextDecoration="@column.TextDecoration" TextWeight="@column.TextWeight" TextOverflow="@column.TextOverflow" TextSize="@column.TextSize"
-                                  VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"
+                                  VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.Width"
                                   MobileModeCaption="@column.Caption">
                         @if ( column.CellValueIsEditable )
                         {

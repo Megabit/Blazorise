@@ -1,39 +1,62 @@
 ﻿using System;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
-using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Blazorise.Generator.Features;
-using System.Diagnostics.Contracts;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Blazorise.Generator
 {
     [Generator]
-    public class EqualitySourceGenerator : ISourceGenerator
+    public sealed class EqualitySourceGenerator : IIncrementalGenerator
     {
         private const string STANDARD_SPACING = "\t\t\t";
         private const string USING_EXTENSIONS = "using Blazorise.Extensions;";
 
-        public void Initialize( GeneratorInitializationContext context ) => context.RegisterForSyntaxNotifications( () => new GenerateEqualityFinder() );
-
-        public void Execute( GeneratorExecutionContext context )
+        public void Initialize( IncrementalGeneratorInitializationContext context )
         {
-            var records = ( (GenerateEqualityFinder)context.SyntaxReceiver ).Records;
-            if ( records.Count > 0 )
-            {
-                foreach ( RecordDeclarationSyntax record in records )
+            // Find record declarations that have any attributes, then keep only those with [GenerateEquality]
+            var records = context.SyntaxProvider.CreateSyntaxProvider(
+                static ( node, _ ) => node is RecordDeclarationSyntax r && r.AttributeLists.Count > 0,
+                static ( ctx, _ ) =>
                 {
-                    AddGenerateEqualitySource( context, record );
-                }
-            }
+                    var record = (RecordDeclarationSyntax)ctx.Node;
+
+                    // Quick syntax-level filter for [GenerateEquality] (no semantic model necessary for your current usage)
+                    var attributeName = nameof( GenerateEqualityAttribute ).Replace( "Attribute", "" );
+
+                    bool has = record.AttributeLists
+                        .SelectMany( al => al.Attributes )
+                        .Any( a =>
+                        {
+                            var name = a.Name switch
+                            {
+                                IdentifierNameSyntax id => id.Identifier.ValueText,
+                                QualifiedNameSyntax qn => qn.Right.Identifier.ValueText,
+                                AliasQualifiedNameSyntax an => an.Name.Identifier.ValueText,
+                                _ => a.Name.ToString()
+                            };
+
+                            return string.Equals( name, attributeName, StringComparison.Ordinal )
+                                || string.Equals( name, attributeName + "Attribute", StringComparison.Ordinal );
+                        } );
+
+                    return has ? record : null;
+                } )
+                .Where( static r => r is not null )!; // RecordDeclarationSyntax
+
+            context.RegisterSourceOutput( records, static ( spc, recordObj ) =>
+            {
+                var record = (RecordDeclarationSyntax)recordObj!;
+                AddGenerateEqualitySource( spc, record );
+            } );
         }
 
-        private void AddGenerateEqualitySource( GeneratorExecutionContext context, RecordDeclarationSyntax declarationSyntax )
+        private static void AddGenerateEqualitySource( SourceProductionContext context, RecordDeclarationSyntax declarationSyntax )
         {
-            var namespaceName = ( (Microsoft.CodeAnalysis.CSharp.Syntax.NamespaceDeclarationSyntax)declarationSyntax.Parent ).Name.ToString();
-            var usings = ( (Microsoft.CodeAnalysis.CSharp.Syntax.CompilationUnitSyntax)declarationSyntax.Parent.Parent ).Usings.ToString();
+            var (namespaceName, usingsText) = GetNamespaceAndUsings( declarationSyntax );
             var className = declarationSyntax.Identifier.ValueText;
 
             var propertiesForEquality = new List<(string name, bool isCollection)>();
@@ -45,9 +68,9 @@ namespace Blazorise.Generator
                     case PropertyDeclarationSyntax property:
                         if ( IsValid( property.AttributeLists ) )
                         {
-                            if ( property.Type is GenericNameSyntax )
+                            if ( property.Type is GenericNameSyntax gns )
                             {
-                                var genericTypeName = ( (Microsoft.CodeAnalysis.CSharp.Syntax.GenericNameSyntax)property.Type ).Identifier.Text;
+                                var genericTypeName = gns.Identifier.Text;
                                 var collectionTypes = new[] { "IEnumerable", "List", "ICollection" };
 
                                 if ( collectionTypes.Contains( genericTypeName ) )
@@ -56,18 +79,22 @@ namespace Blazorise.Generator
                                     throw new Exception( $"Unhandled case!! Please check {nameof( EqualitySourceGenerator )}" );
                             }
                             else
+                            {
                                 propertiesForEquality.Add( (property.Identifier.Text, false) );
+                            }
                         }
-
                         break;
+
                     case FieldDeclarationSyntax field:
                         if ( IsValid( field.AttributeLists ) )
                             propertiesForEquality.Add( (field.Declaration.Variables[0].Identifier.Text, false) );
                         break;
+
                     case EventFieldDeclarationSyntax eventDeclaration:
                         if ( IsValid( eventDeclaration.AttributeLists ) )
                             propertiesForEquality.Add( (eventDeclaration.Declaration.Variables[0].Identifier.Text, false) );
                         break;
+
                     default:
                         break;
                 }
@@ -76,16 +103,15 @@ namespace Blazorise.Generator
             var returnEquals = GenerateEqualsReturn( propertiesForEquality );
             var returnGetHashCode = GenerateGetHashCodeReturn( propertiesForEquality );
 
-            context.AddSource( $"{className}.generated.cs", SourceText.From( $@"{usings}
-{( usings.Contains( USING_EXTENSIONS ) ? string.Empty : USING_EXTENSIONS )}
+            var src = $@"{usingsText}
+{( usingsText.Contains( USING_EXTENSIONS ) ? string.Empty : USING_EXTENSIONS )}
 
 namespace {namespaceName}
 {{
-    public partial record {className} 
+    public partial record {className}
     {{
-
         /// <inheritdoc/>
-        public virtual bool Equals( {className} obj )
+        public virtual bool Equals({className} obj)
         {{
             {returnEquals}
         }}
@@ -96,16 +122,30 @@ namespace {namespaceName}
             {returnGetHashCode}
         }}
     }}
-}}", Encoding.UTF8 ) );
+}}";
+
+            context.AddSource( $"{className}.generated.cs", SourceText.From( src, Encoding.UTF8 ) );
         }
 
-        private bool IsValid( SyntaxList<AttributeListSyntax> attributes )
+        private static bool IsValid( SyntaxList<AttributeListSyntax> attributes )
         {
             var attributeName = nameof( GenerateIgnoreEqualityAttribute ).Replace( "Attribute", "" );
 
-            return !attributes
-                    .Any( x => x.Attributes
-                        .Any( y => ( (Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax)y.Name ).Identifier.ValueText == attributeName ) );
+            // Skip members that have [GenerateIgnoreEquality] or [GenerateIgnoreEqualityAttribute]
+            return !attributes.Any( list =>
+                list.Attributes.Any( attr =>
+                {
+                    var name = attr.Name switch
+                    {
+                        IdentifierNameSyntax id => id.Identifier.ValueText,
+                        QualifiedNameSyntax qn => qn.Right.Identifier.ValueText,
+                        AliasQualifiedNameSyntax an => an.Name.Identifier.ValueText,
+                        _ => attr.Name.ToString()
+                    };
+
+                    return string.Equals( name, attributeName, StringComparison.Ordinal )
+                        || string.Equals( name, $"{attributeName}Attribute", StringComparison.Ordinal );
+                } ) );
         }
 
         private static string GenerateEqualsReturn( List<(string name, bool isCollection)> propertiesForEquality )
@@ -129,50 +169,57 @@ namespace {namespaceName}
         private static string GenerateGetHashCodeReturn( List<(string name, bool isCollection)> propertiesForEquality )
         {
             var sb = new StringBuilder();
-            sb.AppendLine( $"var hash = new HashCode();" );
+            sb.AppendLine( "var hash = new HashCode();" );
 
             foreach ( (string prop, bool isCollection) in propertiesForEquality )
             {
-
                 if ( isCollection )
                 {
-                    sb.AppendLine( $"{STANDARD_SPACING}foreach ( var hashItem in {prop} )" );
+                    sb.AppendLine( $"{STANDARD_SPACING}foreach (var hashItem in {prop})" );
                     sb.AppendLine( $"{STANDARD_SPACING}{{" );
-                    sb.AppendLine( $"{STANDARD_SPACING}\thash.Add( hashItem );" );
+                    sb.AppendLine( $"{STANDARD_SPACING}\thash.Add(hashItem);" );
                     sb.AppendLine( $"{STANDARD_SPACING}}}" );
                 }
                 else
-                    sb.AppendLine( $"{STANDARD_SPACING}hash.Add( {prop} );" );
+                {
+                    sb.AppendLine( $"{STANDARD_SPACING}hash.Add({prop});" );
+                }
             }
             sb.Append( $"{STANDARD_SPACING}return hash.ToHashCode();" );
             return sb.ToString();
         }
 
-        private class GenerateEqualityFinder : ISyntaxReceiver
+        // --- Helpers to keep your original namespace/usings behavior, with support for file-scoped namespaces ---
+        private static (string Namespace, string UsingsText) GetNamespaceAndUsings( RecordDeclarationSyntax record )
         {
-            public List<ClassDeclarationSyntax> Classes { get; } = new List<ClassDeclarationSyntax>();
-            public List<RecordDeclarationSyntax> Records { get; } = new List<RecordDeclarationSyntax>();
+            string ns = "Global";
+            string usings = string.Empty;
 
-            public void OnVisitSyntaxNode( SyntaxNode syntaxNode )
+            // Walk up to the compilation unit
+            var cu = record.SyntaxTree.GetRoot() as CompilationUnitSyntax;
+            if ( cu is not null )
             {
-                var attributeName = nameof( GenerateEqualityAttribute ).Replace( "Attribute", "" );
-
-                if ( syntaxNode is ClassDeclarationSyntax classDeclaration
-                    && classDeclaration.AttributeLists
-                    .Any( x => x.Attributes
-                        .Any( y => ( (Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax)y.Name ).Identifier.ValueText == attributeName ) ) )
-                {
-                    Classes.Add( classDeclaration );
-                }
-
-                if ( syntaxNode is RecordDeclarationSyntax recordDeclaration
-                    && recordDeclaration.AttributeLists
-                    .Any( x => x.Attributes
-                        .Any( y => ( (Microsoft.CodeAnalysis.CSharp.Syntax.IdentifierNameSyntax)y.Name ).Identifier.ValueText == attributeName ) ) )
-                {
-                    Records.Add( recordDeclaration );
-                }
+                usings = cu.Usings.ToString();
             }
+
+            // Handle both block-scoped and file-scoped namespaces
+            var parent = record.Parent;
+            while ( parent is not null )
+            {
+                if ( parent is NamespaceDeclarationSyntax nds )
+                {
+                    ns = nds.Name.ToString();
+                    break;
+                }
+                if ( parent is FileScopedNamespaceDeclarationSyntax fnds )
+                {
+                    ns = fnds.Name.ToString();
+                    break;
+                }
+                parent = parent.Parent;
+            }
+
+            return (ns, usings);
         }
     }
 }

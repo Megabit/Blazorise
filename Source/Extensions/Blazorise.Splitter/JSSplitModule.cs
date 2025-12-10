@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+#endregion
 
 namespace Blazorise.Splitter;
 
 /// <summary>
 /// Default implementation of the splitter JS module.
 /// </summary>
-public class JSSplitModule : BaseJSModule
+public class JSSplitModule : BaseJSModule,
+    IJSDestroyableModule
 {
     #region Constructor
 
@@ -30,12 +33,21 @@ public class JSSplitModule : BaseJSModule
     /// <summary>
     /// Initializes a new splitter instance.
     /// </summary>
+    /// <param name="elementId">Id of the splitter element.</param>
+    /// <param name="elementRef">Reference to the splitter element.</param>
     /// <param name="sectionElementRefs">Sections of the splitter.</param>
     /// <param name="splitterOptions">Splitter configuration options.</param>
     /// <param name="splitterGutterOptions">Gutter configuration options</param>
     /// <returns>A <see cref="IJSObjectReference"/> to the Splitter object.</returns>
-    public virtual ValueTask<IJSObjectReference> InitializeSplitter( IEnumerable<ElementReference> sectionElementRefs, SplitterOptions splitterOptions, SplitterGutterOptions splitterGutterOptions )
-        => InvokeSafeAsync<IJSObjectReference>( "initializeSplitter", sectionElementRefs, splitterOptions, splitterGutterOptions );
+    public virtual ValueTask InitializeSplitter( ElementReference elementRef, string elementId, IEnumerable<ElementReference> sectionElementRefs, SplitterOptions splitterOptions, SplitterGutterOptions splitterGutterOptions )
+    {
+        return InvokeSafeVoidAsync( "initializeSplitter", elementRef, elementId, sectionElementRefs, splitterOptions, splitterGutterOptions );
+    }
+
+    public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
+    {
+        return InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+    }
 
     #endregion
 

@@ -23,7 +23,7 @@ public partial class Carousel : Blazorise.Carousel
     private int totalWidth = -1;
 
     private long slickListLastRenderTimeStamp;
-    private TimeSpan slickListThrottleTimeSpan = TimeSpan.FromMilliseconds( 500 );
+    private readonly TimeSpan slickListThrottleTimeSpan = TimeSpan.FromMilliseconds( 500 );
 
     #endregion
 
@@ -41,18 +41,9 @@ public partial class Carousel : Blazorise.Carousel
         base.BuildClasses( builder );
     }
 
-    [Obsolete( "Replace this with Stopwatch.GetElapsedTime() when DOTNET6 is abandoned." )]
-    private static TimeSpan GetElapsedtime( long startingTimestamp )
-    {
-        var ticksPerSecond = (double)10000000;
-        var s_tickFrequency = ticksPerSecond / Stopwatch.Frequency;
-        var currentTimestamp = Stopwatch.GetTimestamp();
-        return new TimeSpan( (long)( ( currentTimestamp - startingTimestamp ) * s_tickFrequency ) );
-    }
-
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( GetElapsedtime( slickListLastRenderTimeStamp ) > slickListThrottleTimeSpan )
+        if ( Stopwatch.GetElapsedTime( slickListLastRenderTimeStamp ) > slickListThrottleTimeSpan )
         {
             slickListLastRenderTimeStamp = Stopwatch.GetTimestamp();
             var listRect = await JSUtilitiesModule.GetElementInfo( slickListElementRef, slickListElementId );

@@ -14,6 +14,9 @@ public partial class ChartsZoomPage
     private LineChart<double> lineChart;
     private BarChart<double> barChart;
 
+    private ChartZoom<double> lineChartZoom;
+    private ChartZoom<double> barChartZoom;
+
     #region Line
 
     LineChartOptions lineChartOptions = new()
@@ -216,9 +219,27 @@ public partial class ChartsZoomPage
     };
     #endregion
 
-    private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    private static List<string> BackgroundColors = new() { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    private static List<string> BorderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private string[] Labels = { "A", "B", "C", "D", "E", "F" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     private Random random = new( DateTime.Now.Millisecond );
 
@@ -273,5 +294,22 @@ public partial class ChartsZoomPage
     List<double> RandomizeData( int min, int max )
     {
         return Enumerable.Range( 0, 6 ).Select( x => random.Next( min, max ) * random.NextDouble() ).ToList();
+    }
+
+    async Task OnResetZoomLevelClicked()
+    {
+        await lineChartZoom.ResetZoomLevel();
+    }
+
+    async Task OnSetZoomLevelClicked()
+    {
+        await lineChartZoom.SetZoomLevel( 2 );
+    }
+
+    Task OnZoomed( double zoomLevel, string trigger )
+    {
+        Console.WriteLine( $"Zoomed to {zoomLevel}; Triger: {trigger};" );
+
+        return Task.CompletedTask;
     }
 }

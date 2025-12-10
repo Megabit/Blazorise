@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -38,9 +37,10 @@ public abstract class BaseRadioComponent<TValue> : BaseInputComponent<TValue>
     /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
-        var parsedValue = ( value?.ToLowerInvariant() == TrueValueName?.ToLowerInvariant() ).ToString();
+        if ( string.IsNullOrEmpty( value ) )
+            return Task.FromResult( ParseValue<TValue>.Empty );
 
-        if ( Converters.TryChangeType<TValue>( parsedValue, out var result, CultureInfo.InvariantCulture ) )
+        if ( Converters.TryChangeType<TValue>( value, out var result, CultureInfo.InvariantCulture ) )
         {
             return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
         }
@@ -53,49 +53,12 @@ public abstract class BaseRadioComponent<TValue> : BaseInputComponent<TValue>
     /// <inheritdoc/>
     protected override async Task OnInternalValueChanged( TValue value )
     {
-        Checked = value?.ToString() == bool.TrueString;
-        await CheckedChanged.InvokeAsync( Checked );
-
         await ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( CheckedExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( CheckedExpression )
-            : ExpressionFormatter.FormatLambda( CheckedExpression );
     }
 
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Gets the string value that represents the checked state.
-    /// </summary>
-    protected virtual string TrueValueName => Value.ToString();
-
-    /// <summary>
-    /// Gets or sets the checked flag.
-    /// </summary>
-    [Obsolete( "The 'Checked' property is obsolete and will be removed in future versions. Use 'Value' instead." )]
-    [Parameter] public bool Checked { get; set; }
-
-    /// <summary>
-    /// Occurs when the check state is changed.
-    /// </summary>
-    [Obsolete( "The 'CheckedChanged' property is obsolete and will be removed in future versions. Use 'ValueChanged' instead." )]
-    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the checked value.
-    /// </summary>
-    [Obsolete( "The 'CheckedExpression' property is obsolete and will be removed in future versions. Use 'ValueExpression' instead." )]
-    [Parameter] public Expression<Func<bool>> CheckedExpression { get; set; }
 
     /// <summary>
     /// Group checkboxes or radios on the same horizontal row.

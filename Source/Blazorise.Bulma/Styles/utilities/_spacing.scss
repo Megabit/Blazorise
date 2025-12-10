@@ -82,3 +82,45 @@
         column-gap: $length !important;
     }
 }
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint) {
+        @each $size, $gutter in $gutters {
+            .columns.is-gutter#{$infix}-#{$size} {
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
+                margin-top: calc(-1 * #{$gutter});
+
+                > * {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
+                    margin-top: #{$gutter};
+                }
+            }
+
+            .columns.is-gutter-x#{$infix}-#{$size} {
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
+
+                > * {
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
+                }
+            }
+
+            .columns.is-gutter-y#{$infix}-#{$size} {
+                margin-top: calc(-1 * #{$gutter});
+
+                > * {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    margin-top: #{$gutter};
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,182 @@
+﻿@page "/docs/components/file-input"
+
+<Seo Canonical="/docs/components/file-input" Title="Blazorise FileInput component" Description="Learn to use and work with the Blazorise FileInput component, a customized, cross-browser consistent, file input control that supports single file and multiple files upload." />
+
+<DocsPageTitle Path="Components/FileInput">
+    Blazorise FileInput component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>FileInput</Code> component is a specialized input that provides a clean interface for selecting files.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Customized, cross-browser consistent, file input control that supports single file and multiple files upload.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Single file (default)">
+        On single file mode, when file is selected or user does not cancel Browse dialog, <Code>Changed</Code> event will be raised.
+        The return value will be a <Code>FileChangedEventArgs</Code> that will contain only one item in the <Code>Files</Code> property.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputSingleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputSingleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple files">
+        Multiple file uploading is supported by enabling <Code>Multiple</Code> attribute to component. In this case <Code>Files</Code> property
+        of <Code>FileChangedEventArgs</Code> can contain multiple files.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputMultipleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputMultipleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Directories">
+        Directory uploading is supported by enabling <Code>Directory</Code> attribute to component. In this case <Code>Files</Code> property
+        of <Code>FileChangedEventArgs</Code> can contain multiple files within a directory.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputDirectoryExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputDirectoryExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple Directories">
+        Multiple Directory uploading is supported by enabling <Code>Directory</Code> and <Code>Multiple</Code> attribute to component. In this case <Code>Files</Code> property
+        of <Code>FileChangedEventArgs</Code> can contain multiple files within a directory.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputMultipleDirectoryExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputMultipleDirectoryExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Limiting to certain file types">
+        You can limit the file types by setting the <Code>Filter</Code> attribute to a string containing the allowed file type(s).
+        To specify more than one type, separate the values with a comma.
+        <br />
+        <br />
+        To accept any file type, leave <Code>Filter</Code> as null (default).
+        <br />
+        <br />
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Strong>Note:</Strong> Not all browsers support or respect the <Code>accept</Code> attribute on file inputs.
+            </AlertDescription>
+        </Alert>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputExtensionsLimitExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputExtensionsLimitExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Events
+</DocsPageSubtitle>
+
+<DocsPageParagraph Title="Changed">
+    This is the main event that will be called every time a user selects a single or multiple files.
+    Depending on the mode in which the <Code>FileInput</Code> currently operates. In all cases the event argument is the same.
+    Only difference is that <Code>Files</Code> array will contain single or multiple items.
+</DocsPageParagraph>
+
+<DocsPageParagraph Title="Written">
+    This event will be called on every buffer of data that has being written to the destination stream.
+    It is directly related to the <Code>MaxMessageSize</Code> attribute found on <Code>FileInput</Code> component and will contain the information
+    about currently processed file, it’s offset and data array.
+</DocsPageParagraph>
+
+<DocsPageParagraph Title="Progressed">
+    Similar to the <Code>Written</Code>, this event will also be called while file is writing to the destination stream but it will
+    contain only the progress and percentage on how much the file is being uploaded.
+
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> If <Code>Progressed</Code>  and <Code>Written</Code> events aren't important to you, we highly advise you the usage of the <Code>DisableProgressReport</Code> Parameter, as it will improve file transfer significantly.
+        </AlertDescription>
+    </Alert>
+</DocsPageParagraph>
+
+<DocsPageParagraph Title="Started">
+    This event will be called each time one of the selected file(s) has started the upload process.
+</DocsPageParagraph>
+
+<DocsPageParagraph Title="Ended">
+    This event is fired after the file has ended the upload process. If there was no error it will have <Code>Success</Code> property set to true.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="WriteToStreamAsync">
+        In this example you can see the usage of all events, including the <Code>Written</Code> and <Code>Progressed</Code>.
+        For your own use case you can just focus on <Code>Changed</Code> event.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputWriteToStreamExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputWriteToStreamExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="OpenReadStream">
+        Using <Code>OpenReadStream</Code> on the file you can process the file as it is streamed from the browser to your code,
+        this is mirrors the API found in <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads" Target="Target.Blank">ASP.NET Core Input File component</Blazorise.Link>, for example
+
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Strong>Note:</Strong> We highly advise the usage of this api on Blazor WebAssembly as it is very performant.
+            </AlertDescription>
+        </Alert>
+
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputWriteToStreamExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputWriteToStreamExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Reset">
+        By default after each file upload has finished, file input will automatically reset to it’s initial state.
+        If you want this behavior disabled and control it manually you need to first set <Code>AutoReset</Code> to <Code>false</Code>.
+        After that you can call <Code>Reset()</Code> every time you want the file input to be reset.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputResetExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputResetExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show Picker">
+        <Paragraph>
+            If you want to show the <Anchor To="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/showPicker">default picker</Anchor> that comes with the file input element you can make it by using the <Code>ShowPicker()</Code> function.
+        </Paragraph>
+        <Paragraph>
+            <Strong TextColor="TextColor.Info">Note:</Strong> Keep in mind that not all browser will support the <Code>ShowPicker()</Code> function.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FileInputShowPickerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FileInputShowPickerExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(FileInput)]" />

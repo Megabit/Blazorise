@@ -7,25 +7,25 @@ namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public abstract class ClassProvider : IClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public abstract string TextEdit( bool plaintext );
+    public abstract string TextInput( bool plaintext );
 
-    public abstract string TextEditSize( Size size );
+    public abstract string TextInputSize( Size size );
 
-    public abstract string TextEditColor( Color color );
+    public abstract string TextInputColor( Color color );
 
-    public abstract string TextEditValidation( ValidationStatus validationStatus );
+    public abstract string TextInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public abstract string MemoEdit( bool plaintext );
+    public abstract string MemoInput( bool plaintext );
 
-    public abstract string MemoEditSize( Size size );
+    public abstract string MemoInputSize( Size size );
 
-    public abstract string MemoEditValidation( ValidationStatus validationStatus );
+    public abstract string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
@@ -41,47 +41,47 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public abstract string NumericEdit( bool plaintext );
+    public abstract string NumericInput( bool plaintext );
 
-    public abstract string NumericEditSize( Size size );
+    public abstract string NumericInputSize( Size size );
 
-    public abstract string NumericEditColor( Color color );
+    public abstract string NumericInputColor( Color color );
 
-    public abstract string NumericEditValidation( ValidationStatus validationStatus );
-
-    #endregion
-
-    #region DateEdit
-
-    public abstract string DateEdit( bool plaintext );
-
-    public abstract string DateEditSize( Size size );
-
-    public abstract string DateEditColor( Color color );
-
-    public abstract string DateEditValidation( ValidationStatus validationStatus );
+    public abstract string NumericInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public abstract string TimeEdit( bool plaintext );
+    public abstract string DateInput( bool plaintext );
 
-    public abstract string TimeEditSize( Size size );
+    public abstract string DateInputSize( Size size );
 
-    public abstract string TimeEditColor( Color color );
+    public abstract string DateInputColor( Color color );
 
-    public abstract string TimeEditValidation( ValidationStatus validationStatus );
+    public abstract string DateInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public abstract string ColorEdit();
+    public abstract string TimeInput( bool plaintext );
 
-    public abstract string ColorEditSize( Size size );
+    public abstract string TimeInputSize( Size size );
+
+    public abstract string TimeInputColor( Color color );
+
+    public abstract string TimeInputValidation( ValidationStatus validationStatus );
+
+    #endregion
+
+    #region ColorInput
+
+    public abstract string ColorInput();
+
+    public abstract string ColorInputSize( Size size );
 
     #endregion
 
@@ -195,13 +195,13 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public abstract string FileEdit();
+    public abstract string FileInput();
 
-    public abstract string FileEditSize( Size size );
+    public abstract string FileInputSize( Size size );
 
-    public abstract string FileEditValidation( ValidationStatus validationStatus );
+    public abstract string FileInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
@@ -689,6 +689,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownItem( BarMode mode );
 
+    public abstract string BarDropdownItemDisabled( BarMode mode, bool disabled );
+
     public abstract string BarDropdownDivider( BarMode mode );
 
     public abstract string BarTogglerIcon( BarMode mode );
@@ -750,8 +752,6 @@ public abstract class ClassProvider : IClassProvider
     public abstract string Row();
 
     public abstract string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
-
-    public abstract string RowNoGutters( bool noGutters );
 
     #endregion
 
@@ -1020,19 +1020,23 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableResponsiveMode( TableResponsiveMode responsiveMode );
 
+    public abstract string TableCaption();
+
+    public abstract string TableCaptionSide( TableCaptionSide side );
+
     #endregion
 
     #region Badge
 
     public abstract string Badge();
 
-    public abstract string BadgeColor( Color color );
+    public abstract string BadgeColor( Color color, bool subtle );
 
     public abstract string BadgePill( bool pill );
 
     public abstract string BadgeClose();
 
-    public abstract string BadgeCloseColor( Color color );
+    public abstract string BadgeCloseColor( Color color, bool subtle );
 
     #endregion
 
@@ -1220,11 +1224,19 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Gutter
+
+    public abstract string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint );
+
+    public abstract string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules );
+
+    #endregion
+
     #region Borders
 
-    public abstract string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+    public abstract string Border( BorderSize borderSize, BorderDefinition borderDefinition );
 
-    public abstract string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+    public abstract string Border( BorderSize borderSize, IEnumerable<BorderDefinition> rules );
 
     public virtual string BorderRadius( BorderRadius borderRadius )
         => ToBorderRadius( borderRadius );
@@ -1431,6 +1443,16 @@ public abstract class ClassProvider : IClassProvider
         {
             Blazorise.GapSide.X => "x",
             Blazorise.GapSide.Y => "y",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGutterSide( GutterSide gutterSide )
+    {
+        return gutterSide switch
+        {
+            Blazorise.GutterSide.X => "x",
+            Blazorise.GutterSide.Y => "y",
             _ => null,
         };
     }
@@ -1668,6 +1690,20 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.GapSize.Is3 => "3",
             Blazorise.GapSize.Is4 => "4",
             Blazorise.GapSize.Is5 => "5",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGutterSize( GutterSize gutterSize )
+    {
+        return gutterSize switch
+        {
+            Blazorise.GutterSize.Is0 => "0",
+            Blazorise.GutterSize.Is1 => "1",
+            Blazorise.GutterSize.Is2 => "2",
+            Blazorise.GutterSize.Is3 => "3",
+            Blazorise.GutterSize.Is4 => "4",
+            Blazorise.GutterSize.Is5 => "5",
             _ => null,
         };
     }
@@ -1959,6 +1995,17 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
+    public virtual string ToBasisSize( FlexBasisSize basisSize )
+    {
+        return basisSize switch
+        {
+            Blazorise.FlexBasisSize.Is0 => "0",
+            Blazorise.FlexBasisSize.Auto => "auto",
+            Blazorise.FlexBasisSize.Full => "full",
+            _ => null,
+        };
+    }
+
     public virtual string ToWrap( FlexWrap wrap )
     {
         return wrap switch
@@ -2130,6 +2177,16 @@ public abstract class ClassProvider : IClassProvider
         {
             Blazorise.SkeletonAnimation.Wave => "wave",
             Blazorise.SkeletonAnimation.Pulse => "pulse",
+            _ => null
+        };
+    }
+
+    public virtual string ToTableCaptionSide( TableCaptionSide side )
+    {
+        return side switch
+        {
+            Blazorise.TableCaptionSide.Top => "top",
+            Blazorise.TableCaptionSide.Bottom => "bottom",
             _ => null
         };
     }

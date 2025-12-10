@@ -52,13 +52,18 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
             var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
-            var enabledDatesChanged = parameters.TryGetValue( nameof( EnabledDates ), out IEnumerable<TValue>? paramEnabledDates ) && !EnabledDates.AreEqual( paramEnabledDates );
+            var enabledDatesChanged = parameters.TryGetValue( nameof( EnabledDates ), out IEnumerable<TValue> paramEnabledDates ) && !EnabledDates.AreEqual( paramEnabledDates );
             var disabledDaysChanged = parameters.TryGetValue( nameof( DisabledDays ), out IEnumerable<DayOfWeek> paramDisabledDays ) && !DisabledDays.AreEqual( paramDisabledDays );
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
             var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
             var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
-            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
+            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
+            var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool paramShowWeekNumbers ) && ShowWeekNumbers != paramShowWeekNumbers;
+            var showTodayButtonChanged = parameters.TryGetValue( nameof( ShowTodayButton ), out bool paramShowTodayButton ) && ShowTodayButton != paramShowTodayButton;
+            var showClearButtonChanged = parameters.TryGetValue( nameof( ShowClearButton ), out bool paramShowClearButton ) && ShowClearButton != paramShowClearButton;
+            var defaultHourChanged = parameters.TryGetValue( nameof( DefaultHour ), out int paramDefaultHour ) && DefaultHour != paramDefaultHour;
+            var defaultMinuteChanged = parameters.TryGetValue( nameof( DefaultMinute ), out int paramDefaultMinute ) && DefaultMinute != paramDefaultMinute;
 
             if ( paramValue.Changed )
             {
@@ -87,7 +92,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                  || inlineChanged
                  || disableMobileChanged
                  || placeholderChanged
-                 || staticPickerChanged )
+                 || staticPickerChanged
+                 || showWeekNumbersChanged
+                 || showTodayButtonChanged
+                 || showClearButtonChanged
+                 || defaultHourChanged
+                 || defaultMinuteChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
@@ -106,7 +116,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                     Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
                     DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile ),
                     Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
-                    StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramSaticPicker ),
+                    StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
+                    ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers ),
+                    ShowTodayButton = new JSOptionChange<bool>( showTodayButtonChanged, paramShowTodayButton ),
+                    ShowClearButton = new JSOptionChange<bool>( showClearButtonChanged, paramShowClearButton ),
+                    DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour ),
+                    DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute ),
                 } ) );
             }
         }
@@ -135,6 +150,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             InputFormat = InputFormatConverter.Convert( InputFormat ),
             TimeAs24hr = TimeAs24hr,
             DefaultDate = defaultDate,
+            DefaultHour = DefaultHour,
+            DefaultMinute = DefaultMinute,
             Min = Min?.ToString( DateFormat ),
             Max = Max?.ToString( DateFormat ),
             Disabled = Disabled,
@@ -147,6 +164,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             DisableMobile = DisableMobile,
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
+            ShowWeekNumbers = ShowWeekNumbers,
+            ShowTodayButton = ShowTodayButton,
+            ShowClearButton = ShowClearButton,
             ValidationStatus = new
             {
                 SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
@@ -422,6 +442,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             },
             amPM = new[] { Localizer["AM"], Localizer["PM"] },
             RangeSeparator = CurrentRangeSeparator,
+            Today = Localizer["Today"],
+            Clear = Localizer["Clear"],
         };
     }
 
@@ -503,12 +525,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     [Parameter] public string RangeSeparator { get; set; }
 
     /// <summary>
-    /// The earliest date to accept.
+    /// The earliest date to accept. Updating this value does not change the selected date, even if it falls below the new minimum.
     /// </summary>
     [Parameter] public DateTimeOffset? Min { get; set; }
 
     /// <summary>
-    /// The latest date to accept.
+    /// The latest date to accept. Updating this value does not change the selected date, even if it exceeds the new maximum.
     /// </summary>
     [Parameter] public DateTimeOffset? Max { get; set; }
 
@@ -552,7 +574,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     [Parameter] public bool Inline { get; set; }
 
     /// <summary>
-    /// If enabled, it disables the native input on mobile devices.
+    /// If enabled, it always uses the non-native picker. Default is true.
     /// </summary>
     [Parameter] public bool DisableMobile { get; set; } = true;
 
@@ -560,6 +582,31 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
+
+    /// <summary>
+    /// Determines whether the calendar menu will show week numbers.
+    /// </summary>
+    [Parameter] public bool ShowWeekNumbers { get; set; }
+
+    /// <summary>
+    /// Determines whether to show the today button in the calendar menu.
+    /// </summary>
+    [Parameter] public bool ShowTodayButton { get; set; }
+
+    /// <summary>
+    /// Determines whether to show the clear button in the calendar menu.
+    /// </summary>
+    [Parameter] public bool ShowClearButton { get; set; }
+
+    /// <summary>
+    /// Defines the initial value of the hour element.
+    /// </summary>
+    [Parameter] public int DefaultHour { get; set; } = 12;
+
+    /// <summary>
+    /// Defines the initial value of the minute element.
+    /// </summary>
+    [Parameter] public int DefaultMinute { get; set; } = 0;
 
     #endregion
 }

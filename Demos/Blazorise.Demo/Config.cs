@@ -24,8 +24,9 @@ public static class Config
             .AddBlazoriseRichTextEdit( options =>
             {
                 options.UseBubbleTheme = true;
-                options.UseShowTheme = true;
+                options.UseSnowTheme = true;
                 options.UseTables = true;
+                options.UseResize = true;
             } )
             .AddLoadingIndicator()
             .AddBlazoriseFluentValidation()
@@ -34,7 +35,7 @@ public static class Config
                 options.SiteKey = reCaptchaSiteKey;
             } )
             .AddBlazoriseRouterTabs();
-        
+
         services.AddBlazoredLocalStorage();
 
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );

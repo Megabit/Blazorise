@@ -36,6 +36,7 @@ public interface IFluentFlexAll :
     IFluentFlexWrap,
     IFluentFlexFill,
     IFluentFlexGrowShrink,
+    IFluentFlexBasis,
     IFluentFlexOrder,
     IFluentFlexCondition
 {
@@ -388,6 +389,40 @@ public interface IFluentFlexGrowShrinkSize :
 }
 
 /// <summary>
+/// Defines an interface for fluent configuration of flex basis properties.
+/// </summary>
+public interface IFluentFlexBasis :
+    IFluentFlex
+{
+    /// <summary>
+    /// Defines the default size of an element before the remaining space is distributed.
+    /// </summary>
+    IFluentFlexBasisSize Basis { get; }
+}
+
+/// <summary>
+/// Defines properties for setting the flex-basis in a fluent interface.
+/// </summary>
+public interface IFluentFlexBasisSize :
+    IFluentFlex
+{
+    /// <summary>
+    /// The flex-basis property is set to 0.
+    /// </summary>
+    IFluentFlexAll Is0 { get; }
+
+    /// <summary>
+    /// The flex-basis property is set to auto.
+    /// </summary>
+    IFluentFlexAll Auto { get; }
+
+    /// <summary>
+    /// The flex-basis property is set to 100%.
+    /// </summary>
+    IFluentFlexAll Full { get; }
+}
+
+/// <summary>
 /// Rule for starting the flex order.
 /// </summary>
 public interface IFluentFlexOrder :
@@ -598,6 +633,16 @@ public record FlexDefinition
     public FlexWrap Wrap { get; set; }
 
     /// <summary>
+    /// Defines the flex basis rule.
+    /// </summary>
+    public bool Basis { get; set; }
+
+    /// <summary>
+    /// Defines the flex basis size rule.
+    /// </summary>
+    public FlexBasisSize BasisSize { get; set; }
+
+    /// <summary>
     /// Defines the flex order rule.
     /// </summary>
     public FlexOrder Order { get; set; }
@@ -633,6 +678,8 @@ public class FluentFlex :
     IFluentFlexFill,
     IFluentFlexGrowShrink,
     IFluentFlexGrowShrinkSize,
+    IFluentFlexBasis,
+    IFluentFlexBasisSize,
     IFluentFlexOrder,
     IFluentFlexOrderNumber,
     IFluentFlexCondition,
@@ -965,6 +1012,33 @@ public class FluentFlex :
     }
 
     /// <summary>
+    /// Creates the new fill rule on the current flex definition.
+    /// </summary>
+    /// <returns>Next rule reference.</returns>
+    public IFluentFlexBasisSize WithBasis()
+    {
+        currentFlexDefinition = CreateDefinition();
+        currentFlexDefinition.Basis = true;
+        Dirty();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Creates the new flex-basis rule on the current flex definition.
+    /// </summary>
+    /// <param name="basisSize">Flex-basis size to be apply.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentFlexAll WithBasisSize( FlexBasisSize basisSize )
+    {
+        currentFlexDefinition = GetDefinition();
+        currentFlexDefinition.BasisSize = basisSize;
+        Dirty();
+
+        return this;
+    }
+
+    /// <summary>
     /// Creates the new wrap rule on the current flex definition.
     /// </summary>
     /// <returns>Next rule reference.</returns>
@@ -1167,6 +1241,18 @@ public class FluentFlex :
     IFluentFlexAll IFluentFlexGrowShrinkSize.Is1 => WithGrowShrinkSize( FlexGrowShrinkSize.Is1 );
 
     /// <inheritdoc/>
+    IFluentFlexBasisSize IFluentFlexBasis.Basis => WithBasis();
+
+    /// <inheritdoc/>
+    IFluentFlexAll IFluentFlexBasisSize.Is0 => WithBasisSize( FlexBasisSize.Is0 );
+
+    /// <inheritdoc/>
+    IFluentFlexAll IFluentFlexBasisSize.Auto => WithBasisSize( FlexBasisSize.Auto );
+
+    /// <inheritdoc/>
+    IFluentFlexAll IFluentFlexBasisSize.Full => WithBasisSize( FlexBasisSize.Full );
+
+    /// <inheritdoc/>
     IFluentFlexAll IFluentFlexFill.Fill => WithFill();
 
     /// <inheritdoc/>
@@ -1289,6 +1375,11 @@ public static class Flex
     /// This defines the ability for a flex item to shrink if necessary.
     /// </summary>
     public static IFluentFlexGrowShrinkSize Shrink => new FluentFlex().WithGrowShrink( FlexGrowShrink.Shrink );
+
+    /// <summary>
+    /// Defines the default size of an element before the remaining space is distributed. Default is auto.
+    /// </summary>
+    public static IFluentFlexBasisSize Basis => new FluentFlex().WithBasis();
 
     /// <summary>
     /// Controls the order in which items appear in the flex container.

@@ -11,7 +11,7 @@
                         <Switch @bind-Value="@animation">Animation</Switch>
                     </Column>
                     <Column>
-                        <NumericEdit TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericEdit>
+                        <NumericInput TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericInput>
                     </Column>
                 </Row>
             </CardBody>
@@ -30,19 +30,19 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default ))">
+                <Button Color="Color.Primary" Clicked="@(() => ShowModal( ModalSize.Default ))">
                     Standard Modal
                 </Button>
-                <Button Color="Color.Success" Clicked="@(()=>ShowModal( ModalSize.Small ))">
+                <Button Color="Color.Success" Clicked="@(() => ShowModal( ModalSize.Small ))">
                     Small Modal
                 </Button>
-                <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Large ))">
+                <Button Color="Color.Info" Clicked="@(() => ShowModal( ModalSize.Large ))">
                     Large Modal
                 </Button>
-                <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Fullscreen, null, false ))">
+                <Button Color="Color.Info" Clicked="@(() => ShowModal( ModalSize.Fullscreen, null, false ))">
                     Full Screen
                 </Button>
-                <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, null, true ))">
+                <Button Color="Color.Primary" Clicked="@(() => ShowModal( ModalSize.Default, null, true ))">
                     Centered Modal
                 </Button>
             </CardBody>
@@ -61,13 +61,13 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.ExtraLarge ))">
+                <Button Color="Color.Info" Clicked="@(() => ShowModal( ModalSize.ExtraLarge ))">
                     Extra Large Modal
                 </Button>
-                <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, 50 ))">
+                <Button Color="Color.Primary" Clicked="@(() => ShowModal( ModalSize.Default, 50 ))">
                     Sized Modal (Body Height 50%)
                 </Button>
-                <Button Color="Color.Secondary" Clicked="@(()=>ShowModal( ModalSize.Default, 20 ))">
+                <Button Color="Color.Secondary" Clicked="@(() => ShowModal( ModalSize.Default, 20 ))">
                     Sized Modal (Body Height 20%)
                 </Button>
             </CardBody>
@@ -87,13 +87,13 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>ShowDefaultModal())">
+                <Button Color="Color.Primary" Clicked="@(() => ShowDefaultModal())">
                     Default Load Modal
                 </Button>
-                <Button Color="Color.Success" Clicked="@(()=>ShowLazyModal())">
+                <Button Color="Color.Success" Clicked="@(() => ShowLazyModal())">
                     Lazy Load Modal
                 </Button>
-                <Button Color="Color.Info" Clicked="@(()=>ShowLazyReloadModal())">
+                <Button Color="Color.Info" Clicked="@(() => ShowLazyReloadModal())">
                     Lazy Reload Modal
                 </Button>
             </CardBody>
@@ -113,15 +113,15 @@
         <ModalBody MaxHeight="@maxHeight">
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Autofocus Placeholder="Enter name..." />
+                <TextInput Autofocus Placeholder="Enter name..." />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextEdit Placeholder="Enter surname..." />
+                <TextInput Placeholder="Enter surname..." />
             </Field>
             <Field>
                 <FieldLabel>Date of birth</FieldLabel>
-                <DateEdit TValue="DateTime?" Placeholder="Pick a date" />
+                <DateInput TValue="DateTime?" Placeholder="Pick a date" />
             </Field>
             <Field>
                 <Button Color="Color.Primary" Clicked="@ShowModal2">Show second modal</Button>

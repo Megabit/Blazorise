@@ -1,9 +1,11 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
@@ -154,7 +156,55 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual Task OnContextMenuHandler( MouseEventArgs eventArgs )
     {
-        return ContextMenu.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+        return ContextMenu.InvokeAsync( eventArgs );
+    }
+
+    /// <summary>
+    /// Configures the render tree to handle draggable events for the component.
+    /// </summary>
+    /// <remarks>This method sets up event handlers and optional default prevention for drag-and-drop events,
+    /// including <c>dragstart</c>, <c>dragend</c>, <c>dragenter</c>, <c>dragleave</c>, and <c>drop</c>. Event handlers
+    /// are only added if the corresponding <see cref="EventCallback"/> is assigned. Default browser behavior for these
+    /// events can be suppressed by setting the appropriate <c>PreventDefault</c> property to <see
+    /// langword="true"/>.</remarks>
+    /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to define the render tree.</param>
+    protected void BuildDraggableEventsRenderTree( RenderTreeBuilder builder )
+    {
+        if ( DragStart.HasDelegate )
+            builder.OnDragStart( this, EventCallback.Factory.Create<DragEventArgs>( this, OnDragStartHandler ) );
+
+        if ( DragStartPreventDefault )
+            builder.OnDragStartPreventDefault( true );
+
+        if ( DragEnd.HasDelegate )
+            builder.OnDragEnd( this, EventCallback.Factory.Create<DragEventArgs>( this, OnDragEndHandler ) );
+
+        if ( DragEndPreventDefault )
+            builder.OnDragEndPreventDefault( true );
+
+        if ( DragEnter.HasDelegate )
+            builder.OnDragEnter( this, EventCallback.Factory.Create<DragEventArgs>( this, OnDragEnterHandler ) );
+
+        if ( DragEnterPreventDefault )
+            builder.OnDragEnterPreventDefault( true );
+
+        if ( DragLeave.HasDelegate )
+            builder.OnDragLeave( this, EventCallback.Factory.Create<DragEventArgs>( this, OnDragLeaveHandler ) );
+
+        if ( DragLeavePreventDefault )
+            builder.OnDragLeavePreventDefault( true );
+
+        if ( Drop.HasDelegate )
+            builder.OnDrop( this, EventCallback.Factory.Create<DragEventArgs>( this, OnDropHandler ) );
+
+        if ( DropPreventDefault )
+            builder.OnDropPreventDefault( true );
+
+        if ( ContextMenu.HasDelegate )
+            builder.OnContextMenu( this, EventCallback.Factory.Create<MouseEventArgs>( this, OnContextMenuHandler ) );
+
+        if ( ContextMenuPreventDefault )
+            builder.OnContextMenuPreventDefault( true );
     }
 
     #endregion
@@ -249,7 +299,7 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
     /// <summary>
     /// The event is fired when an element or text selection is right clicked to show the context menu.
     /// </summary>
-    [Parameter] public EventCallback<BLMouseEventArgs> ContextMenu { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
 
     /// <summary>
     /// Used to prevent the default action for an <see cref="ContextMenu"/> event.

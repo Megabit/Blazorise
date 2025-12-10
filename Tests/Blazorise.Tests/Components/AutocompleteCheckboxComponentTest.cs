@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bunit;
 using Xunit;
@@ -14,7 +15,7 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseTextEdit()
+            .AddBlazoriseTextInput()
             .AddBlazoriseUtilities()
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();
@@ -77,5 +78,26 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     public Task RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
     {
         return TestRemoveValues<AutocompleteCheckboxComponent>( startTexts, removeTexts, expectedTexts );
+    }
+
+    [Fact]
+    public async Task SelectedValuesChanged_ShouldNotTrigger_OnConfirmWhileTyping()
+    {
+        var selectedValuesChanged = 0;
+
+        var comp = RenderComponent<AutocompleteCheckboxComponent>( parameters =>
+        {
+            parameters.Add( x => x.SelectedValues, new List<string> { "PT", "HR" } );
+            parameters.Add( x => x.SelectedValuesChanged, ( List<string> values ) => selectedValuesChanged++ );
+        } );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "A" );
+        await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
+
+        comp.WaitForAssertion( () => Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts ), TestExtensions.WaitTime );
+        Assert.Equal( 0, selectedValuesChanged );
     }
 }

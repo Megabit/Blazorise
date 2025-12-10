@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Bootstrap5.Providers;
@@ -36,26 +37,40 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
+
         sb.Append( $".bg-{variant}" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".bg-{variant}-subtle" ).Append( "{" )
+            .Append( $"background-color: {hexBackgroundColorSubtle} !important;" )
             .AppendLine( "}" );
 
         sb.Append( $".jumbotron-{variant}" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
-            .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .Append( $"color: {ToHex( Contrast( theme, hexBackgroundColor ) )} !important;" )
             .AppendLine( "}" );
     }
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        var hexBorderColor = Var( ThemeVariables.BorderColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
+
         sb.Append( $".border-{variant}" ).Append( "{" )
-            .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+            .Append( $"border-color: {hexBorderColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".border-{variant}-subtle" ).Append( "{" )
+            .Append( $"border-color: {hexBorderColorSubtle} !important;" )
             .AppendLine( "}" );
 
         for ( int i = 1; i <= 5; ++i )
         {
             sb.Append( $".border-{i}.border-{variant}" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"border-color: {hexBorderColor} !important;" )
                 .AppendLine( "}" );
         }
     }
@@ -225,17 +240,26 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
     {
-        sb.Append( ".btn" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".btn" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".btn-sm" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.SmallBorderRadius ) )
+        {
+            sb.Append( ".btn-sm" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".btn-lg" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
+        {
+            sb.Append( ".btn-lg" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.Padding ) )
             sb.Append( ".btn" ).Append( "{" )
@@ -249,15 +273,18 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         if ( options?.DisabledOpacity != null )
             sb.Append( ".btn.disabled, .btn:disabled" ).Append( "{" )
-                .Append( $"opacity: {options.DisabledOpacity};" )
+                .Append( $"opacity: {options.DisabledOpacity.ToCultureInvariantString()};" )
                 .AppendLine( "}" );
     }
 
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
     {
-        sb.Append( ".dropdown-menu" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".dropdown-menu" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -279,21 +306,26 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        sb.Append( ".form-control" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            var borderRadius = GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
 
-        sb.Append( ".input-group-text" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".form-control" ).Append( "{" )
+                .Append( $"border-radius: {borderRadius};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".form-select" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".input-group-text" ).Append( "{" )
+                .Append( $"border-radius: {borderRadius};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".form-check:not(.form-switch) .form-check-input[type=checkbox]" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".form-select" ).Append( "{" )
+                .Append( $"border-radius: {borderRadius};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".form-check:not(.form-switch) .form-check-input[type=checkbox]" ).Append( "{" )
+                .Append( $"border-radius: {borderRadius};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.Color ) )
         {
@@ -432,11 +464,29 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         var yiqBackgroundColor = Contrast( theme, backgroundColor );
 
-        var background = ToHex( backgroundColor );
-        var yiqBackground = ToHex( yiqBackgroundColor );
+        var hexBackgroundColor = ToHex( backgroundColor );
+        var hexYiqBackgroundColor = ToHex( yiqBackgroundColor );
 
-        sb.Append( $".badge.bg-{variant}" ).Append( "{" )
-            .Append( $"color: {yiqBackground};" )
+        sb
+            .Append( $".badge.text-bg-{variant}," )
+            .Append( $".badge-close.text-bg-{variant}" )
+            .Append( "{" )
+            .Append( $"color: {hexYiqBackgroundColor} !important;" )
+            .Append( $"background-color: {hexBackgroundColor} !important;" )
+            .AppendLine( "}" );
+
+        // Subtle variant
+
+        var hexBackgroundColorSubtle = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
+        var hexBorderColorSubtle = Var( ThemeVariables.BorderSubtleColor( variant ) );
+        var hexTextColorEmphasis = Var( ThemeVariables.TextEmphasisColor( variant ) );
+
+        sb.Append( $".badge.text-bg-{variant}-subtle," )
+            .Append( $".badge-close.text-bg-{variant}-subtle" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis};" )
+            .Append( $"background-color: {hexBackgroundColorSubtle};" )
+            .Append( $"border-color: {hexBorderColorSubtle};" )
             .AppendLine( "}" );
     }
 
@@ -480,6 +530,9 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( ".step-completed .step-circle" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.White )};" )
@@ -517,6 +570,9 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( $".step-{variant} .step-circle" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
@@ -640,9 +696,12 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
     {
-        sb.Append( ".card" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".card" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.ImageTopRadius ) )
             sb.Append( ".card-img-top" ).Append( "{" )
@@ -653,21 +712,29 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
     {
-        sb.Append( ".modal-content" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".modal-content" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
     {
-        sb.Append( ".nav-tabs .nav-link" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            var borderRadius = GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
 
-        sb.Append( ".nav-pills .nav-link" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".nav-tabs .nav-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {borderRadius};" )
+                .Append( $"border-top-right-radius: {borderRadius};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".nav-pills .nav-link" ).Append( "{" )
+                .Append( $"border-radius: {borderRadius};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -688,9 +755,12 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        sb.Append( ".progress" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".progress" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -704,17 +774,22 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
     {
-        sb.Append( ".alert" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".alert" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
     {
-        sb.Append( ".breadcrumb" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
-
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".breadcrumb" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
         {
@@ -726,32 +801,45 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
     {
-        sb.Append( ".badge:not(.rounded-pill)" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".badge:not(.rounded-pill)" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
     {
-        sb.Append( ".page-item:first-child .page-link" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            var borderRadius = GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
 
-        sb.Append( ".page-item:last-child .page-link" ).Append( "{" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".page-item:first-child .page-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {borderRadius};" )
+                .Append( $"border-bottom-left-radius: {borderRadius};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".page-item:last-child .page-link" ).Append( "{" )
+                .Append( $"border-top-right-radius: {borderRadius};" )
+                .Append( $"border-bottom-right-radius: {borderRadius};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
+        {
+            var largeBorderRadius = GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) );
+
+            sb.Append( ".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {largeBorderRadius};" )
+                .Append( $"border-bottom-left-radius: {largeBorderRadius};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
+                .Append( $"border-top-right-radius: {largeBorderRadius};" )
+                .Append( $"border-bottom-right-radius: {largeBorderRadius};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -793,10 +881,16 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             : ParseColor( inTextColor );
 
         var hexTextColor = ToHex( textColor );
+        var hexTextColorEmphasis = ToHex( ShadeColor( textColor, theme.TextColorOptions.EmphasisShadeWeight ?? 60 ) );
 
         sb.Append( $".text-{variant}" )
             .Append( "{" )
             .Append( $"color: {hexTextColor} !important;" )
+            .AppendLine( "}" );
+
+        sb.Append( $".text-{variant}-emphasis" )
+            .Append( "{" )
+            .Append( $"color: {hexTextColorEmphasis} !important;" )
             .AppendLine( "}" );
     }
 

@@ -21,6 +21,8 @@ public partial class Badge : BaseComponent
 
     private string link;
 
+    private bool subtle;
+
     #endregion
 
     #region Constructors
@@ -41,7 +43,7 @@ public partial class Badge : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Badge() );
-        builder.Append( ClassProvider.BadgeColor( Color ) );
+        builder.Append( ClassProvider.BadgeColor( Color, Subtle ) );
         builder.Append( ClassProvider.BadgePill( Pill ) );
 
         base.BuildClasses( builder );
@@ -54,7 +56,7 @@ public partial class Badge : BaseComponent
     private void BuildCloseClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BadgeClose() );
-        builder.Append( ClassProvider.BadgeCloseColor( Color ) );
+        builder.Append( ClassProvider.BadgeCloseColor( Color, Subtle ) );
     }
 
     /// <summary>
@@ -78,6 +80,14 @@ public partial class Badge : BaseComponent
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        CloseClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties
@@ -93,7 +103,7 @@ public partial class Badge : BaseComponent
     protected ClassBuilder CloseClassBuilder { get; private set; }
 
     /// <summary>
-    /// Make the badge more rounded.
+    /// Renders the badge with fully rounded corners, giving it a pill-shaped appearance.
     /// </summary>
     [Parameter]
     public bool Pill
@@ -108,7 +118,7 @@ public partial class Badge : BaseComponent
     }
 
     /// <summary>
-    /// Sets the badge contextual color.
+    /// Specifies the contextual <see cref="Color"/> applied to the badge's background and text.
     /// </summary>
     [Parameter]
     public Color Color
@@ -123,7 +133,7 @@ public partial class Badge : BaseComponent
     }
 
     /// <summary>
-    /// Create a badge link and provide actionable badges with hover and focus states.
+    /// Converts the badge into a clickable link, adding hover and focus interaction states.
     /// </summary>
     [Parameter]
     public string Link
@@ -132,6 +142,21 @@ public partial class Badge : BaseComponent
         set
         {
             link = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Enables a softer, subtle version of the current <see cref="Color"/>, providing a lighter visual style.
+    /// </summary>
+    [Parameter]
+    public bool Subtle
+    {
+        get => subtle;
+        set
+        {
+            subtle = value;
 
             DirtyClasses();
         }

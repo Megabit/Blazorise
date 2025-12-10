@@ -1,0 +1,17 @@
+<div class="blazorise-codeblock">
+    <div class="html">
+        <pre>
+services.AddBlazorise( options =&gt;
+    {
+        options.ValidationMessageLocalizer = ( message, arguments ) =&gt;
+        {
+            var stringLocalizer = options.Services.GetService&lt;ITextLocalizer<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">YourResourceName</span><span class="htmlTagDelimiter">&gt;</span>&gt;();
+
+            return stringLocalizer != null &amp;&amp; arguments?.Count() &gt; 0
+                ? string.Format( stringLocalizer[message], arguments.ToArray() )
+                : message;
+        };
+    } );
+</pre>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿@using Blazorise.Docs.Services
+@using Blazorise.Docs.Models
 @inherits BaseDocsLayout
 
 <Layout Sider Class="b-docs">
@@ -19,14 +20,14 @@
                         <BarItem Margin="Margin.Is2.OnAll">
                             <Autocomplete TItem="PageEntry"
                                           TValue="string"
-                                          Data="@SearchEntries"
+                                          Data="@SearchMenuProvider.Entries"
                                           FreeTyping
                                           TextField="@(( item ) => item.Name)"
                                           ValueField="@(( item ) => item.Url)"
                                           @bind-SelectedText="selectedSearchText"
                                           Placeholder="Search..."
                                           Filter="AutocompleteFilter.Contains"
-                                          CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
+                                          CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0)"
                                           SelectedValueChanged="@ComponentSearchSelectedValueChanged">
                                 <NotFoundContent>
                                     Sorry... @context was not found! :(
@@ -98,16 +99,17 @@
                                     <BarDropdownItem To="docs/components/carousel">Carousel</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/color">Color Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/collapse">Collapse</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/color-input">Color Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/color-picker">Color Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/date">Date Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/date-input">Date Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/date-picker">Date Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/divider">Divider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/dragdrop">Drag Drop</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/drag-drop">Drag Drop</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/dropdown">Dropdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/field">Field</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/figure">Figure</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/file">File Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/file-input">File Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/file-picker">File Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/focus-trap">FocusTrap</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/highlighter">Highlighter</BarDropdownItem>
@@ -117,10 +119,10 @@
                                     <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/list-group">List Group</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/input-mask">Input Mask</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/memo">Memo Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/memo-input">Memo Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/offcanvas">Offcanvas</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/numeric">Numeric Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/numeric-input">Numeric Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric-picker">Numeric Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/progress">Progress</BarDropdownItem>
@@ -136,13 +138,13 @@
                                     <BarDropdownItem To="docs/components/switch">Switch</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/tab">Tab</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/table">Table</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/time">Time Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/time-input">Time Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/time-picker">Time Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/toast" Flex="Flex.JustifyContent.Between">
                                         <DocsNewFeatureBadge>Toast</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/tooltip">Tooltip</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/text">Text Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/text-input">Text Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/typography">Typography</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/validation">Validation</BarDropdownItem>
                                 </BarDropdownMenu>
@@ -156,9 +158,7 @@
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/animate">Animate</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/captcha" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>Captcha</DocsNewFeatureBadge>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/captcha">Captcha</BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
                                         <BarDropdownMenu>
@@ -199,6 +199,9 @@
                                                         <DocsNewFeatureBadge>Editing</DocsNewFeatureBadge>
                                                     </BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/filtering">Filtering</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/reordering" Flex="Flex.JustifyContent.Between">
+                                                        <DocsNewFeatureBadge>Reordering</DocsNewFeatureBadge>
+                                                    </BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/resizing">Resizing</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/auto-generate-columns">Auto Generate Columns</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/column-chooser">Column Chooser</BarDropdownItem>
@@ -210,6 +213,9 @@
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/state-management">State Management</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/mobile-mode" Flex="Flex.JustifyContent.Between.AlignItems.Center">
                                                         <DocsNewFeatureBadge>Mobile Mode</DocsNewFeatureBadge>
+                                                    </BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/accessibility" Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                                                        <DocsNewFeatureBadge>Accessibility</DocsNewFeatureBadge>
                                                     </BarDropdownItem>
                                                 </BarDropdownMenu>
                                             </BarDropdown>
@@ -262,6 +268,9 @@
                                     <BarDropdownItem To="docs/extensions/routertabs" Flex="Flex.JustifyContent.Between">
                                         <DocsNewFeatureBadge>RouterTabs</DocsNewFeatureBadge>
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/scheduler" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Scheduler</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/signaturepad">SignaturePad</BarDropdownItem>
@@ -283,6 +292,9 @@
                                     <BarDropdownItem To="docs/services/message-provider">Message Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/modal-provider">Modal Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/notification-provider">Notification Provider</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/offcanvas-provider" Flex="Flex.JustifyContent.Between.AlignItems.Start">
+                                        <DocsNewFeatureBadge>Offcanvas Provider</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/services/page-progress-provider">PageProgress Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/toast-provider" Flex="Flex.JustifyContent.Between">
                                         <DocsNewFeatureBadge>Toast Provider</DocsNewFeatureBadge>
@@ -300,6 +312,9 @@
                                     <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/css-grid" Flex="Flex.JustifyContent.Between">
                                         <DocsNewFeatureBadge>CSS Grid</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/gutters" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Gutters</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
                                     <BarDropdown>
@@ -391,7 +406,8 @@
                             {
                                 <RouterTabs />
                             }
-                            else{
+                            else
+                            {
                                 @Body
                             }
                         </Column>
@@ -405,5 +421,5 @@
     </Layout>
 </Layout>
 @code {
-    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;    
+    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;
 }

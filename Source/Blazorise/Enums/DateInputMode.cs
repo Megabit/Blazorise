@@ -1,7 +1,7 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// Hints at the type of data that might be entered by the user while editing the <see cref="DateEdit{TValue}"/> component.
+/// Hints at the type of data that might be entered by the user while editing the <see cref="DateInput{TValue}"/> component.
 /// </summary>
 public enum DateInputMode
 {

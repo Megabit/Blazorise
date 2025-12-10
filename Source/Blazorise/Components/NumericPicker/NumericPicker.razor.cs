@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -17,8 +16,8 @@ namespace Blazorise;
 /// <summary>
 /// An editor that displays a numeric value and allows a user to edit the value.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
-public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPicker, IAsyncDisposable
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue}.Value"/> property.</typeparam>
+public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue>, INumericPicker, IAsyncDisposable
 {
     #region Members
 
@@ -145,7 +144,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
         // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
         MinDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
-        MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );       
+        MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
     }
 
     /// <inheritdoc/>

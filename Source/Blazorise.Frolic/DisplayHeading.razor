@@ -1,7 +1,0 @@
-﻿@inherits Blazorise.DisplayHeading
-<Dynamic TagName="@TagName" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @ChildContent
-</Dynamic>
-@code{
-    string TagName => $"h{( ClassProvider.ToDisplayHeadingSize( Size ) ?? "1" )}";
-}

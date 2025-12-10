@@ -101,3 +101,9 @@ h6.card-title,
         text-decoration: inherit !important;
     }
 }
+
+@each $color-name, $color-value in $theme-colors-text-emphasis {
+    .text-#{$color-name}-emphasis {
+        color: #{$color-value} !important;
+    }
+}

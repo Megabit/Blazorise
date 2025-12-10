@@ -119,7 +119,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         Filter?.Subscribe( OnSearchValueChanged );
     }
 
-
     /// <summary>
     /// Provides a way to generate column specific dependencies outside the Blazor engine.
     /// </summary>
@@ -297,6 +296,21 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         await ParentDataGrid.Refresh();
     }
 
+    public async Task SetDisplayOrder( int displayOrder, bool forceParentRefresh = false )
+    {
+        InternalDisplayOrder = displayOrder;
+        await ParentDataGrid.ColumnDisplayOrderChanged.InvokeAsync( new ColumnDisplayOrderChangedEventArgs<TItem>( this, displayOrder ) );
+
+        if ( forceParentRefresh )
+            await ParentDataGrid.Refresh();
+    }
+
+    /// <summary>
+    /// Gets the display order of the column, based on the internal display order if set, otherwise falls back to the DisplayOrder property.
+    /// </summary>
+    /// <returns>The display order of the column.</returns>
+    public int GetDisplayOrder() => InternalDisplayOrder ?? DisplayOrder;
+
     internal string BuildHeaderCellClass()
     {
         var sb = new StringBuilder();
@@ -305,6 +319,20 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             sb.Append( HeaderCellClass );
 
         sb.Append( $" {ClassProvider.DropdownFixedHeaderVisible( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )}" );
+
+        if ( ParentDataGrid.columnDragStarted is not null && ParentDataGrid.columnDragEntered is not null && ParentDataGrid.columnDragEntered == this )
+        {
+            sb.Append( " b-table-reordering" );
+
+            if ( ParentDataGrid.columnDragEntered.InternalDisplayOrder < ParentDataGrid.columnDragStarted.InternalDisplayOrder )
+            {
+                sb.Append( " b-table-reordering-start" );
+            }
+            else if ( ParentDataGrid.columnDragEntered.InternalDisplayOrder > ParentDataGrid.columnDragStarted.InternalDisplayOrder )
+            {
+                sb.Append( " b-table-reordering-end" );
+            }
+        }
 
         return sb.ToString().TrimStart( ' ' );
     }
@@ -316,9 +344,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( HeaderCellStyle ) )
             sb.Append( HeaderCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
     }
 
@@ -328,9 +353,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( FilterCellStyle ) )
             sb.Append( FilterCellStyle );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -342,20 +364,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( AggregateCellStyle ) )
             sb.Append( AggregateCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
-    }
-
-    internal IFluentSizing BuildCellFluentSizing()
-    {
-        if ( Width is not null && FixedPosition != TableColumnFixedPosition.None )
-        {
-            return Blazorise.Width.Px( int.Parse( Width.Replace( "px", string.Empty ) ) );
-        }
-
-        return null;
     }
 
     internal string BuildCellStyle( TItem item )
@@ -366,9 +375,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width}" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -399,8 +405,15 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
             : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
-            : DataGridColumnFilterMethod.Contains;
+            : GetDefaultFilterMethod();
     }
+
+    /// <summary>
+    /// Retrieves the default filter method for the column.
+    /// </summary>
+    /// <returns>The default <see cref="DataGridColumnFilterMethod"/> used for filtering, which is <see cref="DataGridColumnFilterMethod.Contains"/>.</returns>
+    internal virtual DataGridColumnFilterMethod GetDefaultFilterMethod()
+        => DataGridColumnFilterMethod.Contains;
 
     #endregion
 
@@ -645,26 +658,20 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal bool DropdownFilterVisible;
 
     /// <summary>
+    /// Represents the internal display order of an item.
+    /// </summary>
+    internal int? InternalDisplayOrder;
+
+    /// <summary>
     /// Returns true if the cell value is editable.
     /// </summary>
-    public bool CellValueIsEditable
-        => Editable &&
-           (
-                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing
-                    && IsCellEditablePerCommand )
-                ||
-                ( ParentDataGrid.EditMode != DataGridEditMode.Cell
-                    || ( ParentDataGrid.EditState == DataGridEditState.New && ParentDataGrid.EditMode == DataGridEditMode.Cell ) //We don't have data, let's keep a regular editable row for New.
-                    && IsCellEditablePerCommand
-                )
-            );
-
-    protected bool IsCellEditablePerCommand
-        => (
-                        ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
-                        ||
-                        ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit )
-                        );
+    public bool CellValueIsEditable => Editable && ParentDataGrid.EditState switch
+    {
+        DataGridEditState.New when CellsEditableOnNewCommand => true,
+        DataGridEditState.Edit when CellsEditableOnEditCommand &&
+                                    ( ParentDataGrid.EditMode != DataGridEditMode.Cell || CellEditing ) => true,
+        _ => false
+    };
 
     /// <summary>
     /// Gets or sets the current sort direction.
@@ -890,12 +897,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Displayable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets where column will be displayed on a grid.
+    /// Defines the initial display order of the column.
     /// </summary>
     [Parameter] public int DisplayOrder { get; set; }
 
     /// <summary>
-    /// Gets or sets where column will be displayed on edit row/popup.
+    /// Defines the initial display order of the column.
     /// </summary>
     [Parameter] public int? EditOrder { get; set; }
 
@@ -913,6 +920,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Gets or sets whether end-users can sort data by the column's values.
     /// </summary>
     [Parameter] public bool Sortable { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the column can be reordered by the user.
+    /// </summary>
+    [Parameter] public bool Reorderable { get; set; }
 
     /// <summary>
     /// Gets or sets whether end-users are prevented from editing the column's cell values.
@@ -947,7 +959,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// The width of the column.
     /// </summary>
-    [Parameter] public string Width { get; set; }
+    [Parameter] public IFluentSizing Width { get; set; }
 
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
@@ -978,18 +990,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Custom style for filter cell.
     /// </summary>
     [Parameter] public string FilterCellStyle { get; set; }
-
-    /// <summary>
-    /// Custom classname for the aggregate cell.
-    /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellClass parameter is deprecated, please use the AggregateCellClass parameter instead." )]
-    [Parameter] public string GroupCellClass { get => AggregateCellClass; set => AggregateCellClass = value; }
-
-    /// <summary>
-    /// Custom style for the aggregate cell.
-    /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellStyle parameter is deprecated, please use the AggregateCellStyle parameter instead." )]
-    [Parameter] public string GroupCellStyle { get => AggregateCellStyle; set => AggregateCellStyle = value; }
 
     /// <summary>
     /// Custom classname for the aggregate cell.
@@ -1065,12 +1065,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Template for custom column filter rendering.
     /// </summary>
     [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
-
-    /// <summary>
-    /// Defines the size of field for popup modal.
-    /// </summary>
-    [Obsolete( "DataGridColumn: PopupFieldColumnSize is deprecated and will be removed in the future version. Please use the EditFieldColumnSize instead." )]
-    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; }
 
     /// <summary>
     /// Defines the size of an edit field for popup modal and edit form.

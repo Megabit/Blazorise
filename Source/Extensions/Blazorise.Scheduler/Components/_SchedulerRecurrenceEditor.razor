@@ -1,0 +1,57 @@
+﻿@typeparam TItem
+@inherits BaseComponent
+@using Blazorise.DeepCloner
+@using Blazorise.Extensions
+@using Blazorise.Localization
+@using Blazorise.Scheduler.Utilities
+@using Blazorise.Scheduler.Extensions
+<Fields>
+    <Field ColumnSize="ColumnSizeIs3">
+        <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.RepeatEveryLocalizer, LocalizationConstants.RepeatEvery )</FieldLabel>
+        <FieldBody>
+            <NumericInput TValue="int" Min="1" Max="99" Value="@Interval" ValueChanged="@OnIntervalChanged" Disabled="@(Pattern == SchedulerRecurrencePattern.Never)" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSizeIs9">
+        <FieldLabel>&nbsp;</FieldLabel>
+        <FieldBody>
+            <RadioGroup TValue="SchedulerRecurrencePattern" Name="Pattern" Value="@Pattern" ValueChanged="@OnPatternChanged" Buttons Width="WidthIs100">
+                <Radio Value="SchedulerRecurrencePattern.Never">@Localizer.Localize( Scheduler.Localizers?.NeverLocalizer, LocalizationConstants.Never )</Radio>
+                <Radio Value="SchedulerRecurrencePattern.Daily">@Localizer.Localize( Scheduler.Localizers?.DayLocalizer, LocalizationConstants.Day )</Radio>
+                <Radio Value="SchedulerRecurrencePattern.Weekly">@Localizer.Localize( Scheduler.Localizers?.WeekLocalizer, LocalizationConstants.Week )</Radio>
+                <Radio Value="SchedulerRecurrencePattern.Monthly">@Localizer.Localize( Scheduler.Localizers?.MonthLocalizer, LocalizationConstants.Month )</Radio>
+                <Radio Value="SchedulerRecurrencePattern.Yearly">@Localizer.Localize( Scheduler.Localizers?.YearLocalizer, LocalizationConstants.Year )</Radio>
+            </RadioGroup>
+        </FieldBody>
+    </Field>
+</Fields>
+@if ( Pattern == SchedulerRecurrencePattern.Weekly )
+{
+    <_SchedulerWeeklyRulePicker TItem="TItem" ByDay="@ByDay" ByDayChanged="@OnWeeklyRuleOnDayChanged" FirstDayOfWeek="@FirstDayOfWeek" />
+}
+else if ( Pattern == SchedulerRecurrencePattern.Monthly || Pattern == SchedulerRecurrencePattern.Yearly )
+{
+    <_SchedulerMonthlyRulePicker TItem="TItem"
+                                 ByMonthDay="@ByMonthDay" ByMonthDayChanged="@OnMonthlyRuleByMonthDayChanged"
+                                 ByWeek="@ByWeek" ByWeekChanged="@OnMonthlyRuleByWeekChanged"
+                                 ByWeekDay="@ByWeekDay" ByWeekDayChanged="@OnMonthlyRuleByWeekDayChanged"
+                                 ShowMonth="@(Pattern == SchedulerRecurrencePattern.Yearly)"
+                                 ByMonth="@ByMonth" ByMonthChanged="@OnYearlyRuleByMonthChanged" />
+}
+@if ( Pattern != SchedulerRecurrencePattern.Never )
+{
+    <Fields>
+        <Field ColumnSize="ColumnSizeIs3">
+            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
+            <FieldBody>
+                <DatePicker TValue="DateTime?" Value="@EndDate" ValueChanged="@OnEndDateChanged" Min="@MinEndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
+            </FieldBody>
+        </Field>
+        <Field ColumnSize="ColumnSizeIs3">
+            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.CountLocalizer, LocalizationConstants.Count )</FieldLabel>
+            <FieldBody>
+                <NumericInput TValue="int?" Value="@Count" ValueChanged="@OnCountChanged" Min="1" />
+            </FieldBody>
+        </Field>
+    </Fields>
+}

@@ -1,25 +1,31 @@
+#region Using directives
 using System;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http.Headers;
 using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Captcha.ReCaptcha;
 using Blazorise.Components;
+using Blazorise.Docs.BlogRuntime;
 using Blazorise.Docs.Core;
 using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
 using Blazorise.Docs.Server.Infrastructure;
 using Blazorise.Docs.Services;
+using Blazorise.Docs.Services.Search;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+#endregion
 
 namespace Blazorise.Docs.Server;
 
@@ -57,21 +63,29 @@ public class Startup
             .AddBlazoriseRichTextEdit( options =>
             {
                 options.UseTables = true;
+                options.UseResize = true;
             } )
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
             .AddBlazoriseRouterTabs();
 
+        services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );
+        services.AddSingleton<IBlogProvider, GithubBlogProvider>();
+        services.AddHostedService<BlogPreheater>();
+
         services.Configure<AppSettings>( options => Configuration.Bind( options ) );
         services.AddHttpClient();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
+
+        services.Configure<BrevoApiOptions>( Configuration.GetSection( BrevoApiOptions.SectionName ) );
+        services.AddHttpClient<IBrevoApiClient, BrevoApiClient>();
 
         services.AddBlazoredLocalStorage();
 
         services.AddMemoryCache();
         services.AddScoped<Shared.Data.EmployeeData>();
         services.AddScoped<Shared.Data.CountryData>();
-        services.AddScoped<Shared.Data.PageEntryData>();
+        services.AddSingleton<SearchEntriesProvider>();
 
         var emailOptions = Configuration.GetSection( "Email" ).Get<EmailOptions>();
         services.AddSingleton<IEmailOptions>( serviceProvider => emailOptions );
@@ -109,6 +123,8 @@ public class Startup
         } );
 
         services.AddHealthChecks();
+
+        services.AddControllers();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,11 +150,31 @@ public class Startup
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
 
+        app.MapControllers();
+
         //app.UseRouting();
 
         app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
-        app.MapGet( "/feed.rss", SeoGenerator.GenerateRssFeed );
+        app.MapGet( "/feed.rss", async ( HttpContext httpContext, IBlogProvider blogProvider ) =>
+        {
+            await SeoGenerator.GenerateRssFeed( httpContext, blogProvider );
+        } );
+
+        //permanent redirects
+        app.Use( async ( context, next ) =>
+        {
+            var path = context.Request.Path.Value?.ToLowerInvariant();
+
+            if ( path is not null && PermanentRedirects.Map.TryGetValue( path, out var newPath ) )
+            {
+                context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
+                context.Response.Headers.Location = newPath;
+                return;
+            }
+
+            await next();
+        } );
     }
 }

@@ -1,0 +1,148 @@
+﻿@inherits BaseComponent
+@typeparam TItem
+@using Blazorise.Scheduler.Extensions
+@using Blazorise.Scheduler.Utilities
+<Modal @ref="@modalRef">
+    <ModalContent Centered Size="ModalSize.Large">
+        <ModalHeader>
+            <ModalTitle>
+                @ModalTitle
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Validations @ref="@validationsRef" Mode="ValidationMode.Manual">
+                @if ( TitleAvailable )
+                {
+                    <Validation Validator="@OnValidateTitle">
+                        <Field>
+                            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
+                            <FieldBody>
+                                <TextInput @bind-Value="@Title" Autofocus>
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextInput>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                }
+                @if ( StartAvailable )
+                {
+                    <Fields>
+                        <Validation Validator="@OnValidateStartDate">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
+                                <FieldBody>
+                                    <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        @if ( !AllDayAvailable || !AllDay )
+                        {
+                            <Validation Validator="@OnValidateStartTime">
+                                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                                    <FieldLabel>&nbsp;</FieldLabel>
+                                    <FieldBody>
+                                        <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        }
+                    </Fields>
+                }
+                @if ( EndAvailable )
+                {
+                    <Fields>
+                        <Validation Validator="@OnValidateEndDate">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
+                                <FieldBody>
+                                    <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        @if ( !AllDayAvailable || !AllDay )
+                        {
+                            <Validation Validator="@OnValidateEndTime">
+                                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                                    <FieldLabel>&nbsp;</FieldLabel>
+                                    <FieldBody>
+                                        <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        }
+                    </Fields>
+                }
+                @if ( AllDayAvailable )
+                {
+                    <Field>
+                        <FieldBody>
+                            <Check TValue="bool" @bind-Value="@AllDay">
+                                @Localizer.Localize( Scheduler.Localizers?.AllDayLocalizer, LocalizationConstants.AllDay )
+                            </Check>
+                        </FieldBody>
+                    </Field>
+                }
+
+                @if ( RecurrenceRuleAvailable )
+                {
+                    <Divider />
+
+                    <_SchedulerRecurrenceEditor TItem="TItem" @bind-RecurrenceRule="@RecurrenceRule" FirstDayOfWeek="@FirstDayOfWeek" MinEndDate="@MinRecurringEndDate" />
+
+                    <Divider />
+                }
+
+                @if ( DescriptionAvailable )
+                {
+                    <Field>
+                        <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
+                        <FieldBody>
+                            <MemoInput @bind-Value="@Description" Rows="4" />
+                        </FieldBody>
+                    </Field>
+                }
+            </Validations>
+            @if ( customValidationErrors.Any() )
+            {
+                <Paragraph TextColor="TextColor.Danger" Margin="MarginIs0FromBottom">
+                    <UnorderedList Margin="MarginIs0FromBottom">
+                        @foreach ( var error in customValidationErrors )
+                        {
+                            <UnorderedListItem>@error</UnorderedListItem>
+                        }
+                    </UnorderedList>
+                </Paragraph>
+            }
+        </ModalBody>
+        <ModalFooter Flex="FlexJustifyContentBetweenAlignItemsCenter">
+            <Div>
+                @if ( EditState == SchedulerEditState.Edit )
+                {
+                    <Button Color="Color.Danger" Outline Clicked="@Delete">
+                        <Icon Name="IconName.Delete" Margin="MarginIs2FromEnd" />
+                        @Localizer.Localize( Scheduler.Localizers?.DeleteLocalizer, LocalizationConstants.Delete )
+                    </Button>
+                }
+            </Div>
+            <Div>
+                <Button Color="Color.Secondary" Clicked="@Cancel">
+                    @Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, LocalizationConstants.Cancel )
+                </Button>
+                <Button Color="Color.Primary" Clicked="@Submit">
+                    @Localizer.Localize( Scheduler.Localizers?.SaveLocalizer, LocalizationConstants.Save )
+                </Button>
+            </Div>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

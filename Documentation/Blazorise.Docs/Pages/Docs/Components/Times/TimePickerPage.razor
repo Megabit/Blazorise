@@ -16,7 +16,7 @@
 
 <DocsPageParagraph>
     <Code>TimePicker</Code> is based on a <Blazorise.Link To="https://flatpickr.js.org/">flatpickr</Blazorise.Link> time picker
-    and as such is not a native time input element. That means that unlike <Code>TimeEdit</Code> which will render <Code>type="time"</Code>,
+    and as such is not a native time input element. That means that unlike <Code>TimeInput</Code> which will render <Code>type="time"</Code>,
     <Code>TimePicker</Code> will render <Code>type="text"</Code> in the DOM.
 </DocsPageParagraph>
 
@@ -29,9 +29,9 @@
         In the following example, the Blazorise TimePicker is easily set up and bound to a value by setting the <Code>@@bind-</Code> directive.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicTimePickerExample />
+        <TimePickerBasicExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicTimePickerExample" />
+    <DocsPageSectionSource Code="TimePickerBasicExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -59,9 +59,9 @@
         To always show the time menu you just need to set <Code>Inline</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <InlineTimePickerExample />
+        <TimePickerInlineExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="InlineTimePickerExample" />
+    <DocsPageSectionSource Code="TimePickerInlineExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -77,6 +77,30 @@
         <TimePickerNonStaticExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TimePickerNonStaticExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Time increments">
+        <Paragraph>
+            Use the <Code>HourIncrement</Code> and <Code>MinuteIncrement</Code> parameters to control the step intervals in the time selection dropdown.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerIncrementsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerIncrementsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Default time">
+        <Paragraph>
+            By default the time elements are set to <Strong>12:00</Strong>. To change it use the <Code>DefaultHour</Code> and <Code>DefaultMinute</Code> parameters.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerDefaultTimesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerDefaultTimesExample" />
 </DocsPageSection>
 
 <DocsPageSection>

@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row">
+    <Column ColumnSize="ColumnSizeIsAuto" Flex="FlexRow">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
             @buttonRowFragment
@@ -20,7 +20,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row" Margin="Blazorise.Margin.IsAuto.OnX">
+    <Column ColumnSize="ColumnSizeIsAuto" Flex="FlexRow" Margin="MarginIsAutoOnX">
         @if ( GetButtonRowPosition() == PagerElementPosition.Center )
         {
             @buttonRowFragment
@@ -39,7 +39,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center.JustifyContent.End" Margin="Blazorise.Margin.IsAuto.FromStart">
+    <Column ColumnSize="ColumnSizeIsAuto" Flex="FlexRowAlignItemsCenterJustifyContentEnd" Margin="MarginIsAutoFromStart">
         @if ( GetButtonRowPosition() == PagerElementPosition.End )
         {
             @buttonRowFragment
@@ -64,7 +64,7 @@
     {
         @if ( ShowButtonRow )
         {
-            <Field Display="Blazorise.Display.InlineBlock">
+            <Field Display="DisplayInlineBlock">
                 @{
                     var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
                     var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
@@ -74,40 +74,40 @@
                     var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
 
                     @ButtonRowTemplate( new()
+                    {
+                        NewCommand = new()
                         {
-                            NewCommand = new()
-                            {
-                                Clicked = NewClick,
-                                LocalizationString = newButtonString,
-                            },
-                            EditCommand = new()
-                            {
-                                Clicked = EditClick,
-                                LocalizationString = editButtonString,
-                                Item = SelectedRow
-                            },
-                            DeleteCommand = new()
-                            {
-                                Clicked = DeleteClick,
-                                LocalizationString = deleteButtonString,
-                                Item = SelectedRow
-                            },
-                            ClearFilterCommand = new()
-                            {
-                                Clicked = ClearFilterClick,
-                                LocalizationString = clearFilterButtonString,
-                            },
-                            SaveBatchCommand = new()
-                            {
-                                Clicked = SaveBatchClick,
-                                LocalizationString = saveBatchButtonString,
-                            },
-                            CancelBatchCommand = new()
-                            {
-                                Clicked = CancelBatchClick,
-                                LocalizationString = cancelBatchButtonString,
-                            }
-                        } );
+                            Clicked = NewClick,
+                            LocalizationString = newButtonString,
+                        },
+                        EditCommand = new()
+                        {
+                            Clicked = EditClick,
+                            LocalizationString = editButtonString,
+                            Item = SelectedRow
+                        },
+                        DeleteCommand = new()
+                        {
+                            Clicked = DeleteClick,
+                            LocalizationString = deleteButtonString,
+                            Item = SelectedRow
+                        },
+                        ClearFilterCommand = new()
+                        {
+                            Clicked = ClearFilterClick,
+                            LocalizationString = clearFilterButtonString,
+                        },
+                        SaveBatchCommand = new()
+                        {
+                            Clicked = SaveBatchClick,
+                            LocalizationString = saveBatchButtonString,
+                        },
+                        CancelBatchCommand = new()
+                        {
+                            Clicked = CancelBatchClick,
+                            LocalizationString = cancelBatchButtonString,
+                        }
+                    } );
                 }
             </Field>
         }
@@ -117,24 +117,26 @@
     {
         @if ( ShowColumnChooser )
         {
-            <Field Display="Blazorise.Display.InlineBlock" Margin="ColumnChooserMargin">
+            var columnChooserString = Localizer.Localize( ParentDataGrid.Localizers?.ColumnChooserLocalizer, "Columns" );
+
+            <Field Display="DisplayInlineBlock" Margin="ColumnChooserMargin">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
                     <DropdownToggle @onclick:stopPropagation>
-                        <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
+                        <Icon Name="@IconName.Table" Margin="MarginIs1FromStart" Clicked="() => { }" /> @columnChooserString
                     </DropdownToggle>
                     <DropdownMenu MaxMenuHeight="200px">
-                        @if ( ParentDataGrid.ColumnChooserTemplate is null ) 
+                        @if ( ParentDataGrid.ColumnChooserTemplate is null )
                         {
                             @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ) )
                             {
-                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</DropdownItem>
+                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged( column, value ))">@column.Caption</DropdownItem>
                             }
                         }
-                        else 
+                        else
                         {
                             @ParentDataGrid.ColumnChooserTemplate(new(
                                 ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ),
-                                 EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) );
+                                EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) );
                         }
                     </DropdownMenu>
                 </Dropdown>
@@ -146,7 +148,7 @@
     {
         @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
-            <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineBlock.OnDesktop">
+            <Field Margin="MarginIsAutoOnYIs2FromStart" Display="DisplayNoneOnMobileInlineBlockOnDesktop">
                 @if ( TotalItemsTemplate is not null )
                 {
                     @TotalItemsTemplate( PaginationContext )
@@ -167,7 +169,7 @@
                     }
                 }
             </Field>
-            <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.InlineBlock.None.OnDesktop">
+            <Field Margin="MarginIsAutoOnYIs2FromStart" Display="DisplayInlineBlockNoneOnDesktop">
                 @if ( TotalItemsShortTemplate is not null )
                 {
                     @TotalItemsShortTemplate( PaginationContext )
@@ -216,7 +218,7 @@
                     var pageNumberString = i.ToString();
                     var pageActive = pageNumber == PaginationContext.Page;
 
-                    <PaginationItem Flex="Blazorise.Flex.InlineFlex.OnTablet.JustifyContent.Center.OnTablet" Display="Blazorise.Display.None.OnMobile.InlineFlex.Row.OnTablet" Disabled="@(pageNumber == PaginationContext.Page)" Active="@pageActive">
+                    <PaginationItem Flex="FlexInlineFlexOnTabletJustifyContentCenterOnTablet" Display="DisplayNoneOnMobileInlineFlexRowOnTablet" Disabled="@(pageNumber == PaginationContext.Page)" Active="@pageActive">
                         <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
                             @if ( PageButtonTemplate is not null )
                             {
@@ -229,7 +231,7 @@
                         </PaginationLink>
                     </PaginationItem>
                 }
-                <PaginationItem Display="Blazorise.Display.InlineFlex.Row.None.OnTablet">
+                <PaginationItem Display="DisplayInlineFlexRowNoneOnTablet">
                     @if ( PageSelectorTemplate is not null )
                     {
                         @PageSelectorTemplate( PaginationContext )
@@ -271,7 +273,7 @@
                 </PaginationItem>
                 @if ( PaginationContext.ShowPageSizes )
                 {
-                    <PaginationItem Margin="Blazorise.Margin.Is0.FromBottom.Is3.FromStart">
+                    <PaginationItem Margin="MarginIs0FromBottomIs3FromStart">
                         @if ( PageSizesTemplate is not null )
                         {
                             @PageSizesTemplate( PaginationContext )
@@ -286,7 +288,7 @@
                             </Select>
                         }
                     </PaginationItem>
-                    <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineFlex.Row.OnDesktop">
+                    <Field Margin="MarginIsAutoOnYIs2FromStart" Display="DisplayNoneOnMobileInlineFlexRowOnDesktop">
                         @if ( ItemsPerPageTemplate is not null )
                         {
                             @ItemsPerPageTemplate

@@ -1,35 +1,13 @@
-import { parseFunction, deepClone } from "./utilities.js?v=1.7.5.0";
+import "./vendors/chart.js?v=1.8.8.0";
 
-// workaround for: https://github.com/Megabit/Blazorise/issues/2287
-const _ChartTitleCallbacks = function (item) {
-    return item[0].dataset.label;
-};
+import "./vendors/chartjs-plugin-datalabels.js?v=1.8.8.0";
+import "./vendors/chartjs-plugin-annotation.js?v=1.8.8.0";
 
-const _ChartLabelCallback = function (item) {
-    const label = item.label;
-    const value = item.dataset.data[item.dataIndex];
-    return label + ': ' + value;
-};
+import "./vendors/luxon.js?v=1.8.8.0";
+import "./vendors/chartjs-adapter-luxon.js?v=1.8.8.0";
+import "./vendors/chartjs-plugin-streaming.js?v=1.8.8.0";
 
-// In Chart v3 callbacks are now defined by default. So to override them by the Blazorise the user
-// would have to first set them to null immediately after charts.js is loaded for this workaround
-// to have any effect.
-
-if (!Chart.overrides.pie.plugins.tooltip.callbacks.title) {
-    Chart.overrides.pie.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
-}
-
-if (!Chart.overrides.pie.plugins.tooltip.callbacks.label) {
-    Chart.overrides.pie.plugins.tooltip.callbacks.label = _ChartLabelCallback;
-}
-
-if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.title) {
-    Chart.overrides.doughnut.plugins.tooltip.callbacks.title = _ChartTitleCallbacks;
-}
-
-if (!Chart.overrides.doughnut.plugins.tooltip.callbacks.label) {
-    Chart.overrides.doughnut.plugins.tooltip.callbacks.label = _ChartLabelCallback;
-}
+import { parseFunction, deepClone } from "./utilities.js?v=1.8.8.0";
 
 const _instances = [];
 
@@ -96,7 +74,8 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
             dotnetAdapter: dotnetAdapter,
             eventOptions: eventOptions,
             canvas: canvas,
-            chart: chart
+            chart: chart,
+            pluginNames: pluginNames
         };
     }
 }
@@ -104,10 +83,11 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
 export function changeChartType(canvas, canvasId, type) {
     let chart = getChart(canvasId);
 
-    if (chart) {
+    const instance = _instances[canvasId];
+
+    if (chart && instance) {
         const data = chart.data;
         const options = deepClone(chart.options);
-        const instance = _instances[canvasId];
 
         if (data && data.datasets) {
             data.datasets.forEach((ds) => {
@@ -117,7 +97,7 @@ export function changeChartType(canvas, canvasId, type) {
 
         chart.destroy();
 
-        chart = createChart(instance.dotnetAdapter, instance.eventOptions, canvas, canvas, type, data, options, instance.pluginNames);
+        chart = createChart(instance.dotnetAdapter, instance.eventOptions, canvas, canvasId, type, data, options, instance.pluginNames);
 
         _instances[canvasId].chart = chart;
     }
@@ -493,13 +473,15 @@ export function wireEvents(dotnetAdapter, eventOptions, canvas, type, chart) {
 }
 
 export function getChart(canvasId) {
-    let chart = null;
+    const instance = _instances[canvasId];
 
-    Chart.helpers.each(Chart.instances, function (instance) {
-        if (instance.canvas.id === canvasId) {
-            chart = instance;
-        }
-    });
+    if (instance && instance.chart) {
+        return instance.chart;
+    }
 
-    return chart;
+    if (typeof Chart !== "undefined" && typeof Chart.getChart === "function") {
+        return Chart.getChart(canvasId);
+    }
+
+    return null;
 }

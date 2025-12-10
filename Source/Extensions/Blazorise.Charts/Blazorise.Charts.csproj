@@ -4,6 +4,7 @@
 
   <PropertyGroup>
     <PackageTags>blazorise blazor components chart</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Lambda2Js" Version="3.1.4" />
+    <PackageReference Include="Lambda2Js" />
   </ItemGroup>
 
 </Project>

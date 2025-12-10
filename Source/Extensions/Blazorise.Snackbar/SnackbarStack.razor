@@ -14,7 +14,7 @@
                       DelayCloseOnClick="@DelayCloseOnClick"
                       DelayCloseOnClickInterval="@DelayCloseOnClickInterval"
                       Closed="@(async (e)=> await OnSnackbarClosed(e.Key, e.CloseReason))">
-                @if ( snackbarInfo.Title != null )
+                @if ( snackbarInfo.Title is not null )
                 {
                     <SnackbarHeader>
                         @snackbarInfo.Title
@@ -34,7 +34,7 @@
                     </SnackbarHeader>
                 }
                 <SnackbarBody>
-                    @if ( snackbarInfo.MessageTemplate != null )
+                    @if ( snackbarInfo.MessageTemplate is not null )
                     {
                         @snackbarInfo.MessageTemplate
                     }
@@ -52,9 +52,9 @@
                         var key = snackbarInfo.Key;
 
                         <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
-                            @if ( actionButtonIcon != null )
+                            @if ( actionButtonIcon is not null )
                             {
-                                <Icon Name="@actionButtonIcon" />
+                                <Icon Name="@actionButtonIcon" Margin="Blazorise.Margin.Is2.FromEnd" />
                             }
                             @actionButtonText
                         </SnackbarAction>

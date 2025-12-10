@@ -1,0 +1,18 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Steps RenderMode="StepsRenderMode.LazyLoad" SelectedStep="step1">
+    <Items>
+        <Step Name="step1">Step 1</Step>
+        <Step Name="step2">Step 2</Step>
+    </Items>
+    <Content>
+        <StepPanel Name="step1">
+            This Steps component is set to <code>LazyLoad</code> mode, meaning each step will only be rendered/loaded the first time it is visited.
+            This is specially useful when you want to delay some heavy or long waited operations for when the step is actually clicked instead.
+            <TextInput></TextInput>
+        </StepPanel>
+        <StepPanel Name="step2">
+            <TextInput></TextInput>
+        </StepPanel>
+    </Content>
+</Steps>

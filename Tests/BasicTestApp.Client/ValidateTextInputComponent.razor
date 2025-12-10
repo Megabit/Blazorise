@@ -1,0 +1,97 @@
+﻿<h2>Without bind or event</h2>
+<p id="validate-text-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <TextInput>
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+<p id="validate-text-initially-populated">
+    Initially populated:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <TextInput Value="a">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+
+<h2>With bind</h2>
+<p id="validate-text-with-bind-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <TextInput @bind-Value="@textWithBindInitiallyBlank">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+<p id="validate-text-with-bind-initially-populated">
+    Initially populated:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <TextInput @bind-Value="@textWithBindInitiallyPopulated">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+
+<h2>With event</h2>
+<p id="validate-text-with-event-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <TextInput Value="@textWithEventInitiallyBlank" ValueChanged="@((v)=> { textWithEventInitiallyBlank = v; })">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+<p id="validate-text-with-event-initially-populated">
+    Initially populated:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <TextInput Value="@textWithEventInitiallyPopulated" ValueChanged="@((v)=> {textWithEventInitiallyPopulated = v; })">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+
+<h2>Using pattern:</h2>
+<p id="validate-text-using-pattern-initially-blank">
+    Initially blank:
+    <Validation UsePattern>
+        <TextInput Pattern="[A-Za-z]{1}" @bind-Value="@textUsingPatternInitiallyBlank">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+<p id="validate-text-using-pattern-initially-populated">
+    Initially populated:
+    <Validation UsePattern>
+        <TextInput Pattern="[A-Za-z]{1}" @bind-Value="@textUsingPatternInitiallyPopulated">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Validation>
+</p>
+@code{
+    string textWithBindInitiallyBlank;
+    string textWithBindInitiallyPopulated = "a";
+
+    string textWithEventInitiallyBlank;
+    string textWithEventInitiallyPopulated = "a";
+
+    string textUsingPatternInitiallyBlank;
+    string textUsingPatternInitiallyPopulated = "a";
+}

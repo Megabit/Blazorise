@@ -10,7 +10,7 @@ public class ComponentRenderingTest : TestContext
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseTextEdit()
+            .AddBlazoriseTextInput()
             .AddBlazoriseButton();
     }
 

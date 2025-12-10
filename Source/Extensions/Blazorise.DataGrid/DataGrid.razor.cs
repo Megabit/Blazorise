@@ -50,6 +50,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private List<TItem> filteredData = new();
 
     /// <summary>
+    /// Represents the last known count of data items processed or retrieved.
+    /// </summary>
+    private int lastKnownDataCount;
+
+    /// <summary>
     /// Holds the filtered data to display based on the current page.
     /// </summary>
     private IEnumerable<TItem> viewData;
@@ -137,9 +142,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected List<DataGridColumn<TItem>> groupableColumns;
 
     /// <summary>
-    /// Tracks the column currently being Dragged.
+    /// Represents the column in a data grid where a drag operation has started.
     /// </summary>
-    internal DataGridColumn<TItem> columnBeingDragged;
+    internal DataGridColumn<TItem> columnDragStarted;
+
+    /// <summary>
+    /// Represents the column in a data grid that the drag operation has entered.
+    /// </summary>
+    internal DataGridColumn<TItem> columnDragEntered;
 
     /// <summary>
     /// Tracks the current DataGridRowEdit reference.
@@ -155,6 +165,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Tracks the current batch edit changes if <see cref="BatchEdit"/> is active.
     /// </summary>
     private List<DataGridBatchEditItem<TItem>> batchChanges;
+
+    /// <summary>
+    /// Indicates whether the DataGrid is currently applying a saved state.
+    /// </summary>
+    private bool applyingState;
 
     #endregion
 
@@ -186,76 +201,105 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-        PageSize = dataGridState.PageSize;
-        Page = dataGridState.Page;
-
-        if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
+        // Prevent re-entrancy and suppress event storms during state application
+        if ( applyingState )
         {
-            foreach ( var displayingState in dataGridState.ColumnDisplayingStates )
-            {
-                var column = Columns?.Find( x => x.Field == displayingState.FieldName );
+            return;
+        }
 
-                if ( column is not null )
+        applyingState = true;
+
+        try
+        {
+            // Keep the overlay on while we batch changes
+            SetLoading( true );
+
+            PageSize = dataGridState.PageSize;
+            Page = dataGridState.Page;
+
+            // Column displaying + order
+            if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
+            {
+                foreach ( var displayingState in dataGridState.ColumnDisplayingStates )
                 {
-                    await column.SetDisplaying( displayingState.Displaying );
+                    var column = Columns?.Find( x => x.Field == displayingState.FieldName );
+
+                    if ( column is not null )
+                    {
+                        await column.SetDisplaying( displayingState.Displaying );
+                        await column.SetDisplayOrder( displayingState.DisplayOrder );
+                    }
                 }
             }
-        }
-        else
-        {
-            await ResetDisplaying();
-        }
-
-        if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
-        {
-            await ResetSorting();
-        }
-        else
-        {
-            foreach ( var sortState in dataGridState.ColumnSortStates )
+            else
             {
-                await Sort( sortState.FieldName, sortState.SortDirection );
+                await ResetDisplaying();
+                await ResetDisplayOrder();
             }
-        }
 
-        if ( dataGridState.ColumnFilterStates.IsNullOrEmpty() )
-        {
-            ResetFiltering();
-        }
-        else
-        {
-            foreach ( var filterState in dataGridState.ColumnFilterStates )
+            // Sorting
+            if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
             {
-                var column = Columns?.Find( x => x.Field == filterState.FieldName );
-                if ( column is not null )
+                await ResetSorting();
+            }
+            else
+            {
+                // Keep existing behavior; apply sequentially
+                await ResetSorting();
+
+                foreach ( var sortState in dataGridState.ColumnSortStates )
                 {
-                    column.Filter.SearchValue = filterState.SearchValue;
+                    await Sort( sortState.FieldName, sortState.SortDirection );
                 }
             }
 
-            FilterData();
+            // Filtering
+            if ( dataGridState.ColumnFilterStates.IsNullOrEmpty() )
+            {
+                ResetFiltering();
+            }
+            else
+            {
+                foreach ( var filterState in dataGridState.ColumnFilterStates )
+                {
+                    var column = Columns?.Find( x => x.Field == filterState.FieldName );
+                    if ( column is not null )
+                    {
+                        column.Filter.SearchValue = filterState.SearchValue;
+                    }
+                }
+
+                FilterData();
+            }
+
+            // Selection (defer event callbacks until after ReloadInternal)
+            SelectedRow = dataGridState.SelectedRow;
+            SelectedRows = dataGridState.SelectedRows;
+
+            if ( dataGridState.EditState == DataGridEditState.None )
+            {
+                await Cancel();
+            }
+            else if ( dataGridState.EditState == DataGridEditState.New )
+            {
+                await New();
+            }
+            else if ( dataGridState.EditState == DataGridEditState.Edit && dataGridState.EditItem is not null )
+            {
+                await Edit( dataGridState.EditItem );
+            }
+
+            await ReloadInternal();
+
+            await SelectedRowChanged.InvokeAsync( dataGridState.SelectedRow );
+            await SelectedRowsChanged.InvokeAsync( dataGridState.SelectedRows );
         }
-
-        SelectedRow = dataGridState.SelectedRow;
-        await SelectedRowChanged.InvokeAsync( dataGridState.SelectedRow );
-
-        SelectedRows = dataGridState.SelectedRows;
-        await SelectedRowsChanged.InvokeAsync( dataGridState.SelectedRows );
-
-        if ( dataGridState.EditState == DataGridEditState.None )
+        finally
         {
-            await Cancel();
+            SetLoading( false );
+            applyingState = false;
+            await InvokeAsync( StateHasChanged );
         }
-        else if ( dataGridState.EditState == DataGridEditState.New )
-        {
-            await New();
-        }
-        else if ( dataGridState.EditState == DataGridEditState.Edit && dataGridState.EditItem is not null )
-        {
-            await Edit( dataGridState.EditItem );
-        }
-
-        await ReloadInternal();
     }
 
     /// <summary>
@@ -284,8 +328,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
 
-
-        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying ) ).ToList();
+        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.GetDisplayOrder() ) ).ToList();
 
         return Task.FromResult( dataGridState );
     }
@@ -375,7 +418,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child row with this datagrid.
     /// </summary>
     /// <param name="row">Row to add.</param>
-    public void AddRow( DataGridRowInfo<TItem> row )
+    internal void AddRow( DataGridRowInfo<TItem> row )
     {
         Rows.Add( row );
     }
@@ -462,8 +505,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
-        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
-            SetDirty();
+        var dataChanged = false;
+
+        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
+        {
+            var newCount = paramData?.Count() ?? 0;
+
+            if ( lastKnownDataCount != newCount || !Data.AreEqual( paramData ) )
+            {
+                dataChanged = true;
+                SetDirty();
+            }
+
+            lastKnownDataCount = newCount;
+        }
 
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
@@ -475,6 +530,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( Data is INotifyCollectionChanged observableCollectionAfterParamSet )
             observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
+
+        if ( dataChanged )
+            await SyncSelectedItemsWithData();
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -519,11 +577,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( IsDynamicItem )
         {
-            var item = Data.IsNullOrEmpty()
-                ? NewItemCreator is not null
-                    ? NewItemCreator.Invoke()
-                    : default
-                : Data.FirstOrDefault();
+            var item = NewItemCreator is not null
+                       ? NewItemCreator.Invoke()
+                       : Data.IsNullOrEmpty()
+                           ? default
+                           : Data.FirstOrDefault();
 
             if ( item is ExpandoObject expando )
             {
@@ -595,6 +653,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 numericColumn.Step = numeric.Step;
                 numericColumn.Decimals = numeric.Decimals;
                 numericColumn.DecimalSeparator = numeric.DecimalSeparator;
+                numericColumn.GroupSeparator = numeric.GroupSeparator;
                 numericColumn.Culture = numeric.Culture;
                 numericColumn.ShowStepButtons = numeric.ShowStepButtons;
                 numericColumn.EnableStep = numeric.EnableStep;
@@ -770,7 +829,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragStarted( DataGridColumn<TItem> col )
     {
-        columnBeingDragged = col;
+        columnDragStarted = col;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnColumnDragEnter( DataGridColumn<TItem> col )
+    {
+        columnDragEntered = col;
 
         return Task.CompletedTask;
     }
@@ -782,9 +848,57 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     private Task OnColumnDragEnded( DragEventArgs e )
     {
-        columnBeingDragged = null;
+        columnDragStarted = null;
+        columnDragEntered = null;
 
         return Task.CompletedTask;
+    }
+
+    private async Task OnColumnDropped( DataGridColumn<TItem> columnDropped )
+    {
+        if ( columnDragStarted is null || columnDropped is null )
+            return;
+
+        // Normalize DisplayOrder if needed
+        var orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
+
+        if ( orderedColumns.Any( c => c.GetDisplayOrder() == 0 ) )
+        {
+            for ( int i = 0; i < orderedColumns.Count; i++ )
+                await orderedColumns[i].SetDisplayOrder( i + 1 );
+        }
+
+        // Refresh ordered list in case we updated DisplayOrder
+        orderedColumns = Columns.OrderBy( c => c.GetDisplayOrder() ).ToList();
+
+        var draggedOrder = columnDragStarted.GetDisplayOrder();
+        var droppedOrder = columnDropped.GetDisplayOrder();
+
+        if ( draggedOrder == droppedOrder )
+            return;
+
+        if ( draggedOrder < droppedOrder )
+        {
+            // Dragged column is moving forward → shift columns between up by 1
+            foreach ( var column in Columns )
+            {
+                if ( column.InternalDisplayOrder > draggedOrder && column.InternalDisplayOrder <= droppedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value - 1 );
+            }
+        }
+        else
+        {
+            // Dragged column is moving backward → shift columns between down by 1
+            foreach ( var column in Columns )
+            {
+                if ( column.InternalDisplayOrder >= droppedOrder && column.InternalDisplayOrder < draggedOrder )
+                    await column.SetDisplayOrder( column.InternalDisplayOrder.Value + 1 );
+            }
+        }
+
+        await columnDragStarted.SetDisplayOrder( droppedOrder );
+
+        await Refresh();
     }
 
     /// <summary>
@@ -1005,6 +1119,42 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Task.CompletedTask;
     }
 
+    private async Task SyncSelectedItemsWithData()
+    {
+        var dataList = Data?.ToList();
+        var selectedRowChanged = false;
+        var selectedRowsChanged = false;
+
+        if ( !( SelectedRow?.Equals( default ) ?? true )
+            && ( dataList.IsNullOrEmpty() || !dataList.Any( dataItem => dataItem.IsEqual( SelectedRow ) ) ) )
+        {
+            SelectedRow = default;
+            selectedRowChanged = true;
+        }
+
+        if ( SelectedRows is not null )
+        {
+            if ( dataList.IsNullOrEmpty() )
+            {
+                if ( SelectedRows.Any() )
+                {
+                    SelectedRows.Clear();
+                    selectedRowsChanged = true;
+                }
+            }
+            else
+            {
+                selectedRowsChanged = SelectedRows.RemoveAll( selected => !dataList.Any( dataItem => dataItem.IsEqual( selected ) ) ) > 0;
+            }
+        }
+
+        if ( selectedRowChanged )
+            await SelectedRowChanged.InvokeAsync( SelectedRow );
+
+        if ( selectedRowsChanged )
+            await SelectedRowsChanged.InvokeAsync( SelectedRows );
+    }
+
     #endregion
 
     #region Events
@@ -1013,7 +1163,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Move || e.Action == NotifyCollectionChangedAction.Replace )
         {
-            await InvokeAsync( async () => await Reload() );
+            await InvokeAsync( async () =>
+            {
+                await SyncSelectedItemsWithData();
+                lastKnownDataCount = Data?.Count() ?? 0;
+                await Reload();
+            } );
         }
     }
 
@@ -1027,10 +1182,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         InvokeAsync( StateHasChanged );
     }
 
+    private void ResetPaginationCts()
+    {
+        var oldCts = paginationContext.CancellationTokenSource;
+        oldCts?.Cancel();
+        paginationContext.CancellationTokenSource = new();
+        oldCts?.Dispose();
+    }
+
     private async void OnPageSizeChanged( int pageSize )
     {
-        paginationContext.CancellationTokenSource?.Cancel();
-        paginationContext.CancellationTokenSource = new();
+        ResetPaginationCts();
 
         await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
@@ -1039,8 +1201,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private async void OnPageChanged( int currentPage )
     {
-        paginationContext.CancellationTokenSource?.Cancel();
-        paginationContext.CancellationTokenSource = new();
+        ResetPaginationCts();
 
         await InvokeAsync( () => PageChanged.InvokeAsync( currentPage ) );
 
@@ -1068,12 +1229,34 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task New()
     {
-        if ( Virtualize && EditMode != DataGridEditMode.Popup )
+        return New( CreateNewItem() );
+    }
+
+    /// <summary>
+    /// Adds a new item to the DataGrid, either by opening it in edit mode or by adding the batch edit collection,
+    /// depending on whether batch editing is enabled.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task New( TItem newItem )
+    {
+        if ( BatchEdit )
         {
-            VirtualizeScrollToTop();
+            batchChanges ??= new();
+
+            var batchItem = new DataGridBatchEditItem<TItem>( editItem, newItem, DataGridBatchEditItemState.New, new Dictionary<string, CellEditContext> { } );
+            batchChanges.Add( batchItem );
+
+            SetDirty();
+
+            await BatchChange.InvokeAsync( new( batchItem ) );
+
+            return;
         }
 
-        TItem newItem = CreateNewItem();
+        if ( Virtualize && EditMode != DataGridEditMode.Popup )
+        {
+            await VirtualizeScrollToTop();
+        }
 
         NewItemDefaultSetter?.Invoke( newItem );
 
@@ -1081,7 +1264,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         editState = DataGridEditState.New;
 
-        return InvokeAsync( StateHasChanged );
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -1127,16 +1310,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data is ICollection<TItem> data && await IsSafeToProceed( RowRemoving, item, item ) )
         {
             var itemIsSelected = SelectedRow.IsEqual( item );
+            var itemRemoved = false;
 
             if ( UseInternalEditing )
             {
                 if ( data.Contains( item ) )
-                    data.Remove( item );
-
-                if ( itemIsSelected )
                 {
-                    SelectedRow = default;
-                    await SelectedRowChanged.InvokeAsync( SelectedRow );
+                    data.Remove( item );
+                    itemRemoved = true;
+
+                    lastKnownDataCount = Data?.Count() ?? 0;
+                }
+
+                if ( itemRemoved )
+                {
+                    await SyncSelectedItemsWithData();
                 }
             }
 
@@ -1242,6 +1430,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             break;
                     }
                 }
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             await BatchSaved.InvokeAsync( new DataGridBatchSavedEventArgs<TItem>( batchChanges ) );
@@ -1357,6 +1547,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
+        var oldItem = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         var editItemClone = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         SetItemEditedValues( editItemClone );
 
@@ -1365,6 +1556,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
                 data.Add( editItem );
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             if ( UseInternalEditing || editState == DataGridEditState.New )
@@ -1385,7 +1578,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
+            {
+                // If editing is managed internally by the DataGrid, use the old item (the clone instance) because its values have already been updated internally.
+                // If editing is managed externally (outside of DataGrid), use the edited item to allow for custom update scenarios.
+                await RowUpdated.InvokeAsync( new( UseInternalEditing ? oldItem : editItem, editItemClone, editedCellValues ) );
+            }
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
@@ -1418,8 +1615,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             if ( filteredData is ICollection<TItem> data2 )
             {
-                foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
-                    data2.Remove( newItem.NewItem );
+                if ( batchChanges is not null )
+                {
+                    foreach ( var newItem in batchChanges.Where( x => x.State == DataGridBatchEditItemState.New ) )
+                        data2.Remove( newItem.NewItem );
+                }
+
+                lastKnownDataCount = Data?.Count() ?? 0;
             }
 
             batchChanges?.Clear();
@@ -1450,11 +1652,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        if ( IsRowNavigable )
+        if ( Virtualize )
         {
-            var selectedTableRow = GetRowInfo( item )?.TableRow;
-            if ( selectedTableRow is not null )
-                await selectedTableRow.ElementRef.FocusAsync();
+            var displayData = DisplayData;
+            var index = displayData?.Index( x => x.IsEqual( item ) ) ?? -1;
+
+            if ( index >= 0 )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    if ( tableRef is null )
+                        return;
+
+                    await JSModule.ScrollVirtualizedRowIntoView( tableRef.ElementRef, ElementId, index );
+                } );
+            }
         }
 
         await Refresh();
@@ -1563,6 +1775,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in Columns )
         {
             await column.SetDisplaying( column.Displayable );
+        }
+    }
+
+    /// <summary>
+    /// Resets the display order of all columns to their default state.
+    /// </summary>
+    /// <remarks>This method sets the internal display order of each column to <see langword="null"/>,
+    /// effectively clearing any custom display order. If the <see cref="Columns"/> collection is empty or <see
+    /// langword="null"/>, the method performs no action.</remarks>
+    public async Task ResetDisplayOrder()
+    {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
+        foreach ( var column in Columns )
+        {
+            await column.SetDisplayOrder( column.DisplayOrder );
         }
     }
 
@@ -1819,7 +2048,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in EditableColumns )
         {
             var cellValue = column.GetValue( editItem );
-            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue ) );
+            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue, EditState ) );
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
@@ -2084,7 +2313,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Filtering
 
-    private void SetDirty()
+    /// <summary>
+    /// Marks the current filter and view as dirty, indicating that they require updating.
+    /// </summary>
+    protected void SetDirty()
     {
         dirtyFilter = dirtyView = true;
     }
@@ -2388,7 +2620,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                         query = from item in query
                                 let cellRealValue = column.GetValue( item )
                                 let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                                where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
+                                where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, currentFilterMode, column.ColumnType, column.GetValueType( item ) )
                                 select item;
 
                         continue;
@@ -2402,7 +2634,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, currentFilterMode, column.ColumnType, column.GetValueType( item ) )
                             select item;
                 }
             }
@@ -2440,10 +2672,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             ( ManualReadMode ? TotalItems : Data?.Count() ) ?? 0 ) );
     }
 
+    private void ResetFilterCts()
+    {
+        var oldCts = filterCancellationTokenSource;
+        oldCts?.Cancel();
+        filterCancellationTokenSource = new();
+        oldCts?.Dispose();
+    }
+
     protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
     {
-        filterCancellationTokenSource?.Cancel();
-        filterCancellationTokenSource = new();
+        ResetFilterCts();
 
         virtualizeFilterChanged = true;
         column.Filter.SearchValue = value;
@@ -2762,7 +3001,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return filteredData;
     }
 
-
     private Task SelectRow( TItem item, bool forceSelect = false )
     {
         if ( editState != DataGridEditState.None && !forceSelect )
@@ -2770,6 +3008,29 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         SelectedRow = item;
         return SelectedRowChanged.InvokeAsync( item );
+    }
+
+    internal int GetRowNavigationPageSize()
+    {
+        if ( Virtualize )
+        {
+            var visibleRowCount = Rows?.Count ?? 0;
+            if ( visibleRowCount <= 0 )
+                return 1;
+
+            var overscan = VirtualizeOptions?.OverscanCount ?? 0;
+            var adjusted = visibleRowCount - Math.Min( overscan, Math.Max( visibleRowCount - 1, 0 ) );
+            return Math.Max( 1, adjusted );
+        }
+
+        if ( !ManualReadMode )
+            return Math.Max( 1, PageSize );
+
+        var renderedRows = Rows?.Count ?? 0;
+        if ( renderedRows > 0 )
+            return renderedRows;
+
+        return Math.Max( 1, PageSize );
     }
 
     public DataGridRowInfo<TItem> GetRowInfo( TItem item )
@@ -2829,9 +3090,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Whether the Datagrid is Row Navigable.
     /// </summary>
     internal bool IsRowNavigable
-#pragma warning disable CS0618 // Type or member is obsolete
-        => ( Navigable && NavigationMode == DataGridNavigationMode.Default ) || NavigationMode == DataGridNavigationMode.Row;
-#pragma warning restore CS0618 // Type or member is obsolete
+        => NavigationMode == DataGridNavigationMode.Row;
 
     /// <summary>
     /// Whether the TIem is a dynamic item.
@@ -2918,7 +3177,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder );
+                .OrderBy( x => x.GetDisplayOrder() );
 
 
             if ( !IsGroupHeaderCaptionsEnabled )
@@ -2966,7 +3225,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displaying )
-                .OrderBy( x => x.DisplayOrder )
+                .OrderBy( x => x.GetDisplayOrder() )
                 .ToList();
 
 
@@ -3516,9 +3775,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public int MaxPaginationLinks { get => paginationContext.MaxPaginationLinks; set => paginationContext.MaxPaginationLinks = value; }
 
     /// <summary>
-    /// Defines the filter method when searching the cell values.
+    /// Defines the filter method to be applied when filtering data in the grid.
     /// </summary>
-    [Parameter] public DataGridFilterMethod FilterMethod { get; set; } = DataGridFilterMethod.Contains;
+    [Parameter] public DataGridFilterMethod FilterMethod { get; set; }
 
     /// <summary>
     /// Gets or sets currently selected row.
@@ -3760,12 +4019,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Custom styles for aggregate row.
     /// </summary>
-    [Obsolete( "DataGrid: The GroupRowStyling parameter is deprecated, please use the AggregateRowStyling parameter instead." )]
-    [Parameter] public DataGridRowStyling GroupRowStyling { get => AggregateRowStyling; set => AggregateRowStyling = value; }
-
-    /// <summary>
-    /// Custom styles for aggregate row.
-    /// </summary>
     [Parameter] public DataGridRowStyling AggregateRowStyling { get; set; }
 
     /// <summary>
@@ -3876,9 +4129,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
     /// </summary>
 
-    [Obsolete( "DataGrid: The Navigable parameter is deprecated, please replace with NavigationMode.Row" )]
-    [Parameter] public bool Navigable { get; set; }
-
     /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
     /// </summary>
@@ -3968,9 +4218,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool ShowColumnChooser { get; set; }
 
     /// <summary>
-    /// Event called after a column display change is made. 
+    /// Event called after a column display change is made.
     /// </summary>
     [Parameter] public EventCallback<ColumnDisplayChangedEventArgs<TItem>> ColumnDisplayingChanged { get; set; }
+
+    /// <summary>
+    /// Event called after a column display order change is made.
+    /// </summary>
+    [Parameter] public EventCallback<ColumnDisplayOrderChangedEventArgs<TItem>> ColumnDisplayOrderChanged { get; set; }
 
     /// <summary>
     /// Gets or sets whether the DataGrid should automatically generate columns.
@@ -4010,6 +4265,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Make sure to handle this event if you need to respond to cell selection changes.
     /// </remarks>
     [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
+
+    /// <summary>
+    /// Defines the caption of the table, usually used to describe the table content.
+    /// </summary>
+    [Parameter] public string Caption { get; set; }
+
+    /// <summary>
+    /// Defines the placement of the <see cref="Caption"/> element.
+    /// </summary>
+    [Parameter] public TableCaptionSide CaptionSide { get; set; }
 
     #endregion
 }

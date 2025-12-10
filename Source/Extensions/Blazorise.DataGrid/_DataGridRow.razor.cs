@@ -43,7 +43,20 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// </summary>
     protected TableRow TableRowRef;
 
+    /// <summary>
+    /// Indicates whether a cell is currently being edited.
+    /// </summary>
     protected bool cellEditing;
+
+    /// <summary>
+    /// Indicates whether the row should focus itself after render.
+    /// </summary>
+    private bool shouldFocusSelf;
+
+    /// <summary>
+    /// Indicates whether the row was selected during the last render.
+    /// </summary>
+    private bool wasSelected;
 
     #endregion
 
@@ -93,7 +106,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await base.OnInitializedAsync();
     }
 
-    protected override Task OnAfterRenderAsync( bool firstRender )
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
         {
@@ -105,41 +118,77 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 if ( column.ExcludeFromInit )
                     continue;
 
-                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, column.GetValue( Item ), ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue ) );
+                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, column.GetValue( Item ), ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue, ParentDataGrid.EditState ) );
             }
         }
 
-        return base.OnAfterRenderAsync( firstRender );
+        if ( shouldFocusSelf && ParentDataGrid.IsRowNavigable && TableRowRef is not null )
+        {
+            shouldFocusSelf = false;
+            await TableRowRef.ElementRef.FocusAsync();
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        var isSelected = IsSelected;
+
+        if ( ParentDataGrid.IsRowNavigable && isSelected && !wasSelected )
+            shouldFocusSelf = true;
+
+        wasSelected = isSelected;
+
+        return base.OnParametersSetAsync();
     }
 
     protected internal async Task HandleKeyDown( KeyboardEventArgs eventArgs )
     {
         if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" )
         {
-            if ( !ParentDataGrid.SelectedRow.IsEqual( this.Item ) )
-                await ParentDataGrid.Select( this.Item );
+            if ( !ParentDataGrid.SelectedRow.IsEqual( Item ) )
+                await ParentDataGrid.Select( Item );
             return;
         }
 
-        if ( eventArgs.Code == "ArrowUp" )
+        var navigationItem = ParentDataGrid.SelectedRow ?? Item;
+        var displayData = ParentDataGrid.DisplayData;
+        var displayList = displayData as IList<TItem> ?? displayData.ToList();
+
+        if ( displayList.Count == 0 )
+            return;
+
+        var idx = displayList.Index( x => x.IsEqual( navigationItem ) );
+        if ( idx < 0 )
+            return;
+
+        var lastIndex = displayList.Count - 1;
+        var pageSize = ParentDataGrid.GetRowNavigationPageSize();
+        var targetIndex = idx;
+
+        switch ( eventArgs.Code )
         {
-            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
-            if ( idx > 0 )
-            {
-                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx - 1 ) );
+            case "ArrowUp" when idx > 0:
+                targetIndex = idx - 1;
+                break;
+            case "ArrowDown" when idx < lastIndex:
+                targetIndex = idx + 1;
+                break;
+            case "PageUp" when idx > 0:
+                targetIndex = Math.Max( 0, idx - pageSize );
+                break;
+            case "PageDown" when idx < lastIndex:
+                targetIndex = Math.Min( lastIndex, idx + pageSize );
+                break;
+            default:
                 return;
-            }
         }
 
-        if ( eventArgs.Code == "ArrowDown" )
-        {
-            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
-            if ( idx < ParentDataGrid.DisplayData.Count() - 1 )
-            {
-                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx + 1 ) );
-                return;
-            }
-        }
+        if ( targetIndex == idx )
+            return;
+
+        await ParentDataGrid.Select( displayList[targetIndex] );
     }
 
     protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
@@ -179,18 +228,18 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected bool BindMouseOver()
         => ParentDataGrid.RowMouseOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 
-    protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
+    protected internal async Task HandleMouseLeave( MouseEventArgs eventArgs )
     {
         mouseIsOver = false;
         await ParentDataGrid.OnRowMouseLeaveCommand( new( Item, eventArgs ) );
     }
-    protected internal async Task HandleMouseOver( BLMouseEventArgs eventArgs )
+    protected internal async Task HandleMouseOver( MouseEventArgs eventArgs )
     {
         mouseIsOver = true;
         await ParentDataGrid.OnRowMouseOverCommand( new( Item, eventArgs ) );
     }
 
-    protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
+    protected internal async Task HandleClick( MouseEventArgs eventArgs )
     {
         await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
@@ -207,21 +256,21 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
-    private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
+    private async Task HandleMultiSelectClick( MouseEventArgs eventArgs )
     {
         var isSelected = ( ParentDataGrid.SelectedRows == null || ( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) ) );
-        var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
+        var shiftClick = ( eventArgs.ShiftKey && eventArgs.ToMouseButton() == MouseButton.Left );
 
         await OnMultiSelectCommand( new( Item, isSelected || shiftClick, shiftClick ) );
     }
 
-    private bool IsCtrlClick( BLMouseEventArgs eventArgs )
+    private bool IsCtrlClick( MouseEventArgs eventArgs )
     {
         var isMacOsCtrl = ParentDataGrid.IsClientMacintoshOS && eventArgs.MetaKey;
-        return ( eventArgs.CtrlKey || isMacOsCtrl ) && eventArgs.Button == MouseButton.Left;
+        return ( eventArgs.CtrlKey || isMacOsCtrl ) && eventArgs.ToMouseButton() == MouseButton.Left;
     }
 
-    private async Task HandleSingleSelectClick( BLMouseEventArgs eventArgs )
+    private async Task HandleSingleSelectClick( MouseEventArgs eventArgs )
     {
         // Un-select row if the user is holding the ctrl key on already selected row.
         if ( ParentDataGrid.SingleSelect && IsCtrlClick( eventArgs )
@@ -236,12 +285,12 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
-    protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
+    protected internal Task HandleDoubleClick( MouseEventArgs eventArgs )
     {
         return ParentDataGrid.OnRowDoubleClickedCommand( new( Item, eventArgs ) );
     }
 
-    protected internal Task HandleContextMenu( BLMouseEventArgs eventArgs )
+    protected internal Task HandleContextMenu( MouseEventArgs eventArgs )
     {
         return ParentDataGrid.OnRowContextMenuCommand( new( Item, eventArgs ) );
     }

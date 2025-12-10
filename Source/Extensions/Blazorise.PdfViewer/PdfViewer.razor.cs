@@ -21,6 +21,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     private readonly EventCallbackSubscriber<int> goToPageSubscriber;
     private readonly EventCallbackSubscriber<double> setScaleSubscriber;
     private readonly EventCallbackSubscriber printSubscriber;
+    private readonly EventCallbackSubscriber downloadSubscriber;
 
     #endregion
 
@@ -36,6 +37,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         goToPageSubscriber = new EventCallbackSubscriber<int>( EventCallback.Factory.Create<int>( this, GoToPage ) );
         setScaleSubscriber = new EventCallbackSubscriber<double>( EventCallback.Factory.Create<double>( this, SetScale ) );
         printSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, Print ) );
+        downloadSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, Download ) );
     }
 
     #endregion
@@ -50,6 +52,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         goToPageSubscriber.SubscribeOrReplace( ViewerState?.GoToPageRequested );
         setScaleSubscriber.SubscribeOrReplace( ViewerState?.SetScaleRequested );
         printSubscriber.SubscribeOrReplace( ViewerState?.PrintRequested );
+        downloadSubscriber.SubscribeOrReplace( ViewerState?.DownloadRequested );
 
         return base.OnParametersSetAsync();
     }
@@ -132,6 +135,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             goToPageSubscriber?.Dispose();
             setScaleSubscriber?.Dispose();
             printSubscriber?.Dispose();
+            downloadSubscriber?.Dispose();
 
             if ( JSModule is not null )
             {
@@ -216,6 +220,23 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         if ( JSModule is not null )
         {
             await JSModule.Print( Source );
+        }
+    }
+
+    /// <summary>
+    /// Downloads the currently loaded PDF document.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task Download()
+    {
+        if ( string.IsNullOrEmpty( Source ) )
+            return;
+
+        await DownloadRequested.InvokeAsync();
+
+        if ( JSModule is not null )
+        {
+            await JSModule.Download( Source );
         }
     }
 
@@ -347,6 +368,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// Gets or sets the callback event that is triggered when the PDF document is requested to be printed.
     /// </summary>
     [Parameter] public EventCallback PrintRequested { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback event that is triggered when the PDF document is requested to be downloaded.
+    /// </summary>
+    [Parameter] public EventCallback DownloadRequested { get; set; }
 
     /// <summary>
     /// Gets or sets the scale factor for displaying the PDF document.

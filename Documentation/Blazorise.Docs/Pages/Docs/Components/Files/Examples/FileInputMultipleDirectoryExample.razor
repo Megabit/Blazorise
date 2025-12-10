@@ -1,0 +1,12 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <FileInput Changed="@OnChanged" Directory Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}

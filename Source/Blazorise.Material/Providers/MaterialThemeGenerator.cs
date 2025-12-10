@@ -1,6 +1,6 @@
 ﻿#region Using directives
+using System;
 using System.Text;
-using Blazorise.Bootstrap;
 using Blazorise.Bootstrap.Providers;
 #endregion
 
@@ -93,6 +93,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        if ( options is null )
+            return;
+
         var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
 
         sb
@@ -120,6 +123,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( options is null )
+            return;
+
         base.GenerateInputStyles( sb, theme, options );
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
@@ -157,14 +163,20 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( options is null )
+            return;
+
+        if ( string.IsNullOrEmpty( options?.CheckColor ) )
+            return;
+
         sb
             .Append( ".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
             .Append( $"background-color: {options.CheckColor};" )
             .AppendLine( "}" );
 
         sb
-            .Append( ".custom-control-input:checked ~ .custom-control-label::after" ).Append( "{" )
-            .Append( $"color: {options.CheckColor};" )
+            .Append( ".custom-checkbox .custom-control-input:checked~.custom-control-label:after" ).Append( "{" )
+            .Append( $"content: url(\"data:image/svg+xml;charset=utf-8,{GenerateSvgDataUrl( options.CheckColor, 1 )}\");" )
             .AppendLine( "}" );
 
         sb
@@ -188,8 +200,34 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
         }
     }
 
+    public string GenerateSvgDataUrl( string colorHex, float sizeInRem, int basePixelSize = 24 )
+    {
+        if ( string.IsNullOrWhiteSpace( colorHex ) )
+            colorHex = "#000000";
+
+        var color = colorHex.TrimStart( '#' );
+
+        int pixelSize = (int)Math.Round( sizeInRem * basePixelSize );
+
+        string rawSvg = $@"<svg xmlns='http://www.w3.org/2000/svg' height='{pixelSize}' width='{pixelSize}' fill='%23{color}'><path d='M0 0h24v24H0z' fill='none'/><path d='M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/></svg>";
+
+        string encodedSvg = rawSvg
+            .Replace( "<", "%3C" )
+            .Replace( ">", "%3E" )
+            .Replace( "\"", "'" )
+            .Replace( "#", "%23" )
+            .Replace( " ", "%20" )
+            .Replace( "\n", "" )
+            .Replace( "\r", "" );
+
+        return encodedSvg;
+    }
+
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
     {
+        if ( options is null )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
 
         if ( backgroundColor.IsEmpty )
@@ -225,6 +263,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( ".stepper.active .stepper-icon" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
@@ -234,6 +275,9 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( $".stepper-{variant}.done .stepper-icon" ).Append( "{" )
             .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
@@ -268,9 +312,12 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        sb.Append( ".progress" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".progress" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {

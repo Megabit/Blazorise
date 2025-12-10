@@ -109,8 +109,8 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "copyToClipboard", elementRef, elementId );
 
     /// <inheritdoc/>
-    public ValueTask Log( string message, params string[] args )
-        => InvokeSafeVoidAsync( "log", message, args );
+    public ValueTask Log( bool showBanner, string message, params string[] args )
+        => InvokeSafeVoidAsync( "log", showBanner, message, args );
 
     private ElementReference? ResolveElementReference( ElementReference elementReference )
         => elementReference.Context is null ? null : elementReference;

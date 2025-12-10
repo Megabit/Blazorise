@@ -13,7 +13,7 @@
 <DocsPageParagraph>
     <Code Tag>DatePicker</Code> is a fully featured date selection component that lets users select a date.
     <Code>DatePicker</Code> is based on a <Blazorise.Link To="https://flatpickr.js.org/">flatpickr</Blazorise.Link> datetime picker
-    and as such is not a native date input element. That means that unlike <code>DateEdit</code> which will render <Code>type="date"</Code>,
+    and as such is not a native date input element. That means that unlike <code>DateInput</code> which will render <Code>type="date"</Code>,
     <Code>DatePicker</Code> will render <Code>type="text"</Code> in the DOM.
 </DocsPageParagraph>
 
@@ -128,6 +128,48 @@
         <DatePickerInputFormatExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DatePickerInputFormatExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show week numbers">
+        <Paragraph>
+            Use the <Code>ShowWeekNumbers</Code> parameter to toggle the visibility of week numbers in the calendar view.
+        </Paragraph>
+        <Paragraph>
+            When enabled, a column will appear on the left side of each row in the calendar showing the corresponding week number.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerShowWeekNumbersExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerShowWeekNumbersExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show buttons">
+        <Paragraph>
+            Use the <Code>ShowTodayButton</Code>, or <Code>ShowClearButton</Code> parameters to toggle the visibility of the buttons in the calendar view.
+        </Paragraph>
+        <Paragraph>
+            When enabled, a row of buttons will appear at the bottom of the calendar allowing users to quickly navigate to today or clear the selected date.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerShowButtonsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerShowButtonsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Default time">
+        <Paragraph>
+            By default the time elements are set to <Strong>12:00</Strong>. To change it use the <Code>DefaultHour</Code> and <Code>DefaultMinute</Code> parameters.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerDefaultTimesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerDefaultTimesExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

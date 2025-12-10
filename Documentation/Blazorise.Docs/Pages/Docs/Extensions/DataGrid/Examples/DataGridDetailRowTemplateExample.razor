@@ -8,17 +8,17 @@
           Responsive>
     <DataGridColumns>
         <DataGridCommandColumn />
-        <DataGridColumn TItem=Employee >
+        <DataGridColumn TItem=Employee>
             <DisplayTemplate>
                 @if ( DisplayDetailRow( context ) )
                 {
                     <Button>
-                        <Icon Name="@(dataGridRef.GetRowInfo(context).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)"/>
+                        <Icon Name="@(dataGridRef.GetRowInfo( context ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)" />
                     </Button>
                 }
             </DisplayTemplate>
         </DataGridColumn>
-        <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" />
+        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" />
     </DataGridColumns>
     <DetailRowTemplate>
         @{
@@ -29,20 +29,20 @@
                       Sortable="false"
                       ShowCaptions="false">
                 <DataGridCommandColumn />
-                <DataGridDateColumn Field="@nameof(Salary.Date)" Caption="Date" />
-                <DataGridNumericColumn Field="@nameof(Salary.Total)" Caption="Total" />
+                <DataGridDateColumn Field="@nameof( Salary.Date )" Caption="Date" />
+                <DataGridNumericColumn Field="@nameof( Salary.Total )" Caption="Total" />
             </DataGrid>
         }
     </DetailRowTemplate>
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
     DataGrid<Employee> dataGridRef;
 
-    bool DisplayDetailRow(Employee employee) => employee.Salaries?.Count > 0;
+    bool DisplayDetailRow( Employee employee ) => employee.Salaries?.Count > 0;
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,12 +1,9 @@
-import "./vendors/quill.js?v=1.7.5.0";
-import "./vendors/quill-table-better.js?v=1.7.5.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.5.0";
+import "./vendors/quill.js?v=1.8.8.0";
+import "./vendors/quill-table-better.js?v=1.8.8.0";
+import "./vendors/quill-resize-module.js?v=1.8.8.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.8.0";
 
 var rteSheetsLoaded = false;
-
-Quill.register({
-    'modules/table-better': QuillTableBetter
-}, true);
 
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
@@ -32,13 +29,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         modules: {
             toolbar: toolbarRef,
             keyboard: undefined,
-            table: false,
-            'table-better': {
-                toolbarTable: true
-            },
-            keyboard: {
-                bindings: QuillTableBetter.keyboardBindings
-            }
+            table: false
         },
         bounds: element,
         placeholder: options.placeholder,
@@ -63,6 +54,45 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             }
         };
     }
+
+    if (options.useTables === true) {
+        Quill.register({ 'modules/table-better': QuillTableBetter }, true);
+
+        quillOptions.modules['table-better'] = {
+            toolbarTable: true
+        };
+
+        quillOptions.modules.keyboard = {
+            bindings: QuillTableBetter.keyboardBindings
+        };
+    }
+
+    if (options.useResize === true) {
+        Quill.register({ 'modules/resize': QuillResize }, true);
+
+        quillOptions.modules.resize = {
+            tools: [
+                "left",
+                "center",
+                "right",
+                "full",
+                "edit",
+                {
+                    text: "Alt",
+                    verify(activeEle) {
+                        return activeEle && activeEle.tagName === "IMG";
+                    },
+                    handler(evt, button, activeEle) {
+                        let alt = activeEle.alt || "";
+                        alt = window.prompt("Alt for image", alt);
+                        if (alt == null) return;
+                        activeEle.setAttribute("alt", alt);
+                    },
+                },
+            ],
+        };
+    }
+
     if (options.configureQuillJsMethod) {
         try {
             configure(options.configureQuillJsMethod, window, [quillOptions]);
@@ -70,8 +100,28 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             console.error(err);
         }
     }
+
     var contentUpdating = false;
+
     const quill = new Quill(editorRef, quillOptions);
+
+    const stopArrowKeyPropagation = (event) => {
+        const arrowKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
+        if (!arrowKeys.includes(event.key))
+            return;
+
+        if (!editorRef.contains(event.target))
+            return;
+
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+    };
+
+    editorRef._stopArrowKeyPropagation = stopArrowKeyPropagation;
+    document.addEventListener("keydown", stopArrowKeyPropagation, true);
+    document.addEventListener("keyup", stopArrowKeyPropagation, true);
+
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
             contentUpdating = true;
@@ -79,6 +129,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 .finally(_ => contentUpdating = false);
         }
     });
+
     quill.on("selection-change", function (range, oldRange, source) {
         if (range === null && oldRange !== null) {
             dotnetAdapter.invokeMethodAsync("OnEditorBlur");
@@ -119,10 +170,16 @@ export function destroy(editorRef, editorId) {
     if (!editorRef)
         return false;
 
+    if (editorRef._stopArrowKeyPropagation) {
+        document.removeEventListener("keydown", editorRef._stopArrowKeyPropagation, true);
+        document.removeEventListener("keyup", editorRef._stopArrowKeyPropagation, true);
+    }
+
     if (editorRef.quill.contentObserver)
         editorRef.quill.contentObserver.disconnect();
 
     delete editorRef.quill;
+    delete editorRef._stopArrowKeyPropagation;
     return true;
 }
 
@@ -136,10 +193,20 @@ export function setReadOnly(editorRef, readOnly) {
         editor.enable();
 }
 
-export function getHtml(editorRef) {
+
+export function getHtml(editorRef, htmlOptions) {
     const editor = editorRef.quill;
     if (!editor)
         return undefined;
+
+    if (htmlOptions && htmlOptions.isSemanticHtml) {
+        if (htmlOptions.length >= 0) {
+            return editor.getSemanticHTML(htmlOptions.index, htmlOptions.length);
+        }
+
+        return editor.getSemanticHTML(htmlOptions.index);
+    }
+
     return editor.root.innerHTML;
 }
 

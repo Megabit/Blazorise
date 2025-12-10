@@ -1,0 +1,32 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <FieldLabel>Search values (comma separated)</FieldLabel>
+    <FieldBody>
+        <TextInput @bind-Value="@searchValue" />
+    </FieldBody>
+</Field>
+
+<ListGroup>
+    @foreach ( var sentence in sentences )
+    {
+        <ListGroupItem @key="sentence">
+            <Highlighter Text="@sentence" HighlightedTexts="@highlightedWords" />
+        </ListGroupItem>
+    }
+</ListGroup>
+
+@code {
+    string searchValue = "the,item";
+
+    IEnumerable<string> sentences = new List<string>
+    {
+        "This is the first item",
+        "This is the second item",
+        "This is the third item"
+    };
+
+    string[] highlightedWords =>
+        ( searchValue ?? string.Empty )
+        .Split( ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToArray();
+}

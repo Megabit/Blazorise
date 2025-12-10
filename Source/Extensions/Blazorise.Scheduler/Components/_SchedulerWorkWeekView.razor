@@ -1,0 +1,20 @@
+﻿@using Blazorise.Scheduler.Extensions
+@typeparam TItem
+<Div Class="b-scheduler-workweek-view" Style="@GetViewStyle()" Flex="FlexDefault" Width="WidthIs100">
+    @{
+        var startOfWeek = SelectedDate.StartOfWeek( FirstDayOfWorkWeek );
+        var endOfWeek = startOfWeek.AddDays( 4 );
+
+        var items = Scheduler.GetItemsInView( startOfWeek.ToDateTime( TimeOnly.MinValue ), endOfWeek.ToDateTime( TimeOnly.MaxValue ) ).ToList();
+
+        var allDayItems = Scheduler.GetAllDayItemsInRange( startOfWeek.ToDateTime( TimeOnly.MinValue ), endOfWeek.ToDateTime( TimeOnly.MinValue ) ).ToList();
+        var maxStackedAllDayItems = Scheduler.GetMaxStackedAllDayItems( allDayItems, startOfWeek, endOfWeek );
+
+        <_SchedulerHourColumn TItem="TItem" StartTime="@StartTime" EndTime="@EndTime" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" MaxStackedAllDayItems="@maxStackedAllDayItems" />
+
+        @for ( var date = startOfWeek; date <= endOfWeek; date = date.AddDays( 1 ) )
+        {
+            <_SchedulerDayColumn @key="@date" TItem="TItem" FirstViewDate="@startOfWeek" LastViewDate="@endOfWeek" StartTime="@StartTime" EndTime="@EndTime" WorkDayStart="@WorkDayStart" WorkDayEnd="@WorkDayEnd" Date="@date" SelectedDate="@SelectedDate" SlotsPerCell="@SlotsPerCell" ShowDayHeader HeaderCellHeight="@HeaderCellHeight" ItemCellHeight="@ItemCellHeight" Items="@items" MaxStackedAllDayItems="@maxStackedAllDayItems" AllDayItems="@allDayItems" Section="SchedulerSection.WeekView" />
+        }
+    }
+</Div>

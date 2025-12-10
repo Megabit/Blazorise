@@ -9,13 +9,13 @@
           Responsive>
     <DataGridColumns>
         <DataGridCommandColumn />
-        <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
-        <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" Editable />
-        <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name" Editable />
-        <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
-        <DataGridColumn Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable>
+        <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
+        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
+        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
+        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable />
+        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" Editable>
             <EditTemplate>
-                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+                <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@(v => context.CellValue = v)" />
             </EditTemplate>
         </DataGridColumn>
     </DataGridColumns>
@@ -31,7 +31,7 @@
 
 <Button Background="Background.Primary" Color="Color.Light" Clicked="() => datagridRef.Reload()">Load</Button>
 
-@code{
+@code {
     protected DataGrid.DataGrid<Employee> datagridRef;
     protected Progress progressRef;
     protected int progress;

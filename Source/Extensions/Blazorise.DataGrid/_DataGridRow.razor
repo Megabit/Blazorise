@@ -37,7 +37,8 @@
                   Style="@GetStyle(styling, selectedStyling, rowBatchEditStyling)"
                   HoverCursor="@GetHoverCursor()"
                   @onkeydown="@(ParentDataGrid.IsRowNavigable ? HandleKeyDown : null)"
-                  tabindex="@(ParentDataGrid.IsRowNavigable || ParentDataGrid.IsCellEdit ? 0 : null)">
+                  tabindex="@(ParentDataGrid.IsRowNavigable || ParentDataGrid.IsCellEdit ? 0 : null)"
+                  data-row-index="@ParentDataGrid.ResolveItemIndex( Item )">
 
             @ParentDataGrid.groupIndentationFragment
 
@@ -87,7 +88,7 @@
                                   tabindex="@(ParentDataGrid.IsCellNavigable ? 0 : null)"
                                   ClickStopPropagation=@column.PreventRowClick
                                   TextAlignment="@column.TextAlignment" TextTransform="@column.TextTransform" TextDecoration="@column.TextDecoration" TextWeight="@column.TextWeight" TextOverflow="@column.TextOverflow" TextSize="@column.TextSize"
-                                  VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"
+                                  VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.Width"
                                   Style="@GetCellStyle(column, styling, selectedStyling, cellBatchEditStyling)" Class="@GetCellClass(column, styling, selectedStyling, cellBatchEditStyling)"
                                   Background="@GetCellBackground(styling, selectedStyling, cellBatchEditStyling)" Color="@GetCellColor(styling, selectedStyling, cellBatchEditStyling)" TextColor="@GetCellTextColor(styling, selectedStyling, cellBatchEditStyling)"
                                   MobileModeCaption="@column.Caption">

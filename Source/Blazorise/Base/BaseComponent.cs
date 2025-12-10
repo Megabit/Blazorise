@@ -141,7 +141,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             if ( LicenseChecker.ShouldPrint() )
             {
-                await JSUtilitiesModule.Log( $"%c{LicenseChecker.GetPrintMessage()}", "color: #3B82F6; padding: 0;" );
+                await JSUtilitiesModule.Log( LicenseChecker.ShowBanner(), $"%c{LicenseChecker.GetPrintMessage()}", "color: #3B82F6; padding: 0;" );
             }
         }
 
@@ -325,7 +325,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// </summary>
     /// <remarks>
     /// Note that this ID is not defined for the component but instead for the underlined element that it represents.
-    /// eg: for the TextEdit the ID will be set on the input element.
+    /// eg: for the TextInput the ID will be set on the input element.
     /// </remarks>
     [Parameter] public string ElementId { get; set; }
 

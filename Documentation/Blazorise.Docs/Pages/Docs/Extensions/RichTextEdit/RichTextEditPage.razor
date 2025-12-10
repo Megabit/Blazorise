@@ -71,7 +71,7 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="UseShowTheme" Type="bool" Default="true">
+    <DocsAttributesItem Name="UseSnowTheme" Type="bool" Default="true">
         Load the QuillJS snow theme related resources.
     </DocsAttributesItem>
     <DocsAttributesItem Name="UseBubbleTheme" Type="bool" Default="false">
@@ -124,6 +124,25 @@
         <RichTextEditTableExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="RichTextEditTableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Resize">
+        <Paragraph>
+            To enable resize support within the RichTextEdit component, you need to configure it in your <Strong>Startup.cs</Strong> file as follows:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RichTextEditResizeStartupExample" />
+
+    <DocsPageSectionHeader>
+        <Paragraph>
+            Once module is configured, you can use the <Code>UseResize</Code> parameter to enable or disable the resize functionality.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RichTextEditResizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RichTextEditResizeExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

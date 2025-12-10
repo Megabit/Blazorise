@@ -1,0 +1,92 @@
+﻿@typeparam TItem
+<Div Style="@GetAllDayHeaderStyle()" Position="PositionRelative" Flex="FlexColumnAlignItemsStretch" Width="WidthIs100" Border="@BorderColor" @onclick="@OnSlotClicked" ondragover="event.preventDefault();" @ondragenter="@OnSlotDragEnter" @ondragleave="@OnSlotDragLeave" @ondrop="@OnSlotDrop">
+    @{
+        var itemInfos = Scheduler.GetAllDayItemOnDate( AllDayItems, Date.ToDateTime( TimeOnly.MinValue ) ).ToList();
+
+        @if ( itemInfos?.Any() == true )
+        {
+            var height = HeaderCellHeight / 2;
+
+            @foreach ( var itemInfo in itemInfos )
+            {
+                var totalDays = ( itemInfo.ViewEnd - itemInfo.ViewStart ).Days + 1;
+
+                var numberOfPreviousItems = Scheduler.CountOverlappingItemsBefore( AllDayItems, itemInfo );
+                var top = height * numberOfPreviousItems;
+
+                <Div @key="@itemInfo.Key" Flex="FlexDefault" Style="@GetAllDayHeaderInnerStyle( totalDays, top, height )" @onclick:stopPropagation>
+                    <_SchedulerDayAllDayItem TItem="TItem" Item="@itemInfo.Item" OverflowingFromStart="@itemInfo.OverflowingFromStart" OverflowingOnEnd="@itemInfo.OverflowingOnEnd" IsRecurring="@itemInfo.IsRecurring" Clicked="@OnItemClicked" Section="@Section" />
+                </Div>
+            }
+        }
+    }
+</Div>
+@code {
+    private bool draggingOver;
+
+    protected Task OnSlotClicked()
+    {
+        return Scheduler.NotifyAllDaySlotClicked( Date );
+    }
+
+    protected async Task OnItemClicked( TItem item )
+    {
+        if ( item is not null )
+        {
+            await Scheduler.NotifyEditItemClicked( item );
+        }
+    }
+
+    protected Task OnSlotDragEnter( DragEventArgs e )
+    {
+        draggingOver = true;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnSlotDragLeave( DragEventArgs e )
+    {
+        draggingOver = false;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnSlotDrop( DragEventArgs e )
+    {
+        draggingOver = false;
+
+        return Scheduler.DropAllDayItem( Date, Section );
+    }
+
+    string GetAllDayHeaderStyle()
+    {
+        return $"min-height: {( HeaderCellHeight / 2 ) * MaxStackedAllDayItems}px;";
+    }
+
+    string GetAllDayHeaderInnerStyle( int totalDays, double top, double height )
+    {
+        return $"position: absolute; left: 0; top: {top}px; width: {totalDays * 100}%; height: {height}px; z-index: 1; cursor: pointer;";
+    }
+
+    private bool IsDraggingOver => draggingOver && Section == Scheduler.CurrentDragSection;
+
+    private IFluentBorder BorderColor => IsDraggingOver ? BorderIs1Dark : BorderIs1OnBottomIs1OnStart;
+
+    [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
+
+    [Parameter] public DateOnly FirstViewDate { get; set; }
+
+    [Parameter] public DateOnly LastViewDate { get; set; }
+
+    [Parameter] public DateOnly Date { get; set; }
+
+    [Parameter] public DateOnly SelectedDate { get; set; }
+
+    [Parameter] public double HeaderCellHeight { get; set; }
+
+    [Parameter] public int MaxStackedAllDayItems { get; set; }
+
+    [Parameter] public IEnumerable<SchedulerAllDayItemInfo<TItem>> AllDayItems { get; set; }
+
+    [Parameter] public SchedulerSection Section { get; set; }
+}

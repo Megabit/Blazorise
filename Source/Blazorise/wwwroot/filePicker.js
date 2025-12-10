@@ -1,5 +1,5 @@
-import { getRequiredElement } from "./utilities.js?v=1.7.5.0";
-import { getFilesAsync } from "./fileEdit.js?v=1.7.5.0";
+import { getRequiredElement } from "./utilities.js?v=1.8.8.0";
+import { getFilesAsync } from "./fileEdit.js?v=1.8.8.0";
 
 const _instances = [];
 export function initialize(element, elementId) {
@@ -31,8 +31,8 @@ function initializeDropZone(element) {
 function onDragHover(e, element) {
     if (element.fileInput.disabled) {
         e.dataTransfer.dropEffect = "none";
-        if (element.fileInput == e.target){
-            //Fallback to FileEdit behavior
+        if (element.fileInput == e.target) {
+            //Fallback to FileInput behavior
             return;
         }
 

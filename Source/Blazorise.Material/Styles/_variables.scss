@@ -1,4 +1,8 @@
-﻿$white: #fff !default;
+﻿:root {
+    --b-bar-horizontal-height: 60px;
+}
+
+$white: #fff !default;
 $black: #000 !default;
 
 $text-light: #fff !default;
@@ -12,17 +16,37 @@ $yiq-contrasted-threshold: 150 !default;
 
 $figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
 
-$primary: #9c27b0 !default;
-$secondary: #ff4081 !default;
-$success: #4caf50 !default;
-$info: #2196f3 !default;
+$primary: #6200ee !default;
+$secondary: #03dac6 !default;
+$success: #61d800 !default;
+$info: #714cfe !default;
 $warning: #ff9800 !default;
-$danger: #f44336 !default;
+$danger: #b00020 !default;
 $light: #f5f5f5 !default;
 $dark: #424242 !default;
 $link: #3273dc !default;
 
 $theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
+
+$text-emphasis-shade-weight: 22% !default; // deeper tone for emphasis text
+$bg-subtle-tint-weight: 80% !default; // lighter tint for subtle backgrounds
+$border-subtle-tint-weight: 60% !default; // border subtle is stronger than bg
+
+// Text colors
+
+$theme-colors-text-emphasis: () !default;
+$theme-colors-text-emphasis: map-merge(( "primary": shade-color(map-get($theme-colors, "primary"), $text-emphasis-shade-weight), "secondary": shade-color(map-get($theme-colors, "secondary"), $text-emphasis-shade-weight), "success": shade-color(map-get($theme-colors, "success"), $text-emphasis-shade-weight), "info": shade-color(map-get($theme-colors, "info"), $text-emphasis-shade-weight), "warning": shade-color(map-get($theme-colors, "warning"), $text-emphasis-shade-weight), "danger": shade-color(map-get($theme-colors, "danger"), $text-emphasis-shade-weight), "light": $material-color-grey-700, "dark": $material-color-grey-700, "link": shade-color(map-get($theme-colors, "link"), $text-emphasis-shade-weight) ), $theme-colors-text-emphasis);
+
+// Background color variants
+
+$theme-colors-bg-subtle: () !default;
+$theme-colors-bg-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $bg-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $bg-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $bg-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $bg-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $bg-subtle-tint-weight), "danger": tint-color(map-get($theme-colors, "danger"), $bg-subtle-tint-weight), "light": mix($material-color-grey-100, $white, 50%), "dark": $material-color-grey-400, "link": tint-color(map-get($theme-colors, "link"), $bg-subtle-tint-weight) ), $theme-colors-bg-subtle);
+
+// Border color variants
+
+$theme-colors-border-subtle: () !default;
+$theme-colors-border-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $border-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $border-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $border-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $border-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $border-subtle-tint-weight), "danger": tint-color(map-get($theme-colors, "danger"), $border-subtle-tint-weight), "light": $material-color-grey-200, "dark": $material-color-grey-500, "link": tint-color(map-get($theme-colors, "link"), $border-subtle-tint-weight) ), $theme-colors-border-subtle);
+
 
 // Elevation
 //
@@ -84,6 +108,8 @@ $spacer-xl: ($spacer * 3) !default;
 $spacers: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $spacers: map-merge( ( 0: 0, 1: $spacer-xs, 2: $spacer-sm, 3: $spacer, 4: $spacer-lg, 5: $spacer-xl ), $spacers );
+
+$gutters: $spacers !default;
 
 // Transition
 //

@@ -1,0 +1,97 @@
+<Solution>
+  <Folder Name="/Demos/">
+    <Project Path="Demos/Blazorise.Demo.AntDesign/Blazorise.Demo.AntDesign.csproj" />
+    <Project Path="Demos/Blazorise.Demo.Bootstrap.Server/Blazorise.Demo.Bootstrap.Server.csproj" />
+    <Project Path="Demos/Blazorise.Demo.Bootstrap/Blazorise.Demo.Bootstrap.csproj" />
+    <Project Path="Demos/Blazorise.Demo.Bootstrap5/Blazorise.Demo.Bootstrap5.csproj" />
+    <Project Path="Demos/Blazorise.Demo.Bulma/Blazorise.Demo.Bulma.csproj" />
+    <Project Path="Demos/Blazorise.Demo.FluentUI2/Blazorise.Demo.FluentUI2.csproj" />
+    <Project Path="Demos/Blazorise.Demo.Material/Blazorise.Demo.Material.csproj" />
+    <Project Path="Demos/Blazorise.Demo.MAUI/Blazorise.Demo.MAUI.csproj">
+      <Build Project="false" />
+      <Deploy />
+    </Project>
+    <Project Path="Demos/Blazorise.Demo.Tailwind/Blazorise.Demo.Tailwind.csproj" />
+    <Project Path="Demos/Blazorise.Demo/Blazorise.Demo.csproj" />
+  </Folder>
+  <Folder Name="/Demos/Apps/">
+    <Project Path="Demos/Apps/TodoApp/TodoApp.csproj" />
+  </Folder>
+  <Folder Name="/Documentation/">
+    <Project Path="Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" />
+    <Project Path="Documentation/Blazorise.Docs.Generator/Blazorise.Docs.Generator.csproj" />
+    <Project Path="Documentation/Blazorise.Docs.Server/Blazorise.Docs.Server.csproj" />
+    <Project Path="Documentation/Blazorise.Docs/Blazorise.Docs.csproj" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="Shared/Blazorise.Shared/Blazorise.Shared.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".runsettings" />
+    <File Path="CREDITS.md" />
+    <File Path="Directory.Packages.props" />
+    <File Path="DotnetWatchRunAll.bat" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Source/">
+    <Project Path="Source/Blazorise.AntDesign/Blazorise.AntDesign.csproj" />
+    <Project Path="Source/Blazorise.Bootstrap/Blazorise.Bootstrap.csproj" />
+    <Project Path="Source/Blazorise.Bootstrap5/Blazorise.Bootstrap5.csproj" />
+    <Project Path="Source/Blazorise.Bulma/Blazorise.Bulma.csproj" />
+    <Project Path="Source/Blazorise.FluentUI2/Blazorise.FluentUI2.csproj" />
+    <Project Path="Source/Blazorise.Material/Blazorise.Material.csproj" />
+    <Project Path="Source/Blazorise.Tailwind/Blazorise.Tailwind.csproj" />
+    <Project Path="Source/Blazorise/Blazorise.csproj" />
+  </Folder>
+  <Folder Name="/Source/Extensions/">
+    <Project Path="Source/Extensions/Blazorise.Animate/Blazorise.Animate.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Captcha.ReCaptcha/Blazorise.Captcha.ReCaptcha.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Captcha/Blazorise.Captcha.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Charts.Annotation/Blazorise.Charts.Annotation.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Charts.DataLabels/Blazorise.Charts.DataLabels.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Charts.Streaming/Blazorise.Charts.Streaming.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Charts.Trendline/Blazorise.Charts.Trendline.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Charts.Zoom/Blazorise.Charts.Zoom.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Components/Blazorise.Components.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Cropper/Blazorise.Cropper.csproj" />
+    <Project Path="Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj" />
+    <Project Path="Source/Extensions/Blazorise.FluentValidation/Blazorise.FluentValidation.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Icons.Bootstrap/Blazorise.Icons.Bootstrap.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Icons.FluentUI/Blazorise.Icons.FluentUI.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj" />
+    <Project Path="Source/Extensions/Blazorise.LoadingIndicator/Blazorise.LoadingIndicator.csproj" />
+    <Project Path="Source/Extensions/Blazorise.LottieAnimation/Blazorise.LottieAnimation.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Markdown/Blazorise.Markdown.csproj" />
+    <Project Path="Source/Extensions/Blazorise.PdfViewer/Blazorise.PdfViewer.csproj" />
+    <Project Path="Source/Extensions/Blazorise.QRCode/Blazorise.QRCode.csproj" />
+    <Project Path="Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Scheduler/Blazorise.Scheduler.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj" />
+    <Project Path="Source/Extensions/Blazorise.SignaturePad/Blazorise.SignaturePad.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj" />
+    <Project Path="Source/Extensions/Blazorise.SpinKit/Blazorise.SpinKit.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Splitter/Blazorise.Splitter.csproj" />
+    <Project Path="Source/Extensions/Blazorise.TreeView/Blazorise.TreeView.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Video/Blazorise.Video.csproj" />
+  </Folder>
+  <Folder Name="/Source/Helpers/">
+    <Project Path="Source/Helpers/Blazorise.Tests.bUnit/Blazorise.Tests.bUnit.csproj" />
+  </Folder>
+  <Folder Name="/SourceGenerators/">
+    <File Path="Source/SourceGenerators/README.md" />
+    <Project Path="Source/SourceGenerators/Blazorise.Generator.Features/Blazorise.Generator.Features.csproj" />
+    <Project Path="Source/SourceGenerators/Blazorise.Generator/Blazorise.Generator.csproj" />
+    <Project Path="Source/SourceGenerators/Blazorise.Weavers.Fody/Blazorise.Weavers.Fody.csproj" />
+    <Project Path="Source/SourceGenerators/Blazorise.Weavers/Blazorise.Weavers.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/BasicTestApp.Client/BasicTestApp.Client.csproj" />
+    <Project Path="Tests/BasicTestApp.Server/BasicTestApp.Server.csproj" />
+    <Project Path="Tests/Blazorise.Benchmark/Blazorise.Benchmark.csproj" />
+    <Project Path="Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj" />
+    <Project Path="Tests/Blazorise.Tests/Blazorise.Tests.csproj" />
+  </Folder>
+</Solution>

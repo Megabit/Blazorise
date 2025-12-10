@@ -24,7 +24,12 @@
                         Professional
                     </Div>
                     <Div Padding="Padding.Is2.OnY">
-                        <Span>@($"${( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                        <Span>
+                            @($"{ProfessionalPrices[Plan].CurrencySymbol}{( ProfessionalPrices[Plan].Price * Quantity ):n0}")
+                        </Span>
+                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
+                            /@ProfessionalPrices[Plan].Unit per developer
+                        </Small>
                     </Div>
                 </Div>
             </TableHeaderCell>
@@ -34,7 +39,12 @@
                         Enterprise
                     </Div>
                     <Div Padding="Padding.Is2.OnY">
-                        <Span>@($"${( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                        <Span>
+                            @($"{EnterprisePrices[Plan].CurrencySymbol}{( EnterprisePrices[Plan].Price * Quantity ):n0}")
+                        </Span>
+                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
+                            /@EnterprisePrices[Plan].Unit per developer
+                        </Small>
                     </Div>
                 </Div>
             </TableHeaderCell>
@@ -61,12 +71,12 @@
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Private
-                <Tooltip Multiline Text="You get access to all Blazorise private repositories that can include source-code of themes, templates, blocks, support forum, and other projects.">
+                <Tooltip Multiline Text="Access to Blazorise private repositories (themes, templates, blocks, premium support forum, and other projects).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
             <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
@@ -105,9 +115,9 @@
         </TableRow>
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
-                <Blazorise.Link To="themes" TextColor="TextColor.Primary">
+                <Anchor To="themes" TextColor="TextColor.Primary">
                     Blazorise Themes
-                </Blazorise.Link>
+                </Anchor>
                 <Tooltip Multiline Text="Access to source code of premium themes and code samples.">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
@@ -136,7 +146,7 @@
                 <Anchor To="support" TextColor="TextColor.Primary">
                     1 year premium forum support
                 </Anchor>
-                <Tooltip Multiline Text="You can get the premium support for one year (you can renew your licence to extend it).">
+                <Tooltip Multiline Text="You get premium support for one year (renew your license to extend).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
@@ -144,17 +154,17 @@
                 <Icon Name="IconName.Times" TextColor="TextColor.Light" />
             </TableRowCell>
             <TableRowCell>
-                <Tooltip Text="With 24 hour response time">
+                <Tooltip Text="24-hour response time">
                     <Icon Name="IconName.Clock" TextColor="TextColor.Success" />
                 </Tooltip>
             </TableRowCell>
             <TableRowCell>
-                <Tooltip Text="With 16 hour response time">
+                <Tooltip Text="16-hour response time">
                     <Icon Name="IconName.Clock" TextColor="TextColor.Success" />
                 </Tooltip>
             </TableRowCell>
             <TableRowCell>
-                <Tooltip Text="With 16 hour response time, or a direct call to our developers.">
+                <Tooltip Text="16-hour response time, or a direct call with our developers.">
                     <Icon Name="IconName.Headset" TextColor="TextColor.Success" />
                 </Tooltip>
             </TableRowCell>
@@ -162,7 +172,7 @@
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Forum support incident count/year
-                <Tooltip Multiline Text="Professional and Enterprise licenses have incident/question count limit. If you buy additional developer licenses, your incident limit increases by 10 (for the Professional License) or 25 (for the Enterprise License).">
+                <Tooltip Multiline Text="Professional and Enterprise include incident limits. Each additional developer license adds 10 incidents (Professional) or 25 incidents (Enterprise).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
@@ -174,7 +184,7 @@
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Guaranteed response time
-                <Tooltip Multiline Text="Professional and Enterprise licenses have a guaranteed response time on weekdays, Monday through Friday.">
+                <Tooltip Multiline Text="Guaranteed response times apply on weekdays (Monday–Friday).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
@@ -186,7 +196,7 @@
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Bug-fix prioritization
-                <Tooltip Multiline Text="Enterprise licences includes private support (e-mail and ticket support).">
+                <Tooltip Multiline Text="Enterprise licenses include private support (email and ticket support).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
@@ -198,7 +208,7 @@
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Priority scheduling for new features
-                <Tooltip Multiline Text="Enterprise licences includes private support (e-mail and ticket support).">
+                <Tooltip Multiline Text="Enterprise licenses include private support (email and ticket support).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
@@ -222,7 +232,7 @@
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Escrow
-                <Tooltip Multiline Text="Escrow options are hold by a third-party until the agreed services are completed.">
+                <Tooltip Multiline Text="Escrow options are held by a third party until the agreed services are completed.">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
@@ -280,11 +290,6 @@
             <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
         </TableRow>
-
-
-
-
-
         <TableRow Background="Background.Light">
             <TableRowHeader ColumnSpan="5" TextAlignment="TextAlignment.Start">
                 Extensions Record Limit
@@ -339,7 +344,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 TransferList
             </TableRowHeader>
-            <TableRowCell>10000 items</TableRowCell>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_TRANSFERVIEW_MAX_ROWS items</TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>

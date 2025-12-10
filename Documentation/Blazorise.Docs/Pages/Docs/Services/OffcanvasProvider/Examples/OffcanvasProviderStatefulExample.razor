@@ -1,0 +1,17 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="ShowStateful">Show Stateful</Button>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    public Task ShowStateful()
+    {
+        return OffcanvasService.Show<CounterExample>( "My Stateful content", new OffcanvasInstanceOptions()
+        {
+            Stateful = true,
+            ElementId = "StatefulOffcanvas",
+            Placement = Placement.Start
+        } );
+    }
+}

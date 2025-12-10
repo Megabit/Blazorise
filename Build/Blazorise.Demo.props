@@ -1,7 +1,7 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<LangVersion>11.0</LangVersion>
@@ -9,18 +9,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.38.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.*" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
-		<PackageReference Include="FluentValidation" Version="11.10.0" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
-		<PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
-		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+		<PackageReference Include="Markdig" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" />
+		<PackageReference Include="Microsoft.Extensions.Http" />
+		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+		<PackageReference Include="Flurl.Http" />
+		<PackageReference Include="Blazored.LocalStorage" />
+		<PackageReference Include="Bogus" />
 	</ItemGroup>
 	
 </Project>

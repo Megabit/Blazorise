@@ -8,7 +8,13 @@ namespace Blazorise.DataGrid;
 
 public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
 {
-    public override DataGridColumnType ColumnType => DataGridColumnType.Date;
+    /// <inheritdoc/>
+    internal override DataGridColumnFilterMethod GetDefaultFilterMethod()
+        => DataGridColumnFilterMethod.Equals;
+
+    /// <inheritdoc/>
+    public override DataGridColumnType ColumnType
+        => DataGridColumnType.Date;
 
     /// <summary>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.
@@ -66,7 +72,7 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public bool StaticPicker { get; set; }
 
     /// <summary>
-    /// Renders the native based input <see cref="Blazorise.DateEdit{TValue}"/> instead of the <see cref="Blazorise.DatePicker{TValue}"/>.
+    /// Renders the native based input <see cref="Blazorise.DateInput{TValue}"/> instead of the <see cref="Blazorise.DatePicker{TValue}"/>.
     /// </summary>
     [Parameter] public bool NativeInputMode { get; set; }
 }

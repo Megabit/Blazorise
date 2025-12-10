@@ -1,0 +1,19 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Warning" Clicked="@ShowWarningNotification">Show alert!</Button>
+
+@code {
+    [Inject] INotificationService NotificationService { get; set; }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning( "Are you sure you want to remove the selected item!", "Removal", options =>
+        {
+            options.IntervalBeforeClose = 500;
+            options.Multiline = true;
+            options.ShowOkButton = true;
+            options.OkButtonIcon = IconName.Delete;
+            options.OkButtonText = "Remove";
+        } );
+    }
+}

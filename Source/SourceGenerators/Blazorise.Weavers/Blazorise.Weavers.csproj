@@ -2,17 +2,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6;</TargetFrameworks>
+    <TargetFrameworks>net8;</TargetFrameworks>
     <BuildBlazoriseWeaverDll>true</BuildBlazoriseWeaverDll>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fody" Version="6.9.1" PrivateAssets="none" />
-    <PackageReference Include="FodyPackaging" Version="6.9.1" PrivateAssets="All" />
+    <PackageReference Include="Fody" PrivateAssets="none" />
+    <PackageReference Include="FodyPackaging" PrivateAssets="All" />
   </ItemGroup>
 
-  <Target Name="EnsureBlazoriseWeaverBuilt" BeforeTargets="PrepareForBuild"
-          Condition="'$(BuildBlazoriseWeaverDll)' == 'true'">
+  <Target Name="EnsureBlazoriseWeaverBuilt" BeforeTargets="PrepareForBuild" Condition="'$(BuildBlazoriseWeaverDll)' == 'true'">
     <!-- The condition can be removed if you want to rebuild the DLL every time. -->
 
     <!-- This builds the Blazorise Weaver DLL, which is required for Blazorise or any other project using the weaver. -->
@@ -20,8 +19,7 @@
     <!-- We cannot use: -->
     <!-- <ProjectReference Include="..\Blazorise.Weavers.Fody\Blazorise.Weavers.Fody.csproj" /> -->
     <!-- because it would create package conflicts, as the generated NuGet package is also named Blazorise.Weavers.Fody. -->
-    <Exec Command="dotnet build ../Blazorise.Weavers.Fody --configuration $(Configuration)"
-          StandardOutputImportance="Normal" />
+    <Exec Command="dotnet build ../Blazorise.Weavers.Fody --configuration $(Configuration)" StandardOutputImportance="Normal" />
     <Message Text="Blazorise Weaver built successfully." Importance="High" />
   </Target>
 

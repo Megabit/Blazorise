@@ -20,3 +20,13 @@
         background-color: rgba(10, 10, 10, 0.4);
     }
 }
+
+.badge, .badge-close {
+    @each $color-name, $color-value in $theme-colors-text-emphasis {
+        &.badge-#{$color-name}-subtle {
+            color: #{$color-value};
+            background-color: #{map-get($theme-colors-bg-subtle, $color-name)};
+            border-color: #{map-get($theme-colors-border-subtle, $color-name)};
+        }
+    }
+}

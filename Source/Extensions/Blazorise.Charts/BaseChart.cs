@@ -11,6 +11,13 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// A generic class for creating and managing charts with various datasets, items, options, and models.
+/// </summary>
+/// <typeparam name="TDataSet">Represents the type of dataset used in the chart, which contains data points for visualization.</typeparam>
+/// <typeparam name="TItem">Specifies the type of individual data points within the dataset for the chart.</typeparam>
+/// <typeparam name="TOptions">Defines the configuration options for customizing the chart's appearance and behavior.</typeparam>
+/// <typeparam name="TModel">Indicates the type of model used for representing the chart's data structure.</typeparam>
 public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IBaseChart
     where TDataSet : ChartDataset<TItem>
     where TOptions : ChartOptions
@@ -26,6 +33,7 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender && !initialized )
@@ -34,7 +42,7 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
 
             initialized = true;
 
-            NotifyInitialized();
+            await NotifyInitialized();
         }
 
         // Update the charts if the data has changed
@@ -402,6 +410,9 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
 
     #region Properties
 
+    /// <summary>
+    /// Provides access to a list of labels, initializing the Data object and its Labels property if they are null. Ensures that Labels is always a valid list.
+    /// </summary>
     protected List<object> Labels
     {
         get
@@ -415,6 +426,9 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
         }
     }
 
+    /// <summary>
+    /// Provides access to a list of chart datasets, initializing the Data and Datasets properties if they are null. Ensures that Datasets is always returned as a non-null list.
+    /// </summary>
     protected List<ChartDataset<TItem>> Datasets
     {
         get

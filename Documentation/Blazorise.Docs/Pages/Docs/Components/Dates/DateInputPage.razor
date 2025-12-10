@@ -1,0 +1,83 @@
+﻿@page "/docs/components/date-edit"
+@page "/docs/components/date-input"
+
+<Seo Canonical="/docs/components/date-input" Title="Blazorise DateInput component" Description="Learn to use and work with the Blazorise DateInput component, which is a native date selection component that lets users select a date." />
+
+<DocsPageTitle Path="Components/DateInput">
+    Blazorise DateInput component
+</DocsPageTitle>
+
+<DocsPageLead>
+    DateInput is an input field that allows the user to enter a date by typing or by selecting from a calendar overlay.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    A native date <Code Tag>input</Code> component built around the <Code Tag>input type="date"</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Being built around native <Code Tag>input type="date"</Code> input element, the <Code>DateInput</Code> component
+    comes with a few limitations that you must be aware of. First and foremost, the input display format is fully
+    controlled by the browser and the system locale. This means that for you to change the input format you would
+    need to change the browser settings.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DateInputBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DateInputBasicExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Binding
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+        By using <Code>bind-*</Code> attribute the selected date will be automatically assigned to the member variable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DateInputWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DateInputWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual event binding">
+        When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DateInputWithEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DateInputWithEventExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DateTime">
+        DateInput component also support entering a time part. To enable it just set <Code>InputMode</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DateInputDateTimeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DateInputDateTimeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show Picker">
+        <Paragraph>
+            If you want to show the <Anchor To="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/showPicker">default picker</Anchor> that comes with the date input element you can make it by using the <Code>ShowPicker()</Code> function.
+        </Paragraph>
+        <Paragraph>
+            <Strong TextColor="TextColor.Info">Note:</Strong> Keep in mind that not all browser will support the <Code>ShowPicker()</Code> function.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DateInputShowPickerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DateInputShowPickerExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(DateInput<>)]" />

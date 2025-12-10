@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseTextInput<string>
+@inherits BaseBufferedTextInput<string>
 @if ( IsImmediate && IsDebounce )
 {
     <input @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />

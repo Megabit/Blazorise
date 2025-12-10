@@ -244,8 +244,7 @@ public class AutocompleteBaseComponentTest : TestContext
             parameters.TryAdd( "MinLength", 0 ) );
 
         // test
-        var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        await autoComplete.InputAsync( "" );
+        var autoComplete = comp.WaitForElement( ".b-is-autocomplete input", TestExtensions.WaitTime );
         await autoComplete.FocusAsync( new() );
 
         comp.WaitForAssertion( () => Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) ), TestExtensions.WaitTime );
@@ -258,8 +257,7 @@ public class AutocompleteBaseComponentTest : TestContext
             parameters.TryAdd( "MinLength", 1 ) );
 
         // test
-        var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        await autoComplete.InputAsync( "" );
+        var autoComplete = comp.WaitForElement( ".b-is-autocomplete input", TestExtensions.WaitTime );
         await autoComplete.FocusAsync( new() );
 
         var options = comp.FindAll( ".b-is-autocomplete-suggestion" );

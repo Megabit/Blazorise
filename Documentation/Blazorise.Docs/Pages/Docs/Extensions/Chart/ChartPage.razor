@@ -52,13 +52,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static Files">
-        Add <Code>ChartsJS</Code> and <Code>charts.js</Code> to your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ChartResourcesExample" />
-</DocsPageSection>
-
-<DocsPageSection>
     <DocsPageSectionHeader Title="Example">
         You should always define <Code>TItem</Code> data type.
     </DocsPageSectionHeader>
@@ -176,6 +169,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Y" Type="ChartAxis" Default="null">
         Configuration for the y-axis.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AdditionalAxes" Type="Dictionary<string, ChartAxis>" Default="null">
+        Configuration for custom named axes.
     </DocsAttributesItem>
 </DocsAttributes>
 

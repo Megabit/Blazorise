@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -169,6 +170,43 @@ public partial class Validations : ComponentBase
         _StatusChanged?.Invoke( eventArgs );
 
         InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
+    }
+
+    /// <summary>
+    /// Retriggers validations that match the given <see cref="FieldIdentifier"/> instances.
+    /// </summary>
+    /// <param name="fieldIdentifiers">Field identifiers for which validations should be retriggered.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task RetriggerValidation( params FieldIdentifier[] fieldIdentifiers )
+    {
+        if ( fieldIdentifiers is null || fieldIdentifiers.Length == 0 )
+            return Task.CompletedTask;
+
+        var matchingValidations = validations?
+            .Where( v => v.FieldIdentifier.Model is not null )
+            .Where( v => fieldIdentifiers.Any( f => f.FieldName == v.FieldIdentifier.FieldName && f.Model == v.FieldIdentifier.Model ) )
+            .ToList();
+
+        return matchingValidations?.Count > 0
+            ? Task.WhenAll( matchingValidations.Select( v => v.RetriggerValidation() ) )
+            : Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Retriggers validations for the specified model fields.
+    /// </summary>
+    /// <param name="expressions">Expressions representing the fields to revalidate.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task RetriggerValidation( params Expression<Func<object>>[] expressions )
+    {
+        if ( expressions is null || expressions.Length == 0 )
+            return Task.CompletedTask;
+
+        var fieldIdentifiers = expressions
+            .Select( FieldIdentifier.Create )
+            .ToArray();
+
+        return RetriggerValidation( fieldIdentifiers );
     }
 
     #endregion

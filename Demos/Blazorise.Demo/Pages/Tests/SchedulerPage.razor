@@ -1,0 +1,140 @@
+﻿@page "/tests/scheduler"
+@using Bogus
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Scheduler</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Scheduler TItem="SchedulerAppointment" @bind-Date="@selectedDate"
+                           Data="@Appointments"
+                           @bind-SelectedView="@selectedView"
+                           Editable
+                           Draggable
+                           ItemStyling="@OnItemStyling"
+                           SlotSelectionMode="SchedulerSlotSelectionMode.Mouse">
+                    <SchedulerToolbar />
+                    <SchedulerViews>
+                        <SchedulerDayView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
+                        <SchedulerWeekView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
+                        <SchedulerWorkWeekView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
+                        <SchedulerMonthView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
+                    </SchedulerViews>
+                </Scheduler>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected date: @selectedDate
+    </Column>
+</Row>
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+
+    private static DateTime start = DateTime.Today.AddHours( 10 );
+
+    private Faker<SchedulerAppointment> appointmentFaker = new Faker<SchedulerAppointment>()
+        .RuleFor( a => a.Title, f => f.Lorem.Sentence( 3 ) )
+        .RuleFor( a => a.Description, f => f.Lorem.Paragraph() );
+
+    private Task OnSlotClicked( SchedulerSlotClickedEventArgs eventArgs )
+    {
+        var start = eventArgs.Start;
+        var end = eventArgs.End;
+
+        var fakeAppointment = appointmentFaker.Generate();
+        fakeAppointment.Start = start;
+        fakeAppointment.End = end;
+
+        Appointments.Add( fakeAppointment );
+
+        return Task.CompletedTask;
+    }
+
+    private async Task<bool> IsDropAllowed( SchedulerDragEventArgs<SchedulerAppointment> eventArgs )
+    {
+        await MessageService.Warning( "You cannot drop this appointment here", "Drop not allowed" );
+
+        return false;
+    }
+
+    private void OnItemStyling( SchedulerAppointment appointment, SchedulerItemStyling itemStyling )
+    {
+        if ( appointment.Title.Contains( "ceo", StringComparison.OrdinalIgnoreCase ) )
+            itemStyling.Background = Background.Danger;
+        else if ( appointment.Title.Contains( "client", StringComparison.OrdinalIgnoreCase ) )
+            itemStyling.Background = Background.Success;
+        else if ( appointment.Title.Contains( "lunch", StringComparison.OrdinalIgnoreCase ) )
+            itemStyling.Background = Background.Info;
+    }
+
+    public class SchedulerAppointment
+    {
+        public SchedulerAppointment()
+        {
+        }
+
+        public SchedulerAppointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public SchedulerAppointment( string id, string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = id;
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string RecurrenceRule { get; set; }
+
+        public string RecurrenceId { get; set; }
+
+        public List<DateTime> DeletedOccurrences { get; set; }
+
+        public DateTime? OriginalStart { get; set; }
+
+        public List<SchedulerAppointment> RecurrenceExceptions { get; set; }
+    }
+
+    List<SchedulerAppointment> Appointments = new List<SchedulerAppointment>
+    {
+        new SchedulerAppointment( "Meeting with the CEO", "Regarding the new margeting strategy", start, start.AddHours(1) ),
+        new SchedulerAppointment( "Some other meeting", "Regarding the new margeting strategy", start, start.AddHours(1) ),
+        new SchedulerAppointment( "Lunch with the team", "Discussing the new project", start.AddDays(-10).AddHours(2), start.AddDays(-10).AddHours(3))
+        {
+            RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3"
+            // RecurrenceRule = "FREQ=DAILY;INTERVAL=1;COUNT=10;"
+            // RecurrenceRule = "FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1;COUNT=2;"
+        },
+        new SchedulerAppointment( "Meeting with the client", "Discussing the new project", start.AddHours(4), start.AddHours(5) ),
+        new SchedulerAppointment( "Test 1", "Test 1 desc", DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-2), true ),
+        new SchedulerAppointment( "All day event with the team", "Team building", DateTime.Today.AddDays(-2), DateTime.Today, true),
+        new SchedulerAppointment( "Games with the team", "Having fun", DateTime.Today, DateTime.Today, true ),
+    };
+}

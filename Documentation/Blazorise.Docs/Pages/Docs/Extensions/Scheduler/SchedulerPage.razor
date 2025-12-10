@@ -1,0 +1,168 @@
+﻿@page "/docs/extensions/scheduler"
+
+<Seo Canonical="/docs/extensions/scheduler" Title="Blazorise Scheduler Component" Description="Learn to use and work with the Blazorise Scheduler component, a component used to create and manage appointments in a calendar." />
+
+<DocsPageTitle Path="Extensions/Scheduler" AddedVersion="Added in v1.8">
+    Blazorise Scheduler Component
+</DocsPageTitle>
+
+<DocsPageLead>
+    A <Code>Scheduler</Code> component used to create and manage appointments in a calendar.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SchedulerNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SchedulerImportsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Fundamentals
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Before we proceed we need to cover some fundamentals on how Scheduler is working.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Using TItem
+</Heading>
+
+<DocsPageParagraph>
+    The <Code>Scheduler&lt;TItem&gt;</Code> component is generic and can theoretically work with any type. However, the type must contain properties for <Code>Title</Code>, <Code>Start</Code>, and <Code>End</Code> at minimum. These property names can be overridden using property mappings.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Editing
+</Heading>
+
+<DocsPageParagraph>
+    Editing of scheduler items can be enabled or disabled by setting <Code>Editable</Code> parameter:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Editable="true"</Strong>: Enables built-in editing capabilities.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>Editable="false"</Strong>: Disables built-in editing. In this case, item creation, updates, and deletions must be handled manually using callbacks like <Code>ItemInserted</Code>, <Code>ItemUpdated</Code>, and <Code>ItemDeleted</Code>.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Drag and Drop
+</Heading>
+
+<DocsPageParagraph>
+    Drag and drop functionality for scheduler items can be toggled using <Code>Draggable</Code> parameter:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Draggable="true"</Strong> (default): Allows items to be moved or resized via drag-and-drop.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>Draggable="false"</Strong>: Disables drag-and-drop interactions.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Recurring Appointments
+</Heading>
+
+<DocsPageParagraph>
+    The <Code>Scheduler</Code> component supports recurring appointments based on RFC-5545 recurrence rules. Recurrences are dynamically displayed based on these rules and are not persisted by the component itself. Persistence of recurrence data must be managed by the developer and backend.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Recurring items:</Strong> Defined by limited RFC-5545 rules and calculated at runtime.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>Exceptions:</Strong> Edited or deleted occurrences of recurring appointments are exceptions and managed internally by the scheduler component.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        To start with the Scheduler, just define it using one of the available views.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Editable">
+        The <Code>Editable</Code> parameter allows you to enable or disable editing of the scheduler items. When set to <Code>true</Code>, the scheduler will allow users to edit the items directly in the UI.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerEditableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerEditableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Draggable">
+        To be able to drag and drop items, set the <Code>Draggable</Code> parameter to <Code>true</Code>. This will allow you to move items around the calendar.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerDraggableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerDraggableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Slot Selection">
+        To easily create new items, set the <Code>SlotSelectionMode</Code> parameter to <Code>Mouse</Code>. This will allow you to select slots in the calendar to create new items.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerSelectableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerSelectableExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fixed Size">
+        To set a fixed size for the scheduler, set the <Code>ViewHeight</Code> parameter to a specific value. This will ensure that the scheduler maintains a consistent height across different views.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerFixedSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerFixedSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Full">
+        The full example shows all available views and how to use them. It also shows how to set the <Code>StartTime</Code>, <Code>EndTime</Code>, <Code>WorkDayStart</Code>, and <Code>WorkDayEnd</Code> parameters.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SchedulerFullExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SchedulerFullExample" />
+</DocsPageSection>
+
+<SchedulerApi />

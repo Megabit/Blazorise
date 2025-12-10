@@ -1,0 +1,85 @@
+﻿html[data-theme="dark"] {
+    color-scheme: dark;
+
+    body {
+        margin: 0;
+        font-family: var(--fontFamilyBase);
+        font-weight: var(--fontWeightRegular);
+        line-height: var(--lineHeightBase400);
+        background-color: var(--colorNeutralBackground1);
+        color: var(--colorNeutralForeground1);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition: background-color var(--durationFast) var(--curveEasyEase), color var(--durationFast) var(--curveEasyEase);
+    }
+
+    a {
+        color: var(--colorBrandForegroundLink);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--colorBrandForegroundLinkHover);
+            text-decoration: underline;
+        }
+
+        &:active {
+            color: var(--colorBrandForegroundLinkPressed);
+        }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--colorNeutralForeground1);
+        margin: 0 0 var(--spacingVerticalM);
+    }
+
+    .text-subtle {
+        color: var(--colorNeutralForeground3);
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background: var(--colorNeutralStroke1);
+    }
+
+    :where(a, button, input, textarea, [tabindex]):focus-visible {
+        outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2); // white
+        outline-offset: 2px;
+        border-radius: var(--borderRadiusSmall);
+    }
+
+    ::selection {
+        background: var(--colorBrandBackground);
+        color: var(--colorNeutralForegroundOnBrand);
+    }
+
+    scrollbar-color: var(--colorScrollbarOverlay) var(--colorNeutralBackground2); // Firefox
+
+    & *::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    & *::-webkit-scrollbar-track {
+        background: var(--colorNeutralBackground2);
+    }
+
+    & *::-webkit-scrollbar-thumb {
+        background: var(--colorScrollbarOverlay);
+        border: 3px solid var(--colorNeutralBackground2);
+        border-radius: var(--borderRadiusLarge);
+    }
+
+    .surface {
+        background: var(--colorNeutralBackground2);
+        color: var(--colorNeutralForeground1);
+        border: 1px solid var(--colorNeutralStroke1);
+        border-radius: var(--borderRadiusLarge);
+        box-shadow: var(--shadow4);
+    }
+}

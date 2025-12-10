@@ -18,10 +18,4 @@ public enum Match
     /// Specifies that the link should be active when it matches the entire current URL.
     /// </summary>
     All,
-
-    /// <summary>
-    /// Specifies that the link should be active when it matches the supplied <see cref="BaseLinkComponent.CustomMatch"/> method callback.
-    /// </summary>
-    [Obsolete( "Custom match is obsolete and should be removed in future versions." )]
-    Custom,
 }

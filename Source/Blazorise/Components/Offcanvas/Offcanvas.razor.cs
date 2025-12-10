@@ -1,16 +1,12 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
-using Blazorise.Components;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Blazorise.Providers;
-using System.Runtime.CompilerServices;
 #endregion
 
 namespace Blazorise;

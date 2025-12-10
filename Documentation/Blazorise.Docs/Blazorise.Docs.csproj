@@ -40,20 +40,21 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
-    <PackageReference Include="MailKit" Version="4.8.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.*" />
-    <PackageReference Include="MimeKit" Version="4.8.0" />
-    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="MimeKit" />
+    <PackageReference Include="Blazored.LocalStorage" />
+    <PackageReference Include="ColorCode.HTML" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->
   <PropertyGroup>
-    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net9.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+    <BinDocsCompiler>$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/bin/Debug/net10.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
   </PropertyGroup>
 
   <!--Project path for code generator-->
   <PropertyGroup>
-    <ProjectDocsCompiler>dotnet run --configuration release --project "..\..\Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
+    <ProjectDocsCompiler>dotnet run --configuration release --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
   </PropertyGroup>
 
   <!--Execute the code generator-->
@@ -79,9 +80,7 @@
     <EmbeddedResource Include="Pages\**\*.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.38.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.*" />
-    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="Markdig" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

@@ -10,10 +10,13 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 public class DataGridNumericColumn<TItem> : DataGridColumn<TItem>
 {
-    /// <summary>
-    /// Gets the column type.
-    /// </summary>
-    public override DataGridColumnType ColumnType => DataGridColumnType.Numeric;
+    /// <inheritdoc/>
+    internal override DataGridColumnFilterMethod GetDefaultFilterMethod()
+        => DataGridColumnFilterMethod.Equals;
+
+    /// <inheritdoc/>
+    public override DataGridColumnType ColumnType
+        => DataGridColumnType.Numeric;
 
     /// <summary>
     /// Specifies the interval between valid values.
@@ -29,6 +32,11 @@ public class DataGridNumericColumn<TItem> : DataGridColumn<TItem>
     /// String to use as the decimal separator in numeric values.
     /// </summary>
     [Parameter] public string DecimalSeparator { get; set; } = ".";
+
+    /// <summary>
+    /// String to use as the decimal separator in numeric values.
+    /// </summary>
+    [Parameter] public string GroupSeparator { get; set; } = ",";
 
     /// <summary>
     /// Helps define the language of an element.
@@ -49,7 +57,7 @@ public class DataGridNumericColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public bool? EnableStep { get; set; }
 
     /// <summary>
-    /// Renders the native based input <see cref="NumericEdit{TValue}"/> instead of the <see cref="NumericPicker{TValue}"/>.
+    /// Renders the native based input <see cref="NumericInput{TValue}"/> instead of the <see cref="NumericPicker{TValue}"/>.
     /// </summary>
     [Parameter] public bool NativeInputMode { get; set; }
 }

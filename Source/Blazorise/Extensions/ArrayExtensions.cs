@@ -20,10 +20,10 @@ public static class ArrayExtensions
     /// <returns>True if all elements are equal.</returns>
     public static bool AreEqual<T>( this IEnumerable<T> array1, IEnumerable<T> array2 )
     {
-        if ( array1 is null && array2 is null )
+        if ( ReferenceEquals( array1, array2 ) )
             return true;
 
-        if ( ( array1 is not null && array2 is null ) || ( array2 is not null && array1 is null ) )
+        if ( array1 is null || array2 is null )
             return false;
 
         return array1.SequenceEqual( array2 );

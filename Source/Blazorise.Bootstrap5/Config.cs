@@ -31,6 +31,9 @@ public static class Config
         serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.BootstrapJSTooltipModule>();
 
+        Enumeration<Background>.SetNameBuilder( new Bootstrap5EnumerationNameBuilder<Background>() );
+        Enumeration<TextColor>.SetNameBuilder( new Bootstrap5EnumerationNameBuilder<TextColor>() );
+
         return serviceCollection;
     }
 
@@ -60,9 +63,10 @@ public static class Config
         { typeof( Blazorise.CloseButton ), typeof( Components.CloseButton ) },
         { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
         { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
+        { typeof( Blazorise.Fields ), typeof( Components.Fields ) },
         { typeof( Blazorise.Field ), typeof( Components.Field ) },
         { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
-        { typeof( Blazorise.FileEdit ), typeof( Components.FileEdit ) },
+        { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },
         { typeof( Blazorise.Modal ), typeof( Components.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },

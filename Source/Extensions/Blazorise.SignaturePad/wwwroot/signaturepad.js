@@ -1,5 +1,5 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.7.5.0";
-import "./vendors/sigpad.js?v=1.7.5.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.8.0";
+import "./vendors/sigpad.js?v=1.8.8.0";
 
 const _instances = [];
 

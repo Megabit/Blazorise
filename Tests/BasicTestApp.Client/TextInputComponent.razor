@@ -1,0 +1,21 @@
+﻿<p id="text-basic">
+    <TextInput></TextInput>
+</p>
+<p id="text-event-initially-blank">
+    <TextInput id="text-with-event" Value="@textWithEvent" ValueChanged="@((s)=> textWithEvent = s )"></TextInput>
+
+    <span>The text below should update automatically as you type in the text field above</span>
+
+    <span id="text-event-initially-blank-result">@textWithEvent</span>
+</p>
+<p id="text-bind-initially-blank">
+    <TextInput id="text-binding" @bind-Value="@textWithBind"></TextInput>
+
+    <span>The text below should update automatically as you type in the text field above</span>
+
+    <span id="text-bind-initially-blank-result">@textWithBind</span>
+</p>
+@code {
+    string textWithEvent { get; set; }
+    string textWithBind { get; set; }
+}

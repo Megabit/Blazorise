@@ -2,14 +2,14 @@
 @if ( ParentBar?.Mode == BarMode.Horizontal )
 {
     <li>
-        <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Clicked="@ClickHandler" Attributes="@Attributes">
+        <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Disabled="@Disabled" Clicked="@ClickHandler" Attributes="@Attributes">
             @ChildContent
         </_BarOnlyLink>
     </li>
 }
 else
 {
-    <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Clicked="@ClickHandler" Attributes="@Attributes">
+    <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Disabled="@Disabled" Clicked="@ClickHandler" Attributes="@Attributes">
         @ChildContent
     </_BarOnlyLink>
 }

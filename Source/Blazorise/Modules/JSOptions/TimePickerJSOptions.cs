@@ -21,6 +21,16 @@ public class TimePickerJSOptions
     public string Default { get; set; }
 
     /// <summary>
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public int DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public int DefaultMinute { get; set; }
+
+    /// <summary>
     /// Gets or sets the minimum time that can be selected.
     /// </summary>
     public string Min { get; set; }
@@ -51,6 +61,11 @@ public class TimePickerJSOptions
     public bool Inline { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to disable the mobile version of the time picker.
+    /// </summary>
+    public bool DisableMobile { get; set; }
+
+    /// <summary>
     /// Gets or sets the placeholder text displayed in the time input field.
     /// </summary>
     public string Placeholder { get; set; }
@@ -64,6 +79,16 @@ public class TimePickerJSOptions
     /// Gets or sets a value indicating whether the time picker should include seconds in the selection.
     /// </summary>
     public bool Seconds { get; set; }
+
+    /// <summary>
+    /// Adjusts the step for the hour input.
+    /// </summary>
+    public int HourIncrement { get; set; }
+
+    /// <summary>
+    /// Adjusts the step for the minute input.
+    /// </summary>
+    public int MinuteIncrement { get; set; }
 }
 
 /// <summary>
@@ -107,6 +132,11 @@ public class TimePickerUpdateJSOptions
     public JSOptionChange<bool> Inline { get; set; }
 
     /// <summary>
+    /// Gets or sets the option for disabling the mobile version of the time picker.
+    /// </summary>
+    public JSOptionChange<bool> DisableMobile { get; set; }
+
+    /// <summary>
     /// Gets or sets the option for updating the placeholder text.
     /// </summary>
     public JSOptionChange<string> Placeholder { get; set; }
@@ -120,4 +150,24 @@ public class TimePickerUpdateJSOptions
     /// Gets or sets the option for including seconds in the time picker selection.
     /// </summary>
     public JSOptionChange<bool> Seconds { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating the hour increment step.
+    /// </summary>
+    public JSOptionChange<int> HourIncrement { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating the minute increment step.
+    /// </summary>
+    public JSOptionChange<int> MinuteIncrement { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the hour element.
+    /// </summary>
+    public JSOptionChange<int> DefaultHour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial value of the minute element.
+    /// </summary>
+    public JSOptionChange<int> DefaultMinute { get; set; }
 }

@@ -9,6 +9,7 @@
             border: none;
             height: $divider-thickness;
             background: $divider-color;
+            color: $divider-color;
 
             &::before {
                 content: attr(data-content);
@@ -16,7 +17,7 @@
                 background: #fff;
                 font-weight: bold;
                 font-size: $divider-text-size;
-                color: $divider-color;
+                color: inherit;
                 border-radius: 30rem;
                 padding: 0.2rem 2rem;
                 position: absolute;

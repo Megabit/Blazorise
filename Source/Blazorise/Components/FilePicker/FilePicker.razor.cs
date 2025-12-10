@@ -19,7 +19,7 @@ using static System.Net.WebRequestMethods;
 namespace Blazorise;
 
 /// <summary>
-/// A wrapper component build upon <see cref="FileEdit"/> component providing extra file uploading features.
+/// A wrapper component build upon <see cref="FileInput"/> component providing extra file uploading features.
 /// </summary>
 public partial class FilePicker : BaseComponent, IAsyncDisposable
 {
@@ -85,7 +85,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns></returns>
     public int GetProgressPercentage()
-        => (int)( FileEditRef.GetCurrentProgress().Progress * 100d );
+        => (int)( FileInputRef.GetCurrentProgress().Progress * 100d );
 
     /// <summary>
     /// Tracks whether the current file is being uploaded.
@@ -107,7 +107,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns></returns>
     public bool IsUploadReady()
-        => FileEditRef?.Files?.Any( x => x.Status == FileEntryStatus.Ready ) ?? false;
+        => FileInputRef?.Files?.Any( x => x.Status == FileEntryStatus.Ready ) ?? false;
 
     /// <summary>
     /// Converts the file size in bytes into a proper human readable format.
@@ -155,13 +155,13 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
         return Localizer.GetString( name );
     }
     /// <summary>
-    /// Removes the file from FileEdit.
+    /// Removes the file from FileInput.
     /// </summary>
     /// <param name="file">The file entry to remove.</param>
     /// <param name="confirm">Wether to show a confirmation popup.</param>
     public Task RemoveFile( IFileEntry file, bool confirm = false )
     {
-        var removeFileAction = () => FileEditRef.RemoveFile( file.Id ).AsTask();
+        var removeFileAction = () => FileInputRef.RemoveFile( file.Id ).AsTask();
 
         if ( confirm )
             return filePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, removeFileAction );
@@ -170,7 +170,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Clears the FileEdit by resetting the state.
+    /// Clears the FileInput by resetting the state.
     /// </summary>
     /// <param name="confirm">Wether to show a confirmation popup.</param>
     public Task Clear( bool confirm = false )
@@ -178,7 +178,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
         var clearAction = async () =>
         {
             await Cancel();
-            await FileEditRef.Reset();
+            await FileInputRef.Reset();
         };
 
         if ( confirm )
@@ -193,14 +193,14 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <returns></returns>
     public async Task UploadAll()
     {
-        if ( Upload.HasDelegate && !FileEditRef.Files.IsNullOrEmpty() )
+        if ( Upload.HasDelegate && !FileInputRef.Files.IsNullOrEmpty() )
         {
             cts = new();
-            foreach ( var file in FileEditRef.Files )
+            foreach ( var file in FileInputRef.Files )
             {
                 await UploadFile( file );
 
-                if ( FileEditRef is IFileEntryOwner fileEntryOwner )
+                if ( FileInputRef is IFileEntryOwner fileEntryOwner )
                     await fileEntryOwner.RemoveFileEntry( file );
             }
         }
@@ -307,9 +307,9 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     #region Properties
 
     /// <summary>
-    /// Accesses the FileEdit
+    /// Accesses the FileInput
     /// </summary>
-    public FileEdit FileEditRef;
+    public FileInput FileInputRef;
 
     /// <summary>
     /// Gets or sets the main container element id.

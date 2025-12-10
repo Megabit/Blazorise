@@ -17,6 +17,8 @@ public partial class BarDropdownItem : BaseComponent
 {
     #region Members
 
+    private bool disabled;
+
     private BarDropdownState parentDropdownState;
 
     #endregion
@@ -27,6 +29,7 @@ public partial class BarDropdownItem : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarDropdownItem( ParentDropdownState.Mode ) );
+        builder.Append( ClassProvider.BarDropdownItemDisabled( ParentDropdownState.Mode, Disabled ) );
 
         base.BuildClasses( builder );
     }
@@ -36,7 +39,7 @@ public partial class BarDropdownItem : BaseComponent
     {
         base.BuildStyles( builder );
 
-        builder.Append( FormattableString.Invariant( $"padding-left: {(Indentation * ( ParentDropdownState.NestedIndex + 1d )).ToString( CultureInfo.InvariantCulture )}rem" ), ParentDropdownState.IsInlineDisplay );
+        builder.Append( FormattableString.Invariant( $"padding-left: {( Indentation * ( ParentDropdownState.NestedIndex + 1d ) ).ToString( CultureInfo.InvariantCulture )}rem" ), ParentDropdownState.IsInlineDisplay );
     }
 
     /// <summary>
@@ -46,53 +49,21 @@ public partial class BarDropdownItem : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
-        if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+        if ( !Disabled )
         {
-            if ( !ParentBarDropdown.WasJustToggled )
-                await ParentBarDropdown.Hide( true );
-        }
+            if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+            {
+                if ( !ParentBarDropdown.WasJustToggled )
+                    await ParentBarDropdown.Hide( true );
+            }
 
-        await Clicked.InvokeAsync( eventArgs );
+            await Clicked.InvokeAsync( eventArgs );
+        }
     }
 
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Occurs when the item is clicked.
-    /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
-
-    /// <summary>
-    /// Specifies the URL of the page the link goes to.
-    /// </summary>
-    [Parameter] public string To { get; set; }
-
-    /// <summary>
-    /// The target attribute specifies where to open the linked document.
-    /// </summary>
-    [Parameter] public Target Target { get; set; } = Target.Default;
-
-    /// <summary>
-    /// URL matching behavior for a link.
-    /// </summary>
-    [Parameter] public Match Match { get; set; } = Match.All;
-
-    /// <summary>
-    /// Specify extra information about the link element.
-    /// </summary>
-    [Parameter] public string Title { get; set; }
-
-    /// <summary>
-    /// Determines how much left padding will be applied to the dropdown item. (in rem unit)
-    /// </summary>
-    [Parameter] public double Indentation { get; set; } = 1.5d;
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
     /// Cascaded parent <see cref="BarDropdown"/> state.
@@ -117,6 +88,64 @@ public partial class BarDropdownItem : BaseComponent
     /// Gets or sets the reference to the parent BarDropdown.
     /// </summary>
     [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
+
+    /// <summary>
+    /// Occurs when the item is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Specifies the URL of the page the link goes to.
+    /// </summary>
+    [Parameter] public string To { get; set; }
+
+    /// <summary>
+    /// The target attribute specifies where to open the linked document.
+    /// </summary>
+    [Parameter] public Target Target { get; set; } = Target.Default;
+
+    /// <summary>
+    /// URL matching behavior for a link.
+    /// </summary>
+    [Parameter] public Match Match { get; set; } = Match.All;
+
+    /// <summary>
+    /// A callback function that is used to compare current uri with the user defined uri. If defined, the <see cref="Match"/> parameter will be ignored.
+    /// </summary>
+    [Parameter] public Func<string, bool> CustomMatch { get; set; }
+
+    /// <summary>
+    /// Specify extra information about the link element.
+    /// </summary>
+    [Parameter] public string Title { get; set; }
+
+    /// <summary>
+    /// Determines how much left padding will be applied to the dropdown item. (in rem unit)
+    /// </summary>
+    [Parameter] public double Indentation { get; set; } = 1.5d;
+
+    /// <summary>
+    /// Indicate the currently disabled item.
+    /// </summary>
+    [Parameter]
+    public bool Disabled
+    {
+        get => disabled;
+        set
+        {
+            if ( disabled == value )
+                return;
+
+            disabled = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

@@ -109,7 +109,7 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// <summary>
     /// Toggles the <see cref="Visible"/> state of the <see cref="Bar"/> component.
     /// </summary>
-    internal Task Toggle()
+    public Task Toggle()
     {
         Visible = !Visible;
 

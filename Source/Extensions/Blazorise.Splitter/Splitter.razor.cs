@@ -80,24 +80,13 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing )
+        if ( disposing && Rendered )
         {
-            if ( JSSplitInstance is not null )
+            if ( JSModule is not null )
             {
-                var task = JSSplitInstance.InvokeVoidAsync( "destroy" );
+                await JSModule.SafeDestroy( ElementRef, ElementId );
 
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-
-                await JSSplitInstance.DisposeAsync();
+                await JSModule.SafeDisposeAsync();
             }
         }
 
@@ -163,12 +152,11 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
         try
         {
-            if ( JSSplitInstance is not null )
-                await JSSplitInstance.InvokeVoidAsync( "destroy" );
+            await JSModule.Destroy( ElementRef, ElementId );
 
             if ( splitterSections.Count > 0 )
             {
-                JSSplitInstance = await JSModule.InitializeSplitter( splitterSections.Select( x => x.ElementRef ), new SplitterOptions
+                await JSModule.InitializeSplitter( ElementRef, ElementId, splitterSections.Select( x => x.ElementRef ), new SplitterOptions
                 {
                     Sizes = splitterSections.Any( x => x.Size != null )
                         ? splitterSections.Select( x => new JavascriptNumber( x.Size ?? 0 ) ).ToArray()
@@ -202,15 +190,13 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <inheritdoc />
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
     /// Gets or sets the <see cref="JSSplitModule"/> instance.
     /// </summary>
     protected JSSplitModule JSModule { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the reference to the JS splitter instance.
-    /// </summary>
-    protected IJSObjectReference JSSplitInstance { get; private set; }
 
     /// <summary>
     /// Gets or sets the JS runtime.

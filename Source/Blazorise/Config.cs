@@ -93,6 +93,7 @@ public static class Config
         { typeof( IPageProgressService ), typeof( PageProgressService ) },
         { typeof( IModalService ), typeof( ModalService ) },
         { typeof( IToastService ), typeof( ToastService ) },
+        { typeof(IOffcanvasService), typeof(OffcanvasService)}
     };
 
     /// <summary>
@@ -104,13 +105,13 @@ public static class Config
         { typeof( IJSButtonModule ), typeof( JSButtonModule ) },
         { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
         { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
-        { typeof( IJSTextEditModule ), typeof( JSTextEditModule ) },
-        { typeof( IJSMemoEditModule ), typeof( JSMemoEditModule ) },
+        { typeof( IJSTextInputModule ), typeof( JSTextInputModule ) },
+        { typeof( IJSMemoInputModule ), typeof( JSMemoInputModule ) },
         { typeof( IJSNumericPickerModule ), typeof( JSNumericPickerModule ) },
         { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },
         { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },
         { typeof( IJSColorPickerModule ), typeof( JSColorPickerModule ) },
-        { typeof( IJSFileEditModule ), typeof( JSFileEditModule ) },
+        { typeof( IJSFileInputModule ), typeof( JSFileInputModule ) },
         { typeof( IJSFilePickerModule ), typeof( JSFilePickerModule ) },
         { typeof( IJSFileModule ), typeof( JSFileModule ) },
         { typeof( IJSTableModule ), typeof( JSTableModule ) },

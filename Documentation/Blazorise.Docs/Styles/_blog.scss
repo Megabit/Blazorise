@@ -26,9 +26,33 @@
             }
 
             .blockquote {
-                border-left: 4px solid #d6d6d7;
+                border-left: 4px solid var(--b-theme-primary);
                 padding: 0 0 0 1.25rem;
                 margin: 0 0 1.25rem 0;
+            }
+        }
+
+        .blockquote {
+            margin: 1rem 0;
+            padding: 1rem 1.25rem;
+            border-left: 4px solid var(--b-theme-primary);
+            background-color: var(--b-blockquote-background-color);
+            color: var(--b-blockquote-color);
+            font-style: normal;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border-radius: 4px;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+
+            > p {
+                margin: 0.25rem 0;
+            }
+
+            a {
+                word-break: break-all;
             }
         }
 

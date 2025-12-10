@@ -10,9 +10,8 @@ namespace Blazorise.Snackbar;
 public enum SnackbarLocation
 {
     /// <summary>
-    /// Default behavior.
+    /// Default behavior, same as Bottom.
     /// </summary>
-    [Obsolete( "Use Bottom instead." )]
     Default,
 
     /// <summary>
@@ -29,18 +28,6 @@ public enum SnackbarLocation
     /// Show the snackbar on the bottom-end side of the screen.
     /// </summary>
     BottomEnd,
-
-    /// <summary>
-    /// Show the snackbar on the bottom-start side of the screen.
-    /// </summary>
-    [Obsolete( "Use BottomStart instead." )]
-    Start,
-
-    /// <summary>
-    /// Show the snackbar on the bottom-end side of the screen.
-    /// </summary>
-    [Obsolete( "Use BottomEnd instead." )]
-    End,
 
     /// <summary>
     /// Show the snackbar on the top side of the screen.

@@ -6,14 +6,19 @@
 public class NotificationOptions
 {
     /// <summary>
-    /// Custom text for the OK button.
+    /// Custom text for the OK button. Shows only if <see cref="ShowOkButton"/> is true.
     /// </summary>
     public string OkButtonText { get; set; }
 
     /// <summary>
-    /// Custom icon for the OK button.
+    /// Custom icon for the OK button. Shows only if <see cref="ShowOkButton"/> is true.
     /// </summary>
     public object OkButtonIcon { get; set; }
+
+    /// <summary>
+    /// Indicates if the OK button will be visible.
+    /// </summary>
+    public bool ShowOkButton { get; set; }
 
     /// <summary>
     /// Creates the default notification options.

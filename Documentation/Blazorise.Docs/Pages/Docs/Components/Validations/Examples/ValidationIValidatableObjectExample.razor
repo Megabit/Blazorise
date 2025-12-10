@@ -1,16 +1,15 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 @using System.ComponentModel.DataAnnotations
-
-<Validations Model="@Company" Mode="ValidationMode.Auto">
+<Validations @ref="@validationsRef" Model="@Company" Mode="ValidationMode.Auto">
     <Validation>
         <Field>
             <FieldLabel>Name</FieldLabel>
             <FieldBody>
-                <TextEdit @bind-Text="@Company.Name">
+                <TextInput @bind-Value="@Company.Name">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
@@ -18,27 +17,27 @@
         <Field>
             <FieldLabel>Description</FieldLabel>
             <FieldBody>
-                <TextEdit @bind-Text="@Company.Description">
+                <TextInput @bind-Value="@Company.Description">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
-                </TextEdit>
+                </TextInput>
             </FieldBody>
         </Field>
     </Validation>
     <Field>
-        <Switch @bind-Value="@Company.UseAlphaCode">Use AlphaCode</Switch>
+        <Switch TValue="bool" Value="@Company.UseAlphaCode" ValueChanged="@OnUseAlphaCodeChanged" ValueExpression="@(() => Company.UseAlphaCode)">Use AlphaCode</Switch>
     </Field>
     <Fields>
         <Validation>
             <Field>
                 <FieldLabel>AlphaCode</FieldLabel>
                 <FieldBody>
-                    <TextEdit @bind-Text="@Company.AlphaCode">
+                    <TextInput @bind-Value="@Company.AlphaCode">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
-                    </TextEdit>
+                    </TextInput>
                 </FieldBody>
             </Field>
         </Validation>
@@ -46,11 +45,11 @@
             <Field>
                 <FieldLabel>BetaCode</FieldLabel>
                 <FieldBody>
-                    <TextEdit @bind-Text="@Company.BetaCode">
+                    <TextInput @bind-Value="@Company.BetaCode">
                         <Feedback>
                             <ValidationError />
                         </Feedback>
-                    </TextEdit>
+                    </TextInput>
                 </FieldBody>
             </Field>
         </Validation>
@@ -58,6 +57,21 @@
 </Validations>
 
 @code {
+    async Task OnUseAlphaCodeChanged( bool value )
+    {
+        Company.UseAlphaCode = value;
+
+        if ( validationsRef != null )
+        {
+            // retrigger validation for dependent properties
+            await validationsRef.RetriggerValidation(
+                () => Company.AlphaCode,
+                () => Company.BetaCode );
+        }
+    }
+
+    Validations validationsRef;
+
     CompanyInfo Company = new CompanyInfo()
     {
         UseAlphaCode = true,

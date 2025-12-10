@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.HTML" Version="2.0.15" />
-    <PackageReference Include="Markdig" Version="0.38.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+    <PackageReference Include="ColorCode.HTML" />
+    <PackageReference Include="Markdig" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
   </ItemGroup>
 
   <Target Name="CopyNuGetXmlDocs" AfterTargets="Build">
@@ -22,7 +22,5 @@
     </ItemGroup>
     <Copy SourceFiles="@(XmlDocFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
   </Target>
-
-
 
 </Project>
