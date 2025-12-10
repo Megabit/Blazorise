@@ -1,61 +1,57 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedEmployee</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Responsive</span>
-        <span class="htmlAttributeName">Sortable</span>
-        <span class="htmlAttributeName">SortMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridSortMode</span><span class="enumValue">.Single</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Id)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Sortable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridNumericColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.FirstName)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Full Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Filterable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">SortComparer</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">new EmployeeNameComparer()</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedEmployee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Responsive</span>
+          <span class="htmlAttributeName">Sortable</span>
+          <span class="htmlAttributeName">SortMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridSortMode</span><span class="enumValue">.Single</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Id)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Sortable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridNumericColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.FirstName)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Full Name</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Filterable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">SortComparer</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">new EmployeeNameComparer()</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="atSign">&#64;</span>($&quot;{context.FirstName} {context.LastName}&quot;)
+            <span class="atSign">&#64;</span>($&quot;{context.FirstName} {context.LastName}&quot;)
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridNumericColumn</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Email)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Email</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Salary)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo(&quot;fr-FR&quot;)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridNumericColumn</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Email)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Email</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof(Employee.Salary)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo(&quot;fr-FR&quot;)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Editable</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NumericInput</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">decimal</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((decimal)context.CellValue)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( v =&gt; context.CellValue = v)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NumericInput</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">decimal</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((decimal)context.CellValue)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( v =&gt; context.CellValue = v)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject]
-        <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
-        <span class="keyword">private</span> Employee selectedEmployee;
+    <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
+    <span class="keyword">private</span> Employee selectedEmployee;
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
     {
         employeeList = <span class="keyword">await</span> EmployeeData.GetDataAsync();
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
     }
 
-        <span class="keyword">public</span> <span class="keyword">class</span> EmployeeNameComparer : Comparer&lt;Employee&gt;
+    <span class="keyword">public</span> <span class="keyword">class</span> EmployeeNameComparer : Comparer&lt;Employee&gt;
     {
         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">int</span> Compare( Employee x, Employee y )
         {
-        <span class="comment">// Null checks</span>
-        <span class="keyword">if</span> ( x <span class="keyword">is</span> <span class="keyword">null</span> &amp;&amp; y <span class="keyword">is</span> <span class="keyword">null</span> ) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">if</span> ( x <span class="keyword">is</span> <span class="keyword">null</span> ) <span class="keyword">return</span> -<span class="number">1</span>;
-        <span class="keyword">if</span> ( y <span class="keyword">is</span> <span class="keyword">null</span> ) <span class="keyword">return</span> <span class="number">1</span>;
+            <span class="comment">// Null checks</span>
+            <span class="keyword">if</span> ( x <span class="keyword">is</span> <span class="keyword">null</span> &amp;&amp; y <span class="keyword">is</span> <span class="keyword">null</span> ) <span class="keyword">return</span> <span class="number">0</span>;
+            <span class="keyword">if</span> ( x <span class="keyword">is</span> <span class="keyword">null</span> ) <span class="keyword">return</span> -<span class="number">1</span>;
+            <span class="keyword">if</span> ( y <span class="keyword">is</span> <span class="keyword">null</span> ) <span class="keyword">return</span> <span class="number">1</span>;
 
-        <span class="comment">// Compare by length of FirstName</span>
-        <span class="keyword">int</span> firstNameLengthComparison = x.FirstName.Length.CompareTo(y.FirstName.Length);
+            <span class="comment">// Compare by length of FirstName</span>
+            <span class="keyword">int</span> firstNameLengthComparison = x.FirstName.Length.CompareTo(y.FirstName.Length);
 
-        <span class="comment">// If FirstName lengths are the same, compare alphabetically by LastName</span>
-        <span class="keyword">return</span> firstNameLengthComparison != <span class="number">0</span>
+            <span class="comment">// If FirstName lengths are the same, compare alphabetically by LastName</span>
+            <span class="keyword">return</span> firstNameLengthComparison != <span class="number">0</span>
                 ? firstNameLengthComparison
                 : <span class="keyword">string</span>.CompareOrdinal(x.LastName, y.LastName);
         }
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

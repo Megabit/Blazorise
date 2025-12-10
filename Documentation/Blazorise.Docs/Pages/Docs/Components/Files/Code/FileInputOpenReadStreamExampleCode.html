@@ -1,29 +1,26 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="atSign">&#64;</span>using System.IO
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileInput</span> <span class="htmlAttributeName">Changed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnChanged</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Written</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnWritten</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Progressed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnProgressed</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileInput</span> <span class="htmlAttributeName">Changed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnChanged</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Written</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnWritten</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Progressed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnProgressed</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-        <span class="keyword">async</span> Task OnChanged( FileChangedEventArgs e )
+    <span class="keyword">async</span> Task OnChanged( FileChangedEventArgs e )
     {
         <span class="keyword">try</span>
         {
-        <span class="keyword">var</span> file = e.Files.FirstOrDefault();
-        <span class="keyword">if</span> ( file == <span class="keyword">null</span> )
+            <span class="keyword">var</span> file = e.Files.FirstOrDefault();
+            <span class="keyword">if</span> ( file == <span class="keyword">null</span> )
             {
-        <span class="keyword">return</span>;
+                <span class="keyword">return</span>;
             }
 
-        <span class="keyword">using</span> ( MemoryStream result = <span class="keyword">new</span> MemoryStream() )
+            <span class="keyword">using</span> ( MemoryStream result = <span class="keyword">new</span> MemoryStream() )
             {
-        <span class="keyword">await</span> file.OpenReadStream( <span class="keyword">long</span>.MaxValue ).CopyToAsync( result );
+                <span class="keyword">await</span> file.OpenReadStream( <span class="keyword">long</span>.MaxValue ).CopyToAsync( result );
             }
         }
         <span class="keyword">catch</span> ( Exception exc )
@@ -32,20 +29,19 @@
         }
         <span class="keyword">finally</span>
         {
-        <span class="keyword">this</span>.StateHasChanged();
+            <span class="keyword">this</span>.StateHasChanged();
         }
     }
 
-        <span class="keyword">void</span> OnWritten( FileWrittenEventArgs e )
+    <span class="keyword">void</span> OnWritten( FileWrittenEventArgs e )
     {
         Console.WriteLine( $<span class="string">&quot;File: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}&quot;</span> );
     }
 
-        <span class="keyword">void</span> OnProgressed( FileProgressedEventArgs e )
+    <span class="keyword">void</span> OnProgressed( FileProgressedEventArgs e )
     {
         Console.WriteLine( $<span class="string">&quot;File: {e.File.Name} Progress: {e.Percentage}&quot;</span> );
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

@@ -1,27 +1,23 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span> <span class="htmlAttributeName">Horizontal</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ColumnSize.IsFull.OnTablet.Is2.OnDesktop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>User Name<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ColumnSize.IsFull.OnTablet.Is10.OnDesktop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ColumnSize.IsFull.OnTablet.Is2.OnDesktop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>User Name<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ColumnSize.IsFull.OnTablet.Is10.OnDesktop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">userName</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextInput</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ShowCustomStructure</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show Custom Structure<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] <span class="keyword">public</span> IModalService ModalService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">private</span> <span class="keyword">string</span> userName = <span class="string">&quot;John Doe&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">string</span> userName = <span class="string">&quot;John Doe&quot;</span>;
 
-        <span class="keyword">public</span> Task ShowCustomStructure()
+    <span class="keyword">public</span> Task ShowCustomStructure()
     {
         <span class="keyword">return</span> ModalService.Show&lt;CustomStructureModalExample&gt;( parameters =&gt; parameters.Add( x =&gt; x.UserName, userName ), <span class="keyword">new</span> ModalInstanceOptions() { UseModalStructure = <span class="keyword">false</span> } );
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

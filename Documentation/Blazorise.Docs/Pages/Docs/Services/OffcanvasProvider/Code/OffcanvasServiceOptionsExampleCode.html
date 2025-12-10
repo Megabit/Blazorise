@@ -1,15 +1,12 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">InstantiateOffcanvas</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Override Options Example<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] <span class="keyword">public</span> IOffcanvasService OffcanvasService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">public</span> Task InstantiateOffcanvas()
+    <span class="keyword">public</span> Task InstantiateOffcanvas()
     {
         <span class="keyword">return</span> OffcanvasService.Show&lt;CustomStructureOffcanvasExample&gt;( <span class="string">&quot;Override Options Example&quot;</span>, <span class="keyword">new</span> OffcanvasInstanceOptions()
         {
@@ -19,6 +16,5 @@
         } );
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

@@ -1,20 +1,17 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="atSign">&#64;</span>formularyMessage
+    <span class="atSign">&#64;</span>formularyMessage
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ShowFormulary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] <span class="keyword">public</span> IOffcanvasService OffcanvasService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">private</span> <span class="keyword">string</span> formularyMessage = <span class="keyword">string</span>.Empty;
+    <span class="keyword">private</span> <span class="keyword">string</span> formularyMessage = <span class="keyword">string</span>.Empty;
 
-        <span class="keyword">public</span> Task ShowFormulary()
+    <span class="keyword">public</span> Task ShowFormulary()
     {
         formularyMessage = <span class="keyword">string</span>.Empty;
         <span class="keyword">return</span> OffcanvasService.Show&lt;FormularyOffcanvasExample&gt;( x =&gt;
@@ -28,15 +25,14 @@
             } );
     }
 
-        <span class="keyword">private</span> Task&lt;<span class="keyword">bool</span>&gt; FormularyValidate( Employee employee )
+    <span class="keyword">private</span> Task&lt;<span class="keyword">bool</span>&gt; FormularyValidate( Employee employee )
         =&gt; Task.FromResult( !<span class="keyword">string</span>.IsNullOrWhiteSpace( employee.FirstName ) &amp;&amp; !<span class="keyword">string</span>.IsNullOrWhiteSpace( employee.Email ) );
 
-        <span class="keyword">private</span> Task FormularySuccess( Employee employee )
+    <span class="keyword">private</span> Task FormularySuccess( Employee employee )
     {
         formularyMessage = $<span class="string">&quot;Employee : {employee.FirstName} saved successfully!&quot;</span>;
         <span class="keyword">return</span> InvokeAsync( StateHasChanged );
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

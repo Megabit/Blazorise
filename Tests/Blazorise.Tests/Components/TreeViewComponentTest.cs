@@ -1,9 +1,12 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.TreeView;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 using static BasicTestApp.Client.TreeViewComponent;
 #endregion
@@ -144,6 +147,44 @@ public class TreeViewComponentTest : TestContext
         {
             nodes.Refresh();
             nodes.Count.Should().Be( 0 );
+        } );
+    }
+
+    [Fact]
+    public void ExpandedNodes_Should_Expand_When_ListMutates()
+    {
+        var child = new Item() { Text = "Child 1" };
+        var parent = new Item()
+        {
+            Text = "Parent",
+            Children = new List<Item> { child }
+        };
+
+        var items = new List<Item> { parent };
+        var expandedNodes = new List<Item>();
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, items );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+        } );
+
+        var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        nodes.Count.Should().Be( 1 );
+        nodes[0].TextContent.Should().Contain( "Parent" );
+
+        expandedNodes.Add( parent );
+
+        cut.Render();
+
+        cut.WaitForAssertion( () =>
+        {
+            var refreshedNodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+            refreshedNodes.Count.Should().Be( 2 );
+            refreshedNodes[1].TextContent.Should().Contain( "Child 1" );
         } );
     }
 

@@ -1,27 +1,24 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileInput</span> <span class="htmlAttributeName">Multiple</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileInput</span> <span class="htmlAttributeName">Multiple</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileInput</span> <span class="htmlAttributeName">Multiple</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FileInput</span> <span class="htmlAttributeName">Multiple</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnButtonClick</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Change culture to polish<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnButtonClick</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Change culture to polish<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject]
     Blazorise.Localization.ITextLocalizerService LocalizationService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="comment">// By using FileInput as generic typeparam, Blazorise will know</span>
-        <span class="comment">// what component need to update localization resources.</span>
+    <span class="comment">// By using FileInput as generic typeparam, Blazorise will know</span>
+    <span class="comment">// what component need to update localization resources.</span>
     [Inject]
     Blazorise.Localization.ITextLocalizer&lt;FileInput&gt; FileInputLocalizer { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> Task OnInitializedAsync()
+    <span class="keyword">protected</span> <span class="keyword">override</span> Task OnInitializedAsync()
     {
         FileInputLocalizer.AddLanguageResource( <span class="keyword">new</span> Blazorise.Localization.TextLocalizationResource
         {
@@ -48,6 +45,5 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

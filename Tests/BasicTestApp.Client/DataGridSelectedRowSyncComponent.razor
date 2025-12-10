@@ -1,0 +1,54 @@
+<DataGrid TItem="Employee"
+          @ref="GridRef"
+          Data="@Items"
+          SelectionMode="DataGridSelectionMode.Single"
+          SelectedRow="@SelectedRow"
+          SelectedRowChanged="OnSelectedRowChanged"
+          Editable
+          UseInternalEditing>
+    <DataGridColumns>
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name" />
+    </DataGridColumns>
+</DataGrid>
+
+<Button ElementId="btnDelete" Color="Color.Danger" Clicked="DeleteSelected">Delete</Button>
+
+@code {
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public List<Employee> Items { get; set; } = new()
+    {
+        new() { Id = 1, Name = "John" },
+        new() { Id = 2, Name = "Sarah" },
+    };
+
+    public Employee SelectedRow { get; set; }
+
+    public int SelectedRowChangedCount { get; private set; }
+
+    public DataGrid<Employee> GridRef { get; set; }
+
+    private Task OnSelectedRowChanged( Employee selected )
+    {
+        SelectedRow = selected;
+        SelectedRowChangedCount++;
+        return Task.CompletedTask;
+    }
+
+    private Task DeleteSelected()
+    {
+        if ( SelectedRow is not null )
+        {
+            return GridRef.Delete( SelectedRow );
+        }
+
+        return Task.CompletedTask;
+    }
+}

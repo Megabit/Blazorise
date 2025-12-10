@@ -1,27 +1,24 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Search values (comma separated)<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Search values (comma separated)<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>searchValue</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroup</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="atSign">&#64;</span>foreach ( var sentence in sentences )
+    <span class="atSign">&#64;</span>foreach ( var sentence in sentences )
     {
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListGroupItem</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>key</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">sentence</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Highlighter</span> <span class="htmlAttributeName">Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>sentence</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HighlightedTexts</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>highlightedWords</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Highlighter</span> <span class="htmlAttributeName">Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>sentence</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HighlightedTexts</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>highlightedWords</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroupItem</span><span class="htmlTagDelimiter">&gt;</span>
     }
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListGroup</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-        <span class="keyword">string</span> searchValue = <span class="string">&quot;the,item&quot;</span>;
+    <span class="keyword">string</span> searchValue = <span class="string">&quot;the,item&quot;</span>;
 
     IEnumerable&lt;<span class="keyword">string</span>&gt; sentences = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;
     {
@@ -30,10 +27,9 @@
         <span class="string">&quot;This is the third item&quot;</span>
     };
 
-        <span class="keyword">string</span>[] highlightedWords =&gt;
+    <span class="keyword">string</span>[] highlightedWords =&gt;
         ( searchValue ?? <span class="keyword">string</span>.Empty )
         .Split( <span class="string">&#39;,&#39;</span>, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).ToArray();
 }
-</pre>
-    </div>
+</pre></div>
 </div>
