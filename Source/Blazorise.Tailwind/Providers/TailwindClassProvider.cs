@@ -23,8 +23,8 @@ public class TailwindClassProvider : ClassProvider
         {
             Size.ExtraSmall => "p-1.5 sm:text-xs",
             Size.Small => "p-2 sm:text-xs",
-            Size.Medium => "p-3 text-md",
-            Size.Large => "p-4 sm:text-md",
+            Size.Medium => "p-3 text-base",
+            Size.Large => "p-4 sm:text-base",
             Size.ExtraLarge => "p-4 sm:text-lg",
             _ => "p-2.5 text-sm"
         };
@@ -106,8 +106,8 @@ public class TailwindClassProvider : ClassProvider
         {
             Size.ExtraSmall => "p-1.5 sm:text-xs h-6",
             Size.Small => "p-2 sm:text-xs h-8",
-            Size.Medium => "p-3 text-md h-12",
-            Size.Large => "p-4 sm:text-md h-14",
+            Size.Medium => "p-3 text-base h-12",
+            Size.Large => "p-4 sm:text-base h-14",
             Size.ExtraLarge => "p-4 sm:text h-16",
             _ => "p-2 text-sm h-10"
         };
@@ -149,8 +149,8 @@ public class TailwindClassProvider : ClassProvider
         {
             Size.ExtraSmall => "pl-8 py-1.2 sm:text-xs",
             Size.Small => "pl-8 py-2 sm:text-xs",
-            Size.Medium => "pl-8 py-3 text-md",
-            Size.Large => "pl-8 py-4 sm:text-md",
+            Size.Medium => "pl-8 py-3 text-base",
+            Size.Large => "pl-8 py-4 sm:text-base",
             Size.ExtraLarge => "pl-8 py-4 sm:text-lg",
             _ => "pl-8 py-2.5 text-sm"
         };
@@ -184,7 +184,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Check
 
-    public override string Check() => "text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+    public override string Check() => "text-primary-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
     public override string CheckSize( Size size )
     {
@@ -272,7 +272,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region FileInput
 
-    public override string FileInput() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
+    public override string FileInput() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-hidden dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
 
     public override string FileInputSize( Size size ) => TextInputSize( size );
 
@@ -445,8 +445,8 @@ public class TailwindClassProvider : ClassProvider
         {
             Size.ExtraSmall => "sm:text-xs",
             Size.Small => "sm:text-xs",
-            Size.Medium => "text-md",
-            Size.Large => "sm:text-md",
+            Size.Medium => "text-base",
+            Size.Large => "sm:text-base",
             Size.ExtraLarge => "sm:text-lg",
             _ => "text-sm"
         };
@@ -465,8 +465,8 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "b-button inline-flex items-center border focus:ring-4 focus:outline-none font-medium text-center"
-        : "b-button inline-flex items-center focus:ring-4 font-medium focus:outline-none";
+        ? "b-button inline-flex items-center border focus:ring-4 focus:outline-hidden font-medium text-center"
+        : "b-button inline-flex items-center focus:ring-4 font-medium focus:outline-hidden";
 
     public override string ButtonColor( Color color, bool outline )
     {
@@ -578,7 +578,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownHeader() => "b-dropdown-header py-3 px-4 text-sm text-gray-900 dark:text-white";
 
-    public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
+    public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded-sm divide-y divide-gray-100 shadow-sm dark:bg-gray-700";
 
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
         => $"max-w-max top-0 left-0 {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute" )}";
@@ -600,7 +600,7 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder( isDropdownSubmenu
             ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center" );
+            : "b-button b-dropdown-toggle focus:outline-hidden font-medium text-sm text-center inline-flex items-center" );
 
         if ( outline )
         {
@@ -900,7 +900,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItem() => "b-listgroup-item py-3 px-4 w-full border-b last:border-b-0";
 
-    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "b-listgroup-item-selectable cursor-pointer focus:outline-none" : null;
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "b-listgroup-item-selectable cursor-pointer focus:outline-hidden" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? "b-listgroup-item-active" : null;
 
@@ -1038,7 +1038,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-link block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+        ? "b-bar-link block px-4 py-2 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
         : "b-bar-link";
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
@@ -1048,10 +1048,10 @@ public class TailwindClassProvider : ClassProvider
         : "b-bar-brand";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-toggler navbar-toggler inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
+        ? "b-bar-toggler navbar-toggler inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-hidden focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
         : togglerMode == BarTogglerMode.Popout
             ? "b-bar-toggler-popout"
-            : "b-bar-toggler-inline inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600";
+            : "b-bar-toggler-inline inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-hidden focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600";
 
     public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => isShow || mode != Blazorise.BarMode.Horizontal ? null : "collapsed";
 
@@ -1096,7 +1096,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarDropdownDivider( BarMode mode ) => "b-bar-dropdown-divider";
 
     public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-max dark:bg-gray-700 dark:divide-gray-600"
+        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-sm shadow-sm w-max dark:bg-gray-700 dark:divide-gray-600"
         : "b-bar-dropdown-menu";
 
     public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible
@@ -1314,13 +1314,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalCentered( bool centered ) => null;
 
-    public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
+    public override string ModalBackdrop() => "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40";
 
     public override string ModalBackdropFade() => "b-modal-fade";
 
     public override string ModalBackdropVisible( bool visible ) => null;
 
-    public override string ModalContent( bool dialog ) => "relative flex flex-col w-full bg-white rounded-lg shadow dark:bg-gray-700";
+    public override string ModalContent( bool dialog ) => "relative flex flex-col w-full bg-white rounded-lg shadow-sm dark:bg-gray-700";
 
     public override string ModalContentSize( ModalSize modalSize )
     {
@@ -1387,7 +1387,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasBody() => "flex grow text-sm text-gray-500 dark:text-gray-400 p-4";
 
-    public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
+    public override string OffcanvasBackdrop() => "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30";
 
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => "fade";
 
@@ -1397,7 +1397,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Toast
 
-    public override string Toast() => "b-toast p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
+    public override string Toast() => "b-toast p-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
 
     public override string ToastAnimated( bool animated ) => null;
 
@@ -1734,7 +1734,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Badge
 
-    public override string Badge() => "b-badge inline-flex items-center text-[0.75em] leading-[1em] font-semibold px-2.5 py-1 rounded";
+    public override string Badge() => "b-badge inline-flex items-center text-[0.75em] leading-[1em] font-semibold px-2.5 py-1 rounded-sm";
 
     public override string BadgeColor( Color color, bool subtle )
     {
@@ -2292,13 +2292,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Shadow
 
-    public override string Shadow( Shadow shadow )
-    {
-        if ( shadow == Blazorise.Shadow.Default )
-            return "shadow";
-
-        return $"shadow-{ToShadow( shadow )}";
-    }
+    public override string Shadow( Shadow shadow )=> shadow switch
+        {
+            Blazorise.Shadow.None    => "shadow-none",
+            Blazorise.Shadow.Remove  => "shadow-none",
+            Blazorise.Shadow.Default => "shadow-sm",
+            Blazorise.Shadow.Small   => "shadow-xs",
+            Blazorise.Shadow.Large   => "shadow-lg",
+            _                        => throw new ArgumentOutOfRangeException( nameof( shadow ), shadow, null )
+        };
 
     #endregion
 
@@ -2458,11 +2460,11 @@ public class TailwindClassProvider : ClassProvider
     {
         return borderRadius switch
         {
-            Blazorise.BorderRadius.Rounded => "rounded",
-            Blazorise.BorderRadius.RoundedTop => "rounded-t",
-            Blazorise.BorderRadius.RoundedEnd => "rounded-r",
-            Blazorise.BorderRadius.RoundedBottom => "rounded-b",
-            Blazorise.BorderRadius.RoundedStart => "rounded-l",
+            Blazorise.BorderRadius.Rounded => "rounded-sm",
+            Blazorise.BorderRadius.RoundedTop => "rounded-t-sm",
+            Blazorise.BorderRadius.RoundedEnd => "rounded-r-sm",
+            Blazorise.BorderRadius.RoundedBottom => "rounded-b-sm",
+            Blazorise.BorderRadius.RoundedStart => "rounded-l-sm",
             Blazorise.BorderRadius.RoundedCircle => "rounded-full",
             Blazorise.BorderRadius.RoundedPill => "rounded-full",
             Blazorise.BorderRadius.RoundedZero => "rounded-none",
