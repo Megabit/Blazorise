@@ -380,6 +380,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 return;
             }
 
+            if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+            {
+                await SearchKeyDown.InvokeAsync( eventArgs );
+                return;
+            }
+
             await SelectedOrResetOnCommit();
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
@@ -775,11 +781,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( SelectedTexts is null )
             return;
 
-        SelectedTexts.Remove( text );
-        await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+        var removed = SelectedTexts.Remove( text );
 
-        if ( SelectionMode == AutocompleteSelectionMode.Multiple )
-            DirtyFilter();
+        if ( removed )
+        {
+            await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+
+            if ( SelectionMode == AutocompleteSelectionMode.Multiple )
+                DirtyFilter();
+        }
     }
 
     private async Task RemoveMultipleValue( TValue value )
@@ -787,8 +797,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( SelectedValues is null )
             return;
 
-        SelectedValues.Remove( value );
-        await SelectedValuesChanged.InvokeAsync( SelectedValues );
+        var removed = SelectedValues.Remove( value );
+
+        if ( removed )
+            await SelectedValuesChanged.InvokeAsync( SelectedValues );
     }
 
     /// <summary>
@@ -814,8 +826,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( Disabled )
             return;
 
+        var selectedValue = GetValueByText( text );
+
         await RemoveMultipleText( text );
-        await RemoveMultipleValue( GetValueByText( text ) );
+        await RemoveMultipleValue( selectedValue );
 
         if ( ( validationRef.ParentValidations?.Mode ?? ValidationMode.Auto ) == ValidationMode.Auto )
             await validationRef.ValidateAsync();
@@ -830,7 +844,17 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns></returns>
     public async Task RemoveMultipleTextAndValue( TValue value )
     {
-        await RemoveMultipleText( GetItemText( value ) );
+        var text = GetItemText( value );
+
+        if ( string.IsNullOrEmpty( text ) && SelectedValues is not null && SelectedTexts is not null )
+        {
+            var selectedValueIndex = SelectedValues.IndexOf( value );
+
+            if ( selectedValueIndex > -1 && selectedValueIndex < SelectedTexts.Count )
+                text = SelectedTexts[selectedValueIndex];
+        }
+
+        await RemoveMultipleText( text );
         await RemoveMultipleValue( value );
 
         if ( ( validationRef.ParentValidations?.Mode ?? ValidationMode.Auto ) == ValidationMode.Auto )
@@ -1190,9 +1214,21 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <param name="text"></param>
     /// <returns></returns>
     private TValue GetValueByText( string text )
-        => SelectedValues is not null
-        ? SelectedValues.FirstOrDefault( x => GetItemText( x ) == text )
-        : default;
+    {
+        if ( SelectedValues is not null && SelectedTexts is not null )
+        {
+            var selectedValueIndex = SelectedTexts.IndexOf( text );
+
+            if ( selectedValueIndex > -1 && selectedValueIndex < SelectedValues.Count )
+                return SelectedValues[selectedValueIndex];
+        }
+
+        var item = GetItemByText( text );
+
+        return item is null
+            ? default
+            : GetItemValue( item );
+    }
 
     private Color GetMultipleBadgeColor() => Disabled
         ? MultipleDisabledBadgeColor

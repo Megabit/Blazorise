@@ -20,6 +20,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     private bool checkChildrenLoaded;
 
     internal NotifyCollectionChangedEventHandler PreviousNotifyCollectionChangedEventHandler;
+
+    private int? expandedNodesHash;
+
     #endregion
 
     #region Methods
@@ -53,6 +56,13 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     protected override async Task OnParametersSetAsync()
     {
+        var expandedNodesHashChanged = SyncExpandedNodesHash();
+
+        if ( expandedNodesHashChanged )
+        {
+            await SynchronizeExpandedNodes();
+        }
+
         // Check if expanded is true but children is empty to load child nodes if needed, happens after Reload,
         // we use the bool flag to ensure we don't do this multiple times during render.
         if ( checkChildrenLoaded )
@@ -188,6 +198,49 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         }
 
         StateHasChanged();
+    }
+
+    private bool SyncExpandedNodesHash()
+    {
+        var newExpandedNodesHash = ExpandedNodes?.GetListHash();
+
+        if ( expandedNodesHash == newExpandedNodesHash )
+            return false;
+
+        expandedNodesHash = newExpandedNodesHash;
+
+        return true;
+    }
+
+    private async Task SynchronizeExpandedNodes()
+    {
+        if ( NodeStates is null )
+            return;
+
+        await SynchronizeExpandedNodes( NodeStates );
+    }
+
+    private async Task SynchronizeExpandedNodes( IEnumerable<TreeViewNodeState<TNode>> nodeStates )
+    {
+        foreach ( var nodeState in nodeStates )
+        {
+            var shouldBeExpanded = ExpandedNodes?.Contains( nodeState.Node ) == true;
+
+            if ( nodeState.Expanded != shouldBeExpanded )
+            {
+                nodeState.Expanded = shouldBeExpanded;
+
+                if ( shouldBeExpanded && nodeState.HasChildren )
+                {
+                    await LoadChildNodes( nodeState );
+                }
+            }
+
+            if ( nodeState.Children?.Count > 0 )
+            {
+                await SynchronizeExpandedNodes( nodeState.Children );
+            }
+        }
     }
 
     /// <inheritdoc/>
