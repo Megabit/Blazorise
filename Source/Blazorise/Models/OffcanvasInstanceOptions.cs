@@ -127,7 +127,7 @@ public class OffcanvasInstanceOptions
     public CharacterCasing? Casing { get; set; }
 
     /// <inheritdoc/>
-    public TextColor? TextColor { get; set; }
+    public TextColor TextColor { get; set; }
 
     /// <inheritdoc/>
     public TextAlignment? TextAlignment { get; set; }
@@ -145,7 +145,7 @@ public class OffcanvasInstanceOptions
     public VerticalAlignment? VerticalAlignment { get; set; }
 
     /// <inheritdoc/>
-    public Background? Background { get; set; }
+    public Background Background { get; set; }
 
     /// <inheritdoc/>
     public Shadow? Shadow { get; set; }
