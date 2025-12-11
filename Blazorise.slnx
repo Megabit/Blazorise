@@ -92,6 +92,7 @@
     <Project Path="Tests/BasicTestApp.Client/BasicTestApp.Client.csproj" />
     <Project Path="Tests/BasicTestApp.Server/BasicTestApp.Server.csproj" />
     <Project Path="Tests/Blazorise.Benchmark/Blazorise.Benchmark.csproj" />
+    <Project Path="Tests/Blazorise.Analyzers.Tests/Blazorise.Analyzers.Tests.csproj" />
     <Project Path="Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj" />
     <Project Path="Tests/Blazorise.Tests/Blazorise.Tests.csproj" />
   </Folder>
