@@ -16,7 +16,7 @@
                                    ShowMonthViewButton="@(schedulerMonthView is not null)" />
             }
 
-            <_SchedulerViews TItem="TItem">
+            <_SchedulerViews @key="@viewRefreshRevision" TItem="TItem">
                 @if ( ShowingDayView )
                 {
                     <_SchedulerDayView TItem="TItem"
