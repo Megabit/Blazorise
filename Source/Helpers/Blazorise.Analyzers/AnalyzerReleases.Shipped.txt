@@ -1,0 +1,10 @@
+## Release 2.0.0
+
+### New Rules
+BLZC001: Blazorise component renamed
+BLZP001: Blazorise parameter renamed
+BLZT001: Blazorise TValue shape is invalid
+### Removed Rules
+None
+### Changed Rules
+None

@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <!-- Redirect obj and NuGet assets locally to avoid VS/msbuild temp-file locks -->
+    <BaseIntermediateOutputPath>obj-analyzers\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+  </PropertyGroup>
+</Project>

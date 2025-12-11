@@ -78,6 +78,7 @@
     <Project Path="Source/Extensions/Blazorise.Video/Blazorise.Video.csproj" />
   </Folder>
   <Folder Name="/Source/Helpers/">
+    <Project Path="Source/Helpers/Blazorise.Analyzers/Blazorise.Analyzers.csproj" />
     <Project Path="Source/Helpers/Blazorise.Tests.bUnit/Blazorise.Tests.bUnit.csproj" />
   </Folder>
   <Folder Name="/SourceGenerators/">

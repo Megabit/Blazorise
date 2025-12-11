@@ -5,6 +5,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
     <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\Source\Helpers\Blazorise.Analyzers\Blazorise.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
@@ -37,6 +38,10 @@
     <Content Update="Pages\Tests\RouterTabsPage.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Analyzer Include="..\..\Source\Helpers\Blazorise.Analyzers\bin\$(Configuration)\netstandard2.0\Blazorise.Analyzers.dll" />
   </ItemGroup>
 
   <PropertyGroup>

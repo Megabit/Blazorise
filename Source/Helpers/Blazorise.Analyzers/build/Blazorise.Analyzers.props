@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Analyzer Include="$(MSBuildThisPackageRoot)analyzers/dotnet/cs/Blazorise.Analyzers.dll" />
+  </ItemGroup>
+</Project>

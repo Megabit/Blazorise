@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Add this project to Blazorise.slnx under /Source/Helpers and reference it from Blazorise.Demo so analyzers run in the demo. -->
+  <!-- Future analyzers should expose distinct diagnostic IDs per category (component name, parameter name, TValue shape, etc.) and default to DiagnosticSeverity.Error. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <LangVersion>11.0</LangVersion>
+    <AssemblyName>Blazorise.Analyzers</AssemblyName>
+    <RootNamespace>Blazorise.Analyzers</RootNamespace>
+    <PackageId>Blazorise.Analyzers</PackageId>
+    <Version>2.0.0</Version>
+    <Authors>Blazorise</Authors>
+    <Company>Blazorise</Company>
+    <Description>Roslyn analyzers and migration helpers for Blazorise 2.0.</Description>
+    <PackageTags>Blazorise;Blazor;Analyzer;Roslyn;Migration</PackageTags>
+    <RepositoryUrl>https://github.com/Blazorise/Blazorise</RepositoryUrl>
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IsRoslynAnalyzer>true</IsRoslynAnalyzer>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>NU5128;RS2008</NoWarn>
+    <Nullable>enable</Nullable>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.txt" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.txt" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <!-- Pack the netstandard analyzer assembly under analyzers/dotnet/cs -->
+    <None Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="build\Blazorise.Analyzers.props" Pack="true" PackagePath="build\Blazorise.Analyzers.props" />
+  </ItemGroup>
+</Project>
