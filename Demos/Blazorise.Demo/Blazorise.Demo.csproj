@@ -40,10 +40,6 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Analyzer Include="..\..\Source\Helpers\Blazorise.Analyzers\bin\$(Configuration)\netstandard2.0\Blazorise.Analyzers.dll" />
-  </ItemGroup>
-
   <PropertyGroup>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
