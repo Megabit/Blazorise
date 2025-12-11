@@ -142,6 +142,14 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     private bool isSelecting;
 
+    /// <summary>
+    /// A revision counter used to force re-render of the visible view when data changes.
+    /// </summary>
+    private int viewRefreshRevision;
+
+    /// <summary>
+    /// Represents a reference to the scheduler's container element in the DOM.
+    /// </summary>
     private Div schedulerDivRef;
 
     #endregion
@@ -992,6 +1000,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             editState = SchedulerEditState.None;
 
+            viewRefreshRevision++;
             await Refresh();
 
             return true;
@@ -1023,6 +1032,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
 
             editState = SchedulerEditState.None;
 
+            viewRefreshRevision++;
             await Refresh();
 
             return true;
