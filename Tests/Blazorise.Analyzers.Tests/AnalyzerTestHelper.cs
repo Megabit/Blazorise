@@ -24,6 +24,7 @@ namespace Microsoft.AspNetCore.Components.Rendering
     public class RenderTreeBuilder
     {
         public void OpenComponent<TComponent>(int sequence) { }
+        public void OpenComponent(int sequence, System.Type componentType) { }
         public void CloseComponent() { }
         public void OpenElement(int sequence, string name) { }
         public void CloseElement() { }

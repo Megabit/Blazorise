@@ -619,14 +619,15 @@ internal static class RenderTreeMigrationEngine
         {
             case IFieldReferenceOperation fieldReference:
                 {
-                    var fieldName = fieldReference.Field?.Name;
-                    if ( fieldName is not null )
+                    if ( fieldReference.Field is IFieldSymbol field
+                         && field.ContainingType?.TypeKind == TypeKind.Enum
+                         && field.HasConstantValue )
                     {
-                        if ( IsMultipleOrNonSingleName( fieldName ) )
-                            return true;
-
-                        if ( IsSingleName( fieldName ) )
+                        if ( IsSingleName( field.Name ) )
                             return false;
+
+                        if ( IsMultipleOrNonSingleName( field.Name ) )
+                            return true;
                     }
                     break;
                 }

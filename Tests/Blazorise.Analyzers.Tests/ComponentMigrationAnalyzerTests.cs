@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -24,6 +25,14 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
         builder.OpenComponent<Blazorise.ColorEdit<string>>( 0 );
         builder.CloseComponent();
     }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var diagnostic = Assert.Single( diagnostics );
+        Assert.Equal( "BLZC001", diagnostic.Id );
+        Assert.Equal( "Component 'Blazorise.ColorEdit`1' was renamed to 'Blazorise.ColorInput`1'", diagnostic.GetMessage() );
+    }
 
     [Fact]
     public async Task Reports_tag_rename_for_removed_components()
@@ -35,8 +44,8 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
 {
     public void Build( RenderTreeBuilder builder )
     {
-        builder.OpenElement( 0, \"TextEdit\" );
-        builder.AddAttribute( 1, \"Text\", \"test\" );
+        builder.OpenElement( 0, ""TextEdit"" );
+        builder.AddAttribute( 1, ""Text"", ""test"" );
         builder.CloseElement();
     }
 }";
@@ -44,16 +53,8 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
         var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
 
         var diagnostic = Assert.Single( diagnostics );
-        Assert.Equal( \"BLZR001\", diagnostic.Id );
-        Assert.Equal( \"Tag 'TextEdit' was renamed to 'TextInput'\", diagnostic.GetMessage() );
-    }
-}";
-
-        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
-
-        var diagnostic = Assert.Single( diagnostics );
-        Assert.Equal( "BLZC001", diagnostic.Id );
-        Assert.Equal( "Component 'Blazorise.ColorEdit`1' was renamed to 'Blazorise.ColorInput`1'", diagnostic.GetMessage() );
+        Assert.Equal( "BLZR001", diagnostic.Id );
+        Assert.Equal( "Tag 'TextEdit' was renamed to 'TextInput'", diagnostic.GetMessage() );
     }
 
     [Fact]
@@ -232,22 +233,22 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     public async Task Reports_datagridcolumn_width_type_change()
     {
         var source = @"
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Blazorise.DataGrid
-{
-    public class DataGridColumn<TValue> : Microsoft.AspNetCore.Components.ComponentBase { }
-}
-
-public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
-{
-    public void Build( RenderTreeBuilder builder )
-    {
-        builder.OpenComponent<Blazorise.DataGridColumn<int>>( 0 );
+ using Microsoft.AspNetCore.Components.Rendering;
+ 
+ namespace Blazorise.DataGrid
+ {
+     public class DataGridColumn<TValue> : Microsoft.AspNetCore.Components.ComponentBase { }
+ }
+ 
+ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+ {
+     public void Build( RenderTreeBuilder builder )
+     {
+        builder.OpenComponent<Blazorise.DataGrid.DataGridColumn<int>>( 0 );
         builder.AddAttribute( 1, ""Width"", ""60px"" );
         builder.CloseComponent();
-    }
-}";
+     }
+ }";
 
         var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
 
@@ -346,7 +347,7 @@ public class MyComponent
     public async Task Reports_datagridpagechangedeventargs_type_removed()
     {
         var source = @"
-namespace Blazorise.DataGrid
+namespace Blazorise
 {
     public class DataGridPageChangedEventArgs { }
 }
@@ -475,13 +476,13 @@ public class Employee { public string Email { get; set; } }
 
 public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
 {
-    public void Build( RenderTreeBuilder builder )
-    {
-        builder.OpenComponent<Blazorise.DataGrid.DataGridColumn<Employee>>( 0 );
-        builder.AddComponentParameter( 1, \"PopupFieldColumnSize\", \"ColumnSize.IsFull.OnDesktop\" );
-        builder.CloseComponent();
-    }
-}";
+        public void Build( RenderTreeBuilder builder )
+        {
+            builder.OpenComponent<Blazorise.DataGrid.DataGridColumn<Employee>>( 0 );
+            builder.AddComponentParameter( 1, ""PopupFieldColumnSize"", ""ColumnSize.IsFull.OnDesktop"" );
+            builder.CloseComponent();
+        }
+    }";
 
         var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
 
@@ -494,16 +495,6 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
         var source = @"
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace Microsoft.AspNetCore.Components.Rendering
-{
-    public class RenderTreeBuilder
-    {
-        public void OpenComponent( int sequence, System.Type componentType ) { }
-        public void CloseComponent() { }
-        public void AddAttribute<TValue>(int sequence, string name, TValue value) { }
-    }
-}
-
 namespace Blazorise.DataGrid
 {
     public class DataGridColumn<TItem> : Microsoft.AspNetCore.Components.ComponentBase { }
@@ -513,17 +504,17 @@ public class Employee { public string Email { get; set; } }
 
 public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
 {
-    public void Build( RenderTreeBuilder builder )
-    {
-        builder.OpenComponent( 0, typeof( Blazorise.DataGrid.DataGridColumn<Employee> ) );
-        builder.AddAttribute( 1, \"PopupFieldColumnSize\", \"ColumnSize.IsFull.OnDesktop\" );
-        builder.CloseComponent();
-    }
-}";
+        public void Build( RenderTreeBuilder builder )
+        {
+            builder.OpenComponent( 0, typeof( Blazorise.DataGrid.DataGridColumn<Employee> ) );
+            builder.AddAttribute( 1, ""PopupFieldColumnSize"", ""ColumnSize.IsFull.OnDesktop"" );
+            builder.CloseComponent();
+        }
+    }";
 
         var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
 
-        Assert.Contains( diagnostics, d => d.Id == \"BLZP001\" && d.GetMessage().Contains( \"PopupFieldColumnSize\" ) );
+        Assert.Contains( diagnostics, d => d.Id == "BLZP001" && d.GetMessage().Contains( "PopupFieldColumnSize" ) );
     }
 
     [Fact]
@@ -550,14 +541,238 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     public void Build( RenderTreeBuilder builder )
     {
         builder.OpenComponent<Blazorise.DatePicker<System.DateTime?>>( 0 );
-        builder.AddAttribute( 1, \"SelectionMode\", mode ); // non-constant
-        builder.AddAttribute( 2, \"Value\", value );
+        builder.AddAttribute( 1, ""SelectionMode"", mode ); // non-constant
+        builder.AddAttribute( 2, ""Value"", value );
         builder.CloseComponent();
     }
 }";
 
         var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
 
-        Assert.DoesNotContain( diagnostics, d => d.Id == \"BLZT001\" );
+        Assert.DoesNotContain( diagnostics, d => d.Id == "BLZT001" );
+    }
+
+    [Fact]
+    public async Task Reports_tvalueshape_for_typeinference_callsite_constants()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public enum DateInputSelectionMode { Single = 0, Range = 1, Multiple = 2 }
+
+    public class DatePicker<TValue> : Microsoft.AspNetCore.Components.ComponentBase
+    {
+        public DateInputSelectionMode SelectionMode { get; set; }
+        public TValue Value { get; set; }
+    }
+}
+
+namespace Microsoft.AspNetCore.Components.CompilerServices
+{
+    public static class RuntimeHelpers
+    {
+        public static T TypeCheck<T>( T value ) => value;
+    }
+}
+
+namespace __Blazor.SomeNamespace
+{
+    internal static class TypeInference
+    {
+        public static void CreateDatePicker_0<TValue>( RenderTreeBuilder builder, int seq, int __seq0, Blazorise.DateInputSelectionMode __arg0, int __seq1, TValue __arg1 )
+        {
+            builder.OpenComponent<Blazorise.DatePicker<TValue>>( seq );
+            builder.AddComponentParameter( __seq0, nameof( Blazorise.DatePicker<TValue>.SelectionMode ), Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck( __arg0 ) );
+            builder.AddComponentParameter( __seq1, nameof( Blazorise.DatePicker<TValue>.Value ), __arg1 );
+            builder.CloseComponent();
+        }
+    }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    private System.DateTime? value;
+
+    public void Build( RenderTreeBuilder builder )
+    {
+#line 20 ""PickersPage.razor""
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_0( builder, 0, 1, Blazorise.DateInputSelectionMode.Multiple, 2, value );
+#line default
+#line hidden
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var diagnostic = Assert.Single( diagnostics, d => d.Id == "BLZT001" );
+        Assert.Contains( "SingleOrMultiListOrArray", diagnostic.GetMessage() );
+        var mappedSpan = diagnostic.Location.GetMappedLineSpan();
+        Assert.Equal( "PickersPage.razor", mappedSpan.Path );
+        Assert.Equal( 20, mappedSpan.StartLinePosition.Line + 1 );
+    }
+
+    [Fact]
+    public async Task Reports_tvalueshape_for_typeinference_multi_value_used_for_single_selection()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public class DatePicker<TValue> : Microsoft.AspNetCore.Components.ComponentBase
+    {
+        public TValue Value { get; set; }
+    }
+}
+
+namespace __Blazor.SomeNamespace
+{
+    internal static class TypeInference
+    {
+        public static void CreateDatePicker_0<TValue>( RenderTreeBuilder builder, int seq, int __seq0, TValue __arg0 )
+        {
+            builder.OpenComponent<Blazorise.DatePicker<TValue>>( seq );
+            builder.AddComponentParameter( __seq0, nameof( Blazorise.DatePicker<TValue>.Value ), __arg0 );
+            builder.CloseComponent();
+        }
+    }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        System.Collections.Generic.IReadOnlyList<System.DateTime?> values = new System.DateTime?[] { System.DateTime.Now };
+#line 25 ""PickersPage.razor""
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_0( builder, 0, 1, values );
+#line default
+#line hidden
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var diagnostic = Assert.Single( diagnostics, d => d.Id == "BLZT001" );
+        Assert.Contains( "expects TValue shape 'Single'", diagnostic.GetMessage() );
+        var mappedSpan = diagnostic.Location.GetMappedLineSpan();
+        Assert.Equal( "PickersPage.razor", mappedSpan.Path );
+        Assert.Equal( 25, mappedSpan.StartLinePosition.Line + 1 );
+    }
+
+    [Fact]
+    public async Task Reports_tvalueshape_for_typeinference_pickerspage_invalid_lines_20_to_25()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public enum DateInputSelectionMode { Single = 0, Range = 1, Multiple = 2 }
+
+    public class DatePicker<TValue> : Microsoft.AspNetCore.Components.ComponentBase
+    {
+        public DateInputSelectionMode SelectionMode { get; set; }
+        public TValue Value { get; set; }
+    }
+}
+
+namespace Microsoft.AspNetCore.Components.CompilerServices
+{
+    public static class RuntimeHelpers
+    {
+        public static T TypeCheck<T>( T value ) => value;
+    }
+}
+
+namespace __Blazor.SomeNamespace
+{
+    internal static class TypeInference
+    {
+        public static void CreateDatePicker_WithMode<TValue>( RenderTreeBuilder builder, int seq, int __seq0, Blazorise.DateInputSelectionMode __arg0, int __seq1, TValue __arg1 )
+        {
+            builder.OpenComponent<Blazorise.DatePicker<TValue>>( seq );
+            builder.AddComponentParameter( __seq0, nameof( Blazorise.DatePicker<TValue>.SelectionMode ), Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck( __arg0 ) );
+            builder.AddComponentParameter( __seq1, nameof( Blazorise.DatePicker<TValue>.Value ), __arg1 );
+            builder.CloseComponent();
+        }
+
+        public static void CreateDatePicker_NoMode<TValue>( RenderTreeBuilder builder, int seq, int __seq0, TValue __arg0 )
+        {
+            builder.OpenComponent<Blazorise.DatePicker<TValue>>( seq );
+            builder.AddComponentParameter( __seq0, nameof( Blazorise.DatePicker<TValue>.Value ), __arg0 );
+            builder.CloseComponent();
+        }
+    }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        System.DateTime? singleValue = System.DateTime.Now;
+        System.Collections.Generic.IReadOnlyList<System.DateTime?> multiValue = new System.DateTime?[] { System.DateTime.Now };
+
+#line 20 ""PickersPage.razor""
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_WithMode( builder, 0, 1, Blazorise.DateInputSelectionMode.Multiple, 2, singleValue );
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_WithMode( builder, 0, 1, Blazorise.DateInputSelectionMode.Range, 2, singleValue );
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_NoMode( builder, 0, 1, multiValue );
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_WithMode( builder, 0, 1, Blazorise.DateInputSelectionMode.Single, 2, multiValue );
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_WithMode( builder, 0, 1, Blazorise.DateInputSelectionMode.Single, 2, multiValue );
+        __Blazor.SomeNamespace.TypeInference.CreateDatePicker_NoMode( builder, 0, 1, multiValue );
+#line default
+#line hidden
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var tvalueDiagnostics = diagnostics.Where( d => d.Id == "BLZT001" ).ToArray();
+        Assert.Equal( 6, tvalueDiagnostics.Length );
+
+        foreach ( var expectedLine in Enumerable.Range( 20, 6 ) )
+        {
+            Assert.Contains( tvalueDiagnostics, d =>
+            {
+                var mappedSpan = d.Location.GetMappedLineSpan();
+                return mappedSpan.Path == "PickersPage.razor"
+                       && mappedSpan.StartLinePosition.Line + 1 == expectedLine;
+            } );
+        }
+    }
+
+    [Fact]
+    public async Task Does_not_duplicate_tvalueshape_diagnostics_for_nested_blocks()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public class Select<TValue> : Microsoft.AspNetCore.Components.ComponentBase
+    {
+        public bool Multiple { get; set; }
+        public TValue Value { get; set; }
+    }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        if ( true )
+        {
+            builder.OpenComponent<Blazorise.Select<string>>( 0 );
+            builder.AddAttribute( 1, ""Multiple"", true );
+            builder.AddAttribute( 2, ""Value"", ""single"" );
+            builder.CloseComponent();
+        }
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        Assert.Single( diagnostics, d => d.Id == "BLZT001" );
     }
 }
