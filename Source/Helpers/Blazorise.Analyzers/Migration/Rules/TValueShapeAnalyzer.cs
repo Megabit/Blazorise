@@ -29,17 +29,6 @@ public sealed class TValueShapeAnalyzer : DiagnosticAnalyzer
 
     private sealed class Handler : MigrationHandler
     {
-        public override void OnAttributeAfterUpdate(
-            OperationAnalysisContext context,
-            MigrationContext migration,
-            ComponentContext component,
-            string attributeName,
-            IOperation valueOperation,
-            Location location )
-        {
-            ReportIfNeeded( context, component );
-        }
-
         public override void OnCloseComponent( OperationAnalysisContext context, MigrationContext migration, ComponentContext component )
         {
             ReportIfNeeded( context, component );
@@ -73,7 +62,7 @@ public sealed class TValueShapeAnalyzer : DiagnosticAnalyzer
                 return;
             }
 
-            var multiShapeType = componentContext.TValueType ?? componentContext.ValueType ?? valueType;
+            var multiShapeType = componentContext.ValueType ?? componentContext.TValueType ?? valueType;
 
             if ( mapping.TValueShape == TValueShape.SingleOrMultiListOrArray
                  && componentContext.IsMultiple
@@ -88,7 +77,21 @@ public sealed class TValueShapeAnalyzer : DiagnosticAnalyzer
                     valueType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) ) );
                 componentContext.HasReportedTValueShape = true;
             }
+
+            if ( mapping.TValueShape == TValueShape.SingleOrMultiListOrArray
+                 && !componentContext.IsMultiple
+                 && !componentContext.HasUnknownSelectionMode
+                 && multiShapeType is not null
+                 && RenderTreeMigrationEngine.IsMultiValueType( multiShapeType ) )
+            {
+                context.ReportDiagnostic( Diagnostic.Create(
+                    Rule,
+                    location,
+                    componentContext.ComponentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
+                    TValueShape.Single.ToString(),
+                    multiShapeType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) ) );
+                componentContext.HasReportedTValueShape = true;
+            }
         }
     }
 }
-
