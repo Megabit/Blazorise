@@ -44,6 +44,7 @@ dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.Fon
 dotnet pack ../Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.FluentUI/Blazorise.Icons.FluentUI.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
+dotnet pack ../Source/Helpers/Blazorise.Analyzers/Blazorise.Analyzers.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Helpers/Blazorise.Tests.bUnit/Blazorise.Tests.bUnit.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
 dotnet pack ../Source/SourceGenerators/Blazorise.Generator.Features/Blazorise.Generator.Features.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg

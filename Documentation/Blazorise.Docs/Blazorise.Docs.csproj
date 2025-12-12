@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Helpers\Blazorise.Analyzers\Blazorise.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
     <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
