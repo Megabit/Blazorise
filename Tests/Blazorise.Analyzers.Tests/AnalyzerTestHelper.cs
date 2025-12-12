@@ -58,10 +58,15 @@ namespace Microsoft.AspNetCore.Components.Rendering
             references: references,
             options: new CSharpCompilationOptions( OutputKind.DynamicallyLinkedLibrary ) );
 
-        var analyzer = new ComponentMigrationAnalyzer();
+        DiagnosticAnalyzer[] analyzers =
+        {
+            new ComponentMigrationAnalyzer(),
+            new SymbolMigrationAnalyzer(),
+            new TypeMigrationAnalyzer(),
+        };
 
         var diagnostics = await compilation
-            .WithAnalyzers( ImmutableArray.Create<DiagnosticAnalyzer>( analyzer ) )
+            .WithAnalyzers( ImmutableArray.Create( analyzers ) )
             .GetAnalyzerDiagnosticsAsync();
 
         return diagnostics;

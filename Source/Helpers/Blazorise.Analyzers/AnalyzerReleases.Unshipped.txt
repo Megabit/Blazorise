@@ -1,7 +1,11 @@
 ## Unshipped
 
 ### New Rules
-None
+BLZP002: Blazorise parameter type changed
+BLZS001: Blazorise member renamed
+BLZS002: Blazorise member removed
+BLZTYP001: Blazorise type renamed
+BLZTYP002: Blazorise type removed
 ### Removed Rules
 None
 ### Changed Rules

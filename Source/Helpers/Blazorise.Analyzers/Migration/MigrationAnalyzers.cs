@@ -54,6 +54,14 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true );
 
+    private static readonly DiagnosticDescriptor ParameterTypeRule = new(
+        id: "BLZP002",
+        title: "Blazorise parameter type changed",
+        messageFormat: "Parameter '{0}' on component '{1}' has changed type: {2}",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true );
+
     private static readonly DiagnosticDescriptor TValueShapeRule = new(
         id: "BLZT001",
         title: "Blazorise TValue shape is invalid",
@@ -65,6 +73,7 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
     private static readonly ImmutableArray<DiagnosticDescriptor> Supported = ImmutableArray.Create(
         ComponentNameRule,
         ParameterNameRule,
+        ParameterTypeRule,
         TValueShapeRule );
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => Supported;
@@ -81,7 +90,7 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
         var renderTreeBuilder = context.Compilation.GetTypeByMetadataName( "Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder" );
         var componentBase = context.Compilation.GetTypeByMetadataName( "Microsoft.AspNetCore.Components.ComponentBase" );
 
-        if ( renderTreeBuilder is null || componentBase is null )
+        if ( componentBase is null )
             return;
 
         var componentByOld = new Dictionary<string, ComponentMapping>( StringComparer.Ordinal );
@@ -101,7 +110,7 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
 
     private static void AnalyzeBlock(
         OperationAnalysisContext context,
-        INamedTypeSymbol renderTreeBuilder,
+        INamedTypeSymbol? renderTreeBuilder,
         INamedTypeSymbol componentBase,
         IReadOnlyDictionary<string, ComponentMapping> componentByOld,
         IReadOnlyDictionary<string, ComponentMapping> componentByNew )
@@ -109,9 +118,9 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
         if ( context.Operation is not IBlockOperation block )
             return;
 
-        var containingType = context.ContainingSymbol?.ContainingType;
-        if ( containingType is null || !IsOrInheritsFrom( containingType, componentBase ) )
-            return;
+        // Do not restrict to ComponentBase-containing types only.
+        // Razor source generator can emit helper methods in non-component static classes.
+        // We still want to catch RenderTreeBuilder usage in those helpers.
 
         var stack = new Stack<ComponentContext>();
 
@@ -119,14 +128,15 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
 
         void Traverse( IOperation operation )
         {
-            if ( operation is IInvocationOperation invocation
-                 && SymbolEqualityComparer.Default.Equals( invocation.TargetMethod.ContainingType, renderTreeBuilder ) )
+            // Razor-generated code may call RenderTreeBuilder APIs through helpers or extensions.
+            // We key off method names rather than strict type matching to avoid missing migrations.
+            if ( operation is IInvocationOperation invocation )
             {
                 var target = invocation.TargetMethod;
 
-                if ( target.Name.Equals( "OpenComponent", StringComparison.Ordinal ) && target.TypeArguments.Length == 1 )
+                if ( target.Name.Equals( "OpenComponent", StringComparison.Ordinal ) )
                 {
-                    var componentType = target.TypeArguments[0];
+                    var componentType = GetComponentTypeFromOpenComponent( invocation, target );
                     if ( componentType is INamedTypeSymbol named )
                     {
                         var mapping = LookupComponentMapping( named, componentByNew, componentByOld );
@@ -154,6 +164,7 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
                             if ( mapping is not null )
                             {
                                 ReportParameterRenameIfNeeded( context, invocation.Arguments[1].Value.Syntax.GetLocation(), attributeName, mapping, currentComponent.ComponentType );
+                                ReportParameterTypeChangeIfNeeded( context, invocation.Arguments[1].Value.Syntax.GetLocation(), attributeName, invocation.Arguments[2].Value, currentComponent.ComponentType );
                                 UpdateMultipleFlag( attributeName, invocation.Arguments[2].Value, mapping, currentComponent );
                                 UpdateValueBinding( attributeName, invocation.Arguments[2].Value, mapping, currentComponent );
                                 ReportTValueShapeIfNeeded( context, currentComponent );
@@ -168,6 +179,62 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
                 Traverse( child );
             }
         }
+    }
+
+    private static ITypeSymbol? GetComponentTypeFromOpenComponent( IInvocationOperation invocation, IMethodSymbol target )
+    {
+        if ( target.TypeArguments.Length == 1 )
+            return target.TypeArguments[0];
+
+        if ( invocation.Arguments.Length >= 2 )
+        {
+            var typeOfOperand = UnwrapToTypeOfOperand( invocation.Arguments[1].Value );
+            if ( typeOfOperand is not null )
+                return typeOfOperand;
+        }
+
+        return null;
+    }
+
+    private static ITypeSymbol? UnwrapToTypeOfOperand( IOperation operation )
+    {
+        switch ( operation )
+        {
+            case ITypeOfOperation typeOfOperation:
+                return typeOfOperation.TypeOperand;
+            case IConversionOperation conversion when conversion.Operand is not null:
+                return UnwrapToTypeOfOperand( conversion.Operand );
+            case IParenthesizedOperation parenthesized when parenthesized.Operand is not null:
+                return UnwrapToTypeOfOperand( parenthesized.Operand );
+            default:
+                return null;
+        }
+    }
+
+    private static bool IsRenderTreeBuilderInvocation( IInvocationOperation invocation, INamedTypeSymbol? renderTreeBuilder )
+    {
+        if ( renderTreeBuilder is null )
+            return true;
+
+        if ( invocation.Instance?.Type is INamedTypeSymbol instanceType
+             && IsOrInheritsFrom( instanceType, renderTreeBuilder ) )
+            return true;
+
+        if ( invocation.TargetMethod.ContainingType is INamedTypeSymbol containingType
+             && IsOrInheritsFrom( containingType, renderTreeBuilder ) )
+        {
+            return true;
+        }
+
+        if ( invocation.TargetMethod.IsExtensionMethod
+             && invocation.TargetMethod.Parameters.Length > 0
+             && invocation.TargetMethod.Parameters[0].Type is INamedTypeSymbol firstParamType
+             && IsOrInheritsFrom( firstParamType, renderTreeBuilder ) )
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private static void ReportComponentRenameIfNeeded(
@@ -186,6 +253,44 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
                 location,
                 mapping.OldFullName,
                 mapping.NewFullName ) );
+        }
+    }
+
+    private static void ReportParameterTypeChangeIfNeeded(
+        OperationAnalysisContext context,
+        Location location,
+        string attributeName,
+        IOperation valueOperation,
+        INamedTypeSymbol componentType )
+    {
+        var metadataName = GetMetadataName( componentType.ConstructedFrom );
+        var valueType = UnwrapNullable( valueOperation.Type );
+
+        if ( ( string.Equals( metadataName, "Blazorise.DataGrid.DataGridColumn`1", StringComparison.Ordinal )
+               || string.Equals( metadataName, "Blazorise.DataGridColumn`1", StringComparison.Ordinal ) )
+             && string.Equals( attributeName, "Width", StringComparison.Ordinal )
+             && valueType?.SpecialType == SpecialType.System_String )
+        {
+            context.ReportDiagnostic( Diagnostic.Create(
+                ParameterTypeRule,
+                location,
+                attributeName,
+                componentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
+                "Width now expects IFluentSizing (e.g., Width.Px(60))." ) );
+        }
+
+        if ( ( string.Equals( metadataName, "Blazorise.Row", StringComparison.Ordinal )
+               || string.Equals( metadataName, "Blazorise.Fields", StringComparison.Ordinal ) )
+             && string.Equals( attributeName, "Gutter", StringComparison.Ordinal )
+             && valueType is INamedTypeSymbol named
+             && named.IsTupleType )
+        {
+            context.ReportDiagnostic( Diagnostic.Create(
+                ParameterTypeRule,
+                location,
+                attributeName,
+                componentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
+                "Gutter now expects IFluentGutter fluent API instead of tuple." ) );
         }
     }
 
@@ -244,7 +349,12 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
                   && string.Equals( renamedSelectionMode, "SelectionMode", StringComparison.Ordinal ) ) )
         {
             var isMultiple = EvaluateSelectionMode( valueOperation );
-            componentContext.IsMultiple |= isMultiple ?? true; // if unknown, err on the side of multiple
+
+            // Only treat as multiple when we can determine it from a constant enum value.
+            // Razor-generated code may pass non-constant/default values even for single-selection,
+            // and assuming multiple would cause false positives.
+            if ( isMultiple.HasValue )
+                componentContext.IsMultiple |= isMultiple.Value;
         }
     }
 
@@ -327,11 +437,34 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
         return $"{ns}.{type.MetadataName}";
     }
 
+    private static ITypeSymbol? UnwrapNullable( ITypeSymbol? type )
+    {
+        if ( type is INamedTypeSymbol named
+             && named.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T
+             && named.TypeArguments.Length == 1 )
+        {
+            return named.TypeArguments[0];
+        }
+
+        return type;
+    }
+
     private static bool IsOrInheritsFrom( INamedTypeSymbol type, INamedTypeSymbol baseType )
     {
         for ( var current = type; current is not null; current = current.BaseType )
         {
             if ( SymbolEqualityComparer.Default.Equals( current, baseType ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsOrNestedInheritsFrom( INamedTypeSymbol type, INamedTypeSymbol baseType )
+    {
+        for ( var current = type; current is not null; current = current.ContainingType )
+        {
+            if ( IsOrInheritsFrom( current, baseType ) )
                 return true;
         }
 

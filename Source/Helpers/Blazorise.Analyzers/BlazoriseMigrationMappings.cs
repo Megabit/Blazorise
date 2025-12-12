@@ -55,11 +55,29 @@ public sealed record SymbolMapping
     }
 }
 
+public sealed record TypeMapping
+{
+    public string OldFullName { get; init; }
+
+    public string? NewFullName { get; init; }
+
+    public string Notes { get; init; }
+
+    public TypeMapping( string oldFullName, string? newFullName, string notes )
+    {
+        OldFullName = oldFullName;
+        NewFullName = newFullName;
+        Notes = notes;
+    }
+}
+
 public static partial class BlazoriseMigrationMappings
 {
     public static IReadOnlyList<ComponentMapping> Components { get; } = CreateComponentMappings();
 
     public static IReadOnlyList<SymbolMapping> Symbols { get; } = CreateSymbolMappings();
+
+    public static IReadOnlyList<TypeMapping> Types { get; } = CreateTypeMappings();
 
     private static IReadOnlyList<ComponentMapping> CreateComponentMappings()
     {
@@ -188,6 +206,18 @@ public static partial class BlazoriseMigrationMappings
             "RadioGroup now uses Value / ValueChanged / ValueExpression; individual Radio components are not standalone binding roots." ) );
 
         list.Add( new ComponentMapping(
+            "Blazorise.Radio",
+            "Blazorise.Radio",
+            new Dictionary<string, string>
+            {
+                ["Checked"] = "Value",
+                ["CheckedChanged"] = "ValueChanged",
+                ["CheckedExpression"] = "ValueExpression",
+            },
+            TValueShape.Any,
+            "Radio removed Checked bindings and uses Value / ValueChanged / ValueExpression; should be used inside RadioGroup." ) );
+
+        list.Add( new ComponentMapping(
             "Blazorise.Switch`1",
             "Blazorise.Switch`1",
             new Dictionary<string, string>
@@ -255,9 +285,20 @@ public static partial class BlazoriseMigrationMappings
                 ["SelectedValuesChanged"] = "ValueChanged",
                 ["SelectedValueExpression"] = "ValueExpression",
                 ["SelectedValuesExpression"] = "ValueExpression",
+                ["RightAligned"] = "EndAligned",
             },
             TValueShape.SingleOrMultiListOrArray,
             "DropdownList now uses Value / ValueChanged / ValueExpression. For multiple selection, TValue must be IReadOnlyList<T> or T[]." ) );
+
+        list.Add( new ComponentMapping(
+            "Blazorise.Dropdown",
+            "Blazorise.Dropdown",
+            new Dictionary<string, string>
+            {
+                ["RightAligned"] = "EndAligned",
+            },
+            TValueShape.Any,
+            "Dropdown uses EndAligned instead of RightAligned." ) );
 
         list.Add( new ComponentMapping(
             "Blazorise.Autocomplete`1",
@@ -283,8 +324,8 @@ public static partial class BlazoriseMigrationMappings
             "CardLink now uses To instead of Source and Title instead of Alt." ) );
 
         list.Add( new ComponentMapping(
-            "Blazorise.DataGrid`1",
-            "Blazorise.DataGrid`1",
+            "Blazorise.DataGrid.DataGrid`1",
+            "Blazorise.DataGrid.DataGrid`1",
             new Dictionary<string, string>
             {
                 ["GroupRowStyling"] = "AggregateRowStyling",
@@ -294,8 +335,8 @@ public static partial class BlazoriseMigrationMappings
             "DataGrid uses AggregateRowStyling instead of GroupRowStyling and NavigationMode (e.g., NavigationMode.Row) instead of Navigable." ) );
 
         list.Add( new ComponentMapping(
-            "Blazorise.DataGridColumn`1",
-            "Blazorise.DataGridColumn`1",
+            "Blazorise.DataGrid.DataGridColumn`1",
+            "Blazorise.DataGrid.DataGridColumn`1",
             new Dictionary<string, string>
             {
                 ["GroupCellClass"] = "AggregateCellClass",
@@ -304,6 +345,30 @@ public static partial class BlazoriseMigrationMappings
             },
             TValueShape.Any,
             "DataGridColumn renamed grouping-related properties to Aggregate* and PopupFieldColumnSize to EditFieldColumnSize; Width also changed to a fluent sizing type." ) );
+
+        // Legacy namespace fallbacks for migration from pre-2.0 projects.
+        list.Add( new ComponentMapping(
+            "Blazorise.DataGrid`1",
+            "Blazorise.DataGrid.DataGrid`1",
+            new Dictionary<string, string>
+            {
+                ["GroupRowStyling"] = "AggregateRowStyling",
+                ["Navigable"] = "NavigationMode",
+            },
+            TValueShape.Any,
+            "Legacy Blazorise.DataGrid`1 maps to Blazorise.DataGrid.DataGrid`1; parameters follow the 2.0 migration guide." ) );
+
+        list.Add( new ComponentMapping(
+            "Blazorise.DataGridColumn`1",
+            "Blazorise.DataGrid.DataGridColumn`1",
+            new Dictionary<string, string>
+            {
+                ["GroupCellClass"] = "AggregateCellClass",
+                ["GroupCellStyle"] = "AggregateCellStyle",
+                ["PopupFieldColumnSize"] = "EditFieldColumnSize",
+            },
+            TValueShape.Any,
+            "Legacy Blazorise.DataGridColumn`1 maps to Blazorise.DataGrid.DataGridColumn`1; parameters follow the 2.0 migration guide." ) );
 
         list.Add( new ComponentMapping(
             "Blazorise.MessageAlert",
@@ -349,6 +414,33 @@ public static partial class BlazoriseMigrationMappings
             },
             TValueShape.Any,
             "Fields now uses a single IFluentGutter on Gutter; HorizontalGutter, VerticalGutter and NoGutters have been replaced by the fluent gutter API." ) );
+
+        return list;
+    }
+
+    private static IReadOnlyList<TypeMapping> CreateTypeMappings()
+    {
+        var list = new List<TypeMapping>();
+
+        list.Add( new TypeMapping(
+            "Blazorise.BLMouseEventArgs",
+            "Microsoft.AspNetCore.Components.Web.MouseEventArgs",
+            "BLMouseEventArgs was removed; use MouseEventArgs from Microsoft.AspNetCore.Components.Web." ) );
+
+        list.Add( new TypeMapping(
+            "Blazorise.DataGridPageChangedEventArgs",
+            null,
+            "DataGridPageChangedEventArgs was removed in 2.0." ) );
+
+        list.Add( new TypeMapping(
+            "Blazorise.DataGrid.DataGridPageChangedEventArgs",
+            null,
+            "DataGridPageChangedEventArgs was removed in 2.0." ) );
+
+        list.Add( new TypeMapping(
+            "Blazorise.RichTextEdit.DynamicReference",
+            null,
+            "DynamicReference record was removed from RichTextEdit." ) );
 
         return list;
     }
@@ -400,10 +492,16 @@ public static partial class BlazoriseMigrationMappings
             "Match.Custom was removed." ) );
 
         list.Add( new SymbolMapping(
-            "Blazorise.DataGrid`1",
+            "Blazorise.DataGrid.DataGrid`1",
             "CurrentPage",
             "Page",
             "DataGrid.CurrentPage was renamed to Page." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.DataGrid`1",
+            "CurrentPage",
+            "Page",
+            "Legacy Blazorise.DataGrid`1.CurrentPage was renamed to Page." ) );
 
         list.Add( new SymbolMapping(
             "Blazorise.VideoMedia",
@@ -422,6 +520,54 @@ public static partial class BlazoriseMigrationMappings
             "Item",
             "OldItem",
             "DataGrid.SavedRowItem.Item was renamed to OldItem." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.RichTextEdit.RichTextEditOptions",
+            "QuillJsVersion",
+            null,
+            "RichTextEditOptions.QuillJsVersion was removed; references are loaded dynamically." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.RichTextEdit.RichTextEditOptions",
+            "DynamicallyLoadReferences",
+            null,
+            "RichTextEditOptions.DynamicallyLoadReferences was removed; references are loaded dynamically." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.RichTextEdit.RichTextEditOptions",
+            "DynamicReferences",
+            null,
+            "RichTextEditOptions.DynamicReferences was removed." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.Charts.ChartAxisGridLine",
+            "DrawBorder",
+            "Border.Display",
+            "Grid.DrawBorder moved to Border.Display." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.Charts.ChartAxisGridLine",
+            "BorderWidth",
+            "Border.Width",
+            "Grid.BorderWidth moved to Border.Width." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.Charts.ChartAxisGridLine",
+            "BorderColor",
+            "Border.Color",
+            "Grid.BorderColor moved to Border.Color." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.Charts.ChartAxisGridLine",
+            "BorderDash",
+            "Border.Dash",
+            "Grid.BorderDash moved to Border.Dash." ) );
+
+        list.Add( new SymbolMapping(
+            "Blazorise.Charts.ChartAxisGridLine",
+            "BorderDashOffset",
+            "Border.DashOffset",
+            "Grid.BorderDashOffset moved to Border.DashOffset." ) );
 
         return list;
     }
