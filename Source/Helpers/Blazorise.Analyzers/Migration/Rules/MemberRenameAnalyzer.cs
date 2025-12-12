@@ -1,16 +1,15 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
 
-namespace Blazorise.Analyzers.Migration;
+namespace Blazorise.Analyzers.Migration.Rules;
 
 [DiagnosticAnalyzer( LanguageNames.CSharp )]
-public sealed class SymbolMigrationAnalyzer : DiagnosticAnalyzer
+public sealed class MemberRenameAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly DiagnosticDescriptor MemberRenameRule = new(
+    private static readonly DiagnosticDescriptor Rule = new(
         id: "BLZS001",
         title: "Blazorise member renamed",
         messageFormat: "Member '{0}' was renamed to '{1}' on type '{2}'",
@@ -18,19 +17,7 @@ public sealed class SymbolMigrationAnalyzer : DiagnosticAnalyzer
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true );
 
-    private static readonly DiagnosticDescriptor MemberRemovedRule = new(
-        id: "BLZS002",
-        title: "Blazorise member removed",
-        messageFormat: "Member '{0}' was removed from type '{1}'",
-        category: "Usage",
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true );
-
-    private static readonly ImmutableArray<DiagnosticDescriptor> Supported = ImmutableArray.Create(
-        MemberRenameRule,
-        MemberRemovedRule );
-
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => Supported;
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create( Rule );
 
     public override void Initialize( AnalysisContext context )
     {
@@ -42,20 +29,20 @@ public sealed class SymbolMigrationAnalyzer : DiagnosticAnalyzer
     private static void Register( CompilationStartAnalysisContext context )
     {
         var map = new Dictionary<(string containingType, string oldName), SymbolMapping>();
-
         foreach ( var mapping in BlazoriseMigrationMappings.Symbols )
         {
-            map[(mapping.ContainingType, mapping.OldName)] = mapping;
+            if ( mapping.NewName is not null )
+                map[(mapping.ContainingType, mapping.OldName)] = mapping;
         }
 
         context.RegisterOperationAction(
-            ctx => AnalyzeMemberReference( ctx, map ),
+            ctx => Analyze( ctx, map ),
             OperationKind.FieldReference,
             OperationKind.PropertyReference,
             OperationKind.Invocation );
     }
 
-    private static void AnalyzeMemberReference(
+    private static void Analyze(
         OperationAnalysisContext context,
         IReadOnlyDictionary<(string containingType, string oldName), SymbolMapping> map )
     {
@@ -70,45 +57,18 @@ public sealed class SymbolMigrationAnalyzer : DiagnosticAnalyzer
         if ( member is null || member.ContainingType is null )
             return;
 
-        var containingMetadata = GetMetadataName( member.ContainingType.ConstructedFrom );
+        var containingMetadata = RenderTreeMigrationEngine.GetMetadataName( member.ContainingType.ConstructedFrom );
         var key = (containingMetadata, member.Name);
 
         if ( !map.TryGetValue( key, out var mapping ) )
             return;
 
-        if ( mapping.NewName is null )
-        {
-            context.ReportDiagnostic( Diagnostic.Create(
-                MemberRemovedRule,
-                context.Operation.Syntax.GetLocation(),
-                mapping.OldName,
-                mapping.ContainingType ) );
-            return;
-        }
-
         context.ReportDiagnostic( Diagnostic.Create(
-            MemberRenameRule,
+            Rule,
             context.Operation.Syntax.GetLocation(),
             mapping.OldName,
             mapping.NewName,
             mapping.ContainingType ) );
     }
-
-    private static string GetMetadataName( INamedTypeSymbol type )
-    {
-        var nsSymbol = type.ContainingNamespace;
-        if ( nsSymbol is null || nsSymbol.IsGlobalNamespace )
-            return type.MetadataName;
-
-        var ns = nsSymbol.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
-
-        if ( string.IsNullOrEmpty( ns ) )
-            return type.MetadataName;
-
-        const string globalPrefix = "global::";
-        if ( ns.StartsWith( globalPrefix, StringComparison.Ordinal ) )
-            ns = ns.Substring( globalPrefix.Length );
-
-        return $"{ns}.{type.MetadataName}";
-    }
 }
+
