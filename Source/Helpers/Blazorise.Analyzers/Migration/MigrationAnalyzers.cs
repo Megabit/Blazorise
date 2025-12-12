@@ -46,6 +46,14 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true );
 
+    private static readonly DiagnosticDescriptor TagNameRule = new(
+        id: "BLZR001",
+        title: "Blazorise Razor tag renamed",
+        messageFormat: "Tag '{0}' was renamed to '{1}'",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true );
+
     private static readonly DiagnosticDescriptor ParameterNameRule = new(
         id: "BLZP001",
         title: "Blazorise parameter renamed",
@@ -72,6 +80,7 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
 
     private static readonly ImmutableArray<DiagnosticDescriptor> Supported = ImmutableArray.Create(
         ComponentNameRule,
+        TagNameRule,
         ParameterNameRule,
         ParameterTypeRule,
         TValueShapeRule );
@@ -95,16 +104,27 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
 
         var componentByOld = new Dictionary<string, ComponentMapping>( StringComparer.Ordinal );
         var componentByNew = new Dictionary<string, ComponentMapping>( StringComparer.Ordinal );
+        var tagByOld = new Dictionary<string, string>( StringComparer.Ordinal );
 
         foreach ( var mapping in BlazoriseMigrationMappings.Components )
         {
             componentByOld[mapping.OldFullName] = mapping;
             if ( mapping.NewFullName is not null )
                 componentByNew[mapping.NewFullName] = mapping;
+
+            if ( mapping.NewFullName is not null
+                 && !mapping.OldFullName.Equals( mapping.NewFullName, StringComparison.Ordinal ) )
+            {
+                var oldTag = GetSimpleName( mapping.OldFullName );
+                var newTag = GetSimpleName( mapping.NewFullName );
+
+                if ( oldTag is not null && newTag is not null && !tagByOld.ContainsKey( oldTag ) )
+                    tagByOld[oldTag] = newTag;
+            }
         }
 
         context.RegisterOperationAction(
-            ctx => AnalyzeBlock( ctx, renderTreeBuilder, componentBase, componentByOld, componentByNew ),
+            ctx => AnalyzeBlock( ctx, renderTreeBuilder, componentBase, componentByOld, componentByNew, tagByOld ),
             OperationKind.Block );
     }
 
@@ -113,7 +133,8 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol? renderTreeBuilder,
         INamedTypeSymbol componentBase,
         IReadOnlyDictionary<string, ComponentMapping> componentByOld,
-        IReadOnlyDictionary<string, ComponentMapping> componentByNew )
+        IReadOnlyDictionary<string, ComponentMapping> componentByNew,
+        IReadOnlyDictionary<string, string> tagByOld )
     {
         if ( context.Operation is not IBlockOperation block )
             return;
@@ -142,6 +163,22 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
                         var mapping = LookupComponentMapping( named, componentByNew, componentByOld );
                         stack.Push( new ComponentContext( named, mapping, invocation.Syntax.GetLocation() ) );
                         ReportComponentRenameIfNeeded( context, invocation.Syntax.GetLocation(), named, componentByOld );
+                    }
+                }
+                else if ( target.Name.Equals( "OpenElement", StringComparison.Ordinal ) )
+                {
+                    if ( invocation.Arguments.Length >= 2 )
+                    {
+                        var tagNameConstant = invocation.Arguments[1].Value.ConstantValue;
+                        if ( tagNameConstant.HasValue && tagNameConstant.Value is string tagName
+                             && tagByOld.TryGetValue( tagName, out var newTag ) )
+                        {
+                            context.ReportDiagnostic( Diagnostic.Create(
+                                TagNameRule,
+                                invocation.Arguments[1].Value.Syntax.GetLocation(),
+                                tagName,
+                                newTag ) );
+                        }
                     }
                 }
                 else if ( target.Name.Equals( "CloseComponent", StringComparison.Ordinal ) )
@@ -235,6 +272,17 @@ public sealed class ComponentMigrationAnalyzer : DiagnosticAnalyzer
         }
 
         return false;
+    }
+
+    private static string? GetSimpleName( string fullName )
+    {
+        if ( string.IsNullOrWhiteSpace( fullName ) )
+            return null;
+
+        var tickIndex = fullName.IndexOf( '`' );
+        var noArity = tickIndex >= 0 ? fullName.Substring( 0, tickIndex ) : fullName;
+        var lastDot = noArity.LastIndexOf( '.' );
+        return lastDot >= 0 ? noArity.Substring( lastDot + 1 ) : noArity;
     }
 
     private static void ReportComponentRenameIfNeeded(

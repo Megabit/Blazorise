@@ -25,6 +25,8 @@ namespace Microsoft.AspNetCore.Components.Rendering
     {
         public void OpenComponent<TComponent>(int sequence) { }
         public void CloseComponent() { }
+        public void OpenElement(int sequence, string name) { }
+        public void CloseElement() { }
         public void AddAttribute<TValue>(int sequence, string name, TValue value) { }
         public void AddComponentParameter<TValue>(int sequence, string name, TValue value) { }
     }

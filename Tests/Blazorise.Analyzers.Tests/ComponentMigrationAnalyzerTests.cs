@@ -24,6 +24,29 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
         builder.OpenComponent<Blazorise.ColorEdit<string>>( 0 );
         builder.CloseComponent();
     }
+
+    [Fact]
+    public async Task Reports_tag_rename_for_removed_components()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenElement( 0, \"TextEdit\" );
+        builder.AddAttribute( 1, \"Text\", \"test\" );
+        builder.CloseElement();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var diagnostic = Assert.Single( diagnostics );
+        Assert.Equal( \"BLZR001\", diagnostic.Id );
+        Assert.Equal( \"Tag 'TextEdit' was renamed to 'TextInput'\", diagnostic.GetMessage() );
+    }
 }";
 
         var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );

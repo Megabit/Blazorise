@@ -2,6 +2,7 @@
 
 ### New Rules
 BLZP002: Blazorise parameter type changed
+BLZR001: Blazorise Razor tag renamed
 BLZS001: Blazorise member renamed
 BLZS002: Blazorise member removed
 BLZTYP001: Blazorise type renamed
