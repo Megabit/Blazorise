@@ -45,9 +45,13 @@ public sealed class ParameterTypeChangeAnalyzer : DiagnosticAnalyzer
                  && string.Equals( attributeName, "Width", System.StringComparison.Ordinal )
                  && valueType?.SpecialType == SpecialType.System_String )
             {
+                var properties = ImmutableDictionary<string, string?>.Empty
+                    .Add( MigrationDiagnosticProperties.OldName, attributeName );
+
                 context.ReportDiagnostic( Diagnostic.Create(
                     Rule,
                     location,
+                    properties,
                     attributeName,
                     component.ComponentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
                     "Width now expects IFluentSizing (e.g., Width.Px(60))." ) );
@@ -59,9 +63,13 @@ public sealed class ParameterTypeChangeAnalyzer : DiagnosticAnalyzer
                  && valueType is INamedTypeSymbol named
                  && named.IsTupleType )
             {
+                var properties = ImmutableDictionary<string, string?>.Empty
+                    .Add( MigrationDiagnosticProperties.OldName, attributeName );
+
                 context.ReportDiagnostic( Diagnostic.Create(
                     Rule,
                     location,
+                    properties,
                     attributeName,
                     component.ComponentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
                     "Gutter now expects IFluentGutter fluent API instead of tuple." ) );

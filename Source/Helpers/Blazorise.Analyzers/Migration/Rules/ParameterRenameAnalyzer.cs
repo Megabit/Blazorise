@@ -42,9 +42,14 @@ public sealed class ParameterRenameAnalyzer : DiagnosticAnalyzer
 
             if ( component.Mapping.ParameterRenames.TryGetValue( attributeName, out var newName ) )
             {
+                var properties = ImmutableDictionary<string, string?>.Empty
+                    .Add( MigrationDiagnosticProperties.OldName, attributeName )
+                    .Add( MigrationDiagnosticProperties.NewName, newName );
+
                 context.ReportDiagnostic( Diagnostic.Create(
                     Rule,
                     location,
+                    properties,
                     attributeName,
                     newName,
                     component.ComponentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) ) );

@@ -37,9 +37,14 @@ public sealed class ComponentRenameAnalyzer : DiagnosticAnalyzer
                  && mapping.NewFullName is not null
                  && !mapping.OldFullName.Equals( mapping.NewFullName, System.StringComparison.Ordinal ) )
             {
+                var properties = ImmutableDictionary<string, string?>.Empty
+                    .Add( MigrationDiagnosticProperties.OldFullName, mapping.OldFullName )
+                    .Add( MigrationDiagnosticProperties.NewFullName, mapping.NewFullName );
+
                 context.ReportDiagnostic( Diagnostic.Create(
                     Rule,
                     component.ComponentLocation,
+                    properties,
                     mapping.OldFullName,
                     mapping.NewFullName ) );
             }

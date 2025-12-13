@@ -31,9 +31,14 @@ public sealed class TagRenameAnalyzer : DiagnosticAnalyzer
     {
         public override void OnOpenElement( OperationAnalysisContext context, MigrationContext migration, string oldTag, string newTag, Location location )
         {
+            var properties = ImmutableDictionary<string, string?>.Empty
+                .Add( MigrationDiagnosticProperties.OldName, oldTag )
+                .Add( MigrationDiagnosticProperties.NewName, newTag );
+
             context.ReportDiagnostic( Diagnostic.Create(
                 Rule,
                 location,
+                properties,
                 oldTag,
                 newTag ) );
         }
