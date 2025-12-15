@@ -147,6 +147,60 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_chartjs_static_scripts_in_index_html_only()
+    {
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync(
+            sources: new[] { string.Empty },
+            additionalFiles: new[]
+            {
+                (path: "wwwroot/index.html", content: @"
+<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>
+<script src=""https://cdn.jsdelivr.net/npm/luxon@1.28.1""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0""></script>
+<script src=""https://cdn.jsdelivr.net/npm/hammerjs@2.0.8""></script>
+"),
+            } );
+
+        var chartJsDiagnostics = diagnostics.Where( d => d.Id == "BLZJS001" ).ToArray();
+        Assert.Equal( 2, chartJsDiagnostics.Length );
+        Assert.Contains( chartJsDiagnostics, d => d.GetMessage().Contains( "chart.min.js" ) );
+        Assert.Contains( chartJsDiagnostics, d => d.GetMessage().Contains( "chartjs-plugin-datalabels" ) );
+
+        Assert.DoesNotContain( chartJsDiagnostics, d => d.GetMessage().Contains( "luxon" ) );
+        Assert.DoesNotContain( chartJsDiagnostics, d => d.GetMessage().Contains( "hammerjs" ) );
+    }
+
+    [Fact]
+    public async Task Does_not_report_when_only_luxon_is_used()
+    {
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync(
+            sources: new[] { string.Empty },
+            additionalFiles: new[]
+            {
+                (path: "wwwroot/index.html", content: @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.28.1""></script>"),
+            } );
+
+        Assert.DoesNotContain( diagnostics, d => d.Id == "BLZJS001" );
+    }
+
+    [Fact]
+    public async Task Reports_chartjs_static_scripts_in_host_files()
+    {
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync(
+            sources: new[] { string.Empty },
+            additionalFiles: new[]
+            {
+                (path: "Pages/_Host.cshtml", content: @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js""></script>"),
+                (path: "App.razor", content: @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>"),
+            } );
+
+        var chartJsDiagnostics = diagnostics.Where( d => d.Id == "BLZJS001" ).ToArray();
+        Assert.Equal( 2, chartJsDiagnostics.Length );
+        Assert.Contains( chartJsDiagnostics, d => d.GetMessage().Contains( "_Host.cshtml" ) );
+        Assert.Contains( chartJsDiagnostics, d => d.GetMessage().Contains( "App.razor" ) );
+    }
+
+    [Fact]
     public async Task Reports_multi_value_used_for_single_shape()
     {
         var source = @"

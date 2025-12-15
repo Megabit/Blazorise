@@ -1,5 +1,11 @@
 <Project>
   <ItemGroup>
     <Analyzer Include="$(MSBuildThisPackageRoot)analyzers/dotnet/cs/Blazorise.Analyzers.dll" />
+
+    <!-- Host files checked by migration analyzers -->
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\wwwroot\index.html" Condition="Exists('$(MSBuildProjectDirectory)\wwwroot\index.html')" />
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\Pages\_Host.cshtml" Condition="Exists('$(MSBuildProjectDirectory)\Pages\_Host.cshtml')" />
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\App.razor" Condition="Exists('$(MSBuildProjectDirectory)\App.razor')" />
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\Components\App.razor" Condition="Exists('$(MSBuildProjectDirectory)\Components\App.razor')" />
   </ItemGroup>
 </Project>

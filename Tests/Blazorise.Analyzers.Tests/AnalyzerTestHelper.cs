@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Linq;
+using System.Threading;
 using Blazorise.Analyzers.Migration;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Blazorise.Analyzers.Tests;
 
@@ -38,6 +40,19 @@ namespace Microsoft.AspNetCore.Components.Rendering
         => GetDiagnosticsAsync( new[] { source } );
 
     public static async Task<ImmutableArray<Diagnostic>> GetDiagnosticsAsync( IEnumerable<string> sources )
+        => await GetDiagnosticsAsync( sources, Enumerable.Empty<AdditionalText>() );
+
+    public static async Task<ImmutableArray<Diagnostic>> GetDiagnosticsAsync(
+        IEnumerable<string> sources,
+        IEnumerable<(string path, string content)> additionalFiles )
+    {
+        var additionalTexts = additionalFiles.Select( x => new InMemoryAdditionalText( x.path, x.content ) );
+        return await GetDiagnosticsAsync( sources, additionalTexts );
+    }
+
+    private static async Task<ImmutableArray<Diagnostic>> GetDiagnosticsAsync(
+        IEnumerable<string> sources,
+        IEnumerable<AdditionalText> additionalFiles )
     {
         var parseOptions = CSharpParseOptions.Default.WithLanguageVersion( LanguageVersion.CSharp11 );
 
@@ -72,12 +87,30 @@ namespace Microsoft.AspNetCore.Components.Rendering
             new Blazorise.Analyzers.Migration.Rules.MemberRemovedAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.TypeRenameAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.TypeRemovedAnalyzer(),
+            new Blazorise.Analyzers.Migration.Rules.ChartJsStaticFilesAnalyzer(),
         };
 
+        var options = new AnalyzerOptions( additionalFiles.ToImmutableArray() );
+
         var diagnostics = await compilation
-            .WithAnalyzers( ImmutableArray.Create( analyzers ) )
+            .WithAnalyzers( ImmutableArray.Create( analyzers ), options )
             .GetAnalyzerDiagnosticsAsync();
 
         return diagnostics;
+    }
+
+    private sealed class InMemoryAdditionalText : AdditionalText
+    {
+        private readonly SourceText text;
+
+        public InMemoryAdditionalText( string path, string content )
+        {
+            Path = path;
+            text = SourceText.From( content );
+        }
+
+        public override string Path { get; }
+
+        public override SourceText GetText( CancellationToken cancellationToken = default ) => text;
     }
 }

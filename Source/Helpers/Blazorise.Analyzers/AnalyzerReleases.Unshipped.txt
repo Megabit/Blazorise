@@ -1,6 +1,7 @@
 ## Unshipped
 
 ### New Rules
+BLZJS001: Blazorise Charts static Chart.js reference
 BLZP002: Blazorise parameter type changed
 BLZR001: Blazorise Razor tag renamed
 BLZS001: Blazorise member renamed
