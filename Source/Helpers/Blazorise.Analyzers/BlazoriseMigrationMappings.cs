@@ -328,6 +328,7 @@ public static partial class BlazoriseMigrationMappings
             "Blazorise.DataGrid.DataGrid`1",
             new Dictionary<string, string>
             {
+                ["CurrentPage"] = "Page",
                 ["GroupRowStyling"] = "AggregateRowStyling",
                 ["Navigable"] = "NavigationMode",
             },
@@ -352,6 +353,7 @@ public static partial class BlazoriseMigrationMappings
             "Blazorise.DataGrid.DataGrid`1",
             new Dictionary<string, string>
             {
+                ["CurrentPage"] = "Page",
                 ["GroupRowStyling"] = "AggregateRowStyling",
                 ["Navigable"] = "NavigationMode",
             },
