@@ -88,6 +88,65 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_autocomplete_parameter_renames()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise.Components
+{
+    public class Autocomplete<TItem, TValue> : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.Components.Autocomplete<int, string>>( 0 );
+        builder.AddAttribute( 1, ""CurrentSearch"", ""abc"" );
+        builder.AddAttribute( 2, ""Multiple"", true );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var renameDiagnostics = diagnostics.Where( d => d.Id == "BLZP001" ).ToArray();
+        Assert.Equal( 2, renameDiagnostics.Length );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'CurrentSearch' was renamed to 'Search' for component 'Autocomplete<int, string>'" );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'Multiple' was renamed to 'SelectionMode' for component 'Autocomplete<int, string>'" );
+    }
+
+    [Fact]
+    public async Task Does_not_report_tvalueshape_for_autocomplete()
+    {
+        var source = @"
+using System.Linq;
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise.Components
+{
+    public class Autocomplete<TItem, TValue> : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class Country { }
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.Components.Autocomplete<Country, string>>( 0 );
+        builder.AddAttribute( 1, ""Multiple"", true );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        Assert.DoesNotContain( diagnostics, d => d.Id == "BLZT001" );
+    }
+
+    [Fact]
     public async Task Reports_multi_value_used_for_single_shape()
     {
         var source = @"

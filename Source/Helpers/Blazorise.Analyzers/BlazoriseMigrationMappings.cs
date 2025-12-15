@@ -301,15 +301,15 @@ public static partial class BlazoriseMigrationMappings
             "Dropdown uses EndAligned instead of RightAligned." ) );
 
         list.Add( new ComponentMapping(
-            "Blazorise.Autocomplete`1",
-            "Blazorise.Autocomplete`1",
+            "Blazorise.Components.Autocomplete`2",
+            "Blazorise.Components.Autocomplete`2",
             new Dictionary<string, string>
             {
                 ["CurrentSearch"] = "Search",
                 ["CurrentSearchChanged"] = "SearchChanged",
                 ["Multiple"] = "SelectionMode",
             },
-            TValueShape.SingleOrMultiListOrArray,
+            TValueShape.Any,
             "Autocomplete now uses Search / SearchChanged and SelectionMode instead of CurrentSearch / CurrentSearchChanged and Multiple." ) );
 
         list.Add( new ComponentMapping(
