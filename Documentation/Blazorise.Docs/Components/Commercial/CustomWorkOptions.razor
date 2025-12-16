@@ -195,7 +195,7 @@
 </Heading>
 
 <Paragraph>
-    An annual add-on for enterprise customers who want <Strong>structured request handling</Strong>-faster triage, clearer decisions, and improved roadmap visibility, without turning requests into entitlements.
+    An annual add-on for enterprise customers who want <Strong>structured request handling</Strong> (faster triage, clearer decisions, and improved roadmap visibility) without turning requests into entitlements.
 </Paragraph>
 
 <UnorderedList>
@@ -206,7 +206,7 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Includes:</Strong> prioritized intake, voting/weighting, private roadmap notes, and up to 12 “estimated requests” per year with written feasibility + rough effort range.
+            <Strong>Includes:</Strong> prioritized intake, voting/weighting, private roadmap notes, and up to 12 request assessments per year with written feasibility and a rough effort range.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -237,7 +237,7 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Post-exclusivity:</Strong> we may merge and release upstream; you keep the delivered version and internal usage rights as agreed in the proposal.
+            <Strong>Post-exclusivity:</Strong> We may merge and release upstream; you keep the delivered version and internal usage rights as agreed in the proposal.
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -245,138 +245,93 @@
 @if ( !Compact )
 {
     <Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
-        Messaging &amp; positioning rules
-    </Heading>
-
-    <UnorderedList>
-        <UnorderedListItem>
-            <Paragraph>
-                <Strong>Keep licensing and delivery separate:</Strong> licenses cover support and response times; custom work covers delivery, priority, and (when contracted) guarantees.
-            </Paragraph>
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Paragraph>
-                <Strong>Avoid entitlement language:</Strong> use “we can quote” and “we will assess” instead of “included” or “we will implement”.
-            </Paragraph>
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Paragraph>
-                <Strong>Be explicit:</Strong> “feature recommendation is not a promise.”
-            </Paragraph>
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Paragraph>
-                <Strong>Define guarantees only in proposals:</Strong> acceptance criteria, timeline, and milestones belong in a signed proposal/SOW, not in the license description.
-            </Paragraph>
-        </UnorderedListItem>
-    </UnorderedList>
-
-    <Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
-        Templates &amp; FAQ (copy/paste)
+        FAQ &amp; proposal details
     </Heading>
 
     <Accordion>
-        <AccordionItem @bind-Visible="@websiteCopyVisible">
+        <AccordionItem @bind-Visible="@requestEmailVisible">
             <AccordionHeader>
                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>Suggested website phrasing</AccordionToggle>
+                    <AccordionToggle>Email template (requesting a quote)</AccordionToggle>
                 </Heading>
             </AccordionHeader>
             <AccordionBody>
                 <Paragraph>
-                    <Strong>Licenses:</Strong> “Professional and Enterprise licenses primarily provide premium support access and response-time commitments. Enterprise customers can recommend features, but recommendations are not a promise of implementation.”
+                    <Strong>Subject:</Strong> Blazorise custom work request - [Company] - [Feature/Project]
                 </Paragraph>
                 <Paragraph>
-                    <Strong>Custom work:</Strong> “If you need a specific feature delivered on a schedule, we offer paid Feature Sponsorship (fixed price) and Custom Development (time &amp; materials). Delivery terms are defined per proposal.”
+                    Send the details below to <Anchor To="mailto:sales@blazorise.com" Title="Contact sales">sales@blazorise.com</Anchor>:
                 </Paragraph>
-                <Paragraph>
-                    <Strong>Upstream:</Strong> “Sponsored features are designed to go upstream into Blazorise by default and are generally available once released. Exclusivity is available on request.”
-                </Paragraph>
-            </AccordionBody>
-        </AccordionItem>
-
-        <AccordionItem @bind-Visible="@salesEmailVisible">
-            <AccordionHeader>
-                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>Sales email (example)</AccordionToggle>
-                </Heading>
-            </AccordionHeader>
-            <AccordionBody>
-                <Paragraph><Strong>Subject:</Strong> Blazorise proposal for [Feature/Project] (delivery options)</Paragraph>
-                <Paragraph>
-                    Hi [Name],
-                    <br />
-                    Thanks for sharing your request. Your Blazorise license covers premium support and response times; new feature delivery is handled separately via custom work so expectations and risk are clear.
-                    <br /><br />
-                    Based on what we discussed, we can proceed in one of two ways:
-                    <br />
-                    1) <Strong>Feature Sponsorship (fixed price)</Strong> - prioritized delivery with agreed scope and acceptance criteria, designed to go upstream by default.
-                    <br />
-                    2) <Strong>Custom Development (T&amp;M)</Strong> - flexible hourly work for company-specific requirements that may remain private.
-                    <br /><br />
-                    If you want faster structured handling of requests without committing to delivery, we also offer the <Strong>Priority Development Queue</Strong> annual add-on for Enterprise customers.
-                    <br /><br />
-                    If you can confirm your preferred option and share any constraints (target release date, supported CSS providers, accessibility requirements, and sample UX), we'll send a short proposal with pricing and milestones.
-                    <br /><br />
-                    Best regards,
-                    <br />
-                    [Your Name]
-                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem><Strong>Preferred engagement:</Strong> Feature Sponsorship / T&amp;M / Not sure</UnorderedListItem>
+                    <UnorderedListItem><Strong>Target timeline:</Strong> [date] and any fixed deadlines</UnorderedListItem>
+                    <UnorderedListItem><Strong>Scope and acceptance criteria:</Strong> [bullets]</UnorderedListItem>
+                    <UnorderedListItem><Strong>Versions/providers:</Strong> Blazorise version, .NET version, CSS providers</UnorderedListItem>
+                    <UnorderedListItem><Strong>Dependencies:</Strong> APIs, libraries, and sample data/contracts (if applicable)</UnorderedListItem>
+                    <UnorderedListItem><Strong>Upstream/privacy:</Strong> upstream by default / private / request exclusivity</UnorderedListItem>
+                </UnorderedList>
             </AccordionBody>
         </AccordionItem>
 
         <AccordionItem @bind-Visible="@faqVisible">
             <AccordionHeader>
                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>Custom work FAQ</AccordionToggle>
+                    <AccordionToggle>FAQ</AccordionToggle>
                 </Heading>
             </AccordionHeader>
             <AccordionBody>
-                <Paragraph><Strong>Does my license include new feature delivery?</Strong> No. Licenses primarily provide support access and response-time commitments. Feature requests are welcome, but they're not included delivery work.</Paragraph>
-                <Paragraph><Strong>What do I get with Feature Sponsorship?</Strong> A fixed-price proposal with defined acceptance criteria, an agreed schedule, and delivery (typically upstream, non-exclusive by default).</Paragraph>
-                <Paragraph><Strong>Can you guarantee a feature will be merged upstream?</Strong> We aim to upstream sponsored work when it meets quality and generalization requirements. If upstream inclusion isn't feasible, we'll deliver a private implementation per the proposal.</Paragraph>
-                <Paragraph><Strong>Can we keep the feature private?</Strong> Yes. Use T&amp;M for company-specific work, or request temporary exclusivity for a sponsored feature (priced separately).</Paragraph>
-                <Paragraph><Strong>How do change requests work?</Strong> Fixed-price sponsorships use a change request when scope changes; T&amp;M is billed for time spent and is naturally flexible.</Paragraph>
+                <Paragraph>
+                    <Strong>Does a license include delivery of new features?</Strong> No. Licenses primarily provide support access and response-time commitments. Delivery is contracted separately via Feature Sponsorship or Custom Development.
+                </Paragraph>
+                <Paragraph>
+                    <Strong>What do I get with Feature Sponsorship?</Strong> A fixed-price proposal with defined scope and acceptance criteria, prioritized scheduling, and delivery. Sponsorships are designed to go upstream by default and are not exclusive unless agreed.
+                </Paragraph>
+                <Paragraph>
+                    <Strong>Is upstream inclusion guaranteed?</Strong> Upstream inclusion is the default intent for sponsorships, but it depends on quality, generalization, and compatibility. If upstream inclusion isn't feasible, we deliver a private implementation as defined in the proposal.
+                </Paragraph>
+                <Paragraph>
+                    <Strong>Can we keep the feature private or exclusive?</Strong> Yes. Use T&amp;M for company-specific work, or request temporary exclusivity for a sponsored feature (priced and time-boxed).
+                </Paragraph>
+                <Paragraph>
+                    <Strong>How do scope changes work?</Strong> Fixed-price sponsorships use change requests for out-of-scope work; T&amp;M is billed for time spent.
+                </Paragraph>
             </AccordionBody>
         </AccordionItem>
 
         <AccordionItem @bind-Visible="@proposalTemplateVisible">
             <AccordionHeader>
                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>1-page Sponsored Feature Proposal (template)</AccordionToggle>
+                    <AccordionToggle>What a Sponsored Feature Proposal includes?</AccordionToggle>
                 </Heading>
             </AccordionHeader>
             <AccordionBody>
                 <UnorderedList>
-                    <UnorderedListItem><Strong>Project:</Strong> [Feature name], [Repositories/Packages], [Target CSS providers]</UnorderedListItem>
-                    <UnorderedListItem><Strong>Background &amp; goals:</Strong> why this matters; who uses it; non-goals</UnorderedListItem>
-                    <UnorderedListItem><Strong>Scope:</Strong> in-scope items (bullet list); out-of-scope items</UnorderedListItem>
-                    <UnorderedListItem><Strong>Assumptions &amp; dependencies:</Strong> versions, third-party APIs, data contracts, design assets, access needed</UnorderedListItem>
-                    <UnorderedListItem><Strong>Acceptance criteria:</Strong> measurable behaviors; supported browsers; a11y baseline; performance constraints</UnorderedListItem>
-                    <UnorderedListItem><Strong>Deliverables:</Strong> code, tests, docs, sample page, release notes; upstream PR vs private branch</UnorderedListItem>
-                    <UnorderedListItem><Strong>Timeline:</Strong> start date, milestones, review windows, target release</UnorderedListItem>
-                    <UnorderedListItem><Strong>Commercials:</Strong> fixed price (EUR), validity period, payment milestones (e.g., 50% start / 50% acceptance)</UnorderedListItem>
-                    <UnorderedListItem><Strong>Change requests:</Strong> how scope changes are estimated and approved</UnorderedListItem>
-                    <UnorderedListItem><Strong>Upstream inclusion:</Strong> default upstream intent; criteria for upstream merge; attribution/credit if applicable</UnorderedListItem>
-                    <UnorderedListItem><Strong>Maintenance &amp; support:</Strong> warranty window for defects (e.g., 30–90 days) and how ongoing support is handled via the active license/support channel</UnorderedListItem>
+                    <UnorderedListItem><Strong>Scope:</Strong> in-scope items, out-of-scope items, and assumptions</UnorderedListItem>
+                    <UnorderedListItem><Strong>Acceptance criteria:</Strong> measurable behaviors and supported configurations</UnorderedListItem>
+                    <UnorderedListItem><Strong>Deliverables:</Strong> code, tests, documentation, examples, and release notes</UnorderedListItem>
+                    <UnorderedListItem><Strong>Timeline:</Strong> milestones, review windows, and target delivery date</UnorderedListItem>
+                    <UnorderedListItem><Strong>Commercial terms:</Strong> fixed price (EUR), validity period, and payment milestones</UnorderedListItem>
+                    <UnorderedListItem><Strong>Change control:</Strong> how changes are estimated, approved, and billed</UnorderedListItem>
+                    <UnorderedListItem><Strong>Upstream and licensing:</Strong> upstream intent, any exclusivity terms, and release plan</UnorderedListItem>
+                    <UnorderedListItem><Strong>Warranty/support:</Strong> defect warranty window and how support is handled via the active license/support channel</UnorderedListItem>
                 </UnorderedList>
             </AccordionBody>
         </AccordionItem>
 
-        <AccordionItem @bind-Visible="@qualificationChecklistVisible">
+        <AccordionItem @bind-Visible="@requestInfoVisible">
             <AccordionHeader>
                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>Request qualification checklist</AccordionToggle>
+                    <AccordionToggle>What we need to quote quickly?</AccordionToggle>
                 </Heading>
             </AccordionHeader>
             <AccordionBody>
                 <UnorderedList>
-                    <UnorderedListItem><Strong>Generalizable?</Strong> Would other customers use this? Is the UX broadly applicable?</UnorderedListItem>
-                    <UnorderedListItem><Strong>Provider impact?</Strong> Which CSS providers must be supported? Any parity requirements?</UnorderedListItem>
-                    <UnorderedListItem><Strong>API surface?</Strong> New public APIs, breaking changes, or migration needs?</UnorderedListItem>
-                    <UnorderedListItem><Strong>Dependencies?</Strong> External libraries, browser APIs, server contracts, licensing constraints?</UnorderedListItem>
-                    <UnorderedListItem><Strong>Testing &amp; docs?</Strong> Unit/integration coverage, docs page updates, examples, and release notes expectations?</UnorderedListItem>
-                    <UnorderedListItem><Strong>Risk flags?</Strong> Performance, accessibility, security, or complex interaction patterns?</UnorderedListItem>
+                    <UnorderedListItem><Strong>Goal and use case:</Strong> what users need and why it matters</UnorderedListItem>
+                    <UnorderedListItem><Strong>Target setup:</Strong> Blazorise version, .NET version, and required CSS providers</UnorderedListItem>
+                    <UnorderedListItem><Strong>Expected behavior:</Strong> acceptance criteria, UX notes, and edge cases</UnorderedListItem>
+                    <UnorderedListItem><Strong>Dependencies:</Strong> third-party APIs/libraries, browser constraints, data contracts</UnorderedListItem>
+                    <UnorderedListItem><Strong>Upstream preference:</Strong> upstream by default, private delivery, or temporary exclusivity</UnorderedListItem>
+                    <UnorderedListItem><Strong>Constraints:</Strong> accessibility, performance, security, and target timeline</UnorderedListItem>
                 </UnorderedList>
             </AccordionBody>
         </AccordionItem>
@@ -399,9 +354,8 @@
 
     [Parameter] public bool ShowHeader { get; set; } = true;
 
-    bool websiteCopyVisible;
-    bool salesEmailVisible;
     bool faqVisible;
     bool proposalTemplateVisible;
-    bool qualificationChecklistVisible;
+    bool requestEmailVisible;
+    bool requestInfoVisible;
 }
