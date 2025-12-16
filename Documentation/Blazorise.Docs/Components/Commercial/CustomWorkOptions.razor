@@ -27,7 +27,7 @@
             </UnorderedListItem>
             <UnorderedListItem>
                 <Paragraph>
-                    <Strong>Custom work buys delivery.</Strong> Any customer can request a quote; all custom work is quoted and billed separately via Sponsorship or T&amp;M with defined scope, assumptions, acceptance criteria, timelines, and payment milestones.
+                    <Strong>Custom work buys delivery.</Strong> Any customer can request a quote. Delivery terms (scope, assumptions, acceptance criteria, timeline, and payment milestones) are defined per signed proposal/Statement of Work via Feature Sponsorship or Time &amp; Materials.
                 </Paragraph>
             </UnorderedListItem>
         </UnorderedList>
@@ -84,7 +84,7 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Deliverable:</Strong> merged PR (when suitable for upstream), tests, docs, and a released package (or a private build if upstream is not yet ready).
+            <Strong>Deliverable:</Strong> working implementation delivered as a PR/branch, including tests and documentation; upstream merge and release follow the normal Blazorise review/release process.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -195,7 +195,7 @@
 </Heading>
 
 <Paragraph>
-    An annual add-on for enterprise customers who want <Strong>structured request handling</Strong> (faster triage, clearer decisions, and improved roadmap visibility) without turning requests into entitlements.
+    An annual add-on for enterprise customers who want <Strong>structured request handling</Strong> (faster triage, clearer decisions, and improved roadmap visibility) without turning requests into delivery commitments.
 </Paragraph>
 
 <UnorderedList>
@@ -249,71 +249,84 @@
     </Heading>
 
     <Accordion>
-        <AccordionItem @bind-Visible="@requestEmailVisible">
+        <AccordionItem @bind-Visible="@faqLicenseDeliveryVisible">
             <AccordionHeader>
                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>Email template (requesting a quote)</AccordionToggle>
+                    <AccordionToggle>Does a license include delivery of new features?</AccordionToggle>
                 </Heading>
             </AccordionHeader>
             <AccordionBody>
-                <Paragraph>
-                    <Strong>Subject:</Strong> Blazorise custom work request - [Company] - [Feature/Project]
-                </Paragraph>
-                <Paragraph>
-                    Send the details below to <Anchor To="mailto:sales@blazorise.com" Title="Contact sales">sales@blazorise.com</Anchor>:
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem><Strong>Preferred engagement:</Strong> Feature Sponsorship / T&amp;M / Not sure</UnorderedListItem>
-                    <UnorderedListItem><Strong>Target timeline:</Strong> [date] and any fixed deadlines</UnorderedListItem>
-                    <UnorderedListItem><Strong>Scope and acceptance criteria:</Strong> [bullets]</UnorderedListItem>
-                    <UnorderedListItem><Strong>Versions/providers:</Strong> Blazorise version, .NET version, CSS providers</UnorderedListItem>
-                    <UnorderedListItem><Strong>Dependencies:</Strong> APIs, libraries, and sample data/contracts (if applicable)</UnorderedListItem>
-                    <UnorderedListItem><Strong>Upstream/privacy:</Strong> upstream by default / private / request exclusivity</UnorderedListItem>
-                </UnorderedList>
-            </AccordionBody>
-        </AccordionItem>
-
-        <AccordionItem @bind-Visible="@faqVisible">
-            <AccordionHeader>
-                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>FAQ</AccordionToggle>
-                </Heading>
-            </AccordionHeader>
-            <AccordionBody>
-                <Paragraph>
-                    <Strong>Does a license include delivery of new features?</Strong> No. Licenses primarily provide support access and response-time commitments. Delivery is contracted separately via Feature Sponsorship or Custom Development.
-                </Paragraph>
-                <Paragraph>
-                    <Strong>What do I get with Feature Sponsorship?</Strong> A fixed-price proposal with defined scope and acceptance criteria, prioritized scheduling, and delivery. Sponsorships are designed to go upstream by default and are not exclusive unless agreed.
-                </Paragraph>
-                <Paragraph>
-                    <Strong>Is upstream inclusion guaranteed?</Strong> Upstream inclusion is the default intent for sponsorships, but it depends on quality, generalization, and compatibility. If upstream inclusion isn't feasible, we deliver a private implementation as defined in the proposal.
-                </Paragraph>
-                <Paragraph>
-                    <Strong>Can we keep the feature private or exclusive?</Strong> Yes. Use T&amp;M for company-specific work, or request temporary exclusivity for a sponsored feature (priced and time-boxed).
-                </Paragraph>
-                <Paragraph>
-                    <Strong>How do scope changes work?</Strong> Fixed-price sponsorships use change requests for out-of-scope work; T&amp;M is billed for time spent.
+                <Paragraph Margin="Margin.Is0.OnY">
+                    No. Licenses primarily provide support access and response-time commitments. Delivery is only contracted via Feature Sponsorship or Custom Development. The Priority Development Queue improves request handling, but does not include delivery.
                 </Paragraph>
             </AccordionBody>
         </AccordionItem>
 
-        <AccordionItem @bind-Visible="@proposalTemplateVisible">
+        <AccordionItem @bind-Visible="@faqSponsorshipVisible">
             <AccordionHeader>
                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>What a Sponsored Feature Proposal includes?</AccordionToggle>
+                    <AccordionToggle>What do I get with Feature Sponsorship?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    A fixed-price proposal/Statement of Work with defined scope and acceptance criteria, prioritized scheduling, and delivery. Sponsorships are designed to go upstream by default and are not exclusive unless agreed.
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@faqUpstreamVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Is upstream inclusion guaranteed?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Upstream inclusion is the default intent for sponsorships, but it depends on generalization, compatibility, and quality. If upstream inclusion isn't feasible, we deliver the agreed private implementation as defined in the proposal.
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@faqPrivacyVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Can we keep the feature private or exclusive?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Yes. Use Time &amp; Materials for company-specific work, or request temporary exclusivity for a sponsored feature (priced and time-boxed).
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@faqScopeVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>How do scope changes work?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Fixed-price sponsorships use change requests for out-of-scope work; Time &amp; Materials is billed for time spent.
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@qualificationChecklistVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>How we qualify and estimate requests</AccordionToggle>
                 </Heading>
             </AccordionHeader>
             <AccordionBody>
                 <UnorderedList>
-                    <UnorderedListItem><Strong>Scope:</Strong> in-scope items, out-of-scope items, and assumptions</UnorderedListItem>
-                    <UnorderedListItem><Strong>Acceptance criteria:</Strong> measurable behaviors and supported configurations</UnorderedListItem>
-                    <UnorderedListItem><Strong>Deliverables:</Strong> code, tests, documentation, examples, and release notes</UnorderedListItem>
-                    <UnorderedListItem><Strong>Timeline:</Strong> milestones, review windows, and target delivery date</UnorderedListItem>
-                    <UnorderedListItem><Strong>Commercial terms:</Strong> fixed price (EUR), validity period, and payment milestones</UnorderedListItem>
-                    <UnorderedListItem><Strong>Change control:</Strong> how changes are estimated, approved, and billed</UnorderedListItem>
-                    <UnorderedListItem><Strong>Upstream and licensing:</Strong> upstream intent, any exclusivity terms, and release plan</UnorderedListItem>
-                    <UnorderedListItem><Strong>Warranty/support:</Strong> defect warranty window and how support is handled via the active license/support channel</UnorderedListItem>
+                    <UnorderedListItem><Strong>Generalizability:</Strong> is it broadly useful (Sponsorship) or company-specific (Time &amp; Materials)?</UnorderedListItem>
+                    <UnorderedListItem><Strong>Compatibility:</Strong> API surface, breaking-change risk, and supported .NET/Blazorise versions</UnorderedListItem>
+                    <UnorderedListItem><Strong>Provider scope:</Strong> which CSS providers are included and what provider parity means for this feature</UnorderedListItem>
+                    <UnorderedListItem><Strong>Quality requirements:</Strong> accessibility, testing depth, docs/examples, and performance expectations</UnorderedListItem>
+                    <UnorderedListItem><Strong>Dependencies and unknowns:</Strong> third-party APIs, browser constraints, and any research/prototyping needed</UnorderedListItem>
                 </UnorderedList>
             </AccordionBody>
         </AccordionItem>
@@ -332,6 +345,54 @@
                     <UnorderedListItem><Strong>Dependencies:</Strong> third-party APIs/libraries, browser constraints, data contracts</UnorderedListItem>
                     <UnorderedListItem><Strong>Upstream preference:</Strong> upstream by default, private delivery, or temporary exclusivity</UnorderedListItem>
                     <UnorderedListItem><Strong>Constraints:</Strong> accessibility, performance, security, and target timeline</UnorderedListItem>
+                </UnorderedList>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@proposalTemplateVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Sponsored Feature Proposal template (1 page)</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is2.FromBottom">
+                    Delivery guarantees, acceptance criteria, timelines, and milestones are defined only in a signed proposal/Statement of Work. This is the structure we typically use:
+                </Paragraph>
+                <OrderedList>
+                    <OrderedListItem><Strong>Overview:</Strong> sponsor, goal, users impacted, target versions/providers</OrderedListItem>
+                    <OrderedListItem><Strong>Scope:</Strong> in-scope items, out-of-scope items, and assumptions</OrderedListItem>
+                    <OrderedListItem><Strong>Deliverables:</Strong> implementation (PR/branch), tests, documentation, examples, and release notes</OrderedListItem>
+                    <OrderedListItem><Strong>Acceptance criteria:</Strong> measurable behaviors and supported configurations</OrderedListItem>
+                    <OrderedListItem><Strong>Timeline:</Strong> milestones, review windows, and target delivery date</OrderedListItem>
+                    <OrderedListItem><Strong>Payment milestones:</Strong> fixed price (EUR), invoicing schedule, and validity period</OrderedListItem>
+                    <OrderedListItem><Strong>Change requests:</Strong> how changes are estimated, approved, and billed</OrderedListItem>
+                    <OrderedListItem><Strong>Upstream/exclusivity:</Strong> upstream intent, any exclusivity terms, and post-exclusivity release plan</OrderedListItem>
+                    <OrderedListItem><Strong>Maintenance &amp; support:</Strong> defect warranty window and how support is handled via the active license/support channel</OrderedListItem>
+                </OrderedList>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@requestEmailVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Email template (requesting a quote)</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph>
+                    <Strong>Subject:</Strong> Blazorise custom work request - [Company] - [Feature/Project]
+                </Paragraph>
+                <Paragraph>
+                    Send the details below to <Anchor To="mailto:sales@blazorise.com" Title="Contact sales">sales@blazorise.com</Anchor>:
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem><Strong>Preferred engagement:</Strong> Feature Sponsorship / Time &amp; Materials (T&amp;M) / Not sure</UnorderedListItem>
+                    <UnorderedListItem><Strong>Target timeline:</Strong> [date] and any fixed deadlines</UnorderedListItem>
+                    <UnorderedListItem><Strong>Scope and acceptance criteria:</Strong> [bullets]</UnorderedListItem>
+                    <UnorderedListItem><Strong>Versions/providers:</Strong> Blazorise version, .NET version, CSS providers</UnorderedListItem>
+                    <UnorderedListItem><Strong>Dependencies:</Strong> APIs, libraries, and sample data/contracts (if applicable)</UnorderedListItem>
+                    <UnorderedListItem><Strong>Upstream/privacy:</Strong> upstream by default / private / request exclusivity</UnorderedListItem>
                 </UnorderedList>
             </AccordionBody>
         </AccordionItem>
@@ -354,7 +415,12 @@
 
     [Parameter] public bool ShowHeader { get; set; } = true;
 
-    bool faqVisible;
+    bool faqLicenseDeliveryVisible;
+    bool faqSponsorshipVisible;
+    bool faqUpstreamVisible;
+    bool faqPrivacyVisible;
+    bool faqScopeVisible;
+    bool qualificationChecklistVisible;
     bool proposalTemplateVisible;
     bool requestEmailVisible;
     bool requestInfoVisible;
