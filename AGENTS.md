@@ -12,6 +12,38 @@
 
 ## Build, Test, and Development Commands
 
+⚠️ **AI Agent Execution Policy**
+
+AI agents (including Codex and similar tools) **MUST NOT automatically run build, test, restore, or other shell commands** unless explicitly instructed by a human.
+
+This includes, but is not limited to:
+- `dotnet restore`
+- `dotnet build`
+- `dotnet test`
+- `npm install`
+- `npm run build`
+- Any command that modifies the local file system, caches, or generated artifacts
+
+### Default behavior
+
+- Assume **read-only analysis** by default
+- Perform static code review and reasoning
+- Do **not** execute commands to “verify” changes unless explicitly asked
+
+### When execution is allowed
+
+Commands may be executed **only** when the user explicitly says so (e.g. “run a build”, “verify by building”, “execute this command”).
+
+### Rationale
+
+Blazorise is a large multi-project repository. Unsolicited command execution:
+- wastes time and resources
+- pollutes local or sandboxed caches
+- creates unnecessary diffs and artifacts
+- is rarely required for documentation, refactoring, or review tasks
+
+---
+
 CI builds with .NET SDK `10.0.x`. From the repo root:
 
 ```powershell
