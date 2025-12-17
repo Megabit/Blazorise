@@ -51,11 +51,13 @@ public partial class MarkdownInput : BaseInputComponent<string>
     }
 
     protected Task OnMarkdownValueChanged( string value )
-        => CurrentValueHandler( value );
+        => CurrentValueHandler( value ?? string.Empty );
 
     #endregion
 
     #region Properties
+
+    protected string MarkdownInputClassNames => ParentValidation?.Status == ValidationStatus.Error ? "is-invalid" : null;
 
     protected override string InternalValue { get => Value; set => Value = value; }
 

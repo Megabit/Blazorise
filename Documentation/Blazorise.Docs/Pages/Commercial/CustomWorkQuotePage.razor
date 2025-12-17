@@ -194,10 +194,11 @@
                                 <Field ColumnSize="ColumnSize.Is12">
                                     <FieldLabel>Details</FieldLabel>
                                     <FieldBody>
-                                        <MarkdownInput @bind-Value="@InputModel.Details" MinHeight="280px" />
-                                        <Feedback>
-                                            <ValidationError />
-                                        </Feedback>
+                                        <MarkdownInput @bind-Value="@InputModel.Details" MinHeight="280px">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </MarkdownInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -219,9 +220,9 @@
                 <Column ColumnSize="ColumnSize.Is12">
                     <Paragraph TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
                         By submitting this request you agree to our
-                        <Blazorise.Link To="terms">Terms of Service</Blazorise.Link>
+                        <Anchor To="terms" Title="Link to Terms of Service">Terms of Service</Anchor>
                         and
-                        <Blazorise.Link To="privacy">Privacy Policy</Blazorise.Link>.
+                        <Anchor To="privacy" Title="Link to Privacy Policy">Privacy Policy</Anchor>.
                     </Paragraph>
                 </Column>
             </Row>
