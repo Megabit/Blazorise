@@ -191,11 +191,11 @@
                                 <Field ColumnSize="ColumnSize.Is12">
                                     <FieldLabel>Details</FieldLabel>
                                     <FieldBody>
-                                        <MarkdownInput @bind-Value="@InputModel.Details" MinHeight="280px">
+                                        <Markdown @bind-Value="@InputModel.Details" MinHeight="280px" UploadImage="false">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </MarkdownInput>
+                                        </Markdown>
                                     </FieldBody>
                                 </Field>
                             </Validation>

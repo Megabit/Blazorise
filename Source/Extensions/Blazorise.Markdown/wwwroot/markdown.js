@@ -66,7 +66,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         maxHeight: options.maxHeight,
         placeholder: options.placeholder,
         tabSize: options.tabSize,
-        theme: options.theme,
+        theme: options.themeName,
         direction: options.direction,
         toolbar: options.toolbar,
         toolbarTips: options.toolbarTips,
@@ -174,7 +174,11 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
 
     const easyMDE = new EasyMDE(mdeOptions);
 
-    easyMDE.codemirror.on("change", function () {
+    easyMDE.codemirror.on("change", function (instance, changeObj) {
+        if (changeObj && changeObj.origin === "setValue") {
+            return;
+        }
+
         dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());
     });
 
