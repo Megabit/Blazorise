@@ -21,9 +21,24 @@ public partial class ContactPage
 
     private Result result;
 
+    private const string DefaultSubject = "Product questions";
+
+    private string messageSubject = DefaultSubject;
+
+    private string messageBody;
+
+    private string messageBodyTemplate;
+
     #endregion
 
     #region Methods
+
+    protected override void OnInitialized()
+    {
+        ApplySubjectTemplate();
+
+        base.OnInitialized();
+    }
 
     protected async Task SendEmail()
     {
@@ -54,8 +69,7 @@ public partial class ContactPage
                     await MessageService.Success( "Your message is sent." );
 
                     User = new User();
-                    MessageSubject = "Product questions";
-                    MessageBody = null;
+                    MessageSubject = DefaultSubject;
                     NotARobot = false;
 
                     await validationsRef.ClearAll();
@@ -85,9 +99,25 @@ public partial class ContactPage
 
     public User User { get; set; } = new User();
 
-    public string MessageSubject { get; set; } = "Product questions";
+    public string MessageSubject
+    {
+        get => messageSubject;
+        set
+        {
+            if ( messageSubject == value )
+                return;
 
-    public string MessageBody { get; set; }
+            messageSubject = value;
+
+            ApplySubjectTemplate();
+        }
+    }
+
+    public string MessageBody
+    {
+        get => messageBody;
+        set => messageBody = value;
+    }
 
     public bool NotARobot { get; set; }
 
@@ -98,6 +128,68 @@ public partial class ContactPage
     [Inject] public ILogger<ContactPage> Logger { get; set; }
 
     [Inject] public IMessageService MessageService { get; set; }
+
+    #endregion
+
+    #region Helpers
+
+    private void ApplySubjectTemplate()
+    {
+        messageBodyTemplate = GetTemplateForSubject( MessageSubject );
+        MessageBody = messageBodyTemplate;
+    }
+
+    private static string GetTemplateForSubject( string subject )
+        => subject switch
+        {
+            "Product questions" => """
+                Please include:
+                - Blazorise version:
+                - .NET version:
+                - CSS provider(s):
+                - What are you trying to achieve?
+                - What did you expect to happen?
+                - What happened instead? (include error text/logs if relevant)
+                - Minimal repro or code snippet (if possible):
+                """,
+
+            "Licensing/Pricing/Quotes" => """
+                Please include:
+                - Company name:
+                - Interested in: Professional / Enterprise / Enterprise Plus
+                - Number of developers:
+                - Billing preference: annual / one-time
+                - Purchase method: card / bank transfer / purchase order
+                - VAT ID (EU, optional):
+                - Target start date:
+
+                If you're requesting paid delivery (Feature Sponsorship or Custom Development), please share your target timeline and a short scope/acceptance criteria.
+                """,
+
+            "Invoicing/Billing" => """
+                Please include:
+                - Company name:
+                - Invoice number (if applicable):
+                - What do you need us to change/confirm?
+                - Purchase order reference (if applicable):
+                - Any relevant context or attachments (links):
+                """,
+
+            "Renewal" => """
+                Please include:
+                - Company name:
+                - Current plan and quantity:
+                - Renewal date (if known):
+                - Any changes requested (quantity, billing, PO requirements):
+                """,
+
+            _ => """
+                Please include:
+                - Topic:
+                - Details:
+                - Links/screenshots (if applicable):
+                """,
+        };
 
     #endregion
 }
