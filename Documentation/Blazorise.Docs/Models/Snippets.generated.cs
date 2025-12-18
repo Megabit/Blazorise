@@ -9731,6 +9731,33 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string MarkdownValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+    <Validation Validator=""@ValidationRule.IsNotEmpty"">
+        <Field>
+            <FieldLabel>Message</FieldLabel>
+            <FieldBody>
+                <Markdown @bind-Value=""@message"" MinHeight=""160px"">
+                    <Feedback>
+                        <ValidationError>Please enter a message.</ValidationError>
+                    </Feedback>
+                </Markdown>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color=""Color.Primary"" Clicked=""@Submit"">Submit</Button>
+</Validations>
+
+@code {
+    Validations validations;
+
+    string message;
+
+    async Task Submit()
+    {
+        await validations.ValidateAll();
+    }
+}";
+
         public const string ImportPdfViewerExample = @"@using Blazorise.PdfViewer";
 
         public const string PdfViewerBase64Example = @"<PdfViewer Source=""@($""data:application/pdf;base64,{base64String}"")"" />
