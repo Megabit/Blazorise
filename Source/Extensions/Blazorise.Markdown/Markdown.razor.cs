@@ -438,7 +438,18 @@ public partial class Markdown : BaseInputComponent<string>,
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        ValidationStatus validationStatus = ParentValidation?.Status ?? ValidationStatus.None;
+
+        if ( validationStatus == ValidationStatus.Error )
+        {
+            builder.Append( "b-markdown-invalid" );
+        }
+        else if ( validationStatus == ValidationStatus.Success )
+        {
+            builder.Append( "b-markdown-valid" );
+        }
+
+        builder.Append( ClassProvider.MemoInputValidation( validationStatus ) );
 
         base.BuildClasses( builder );
     }

@@ -3,6 +3,7 @@ import "./vendors/highlight.js?v=1.8.8.0";
 import { removeAllFileEntries } from "../Blazorise/io.js?v=1.8.8.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=1.8.8.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/markdown.css?v=1.8.8.0\" />");
 
 const _instances = [];
 

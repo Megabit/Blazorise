@@ -1,0 +1,15 @@
+textarea.b-markdown-invalid + .EasyMDEContainer .editor-toolbar,
+textarea.b-markdown-invalid + .EasyMDEContainer .CodeMirror,
+textarea.b-markdown-invalid + .EasyMDEContainer .editor-preview-side,
+textarea.b-markdown-invalid + .EasyMDEContainer .editor-preview-full,
+textarea.b-markdown-invalid + .EasyMDEContainer .editor-statusbar {
+    border-color: var(--b-theme-danger, "#FF0000");
+}
+
+textarea.b-markdown-valid + .EasyMDEContainer .editor-toolbar,
+textarea.b-markdown-valid + .EasyMDEContainer .CodeMirror,
+textarea.b-markdown-valid + .EasyMDEContainer .editor-preview-side,
+textarea.b-markdown-valid + .EasyMDEContainer .editor-preview-full,
+textarea.b-markdown-valid + .EasyMDEContainer .editor-statusbar {
+    border-color: var(--b-theme-success, "#00FF00");
+}
