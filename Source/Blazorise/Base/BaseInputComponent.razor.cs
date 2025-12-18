@@ -138,9 +138,9 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( Theme is not null )
+        if ( ThemeOptions is not null )
         {
-            Theme.Changed += OnThemeChanged;
+            ThemeOptions.Changed += OnThemeOptionsChanged;
         }
 
         base.OnInitialized();
@@ -181,9 +181,9 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
 
         ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
 
-        if ( Theme is not null )
+        if ( ThemeOptions is not null )
         {
-            Theme.Changed -= OnThemeChanged;
+            ThemeOptions.Changed -= OnThemeOptionsChanged;
         }
     }
 
@@ -397,7 +397,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     /// <param name="sender">An object that raised the event.</param>
     /// <param name="eventArgs"></param>
-    private void OnThemeChanged( object sender, EventArgs eventArgs )
+    private void OnThemeOptionsChanged( object sender, EventArgs eventArgs )
     {
         DirtyClasses();
         DirtyStyles();
@@ -498,7 +498,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Gets the size based on the theme settings.
     /// </summary>
-    protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
+    protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? ThemeOptions?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
     /// Gets the value indicating if the input is disabled.
@@ -671,7 +671,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Cascaded theme settings.
     /// </summary>
-    [CascadingParameter] protected Theme Theme { get; set; }
+    [CascadingParameter] protected Theme ThemeOptions { get; set; }
 
     #endregion
 }
