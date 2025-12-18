@@ -76,6 +76,13 @@ public class JSMarkdownModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "focus", elementId, scrollToElement );
     }
 
+    public async ValueTask UpdateBaseInputOptions( string elementId, MarkdownBaseInputJSOptions options )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "updateBaseInputOptions", elementId, options );
+    }
+
     #endregion
 
     #region Properties

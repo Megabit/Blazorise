@@ -1,15 +1,15 @@
-textarea.b-markdown-invalid + .EasyMDEContainer .editor-toolbar,
-textarea.b-markdown-invalid + .EasyMDEContainer .CodeMirror,
-textarea.b-markdown-invalid + .EasyMDEContainer .editor-preview-side,
-textarea.b-markdown-invalid + .EasyMDEContainer .editor-preview-full,
-textarea.b-markdown-invalid + .EasyMDEContainer .editor-statusbar {
+.EasyMDEContainer.b-markdown-invalid .editor-toolbar,
+.EasyMDEContainer.b-markdown-invalid .CodeMirror,
+.EasyMDEContainer.b-markdown-invalid .editor-preview-side,
+.EasyMDEContainer.b-markdown-invalid .editor-preview-full,
+.EasyMDEContainer.b-markdown-invalid .editor-statusbar {
     border-color: var(--b-theme-danger, "#FF0000");
 }
 
-textarea.b-markdown-valid + .EasyMDEContainer .editor-toolbar,
-textarea.b-markdown-valid + .EasyMDEContainer .CodeMirror,
-textarea.b-markdown-valid + .EasyMDEContainer .editor-preview-side,
-textarea.b-markdown-valid + .EasyMDEContainer .editor-preview-full,
-textarea.b-markdown-valid + .EasyMDEContainer .editor-statusbar {
+.EasyMDEContainer.b-markdown-valid .editor-toolbar,
+.EasyMDEContainer.b-markdown-valid .CodeMirror,
+.EasyMDEContainer.b-markdown-valid .editor-preview-side,
+.EasyMDEContainer.b-markdown-valid .editor-preview-full,
+.EasyMDEContainer.b-markdown-valid .editor-statusbar {
     border-color: var(--b-theme-success, "#00FF00");
 }

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -34,9 +36,18 @@ public partial class Markdown : BaseInputComponent<string>,
 
     private string pendingValue;
 
+    private readonly ClassBuilder textAreaElementClassBuilder;
+
+    private string lastBaseInputOptionsSignature;
+
     #endregion
 
     #region Methods
+
+    public Markdown()
+    {
+        textAreaElementClassBuilder = new( BuildTextAreaElementClasses );
+    }
 
     protected override void OnInitialized()
     {
@@ -67,6 +78,11 @@ public partial class Markdown : BaseInputComponent<string>,
                 hasPendingValue = true;
             }
         }
+
+        if ( Rendered )
+        {
+            ExecuteAfterRender( UpdateBaseInputOptions );
+        }
     }
 
     /// <inheritdoc/>
@@ -76,6 +92,11 @@ public partial class Markdown : BaseInputComponent<string>,
 
         await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
+            ReadOnly = ReadOnly,
+            Disabled = Disabled,
+            ClassNames = ClassNames,
+            StyleNames = StyleNames,
+            Attributes = GetEditorAttributes(),
             Value = Value ?? string.Empty,
             AutoDownloadFontAwesome = AutoDownloadFontAwesome,
             HideIcons = HideIcons,
@@ -136,6 +157,8 @@ public partial class Markdown : BaseInputComponent<string>,
         } );
 
         jsInitialized = true;
+
+        await UpdateBaseInputOptions();
 
         if ( hasPendingValue )
         {
@@ -418,7 +441,12 @@ public partial class Markdown : BaseInputComponent<string>,
     /// <inheritdoc/>
     public override Task Focus( bool scrollToElement = true )
     {
-        return JSModule.Focus( ElementId, scrollToElement ).AsTask();
+        if ( jsInitialized )
+            return JSModule.Focus( ElementId, scrollToElement ).AsTask();
+
+        ExecuteAfterRender( () => JSModule.Focus( ElementId, scrollToElement ).AsTask() );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -454,6 +482,103 @@ public partial class Markdown : BaseInputComponent<string>,
         base.BuildClasses( builder );
     }
 
+    protected virtual void BuildTextAreaElementClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+    }
+
+    internal protected override void DirtyClasses()
+    {
+        textAreaElementClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    private Dictionary<string, object> GetEditorAttributes()
+    {
+        if ( Attributes == null || Attributes.Count == 0 )
+            return null;
+
+        Dictionary<string, object> editorAttributes = null;
+
+        foreach ( KeyValuePair<string, object> attribute in Attributes )
+        {
+            if ( attribute.Key == null )
+                continue;
+
+            if ( attribute.Key.Equals( "class", StringComparison.OrdinalIgnoreCase )
+                || attribute.Key.Equals( "style", StringComparison.OrdinalIgnoreCase )
+                || attribute.Key.Equals( "id", StringComparison.OrdinalIgnoreCase )
+                || attribute.Key.Equals( "readonly", StringComparison.OrdinalIgnoreCase )
+                || attribute.Key.Equals( "disabled", StringComparison.OrdinalIgnoreCase ) )
+            {
+                continue;
+            }
+
+            editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+            editorAttributes[attribute.Key] = attribute.Value;
+        }
+
+        return editorAttributes;
+    }
+
+    private async Task UpdateBaseInputOptions()
+    {
+        if ( !jsInitialized )
+            return;
+
+        MarkdownBaseInputJSOptions options = new()
+        {
+            ReadOnly = ReadOnly,
+            Disabled = Disabled,
+            ClassNames = ClassNames,
+            StyleNames = StyleNames,
+            Attributes = GetEditorAttributes()
+        };
+
+        string signature = BuildBaseInputOptionsSignature( options );
+
+        if ( lastBaseInputOptionsSignature == signature )
+            return;
+
+        lastBaseInputOptionsSignature = signature;
+
+        await JSModule.UpdateBaseInputOptions( ElementId, options );
+    }
+
+    private static string BuildBaseInputOptionsSignature( MarkdownBaseInputJSOptions options )
+    {
+        var stringBuilder = new StringBuilder();
+
+        stringBuilder.Append( options.ReadOnly ? "1" : "0" )
+            .Append( '|' )
+            .Append( options.Disabled ? "1" : "0" )
+            .Append( '|' )
+            .Append( options.ClassNames )
+            .Append( '|' )
+            .Append( options.StyleNames )
+            .Append( '|' );
+
+        if ( options.Attributes is not null && options.Attributes.Count > 0 )
+        {
+            List<string> keys = new( options.Attributes.Keys );
+            keys.Sort( StringComparer.OrdinalIgnoreCase );
+
+            foreach ( string key in keys )
+            {
+                object value = options.Attributes[key];
+                string valueString = Convert.ToString( value, CultureInfo.InvariantCulture );
+
+                stringBuilder.Append( key )
+                    .Append( '=' )
+                    .Append( valueString )
+                    .Append( ';' );
+            }
+        }
+
+        return stringBuilder.ToString();
+    }
+
     /// <inheritdoc/>
     protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
     {
@@ -483,6 +608,11 @@ public partial class Markdown : BaseInputComponent<string>,
     /// Gets or sets the <see cref="JSMarkdownModule"/> instance.
     /// </summary>
     protected JSMarkdownModule JSModule { get; private set; }
+
+    /// <summary>
+    /// Gets the CSS class names applied to the underlying textarea element.
+    /// </summary>
+    protected string TextAreaElementClassNames => textAreaElementClassBuilder.Class;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSFileModule"/> instance.

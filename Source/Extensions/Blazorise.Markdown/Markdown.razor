@@ -1,6 +1,6 @@
 ﻿@inherits BaseInputComponent<string>
 <CascadingValue Value="@this" IsFixed>
-    <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames">
+    <textarea @ref="@ElementRef" id="@ElementId" class="@TextAreaElementClassNames">
         @if ( Toolbar is not null )
         {
             @Toolbar
