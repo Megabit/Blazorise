@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Globalization;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -38,7 +36,9 @@ public partial class Markdown : BaseInputComponent<string>,
 
     private readonly ClassBuilder textAreaElementClassBuilder;
 
-    private string lastBaseInputOptionsSignature;
+    private bool baseInputOptionsDirty;
+
+    private bool baseInputOptionsUpdateScheduled;
 
     #endregion
 
@@ -77,11 +77,6 @@ public partial class Markdown : BaseInputComponent<string>,
                 pendingValue = newValue;
                 hasPendingValue = true;
             }
-        }
-
-        if ( Rendered )
-        {
-            ExecuteAfterRender( UpdateBaseInputOptions );
         }
     }
 
@@ -158,7 +153,10 @@ public partial class Markdown : BaseInputComponent<string>,
 
         jsInitialized = true;
 
-        await UpdateBaseInputOptions();
+        baseInputOptionsDirty = false;
+        baseInputOptionsUpdateScheduled = false;
+
+        await ApplyBaseInputOptions();
 
         if ( hasPendingValue )
         {
@@ -170,6 +168,29 @@ public partial class Markdown : BaseInputComponent<string>,
         }
 
         await base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool shouldUpdateBaseInputOptions = false;
+
+        if ( Rendered )
+        {
+            if ( ( parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
+                || ( parameters.TryGetParameter( nameof( Disabled ), Disabled, out var disabledParameter ) && disabledParameter.Changed )
+                || ( parameters.TryGetParameter( nameof( Class ), Class, out var classParameter ) && classParameter.Changed )
+                || ( parameters.TryGetParameter( nameof( Style ), Style, out var styleParameter ) && styleParameter.Changed )
+                || ( parameters.TryGetParameter( nameof( Attributes ), Attributes, newAttributes => ReferenceEquals( newAttributes, Attributes ), out var attributesParameter ) && attributesParameter.Changed ) )
+            {
+                shouldUpdateBaseInputOptions = true;
+            }
+        }
+
+        await base.SetParametersAsync( parameters );
+
+        if ( Rendered && shouldUpdateBaseInputOptions )
+            RequestBaseInputOptionsUpdate();
     }
 
     /// <inheritdoc/>
@@ -492,6 +513,15 @@ public partial class Markdown : BaseInputComponent<string>,
         textAreaElementClassBuilder.Dirty();
 
         base.DirtyClasses();
+
+        RequestBaseInputOptionsUpdate();
+    }
+
+    protected override void DirtyStyles()
+    {
+        base.DirtyStyles();
+
+        RequestBaseInputOptionsUpdate();
     }
 
     private Dictionary<string, object> GetEditorAttributes()
@@ -522,61 +552,46 @@ public partial class Markdown : BaseInputComponent<string>,
         return editorAttributes;
     }
 
-    private async Task UpdateBaseInputOptions()
+    private void RequestBaseInputOptionsUpdate()
+    {
+        baseInputOptionsDirty = true;
+
+        if ( baseInputOptionsUpdateScheduled )
+            return;
+
+        baseInputOptionsUpdateScheduled = true;
+
+        ExecuteAfterRender( ApplyBaseInputOptionsIfDirty );
+    }
+
+    private async Task ApplyBaseInputOptionsIfDirty()
+    {
+        baseInputOptionsUpdateScheduled = false;
+
+        if ( !baseInputOptionsDirty )
+            return;
+
+        if ( !jsInitialized )
+            return;
+
+        baseInputOptionsDirty = false;
+
+        await ApplyBaseInputOptions();
+    }
+
+    private async Task ApplyBaseInputOptions()
     {
         if ( !jsInitialized )
             return;
 
-        MarkdownBaseInputJSOptions options = new()
+        await JSModule.UpdateBaseInputOptions( ElementId, new MarkdownBaseInputJSOptions
         {
             ReadOnly = ReadOnly,
             Disabled = Disabled,
             ClassNames = ClassNames,
             StyleNames = StyleNames,
             Attributes = GetEditorAttributes()
-        };
-
-        string signature = BuildBaseInputOptionsSignature( options );
-
-        if ( lastBaseInputOptionsSignature == signature )
-            return;
-
-        lastBaseInputOptionsSignature = signature;
-
-        await JSModule.UpdateBaseInputOptions( ElementId, options );
-    }
-
-    private static string BuildBaseInputOptionsSignature( MarkdownBaseInputJSOptions options )
-    {
-        var stringBuilder = new StringBuilder();
-
-        stringBuilder.Append( options.ReadOnly ? "1" : "0" )
-            .Append( '|' )
-            .Append( options.Disabled ? "1" : "0" )
-            .Append( '|' )
-            .Append( options.ClassNames )
-            .Append( '|' )
-            .Append( options.StyleNames )
-            .Append( '|' );
-
-        if ( options.Attributes is not null && options.Attributes.Count > 0 )
-        {
-            List<string> keys = new( options.Attributes.Keys );
-            keys.Sort( StringComparer.OrdinalIgnoreCase );
-
-            foreach ( string key in keys )
-            {
-                object value = options.Attributes[key];
-                string valueString = Convert.ToString( value, CultureInfo.InvariantCulture );
-
-                stringBuilder.Append( key )
-                    .Append( '=' )
-                    .Append( valueString )
-                    .Append( ';' );
-            }
-        }
-
-        return stringBuilder.ToString();
+        } );
     }
 
     /// <inheritdoc/>
