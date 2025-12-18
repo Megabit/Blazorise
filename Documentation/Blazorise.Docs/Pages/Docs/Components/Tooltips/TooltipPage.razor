@@ -1,27 +1,55 @@
 ﻿@page "/docs/components/tooltip"
 
-<Seo Canonical="/docs/components/tooltip" Title="Blazorise Tooltip Component" Description="Learn to use and work with the Blazorise Tooltip component, which is useful for conveying information when a user hovers over an element." />
+<Seo Canonical="/docs/components/tooltip" Title="Blazorise Tooltip Component" Description="Learn to use and work with the Blazorise Tooltip component, which is useful for conveying information when a user hovers, focuses, or taps on an element." />
 
 <DocsPageTitle Path="Components/Tooltip">
     Blazorise Tooltip component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Tooltips display additional information based on a specific action.
+    Display short, contextual hints on hover, focus, or tap.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Tooltip</Code> component is useful for conveying information when a user hovers over an element. When activated,
-    tooltips display a text label identifying an element, such as a description of its function.
+    Use the <Code Tag>Tooltip</Code> component to provide extra context without taking up permanent space in the UI.
+    Tooltips are a good fit for icons, buttons, and truncated text that needs a full-value preview.
 </DocsPageParagraph>
 
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
 <DocsPageParagraph>
-    <Alert Color="Color.Info" Visible>
-        <AlertDescription>
-            Starting with <Strong>v0.9.4</Strong>, Tooltip component is powered by <Blazorise.Link To="https://atomiks.github.io/tippyjs/" Target="Target.Blank">Tippy.js.</Blazorise.Link>
-        </AlertDescription>
-    </Alert>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph><Code>Text</Code> sets the tooltip content.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>Placement</Code> controls where the tooltip appears relative to its target.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>Trigger</Code> controls which events show the tooltip (hover/focus/click).</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>Multiline</Code> allows long tooltip text to wrap.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>ShowDelay</Code> and <Code>HideDelay</Code> delay showing and hiding (in milliseconds).</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>Inline</Code> forces the tooltip wrapper to behave as inline-block (useful when wrapping inline content).</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>TriggerTargetId</Code> applies trigger event listeners to a different element than the tooltip target.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
 </DocsPageParagraph>
+
+<Alert Color="Color.Warning" Visible>
+    <AlertDescription>
+        <Strong>Text truncation:</Strong> if you use <Code>TextOverflow.Truncate</Code> on the tooltip target and it renders as an inline element (e.g. <Code Tag>Text</Code>, <Code Tag>Span</Code>, or <Code Tag>span</Code>), set it to <Code>display: inline-block</Code> (or <Code>block</Code>) and apply a width (for example via <Code>max-width</Code>).
+    </AlertDescription>
+</Alert>
 
 <DocsPageSubtitle>
     Examples
@@ -29,6 +57,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
+        Wrap any element with a <Code Tag>Tooltip</Code> and set its <Code>Text</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicTooltipExample />
@@ -38,7 +67,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Text truncation">
-        When using <Code>TextOverflow.Truncate</Code> inside a <Code Tag>Tooltip</Code>, make sure the truncated element has <Code>display: inline-block</Code> (or <Code>block</Code>).
+        Truncate the visible target text, and show the full value on hover via the tooltip.
+        <Code>TextOverflow.Truncate</Code> requires the target element to have a width, so make it <Code>Display.InlineBlock</Code> (or apply <Code>style="display: inline-block;"</Code>).
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TooltipTextTruncateExample />
@@ -47,8 +77,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Positions">
-        You can use one of the following modifiers to change positions of the tooltip:
+    <DocsPageSectionHeader Title="Placement">
+        Use the <Code>Placement</Code> parameter to change where the tooltip appears:
         <UnorderedList>
             <UnorderedListItem>
                 Top
@@ -71,8 +101,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Different trigger target">
-        You may want the tooltip to appear at a different location from its trigger (event listeners) target.
+    <DocsPageSectionHeader Title="Separate trigger target">
+        Use <Code>TriggerTargetId</Code> when the tooltip should be positioned relative to one element, but triggered by another.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TooltipTriggerTargetExample />
@@ -81,8 +111,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="HTML Content">
-        Your tooltip can also contain HTML.
+    <DocsPageSectionHeader Title="HTML content">
+        <Code>Text</Code> can contain HTML markup. Only use this with trusted strings (or sanitize user-provided content).
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TooltipWithHtmlExample />
@@ -92,7 +122,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Delay">
-        Your Tooltip can delay hiding or showing after a trigger.
+        Control how quickly the tooltip shows and hides after the trigger event (in milliseconds).
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TooltipDelayExample />
