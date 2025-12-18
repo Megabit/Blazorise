@@ -60,7 +60,7 @@ public class MarkdownJSOptions
     /// <summary>
     /// Gets or sets the theme of the editor (e.g., "default", "dark").
     /// </summary>
-    public string ThemeName { get; set; }
+    public string Theme { get; set; }
 
     /// <summary>
     /// Gets or sets the text direction of the editor (e.g., "ltr", "rtl").

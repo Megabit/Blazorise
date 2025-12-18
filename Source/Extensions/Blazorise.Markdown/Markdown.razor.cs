@@ -86,7 +86,7 @@ public partial class Markdown : BaseInputComponent<string>,
             MaxHeight = MaxHeight,
             Placeholder = Placeholder,
             TabSize = TabSize,
-            ThemeName = ThemeName,
+            Theme = Theme,
             Direction = Direction,
             Toolbar = Toolbar != null && toolbarButtons?.Count > 0
                 ? MarkdownActionProvider.Serialize( toolbarButtons )
@@ -544,7 +544,7 @@ public partial class Markdown : BaseInputComponent<string>,
     /// <summary>
     /// Override the theme. Defaults to easymde.
     /// </summary>
-    [Parameter] public string ThemeName { get; set; } = "easymde";
+    [Parameter] public string Theme { get; set; } = "easymde";
 
     /// <summary>
     /// rtl or ltr. Changes text direction to support right-to-left languages. Defaults to ltr.

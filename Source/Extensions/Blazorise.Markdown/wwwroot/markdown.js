@@ -67,7 +67,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         maxHeight: options.maxHeight,
         placeholder: options.placeholder,
         tabSize: options.tabSize,
-        theme: options.themeName,
+        theme: options.theme,
         direction: options.direction,
         toolbar: options.toolbar,
         toolbarTips: options.toolbarTips,
