@@ -51,10 +51,7 @@ public partial class Markdown : BaseInputComponent<string>,
 
     protected override void OnInitialized()
     {
-        if ( JSModule == null )
-        {
-            JSModule = new JSMarkdownModule( JSRuntime, VersionProvider, BlazoriseOptions );
-        }
+        JSModule ??= new JSMarkdownModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
         base.OnInitialized();
     }
@@ -371,7 +368,6 @@ public partial class Markdown : BaseInputComponent<string>,
     /// <inheritdoc/>
     public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
     {
-#pragma warning disable CS4014 // We want to let execution complete but wait for TaskCompletionSource on the background.
         InvokeAsync( async () =>
         {
             if ( fileEntry.FileUploadEndedCallback is not null )
@@ -388,7 +384,6 @@ public partial class Markdown : BaseInputComponent<string>,
 
             await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
         } );
-#pragma warning restore CS4014
 
         return Task.CompletedTask;
     }
