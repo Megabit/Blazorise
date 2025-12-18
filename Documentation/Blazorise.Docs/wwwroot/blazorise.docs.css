@@ -841,10 +841,6 @@ div.developers-picker button:hover {
   width: 100%;
 }
 
-.EasyMDEContainer.is-invalid ~ .invalid-feedback {
-  display: block;
-}
-
 a.toc-link {
   text-decoration: none;
 }
