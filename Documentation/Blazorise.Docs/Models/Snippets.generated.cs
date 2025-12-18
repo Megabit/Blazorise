@@ -3982,6 +3982,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Button Color=""Color.Primary"">Bottom tooltip</Button>
 </Tooltip>";
 
+        public const string TooltipTextTruncateExample = @"<Tooltip Text=""Lorem Ipsum is simply dummy text of the printing and typesetting industry..."" Multiline Inline>
+    <Text TextOverflow=""TextOverflow.Truncate"" Display=""Display.InlineBlock"" Style=""max-width: 200px; cursor: pointer;"" TextColor=""TextColor.Muted"">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry...
+    </Text>
+</Tooltip>";
+
         public const string TooltipTriggerTargetExample = @"<Div ElementId=""tooltip-custom-target"">
     Trigger target vs
     <Tooltip Text=""I'm a tooltip!"" TriggerTargetId=""tooltip-custom-target"" Inline>
