@@ -27,7 +27,8 @@ This includes, but is not limited to:
 ### Default behavior
 
 - Assume **read-only analysis** by default
-- Perform static code review and reasoning
+  - Perform static code review and reasoning
+  - Read-only search/view commands are OK (e.g. `rg`, `Select-String`, `Get-ChildItem`, `Get-Content`)
 - Do **not** execute commands to “verify” changes unless explicitly asked
 
 ### When execution is allowed
