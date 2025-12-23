@@ -9417,7 +9417,7 @@ Install-Package Blazorise.Icons.Material";
     <IndicatorTemplate>
         <Animate Animation=""Animations.FadeDownRight"" Auto Duration=""TimeSpan.FromMilliseconds( 700 )"">
             <Div>
-                <SpinKit Type=""SpinKitType.Wave"" Size=""100px"" />
+                <SpinKit Type=""SpinKitType.Wave"" Size=""Size.ExtraLarge"" />
             </Div>
         </Animate>
     </IndicatorTemplate>
@@ -10621,9 +10621,11 @@ builder.Services
     private Snackbar snackbarSecondary;
 }";
 
-        public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""#ff4a3d"" />";
+        public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""Color.Success"" />";
 
         public const string SpinKitExample = @"<SpinKit Type=""SpinKitType.Plane"" />";
+
+        public const string SpinKitHexColorExample = @"<SpinKit Type=""SpinKitType.Plane"" HexColor=""#ff4a3d"" />";
 
         public const string SpinKitImportsExample = @"@using Blazorise.SpinKit";
 
@@ -10631,7 +10633,7 @@ builder.Services
 
         public const string SpinKitResourcesExample = @"<link href=""_content/Blazorise.SpinKit/blazorise.spinkit.css"" rel=""stylesheet"" />";
 
-        public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
+        public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""Size.Small"" />";
 
         public const string SplitterBackgroundImageExample = @"<Splitter Style=""height: 100px;"" GutterSize=""32"" GutterBackgroundImage=""_content/Blazorise.Docs/assets/img/icons/resize-horizontal-30.png"">
     <SplitterSection>

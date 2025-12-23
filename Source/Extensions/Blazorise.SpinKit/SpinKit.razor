@@ -1,4 +1,6 @@
-﻿<div class="@WrapperClassNames" style="@WrapperStyleNames">
+﻿@namespace Blazorise.SpinKit
+@inherits BaseComponent
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @for ( int i = 0; i < SpinKitItemCount( Type ); ++i )
     {
         <div class="@ItemClassNames"></div>
