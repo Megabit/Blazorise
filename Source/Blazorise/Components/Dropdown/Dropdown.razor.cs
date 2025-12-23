@@ -119,7 +119,9 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns>Dropdown menu direction.</returns>
     private Direction GetDropdownDirection()
-        => IsDropdownSubmenu && Direction == Direction.Default ? Direction.End : Direction;
+        => IsDropdownSubmenu && Direction == Direction.Default && string.IsNullOrEmpty( DropdownMenuTargetId )
+            ? Direction.End
+            : Direction;
 
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
