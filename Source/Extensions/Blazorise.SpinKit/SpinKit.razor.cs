@@ -14,11 +14,11 @@ public partial class SpinKit : BaseComponent
 
     private SpinKitType type = SpinKitType.Plane;
 
-    private Color color = Blazorise.Color.Default;
+    private Color color = Color.Default;
 
     private string hexColor;
 
-    private Size size = Blazorise.Size.Default;
+    private Size size = Size.Default;
 
     private bool centered;
 
@@ -150,6 +150,9 @@ public partial class SpinKit : BaseComponent
         get => type;
         set
         {
+            if ( type == value )
+                return;
+
             type = value;
 
             DirtyClasses();
@@ -165,6 +168,9 @@ public partial class SpinKit : BaseComponent
         get => color;
         set
         {
+            if ( color == value )
+                return;
+
             color = value;
 
             DirtyStyles();
@@ -180,6 +186,9 @@ public partial class SpinKit : BaseComponent
         get => hexColor;
         set
         {
+            if ( hexColor == value )
+                return;
+
             hexColor = value;
 
             DirtyStyles();
@@ -195,6 +204,9 @@ public partial class SpinKit : BaseComponent
         get => size;
         set
         {
+            if ( size == value )
+                return;
+
             size = value;
 
             DirtyStyles();
@@ -210,6 +222,9 @@ public partial class SpinKit : BaseComponent
         get => centered;
         set
         {
+            if ( centered == value )
+                return;
+
             centered = value;
 
             DirtyClasses();
