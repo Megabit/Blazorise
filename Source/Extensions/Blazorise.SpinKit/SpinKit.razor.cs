@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using Blazorise;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -11,7 +10,55 @@ namespace Blazorise.SpinKit;
 /// </summary>
 public partial class SpinKit : BaseComponent
 {
+    #region Members
+
+    private SpinKitType type = SpinKitType.Plane;
+
+    private Color color = Blazorise.Color.Default;
+
+    private string hexColor;
+
+    private Size size = Blazorise.Size.Default;
+
+    private bool centered;
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( $"sk-{ToSpinKitName( Type )}" );
+
+        if ( Centered )
+            builder.Append( "sk-center" );
+
+        base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrEmpty( HexColor ) )
+        {
+            builder.Append( $"--sk-color: {HexColor};" );
+        }
+        else if ( Color is not null && Color != Blazorise.Color.Default )
+        {
+            builder.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
+        }
+
+        if ( Size != Blazorise.Size.Default )
+        {
+            var sizeName = ToSpinKitSizeName( Size );
+
+            if ( !string.IsNullOrEmpty( sizeName ) )
+                builder.Append( $"--sk-size: var(--b-spinkit-size-{sizeName});" );
+        }
+
+        base.BuildStyles( builder );
+    }
 
     private static string ToSpinKitName( SpinKitType spinKitType )
     {
@@ -72,40 +119,6 @@ public partial class SpinKit : BaseComponent
             Size.ExtraLarge => "xl",
             _ => null,
         };
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-        builder.Append( $"sk-{ToSpinKitName( Type )}" );
-
-        if ( Centered )
-            builder.Append( "sk-center" );
-
-        base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildStyles( StyleBuilder builder )
-    {
-        if ( !string.IsNullOrEmpty( HexColor ) )
-        {
-            builder.Append( $"--sk-color: {HexColor};" );
-        }
-        else if ( Color is not null && Color != Blazorise.Color.Default )
-        {
-            builder.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
-        }
-
-        if ( Size != Blazorise.Size.Default )
-        {
-            var sizeName = ToSpinKitSizeName( Size );
-
-            if ( !string.IsNullOrEmpty( sizeName ) )
-                builder.Append( $"--sk-size: var(--b-spinkit-size-{sizeName});" );
-        }
-
-        base.BuildStyles( builder );
     }
 
     #endregion
@@ -202,20 +215,6 @@ public partial class SpinKit : BaseComponent
             DirtyClasses();
         }
     }
-
-    #endregion
-
-    #region Members
-
-    private SpinKitType type = SpinKitType.Plane;
-
-    private Color color = Blazorise.Color.Default;
-
-    private string hexColor;
-
-    private Size size = Blazorise.Size.Default;
-
-    private bool centered;
 
     #endregion
 }
