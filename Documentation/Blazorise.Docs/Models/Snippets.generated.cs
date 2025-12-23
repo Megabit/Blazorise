@@ -10615,9 +10615,11 @@ builder.Services
     private Snackbar snackbarSecondary;
 }";
 
-        public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""#ff4a3d"" />";
+        public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""Color.Success"" />";
 
         public const string SpinKitExample = @"<SpinKit Type=""SpinKitType.Plane"" />";
+
+        public const string SpinKitHexColorExample = @"<SpinKit Type=""SpinKitType.Plane"" HexColor=""#ff4a3d"" />";
 
         public const string SpinKitImportsExample = @"@using Blazorise.SpinKit";
 

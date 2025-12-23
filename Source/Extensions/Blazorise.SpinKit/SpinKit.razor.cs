@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Text;
+using Blazorise;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -89,8 +90,14 @@ public partial class SpinKit : ComponentBase
         {
             var sb = new StringBuilder();
 
-            if ( !string.IsNullOrEmpty( Color ) )
-                sb.Append( $"--sk-color: {Color};" );
+            if ( !string.IsNullOrEmpty( HexColor ) )
+            {
+                sb.Append( $"--sk-color: {HexColor};" );
+            }
+            else if ( Color is not null && Color != Blazorise.Color.Default )
+            {
+                sb.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
+            }
 
             if ( !string.IsNullOrEmpty( Size ) )
                 sb.Append( $"--sk-size: {Size};" );
@@ -121,9 +128,14 @@ public partial class SpinKit : ComponentBase
     [Parameter] public SpinKitType Type { get; set; } = SpinKitType.Plane;
 
     /// <summary>
-    /// Gets or sets the spinner color.
+    /// Gets or sets the spinner color variant.
     /// </summary>
-    [Parameter] public string Color { get; set; }
+    [Parameter] public Color Color { get; set; } = Blazorise.Color.Default;
+
+    /// <summary>
+    /// Gets or sets the spinner custom hex color that overrides the color variant.
+    /// </summary>
+    [Parameter] public string HexColor { get; set; }
 
     /// <summary>
     /// Gets or sets the spinner size.
