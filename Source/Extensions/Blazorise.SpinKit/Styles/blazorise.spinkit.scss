@@ -8,8 +8,14 @@
     --b-spinkit-color-light: var(--b-theme-light, #f5f5f5);
     --b-spinkit-color-dark: var(--b-theme-dark, #424242);
     --b-spinkit-color-link: var(--b-theme-link, #2196f3);
+    --b-spinkit-color: var(--b-spinkit-color-primary, currentColor);
+    --b-spinkit-size-xs: 16px;
+    --b-spinkit-size-sm: 24px;
+    --b-spinkit-size-md: 40px;
+    --b-spinkit-size-lg: 60px;
+    --b-spinkit-size-xl: 80px;
     --sk-size: var(--b-spinkit-size, 40px);
-    --sk-color: var(--b-spinkit-color, var(--b-spinkit-color-primary, currentColor));
+    --sk-color: var(--b-spinkit-color, currentColor);
 }
 
 

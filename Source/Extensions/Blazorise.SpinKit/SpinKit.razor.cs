@@ -61,6 +61,19 @@ public partial class SpinKit : ComponentBase
         };
     }
 
+    private static string ToSpinKitSizeName( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "xs",
+            Size.Small => "sm",
+            Size.Medium => "md",
+            Size.Large => "lg",
+            Size.ExtraLarge => "xl",
+            _ => null,
+        };
+    }
+
     #endregion
 
     #region Properties
@@ -99,8 +112,13 @@ public partial class SpinKit : ComponentBase
                 sb.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
             }
 
-            if ( !string.IsNullOrEmpty( Size ) )
-                sb.Append( $"--sk-size: {Size};" );
+            if ( Size != Blazorise.Size.Default )
+            {
+                var sizeName = ToSpinKitSizeName( Size );
+
+                if ( !string.IsNullOrEmpty( sizeName ) )
+                    sb.Append( $"--sk-size: var(--b-spinkit-size-{sizeName});" );
+            }
 
             return sb.ToString();
         }
@@ -140,7 +158,7 @@ public partial class SpinKit : ComponentBase
     /// <summary>
     /// Gets or sets the spinner size.
     /// </summary>
-    [Parameter] public string Size { get; set; }
+    [Parameter] public Size Size { get; set; } = Blazorise.Size.Default;
 
     /// <summary>
     /// Position the spinner to the center of it's container.
