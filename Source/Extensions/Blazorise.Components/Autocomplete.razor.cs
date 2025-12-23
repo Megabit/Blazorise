@@ -1259,6 +1259,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public string InputElementId { get; private set; }
 
     /// <summary>
+    /// Gets the dropdown target element id used for positioning.
+    /// </summary>
+    protected string DropdownMenuTargetElementId
+        => IsMultiple && !string.IsNullOrEmpty( ElementId )
+            ? ElementId
+            : InputElementId;
+
+    /// <summary>
     /// Gets the dropdown CSS styles.
     /// </summary>
     protected string CssStyle
