@@ -1,6 +1,6 @@
 ﻿#region Using directives
-using System.Text;
 using Blazorise;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,7 +9,7 @@ namespace Blazorise.SpinKit;
 /// <summary>
 /// Simple loading spinner animated with CSS. 
 /// </summary>
-public partial class SpinKit : ComponentBase
+public partial class SpinKit : BaseComponent
 {
     #region Methods
 
@@ -74,55 +74,43 @@ public partial class SpinKit : ComponentBase
         };
     }
 
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( $"sk-{ToSpinKitName( Type )}" );
+
+        if ( Centered )
+            builder.Append( "sk-center" );
+
+        base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrEmpty( HexColor ) )
+        {
+            builder.Append( $"--sk-color: {HexColor};" );
+        }
+        else if ( Color is not null && Color != Blazorise.Color.Default )
+        {
+            builder.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
+        }
+
+        if ( Size != Blazorise.Size.Default )
+        {
+            var sizeName = ToSpinKitSizeName( Size );
+
+            if ( !string.IsNullOrEmpty( sizeName ) )
+                builder.Append( $"--sk-size: var(--b-spinkit-size-{sizeName});" );
+        }
+
+        base.BuildStyles( builder );
+    }
+
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Gets the outer spinner classnames.
-    /// </summary>
-    protected string WrapperClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder( $"sk-{ToSpinKitName( Type )}" );
-
-            if ( Centered )
-                sb.Append( " sk-center" );
-
-            return sb.ToString();
-        }
-    }
-
-    /// <summary>
-    /// Gets the outer spinner styles.
-    /// </summary>
-    protected string WrapperStyleNames
-    {
-        get
-        {
-            var sb = new StringBuilder();
-
-            if ( !string.IsNullOrEmpty( HexColor ) )
-            {
-                sb.Append( $"--sk-color: {HexColor};" );
-            }
-            else if ( Color is not null && Color != Blazorise.Color.Default )
-            {
-                sb.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
-            }
-
-            if ( Size != Blazorise.Size.Default )
-            {
-                var sizeName = ToSpinKitSizeName( Size );
-
-                if ( !string.IsNullOrEmpty( sizeName ) )
-                    sb.Append( $"--sk-size: var(--b-spinkit-size-{sizeName});" );
-            }
-
-            return sb.ToString();
-        }
-    }
 
     /// <summary>
     /// Gets the inner spinner classnames.
@@ -143,27 +131,91 @@ public partial class SpinKit : ComponentBase
     /// <summary>
     /// Gets or sets the spinner type.
     /// </summary>
-    [Parameter] public SpinKitType Type { get; set; } = SpinKitType.Plane;
+    [Parameter]
+    public SpinKitType Type
+    {
+        get => type;
+        set
+        {
+            type = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the spinner color variant.
     /// </summary>
-    [Parameter] public Color Color { get; set; } = Blazorise.Color.Default;
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
+        {
+            color = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the spinner custom hex color that overrides the color variant.
     /// </summary>
-    [Parameter] public string HexColor { get; set; }
+    [Parameter]
+    public string HexColor
+    {
+        get => hexColor;
+        set
+        {
+            hexColor = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the spinner size.
     /// </summary>
-    [Parameter] public Size Size { get; set; } = Blazorise.Size.Default;
+    [Parameter]
+    public Size Size
+    {
+        get => size;
+        set
+        {
+            size = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Position the spinner to the center of it's container.
     /// </summary>
-    [Parameter] public bool Centered { get; set; }
+    [Parameter]
+    public bool Centered
+    {
+        get => centered;
+        set
+        {
+            centered = value;
+
+            DirtyClasses();
+        }
+    }
+
+    #endregion
+
+    #region Members
+
+    private SpinKitType type = SpinKitType.Plane;
+
+    private Color color = Blazorise.Color.Default;
+
+    private string hexColor;
+
+    private Size size = Blazorise.Size.Default;
+
+    private bool centered;
 
     #endregion
 }
