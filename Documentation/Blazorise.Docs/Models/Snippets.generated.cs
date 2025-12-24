@@ -4689,6 +4689,72 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.8.8.0""></script>";
 
+        public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
+
+<Validations Mode=""ValidationMode.Auto"" Model=""@model"">
+    <Validation>
+        <Field>
+            <FieldLabel>Country</FieldLabel>
+            <FieldBody>
+                <Autocomplete TItem=""Country""
+                              TValue=""string""
+                              Data=""@Countries""
+                              TextField=""@(( item ) => item.Name)""
+                              ValueField=""@(( item ) => item.Iso)""
+                              Placeholder=""Select a country""
+                              @bind-SelectedValue=""@model.CountryIso"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </Autocomplete>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field>
+            <FieldLabel>Countries</FieldLabel>
+            <FieldBody>
+                <Autocomplete TItem=""Country""
+                              TValue=""string""
+                              Data=""@Countries""
+                              TextField=""@(( item ) => item.Name)""
+                              ValueField=""@(( item ) => item.Iso)""
+                              SelectionMode=""AutocompleteSelectionMode.Multiple""
+                              Placeholder=""Select countries""
+                              @bind-SelectedValues=""@model.CountryIsos"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </Autocomplete>
+            </FieldBody>
+        </Field>
+    </Validation>
+</Validations>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+
+    public IEnumerable<Country> Countries;
+
+    AutocompleteValidationModel model = new AutocompleteValidationModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    public class AutocompleteValidationModel
+    {
+        [Required( ErrorMessage = ""Please select a country."" )]
+        public string CountryIso { get; set; }
+
+        [MinLength( 1, ErrorMessage = ""Please select at least one country."" )]
+        public List<string> CountryIsos { get; set; } = new List<string>();
+    }
+}";
+
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
