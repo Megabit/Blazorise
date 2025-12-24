@@ -27,14 +27,84 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue>, INum
     private DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef;
 
     /// <summary>
-    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// Captured Decimals parameter snapshot.
     /// </summary>
-    private bool MinDefined = false;
+    private ComponentParameterInfo<int> paramDecimals;
 
     /// <summary>
-    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// Captured DecimalSeparator parameter snapshot.
     /// </summary>
-    private bool MaxDefined = false;
+    private ComponentParameterInfo<string> paramDecimalSeparator;
+
+    /// <summary>
+    /// Captured AlternativeDecimalSeparator parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<string> paramAlternativeDecimalSeparator;
+
+    /// <summary>
+    /// Captured GroupSeparator parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<string> paramGroupSeparator;
+
+    /// <summary>
+    /// Captured GroupSpacing parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<string> paramGroupSpacing;
+
+    /// <summary>
+    /// Captured CurrencySymbol parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<string> paramCurrencySymbol;
+
+    /// <summary>
+    /// Captured CurrencySymbolPlacement parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<CurrencySymbolPlacement> paramCurrencySymbolPlacement;
+
+    /// <summary>
+    /// Captured RoundingMethod parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<NumericRoundingMethod> paramRoundingMethod;
+
+    /// <summary>
+    /// Captured Min parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<TValue> paramMin;
+
+    /// <summary>
+    /// Captured Max parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<TValue> paramMax;
+
+    /// <summary>
+    /// Captured MinMaxLimitsOverride parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<NumericMinMaxLimitsOverride> paramMinMaxLimitsOverride;
+
+    /// <summary>
+    /// Captured SelectAllOnFocus parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramSelectAllOnFocus;
+
+    /// <summary>
+    /// Captured AllowDecimalPadding parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<NumericAllowDecimalPadding> paramAllowDecimalPadding;
+
+    /// <summary>
+    /// Captured AlwaysAllowDecimalSeparator parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramAlwaysAllowDecimalSeparator;
+
+    /// <summary>
+    /// Captured ModifyValueOnWheel parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramModifyValueOnWheel;
+
+    /// <summary>
+    /// Captured WheelOn parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<NumericWheelOn> paramWheelOn;
 
     /// <summary>
     /// Saves the last received value from the JS. 
@@ -74,35 +144,58 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue>, INum
     #region Methods
 
     /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( nameof( Decimals ), Decimals, out paramDecimals );
+        parameters.TryGetParameter( nameof( DecimalSeparator ), DecimalSeparator, out paramDecimalSeparator );
+        parameters.TryGetParameter( nameof( AlternativeDecimalSeparator ), AlternativeDecimalSeparator, out paramAlternativeDecimalSeparator );
+        parameters.TryGetParameter( nameof( GroupSeparator ), GroupSeparator, out paramGroupSeparator );
+        parameters.TryGetParameter( nameof( GroupSpacing ), GroupSpacing, out paramGroupSpacing );
+        parameters.TryGetParameter( nameof( CurrencySymbol ), CurrencySymbol, out paramCurrencySymbol );
+        parameters.TryGetParameter( nameof( CurrencySymbolPlacement ), CurrencySymbolPlacement, out paramCurrencySymbolPlacement );
+        parameters.TryGetParameter( nameof( RoundingMethod ), RoundingMethod, out paramRoundingMethod );
+        parameters.TryGetParameter( nameof( Min ), Min, out paramMin );
+        parameters.TryGetParameter( nameof( Max ), Max, out paramMax );
+        parameters.TryGetParameter( nameof( MinMaxLimitsOverride ), MinMaxLimitsOverride, out paramMinMaxLimitsOverride );
+        parameters.TryGetParameter( nameof( SelectAllOnFocus ), SelectAllOnFocus, out paramSelectAllOnFocus );
+        parameters.TryGetParameter( nameof( AllowDecimalPadding ), AllowDecimalPadding, out paramAllowDecimalPadding );
+        parameters.TryGetParameter( nameof( AlwaysAllowDecimalSeparator ), AlwaysAllowDecimalSeparator, out paramAlwaysAllowDecimalSeparator );
+        parameters.TryGetParameter( nameof( ModifyValueOnWheel ), ModifyValueOnWheel, out paramModifyValueOnWheel );
+        parameters.TryGetParameter( nameof( WheelOn ), WheelOn, out paramWheelOn );
+    }
+
+    /// <inheritdoc/>
     protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
         await base.OnBeforeSetParametersAsync( parameters );
 
         if ( Rendered )
         {
-            var decimalsChanged = isIntegerType ? false : parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
-            var decimalSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalSeparator ), out var paramDecimalSeparator ) && !DecimalSeparator.IsEqual( paramDecimalSeparator );
-            var alternativeDecimalSeparatorChanged = parameters.TryGetValue<string>( nameof( AlternativeDecimalSeparator ), out var paramAlternativeDecimalSeparator ) && !AlternativeDecimalSeparator.IsEqual( paramAlternativeDecimalSeparator );
+            var decimalsChanged = !isIntegerType && paramDecimals.Defined && paramDecimals.Changed;
+            var decimalSeparatorChanged = paramDecimalSeparator.Defined && paramDecimalSeparator.Changed;
+            var alternativeDecimalSeparatorChanged = paramAlternativeDecimalSeparator.Defined && paramAlternativeDecimalSeparator.Changed;
 
-            var groupSeparatorChanged = parameters.TryGetValue<string>( nameof( GroupSeparator ), out var paramGroupSeparator ) && !GroupSeparator.IsEqual( paramGroupSeparator );
-            var groupSpacingChanged = parameters.TryGetValue<string>( nameof( GroupSpacing ), out var paramGroupSpacing ) && !GroupSpacing.IsEqual( paramGroupSpacing );
+            var groupSeparatorChanged = paramGroupSeparator.Defined && paramGroupSeparator.Changed;
+            var groupSpacingChanged = paramGroupSpacing.Defined && paramGroupSpacing.Changed;
 
-            var currencySymbolChanged = parameters.TryGetValue<string>( nameof( CurrencySymbol ), out var paramCurrencySymbol ) && !CurrencySymbol.IsEqual( paramCurrencySymbol );
-            var currencySymbolPlacementChanged = parameters.TryGetValue<CurrencySymbolPlacement>( nameof( CurrencySymbolPlacement ), out var paramCurrencySymbolPlacement ) && !CurrencySymbolPlacement.IsEqual( paramCurrencySymbolPlacement );
+            var currencySymbolChanged = paramCurrencySymbol.Defined && paramCurrencySymbol.Changed;
+            var currencySymbolPlacementChanged = paramCurrencySymbolPlacement.Defined && paramCurrencySymbolPlacement.Changed;
 
-            var roundingMethodChanged = parameters.TryGetValue<NumericRoundingMethod>( nameof( RoundingMethod ), out var paramRoundingMethod ) && !RoundingMethod.IsEqual( paramRoundingMethod );
+            var roundingMethodChanged = paramRoundingMethod.Defined && paramRoundingMethod.Changed;
 
-            var minChanged = parameters.TryGetValue<TValue>( nameof( Min ), out var paramMin ) && !Min.IsEqual( paramMin );
-            var maxChanged = parameters.TryGetValue<TValue>( nameof( Max ), out var paramMax ) && !Max.IsEqual( paramMax );
-            var minMaxLimitsOverrideChanged = parameters.TryGetValue<NumericMinMaxLimitsOverride>( nameof( MinMaxLimitsOverride ), out var paramMinMaxLimitsOverride ) && !MinMaxLimitsOverride.IsEqual( paramMinMaxLimitsOverride );
+            var minChanged = paramMin.Defined && paramMin.Changed;
+            var maxChanged = paramMax.Defined && paramMax.Changed;
+            var minMaxLimitsOverrideChanged = paramMinMaxLimitsOverride.Defined && paramMinMaxLimitsOverride.Changed;
 
-            var selectAllOnFocusChanged = parameters.TryGetValue<bool>( nameof( SelectAllOnFocus ), out var paramSelectAllOnFocus ) && !SelectAllOnFocus.IsEqual( paramSelectAllOnFocus );
+            var selectAllOnFocusChanged = paramSelectAllOnFocus.Defined && paramSelectAllOnFocus.Changed;
 
-            var allowDecimalPaddingChanged = parameters.TryGetValue<NumericAllowDecimalPadding>( nameof( AllowDecimalPadding ), out var paramAllowDecimalPadding ) && !AllowDecimalPadding.IsEqual( paramAllowDecimalPadding );
-            var alwaysAllowDecimalSeparatorChanged = parameters.TryGetValue<bool>( nameof( AlwaysAllowDecimalSeparator ), out var paramAlwaysAllowDecimalSeparator ) && !AlwaysAllowDecimalSeparator.IsEqual( paramAlwaysAllowDecimalSeparator );
+            var allowDecimalPaddingChanged = paramAllowDecimalPadding.Defined && paramAllowDecimalPadding.Changed;
+            var alwaysAllowDecimalSeparatorChanged = paramAlwaysAllowDecimalSeparator.Defined && paramAlwaysAllowDecimalSeparator.Changed;
 
-            var modifyValueOnWheelChanged = parameters.TryGetValue<bool>( nameof( ModifyValueOnWheel ), out var paramModifyValueOnWheel ) && !ModifyValueOnWheel.IsEqual( paramModifyValueOnWheel );
-            var wheelOnChanged = parameters.TryGetValue<NumericWheelOn>( nameof( WheelOn ), out var paramWheelOn ) && !WheelOn.IsEqual( paramWheelOn );
+            var modifyValueOnWheelChanged = paramModifyValueOnWheel.Defined && paramModifyValueOnWheel.Changed;
+            var wheelOnChanged = paramWheelOn.Defined && paramWheelOn.Changed;
 
             if ( decimalsChanged || decimalSeparatorChanged || alternativeDecimalSeparatorChanged
                 || groupSeparatorChanged || groupSpacingChanged
@@ -116,21 +209,21 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue>, INum
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new NumericPickerUpdateJSOptions
                 {
                     Decimals = new JSOptionChange<int>( decimalsChanged, GetDecimals() ),
-                    DecimalSeparator = new JSOptionChange<string>( decimalSeparatorChanged, paramDecimalSeparator ),
-                    AlternativeDecimalSeparator = new JSOptionChange<string>( alternativeDecimalSeparatorChanged, paramAlternativeDecimalSeparator ),
-                    GroupSeparator = new JSOptionChange<string>( groupSeparatorChanged, paramGroupSeparator ),
-                    GroupSpacing = new JSOptionChange<string>( groupSpacingChanged, paramGroupSpacing ),
-                    CurrencySymbol = new JSOptionChange<string>( currencySymbolChanged, paramCurrencySymbol ),
-                    CurrencySymbolPlacement = new JSOptionChange<string>( currencySymbolPlacementChanged, paramCurrencySymbolPlacement.ToCurrencySymbolPlacement() ),
-                    RoundingMethod = new JSOptionChange<string>( roundingMethodChanged, paramRoundingMethod.ToNumericRoundingMethod() ),
-                    AllowDecimalPadding = new JSOptionChange<object>( allowDecimalPaddingChanged, paramAllowDecimalPadding.ToNumericDecimalPadding() ),
-                    AlwaysAllowDecimalSeparator = new JSOptionChange<bool>( alwaysAllowDecimalSeparatorChanged, paramAlwaysAllowDecimalSeparator ),
-                    Min = new JSOptionChange<object>( minChanged, paramMin ),
-                    Max = new JSOptionChange<object>( maxChanged, paramMax ),
-                    MinMaxLimitsOverride = new JSOptionChange<object>( minMaxLimitsOverrideChanged, paramMinMaxLimitsOverride ),
-                    SelectAllOnFocus = new JSOptionChange<bool>( selectAllOnFocusChanged, paramSelectAllOnFocus ),
-                    ModifyValueOnWheel = new JSOptionChange<bool>( modifyValueOnWheelChanged, paramModifyValueOnWheel ),
-                    WheelOn = new JSOptionChange<object>( wheelOnChanged, paramWheelOn.ToNumericWheelOn() ),
+                    DecimalSeparator = new JSOptionChange<string>( decimalSeparatorChanged, paramDecimalSeparator.Value ),
+                    AlternativeDecimalSeparator = new JSOptionChange<string>( alternativeDecimalSeparatorChanged, paramAlternativeDecimalSeparator.Value ),
+                    GroupSeparator = new JSOptionChange<string>( groupSeparatorChanged, paramGroupSeparator.Value ),
+                    GroupSpacing = new JSOptionChange<string>( groupSpacingChanged, paramGroupSpacing.Value ),
+                    CurrencySymbol = new JSOptionChange<string>( currencySymbolChanged, paramCurrencySymbol.Value ),
+                    CurrencySymbolPlacement = new JSOptionChange<string>( currencySymbolPlacementChanged, paramCurrencySymbolPlacement.Value.ToCurrencySymbolPlacement() ),
+                    RoundingMethod = new JSOptionChange<string>( roundingMethodChanged, paramRoundingMethod.Value.ToNumericRoundingMethod() ),
+                    AllowDecimalPadding = new JSOptionChange<object>( allowDecimalPaddingChanged, paramAllowDecimalPadding.Value.ToNumericDecimalPadding() ),
+                    AlwaysAllowDecimalSeparator = new JSOptionChange<bool>( alwaysAllowDecimalSeparatorChanged, paramAlwaysAllowDecimalSeparator.Value ),
+                    Min = new JSOptionChange<object>( minChanged, paramMin.Value ),
+                    Max = new JSOptionChange<object>( maxChanged, paramMax.Value ),
+                    MinMaxLimitsOverride = new JSOptionChange<object>( minMaxLimitsOverrideChanged, paramMinMaxLimitsOverride.Value ),
+                    SelectAllOnFocus = new JSOptionChange<bool>( selectAllOnFocusChanged, paramSelectAllOnFocus.Value ),
+                    ModifyValueOnWheel = new JSOptionChange<bool>( modifyValueOnWheelChanged, paramModifyValueOnWheel.Value ),
+                    WheelOn = new JSOptionChange<object>( wheelOnChanged, paramWheelOn.Value.ToNumericWheelOn() ),
                 } ) );
 
             }
@@ -140,11 +233,6 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue>, INum
         {
             ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
         }
-
-        // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
-        // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
-        MinDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
-        MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
     }
 
     /// <inheritdoc/>
@@ -422,6 +510,16 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue>, INum
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// </summary>
+    private bool MinDefined => paramMin.Defined;
+
+    /// <summary>
+    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// </summary>
+    private bool MaxDefined => paramMax.Defined;
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;

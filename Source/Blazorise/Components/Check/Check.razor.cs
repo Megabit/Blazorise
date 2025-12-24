@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -19,18 +17,31 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
 
     private bool? indeterminate;
 
+    /// <summary>
+    /// Captured Indeterminate parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool?> paramIndeterminate;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( nameof( Indeterminate ), Indeterminate, out paramIndeterminate );
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         await base.SetParametersAsync( parameters );
 
-        if ( parameters.TryGetValue<bool?>( nameof( Indeterminate ), out var indeterminate ) && this.indeterminate != indeterminate )
+        if ( paramIndeterminate.Defined && paramIndeterminate.Changed )
         {
-            this.indeterminate = indeterminate;
+            indeterminate = paramIndeterminate.Value;
 
             ExecuteAfterRender( async () =>
             {

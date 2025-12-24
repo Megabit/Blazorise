@@ -1,10 +1,8 @@
 ﻿#region Using directives
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -19,24 +17,34 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
 
     private Color color = Color.Default;
 
+    /// <summary>
+    /// Captured Pattern parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<string> paramPattern;
+
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( nameof( Pattern ), Pattern, out paramPattern );
+    }
+
+    /// <inheritdoc/>
     protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
     {
-        if ( ParentValidation is not null )
+        if ( ParentValidation is not null && paramPattern.Defined )
         {
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var paramPattern ) )
-            {
-                // make sure we get the newest value
-                var newValue = paramValue.Defined
-                    ? paramValue.Value
-                    : Value;
+            // make sure we get the newest value
+            var newValue = paramValue.Defined
+                ? paramValue.Value
+                : Value;
 
-                await ParentValidation.InitializeInputPattern( paramPattern, newValue );
-            }
+            await ParentValidation.InitializeInputPattern( paramPattern.Value, newValue );
         }
 
         await base.OnAfterSetParametersAsync( parameters );
