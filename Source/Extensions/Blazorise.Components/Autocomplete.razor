@@ -52,7 +52,6 @@
                    Style="@SearchStyle">
         </TextInput>
     </CascadingValue>
-    @Feedback
     <DropdownMenu>
         @if ( DropdownVisible )
         {
@@ -90,6 +89,7 @@
         }
     </DropdownMenu>
 </Dropdown>
+@Feedback
 @code {
     protected RenderFragment<TItem> itemFragment => item => __builder =>
     {

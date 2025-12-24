@@ -1466,7 +1466,40 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     /// Gets the custom class-names for dropdown element.
     /// </summary>
     protected string DropdownClassNames
-        => $"{Class} b-is-autocomplete {( IsMultiple ? "b-is-autocomplete-multipleselection" : string.Empty )} {( TextFocused ? "focus" : string.Empty )}";
+    {
+        get
+        {
+            var classBuilder = new StringBuilder();
+
+            if ( !string.IsNullOrEmpty( Class ) )
+            {
+                classBuilder.Append( Class );
+                classBuilder.Append( ' ' );
+            }
+
+            classBuilder.Append( "b-is-autocomplete" );
+
+            if ( IsMultiple )
+            {
+                classBuilder.Append( " b-is-autocomplete-multipleselection" );
+            }
+
+            if ( TextFocused )
+            {
+                classBuilder.Append( " focus" );
+            }
+
+            string validationClass = ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None );
+
+            if ( !string.IsNullOrEmpty( validationClass ) )
+            {
+                classBuilder.Append( ' ' );
+                classBuilder.Append( validationClass );
+            }
+
+            return classBuilder.ToString();
+        }
+    }
 
     /// <summary>
     /// Gets the custom class-names for dropdown element.
@@ -1675,15 +1708,9 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     {
         get
         {
-            var validationClass = ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None );
-
-            if ( string.IsNullOrEmpty( SearchClass ) )
-                return validationClass;
-
-            if ( string.IsNullOrEmpty( validationClass ) )
-                return SearchClass;
-
-            return $"{SearchClass} {validationClass}";
+            return string.IsNullOrEmpty( SearchClass )
+                ? null
+                : SearchClass;
         }
     }
 
