@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
@@ -24,20 +23,57 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// </summary>
     private DotNetObjectReference<ColorPicker> dotNetObjectRef;
 
+    /// <summary>
+    /// Captured Palette parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<string[]> paramPalette;
+
+    /// <summary>
+    /// Captured ShowPalette parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramShowPalette;
+
+    /// <summary>
+    /// Captured HideAfterPaletteSelect parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramHideAfterPaletteSelect;
+
+    /// <summary>
+    /// Captured Disabled parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramDisabled;
+
+    /// <summary>
+    /// Captured ReadOnly parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramReadOnly;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( nameof( Palette ), Palette, out paramPalette );
+        parameters.TryGetParameter( nameof( ShowPalette ), ShowPalette, out paramShowPalette );
+        parameters.TryGetParameter( nameof( HideAfterPaletteSelect ), HideAfterPaletteSelect, out paramHideAfterPaletteSelect );
+        parameters.TryGetParameter( nameof( Disabled ), Disabled, out paramDisabled );
+        parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out paramReadOnly );
+    }
 
     /// <inheritdoc/>
     protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
         await base.OnBeforeSetParametersAsync( parameters );
 
-        var paletteChanged = parameters.TryGetValue( nameof( Palette ), out string[] paramPalette ) && !Palette.AreEqual( paramPalette );
-        var showPaletteChanged = parameters.TryGetValue( nameof( ShowPalette ), out bool paramShowPalette ) && ShowPalette != paramShowPalette;
-        var hideAfterPaletteSelectChanged = parameters.TryGetValue( nameof( HideAfterPaletteSelect ), out bool paramHideAfterPaletteSelect ) && HideAfterPaletteSelect != paramHideAfterPaletteSelect;
-        var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
-        var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
+        var paletteChanged = paramPalette.Defined && paramPalette.Changed;
+        var showPaletteChanged = paramShowPalette.Defined && paramShowPalette.Changed;
+        var hideAfterPaletteSelectChanged = paramHideAfterPaletteSelect.Defined && paramHideAfterPaletteSelect.Changed;
+        var disabledChanged = paramDisabled.Defined && paramDisabled.Changed;
+        var readOnlyChanged = paramReadOnly.Defined && paramReadOnly.Changed;
 
         if ( paramValue.Changed )
         {
@@ -58,11 +94,11 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,
             new ColorPickerUpdateJsOptions
             {
-                Palette = new JSOptionChange<string[]>( paletteChanged, paramPalette ),
-                ShowPalette = new JSOptionChange<bool>( showPaletteChanged, paramShowPalette ),
-                HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, paramHideAfterPaletteSelect ),
-                Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled ),
-                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly )
+                Palette = new JSOptionChange<string[]>( paletteChanged, paramPalette.Value ),
+                ShowPalette = new JSOptionChange<bool>( showPaletteChanged, paramShowPalette.Value ),
+                HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, paramHideAfterPaletteSelect.Value ),
+                Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
+                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value )
             } ) );
 
 
