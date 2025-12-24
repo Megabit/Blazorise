@@ -73,8 +73,8 @@
                                       CloseOnSelection="false"
                                       MinLength="1"
                                       SelectionMode="AutocompleteSelectionMode.Checkbox"
-                        @bind-SelectedValues="multipleSelectionData"
-                        @bind-SelectedTexts="multipleSelectionTexts">
+                                      @bind-SelectedValues="multipleSelectionData"
+                                      @bind-SelectedTexts="multipleSelectionTexts">
                         </Autocomplete>
                     </FieldBody>
                 </Field>
@@ -111,8 +111,8 @@
                                       TValue="string"
                                       Data="@ReadDataCountries"
                                       ReadData="HandleReadData"
-                        @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
-                        @bind-SelectedText="selectedAutoCompleteReadDataText"
+                                      @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
+                                      @bind-SelectedText="selectedAutoCompleteReadDataText"
                                       FreeTyping="autocompleteReadDataFreeTyping"
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
