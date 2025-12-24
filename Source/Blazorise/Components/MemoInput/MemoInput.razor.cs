@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -16,17 +15,40 @@ namespace Blazorise;
 /// </summary>
 public partial class MemoInput : BaseBufferedTextInput<string>, IAsyncDisposable
 {
+    #region Members
+
+    private ComponentParameterInfo<bool> paramReplaceTab;
+
+    private ComponentParameterInfo<int> paramTabSize;
+
+    private ComponentParameterInfo<bool> paramSoftTabs;
+
+    private ComponentParameterInfo<bool> paramAutoSize;
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( nameof( ReplaceTab ), ReplaceTab, out paramReplaceTab );
+        parameters.TryGetParameter( nameof( TabSize ), TabSize, out paramTabSize );
+        parameters.TryGetParameter( nameof( SoftTabs ), SoftTabs, out paramSoftTabs );
+        parameters.TryGetParameter( nameof( AutoSize ), AutoSize, out paramAutoSize );
+    }
 
     /// <inheritdoc/>
     protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
         await base.OnBeforeSetParametersAsync( parameters );
 
-        var replaceTabChanged = parameters.TryGetValue( nameof( ReplaceTab ), out bool paramReplaceTab ) && ReplaceTab != paramReplaceTab;
-        var tabSizeChanged = parameters.TryGetValue( nameof( TabSize ), out int paramTabSize ) && TabSize != paramTabSize;
-        var softTabsChanged = parameters.TryGetValue( nameof( SoftTabs ), out bool paramSoftTabs ) && SoftTabs != paramSoftTabs;
-        var autoSizeChanged = parameters.TryGetValue( nameof( AutoSize ), out bool paramAutoSize ) && AutoSize != paramAutoSize;
+        var replaceTabChanged = paramReplaceTab.Defined && paramReplaceTab.Changed;
+        var tabSizeChanged = paramTabSize.Defined && paramTabSize.Changed;
+        var softTabsChanged = paramSoftTabs.Defined && paramSoftTabs.Changed;
+        var autoSizeChanged = paramAutoSize.Defined && paramAutoSize.Changed;
 
         if ( Rendered && ( replaceTabChanged
                            || tabSizeChanged
@@ -35,17 +57,17 @@ public partial class MemoInput : BaseBufferedTextInput<string>, IAsyncDisposable
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
             {
-                ReplaceTab = new JSOptionChange<bool>( replaceTabChanged, paramReplaceTab ),
-                TabSize = new JSOptionChange<int>( tabSizeChanged, paramTabSize ),
-                SoftTabs = new JSOptionChange<bool>( softTabsChanged, paramSoftTabs ),
-                AutoSize = new JSOptionChange<bool>( autoSizeChanged, paramAutoSize ),
+                ReplaceTab = new JSOptionChange<bool>( replaceTabChanged, paramReplaceTab.Value ),
+                TabSize = new JSOptionChange<int>( tabSizeChanged, paramTabSize.Value ),
+                SoftTabs = new JSOptionChange<bool>( softTabsChanged, paramSoftTabs.Value ),
+                AutoSize = new JSOptionChange<bool>( autoSizeChanged, paramAutoSize.Value ),
             } ) );
 
         }
 
         if ( Rendered )
         {
-            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
+            if ( paramValue.Changed )
             {
                 ExecuteAfterRender( async () =>
                 {
