@@ -4830,6 +4830,60 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     List<string> multipleSelectionTexts;
 }";
 
+        public const string AutocompleteMultipleValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+    <Validation Validator=""@ValidateSelection"">
+        <Field>
+            <FieldLabel>Countries</FieldLabel>
+            <FieldBody>
+                <Autocomplete TItem=""Country""
+                              TValue=""string""
+                              Data=""@Countries""
+                              TextField=""@(( item ) => item.Name)""
+                              ValueField=""@(( item ) => item.Iso)""
+                              SelectionMode=""AutocompleteSelectionMode.Multiple""
+                              Placeholder=""Select countries""
+                              @bind-SelectedValues=""@selectedCountries"">
+                    <Feedback>
+                        <ValidationError>Please select at least one country.</ValidationError>
+                    </Feedback>
+                </Autocomplete>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color=""Color.Primary"" Clicked=""@Validate"">Validate</Button>
+</Validations>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+
+    public IEnumerable<Country> Countries;
+
+    Validations validations;
+
+    List<string> selectedCountries = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    void ValidateSelection( ValidatorEventArgs validationArgs )
+    {
+        List<string> values = validationArgs.Value as List<string>;
+
+        validationArgs.Status = values != null && values.Count > 0
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+    }
+
+    async Task Validate()
+    {
+        await validations.ValidateAll();
+    }
+}";
+
         public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@ReadDataCountries""
@@ -4917,6 +4971,50 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     List<string> multipleSelectionData;
     List<string> multipleSelectionTexts;
+}";
+
+        public const string AutocompleteValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+    <Validation Validator=""@ValidationRule.IsNotEmpty"">
+        <Field>
+            <FieldLabel>Country</FieldLabel>
+            <FieldBody>
+                <Autocomplete TItem=""Country""
+                              TValue=""string""
+                              Data=""@Countries""
+                              TextField=""@(( item ) => item.Name)""
+                              ValueField=""@(( item ) => item.Iso)""
+                              Placeholder=""Select a country""
+                              @bind-SelectedValue=""@selectedCountry"">
+                    <Feedback>
+                        <ValidationError>Please select a country.</ValidationError>
+                    </Feedback>
+                </Autocomplete>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color=""Color.Primary"" Clicked=""@Validate"">Validate</Button>
+</Validations>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+
+    public IEnumerable<Country> Countries;
+
+    Validations validations;
+
+    string selectedCountry;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    async Task Validate()
+    {
+        await validations.ValidateAll();
+    }
 }";
 
         public const string AutocompleteVirtualizeAndReadDataExample = @"<Autocomplete TItem=""Country""
