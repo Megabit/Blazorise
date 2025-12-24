@@ -17,8 +17,14 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
 {
     #region Members
 
+    /// <summary>
+    /// Captured Min parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<TValue> paramMin;
 
+    /// <summary>
+    /// Captured Max parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<TValue> paramMax;
 
     #endregion

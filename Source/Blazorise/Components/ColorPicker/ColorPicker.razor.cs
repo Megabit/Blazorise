@@ -23,14 +23,29 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// </summary>
     private DotNetObjectReference<ColorPicker> dotNetObjectRef;
 
+    /// <summary>
+    /// Captured Palette parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<string[]> paramPalette;
 
+    /// <summary>
+    /// Captured ShowPalette parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramShowPalette;
 
+    /// <summary>
+    /// Captured HideAfterPaletteSelect parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramHideAfterPaletteSelect;
 
+    /// <summary>
+    /// Captured Disabled parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramDisabled;
 
+    /// <summary>
+    /// Captured ReadOnly parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramReadOnly;
 
     #endregion

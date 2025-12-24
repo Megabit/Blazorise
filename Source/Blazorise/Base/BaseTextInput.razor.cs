@@ -17,6 +17,9 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
 
     private Color color = Color.Default;
 
+    /// <summary>
+    /// Captured Pattern parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<string> paramPattern;
 
     #endregion

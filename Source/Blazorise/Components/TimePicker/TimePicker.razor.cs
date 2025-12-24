@@ -20,34 +20,79 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
 {
     #region Members
 
+    /// <summary>
+    /// Captured Min parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<TimeSpan?> paramMin;
 
+    /// <summary>
+    /// Captured Max parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<TimeSpan?> paramMax;
 
+    /// <summary>
+    /// Captured DisplayFormat parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<string> paramDisplayFormat;
 
+    /// <summary>
+    /// Captured TimeAs24hr parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramTimeAs24hr;
 
+    /// <summary>
+    /// Captured Disabled parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramDisabled;
 
+    /// <summary>
+    /// Captured ReadOnly parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramReadOnly;
 
+    /// <summary>
+    /// Captured Inline parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramInline;
 
+    /// <summary>
+    /// Captured DisableMobile parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramDisableMobile;
 
+    /// <summary>
+    /// Captured Placeholder parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<string> paramPlaceholder;
 
+    /// <summary>
+    /// Captured StaticPicker parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramStaticPicker;
 
+    /// <summary>
+    /// Captured Seconds parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramSeconds;
 
+    /// <summary>
+    /// Captured HourIncrement parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<int> paramHourIncrement;
 
+    /// <summary>
+    /// Captured MinuteIncrement parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<int> paramMinuteIncrement;
 
+    /// <summary>
+    /// Captured DefaultHour parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<int> paramDefaultHour;
 
+    /// <summary>
+    /// Captured DefaultMinute parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<int> paramDefaultMinute;
 
     #endregion

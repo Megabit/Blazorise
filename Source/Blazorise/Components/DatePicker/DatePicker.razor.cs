@@ -26,46 +26,109 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
 
     private DotNetObjectReference<DatePickerAdapter> dotNetObjectRef;
 
+    /// <summary>
+    /// Captured Min parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<DateTimeOffset?> paramMin;
 
+    /// <summary>
+    /// Captured Max parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<DateTimeOffset?> paramMax;
 
+    /// <summary>
+    /// Captured FirstDayOfWeek parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<DayOfWeek> paramFirstDayOfWeek;
 
+    /// <summary>
+    /// Captured DisplayFormat parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<string> paramDisplayFormat;
 
+    /// <summary>
+    /// Captured InputFormat parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<string> paramInputFormat;
 
+    /// <summary>
+    /// Captured TimeAs24hr parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramTimeAs24hr;
 
+    /// <summary>
+    /// Captured Disabled parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramDisabled;
 
+    /// <summary>
+    /// Captured ReadOnly parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramReadOnly;
 
+    /// <summary>
+    /// Captured DisabledDates parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<IEnumerable<TValue>> paramDisabledDates;
 
+    /// <summary>
+    /// Captured EnabledDates parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<IEnumerable<TValue>> paramEnabledDates;
 
+    /// <summary>
+    /// Captured DisabledDays parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<IEnumerable<DayOfWeek>> paramDisabledDays;
 
+    /// <summary>
+    /// Captured SelectionMode parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<DateInputSelectionMode> paramSelectionMode;
 
+    /// <summary>
+    /// Captured Inline parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramInline;
 
+    /// <summary>
+    /// Captured DisableMobile parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramDisableMobile;
 
+    /// <summary>
+    /// Captured Placeholder parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<string> paramPlaceholder;
 
+    /// <summary>
+    /// Captured StaticPicker parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramStaticPicker;
 
+    /// <summary>
+    /// Captured ShowWeekNumbers parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramShowWeekNumbers;
 
+    /// <summary>
+    /// Captured ShowTodayButton parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramShowTodayButton;
 
+    /// <summary>
+    /// Captured ShowClearButton parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool> paramShowClearButton;
 
+    /// <summary>
+    /// Captured DefaultHour parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<int> paramDefaultHour;
 
+    /// <summary>
+    /// Captured DefaultMinute parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<int> paramDefaultMinute;
 
     /// <summary>

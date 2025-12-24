@@ -17,6 +17,9 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
 
     private bool? indeterminate;
 
+    /// <summary>
+    /// Captured Indeterminate parameter snapshot.
+    /// </summary>
     private ComponentParameterInfo<bool?> paramIndeterminate;
 
     #endregion
