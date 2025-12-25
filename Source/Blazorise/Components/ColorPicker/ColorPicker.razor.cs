@@ -26,27 +26,27 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// <summary>
     /// Captured Palette parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string[]> paramPalette;
+    protected ComponentParameterInfo<string[]> paramPalette;
 
     /// <summary>
     /// Captured ShowPalette parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramShowPalette;
+    protected ComponentParameterInfo<bool> paramShowPalette;
 
     /// <summary>
     /// Captured HideAfterPaletteSelect parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramHideAfterPaletteSelect;
+    protected ComponentParameterInfo<bool> paramHideAfterPaletteSelect;
 
     /// <summary>
     /// Captured Disabled parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramDisabled;
+    protected ComponentParameterInfo<bool> paramDisabled;
 
     /// <summary>
     /// Captured ReadOnly parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramReadOnly;
+    protected ComponentParameterInfo<bool> paramReadOnly;
 
     #endregion
 

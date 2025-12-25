@@ -31,12 +31,12 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue>, IAsyn
     /// <summary>
     /// Captured Min parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<TValue> paramMin;
+    protected ComponentParameterInfo<TValue> paramMin;
 
     /// <summary>
     /// Captured Max parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<TValue> paramMax;
+    protected ComponentParameterInfo<TValue> paramMax;
 
     #endregion
 

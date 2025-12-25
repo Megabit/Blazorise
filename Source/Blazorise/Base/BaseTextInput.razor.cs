@@ -20,7 +20,7 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
     /// <summary>
     /// Captured Pattern parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramPattern;
+    protected ComponentParameterInfo<string> paramPattern;
 
     #endregion
 

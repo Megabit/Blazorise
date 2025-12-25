@@ -23,77 +23,77 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <summary>
     /// Captured Min parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<TimeSpan?> paramMin;
+    protected ComponentParameterInfo<TimeSpan?> paramMin;
 
     /// <summary>
     /// Captured Max parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<TimeSpan?> paramMax;
+    protected ComponentParameterInfo<TimeSpan?> paramMax;
 
     /// <summary>
     /// Captured DisplayFormat parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramDisplayFormat;
+    protected ComponentParameterInfo<string> paramDisplayFormat;
 
     /// <summary>
     /// Captured TimeAs24hr parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramTimeAs24hr;
+    protected ComponentParameterInfo<bool> paramTimeAs24hr;
 
     /// <summary>
     /// Captured Disabled parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramDisabled;
+    protected ComponentParameterInfo<bool> paramDisabled;
 
     /// <summary>
     /// Captured ReadOnly parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramReadOnly;
+    protected ComponentParameterInfo<bool> paramReadOnly;
 
     /// <summary>
     /// Captured Inline parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramInline;
+    protected ComponentParameterInfo<bool> paramInline;
 
     /// <summary>
     /// Captured DisableMobile parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramDisableMobile;
+    protected ComponentParameterInfo<bool> paramDisableMobile;
 
     /// <summary>
     /// Captured Placeholder parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramPlaceholder;
+    protected ComponentParameterInfo<string> paramPlaceholder;
 
     /// <summary>
     /// Captured StaticPicker parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramStaticPicker;
+    protected ComponentParameterInfo<bool> paramStaticPicker;
 
     /// <summary>
     /// Captured Seconds parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramSeconds;
+    protected ComponentParameterInfo<bool> paramSeconds;
 
     /// <summary>
     /// Captured HourIncrement parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramHourIncrement;
+    protected ComponentParameterInfo<int> paramHourIncrement;
 
     /// <summary>
     /// Captured MinuteIncrement parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramMinuteIncrement;
+    protected ComponentParameterInfo<int> paramMinuteIncrement;
 
     /// <summary>
     /// Captured DefaultHour parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramDefaultHour;
+    protected ComponentParameterInfo<int> paramDefaultHour;
 
     /// <summary>
     /// Captured DefaultMinute parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramDefaultMinute;
+    protected ComponentParameterInfo<int> paramDefaultMinute;
 
     #endregion
 
