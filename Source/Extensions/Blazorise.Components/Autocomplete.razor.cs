@@ -1,5 +1,4 @@
 #region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,6 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
-
 #endregion
 
 namespace Blazorise.Components;
@@ -78,14 +76,54 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     private List<TValue> selectedValuesParam;
     private List<string> selectedTextsParam;
     private bool autocompleteAutofocus;
-    private bool autocompleteAutofocusDefined;
-    private bool autocompleteAutofocusParam;
-    private bool hasValueExpressionParam;
-    private bool hasSelectedValueExpressionParam;
-    private bool hasSelectedValuesExpressionParam;
-    private Expression<Func<TValue>> valueExpressionParam;
-    private Expression<Func<TValue>> selectedValueExpressionParam;
-    private Expression<Func<List<TValue>>> selectedValuesExpressionParam;
+
+    /// <summary>
+    /// Captured parameter snapshots for safe access after awaited operations.
+    /// </summary>
+    /// <summary>
+    /// Captured SelectionMode parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<AutocompleteSelectionMode> paramSelectionMode;
+
+    /// <summary>
+    /// Captured Search parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramSearch;
+
+    /// <summary>
+    /// Captured SelectedValue parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<TValue> paramSelectedValue;
+
+    /// <summary>
+    /// Captured SelectedText parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramSelectedText;
+
+    /// <summary>
+    /// Captured SelectedValues parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<IEnumerable<TValue>> paramSelectedValues;
+
+    /// <summary>
+    /// Captured SelectedTexts parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<IEnumerable<string>> paramSelectedTexts;
+
+    /// <summary>
+    /// Captured Data parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<IEnumerable<TItem>> paramData;
+
+    /// <summary>
+    /// Captured SelectedValueExpression parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<Expression<Func<TValue>>> paramSelectedValueExpression;
+
+    /// <summary>
+    /// Captured SelectedValuesExpression parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<Expression<Func<List<TValue>>>> paramSelectedValuesExpression;
 
     /// <summary>
     /// Workaround for the issue where the dropdown closes when clicking on the checkbox
@@ -101,27 +139,43 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     #region Methods
 
     /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( nameof( SelectionMode ), SelectionMode, out paramSelectionMode );
+        parameters.TryGetParameter( nameof( Search ), Search, out paramSearch );
+        parameters.TryGetParameter( nameof( SelectedValue ), SelectedValue, out paramSelectedValue );
+        parameters.TryGetParameter( nameof( SelectedText ), SelectedText, out paramSelectedText );
+        parameters.TryGetParameter<IEnumerable<TValue>>( nameof( SelectedValues ), SelectedValues, value => selectedValuesParam.AreEqualOrdered( value ), out paramSelectedValues );
+        parameters.TryGetParameter<IEnumerable<string>>( nameof( SelectedTexts ), SelectedTexts, value => selectedTextsParam.AreEqualOrdered( value ), out paramSelectedTexts );
+        parameters.TryGetParameter<IEnumerable<TItem>>( nameof( Data ), Data, value => data.IsEqual( value ), out paramData );
+        parameters.TryGetParameter( nameof( SelectedValueExpression ), SelectedValueExpression, out paramSelectedValueExpression );
+        parameters.TryGetParameter( nameof( SelectedValuesExpression ), SelectedValuesExpression, out paramSelectedValuesExpression );
+    }
+
+    /// <inheritdoc/>
     protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
         await base.OnBeforeSetParametersAsync( parameters );
 
-        var selectionMode = parameters.TryGetValue<AutocompleteSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode )
-            ? paramSelectionMode
+        AutocompleteSelectionMode selectionMode = paramSelectionMode.Defined
+            ? paramSelectionMode.Value
             : SelectionMode;
 
-        var isMultiple = selectionMode == AutocompleteSelectionMode.Multiple || selectionMode == AutocompleteSelectionMode.Checkbox;
+        bool isMultiple = selectionMode == AutocompleteSelectionMode.Multiple || selectionMode == AutocompleteSelectionMode.Checkbox;
 
-        if ( parameters.TryGetValue<string>( nameof( Search ), out var paramCurrentSearch ) && currentSearchParam != paramCurrentSearch )
+        if ( paramSearch.Defined && currentSearchParam != paramSearch.Value )
         {
             currentSearch = null;
         }
 
-        var hasSelectedValueParam = parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue );
+        bool hasSelectedValueParam = paramSelectedValue.Defined;
 
         if ( hasSelectedValueParam )
         {
-            selectedValueParamChanged = !selectedValueParamDefined || !paramSelectedValue.IsEqual( selectedValueParam );
-            selectedValueParam = paramSelectedValue;
+            selectedValueParamChanged = !selectedValueParamDefined || !paramSelectedValue.Value.IsEqual( selectedValueParam );
+            selectedValueParam = paramSelectedValue.Value;
             selectedValueParamDefined = true;
         }
         else
@@ -132,7 +186,7 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
 
         if ( !paramValue.Defined && hasSelectedValueParam )
         {
-            paramValue = new ComponentParameterInfo<TValue>( paramSelectedValue, true, selectedValueParamChanged );
+            paramValue = new ComponentParameterInfo<TValue>( paramSelectedValue.Value, true, selectedValueParamChanged );
 
             if ( Rendered && paramValue.Changed )
             {
@@ -145,26 +199,13 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
             selectedValueParamChanged = paramValue.Changed;
         }
 
-        selectedTextParamChanged = parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText )
-            && !SelectedText.IsEqual( paramSelectedText );
+        selectedTextParamChanged = paramSelectedText.Defined && !SelectedText.IsEqual( paramSelectedText.Value );
 
-        selectedValuesParamChanged = parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
-            && !selectedValuesParam.AreEqualOrdered( paramSelectedValues );
+        selectedValuesParamChanged = paramSelectedValues.Defined && paramSelectedValues.Changed;
 
-        selectedTextsParamChanged = parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
-            && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts );
+        selectedTextsParamChanged = paramSelectedTexts.Defined && paramSelectedTexts.Changed;
 
-        dataParamChanged = parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData )
-            && !data.IsEqual( paramData );
-
-        hasValueExpressionParam = parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out valueExpressionParam );
-        hasSelectedValueExpressionParam = parameters.TryGetValue<Expression<Func<TValue>>>( nameof( SelectedValueExpression ), out selectedValueExpressionParam );
-        hasSelectedValuesExpressionParam = parameters.TryGetValue<Expression<Func<List<TValue>>>>( nameof( SelectedValuesExpression ), out selectedValuesExpressionParam );
-        autocompleteAutofocusDefined = parameters.TryGetValue<bool>( nameof( Autofocus ), out var paramAutofocus );
-        if ( autocompleteAutofocusDefined )
-        {
-            autocompleteAutofocusParam = paramAutofocus;
-        }
+        dataParamChanged = paramData.Defined && paramData.Changed;
 
         if ( isMultiple && Rendered && ( selectedValuesParamChanged || selectedTextsParamChanged ) )
         {
@@ -175,38 +216,38 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     /// <inheritdoc/>
     protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
     {
-        if ( !hasValueExpressionParam && hasSelectedValueExpressionParam )
+        if ( !paramValueExpression.Defined && paramSelectedValueExpression.Defined )
         {
-            ValueExpression = selectedValueExpressionParam;
+            ValueExpression = paramSelectedValueExpression.Value;
         }
 
         if ( ParentValidation is not null )
         {
             if ( IsMultiple )
             {
-                if ( hasSelectedValuesExpressionParam )
+                if ( paramSelectedValuesExpression.Defined )
                 {
-                    await ParentValidation.InitializeInputExpression( selectedValuesExpressionParam );
+                    await ParentValidation.InitializeInputExpression( paramSelectedValuesExpression.Value );
                 }
             }
             else
             {
-                if ( hasValueExpressionParam )
+                if ( paramValueExpression.Defined )
                 {
-                    await ParentValidation.InitializeInputExpression( valueExpressionParam );
+                    await ParentValidation.InitializeInputExpression( paramValueExpression.Value );
                 }
-                else if ( hasSelectedValueExpressionParam )
+                else if ( paramSelectedValueExpression.Defined )
                 {
-                    await ParentValidation.InitializeInputExpression( selectedValueExpressionParam );
+                    await ParentValidation.InitializeInputExpression( paramSelectedValueExpression.Value );
                 }
             }
 
             await InitializeValidation();
         }
 
-        if ( autocompleteAutofocusDefined && autocompleteAutofocus != autocompleteAutofocusParam )
+        if ( paramAutofocus.Defined && autocompleteAutofocus != paramAutofocus.Value )
         {
-            autocompleteAutofocus = autocompleteAutofocusParam;
+            autocompleteAutofocus = paramAutofocus.Value;
 
             if ( autocompleteAutofocus )
             {
