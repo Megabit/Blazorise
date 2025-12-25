@@ -17,6 +17,8 @@ public sealed record ComponentMapping
 
     public IReadOnlyDictionary<string, string> ParameterRenames { get; init; }
 
+    public IReadOnlyDictionary<string, string> ParameterRemovals { get; init; }
+
     public TValueShape TValueShape { get; init; }
 
     public string Notes { get; init; }
@@ -26,11 +28,13 @@ public sealed record ComponentMapping
         string? newFullName,
         IReadOnlyDictionary<string, string> parameterRenames,
         TValueShape tValueShape,
-        string notes )
+        string notes,
+        IReadOnlyDictionary<string, string>? parameterRemovals = null )
     {
         OldFullName = oldFullName;
         NewFullName = newFullName;
         ParameterRenames = parameterRenames;
+        ParameterRemovals = parameterRemovals ?? new Dictionary<string, string>();
         TValueShape = tValueShape;
         Notes = notes;
     }
@@ -310,7 +314,12 @@ public static partial class BlazoriseMigrationMappings
                 ["Multiple"] = "SelectionMode",
             },
             TValueShape.Any,
-            "Autocomplete now uses Search / SearchChanged and SelectionMode instead of CurrentSearch / CurrentSearchChanged and Multiple." ) );
+            "Autocomplete now uses Search / SearchChanged and SelectionMode instead of CurrentSearch / CurrentSearchChanged and Multiple.",
+            new Dictionary<string, string>
+            {
+                ["Validator"] = "Wrap Autocomplete in Validation instead of using the Validator parameter.",
+                ["AsyncValidator"] = "Wrap Autocomplete in Validation instead of using the AsyncValidator parameter.",
+            } ) );
 
         list.Add( new ComponentMapping(
             "Blazorise.CardLink",

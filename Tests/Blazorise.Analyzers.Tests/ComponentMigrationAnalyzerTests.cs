@@ -118,6 +118,36 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_autocomplete_parameter_removals()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise.Components
+{
+    public class Autocomplete<TItem, TValue> : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.Components.Autocomplete<int, string>>( 0 );
+        builder.AddAttribute( 1, ""Validator"", ""validator"" );
+        builder.AddAttribute( 2, ""AsyncValidator"", ""asyncValidator"" );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var removalDiagnostics = diagnostics.Where( d => d.Id == "BLZP003" ).ToArray();
+        Assert.Equal( 2, removalDiagnostics.Length );
+        Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'Validator' was removed from component 'Autocomplete<int, string>': Wrap Autocomplete in Validation instead of using the Validator parameter." );
+        Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'AsyncValidator' was removed from component 'Autocomplete<int, string>': Wrap Autocomplete in Validation instead of using the AsyncValidator parameter." );
+    }
+
+    [Fact]
     public async Task Does_not_report_tvalueshape_for_autocomplete()
     {
         var source = @"

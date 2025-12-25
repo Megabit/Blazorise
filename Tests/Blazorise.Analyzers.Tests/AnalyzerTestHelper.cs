@@ -82,6 +82,7 @@ namespace Microsoft.AspNetCore.Components.Rendering
             new Blazorise.Analyzers.Migration.Rules.TagRenameAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.ParameterRenameAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.ParameterTypeChangeAnalyzer(),
+            new Blazorise.Analyzers.Migration.Rules.ParameterRemovedAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.TValueShapeAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.MemberRenameAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.MemberRemovedAnalyzer(),
