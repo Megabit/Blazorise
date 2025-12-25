@@ -147,9 +147,9 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
         parameters.TryGetParameter( nameof( Search ), Search, out paramSearch );
         parameters.TryGetParameter( nameof( SelectedValue ), SelectedValue, out paramSelectedValue );
         parameters.TryGetParameter( nameof( SelectedText ), SelectedText, out paramSelectedText );
-        parameters.TryGetParameter<IEnumerable<TValue>>( nameof( SelectedValues ), SelectedValues, value => selectedValuesParam.AreEqualOrdered( value ), out paramSelectedValues );
-        parameters.TryGetParameter<IEnumerable<string>>( nameof( SelectedTexts ), SelectedTexts, value => selectedTextsParam.AreEqualOrdered( value ), out paramSelectedTexts );
-        parameters.TryGetParameter<IEnumerable<TItem>>( nameof( Data ), Data, value => data.IsEqual( value ), out paramData );
+        parameters.TryGetParameter( nameof( SelectedValues ), SelectedValues, value => selectedValuesParam.AreEqualOrdered( value ), out paramSelectedValues );
+        parameters.TryGetParameter( nameof( SelectedTexts ), SelectedTexts, value => selectedTextsParam.AreEqualOrdered( value ), out paramSelectedTexts );
+        parameters.TryGetParameter( nameof( Data ), Data, value => data.IsEqual( value ), out paramData );
         parameters.TryGetParameter( nameof( SelectedValueExpression ), SelectedValueExpression, out paramSelectedValueExpression );
         parameters.TryGetParameter( nameof( SelectedValuesExpression ), SelectedValuesExpression, out paramSelectedValuesExpression );
     }
@@ -286,7 +286,7 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
         if ( request.CancellationToken.IsCancellationRequested )
             return default;
         else
-            return new( Data.ToList(), TotalItems.HasValue ? TotalItems.Value : default );
+            return new( Data.ToList(), TotalItems ?? default );
     }
 
     private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
@@ -664,10 +664,9 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
         }
     }
 
-    private async Task InvokeSearchChanged( string searchValue )
+    private Task InvokeSearchChanged( string searchValue )
     {
-        await Task.WhenAll(
-        SearchChanged.InvokeAsync( searchValue ) );
+        return SearchChanged.InvokeAsync( searchValue );
     }
 
     private async Task SelectedOrResetOnCommit()
