@@ -159,6 +159,23 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
                 .Append( $"color: {focusColor};" )
                 .AppendLine( "}" );
         }
+
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            sb.Append( ".b-is-autocomplete.is-valid" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            sb.Append( ".b-is-autocomplete.is-invalid" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )

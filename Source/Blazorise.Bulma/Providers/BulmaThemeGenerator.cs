@@ -212,6 +212,75 @@ public class BulmaThemeGenerator : ThemeGenerator
             GenerateInputCheckEditStyles( sb, theme, options );
         }
 
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            var validationSuccessShadow = ToHexRGBA( Transparency( validationSuccessColor, 64 ) );
+
+            sb.Append( ".input.is-success," )
+                .Append( ".textarea.is-success," )
+                .Append( ".select.is-success select" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".input.is-success:focus," )
+                .Append( ".textarea.is-success:focus," )
+                .Append( ".select.is-success select:focus" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 0.125em {validationSuccessShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".help.is-success" ).Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-success" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-success.focus" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 0.125em {validationSuccessShadow};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            var validationDangerShadow = ToHexRGBA( Transparency( validationDangerColor, 64 ) );
+
+            sb.Append( ".input.is-danger," )
+                .Append( ".textarea.is-danger," )
+                .Append( ".select.is-danger select" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".input.is-danger:focus," )
+                .Append( ".textarea.is-danger:focus," )
+                .Append( ".select.is-danger select:focus" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 0.125em {validationDangerShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".help.is-danger" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-danger" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-danger.focus" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 0.125em {validationDangerShadow};" )
+                .AppendLine( "}" );
+        }
+
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             sb
