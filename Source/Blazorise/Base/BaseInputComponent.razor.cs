@@ -66,12 +66,12 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Contains metadata about the parameter representing the value expression for the component.
     /// </summary>
-    private ComponentParameterInfo<Expression<Func<TValue>>> paramValueExpression;
+    protected ComponentParameterInfo<Expression<Func<TValue>>> paramValueExpression;
 
     /// <summary>
     /// Contains metadata about the parameter representing the autofocus for the component.
     /// </summary>
-    private ComponentParameterInfo<bool> paramAutofocus;
+    protected ComponentParameterInfo<bool> paramAutofocus;
 
     #endregion
 

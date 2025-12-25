@@ -29,82 +29,82 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue>, INum
     /// <summary>
     /// Captured Decimals parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramDecimals;
+    protected ComponentParameterInfo<int> paramDecimals;
 
     /// <summary>
     /// Captured DecimalSeparator parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramDecimalSeparator;
+    protected ComponentParameterInfo<string> paramDecimalSeparator;
 
     /// <summary>
     /// Captured AlternativeDecimalSeparator parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramAlternativeDecimalSeparator;
+    protected ComponentParameterInfo<string> paramAlternativeDecimalSeparator;
 
     /// <summary>
     /// Captured GroupSeparator parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramGroupSeparator;
+    protected ComponentParameterInfo<string> paramGroupSeparator;
 
     /// <summary>
     /// Captured GroupSpacing parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramGroupSpacing;
+    protected ComponentParameterInfo<string> paramGroupSpacing;
 
     /// <summary>
     /// Captured CurrencySymbol parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramCurrencySymbol;
+    protected ComponentParameterInfo<string> paramCurrencySymbol;
 
     /// <summary>
     /// Captured CurrencySymbolPlacement parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<CurrencySymbolPlacement> paramCurrencySymbolPlacement;
+    protected ComponentParameterInfo<CurrencySymbolPlacement> paramCurrencySymbolPlacement;
 
     /// <summary>
     /// Captured RoundingMethod parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<NumericRoundingMethod> paramRoundingMethod;
+    protected ComponentParameterInfo<NumericRoundingMethod> paramRoundingMethod;
 
     /// <summary>
     /// Captured Min parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<TValue> paramMin;
+    protected ComponentParameterInfo<TValue> paramMin;
 
     /// <summary>
     /// Captured Max parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<TValue> paramMax;
+    protected ComponentParameterInfo<TValue> paramMax;
 
     /// <summary>
     /// Captured MinMaxLimitsOverride parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<NumericMinMaxLimitsOverride> paramMinMaxLimitsOverride;
+    protected ComponentParameterInfo<NumericMinMaxLimitsOverride> paramMinMaxLimitsOverride;
 
     /// <summary>
     /// Captured SelectAllOnFocus parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramSelectAllOnFocus;
+    protected ComponentParameterInfo<bool> paramSelectAllOnFocus;
 
     /// <summary>
     /// Captured AllowDecimalPadding parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<NumericAllowDecimalPadding> paramAllowDecimalPadding;
+    protected ComponentParameterInfo<NumericAllowDecimalPadding> paramAllowDecimalPadding;
 
     /// <summary>
     /// Captured AlwaysAllowDecimalSeparator parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramAlwaysAllowDecimalSeparator;
+    protected ComponentParameterInfo<bool> paramAlwaysAllowDecimalSeparator;
 
     /// <summary>
     /// Captured ModifyValueOnWheel parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramModifyValueOnWheel;
+    protected ComponentParameterInfo<bool> paramModifyValueOnWheel;
 
     /// <summary>
     /// Captured WheelOn parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<NumericWheelOn> paramWheelOn;
+    protected ComponentParameterInfo<NumericWheelOn> paramWheelOn;
 
     /// <summary>
     /// Saves the last received value from the JS. 

@@ -20,22 +20,22 @@ public partial class MemoInput : BaseBufferedTextInput<string>, IAsyncDisposable
     /// <summary>
     /// Captured ReplaceTab parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramReplaceTab;
+    protected ComponentParameterInfo<bool> paramReplaceTab;
 
     /// <summary>
     /// Captured TabSize parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramTabSize;
+    protected ComponentParameterInfo<int> paramTabSize;
 
     /// <summary>
     /// Captured SoftTabs parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramSoftTabs;
+    protected ComponentParameterInfo<bool> paramSoftTabs;
 
     /// <summary>
     /// Captured AutoSize parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramAutoSize;
+    protected ComponentParameterInfo<bool> paramAutoSize;
 
     #endregion
 

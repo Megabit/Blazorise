@@ -29,107 +29,107 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <summary>
     /// Captured Min parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<DateTimeOffset?> paramMin;
+    protected ComponentParameterInfo<DateTimeOffset?> paramMin;
 
     /// <summary>
     /// Captured Max parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<DateTimeOffset?> paramMax;
+    protected ComponentParameterInfo<DateTimeOffset?> paramMax;
 
     /// <summary>
     /// Captured FirstDayOfWeek parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<DayOfWeek> paramFirstDayOfWeek;
+    protected ComponentParameterInfo<DayOfWeek> paramFirstDayOfWeek;
 
     /// <summary>
     /// Captured DisplayFormat parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramDisplayFormat;
+    protected ComponentParameterInfo<string> paramDisplayFormat;
 
     /// <summary>
     /// Captured InputFormat parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramInputFormat;
+    protected ComponentParameterInfo<string> paramInputFormat;
 
     /// <summary>
     /// Captured TimeAs24hr parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramTimeAs24hr;
+    protected ComponentParameterInfo<bool> paramTimeAs24hr;
 
     /// <summary>
     /// Captured Disabled parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramDisabled;
+    protected ComponentParameterInfo<bool> paramDisabled;
 
     /// <summary>
     /// Captured ReadOnly parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramReadOnly;
+    protected ComponentParameterInfo<bool> paramReadOnly;
 
     /// <summary>
     /// Captured DisabledDates parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<IEnumerable<TValue>> paramDisabledDates;
+    protected ComponentParameterInfo<IEnumerable<TValue>> paramDisabledDates;
 
     /// <summary>
     /// Captured EnabledDates parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<IEnumerable<TValue>> paramEnabledDates;
+    protected ComponentParameterInfo<IEnumerable<TValue>> paramEnabledDates;
 
     /// <summary>
     /// Captured DisabledDays parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<IEnumerable<DayOfWeek>> paramDisabledDays;
+    protected ComponentParameterInfo<IEnumerable<DayOfWeek>> paramDisabledDays;
 
     /// <summary>
     /// Captured SelectionMode parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<DateInputSelectionMode> paramSelectionMode;
+    protected ComponentParameterInfo<DateInputSelectionMode> paramSelectionMode;
 
     /// <summary>
     /// Captured Inline parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramInline;
+    protected ComponentParameterInfo<bool> paramInline;
 
     /// <summary>
     /// Captured DisableMobile parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramDisableMobile;
+    protected ComponentParameterInfo<bool> paramDisableMobile;
 
     /// <summary>
     /// Captured Placeholder parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<string> paramPlaceholder;
+    protected ComponentParameterInfo<string> paramPlaceholder;
 
     /// <summary>
     /// Captured StaticPicker parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramStaticPicker;
+    protected ComponentParameterInfo<bool> paramStaticPicker;
 
     /// <summary>
     /// Captured ShowWeekNumbers parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramShowWeekNumbers;
+    protected ComponentParameterInfo<bool> paramShowWeekNumbers;
 
     /// <summary>
     /// Captured ShowTodayButton parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramShowTodayButton;
+    protected ComponentParameterInfo<bool> paramShowTodayButton;
 
     /// <summary>
     /// Captured ShowClearButton parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<bool> paramShowClearButton;
+    protected ComponentParameterInfo<bool> paramShowClearButton;
 
     /// <summary>
     /// Captured DefaultHour parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramDefaultHour;
+    protected ComponentParameterInfo<int> paramDefaultHour;
 
     /// <summary>
     /// Captured DefaultMinute parameter snapshot.
     /// </summary>
-    private ComponentParameterInfo<int> paramDefaultMinute;
+    protected ComponentParameterInfo<int> paramDefaultMinute;
 
     /// <summary>
     /// The internal value used to separate dates.
