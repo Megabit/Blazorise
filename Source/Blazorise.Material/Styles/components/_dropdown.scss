@@ -90,6 +90,28 @@
     }
 }
 
+.b-is-autocomplete {
+    &.is-valid,
+    &.is-invalid {
+        border: $textfield-border-width solid transparent;
+        border-radius: $textfield-box-border-radius;
+    }
+
+    &.is-valid {
+        border-color: $form-feedback-valid-color;
+    }
+
+    &.is-invalid {
+        border-color: $form-feedback-invalid-color;
+    }
+
+    &.is-valid > input.form-control,
+    &.is-invalid > input.form-control {
+        border-color: transparent;
+        box-shadow: none;
+    }
+}
+
 
 .b-is-autocomplete .dropdown-menu:before {
     box-shadow: none;

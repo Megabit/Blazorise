@@ -86,6 +86,38 @@
     @include form-control-focus
 }
 
+.b-is-autocomplete {
+    &.is-valid,
+    &.is-invalid {
+        outline: $input-border-width solid transparent;
+        border-radius: $input-border-radius;
+    }
+
+    &.is-valid {
+        outline-color: $form-feedback-valid-color;
+    }
+
+    &.is-invalid {
+        outline-color: $form-feedback-invalid-color;
+    }
+
+    &.is-valid.focus {
+        outline-color: $form-feedback-valid-color;
+        box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-valid-color, .25);
+    }
+
+    &.is-invalid.focus {
+        outline-color: $form-feedback-invalid-color;
+        box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
+    }
+
+    &.is-valid > input.form-control,
+    &.is-invalid > input.form-control {
+        border-color: transparent;
+        box-shadow: none;
+    }
+}
+
 
 .dropdown {
     position: relative;

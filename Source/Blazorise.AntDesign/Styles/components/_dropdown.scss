@@ -120,6 +120,40 @@
     }
 }
 
+.b-is-autocomplete {
+    &.ant-input-status-success,
+    &.ant-input-status-error {
+        border: 1px solid #d9d9d9;
+        border-radius: .25rem;
+    }
+
+    &.ant-input-status-success {
+        border-color: $success;
+    }
+
+    &.ant-input-status-error {
+        border-color: $danger;
+    }
+
+    &.ant-input-status-success.focus {
+        border-color: $success;
+        -webkit-box-shadow: 0 0 0 2px rgba($success, 0.2);
+        box-shadow: 0 0 0 2px rgba($success, 0.2);
+    }
+
+    &.ant-input-status-error.focus {
+        border-color: $danger;
+        -webkit-box-shadow: 0 0 0 2px rgba($danger, 0.2);
+        box-shadow: 0 0 0 2px rgba($danger, 0.2);
+    }
+
+    &.ant-input-status-success > input.ant-input,
+    &.ant-input-status-error > input.ant-input {
+        border-color: transparent;
+        box-shadow: none;
+    }
+}
+
 .ant-dropdown {
     > .ant-dropdown-menu-item {
         width: 100%;

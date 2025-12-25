@@ -5435,6 +5435,30 @@ input::file-selector-button {
   flex-grow: 1;
 }
 
+.b-is-autocomplete.fui-Input__input-error, .b-is-autocomplete.fui-Input__input-success {
+  border: var(--strokeWidthThin) solid transparent;
+  border-radius: var(--borderRadiusMedium);
+}
+.b-is-autocomplete.fui-Input__input-error {
+  border-color: var(--colorPaletteRedBorder2);
+}
+.b-is-autocomplete.fui-Input__input-success {
+  border-color: var(--colorPaletteGreenForeground1);
+}
+.b-is-autocomplete.fui-Input__input-error > .fui-Input, .b-is-autocomplete.fui-Input__input-success > .fui-Input {
+  border-color: transparent;
+  box-shadow: none;
+}
+.b-is-autocomplete.fui-Input__input-error + .fui-Field__validationMessage {
+  color: var(--colorPaletteRedForeground1);
+}
+.b-is-autocomplete.fui-Input__input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteRedForeground1);
+}
+.b-is-autocomplete.fui-Input__input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteGreenForeground1);
+}
+
 .fui-Label {
   line-height: var(--lineHeightBase300);
   font-size: var(--fontSizeBase300);
