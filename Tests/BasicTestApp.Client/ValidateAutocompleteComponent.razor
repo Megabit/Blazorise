@@ -1,0 +1,80 @@
+@using System.Collections.Generic
+@using System.Linq
+
+<h2>Autocomplete validation</h2>
+<p id="validate-autocomplete-single-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidateSingle">
+        <Autocomplete TItem="string"
+                      TValue="string"
+                      Data="@Countries"
+                      TextField="@(( item ) => item)"
+                      ValueField="@(( item ) => item)"
+                      @bind-SelectedValue="@singleValue"
+                      @bind-SelectedText="@singleText"
+                      MinLength="0"
+                      FreeTyping="false">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </Autocomplete>
+    </Validation>
+</p>
+
+<p id="validate-autocomplete-multiple-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidateMultiple">
+        <Autocomplete TItem="string"
+                      TValue="string"
+                      Data="@Countries"
+                      TextField="@(( item ) => item)"
+                      ValueField="@(( item ) => item)"
+                      @bind-SelectedValues="@multipleValues"
+                      @bind-SelectedTexts="@multipleTexts"
+                      SelectionMode="AutocompleteSelectionMode.Multiple"
+                      MinLength="0"
+                      FreeTyping="false">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </Autocomplete>
+    </Validation>
+</p>
+
+@code {
+    private readonly List<string> Countries = new()
+    {
+        "Portugal",
+        "China",
+        "United Kingdom"
+    };
+
+    private string singleValue;
+    private string singleText;
+
+    private List<string> multipleValues = new();
+    private List<string> multipleTexts = new();
+
+    private void ValidateSingle( ValidatorEventArgs e )
+    {
+        var value = e.Value as string;
+        e.Status = !string.IsNullOrEmpty( value ) ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+    private void ValidateMultiple( ValidatorEventArgs e )
+    {
+        if ( e.Value is ICollection<string> values )
+        {
+            e.Status = values.Count > 0 ? ValidationStatus.Success : ValidationStatus.Error;
+            return;
+        }
+
+        if ( e.Value is IEnumerable<string> valuesEnumerable )
+        {
+            e.Status = valuesEnumerable.Any() ? ValidationStatus.Success : ValidationStatus.Error;
+            return;
+        }
+
+        e.Status = ValidationStatus.Error;
+    }
+}
