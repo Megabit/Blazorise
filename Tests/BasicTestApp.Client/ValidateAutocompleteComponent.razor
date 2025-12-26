@@ -2,7 +2,7 @@
 @using System.Linq
 
 <h2>Autocomplete validation</h2>
-<p id="validate-autocomplete-single-initially-blank">
+<div id="validate-autocomplete-single-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateSingle">
         <Autocomplete TItem="string"
@@ -19,9 +19,9 @@
             </Feedback>
         </Autocomplete>
     </Validation>
-</p>
+</div>
 
-<p id="validate-autocomplete-multiple-initially-blank">
+<div id="validate-autocomplete-multiple-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateMultiple">
         <Autocomplete TItem="string"
@@ -39,7 +39,7 @@
             </Feedback>
         </Autocomplete>
     </Validation>
-</p>
+</div>
 
 @code {
     private readonly List<string> Countries = new()
