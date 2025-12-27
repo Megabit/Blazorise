@@ -12,7 +12,7 @@
                       ValueField="@(( item ) => item)"
                       @bind-SelectedValue="@singleValue"
                       @bind-SelectedText="@singleText"
-                      MinLength="0"
+                      MinSearchLength="0"
                       FreeTyping="false">
             <Feedback>
                 <ValidationError>error</ValidationError>
@@ -32,7 +32,7 @@
                       @bind-SelectedValues="@multipleValues"
                       @bind-SelectedTexts="@multipleTexts"
                       SelectionMode="AutocompleteSelectionMode.Multiple"
-                      MinLength="0"
+                      MinSearchLength="0"
                       FreeTyping="false">
             <Feedback>
                 <ValidationError>error</ValidationError>

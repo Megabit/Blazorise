@@ -10,7 +10,7 @@
               SelectedTextChanged="@OnSelectedTextChanged"
               Placeholder="Search..."
               FreeTyping="@FreeTyping"
-              MinLength="@MinLength"
+              MinSearchLength="@MinSearchLength"
               AutoPreSelect="@AutoPreSelect"
               Closed="Closed"
               Opened="Opened"
@@ -65,7 +65,7 @@
     public EventCallback<string> SelectedTextChanged { get; set; }
 
     [Parameter]
-    public int MinLength { get; set; } = 1;
+    public int MinSearchLength { get; set; } = 1;
 
     [Parameter]
     public bool AutoPreSelect { get; set; } = true;

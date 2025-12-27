@@ -311,6 +311,7 @@ public static partial class BlazoriseMigrationMappings
             {
                 ["CurrentSearch"] = "Search",
                 ["CurrentSearchChanged"] = "SearchChanged",
+                ["MinLength"] = "MinSearchLength",
                 ["Multiple"] = "SelectionMode",
             },
             TValueShape.Any,

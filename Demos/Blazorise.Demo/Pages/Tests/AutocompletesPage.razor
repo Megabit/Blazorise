@@ -71,7 +71,7 @@
                                       Placeholder="Search..."
                                       FreeTyping="multipleAutocompleteFreeTyping"
                                       CloseOnSelection="false"
-                                      MinLength="1"
+                                      MinSearchLength="1"
                                       SelectionMode="AutocompleteSelectionMode.Checkbox"
                                       @bind-SelectedValues="multipleSelectionData"
                                       @bind-SelectedTexts="multipleSelectionTexts">
@@ -225,7 +225,7 @@
                                       ReadData="HandleMultipleReadData"
                                       TextField="@((item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
-                                      Placeholder="Search..." MinLength="0"
+                                      Placeholder="Search..." MinSearchLength="0"
                                       SelectionMode="AutocompleteSelectionMode.Multiple"
                                       CloseOnSelection="false"
                                       @bind-SelectedValues="multipleReadDataSelectionData"

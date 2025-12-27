@@ -105,6 +105,7 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
         builder.OpenComponent<Blazorise.Components.Autocomplete<int, string>>( 0 );
         builder.AddAttribute( 1, ""CurrentSearch"", ""abc"" );
         builder.AddAttribute( 2, ""Multiple"", true );
+        builder.AddAttribute( 3, ""MinLength"", 0 );
         builder.CloseComponent();
     }
 }";
@@ -112,8 +113,9 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
         var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
 
         var renameDiagnostics = diagnostics.Where( d => d.Id == "BLZP001" ).ToArray();
-        Assert.Equal( 2, renameDiagnostics.Length );
+        Assert.Equal( 3, renameDiagnostics.Length );
         Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'CurrentSearch' was renamed to 'Search' for component 'Autocomplete<int, string>'" );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'MinLength' was renamed to 'MinSearchLength' for component 'Autocomplete<int, string>'" );
         Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'Multiple' was renamed to 'SelectionMode' for component 'Autocomplete<int, string>'" );
     }
 

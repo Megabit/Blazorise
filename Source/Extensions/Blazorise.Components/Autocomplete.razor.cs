@@ -604,7 +604,7 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
         }
 
         TextFocused = true;
-        if ( ManualReadMode || MinLength <= 0 )
+        if ( ManualReadMode || MinSearchLength <= 0 )
             await Reload();
 
         await OpenDropdown();
@@ -1494,7 +1494,7 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     /// True if the text complies to the search requirements
     /// </summary>
     protected bool IsTextSearchable
-        => Search?.Length >= MinLength;
+        => Search?.Length >= MinSearchLength;
 
     /// <summary>
     /// True if the filtered data exists
@@ -1576,7 +1576,7 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     /// <summary>
     /// The minimum number of characters a user must type before a search is performed. Set this to 0 to make the Autocomplete function like a dropdown.
     /// </summary>
-    [Parameter] public int MinLength { get; set; } = 1;
+    [Parameter] public int MinSearchLength { get; set; } = 1;
 
     /// <summary>
     /// Specifies the maximum number of characters allowed in the input element.
