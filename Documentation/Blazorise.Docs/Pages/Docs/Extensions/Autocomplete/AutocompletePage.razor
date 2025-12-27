@@ -67,6 +67,36 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Validation (single)">
+        Wrap the Autocomplete in a <Code>Validation</Code> container to integrate with the standard validation system.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteValidationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation (multiple)">
+        When using <Code>AutocompleteSelectionMode.Multiple</Code>, validate the <Code>SelectedValues</Code> list to enforce at least one selection.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteMultipleValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteMultipleValidationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation (data annotations)">
+        Use <Code>ValidationMode.Auto</Code> with a model decorated with data annotations to validate single and multiple selections.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteDataAnnotationValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteDataAnnotationValidationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Searching with data on demand (ReadData)">
         Frequently, you'll want to read data on demand rather than loading everything into memory at startup. You can do it with the <Code>ReadData</Code> API.
         It will provide you with enough information for you to call an external data-source, which will return new data, which you can then reassign to the <Code>Data</Code> parameter.

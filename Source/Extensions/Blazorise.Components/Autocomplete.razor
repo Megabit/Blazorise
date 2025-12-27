@@ -1,58 +1,57 @@
 ﻿@using Blazorise.Extensions
-@inherits BaseAfterRenderComponent
+@using Blazorise
 @using Microsoft.AspNetCore.Components.Web.Virtualization
+@inherits BaseInputComponent<TValue>
 @typeparam TItem
 @typeparam TValue
 
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled">
-    <Validation @ref=validationRef Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
-
-        @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
+    @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
+    {
+        @foreach ( var selectedText in SelectedTexts )
         {
-            @foreach ( var selectedText in SelectedTexts )
+            @if ( TagTemplate is null )
             {
-                @if ( TagTemplate is null )
-                {
-                    <Badge Color="@GetMultipleBadgeColor()" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
-                }
-                else
-                {
-                    var item = GetItemByText( selectedText );
-                    var value = GetItemValue( selectedText );
-                    var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
-                    @TagTemplate( new( item, value, selectedText, removeCallback ) )
-                }
+                <Badge Color="@GetMultipleBadgeColor()" Margin="Blazorise.Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+            }
+            else
+            {
+                var item = GetItemByText( selectedText );
+                var value = GetItemValue( selectedText );
+                var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
+                @TagTemplate( new( item, value, selectedText, removeCallback ) )
             }
         }
+    }
 
+    <CascadingValue Value="(Validation)null">
         <TextInput @ref="@textInputRef"
-                  ElementId="@InputElementId"
-                  Role="TextRole.Search"
-                  Value="@Search"
-                  ValueChanged="@OnTextChangedHandler"
-                  Placeholder="@Placeholder"
-                  Size="@Size"
-                  MaxLength="@MaxEntryLength"
-                  Disabled="@Disabled"
-                  TabIndex="@TabIndex"
-                  KeyDown="@OnTextKeyDownHandler"
-                  OnFocus="OnTextFocusHandler"
-                  Blur="OnTextBlurHandler"
-                  Immediate="@Immediate"
-                  Debounce="@Debounce"
-                  DebounceInterval="@DebounceInterval"
-                  CustomValidationValue="@GetValidationValue"
-                  Background="@SearchBackground"
-                  TextColor="@SearchTextColor"
-                  Class="@SearchClass"
-                  Style="@SearchStyle">
-            <Feedback>
-                <ValidationError />
-                <ValidationSuccess />
-                <ValidationNone />
-            </Feedback>
+                   ElementId="@InputElementId"
+                   Role="TextRole.Search"
+                   Value="@Search"
+                   ValueChanged="@OnTextChangedHandler"
+                   Placeholder="@Placeholder"
+                   Size="@Size"
+                   MaxLength="@MaxEntryLength"
+                   Disabled="@Disabled"
+                   ReadOnly="@ReadOnly"
+                   TabIndex="@TabIndex"
+                   KeyDown="@OnTextKeyDownHandler"
+                   KeyPress="@OnTextKeyPressHandler"
+                   KeyUp="@OnTextKeyUpHandler"
+                   OnFocus="OnTextFocusHandler"
+                   FocusIn="@OnTextFocusInHandler"
+                   FocusOut="@OnTextFocusOutHandler"
+                   Blur="OnTextBlurHandler"
+                   Immediate="@Immediate"
+                   Debounce="@Debounce"
+                   DebounceInterval="@DebounceInterval"
+                   Background="@SearchBackground"
+                   TextColor="@SearchTextColor"
+                   Class="@SearchClassNames"
+                   Style="@SearchStyle">
         </TextInput>
-    </Validation>
+    </CascadingValue>
     <DropdownMenu>
         @if ( DropdownVisible )
         {
@@ -90,6 +89,7 @@
         }
     </DropdownMenu>
 </Dropdown>
+@Feedback
 @code {
     protected RenderFragment<TItem> itemFragment => item => __builder =>
     {

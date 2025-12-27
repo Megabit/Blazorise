@@ -462,3 +462,43 @@
         flex-grow: 1;
     }
 }
+
+.b-is-autocomplete {
+    &.fui-Input__input-error,
+    &.fui-Input__input-success {
+        border: var(--strokeWidthThin) solid transparent;
+        border-radius: var(--borderRadiusMedium);
+    }
+
+    &.fui-Input__input-error {
+        border-color: var(--colorPaletteRedBorder2);
+    }
+
+    &.fui-Input__input-success {
+        border-color: var(--colorPaletteGreenForeground1);
+    }
+
+    &.fui-Input__input-error > .fui-Input,
+    &.fui-Input__input-success > .fui-Input {
+        border-color: transparent;
+        box-shadow: none;
+    }
+
+    &.fui-Input__input-error {
+        & + .fui-Field__validationMessage {
+            color: var(--colorPaletteRedForeground1);
+
+            .fui-Field__validationMessageIcon {
+                color: var(--colorPaletteRedForeground1);
+            }
+        }
+    }
+
+    &.fui-Input__input-success {
+        & + .fui-Field__validationMessage {
+            .fui-Field__validationMessageIcon {
+                color: var(--colorPaletteGreenForeground1);
+            }
+        }
+    }
+}

@@ -372,6 +372,87 @@ public class AntDesignThemeGenerator : ThemeGenerator
             GenerateInputSliderStyles( sb, theme, options );
         }
 
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            var validationSuccessShadow = ToHexRGBA( Transparency( validationSuccessColor, 51 ) );
+            var validationSuccessTextColor = ToHex( Contrast( theme, validationSuccessColor ) );
+
+            sb.Append( ".ant-input-status-success," )
+                .Append( ".ant-input-affix-wrapper-status-success" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-input-status-success:focus," )
+                .Append( ".ant-input-affix-wrapper-status-success.ant-input-affix-wrapper-focused" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationSuccessShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".valid-feedback" ).Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".valid-tooltip" ).Append( "{" )
+                .Append( $"color: {validationSuccessTextColor};" )
+                .Append( $"background-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-success" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-success.focus" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationSuccessShadow};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            var validationDangerShadow = ToHexRGBA( Transparency( validationDangerColor, 51 ) );
+            var validationDangerTextColor = ToHex( Contrast( theme, validationDangerColor ) );
+
+            sb.Append( ".ant-input-status-error," )
+                .Append( ".ant-input-affix-wrapper-status-error" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-input-status-error:focus," )
+                .Append( ".ant-input-affix-wrapper-status-error.ant-input-affix-wrapper-focused" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationDangerShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-form-item-explain-error" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".invalid-feedback" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".invalid-tooltip" ).Append( "{" )
+                .Append( $"color: {validationDangerTextColor};" )
+                .Append( $"background-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-error" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-error.focus" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationDangerShadow};" )
+                .AppendLine( "}" );
+        }
+
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             sb

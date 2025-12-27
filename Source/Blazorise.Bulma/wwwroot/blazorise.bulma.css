@@ -1531,6 +1531,30 @@
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
+.b-is-autocomplete.is-success, .b-is-autocomplete.is-danger {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.25rem;
+}
+.b-is-autocomplete.is-success {
+  border-color: #48c774;
+}
+.b-is-autocomplete.is-danger {
+  border-color: #ef2e55;
+}
+.b-is-autocomplete.is-success.focus {
+  border-color: #48c774;
+  box-shadow: 0 0 0 0.125em rgba(72, 199, 116, 0.25);
+}
+.b-is-autocomplete.is-danger.focus {
+  border-color: #ef2e55;
+  box-shadow: 0 0 0 0.125em rgba(239, 46, 85, 0.25);
+}
+.b-is-autocomplete.is-success > input, .b-is-autocomplete.is-danger > input {
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .dropdown .button.dropdown-trigger:not(.is-outlined) {
   box-shadow: none;
   border: none;

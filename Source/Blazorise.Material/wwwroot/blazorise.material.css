@@ -208,6 +208,21 @@
   flex-grow: initial;
 }
 
+.b-is-autocomplete.is-valid, .b-is-autocomplete.is-invalid {
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.b-is-autocomplete.is-valid {
+  border-color: #61d800;
+}
+.b-is-autocomplete.is-invalid {
+  border-color: #b00020;
+}
+.b-is-autocomplete.is-valid > input.form-control, .b-is-autocomplete.is-invalid > input.form-control {
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .b-is-autocomplete .dropdown-menu:before {
   box-shadow: none;
 }

@@ -11,7 +11,7 @@ public class Autocomplete_4695Tests : BlazorisePageTest
     }
 
     /// <summary>
-    /// Tests whether the autocomplete resets correctly when the value is cleared, showing back the options when MinLength is 0.
+    /// Tests whether the autocomplete resets correctly when the value is cleared, showing back the options when MinSearchLength is 0.
     /// </summary>
     /// <returns></returns>
     [Test]

@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
@@ -259,8 +259,12 @@
   cursor: text;
   min-height: calc(1.5em + 0.75rem + 2px);
   height: auto;
-  border: 1px solid var(--btw-color-gray-300);
+  border-width: 1px;
+  border-style: solid;
   border-radius: 0.5rem;
+}
+.b-is-autocomplete.b-is-autocomplete-multipleselection:not(.border-green-500):not(.border-red-500) {
+  border-color: var(--btw-color-gray-300);
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection > input:not(.border-green-500, .border-red-500) {
   border: none;
@@ -283,7 +287,7 @@
 .b-is-autocomplete.b-is-autocomplete-multipleselection .b-dropdown-menu {
   top: 100%;
 }
-.b-is-autocomplete.b-is-autocomplete-multipleselection.focus {
+.b-is-autocomplete.b-is-autocomplete-multipleselection.focus:not(.border-green-500):not(.border-red-500) {
   --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/ );
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
@@ -294,6 +298,13 @@
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+.b-is-autocomplete.border-red-500, .b-is-autocomplete.border-green-500 {
+  border-radius: 0.5rem;
+}
+.b-is-autocomplete.border-red-500 > input, .b-is-autocomplete.border-green-500 > input {
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .b-modal {
@@ -509,7 +520,7 @@ td:focus {
 }
 p {
   --tw-text-opacity: 1;
-  color: rgb(75 85 99/var(--tw-text-opacity));
+  color: rgb(75, 85, 99, var(--tw-text-opacity));
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.5rem;

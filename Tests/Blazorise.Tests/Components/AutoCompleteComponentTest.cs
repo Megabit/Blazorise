@@ -471,15 +471,15 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public Task MinLength_0_ShouldShowOptions_OnFocus()
+    public Task MinSearchLength_0_ShouldShowOptions_OnFocus()
     {
-        return TestMinLen0ShowsOptions<AutocompleteComponent>();
+        return TestMinSearchLength0ShowsOptions<AutocompleteComponent>();
     }
 
     [Fact]
-    public Task MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
+    public Task MinSearchLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
     {
-        return TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
+        return TestMinSearchLengthBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
     }
 
     [Theory]

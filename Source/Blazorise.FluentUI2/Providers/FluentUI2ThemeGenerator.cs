@@ -445,7 +445,81 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions ) { }
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options ) { }
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options ) { }
-    protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options ) { }
+    protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    {
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            sb.Append( "input.fui-Input__input-success," )
+                .Append( "textarea.fui-Textarea__input-success," )
+                .Append( "select.fui-Select__select-success" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".fui-Input.fui-Input-success + .fui-Field__validationMessage," )
+                .Append( ".fui-Textarea.fui-Textarea-success + .fui-Field__validationMessage," )
+                .Append( ".fui-Select.fui-Select-success + .fui-Field__validationMessage" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".fui-Input.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Textarea.fui-Textarea-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Select.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.fui-Input__input-success" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.fui-Input__input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            sb.Append( "input.fui-Input__input-error," )
+                .Append( "textarea.fui-Textarea__input-error," )
+                .Append( "select.fui-Select__select-error" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".fui-Input.fui-Input-error + .fui-Field__validationMessage," )
+                .Append( ".fui-Textarea.fui-Textarea-error + .fui-Field__validationMessage," )
+                .Append( ".fui-Select.fui-Select-error + .fui-Field__validationMessage" )
+                .Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".fui-Input.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Textarea.fui-Textarea-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Select.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+                .Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.fui-Input__input-error" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.fui-Input__input-error + .fui-Field__validationMessage" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.fui-Input__input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+                .Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+        }
+    }
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor ) { }
     protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor ) { }
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options ) { }
