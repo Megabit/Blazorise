@@ -2140,8 +2140,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicModalExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
 
-<Modal @ref=""modalRef"">
-    <ModalContent Centered>
+<Modal @ref=""modalRef"" Centered>
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
             <CloseButton />
@@ -2182,8 +2182,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 <Span Margin=""Margin.Is3.FromStart"">Modal is visible: @modalVisible</Span>
 
-<Modal @bind-Visible=""@modalVisible"">
-    <ModalContent Centered>
+<Modal @bind-Visible=""@modalVisible"" Centered>
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
             <CloseButton />
@@ -2225,8 +2225,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string ModalClosingExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
 
-<Modal @ref=""modalRef"" Closing=""@OnModalClosing"">
-    <ModalContent Centered>
+<Modal @ref=""modalRef"" Closing=""@OnModalClosing"" Centered>
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>Closing modal</ModalTitle>
         </ModalHeader>
@@ -2277,8 +2277,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string ModalFullscreenExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
 
-<Modal @ref=""modalRef"">
-    <ModalContent Size=""ModalSize.Fullscreen"">
+<Modal @ref=""modalRef"" Size=""ModalSize.Fullscreen"">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
             <CloseButton />

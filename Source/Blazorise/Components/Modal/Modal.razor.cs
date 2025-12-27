@@ -32,6 +32,21 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     };
 
     /// <summary>
+    /// Centers the modal vertically.
+    /// </summary>
+    private bool centered;
+
+    /// <summary>
+    /// Scrolls the modal content independent of the page itself.
+    /// </summary>
+    private bool scrollable;
+
+    /// <summary>
+    /// Changes the size of the modal.
+    /// </summary>
+    private ModalSize modalSize = ModalSize.Default;
+
+    /// <summary>
     /// Holds the last received reason for modal closure.
     /// </summary>
     private CloseReason closeReason = CloseReason.None;
@@ -114,6 +129,8 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
         builder.Append( ClassProvider.Modal() );
         builder.Append( ClassProvider.ModalFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.ModalVisible( IsVisible ) );
+        builder.Append( ClassProvider.ModalSize( Size ) );
+        builder.Append( ClassProvider.ModalCentered( Centered ) );
 
         base.BuildClasses( builder );
     }
@@ -553,6 +570,58 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// Defines if the modal should keep the input focus at all times.
     /// </summary>
     [Parameter] public bool? FocusTrap { get; set; }
+
+    /// <summary>
+    /// Centers the modal vertically.
+    /// </summary>
+    [Parameter]
+    public bool Centered
+    {
+        get => centered;
+        set
+        {
+            if ( centered == value )
+                return;
+
+            centered = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Scrolls the modal content independent of the page itself.
+    /// </summary>
+    [Parameter]
+    public bool Scrollable
+    {
+        get => scrollable;
+        set
+        {
+            if ( scrollable == value )
+                return;
+
+            scrollable = value;
+        }
+    }
+
+    /// <summary>
+    /// Changes the size of the modal.
+    /// </summary>
+    [Parameter]
+    public ModalSize Size
+    {
+        get => modalSize;
+        set
+        {
+            if ( modalSize == value )
+                return;
+
+            modalSize = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Modal"/>.

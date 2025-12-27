@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<Modal @ref="@ModalRef" Closing="@OnModalClosing">
-    <ModalContent Centered="@CenterMessage" Scrollable="@ScrollableMessage" Size="@Size">
+<Modal @ref="@ModalRef" Closing="@OnModalClosing" Centered="@CenterMessage" Scrollable="@ScrollableMessage" Size="@Size">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle Class="@TitleClass">
                 @Title
