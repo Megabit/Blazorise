@@ -150,6 +150,39 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_modalcontent_parameter_removals()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public enum ModalSize { Default, Small, Large, ExtraLarge, Fullscreen }
+    public class ModalContent : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.ModalContent>( 0 );
+        builder.AddAttribute( 1, ""Centered"", true );
+        builder.AddAttribute( 2, ""Scrollable"", true );
+        builder.AddAttribute( 3, ""Size"", Blazorise.ModalSize.Large );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var removalDiagnostics = diagnostics.Where( d => d.Id == "BLZP003" ).ToArray();
+        Assert.Equal( 3, removalDiagnostics.Length );
+        Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'Centered' was removed from component 'ModalContent': Use the Modal.Centered parameter instead." );
+        Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'Scrollable' was removed from component 'ModalContent': Use the Modal.Scrollable parameter instead." );
+        Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'Size' was removed from component 'ModalContent': Use the Modal.Size parameter instead." );
+    }
+
+    [Fact]
     public async Task Does_not_report_tvalueshape_for_autocomplete()
     {
         var source = @"

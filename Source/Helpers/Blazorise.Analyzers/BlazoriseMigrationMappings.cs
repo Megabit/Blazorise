@@ -427,6 +427,19 @@ public static partial class BlazoriseMigrationMappings
             TValueShape.Any,
             "Fields now uses a single IFluentGutter on Gutter; HorizontalGutter, VerticalGutter and NoGutters have been replaced by the fluent gutter API." ) );
 
+        list.Add( new ComponentMapping(
+            "Blazorise.ModalContent",
+            "Blazorise.ModalContent",
+            new Dictionary<string, string>(),
+            TValueShape.Any,
+            "ModalContent parameters moved to Modal.",
+            new Dictionary<string, string>
+            {
+                ["Centered"] = "Use the Modal.Centered parameter instead.",
+                ["Scrollable"] = "Use the Modal.Scrollable parameter instead.",
+                ["Size"] = "Use the Modal.Size parameter instead.",
+            } ) );
+
         return list;
     }
 
