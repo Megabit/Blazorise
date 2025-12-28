@@ -424,7 +424,7 @@ public class FluentSizing :
         var value = GetSizingValue( sizingDefinition );
 
         if ( !string.IsNullOrEmpty( value ) )
-            builder.Append( $"{propertyName}:{value}" );
+            builder.Append( $"{propertyName}: {value}" );
     }
 
     private static string GetSizingValue( FixedSizingDefiniton sizingDefinition )
