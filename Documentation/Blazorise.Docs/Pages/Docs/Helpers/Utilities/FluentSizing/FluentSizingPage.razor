@@ -1,0 +1,63 @@
+@page "/docs/helpers/utilities/fluent-sizing"
+
+<Seo Canonical="/docs/helpers/utilities/fluent-sizing" Title="Blazorise Fluent Sizing Utilities - Width and Height Builders" Description="Define width and height with Blazorise fluent sizing utilities. Use predefined sizes, responsive breakpoints, viewport units, CSS variables, and min/max constraints with a fluent API." />
+
+<DocsPageTitle Path="Helpers/Utilities/Fluent Sizing">
+    Fluent Sizing Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Use the Width and Height fluent builders to apply sizing with either utility classes or inline styles.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Fluent sizing supports quick predefined sizes for responsive layouts and style-based sizes for precise values, including viewport units and CSS variables.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Predefined sizes">
+        <Paragraph>
+            Use the built-in size helpers like <Code>Width.Is25</Code>, <Code>Width.Is50</Code>, <Code>Width.Is100</Code>, and <Code>Width.Auto</Code> to emit utility classes.
+            You can chain breakpoints with <Code>OnMobile</Code>, <Code>OnTablet</Code>, and <Code>OnDesktop</Code> to make sizing responsive.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FluentSizingPredefinedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FluentSizingPredefinedExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Style-based sizes">
+        <Paragraph>
+            For explicit values, use unit helpers like <Code>Px</Code>, <Code>Rem</Code>, <Code>Em</Code>, and <Code>Ch</Code>.
+            Width also supports <Code>Vw</Code>, while height supports <Code>Vh</Code>.
+            Chain <Code>Min</Code> and <Code>Max</Code> to define min/max sizing with the same unit.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FluentSizingStyleBasedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FluentSizingStyleBasedExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="CSS variables">
+        <Paragraph>
+            Use <Code>Var</Code> to size elements from a CSS variable, and use unit-only helpers like <Code>Px()</Code>, <Code>Rem()</Code>, <Code>Em()</Code>, <Code>Ch()</Code>, <Code>Vw()</Code>, and <Code>Vh()</Code>
+            when you want to define only <Code>Min</Code> or <Code>Max</Code> without a base size.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FluentSizingVariableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FluentSizingVariableExample" />
+</DocsPageSection>
