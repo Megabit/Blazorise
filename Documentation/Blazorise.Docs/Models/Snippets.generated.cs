@@ -12128,6 +12128,83 @@ builder.Services
     </CardBody>
 </Card>";
 
+        public const string FluentSizingPredefinedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
+    <Div Width=""Width.Is25""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary""
+         TextColor=""TextColor.Primary.Emphasis"">
+        Width.Is25
+    </Div>
+    <Div Width=""Width.Is50""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width.Is50
+    </Div>
+    <Div Width=""Width.Is100.OnMobile.Is50.OnDesktop""
+         Padding=""Padding.Is2""
+         Background=""Background.Info.Subtle""
+         Border=""Border.Is1.Info""
+         TextColor=""TextColor.Info.Emphasis"">
+        Width.Is100.OnMobile.Is50.OnDesktop
+    </Div>
+</Div>";
+
+        public const string FluentSizingStyleBasedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
+    <Div Width=""Width.Px( 260 ).Min( 180 ).Max( 360 )""
+         Height=""Height.Rem(6).Min(4).Max(8)""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Secondary.Subtle""
+         Border=""Border.Is1.Secondary""
+         TextColor=""TextColor.Secondary.Emphasis"">
+        Width.Px(260).Min(180).Max(360)
+        <br />
+        Height.Rem(6).Min(4).Max(8)
+    </Div>
+    <Div Width=""Width.Vw( 35 ).Min( 25 ).Max( 55 )""
+         Height=""Height.Vh(20).Min(12).Max(30)""
+         Padding=""Padding.Is2""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width.Vw(35).Min(25).Max(55)
+        <br />
+        Height.Vh(20).Min(12).Max(30)
+    </Div>
+</Div>";
+
+        public const string FluentSizingVariableExample = @"<Div Style=""--tile-width: 16rem; --tile-height: 8rem;"" Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
+    <Div Width=""@Width.Var( TileWidthVariable )""
+         Height=""@Height.Var( TileHeightVariable )""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width.Var(""--tile-width"") / Height.Var(""--tile-height"")
+    </Div>
+    <Div Width=""Width.Px().Min( 180 ).Max( 320 )""
+         Height=""Height.Vh().Max(25)""
+         Padding=""Padding.Is2""
+         Background=""Background.Danger.Subtle""
+         Border=""Border.Is1.Danger""
+         TextColor=""TextColor.Danger.Emphasis"">
+        Width.Px().Min(180).Max(320)
+        <br />
+        Height.Vh().Max(25)
+    </Div>
+</Div>
+
+@code {
+    private const string TileWidthVariable = ""--tile-width"";
+    private const string TileHeightVariable = ""--tile-height"";
+}";
+
         public const string BasicContainerExample = @"<Container>
     <Alert Color=""Color.Primary"" Visible>
         Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.

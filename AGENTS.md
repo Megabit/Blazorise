@@ -8,7 +8,7 @@
 - `Demos/`: runnable sample apps for each supported UI provider.
 - `Documentation/`: docs site source, generator, and server (`Documentation/Blazorise.Docs.Server`).
 - `NuGet/`: local packaging helpers/scripts (not the source of truth for versions).
-- Docs snippets (`Documentation/Blazorise.Docs/Models/Snippets.cs` and `Documentation/Blazorise.Docs/Models/Snippets.generated.cs`) are generated artifacts: ignore during AI coding and avoid committing incidental diffs from running the docs build.
+- Docs snippets (`Documentation/Blazorise.Docs/Models/Snippets*.cs`) are generated artifacts: do not touch any snippet files during AI work (do not create new ones like `Snippets.*.cs`), and avoid incidental diffs from running the docs build.
 
 ## Build, Test, and Development Commands
 
