@@ -461,7 +461,7 @@ public class FluentSizing :
     /// Starts the new sizing rule.
     /// </summary>
     /// <param name="sizingSize">Size of the element.</param>
-    /// <returns>Next rule reference.</returns>returns>
+    /// <returns>Next rule reference.</returns>
     public IFluentSizingMinMaxViewportOnBreakpoint WithSize( SizingSize sizingSize )
     {
         var sizingDefinition = new SizingDefinition { Breakpoint = Breakpoint.None };
@@ -482,13 +482,32 @@ public class FluentSizing :
     /// </summary>
     /// <param name="unit">Unit it the style.</param>
     /// <param name="size">Size of the element.</param>
-    /// <returns>Next rule reference.</returns>returns>
+    /// <returns>Next rule reference.</returns>
     public IFluentSizingStyle WithSize( string unit, double size )
     {
         styleRule = new()
         {
             Unit = unit,
             Size = size,
+        };
+
+        minStyleRule = null;
+        maxStyleRule = null;
+        DirtyStyles();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Starts the new sizing rule for styles by defining only the unit.
+    /// </summary>
+    /// <param name="unit">Unit it the style.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingStyle WithUnit( string unit )
+    {
+        styleRule = new()
+        {
+            Unit = unit,
         };
 
         minStyleRule = null;
@@ -725,11 +744,23 @@ public static class Width
     public static IFluentSizingStyle Px( double size ) => new FluentSizing( SizingType.Width ).WithSize( "px", size );
 
     /// <summary>
+    /// Defines the element size in pixels (1px = 1/96th of 1in).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Width ).WithUnit( "px" );
+
+    /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
     public static IFluentSizingStyle Rem( double size ) => new FluentSizing( SizingType.Width ).WithSize( "rem", size );
+
+    /// <summary>
+    /// Defines the element size, relative to font-size of the root element.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Rem() => new FluentSizing( SizingType.Width ).WithUnit( "rem" );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
@@ -739,11 +770,23 @@ public static class Width
     public static IFluentSizingStyle Em( double size ) => new FluentSizing( SizingType.Width ).WithSize( "em", size );
 
     /// <summary>
+    /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Em() => new FluentSizing( SizingType.Width ).WithUnit( "em" );
+
+    /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
     public static IFluentSizingStyle Ch( double size ) => new FluentSizing( SizingType.Width ).WithSize( "ch", size );
+
+    /// <summary>
+    /// Defines the advance measure (width) of the glyph "0" of the element's font.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Ch() => new FluentSizing( SizingType.Width ).WithUnit( "ch" );
 
     /// <summary>
     /// Defines the element size, relative to the viewport's width.
@@ -753,11 +796,10 @@ public static class Width
     public static IFluentSizingStyle Vw( double size ) => new FluentSizing( SizingType.Width ).WithSize( "vw", size );
 
     /// <summary>
-    /// Defines the element size, relative to the viewport's height.
+    /// Defines the element size, relative to the viewport's width.
     /// </summary>
-    /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Vh( double size ) => new FluentSizing( SizingType.Width ).WithSize( "vh", size );
+    public static IFluentSizingStyle Vw() => new FluentSizing( SizingType.Width ).WithUnit( "vw" );
 
     /// <summary>
     /// Defines the element size with a CSS variable.
@@ -823,11 +865,23 @@ public static class Height
     public static IFluentSizingStyle Px( double size ) => new FluentSizing( SizingType.Height ).WithSize( "px", size );
 
     /// <summary>
+    /// Defines the element size in pixels (1px = 1/96th of 1in).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Height ).WithUnit( "px" );
+
+    /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
     public static IFluentSizingStyle Rem( double size ) => new FluentSizing( SizingType.Height ).WithSize( "rem", size );
+
+    /// <summary>
+    /// Defines the element size, relative to font-size of the root element.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Rem() => new FluentSizing( SizingType.Height ).WithUnit( "rem" );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
@@ -837,6 +891,12 @@ public static class Height
     public static IFluentSizingStyle Em( double size ) => new FluentSizing( SizingType.Height ).WithSize( "em", size );
 
     /// <summary>
+    /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Em() => new FluentSizing( SizingType.Height ).WithUnit( "em" );
+
+    /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <param name="size">Size value.</param>
@@ -844,11 +904,10 @@ public static class Height
     public static IFluentSizingStyle Ch( double size ) => new FluentSizing( SizingType.Height ).WithSize( "ch", size );
 
     /// <summary>
-    /// Defines the element size, relative to the viewport's width.
+    /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
-    /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Vw( double size ) => new FluentSizing( SizingType.Height ).WithSize( "vw", size );
+    public static IFluentSizingStyle Ch() => new FluentSizing( SizingType.Height ).WithUnit( "ch" );
 
     /// <summary>
     /// Defines the element size, relative to the viewport's height.
@@ -856,6 +915,12 @@ public static class Height
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
     public static IFluentSizingStyle Vh( double size ) => new FluentSizing( SizingType.Height ).WithSize( "vh", size );
+
+    /// <summary>
+    /// Defines the element size, relative to the viewport's height.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Vh() => new FluentSizing( SizingType.Height ).WithUnit( "vh" );
 
     /// <summary>
     /// Defines the element size with a CSS variable.
