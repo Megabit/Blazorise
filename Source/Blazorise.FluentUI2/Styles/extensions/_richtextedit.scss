@@ -24,9 +24,23 @@
     }
 }
 
+.b-richtextedit.fui-Textarea__input-error + .fui-Field__validationMessage {
+    color: var(--colorPaletteRedForeground1);
+
+    .fui-Field__validationMessageIcon {
+        color: var(--colorPaletteRedForeground1);
+    }
+}
+
 .b-richtextedit.fui-Textarea__input-success {
     > .b-richtextedit-editor.ql-container,
     > .b-richtextedit-toolbar.ql-toolbar {
         border-color: var(--colorPaletteGreenForeground1);
+    }
+}
+
+.b-richtextedit.fui-Textarea__input-success + .fui-Field__validationMessage {
+    .fui-Field__validationMessageIcon {
+        color: var(--colorPaletteGreenForeground1);
     }
 }
