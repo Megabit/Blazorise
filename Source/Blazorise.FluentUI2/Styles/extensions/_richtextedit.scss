@@ -1,13 +1,13 @@
 .fui-Textarea__input-error {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--colorPaletteRedBorder2);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--colorPaletteRedBorder2) !important;
     }
 }
 
 .fui-Textarea__input-success {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--colorPaletteGreenForeground1);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--colorPaletteGreenForeground1) !important;
     }
 }

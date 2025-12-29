@@ -2335,14 +2335,14 @@ td:focus {
   z-index: 1060 !important;
 }
 
-.is-valid > .b-richtextedit-editor,
-.is-valid > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-success, #28a745);
+.is-valid > .ql-container,
+.is-valid > .ql-toolbar {
+  border-color: var(--b-theme-success, #28a745) !important;
 }
 
-.is-invalid > .b-richtextedit-editor,
-.is-invalid > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-danger, #dc3545);
+.is-invalid > .ql-container,
+.is-invalid > .ql-toolbar {
+  border-color: var(--b-theme-danger, #dc3545) !important;
 }
 
 @keyframes fadeIn {

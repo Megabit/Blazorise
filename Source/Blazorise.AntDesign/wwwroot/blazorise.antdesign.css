@@ -3847,14 +3847,14 @@ td:focus {
   z-index: 1010 !important;
 }
 
-.ant-input-status-success > .b-richtextedit-editor,
-.ant-input-status-success > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-success, #35c613);
+.ant-input-status-success > .ql-container,
+.ant-input-status-success > .ql-toolbar {
+  border-color: var(--b-theme-success, #35c613) !important;
 }
 
-.ant-input-status-error > .b-richtextedit-editor,
-.ant-input-status-error > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-danger, #ff4d4f);
+.ant-input-status-error > .ql-container,
+.ant-input-status-error > .ql-toolbar {
+  border-color: var(--b-theme-danger, #ff4d4f) !important;
 }
 
 @keyframes fadeIn {

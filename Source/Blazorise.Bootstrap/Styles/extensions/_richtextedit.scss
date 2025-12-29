@@ -1,13 +1,13 @@
 .is-valid {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--b-theme-success, $success);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-success, $success) !important;
     }
 }
 
 .is-invalid {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--b-theme-danger, $danger);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-danger, $danger) !important;
     }
 }

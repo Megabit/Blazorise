@@ -1,13 +1,13 @@
 .border-green-500 {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--b-theme-success, #22c55e);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-success, #22c55e) !important;
     }
 }
 
 .border-red-500 {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--b-theme-danger, #ef4444);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-danger, #ef4444) !important;
     }
 }

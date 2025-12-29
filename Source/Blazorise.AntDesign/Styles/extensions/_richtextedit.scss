@@ -1,13 +1,13 @@
 .ant-input-status-success {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--b-theme-success, $success);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-success, $success) !important;
     }
 }
 
 .ant-input-status-error {
-    > .b-richtextedit-editor,
-    > .b-richtextedit-toolbar {
-        border-color: var(--b-theme-danger, $danger);
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-danger, $danger) !important;
     }
 }

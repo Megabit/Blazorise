@@ -576,14 +576,14 @@ p {
   width: 512px;
 }
 
-.border-green-500 > .b-richtextedit-editor,
-.border-green-500 > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-success, #22c55e);
+.border-green-500 > .ql-container,
+.border-green-500 > .ql-toolbar {
+  border-color: var(--b-theme-success, #22c55e) !important;
 }
 
-.border-red-500 > .b-richtextedit-editor,
-.border-red-500 > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-danger, #ef4444);
+.border-red-500 > .ql-container,
+.border-red-500 > .ql-toolbar {
+  border-color: var(--b-theme-danger, #ef4444) !important;
 }
 
 .no-gutters > .pl-2.pr-2,

@@ -3546,14 +3546,14 @@ td:focus {
     opacity: 0;
   }
 }
-.is-success > .b-richtextedit-editor,
-.is-success > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-success, #48c774);
+.is-success > .ql-container,
+.is-success > .ql-toolbar {
+  border-color: var(--b-theme-success, #48c774) !important;
 }
 
-.is-danger > .b-richtextedit-editor,
-.is-danger > .b-richtextedit-toolbar {
-  border-color: var(--b-theme-danger, #ef2e55);
+.is-danger > .ql-container,
+.is-danger > .ql-toolbar {
+  border-color: var(--b-theme-danger, #ef2e55) !important;
 }
 
 .is-vertical-align-baseline {
