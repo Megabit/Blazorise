@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.RichTextEdit;
+using RichTextEditComponent = Blazorise.RichTextEdit.RichTextEdit;
 using Bunit;
 using Xunit;
 
@@ -21,7 +22,7 @@ public class ValidateRichTextEditComponentTest : TestContext
         // setup
         var comp = RenderComponent<ValidateRichTextEditComponent>();
         var edit = comp.Find( "#validate-richtext-initially-blank-editor" );
-        var rte = comp.FindComponents<RichTextEdit>()
+        var rte = comp.FindComponents<RichTextEditComponent>()
             .Single( component => component.Instance.ElementId == "validate-richtext-initially-blank-editor" )
             .Instance;
 
@@ -39,7 +40,7 @@ public class ValidateRichTextEditComponentTest : TestContext
         // setup
         var comp = RenderComponent<ValidateRichTextEditComponent>();
         var edit = comp.Find( "#validate-richtext-initially-populated-editor" );
-        var rte = comp.FindComponents<RichTextEdit>()
+        var rte = comp.FindComponents<RichTextEditComponent>()
             .Single( component => component.Instance.ElementId == "validate-richtext-initially-populated-editor" )
             .Instance;
 
