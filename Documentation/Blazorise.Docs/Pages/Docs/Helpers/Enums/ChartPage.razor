@@ -1,10 +1,40 @@
-﻿@page "/docs/helpers/enums/chart"
+@page "/docs/helpers/enums/chart"
 
-<Seo Canonical="/docs/helpers/enums/chart" Title="Enums: Button" Description="Learn to use and work with the Blazorise Chart enums that help you to modify the charts appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/chart" Title="Blazorise Chart Enums - Chart Types" Description="Chart enums define which visualization to render. Learn ChartType values for line, bar, pie, doughnut, and more." />
 
 <DocsPageTitle>
     Enums: Chart
 </DocsPageTitle>
+
+<DocsPageLead>
+    Choose the chart type with a single enum value.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The chart enums map directly to the underlying chart rendering engine, making it easy to switch between visualization styles without changing your data model.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Set <Code>ChartType</Code> on the chart component to select the visualization type best suited for your data.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>ChartType.Line</Code> for trends over time.</UnorderedListItem>
+    <UnorderedListItem><Code>ChartType.Bar</Code> for category comparisons.</UnorderedListItem>
+    <UnorderedListItem><Code>ChartType.Doughnut</Code> for part-to-whole views.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="ChartType">
