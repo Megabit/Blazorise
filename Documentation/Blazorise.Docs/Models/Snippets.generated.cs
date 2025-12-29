@@ -11840,6 +11840,26 @@ builder.Services
     <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
         1
     </Alert>
+</Grid>
+
+<Grid Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+            Col 4
+        </Alert>
+    </Column>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
+    </Alert>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
+    </Alert>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
+    </Alert>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
+    </Alert>
 </Grid>";
 
         public const string GridAutoColumnsExample = @"<Grid>
@@ -11930,6 +11950,14 @@ builder.Services
 
 <Div Border=""Border.Is3.Success.Subtle"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
     Borders with subtle color
+</Div>
+
+<Div Border=""Border.Is2.OnStart"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Start border only
+</Div>
+
+<Div Border=""Border.Is1.RoundedPill"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Rounded pill
 </Div>";
 
         public const string ColumnSizeExample = @"<Row>
@@ -11965,11 +11993,52 @@ builder.Services
             </CardBody>
         </Card>
     </Column>
+</Row>
+
+<Row Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
 </Row>";
 
-        public const string DisplayExample = @"<Paragraph Display=""Display.None.Block.OnFullHD"">
-    Hides on screens smaller than lg
-</Paragraph>";
+        public const string DisplayExample = @"<Paragraph Display=""Display.None.Block.OnDesktop"" Margin=""Margin.Is2.FromBottom"">
+    Hidden on mobile and tablet, visible on desktop and larger screens.
+</Paragraph>
+
+<Div Display=""Display.Flex.Column.OnMobile.Flex.Row.OnDesktop""
+     Padding=""Padding.Is3""
+     Background=""Background.Light""
+     Border=""Border.Is1.Secondary.Subtle"">
+    <Div Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom.Is3.FromEnd.OnDesktop""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary"">
+        Sidebar
+    </Div>
+    <Div Padding=""Padding.Is2""
+         Background=""Background.Info.Subtle""
+         Border=""Border.Is1.Info"">
+        Main content
+    </Div>
+</Div>";
 
         public const string FlexAlignItemsExample = @"<Div Flex=""Flex.AlignItems.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
     <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
@@ -12026,6 +12095,17 @@ builder.Services
         Flex item 3
     </Div>
 </Div>
+<Div Flex=""Flex.Column.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsColumnFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
 @code {
     const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
     const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
@@ -12035,6 +12115,7 @@ builder.Services
 
     string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
     string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
+    string alignItemsColumnFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 140px;width: 240px;"";
 
     string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
 }";
@@ -12094,6 +12175,17 @@ builder.Services
         Flex item 3
     </Div>
 </Div>
+<Div Flex=""Flex.Column.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
 @code {
     const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
     const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
@@ -12120,11 +12212,21 @@ builder.Services
     <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
         This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
     </Div>
+</Div>
+
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; white-space: nowrap;"">
+    This line is intentionally long to demonstrate horizontal scrolling when content exceeds the width of the container.
 </Div>";
 
         public const string SpacingExample = @"<Card>
     <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
-        This example sets the margins for mobile(xs) and desktop(md) breakpoints
+        This example sets the margins for mobile (OnMobile) and desktop (OnDesktop) breakpoints.
+    </CardBody>
+</Card>
+
+<Card Margin=""Margin.Is3.FromTop"">
+    <CardBody Padding=""Padding.Is2.OnY.Is4.OnX"">
+        This example uses extra horizontal padding with <Code>OnX</Code> to keep content readable.
     </CardBody>
 </Card>";
 
@@ -12144,6 +12246,14 @@ builder.Services
          Border=""Border.Is1.Success""
          TextColor=""TextColor.Success.Emphasis"">
         Width.Is50
+    </Div>
+    <Div Width=""Width.Is75.OnMobile.Is33.OnDesktop""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width.Is75.OnMobile.Is33.OnDesktop
     </Div>
     <Div Width=""Width.Is100.OnMobile.Is50.OnDesktop""
          Padding=""Padding.Is2""
@@ -12227,6 +12337,23 @@ builder.Services
     <Column ColumnSize=""ColumnSize.Is4"">
         <Alert Color=""Color.Secondary"" Visible>
             Is4
+        </Alert>
+    </Column>
+</Row>
+<Row RowColumns=""RowColumns.Are3"" Margin=""Margin.Is3.FromTop"">
+    <Column>
+        <Alert Color=""Color.Success"" Visible>
+            Auto 1
+        </Alert>
+    </Column>
+    <Column>
+        <Alert Color=""Color.Info"" Visible>
+            Auto 2
+        </Alert>
+    </Column>
+    <Column>
+        <Alert Color=""Color.Warning"" Visible>
+            Auto 3
         </Alert>
     </Column>
 </Row>";
@@ -12316,6 +12443,19 @@ builder.Services
             </Column>
         }
     </Row>
+
+    <Row Gutter=""Gutter.Is1.OnY.Is3.OnX"" Margin=""Margin.Is3.FromTop"">
+        @for ( int i = 1; i <= 4; i++ )
+        {
+            <Column ColumnSize=""ColumnSize.Is6"">
+                <Div Padding=""Padding.Is3""
+                     Background=""Background.Success.Subtle""
+                     Border=""Border.Success"">
+                    Horizontal and vertical gutters
+                </Div>
+            </Column>
+        }
+    </Row>
 </Container>";
 
         public const string GuttersHorizontalExample = @"<Container Padding=""Padding.Is4.OnX"" TextAlignment=""TextAlignment.Center"">
@@ -12388,6 +12528,10 @@ builder.Services
 
         public const string ObjectFitCoverExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
     <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Cover"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+</Div>
+
+<Div Width=""Width.Rem(12)"" Background=""Background.Light"" Margin=""Margin.Is3.FromTop.IsAuto.OnX"">
+    <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Cover"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.RoundedCircle"" />
 </Div>
 
 @code {
@@ -12473,16 +12617,22 @@ builder.Services
     <Div Position=""Position.Absolute.Bottom.Is0.End.Is0""></Div>
 </Div>";
 
-        public const string PositionRealExample = @"<Button Color=""Color.Primary"" Position=""Position.Relative"">
+        public const string PositionRealExample = @"<Button Color=""Color.Primary"" Position=""Position.Relative"" Margin=""Margin.Is2.FromEnd"">
     Mails
     <Badge Color=""Color.Secondary"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"">
         +99
     </Badge>
 </Button>
-<Button Color=""Color.Primary"" Position=""Position.Relative"">
+<Button Color=""Color.Primary"" Position=""Position.Relative"" Margin=""Margin.Is2.FromEnd"">
     Alerts
     <Badge Color=""Color.Danger"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"" Border=""Border.Light.OnAll.RoundedCircle"" Padding=""Padding.Is2"">
         <Span Visibility=""Visibility.Invisible"" Position=""Position.Absolute"">unread messages</Span>
+    </Badge>
+</Button>
+<Button Color=""Color.Primary"" Position=""Position.Relative"">
+    Updates
+    <Badge Color=""Color.Info"" Pill Position=""Position.Absolute.Bottom.Is0.End.Is0.Translate.Middle"" Padding=""Padding.Is2"">
+        3
     </Badge>
 </Button>";
 
