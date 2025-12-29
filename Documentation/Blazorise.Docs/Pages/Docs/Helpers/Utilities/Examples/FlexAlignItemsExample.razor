@@ -55,6 +55,17 @@
         Flex item 3
     </Div>
 </Div>
+<Div Flex="Flex.Column.AlignItems.Center" Margin="Margin.Is3.FromBottom" Style="@alignItemsColumnFlexContainerStyle">
+    <Div Padding="Padding.Is2" Width="Width.Rem( 8 )" Style="@flexItemStyle">
+        Flex item 1
+    </Div>
+    <Div Padding="Padding.Is2" Width="Width.Rem( 8 )" Style="@flexItemStyle">
+        Flex item 2
+    </Div>
+    <Div Padding="Padding.Is2" Width="Width.Rem( 8 )" Style="@flexItemStyle">
+        Flex item 3
+    </Div>
+</Div>
 @code {
     const string ContainerBackgroundColor = "rgba(165, 181, 167,.15)";
     const string ContainerBorderColor = "rgba(165, 181, 167,.15)";
@@ -64,6 +75,7 @@
 
     string flexContainerStyle = $"background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};";
     string alignItemsFlexContainerStyle = $"background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;";
+    string alignItemsColumnFlexContainerStyle = $"background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 140px;width: 240px;";
 
     string flexItemStyle = $"background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};";
 }

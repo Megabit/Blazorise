@@ -1,14 +1,20 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Button Color="Color.Primary" Position="Position.Relative">
+<Button Color="Color.Primary" Position="Position.Relative" Margin="Margin.Is2.FromEnd">
     Mails
     <Badge Color="Color.Secondary" Pill Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle">
         +99
     </Badge>
 </Button>
-<Button Color="Color.Primary" Position="Position.Relative">
+<Button Color="Color.Primary" Position="Position.Relative" Margin="Margin.Is2.FromEnd">
     Alerts
     <Badge Color="Color.Danger" Pill Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle" Border="Border.Light.OnAll.RoundedCircle" Padding="Padding.Is2">
         <Span Visibility="Visibility.Invisible" Position="Position.Absolute">unread messages</Span>
+    </Badge>
+</Button>
+<Button Color="Color.Primary" Position="Position.Relative">
+    Updates
+    <Badge Color="Color.Info" Pill Position="Position.Absolute.Bottom.Is0.End.Is0.Translate.Middle" Padding="Padding.Is2">
+        3
     </Badge>
 </Button>
