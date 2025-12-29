@@ -10110,6 +10110,33 @@ Install-Package Blazorise.Icons.Material";
     options.UseTables = true;
 } )";
 
+        public const string RichTextEditValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+    <Validation Validator=""@ValidationRule.IsNotEmpty"">
+        <Field>
+            <FieldLabel>Message</FieldLabel>
+            <FieldBody>
+                <RichTextEdit @bind-Value=""@messageHtml"" PlaceHolder=""Type your message here..."">
+                    <Feedback>
+                        <ValidationError>Please enter a message.</ValidationError>
+                    </Feedback>
+                </RichTextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color=""Color.Primary"" Clicked=""@Submit"">Submit</Button>
+</Validations>
+
+@code {
+    Validations validations;
+
+    string messageHtml;
+
+    async Task Submit()
+    {
+        await validations.ValidateAll();
+    }
+}";
+
         public const string RouterTabsAppExample = @"<Router AppAssembly=""typeof(App).Assembly"">
     <Found Context=""routeData"">
         <CascadingValue Value=""routeData"">
