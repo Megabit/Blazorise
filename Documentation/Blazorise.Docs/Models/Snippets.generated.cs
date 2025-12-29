@@ -11816,6 +11816,198 @@ builder.Services
     <FileInput BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
 </Field>";
 
+        public const string FigureSizeExample = @"<Div Flex=""Flex.Row.Wrap"">
+    <Figure Size=""FigureSize.Is64x64"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
+        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureCaption>64x64</FigureCaption>
+    </Figure>
+    <Figure Size=""FigureSize.Is128x128"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
+        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureCaption>128x128</FigureCaption>
+    </Figure>
+    <Figure Size=""FigureSize.Is256x256"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
+        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureCaption>256x256</FigureCaption>
+    </Figure>
+</Div>";
+
+        public const string ModalSizeExample = @"<Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@ShowSmallModal"">Small modal</Button>
+<Button Color=""Color.Primary"" Clicked=""@ShowLargeModal"">Large modal</Button>
+
+<Modal @ref=""smallModal"" Size=""ModalSize.Small"">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Small modal</ModalTitle>
+            <CloseButton Clicked=""@HideSmallModal"" />
+        </ModalHeader>
+        <ModalBody>
+            Use smaller modals for short confirmations or quick tasks.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideSmallModal"">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<Modal @ref=""largeModal"" Size=""ModalSize.Large"">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Large modal</ModalTitle>
+            <CloseButton Clicked=""@HideLargeModal"" />
+        </ModalHeader>
+        <ModalBody>
+            Larger dialogs give breathing room for forms or data-heavy content.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideLargeModal"">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private Modal smallModal;
+    private Modal largeModal;
+
+    private Task ShowSmallModal()
+    {
+        return smallModal.Show();
+    }
+
+    private Task ShowLargeModal()
+    {
+        return largeModal.Show();
+    }
+
+    private Task HideSmallModal()
+    {
+        return smallModal.Hide();
+    }
+
+    private Task HideLargeModal()
+    {
+        return largeModal.Hide();
+    }
+}";
+
+        public const string SizeControlsExample = @"<Div Margin=""Margin.Is2.FromBottom"">
+    <Paragraph Margin=""Margin.Is2.FromBottom"">Buttons</Paragraph>
+    <Button Color=""Color.Primary"" Size=""Size.ExtraSmall"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Extra small</Button>
+    <Button Color=""Color.Primary"" Size=""Size.Small"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Small</Button>
+    <Button Color=""Color.Primary"" Size=""Size.Medium"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Medium</Button>
+    <Button Color=""Color.Primary"" Size=""Size.Large"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Large</Button>
+</Div>
+
+<Div>
+    <Paragraph Margin=""Margin.Is2.FromBottom"">Text inputs</Paragraph>
+    <TextInput Placeholder=""Small input"" Size=""Size.Small"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"" />
+    <TextInput Placeholder=""Default input"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"" />
+    <TextInput Placeholder=""Large input"" Size=""Size.Large"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"" />
+</Div>";
+
+        public const string BorderExample = @"<Div Border=""Border.Is1"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Default border on all sides
+</Div>
+
+<Div Border=""Border.Is1.Rounded"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Rounded
+</Div>
+
+<Div Border=""Border.Primary"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with primary color
+</Div>
+
+<Div Border=""Border.Is3.Success.Subtle"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with subtle color
+</Div>
+
+<Div Border=""Border.Is2.OnStart"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Start border only
+</Div>
+
+<Div Border=""Border.Is1.RoundedPill"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Rounded pill
+</Div>
+
+<Div Border=""Border.Is2.Danger.OnBottom"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Bottom border accent
+</Div>";
+
+        public const string ColumnSizeExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Profile</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    This column adjusts automatically based on screen size.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>Desktop: 4 columns</UnorderedListItem>
+                    <UnorderedListItem>Tablet: 6 columns</UnorderedListItem>
+                    <UnorderedListItem>Mobile: full width (12 columns)</UnorderedListItem>
+                </UnorderedList>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize=""ColumnSize.Is8.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Details</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Combine multiple breakpoint sizes with a fluent builder pattern.
+                    This allows you to create flexible, responsive layouts
+                    without manually writing CSS grid rules.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.IsAuto"">
+        <Card>
+            <CardBody>
+                Auto width
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <Card>
+            <CardBody>
+                Fixed column that wraps on mobile
+            </CardBody>
+        </Card>
+    </Column>
+</Row>";
+
         public const string GridAutoColumns2Example = @"<Grid>
     <Column ColumnSize=""ColumnSize.Is6"">
         <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
@@ -11839,6 +12031,26 @@ builder.Services
     </Alert>
     <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
         1
+    </Alert>
+</Grid>
+
+<Grid Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+            Col 4
+        </Alert>
+    </Column>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
+    </Alert>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
+    </Alert>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
+    </Alert>
+    <Alert Color=""Color.Info"" Visible Margin=""Margin.Is0"">
+        Auto
     </Alert>
 </Grid>";
 
@@ -11916,60 +12128,34 @@ builder.Services
     </Column>
 </Grid>";
 
-        public const string BorderExample = @"<Div Border=""Border.Is1"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Default border on all sides
+        public const string DisplayExample = @"<Paragraph Display=""Display.None.Block.OnDesktop"" Margin=""Margin.Is2.FromBottom"">
+    Hidden on mobile and tablet, visible on desktop and larger screens.
+</Paragraph>
+
+<Div Display=""Display.Flex.Column.OnMobile.Flex.Row.OnDesktop""
+     Padding=""Padding.Is3""
+     Background=""Background.Light""
+     Border=""Border.Is1.Secondary.Subtle"">
+    <Div Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom.Is3.FromEnd.OnDesktop""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary"">
+        Sidebar
+    </Div>
+    <Div Padding=""Padding.Is2""
+         Background=""Background.Info.Subtle""
+         Border=""Border.Is1.Info"">
+        Main content
+    </Div>
 </Div>
 
-<Div Border=""Border.Is1.Rounded"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Rounded
-</Div>
-
-<Div Border=""Border.Primary"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Borders with primary color
-</Div>
-
-<Div Border=""Border.Is3.Success.Subtle"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Borders with subtle color
+<Div Display=""Display.None.Block.OnTablet""
+     Padding=""Padding.Is2""
+     Margin=""Margin.Is3.FromTop""
+     Background=""Background.Warning.Subtle""
+     Border=""Border.Is1.Warning"">
+    Visible from tablet up to highlight supporting information without crowding mobile layouts.
 </Div>";
-
-        public const string ColumnSizeExample = @"<Row>
-    <Column ColumnSize=""ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
-        <Card>
-            <CardHeader>
-                <CardTitle>Profile</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Paragraph>
-                    This column adjusts automatically based on screen size.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>Desktop: 4 columns</UnorderedListItem>
-                    <UnorderedListItem>Tablet: 6 columns</UnorderedListItem>
-                    <UnorderedListItem>Mobile: full width (12 columns)</UnorderedListItem>
-                </UnorderedList>
-            </CardBody>
-        </Card>
-    </Column>
-
-    <Column ColumnSize=""ColumnSize.Is8.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
-        <Card>
-            <CardHeader>
-                <CardTitle>Details</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Paragraph>
-                    Combine multiple breakpoint sizes with a fluent builder pattern.
-                    This allows you to create flexible, responsive layouts
-                    without manually writing CSS grid rules.
-                </Paragraph>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>";
-
-        public const string DisplayExample = @"<Paragraph Display=""Display.None.Block.OnFullHD"">
-    Hides on screens smaller than lg
-</Paragraph>";
 
         public const string FlexAlignItemsExample = @"<Div Flex=""Flex.AlignItems.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
     <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
@@ -12026,6 +12212,17 @@ builder.Services
         Flex item 3
     </Div>
 </Div>
+<Div Flex=""Flex.Column.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsColumnFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
 @code {
     const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
     const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
@@ -12035,6 +12232,7 @@ builder.Services
 
     string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
     string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
+    string alignItemsColumnFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 140px;width: 240px;"";
 
     string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
 }";
@@ -12094,6 +12292,17 @@ builder.Services
         Flex item 3
     </Div>
 </Div>
+<Div Flex=""Flex.Column.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 1
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 2
+    </Div>
+    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        Flex item 3
+    </Div>
+</Div>
 @code {
     const string ContainerBackgroundColor = ""rgba(165, 181, 167,.15)"";
     const string ContainerBorderColor = ""rgba(165, 181, 167,.15)"";
@@ -12105,104 +12314,6 @@ builder.Services
     string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
 
     string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
-}";
-
-        public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
-    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
-    </Div>
-    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
-    </Div>
-    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
-    </Div>
-    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
-    </Div>
-</Div>";
-
-        public const string SpacingExample = @"<Card>
-    <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
-        This example sets the margins for mobile(xs) and desktop(md) breakpoints
-    </CardBody>
-</Card>";
-
-        public const string FluentSizingPredefinedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
-    <Div Width=""Width.Is25""
-         Padding=""Padding.Is2""
-         Margin=""Margin.Is2.FromBottom""
-         Background=""Background.Primary.Subtle""
-         Border=""Border.Is1.Primary""
-         TextColor=""TextColor.Primary.Emphasis"">
-        Width.Is25
-    </Div>
-    <Div Width=""Width.Is50""
-         Padding=""Padding.Is2""
-         Margin=""Margin.Is2.FromBottom""
-         Background=""Background.Success.Subtle""
-         Border=""Border.Is1.Success""
-         TextColor=""TextColor.Success.Emphasis"">
-        Width.Is50
-    </Div>
-    <Div Width=""Width.Is100.OnMobile.Is50.OnDesktop""
-         Padding=""Padding.Is2""
-         Background=""Background.Info.Subtle""
-         Border=""Border.Is1.Info""
-         TextColor=""TextColor.Info.Emphasis"">
-        Width.Is100.OnMobile.Is50.OnDesktop
-    </Div>
-</Div>";
-
-        public const string FluentSizingStyleBasedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
-    <Div Width=""Width.Px( 260 ).Min( 180 ).Max( 360 )""
-         Height=""Height.Rem(6).Min(4).Max(8)""
-         Padding=""Padding.Is2""
-         Margin=""Margin.Is2.FromBottom""
-         Background=""Background.Secondary.Subtle""
-         Border=""Border.Is1.Secondary""
-         TextColor=""TextColor.Secondary.Emphasis"">
-        Width.Px(260).Min(180).Max(360)
-        <br />
-        Height.Rem(6).Min(4).Max(8)
-    </Div>
-    <Div Width=""Width.Vw( 35 ).Min( 25 ).Max( 55 )""
-         Height=""Height.Vh(20).Min(12).Max(30)""
-         Padding=""Padding.Is2""
-         Background=""Background.Warning.Subtle""
-         Border=""Border.Is1.Warning""
-         TextColor=""TextColor.Warning.Emphasis"">
-        Width.Vw(35).Min(25).Max(55)
-        <br />
-        Height.Vh(20).Min(12).Max(30)
-    </Div>
-</Div>";
-
-        public const string FluentSizingVariableExample = @"<Div Style=""--tile-width: 16rem; --tile-height: 8rem;"" Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
-    <Div Width=""@Width.Var( TileWidthVariable )""
-         Height=""@Height.Var( TileHeightVariable )""
-         Padding=""Padding.Is2""
-         Margin=""Margin.Is2.FromBottom""
-         Background=""Background.Success.Subtle""
-         Border=""Border.Is1.Success""
-         TextColor=""TextColor.Success.Emphasis"">
-        Width.Var(""--tile-width"") / Height.Var(""--tile-height"")
-    </Div>
-    <Div Width=""Width.Px().Min( 180 ).Max( 320 )""
-         Height=""Height.Vh().Max(25)""
-         Padding=""Padding.Is2""
-         Background=""Background.Danger.Subtle""
-         Border=""Border.Is1.Danger""
-         TextColor=""TextColor.Danger.Emphasis"">
-        Width.Px().Min(180).Max(320)
-        <br />
-        Height.Vh().Max(25)
-    </Div>
-</Div>
-
-@code {
-    private const string TileWidthVariable = ""--tile-width"";
-    private const string TileHeightVariable = ""--tile-height"";
 }";
 
         public const string BasicContainerExample = @"<Container>
@@ -12227,6 +12338,23 @@ builder.Services
     <Column ColumnSize=""ColumnSize.Is4"">
         <Alert Color=""Color.Secondary"" Visible>
             Is4
+        </Alert>
+    </Column>
+</Row>
+<Row RowColumns=""RowColumns.Are3"" Margin=""Margin.Is3.FromTop"">
+    <Column>
+        <Alert Color=""Color.Success"" Visible>
+            Auto 1
+        </Alert>
+    </Column>
+    <Column>
+        <Alert Color=""Color.Info"" Visible>
+            Auto 2
+        </Alert>
+    </Column>
+    <Column>
+        <Alert Color=""Color.Warning"" Visible>
+            Auto 3
         </Alert>
     </Column>
 </Row>";
@@ -12316,6 +12444,19 @@ builder.Services
             </Column>
         }
     </Row>
+
+    <Row Gutter=""Gutter.Is1.OnY.Is3.OnX"" Margin=""Margin.Is3.FromTop"">
+        @for ( int i = 1; i <= 4; i++ )
+        {
+            <Column ColumnSize=""ColumnSize.Is6"">
+                <Div Padding=""Padding.Is3""
+                     Background=""Background.Success.Subtle""
+                     Border=""Border.Success"">
+                    Horizontal and vertical gutters
+                </Div>
+            </Column>
+        }
+    </Row>
 </Container>";
 
         public const string GuttersHorizontalExample = @"<Container Padding=""Padding.Is4.OnX"" TextAlignment=""TextAlignment.Center"">
@@ -12378,7 +12519,7 @@ builder.Services
     string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
 }";
 
-        public const string ObjectFitContainExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+        public const string ObjectFitContainExample = @"<Div Width=""Width.Rem( 24 )"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
     <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Contain"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
@@ -12386,15 +12527,19 @@ builder.Services
     string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
 }";
 
-        public const string ObjectFitCoverExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+        public const string ObjectFitCoverExample = @"<Div Width=""Width.Rem( 24 )"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
     <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Cover"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+</Div>
+
+<Div Width=""Width.Rem( 12 )"" Background=""Background.Light"" Margin=""Margin.Is3.FromTop.IsAuto.OnX"">
+    <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Cover"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.RoundedCircle"" />
 </Div>
 
 @code {
     string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
 }";
 
-        public const string ObjectFitFillExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+        public const string ObjectFitFillExample = @"<Div Width=""Width.Rem( 24 )"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
     <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Fill"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
@@ -12402,7 +12547,7 @@ builder.Services
     string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
 }";
 
-        public const string ObjectFitNoneExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+        public const string ObjectFitNoneExample = @"<Div Width=""Width.Rem( 24 )"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
     <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.None"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
@@ -12426,13 +12571,42 @@ builder.Services
     string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
 }";
 
-        public const string ObjectFitScaleExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+        public const string ObjectFitScaleExample = @"<Div Width=""Width.Rem( 24 )"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
     <Image Source=""@imageSrc"" Text=""mountain"" ObjectFit=""ObjectFit.Scale"" Height=""Height.Rem( 12 )"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
 </Div>
 
 @code {
     string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
 }";
+
+        public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
+    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
+    </Div>
+    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
+    </Div>
+</Div>
+
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; white-space: nowrap;"">
+    This line is intentionally long to demonstrate horizontal scrolling when content exceeds the width of the container.
+</Div>
+
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 120px;"">
+    <UnorderedList>
+        <UnorderedListItem>Scrollable list item one</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item two</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item three</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item four</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item five</UnorderedListItem>
+    </UnorderedList>
+</Div>";
 
         public const string BasicPositionExample = @"<Div Position=""Position.Static"">...</Div>
 <Div Position=""Position.Relative"">...</Div>
@@ -12473,18 +12647,127 @@ builder.Services
     <Div Position=""Position.Absolute.Bottom.Is0.End.Is0""></Div>
 </Div>";
 
-        public const string PositionRealExample = @"<Button Color=""Color.Primary"" Position=""Position.Relative"">
+        public const string PositionRealExample = @"<Button Color=""Color.Primary"" Position=""Position.Relative"" Margin=""Margin.Is2.FromEnd"">
     Mails
     <Badge Color=""Color.Secondary"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"">
         +99
     </Badge>
 </Button>
-<Button Color=""Color.Primary"" Position=""Position.Relative"">
+<Button Color=""Color.Primary"" Position=""Position.Relative"" Margin=""Margin.Is2.FromEnd"">
     Alerts
     <Badge Color=""Color.Danger"" Pill Position=""Position.Absolute.Top.Is0.Start.Is100.Translate.Middle"" Border=""Border.Light.OnAll.RoundedCircle"" Padding=""Padding.Is2"">
         <Span Visibility=""Visibility.Invisible"" Position=""Position.Absolute"">unread messages</Span>
     </Badge>
+</Button>
+<Button Color=""Color.Primary"" Position=""Position.Relative"">
+    Updates
+    <Badge Color=""Color.Info"" Pill Position=""Position.Absolute.Bottom.Is0.End.Is0.Translate.Middle"" Padding=""Padding.Is2"">
+        3
+    </Badge>
 </Button>";
+
+        public const string FluentSizingPredefinedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
+    <Div Width=""Width.Is25""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary""
+         TextColor=""TextColor.Primary.Emphasis"">
+        Width.Is25
+    </Div>
+    <Div Width=""Width.Is50""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width.Is50
+    </Div>
+    <Div Width=""Width.Is75.OnMobile.Is33.OnDesktop""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width.Is75.OnMobile.Is33.OnDesktop
+    </Div>
+    <Div Width=""Width.Is100.OnMobile.Is50.OnDesktop""
+         Padding=""Padding.Is2""
+         Background=""Background.Info.Subtle""
+         Border=""Border.Is1.Info""
+         TextColor=""TextColor.Info.Emphasis"">
+        Width.Is100.OnMobile.Is50.OnDesktop
+    </Div>
+</Div>";
+
+        public const string FluentSizingStyleBasedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
+    <Div Width=""Width.Px( 260 ).Min( 180 ).Max( 360 )""
+         Height=""Height.Rem(6).Min(4).Max(8)""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Secondary.Subtle""
+         Border=""Border.Is1.Secondary""
+         TextColor=""TextColor.Secondary.Emphasis"">
+        Width.Px(260).Min(180).Max(360)
+        <br />
+        Height.Rem(6).Min(4).Max(8)
+    </Div>
+    <Div Width=""Width.Vw( 35 ).Min( 25 ).Max( 55 )""
+         Height=""Height.Vh(20).Min(12).Max(30)""
+         Padding=""Padding.Is2""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width.Vw(35).Min(25).Max(55)
+        <br />
+        Height.Vh(20).Min(12).Max(30)
+    </Div>
+</Div>";
+
+        public const string FluentSizingVariableExample = @"<Div Style=""--tile-width: 16rem; --tile-height: 8rem;"" Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
+    <Div Width=""@Width.Var( TileWidthVariable )""
+         Height=""@Height.Var( TileHeightVariable )""
+         Padding=""Padding.Is2""
+         Margin=""Margin.Is2.FromBottom""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width.Var(""--tile-width"") / Height.Var(""--tile-height"")
+    </Div>
+    <Div Width=""Width.Px().Min( 180 ).Max( 320 )""
+         Height=""Height.Vh().Max(25)""
+         Padding=""Padding.Is2""
+         Background=""Background.Danger.Subtle""
+         Border=""Border.Is1.Danger""
+         TextColor=""TextColor.Danger.Emphasis"">
+        Width.Px().Min(180).Max(320)
+        <br />
+        Height.Vh().Max(25)
+    </Div>
+</Div>
+
+@code {
+    private const string TileWidthVariable = ""--tile-width"";
+    private const string TileHeightVariable = ""--tile-height"";
+}";
+
+        public const string SpacingExample = @"<Card>
+    <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
+        This example sets the margins for mobile (OnMobile) and desktop (OnDesktop) breakpoints.
+    </CardBody>
+</Card>
+
+<Card Margin=""Margin.Is3.FromTop"">
+    <CardBody Padding=""Padding.Is2.OnY.Is4.OnX"">
+        This example uses extra horizontal padding with <Code>OnX</Code> to keep content readable.
+    </CardBody>
+</Card>
+
+<Card Margin=""Margin.Is3.FromTop"">
+    <CardBody Padding=""Padding.Is2.FromStart.OnMobile.Is4.FromStart.OnDesktop"">
+        This example applies start-only padding that grows on desktop to keep content aligned with wider layouts.
+    </CardBody>
+</Card>";
 
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 

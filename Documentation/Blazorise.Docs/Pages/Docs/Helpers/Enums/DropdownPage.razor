@@ -1,20 +1,48 @@
-﻿@page "/docs/helpers/enums/dropdown"
+@page "/docs/helpers/enums/dropdown"
 
-<Seo Canonical="/docs/helpers/enums/dropdown" Title="Enums: Dropdown" Description="Learn to use and work with the Blazorise Dropdown enums that help you to modify the dropdowns appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/dropdown" Title="Blazorise Dropdown Enums - Direction and Positioning" Description="Dropdown enums control menu direction and positioning strategy. Learn Direction and DropdownPositionStrategy values for reliable placement." />
 
 <DocsPageTitle>
     Enums: Dropdown
 </DocsPageTitle>
 
+<DocsPageLead>
+    Place dropdown menus precisely with direction and positioning enums.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Dropdown enums help you control where menus open and how they stay anchored during scrolling or layout changes.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use <Code>Direction</Code> to choose the menu opening direction, and <Code>DropdownPositionStrategy</Code> to control how the floating element is positioned.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>Direction.Down</Code> for default dropdown behavior.</UnorderedListItem>
+    <UnorderedListItem><Code>Direction.End</Code> for right-aligned menus in LTR layouts.</UnorderedListItem>
+    <UnorderedListItem><Code>DropdownPositionStrategy.Fixed</Code> to reduce jumpiness while scrolling.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Direction">
-        <Paragraph>Direction of an dropdown menu.</Paragraph>
+        <Paragraph>Direction of a dropdown menu.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Direction.None</Code> Same as</UnorderedListItem>
-            <UnorderedListItem><Code>Direction.Down</Code> Trigger dropdown menus bellow an element (default behaviour).</UnorderedListItem>
+            <UnorderedListItem><Code>Direction.Default</Code> Uses the default direction, usually the same as <Code>Down</Code>.</UnorderedListItem>
+            <UnorderedListItem><Code>Direction.Down</Code> Trigger dropdown menus below an element (default behavior).</UnorderedListItem>
             <UnorderedListItem><Code>Direction.Up</Code> Trigger dropdown menus above an element.</UnorderedListItem>
-            <UnorderedListItem><Code>Direction.Right</Code> Trigger dropdown menus to the right of an element.</UnorderedListItem>
-            <UnorderedListItem><Code>Direction.Left</Code> Trigger dropdown menus to the left of an element.</UnorderedListItem>
             <UnorderedListItem><Code>Direction.End</Code> Trigger dropdown menus to the end of an element.</UnorderedListItem>
             <UnorderedListItem><Code>Direction.Start</Code> Trigger dropdown menus to the start of an element.</UnorderedListItem>
         </UnorderedList>
