@@ -2335,14 +2335,29 @@ td:focus {
   z-index: 1060 !important;
 }
 
-.is-valid > .ql-container,
-.is-valid > .ql-toolbar {
-  border-color: var(--b-theme-success, #28a745) !important;
+.b-richtextedit > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit > .b-richtextedit-editor.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ced4da;
+}
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-content + .b-richtextedit-editor,
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-editor {
+  border-top: 0;
+}
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-content + .b-richtextedit-toolbar,
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-toolbar {
+  border-top: 0;
 }
 
-.is-invalid > .ql-container,
-.is-invalid > .ql-toolbar {
-  border-color: var(--b-theme-danger, #dc3545) !important;
+.b-richtextedit.is-valid > .b-richtextedit-editor.ql-container,
+.b-richtextedit.is-valid > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-success, #28a745);
+}
+
+.b-richtextedit.is-invalid > .b-richtextedit-editor.ql-container,
+.b-richtextedit.is-invalid > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-danger, #dc3545);
 }
 
 @keyframes fadeIn {
