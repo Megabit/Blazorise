@@ -21,9 +21,9 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (!element)
         return;
 
-    const editorRef = element.getElementsByClassName("rte-editor")[0];
-    const toolbarRef = element.getElementsByClassName("rte-toolbar")[0];
-    const contentRef = element.getElementsByClassName("rte-content")[0];
+    const editorRef = element.getElementsByClassName("b-richtextedit-editor")[0];
+    const toolbarRef = element.getElementsByClassName("b-richtextedit-toolbar")[0];
+    const contentRef = element.getElementsByClassName("b-richtextedit-content")[0];
 
     let quillOptions = {
         modules: {

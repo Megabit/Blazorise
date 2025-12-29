@@ -306,6 +306,7 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
+        builder.Append( "b-richtextedit" );
         builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
