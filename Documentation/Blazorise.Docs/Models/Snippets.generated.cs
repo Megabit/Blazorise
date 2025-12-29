@@ -11958,6 +11958,10 @@ builder.Services
 
 <Div Border=""Border.Is1.RoundedPill"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
     Rounded pill
+</Div>
+
+<Div Border=""Border.Is2.Danger.OnBottom"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Bottom border accent
 </Div>";
 
         public const string ColumnSizeExample = @"<Row>
@@ -12017,6 +12021,23 @@ builder.Services
             </CardBody>
         </Card>
     </Column>
+</Row>
+
+<Row Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.IsAuto"">
+        <Card>
+            <CardBody>
+                Auto width
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <Card>
+            <CardBody>
+                Fixed column that wraps on mobile
+            </CardBody>
+        </Card>
+    </Column>
 </Row>";
 
         public const string DisplayExample = @"<Paragraph Display=""Display.None.Block.OnDesktop"" Margin=""Margin.Is2.FromBottom"">
@@ -12038,6 +12059,14 @@ builder.Services
          Border=""Border.Is1.Info"">
         Main content
     </Div>
+</Div>
+
+<Div Display=""Display.None.Block.OnTablet""
+     Padding=""Padding.Is2""
+     Margin=""Margin.Is3.FromTop""
+     Background=""Background.Warning.Subtle""
+     Border=""Border.Is1.Warning"">
+    Visible from tablet up to highlight supporting information without crowding mobile layouts.
 </Div>";
 
         public const string FlexAlignItemsExample = @"<Div Flex=""Flex.AlignItems.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
@@ -12216,6 +12245,16 @@ builder.Services
 
 <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; white-space: nowrap;"">
     This line is intentionally long to demonstrate horizontal scrolling when content exceeds the width of the container.
+</Div>
+
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 120px;"">
+    <UnorderedList>
+        <UnorderedListItem>Scrollable list item one</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item two</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item three</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item four</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item five</UnorderedListItem>
+    </UnorderedList>
 </Div>";
 
         public const string SpacingExample = @"<Card>
@@ -12227,6 +12266,12 @@ builder.Services
 <Card Margin=""Margin.Is3.FromTop"">
     <CardBody Padding=""Padding.Is2.OnY.Is4.OnX"">
         This example uses extra horizontal padding with <Code>OnX</Code> to keep content readable.
+    </CardBody>
+</Card>
+
+<Card Margin=""Margin.Is3.FromTop"">
+    <CardBody Padding=""Padding.Is2.FromStart.OnMobile.Is4.FromStart.OnDesktop"">
+        This example applies start-only padding that grows on desktop to keep content aligned with wider layouts.
     </CardBody>
 </Card>";
 
