@@ -43,6 +43,7 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "components/toast";
 
 @import "extensions/snackbar";
+@import "extensions/richtextedit";
 
 @import "utilities/animations";
 @import "utilities/background-color";

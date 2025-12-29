@@ -345,20 +345,6 @@ select[readonly] {
     @include form-validation-state($state, map-get($data, color), map-get($data, icon));
 }
 
-.is-valid {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-success, $success);
-    }
-}
-
-.is-invalid {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-danger, $danger);
-    }
-}
-
 .form-group {
     &:not(.row) {
         .btn-group.btn-group-toggle {

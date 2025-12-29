@@ -2186,16 +2186,6 @@ textarea.ant-input.ant-input-static {
   color: var(--b-theme-danger, #ff4d4f);
 }
 
-.ant-input-status-success > .rte-editor,
-.ant-input-status-success > .rte-toolbar {
-  border-color: var(--b-theme-success, #35c613);
-}
-
-.ant-input-status-error > .rte-editor,
-.ant-input-status-error > .rte-toolbar {
-  border-color: var(--b-theme-danger, #ff4d4f);
-}
-
 .ant-hero {
   padding: 2rem 1rem;
   margin-bottom: 2rem;
@@ -3855,6 +3845,16 @@ td:focus {
 
 .snackbar {
   z-index: 1010 !important;
+}
+
+.ant-input-status-success > .b-richtextedit-editor,
+.ant-input-status-success > .b-richtextedit-toolbar {
+  border-color: var(--b-theme-success, #35c613);
+}
+
+.ant-input-status-error > .b-richtextedit-editor,
+.ant-input-status-error > .b-richtextedit-toolbar {
+  border-color: var(--b-theme-danger, #ff4d4f);
 }
 
 @keyframes fadeIn {

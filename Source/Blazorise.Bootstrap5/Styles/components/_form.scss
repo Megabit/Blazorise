@@ -448,20 +448,6 @@ input[readonly="readonly"][type=range] {
     color: var(--b-theme-danger, $danger);
 }
 
-.is-valid {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-success, $success);
-    }
-}
-
-.is-invalid {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-danger, $danger);
-    }
-}
-
 .form-group {
     // when flatpickr-wrapper is inside a form-group, make sure the calendar dropdown is positioned correctly
     &.row {

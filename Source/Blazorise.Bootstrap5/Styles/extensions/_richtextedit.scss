@@ -1,0 +1,13 @@
+.is-valid {
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-success, $success) !important;
+    }
+}
+
+.is-invalid {
+    > .ql-container,
+    > .ql-toolbar {
+        border-color: var(--b-theme-danger, $danger) !important;
+    }
+}

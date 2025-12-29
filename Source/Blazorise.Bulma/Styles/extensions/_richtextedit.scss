@@ -1,0 +1,13 @@
+.is-success {
+    > .b-richtextedit-editor,
+    > .b-richtextedit-toolbar {
+        border-color: var(--b-theme-success, $success);
+    }
+}
+
+.is-danger {
+    > .b-richtextedit-editor,
+    > .b-richtextedit-toolbar {
+        border-color: var(--b-theme-danger, $danger);
+    }
+}

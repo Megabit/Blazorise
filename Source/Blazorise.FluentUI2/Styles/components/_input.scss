@@ -502,17 +502,3 @@
         }
     }
 }
-
-.fui-Textarea__input-error {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--colorPaletteRedBorder2);
-    }
-}
-
-.fui-Textarea__input-success {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--colorPaletteGreenForeground1);
-    }
-}

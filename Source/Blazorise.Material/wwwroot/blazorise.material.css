@@ -1989,6 +1989,16 @@ td:focus {
   z-index: 1060 !important;
 }
 
+.is-valid > .b-richtextedit-editor,
+.is-valid > .b-richtextedit-toolbar {
+  border-color: var(--b-theme-success, #61d800);
+}
+
+.is-invalid > .b-richtextedit-editor,
+.is-invalid > .b-richtextedit-toolbar {
+  border-color: var(--b-theme-danger, #b00020);
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

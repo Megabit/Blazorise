@@ -1,0 +1,13 @@
+.fui-Textarea__input-error {
+    > .b-richtextedit-editor,
+    > .b-richtextedit-toolbar {
+        border-color: var(--colorPaletteRedBorder2);
+    }
+}
+
+.fui-Textarea__input-success {
+    > .b-richtextedit-editor,
+    > .b-richtextedit-toolbar {
+        border-color: var(--colorPaletteGreenForeground1);
+    }
+}

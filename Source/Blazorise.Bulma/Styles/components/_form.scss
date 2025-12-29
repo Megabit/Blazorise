@@ -130,17 +130,3 @@ select[readonly] {
     content: " *";
     color: var(--b-theme-danger, $danger);
 }
-
-.is-success {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-success, $success);
-    }
-}
-
-.is-danger {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-danger, $danger);
-    }
-}

@@ -1886,6 +1886,16 @@ td:focus {
   z-index: 1070 !important;
 }
 
+.is-valid > .ql-container,
+.is-valid > .ql-toolbar {
+  border-color: var(--b-theme-success, #198754) !important;
+}
+
+.is-invalid > .ql-container,
+.is-invalid > .ql-toolbar {
+  border-color: var(--b-theme-danger, #dc3545) !important;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

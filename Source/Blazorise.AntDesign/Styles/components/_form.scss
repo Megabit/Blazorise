@@ -322,17 +322,3 @@ textarea.ant-input.ant-input-static {
     content: " *";
     color: var(--b-theme-danger, $danger);
 }
-
-.ant-input-status-success {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-success, $success);
-    }
-}
-
-.ant-input-status-error {
-    > .rte-editor,
-    > .rte-toolbar {
-        border-color: var(--b-theme-danger, $danger);
-    }
-}

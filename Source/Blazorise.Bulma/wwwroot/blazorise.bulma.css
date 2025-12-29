@@ -3546,6 +3546,16 @@ td:focus {
     opacity: 0;
   }
 }
+.is-success > .b-richtextedit-editor,
+.is-success > .b-richtextedit-toolbar {
+  border-color: var(--b-theme-success, #48c774);
+}
+
+.is-danger > .b-richtextedit-editor,
+.is-danger > .b-richtextedit-toolbar {
+  border-color: var(--b-theme-danger, #ef2e55);
+}
+
 .is-vertical-align-baseline {
   vertical-align: baseline !important;
 }

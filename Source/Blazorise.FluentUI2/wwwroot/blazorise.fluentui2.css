@@ -19076,3 +19076,13 @@ span.flatpickr-weekday {
 .snackbar-stack-bottom {
   z-index: var(--zIndexPopover) !important;
 }
+
+.fui-Textarea__input-error > .b-richtextedit-editor,
+.fui-Textarea__input-error > .b-richtextedit-toolbar {
+  border-color: var(--colorPaletteRedBorder2);
+}
+
+.fui-Textarea__input-success > .b-richtextedit-editor,
+.fui-Textarea__input-success > .b-richtextedit-toolbar {
+  border-color: var(--colorPaletteGreenForeground1);
+}
