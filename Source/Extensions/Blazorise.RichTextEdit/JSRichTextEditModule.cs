@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -71,7 +71,7 @@ public class JSRichTextEditModule : BaseJSModule,
 
         await InvokeSafeVoidAsync( "initialize", dotNetRef, richTextEdit.ElementRef, richTextEdit.ElementId, new RichTextEditJSOptions
         {
-            ReadOnly = richTextEdit.ReadOnly,
+            ReadOnly = richTextEdit.ReadOnly || richTextEdit.Disabled,
             Placeholder = richTextEdit.PlaceHolder,
             Theme = richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
             SubmitOnEnter = richTextEdit.SubmitOnEnter,

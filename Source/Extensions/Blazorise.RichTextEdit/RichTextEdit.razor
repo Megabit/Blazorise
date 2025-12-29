@@ -1,4 +1,4 @@
-﻿@inherits BaseRichTextEditComponent
+@inherits BaseRichTextEditComponent
 
 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
 
@@ -9,7 +9,16 @@
         </div>
     }
 
-    <span style="display: none" class="rte-content">@Editor</span>
+    <span style="display: none" class="rte-content">
+        @if ( Editor is not null && InitialContent is null )
+        {
+            @Editor
+        }
+        else if ( !string.IsNullOrEmpty( InitialContent ) )
+        {
+            @((MarkupString)InitialContent)
+        }
+    </span>
 
     <div @ref="@EditorRef" class="rte-editor"></div>
 
@@ -21,3 +30,5 @@
     }
 
 </div>
+@ChildContent
+@Feedback

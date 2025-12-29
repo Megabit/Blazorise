@@ -1,7 +1,8 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -18,13 +19,40 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     private IAsyncDisposable cleanup;
 
     /// <summary>
-    /// ReadOnly state.
+    /// Latest plain text representation of the editor.
     /// </summary>
-    private bool readOnly;
+    private string validationText;
+
+    /// <summary>
+    /// Initial HTML content rendered into the editor before JS initialization.
+    /// </summary>
+    private string initialContent;
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool shouldUpdateReadOnly = false;
+
+        if ( Rendered )
+        {
+            if ( ( parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
+                || ( parameters.TryGetParameter( nameof( Disabled ), Disabled, out var disabledParameter ) && disabledParameter.Changed ) )
+            {
+                shouldUpdateReadOnly = true;
+            }
+        }
+
+        await base.SetParametersAsync( parameters );
+
+        if ( Rendered && shouldUpdateReadOnly )
+        {
+            ExecuteAfterRender( async () => await SetReadOnly( ReadOnly || Disabled ) );
+        }
+    }
 
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
@@ -37,6 +65,29 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
+    /// <inheritdoc/>
+    protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        await base.OnAfterSetParametersAsync( parameters );
+
+        if ( !Rendered )
+        {
+            initialContent = Value;
+        }
+        else if ( paramValue.Defined && paramValue.Changed )
+        {
+            validationText = null;
+
+            var newValue = Value ?? string.Empty;
+
+            ExecuteAfterRender( async () =>
+            {
+                await JSModule.SetHtmlAsync( EditorRef, newValue );
+                validationText = ( await JSModule.GetTextAsync( EditorRef ) )?.TrimEnd();
+            } );
+        }
+    }
+
     /// <summary>
     /// Called when [first after render asynchronous].
     /// </summary>
@@ -44,9 +95,13 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     {
         cleanup = await JSModule.Initialize( this );
 
-        if ( Editor != null )
+        if ( Value is null && Editor is not null )
         {
-            await OnContentChanged();
+            await UpdateContentFromEditorAsync( notifyContentChanged: true );
+        }
+        else
+        {
+            validationText = ( await JSModule.GetTextAsync( EditorRef ) )?.TrimEnd();
         }
 
         await base.OnFirstAfterRenderAsync();
@@ -60,13 +115,26 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </remarks>
     public async ValueTask SetHtmlAsync( string html )
     {
+        html ??= string.Empty;
+
+        if ( !html.IsEqual( Value ) )
+        {
+            validationText = null;
+            await CurrentValueHandler( html );
+        }
+
         if ( Rendered )
         {
             await JSModule.SetHtmlAsync( EditorRef, html );
+            validationText = ( await JSModule.GetTextAsync( EditorRef ) )?.TrimEnd();
             return;
         }
 
-        await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetHtmlAsync( EditorRef, html ) ) );
+        await InvokeAsync( () => ExecuteAfterRender( async () =>
+        {
+            await JSModule.SetHtmlAsync( EditorRef, html );
+            validationText = ( await JSModule.GetTextAsync( EditorRef ) )?.TrimEnd();
+        } ) );
     }
 
     /// <summary>
@@ -99,10 +167,15 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         if ( Rendered )
         {
             await JSModule.SetDeltaAsync( EditorRef, deltaJson );
+            await UpdateContentFromEditorAsync( notifyContentChanged: false );
             return;
         }
 
-        await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetDeltaAsync( EditorRef, deltaJson ) ) );
+        await InvokeAsync( () => ExecuteAfterRender( async () =>
+        {
+            await JSModule.SetDeltaAsync( EditorRef, deltaJson );
+            await UpdateContentFromEditorAsync( notifyContentChanged: false );
+        } ) );
     }
 
     /// <summary>
@@ -129,11 +202,16 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         if ( Rendered )
         {
             await JSModule.SetTextAsync( EditorRef, text );
+            await UpdateContentFromEditorAsync( notifyContentChanged: false );
 
             return;
         }
 
-        await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetTextAsync( EditorRef, text ) ) );
+        await InvokeAsync( () => ExecuteAfterRender( async () =>
+        {
+            await JSModule.SetTextAsync( EditorRef, text );
+            await UpdateContentFromEditorAsync( notifyContentChanged: false );
+        } ) );
     }
 
     /// <summary>
@@ -159,7 +237,7 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         {
             await JSModule.ClearAsync( EditorRef );
 
-            await OnContentChanged();
+            await HandleContentChangedAsync( string.Empty, string.Empty, notifyContentChanged: true );
         } ) );
     }
 
@@ -167,7 +245,10 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Javascript callback for when content changes.
     /// </summary>
     [JSInvokable]
-    public Task OnContentChanged() => ContentChanged.InvokeAsync( true );
+    public Task OnContentChanged( string html, string text )
+    {
+        return HandleContentChangedAsync( html, text, notifyContentChanged: true );
+    }
 
     /// <summary>
     /// Javascript callback for when enter is pressed.
@@ -195,9 +276,74 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetReadOnly( EditorRef, value ) ) );
     }
 
+    private async Task HandleContentChangedAsync( string html, string text, bool notifyContentChanged )
+    {
+        html ??= string.Empty;
+        text ??= string.Empty;
+
+        validationText = text?.TrimEnd();
+
+        if ( !html.IsEqual( Value ) )
+        {
+            await CurrentValueHandler( html );
+        }
+
+        if ( notifyContentChanged )
+        {
+            await ContentChanged.InvokeAsync( true );
+        }
+    }
+
+    private async Task UpdateContentFromEditorAsync( bool notifyContentChanged )
+    {
+        var htmlOptions = RichTextEditHtmlOptions.SemanticHtml();
+        var html = await JSModule.GetHtmlAsync( EditorRef, htmlOptions );
+        var text = await JSModule.GetTextAsync( EditorRef );
+
+        await HandleContentChangedAsync( html, text, notifyContentChanged );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+
+        base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+    {
+        return Task.FromResult( new ParseValue<string>( true, value, null ) );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override string DefaultValue => string.Empty;
+
+    /// <inheritdoc/>
+    public override object ValidationValue
+        => CustomValidationValue is not null
+            ? CustomValidationValue.Invoke()
+            : validationText ?? Value;
+
+    /// <summary>
+    /// Gets the initial content that is rendered into the editor before JS initialization.
+    /// </summary>
+    protected string InitialContent => initialContent;
+
+    /// <summary>
+    /// The toolbar element reference.
+    /// </summary>
+    public ElementReference ToolbarRef { get; protected set; }
+
+    /// <summary>
+    /// The editor element reference.
+    /// </summary>
+    public ElementReference EditorRef { get; protected set; }
 
     /// <summary>
     /// Gets or sets the <see cref="JSRichTextEditModule"/> instance.
@@ -212,26 +358,7 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <summary>
     /// [Optional] Gets or sets the content visible in the editor.
     /// </summary>
-    [Parameter]
-    public RenderFragment Editor { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the editor is ReadOnly.
-    /// </summary>
-    [Parameter]
-    public bool ReadOnly
-    {
-        get => readOnly;
-        set
-        {
-            readOnly = value;
-
-            ExecuteAfterRender( async () =>
-            {
-                await SetReadOnly( value );
-            } );
-        }
-    }
+    [Parameter] public RenderFragment Editor { get; set; }
 
     /// <summary>
     /// The theme (Snow or Bubble) of the editor.
@@ -280,16 +407,6 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Occurs when the editor loses focus.
     /// </summary>
     [Parameter] public EventCallback EditorBlur { get; set; }
-
-    /// <summary>
-    /// The toolbar element reference.
-    /// </summary>
-    public ElementReference ToolbarRef { get; protected set; }
-
-    /// <summary>
-    /// The editor element reference.
-    /// </summary>
-    public ElementReference EditorRef { get; protected set; }
 
     /// <summary>
     /// [Optional] The javascript method to call to configure additional QuillJs modules and or add custom bindings.

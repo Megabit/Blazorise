@@ -125,7 +125,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
             contentUpdating = true;
-            dotnetAdapter.invokeMethodAsync("OnContentChanged")
+            dotnetAdapter.invokeMethodAsync("OnContentChanged", quill.root.innerHTML, quill.getText())
                 .finally(_ => contentUpdating = false);
         }
     });
