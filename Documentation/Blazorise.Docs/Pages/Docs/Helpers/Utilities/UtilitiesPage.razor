@@ -2,7 +2,7 @@
 
 <Seo Canonical="/docs/helpers/utilities" Title="Blazorise Utilities – Helper Classes for Layout, Spacing, and Styling" Description="Master Blazorise utility helpers to quickly configure layout, spacing, borders, display, flex, and overflow properties. Learn how to efficiently style and align elements using fluent builder patterns in Blazorise." />
 
-<DocsPageTitle>
+<DocsPageTitle Path="Helpers/Utilities">
     Blazorise Utilities
 </DocsPageTitle>
 
@@ -12,12 +12,40 @@
 
 <DocsPageParagraph>
     Blazorise Utilities offer a set of helper methods and classes designed to streamline your front-end development.
-    With a focus on flexibility and responsiveness, these utilities let you easily define spacing, flex behavior, overflow handling, and more-all through C# fluent builders that adapt to various breakpoints.
+    With a focus on flexibility and responsiveness, these utilities let you easily define spacing, flex behavior, overflow handling, and more, all through C# fluent builders that adapt to various breakpoints.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
     Whether you're fine-tuning the layout of a single component or building complex responsive interfaces, Blazorise Utilities help you maintain a clean and consistent design system.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Utilities are exposed through fluent builders like <Code>Margin</Code>, <Code>Display</Code>, <Code>Flex</Code>, and <Code>Border</Code>.
+    You can chain sizes, sides, and breakpoints to keep responsive layout rules close to the components that use them.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Utility pages
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/spacing">Spacing</Anchor> - Margin and padding builders with breakpoints.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/display">Display</Anchor> - Responsive visibility and display modes.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/column-size">Column Size</Anchor> - Responsive column widths for grid columns.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/flex">Flex</Anchor> - Direction, alignment, wrapping, and ordering helpers.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/border">Border</Anchor> - Border sizes, colors, and radius.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/overflow">Overflow</Anchor> - Scroll and clip behavior.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/position">Position</Anchor> - Relative and absolute placement helpers.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/grid">Grid</Anchor> - Flexbox grid system and containers.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/css-grid">CSS Grid</Anchor> - Two-dimensional layouts with grid utilities.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/gutters">Gutters</Anchor> - Horizontal and vertical spacing between columns.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/object-fit">Object Fit</Anchor> - Image and media fitting.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/fluent-sizing">Fluent Sizing</Anchor> - Width and height builders with classes or styles.</UnorderedListItem>
+</UnorderedList>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Spacing">
@@ -26,7 +54,7 @@
             This approach allows you to easily combine multiple margin and padding settings across different breakpoints.
         </Paragraph>
         <Paragraph>
-            For example, the following snippet sets custom margins for mobile (<Code>xs</Code>) and desktop (<Code>md</Code>) screen sizes:
+            For example, the following snippet sets custom margins for mobile (<Code>OnMobile</Code>) and desktop (<Code>OnDesktop</Code>) breakpoints:
         </Paragraph>
     </DocsPageSectionHeader>
 
@@ -135,9 +163,9 @@
     <DocsPageSectionSource Code="OverflowExample" />
 </DocsPageSection>
 
-<Heading Size="HeadingSize.Is3">
-    Breakpoints by Framework
-</Heading>
+<DocsPageSubtitle>
+    Breakpoints by framework
+</DocsPageSubtitle>
 
 <DocsPageParagraph>
     Different CSS frameworks use their own naming conventions for responsive breakpoints. While the behavior (e.g., mobile, tablet, desktop) is conceptually similar across all frameworks, the specific identifiers can vary.

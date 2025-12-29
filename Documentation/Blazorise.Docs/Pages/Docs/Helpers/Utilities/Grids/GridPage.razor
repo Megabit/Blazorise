@@ -17,9 +17,18 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        You might also be interested in out <Anchor To="docs/helpers/utilities/css-grid" Title="new grid">new CSS Grid</Anchor> utilities, which are based on a <Anchor To="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout" Title="CSS Grid link">CSS grid</Anchor> system.
+        You might also be interested in our <Anchor To="docs/helpers/utilities/css-grid" Title="new grid">new CSS Grid</Anchor> utilities, which are based on a <Anchor To="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout" Title="CSS Grid link">CSS grid</Anchor> system.
     </AlertDescription>
 </Alert>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use <Code>Row</Code> and <Code>Column</Code> with <Code>ColumnSize</Code> to define widths at each breakpoint, or use <Code>RowColumns</Code> for quick equal-width layouts.
+    The grid utilities map to your CSS provider so layouts stay consistent without custom CSS.
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     Examples
@@ -29,6 +38,7 @@
     <DocsPageSectionHeader Title="Rows & Columns">
         As the grid can be divided into 12 columns, there are size classes for each division.
         These can be set using <Code>ColumnSize</Code> followed by <Code>.Is1</Code> -> <Code>.Is12</Code>.
+        This makes responsive layouts predictable without hand-tuning widths in CSS.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicGridExample />
@@ -39,6 +49,7 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Offset">
         Move columns to the right using <Code>.WithOffset</Code> attribute.
+        Offsets are useful for creating intentional whitespace or aligning content with surrounding elements.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <GridOffsetExample />

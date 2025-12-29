@@ -1,0 +1,41 @@
+@page "/docs/helpers/utilities/column-size"
+
+<Seo Canonical="/docs/helpers/utilities/column-size" Title="Blazorise Column Size Utilities - Responsive Grid Columns" Description="Define responsive column widths using the Blazorise ColumnSize fluent builder for grid columns." />
+
+<DocsPageTitle Path="Helpers/Utilities/Column Size">
+    Blazorise Column Size Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Define responsive column widths with the ColumnSize fluent builder for Blazorise grid columns.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Column size utilities let you set column widths per breakpoint without writing CSS. They are ideal for responsive layouts that must stay aligned with the grid system and design tokens.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Apply <Code>ColumnSize</Code> to a <Code>Column</Code> and chain sizes like <Code>Is1</Code> through <Code>Is12</Code>, plus shortcuts like <Code>IsHalf</Code>, <Code>IsThird</Code>, and <Code>IsAuto</Code>.
+    Add breakpoints (<Code>OnMobile</Code>, <Code>OnTablet</Code>, <Code>OnDesktop</Code>) to change widths responsively. Pair with <Code>WithOffset</Code> when you need intentional whitespace or alignment shifts.
+    For the full grid system, see the <Anchor To="docs/helpers/utilities/grid">Grid utilities</Anchor> page.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Responsive column widths">
+        <Paragraph>
+            The column sizes change by breakpoint so the content stacks on mobile, balances on tablet, and splits on desktop. This keeps content readable without maintaining separate layouts.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ColumnSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColumnSizeExample" />
+</DocsPageSection>

@@ -1,0 +1,54 @@
+@page "/docs/helpers/utilities/flex"
+
+<Seo Canonical="/docs/helpers/utilities/flex" Title="Blazorise Flex Utilities - Alignment and Layout" Description="Create flexible layouts with Blazorise flex utilities for direction, alignment, and wrapping across breakpoints." />
+
+<DocsPageTitle Path="Helpers/Utilities/Flex">
+    Blazorise Flex Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Build flexible layouts with a fluent API for direction, alignment, wrapping, and responsive adjustments.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Flex utilities let you express layout intent in C# while keeping rules consistent across CSS providers. Use them to align content, distribute space, and control wrapping without custom CSS.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Set the <Code>Flex</Code> parameter on a container and chain rules such as <Code>Flex.Row</Code>, <Code>Flex.Column</Code>, <Code>Flex.JustifyContent.Center</Code>,
+    and <Code>Flex.AlignItems.Start</Code>. Add breakpoints like <Code>OnTablet</Code> or <Code>OnDesktop</Code> to adapt layout per screen size.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Align items">
+        <Paragraph>
+            Align items along the cross axis to keep components visually balanced without adding extra wrapper styles.
+            This is especially useful for mixed-height content such as buttons and text.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FlexAlignItemsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FlexAlignItemsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Justify content">
+        <Paragraph>
+            Distribute items along the main axis to create consistent spacing and alignment.
+            This helps you keep layouts responsive while avoiding manual margin tweaks.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FlexJustifyContentExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FlexJustifyContentExample" />
+</DocsPageSection>

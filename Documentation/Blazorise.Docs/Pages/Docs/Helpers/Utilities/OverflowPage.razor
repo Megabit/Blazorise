@@ -1,0 +1,40 @@
+@page "/docs/helpers/utilities/overflow"
+
+<Seo Canonical="/docs/helpers/utilities/overflow" Title="Blazorise Overflow Utilities - Scrolling and Clipping" Description="Control how content overflows its container using Blazorise overflow utilities for scroll, clip, or visible behavior." />
+
+<DocsPageTitle Path="Helpers/Utilities/Overflow">
+    Blazorise Overflow Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Control scrolling and clipping behavior with a fluent overflow builder.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Overflow utilities let you manage content that exceeds its container, keeping layouts predictable and reducing the need for custom CSS.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Apply <Code>Overflow</Code> to any component and choose <Code>Auto</Code>, <Code>Hidden</Code>, <Code>Scroll</Code>, or <Code>Visible</Code>.
+    This is useful for scrollable panels, clipped media, and keeping the rest of the layout stable when content grows.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Scrollable and clipped panels">
+        <Paragraph>
+            These panels show how different overflow modes affect content when the container has fixed dimensions, letting you choose between scrolling, clipping, or letting content flow outside.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OverflowExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OverflowExample" />
+</DocsPageSection>
