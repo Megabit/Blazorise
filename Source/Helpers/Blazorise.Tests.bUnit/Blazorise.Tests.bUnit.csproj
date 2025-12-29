@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
+    <ProjectReference Include="..\..\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,14 +1,14 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
+@namespace Blazorise.Docs.Docs.Examples
 
 <RichTextEdit @ref="richTextEditRef"
               Theme="RichTextEditTheme.Snow"
+              @bind-Value="contentAsHtml"
               ContentChanged="@OnContentChanged"
               PlaceHolder="Type your post here..."
               ReadOnly="@readOnly"
               SubmitOnEnter="false"
               EnterPressed="@OnSave"
               ToolbarPosition="Placement.Bottom">
-    <Editor>My example content</Editor>
     <Toolbar>
         <RichTextEditToolbarGroup>
             <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
@@ -30,17 +30,16 @@
     </Toolbar>
 </RichTextEdit>
 
-@code{
+@code {
     protected RichTextEdit richTextEditRef;
     protected bool readOnly;
-    protected string contentAsHtml;
+    protected string contentAsHtml = "<p>My example content</p>";
     protected string contentAsDeltaJson;
     protected string contentAsText;
     protected string savedContent;
 
     public async Task OnContentChanged()
     {
-        contentAsHtml = await richTextEditRef.GetHtmlAsync();
         contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
         contentAsText = await richTextEditRef.GetTextAsync();
     }

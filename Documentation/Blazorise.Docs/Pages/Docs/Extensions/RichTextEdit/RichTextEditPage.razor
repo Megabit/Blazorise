@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/richtextedit"
+@page "/docs/extensions/richtextedit"
 
 <Seo Canonical="/docs/extensions/richtextedit" Title="Blazorise RichTextEdit component" Description="Learn to use and work with the Blazorise RichTextEdit component, which allows you to add and use a 'WYSIWYG' rich text editor." />
 
@@ -18,7 +18,8 @@
     <UnorderedListItem>
         <Code>RichTextEdit</Code> the root editor component
         <UnorderedList>
-            <UnorderedListItem><Code>Editor</Code> (Optional) the editor part with displayed html content</UnorderedListItem>
+            <UnorderedListItem><Code>Value</Code> (Optional) the bound HTML content</UnorderedListItem>
+            <UnorderedListItem><Code>Editor</Code> (Optional) initial editor content when <Code>Value</Code> is not set</UnorderedListItem>
             <UnorderedListItem>
                 <Code>Toolbar</Code> (Optional) the editor toolbar definition
                 <UnorderedList>
@@ -99,6 +100,17 @@
         <RichTextEditExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="RichTextEditExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation">
+        <Paragraph>
+            Use <Code>Validation</Code> with <Code>RichTextEdit</Code> to validate the editor's content.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RichTextEditValidationExample />
+    </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>

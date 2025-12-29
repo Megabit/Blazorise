@@ -10012,13 +10012,13 @@ Install-Package Blazorise.Icons.Material";
 
         public const string RichTextEditExample = @"<RichTextEdit @ref=""richTextEditRef""
               Theme=""RichTextEditTheme.Snow""
+              @bind-Value=""contentAsHtml""
               ContentChanged=""@OnContentChanged""
               PlaceHolder=""Type your post here...""
               ReadOnly=""@readOnly""
               SubmitOnEnter=""false""
               EnterPressed=""@OnSave""
               ToolbarPosition=""Placement.Bottom"">
-    <Editor>My example content</Editor>
     <Toolbar>
         <RichTextEditToolbarGroup>
             <RichTextEditToolbarButton Action=""RichTextEditAction.Bold"" />
@@ -10040,17 +10040,16 @@ Install-Package Blazorise.Icons.Material";
     </Toolbar>
 </RichTextEdit>
 
-@code{
+@code {
     protected RichTextEdit richTextEditRef;
     protected bool readOnly;
-    protected string contentAsHtml;
+    protected string contentAsHtml = ""<p>My example content</p>"";
     protected string contentAsDeltaJson;
     protected string contentAsText;
     protected string savedContent;
 
     public async Task OnContentChanged()
     {
-        contentAsHtml = await richTextEditRef.GetHtmlAsync();
         contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
         contentAsText = await richTextEditRef.GetTextAsync();
     }
@@ -10066,8 +10065,7 @@ Install-Package Blazorise.Icons.Material";
 
         public const string RichTextEditNugetInstallExample = @"Install-Package Blazorise.RichTextEdit";
 
-        public const string RichTextEditResizeExample = @"<RichTextEdit UseResize>
-    <Editor>My example content</Editor>
+        public const string RichTextEditResizeExample = @"<RichTextEdit UseResize Value=""My example content"">
     <Toolbar>
         <RichTextEditToolbarGroup>
             <RichTextEditToolbarButton Action=""RichTextEditAction.Bold"" />
@@ -10087,8 +10085,7 @@ Install-Package Blazorise.Icons.Material";
         public const string RichTextEditStartupExample = @"builder.Services
     .AddBlazoriseRichTextEdit( options => { ... } );";
 
-        public const string RichTextEditTableExample = @"<RichTextEdit>
-    <Editor>My example content</Editor>
+        public const string RichTextEditTableExample = @"<RichTextEdit Value=""My example content"">
     <Toolbar>
         <RichTextEditToolbarGroup>
             <RichTextEditToolbarButton Action=""RichTextEditAction.Bold"" />
@@ -10112,6 +10109,33 @@ Install-Package Blazorise.Icons.Material";
 {
     options.UseTables = true;
 } )";
+
+        public const string RichTextEditValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+    <Validation Validator=""@ValidationRule.IsNotEmpty"">
+        <Field>
+            <FieldLabel>Message</FieldLabel>
+            <FieldBody>
+                <RichTextEdit @bind-Value=""@messageHtml"" PlaceHolder=""Type your message here..."">
+                    <Feedback>
+                        <ValidationError>Please enter a message.</ValidationError>
+                    </Feedback>
+                </RichTextEdit>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color=""Color.Primary"" Clicked=""@Submit"">Submit</Button>
+</Validations>
+
+@code {
+    Validations validations;
+
+    string messageHtml;
+
+    async Task Submit()
+    {
+        await validations.ValidateAll();
+    }
+}";
 
         public const string RouterTabsAppExample = @"<Router AppAssembly=""typeof(App).Assembly"">
     <Found Context=""routeData"">

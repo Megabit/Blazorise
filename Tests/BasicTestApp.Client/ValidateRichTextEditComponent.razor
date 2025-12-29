@@ -1,0 +1,73 @@
+<h2>Without bind or event</h2>
+<p id="validate-richtext-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <RichTextEdit ElementId="validate-richtext-initially-blank-editor">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </RichTextEdit>
+    </Validation>
+</p>
+<p id="validate-richtext-initially-populated">
+    Initially populated:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <RichTextEdit ElementId="validate-richtext-initially-populated-editor" Value="a">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </RichTextEdit>
+    </Validation>
+</p>
+
+<h2>With bind</h2>
+<p id="validate-richtext-with-bind-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <RichTextEdit ElementId="validate-richtext-with-bind-initially-blank-editor" @bind-Value="@textWithBindInitiallyBlank">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </RichTextEdit>
+    </Validation>
+</p>
+<p id="validate-richtext-with-bind-initially-populated">
+    Initially populated:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <RichTextEdit ElementId="validate-richtext-with-bind-initially-populated-editor" @bind-Value="@textWithBindInitiallyPopulated">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </RichTextEdit>
+    </Validation>
+</p>
+
+<h2>With event</h2>
+<p id="validate-richtext-with-event-initially-blank">
+    Initially blank:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <RichTextEdit ElementId="validate-richtext-with-event-initially-blank-editor" Value="@textWithEventInitiallyBlank" ValueChanged="@(( v ) => textWithEventInitiallyBlank = v)">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </RichTextEdit>
+    </Validation>
+</p>
+<p id="validate-richtext-with-event-initially-populated">
+    Initially populated:
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <RichTextEdit ElementId="validate-richtext-with-event-initially-populated-editor" Value="@textWithEventInitiallyPopulated" ValueChanged="@(( v ) => textWithEventInitiallyPopulated = v)">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </RichTextEdit>
+    </Validation>
+</p>
+
+@code {
+    string textWithBindInitiallyBlank;
+    string textWithBindInitiallyPopulated = "a";
+
+    string textWithEventInitiallyBlank;
+    string textWithEventInitiallyPopulated = "a";
+}
