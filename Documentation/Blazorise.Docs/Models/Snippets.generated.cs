@@ -11816,6 +11816,198 @@ builder.Services
     <FileInput BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
 </Field>";
 
+        public const string FigureSizeExample = @"<Div Flex=""Flex.Row.Wrap"">
+    <Figure Size=""FigureSize.Is64x64"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
+        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureCaption>64x64</FigureCaption>
+    </Figure>
+    <Figure Size=""FigureSize.Is128x128"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
+        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureCaption>128x128</FigureCaption>
+    </Figure>
+    <Figure Size=""FigureSize.Is256x256"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
+        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureCaption>256x256</FigureCaption>
+    </Figure>
+</Div>";
+
+        public const string ModalSizeExample = @"<Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@ShowSmallModal"">Small modal</Button>
+<Button Color=""Color.Primary"" Clicked=""@ShowLargeModal"">Large modal</Button>
+
+<Modal @ref=""smallModal"" Size=""ModalSize.Small"">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Small modal</ModalTitle>
+            <CloseButton Clicked=""@HideSmallModal"" />
+        </ModalHeader>
+        <ModalBody>
+            Use smaller modals for short confirmations or quick tasks.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideSmallModal"">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<Modal @ref=""largeModal"" Size=""ModalSize.Large"">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Large modal</ModalTitle>
+            <CloseButton Clicked=""@HideLargeModal"" />
+        </ModalHeader>
+        <ModalBody>
+            Larger dialogs give breathing room for forms or data-heavy content.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideLargeModal"">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private Modal smallModal;
+    private Modal largeModal;
+
+    private Task ShowSmallModal()
+    {
+        return smallModal.Show();
+    }
+
+    private Task ShowLargeModal()
+    {
+        return largeModal.Show();
+    }
+
+    private Task HideSmallModal()
+    {
+        return smallModal.Hide();
+    }
+
+    private Task HideLargeModal()
+    {
+        return largeModal.Hide();
+    }
+}";
+
+        public const string SizeControlsExample = @"<Div Margin=""Margin.Is2.FromBottom"">
+    <Paragraph Margin=""Margin.Is2.FromBottom"">Buttons</Paragraph>
+    <Button Color=""Color.Primary"" Size=""Size.ExtraSmall"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Extra small</Button>
+    <Button Color=""Color.Primary"" Size=""Size.Small"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Small</Button>
+    <Button Color=""Color.Primary"" Size=""Size.Medium"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Medium</Button>
+    <Button Color=""Color.Primary"" Size=""Size.Large"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"">Large</Button>
+</Div>
+
+<Div>
+    <Paragraph Margin=""Margin.Is2.FromBottom"">Text inputs</Paragraph>
+    <TextInput Placeholder=""Small input"" Size=""Size.Small"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"" />
+    <TextInput Placeholder=""Default input"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"" />
+    <TextInput Placeholder=""Large input"" Size=""Size.Large"" Margin=""Margin.Is1.FromEnd.Is1.FromBottom"" />
+</Div>";
+
+        public const string BorderExample = @"<Div Border=""Border.Is1"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Default border on all sides
+</Div>
+
+<Div Border=""Border.Is1.Rounded"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Rounded
+</Div>
+
+<Div Border=""Border.Primary"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with primary color
+</Div>
+
+<Div Border=""Border.Is3.Success.Subtle"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Borders with subtle color
+</Div>
+
+<Div Border=""Border.Is2.OnStart"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Start border only
+</Div>
+
+<Div Border=""Border.Is1.RoundedPill"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Rounded pill
+</Div>
+
+<Div Border=""Border.Is2.Danger.OnBottom"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
+    Bottom border accent
+</Div>";
+
+        public const string ColumnSizeExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Profile</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    This column adjusts automatically based on screen size.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>Desktop: 4 columns</UnorderedListItem>
+                    <UnorderedListItem>Tablet: 6 columns</UnorderedListItem>
+                    <UnorderedListItem>Mobile: full width (12 columns)</UnorderedListItem>
+                </UnorderedList>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize=""ColumnSize.Is8.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
+        <Card>
+            <CardHeader>
+                <CardTitle>Details</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Combine multiple breakpoint sizes with a fluent builder pattern.
+                    This allows you to create flexible, responsive layouts
+                    without manually writing CSS grid rules.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsThird"">
+        <Card>
+            <CardBody>
+                One third
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row Margin=""Margin.Is3.FromTop"">
+    <Column ColumnSize=""ColumnSize.IsAuto"">
+        <Card>
+            <CardBody>
+                Auto width
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <Card>
+            <CardBody>
+                Fixed column that wraps on mobile
+            </CardBody>
+        </Card>
+    </Column>
+</Row>";
+
         public const string GridAutoColumns2Example = @"<Grid>
     <Column ColumnSize=""ColumnSize.Is6"">
         <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
@@ -11935,110 +12127,6 @@ builder.Services
         </Alert>
     </Column>
 </Grid>";
-
-        public const string BorderExample = @"<Div Border=""Border.Is1"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Default border on all sides
-</Div>
-
-<Div Border=""Border.Is1.Rounded"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Rounded
-</Div>
-
-<Div Border=""Border.Primary"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Borders with primary color
-</Div>
-
-<Div Border=""Border.Is3.Success.Subtle"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Borders with subtle color
-</Div>
-
-<Div Border=""Border.Is2.OnStart"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Start border only
-</Div>
-
-<Div Border=""Border.Is1.RoundedPill"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Rounded pill
-</Div>
-
-<Div Border=""Border.Is2.Danger.OnBottom"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
-    Bottom border accent
-</Div>";
-
-        public const string ColumnSizeExample = @"<Row>
-    <Column ColumnSize=""ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
-        <Card>
-            <CardHeader>
-                <CardTitle>Profile</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Paragraph>
-                    This column adjusts automatically based on screen size.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>Desktop: 4 columns</UnorderedListItem>
-                    <UnorderedListItem>Tablet: 6 columns</UnorderedListItem>
-                    <UnorderedListItem>Mobile: full width (12 columns)</UnorderedListItem>
-                </UnorderedList>
-            </CardBody>
-        </Card>
-    </Column>
-
-    <Column ColumnSize=""ColumnSize.Is8.OnDesktop.Is6.OnTablet.Is12.OnMobile"">
-        <Card>
-            <CardHeader>
-                <CardTitle>Details</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Paragraph>
-                    Combine multiple breakpoint sizes with a fluent builder pattern.
-                    This allows you to create flexible, responsive layouts
-                    without manually writing CSS grid rules.
-                </Paragraph>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-
-<Row Margin=""Margin.Is3.FromTop"">
-    <Column ColumnSize=""ColumnSize.IsThird"">
-        <Card>
-            <CardBody>
-                One third
-            </CardBody>
-        </Card>
-    </Column>
-    <Column ColumnSize=""ColumnSize.IsThird"">
-        <Card>
-            <CardBody>
-                One third
-            </CardBody>
-        </Card>
-    </Column>
-    <Column ColumnSize=""ColumnSize.IsThird"">
-        <Card>
-            <CardBody>
-                One third
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-
-<Row Margin=""Margin.Is3.FromTop"">
-    <Column ColumnSize=""ColumnSize.IsAuto"">
-        <Card>
-            <CardBody>
-                Auto width
-            </CardBody>
-        </Card>
-    </Column>
-    <Column ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
-        <Card>
-            <CardBody>
-                Fixed column that wraps on mobile
-            </CardBody>
-        </Card>
-    </Column>
-</Row>";
 
         public const string DisplayExample = @"<Paragraph Display=""Display.None.Block.OnDesktop"" Margin=""Margin.Is2.FromBottom"">
     Hidden on mobile and tablet, visible on desktop and larger screens.
@@ -12227,53 +12315,6 @@ builder.Services
 
     string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
 }";
-
-        public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
-    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
-    </Div>
-    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
-    </Div>
-    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
-    </Div>
-    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
-        This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
-    </Div>
-</Div>
-
-<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; white-space: nowrap;"">
-    This line is intentionally long to demonstrate horizontal scrolling when content exceeds the width of the container.
-</Div>
-
-<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 120px;"">
-    <UnorderedList>
-        <UnorderedListItem>Scrollable list item one</UnorderedListItem>
-        <UnorderedListItem>Scrollable list item two</UnorderedListItem>
-        <UnorderedListItem>Scrollable list item three</UnorderedListItem>
-        <UnorderedListItem>Scrollable list item four</UnorderedListItem>
-        <UnorderedListItem>Scrollable list item five</UnorderedListItem>
-    </UnorderedList>
-</Div>";
-
-        public const string SpacingExample = @"<Card>
-    <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
-        This example sets the margins for mobile (OnMobile) and desktop (OnDesktop) breakpoints.
-    </CardBody>
-</Card>
-
-<Card Margin=""Margin.Is3.FromTop"">
-    <CardBody Padding=""Padding.Is2.OnY.Is4.OnX"">
-        This example uses extra horizontal padding with <Code>OnX</Code> to keep content readable.
-    </CardBody>
-</Card>
-
-<Card Margin=""Margin.Is3.FromTop"">
-    <CardBody Padding=""Padding.Is2.FromStart.OnMobile.Is4.FromStart.OnDesktop"">
-        This example applies start-only padding that grows on desktop to keep content aligned with wider layouts.
-    </CardBody>
-</Card>";
 
         public const string BasicContainerExample = @"<Container>
     <Alert Color=""Color.Primary"" Visible>
@@ -12538,6 +12579,35 @@ builder.Services
     string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
 }";
 
+        public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
+    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
+    </Div>
+    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
+    </Div>
+    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+        This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
+    </Div>
+</Div>
+
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; white-space: nowrap;"">
+    This line is intentionally long to demonstrate horizontal scrolling when content exceeds the width of the container.
+</Div>
+
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 120px;"">
+    <UnorderedList>
+        <UnorderedListItem>Scrollable list item one</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item two</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item three</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item four</UnorderedListItem>
+        <UnorderedListItem>Scrollable list item five</UnorderedListItem>
+    </UnorderedList>
+</Div>";
+
         public const string BasicPositionExample = @"<Div Position=""Position.Static"">...</Div>
 <Div Position=""Position.Relative"">...</Div>
 <Div Position=""Position.Absolute"">...</Div>
@@ -12680,6 +12750,24 @@ builder.Services
     private const string TileWidthVariable = ""--tile-width"";
     private const string TileHeightVariable = ""--tile-height"";
 }";
+
+        public const string SpacingExample = @"<Card>
+    <CardBody Margin=""Margin.Is2.OnMobile.Is5.OnDesktop"">
+        This example sets the margins for mobile (OnMobile) and desktop (OnDesktop) breakpoints.
+    </CardBody>
+</Card>
+
+<Card Margin=""Margin.Is3.FromTop"">
+    <CardBody Padding=""Padding.Is2.OnY.Is4.OnX"">
+        This example uses extra horizontal padding with <Code>OnX</Code> to keep content readable.
+    </CardBody>
+</Card>
+
+<Card Margin=""Margin.Is3.FromTop"">
+    <CardBody Padding=""Padding.Is2.FromStart.OnMobile.Is4.FromStart.OnDesktop"">
+        This example applies start-only padding that grows on desktop to keep content aligned with wider layouts.
+    </CardBody>
+</Card>";
 
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 

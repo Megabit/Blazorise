@@ -169,7 +169,7 @@ public static class ManualPageEntries
     new( "docs/helpers/enums/tooltip", "Enums: Tooltip" ),
     new( "docs/helpers/enums/validation", "Enums: Validation" ),
     new( "docs/helpers/localization", "Localization" ),
-    new( "docs/helpers/sizes", "Sizes" ),
+    new( "docs/helpers/sizes", "Sizes", "Scale buttons, inputs, modals, and figures with shared size enums for consistent UI sizing." ),
     new( "docs/helpers/utilities/spacing", "Spacing", "Apply margin and padding responsively with fluent spacing utilities." ),
     new( "docs/helpers/utilities/display", "Display", "Toggle visibility and display modes at breakpoints." ),
     new( "docs/helpers/utilities/column-size", "Column Size", "Define responsive column widths with the ColumnSize builder." ),

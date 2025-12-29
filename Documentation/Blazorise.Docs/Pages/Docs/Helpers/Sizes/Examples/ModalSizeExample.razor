@@ -1,0 +1,59 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@ShowSmallModal">Small modal</Button>
+<Button Color="Color.Primary" Clicked="@ShowLargeModal">Large modal</Button>
+
+<Modal @ref="smallModal" Size="ModalSize.Small">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Small modal</ModalTitle>
+            <CloseButton Clicked="@HideSmallModal" />
+        </ModalHeader>
+        <ModalBody>
+            Use smaller modals for short confirmations or quick tasks.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideSmallModal">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="largeModal" Size="ModalSize.Large">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Large modal</ModalTitle>
+            <CloseButton Clicked="@HideLargeModal" />
+        </ModalHeader>
+        <ModalBody>
+            Larger dialogs give breathing room for forms or data-heavy content.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideLargeModal">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private Modal smallModal;
+    private Modal largeModal;
+
+    private Task ShowSmallModal()
+    {
+        return smallModal.Show();
+    }
+
+    private Task ShowLargeModal()
+    {
+        return largeModal.Show();
+    }
+
+    private Task HideSmallModal()
+    {
+        return smallModal.Hide();
+    }
+
+    private Task HideLargeModal()
+    {
+        return largeModal.Hide();
+    }
+}
