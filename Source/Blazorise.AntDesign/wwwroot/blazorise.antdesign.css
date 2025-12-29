@@ -2186,6 +2186,16 @@ textarea.ant-input.ant-input-static {
   color: var(--b-theme-danger, #ff4d4f);
 }
 
+.ant-input-status-success > .rte-editor,
+.ant-input-status-success > .rte-toolbar {
+  border-color: var(--b-theme-success, #35c613);
+}
+
+.ant-input-status-error > .rte-editor,
+.ant-input-status-error > .rte-toolbar {
+  border-color: var(--b-theme-danger, #ff4d4f);
+}
+
 .ant-hero {
   padding: 2rem 1rem;
   margin-bottom: 2rem;

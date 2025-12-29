@@ -1,4 +1,4 @@
-﻿label.radio.button {
+label.radio.button {
     display: flex;
 }
 
@@ -129,4 +129,18 @@ select[readonly] {
 .field-label-required:after {
     content: " *";
     color: var(--b-theme-danger, $danger);
+}
+
+.is-success {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--b-theme-success, $success);
+    }
+}
+
+.is-danger {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--b-theme-danger, $danger);
+    }
 }

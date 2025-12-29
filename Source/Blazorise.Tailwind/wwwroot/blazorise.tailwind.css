@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
@@ -305,6 +305,16 @@
 .b-is-autocomplete.border-red-500 > input, .b-is-autocomplete.border-green-500 > input {
   border-color: transparent;
   box-shadow: none;
+}
+
+.border-green-500 > .rte-editor,
+.border-green-500 > .rte-toolbar {
+  border-color: var(--b-theme-success, #22c55e);
+}
+
+.border-red-500 > .rte-editor,
+.border-red-500 > .rte-toolbar {
+  border-color: var(--b-theme-danger, #ef4444);
 }
 
 .b-modal {

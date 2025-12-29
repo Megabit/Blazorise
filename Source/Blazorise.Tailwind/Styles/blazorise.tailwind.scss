@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -13,6 +13,7 @@
 @import "components/card";
 @import "components/carousel";
 @import "components/dropdown";
+@import "components/richtextedit";
 @import "components/modal";
 @import "components/pagination";
 @import "components/progress";

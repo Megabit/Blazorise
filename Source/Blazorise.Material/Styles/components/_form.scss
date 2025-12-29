@@ -1,4 +1,4 @@
-﻿.form-check > .form-check-input.form-check-input-pointer,
+.form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {
@@ -343,6 +343,20 @@ select[readonly] {
 // server side validation.
 @each $state, $data in $form-validation-states {
     @include form-validation-state($state, map-get($data, color), map-get($data, icon));
+}
+
+.is-valid {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--b-theme-success, $success);
+    }
+}
+
+.is-invalid {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--b-theme-danger, $danger);
+    }
 }
 
 .form-group {

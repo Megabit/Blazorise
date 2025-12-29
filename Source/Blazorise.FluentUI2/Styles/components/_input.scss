@@ -1,4 +1,4 @@
-﻿.fui-Input,
+.fui-Input,
 .fui-Textarea {
     align-items: center;
     border-bottom-left-radius: var(--borderRadiusMedium);
@@ -500,5 +500,19 @@
                 color: var(--colorPaletteGreenForeground1);
             }
         }
+    }
+}
+
+.fui-Textarea__input-error {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--colorPaletteRedBorder2);
+    }
+}
+
+.fui-Textarea__input-success {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--colorPaletteGreenForeground1);
     }
 }

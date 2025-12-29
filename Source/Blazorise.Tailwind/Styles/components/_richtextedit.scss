@@ -1,0 +1,13 @@
+.border-green-500 {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--b-theme-success, #22c55e);
+    }
+}
+
+.border-red-500 {
+    > .rte-editor,
+    > .rte-toolbar {
+        border-color: var(--b-theme-danger, #ef4444);
+    }
+}
