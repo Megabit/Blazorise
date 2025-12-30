@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
@@ -9,6 +10,9 @@ namespace Blazorise.Analyzers.Migration.Rules;
 [DiagnosticAnalyzer( LanguageNames.CSharp )]
 public sealed class MemberRemovedAnalyzer : DiagnosticAnalyzer
 {
+    private static readonly IReadOnlyDictionary<(string containingType, string oldName), SymbolMapping> Map = CreateMap();
+    private static readonly HashSet<string> CandidateMemberNames = CreateCandidateMemberNames();
+
     private static readonly DiagnosticDescriptor Rule = new(
         id: "BLZS002",
         title: "Blazorise member removed",
@@ -23,20 +27,8 @@ public sealed class MemberRemovedAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis( GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics );
         context.EnableConcurrentExecution();
-        context.RegisterCompilationStartAction( Register );
-    }
-
-    private static void Register( CompilationStartAnalysisContext context )
-    {
-        var map = new Dictionary<(string containingType, string oldName), SymbolMapping>();
-        foreach ( var mapping in BlazoriseMigrationMappings.Symbols )
-        {
-            if ( mapping.NewName is null )
-                map[(mapping.ContainingType, mapping.OldName)] = mapping;
-        }
-
         context.RegisterOperationAction(
-            ctx => Analyze( ctx, map ),
+            ctx => Analyze( ctx, Map, CandidateMemberNames ),
             OperationKind.FieldReference,
             OperationKind.PropertyReference,
             OperationKind.Invocation );
@@ -44,7 +36,8 @@ public sealed class MemberRemovedAnalyzer : DiagnosticAnalyzer
 
     private static void Analyze(
         OperationAnalysisContext context,
-        IReadOnlyDictionary<(string containingType, string oldName), SymbolMapping> map )
+        IReadOnlyDictionary<(string containingType, string oldName), SymbolMapping> map,
+        ISet<string> candidateMemberNames )
     {
         ISymbol? member = context.Operation switch
         {
@@ -57,10 +50,13 @@ public sealed class MemberRemovedAnalyzer : DiagnosticAnalyzer
         if ( member is null || member.ContainingType is null )
             return;
 
-        var containingMetadata = RenderTreeMigrationEngine.GetMetadataName( member.ContainingType.ConstructedFrom );
-        var key = (containingMetadata, member.Name);
+        if ( !candidateMemberNames.Contains( member.Name ) )
+            return;
 
-        if ( !map.TryGetValue( key, out var mapping ) )
+        string containingMetadata = RenderTreeMigrationEngine.GetMetadataName( member.ContainingType.ConstructedFrom );
+        (string containingType, string oldName) key = (containingMetadata, member.Name);
+
+        if ( !map.TryGetValue( key, out SymbolMapping mapping ) )
             return;
 
         context.ReportDiagnostic( Diagnostic.Create(
@@ -68,6 +64,32 @@ public sealed class MemberRemovedAnalyzer : DiagnosticAnalyzer
             context.Operation.Syntax.GetLocation(),
             mapping.OldName,
             mapping.ContainingType ) );
+    }
+
+    private static IReadOnlyDictionary<(string containingType, string oldName), SymbolMapping> CreateMap()
+    {
+        Dictionary<(string containingType, string oldName), SymbolMapping> map = new();
+
+        foreach ( SymbolMapping mapping in BlazoriseMigrationMappings.Symbols )
+        {
+            if ( mapping.NewName is null )
+                map[(mapping.ContainingType, mapping.OldName)] = mapping;
+        }
+
+        return map;
+    }
+
+    private static HashSet<string> CreateCandidateMemberNames()
+    {
+        HashSet<string> names = new( StringComparer.Ordinal );
+
+        foreach ( SymbolMapping mapping in BlazoriseMigrationMappings.Symbols )
+        {
+            if ( mapping.NewName is null )
+                names.Add( mapping.OldName );
+        }
+
+        return names;
     }
 }
 
