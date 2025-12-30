@@ -66,13 +66,11 @@ public partial class Validations : ComponentBase
 
         if ( result )
         {
-            RaiseStatusChanged( ValidationStatus.Success, null, null );
-
-            await InvokeAsync( () => ValidatedAll.InvokeAsync() );
+            await RaiseStatusChangedAsync( ValidationStatus.Success, null, null );
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, null );
+            await RaiseStatusChangedAsync( ValidationStatus.Error, FailedValidations, null );
         }
 
         return result;
@@ -85,9 +83,7 @@ public partial class Validations : ComponentBase
     {
         ClearingAll?.Invoke();
 
-        RaiseStatusChanged( ValidationStatus.None, null, null );
-
-        return Task.CompletedTask;
+        return RaiseStatusChangedAsync( ValidationStatus.None, null, null );
     }
 
     private async Task<bool> TryValidateAll()
@@ -121,10 +117,7 @@ public partial class Validations : ComponentBase
     /// <param name="validation">The validation component to remove.</param>
     public void NotifyValidationRemoved( IValidation validation )
     {
-        if ( validations.Contains( validation ) )
-        {
-            validations.Remove( validation );
-        }
+        validations.Remove( validation );
     }
 
     /// <summary>
@@ -137,11 +130,11 @@ public partial class Validations : ComponentBase
     /// Special consideration is needed to ensure that the status changed event is raised only once per validation cycle,
     /// even if multiple validations fail.
     /// </remarks>
-    public void NotifyValidationStatusChanged( IValidation validation )
+    public Task NotifyValidationStatusChanged( IValidation validation )
     {
         // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
         if ( Mode == ValidationMode.Manual )
-            return;
+            return Task.CompletedTask;
 
         // NOTE: there is risk of calling RaiseStatusChanged multiple times for every field error.
         // Try to come up with solution that StatusChanged will be called only once while it will
@@ -149,27 +142,40 @@ public partial class Validations : ComponentBase
 
         if ( AllValidationsSuccessful )
         {
-            RaiseStatusChanged( ValidationStatus.Success, null, validation );
-
-            ValidatedAll.InvokeAsync();
+            return RaiseStatusChangedAsync( ValidationStatus.Success, null, validation );
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, validation );
+            return RaiseStatusChangedAsync( ValidationStatus.Error, FailedValidations, validation );
         }
         else
         {
-            RaiseStatusChanged( ValidationStatus.None, null, validation );
+            return RaiseStatusChangedAsync( ValidationStatus.None, null, validation );
         }
     }
 
-    private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
+    private async Task RaiseStatusChangedAsync( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
     {
         var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
         _StatusChanged?.Invoke( eventArgs );
 
-        InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
+        await InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
+
+        await RaiseFailedValidationsChangedAsync( messages ?? Array.Empty<string>() );
+
+        if ( status == ValidationStatus.Success )
+            await InvokeAsync( () => ValidatedAll.InvokeAsync() );
+    }
+
+    private Task RaiseFailedValidationsChangedAsync( IReadOnlyCollection<string> messages )
+    {
+        if ( !FailedValidationsChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        var errorMessages = messages?.ToList() ?? new List<string>();
+
+        return InvokeAsync( () => FailedValidationsChanged.InvokeAsync( new FailedValidationsEventArgs( errorMessages ) ) );
     }
 
     /// <summary>
@@ -273,6 +279,11 @@ public partial class Validations : ComponentBase
     [Parameter] public EventCallback<ValidationsStatusChangedEventArgs> StatusChanged { get; set; }
 
     /// <summary>
+    /// Event is fired whenever the failed validation messages change.
+    /// </summary>
+    [Parameter] public EventCallback<FailedValidationsEventArgs> FailedValidationsChanged { get; set; }
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Validations"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -292,7 +303,7 @@ public partial class Validations : ComponentBase
     /// <summary>
     /// Gets the filtered list of failed validations.
     /// </summary>
-    private IReadOnlyCollection<string> FailedValidations
+    public IReadOnlyCollection<string> FailedValidations
     {
         get
         {
@@ -302,7 +313,7 @@ public partial class Validations : ComponentBase
                 .Concat(
                     // In case there are some fields that do not have error message we need to combine them all under one message.
                     validations.Any( v => v.Status == ValidationStatus.Error
-                                          && ( v.Messages is null || v.Messages.Count() == 0 )
+                                          && ( v.Messages is null || !v.Messages.Any() )
                                           && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
                         : Array.Empty<string>() )

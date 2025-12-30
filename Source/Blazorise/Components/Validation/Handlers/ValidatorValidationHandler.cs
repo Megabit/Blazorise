@@ -23,7 +23,7 @@ public class ValidatorValidationHandler : IValidationHandler
             ? new string[] { validatorEventArgs.ErrorText }
             : null;
 
-        validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
+        _ = validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
     }
 
     /// <inheritdoc/>
@@ -48,6 +48,6 @@ public class ValidatorValidationHandler : IValidationHandler
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
+        await validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
     }
 }

@@ -19,18 +19,22 @@ public class PatternValidationHandler : IValidationHandler
             ? ValidationStatus.Success
             : ValidationStatus.Error;
 
-        validation.NotifyValidationStatusChanged( matchStatus );
+        _ = validation.NotifyValidationStatusChanged( matchStatus );
     }
 
     /// <inheritdoc/>
-    public Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
+    public async Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        Validate( validation, newValidationValue );
+        validation.NotifyValidationStarted();
+
+        var matchStatus = validation.Pattern.IsMatch( newValidationValue?.ToString() ?? string.Empty )
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+
+        await validation.NotifyValidationStatusChanged( matchStatus );
 
         cancellationToken.ThrowIfCancellationRequested();
-
-        return Task.CompletedTask;
     }
 }
