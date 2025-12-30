@@ -26,7 +26,7 @@ public partial class Validations : ComponentBase
     /// <summary>
     /// Event is fired whenever there is a change in validation status.
     /// </summary>
-    internal event ValidationsStatusChangedEventHandler _StatusChanged;
+    internal event ValidationsStatusChangedEventHandler StatusChangedInternal;
 
     /// <summary>
     /// List of validations placed inside of this container.
@@ -158,7 +158,7 @@ public partial class Validations : ComponentBase
     {
         var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
-        _StatusChanged?.Invoke( eventArgs );
+        StatusChangedInternal?.Invoke( eventArgs );
 
         if ( StatusChanged.HasDelegate )
             await InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
