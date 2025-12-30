@@ -49,7 +49,5 @@ public class ValidatorValidationHandler : IValidationHandler
         cancellationToken.ThrowIfCancellationRequested();
 
         validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
-
-        await Task.CompletedTask;
     }
 }
