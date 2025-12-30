@@ -1,13 +1,13 @@
 ﻿@page "/docs/extensions/chart-zoom"
 
-<Seo Canonical="/docs/extensions/chart-zoom" Title="Blazorise Chart Zoom component" Description="Learn to use and work with the Blazorise Zoom extension, Chart.js plugin for display labels on data for any type of charts." />
+<Seo Canonical="/docs/extensions/chart-zoom" Title="Blazorise Chart Zoom component" Description="Learn how to use the Blazorise Chart Zoom component to zoom and pan Chart.js charts." />
 
 <DocsPageTitle Path="Extensions/Chart Zoom">
-    Blazorise Chart Zoom
+    Blazorise Chart Zoom component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Zoom and pan the chart with the zoom plugin.
+    Zoom and pan charts with the Chart.js zoom plugin.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -16,6 +16,10 @@
 
 <DocsPageParagraph>
     Zoom is made possible with the help of <Anchor To="https://www.chartjs.org/chartjs-plugin-zoom/latest/" Title="Link to chart Zoom plugin" Target="Target.Blank">chartjs-plugin-zoom</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use Chart Zoom, install the <Code>Blazorise.Charts</Code> and <Code>Blazorise.Charts.Zoom</Code> packages.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -27,6 +31,20 @@
         Install the charts extension and plugin from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ChartZoomNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        <Paragraph>
+            In your main <Code>_Imports.razor</Code> add:
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts</Code>
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts.Zoom</Code>
+        </Paragraph>
+    </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSubtitle>

@@ -1,13 +1,13 @@
 ﻿@page "/docs/extensions/chart-datalabels"
 
-<Seo Canonical="/docs/extensions/chart-datalabels" Title="Blazorise Chart DataLabels component" Description="Learn to use and work with the Blazorise DataLabels extension, Chart.js plugin for display labels on data for any type of charts." />
+<Seo Canonical="/docs/extensions/chart-datalabels" Title="Blazorise Chart DataLabels component" Description="Learn how to use the Blazorise Chart DataLabels component to display data labels on Chart.js charts." />
 
 <DocsPageTitle Path="Extensions/Chart DataLabels">
-    Blazorise Chart DataLabels
+    Blazorise Chart DataLabels component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Display labels on data for any type of charts.
+    Display data labels on any chart type.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -15,7 +15,11 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    DataLabels is made possible with the help of <Anchor To="https://chartjs-plugin-datalabels.netlify.app/" Title="Link to chart DataLabels plugin" Target="Target.Blank">chartjs-plugin-datalabels</Anchor>.
+    Chart DataLabels is made possible with the help of <Anchor To="https://chartjs-plugin-datalabels.netlify.app/" Title="Link to chart DataLabels plugin" Target="Target.Blank">chartjs-plugin-datalabels</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the Chart DataLabels plugin, install the <Code>Blazorise.Charts.DataLabels</Code> package. It depends on <Code>Blazorise.Charts</Code>.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -27,6 +31,20 @@
         Install DataLabels extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ChartDataLabelsNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        <Paragraph>
+            In your main <Code>_Imports.razor</Code> add:
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts</Code>
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts.DataLabels</Code>
+        </Paragraph>
+    </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSubtitle>

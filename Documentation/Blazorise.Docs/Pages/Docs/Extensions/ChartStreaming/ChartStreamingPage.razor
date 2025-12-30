@@ -1,13 +1,13 @@
 ﻿@page "/docs/extensions/chart-live"
 
-<Seo Canonical="/docs/extensions/chart-live" Title="Blazorise Chart Streaming component" Description="Learn to use and work with the Blazorise Chart streaming extension, Chart.js plugin for live streaming data." />
+<Seo Canonical="/docs/extensions/chart-live" Title="Blazorise Chart Streaming component" Description="Learn how to use the Blazorise Chart Streaming component to stream live data with chartjs-plugin-streaming." />
 
 <DocsPageTitle Path="Extensions/Chart Streaming">
-    Blazorise Chart Streaming
+    Blazorise Chart Streaming component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Chart plugin for live streaming data.
+    Stream live data into Chart.js charts.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -16,6 +16,10 @@
 
 <DocsPageParagraph>
     Live streaming is made possible with the help of <Anchor To="https://nagix.github.io/chartjs-plugin-streaming/latest/" Title="Link to chart streaming plugin" Target="Target.Blank">chartjs-plugin-streaming</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use Chart Streaming, install the <Code>Blazorise.Charts.Streaming</Code> package. It depends on <Code>Blazorise.Charts</Code>.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -27,6 +31,20 @@
         Install chart streaming extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ChartStreamingNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        <Paragraph>
+            In your main <Code>_Imports.razor</Code> add:
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts</Code>
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts.Streaming</Code>
+        </Paragraph>
+    </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSubtitle>

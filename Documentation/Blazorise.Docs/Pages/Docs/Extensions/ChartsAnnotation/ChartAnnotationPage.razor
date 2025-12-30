@@ -1,13 +1,13 @@
 ﻿@page "/docs/extensions/chart-annotation"
 
-<Seo Canonical="/docs/extensions/chart-annotation" Title="Blazorise Chart Annotation component" Description="Learn to use and work with the Blazorise Chart Annotation extension, Chart.js plugin for display annotations on data for any type of charts." />
+<Seo Canonical="/docs/extensions/chart-annotation" Title="Blazorise Chart Annotation component" Description="Learn how to use the Blazorise Chart Annotation component to add annotations to Chart.js charts." />
 
 <DocsPageTitle Path="Extensions/Chart Annotation">
-    Blazorise Chart Annotation
+    Blazorise Chart Annotation component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Draw lines, boxes, points, labels, polygons and ellipses on the chart area.
+    Draw lines, boxes, points, labels, polygons, and ellipses on the chart area.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -22,6 +22,10 @@
     Annotations are made possible with the help of <Anchor To="https://www.chartjs.org/chartjs-plugin-annotation/latest/" Title="Link to chart Chart Annotation plugin" Target="Target.Blank">chartjs-plugin-annotation</Anchor>.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    To use Chart Annotation, install the <Code>Blazorise.Charts.Annotation</Code> package. It depends on <Code>Blazorise.Charts</Code>.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
@@ -31,6 +35,20 @@
         Install chart annotations extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ChartAnnotationNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        <Paragraph>
+            In your main <Code>_Imports.razor</Code> add:
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts</Code>
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts.Annotation</Code>
+        </Paragraph>
+    </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSubtitle>
