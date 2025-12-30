@@ -160,11 +160,12 @@ public partial class Validations : ComponentBase
 
         _StatusChanged?.Invoke( eventArgs );
 
-        await InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
+        if ( StatusChanged.HasDelegate )
+            await InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
 
         await RaiseFailedValidationsChangedAsync( messages ?? Array.Empty<string>() );
 
-        if ( status == ValidationStatus.Success )
+        if ( ValidatedAll.HasDelegate && status == ValidationStatus.Success )
             await InvokeAsync( () => ValidatedAll.InvokeAsync() );
     }
 
