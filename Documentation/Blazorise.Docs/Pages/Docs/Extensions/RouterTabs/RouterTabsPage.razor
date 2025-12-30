@@ -1,67 +1,75 @@
 ﻿@page "/docs/extensions/routertabs"
 @attribute [RouterTabsPageAttribute( Name: "Router Tabs", Closeable: false )]
 
-<Seo Canonical="/docs/extensions/routertabs" Title="Blazorise RouterTabs component" Description="Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation page (page 1)." />
+<Seo Canonical="/docs/extensions/routertabs" Title="Blazorise RouterTabs component" Description="Learn how to use the Blazorise RouterTabs component to render tabs for navigated pages in Blazor applications." />
 
 <DocsPageTitle Path="Extensions/RouterTabs" AddedVersion="Added in v1.7">
     Blazorise RouterTabs component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Automatically create tabs per each page the user navigates to.
+    Automatically create tabs for each page the user navigates to.
 </DocsPageLead>
 
 <DocsPageParagraph>
     RouterTabs is a Blazorise extension that allows you to render a tab for each navigation page. This extension is useful when you want to create a tabbed interface for your application.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    To use the <Code>RouterTabs</Code> component, install the <Code>Blazorise.Components</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        The RouterTabs extension is part of the <Code>Blazorise.Components</Code> NuGet package.
+    </AlertDescription>
+</Alert>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Installation">
-        <Alert Color="Color.Info" Visible>
-            <AlertDescription>
-                The RouterTabs extension is part of the <Code>Blazorise.Components</Code> NuGet package.
-            </AlertDescription>
-        </Alert>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
     </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 1. Download from NuGet">
-        Install extension from NuGet:
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Step 2. Define Usings">
+    <DocsPageSectionHeader Title="Imports">
         In your main <Code>_Imports.razor</Code> add:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ComponentsImportExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="ComponentsImportExample" />
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Configuration
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 3. Registering Services">
+    <DocsPageSectionHeader Title="Register services">
         Incorporate RouterTabs services by adding the following code to the relevant sections of <Strong>Program.cs</Strong>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RouterTabsRegisterServicesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 4. Setting the necessary CascadingValue">
-        Cascade the necessary routeData to be captured by the RouterTabs
+    <DocsPageSectionHeader Title="Provide route data">
+        Cascade the required routeData so RouterTabs can capture it.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RouterTabsAppExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 5. Configure the Layout.">
+    <DocsPageSectionHeader Title="Configure the layout">
         Replace the Layout @@Body RenderFragment with the RouterTabs component. RouterTabs will handle the page content rendering for you when the page that makes use of this layout is navigated to.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RouterTabsLayoutExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 6. Configure the pages as tabs">
+    <DocsPageSectionHeader Title="Configure pages as tabs">
         Use RouterTabsPageAttribute to configure how your pages will behave when rendered as tabs.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RouterTabsPageAttributeExample" />
