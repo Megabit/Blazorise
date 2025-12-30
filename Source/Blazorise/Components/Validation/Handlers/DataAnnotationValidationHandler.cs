@@ -41,7 +41,7 @@ public class DataAnnotationValidationHandler : IValidationHandler
             ? messages[validation.FieldIdentifier]
             : null;
 
-        _ = validation.NotifyValidationStatusChanged( matchStatus, matchMessages );
+        validation.NotifyValidationStatusChanged( matchStatus, matchMessages );
     }
 
     /// <inheritdoc/>
@@ -49,23 +49,11 @@ public class DataAnnotationValidationHandler : IValidationHandler
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        validation.NotifyValidationStarted();
-
-        var messages = new ValidationMessageStore( validation.EditContext );
-
-        EditContextValidator.ValidateField( validation.EditContext, messages, validation.FieldIdentifier, validation.MessageLocalizer ?? Options.ValidationMessageLocalizer );
-
-        var matchStatus = messages[validation.FieldIdentifier].Any()
-            ? ValidationStatus.Error
-            : ValidationStatus.Success;
-
-        var matchMessages = matchStatus == ValidationStatus.Error
-            ? messages[validation.FieldIdentifier]
-            : null;
-
-        await validation.NotifyValidationStatusChanged( matchStatus, matchMessages );
+        Validate( validation, newValidationValue );
 
         cancellationToken.ThrowIfCancellationRequested();
+
+        await Task.CompletedTask;
     }
 
     /// <summary>

@@ -66,11 +66,13 @@ public partial class Validations : ComponentBase
 
         if ( result )
         {
-            await RaiseStatusChangedAsync( ValidationStatus.Success, null, null );
+            RaiseStatusChanged( ValidationStatus.Success, null, null );
+
+            await InvokeAsync( () => ValidatedAll.InvokeAsync() );
         }
         else if ( HasFailedValidations )
         {
-            await RaiseStatusChangedAsync( ValidationStatus.Error, FailedValidations, null );
+            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, null );
         }
 
         return result;
@@ -83,7 +85,9 @@ public partial class Validations : ComponentBase
     {
         ClearingAll?.Invoke();
 
-        return RaiseStatusChangedAsync( ValidationStatus.None, null, null );
+        RaiseStatusChanged( ValidationStatus.None, null, null );
+
+        return Task.CompletedTask;
     }
 
     private async Task<bool> TryValidateAll()
@@ -130,11 +134,11 @@ public partial class Validations : ComponentBase
     /// Special consideration is needed to ensure that the status changed event is raised only once per validation cycle,
     /// even if multiple validations fail.
     /// </remarks>
-    public Task NotifyValidationStatusChanged( IValidation validation )
+    public void NotifyValidationStatusChanged( IValidation validation )
     {
         // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
         if ( Mode == ValidationMode.Manual )
-            return Task.CompletedTask;
+            return;
 
         // NOTE: there is risk of calling RaiseStatusChanged multiple times for every field error.
         // Try to come up with solution that StatusChanged will be called only once while it will
@@ -142,31 +146,29 @@ public partial class Validations : ComponentBase
 
         if ( AllValidationsSuccessful )
         {
-            return RaiseStatusChangedAsync( ValidationStatus.Success, null, validation );
+            RaiseStatusChanged( ValidationStatus.Success, null, validation );
+
+            ValidatedAll.InvokeAsync();
         }
         else if ( HasFailedValidations )
         {
-            return RaiseStatusChangedAsync( ValidationStatus.Error, FailedValidations, validation );
+            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, validation );
         }
         else
         {
-            return RaiseStatusChangedAsync( ValidationStatus.None, null, validation );
+            RaiseStatusChanged( ValidationStatus.None, null, validation );
         }
     }
 
-    private async Task RaiseStatusChangedAsync( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
+    private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
     {
         var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
         StatusChangedInternal?.Invoke( eventArgs );
 
-        if ( StatusChanged.HasDelegate )
-            await InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
+        InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
 
-        await RaiseFailedValidationsChangedAsync( messages ?? Array.Empty<string>() );
-
-        if ( ValidatedAll.HasDelegate && status == ValidationStatus.Success )
-            await InvokeAsync( () => ValidatedAll.InvokeAsync() );
+        _ = RaiseFailedValidationsChangedAsync( messages ?? Array.Empty<string>() );
     }
 
     private Task RaiseFailedValidationsChangedAsync( IReadOnlyCollection<string> messages )

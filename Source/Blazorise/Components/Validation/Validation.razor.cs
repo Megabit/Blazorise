@@ -371,7 +371,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// </summary>
     public void Clear()
     {
-        _ = NotifyValidationStatusChanged( ValidationStatus.None );
+        NotifyValidationStatusChanged( ValidationStatus.None );
     }
 
     /// <inheritdoc/>
@@ -381,7 +381,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     }
 
     /// <inheritdoc/>
-    public async Task NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
+    public void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
     {
         // raise events only if status or message is changed to prevent unnecessary re-renders
         if ( Status != status || ( Messages?.AreEqual( messages ) == false ) )
@@ -390,10 +390,10 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
             Messages = messages;
 
             ValidationStatusChanged?.Invoke( this, new( status, messages ) );
-            await InvokeAsync( () => StatusChanged.InvokeAsync( status ) );
+            InvokeAsync( () => StatusChanged.InvokeAsync( status ) );
 
             if ( ParentValidations is not null )
-                await ParentValidations.NotifyValidationStatusChanged( this );
+                ParentValidations.NotifyValidationStatusChanged( this );
         }
     }
 
