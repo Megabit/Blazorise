@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -48,7 +49,8 @@ internal abstract class MigrationHandler
         ComponentContext component,
         string attributeName,
         IOperation valueOperation,
-        Location location ) { }
+        Location location )
+    { }
 
     public virtual void OnAttributeAfterUpdate(
         OperationAnalysisContext context,
@@ -56,7 +58,8 @@ internal abstract class MigrationHandler
         ComponentContext component,
         string attributeName,
         IOperation valueOperation,
-        Location location ) { }
+        Location location )
+    { }
 
     public virtual void OnCloseComponent( OperationAnalysisContext context, MigrationContext migration, ComponentContext component ) { }
 }
@@ -118,30 +121,27 @@ internal sealed class TypeInferenceMapping
 
 internal static class RenderTreeMigrationEngine
 {
+    private static readonly IReadOnlyDictionary<string, ComponentMapping> ComponentByOld = CreateComponentByOld();
+    private static readonly IReadOnlyDictionary<string, ComponentMapping> ComponentByNew = CreateComponentByNew();
+    private static readonly IReadOnlyDictionary<string, string> TagByOld = CreateTagByOld();
+
+    private static readonly ConditionalWeakTable<Compilation, ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?>> TypeInferenceMappingsCache = new();
+    private static readonly ConditionalWeakTable<INamedTypeSymbol, string> MetadataNameCache = new();
+
+    private static readonly HashSet<string> RenderTreeMethodNames = new( StringComparer.Ordinal )
+    {
+        "OpenComponent",
+        "CloseComponent",
+        "OpenElement",
+        "CloseElement",
+        "AddAttribute",
+        "AddComponentParameter",
+    };
+
     public static void Register( CompilationStartAnalysisContext context, MigrationHandler handler )
     {
-        var componentByOld = new Dictionary<string, ComponentMapping>( StringComparer.Ordinal );
-        var componentByNew = new Dictionary<string, ComponentMapping>( StringComparer.Ordinal );
-        var tagByOld = new Dictionary<string, string>( StringComparer.Ordinal );
-
-        foreach ( var mapping in BlazoriseMigrationMappings.Components )
-        {
-            componentByOld[mapping.OldFullName] = mapping;
-            if ( mapping.NewFullName is not null )
-                componentByNew[mapping.NewFullName] = mapping;
-
-            if ( mapping.NewFullName is not null
-                 && !mapping.OldFullName.Equals( mapping.NewFullName, StringComparison.Ordinal ) )
-            {
-                var oldTag = GetSimpleName( mapping.OldFullName );
-                var newTag = GetSimpleName( mapping.NewFullName );
-                if ( oldTag is not null && newTag is not null && !tagByOld.ContainsKey( oldTag ) )
-                    tagByOld[oldTag] = newTag;
-            }
-        }
-
-        var typeInferenceMappings = new ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?>( SymbolEqualityComparer.Default );
-        var migration = new MigrationContext( context.Compilation, componentByOld, componentByNew, tagByOld, typeInferenceMappings );
+        ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?> typeInferenceMappings = GetTypeInferenceMappings( context.Compilation );
+        MigrationContext migration = new MigrationContext( context.Compilation, ComponentByOld, ComponentByNew, TagByOld, typeInferenceMappings );
 
         context.RegisterOperationAction(
             ctx => AnalyzeBlock( ctx, migration, handler ),
@@ -161,6 +161,10 @@ internal static class RenderTreeMigrationEngine
             return;
 
         if ( !IsRootBlockForContainingSymbol( block, context.ContainingSymbol ) )
+            return;
+
+        // Skip blocks that cannot reference render tree builder calls.
+        if ( !ShouldAnalyzeBlock( block, context.ContainingSymbol ) )
             return;
 
         var stack = new Stack<ComponentContext>();
@@ -279,6 +283,157 @@ internal static class RenderTreeMigrationEngine
         }
 
         return false;
+    }
+
+    private static bool ShouldAnalyzeBlock( IBlockOperation block, ISymbol? containingSymbol )
+    {
+        if ( containingSymbol is null )
+            return true;
+
+        if ( HasRenderTreeBuilderContext( containingSymbol ) )
+            return true;
+
+        SyntaxNode syntax = block.Syntax;
+        return syntax is null || ContainsRenderTreeBuilderCalls( syntax );
+    }
+
+    private static bool HasRenderTreeBuilderContext( ISymbol symbol )
+    {
+        ISymbol? current = symbol;
+        while ( current is not null )
+        {
+            if ( current is IMethodSymbol method && HasRenderTreeBuilderParameter( method ) )
+                return true;
+
+            current = current.ContainingSymbol;
+        }
+
+        return false;
+    }
+
+    private static bool HasRenderTreeBuilderParameter( IMethodSymbol method )
+    {
+        foreach ( IParameterSymbol parameter in method.Parameters )
+        {
+            if ( IsRenderTreeBuilderType( parameter.Type ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsRenderTreeBuilderType( ITypeSymbol type )
+    {
+        if ( type is not INamedTypeSymbol namedType )
+            return false;
+
+        if ( !string.Equals( namedType.Name, "RenderTreeBuilder", StringComparison.Ordinal ) )
+            return false;
+
+        INamespaceSymbol? ns = namedType.ContainingNamespace;
+        if ( ns is null || ns.IsGlobalNamespace )
+            return false;
+
+        return string.Equals( ns.ToDisplayString(), "Microsoft.AspNetCore.Components.Rendering", StringComparison.Ordinal );
+    }
+
+    private static bool ContainsRenderTreeBuilderCalls( SyntaxNode blockSyntax )
+    {
+        foreach ( InvocationExpressionSyntax invocation in blockSyntax.DescendantNodes().OfType<InvocationExpressionSyntax>() )
+        {
+            ExpressionSyntax expression = invocation.Expression;
+            string? methodName = GetInvocationName( expression );
+            if ( methodName is not null && RenderTreeMethodNames.Contains( methodName ) )
+                return true;
+
+            if ( IsTypeInferenceInvocation( expression ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static string? GetInvocationName( ExpressionSyntax expression )
+    {
+        return expression switch
+        {
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name.Identifier.ValueText,
+            IdentifierNameSyntax identifierName => identifierName.Identifier.ValueText,
+            GenericNameSyntax genericName => genericName.Identifier.ValueText,
+            _ => null,
+        };
+    }
+
+    private static bool IsTypeInferenceInvocation( ExpressionSyntax expression )
+    {
+        if ( expression is not MemberAccessExpressionSyntax memberAccess )
+            return false;
+
+        string methodName = memberAccess.Name.Identifier.ValueText;
+        if ( !methodName.StartsWith( "Create", StringComparison.Ordinal ) )
+            return false;
+
+        return IsTypeInferenceQualifier( memberAccess.Expression );
+    }
+
+    private static bool IsTypeInferenceQualifier( ExpressionSyntax expression )
+    {
+        return expression switch
+        {
+            IdentifierNameSyntax identifierName => string.Equals( identifierName.Identifier.ValueText, "TypeInference", StringComparison.Ordinal ),
+            MemberAccessExpressionSyntax memberAccess => string.Equals( memberAccess.Name.Identifier.ValueText, "TypeInference", StringComparison.Ordinal ),
+            _ => false,
+        };
+    }
+
+    private static ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?> GetTypeInferenceMappings( Compilation compilation )
+        => TypeInferenceMappingsCache.GetValue(
+            compilation,
+            _ => new ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?>( SymbolEqualityComparer.Default ) );
+
+    private static IReadOnlyDictionary<string, ComponentMapping> CreateComponentByOld()
+    {
+        Dictionary<string, ComponentMapping> map = new( StringComparer.Ordinal );
+
+        foreach ( ComponentMapping mapping in BlazoriseMigrationMappings.Components )
+            map[mapping.OldFullName] = mapping;
+
+        return map;
+    }
+
+    private static IReadOnlyDictionary<string, ComponentMapping> CreateComponentByNew()
+    {
+        Dictionary<string, ComponentMapping> map = new( StringComparer.Ordinal );
+
+        foreach ( ComponentMapping mapping in BlazoriseMigrationMappings.Components )
+        {
+            if ( mapping.NewFullName is not null )
+                map[mapping.NewFullName] = mapping;
+        }
+
+        return map;
+    }
+
+    private static IReadOnlyDictionary<string, string> CreateTagByOld()
+    {
+        Dictionary<string, string> map = new( StringComparer.Ordinal );
+
+        foreach ( ComponentMapping mapping in BlazoriseMigrationMappings.Components )
+        {
+            if ( mapping.NewFullName is null )
+                continue;
+
+            if ( mapping.OldFullName.Equals( mapping.NewFullName, StringComparison.Ordinal ) )
+                continue;
+
+            string? oldTag = GetSimpleName( mapping.OldFullName );
+            string? newTag = GetSimpleName( mapping.NewFullName );
+
+            if ( oldTag is not null && newTag is not null && !map.ContainsKey( oldTag ) )
+                map[oldTag] = newTag;
+        }
+
+        return map;
     }
 
     private static bool IsTypeInferenceHelperMethod( IMethodSymbol method )
@@ -495,6 +650,9 @@ internal static class RenderTreeMigrationEngine
     }
 
     internal static string GetMetadataName( INamedTypeSymbol type )
+        => MetadataNameCache.GetValue( type, BuildMetadataName );
+
+    private static string BuildMetadataName( INamedTypeSymbol type )
     {
         var nsSymbol = type.ContainingNamespace;
         if ( nsSymbol is null || nsSymbol.IsGlobalNamespace )
@@ -736,7 +894,7 @@ internal static class RenderTreeMigrationEngine
         return type;
     }
 
-    private static string? GetSimpleName( string fullName )
+    internal static string? GetSimpleName( string fullName )
     {
         if ( string.IsNullOrWhiteSpace( fullName ) )
             return null;
