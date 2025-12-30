@@ -392,8 +392,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
             ValidationStatusChanged?.Invoke( this, new( status, messages ) );
             InvokeAsync( () => StatusChanged.InvokeAsync( status ) );
 
-            if ( ParentValidations is not null )
-                ParentValidations.NotifyValidationStatusChanged( this );
+            ParentValidations?.NotifyValidationStatusChanged( this );
         }
     }
 
