@@ -23,7 +23,7 @@ public class PatternValidationHandler : IValidationHandler
     }
 
     /// <inheritdoc/>
-    public async Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
+    public Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -31,6 +31,6 @@ public class PatternValidationHandler : IValidationHandler
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 }

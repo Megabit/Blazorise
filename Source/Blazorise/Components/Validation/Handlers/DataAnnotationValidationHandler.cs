@@ -45,7 +45,7 @@ public class DataAnnotationValidationHandler : IValidationHandler
     }
 
     /// <inheritdoc/>
-    public async Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
+    public Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -53,7 +53,7 @@ public class DataAnnotationValidationHandler : IValidationHandler
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
