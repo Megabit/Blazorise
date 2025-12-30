@@ -81,5 +81,15 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
         }
     }
 
+    /// <summary>
+    /// Defines the switch named intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
     #endregion
 }

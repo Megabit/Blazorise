@@ -130,6 +130,16 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
     }
 
     /// <summary>
+    /// Sets the input text intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
+    /// <summary>
     /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
     /// </summary>
     [Parameter] public string Pattern { get; set; }

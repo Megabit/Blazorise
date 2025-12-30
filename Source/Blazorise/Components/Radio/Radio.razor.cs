@@ -161,6 +161,16 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue>, IDisposable
     }
 
     /// <summary>
+    /// Defines the intent of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
+    /// <summary>
     /// Radio group in which this radio is placed.
     /// </summary>
     [CascadingParameter] protected RadioGroup<TValue> ParentRadioGroup { get; set; }

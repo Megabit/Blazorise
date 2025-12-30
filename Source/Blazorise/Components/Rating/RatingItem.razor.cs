@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -130,6 +131,16 @@ public partial class RatingItem : BaseComponent
     /// Gets or sets the item color.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Warning;
+
+    /// <summary>
+    /// Gets or sets the item intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
 
     /// <summary>
     /// Occurs when the item is clicked.
