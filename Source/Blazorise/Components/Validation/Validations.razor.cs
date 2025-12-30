@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
@@ -36,6 +37,8 @@ public partial class Validations : ComponentBase
     private EditContext editContext;
 
     private bool hasSetEditContextExplicitly;
+
+    private IReadOnlyCollection<string> failedValidations = Array.Empty<string>();
 
     #endregion
 
@@ -72,7 +75,7 @@ public partial class Validations : ComponentBase
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, null );
+            RaiseStatusChanged( ValidationStatus.Error, CalculatedFailedValidations, null );
         }
 
         return result;
@@ -155,7 +158,7 @@ public partial class Validations : ComponentBase
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, validation );
+            RaiseStatusChanged( ValidationStatus.Error, CalculatedFailedValidations, validation );
         }
         else
         {
@@ -165,6 +168,10 @@ public partial class Validations : ComponentBase
 
     private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
     {
+        FailedValidations = status == ValidationStatus.Error
+            ? messages ?? Array.Empty<string>()
+            : Array.Empty<string>();
+
         var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
         _StatusChanged?.Invoke( eventArgs );
@@ -273,6 +280,31 @@ public partial class Validations : ComponentBase
     [Parameter] public EventCallback<ValidationsStatusChangedEventArgs> StatusChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets the list of failed validation messages.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyCollection<string> FailedValidations
+    {
+        get => failedValidations;
+        set
+        {
+            IReadOnlyCollection<string> normalizedValue = value ?? Array.Empty<string>();
+
+            if ( failedValidations?.AreEqual( normalizedValue ) == true )
+                return;
+
+            failedValidations = normalizedValue;
+
+            InvokeAsync( () => FailedValidationsChanged.InvokeAsync( failedValidations ) );
+        }
+    }
+
+    /// <summary>
+    /// Event is fired whenever <see cref="FailedValidations"/> changes.
+    /// </summary>
+    [Parameter] public EventCallback<IReadOnlyCollection<string>> FailedValidationsChanged { get; set; }
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Validations"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -292,7 +324,7 @@ public partial class Validations : ComponentBase
     /// <summary>
     /// Gets the filtered list of failed validations.
     /// </summary>
-    private IReadOnlyCollection<string> FailedValidations
+    private IReadOnlyCollection<string> CalculatedFailedValidations
     {
         get
         {
