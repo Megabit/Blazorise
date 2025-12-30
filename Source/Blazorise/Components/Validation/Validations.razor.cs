@@ -38,7 +38,7 @@ public partial class Validations : ComponentBase
 
     private bool hasSetEditContextExplicitly;
 
-    private IReadOnlyCollection<string> failedValidations = Array.Empty<string>();
+    private IReadOnlyList<string> failedValidations = Array.Empty<string>();
 
     #endregion
 
@@ -168,9 +168,16 @@ public partial class Validations : ComponentBase
 
     private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
     {
-        FailedValidations = status == ValidationStatus.Error
+        IReadOnlyCollection<string> normalizedFailedValidations = status == ValidationStatus.Error
             ? messages ?? Array.Empty<string>()
             : Array.Empty<string>();
+
+        if ( failedValidations?.AreEqual( normalizedFailedValidations ) != true )
+        {
+            failedValidations = normalizedFailedValidations as IReadOnlyList<string> ?? normalizedFailedValidations.ToList();
+
+            InvokeAsync( () => FailedValidationsChanged.InvokeAsync( new FailedValidationsEventArgs( failedValidations ) ) );
+        }
 
         var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
@@ -280,29 +287,9 @@ public partial class Validations : ComponentBase
     [Parameter] public EventCallback<ValidationsStatusChangedEventArgs> StatusChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the list of failed validation messages.
+    /// Event is fired whenever the list of failed validation messages changes.
     /// </summary>
-    [Parameter]
-    public IReadOnlyCollection<string> FailedValidations
-    {
-        get => failedValidations;
-        set
-        {
-            IReadOnlyCollection<string> normalizedValue = value ?? Array.Empty<string>();
-
-            if ( failedValidations?.AreEqual( normalizedValue ) == true )
-                return;
-
-            failedValidations = normalizedValue;
-
-            InvokeAsync( () => FailedValidationsChanged.InvokeAsync( failedValidations ) );
-        }
-    }
-
-    /// <summary>
-    /// Event is fired whenever <see cref="FailedValidations"/> changes.
-    /// </summary>
-    [Parameter] public EventCallback<IReadOnlyCollection<string>> FailedValidationsChanged { get; set; }
+    [Parameter] public EventCallback<FailedValidationsEventArgs> FailedValidationsChanged { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Validations"/>.
