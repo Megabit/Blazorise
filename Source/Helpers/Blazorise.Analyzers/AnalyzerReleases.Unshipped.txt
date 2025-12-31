@@ -4,6 +4,7 @@
 BLZJS001: Blazorise Charts static Chart.js reference
 BLZP002: Blazorise parameter type changed
 BLZP003: Blazorise parameter removed
+BLZP004: Blazorise Color.Link is button/alert-only
 BLZR001: Blazorise Razor tag renamed
 BLZS001: Blazorise member renamed
 BLZS002: Blazorise member removed

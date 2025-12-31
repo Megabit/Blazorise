@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -255,6 +256,16 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// Gets or sets the dropdown color.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Default;
+
+    /// <summary>
+    /// Gets or sets the dropdown intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
 
     /// <summary>
     /// Gets or sets the dropdown size.

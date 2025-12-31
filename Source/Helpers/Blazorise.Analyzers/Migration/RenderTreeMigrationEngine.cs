@@ -140,18 +140,24 @@ internal static class RenderTreeMigrationEngine
 
     public static void Register( CompilationStartAnalysisContext context, MigrationHandler handler )
     {
+        Register( context, handler, requireMapping: true );
+    }
+
+    public static void Register( CompilationStartAnalysisContext context, MigrationHandler handler, bool requireMapping )
+    {
         ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?> typeInferenceMappings = GetTypeInferenceMappings( context.Compilation );
         MigrationContext migration = new MigrationContext( context.Compilation, ComponentByOld, ComponentByNew, TagByOld, typeInferenceMappings );
 
         context.RegisterOperationAction(
-            ctx => AnalyzeBlock( ctx, migration, handler ),
+            ctx => AnalyzeBlock( ctx, migration, handler, requireMapping ),
             OperationKind.Block );
     }
 
     private static void AnalyzeBlock(
         OperationAnalysisContext context,
         MigrationContext migration,
-        MigrationHandler handler )
+        MigrationHandler handler,
+        bool requireMapping )
     {
         if ( context.Operation is not IBlockOperation block )
             return;
@@ -227,15 +233,18 @@ internal static class RenderTreeMigrationEngine
                         {
                             var currentComponent = stack.Peek();
                             var mapping = currentComponent.Mapping;
-                            if ( mapping is not null )
+                            if ( mapping is not null || !requireMapping )
                             {
                                 var location = invocation.Arguments[1].Value.Syntax.GetLocation();
                                 var valueOperation = invocation.Arguments[2].Value;
 
                                 handler.OnAttributeBeforeUpdate( context, migration, currentComponent, attributeName, valueOperation, location );
 
-                                UpdateMultipleFlag( attributeName, valueOperation, mapping, currentComponent );
-                                UpdateValueBinding( attributeName, valueOperation, mapping, currentComponent );
+                                if ( mapping is not null )
+                                {
+                                    UpdateMultipleFlag( attributeName, valueOperation, mapping, currentComponent );
+                                    UpdateValueBinding( attributeName, valueOperation, mapping, currentComponent );
+                                }
 
                                 handler.OnAttributeAfterUpdate( context, migration, currentComponent, attributeName, valueOperation, location );
                             }
