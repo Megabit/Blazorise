@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -125,9 +124,6 @@ internal static class RenderTreeMigrationEngine
     private static readonly IReadOnlyDictionary<string, ComponentMapping> ComponentByNew = CreateComponentByNew();
     private static readonly IReadOnlyDictionary<string, string> TagByOld = CreateTagByOld();
 
-    private static readonly ConditionalWeakTable<Compilation, ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?>> TypeInferenceMappingsCache = new();
-    private static readonly ConditionalWeakTable<INamedTypeSymbol, string> MetadataNameCache = new();
-
     private static readonly HashSet<string> RenderTreeMethodNames = new( StringComparer.Ordinal )
     {
         "OpenComponent",
@@ -145,7 +141,7 @@ internal static class RenderTreeMigrationEngine
 
     public static void Register( CompilationStartAnalysisContext context, MigrationHandler handler, bool requireMapping )
     {
-        ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?> typeInferenceMappings = GetTypeInferenceMappings( context.Compilation );
+        ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?> typeInferenceMappings = new( SymbolEqualityComparer.Default );
         MigrationContext migration = new MigrationContext( context.Compilation, ComponentByOld, ComponentByNew, TagByOld, typeInferenceMappings );
 
         context.RegisterOperationAction(
@@ -394,11 +390,6 @@ internal static class RenderTreeMigrationEngine
             _ => false,
         };
     }
-
-    private static ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?> GetTypeInferenceMappings( Compilation compilation )
-        => TypeInferenceMappingsCache.GetValue(
-            compilation,
-            _ => new ConcurrentDictionary<IMethodSymbol, TypeInferenceMapping?>( SymbolEqualityComparer.Default ) );
 
     private static IReadOnlyDictionary<string, ComponentMapping> CreateComponentByOld()
     {
@@ -659,9 +650,6 @@ internal static class RenderTreeMigrationEngine
     }
 
     internal static string GetMetadataName( INamedTypeSymbol type )
-        => MetadataNameCache.GetValue( type, BuildMetadataName );
-
-    private static string BuildMetadataName( INamedTypeSymbol type )
     {
         var nsSymbol = type.ContainingNamespace;
         if ( nsSymbol is null || nsSymbol.IsGlobalNamespace )
