@@ -11629,10 +11629,10 @@ builder.Services
     .AddTailwindProviders()
     .AddFontAwesomeIcons();";
 
-        public const string TailwindGuideSourceFiles2Example = @"<script src=""https://unpkg.com/flowbite@3.1.2/dist/flowbite.js""></script>";
+        public const string TailwindGuideSourceFiles2Example = @"<script src=""https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js""></script>";
 
         public const string TailwindGuideSourceFiles3Example = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
-<link rel=""stylesheet"" href=""https://unpkg.com/flowbite@3.1.2/dist/flowbite.min.css"" />
+<link href=""https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <link href=""_content/Blazorise/blazorise.css?v=1.8.8.0"" rel=""stylesheet"" />
