@@ -78,12 +78,7 @@ namespace Microsoft.AspNetCore.Components.Rendering
 
         DiagnosticAnalyzer[] analyzers =
         {
-            new Blazorise.Analyzers.Migration.Rules.ComponentRenameAnalyzer(),
-            new Blazorise.Analyzers.Migration.Rules.TagRenameAnalyzer(),
-            new Blazorise.Analyzers.Migration.Rules.ParameterRenameAnalyzer(),
-            new Blazorise.Analyzers.Migration.Rules.ParameterTypeChangeAnalyzer(),
-            new Blazorise.Analyzers.Migration.Rules.ParameterRemovedAnalyzer(),
-            new Blazorise.Analyzers.Migration.Rules.TValueShapeAnalyzer(),
+            new Blazorise.Analyzers.Migration.Rules.RenderTreeMigrationAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.MemberRenameAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.MemberRemovedAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.TypeRenameAnalyzer(),
