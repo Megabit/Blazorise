@@ -11636,7 +11636,7 @@ builder.Services
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <link href=""_content/Blazorise/blazorise.css?v=1.8.8.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.min.css?v=1.8.8.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=1.8.8.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 
