@@ -7,7 +7,7 @@
     "tailwindcss": "^4.1.0"
   },
   "scripts": {
-    "build:css": "tailwindcss -i tailwind-build/blazorise.tailwind.prebuild.css -o wwwroot/blazorise.tailwind.min.css --minify",
-    "watch:css": "tailwindcss -i tailwind-build/blazorise.tailwind.prebuild.css -o wwwroot/blazorise.tailwind.min.css --watch"
+    "build:css": "tailwindcss -i tailwind-build/btw-prebuild.css -o wwwroot/blazorise.tailwind.min.css --minify",
+    "watch:css": "tailwindcss -i tailwind-build/btw-prebuild.css -o wwwroot/blazorise.tailwind.min.css --watch"
   }
 }
