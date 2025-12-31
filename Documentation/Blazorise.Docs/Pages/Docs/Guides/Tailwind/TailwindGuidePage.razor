@@ -91,6 +91,47 @@
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
+    Custom Tailwind Pipeline
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    If you want Tailwind to generate utilities for your app while keeping Blazorise styles, build a single Tailwind output and reference it instead of the prebuilt <Code>_content/Blazorise.Tailwind/blazorise.tailwind.min.css</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <DocsPageUnorderedList>
+        <DocsPageUnorderedListItem>
+            Copy the Blazorise Tailwind build inputs from the <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Source/Blazorise.Tailwind/tailwind-build" Title="Blazorise Tailwind build inputs" Target="Target.Blank">Blazorise repository</Anchor> into your project: <Code>btw-prebuild.css</Code>, <Code>blazorise.tailwind.css</Code>, <Code>btw-colors.css</Code>, and <Code>safelist.txt</Code>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            Extend the entry file with your own <Code>@@source</Code> directives (for example, <Code>@@source "./**/*.razor"</Code>), <Code>@@theme</Code> overrides, and custom utilities.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            Build one CSS file with Tailwind and include it in your app in place of the package stylesheet.
+        </DocsPageUnorderedListItem>
+    </DocsPageUnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Safelist Classnames
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Blazorise generates some classnames dynamically, so Tailwind content scanning might not see them. Use the provided <Code>safelist.txt</Code> file as an additional content source to keep those classes in your output.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <DocsPageUnorderedList>
+        <DocsPageUnorderedListItem>
+            Keep one class per line in your safelist file and add any of your own dynamic classes there as well.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            Reference it in your Tailwind entry file with <Code>@@source "./path/to/safelist.txt"</Code> or pass it via the Tailwind CLI <Code>--content</Code> argument.
+        </DocsPageUnorderedListItem>
+    </DocsPageUnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
     Add Imports
 </DocsPageSubtitle>
 
