@@ -1,9 +1,10 @@
-﻿#region Using directives
+#region Using directives
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -24,6 +25,8 @@ public class Program
             } )
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();
+
+        builder.Services.AddBlazoriseRichTextEdit();
 
         builder.Services.AddMemoryCache();
         builder.Services.AddScoped<Blazorise.Shared.Data.EmployeeData>();

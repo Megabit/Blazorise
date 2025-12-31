@@ -133,6 +133,16 @@ public partial class Badge : BaseComponent
     }
 
     /// <summary>
+    /// Specifies the contextual intent applied to the badge's background and text.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
+    /// <summary>
     /// Converts the badge into a clickable link, adding hover and focus interaction states.
     /// </summary>
     [Parameter]

@@ -233,6 +233,29 @@
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+.b-is-autocomplete.is-valid, .b-is-autocomplete.is-invalid {
+  outline: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+.b-is-autocomplete.is-valid {
+  outline-color: #28a745;
+}
+.b-is-autocomplete.is-invalid {
+  outline-color: #dc3545;
+}
+.b-is-autocomplete.is-valid.focus {
+  outline-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+.b-is-autocomplete.is-invalid.focus {
+  outline-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+.b-is-autocomplete.is-valid > input.form-control, .b-is-autocomplete.is-invalid > input.form-control {
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .dropdown {
   position: relative;
 }
@@ -2310,6 +2333,31 @@ td:focus {
 
 .snackbar {
   z-index: 1060 !important;
+}
+
+.b-richtextedit > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit > .b-richtextedit-editor.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ced4da;
+}
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-content + .b-richtextedit-editor,
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-editor {
+  border-top: 0;
+}
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-content + .b-richtextedit-toolbar,
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-toolbar {
+  border-top: 0;
+}
+
+.b-richtextedit.is-valid > .b-richtextedit-editor.ql-container,
+.b-richtextedit.is-valid > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-success, #28a745);
+}
+
+.b-richtextedit.is-invalid > .b-richtextedit-editor.ql-container,
+.b-richtextedit.is-invalid > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-danger, #dc3545);
 }
 
 @keyframes fadeIn {

@@ -208,6 +208,21 @@
   flex-grow: initial;
 }
 
+.b-is-autocomplete.is-valid, .b-is-autocomplete.is-invalid {
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.b-is-autocomplete.is-valid {
+  border-color: #61d800;
+}
+.b-is-autocomplete.is-invalid {
+  border-color: #b00020;
+}
+.b-is-autocomplete.is-valid > input.form-control, .b-is-autocomplete.is-invalid > input.form-control {
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .b-is-autocomplete .dropdown-menu:before {
   box-shadow: none;
 }
@@ -1972,6 +1987,31 @@ td:focus {
 
 .snackbar {
   z-index: 1060 !important;
+}
+
+.b-richtextedit > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit > .b-richtextedit-editor.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-content + .b-richtextedit-editor,
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-editor {
+  border-top: 0;
+}
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-content + .b-richtextedit-toolbar,
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-toolbar {
+  border-top: 0;
+}
+
+.b-richtextedit.is-valid > .b-richtextedit-editor.ql-container,
+.b-richtextedit.is-valid > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-success, #61d800);
+}
+
+.b-richtextedit.is-invalid > .b-richtextedit-editor.ql-container,
+.b-richtextedit.is-invalid > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-danger, #b00020);
 }
 
 @keyframes fadeIn {

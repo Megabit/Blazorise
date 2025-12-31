@@ -1,14 +1,40 @@
-﻿@page "/docs/helpers/enums/bar"
+@page "/docs/helpers/enums/bar"
 
-<Seo Canonical="/docs/helpers/enums/bar" Title="Enums: Bar" Description="Learn to use and work with the Blazorise Bar enums that help you to modify the navigation bars appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/bar" Title="Blazorise Bar Enums - Navigation Layout and Collapse" Description="Bar enums control navigation layout, collapse behavior, and toggler styles. Learn BarMode, BarCollapseMode, and BarTogglerMode values." />
 
 <DocsPageTitle>
     Bar enums
 </DocsPageTitle>
 
 <DocsPageLead>
-    Quicky manage the layout and behavior of the <Code>Bar</Code> component.
+    Quickly manage the layout and behavior of the <Code>Bar</Code> component.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    Use bar enums to choose between horizontal or vertical navigation, and to control how the bar collapses on smaller screens.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Set <Code>BarMode</Code> to choose the overall layout, then pair it with <Code>BarCollapseMode</Code> and <Code>BarTogglerMode</Code> to define collapse behavior and toggler styling.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>BarMode.Horizontal</Code> for a classic top navigation bar.</UnorderedListItem>
+    <UnorderedListItem><Code>BarCollapseMode.Small</Code> to keep icons visible when collapsed.</UnorderedListItem>
+    <UnorderedListItem><Code>BarTogglerMode.Popout</Code> for vertical bars with a popout toggle.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="BarCollapseMode">

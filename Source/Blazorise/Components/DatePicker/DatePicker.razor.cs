@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
@@ -28,6 +27,111 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     private DotNetObjectReference<DatePickerAdapter> dotNetObjectRef;
 
     /// <summary>
+    /// Captured Min parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<DateTimeOffset?> paramMin;
+
+    /// <summary>
+    /// Captured Max parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<DateTimeOffset?> paramMax;
+
+    /// <summary>
+    /// Captured FirstDayOfWeek parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<DayOfWeek> paramFirstDayOfWeek;
+
+    /// <summary>
+    /// Captured DisplayFormat parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramDisplayFormat;
+
+    /// <summary>
+    /// Captured InputFormat parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramInputFormat;
+
+    /// <summary>
+    /// Captured TimeAs24hr parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramTimeAs24hr;
+
+    /// <summary>
+    /// Captured Disabled parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramDisabled;
+
+    /// <summary>
+    /// Captured ReadOnly parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramReadOnly;
+
+    /// <summary>
+    /// Captured DisabledDates parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<IEnumerable<TValue>> paramDisabledDates;
+
+    /// <summary>
+    /// Captured EnabledDates parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<IEnumerable<TValue>> paramEnabledDates;
+
+    /// <summary>
+    /// Captured DisabledDays parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<IEnumerable<DayOfWeek>> paramDisabledDays;
+
+    /// <summary>
+    /// Captured SelectionMode parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<DateInputSelectionMode> paramSelectionMode;
+
+    /// <summary>
+    /// Captured Inline parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramInline;
+
+    /// <summary>
+    /// Captured DisableMobile parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramDisableMobile;
+
+    /// <summary>
+    /// Captured Placeholder parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramPlaceholder;
+
+    /// <summary>
+    /// Captured StaticPicker parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramStaticPicker;
+
+    /// <summary>
+    /// Captured ShowWeekNumbers parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramShowWeekNumbers;
+
+    /// <summary>
+    /// Captured ShowTodayButton parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramShowTodayButton;
+
+    /// <summary>
+    /// Captured ShowClearButton parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramShowClearButton;
+
+    /// <summary>
+    /// Captured DefaultHour parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<int> paramDefaultHour;
+
+    /// <summary>
+    /// Captured DefaultMinute parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<int> paramDefaultMinute;
+
+    /// <summary>
     /// The internal value used to separate dates.
     /// </summary>
     protected const string MULTIPLE_DELIMITER = ", ";
@@ -37,33 +141,61 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     #region Methods
 
     /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( nameof( Min ), Min, out paramMin );
+        parameters.TryGetParameter( nameof( Max ), Max, out paramMax );
+        parameters.TryGetParameter( nameof( FirstDayOfWeek ), FirstDayOfWeek, out paramFirstDayOfWeek );
+        parameters.TryGetParameter( nameof( DisplayFormat ), DisplayFormat, out paramDisplayFormat );
+        parameters.TryGetParameter( nameof( InputFormat ), InputFormat, out paramInputFormat );
+        parameters.TryGetParameter( nameof( TimeAs24hr ), TimeAs24hr, out paramTimeAs24hr );
+        parameters.TryGetParameter( nameof( Disabled ), Disabled, out paramDisabled );
+        parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out paramReadOnly );
+        parameters.TryGetParameter( nameof( DisabledDates ), DisabledDates, out paramDisabledDates );
+        parameters.TryGetParameter( nameof( EnabledDates ), EnabledDates, out paramEnabledDates );
+        parameters.TryGetParameter( nameof( DisabledDays ), DisabledDays, out paramDisabledDays );
+        parameters.TryGetParameter( nameof( SelectionMode ), SelectionMode, out paramSelectionMode );
+        parameters.TryGetParameter( nameof( Inline ), Inline, out paramInline );
+        parameters.TryGetParameter( nameof( DisableMobile ), DisableMobile, out paramDisableMobile );
+        parameters.TryGetParameter( nameof( Placeholder ), Placeholder, out paramPlaceholder );
+        parameters.TryGetParameter( nameof( StaticPicker ), StaticPicker, out paramStaticPicker );
+        parameters.TryGetParameter( nameof( ShowWeekNumbers ), ShowWeekNumbers, out paramShowWeekNumbers );
+        parameters.TryGetParameter( nameof( ShowTodayButton ), ShowTodayButton, out paramShowTodayButton );
+        parameters.TryGetParameter( nameof( ShowClearButton ), ShowClearButton, out paramShowClearButton );
+        parameters.TryGetParameter( nameof( DefaultHour ), DefaultHour, out paramDefaultHour );
+        parameters.TryGetParameter( nameof( DefaultMinute ), DefaultMinute, out paramDefaultMinute );
+    }
+
+    /// <inheritdoc/>
     protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
         await base.OnBeforeSetParametersAsync( parameters );
 
         if ( Rendered )
         {
-            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? paramMin ) && !Min.IsEqual( paramMin );
-            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
-            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
-            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string paramDisplayFormat ) && DisplayFormat != paramDisplayFormat;
-            var inputFormatChanged = parameters.TryGetValue( nameof( InputFormat ), out string paramInputFormat ) && InputFormat != paramInputFormat;
-            var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool paramTimeAs24hr ) && TimeAs24hr != paramTimeAs24hr;
-            var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
-            var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
-            var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
-            var enabledDatesChanged = parameters.TryGetValue( nameof( EnabledDates ), out IEnumerable<TValue> paramEnabledDates ) && !EnabledDates.AreEqual( paramEnabledDates );
-            var disabledDaysChanged = parameters.TryGetValue( nameof( DisabledDays ), out IEnumerable<DayOfWeek> paramDisabledDays ) && !DisabledDays.AreEqual( paramDisabledDays );
-            var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
-            var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
-            var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
-            var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
-            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
-            var showWeekNumbersChanged = parameters.TryGetValue( nameof( ShowWeekNumbers ), out bool paramShowWeekNumbers ) && ShowWeekNumbers != paramShowWeekNumbers;
-            var showTodayButtonChanged = parameters.TryGetValue( nameof( ShowTodayButton ), out bool paramShowTodayButton ) && ShowTodayButton != paramShowTodayButton;
-            var showClearButtonChanged = parameters.TryGetValue( nameof( ShowClearButton ), out bool paramShowClearButton ) && ShowClearButton != paramShowClearButton;
-            var defaultHourChanged = parameters.TryGetValue( nameof( DefaultHour ), out int paramDefaultHour ) && DefaultHour != paramDefaultHour;
-            var defaultMinuteChanged = parameters.TryGetValue( nameof( DefaultMinute ), out int paramDefaultMinute ) && DefaultMinute != paramDefaultMinute;
+            var minChanged = paramMin.Defined && paramMin.Changed;
+            var maxChanged = paramMax.Defined && paramMax.Changed;
+            var firstDayOfWeekChanged = paramFirstDayOfWeek.Defined && paramFirstDayOfWeek.Changed;
+            var displayFormatChanged = paramDisplayFormat.Defined && paramDisplayFormat.Changed;
+            var inputFormatChanged = paramInputFormat.Defined && paramInputFormat.Changed;
+            var timeAs24hrChanged = paramTimeAs24hr.Defined && paramTimeAs24hr.Changed;
+            var disabledChanged = paramDisabled.Defined && paramDisabled.Changed;
+            var readOnlyChanged = paramReadOnly.Defined && paramReadOnly.Changed;
+            var disabledDatesChanged = paramDisabledDates.Defined && paramDisabledDates.Changed;
+            var enabledDatesChanged = paramEnabledDates.Defined && paramEnabledDates.Changed;
+            var disabledDaysChanged = paramDisabledDays.Defined && paramDisabledDays.Changed;
+            var selectionModeChanged = paramSelectionMode.Defined && paramSelectionMode.Changed;
+            var inlineChanged = paramInline.Defined && paramInline.Changed;
+            var disableMobileChanged = paramDisableMobile.Defined && paramDisableMobile.Changed;
+            var placeholderChanged = paramPlaceholder.Defined && paramPlaceholder.Changed;
+            var staticPickerChanged = paramStaticPicker.Defined && paramStaticPicker.Changed;
+            var showWeekNumbersChanged = paramShowWeekNumbers.Defined && paramShowWeekNumbers.Changed;
+            var showTodayButtonChanged = paramShowTodayButton.Defined && paramShowTodayButton.Changed;
+            var showClearButtonChanged = paramShowClearButton.Defined && paramShowClearButton.Changed;
+            var defaultHourChanged = paramDefaultHour.Defined && paramDefaultHour.Changed;
+            var defaultMinuteChanged = paramDefaultMinute.Defined && paramDefaultMinute.Changed;
 
             if ( paramValue.Changed )
             {
@@ -101,27 +233,27 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
-                    FirstDayOfWeek = new JSOptionChange<int>( firstDayOfWeekChanged, (int)paramFirstDayOfWeek ),
-                    DisplayFormat = new JSOptionChange<string>( displayFormatChanged, DisplayFormatConverter.Convert( paramDisplayFormat ) ),
-                    InputFormat = new JSOptionChange<string>( inputFormatChanged, InputFormatConverter.Convert( paramInputFormat ) ),
-                    TimeAs24hr = new JSOptionChange<bool>( timeAs24hrChanged, paramTimeAs24hr ),
-                    Min = new JSOptionChange<string>( minChanged, paramMin?.ToString( DateFormat ) ),
-                    Max = new JSOptionChange<string>( maxChanged, paramMax?.ToString( DateFormat ) ),
-                    Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled ),
-                    ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly ),
-                    DisabledDates = new JSOptionChange<IEnumerable<string>>( disabledDatesChanged, paramDisabledDates?.Select( x => FormatValueAsString( x ) ) ),
-                    EnabledDates = new JSOptionChange<IEnumerable<string>>( enabledDatesChanged, paramEnabledDates?.Select( x => FormatValueAsString( x ) ) ),
-                    DisabledDays = new JSOptionChange<IEnumerable<int>>( disabledDaysChanged, paramDisabledDays?.Select( x => (int)x ) ),
-                    SelectionMode = new JSOptionChange<DateInputSelectionMode>( selectionModeChanged, paramSelectionMode ),
-                    Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
-                    DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile ),
-                    Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
-                    StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
-                    ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers ),
-                    ShowTodayButton = new JSOptionChange<bool>( showTodayButtonChanged, paramShowTodayButton ),
-                    ShowClearButton = new JSOptionChange<bool>( showClearButtonChanged, paramShowClearButton ),
-                    DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour ),
-                    DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute ),
+                    FirstDayOfWeek = new JSOptionChange<int>( firstDayOfWeekChanged, (int)paramFirstDayOfWeek.Value ),
+                    DisplayFormat = new JSOptionChange<string>( displayFormatChanged, DisplayFormatConverter.Convert( paramDisplayFormat.Value ) ),
+                    InputFormat = new JSOptionChange<string>( inputFormatChanged, InputFormatConverter.Convert( paramInputFormat.Value ) ),
+                    TimeAs24hr = new JSOptionChange<bool>( timeAs24hrChanged, paramTimeAs24hr.Value ),
+                    Min = new JSOptionChange<string>( minChanged, paramMin.Value?.ToString( DateFormat ) ),
+                    Max = new JSOptionChange<string>( maxChanged, paramMax.Value?.ToString( DateFormat ) ),
+                    Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
+                    ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value ),
+                    DisabledDates = new JSOptionChange<IEnumerable<string>>( disabledDatesChanged, paramDisabledDates.Value?.Select( x => FormatValueAsString( x ) ) ),
+                    EnabledDates = new JSOptionChange<IEnumerable<string>>( enabledDatesChanged, paramEnabledDates.Value?.Select( x => FormatValueAsString( x ) ) ),
+                    DisabledDays = new JSOptionChange<IEnumerable<int>>( disabledDaysChanged, paramDisabledDays.Value?.Select( x => (int)x ) ),
+                    SelectionMode = new JSOptionChange<DateInputSelectionMode>( selectionModeChanged, paramSelectionMode.Value ),
+                    Inline = new JSOptionChange<bool>( inlineChanged, paramInline.Value ),
+                    DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile.Value ),
+                    Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder.Value ),
+                    StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker.Value ),
+                    ShowWeekNumbers = new JSOptionChange<bool>( showWeekNumbersChanged, paramShowWeekNumbers.Value ),
+                    ShowTodayButton = new JSOptionChange<bool>( showTodayButtonChanged, paramShowTodayButton.Value ),
+                    ShowClearButton = new JSOptionChange<bool>( showClearButtonChanged, paramShowClearButton.Value ),
+                    DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour.Value ),
+                    DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute.Value ),
                 } ) );
             }
         }

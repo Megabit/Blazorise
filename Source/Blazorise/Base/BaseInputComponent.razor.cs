@@ -59,13 +59,39 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     protected string formattedValueExpression;
 
     /// <summary>
-    /// Holds the value of the input field.
+    /// Contains metadata about the parameter representing the value for the component.
     /// </summary>
     protected ComponentParameterInfo<TValue> paramValue;
+
+    /// <summary>
+    /// Contains metadata about the parameter representing the value expression for the component.
+    /// </summary>
+    protected ComponentParameterInfo<Expression<Func<TValue>>> paramValueExpression;
+
+    /// <summary>
+    /// Contains metadata about the parameter representing the autofocus for the component.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramAutofocus;
 
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Captures parameter values synchronously so they remain available after awaits in the SetParametersAsync flow.
+    /// </summary>
+    /// <param name="parameters">The parameters that will be passed to the component.</param>
+    protected virtual void CaptureParameters( ParameterView parameters )
+    {
+        // Capture synchronously since ParameterView is not safe after awaits.
+        if ( Rendered )
+            parameters.TryGetParameter( nameof( Value ), Value, IsSameAsInternalValue, out paramValue );
+        else
+            paramValue = new ComponentParameterInfo<TValue>( default );
+
+        parameters.TryGetParameter( nameof( ValueExpression ), ValueExpression, out paramValueExpression );
+        parameters.TryGetParameter( nameof( Autofocus ), Autofocus, out paramAutofocus );
+    }
 
     /// <summary>
     /// Method called before setting the parameters.
@@ -78,7 +104,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
 
         if ( Rendered )
         {
-            if ( parameters.TryGetParameter( nameof( Value ), Value, IsSameAsInternalValue, out paramValue ) && paramValue.Changed )
+            if ( paramValue.Defined && paramValue.Changed )
             {
                 ExecuteAfterRender( Revalidate );
             }
@@ -96,18 +122,18 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     {
         if ( ParentValidation is not null )
         {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
+            if ( paramValueExpression.Defined )
+                await ParentValidation.InitializeInputExpression( paramValueExpression.Value );
 
             await InitializeValidation();
         }
 
         // For modals we need to make sure that autofocus is applied every time the modal is opened.
-        if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var paramAutofocus ) && autofocus != paramAutofocus )
+        if ( paramAutofocus.Defined && autofocus != paramAutofocus.Value )
         {
-            autofocus = paramAutofocus;
+            autofocus = paramAutofocus.Value;
 
-            if ( paramAutofocus )
+            if ( paramAutofocus.Value )
             {
                 if ( ParentFocusableContainer is not null )
                 {
@@ -128,6 +154,8 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        CaptureParameters( parameters );
+
         await OnBeforeSetParametersAsync( parameters );
 
         await base.SetParametersAsync( parameters );
@@ -138,9 +166,9 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( Theme is not null )
+        if ( ThemeOptions is not null )
         {
-            Theme.Changed += OnThemeChanged;
+            ThemeOptions.Changed += OnThemeOptionsChanged;
         }
 
         base.OnInitialized();
@@ -181,9 +209,9 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
 
         ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
 
-        if ( Theme is not null )
+        if ( ThemeOptions is not null )
         {
-            Theme.Changed -= OnThemeChanged;
+            ThemeOptions.Changed -= OnThemeOptionsChanged;
         }
     }
 
@@ -397,7 +425,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     /// <param name="sender">An object that raised the event.</param>
     /// <param name="eventArgs"></param>
-    private void OnThemeChanged( object sender, EventArgs eventArgs )
+    private void OnThemeOptionsChanged( object sender, EventArgs eventArgs )
     {
         DirtyClasses();
         DirtyStyles();
@@ -498,7 +526,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Gets the size based on the theme settings.
     /// </summary>
-    protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
+    protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? ThemeOptions?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
     /// Gets the value indicating if the input is disabled.
@@ -671,7 +699,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Cascaded theme settings.
     /// </summary>
-    [CascadingParameter] protected Theme Theme { get; set; }
+    [CascadingParameter] protected Theme ThemeOptions { get; set; }
 
     #endregion
 }

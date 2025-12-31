@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/cropper"
 
-<Seo Canonical="/docs/extensions/cropper" Title="Blazorise Cropper component" Description="Learn to use and work with the Blazorise Cropper component, which is used to crop images, that works in all major browsers." />
+<Seo Canonical="/docs/extensions/cropper" Title="Blazorise Cropper component" Description="Learn how to use the Blazorise Cropper component to crop images in all major browsers." />
 
 <DocsPageTitle Path="Extensions/Cropper">
     Blazorise Cropper component
@@ -15,7 +15,11 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The new <Code>Cropper</Code> component handles all of that. You can upload an image and then select part of it, rotate, scale, and crop it. You can also add a preview by adding a <Code>CropperViewer</Code> whenever on a page, and it will automatically synchronize with the latest selection.
+    The <Code>Cropper</Code> component handles all of that. You can upload an image and then select part of it, rotate, scale, and crop it. You can also add a preview by placing a <Code>CropperViewer</Code> anywhere on a page, and it will automatically synchronize with the latest selection.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>Cropper</Code> component, install the <Code>Blazorise.Cropper</Code> package first.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -49,7 +53,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        The image cropper is pretty straightforward. You need to define a Source parameter, and a reference.
+        The image cropper is straightforward. You need to define a Source parameter and a reference.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicCropperExample />
@@ -59,7 +63,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Viewer">
-        To add a preview support you can use a <Code Tag>CropperViewer</Code> component. Once added you need to connect it to a <Code Tag>Cropper</Code> by assigning the <Code>CropperState</Code> parameter. This parameter is used as a synchronization context bewteen the cropper and a viewer.
+        To add preview support, use a <Code Tag>CropperViewer</Code> component. Once added you need to connect it to a <Code Tag>Cropper</Code> by assigning the <Code>CropperState</Code> parameter. This parameter is used as a synchronization context between the cropper and a viewer.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <CropperViewerExample />

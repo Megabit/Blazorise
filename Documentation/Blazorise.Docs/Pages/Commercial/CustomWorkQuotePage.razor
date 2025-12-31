@@ -1,0 +1,228 @@
+@page "/custom-work/quote"
+
+<Seo Canonical="/custom-work/quote"
+     Title="Request a Custom Work Quote"
+     Description="Request a quote for Blazorise Feature Sponsorship (fixed price) or Custom Development (time and materials)." />
+
+<PageHeader>
+    <Title>
+        Request a Custom Work Quote
+    </Title>
+    <Description>
+        Submit your requirements and target timeline. We will assess feasibility and respond with a proposal/Statement of Work (scope, acceptance criteria, timeline, and payment milestones). Licenses cover support and response times; delivery is contracted separately.
+    </Description>
+</PageHeader>
+
+<Container>
+    <Row>
+        <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12.OnDesktop" Margin="Margin.IsAuto.OnX">
+            <Card Shadow="Shadow.Large">
+                <CardBody>
+                    <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" Model="@InputModel" ValidateOnLoad="false">
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is12">
+                                    <FieldLabel>Company</FieldLabel>
+                                    <FieldBody>
+                                        <TextInput @bind-Value="@InputModel.Company">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextInput>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                    <FieldLabel>Full Name</FieldLabel>
+                                    <FieldBody>
+                                        <TextInput @bind-Value="@InputModel.FullName">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextInput>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                    <FieldLabel>Work Email</FieldLabel>
+                                    <FieldBody>
+                                        <TextInput Role="TextRole.Email" @bind-Value="@InputModel.Email">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextInput>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                    <FieldLabel>Engagement</FieldLabel>
+                                    <FieldBody>
+                                        <Select TValue="string" @bind-Value="@InputModel.Engagement">
+                                            <ChildContent>
+                                                @foreach ( var option in EngagementOptions )
+                                                {
+                                                    <SelectItem TValue="string" @key="option" Value="@option">@option</SelectItem>
+                                                }
+                                            </ChildContent>
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </Select>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+
+                            <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                <FieldLabel>Budget Range (optional)</FieldLabel>
+                                <FieldBody>
+                                    <Select TValue="string" @bind-Value="@InputModel.BudgetRange">
+                                        <ChildContent>
+                                            @foreach ( var option in BudgetOptions )
+                                            {
+                                                <SelectItem TValue="string" @key="option" Value="@option">@option</SelectItem>
+                                            }
+                                        </ChildContent>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is8.OnDesktop">
+                                    <FieldLabel>Request Title</FieldLabel>
+                                    <FieldBody>
+                                        <TextInput @bind-Value="@InputModel.Title" Placeholder="Short description (e.g., DataGrid grouping export improvements)">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextInput>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                    <FieldLabel>Target Timeline</FieldLabel>
+                                    <FieldBody>
+                                        <TextInput @bind-Value="@InputModel.Timeline" Placeholder="e.g., 2–4 weeks / by 15 Jan">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextInput>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+
+                        <Fields>
+                            <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                <FieldLabel>Upstream preference (optional)</FieldLabel>
+                                <FieldBody>
+                                    <Select TValue="string" @bind-Value="@InputModel.UpstreamPreference">
+                                        <ChildContent>
+                                            @foreach ( var option in UpstreamOptions )
+                                            {
+                                                <SelectItem TValue="string" @key="option" Value="@option">@option</SelectItem>
+                                            }
+                                        </ChildContent>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+
+                            @if ( InputModel.UpstreamPreference == ExclusivityOption )
+                            {
+                                <Validation Validator="@ValidateExclusivityMonths">
+                                    <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                        <FieldLabel>Exclusivity duration (months)</FieldLabel>
+                                        <FieldBody>
+                                            <NumericPicker @bind-Value="@InputModel.ExclusivityMonths" Decimals="0" Min="1">
+                                                <Feedback>
+                                                    <ValidationError />
+                                                </Feedback>
+                                            </NumericPicker>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            }
+                        </Fields>
+
+                        <Fields>
+                            <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                <FieldLabel>Blazorise version (optional)</FieldLabel>
+                                <FieldBody>
+                                    <TextInput @bind-Value="@InputModel.BlazoriseVersion" Placeholder="e.g., 2.x">
+                                    </TextInput>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                <FieldLabel>.NET version (optional)</FieldLabel>
+                                <FieldBody>
+                                    <TextInput @bind-Value="@InputModel.DotNetVersion" Placeholder="e.g., .NET 8" />
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                <FieldLabel>CSS providers (optional)</FieldLabel>
+                                <FieldBody>
+                                    <TextInput @bind-Value="@InputModel.CssProviders" Placeholder="e.g., Bootstrap 5, Tailwind" />
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+
+                        <Fields>
+                            <Field ColumnSize="ColumnSize.Is12">
+                                <FieldLabel>Dependencies (optional)</FieldLabel>
+                                <FieldBody>
+                                    <TextInput @bind-Value="@InputModel.Dependencies" Placeholder="APIs/libraries, browser constraints, or links to sample code/contracts" />
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+
+                        <Fields>
+                            <Validation Validator="@ValidateDetails">
+                                <Field ColumnSize="ColumnSize.Is12">
+                                    <FieldLabel>Details</FieldLabel>
+                                    <FieldBody>
+                                        <Markdown @bind-Value="@InputModel.Details" MinHeight="280px" UploadImage="false">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </Markdown>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+
+                        <Row>
+                            <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.End">
+                                <Button Color="Color.Primary" Size="Size.Large" Block Clicked="@OnSubmit">
+                                    <Icon Name="IconName.PaperPlane" Margin="Margin.Is3.FromEnd" />
+                                    Request quote
+                                </Button>
+                            </Column>
+                        </Row>
+                    </Validations>
+                </CardBody>
+            </Card>
+
+            <Row Margin="Margin.Is3.FromTop">
+                <Column ColumnSize="ColumnSize.Is12">
+                    <Paragraph TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
+                        By submitting this request you agree to our
+                        <Anchor To="terms" Title="Link to Terms of Service">Terms of Service</Anchor>
+                        and
+                        <Anchor To="privacy" Title="Link to Privacy Policy">Privacy Policy</Anchor>.
+                    </Paragraph>
+                </Column>
+            </Row>
+        </Column>
+    </Row>
+</Container>

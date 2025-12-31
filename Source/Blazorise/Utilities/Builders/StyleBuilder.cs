@@ -47,7 +47,7 @@ public class StyleBuilder
     public void Append( string value )
     {
         if ( value is not null )
-            builder.Append( value ).Append( Delimiter );
+            builder.Append( value ).Append( Delimiter ).Append( ' ' );
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class StyleBuilder
     public void Append( string value, bool condition )
     {
         if ( value is not null && condition )
-            builder.Append( value ).Append( Delimiter );
+            builder.Append( value ).Append( Delimiter ).Append( ' ' );
     }
 
     /// <summary>

@@ -640,9 +640,9 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="spinKitOptions">SpinKit options.</param>
     protected virtual void GenerateSpinKitVariables( Theme theme, ThemeSpinKitOptions spinKitOptions )
     {
-        if ( !string.IsNullOrEmpty( spinKitOptions?.Color ) )
+        if ( spinKitOptions?.Color is not null && spinKitOptions.Color != Color.Default )
         {
-            Variables[ThemeVariables.SpinKitColor] = ToHex( ParseColor( spinKitOptions.Color ) );
+            Variables[ThemeVariables.SpinKitColor] = $"var(--b-spinkit-color-{spinKitOptions.Color.Name})";
         }
 
         if ( !string.IsNullOrEmpty( spinKitOptions?.Size ) )

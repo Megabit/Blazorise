@@ -97,7 +97,7 @@
 <DocsPageParagraph Title="Written">
     This event will be called on every buffer of data that has being written to the destination stream.
     It is directly related to the <Code>MaxMessageSize</Code> attribute found on <Code>FileInput</Code> component and will contain the information
-    about currently processed file, it’s offset and data array.
+    about currently processed file, it's offset and data array.
 </DocsPageParagraph>
 
 <DocsPageParagraph Title="Progressed">
@@ -137,7 +137,7 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="OpenReadStream">
         Using <Code>OpenReadStream</Code> on the file you can process the file as it is streamed from the browser to your code,
-        this is mirrors the API found in <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads" Target="Target.Blank">ASP.NET Core Input File component</Blazorise.Link>, for example
+        this is mirrors the API found in <Anchor To="https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads" Target="Target.Blank">ASP.NET Core Input File component</Anchor>, for example
 
         <Alert Color="Color.Info" Visible>
             <AlertDescription>
@@ -154,7 +154,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Reset">
-        By default after each file upload has finished, file input will automatically reset to it’s initial state.
+        By default after each file upload has finished, file input will automatically reset to it's initial state.
         If you want this behavior disabled and control it manually you need to first set <Code>AutoReset</Code> to <Code>false</Code>.
         After that you can call <Code>Reset()</Code> every time you want the file input to be reset.
     </DocsPageSectionHeader>

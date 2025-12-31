@@ -1760,6 +1760,31 @@ html {
   border-color: #40a9ff;
 }
 
+.b-is-autocomplete.ant-input-status-success, .b-is-autocomplete.ant-input-status-error {
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem;
+}
+.b-is-autocomplete.ant-input-status-success {
+  border-color: #35c613;
+}
+.b-is-autocomplete.ant-input-status-error {
+  border-color: #ff4d4f;
+}
+.b-is-autocomplete.ant-input-status-success.focus {
+  border-color: #35c613;
+  -webkit-box-shadow: 0 0 0 2px rgba(53, 198, 19, 0.2);
+  box-shadow: 0 0 0 2px rgba(53, 198, 19, 0.2);
+}
+.b-is-autocomplete.ant-input-status-error.focus {
+  border-color: #ff4d4f;
+  -webkit-box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+.b-is-autocomplete.ant-input-status-success > input.ant-input, .b-is-autocomplete.ant-input-status-error > input.ant-input {
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .ant-dropdown > .ant-dropdown-menu-item {
   width: 100%;
 }
@@ -3820,6 +3845,31 @@ td:focus {
 
 .snackbar {
   z-index: 1010 !important;
+}
+
+.b-richtextedit > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit > .b-richtextedit-editor.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #adb5bd;
+}
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-content + .b-richtextedit-editor,
+.b-richtextedit > .b-richtextedit-toolbar + .b-richtextedit-editor {
+  border-top: 0;
+}
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-content + .b-richtextedit-toolbar,
+.b-richtextedit > .b-richtextedit-editor + .b-richtextedit-toolbar {
+  border-top: 0;
+}
+
+.b-richtextedit.ant-input-status-success > .b-richtextedit-editor.ql-container,
+.b-richtextedit.ant-input-status-success > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-success, #35c613);
+}
+
+.b-richtextedit.ant-input-status-error > .b-richtextedit-editor.ql-container,
+.b-richtextedit.ant-input-status-error > .b-richtextedit-toolbar.ql-toolbar {
+  border-color: var(--b-theme-danger, #ff4d4f);
 }
 
 @keyframes fadeIn {

@@ -11,7 +11,7 @@
             Want to learn more about our products and services?
         </Paragraph>
         <Paragraph>
-            We’d love to chat.
+            We'd love to chat.
         </Paragraph>
     </Description>
 </PageHeader>
@@ -100,7 +100,7 @@
                                 <Field>
                                     <FieldLabel RequiredIndicator>What would you like to discuss?</FieldLabel>
                                     <FieldBody>
-                                        <MemoInput @bind-Value="@MessageBody" name="message" Rows="6" />
+                                        <Markdown @bind-Value="@MessageBody" MinHeight="220px" UploadImage="false" />
                                     </FieldBody>
                                 </Field>
                             </Validation>

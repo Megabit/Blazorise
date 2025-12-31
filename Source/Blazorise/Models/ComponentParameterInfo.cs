@@ -19,7 +19,7 @@ public record struct ComponentParameterInfo<T>
     /// <summary>
     /// Initializes a new instance of the <see cref="ComponentParameterInfo{T}"/> structure with the specified value.
     /// </summary>
-    /// <param name="value">The value of the component parameter.</param>
+    /// <param name="value">The captured parameter value, or default when not defined.</param>
     public ComponentParameterInfo( T value )
     {
         Value = value;
@@ -30,9 +30,9 @@ public record struct ComponentParameterInfo<T>
     /// <summary>
     /// Initializes a new instance of the <see cref="ComponentParameterInfo{T}"/> structure with the specified value and received information.
     /// </summary>
-    /// <param name="value">The value of the component parameter.</param>
-    /// <param name="defined">A value indicating whether the parameter was received through the component parameters or attributes.</param>
-    /// <param name="changed">A value indicating whether the parameter has changed since it was last rendered.</param>
+    /// <param name="value">The captured parameter value, or default when not defined.</param>
+    /// <param name="defined">True when the parameter was supplied in the current ParameterView.</param>
+    /// <param name="changed">True when the captured value differs from the previously rendered value.</param>
     public ComponentParameterInfo( T value, bool defined, bool changed )
     {
         Value = value;

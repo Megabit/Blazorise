@@ -34,6 +34,27 @@ public interface IFluentSizing
 }
 
 /// <summary>
+/// Contains all the allowed sizing style rules.
+/// </summary>
+public interface IFluentSizingStyle :
+    IFluentSizing
+{
+    /// <summary>
+    /// Defines the minimum size using the same unit as the fixed size.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    IFluentSizingStyle Min( double size );
+
+    /// <summary>
+    /// Defines the maximum size using the same unit as the fixed size.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    IFluentSizingStyle Max( double size );
+}
+
+/// <summary>
 /// Contains all the allowed sizing rules.
 /// </summary>
 public interface IFluentSizingWithSizeWithMinMaxWithViewportAll :
@@ -140,8 +161,8 @@ public interface IFluentSizingSize :
     /// </summary>
     /// <param name="unit">Unit value, eg. in px, rem, em, etc.</param>
     /// <param name="size">Size value.</param>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    IFluentSizing Is( string unit, double size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    IFluentSizingStyle Is( string unit, double size );
 }
 
 /// <summary>
@@ -242,7 +263,12 @@ public record FixedSizingDefiniton
     /// <summary>
     /// Defines the size value.
     /// </summary>
-    public double Size { get; set; }
+    public double? Size { get; set; }
+
+    /// <summary>
+    /// Defines the full CSS value.
+    /// </summary>
+    public string Value { get; set; }
 }
 
 /// <summary>
@@ -250,6 +276,7 @@ public record FixedSizingDefiniton
 /// </summary>
 public class FluentSizing :
     IFluentSizing,
+    IFluentSizingStyle,
     IFluentSizingSize,
     IFluentSizingMin,
     IFluentSizingViewport,
@@ -281,6 +308,16 @@ public class FluentSizing :
     /// Holds the sizing rules for the style.
     /// </summary>
     private FixedSizingDefiniton styleRule;
+
+    /// <summary>
+    /// Holds the sizing rules for the minimum style.
+    /// </summary>
+    private FixedSizingDefiniton minStyleRule;
+
+    /// <summary>
+    /// Holds the sizing rules for the maximum style.
+    /// </summary>
+    private FixedSizingDefiniton maxStyleRule;
 
     /// <summary>
     /// Indicates if the rules have changed.
@@ -347,14 +384,13 @@ public class FluentSizing :
         {
             void BuildStyles( StyleBuilder builder )
             {
-                if ( !string.IsNullOrEmpty( styleRule?.Unit ) )
-                {
-                    var sizingTypeName = sizingType == SizingType.Width
-                        ? "width"
-                        : "height";
+                var sizingTypeName = sizingType == SizingType.Width
+                    ? "width"
+                    : "height";
 
-                    builder.Append( $"{sizingTypeName}:{styleRule.Size.ToString( "G29", CultureInfo.InvariantCulture )}{styleRule.Unit}" );
-                }
+                AppendSizingStyle( builder, sizingTypeName, styleRule );
+                AppendSizingStyle( builder, $"min-{sizingTypeName}", minStyleRule );
+                AppendSizingStyle( builder, $"max-{sizingTypeName}", maxStyleRule );
             }
 
             var styleBuilder = new StyleBuilder( BuildStyles );
@@ -376,10 +412,56 @@ public class FluentSizing :
     }
 
     /// <summary>
+    /// Flags the stylenames to be rebuilt.
+    /// </summary>
+    private void DirtyStyles()
+    {
+        styleDirty = true;
+    }
+
+    private static void AppendSizingStyle( StyleBuilder builder, string propertyName, FixedSizingDefiniton sizingDefinition )
+    {
+        var value = GetSizingValue( sizingDefinition );
+
+        if ( !string.IsNullOrEmpty( value ) )
+            builder.Append( $"{propertyName}: {value}" );
+    }
+
+    private static string GetSizingValue( FixedSizingDefiniton sizingDefinition )
+    {
+        if ( sizingDefinition is null )
+            return null;
+
+        if ( !string.IsNullOrEmpty( sizingDefinition.Value ) )
+            return sizingDefinition.Value;
+
+        if ( sizingDefinition.Size.HasValue && !string.IsNullOrEmpty( sizingDefinition.Unit ) )
+            return $"{sizingDefinition.Size.Value.ToString( "G29", CultureInfo.InvariantCulture )}{sizingDefinition.Unit}";
+
+        return null;
+    }
+
+    private static string GetCssVariableValue( string variable )
+    {
+        if ( string.IsNullOrWhiteSpace( variable ) )
+            return null;
+
+        var trimmedVariable = variable.Trim();
+
+        if ( trimmedVariable.StartsWith( "var(", System.StringComparison.Ordinal ) )
+            return trimmedVariable;
+
+        if ( !trimmedVariable.StartsWith( "--", System.StringComparison.Ordinal ) )
+            trimmedVariable = $"--{trimmedVariable}";
+
+        return $"var({trimmedVariable})";
+    }
+
+    /// <summary>
     /// Starts the new sizing rule.
     /// </summary>
     /// <param name="sizingSize">Size of the element.</param>
-    /// <returns>Next rule reference.</returns>returns>
+    /// <returns>Next rule reference.</returns>
     public IFluentSizingMinMaxViewportOnBreakpoint WithSize( SizingSize sizingSize )
     {
         var sizingDefinition = new SizingDefinition { Breakpoint = Breakpoint.None };
@@ -400,14 +482,103 @@ public class FluentSizing :
     /// </summary>
     /// <param name="unit">Unit it the style.</param>
     /// <param name="size">Size of the element.</param>
-    /// <returns>Next rule reference.</returns>returns>
-    public IFluentSizing WithSize( string unit, double size )
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingStyle WithSize( string unit, double size )
     {
         styleRule = new()
         {
             Unit = unit,
             Size = size,
         };
+
+        minStyleRule = null;
+        maxStyleRule = null;
+        DirtyStyles();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Starts the new sizing rule for styles by defining only the unit.
+    /// </summary>
+    /// <param name="unit">Unit it the style.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingStyle WithUnit( string unit )
+    {
+        styleRule = new()
+        {
+            Unit = unit,
+        };
+
+        minStyleRule = null;
+        maxStyleRule = null;
+        DirtyStyles();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Starts the new sizing rule for styles with a CSS variable.
+    /// </summary>
+    /// <param name="variable">CSS variable name.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingStyle WithVariable( string variable )
+    {
+        var value = GetCssVariableValue( variable );
+
+        if ( string.IsNullOrEmpty( value ) )
+            return this;
+
+        styleRule = new()
+        {
+            Value = value,
+        };
+
+        minStyleRule = null;
+        maxStyleRule = null;
+        DirtyStyles();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Defines the minimum style size.
+    /// </summary>
+    /// <param name="size">Size of the element.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingStyle Min( double size )
+    {
+        if ( string.IsNullOrEmpty( styleRule?.Unit ) )
+            return this;
+
+        minStyleRule = new()
+        {
+            Unit = styleRule.Unit,
+            Size = size,
+        };
+
+        DirtyStyles();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Defines the maximum style size.
+    /// </summary>
+    /// <param name="size">Size of the element.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingStyle Max( double size )
+    {
+        if ( string.IsNullOrEmpty( styleRule?.Unit ) )
+            return this;
+
+        maxStyleRule = new()
+        {
+            Unit = styleRule.Unit,
+            Size = size,
+        };
+
+        DirtyStyles();
 
         return this;
     }
@@ -490,7 +661,7 @@ public class FluentSizing :
     /// <inheritdoc/>
     IFluentSizing IFluentSizingSize.Auto => WithSize( SizingSize.Auto );
 
-    IFluentSizing IFluentSizingSize.Is( string unit, double size ) => WithSize( unit, size );
+    IFluentSizingStyle IFluentSizingSize.Is( string unit, double size ) => WithSize( unit, size );
 
     /// <inheritdoc/>
     IFluentSizingViewport IFluentSizingMin.Min => WithMin();
@@ -569,29 +740,73 @@ public static class Width
     /// <remarks>
     /// Pixels (px) are relative to the viewing device. For low-dpi devices, 1px is one device pixel (dot) of the display. For printers and high resolution screens 1px implies multiple device pixels.
     /// </remarks>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Px( double size ) => new FluentSizing( SizingType.Width ).WithSize( "px", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Px( double size ) => new FluentSizing( SizingType.Width ).WithSize( "px", size );
+
+    /// <summary>
+    /// Defines the element size in pixels (1px = 1/96th of 1in).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Width ).WithUnit( "px" );
 
     /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Rem( double size ) => new FluentSizing( SizingType.Width ).WithSize( "rem", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Rem( double size ) => new FluentSizing( SizingType.Width ).WithSize( "rem", size );
+
+    /// <summary>
+    /// Defines the element size, relative to font-size of the root element.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Rem() => new FluentSizing( SizingType.Width ).WithUnit( "rem" );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <param name="size">Size value.</param>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Em( double size ) => new FluentSizing( SizingType.Width ).WithSize( "em", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Em( double size ) => new FluentSizing( SizingType.Width ).WithSize( "em", size );
+
+    /// <summary>
+    /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Em() => new FluentSizing( SizingType.Width ).WithUnit( "em" );
 
     /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <param name="size">Size value.</param>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Ch( double size ) => new FluentSizing( SizingType.Width ).WithSize( "ch", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Ch( double size ) => new FluentSizing( SizingType.Width ).WithSize( "ch", size );
+
+    /// <summary>
+    /// Defines the advance measure (width) of the glyph "0" of the element's font.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Ch() => new FluentSizing( SizingType.Width ).WithUnit( "ch" );
+
+    /// <summary>
+    /// Defines the element size, relative to the viewport's width.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Vw( double size ) => new FluentSizing( SizingType.Width ).WithSize( "vw", size );
+
+    /// <summary>
+    /// Defines the element size, relative to the viewport's width.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Vw() => new FluentSizing( SizingType.Width ).WithUnit( "vw" );
+
+    /// <summary>
+    /// Defines the element size with a CSS variable.
+    /// </summary>
+    /// <param name="variable">CSS variable name.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Var( string variable ) => new FluentSizing( SizingType.Width ).WithVariable( variable );
 
     /// <summary>
     /// Defines the maximum allowed element width. Shorthand for "Width.Is100.Max".
@@ -646,29 +861,73 @@ public static class Height
     /// <remarks>
     /// Pixels (px) are relative to the viewing device. For low-dpi devices, 1px is one device pixel (dot) of the display. For printers and high resolution screens 1px implies multiple device pixels.
     /// </remarks>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Px( double size ) => new FluentSizing( SizingType.Height ).WithSize( "px", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Px( double size ) => new FluentSizing( SizingType.Height ).WithSize( "px", size );
+
+    /// <summary>
+    /// Defines the element size in pixels (1px = 1/96th of 1in).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Height ).WithUnit( "px" );
 
     /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Rem( double size ) => new FluentSizing( SizingType.Height ).WithSize( "rem", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Rem( double size ) => new FluentSizing( SizingType.Height ).WithSize( "rem", size );
+
+    /// <summary>
+    /// Defines the element size, relative to font-size of the root element.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Rem() => new FluentSizing( SizingType.Height ).WithUnit( "rem" );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <param name="size">Size value.</param>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Em( double size ) => new FluentSizing( SizingType.Height ).WithSize( "em", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Em( double size ) => new FluentSizing( SizingType.Height ).WithSize( "em", size );
+
+    /// <summary>
+    /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Em() => new FluentSizing( SizingType.Height ).WithUnit( "em" );
 
     /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <param name="size">Size value.</param>
-    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Ch( double size ) => new FluentSizing( SizingType.Height ).WithSize( "ch", size );
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Ch( double size ) => new FluentSizing( SizingType.Height ).WithSize( "ch", size );
+
+    /// <summary>
+    /// Defines the advance measure (width) of the glyph "0" of the element's font.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Ch() => new FluentSizing( SizingType.Height ).WithUnit( "ch" );
+
+    /// <summary>
+    /// Defines the element size, relative to the viewport's height.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Vh( double size ) => new FluentSizing( SizingType.Height ).WithSize( "vh", size );
+
+    /// <summary>
+    /// Defines the element size, relative to the viewport's height.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Vh() => new FluentSizing( SizingType.Height ).WithUnit( "vh" );
+
+    /// <summary>
+    /// Defines the element size with a CSS variable.
+    /// </summary>
+    /// <param name="variable">CSS variable name.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Var( string variable ) => new FluentSizing( SizingType.Height ).WithVariable( variable );
 
     /// <summary>
     /// Defines the maximum allowed element height. Shorthand for "Height.Is100.Max".

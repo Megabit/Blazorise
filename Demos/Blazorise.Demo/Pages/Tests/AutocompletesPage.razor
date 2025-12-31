@@ -71,10 +71,10 @@
                                       Placeholder="Search..."
                                       FreeTyping="multipleAutocompleteFreeTyping"
                                       CloseOnSelection="false"
-                                      MinLength="1"
+                                      MinSearchLength="1"
                                       SelectionMode="AutocompleteSelectionMode.Checkbox"
-                        @bind-SelectedValues="multipleSelectionData"
-                        @bind-SelectedTexts="multipleSelectionTexts">
+                                      @bind-SelectedValues="multipleSelectionData"
+                                      @bind-SelectedTexts="multipleSelectionTexts">
                         </Autocomplete>
                     </FieldBody>
                 </Field>
@@ -86,6 +86,71 @@
                         Selected Texts: @(multipleSelectionTexts != null ? string.Join( ',', multipleSelectionTexts ) : "");
                     </FieldBody>
                 </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete Validation</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Validations @ref="autocompleteValidations" Mode="ValidationMode.Manual">
+                    <Validation Validator="@ValidateAutocompleteSelection">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
+                                <Autocomplete TItem="Country"
+                                              TValue="string"
+                                              Data="@Countries"
+                                              TextField="@(( item ) => item.Name)"
+                                              ValueField="@((item) => item.Iso)"
+                                              @bind-SelectedValue="selectedAutoCompleteValidationValue"
+                                              Placeholder="Search...">
+                                    <Feedback>
+                                        <ValidationError>Please select a country.</ValidationError>
+                                    </Feedback>
+                                </Autocomplete>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Button Color="Color.Primary" Clicked="@ValidateAutocomplete">Validate</Button>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete Validation Multiple</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Validations @ref="autocompleteMultipleValidations" Mode="ValidationMode.Manual">
+                    <Validation Validator="@ValidateAutocompleteMultipleSelection">
+                        <Field Horizontal JustifyContent="JustifyContent.End">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
+                                <Autocomplete TItem="Country"
+                                              TValue="string"
+                                              Data="@Countries"
+                                              TextField="@(( item ) => item.Name)"
+                                              ValueField="@((item) => item.Iso)"
+                                              Placeholder="Search..."
+                                              SelectionMode="AutocompleteSelectionMode.Multiple"
+                                              CloseOnSelection="false"
+                                              @bind-SelectedValues="multipleValidationSelectionData">
+                                    <Feedback>
+                                        <ValidationError>Please select at least one country.</ValidationError>
+                                    </Feedback>
+                                </Autocomplete>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Button Color="Color.Primary" Clicked="@ValidateAutocompleteMultiple">Validate</Button>
+                </Validations>
             </CardBody>
         </Card>
     </Column>
@@ -111,8 +176,8 @@
                                       TValue="string"
                                       Data="@ReadDataCountries"
                                       ReadData="HandleReadData"
-                        @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
-                        @bind-SelectedText="selectedAutoCompleteReadDataText"
+                                      @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
+                                      @bind-SelectedText="selectedAutoCompleteReadDataText"
                                       FreeTyping="autocompleteReadDataFreeTyping"
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
@@ -160,7 +225,7 @@
                                       ReadData="HandleMultipleReadData"
                                       TextField="@((item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
-                                      Placeholder="Search..." MinLength="0"
+                                      Placeholder="Search..." MinSearchLength="0"
                                       SelectionMode="AutocompleteSelectionMode.Multiple"
                                       CloseOnSelection="false"
                                       @bind-SelectedValues="multipleReadDataSelectionData"
@@ -311,13 +376,20 @@
     private string selectedAutoCompleteVirtualizeReadDataSearchValue { get; set; }
     private string selectedAutoCompleteVirtualizeReadDataText { get; set; }
 
+    private string selectedAutoCompleteValidationValue { get; set; }
+
     private bool autocompleteFreeTyping = false;
     private bool autocompleteReadDataFreeTyping = false;
     private bool autocompleteVirtualizeFreeTyping = false;
     private bool autocompleteVirtualizeReadDataFreeTyping = false;
 
+    private Validations autocompleteValidations;
+    private Validations autocompleteMultipleValidations;
+
     private List<string> multipleReadDataSelectionData = new();
     private List<string> multipleReadDataSelectionTexts;
+
+    private List<string> multipleValidationSelectionData = new();
 
     private List<string> multipleSelectionData;
     private List<string> multipleSelectionTexts;
@@ -383,6 +455,32 @@
                 ReadDataCountries = ( await CountryData.GetDataAsync() ).Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
             }
         }
+    }
+
+    private void ValidateAutocompleteSelection( ValidatorEventArgs validationArgs )
+    {
+        string value = validationArgs.Value as string;
+        validationArgs.Status = string.IsNullOrEmpty( value )
+            ? ValidationStatus.Error
+            : ValidationStatus.Success;
+    }
+
+    private void ValidateAutocompleteMultipleSelection( ValidatorEventArgs validationArgs )
+    {
+        List<string> values = validationArgs.Value as List<string>;
+        validationArgs.Status = values != null && values.Count > 0
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+    }
+
+    private async Task ValidateAutocomplete()
+    {
+        await autocompleteValidations.ValidateAll();
+    }
+
+    private async Task ValidateAutocompleteMultiple()
+    {
+        await autocompleteMultipleValidations.ValidateAll();
     }
 
     protected override async Task OnInitializedAsync()

@@ -1,0 +1,45 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Validations @ref="validations" Mode="ValidationMode.Manual">
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <Field>
+            <FieldLabel>Country</FieldLabel>
+            <FieldBody>
+                <Autocomplete TItem="Country"
+                              TValue="string"
+                              Data="@Countries"
+                              TextField="@(( item ) => item.Name)"
+                              ValueField="@(( item ) => item.Iso)"
+                              Placeholder="Select a country"
+                              @bind-SelectedValue="@selectedCountry">
+                    <Feedback>
+                        <ValidationError>Please select a country.</ValidationError>
+                    </Feedback>
+                </Autocomplete>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color="Color.Primary" Clicked="@Validate">Validate</Button>
+</Validations>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+
+    public IEnumerable<Country> Countries;
+
+    Validations validations;
+
+    string selectedCountry;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    async Task Validate()
+    {
+        await validations.ValidateAll();
+    }
+}

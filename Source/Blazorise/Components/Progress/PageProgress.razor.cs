@@ -157,5 +157,15 @@ public partial class PageProgress : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Type intent of the progress bar, optional.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
     #endregion
 }

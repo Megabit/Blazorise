@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -144,6 +145,16 @@ public partial class ListGroupItem : BaseComponent
 
             DirtyClasses();
         }
+    }
+
+    /// <summary>
+    /// Gets or sets the list-group-item intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
     }
 
     #endregion

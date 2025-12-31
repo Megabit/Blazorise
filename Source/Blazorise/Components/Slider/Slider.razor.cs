@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -19,28 +18,26 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     #region Members
 
     /// <summary>
-    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// Captured Min parameter snapshot.
     /// </summary>
-    private bool minDefined = false;
+    protected ComponentParameterInfo<TValue> paramMin;
 
     /// <summary>
-    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// Captured Max parameter snapshot.
     /// </summary>
-    private bool maxDefined = false;
+    protected ComponentParameterInfo<TValue> paramMax;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
-    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
+    protected override void CaptureParameters( ParameterView parameters )
     {
-        await base.OnBeforeSetParametersAsync( parameters );
+        base.CaptureParameters( parameters );
 
-        // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
-        // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
-        minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var _ );
-        maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var _ );
+        parameters.TryGetParameter( nameof( Min ), Min, out paramMin );
+        parameters.TryGetParameter( nameof( Max ), Max, out paramMax );
     }
 
     /// <inheritdoc/>
@@ -111,12 +108,12 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.
     /// </summary>
-    protected bool MinDefined => minDefined;
+    protected bool MinDefined => paramMin.Defined;
 
     /// <summary>
     /// Indicates if <see cref="Max"/> parameter is defined.
     /// </summary>
-    protected bool MaxDefined => maxDefined;
+    protected bool MaxDefined => paramMax.Defined;
 
     /// <summary>
     /// Specifies the interval between valid values.

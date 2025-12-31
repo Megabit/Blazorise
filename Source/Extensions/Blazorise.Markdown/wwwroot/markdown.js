@@ -3,6 +3,7 @@ import "./vendors/highlight.js?v=1.8.8.0";
 import { removeAllFileEntries } from "../Blazorise/io.js?v=1.8.8.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=1.8.8.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/markdown.css?v=1.8.8.0\" />");
 
 const _instances = [];
 
@@ -174,7 +175,11 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
 
     const easyMDE = new EasyMDE(mdeOptions);
 
-    easyMDE.codemirror.on("change", function () {
+    easyMDE.codemirror.on("change", function (instance, changeObj) {
+        if (changeObj && changeObj.origin === "setValue") {
+            return;
+        }
+
         dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());
     });
 
@@ -184,6 +189,8 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         editor: easyMDE,
         imageUploadNotifier: imageUploadNotifier
     };
+
+    applyBaseInputOptions(instances[elementId], options);
 }
 
 export function destroy(element, elementId) {
@@ -241,8 +248,232 @@ export function focus(elementId, scrollToElement) {
     const instance = _instances[elementId];
 
     if (instance) {
+        if (instance.baseInputState && instance.editor && instance.editor.codemirror) {
+            const readOnly = instance.editor.codemirror.getOption("readOnly");
+            if (readOnly === "nocursor") {
+                return;
+            }
+        }
+
         return instance.editor.codemirror.focus({
             preventScroll: !scrollToElement
         });
     }
+}
+
+export function updateBaseInputOptions(elementId, options) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        applyBaseInputOptions(instance, options);
+    }
+}
+
+function splitClassNames(classNames) {
+    if (!classNames)
+        return [];
+
+    return classNames
+        .split(/\s+/g)
+        .map(c => c && c.trim())
+        .filter(Boolean);
+}
+
+function getEditorElements(instance) {
+    if (!instance || !instance.editor || !instance.editor.codemirror)
+        return {};
+
+    const codeMirrorElement = instance.editor.codemirror.getWrapperElement();
+    const containerElement = codeMirrorElement ? codeMirrorElement.closest(".EasyMDEContainer") : null;
+    const inputElement = typeof instance.editor.codemirror.getInputField === "function"
+        ? instance.editor.codemirror.getInputField()
+        : null;
+
+    return {
+        containerElement: containerElement,
+        codeMirrorElement: codeMirrorElement,
+        inputElement: inputElement
+    };
+}
+
+function applyClassNames(element, instanceState, classNames) {
+    if (!element)
+        return;
+
+    const oldClasses = instanceState.appliedClassNames || [];
+    oldClasses.forEach(c => element.classList.remove(c));
+
+    const newClasses = splitClassNames(classNames)
+        .filter(c => c !== "EasyMDEContainer");
+
+    newClasses.forEach(c => element.classList.add(c));
+
+    instanceState.appliedClassNames = newClasses;
+}
+
+function parseStyleNames(styleNames) {
+    const styles = [];
+
+    if (!styleNames)
+        return styles;
+
+    styleNames.split(";").forEach(part => {
+        if (!part)
+            return;
+
+        const style = part.trim();
+        if (!style)
+            return;
+
+        const colonIndex = style.indexOf(":");
+        if (colonIndex < 0)
+            return;
+
+        const name = style.substring(0, colonIndex).trim();
+        const value = style.substring(colonIndex + 1).trim();
+
+        if (!name)
+            return;
+
+        styles.push([name, value]);
+    });
+
+    return styles;
+}
+
+function applyStyleNames(element, instanceState, styleNames) {
+    if (!element)
+        return;
+
+    const oldStyleNames = instanceState.appliedStyleNames || [];
+    oldStyleNames.forEach(name => element.style.removeProperty(name));
+
+    const newStyles = parseStyleNames(styleNames);
+    const newStyleNames = [];
+
+    newStyles.forEach(pair => {
+        const name = pair[0];
+        const value = pair[1];
+
+        element.style.setProperty(name, value);
+        newStyleNames.push(name);
+    });
+
+    instanceState.appliedStyleNames = newStyleNames;
+}
+
+function applyAttributes(element, instanceState, attributes) {
+    if (!element)
+        return;
+
+    const oldAttributes = instanceState.appliedAttributes || [];
+
+    oldAttributes.forEach(name => {
+        if (!attributes || !(name in attributes)) {
+            element.removeAttribute(name);
+        }
+    });
+
+    const newAttributes = [];
+
+    if (attributes) {
+        Object.keys(attributes).forEach(name => {
+            if (!name)
+                return;
+
+            const lowerName = name.toLowerCase();
+
+            if (lowerName === "class" || lowerName === "style" || lowerName === "id" || lowerName === "readonly" || lowerName === "disabled")
+                return;
+
+            const value = attributes[name];
+
+            if (value === null || value === undefined || value === false) {
+                element.removeAttribute(name);
+                return;
+            }
+
+            if (value === true) {
+                element.setAttribute(name, "");
+            }
+            else {
+                element.setAttribute(name, value);
+            }
+
+            newAttributes.push(name);
+        });
+    }
+
+    instanceState.appliedAttributes = newAttributes;
+}
+
+function applyReadOnlyAndDisabled(instance, containerElement, options) {
+    if (!instance || !instance.editor || !instance.editor.codemirror || !options)
+        return;
+
+    const disabled = options.disabled === true;
+    const readOnly = options.readOnly === true;
+
+    // Disabled takes precedence over ReadOnly.
+    if (disabled) {
+        instance.editor.codemirror.setOption("readOnly", "nocursor");
+    }
+    else if (readOnly) {
+        instance.editor.codemirror.setOption("readOnly", true);
+    }
+    else {
+        instance.editor.codemirror.setOption("readOnly", false);
+    }
+
+    if (containerElement) {
+        containerElement.setAttribute("aria-disabled", disabled ? "true" : "false");
+        containerElement.classList.toggle("b-markdown-disabled", disabled);
+    }
+
+    // Only disable toolbar interactions when Disabled is true.
+    if (containerElement) {
+        const toolbarElement = containerElement.querySelector(".editor-toolbar");
+
+        if (toolbarElement) {
+            toolbarElement.classList.toggle("disabled", disabled);
+
+            toolbarElement.querySelectorAll("button").forEach(btn => {
+                btn.disabled = disabled;
+            });
+
+            toolbarElement.querySelectorAll("a").forEach(anchor => {
+                anchor.setAttribute("aria-disabled", disabled ? "true" : "false");
+                anchor.style.pointerEvents = disabled ? "none" : "";
+
+                if (disabled) {
+                    anchor.setAttribute("tabindex", "-1");
+                }
+                else {
+                    anchor.removeAttribute("tabindex");
+                }
+            });
+        }
+    }
+}
+
+function applyBaseInputOptions(instance, options) {
+    if (!instance || !options)
+        return;
+
+    const instanceState = instance.baseInputState || (instance.baseInputState = {});
+    const containerState = instanceState.containerState || (instanceState.containerState = {});
+    const inputState = instanceState.inputState || (instanceState.inputState = {});
+    const editorElements = getEditorElements(instance);
+    const containerElement = editorElements.containerElement;
+    const inputElement = editorElements.inputElement;
+
+    applyReadOnlyAndDisabled(instance, containerElement, options);
+
+    // Apply BaseComponent styling/attributes to the visible editor container.
+    applyClassNames(containerElement, containerState, options.classNames);
+    applyStyleNames(containerElement, containerState, options.styleNames);
+    applyAttributes(containerElement, containerState, options.attributes);
+
+    // Apply attributes to the actual focusable input element created by CodeMirror.
+    applyAttributes(inputElement, inputState, options.attributes);
 }

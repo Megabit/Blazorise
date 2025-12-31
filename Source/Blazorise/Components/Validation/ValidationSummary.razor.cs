@@ -71,7 +71,7 @@ public partial class ValidationSummary : BaseComponent, IDisposable
         {
             DetachAllListener();
 
-            ParentValidations._StatusChanged += OnValidationsStatusChanged;
+            ParentValidations.StatusChangedInternal += OnValidationsStatusChanged;
 
             previousParentValidations = ParentValidations;
         }
@@ -81,7 +81,7 @@ public partial class ValidationSummary : BaseComponent, IDisposable
     {
         if ( previousParentValidations is not null )
         {
-            previousParentValidations._StatusChanged -= OnValidationsStatusChanged;
+            previousParentValidations.StatusChangedInternal -= OnValidationsStatusChanged;
         }
     }
 

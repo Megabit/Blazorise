@@ -1,4 +1,4 @@
-﻿@import "variables";
+@import "variables";
 @import "mixins";
 
 @import "components/accordion";
@@ -17,5 +17,6 @@
 @import "components/table";
 @import "components/toast";
 @import "components/typography";
+@import "extensions/richtextedit";
 
 @import "components/utilities";

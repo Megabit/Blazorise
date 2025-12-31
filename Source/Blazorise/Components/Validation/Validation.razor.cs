@@ -250,10 +250,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         {
             var validationHandler = GetValidationHandler();
 
-            if ( validationHandler is not null )
-            {
-                validationHandler.Validate( this, newValidationValue );
-            }
+            validationHandler?.Validate( this, newValidationValue );
         }
 
         return Status;

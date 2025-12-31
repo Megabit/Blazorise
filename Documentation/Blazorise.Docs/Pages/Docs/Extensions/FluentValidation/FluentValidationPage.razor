@@ -1,17 +1,21 @@
 ﻿@page "/docs/extensions/fluent-validation"
 
-<Seo Canonical="/docs/extensions/fluent-validation" Title="Blazorise FluentValidation component" Description="Learn to use and work with the Blazorise FluentValidation component, which is used for building strongly-typed validation rules." />
+<Seo Canonical="/docs/extensions/fluent-validation" Title="Blazorise FluentValidation component" Description="Learn how to use the Blazorise FluentValidation component to build strongly typed validation rules." />
 
 <DocsPageTitle Path="Extensions/FluentValidation">
     Blazorise FluentValidation component
 </DocsPageTitle>
 
 <DocsPageLead>
-    A validation component for building strongly-typed validation rules.
+    A validation component for building strongly typed validation rules.
 </DocsPageLead>
 
 <DocsPageParagraph>
     This extension component is based on <Anchor To="https://github.com/FluentValidation/FluentValidation" Title="Link to FluentValidation">FluentValidation</Anchor>, a validation library for .NET that uses a fluent interface and lambda expressions for building strongly-typed validation rules.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>FluentValidation</Code> component, install the <Code>Blazorise.FluentValidation</Code> package first.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -19,21 +23,21 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="1. NuGet">
+    <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FluentValidationNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="2. Imports">
+    <DocsPageSectionHeader Title="Imports">
         In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FluentValidationImportExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="3. Register Blazorise Services">
+    <DocsPageSectionHeader Title="Register Blazorise services">
         Add the following lines to the relevant sections of <Badge Color="Color.Light">Program.cs</Badge>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FluentValidationRegisterValidatorsExample" />

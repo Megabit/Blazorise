@@ -1,7 +1,8 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Charts;
 using Blazorise.DataGrid;
 using Blazorise.Modules;
+using Blazorise.RichTextEdit;
 using Bunit;
 #endregion
 
@@ -80,6 +81,27 @@ public static class JSInterop
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseRichTextEdit( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSRichTextEditModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ), new RichTextEditOptions() ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "loadStylesheets", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "setHtml", _ => true ).SetVoidResult();
+        module.Setup<string>( "getHtml", _ => true ).SetResult( string.Empty );
+        module.SetupVoid( "setDelta", _ => true ).SetVoidResult();
+        module.Setup<string>( "getDelta", _ => true ).SetResult( string.Empty );
+        module.SetupVoid( "setText", _ => true ).SetVoidResult();
+        module.Setup<string>( "getText", _ => true ).SetResult( string.Empty );
+        module.SetupVoid( "clearContent", _ => true ).SetVoidResult();
+        module.SetupVoid( "setReadOnly", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

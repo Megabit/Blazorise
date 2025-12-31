@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/animate"
 
-<Seo Canonical="/docs/extensions/animate" Title="Blazorise Animate component" Description="Learn to use and work with the Blazorise Animate component that provides a wrapper that will animate your content." />
+<Seo Canonical="/docs/extensions/animate" Title="Blazorise Animate component" Description="Learn how to use the Blazorise Animate component to add scroll-based animations with the AOS library." />
 
 <DocsPageTitle Path="Extensions/Animate">
     Blazorise Animate component
@@ -11,14 +11,14 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Animate component provides a wrapper that will animate your content. It is based on the <Blazorise.Link Target="Target.Blank" To="https://michalsnik.github.io/aos/">AOS javascript library</Blazorise.Link>.
+    The Animate component wraps the <Anchor Target="Target.Blank" To="https://michalsnik.github.io/aos/">AOS JavaScript library</Anchor> to animate content as it enters the viewport.
 </DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        <Paragraph>Blazorise acts as a wrapper for the animation functionality provided by the <Link To="https://michalsnik.github.io/aos/">aos library</Link>. If you're having any issues please make sure to also take a look at the aos library repository.</Paragraph>
+        <Paragraph>Blazorise wraps the animation functionality provided by the <Anchor To="https://michalsnik.github.io/aos/">AOS library</Anchor>. If you run into issues, also review the AOS repository.</Paragraph>
 
-        <Paragraph>There might be certain content, that due to how they are structured/styled might not be possible to animate.</Paragraph>
+        <Paragraph>Some content cannot be animated because of how it is structured or styled.</Paragraph>
         <Paragraph>It is not possible to animate:</Paragraph>
         <UnorderedList>
             <UnorderedListItem>Modal</UnorderedListItem>
@@ -28,13 +28,17 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        Take note, that certain elements in the page may affect how the aos library finds the "offset" element necessary to trigger the animation. It is known that Sidebars for instance can affect this behaviour.
+        Note that certain elements on the page may affect how the AOS library finds the "offset" element needed to trigger animations. Sidebars are a known example.
         To make sure your content is successfully animated you may configure the <Code>Anchor</Code> parameter giving the <Code>Animate</Code> component the necessary information to work.
 
-        For example, the animate example given below, is configured as explained.
+        For example, the animate example below is configured this way.
     </AlertDescription>
 
 </Alert>
+<DocsPageParagraph>
+    To use the <Code>Animate</Code> component, install the <Code>Blazorise.Animate</Code> package first.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
@@ -43,7 +47,7 @@
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="AnimateNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="AnimateNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -55,7 +59,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static Files">
-        Add <Code>animate.js</Code> to your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+        Add <Code>animate.js</Code> to your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="AnimateResourcesExample" />
 </DocsPageSection>

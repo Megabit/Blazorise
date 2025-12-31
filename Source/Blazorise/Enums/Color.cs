@@ -74,7 +74,7 @@ public record Color : Enumeration<Color>
     public static readonly Color Dark = new( "dark" );
 
     /// <summary>
-    /// Link color.
+    /// Link color. Can only be used on alerts and buttons.
     /// </summary>
     public static readonly Color Link = new( "link" );
 }

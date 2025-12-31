@@ -1,18 +1,48 @@
 ﻿@page "/docs/extensions/signaturepad"
 
-<Seo Canonical="/docs/extensions/signaturepad" Title="Blazorise Signature Pad component" Description="Learn to use and work with the Blazorise Signature Pad component, its features, as well as capturing and displaying user signatures." />
+<Seo Canonical="/docs/extensions/signaturepad" Title="Blazorise SignaturePad component" Description="Learn how to use the Blazorise SignaturePad component to capture and display user signatures." />
 
 <DocsPageTitle Path="Extensions/SignaturePad">
-    Blazorise Signature Pad component
+    Blazorise SignaturePad component
 </DocsPageTitle>
 
 <DocsPageLead>
-    A powerful tool for capturing and displaying user signatures on the web.
+    Capture and display user signatures in Blazor applications.
 </DocsPageLead>
 
 <DocsPageParagraph>
     The Blazorise <Code Tag>SignaturePad</Code> extension is a customizable and easy-to-use component that allows users to capture and display their signatures. The component provides a range of options to customize the appearance of the signature pad, such as the color and width of the signature stroke, and also allows you to save and load the signature data as an image file or a JSON object.
 </DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>SignaturePad</Code> component, install the <Code>Blazorise.SignaturePad</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        <Paragraph>
+            Install extension from NuGet.
+        </Paragraph>
+        <Paragraph>
+            <Code>Install-Package Blazorise.SignaturePad</Code>
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        <Paragraph>
+            In your main <Code>_Imports.razor</Code> add:
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.SignaturePad</Code>
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
 
 <DocsPageSubtitle>
     Examples

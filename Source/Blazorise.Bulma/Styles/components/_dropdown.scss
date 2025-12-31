@@ -96,6 +96,39 @@
     }
 }
 
+.b-is-autocomplete {
+    &.is-success,
+    &.is-danger {
+        border-style: solid;
+        border-width: 1px;
+        border-radius: .25rem;
+    }
+
+    &.is-success {
+        border-color: $success;
+    }
+
+    &.is-danger {
+        border-color: $danger;
+    }
+
+    &.is-success.focus {
+        border-color: $success;
+        box-shadow: 0 0 0 0.125em rgba($success, 0.25);
+    }
+
+    &.is-danger.focus {
+        border-color: $danger;
+        box-shadow: 0 0 0 0.125em rgba($danger, 0.25);
+    }
+
+    &.is-success > input,
+    &.is-danger > input {
+        border-color: transparent;
+        box-shadow: none;
+    }
+}
+
 .dropdown {
     .button.dropdown-trigger:not(.is-outlined) {
         box-shadow: none;

@@ -1,0 +1,15 @@
+.EasyMDEContainer.b-markdown-invalid .editor-toolbar,
+.EasyMDEContainer.b-markdown-invalid .CodeMirror,
+.EasyMDEContainer.b-markdown-invalid .editor-preview-side,
+.EasyMDEContainer.b-markdown-invalid .editor-preview-full,
+.EasyMDEContainer.b-markdown-invalid .editor-statusbar {
+    border-color: var(--b-theme-danger, "#FF0000");
+}
+
+.EasyMDEContainer.b-markdown-valid .editor-toolbar,
+.EasyMDEContainer.b-markdown-valid .CodeMirror,
+.EasyMDEContainer.b-markdown-valid .editor-preview-side,
+.EasyMDEContainer.b-markdown-valid .editor-preview-full,
+.EasyMDEContainer.b-markdown-valid .editor-statusbar {
+    border-color: var(--b-theme-success, "#00FF00");
+}
