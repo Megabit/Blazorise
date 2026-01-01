@@ -1,52 +1,48 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Autocomplete</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Country</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Countries</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Name)</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Iso)</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedSearchValue</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedAutoCompleteText</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Search...</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Filter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">AutocompleteFilter</span><span class="enumValue">.StartsWith</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">FreeTyping</span>
-        <span class="htmlAttributeName">CustomFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item, searchValue ) =&gt; item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) &gt;= 0 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NotFoundContent</span><span class="htmlTagDelimiter">&gt;</span> Sorry... <span class="atSign">&#64;</span>context was not found! :( <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NotFoundContent</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ItemContent</span><span class="htmlTagDelimiter">&gt;</span>
+              <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Countries</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Name)</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Iso)</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedSearchValue</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedAutoCompleteText</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Search...</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Filter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">AutocompleteFilter</span><span class="enumValue">.StartsWith</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">FreeTyping</span>
+              <span class="htmlAttributeName">CustomFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item, searchValue ) =&gt; item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) &gt;= 0 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NotFoundTemplate</span><span class="htmlTagDelimiter">&gt;</span> Sorry... <span class="atSign">&#64;</span>context was not found! :( <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NotFoundTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ItemContent</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.InlineFlex.JustifyContent.Between</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Width</span><span class="enumValue">.Is100</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Value<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Small</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Item.Capital<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Small</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Value<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Small</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Item.Capital<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Small</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Text<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ItemContent</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ItemContent</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Autocomplete</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span> <span class="htmlAttributeName">Horizontal</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         Selected search value: <span class="atSign">&#64;</span>selectedSearchValue
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         Selected text value: <span class="atSign">&#64;</span>selectedAutoCompleteText
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject]
-        <span class="keyword">public</span> CountryData CountryData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">public</span> IEnumerable&lt;Country&gt; Countries;
+    <span class="keyword">public</span> CountryData CountryData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> IEnumerable&lt;Country&gt; Countries;
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
     {
         Countries = <span class="keyword">await</span> CountryData.GetDataAsync();
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
     }
-        <span class="keyword">string</span> selectedSearchValue { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">string</span> selectedAutoCompleteText { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">string</span> selectedSearchValue { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">string</span> selectedAutoCompleteText { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 }
-</pre>
-    </div>
+</pre></div>
 </div>
