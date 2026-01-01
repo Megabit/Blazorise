@@ -4766,7 +4766,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               Filter=""AutocompleteFilter.StartsWith""
               FreeTyping
               CustomFilter=""@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 
 <Field Horizontal>
@@ -4800,7 +4800,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               ValueField=""@(( item ) => item.Iso)""
               Placeholder=""Search...""
               HighlightSearch>
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 
 @code {
@@ -4826,7 +4826,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               Filter=""AutocompleteFilter.StartsWith""
               FreeTyping
               CustomFilter=""@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
     <ItemContent>
         <Div Flex=""Flex.InlineFlex.JustifyContent.Between"" Width=""Width.Is100"">
             <Heading Margin=""Margin.Is2.FromBottom"">@context.Value</Heading>
@@ -4960,7 +4960,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               @bind-SelectedText=""selectedAutoCompleteText""
               Placeholder=""Search...""
               FreeTyping>
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 
 <Field Horizontal>
@@ -5093,7 +5093,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               Placeholder=""Search...""
               Virtualize
               ReadData=""@OnHandleReadData"">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 @code {
     [Inject]
@@ -5133,7 +5133,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
               @bind-SelectedValue=""selectedSearchValue""
               Placeholder=""Search...""
               Virtualize>
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 @code {
     [Inject]

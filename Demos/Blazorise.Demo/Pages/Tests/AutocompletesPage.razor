@@ -27,7 +27,7 @@
                                       Filter="AutocompleteFilter.StartsWith"
                                       FreeTyping="autocompleteFreeTyping"
                                       CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
@@ -182,7 +182,7 @@
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
                                       Placeholder="Search...">
-                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
@@ -231,7 +231,7 @@
                                       @bind-SelectedValues="multipleReadDataSelectionData"
                                       @bind-SelectedTexts="multipleReadDataSelectionTexts"
                                       FreeTyping="multipleAutocompleteReadDataFreeTyping">
-                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
@@ -282,7 +282,7 @@
                                       Filter="AutocompleteFilter.StartsWith"
                                       FreeTyping="autocompleteFreeTyping"
                                       CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
@@ -331,7 +331,7 @@
                                       ValueField="@((item) => item.Iso)"
                                       Virtualize
                                       Placeholder="Search...">
-                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
                             <ItemContent>
                                 <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>

@@ -1482,7 +1482,7 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     /// True if the not found content should be visible.
     /// </summary>
     protected bool NotFoundVisible
-        => !FreeTyping && canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HasFilteredData;
+        => !FreeTyping && canShowDropDown && NotFoundTemplate is not null && IsTextSearchable && !Loading && !HasFilteredData;
 
     /// <summary>
     /// True if the free typing not found content should be visible.
@@ -1813,9 +1813,9 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     [Parameter] public int? DebounceInterval { get; set; }
 
     /// <summary>
-    /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found.
+    /// Specifies the not found template to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found.
     /// </summary>
-    [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
+    [Parameter] public RenderFragment<string> NotFoundTemplate { get; set; }
 
     /// <summary>
     /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found and FreeTyping is enabled.
