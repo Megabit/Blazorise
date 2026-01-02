@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -34,6 +35,9 @@ public class ValidationMessageLocalizerAttributeFinder : IValidationMessageLocal
     public virtual IEnumerable<(string Index, string Argument)> FindAll( string first, string second )
     {
         if ( string.IsNullOrEmpty( first ) || string.IsNullOrEmpty( second ) )
+            yield break;
+
+        if ( string.Equals( first, second, StringComparison.Ordinal ) )
             yield break;
 
         var matches = PlaceholderRegex.Matches( second );
