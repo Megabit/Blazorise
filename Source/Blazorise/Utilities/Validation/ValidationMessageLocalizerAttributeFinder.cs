@@ -1,5 +1,9 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
+using RegexMatch = System.Text.RegularExpressions.Match;
 #endregion
 
 namespace Blazorise.Utilities;
@@ -23,22 +27,46 @@ public interface IValidationMessageLocalizerAttributeFinder
 /// </summary>
 public class ValidationMessageLocalizerAttributeFinder : IValidationMessageLocalizerAttributeFinder
 {
+    private static readonly Regex PlaceholderRegex = new( @"\{(?<index>\d+)(?:[^}]*)\}", RegexOptions.Compiled );
+
     #region Methods
 
     /// <inheritdoc/>
     public virtual IEnumerable<(string Index, string Argument)> FindAll( string first, string second )
     {
-        var firstList = first?.Split( ' ' );
-        var secondList = second?.Split( ' ' );
+        if ( string.IsNullOrEmpty( first ) || string.IsNullOrEmpty( second ) )
+            yield break;
 
-        if ( firstList is not null && secondList is not null && firstList.Length == secondList.Length )
+        if ( string.Equals( first, second, StringComparison.Ordinal ) )
+            yield break;
+
+        var matches = PlaceholderRegex.Matches( second );
+
+        if ( matches.Count == 0 )
+            yield break;
+
+        var indexes = new List<string>( matches.Count );
+        var patternBuilder = new StringBuilder();
+        var lastIndex = 0;
+
+        foreach ( RegexMatch match in matches )
         {
-            for ( int i = 0; i < firstList.Length; ++i )
-            {
-                if ( firstList[i] != secondList[i] )
-                    yield return (secondList[i], firstList[i].Trim( '.' ));
-            }
+            patternBuilder.Append( Regex.Escape( second.Substring( lastIndex, match.Index - lastIndex ) ) );
+            patternBuilder.Append( "(.*?)" );
+            indexes.Add( match.Groups["index"].Value );
+            lastIndex = match.Index + match.Length;
         }
+
+        patternBuilder.Append( Regex.Escape( second.Substring( lastIndex ) ) );
+
+        var pattern = "^" + patternBuilder + "$";
+        var messageMatch = Regex.Match( first, pattern, RegexOptions.Singleline );
+
+        if ( !messageMatch.Success )
+            yield break;
+
+        for ( int i = 0; i < indexes.Count; ++i )
+            yield return (indexes[i], messageMatch.Groups[i + 1].Value);
     }
 
     #endregion
