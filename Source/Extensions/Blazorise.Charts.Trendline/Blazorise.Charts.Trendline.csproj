@@ -16,9 +16,4 @@
     <ProjectReference Include="..\Blazorise.Charts\Blazorise.Charts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
-
 </Project>

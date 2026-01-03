@@ -18,11 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Resources\Localization\**\*.json" />
     <EmbeddedResource Include="Resources\Localization\**\*.json" />
     <None Remove="Resources\Localization\*.json" />

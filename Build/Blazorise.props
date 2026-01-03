@@ -1,11 +1,9 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Blazorise.Pack.props" />
 	<PropertyGroup>
 		<Version>1.8.8</Version>
 		<PackageVersion>1.8.8</PackageVersion>
 
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageIcon>Blazorise.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -23,10 +21,6 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)..\README.md" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
