@@ -13,6 +13,7 @@
     <Company>Blazorise</Company>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <Description>Roslyn analyzers and migration helpers for Blazorise 2.0.</Description>
     <PackageTags>Blazorise;Blazor;Analyzer;Roslyn;Migration</PackageTags>
@@ -43,6 +44,7 @@
   <ItemGroup>
     <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\README.md" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
