@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
@@ -11,7 +11,7 @@ public partial class ColorInput
 
     public ColorInput()
     {
-        InputClassBuilder = new ClassBuilder( BuildInputClasses );
+        InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
     }
 
     #endregion

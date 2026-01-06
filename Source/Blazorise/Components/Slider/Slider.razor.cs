@@ -13,7 +13,7 @@ namespace Blazorise;
 /// A slider to select a value from a given range.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue}.Value"/> property.</typeparam>
-public partial class Slider<TValue> : BaseInputComponent<TValue>
+public partial class Slider<TValue> : BaseInputComponent<TValue, SliderClasses, SliderStyles>
 {
     #region Members
 

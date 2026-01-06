@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
-<div class="@ContainerClassNames">
+@inherits BaseComponent<BarDropdownMenuClasses, BarDropdownMenuStyles>
+<div class="@ContainerClassNames" style="@Styles?.Container">
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
         @ChildContent
     </div>

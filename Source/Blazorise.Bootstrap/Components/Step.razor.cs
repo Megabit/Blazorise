@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -11,7 +11,7 @@ public partial class Step : Blazorise.Step
     public Step()
         : base()
     {
-        ContainerClassBuilder = new( BuildContainerClasses );
+        ContainerClassBuilder = new( BuildContainerClasses, builder => builder.Append( Classes?.Container ) );
     }
 
     #endregion

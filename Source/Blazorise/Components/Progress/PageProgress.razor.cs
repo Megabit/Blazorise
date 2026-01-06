@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -10,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Small progress bar shown at the top of the page or a container.
 /// </summary>
-public partial class PageProgress : BaseComponent
+public partial class PageProgress : BaseComponent<PageProgressClasses, PageProgressStyles>
 {
     #region Members
 
@@ -29,7 +29,8 @@ public partial class PageProgress : BaseComponent
     /// </summary>
     public PageProgress()
     {
-        IndicatorClassBuilder = new( BuildIndicatorClasses );
+        IndicatorClassBuilder = new( BuildIndicatorClasses, builder => builder.Append( Classes?.Indicator ) );
+        IndicatorStyleBuilder = new( BuildIndicatorStyles, builder => builder.Append( Styles?.Indicator ) );
     }
 
     #endregion
@@ -62,12 +63,30 @@ public partial class PageProgress : BaseComponent
             builder.Append( "b-page-progress-indicator-indeterminate" );
     }
 
+    /// <summary>
+    /// Builds a list of styles for the indicator element.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildIndicatorStyles( StyleBuilder builder )
+    {
+        if ( Value is not null )
+            builder.Append( $"width: {Value}%" );
+    }
+
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
         IndicatorClassBuilder.Dirty();
 
         base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected override void DirtyStyles()
+    {
+        IndicatorStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     /// <summary>
@@ -101,7 +120,12 @@ public partial class PageProgress : BaseComponent
     /// Gets the stylenames for an indicator container.
     /// </summary>
     protected string IndicatorStyleNames
-        => Value is null ? null : $"width: {Value}%;";
+        => IndicatorStyleBuilder.Styles;
+
+    /// <summary>
+    /// Indicator style builder.
+    /// </summary>
+    protected StyleBuilder IndicatorStyleBuilder { get; private set; }
 
     /// <summary>
     /// Defines the visibility of progress bar.
@@ -136,6 +160,7 @@ public partial class PageProgress : BaseComponent
             this.value = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

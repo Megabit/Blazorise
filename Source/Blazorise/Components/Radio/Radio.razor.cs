@@ -14,7 +14,7 @@ namespace Blazorise;
 /// Radio buttons allow the user to select one option from a set.
 /// </summary>
 /// <typeparam name="TValue">Radio option value type.</typeparam>
-public partial class Radio<TValue> : BaseRadioComponent<TValue>, IDisposable
+public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, RadioStyles>, IDisposable
 {
     #region Members
 

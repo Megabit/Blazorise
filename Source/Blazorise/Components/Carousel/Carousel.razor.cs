@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Blazorise;
 /// <summary>
 /// A slideshow component for cycling through elements - images or slides of text.
 /// </summary>
-public partial class Carousel : BaseComponent, IDisposable
+public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, IDisposable
 {
     #region Members
 
@@ -53,8 +53,10 @@ public partial class Carousel : BaseComponent, IDisposable
     /// </summary>
     public Carousel()
     {
-        IndicatorsClassBuilder = new( BuildIndicatorsClasses );
-        SlidesClassBuilder = new( BuildSlidesClasses );
+        IndicatorsClassBuilder = new( BuildIndicatorsClasses, builder => builder.Append( Classes?.Indicators ) );
+        SlidesClassBuilder = new( BuildSlidesClasses, builder => builder.Append( Classes?.Slides ) );
+        IndicatorsStyleBuilder = new( BuildIndicatorsStyles, builder => builder.Append( Styles?.Indicators ) );
+        SlidesStyleBuilder = new( BuildSlidesStyles, builder => builder.Append( Styles?.Slides ) );
     }
 
     #endregion
@@ -145,6 +147,40 @@ public partial class Carousel : BaseComponent, IDisposable
     private void BuildSlidesClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.CarouselSlides() );
+    }
+
+    /// <summary>
+    /// Builds a list of styles for the indicators container element.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildIndicatorsStyles( StyleBuilder builder )
+    {
+    }
+
+    /// <summary>
+    /// Builds a list of styles for the slides element.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildSlidesStyles( StyleBuilder builder )
+    {
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        IndicatorsClassBuilder.Dirty();
+        SlidesClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected override void DirtyStyles()
+    {
+        IndicatorsStyleBuilder.Dirty();
+        SlidesStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     /// <summary>
@@ -551,6 +587,16 @@ public partial class Carousel : BaseComponent, IDisposable
     protected ClassBuilder SlidesClassBuilder { get; private set; }
 
     /// <summary>
+    /// Gets or sets the carousel indicator style-builder.
+    /// </summary>
+    protected StyleBuilder IndicatorsStyleBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the carousel slides style-builder.
+    /// </summary>
+    protected StyleBuilder SlidesStyleBuilder { get; private set; }
+
+    /// <summary>
     /// Gets the class-names for a carousel indicator.
     /// </summary>
     protected string IndicatorsClassNames => IndicatorsClassBuilder.Class;
@@ -559,6 +605,16 @@ public partial class Carousel : BaseComponent, IDisposable
     /// Gets the class-names for a carousel slides.
     /// </summary>
     protected string SlidesClassNames => SlidesClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the styles for a carousel indicator container.
+    /// </summary>
+    protected string IndicatorsStyleNames => IndicatorsStyleBuilder.Styles;
+
+    /// <summary>
+    /// Gets the styles for carousel slides container.
+    /// </summary>
+    protected string SlidesStyleNames => SlidesStyleBuilder.Styles;
 
     /// <summary>
     /// Gets the index of the current active slide.

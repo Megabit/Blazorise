@@ -17,7 +17,7 @@ namespace Blazorise;
 /// The browser built-in select dropdown.
 /// </summary>
 /// <typeparam name="TValue">The type of the <see cref="BaseInputComponent{TValue}.Value"/>.</typeparam>
-public partial class Select<TValue> : BaseInputComponent<TValue>, ISelect
+public partial class Select<TValue> : BaseInputComponent<TValue, SelectClasses, SelectStyles>, ISelect
 {
     #region Members
 

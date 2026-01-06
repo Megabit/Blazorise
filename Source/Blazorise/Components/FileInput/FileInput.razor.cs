@@ -18,7 +18,7 @@ namespace Blazorise;
 /// <summary>
 /// Input component with support for single of multi file upload.
 /// </summary>
-public partial class FileInput : BaseInputComponent<IFileEntry[]>, IFileInput,
+public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClasses, FileInputStyles>, IFileInput,
     IFileEntryOwner,
     IFileEntryNotifier,
     IAsyncDisposable

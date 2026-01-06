@@ -19,7 +19,7 @@
             }
 
             <div aria-live="off" class="fui-Carousel__itemswrapper">
-                <div role="region" aria-roledescription="carousel" aria-label="Carousel container" class="@SlidesClassNames">
+                <div role="region" aria-roledescription="carousel" aria-label="Carousel container" class="@SlidesClassNames" style="@SlidesStyleNames">
                     @{
                         var selectedSlide = carouselSlides.FirstOrDefault( x => x.Name == SelectedSlide );
 
@@ -32,7 +32,7 @@
 
             @if ( ShowIndicators )
             {
-                <ul role="tablist" class="@IndicatorsClassNames">
+                <ul role="tablist" class="@IndicatorsClassNames" style="@IndicatorsStyleNames">
                     @for ( int i = 0; i < carouselSlides.Count; ++i )
                     {
                         int index = i;

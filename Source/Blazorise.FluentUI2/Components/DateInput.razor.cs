@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -10,7 +10,7 @@ public partial class DateInput<TValue>
 
     public DateInput()
     {
-        InputClassBuilder = new ClassBuilder( BuildInputClasses );
+        InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
     }
 
     #endregion

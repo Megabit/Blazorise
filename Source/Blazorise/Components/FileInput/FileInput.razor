@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseInputComponent<IFileEntry[]>
+@inherits BaseInputComponent<IFileEntry[], FileInputClasses, FileInputStyles>
 <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" webkitdirectory="@Directory" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" tabindex="@TabIndex" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
 @ChildContent
 @Feedback

@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @typeparam TValue
-@inherits BaseInputComponent<TValue>
+@inherits BaseInputComponent<TValue, SelectClasses, SelectStyles>
 <CascadingValue Value="@this" IsFixed>
     <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
         @ChildContent

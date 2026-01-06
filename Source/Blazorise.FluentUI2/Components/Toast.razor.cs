@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -10,8 +10,8 @@ public partial class Toast
 
     public Toast()
     {
-        WrapperClassBuilder = new ClassBuilder( BuildWrapperClasses );
-        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles );
+        WrapperClassBuilder = new ClassBuilder( BuildWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
+        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
 
     #endregion

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Main container for a <see cref="BarDropdown"/> menu that can contain or or more <see cref="BarDropdownItem"/>'s.
 /// </summary>
-public partial class BarDropdownMenu : BaseComponent
+public partial class BarDropdownMenu : BaseComponent<BarDropdownMenuClasses, BarDropdownMenuStyles>
 {
     #region Members
 
@@ -24,7 +24,7 @@ public partial class BarDropdownMenu : BaseComponent
     /// </summary>
     public BarDropdownMenu()
     {
-        ContainerClassBuilder = new( BuildContainerClasses );
+        ContainerClassBuilder = new( BuildContainerClasses, builder => builder.Append( Classes?.Container ) );
     }
 
     #endregion

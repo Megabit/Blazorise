@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
@@ -11,8 +11,8 @@ public partial class Slider<TValue>
 
     public Slider()
     {
-        InputClassBuilder = new ClassBuilder( BuildInputClasses );
-        InputStyleBuilder = new StyleBuilder( BuildInputStyles );
+        InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
+        InputStyleBuilder = new StyleBuilder( BuildInputStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
 
     #endregion

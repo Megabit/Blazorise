@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +17,7 @@ namespace Blazorise.Markdown;
 /// <summary>
 /// Component for acts as a wrapper around the EasyMDE, a markdown editor.
 /// </summary>
-public partial class Markdown : BaseInputComponent<string>,
+public partial class Markdown : BaseInputComponent<string, MarkdownClasses, MarkdownStyles>,
     IFileEntryOwner,
     IFileEntryNotifier,
     IAsyncDisposable
@@ -46,7 +46,7 @@ public partial class Markdown : BaseInputComponent<string>,
 
     public Markdown()
     {
-        textAreaElementClassBuilder = new( BuildTextAreaElementClasses );
+        textAreaElementClassBuilder = new( BuildTextAreaElementClasses, builder => builder.Append( Classes?.TextArea ) );
     }
 
     protected override void OnInitialized()
@@ -177,6 +177,8 @@ public partial class Markdown : BaseInputComponent<string>,
             if ( ( parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
                 || ( parameters.TryGetParameter( nameof( Disabled ), Disabled, out var disabledParameter ) && disabledParameter.Changed )
                 || ( parameters.TryGetParameter( nameof( Class ), Class, out var classParameter ) && classParameter.Changed )
+                || ( parameters.TryGetParameter( nameof( Classes ), Classes, newClasses => ReferenceEquals( newClasses, Classes ), out var classesParameter ) && classesParameter.Changed )
+                || ( parameters.TryGetParameter( nameof( Styles ), Styles, newStyles => ReferenceEquals( newStyles, Styles ), out var stylesParameter ) && stylesParameter.Changed )
                 || ( parameters.TryGetParameter( nameof( Style ), Style, out var styleParameter ) && styleParameter.Changed )
                 || ( parameters.TryGetParameter( nameof( Attributes ), Attributes, newAttributes => ReferenceEquals( newAttributes, Attributes ), out var attributesParameter ) && attributesParameter.Changed ) )
             {
@@ -623,6 +625,8 @@ public partial class Markdown : BaseInputComponent<string>,
     /// Gets the CSS class names applied to the underlying textarea element.
     /// </summary>
     protected string TextAreaElementClassNames => textAreaElementClassBuilder.Class;
+
+    protected string TextAreaElementStyleNames => Styles?.TextArea;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSFileModule"/> instance.

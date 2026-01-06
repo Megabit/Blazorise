@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -10,8 +10,8 @@ public partial class Radio<TValue>
 
     public Radio()
     {
-        InputClassBuilder = new ClassBuilder( BuildInputClasses );
-        LabelButonClassBuilder = new ClassBuilder( BuildLabelButonClasses );
+        InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
+        LabelButonClassBuilder = new ClassBuilder( BuildLabelButonClasses, builder => builder.Append( Classes?.LabelButton ) );
     }
 
     #endregion

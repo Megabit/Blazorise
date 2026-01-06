@@ -13,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// Component that allows you to display and edit multi-line text.
 /// </summary>
-public partial class MemoInput : BaseBufferedTextInput<string>, IAsyncDisposable
+public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses, MemoInputStyles>, IAsyncDisposable
 {
     #region Members
 

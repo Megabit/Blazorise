@@ -2,7 +2,7 @@
 @inherits Blazorise.NumericPicker<TValue>
 @if ( IsShowStepButtons )
 {
-    <div class="@NumericWrapperClassNames">
+    <div class="@NumericWrapperClassNames" style="@Styles?.Wrapper">
         @InputTemplate
         <div class="b-numeric-handler-wrap">
             <Blazorise.Button Clicked="@OnSpinUpClicked" Class="b-numeric-handler b-numeric-handler-up" TabIndex="-1">

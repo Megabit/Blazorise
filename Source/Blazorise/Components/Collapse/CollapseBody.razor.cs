@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper for collapse content.
 /// </summary>
-public partial class CollapseBody : BaseComponent
+public partial class CollapseBody : BaseComponent<CollapseBodyClasses, CollapseBodyStyles>
 {
     #region Members
 
@@ -23,7 +23,7 @@ public partial class CollapseBody : BaseComponent
     /// </summary>
     public CollapseBody()
     {
-        ContentClassBuilder = new( BuildBodyClasses );
+        ContentClassBuilder = new( BuildBodyClasses, builder => builder.Append( Classes?.Content ) );
     }
 
     #endregion

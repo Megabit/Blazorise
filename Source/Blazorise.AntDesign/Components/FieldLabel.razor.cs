@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -16,7 +16,7 @@ public partial class FieldLabel : Blazorise.FieldLabel
 
     public FieldLabel()
     {
-        containerClassBuilder = new( BuildContainerClasses );
+        containerClassBuilder = new( BuildContainerClasses, builder => builder.Append( Classes?.Container ) );
     }
 
     #endregion

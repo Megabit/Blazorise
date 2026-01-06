@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BarDropdownMenu
 @if ( ParentDropdownState != null && ParentDropdownState.Mode != BarMode.VerticalInline )
 {
-    <div class="@( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <div class="@GetContainerClassNames( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" style="@Styles?.Container" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
         <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
             @ChildContent
         </ul>
@@ -20,6 +20,16 @@ else
 
     string VerticalMenuClass
         => $"ant-menu-submenu ant-menu-submenu-popup {( ParentDropdownState?.RightAligned == true ? "ant-menu-submenu-placement-leftTop" : "ant-menu-submenu-placement-rightTop" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
+
+    string GetContainerClassNames( string baseClass )
+    {
+        if ( string.IsNullOrEmpty( Classes?.Container ) )
+        {
+            return baseClass;
+        }
+
+        return $"{baseClass} {Classes.Container}";
+    }
 
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
 }

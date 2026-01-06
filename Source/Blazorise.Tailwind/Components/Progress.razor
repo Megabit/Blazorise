@@ -12,7 +12,7 @@
         else
         {
             <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                <div class="@InnerClassNames" style="@($"width: {Percentage}%;")">@ChildContent</div>
+                <div class="@InnerClassNames" style="@ProgressBarStyleNames">@ChildContent</div>
             </div>
         }
     </CascadingValue>
@@ -62,6 +62,11 @@
             if ( Indeterminate )
             {
                 sb.Append( " progress-bar-indeterminate" );
+            }
+
+            if ( !string.IsNullOrEmpty( Classes?.Bar ) )
+            {
+                sb.Append( " " ).Append( Classes.Bar );
             }
 
             return sb.ToString();

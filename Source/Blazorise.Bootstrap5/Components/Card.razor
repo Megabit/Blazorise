@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Card
 @if ( InsideDeck )
 {
-    <div class="col">
+    <div class="@WrapperClassNames" style="@Styles?.Wrapper">
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>

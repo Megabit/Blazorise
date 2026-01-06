@@ -3,16 +3,16 @@
     <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         @if ( Marker != null || Caption != null )
         {
-            <div class="@ContainerClassNames">
+            <div class="@ContainerClassNames" style="@Styles?.Container">
                 @if ( Marker != null )
                 {
-                    <span class="@MarkerClassNames">
+                    <span class="@MarkerClassNames" style="@Styles?.Marker">
                         @Marker
                     </span>
                 }
                 @if ( Caption != null )
                 {
-                    <span class="@DescriptionClassNames">
+                    <span class="@DescriptionClassNames" style="@Styles?.Description">
                         @Caption
                     </span>
                 }
@@ -20,11 +20,11 @@
         }
         else
         {
-            <div class="@ContainerClassNames">
-                <span class="@MarkerClassNames">
+            <div class="@ContainerClassNames" style="@Styles?.Container">
+                <span class="@MarkerClassNames" style="@Styles?.Marker">
                     @CalculatedIndex
                 </span>
-                <span class="@DescriptionClassNames">
+                <span class="@DescriptionClassNames" style="@Styles?.Description">
                     @ChildContent
                 </span>
             </div>

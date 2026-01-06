@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -18,6 +18,10 @@ public partial class TableRowGroup : BaseDraggableComponent
 
     private bool expanded;
 
+    private TableRowGroupClasses classes;
+
+    private TableRowGroupStyles styles;
+
     #endregion
 
     #region Constructors
@@ -27,8 +31,8 @@ public partial class TableRowGroup : BaseDraggableComponent
     /// </summary>
     public TableRowGroup()
     {
-        RowCellClassBuilder = new( BuildRowCellClasses );
-        RowIndentCellClassBuilder = new( BuildRowIndentCellClasses );
+        RowCellClassBuilder = new( BuildRowCellClasses, builder => builder.Append( Classes?.RowCell ) );
+        RowIndentCellClassBuilder = new( BuildRowIndentCellClasses, builder => builder.Append( Classes?.RowIndentCell ) );
     }
 
     #endregion
@@ -41,6 +45,18 @@ public partial class TableRowGroup : BaseDraggableComponent
         builder.Append( ClassProvider.TableRowGroup( Expanded ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildCustomClasses( ClassBuilder builder )
+    {
+        builder.Append( Classes?.Main );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildCustomStyles( StyleBuilder builder )
+    {
+        builder.Append( Styles?.Main );
     }
 
     /// <summary>
@@ -89,7 +105,8 @@ public partial class TableRowGroup : BaseDraggableComponent
         {
             builder
                 .OpenElement( "td" )
-                .Class( RowIndentCellClassBuilder.Class );
+                .Class( RowIndentCellClassBuilder.Class )
+                .Style( Styles?.RowIndentCell );
 
             if ( IndentTableCellTemplate is not null )
                 builder.Content( IndentTableCellTemplate( i ) );
@@ -100,6 +117,7 @@ public partial class TableRowGroup : BaseDraggableComponent
         builder
             .OpenElement( "td" )
             .Class( RowCellClassBuilder.Class )
+            .Style( Styles?.RowCell )
             .ColSpan( ColumnSpan - IndentTableCells );
 
         if ( Toggleable )
@@ -221,6 +239,42 @@ public partial class TableRowGroup : BaseDraggableComponent
     /// Occurs when the row is double clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> DoubleClicked { get; set; }
+
+    /// <summary>
+    /// Custom CSS class names for table row group elements.
+    /// </summary>
+    [Parameter]
+    public TableRowGroupClasses Classes
+    {
+        get => classes;
+        set
+        {
+            if ( classes.IsEqual( value ) )
+                return;
+
+            classes = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Custom inline styles for table row group elements.
+    /// </summary>
+    [Parameter]
+    public TableRowGroupStyles Styles
+    {
+        get => styles;
+        set
+        {
+            if ( styles.IsEqual( value ) )
+                return;
+
+            styles = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Specifies the title to be rendered inside this <see cref="TableRowGroup"/>.

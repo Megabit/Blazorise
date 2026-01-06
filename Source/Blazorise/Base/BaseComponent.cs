@@ -18,7 +18,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     #region Members
 
     private string customClass;
-
     private string customStyle;
 
     private Float @float = Float.Default;
@@ -80,8 +79,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// </summary>
     public BaseComponent()
     {
-        ClassBuilder = new( BuildClasses );
-        StyleBuilder = new( BuildStyles );
+        ClassBuilder = new( BuildClasses, BuildCustomClasses );
+        StyleBuilder = new( BuildStyles, BuildCustomStyles );
     }
 
     #endregion
@@ -272,6 +271,22 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( Height != null )
             builder.Append( Height.Style( StyleProvider ) );
+    }
+
+    /// <summary>
+    /// Provides component-specific classes appended after the default classes.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    protected virtual void BuildCustomClasses( ClassBuilder builder )
+    {
+    }
+
+    /// <summary>
+    /// Provides component-specific styles appended after the default styles.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildCustomStyles( StyleBuilder builder )
+    {
     }
 
     /// <summary>

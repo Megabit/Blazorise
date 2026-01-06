@@ -6,7 +6,7 @@
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">
             @if (ShowIndicators)
             {
-                <ol class="@IndicatorsClassNames">
+                <ol class="@IndicatorsClassNames" style="@IndicatorsStyleNames">
                     @for (int i = 0; i < carouselSlides.Count; ++i)
                     {
                         int index = i;
@@ -15,7 +15,7 @@
                 </ol>
             }
 
-            <div class="@SlidesClassNames">
+            <div class="@SlidesClassNames" style="@SlidesStyleNames">
                 @for (int i = 0; i < carouselSlides.Count; ++i)
                 {
                     int index = i;

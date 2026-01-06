@@ -19,7 +19,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     public NumericPicker()
     {
-        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses );
+        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
     }
 
     #endregion

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -19,7 +19,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     public NumericPicker()
     {
-        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses );
+        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
     }
 
     #endregion
