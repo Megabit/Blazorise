@@ -12,15 +12,11 @@ namespace Blazorise;
 /// <summary>
 /// The <see cref="TableRowGroup"/> component is used to group rows in a table.
 /// </summary>
-public partial class TableRowGroup : BaseDraggableComponent
+public partial class TableRowGroup : BaseDraggableComponent<TableRowGroupClasses, TableRowGroupStyles>
 {
     #region Members
 
     private bool expanded;
-
-    private TableRowGroupClasses classes;
-
-    private TableRowGroupStyles styles;
 
     #endregion
 
@@ -45,18 +41,6 @@ public partial class TableRowGroup : BaseDraggableComponent
         builder.Append( ClassProvider.TableRowGroup( Expanded ) );
 
         base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildCustomClasses( ClassBuilder builder )
-    {
-        builder.Append( Classes?.Main );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildCustomStyles( StyleBuilder builder )
-    {
-        builder.Append( Styles?.Main );
     }
 
     /// <summary>
@@ -239,42 +223,6 @@ public partial class TableRowGroup : BaseDraggableComponent
     /// Occurs when the row is double clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> DoubleClicked { get; set; }
-
-    /// <summary>
-    /// Custom CSS class names for table row group elements.
-    /// </summary>
-    [Parameter]
-    public TableRowGroupClasses Classes
-    {
-        get => classes;
-        set
-        {
-            if ( classes.IsEqual( value ) )
-                return;
-
-            classes = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Custom inline styles for table row group elements.
-    /// </summary>
-    [Parameter]
-    public TableRowGroupStyles Styles
-    {
-        get => styles;
-        set
-        {
-            if ( styles.IsEqual( value ) )
-                return;
-
-            styles = value;
-
-            DirtyStyles();
-        }
-    }
 
     /// <summary>
     /// Specifies the title to be rendered inside this <see cref="TableRowGroup"/>.

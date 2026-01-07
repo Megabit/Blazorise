@@ -3,7 +3,7 @@
 /// <summary>
 /// Base class for component-specific class name definitions.
 /// </summary>
-public abstract record class ComponentClasses
+public record class ComponentClasses
 {
     /// <summary>
     /// Targets the main element rendered by a component.

@@ -12,7 +12,11 @@ namespace Blazorise;
 /// Base class for all radio based components.
 /// </summary>
 /// <typeparam name="TValue">Radio value type.</typeparam>
-public abstract class BaseRadioComponent<TValue> : BaseInputComponent<TValue>
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseRadioComponent<TValue, TClasses, TStyles> : BaseInputComponent<TValue, TClasses, TStyles>
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Members
 
@@ -97,4 +101,12 @@ public abstract class BaseRadioComponent<TValue> : BaseInputComponent<TValue>
     }
 
     #endregion
+}
+
+/// <summary>
+/// Base class for all radio based components.
+/// </summary>
+/// <typeparam name="TValue">Radio value type.</typeparam>
+public abstract class BaseRadioComponent<TValue> : BaseRadioComponent<TValue, ComponentClasses, ComponentStyles>
+{
 }

@@ -12,7 +12,11 @@ namespace Blazorise;
 /// Base component for text inputs that support immediate/debounced updates.
 /// </summary>
 /// <typeparam name="TValue">Editable value type.</typeparam>
-public abstract class BaseBufferedTextInput<TValue> : BaseTextInput<TValue>
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseBufferedTextInput<TValue, TClasses, TStyles> : BaseTextInput<TValue, TClasses, TStyles>
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Members
 
@@ -172,4 +176,12 @@ public abstract class BaseBufferedTextInput<TValue> : BaseTextInput<TValue>
     [Parameter] public int? DebounceInterval { get; set; }
 
     #endregion
+}
+
+/// <summary>
+/// Base component for text inputs that support immediate/debounced updates.
+/// </summary>
+/// <typeparam name="TValue">Editable value type.</typeparam>
+public abstract class BaseBufferedTextInput<TValue> : BaseBufferedTextInput<TValue, ComponentClasses, ComponentStyles>
+{
 }

@@ -11,7 +11,11 @@ namespace Blazorise;
 /// Base component for inputs that are text-based.
 /// </summary>
 /// <typeparam name="TValue">Editable value type.</typeparam>
-public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelectableComponent, IDisposable
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseTextInput<TValue, TClasses, TStyles> : BaseInputComponent<TValue, TClasses, TStyles>, ISelectableComponent, IDisposable
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Members
 
@@ -145,4 +149,12 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
     [Parameter] public string Pattern { get; set; }
 
     #endregion
+}
+
+/// <summary>
+/// Base component for inputs that are text-based.
+/// </summary>
+/// <typeparam name="TValue">Editable value type.</typeparam>
+public abstract class BaseTextInput<TValue> : BaseTextInput<TValue, ComponentClasses, ComponentStyles>
+{
 }

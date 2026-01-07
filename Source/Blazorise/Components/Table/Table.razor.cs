@@ -13,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// The <see cref="Table"/> component is used for displaying tabular data.
 /// </summary>
-public partial class Table : BaseDraggableComponent, IAsyncDisposable
+public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, IAsyncDisposable
 {
     #region Members
 
@@ -42,10 +42,6 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
     private bool resizable;
 
     private TableResponsiveMode responsiveMode;
-
-    private TableClasses classes;
-
-    private TableStyles styles;
 
     #endregion
 
@@ -106,12 +102,6 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
         base.BuildClasses( builder );
     }
 
-    /// <inheritdoc/>
-    protected override void BuildCustomClasses( ClassBuilder builder )
-    {
-        builder.Append( Classes?.Main );
-    }
-
     /// <summary>
     /// Builds a list of classnames for the responsive container element.
     /// </summary>
@@ -121,12 +111,6 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
         builder.Append( ClassProvider.TableResponsive( Responsive ) );
         builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
         builder.Append( ClassProvider.TableFixedColumns( FixedColumns ) );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildCustomStyles( StyleBuilder builder )
-    {
-        builder.Append( Styles?.Main );
     }
 
     /// <summary>
@@ -541,42 +525,6 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
             responsiveMode = value;
 
             DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Custom CSS class names for table elements.
-    /// </summary>
-    [Parameter]
-    public TableClasses Classes
-    {
-        get => classes;
-        set
-        {
-            if ( classes.IsEqual( value ) )
-                return;
-
-            classes = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Custom inline styles for table elements.
-    /// </summary>
-    [Parameter]
-    public TableStyles Styles
-    {
-        get => styles;
-        set
-        {
-            if ( styles.IsEqual( value ) )
-                return;
-
-            styles = value;
-
-            DirtyStyles();
         }
     }
 

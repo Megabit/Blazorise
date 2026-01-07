@@ -9,7 +9,11 @@ namespace Blazorise;
 /// <summary>
 /// Base class for field and input components that can be sized in grid layout.
 /// </summary>
-public abstract class BaseSizableFieldComponent : BaseColumnComponent, IDisposable
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseSizableFieldComponent<TClasses, TStyles> : BaseColumnComponent<TClasses, TStyles>, IDisposable
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Methods
 
@@ -54,4 +58,11 @@ public abstract class BaseSizableFieldComponent : BaseColumnComponent, IDisposab
     [CascadingParameter] protected Field ParentField { get; set; }
 
     #endregion
+}
+
+/// <summary>
+/// Base class for field and input components that can be sized in grid layout.
+/// </summary>
+public abstract class BaseSizableFieldComponent : BaseSizableFieldComponent<ComponentClasses, ComponentStyles>
+{
 }

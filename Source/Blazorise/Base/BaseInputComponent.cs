@@ -14,7 +14,12 @@ namespace Blazorise;
 /// <summary>
 /// Base component for all the input component types.
 /// </summary>
-public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput, IFocusableComponent, IDisposable
+/// <typeparam name="TValue">Editable value type.</typeparam>
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseComponent<TClasses, TStyles>, IValidationInput, IFocusableComponent, IDisposable
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Members
 
@@ -702,4 +707,12 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     [CascadingParameter] protected Theme ThemeOptions { get; set; }
 
     #endregion
+}
+
+/// <summary>
+/// Base component for all the input component types.
+/// </summary>
+/// <typeparam name="TValue">Editable value type.</typeparam>
+public abstract class BaseInputComponent<TValue> : BaseInputComponent<TValue, ComponentClasses, ComponentStyles>
+{
 }
