@@ -26,7 +26,7 @@ public partial class Slider<TValue>
         base.DirtyClasses();
     }
 
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         InputStyleBuilder.Dirty();
 

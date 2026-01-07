@@ -124,7 +124,7 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     }
 
     /// <inheritdoc/>
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         ProgressBarStyleBuilder.Dirty();
 

@@ -25,7 +25,7 @@ public partial class Toast
         base.DirtyClasses();
     }
 
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         WrapperStyleBuilder.Dirty();
 

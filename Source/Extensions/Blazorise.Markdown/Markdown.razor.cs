@@ -514,7 +514,7 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
         RequestBaseInputOptionsUpdate();
     }
 
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         base.DirtyStyles();
 

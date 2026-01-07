@@ -71,7 +71,7 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
     }
 
     /// <inheritdoc/>
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         ErrorStyleBuilder.Dirty();
 

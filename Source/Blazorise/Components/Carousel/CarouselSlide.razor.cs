@@ -89,7 +89,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     }
 
     /// <inheritdoc/>
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         IndicatorStyleBuilder.Dirty();
 

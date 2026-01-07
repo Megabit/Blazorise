@@ -82,7 +82,7 @@ public partial class PageProgress : BaseComponent<PageProgressClasses, PageProgr
     }
 
     /// <inheritdoc/>
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         IndicatorStyleBuilder.Dirty();
 

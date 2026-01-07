@@ -184,7 +184,7 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
     }
 
     /// <inheritdoc/>
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         ContainerStyleBuilder.Dirty();
 
