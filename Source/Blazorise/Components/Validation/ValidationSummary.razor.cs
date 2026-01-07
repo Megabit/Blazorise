@@ -18,7 +18,7 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
 
     private Validations previousParentValidations;
 
-    private IReadOnlyCollection<string> internalErrorMessages;
+    private string[] internalErrorMessages;
 
     #endregion
 
@@ -144,13 +144,13 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
     /// True if any error message has received.
     /// </summary>
     protected bool HasErrorMessages
-        => internalErrorMessages?.Count > 0 || Errors?.Count() > 0;
+        => internalErrorMessages?.Length > 0 || Errors?.Length > 0;
 
     /// <summary>
     /// Gets the list of error messages.
     /// </summary>
     protected IEnumerable<string> ErrorMessages
-        => ( internalErrorMessages ?? Enumerable.Empty<string>().ToList() ).Concat( Errors ?? Enumerable.Empty<string>() );
+        => ( internalErrorMessages ?? Enumerable.Empty<string>().ToArray() ).Concat( Errors ?? Enumerable.Empty<string>() );
 
     /// <summary>
     /// Label showed before the error messages.

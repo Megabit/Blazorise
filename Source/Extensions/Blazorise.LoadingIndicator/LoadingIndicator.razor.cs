@@ -231,17 +231,11 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
         {
             if ( value != service )
             {
-                if ( service != null )
-                {
-                    service.Unsubscribe( this );
-                }
+                service?.Unsubscribe( this );
 
                 service = value;
 
-                if ( service != null )
-                {
-                    service.Subscribe( this );
-                }
+                service?.Subscribe( this );
             }
         }
     }

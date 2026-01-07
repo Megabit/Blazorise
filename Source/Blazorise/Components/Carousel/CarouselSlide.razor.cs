@@ -151,8 +151,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
             var selectedSlideIndex = ParentCarousel.SelectedSlideIndex;
 
             return selectedSlideIndex >= 0 && selectedSlideIndex < ParentCarousel.NumberOfSlides
-                ? ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this )
-                : false;
+                && ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this );
         }
     }
 
