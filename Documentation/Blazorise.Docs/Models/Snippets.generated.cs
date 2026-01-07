@@ -12783,6 +12783,42 @@ builder.Services
     </CardBody>
 </Card>";
 
+        public const string ComponentStylingAdvancedExample = @"<CardDeck>
+    <Card Classes='@(new CardClasses { Self = ""component-styling-self"", Wrapper = ""component-styling-wrapper"" })'
+          Styles='@(new CardStyles { Self = ""border: 2px solid #1c7ed6; border-radius: 0.5rem;"", Wrapper = ""padding: 0.5rem; background: #f1f3f5;"" })'>
+        <CardBody>
+            <CardTitle Size=""4"">
+                Classes and Styles
+            </CardTitle>
+            <CardText>
+                Targets the card element and wrapper when the provider renders it.
+            </CardText>
+        </CardBody>
+    </Card>
+    <Card Classes='@(new CardClasses { Self = ""component-styling-self"", Wrapper = ""component-styling-wrapper"" })'
+          Styles='@(new CardStyles { Self = ""border: 2px solid #2f9e44; border-radius: 0.5rem;"", Wrapper = ""padding: 0.5rem; background: #ebfbee;"" })'>
+        <CardBody>
+            <CardTitle Size=""4"">
+                Wrapper example
+            </CardTitle>
+            <CardText>
+                Wrapper styles are ignored if the provider does not render a wrapper.
+            </CardText>
+        </CardBody>
+    </Card>
+</CardDeck>";
+
+        public const string ComponentStylingPrimaryExample = @"<Card Class=""component-styling-card"" Style=""border: 2px dashed #0b7285; padding: 1rem;"">
+    <CardBody>
+        <CardTitle Size=""4"">
+            Class and Style
+        </CardTitle>
+        <CardText>
+            Use <Code>Class</Code> and <Code>Style</Code> for the element rendered by the component.
+        </CardText>
+    </CardBody>
+</Card>";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 
 @code {

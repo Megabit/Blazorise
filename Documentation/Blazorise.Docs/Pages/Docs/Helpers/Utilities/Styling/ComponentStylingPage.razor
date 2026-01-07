@@ -1,0 +1,125 @@
+@page "/docs/helpers/component-styling"
+
+<Seo Canonical="/docs/helpers/component-styling" Title="Blazorise Component Styling" Description="Learn how to use Class and Style for primary styling and when to use Classes and Styles for advanced component customization." />
+
+<DocsPageTitle Path="Helpers/Component Styling">
+    Component Styling
+</DocsPageTitle>
+
+<DocsPageLead>
+    Use <Code>Class</Code> and <Code>Style</Code> for the main element, and reach deeper component elements with <Code>Classes</Code> and <Code>Styles</Code> only when needed.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Recommended approach
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The preferred way to style components is still the simple <Code>Class</Code> and <Code>Style</Code> parameters.
+    They target the primary element rendered by the component and work consistently across all CSS providers.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Class and Style">
+        <Paragraph>
+            Use <Code>Class</Code> and <Code>Style</Code> for simple and predictable styling.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ComponentStylingPrimaryExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ComponentStylingPrimaryExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Advanced customization with Classes and Styles
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Some components render multiple HTML elements, such as wrappers, containers, or inputs.
+    For those components, Blazorise exposes typed <Code>Classes</Code> and <Code>Styles</Code> parameters so you can target specific parts of the markup.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Each component that supports this exposes its own <Code>*Classes</Code> and <Code>*Styles</Code> record types.
+    The common <Code>Self</Code> property always targets the element rendered by the component itself, while other properties match the component structure.
+    Examples of additional properties include <Code>Wrapper</Code>, <Code>Content</Code>, or <Code>Input</Code>, depending on the component.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Example class map for a card:
+    <Code>new CardClasses { Self = "card-root", Wrapper = "card-col" }</Code>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code>Classes</Code> and <Code>Styles</Code> only when you need to reach elements that <Code>Class</Code> and <Code>Style</Code> cannot.
+    If a component does not expose <Code>Classes</Code> or <Code>Styles</Code>, it renders a single element and should be styled with <Code>Class</Code> and <Code>Style</Code>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Classes and Styles">
+        <Paragraph>
+            Use the typed maps to target secondary elements rendered by complex components.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ComponentStylingAdvancedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ComponentStylingAdvancedExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Supported keys overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Short, non-exhaustive list of common components and their extra keys. Check each component's <Code>*Classes</Code> and <Code>*Styles</Code> type for the full set.
+</DocsPageParagraph>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Component</TableHeaderCell>
+            <TableHeaderCell>Keys</TableHeaderCell>
+            <TableHeaderCell>Provider notes</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Card</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Wrapper</Code></TableRowCell>
+            <TableRowCell><Code>Wrapper</Code> is rendered in Bootstrap 5 when the card is inside <Code>CardDeck</Code>.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Table</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Container</Code></TableRowCell>
+            <TableRowCell><Code>Container</Code> is rendered when <Code>Responsive</Code>, <Code>FixedHeader</Code>, <Code>Resizable</Code>, or <Code>FixedColumns</Code> is enabled. Providers may add additional wrappers.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Tabs</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Content</Code></TableRowCell>
+            <TableRowCell><Code>Content</Code> targets the panel container across providers.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Tab</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Link</Code></TableRowCell>
+            <TableRowCell><Code>Link</Code> targets the clickable tab header across providers.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Badge</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Close</Code></TableRowCell>
+            <TableRowCell><Code>Close</Code> is rendered when <Code>Closable</Code> is true.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>ValidationSummary</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Error</Code></TableRowCell>
+            <TableRowCell><Code>Error</Code> targets the list items rendered for validation messages.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        Not every CSS provider renders every element. Any unsupported properties are ignored by the provider.
+    </AlertDescription>
+</Alert>
