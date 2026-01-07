@@ -1,13 +1,13 @@
 @page "/docs/helpers/utilities/component-styling"
 
-<Seo Canonical="/docs/helpers/utilities/component-styling" Title="Blazorise Component Styling" Description="Learn how to use Class and Style for primary styling and when to use Classes and Styles for advanced component customization." />
+<Seo Canonical="/docs/helpers/utilities/component-styling" Title="Blazorise Component Styling" Description="Style Blazorise components with Class/Style for the root element, and use typed *Classes/*Styles maps to target inner elements when needed." />
 
 <DocsPageTitle Path="Helpers/Utilities/Component Styling">
     Component Styling
 </DocsPageTitle>
 
 <DocsPageLead>
-    Use <Code>Class</Code> and <Code>Style</Code> for the main element, and reach deeper component elements with <Code>Classes</Code> and <Code>Styles</Code> only when needed.
+    Use the typed <Code>Classes</Code> and <Code>Styles</Code> maps to target specific parts of its markup.
 </DocsPageLead>
 
 <DocsPageSubtitle>
@@ -15,14 +15,13 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    The preferred way to style components is still the simple <Code>Class</Code> and <Code>Style</Code> parameters.
-    They target the primary element rendered by the component and work consistently across all CSS providers.
+    The preferred way to style components is still the simple <Code>Class</Code> and <Code>Style</Code> parameters. They apply to the primary element rendered by the component and behave consistently across CSS providers.
 </DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Class and Style">
         <Paragraph>
-            Use <Code>Class</Code> and <Code>Style</Code> for simple and predictable styling.
+            Use <Code>Class</Code> and <Code>Style</Code> for quick, predictable styling on the component root.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
@@ -32,34 +31,29 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Advanced customization with Classes and Styles
+    Advanced customization
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Some components render multiple HTML elements, such as wrappers, containers, or inputs.
-    For those components, Blazorise exposes typed <Code>Classes</Code> and <Code>Styles</Code> parameters so you can target specific parts of the markup.
+    Some components render multiple HTML elements (wrappers, containers, inputs, etc.). For those components, Blazorise exposes typed <Code>Classes</Code> and <Code>Styles</Code> parameters so you can style individual parts without relying on fragile CSS selectors.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Each component that supports this exposes its own <Code>*Classes</Code> and <Code>*Styles</Code> record types.
-    The common <Code>Self</Code> property always targets the element rendered by the component itself, while other properties match the component structure.
-    Examples of additional properties include <Code>Wrapper</Code>, <Code>Content</Code>, or <Code>Input</Code>, depending on the component.
+    Each component that supports this exposes its own <Code>*Classes</Code> and <Code>*Styles</Code> record types. The common <Code>Self</Code> property targets the main element rendered by the component, while additional properties map to the component structure (for example <Code>Wrapper</Code>, <Code>Content</Code>, or <Code>Input</Code>).
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Example class map for a card:
-    <Code>new CardClasses { Self = "card-root", Wrapper = "card-col" }</Code>
+    Example class map for a card: <Code>new CardClasses { Self = "card-root", Wrapper = "card-col" }</Code>
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Use <Code>Classes</Code> and <Code>Styles</Code> only when you need to reach elements that <Code>Class</Code> and <Code>Style</Code> cannot.
-    If a component does not expose <Code>Classes</Code> or <Code>Styles</Code>, it renders a single element and should be styled with <Code>Class</Code> and <Code>Style</Code>.
+    Use <Code>Classes</Code> and <Code>Styles</Code> only when you need to reach elements that <Code>Class</Code> and <Code>Style</Code> cannot. If a component does not expose <Code>Classes</Code> or <Code>Styles</Code>, it renders a single element and should be styled with <Code>Class</Code> and <Code>Style</Code>.
 </DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Classes and Styles">
         <Paragraph>
-            Use the typed maps to target secondary elements rendered by complex components.
+            Use the typed maps to style secondary elements rendered by complex components.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
@@ -73,7 +67,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Short, non-exhaustive list of common components and their extra keys. Check each component's <Code>*Classes</Code> and <Code>*Styles</Code> type for the full set.
+    Quick reference for common components and their extra keys. This list is not exhaustive, check each component's <Code>*Classes</Code> and <Code>*Styles</Code> type for the complete set of supported properties.
 </DocsPageParagraph>
 
 <Table>
@@ -120,6 +114,6 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        Not every CSS provider renders every element. Any unsupported properties are ignored by the provider.
+        Not every CSS provider renders every optional element. If a key has no effect, the element may not be rendered for the current provider or configuration. Any unsupported properties are ignored.
     </AlertDescription>
 </Alert>
