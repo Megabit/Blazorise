@@ -301,7 +301,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <summary>
     /// Clears the styles-names and mark them to be regenerated.
     /// </summary>
-    protected virtual void DirtyStyles()
+    internal protected virtual void DirtyStyles()
     {
         StyleBuilder?.Dirty();
     }
@@ -867,8 +867,31 @@ public abstract class BaseComponent<TClasses, TStyles> : BaseComponent
     where TClasses : ComponentClasses
     where TStyles : ComponentStyles
 {
+    #region Members
+
     private TClasses classes;
+
     private TStyles styles;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildCustomClasses( ClassBuilder builder )
+    {
+        builder.Append( Classes?.Main );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildCustomStyles( StyleBuilder builder )
+    {
+        builder.Append( Styles?.Main );
+    }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Custom CSS class names for component elements.
@@ -906,15 +929,5 @@ public abstract class BaseComponent<TClasses, TStyles> : BaseComponent
         }
     }
 
-    /// <inheritdoc/>
-    protected override void BuildCustomClasses( ClassBuilder builder )
-    {
-        builder.Append( Classes?.Main );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildCustomStyles( StyleBuilder builder )
-    {
-        builder.Append( Styles?.Main );
-    }
+    #endregion
 }
