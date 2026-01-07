@@ -56,7 +56,16 @@ public partial class FileInput
 
     protected string InputClassNames => InputClassBuilder.Class;
 
-    protected string AddonClassNames => "fui-Input__content";
+    protected string AddonClassNames
+    {
+        get
+        {
+            if ( string.IsNullOrEmpty( Classes?.Wrapper ) )
+                return "fui-Input__content";
+
+            return $"fui-Input__content {Classes.Wrapper}";
+        }
+    }
 
     #endregion
 }

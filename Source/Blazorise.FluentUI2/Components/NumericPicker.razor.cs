@@ -20,6 +20,8 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
     public NumericPicker()
     {
         NumericWrapperClassBuilder = new( BuildNumericWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
+        ButtonUpClassBuilder = new( BuildButtonUpClasses, builder => builder.Append( Classes?.ButtonUp ) );
+        ButtonDownClassBuilder = new( BuildButtonDownClasses, builder => builder.Append( Classes?.ButtonDown ) );
     }
 
     #endregion
@@ -50,6 +52,8 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
     protected internal override void DirtyClasses()
     {
         NumericWrapperClassBuilder.Dirty();
+        ButtonUpClassBuilder.Dirty();
+        ButtonDownClassBuilder.Dirty();
 
         base.DirtyClasses();
     }
@@ -70,6 +74,16 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
         }
     }
 
+    private void BuildButtonUpClasses( ClassBuilder builder )
+    {
+        builder.Append( "fui-SpinButton__incrementButton" );
+    }
+
+    private void BuildButtonDownClasses( ClassBuilder builder )
+    {
+        builder.Append( "fui-SpinButton__decrementButton" );
+    }
+
     #endregion
 
     #region Properties
@@ -78,10 +92,18 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     protected ClassBuilder NumericWrapperClassBuilder { get; private set; }
 
+    protected ClassBuilder ButtonUpClassBuilder { get; private set; }
+
+    protected ClassBuilder ButtonDownClassBuilder { get; private set; }
+
     /// <summary>
     /// Gets numeric container class-names.
     /// </summary>
     protected string NumericWrapperClassNames => NumericWrapperClassBuilder.Class;
+
+    protected string ButtonUpClassNames => ButtonUpClassBuilder.Class;
+
+    protected string ButtonDownClassNames => ButtonDownClassBuilder.Class;
 
     #endregion
 }
