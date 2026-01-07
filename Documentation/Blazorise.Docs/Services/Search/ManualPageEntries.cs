@@ -150,7 +150,7 @@ public static class ManualPageEntries
     new( "docs/usage/bulma", "Bulma Usage" ),
     new( "docs/usage/material", "Material Usage" ),
     new( "docs/helpers/colors", "Color Utilities" ),
-    new( "docs/helpers/component-styling", "Component Styling", "Use Class and Style for the main element and Classes and Styles for advanced customization." ),
+    new( "docs/helpers/utilities/component-styling", "Component Styling", "Use Class and Style for the main element and Classes and Styles for advanced customization." ),
     new( "docs/helpers/enums/bar", "Enums: Bar" ),
     new( "docs/helpers/enums/button", "Enums: Button" ),
     new( "docs/helpers/enums/chart", "Enums: Button" ),
