@@ -294,7 +294,7 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     /// <param name="toolbarButton">Button instance.</param>
     internal protected void AddMarkdownToolbarButton( MarkdownToolbarButton toolbarButton )
     {
-        toolbarButtons ??= new();
+        toolbarButtons ??= [];
         toolbarButtons.Add( toolbarButton );
     }
 
@@ -699,13 +699,13 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     /// An array of icon names to hide. Can be used to hide specific icons shown by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] HideIcons { get; set; } = new[] { "side-by-side", "fullscreen" };
+    [Parameter] public string[] HideIcons { get; set; } = ["side-by-side", "fullscreen"];
 
     /// <summary>
     /// An array of icon names to show. Can be used to show specific icons hidden by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] ShowIcons { get; set; } = new[] { "code", "table" };
+    [Parameter] public string[] ShowIcons { get; set; } = ["code", "table"];
 
     /// <summary>
     /// [Optional] Gets or sets the content of the toolbar.

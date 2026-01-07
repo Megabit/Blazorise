@@ -150,7 +150,7 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
     /// Gets the list of error messages.
     /// </summary>
     protected IEnumerable<string> ErrorMessages
-        => ( internalErrorMessages ?? Enumerable.Empty<string>().ToArray() ).Concat( Errors ?? Enumerable.Empty<string>() );
+        => ( internalErrorMessages ?? [] ).Concat( Errors ?? [] );
 
     /// <summary>
     /// Label showed before the error messages.

@@ -42,7 +42,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// <summary>
     /// A list of slides placed inside of this carousel.
     /// </summary>
-    protected internal readonly List<CarouselSlide> carouselSlides = new();
+    protected internal readonly List<CarouselSlide> carouselSlides = [];
 
     #endregion
 

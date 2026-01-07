@@ -105,7 +105,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             var parametersDictionary = (Dictionary<string, object>)parameters.ToDictionary();
 
-            Attributes ??= new();
+            Attributes ??= [];
 
             if ( widthAttribute is not null && parametersDictionary.Remove( "width" ) )
             {

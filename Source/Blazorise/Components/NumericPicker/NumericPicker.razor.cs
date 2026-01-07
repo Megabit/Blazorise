@@ -16,7 +16,7 @@ namespace Blazorise;
 /// <summary>
 /// An editor that displays a numeric value and allows a user to edit the value.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue}.Value"/> property.</typeparam>
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue, TClasses, TStyles}.Value"/> property.</typeparam>
 public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, NumericPickerClasses, NumericPickerStyles>, INumericPicker, IAsyncDisposable
 {
     #region Members
@@ -119,12 +119,12 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     /// <summary>
     /// True if the TValue is an integer type.
     /// </summary>
-    private bool isIntegerType;
+    private readonly bool isIntegerType;
 
     /// <summary>
     /// Contains the correct inputmode for the input element, based in the TValue.
     /// </summary>
-    private string inputMode;
+    private readonly string inputMode;
 
     #endregion
 
