@@ -1,10 +1,10 @@
-@page "/docs/helpers/utilities/component-styling"
+@page "/docs/helpers/utilities/styling"
 @using Blazorise.Docs.Services
 
-<Seo Canonical="/docs/helpers/utilities/component-styling" Title="Blazorise Component Styling" Description="Style Blazorise components with Class/Style for the root element, and use typed *Classes/*Styles maps to target inner elements when needed." />
+<Seo Canonical="/docs/helpers/utilities/styling" Title="Blazorise Styling" Description="Style Blazorise components with Class/Style for the root element, and use typed *Classes/*Styles maps to target inner elements when needed." />
 
-<DocsPageTitle Path="Helpers/Utilities/Component Styling">
-    Component Styling
+<DocsPageTitle Path="Helpers/Utilities/Styling" AddedVersion="Added in v2.0">
+    Styling
 </DocsPageTitle>
 
 <DocsPageLead>
@@ -40,6 +40,10 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
+    Typed <Code>Classes</Code> and <Code>Styles</Code> maps are resilient to provider markup differences and are self-documenting and discoverable, making them safer than fragile selectors.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
     Each component that supports this exposes its own <Code>*Classes</Code> and <Code>*Styles</Code> record types. The common <Code>Self</Code> property targets the main element rendered by the component, while additional properties map to the component structure (for example <Code>Wrapper</Code>, <Code>Content</Code>, or <Code>Input</Code>).
 </DocsPageParagraph>
 
@@ -49,6 +53,10 @@
 
 <DocsPageParagraph>
     Use <Code>Classes</Code> and <Code>Styles</Code> only when you need to reach elements that <Code>Class</Code> and <Code>Style</Code> cannot. If a component does not expose <Code>Classes</Code> or <Code>Styles</Code>, it renders a single element and should be styled with <Code>Class</Code> and <Code>Style</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Example scenario: when a <Code>Table</Code> is responsive, use <Code>TableClasses</Code> or <Code>TableStyles</Code> to style the container wrapper while keeping <Code>Class</Code>/<Code>Style</Code> for the table itself.
 </DocsPageParagraph>
 
 <DocsPageSection>
@@ -69,6 +77,14 @@
 
 <DocsPageParagraph>
     Quick reference for common components and their extra keys. This list is not exhaustive, check each component's <Code>*Classes</Code> and <Code>*Styles</Code> type for the complete set of supported properties.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Some keys apply only for specific CSS providers or only when a configuration option causes extra markup to render.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If a key has no effect, the element might not be rendered by that provider or configuration, and any unsupported keys are ignored.
 </DocsPageParagraph>
 
 <Table Responsive>
