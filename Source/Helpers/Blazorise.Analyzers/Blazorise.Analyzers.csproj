@@ -5,7 +5,7 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <LangVersion>11.0</LangVersion>
+    <LangVersion>12.0</LangVersion>
     <AssemblyName>Blazorise.Analyzers</AssemblyName>
     <RootNamespace>Blazorise.Analyzers</RootNamespace>
     <PackageId>Blazorise.Analyzers</PackageId>
