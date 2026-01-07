@@ -6,7 +6,7 @@ namespace Blazorise;
 public record class ComponentStyles
 {
     /// <summary>
-    /// Targets the main element rendered by a component.
+    /// Targets the element rendered by the component itself.
     /// </summary>
-    public string Main { get; init; }
+    public string Self { get; init; }
 }

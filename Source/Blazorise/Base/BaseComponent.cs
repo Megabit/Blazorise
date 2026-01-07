@@ -880,13 +880,13 @@ public abstract class BaseComponent<TClasses, TStyles> : BaseComponent
     /// <inheritdoc/>
     protected override void BuildCustomClasses( ClassBuilder builder )
     {
-        builder.Append( Classes?.Main );
+        builder.Append( Classes?.Self );
     }
 
     /// <inheritdoc/>
     protected override void BuildCustomStyles( StyleBuilder builder )
     {
-        builder.Append( Styles?.Main );
+        builder.Append( Styles?.Self );
     }
 
     #endregion
