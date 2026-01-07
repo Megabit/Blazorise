@@ -1,4 +1,5 @@
 @page "/docs/helpers/utilities/component-styling"
+@using Blazorise.Docs.Services
 
 <Seo Canonical="/docs/helpers/utilities/component-styling" Title="Blazorise Component Styling" Description="Style Blazorise components with Class/Style for the root element, and use typed *Classes/*Styles maps to target inner elements when needed." />
 
@@ -71,7 +72,7 @@
 </DocsPageParagraph>
 
 <Table Responsive>
-    <TableHeader ThemeContrast="ThemeContrast.Light">
+    <TableHeader ThemeContrast="@ThemeContrast">
         <TableRow>
             <TableHeaderCell>Component</TableHeaderCell>
             <TableHeaderCell>Keys</TableHeaderCell>
@@ -136,7 +137,7 @@
 </DocsPageParagraph>
 
 <Table Responsive>
-    <TableHeader ThemeContrast="ThemeContrast.Light">
+    <TableHeader ThemeContrast="@ThemeContrast">
         <TableRow>
             <TableHeaderCell Style="width: 15%;">Component</TableHeaderCell>
             <TableHeaderCell Style="width: 15%;">Key</TableHeaderCell>
@@ -261,4 +262,8 @@
         __builder.AddAttribute( 2, "TextColor", supported ? TextColor.Success : TextColor.Danger );
         __builder.CloseComponent();
     };
+
+    private ThemeContrast ThemeContrast => ThemeService.ShouldDark ? ThemeContrast.Dark : ThemeContrast.Light;
+
+    [Inject] private ThemeService ThemeService { get; set; }
 }
