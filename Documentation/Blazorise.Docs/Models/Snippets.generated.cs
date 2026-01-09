@@ -12912,6 +12912,29 @@ builder.Services
     </CardBody>
 </Card>";
 
+        public const string ComponentStylingUtilityTargetExample = @"<CardDeck>
+    <Card UtilityTarget=""UtilityTarget.Wrapper"" Padding=""Padding.Is2"">
+        <CardBody>
+            <CardTitle Size=""4"">
+                Example 1
+            </CardTitle>
+            <CardText>
+                Utility spacing targets the wrapper element.
+            </CardText>
+        </CardBody>
+    </Card>
+    <Card Margin=""Margin.Is3.OnWrapper"">
+        <CardBody>
+            <CardTitle Size=""4"">
+                Example 2
+            </CardTitle>
+            <CardText>
+                Or make it more specific by targeting only the wrapper element for margin utilities.
+            </CardText>
+        </CardBody>
+    </Card>
+</CardDeck>";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 
 @code {
