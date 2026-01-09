@@ -655,12 +655,12 @@ public class FluentSizing :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentSizing OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentSizing OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentSizing OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentSizing OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     IFluentSizingOnBreakpoint IFluentSizingSize.Is25 => WithSize( SizingSize.Is25 );

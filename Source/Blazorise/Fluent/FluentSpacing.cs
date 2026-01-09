@@ -324,12 +324,12 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentSpacing OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentSpacing OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentSpacing OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentSpacing OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// Gets the spacing type.

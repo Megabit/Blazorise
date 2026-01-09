@@ -232,12 +232,12 @@ public class FluentTextSize :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentTextSize OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentTextSize OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentTextSize OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentTextSize OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentTextSizeWithSize OnMobile => WithBreakpoint( Breakpoint.Mobile );

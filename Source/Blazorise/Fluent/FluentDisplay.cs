@@ -340,12 +340,12 @@ public class FluentDisplay :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentDisplay OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentDisplay OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentDisplay OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentDisplay OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// Valid on all devices. (extra small)

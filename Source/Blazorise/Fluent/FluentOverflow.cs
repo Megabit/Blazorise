@@ -150,12 +150,12 @@ public class FluentOverflow :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentOverflow OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentOverflow OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentOverflow OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentOverflow OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentOverflow Visible => WithSecondOverflow( OverflowType.Visible );

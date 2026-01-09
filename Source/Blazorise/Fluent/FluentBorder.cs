@@ -475,12 +475,12 @@ public class FluentBorder :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentBorder OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentBorder OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentBorder OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentBorder OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentBorderWithAll Is0 => WithSize( BorderSize.Is0 );

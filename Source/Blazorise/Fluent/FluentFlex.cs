@@ -1120,12 +1120,12 @@ public class FluentFlex :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentFlex OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentFlex OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentFlex OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentFlex OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentFlexAll OnMobile => WithBreakpoint( Breakpoint.Mobile );

@@ -51,12 +51,12 @@ public record Background : Enumeration<Background>, IUtilityTargeted, IFluentUti
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public Background OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public Background OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public Background OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public Background OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.

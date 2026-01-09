@@ -328,12 +328,12 @@ public class FluentPosition :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentPosition OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentPosition OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentPosition OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentPosition OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentPositionWithEdgeTypeAndTranslateType Static => WithPosition( PositionType.Static );

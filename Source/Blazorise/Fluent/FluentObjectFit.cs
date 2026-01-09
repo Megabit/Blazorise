@@ -203,12 +203,12 @@ public class FluentObjectFit :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentObjectFit OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentObjectFit OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentObjectFit OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentObjectFit OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentObjectFitWithSize OnMobile => WithBreakpoint( Breakpoint.Mobile );

@@ -233,12 +233,12 @@ public class FluentGap :
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public IFluentGap OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public IFluentGap OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public IFluentGap OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public IFluentGap OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// For classes that eliminate the margin or padding by setting it to 0.

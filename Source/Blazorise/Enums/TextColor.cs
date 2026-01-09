@@ -55,12 +55,12 @@ public record TextColor : Enumeration<TextColor>, IUtilityTargeted, IFluentUtili
     /// <summary>
     /// Targets the utility output to the component element.
     /// </summary>
-    public TextColor OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+    public TextColor OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
 
     /// <summary>
     /// Targets the utility output to a wrapper element.
     /// </summary>
-    public TextColor OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
+    public TextColor OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.
