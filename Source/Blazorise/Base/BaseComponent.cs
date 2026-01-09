@@ -250,9 +250,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( ShouldApplyUtility( Display, currentTarget ) )
             builder.Append( Display.Class( ClassProvider ) );
 
-        if ( ShouldApplyUtility( Border, currentTarget ) )
-            builder.Append( Border.Class( ClassProvider ) );
-
         if ( ShouldApplyUtility( Flex, currentTarget ) )
             builder.Append( Flex.Class( ClassProvider ) );
 
@@ -262,8 +259,20 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( ShouldApplyUtility( Overflow, currentTarget ) )
             builder.Append( Overflow.Class( ClassProvider ) );
 
+        if ( ShouldApplyUtility( Border, currentTarget ) )
+            builder.Append( Border.Class( ClassProvider ) );
+
         if ( ShouldApplyUtility( ObjectFit, currentTarget ) )
             builder.Append( ObjectFit.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( TextSize, currentTarget ) )
+            builder.Append( TextSize.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( Width, currentTarget ) )
+            builder.Append( Width.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( Height, currentTarget ) )
+            builder.Append( Height.Class( ClassProvider ) );
 
         if ( UtilityTarget == currentTarget )
         {
@@ -278,16 +287,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
             if ( VerticalAlignment != VerticalAlignment.Default )
                 builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
-        }
 
-        if ( ShouldApplyUtility( Width, currentTarget ) )
-            builder.Append( Width.Class( ClassProvider ) );
-
-        if ( ShouldApplyUtility( Height, currentTarget ) )
-            builder.Append( Height.Class( ClassProvider ) );
-
-        if ( UtilityTarget == currentTarget )
-        {
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
 
@@ -308,13 +308,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
             if ( TextOverflow != TextOverflow.Default )
                 builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
-        }
 
-        if ( ShouldApplyUtility( TextSize, currentTarget ) )
-            builder.Append( TextSize.Class( ClassProvider ) );
-
-        if ( UtilityTarget == currentTarget )
-        {
             if ( Background != Background.Default )
                 builder.Append( ClassProvider.BackgroundColor( Background ) );
 
