@@ -20,6 +20,14 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private UtilityTarget utilityTarget = UtilityTarget.Self;
 
+    private ClassBuilder utilityClassBuilder;
+
+    private ClassBuilder wrapperUtilityClassBuilder;
+
+    private StyleBuilder utilityStyleBuilder;
+
+    private StyleBuilder wrapperUtilityStyleBuilder;
+
     private string customClass;
 
     private string customStyle;
@@ -85,10 +93,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     {
         ClassBuilder = new( BuildClasses, BuildCustomClasses );
         StyleBuilder = new( BuildStyles, BuildCustomStyles );
-        UtilityClassBuilder = new( builder => BuildUtilityClasses( builder, UtilityTarget.Self ) );
-        WrapperUtilityClassBuilder = new( builder => BuildUtilityClasses( builder, UtilityTarget.Wrapper ) );
-        UtilityStyleBuilder = new( builder => BuildUtilityStyles( builder, UtilityTarget.Self ) );
-        WrapperUtilityStyleBuilder = new( builder => BuildUtilityStyles( builder, UtilityTarget.Wrapper ) );
     }
 
     #endregion
@@ -162,10 +166,10 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             ClassBuilder = null;
             StyleBuilder = null;
-            UtilityClassBuilder = null;
-            WrapperUtilityClassBuilder = null;
-            UtilityStyleBuilder = null;
-            WrapperUtilityStyleBuilder = null;
+            utilityClassBuilder = null;
+            utilityStyleBuilder = null;
+            wrapperUtilityClassBuilder = null;
+            wrapperUtilityStyleBuilder = null;
         }
 
         base.Dispose( disposing );
@@ -178,10 +182,10 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             ClassBuilder = null;
             StyleBuilder = null;
-            UtilityClassBuilder = null;
-            WrapperUtilityClassBuilder = null;
-            UtilityStyleBuilder = null;
-            WrapperUtilityStyleBuilder = null;
+            utilityClassBuilder = null;
+            utilityStyleBuilder = null;
+            wrapperUtilityClassBuilder = null;
+            wrapperUtilityStyleBuilder = null;
         }
 
         return base.DisposeAsync( disposing );
@@ -197,6 +201,16 @@ public abstract class BaseComponent : BaseAfterRenderComponent
             builder.Append( Class );
 
         builder.Append( UtilityClassBuilder.Class );
+    }
+
+    private void BuildSelfUtilityClasses( ClassBuilder builder )
+    {
+        BuildUtilityClasses( builder, UtilityTarget.Self );
+    }
+
+    private void BuildWrapperUtilityClasses( ClassBuilder builder )
+    {
+        BuildUtilityClasses( builder, UtilityTarget.Wrapper );
     }
 
     private bool ShouldApplyUtility( object utility, UtilityTarget target )
@@ -321,6 +335,16 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         builder.Append( UtilityStyleBuilder.Styles );
     }
 
+    private void BuildSelfUtilityStyles( StyleBuilder builder )
+    {
+        BuildUtilityStyles( builder, UtilityTarget.Self );
+    }
+
+    private void BuildWrapperUtilityStyles( StyleBuilder builder )
+    {
+        BuildUtilityStyles( builder, UtilityTarget.Wrapper );
+    }
+
     /// <summary>
     /// Builds a list of utility styles for this component.
     /// </summary>
@@ -359,8 +383,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     internal protected virtual void DirtyClasses()
     {
         ClassBuilder?.Dirty();
-        UtilityClassBuilder?.Dirty();
-        WrapperUtilityClassBuilder?.Dirty();
+        utilityClassBuilder?.Dirty();
+        wrapperUtilityClassBuilder?.Dirty();
     }
 
     /// <summary>
@@ -369,8 +393,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     internal protected virtual void DirtyStyles()
     {
         StyleBuilder?.Dirty();
-        UtilityStyleBuilder?.Dirty();
-        WrapperUtilityStyleBuilder?.Dirty();
+        utilityStyleBuilder?.Dirty();
+        wrapperUtilityStyleBuilder?.Dirty();
     }
 
     /// <summary>
@@ -446,12 +470,26 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <summary>
     /// Gets the utility class builder.
     /// </summary>
-    protected ClassBuilder UtilityClassBuilder { get; private set; }
+    protected ClassBuilder UtilityClassBuilder
+    {
+        get
+        {
+            utilityClassBuilder ??= new( BuildSelfUtilityClasses );
+            return utilityClassBuilder;
+        }
+    }
 
     /// <summary>
     /// Gets the utility class builder for wrapper elements.
     /// </summary>
-    protected ClassBuilder WrapperUtilityClassBuilder { get; private set; }
+    protected ClassBuilder WrapperUtilityClassBuilder
+    {
+        get
+        {
+            wrapperUtilityClassBuilder ??= new( BuildWrapperUtilityClasses );
+            return wrapperUtilityClassBuilder;
+        }
+    }
 
     /// <summary>
     /// Gets the built class-names based on all the rules set by the component parameters.
@@ -466,12 +504,26 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <summary>
     /// Gets the utility style builder.
     /// </summary>
-    protected StyleBuilder UtilityStyleBuilder { get; private set; }
+    protected StyleBuilder UtilityStyleBuilder
+    {
+        get
+        {
+            utilityStyleBuilder ??= new( BuildSelfUtilityStyles );
+            return utilityStyleBuilder;
+        }
+    }
 
     /// <summary>
     /// Gets the utility style builder for wrapper elements.
     /// </summary>
-    protected StyleBuilder WrapperUtilityStyleBuilder { get; private set; }
+    protected StyleBuilder WrapperUtilityStyleBuilder
+    {
+        get
+        {
+            wrapperUtilityStyleBuilder ??= new( BuildWrapperUtilityStyles );
+            return wrapperUtilityStyleBuilder;
+        }
+    }
 
     /// <summary>
     /// Gets the built styles based on all the rules set by the component parameters.
