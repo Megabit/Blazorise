@@ -1028,15 +1028,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Captures unmatched HTML attributes for customization.
-    /// </summary>
-    /// <remarks>
-    /// These attributes are applied directly to the component's root HTML element.
-    /// </remarks>
-    [Parameter( CaptureUnmatchedValues = true )]
-    public Dictionary<string, object> Attributes { get; set; }
-
-    /// <summary>
     /// Specifies the default target where utility classes and styles are applied when no per-utility target is set.
     /// </summary>
     [Parameter]
@@ -1054,6 +1045,15 @@ public abstract class BaseComponent : BaseAfterRenderComponent
             DirtyStyles();
         }
     }
+
+    /// <summary>
+    /// Captures unmatched HTML attributes for customization.
+    /// </summary>
+    /// <remarks>
+    /// These attributes are applied directly to the component's root HTML element.
+    /// </remarks>
+    [Parameter( CaptureUnmatchedValues = true )]
+    public Dictionary<string, object> Attributes { get; set; }
 
     #endregion
 }
