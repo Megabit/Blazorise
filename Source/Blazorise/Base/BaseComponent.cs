@@ -274,6 +274,12 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( ShouldApplyUtility( Height, currentTarget ) )
             builder.Append( Height.Class( ClassProvider ) );
 
+        if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor != TextColor.Default )
+            builder.Append( ClassProvider.TextColor( TextColor ) );
+
+        if ( ShouldApplyUtility( Background, currentTarget ) && Background != Background.Default )
+            builder.Append( ClassProvider.BackgroundColor( Background ) );
+
         if ( UtilityTarget == currentTarget )
         {
             if ( Float != Float.Default )
@@ -291,9 +297,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
 
-            if ( TextColor != TextColor.Default )
-                builder.Append( ClassProvider.TextColor( TextColor ) );
-
             if ( TextAlignment != TextAlignment.Default )
                 builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
 
@@ -308,9 +311,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
             if ( TextOverflow != TextOverflow.Default )
                 builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
-
-            if ( Background != Background.Default )
-                builder.Append( ClassProvider.BackgroundColor( Background ) );
 
             if ( Shadow != Shadow.None )
                 builder.Append( ClassProvider.Shadow( Shadow ) );
