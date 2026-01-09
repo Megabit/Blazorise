@@ -238,15 +238,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     {
         UtilityTarget currentTarget = target;
 
-        if ( ShouldApplyUtility( Margin, currentTarget ) )
-            builder.Append( Margin.Class( ClassProvider ) );
-
-        if ( ShouldApplyUtility( Padding, currentTarget ) )
-            builder.Append( Padding.Class( ClassProvider ) );
-
-        if ( ShouldApplyUtility( Gap, currentTarget ) )
-            builder.Append( Gap.Class( ClassProvider ) );
-
         if ( ShouldApplyUtility( Display, currentTarget ) )
             builder.Append( Display.Class( ClassProvider ) );
 
@@ -255,6 +246,21 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( ShouldApplyUtility( Position, currentTarget ) )
             builder.Append( Position.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( Margin, currentTarget ) )
+            builder.Append( Margin.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( Padding, currentTarget ) )
+            builder.Append( Padding.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( Width, currentTarget ) )
+            builder.Append( Width.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( Height, currentTarget ) )
+            builder.Append( Height.Class( ClassProvider ) );
+
+        if ( ShouldApplyUtility( Gap, currentTarget ) )
+            builder.Append( Gap.Class( ClassProvider ) );
 
         if ( ShouldApplyUtility( Overflow, currentTarget ) )
             builder.Append( Overflow.Class( ClassProvider ) );
@@ -267,12 +273,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( ShouldApplyUtility( TextSize, currentTarget ) )
             builder.Append( TextSize.Class( ClassProvider ) );
-
-        if ( ShouldApplyUtility( Width, currentTarget ) )
-            builder.Append( Width.Class( ClassProvider ) );
-
-        if ( ShouldApplyUtility( Height, currentTarget ) )
-            builder.Append( Height.Class( ClassProvider ) );
 
         if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor != TextColor.Default )
             builder.Append( ClassProvider.TextColor( TextColor ) );
