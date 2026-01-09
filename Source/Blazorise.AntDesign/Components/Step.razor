@@ -1,7 +1,8 @@
 ﻿@inherits Blazorise.Step
+@using Blazorise.Utilities
 <CascadingValue Value="@this" IsFixed>
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
-        <div class="@ContainerClassNames" style="@Styles?.Container">
+        <div class="@ContainerClassNames" style="@ContainerStyleNames">
             <div class="ant-steps-item-tail"></div>
             @if ( Marker != null || Caption != null )
             {
@@ -44,12 +45,28 @@
     {
         get
         {
-            if ( string.IsNullOrEmpty( Classes?.Container ) )
+            var builder = new ClassBuilder( classBuilder =>
             {
-                return "ant-steps-item-container";
-            }
+                classBuilder.Append( "ant-steps-item-container" );
+                classBuilder.Append( Classes?.Container );
+                AppendWrapperUtilities( classBuilder );
+            } );
 
-            return $"ant-steps-item-container {Classes.Container}";
+            return builder.Class;
+        }
+    }
+
+    string ContainerStyleNames
+    {
+        get
+        {
+            var builder = new StyleBuilder( styleBuilder =>
+            {
+                AppendWrapperUtilities( styleBuilder );
+                styleBuilder.Append( Styles?.Container );
+            } );
+
+            return builder.Styles;
         }
     }
 }

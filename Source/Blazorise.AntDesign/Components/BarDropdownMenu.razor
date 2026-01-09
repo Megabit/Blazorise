@@ -1,7 +1,8 @@
 ﻿@inherits Blazorise.BarDropdownMenu
+@using Blazorise.Utilities
 @if ( ParentDropdownState != null && ParentDropdownState.Mode != BarMode.VerticalInline )
 {
-    <div class="@GetContainerClassNames( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" style="@Styles?.Container" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <div class="@GetContainerClassNames( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" style="@GetContainerStyleNames()" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
         <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
             @ChildContent
         </ul>
@@ -23,12 +24,25 @@ else
 
     string GetContainerClassNames( string baseClass )
     {
-        if ( string.IsNullOrEmpty( Classes?.Container ) )
+        var builder = new ClassBuilder( classBuilder =>
         {
-            return baseClass;
-        }
+            classBuilder.Append( baseClass );
+            classBuilder.Append( Classes?.Container );
+            AppendWrapperUtilities( classBuilder );
+        } );
 
-        return $"{baseClass} {Classes.Container}";
+        return builder.Class;
+    }
+
+    string GetContainerStyleNames()
+    {
+        var builder = new StyleBuilder( styleBuilder =>
+        {
+            AppendWrapperUtilities( styleBuilder );
+            styleBuilder.Append( Styles?.Container );
+        } );
+
+        return builder.Styles;
     }
 
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }

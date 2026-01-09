@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent object-fit builders.
 /// </summary>
-public interface IFluentObjectFit
+public interface IFluentObjectFit : IFluentUtilityTarget<IFluentObjectFit>
 {
     /// <summary>
     /// Builds the classnames based on object-fit rules.
@@ -110,7 +110,8 @@ public sealed class ObjectFitDefinition
 /// </summary>
 public class FluentObjectFit :
     IFluentObjectFitOnBreakpoint,
-    IFluentObjectFitWithSize
+    IFluentObjectFitWithSize,
+    IUtilityTargeted
 {
     #region Members
 
@@ -154,6 +155,12 @@ public class FluentObjectFit :
         dirty = true;
     }
 
+    private IFluentObjectFit WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
+    }
+
     /// <summary>
     /// Starts the new object-fit.
     /// </summary>
@@ -187,6 +194,21 @@ public class FluentObjectFit :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentObjectFit OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentObjectFit OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentObjectFitWithSize OnMobile => WithBreakpoint( Breakpoint.Mobile );

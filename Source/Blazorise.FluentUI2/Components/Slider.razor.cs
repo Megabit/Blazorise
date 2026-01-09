@@ -13,6 +13,7 @@ public partial class Slider<TValue>
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
         InputStyleBuilder = new StyleBuilder( BuildInputStyles, builder => builder.Append( Styles?.Wrapper ) );
+        AddonClassBuilder = new ClassBuilder( BuildAddonClasses );
     }
 
     #endregion
@@ -22,6 +23,7 @@ public partial class Slider<TValue>
     protected internal override void DirtyClasses()
     {
         InputClassBuilder.Dirty();
+        AddonClassBuilder.Dirty();
 
         base.DirtyClasses();
     }
@@ -62,6 +64,8 @@ public partial class Slider<TValue>
         {
             builder.Append( "disabled" );
         }
+
+        AppendWrapperUtilities( builder );
     }
 
     private void BuildInputStyles( StyleBuilder builder )
@@ -86,6 +90,15 @@ public partial class Slider<TValue>
             builder.Append( "--fui-Slider__progress--color: var(--colorCompoundBrandBackground);" );
             builder.Append( "--fui-Slider__rail--color: var(--colorNeutralStrokeAccessible);" );
         }
+
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildAddonClasses( ClassBuilder builder )
+    {
+        builder.Append( "fui-Input__content" );
+        builder.Append( Classes?.Wrapper );
+        AppendWrapperUtilities( builder );
     }
 
     #endregion
@@ -96,20 +109,13 @@ public partial class Slider<TValue>
 
     protected StyleBuilder InputStyleBuilder { get; private set; }
 
+    protected ClassBuilder AddonClassBuilder { get; private set; }
+
     protected string InputClassNames => InputClassBuilder.Class;
 
     protected string InputStyleNames => InputStyleBuilder.Styles;
 
-    protected string AddonClassNames
-    {
-        get
-        {
-            if ( string.IsNullOrEmpty( Classes?.Wrapper ) )
-                return "fui-Input__content";
-
-            return $"fui-Input__content {Classes.Wrapper}";
-        }
-    }
+    protected string AddonClassNames => AddonClassBuilder.Class;
 
     #endregion
 }

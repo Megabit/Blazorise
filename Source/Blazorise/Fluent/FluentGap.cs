@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent gap builders.
 /// </summary>
-public interface IFluentGap
+public interface IFluentGap : IFluentUtilityTarget<IFluentGap>
 {
     /// <summary>
     /// Builds the classnames based on gap rules.
@@ -111,7 +111,8 @@ public class FluentGap :
     IFluentGapWithSize,
     IFluentGapFromSide,
     IFluentGapWithSide,
-    IFluentGapWithSideAndSize
+    IFluentGapWithSideAndSize,
+    IUtilityTargeted
 {
     #region Members
 
@@ -161,6 +162,12 @@ public class FluentGap :
     private void Dirty()
     {
         dirty = true;
+    }
+
+    private IFluentGap WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
     }
 
     /// <summary>
@@ -217,6 +224,21 @@ public class FluentGap :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentGap OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentGap OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// For classes that eliminate the margin or padding by setting it to 0.

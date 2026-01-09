@@ -3,7 +3,7 @@
     <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         @if ( Marker != null || Caption != null )
         {
-            <div class="@ContainerClassNames" style="@Styles?.Container">
+            <div class="@ContainerClassNames" style="@ContainerStyleNames">
                 @if ( Marker != null )
                 {
                     <span class="@MarkerClassNames" style="@Styles?.Marker">
@@ -20,7 +20,7 @@
         }
         else
         {
-            <div class="@ContainerClassNames" style="@Styles?.Container">
+            <div class="@ContainerClassNames" style="@ContainerStyleNames">
                 <span class="@MarkerClassNames" style="@Styles?.Marker">
                     @CalculatedIndex
                 </span>

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent text size builders.
 /// </summary>
-public interface IFluentTextSize
+public interface IFluentTextSize : IFluentUtilityTarget<IFluentTextSize>
 {
     /// <summary>
     /// Builds the classnames based on text size rules.
@@ -139,7 +139,8 @@ public sealed class TextSizeDefinition
 /// </summary>
 public class FluentTextSize :
     IFluentTextSizeOnBreakpoint,
-    IFluentTextSizeWithSize
+    IFluentTextSizeWithSize,
+    IUtilityTargeted
 {
     #region Members
 
@@ -183,6 +184,12 @@ public class FluentTextSize :
         dirty = true;
     }
 
+    private IFluentTextSize WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
+    }
+
     /// <summary>
     /// Starts the new text size.
     /// </summary>
@@ -216,6 +223,21 @@ public class FluentTextSize :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentTextSize OnSelf => WithUtilityTarget( global::Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentTextSize OnWrapper => WithUtilityTarget( global::Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentTextSizeWithSize OnMobile => WithBreakpoint( Breakpoint.Mobile );

@@ -12,6 +12,8 @@ public partial class ColorInput
     public ColorInput()
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
+        AddonClassBuilder = new ClassBuilder( BuildAddonClasses );
+        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
 
     #endregion
@@ -21,8 +23,16 @@ public partial class ColorInput
     protected internal override void DirtyClasses()
     {
         InputClassBuilder.Dirty();
+        AddonClassBuilder.Dirty();
 
         base.DirtyClasses();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        WrapperStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     private void BuildInputClasses( ClassBuilder builder )
@@ -47,6 +57,20 @@ public partial class ColorInput
         {
             builder.Append( "disabled" );
         }
+
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildAddonClasses( ClassBuilder builder )
+    {
+        builder.Append( "fui-Input__content" );
+        builder.Append( Classes?.Wrapper );
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildWrapperStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
     }
 
     protected override void BuildStyles( StyleBuilder builder )
@@ -69,18 +93,15 @@ public partial class ColorInput
 
     protected ClassBuilder InputClassBuilder { get; private set; }
 
+    protected ClassBuilder AddonClassBuilder { get; private set; }
+
+    protected StyleBuilder WrapperStyleBuilder { get; private set; }
+
     protected string InputClassNames => InputClassBuilder.Class;
 
-    protected string AddonClassNames
-    {
-        get
-        {
-            if ( string.IsNullOrEmpty( Classes?.Wrapper ) )
-                return "fui-Input__content";
+    protected string AddonClassNames => AddonClassBuilder.Class;
 
-            return $"fui-Input__content {Classes.Wrapper}";
-        }
-    }
+    protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
 
     #endregion
 }

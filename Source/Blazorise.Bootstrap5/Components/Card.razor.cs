@@ -11,6 +11,7 @@ public partial class Card : Blazorise.Card
     public Card()
     {
         WrapperClassBuilder = new( BuildWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
+        WrapperStyleBuilder = new( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
 
     #endregion
@@ -20,6 +21,12 @@ public partial class Card : Blazorise.Card
     protected virtual void BuildWrapperClasses( ClassBuilder builder )
     {
         builder.Append( "col" );
+        AppendWrapperUtilities( builder );
+    }
+
+    protected virtual void BuildWrapperStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
     }
 
     protected internal override void DirtyClasses()
@@ -29,13 +36,24 @@ public partial class Card : Blazorise.Card
         base.DirtyClasses();
     }
 
+    protected internal override void DirtyStyles()
+    {
+        WrapperStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
+
     #endregion
 
     #region Properties
 
     protected ClassBuilder WrapperClassBuilder { get; private set; }
 
+    protected StyleBuilder WrapperStyleBuilder { get; private set; }
+
     protected string WrapperClassNames => WrapperClassBuilder.Class;
+
+    protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
 
     #endregion
 }

@@ -2,13 +2,13 @@
 @inherits Blazorise.ColorInput
 @if ( ParentIsAddons )
 {
-    <span class="@AddonClassNames" style="@Styles?.Wrapper">
+    <span class="@AddonClassNames" style="@WrapperStyleNames">
         @InputElement
     </span>
 }
 else
 {
-    <span class="@InputClassNames" style="@Styles?.Wrapper">
+    <span class="@InputClassNames" style="@WrapperStyleNames">
         @InputElement
     </span>
 }

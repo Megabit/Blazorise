@@ -37,11 +37,13 @@ public partial class Toast
         builder.Append( "fui-ToastContainer" );
         builder.Append( WrapperFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( WrapperVisible( IsVisible ) );
+        AppendWrapperUtilities( builder );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
         builder.Append( StyleProvider.ToastAnimationDuration( Animated, AnimationDuration ) );
+        AppendWrapperUtilities( builder );
     }
 
     private static string WrapperVisible( bool visible ) => visible

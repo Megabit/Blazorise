@@ -111,6 +111,8 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
         builder.Append( ClassProvider.TableResponsive( Responsive ) );
         builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
         builder.Append( ClassProvider.TableFixedColumns( FixedColumns ) );
+
+        AppendWrapperUtilities( builder );
     }
 
     /// <summary>
@@ -127,6 +129,8 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
             if ( !string.IsNullOrEmpty( FixedHeaderTableMaxHeight ) )
                 builder.Append( $"max-height: {FixedHeaderTableMaxHeight};" );
         }
+
+        AppendWrapperUtilities( builder );
     }
 
     /// <inheritdoc/>
