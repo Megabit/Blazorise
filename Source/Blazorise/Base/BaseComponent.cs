@@ -295,10 +295,10 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( ShouldApplyUtility( TextSize, currentTarget ) )
             builder.Append( TextSize.Class( ClassProvider ) );
 
-        if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor != TextColor.Default )
+        if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor.IsNotNullOrDefault() )
             builder.Append( ClassProvider.TextColor( TextColor ) );
 
-        if ( ShouldApplyUtility( Background, currentTarget ) && Background != Background.Default )
+        if ( ShouldApplyUtility( Background, currentTarget ) && Background.IsNotNullOrDefault() )
             builder.Append( ClassProvider.BackgroundColor( Background ) );
 
         if ( UtilityTarget == currentTarget )
