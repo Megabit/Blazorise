@@ -2,7 +2,7 @@
 @typeparam TItem
 
 
-<Div Class="b-datagrid-drop-zone" Border="BorderIs1Rounded" Padding="PaddingIs3" Flex="FlexGrowIs1" ondragover="event.preventDefault();" @ondrop="OnDrop">
+<Div Class="@ClassNames" Style="@StyleNames" Border="BorderIs1Rounded" Padding="PaddingIs3" Flex="FlexGrowIs1" ondragover="event.preventDefault();" @ondrop="OnDrop">
     @if ( !Columns.IsNullOrEmpty() )
     {
         @foreach ( var column in ( Columns ) )

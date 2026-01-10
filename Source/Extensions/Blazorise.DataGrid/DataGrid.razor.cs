@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
@@ -171,6 +170,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool applyingState;
 
+    private ClassBuilder classBuilder;
+    private StyleBuilder styleBuilder;
+
     #endregion
 
     #region Constructors
@@ -181,6 +183,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         paginationTemplates = new();
         paginationContext = new( this );
+
+        classBuilder = new( BuildClasses );
+        styleBuilder = new( BuildStyles );
     }
 
     #endregion
@@ -3137,14 +3142,48 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         get
         {
-            var sb = new StringBuilder();
+            classBuilder.Dirty();
+            return classBuilder.Class;
+        }
+    }
 
-            sb.Append( "b-datagrid" );
+    /// <summary>
+    /// Gets the DataGrid standard styles and other existing Style.
+    /// </summary>
+    protected string StyleNames
+    {
+        get
+        {
+            styleBuilder.Dirty();
+            return styleBuilder.Styles;
+        }
+    }
 
-            if ( Class != null )
-                sb.Append( $" {Class}" );
+    private void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-datagrid" );
 
-            return sb.ToString();
+        if ( !string.IsNullOrWhiteSpace( Class ) )
+        {
+            builder.Append( Class );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( Classes?.Self ) )
+        {
+            builder.Append( Classes.Self );
+        }
+    }
+
+    private void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrWhiteSpace( Styles?.Self ) )
+        {
+            builder.Append( Styles.Self.Trim().TrimEnd( ';' ) );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( Style ) )
+        {
+            builder.Append( Style.Trim().TrimEnd( ';' ) );
         }
     }
 
@@ -3975,6 +4014,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Custom html style.
     /// </summary>
     [Parameter] public string Style { get; set; }
+
+    /// <summary>
+    /// Supplies additional CSS classes for DataGrid elements.
+    /// </summary>
+    [Parameter] public DataGridClasses Classes { get; set; }
+
+    /// <summary>
+    /// Supplies additional CSS styles for DataGrid elements.
+    /// </summary>
+    [Parameter] public DataGridStyles Styles { get; set; }
 
     /// <summary>
     /// Defines the element margin spacing.
