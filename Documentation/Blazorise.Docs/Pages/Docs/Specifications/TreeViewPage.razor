@@ -1,0 +1,55 @@
+@page "/docs/specifications/treeview"
+
+<Seo Canonical="/docs/specifications/treeview" Title="Blazorise Specifications: TreeView" Description="Learn about Blazorise TreeView component and how it works and behaves under the certain scenarios, according to the defined parameters." />
+
+<DocsPageTitle Path="Specifications/TreeView">
+    Blazorise Specifications: TreeView
+</DocsPageTitle>
+
+<DocsPageLead>
+    Learn how the TreeView behaves when selection, expansion, and virtualization are combined.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    SelectionMode
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <Code>SelectionMode.Single</Code> uses <Code>SelectedNode</Code> and selection happens by clicking the node content.
+    <Code>SelectionMode.Multiple</Code> uses <Code>SelectedNodes</Code> and selection happens via the checkbox; clicking node content does not toggle selection in multiple mode.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Disabled nodes from <Code>IsDisabled</Code> ignore clicks and checkbox changes and are styled through <Code>DisabledNodeStyling</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Expansion and ExpandedNodes
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Expanded state is tracked in <Code>ExpandedNodes</Code>. Toggling a node updates the list and raises <Code>ExpandedNodesChanged</Code>.
+    When <Code>ExpandedNodes</Code> changes externally, the TreeView synchronizes expansion on the next parameter set and loads children for newly expanded nodes.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>AutoExpandAll</Code> runs only once during the initial load. It expands nodes that report children and updates <Code>ExpandedNodes</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Child Loading
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Child nodes are loaded lazily using <Code>GetChildNodes</Code> or <Code>GetChildNodesAsync</Code> when a node expands.
+    <Code>HasChildNodes</Code>/<Code>HasChildNodesAsync</Code> determines whether the expand toggle is shown.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Virtualize
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    When <Code>Virtualize</Code> is enabled, each expanded node list is rendered using Blazor's <Code>Virtualize</Code> component.
+    If <Code>Height</Code> or <Code>Overflow</Code> are not explicitly set, the TreeView defaults to a height of 300px and <Code>Overflow.Auto</Code>.
+</DocsPageParagraph>

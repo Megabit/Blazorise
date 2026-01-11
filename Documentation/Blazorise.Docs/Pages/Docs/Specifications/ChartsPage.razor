@@ -1,0 +1,49 @@
+@page "/docs/specifications/charts"
+
+<Seo Canonical="/docs/specifications/charts" Title="Blazorise Specifications: Charts" Description="Learn about Blazorise Charts components and how they work and behave under the certain scenarios, according to the defined parameters." />
+
+<DocsPageTitle Path="Specifications/Charts">
+    Blazorise Specifications: Charts
+</DocsPageTitle>
+
+<DocsPageLead>
+    Learn how chart lifecycle, updates, and plugins behave.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Update Lifecycle
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The chart tracks a dirty flag and redraws when it is marked dirty. Methods like <Code>AddLabels</Code>, <Code>AddData</Code>, <Code>SetData</Code>, and <Code>AddDataSet</Code> mark the chart dirty so it can update on the next render or after calling <Code>Update</Code>.
+    Directly mutating <Code>Data</Code> or <Code>Datasets</Code> does not mark the chart dirty.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Options and Resize
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <Code>SetOptions</Code> and <Code>SetOptionsObject</Code> update chart options but should be followed by <Code>Update</Code> to apply the changes.
+    If the options change the aspect ratio, call <Code>Resize</Code> after <Code>Update</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>OptionsObject</Code> is a fallback for cases where strongly typed options do not cover a Chart.js setting. When provided (and <Code>OptionsJsonString</Code> is not set), it replaces the typed options payload sent to the chart.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Plugins
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Chart plugins must be nested inside a chart component. They initialize after the chart is ready and reinitialize when their parameters change.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Dataset Limits
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Chart helper methods enforce licensing limits on dataset size. Data points beyond the limit are ignored when adding or setting data.
+</DocsPageParagraph>
