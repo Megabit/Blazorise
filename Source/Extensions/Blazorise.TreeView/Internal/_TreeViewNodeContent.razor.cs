@@ -21,6 +21,12 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     private TreeViewSelectionMode selectionMode;
 
+    private ClassBuilder nodeTitleClassBuilder;
+    private StyleBuilder nodeTitleStyleBuilder;
+    private ClassBuilder nodeCheckClassBuilder;
+    private StyleBuilder nodeCheckStyleBuilder;
+    private StyleBuilder nodeContentStyleBuilder;
+
     #endregion
 
     #region Constructors
@@ -44,6 +50,12 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             Background = Background.Default,
             TextColor = TextColor.Default
         };
+
+        nodeTitleClassBuilder = new( BuildNodeTitleClasses );
+        nodeTitleStyleBuilder = new( BuildNodeTitleStyles );
+        nodeCheckClassBuilder = new( BuildNodeCheckClasses );
+        nodeCheckStyleBuilder = new( BuildNodeCheckStyles );
+        nodeContentStyleBuilder = new( BuildNodeContentStyles );
     }
 
     #endregion
@@ -60,6 +72,12 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             builder.Append( $"{ClassProvider.BackgroundColor( disabledNodeStyling.Background )} {ClassProvider.TextColor( disabledNodeStyling.TextColor )} {disabledNodeStyling.Class}" );
         else
             builder.Append( $"{ClassProvider.BackgroundColor( nodeStyling.Background )} {ClassProvider.TextColor( nodeStyling.TextColor )} {nodeStyling.Class}" );
+
+        string nodeContentClass = ParentTreeView?.Classes?.NodeContent;
+        if ( !string.IsNullOrWhiteSpace( nodeContentClass ) )
+        {
+            builder.Append( nodeContentClass );
+        }
 
         base.BuildClasses( builder );
     }
@@ -93,6 +111,9 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         else
             NodeStyling?.Invoke( NodeState.Node, nodeStyling );
 
+        DirtyClasses();
+        DirtyStyles();
+
         return base.OnParametersSetAsync();
     }
 
@@ -104,6 +125,93 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             return disabledNodeStyling.Style;
         else
             return nodeStyling.Style;
+    }
+
+    protected string NodeTitleClassNames
+        => nodeTitleClassBuilder.Class;
+
+    protected string NodeTitleStyleNames
+        => nodeTitleStyleBuilder.Styles;
+
+    protected string NodeCheckClassNames
+        => nodeCheckClassBuilder.Class;
+
+    protected string NodeCheckStyleNames
+        => nodeCheckStyleBuilder.Styles;
+
+    protected string NodeContentStyleNames
+        => nodeContentStyleBuilder.Styles;
+
+    private void BuildNodeTitleClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-tree-view-node-title" );
+
+        string nodeTitleClass = ParentTreeView?.Classes?.NodeTitle;
+        if ( !string.IsNullOrWhiteSpace( nodeTitleClass ) )
+        {
+            builder.Append( nodeTitleClass );
+        }
+    }
+
+    private void BuildNodeTitleStyles( StyleBuilder builder )
+    {
+        string nodeTitleStyle = ParentTreeView?.Styles?.NodeTitle;
+        if ( !string.IsNullOrWhiteSpace( nodeTitleStyle ) )
+        {
+            builder.Append( nodeTitleStyle.Trim().TrimEnd( ';' ) );
+        }
+    }
+
+    private void BuildNodeCheckClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-tree-view-node-check" );
+
+        string nodeCheckClass = ParentTreeView?.Classes?.NodeCheck;
+        if ( !string.IsNullOrWhiteSpace( nodeCheckClass ) )
+        {
+            builder.Append( nodeCheckClass );
+        }
+    }
+
+    private void BuildNodeCheckStyles( StyleBuilder builder )
+    {
+        string nodeCheckStyle = ParentTreeView?.Styles?.NodeCheck;
+        if ( !string.IsNullOrWhiteSpace( nodeCheckStyle ) )
+        {
+            builder.Append( nodeCheckStyle.Trim().TrimEnd( ';' ) );
+        }
+    }
+
+    private void BuildNodeContentStyles( StyleBuilder builder )
+    {
+        string nodeContentStyle = ParentTreeView?.Styles?.NodeContent;
+        if ( !string.IsNullOrWhiteSpace( nodeContentStyle ) )
+        {
+            builder.Append( nodeContentStyle.Trim().TrimEnd( ';' ) );
+        }
+
+        string stateStyle = GetCurrentStyle();
+        if ( !string.IsNullOrWhiteSpace( stateStyle ) )
+        {
+            builder.Append( stateStyle.Trim().TrimEnd( ';' ) );
+        }
+    }
+
+    protected override void DirtyClasses()
+    {
+        nodeTitleClassBuilder?.Dirty();
+        nodeCheckClassBuilder?.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    protected override void DirtyStyles()
+    {
+        nodeTitleStyleBuilder?.Dirty();
+        nodeCheckStyleBuilder?.Dirty();
+        nodeContentStyleBuilder?.Dirty();
+
+        base.DirtyStyles();
     }
 
     #endregion
