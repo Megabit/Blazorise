@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// Main component for handling the overall layout of a page.
 /// </summary>
-public partial class Layout : BaseComponent
+public partial class Layout : BaseComponent<LayoutClasses, LayoutStyles>
 {
     #region Members
 
@@ -27,7 +27,7 @@ public partial class Layout : BaseComponent
     /// </summary>
     public Layout()
     {
-        LoadingClassBuilder = new( BuildLoadingClasses );
+        LoadingClassBuilder = new( BuildLoadingClasses, builder => builder.Append( Classes?.Loading ) );
     }
 
     #endregion

@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// Label for a <see cref="Field"/> component.
 /// </summary>
-public partial class FieldLabel : BaseSizableFieldComponent
+public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, FieldLabelStyles>
 {
     #region Members
 

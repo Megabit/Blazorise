@@ -23,7 +23,8 @@ namespace Blazorise.Components;
 /// </summary>
 /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
 /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
-public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, IAsyncDisposable
+public partial class Autocomplete<TItem, TValue>
+    : BaseInputComponent<TValue, AutocompleteClasses<TItem, TValue>, AutocompleteStyles<TItem, TValue>>, IAsyncDisposable
 {
     #region Members
 
@@ -1390,6 +1391,18 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
             : GetItemValue( item );
     }
 
+    private ItemContext<TItem, TValue> CreateItemContext( TItem item, TValue value, string text, int? index, bool isActive, bool isFocused, bool isDisabled )
+    {
+        bool isCheckbox = SelectionMode == AutocompleteSelectionMode.Checkbox;
+
+        return new ItemContext<TItem, TValue>( item, value, text, index, isActive, isFocused, isDisabled, isCheckbox );
+    }
+
+    private ItemContext<TItem, TValue> GetNotFoundItemContext()
+    {
+        return CreateItemContext( default, default, Search, null, false, false, true );
+    }
+
     private Color GetMultipleBadgeColor() => Disabled
         ? MultipleDisabledBadgeColor
         : MultipleBadgeColor;
@@ -1449,13 +1462,41 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     {
         get
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             if ( MaxMenuHeight != null )
-                sb.Append( $"--autocomplete-menu-max-height: {MaxMenuHeight};" );
+            {
+                sb.Append( "--autocomplete-menu-max-height: " );
+                sb.Append( MaxMenuHeight );
+            }
 
-            if ( Style != null )
-                sb.Append( Style );
+            string selfStyle = Styles?.Self;
+            if ( !string.IsNullOrWhiteSpace( selfStyle ) )
+            {
+                if ( sb.Length > 0 )
+                {
+                    if ( sb[sb.Length - 1] != ';' )
+                        sb.Append( ';' );
+
+                    sb.Append( ' ' );
+                }
+
+                sb.Append( selfStyle.Trim() );
+            }
+
+            string style = Style;
+            if ( !string.IsNullOrWhiteSpace( style ) )
+            {
+                if ( sb.Length > 0 )
+                {
+                    if ( sb[sb.Length - 1] != ';' )
+                        sb.Append( ';' );
+
+                    sb.Append( ' ' );
+                }
+
+                sb.Append( style.Trim() );
+            }
 
             return sb.ToString();
         }
@@ -1509,11 +1550,17 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     {
         get
         {
-            var classBuilder = new StringBuilder();
+            StringBuilder classBuilder = new StringBuilder();
 
             if ( !string.IsNullOrEmpty( Class ) )
             {
                 classBuilder.Append( Class );
+                classBuilder.Append( ' ' );
+            }
+
+            if ( !string.IsNullOrEmpty( Classes?.Self ) )
+            {
+                classBuilder.Append( Classes.Self );
                 classBuilder.Append( ' ' );
             }
 
@@ -1542,10 +1589,48 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     }
 
     /// <summary>
-    /// Gets the custom class-names for dropdown element.
+    /// Gets the custom class-names for dropdown items.
     /// </summary>
-    protected string DropdownItemClassNames( int index )
-        => $"b-is-autocomplete-suggestion {ClassProvider.AutocompleteItemFocus( ActiveItemIndex == index )} {( SelectionMode == AutocompleteSelectionMode.Checkbox ? "b-is-autocomplete-suggestion-checkbox" : string.Empty )}";
+    protected string DropdownItemClassNames( ItemContext<TItem, TValue> context )
+    {
+        bool isFocusedItem = context is not null && context.Focused;
+        string focusClass = ClassProvider.AutocompleteItemFocus( isFocusedItem );
+        string itemClass = Classes?.Item?.Invoke( context );
+
+        StringBuilder classBuilder = new StringBuilder();
+        classBuilder.Append( "b-is-autocomplete-suggestion" );
+
+        if ( !string.IsNullOrEmpty( focusClass ) )
+        {
+            classBuilder.Append( ' ' );
+            classBuilder.Append( focusClass );
+        }
+
+        if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+        {
+            classBuilder.Append( " b-is-autocomplete-suggestion-checkbox" );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( itemClass ) )
+        {
+            classBuilder.Append( ' ' );
+            classBuilder.Append( itemClass.Trim() );
+        }
+
+        return classBuilder.ToString();
+    }
+
+    /// <summary>
+    /// Gets the custom style-names for dropdown items.
+    /// </summary>
+    protected string DropdownItemStyleNames( ItemContext<TItem, TValue> context )
+    {
+        string itemStyle = Styles?.Item?.Invoke( context );
+
+        return string.IsNullOrWhiteSpace( itemStyle )
+            ? null
+            : itemStyle.Trim();
+    }
 
     /// <summary>
     /// Provides an index based id for the dropdown suggestion items.
@@ -1748,9 +1833,51 @@ public partial class Autocomplete<TItem, TValue> : BaseInputComponent<TValue>, I
     {
         get
         {
-            return string.IsNullOrEmpty( SearchClass )
+            if ( string.IsNullOrEmpty( SearchClass ) && string.IsNullOrEmpty( Classes?.Input ) )
+                return null;
+
+            if ( string.IsNullOrEmpty( SearchClass ) )
+                return Classes.Input;
+
+            if ( string.IsNullOrEmpty( Classes?.Input ) )
+                return SearchClass;
+
+            return $"{SearchClass} {Classes.Input}";
+        }
+    }
+
+    /// <summary>
+    /// Gets the search field style-names with typed overrides.
+    /// </summary>
+    protected string SearchStyleNames
+    {
+        get
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string inputStyle = Styles?.Input;
+            if ( !string.IsNullOrWhiteSpace( inputStyle ) )
+            {
+                sb.Append( inputStyle.Trim() );
+            }
+
+            string searchStyle = SearchStyle;
+            if ( !string.IsNullOrWhiteSpace( searchStyle ) )
+            {
+                if ( sb.Length > 0 )
+                {
+                    if ( sb[sb.Length - 1] != ';' )
+                        sb.Append( ';' );
+
+                    sb.Append( ' ' );
+                }
+
+                sb.Append( searchStyle.Trim() );
+            }
+
+            return sb.Length == 0
                 ? null
-                : SearchClass;
+                : sb.ToString();
         }
     }
 

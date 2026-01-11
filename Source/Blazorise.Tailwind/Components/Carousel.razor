@@ -4,7 +4,7 @@
         @ChildContent
 
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-carousel="static" @attributes="@Attributes">
-            <div class="@SlidesClassNames">
+            <div class="@SlidesClassNames" style="@SlidesStyleNames">
                 @for ( int i = 0; i < carouselSlides.Count; ++i )
                 {
                     int index = i;
@@ -16,7 +16,7 @@
 
             @if ( ShowIndicators )
             {
-                <div class="@IndicatorsClassNames">
+                <div class="@IndicatorsClassNames" style="@IndicatorsStyleNames">
                     @for ( int i = 0; i < carouselSlides.Count; ++i )
                     {
                         int index = i;

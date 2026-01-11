@@ -12,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// A component to displays temporary content to the user.
 /// </summary>
-public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
+public partial class Toast : BaseComponent<ToastClasses, ToastStyles>, IAnimatedComponent, IDisposable
 {
     #region Members
 

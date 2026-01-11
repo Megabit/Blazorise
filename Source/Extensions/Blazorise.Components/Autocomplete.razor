@@ -1,7 +1,7 @@
 ﻿@using Blazorise.Extensions
 @using Blazorise
 @using Microsoft.AspNetCore.Components.Web.Virtualization
-@inherits BaseInputComponent<TValue>
+@inherits BaseInputComponent<TValue, AutocompleteClasses<TItem, TValue>, AutocompleteStyles<TItem, TValue>>
 @typeparam TItem
 @typeparam TValue
 
@@ -12,7 +12,7 @@
         {
             @if ( TagTemplate is null )
             {
-                <Badge Color="@GetMultipleBadgeColor()" Margin="Blazorise.Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                <Badge Color="@GetMultipleBadgeColor()" Margin="Blazorise.Margin.Is2.FromStart" Class="@Classes?.Tag" Style="@Styles?.Tag" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
             }
             else
             {
@@ -49,10 +49,10 @@
                    Background="@SearchBackground"
                    TextColor="@SearchTextColor"
                    Class="@SearchClassNames"
-                   Style="@SearchStyle">
+                   Style="@SearchStyleNames">
         </TextInput>
     </CascadingValue>
-    <DropdownMenu>
+    <DropdownMenu Class="@Classes?.Menu" Style="@Styles?.Menu">
         @if ( DropdownVisible )
         {
             @if ( VirtualizeManualReadMode )
@@ -77,13 +77,17 @@
         }
         else if ( NotFoundVisible )
         {
-            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns">
+            var notFoundContext = GetNotFoundItemContext();
+
+            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
                 @NotFoundTemplate( Search )
             </DropdownItem>
         }
         else if ( FreeTypingNotFoundVisible )
         {
-            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns">
+            var notFoundContext = GetNotFoundItemContext();
+
+            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
                 @FreeTypingNotFoundTemplate( Search )
             </DropdownItem>
         }
@@ -102,8 +106,9 @@
 
         var text = GetItemText( item );
         var value = GetItemValue( item );
+        var itemContext = CreateItemContext( item, value, text, itemIndex, isActiveItem, isFocusedItem, disabled );
 
-        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames( itemIndex )" Value="@value"
+        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames( itemContext )" Style="@DropdownItemStyleNames( itemContext )" Value="@value"
                       Disabled="@disabled"
                       CloseParentDropdowns="@CloseParentDropdowns"
                       @onmousedown="@(() => clickFromCheck = true)"
@@ -112,7 +117,7 @@
                       CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
             @if ( ItemContent is not null )
             {
-                @ItemContent( new( item, value, text ) )
+                @ItemContent( itemContext )
             }
             else
             {

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -19,7 +19,11 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     public NumericPicker()
     {
-        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses );
+        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
+        NumericWrapperStyleBuilder = new( BuildNumericWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
+        ButtonsClassBuilder = new( BuildButtonsClasses, builder => builder.Append( Classes?.Buttons ) );
+        ButtonUpClassBuilder = new( BuildButtonUpClasses, builder => builder.Append( Classes?.ButtonUp ) );
+        ButtonDownClassBuilder = new( BuildButtonDownClasses, builder => builder.Append( Classes?.ButtonDown ) );
     }
 
     #endregion
@@ -50,19 +54,52 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
     protected internal override void DirtyClasses()
     {
         NumericWrapperClassBuilder.Dirty();
+        ButtonsClassBuilder.Dirty();
+        ButtonUpClassBuilder.Dirty();
+        ButtonDownClassBuilder.Dirty();
 
         base.DirtyClasses();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        NumericWrapperStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     private void BuildNumericWrapperClasses( ClassBuilder builder )
     {
         builder.Append( "b-numeric" );
         builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+        AppendWrapperUtilities( builder );
 
         if ( numericWrapperWidth != null )
         {
             builder.Append( numericWrapperWidth.Class( ClassProvider ) );
         }
+    }
+
+    private void BuildNumericWrapperStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildButtonsClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-numeric-handler-wrap" );
+    }
+
+    private void BuildButtonUpClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-numeric-handler" );
+        builder.Append( "b-numeric-handler-up" );
+    }
+
+    private void BuildButtonDownClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-numeric-handler" );
+        builder.Append( "b-numeric-handler-down" );
     }
 
     #endregion
@@ -73,10 +110,26 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     protected ClassBuilder NumericWrapperClassBuilder { get; private set; }
 
+    protected StyleBuilder NumericWrapperStyleBuilder { get; private set; }
+
+    protected ClassBuilder ButtonsClassBuilder { get; private set; }
+
+    protected ClassBuilder ButtonUpClassBuilder { get; private set; }
+
+    protected ClassBuilder ButtonDownClassBuilder { get; private set; }
+
     /// <summary>
     /// Gets numeric container class-names.
     /// </summary>
     protected string NumericWrapperClassNames => NumericWrapperClassBuilder.Class;
+
+    protected string NumericWrapperStyleNames => NumericWrapperStyleBuilder.Styles;
+
+    protected string ButtonsClassNames => ButtonsClassBuilder.Class;
+
+    protected string ButtonUpClassNames => ButtonUpClassBuilder.Class;
+
+    protected string ButtonDownClassNames => ButtonDownClassBuilder.Class;
 
     #endregion
 }

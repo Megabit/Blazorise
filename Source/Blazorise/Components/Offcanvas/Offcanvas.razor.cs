@@ -14,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// A sidebar component that slides in and out of the screen.
 /// </summary>
-public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedComponent, IHideableComponent, IAsyncDisposable
+public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles>, ICloseActivator, IAnimatedComponent, IHideableComponent, IAsyncDisposable
 {
     #region Members
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper for accordion content.
 /// </summary>
-public partial class AccordionBody : BaseComponent
+public partial class AccordionBody : BaseComponent<AccordionBodyClasses, AccordionBodyStyles>
 {
     #region Members
 
@@ -23,7 +23,7 @@ public partial class AccordionBody : BaseComponent
     /// </summary>
     public AccordionBody()
     {
-        ContentClassBuilder = new( BuildBodyClasses );
+        ContentClassBuilder = new( BuildBodyClasses, builder => builder.Append( Classes?.Content ) );
     }
 
     #endregion

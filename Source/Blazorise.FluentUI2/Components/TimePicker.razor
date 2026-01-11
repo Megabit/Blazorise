@@ -3,13 +3,13 @@
 @inherits Blazorise.TimePicker<TValue>
 @if ( ParentIsAddons )
 {
-    <span class="@AddonClassNames">
+    <span class="@AddonClassNames" style="@WrapperStyleNames">
         @InputElement
     </span>
 }
 else
 {
-    <span class="@InputClassNames">
+    <span class="@InputClassNames" style="@WrapperStyleNames">
         @InputElement
     </span>
 }

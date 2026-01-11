@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -12,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// The <see cref="TableRowGroup"/> component is used to group rows in a table.
 /// </summary>
-public partial class TableRowGroup : BaseDraggableComponent
+public partial class TableRowGroup : BaseDraggableComponent<TableRowGroupClasses, TableRowGroupStyles>
 {
     #region Members
 
@@ -27,8 +27,8 @@ public partial class TableRowGroup : BaseDraggableComponent
     /// </summary>
     public TableRowGroup()
     {
-        RowCellClassBuilder = new( BuildRowCellClasses );
-        RowIndentCellClassBuilder = new( BuildRowIndentCellClasses );
+        RowCellClassBuilder = new( BuildRowCellClasses, builder => builder.Append( Classes?.RowCell ) );
+        RowIndentCellClassBuilder = new( BuildRowIndentCellClasses, builder => builder.Append( Classes?.RowIndentCell ) );
     }
 
     #endregion
@@ -89,7 +89,8 @@ public partial class TableRowGroup : BaseDraggableComponent
         {
             builder
                 .OpenElement( "td" )
-                .Class( RowIndentCellClassBuilder.Class );
+                .Class( RowIndentCellClassBuilder.Class )
+                .Style( Styles?.RowIndentCell );
 
             if ( IndentTableCellTemplate is not null )
                 builder.Content( IndentTableCellTemplate( i ) );
@@ -100,6 +101,7 @@ public partial class TableRowGroup : BaseDraggableComponent
         builder
             .OpenElement( "td" )
             .Class( RowCellClassBuilder.Class )
+            .Style( Styles?.RowCell )
             .ColSpan( ColumnSpan - IndentTableCells );
 
         if ( Toggleable )

@@ -1,5 +1,5 @@
 ﻿@typeparam TNode
-@inherits BaseComponent
+@inherits BaseComponent<TreeViewClasses<TNode>, TreeViewStyles<TNode>>
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@treeViewState">
         <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">

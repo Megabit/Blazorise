@@ -9,7 +9,11 @@ namespace Blazorise;
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>
-public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseColumnComponent<TClasses, TStyles> : BaseComponent<TClasses, TStyles>, IColumnComponent
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Members
 
@@ -76,4 +80,11 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
+}
+
+/// <summary>
+/// Base class for components that are containers for other components.
+/// </summary>
+public abstract class BaseColumnComponent : BaseColumnComponent<ComponentClasses, ComponentStyles>
+{
 }

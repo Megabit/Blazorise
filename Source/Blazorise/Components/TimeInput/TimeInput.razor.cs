@@ -14,7 +14,7 @@ namespace Blazorise;
 /// An editor that displays a time value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimeInput{TValue}"/> property.</typeparam>
-public partial class TimeInput<TValue> : BaseTextInput<TValue>
+public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses, TimeInputStyles>
 {
     #region Methods
 

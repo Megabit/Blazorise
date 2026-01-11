@@ -1,0 +1,27 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Offcanvas @ref="offcanvasRef" ShowBackdrop Placement="Placement.End" Styles='@(new OffcanvasStyles { Backdrop = "background-color: rgba(11, 114, 133, 0.4);" })'>
+    <OffcanvasHeader>
+        Styled backdrop
+        <CloseButton Clicked="@HideOffcanvas" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        This example customizes the backdrop color using <Code>OffcanvasStyles</Code>.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color="Color.Primary" Clicked="@ShowOffcanvas">Show Styled Backdrop</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent overflow builders.
 /// </summary>
-public interface IFluentOverflow
+public interface IFluentOverflow : IFluentUtilityTarget<IFluentOverflow>
 {
     /// <summary>
     /// Builds the classnames based on overflow rules.
@@ -53,7 +53,8 @@ public interface IFluentOverflowSecondRule :
 /// </summary>
 public class FluentOverflow :
     IFluentOverflow,
-    IFluentOverflowSecondRule
+    IFluentOverflowSecondRule,
+    IUtilityTargeted
 {
     #region Members
 
@@ -105,6 +106,12 @@ public class FluentOverflow :
         dirty = true;
     }
 
+    private IFluentOverflow WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
+    }
+
     /// <summary>
     /// Starts the new overflow rule.
     /// </summary>
@@ -134,6 +141,21 @@ public class FluentOverflow :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentOverflow OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentOverflow OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentOverflow Visible => WithSecondOverflow( OverflowType.Visible );

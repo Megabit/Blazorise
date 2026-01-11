@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
+@inherits BaseComponent<TabsClasses, TabsStyles>
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         @if ( TabPosition == TabPosition.Top )
@@ -12,7 +12,7 @@
             }
             @if ( Content is not null )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
+                <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                     @Content
                 </div>
             }
@@ -21,7 +21,7 @@
         {
             @if ( Content is not null )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
+                <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                     @Content
                 </div>
             }
@@ -46,7 +46,7 @@
                 <Column>
                     @if ( Content is not null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                        <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }
@@ -59,7 +59,7 @@
                 <Column>
                     @if ( Content is not null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                    <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }

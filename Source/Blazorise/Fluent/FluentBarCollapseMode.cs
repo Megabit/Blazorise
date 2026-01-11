@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 #endregion
 
@@ -76,7 +76,8 @@ public interface IFluentBarCollapseModeWithMode
 public class FluentBarCollapseMode :
     IFluentBarCollapseMode,
     IFluentBarCollapseModeOnBreakpoint,
-    IFluentBarCollapseModeWithMode
+    IFluentBarCollapseModeWithMode,
+    IUtilityTargeted
 {
     #region Members
 
@@ -125,9 +126,30 @@ public class FluentBarCollapseMode :
         return this;
     }
 
+    private IFluentDisplay WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentDisplay OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentDisplay OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// Valid on all devices. (extra small)

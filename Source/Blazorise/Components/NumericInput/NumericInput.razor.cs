@@ -13,8 +13,8 @@ namespace Blazorise;
 /// <summary>
 /// An editor that displays a numeric value and allows a user to edit the value.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue}.Value"/> property.</typeparam>
-public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue>, IAsyncDisposable
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue, TClasses, TStyles}.Value"/> property.</typeparam>
+public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, NumericInputClasses, NumericInputStyles>, IAsyncDisposable
 {
     #region Members
 

@@ -1,12 +1,12 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
+@inherits BaseComponent<BadgeClasses, BadgeStyles>
 @if ( Link is not null )
 {
     <a @ref="@ElementRef" id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
         @if ( Closable )
         {
-            <span class="@CloseClassBuilder.Class" aria-label="Close" tabindex="0" @onclick="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler">
+            <span class="@CloseClassBuilder.Class" style="@Styles?.Close" aria-label="Close" tabindex="0" @onclick="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler">
                 <span aria-hidden="true">&times;</span>
             </span>
         }
@@ -18,7 +18,7 @@ else
         @ChildContent
         @if ( Closable )
         {
-            <span class="@CloseClassBuilder.Class" aria-label="Close" tabindex="0" @onclick="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler">
+            <span class="@CloseClassBuilder.Class" style="@Styles?.Close" aria-label="Close" tabindex="0" @onclick="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler">
                 <span aria-hidden="true">&times;</span>
             </span>
         }

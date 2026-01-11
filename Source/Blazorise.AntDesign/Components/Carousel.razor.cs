@@ -41,6 +41,11 @@ public partial class Carousel : Blazorise.Carousel
         base.BuildClasses( builder );
     }
 
+    protected override void BuildIndicatorsStyles( StyleBuilder builder )
+    {
+        builder.Append( "display: block" );
+    }
+
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( Stopwatch.GetElapsedTime( slickListLastRenderTimeStamp ) > slickListThrottleTimeSpan )

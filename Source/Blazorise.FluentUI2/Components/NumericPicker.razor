@@ -1,15 +1,15 @@
 ﻿@typeparam TValue
 @inherits Blazorise.NumericPicker<TValue>
-<span class="@NumericWrapperClassNames">
+<span class="@NumericWrapperClassNames" style="@NumericWrapperStyleNames">
     @InputElement
     @if ( IsShowStepButtons )
     {
-        <button tabindex="-1" aria-label="Increment value" type="button" class="fui-SpinButton__incrementButton" @onclick="@OnSpinUpClicked">
+        <button tabindex="-1" aria-label="Increment value" type="button" class="@ButtonUpClassNames" style="@Styles?.ButtonUp" @onclick="@OnSpinUpClicked">
             <svg fill="currentColor" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.15 10.35c.2.2.5.2.7 0L8 6.21l4.15 4.14a.5.5 0 0 0 .7-.7l-4.5-4.5a.5.5 0 0 0-.7 0l-4.5 4.5a.5.5 0 0 0 0 .7Z" fill="currentColor"></path>
             </svg>
         </button>
-        <button tabindex="-1" aria-label="Decrement value" type="button" class="fui-SpinButton__decrementButton" @onclick="@OnSpinDownClicked">
+        <button tabindex="-1" aria-label="Decrement value" type="button" class="@ButtonDownClassNames" style="@Styles?.ButtonDown" @onclick="@OnSpinDownClicked">
             <svg fill="currentColor" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.15 5.65c.2-.2.5-.2.7 0L8 9.79l4.15-4.14a.5.5 0 0 1 .7.7l-4.5 4.5a.5.5 0 0 1-.7 0l-4.5-4.5a.5.5 0 0 1 0-.7Z" fill="currentColor"></path>
             </svg>

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView;
 
-public partial class TreeView<TNode> : BaseComponent, IDisposable
+public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, TreeViewStyles<TNode>>, IDisposable
 {
     #region Members
 

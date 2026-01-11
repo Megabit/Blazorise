@@ -15,14 +15,18 @@ namespace Blazorise;
 /// <summary>
 /// Base component for all the components that needs to have drag and drop support.
 /// </summary>
-public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyncDisposable
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseDraggableComponent<TClasses, TStyles> : BaseComponent<TClasses, TStyles>, IDisposable, IAsyncDisposable
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Members
 
     /// <summary>
     /// Object reference that can be accessed through the JSInterop.
     /// </summary>
-    private DotNetObjectReference<BaseDraggableComponent> dotNetObjectRef;
+    private DotNetObjectReference<BaseDraggableComponent<TClasses, TStyles>> dotNetObjectRef;
 
     /// <summary>
     /// Is <c>true</c> if the component needs to clean up the JS ThrottleDragEvent handler on <see cref="Dispose"/> or <see cref="DisposeAsync"/>.
@@ -307,4 +311,11 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
     [Parameter] public bool ContextMenuPreventDefault { get; set; }
 
     #endregion
+}
+
+/// <summary>
+/// Base component for all the components that needs to have drag and drop support.
+/// </summary>
+public abstract class BaseDraggableComponent : BaseDraggableComponent<ComponentClasses, ComponentStyles>
+{
 }

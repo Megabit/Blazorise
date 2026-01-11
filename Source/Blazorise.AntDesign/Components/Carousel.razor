@@ -5,7 +5,7 @@
 
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div class="slick-slider slick-initialized" dir="ltr">
-                <div @ref="@slickListElementRef" id="@slickListElementId" class="@SlidesClassNames">
+                <div @ref="@slickListElementRef" id="@slickListElementId" class="@SlidesClassNames" style="@SlidesStyleNames">
                     <div class="slick-track" style="@SlickTrackStyle">
                         @if ( carouselSlides.Count > 0 )
                         {
@@ -44,11 +44,11 @@
 
                 @if ( ShowIndicators )
                 {
-                    <ul class="@IndicatorsClassNames" style="display: block;">
+                    <ul class="@IndicatorsClassNames" style="@IndicatorsStyleNames">
                         @for ( int i = 0; i < carouselSlides.Count; i++ )
                         {
                             int index = i;
-                            <li class="@carouselSlides[index].IndicatorClassNames">
+                            <li class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames">
                                 <button @onclick="carouselSlides[index].Activate">@(index + 1)</button>
                             </li>
                         }

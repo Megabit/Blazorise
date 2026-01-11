@@ -12,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// The editor that allows you to select a color from a dropdown menu.
 /// </summary>
-public partial class ColorInput : BaseInputComponent<string>, ISelectableComponent
+public partial class ColorInput : BaseInputComponent<string, ColorInputClasses, ColorInputStyles>, ISelectableComponent
 {
     #region Methods
 

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Localization;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -13,6 +15,12 @@ namespace Blazorise.DataGrid;
 public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
 {
     #region Methods
+
+    public _DataGridColumnDropZone()
+    {
+        classBuilder = new( BuildClasses );
+        styleBuilder = new( BuildStyles );
+    }
 
     private Task OnDrop( DragEventArgs e )
     {
@@ -49,6 +57,50 @@ public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
     }
     #endregion
 
+    #region Builders
+
+    private ClassBuilder classBuilder;
+    private StyleBuilder styleBuilder;
+
+    private string classValue;
+    private string styleValue;
+
+    protected string ClassNames
+        => classBuilder.Class;
+
+    protected string StyleNames
+        => styleBuilder.Styles;
+
+    private void DirtyClasses()
+    {
+        classBuilder?.Dirty();
+    }
+
+    private void DirtyStyles()
+    {
+        styleBuilder?.Dirty();
+    }
+
+    private void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-datagrid-drop-zone" );
+
+        if ( !string.IsNullOrWhiteSpace( Class ) )
+        {
+            builder.Append( Class );
+        }
+    }
+
+    private void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrWhiteSpace( Style ) )
+        {
+            builder.Append( Style.Trim().TrimEnd( ';' ) );
+        }
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>
@@ -65,6 +117,42 @@ public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
     [Parameter] public EventCallback<DataGridColumn<TItem>> ColumnAdded { get; set; }
 
     [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
+
+    /// <summary>
+    /// Additional CSS class for the drop zone element.
+    /// </summary>
+    [Parameter]
+    public string Class
+    {
+        get => classValue;
+        set
+        {
+            if ( classValue.IsEqual( value ) )
+                return;
+
+            classValue = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Additional styles for the drop zone element.
+    /// </summary>
+    [Parameter]
+    public string Style
+    {
+        get => styleValue;
+        set
+        {
+            if ( styleValue.IsEqual( value ) )
+                return;
+
+            styleValue = value;
+
+            DirtyStyles();
+        }
+    }
 
     #endregion
 }

@@ -16,7 +16,7 @@ namespace Blazorise;
 /// An editor that displays a time value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimePicker{TValue}"/> property.</typeparam>
-public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposable
+public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasses, TimePickerStyles>, IAsyncDisposable
 {
     #region Members
 

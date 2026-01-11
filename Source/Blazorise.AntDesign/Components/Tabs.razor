@@ -16,7 +16,7 @@
             @if ( Content != null )
             {
                 <div class="ant-tabs-content-holder">
-                    <div class="@($"{ContentClassNames} {ContentPositionClassNames}")" @attributes="@Attributes">
+                    <div class="@($"{ContentClassNames} {ContentPositionClassNames}")" style="@Styles?.Content" @attributes="@Attributes">
                         @Content
                     </div>
                 </div>

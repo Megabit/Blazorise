@@ -11,7 +11,7 @@ namespace Blazorise;
 /// Checkboxes allow the user to select one or more items from a set.
 /// </summary>
 /// <typeparam name="TValue">Checked value type.</typeparam>
-public partial class Check<TValue> : BaseCheckComponent<TValue>
+public partial class Check<TValue> : BaseCheckComponent<TValue, CheckClasses, CheckStyles>
 {
     #region Members
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent sizing builders.
 /// </summary>
-public interface IFluentSizing
+public interface IFluentSizing : IFluentUtilityTarget<IFluentSizing>
 {
     /// <summary>
     /// Builds the classnames based on sizing rules.
@@ -285,7 +285,8 @@ public class FluentSizing :
     IFluentSizingMinMaxViewportOnBreakpoint,
     IFluentSizingWithSizeWithMinMaxWithViewportAll,
     IFluentSizingWithSizeOnBreakpoint,
-    IFluentSizingOnBreakpoint
+    IFluentSizingOnBreakpoint,
+    IUtilityTargeted
 {
     #region Members
 
@@ -417,6 +418,12 @@ public class FluentSizing :
     private void DirtyStyles()
     {
         styleDirty = true;
+    }
+
+    private IFluentSizing WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
     }
 
     private static void AppendSizingStyle( StyleBuilder builder, string propertyName, FixedSizingDefiniton sizingDefinition )
@@ -639,6 +646,21 @@ public class FluentSizing :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentSizing OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentSizing OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     IFluentSizingOnBreakpoint IFluentSizingSize.Is25 => WithSize( SizingSize.Is25 );

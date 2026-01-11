@@ -1,31 +1,63 @@
 ﻿@inherits Blazorise.Step
+@using Blazorise.Utilities
 <CascadingValue Value="@this" IsFixed>
     <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
-        <div class="b-step-item-head flex items-center cursor-pointer leading-5 no-underline">
+        <div class="@ContainerClassNames" style="@ContainerStyleNames">
             @if ( Marker != null || Caption != null )
             {
                 @if ( Marker != null )
                 {
-                    <span class="@MarkerClassNames">
+                    <span class="@MarkerClassNames" style="@Styles?.Marker">
                         @Marker
                     </span>
                 }
                 @if ( Caption != null )
                 {
-                    <span class="@DescriptionClassNames">
+                    <span class="@DescriptionClassNames" style="@Styles?.Description">
                         @Caption
                     </span>
                 }
             }
             else
             {
-                <span class="@MarkerClassNames">
+                <span class="@MarkerClassNames" style="@Styles?.Marker">
                     @CalculatedIndex
                 </span>
-                <span class="@DescriptionClassNames">
+                <span class="@DescriptionClassNames" style="@Styles?.Description">
                     @ChildContent
                 </span>
             }
         </div>
     </li>
 </CascadingValue>
+@code {
+    string ContainerClassNames
+    {
+        get
+        {
+            const string baseClasses = "b-step-item-head flex items-center cursor-pointer leading-5 no-underline";
+            var builder = new ClassBuilder( classBuilder =>
+            {
+                classBuilder.Append( baseClasses );
+                classBuilder.Append( Classes?.Container );
+                AppendWrapperUtilities( classBuilder );
+            } );
+
+            return builder.Class;
+        }
+    }
+
+    string ContainerStyleNames
+    {
+        get
+        {
+            var builder = new StyleBuilder( styleBuilder =>
+            {
+                AppendWrapperUtilities( styleBuilder );
+                styleBuilder.Append( Styles?.Container );
+            } );
+
+            return builder.Styles;
+        }
+    }
+}

@@ -694,6 +694,25 @@ namespace Blazorise.Docs.Models
     </Card>
 </CardDeck>";
 
+        public const string CardDeckStylingExample = @"<CardDeck>
+    <Card Styles='@(new CardStyles { Self = ""border: 2px dashed #0b7285; border-radius: 0.5rem;"", Wrapper = ""padding: 0.75rem; background: #f8f9fa;"" })'>
+        <CardBody>
+            <CardTitle Size=""5"">Styled wrapper</CardTitle>
+            <CardText>
+                Use the wrapper styles to add spacing or background around the card when it is rendered inside a deck.
+            </CardText>
+        </CardBody>
+    </Card>
+    <Card Styles='@(new CardStyles { Self = ""border: 2px dashed #2f9e44; border-radius: 0.5rem;"", Wrapper = ""padding: 0.75rem; background: #ebfbee;"" })'>
+        <CardBody>
+            <CardTitle Size=""5"">Inner styling</CardTitle>
+            <CardText>
+                The <Code>Self</Code> style applies to the main card element, while <Code>Wrapper</Code> targets its container.
+            </CardText>
+        </CardBody>
+    </Card>
+</CardDeck>";
+
         public const string CardExample = @"<Card>
     <CardBody>
         <CardTitle Size=""3"">
@@ -2178,6 +2197,37 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string ModalBackdropStylingExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Styled Backdrop</Button>
+
+<Modal @ref=""modalRef"" Centered ShowBackdrop Styles='@(new ModalStyles { Backdrop = ""background-color: rgba(11, 114, 133, 0.4);"" })'>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Backdrop styling</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            This modal uses <Code>ModalStyles</Code> to customize the backdrop color.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@HideModal"">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private Modal modalRef;
+
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+}";
+
         public const string ModalBindingExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowModal"">Show Modal</Button>
 
 <Span Margin=""Margin.Is3.FromStart"">Modal is visible: @modalVisible</Span>
@@ -2353,6 +2403,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 @code{
     decimal value;
+}";
+
+        public const string NumericPickerStylingExample = @"<NumericPicker TValue=""int""
+               @bind-Value=""value""
+               Min=""0""
+               Max=""20""
+               Styles='@(new NumericPickerStyles
+               {
+                   Self = ""border: 2px solid #0b7285;"",
+                   Wrapper = ""padding: 0.25rem; background: #f1f3f5; border-radius: 0.5rem;"",
+                   Buttons = ""background: #e7f5ff;"",
+                   ButtonUp = ""background: #0b7285; color: #ffffff;"",
+                   ButtonDown = ""background: #0b7285; color: #ffffff;""
+               })' />
+
+@code {
+    private int value = 5;
+}";
+
+        public const string OffcanvasBackdropStylingExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.End"" Styles='@(new OffcanvasStyles { Backdrop = ""background-color: rgba(11, 114, 133, 0.4);"" })'>
+    <OffcanvasHeader>
+        Styled backdrop
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        This example customizes the backdrop color using <Code>OffcanvasStyles</Code>.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Styled Backdrop</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
 }";
 
         public const string OffcanvasBottomExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Bottom"">
@@ -12782,6 +12875,65 @@ builder.Services
         This example applies start-only padding that grows on desktop to keep content aligned with wider layouts.
     </CardBody>
 </Card>";
+
+        public const string ComponentStylingAdvancedExample = @"<CardDeck>
+    <Card Classes='@(new CardClasses { Self = ""component-styling-self"", Wrapper = ""component-styling-wrapper"" })'
+          Styles='@(new CardStyles { Self = ""border: 2px solid #1c7ed6; border-radius: 0.5rem;"", Wrapper = ""padding: 0.5rem; background: #f1f3f5;"" })'>
+        <CardBody>
+            <CardTitle Size=""4"">
+                Classes and Styles
+            </CardTitle>
+            <CardText>
+                Targets the card element and wrapper when the provider renders it.
+            </CardText>
+        </CardBody>
+    </Card>
+    <Card Classes='@(new CardClasses { Self = ""component-styling-self"", Wrapper = ""component-styling-wrapper"" })'
+          Styles='@(new CardStyles { Self = ""border: 2px solid #2f9e44; border-radius: 0.5rem;"", Wrapper = ""padding: 0.5rem; background: #ebfbee;"" })'>
+        <CardBody>
+            <CardTitle Size=""4"">
+                Wrapper example
+            </CardTitle>
+            <CardText>
+                Wrapper styles are ignored if the provider does not render a wrapper.
+            </CardText>
+        </CardBody>
+    </Card>
+</CardDeck>";
+
+        public const string ComponentStylingPrimaryExample = @"<Card Class=""component-styling-card"" Style=""border: 2px dashed #0b7285; padding: 1rem;"">
+    <CardBody>
+        <CardTitle Size=""4"">
+            Class and Style
+        </CardTitle>
+        <CardText>
+            Use <Code>Class</Code> and <Code>Style</Code> for the element rendered by the component.
+        </CardText>
+    </CardBody>
+</Card>";
+
+        public const string ComponentStylingUtilityTargetExample = @"<CardDeck>
+    <Card UtilityTarget=""UtilityTarget.Wrapper"" Padding=""Padding.Is2"">
+        <CardBody>
+            <CardTitle Size=""4"">
+                Example 1
+            </CardTitle>
+            <CardText>
+                Utility spacing targets the wrapper element.
+            </CardText>
+        </CardBody>
+    </Card>
+    <Card Margin=""Margin.Is3.OnWrapper"">
+        <CardBody>
+            <CardTitle Size=""4"">
+                Example 2
+            </CardTitle>
+            <CardText>
+                Or make it more specific by targeting only the wrapper element for margin utilities.
+            </CardText>
+        </CardBody>
+    </Card>
+</CardDeck>";
 
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 

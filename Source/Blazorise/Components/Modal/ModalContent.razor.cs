@@ -10,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Main wrapper for the content area of the modal component.
 /// </summary>
-public partial class ModalContent : BaseComponent, IDisposable
+public partial class ModalContent : BaseComponent<ModalContentClasses, ModalContentStyles>, IDisposable
 {
     #region Members
 

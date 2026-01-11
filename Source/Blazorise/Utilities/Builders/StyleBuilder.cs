@@ -17,6 +17,8 @@ public class StyleBuilder
 
     private readonly Action<StyleBuilder> buildStyles;
 
+    private readonly Action<StyleBuilder> buildCustomStyle;
+
     private StringBuilder builder = new();
 
     private string styles;
@@ -31,9 +33,11 @@ public class StyleBuilder
     /// Default style builder constructor that accepts build action.
     /// </summary>
     /// <param name="buildStyles">Action responsible for building the styles.</param>
-    public StyleBuilder( Action<StyleBuilder> buildStyles )
+    /// <param name="buildCustomStyle">Optional action that appends additional styles.</param>
+    public StyleBuilder( Action<StyleBuilder> buildStyles, Action<StyleBuilder> buildCustomStyle = null )
     {
         this.buildStyles = buildStyles;
+        this.buildCustomStyle = buildCustomStyle;
     }
 
     #endregion
@@ -85,6 +89,9 @@ public class StyleBuilder
                 builder.Clear();
 
                 buildStyles( this );
+
+                if ( buildCustomStyle is not null )
+                    buildCustomStyle( this );
 
                 styles = builder.ToString().TrimEnd( ' ', Delimiter )?.EmptyToNull();
 

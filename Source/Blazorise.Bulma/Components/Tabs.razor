@@ -13,7 +13,7 @@
             }
             @if ( Content != null )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
+                <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                     @Content
                 </div>
             }
@@ -34,7 +34,7 @@
                 <Column>
                     @if ( Content != null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                        <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }
@@ -47,7 +47,7 @@
                 <Column>
                     @if ( Content != null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                        <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }

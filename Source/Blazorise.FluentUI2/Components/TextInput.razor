@@ -2,13 +2,13 @@
 @inherits Blazorise.TextInput
 @if ( ParentIsAddons )
 {
-    <span class="@AddonClassNames">
+    <span class="@AddonClassNames" style="@WrapperStyleNames">
         @InputElement
     </span>
 }
 else
 {
-    <div class="@InputClassNames">
+    <div class="@InputClassNames" style="@WrapperStyleNames">
         @InputElement
     </div>
 }
