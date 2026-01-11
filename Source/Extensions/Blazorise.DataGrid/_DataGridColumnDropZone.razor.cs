@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -61,22 +62,23 @@ public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
 
+    private string classValue;
+    private string styleValue;
+
     protected string ClassNames
-    {
-        get
-        {
-            classBuilder.Dirty();
-            return classBuilder.Class;
-        }
-    }
+        => classBuilder.Class;
 
     protected string StyleNames
+        => styleBuilder.Styles;
+
+    private void DirtyClasses()
     {
-        get
-        {
-            styleBuilder.Dirty();
-            return styleBuilder.Styles;
-        }
+        classBuilder?.Dirty();
+    }
+
+    private void DirtyStyles()
+    {
+        styleBuilder?.Dirty();
     }
 
     private void BuildClasses( ClassBuilder builder )
@@ -119,12 +121,38 @@ public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
     /// <summary>
     /// Additional CSS class for the drop zone element.
     /// </summary>
-    [Parameter] public string Class { get; set; }
+    [Parameter]
+    public string Class
+    {
+        get => classValue;
+        set
+        {
+            if ( classValue.IsEqual( value ) )
+                return;
+
+            classValue = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Additional styles for the drop zone element.
     /// </summary>
-    [Parameter] public string Style { get; set; }
+    [Parameter]
+    public string Style
+    {
+        get => styleValue;
+        set
+        {
+            if ( styleValue.IsEqual( value ) )
+                return;
+
+            styleValue = value;
+
+            DirtyStyles();
+        }
+    }
 
     #endregion
 }

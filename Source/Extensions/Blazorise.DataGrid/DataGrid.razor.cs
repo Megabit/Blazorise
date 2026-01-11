@@ -172,6 +172,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
+    private string classValue;
+    private string styleValue;
+    private DataGridClasses classesValue;
+    private DataGridStyles stylesValue;
 
     #endregion
 
@@ -1158,6 +1162,44 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( selectedRowsChanged )
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+    }
+
+    protected void DirtyClasses()
+    {
+        classBuilder?.Dirty();
+    }
+
+    protected void DirtyStyles()
+    {
+        styleBuilder?.Dirty();
+    }
+
+    private void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-datagrid" );
+
+        if ( !string.IsNullOrWhiteSpace( Class ) )
+        {
+            builder.Append( Class );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( Classes?.Self ) )
+        {
+            builder.Append( Classes.Self );
+        }
+    }
+
+    private void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrWhiteSpace( Styles?.Self ) )
+        {
+            builder.Append( Styles.Self.Trim().TrimEnd( ';' ) );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( Style ) )
+        {
+            builder.Append( Style.Trim().TrimEnd( ';' ) );
+        }
     }
 
     #endregion
@@ -3139,53 +3181,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets the DataGrid standard class and other existing Class
     /// </summary>
     protected string ClassNames
-    {
-        get
-        {
-            classBuilder.Dirty();
-            return classBuilder.Class;
-        }
-    }
+        => classBuilder.Class;
 
     /// <summary>
     /// Gets the DataGrid standard styles and other existing Style.
     /// </summary>
     protected string StyleNames
-    {
-        get
-        {
-            styleBuilder.Dirty();
-            return styleBuilder.Styles;
-        }
-    }
-
-    private void BuildClasses( ClassBuilder builder )
-    {
-        builder.Append( "b-datagrid" );
-
-        if ( !string.IsNullOrWhiteSpace( Class ) )
-        {
-            builder.Append( Class );
-        }
-
-        if ( !string.IsNullOrWhiteSpace( Classes?.Self ) )
-        {
-            builder.Append( Classes.Self );
-        }
-    }
-
-    private void BuildStyles( StyleBuilder builder )
-    {
-        if ( !string.IsNullOrWhiteSpace( Styles?.Self ) )
-        {
-            builder.Append( Styles.Self.Trim().TrimEnd( ';' ) );
-        }
-
-        if ( !string.IsNullOrWhiteSpace( Style ) )
-        {
-            builder.Append( Style.Trim().TrimEnd( ';' ) );
-        }
-    }
+        => styleBuilder.Styles;
 
     /// <summary>
     /// Gets the data to show on grid based on the filter and current page.
@@ -4008,22 +4010,74 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Custom css classname.
     /// </summary>
-    [Parameter] public string Class { get; set; }
+    [Parameter]
+    public string Class
+    {
+        get => classValue;
+        set
+        {
+            if ( classValue.IsEqual( value ) )
+                return;
+
+            classValue = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Custom html style.
     /// </summary>
-    [Parameter] public string Style { get; set; }
+    [Parameter]
+    public string Style
+    {
+        get => styleValue;
+        set
+        {
+            if ( styleValue.IsEqual( value ) )
+                return;
+
+            styleValue = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Supplies additional CSS classes for DataGrid elements.
     /// </summary>
-    [Parameter] public DataGridClasses Classes { get; set; }
+    [Parameter]
+    public DataGridClasses Classes
+    {
+        get => classesValue;
+        set
+        {
+            if ( classesValue.IsEqual( value ) )
+                return;
+
+            classesValue = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Supplies additional CSS styles for DataGrid elements.
     /// </summary>
-    [Parameter] public DataGridStyles Styles { get; set; }
+    [Parameter]
+    public DataGridStyles Styles
+    {
+        get => stylesValue;
+        set
+        {
+            if ( stylesValue.IsEqual( value ) )
+                return;
+
+            stylesValue = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Defines the element margin spacing.
