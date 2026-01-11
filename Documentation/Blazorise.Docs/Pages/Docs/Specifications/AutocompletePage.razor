@@ -43,20 +43,39 @@
 
 <Table>
     <TableHeader>
-        <TableRowHeader>AutoPreSelect</TableRowHeader>
-        <TableRowHeader>AutoPreSelect Disabled</TableRowHeader>
+        <TableRow>
+            <TableHeaderCell>AutoPreSelect</TableHeaderCell>
+            <TableHeaderCell>AutoPreSelect Disabled</TableHeaderCell>
+        </TableRow>
     </TableHeader>
     <TableBody>
         <TableRowCell>
-            Pressing the commit key will commit the first option.
-            <Image Source="@($"img/specifications/autocomplete/AutoPreSelect.gif")" Text="AutoPreSelect image" />
+            <Paragraph>
+                Pressing the commit key will commit the first option.
+            </Paragraph>
+            <Image Source="@($"img/specifications/autocomplete/AutoPreSelect.gif")" Text="AutoPreSelect image" Fluid />
         </TableRowCell>
         <TableRowCell>
-            Pressing the commit key will not commit the first option, as it is not PreSelected.
-            <Image Source="@($"img/specifications/autocomplete/AutoPreSelectFalse.gif")" Text="AutoPreSelect Disabled image" />
+            <Paragraph>
+                Pressing the commit key will not commit the first option, as it is not PreSelected.
+            </Paragraph>
+            <Image Source="@($"img/specifications/autocomplete/AutoPreSelectFalse.gif")" Text="AutoPreSelect Disabled image" Fluid />
         </TableRowCell>
     </TableBody>
 </Table>
+
+<DocsPageSubtitle>
+    ConfirmKey
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Commit actions only happen for keys listed in <Code>ConfirmKey</Code>. The default keys are <Code>Enter</Code> and <Code>NumpadEnter</Code>.
+    If <Code>ConfirmKey</Code> is set to <Code>null</Code> or an empty array, no key will commit a selection.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    In <Code>AutocompleteSelectionMode.Checkbox</Code>, the confirm key is ignored and selection is done via mouse or checkbox interaction.
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     CloseOnSelection
@@ -69,7 +88,20 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
+    This option is only evaluated for multiple or checkbox selection. In default selection mode the dropdown always closes on selection.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
     <Image Source="@($"img/specifications/autocomplete/CloseOnSelection.gif")" Text="CloseOnSelection image" />
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    SuggestSelectedItems
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    In multiple selection, already selected items are filtered out of the suggestion list by default.
+    Set <Code>SuggestSelectedItems</Code> to keep them visible, or use <Code>AutocompleteSelectionMode.Checkbox</Code> which always shows selected items.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>

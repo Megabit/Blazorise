@@ -1,0 +1,77 @@
+@page "/docs/specifications/scheduler"
+
+<Seo Canonical="/docs/specifications/scheduler" Title="Blazorise Specifications: Scheduler" Description="Learn about Blazorise Scheduler component and how it works and behaves under the certain scenarios, according to the defined parameters." />
+
+<DocsPageTitle Path="Specifications/Scheduler">
+    Blazorise Specifications: Scheduler
+</DocsPageTitle>
+
+<DocsPageLead>
+    Learn how Scheduler navigation, editing, selection, dragging, and recurrence behavior works.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Property Mapping
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The scheduler reads and writes appointment data through mapped fields such as <Code>IdField</Code>, <Code>StartField</Code>, <Code>EndField</Code>, <Code>TitleField</Code>, <Code>DescriptionField</Code>, and <Code>AllDayField</Code>.
+    Recurrence behavior uses <Code>RecurrenceRuleField</Code>, <Code>RecurrenceIdField</Code>, <Code>OriginalStartField</Code>, <Code>RecurrenceExceptionsField</Code>, and <Code>DeletedOccurrencesField</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Navigation and Views
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The scheduler tracks the visible date through the <Code>Date</Code> parameter. Navigation uses <Code>SelectedView</Code> and <Code>WeekNavigationMode</Code>:
+    week and work-week views either jump to the start of the previous/next week or shift by 7 days; month view shifts by one month; day view shifts by one day.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Internal Editing
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Built-in editing requires <Code>Editable</Code> and <Code>UseInternalEditing</Code> to be true, and <Code>Data</Code> to be an <Code>ICollection&lt;TItem&gt;</Code>.
+    When enabled, the scheduler inserts, updates, and removes items in the collection and still raises <Code>ItemInserted</Code>, <Code>ItemUpdated</Code>, and <Code>ItemRemoved</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>New</Code> and <Code>Edit</Code> open the internal modal dialog when internal editing is enabled.
+    Inserts and updates invoke <Code>ItemInserting</Code> or <Code>ItemUpdating</Code> callbacks first, which can cancel the operation.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Slot Click and Selection
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Clicking an empty slot creates a new item with its start/end set to the slot range and sets the edit state to New.
+    Clicking an all-day slot also sets the item to all-day and uses midnight start/end for the selected date.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Slot selection is available only when <Code>SlotSelectionMode</Code> is <Code>Mouse</Code>.
+    Selection is constrained to the same scheduler section and the same day, and it only commits when the selection spans more than one slot.
+    Successful selections create a new item and raise <Code>SlotsSelected</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Drag and Drop
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Dragging is available when <Code>Draggable</Code> is true and starts a transaction that puts the scheduler in edit state.
+    Drops are accepted only within the same scheduler section. If <Code>DropAllowed</Code> returns false, the drop is canceled and the item reverts.
+    Successful drops call <Code>SaveImpl</Code> and raise <Code>ItemDropped</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Recurring Items
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Editing or deleting a single occurrence of a recurring item records an exception in <Code>RecurrenceExceptionsField</Code> and tracks deletions in <Code>DeletedOccurrencesField</Code>.
+    When internal editing is enabled, edits and deletes of recurring items prompt the user to choose between the series and the occurrence.
+</DocsPageParagraph>
