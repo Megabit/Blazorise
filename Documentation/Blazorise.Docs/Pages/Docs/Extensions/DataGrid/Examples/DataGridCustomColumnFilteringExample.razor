@@ -7,7 +7,7 @@
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name Length" Editable="false" CustomFilter="@OnNameLengthFilter">
         <DisplayTemplate>
-            @context.FirstName.Length chars
+            @context.Item.FirstName.Length chars
         </DisplayTemplate>
         <FilterTemplate>
             <Select TValue="NameLengthFilter" ValueChanged="@(e => { context.TriggerFilterChange( e ); })">

@@ -321,6 +321,15 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             : BatchEditItem.NewItem;
     }
 
+    protected CellDisplayContext<TItem> BuildCellDisplayContext( DataGridColumn<TItem> column, TItem item, object cellValue = null )
+    {
+        object resolvedValue = cellValue ?? column.GetValue( item );
+        string displayValue = column.FormatDisplayValue( resolvedValue );
+        int rowIndex = RowInfo is null ? -1 : ParentDataGrid.ResolveItemIndex( RowInfo.Item );
+
+        return new CellDisplayContext<TItem>( item, column, RowInfo, rowIndex, resolvedValue, displayValue, ParentDataGrid );
+    }
+
     #endregion
 
     #region Properties

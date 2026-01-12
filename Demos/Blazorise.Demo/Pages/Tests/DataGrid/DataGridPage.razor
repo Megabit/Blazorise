@@ -349,7 +349,7 @@
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable HelpText="Please provide a Zip in the format = 'xxxxx-xxxx'">
                             <SortDirectionTemplate>
-                                <Icon Name="@(context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp)" />
+                                <Icon Name="@(context.SortDirection == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp)" />
                             </SortDirectionTemplate>
                         </DataGridColumn>
                         <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
@@ -366,7 +366,7 @@
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = ( context as Employee ).Salaries;
+                            var salaries = context.Item?.Salaries;
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"

@@ -42,9 +42,10 @@
                                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                                         {
                                             Clicked = callbackFactory.Create( this, Save ),
-                                            LocalizationString = saveButtonString,
-                                            Item = Item,
-                                        } );
+                                                LocalizationString = saveButtonString,
+                                                Item = Item,
+                                                } )
+                                                ;
                                     }
                                     else
                                     {
@@ -71,9 +72,10 @@
                                         @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
                                         {
                                             Clicked = Cancel,
-                                            LocalizationString = cancelButtonString,
-                                            Item = Item,
-                                        } );
+                                                LocalizationString = cancelButtonString,
+                                                Item = Item,
+                                                } )
+                                                ;
                                     }
                                     else
                                     {
@@ -149,7 +151,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                         {
                             if ( column.DisplayTemplate != null )
                             {
-                                @column.DisplayTemplate( Item )
+                                @column.DisplayTemplate( BuildCellDisplayContext( column, Item ) )
                             }
                             else
                             {

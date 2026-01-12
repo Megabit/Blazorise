@@ -784,7 +784,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Gets or sets the column's display sort direction template.
     /// </summary>
-    [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
+    [Parameter] public RenderFragment<SortDirectionContext<TItem>> SortDirectionTemplate { get; set; }
 
     /// <summary>
     /// Defines the alignment for the table cell.
@@ -1059,7 +1059,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Template for custom cell display formatting.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
+    [Parameter] public RenderFragment<CellDisplayContext<TItem>> DisplayTemplate { get; set; }
 
     /// <summary>
     /// Template for custom column filter rendering.

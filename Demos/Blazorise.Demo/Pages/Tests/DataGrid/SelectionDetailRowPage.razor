@@ -54,13 +54,13 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.Item.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = ( context as Employee ).Salaries;
+                            var salaries = context.Item?.Salaries;
 
                             <DataGrid TItem="Salary"
                                   Data="salaries"

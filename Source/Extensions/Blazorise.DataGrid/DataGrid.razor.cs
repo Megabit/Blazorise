@@ -3733,7 +3733,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets content of cell body for empty DisplayData.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> EmptyCellTemplate { get; set; }
+    [Parameter] public RenderFragment<CellDisplayContext<TItem>> EmptyCellTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets content of table body for handle ReadData.
@@ -3945,7 +3945,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Template for displaying detail or nested row.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
+    [Parameter] public RenderFragment<DetailRowContext<TItem>> DetailRowTemplate { get; set; }
 
     /// <summary>
     /// Function, that is called, when a new item is created for inserting new entry.

@@ -6,7 +6,7 @@
     <DataGridNumericColumn Field="@nameof( Employee.DateOfBirth )" Caption="Date Of Birth" Editable>
         <DisplayTemplate>
             @{
-                var date = ( context as Employee )?.DateOfBirth;
+                var date = context.Item?.DateOfBirth;
 
                 if ( date != null )
                 {
