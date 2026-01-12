@@ -864,7 +864,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => "b-card-title mb-2 text-2xl font-bold tracking-tight text-inherit text-gray-900 dark:text-white";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, CardTitleSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "b-card-subtitle text-inherit";
 
