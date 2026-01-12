@@ -80,35 +80,34 @@
                             Clicked = NewClick,
                             LocalizationString = newButtonString,
                         },
-        EditCommand = new()
-        {
-            Clicked = EditClick,
-            LocalizationString = editButtonString,
-            Item = SelectedRow
-        },
-        DeleteCommand = new()
-        {
-            Clicked = DeleteClick,
-            LocalizationString = deleteButtonString,
-            Item = SelectedRow
-        },
-        ClearFilterCommand = new()
-        {
-            Clicked = ClearFilterClick,
-            LocalizationString = clearFilterButtonString,
-        },
-        SaveBatchCommand = new()
-        {
-            Clicked = SaveBatchClick,
-            LocalizationString = saveBatchButtonString,
-        },
-        CancelBatchCommand = new()
-        {
-            Clicked = CancelBatchClick,
-            LocalizationString = cancelBatchButtonString,
-        }
-        } )
-        ;
+                        EditCommand = new()
+                        {
+                            Clicked = EditClick,
+                            LocalizationString = editButtonString,
+                            Item = SelectedRow
+                        },
+                        DeleteCommand = new()
+                        {
+                            Clicked = DeleteClick,
+                            LocalizationString = deleteButtonString,
+                            Item = SelectedRow
+                        },
+                        ClearFilterCommand = new()
+                        {
+                            Clicked = ClearFilterClick,
+                            LocalizationString = clearFilterButtonString,
+                        },
+                        SaveBatchCommand = new()
+                        {
+                            Clicked = SaveBatchClick,
+                            LocalizationString = saveBatchButtonString,
+                        },
+                        CancelBatchCommand = new()
+                        {
+                            Clicked = CancelBatchClick,
+                            LocalizationString = cancelBatchButtonString,
+                        }
+                    } )
                 }
             </Field>
         }
@@ -135,10 +134,7 @@
                         }
                         else
                         {
-                            @ParentDataGrid.ColumnChooserTemplate(new(
-                            ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ),
-                        EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) )
-                        ;
+                            @ParentDataGrid.ColumnChooserTemplate( new( ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ), EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) )
                         }
                     </DropdownMenu>
                 </Dropdown>

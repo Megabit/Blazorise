@@ -40,7 +40,6 @@
                         @if ( column.AggregateTemplate is not null )
                         {
                             @column.AggregateTemplate( new( column.Field, aggregateValue ) )
-                            ;
                         }
                         else if ( aggregateColumn.DisplayTemplate != null )
                         {
@@ -49,7 +48,6 @@
                         else
                         {
                             @aggregateColumn.FormatDisplayValue( aggregateValue )
-                            ;
                         }
                     }
                 }
