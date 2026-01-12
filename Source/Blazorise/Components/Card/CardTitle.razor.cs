@@ -12,7 +12,7 @@ public partial class CardTitle : BaseTypographyComponent
 {
     #region Members
 
-    private int? size;
+    private CardTitleSize? size;
 
     #endregion
 
@@ -32,22 +32,36 @@ public partial class CardTitle : BaseTypographyComponent
     #region Properties
 
     /// <summary>
-    /// Indicates if the title is placed inside if card header.
+    /// Indicates if the title is placed inside a card header.
     /// </summary>
     protected bool InsideHeader => ParentCardHeader is not null;
 
     /// <summary>
-    /// Number from 1 to 6 that defines the title size where the smaller number means larger text.
+    /// Gets the title size number.
     /// </summary>
-    /// <remarks>
-    /// TODO: change to enum
-    /// </remarks>
+    protected string SizeNumber => Size switch
+    {
+        CardTitleSize.Is1 => "1",
+        CardTitleSize.Is2 => "2",
+        CardTitleSize.Is3 => "3",
+        CardTitleSize.Is4 => "4",
+        CardTitleSize.Is5 => "5",
+        CardTitleSize.Is6 => "6",
+        _ => "6",
+    };
+
+    /// <summary>
+    /// Defines the title size where the smaller number means larger text.
+    /// </summary>
     [Parameter]
-    public int? Size
+    public CardTitleSize? Size
     {
         get => size;
         set
         {
+            if ( size == value )
+                return;
+
             size = value;
 
             DirtyClasses();

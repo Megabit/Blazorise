@@ -571,7 +571,7 @@ class EmptyClassProvider : IClassProvider
 
     public string CardTitle( bool insideHeader ) => null;
 
-    public string CardTitleSize( bool insideHeader, int? size ) => null;
+    public string CardTitleSize( bool insideHeader, CardTitleSize? size ) => null;
 
     public string CardSubtitle( bool insideHeader ) => null;
 
@@ -1446,6 +1446,8 @@ class EmptyClassProvider : IClassProvider
     public string ToSkeletonAnimation( SkeletonAnimation animation ) => null;
 
     public string ToTableCaptionSide( TableCaptionSide side ) => null;
+
+    public string ToCardTitleSize( CardTitleSize size ) => null;
 
     #endregion
 

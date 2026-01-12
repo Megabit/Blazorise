@@ -594,7 +594,7 @@ namespace Blazorise.Docs.Models
         public const string StretchedLinkButtonExample = @"<Card Width=""Width.Rem(18)"">
     <CardImage Source=""/img/gallery/5.jpg"" Alt=""Placeholder image"" />
     <CardBody>
-        <CardTitle Size=""3"">
+        <CardTitle Size=""CardTitleSize.Is3"">
             Card with stretched link
         </CardTitle>
         <CardText>
@@ -635,7 +635,7 @@ namespace Blazorise.Docs.Models
 
         public const string CardBackgroundExample = @"<Card Background=""Background.Success"" WhiteText>
     <CardBody>
-        <CardTitle Size=""3"">
+        <CardTitle Size=""CardTitleSize.Is3"">
             Card title
         </CardTitle>
         <CardText>
@@ -649,7 +649,7 @@ namespace Blazorise.Docs.Models
 
         public const string CardButtonExample = @"<Card>
     <CardBody>
-        <CardTitle Size=""3"">
+        <CardTitle Size=""CardTitleSize.Is3"">
             Card title
         </CardTitle>
         <CardText>
@@ -665,7 +665,7 @@ namespace Blazorise.Docs.Models
     <Card>
         <CardImage Source=""/img/gallery/2.jpg"" Alt=""Card image cap 3""></CardImage>
         <CardBody>
-            <CardTitle Size=""5"">Card title 1</CardTitle>
+            <CardTitle Size=""CardTitleSize.Is5"">Card title 1</CardTitle>
             <CardText>
                 This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
             </CardText>
@@ -675,7 +675,7 @@ namespace Blazorise.Docs.Models
     <Card>
         <CardImage Source=""/img/gallery/3.jpg"" Alt=""Card image cap 9""></CardImage>
         <CardBody>
-            <CardTitle Size=""5"">Card title 2</CardTitle>
+            <CardTitle Size=""CardTitleSize.Is5"">Card title 2</CardTitle>
             <CardText>
                 This card has supporting text below as a natural lead-in to additional content.
             </CardText>
@@ -685,7 +685,7 @@ namespace Blazorise.Docs.Models
     <Card>
         <CardImage Source=""/img/gallery/4.jpg"" Alt=""Card image cap 12""></CardImage>
         <CardBody>
-            <CardTitle Size=""5"">Card title 3</CardTitle>
+            <CardTitle Size=""CardTitleSize.Is5"">Card title 3</CardTitle>
             <CardText>
                 This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.
             </CardText>
@@ -697,7 +697,7 @@ namespace Blazorise.Docs.Models
         public const string CardDeckStylingExample = @"<CardDeck>
     <Card Styles='@(new CardStyles { Self = ""border: 2px dashed #0b7285; border-radius: 0.5rem;"", Wrapper = ""padding: 0.75rem; background: #f8f9fa;"" })'>
         <CardBody>
-            <CardTitle Size=""5"">Styled wrapper</CardTitle>
+            <CardTitle Size=""CardTitleSize.Is5"">Styled wrapper</CardTitle>
             <CardText>
                 Use the wrapper styles to add spacing or background around the card when it is rendered inside a deck.
             </CardText>
@@ -705,7 +705,7 @@ namespace Blazorise.Docs.Models
     </Card>
     <Card Styles='@(new CardStyles { Self = ""border: 2px dashed #2f9e44; border-radius: 0.5rem;"", Wrapper = ""padding: 0.75rem; background: #ebfbee;"" })'>
         <CardBody>
-            <CardTitle Size=""5"">Inner styling</CardTitle>
+            <CardTitle Size=""CardTitleSize.Is5"">Inner styling</CardTitle>
             <CardText>
                 The <Code>Self</Code> style applies to the main card element, while <Code>Wrapper</Code> targets its container.
             </CardText>
@@ -715,7 +715,7 @@ namespace Blazorise.Docs.Models
 
         public const string CardExample = @"<Card>
     <CardBody>
-        <CardTitle Size=""3"">
+        <CardTitle Size=""CardTitleSize.Is3"">
             Card title
         </CardTitle>
         <CardText>
@@ -727,7 +727,7 @@ namespace Blazorise.Docs.Models
         public const string CardImageExample = @"<Card>
     <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
     <CardBody>
-        <CardTitle Size=""3"">
+        <CardTitle Size=""CardTitleSize.Is3"">
             Card title
         </CardTitle>
         <CardText>
@@ -1998,7 +1998,7 @@ namespace Blazorise.Docs.Models
         public const string LinkStretchedExample = @"<Card Width=""Width.Rem(18)"">
     <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
     <CardBody>
-        <CardTitle Size=""3"">
+        <CardTitle Size=""CardTitleSize.Is3"">
             Card with stretched link
         </CardTitle>
         <CardText>
@@ -4729,7 +4729,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Animate Anchor=""#b-animate"" Auto Animation=""selectedAnimation"" DelayMilliseconds=""500"">
             <Card Margin=""Margin.Is4.OnY"">
                 <CardBody>
-                    <CardTitle Size=""5"">Animation Example</CardTitle>
+                    <CardTitle Size=""CardTitleSize.Is5"">Animation Example</CardTitle>
                     <CardText>
                         Some content.
                     </CardText>
@@ -12880,7 +12880,7 @@ builder.Services
     <Card Classes='@(new CardClasses { Self = ""component-styling-self"", Wrapper = ""component-styling-wrapper"" })'
           Styles='@(new CardStyles { Self = ""border: 2px solid #1c7ed6; border-radius: 0.5rem;"", Wrapper = ""padding: 0.5rem; background: #f1f3f5;"" })'>
         <CardBody>
-            <CardTitle Size=""4"">
+            <CardTitle Size=""CardTitleSize.Is4"">
                 Classes and Styles
             </CardTitle>
             <CardText>
@@ -12891,7 +12891,7 @@ builder.Services
     <Card Classes='@(new CardClasses { Self = ""component-styling-self"", Wrapper = ""component-styling-wrapper"" })'
           Styles='@(new CardStyles { Self = ""border: 2px solid #2f9e44; border-radius: 0.5rem;"", Wrapper = ""padding: 0.5rem; background: #ebfbee;"" })'>
         <CardBody>
-            <CardTitle Size=""4"">
+            <CardTitle Size=""CardTitleSize.Is4"">
                 Wrapper example
             </CardTitle>
             <CardText>
@@ -12903,7 +12903,7 @@ builder.Services
 
         public const string ComponentStylingPrimaryExample = @"<Card Class=""component-styling-card"" Style=""border: 2px dashed #0b7285; padding: 1rem;"">
     <CardBody>
-        <CardTitle Size=""4"">
+        <CardTitle Size=""CardTitleSize.Is4"">
             Class and Style
         </CardTitle>
         <CardText>
@@ -12915,7 +12915,7 @@ builder.Services
         public const string ComponentStylingUtilityTargetExample = @"<CardDeck>
     <Card UtilityTarget=""UtilityTarget.Wrapper"" Padding=""Padding.Is2"">
         <CardBody>
-            <CardTitle Size=""4"">
+            <CardTitle Size=""CardTitleSize.Is4"">
                 Example 1
             </CardTitle>
             <CardText>
@@ -12925,7 +12925,7 @@ builder.Services
     </Card>
     <Card Margin=""Margin.Is3.OnWrapper"">
         <CardBody>
-            <CardTitle Size=""4"">
+            <CardTitle Size=""CardTitleSize.Is4"">
                 Example 2
             </CardTitle>
             <CardText>

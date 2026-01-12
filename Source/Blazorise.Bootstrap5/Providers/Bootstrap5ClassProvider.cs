@@ -619,7 +619,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => "card-title";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, CardTitleSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
 
