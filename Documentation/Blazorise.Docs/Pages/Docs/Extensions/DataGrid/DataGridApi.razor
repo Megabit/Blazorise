@@ -373,7 +373,7 @@
     <DocsAttributesItem Name="DataGridAggregates" Type="RenderFragment">
         Template for holding the datagrid aggregate columns.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
+    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment<CellDisplayContext<TItem>>">
         Define the display template for empty data cell.
     </DocsAttributesItem>
     <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
@@ -412,7 +412,7 @@
     <DocsAttributesItem Name="TotalItemsTemplate" Type="RenderFragment<PaginationContext<TItem>>">
         Gets or sets content of total items grid.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DetailRowTemplate" Type="RenderFragment<TItem>">
+    <DocsAttributesItem Name="DetailRowTemplate" Type="RenderFragment<DetailRowContext<TItem>>">
         Gets or sets content of total items grid.
     </DocsAttributesItem>
     <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
@@ -633,7 +633,7 @@
     <DocsAttributesItem Name="AggregateTemplate" Type="RenderFragment<AggregateContext<TItem>>">
         Template for aggregate values.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DisplayTemplate" Type="RenderFragment<TItem>">
+    <DocsAttributesItem Name="DisplayTemplate" Type="RenderFragment<CellDisplayContext<TItem>>">
         Template for custom cell display formating.
     </DocsAttributesItem>
     <DocsAttributesItem Name="EditTemplate" Type="RenderFragment<CellEditContext>">
@@ -648,7 +648,7 @@
     <DocsAttributesItem Name="CaptionTemplate" Type="RenderFragment<DataGridColumn<TItem>>">
         Template for custom caption. CaptionTemplate will block caption template.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SortDirectionTemplate" Type="RenderFragment<SortDirection>">
+    <DocsAttributesItem Name="SortDirectionTemplate" Type="RenderFragment<SortDirectionContext<TItem>>">
         Template for custom sort direction icon.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Validator" Type="Action<ValidatorEventArgs>">

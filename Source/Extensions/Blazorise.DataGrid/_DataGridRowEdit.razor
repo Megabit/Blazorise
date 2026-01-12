@@ -44,7 +44,7 @@
                                             Clicked = callbackFactory.Create( this, Save ),
                                             LocalizationString = saveButtonString,
                                             Item = Item,
-                                        } );
+                                        } )
                                     }
                                     else
                                     {
@@ -73,7 +73,7 @@
                                             Clicked = Cancel,
                                             LocalizationString = cancelButtonString,
                                             Item = Item,
-                                        } );
+                                        } )
                                     }
                                     else
                                     {
@@ -149,7 +149,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                         {
                             if ( column.DisplayTemplate != null )
                             {
-                                @column.DisplayTemplate( Item )
+                                @column.DisplayTemplate( BuildCellDisplayContext( column, Item ) )
                             }
                             else
                             {

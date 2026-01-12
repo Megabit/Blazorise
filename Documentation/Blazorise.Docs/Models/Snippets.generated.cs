@@ -7202,7 +7202,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name Length"" Editable=""false"" CustomFilter=""@OnNameLengthFilter"">
         <DisplayTemplate>
-            @context.FirstName.Length chars
+            @context.Item.FirstName.Length chars
         </DisplayTemplate>
         <FilterTemplate>
             <Select TValue=""NameLengthFilter"" ValueChanged=""@(e => { context.TriggerFilterChange( e ); })"">
@@ -7380,10 +7380,10 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridCommandColumn />
         <DataGridColumn TItem=Employee>
             <DisplayTemplate>
-                @if ( DisplayDetailRow( context ) )
+                @if ( DisplayDetailRow( context.Item ) )
                 {
                     <Button>
-                        <Icon Name=""@(dataGridRef.GetRowInfo( context ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)"" />
+                        <Icon Name=""@(dataGridRef.GetRowInfo( context.Item ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)"" />
                     </Button>
                 }
             </DisplayTemplate>
@@ -7392,7 +7392,7 @@ Install-Package Blazorise.Chart.Zoom";
     </DataGridColumns>
     <DetailRowTemplate>
         @{
-            var salaries = context.Salaries;
+            var salaries = context.Item?.Salaries;
 
             <DataGrid TItem=""Salary""
                       Data=""salaries""
@@ -7427,7 +7427,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridNumericColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Date Of Birth"" Editable>
         <DisplayTemplate>
             @{
-                var date = ( context as Employee )?.DateOfBirth;
+                var date = context.Item?.DateOfBirth;
 
                 if ( date != null )
                 {
@@ -7550,7 +7550,7 @@ Install-Package Blazorise.Chart.Zoom";
         </DataGridColumn>
         <DataGridCheckColumn Field=""IsActive"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>
-                <Check TValue=""bool"" Value='( context as dynamic ).IsActive' Disabled ReadOnly />
+                <Check TValue=""bool"" Value=""@(((dynamic)context.Item).IsActive)"" Disabled ReadOnly />
             </DisplayTemplate>
         </DataGridCheckColumn>
     </DataGridColumns>
@@ -8934,7 +8934,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridNumericColumn TItem=""Employee"" Field=""@nameof(Employee.FirstName)"" Caption=""Full Name"" Filterable=""false"" SortComparer=""new EmployeeNameComparer()"">
         <DisplayTemplate>
-            @($""{context.FirstName} {context.LastName}"")
+            @($""{context.Item.FirstName} {context.Item.LastName}"")
         </DisplayTemplate>
     </DataGridNumericColumn>
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
@@ -9108,7 +9108,7 @@ Install-Package Blazorise.Chart.Zoom";
         </DataGridColumn>
         <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>
-                <Check TValue=""bool"" Value=""context.IsActive"" Disabled ReadOnly />
+                <Check TValue=""bool"" Value=""context.Item.IsActive"" Disabled ReadOnly />
             </DisplayTemplate>
         </DataGridCheckColumn>
     </DataGridColumns>

@@ -16,7 +16,7 @@
             <Code>DetailRowTemplate</Code> allows you to display nested structure below each row in the grid. One of the examples is “master-detail” relationship between two data-source inside the <Code>DataGrid</Code>.
         </Paragraph>
         <Paragraph>
-            For this template the <Code>context</Code> value is the item from the parent grid.
+            For this template the <Code>context</Code> value is a <Code>DetailRowContext&lt;TItem&gt;</Code>, which provides the row item via <Code>context.Item</Code> along with row state and grid metadata.
         </Paragraph>
         <Paragraph>
             Once it's defined a detail-row will be visible for every row in the grid by default. You may change this behaviour by setting <Code>DetailRowStartsVisible</Code> to false.

@@ -176,6 +176,16 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         }
     }
 
+    protected CellDisplayContext<TItem> BuildCellDisplayContext( DataGridColumn<TItem> column, TItem item, object cellValue = null )
+    {
+        object resolvedValue = cellValue ?? column.GetValue( item );
+        string displayValue = column.FormatDisplayValue( resolvedValue );
+        DataGridRowInfo<TItem> rowInfo = ParentDataGrid.GetRowInfo( item );
+        int rowIndex = rowInfo is null ? -1 : ParentDataGrid.ResolveItemIndex( rowInfo.Item );
+
+        return new CellDisplayContext<TItem>( item, column, rowInfo, rowIndex, resolvedValue, displayValue, ParentDataGrid );
+    }
+
     #endregion
 
     #region Properties

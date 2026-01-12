@@ -10,10 +10,10 @@
         <DataGridCommandColumn />
         <DataGridColumn TItem=Employee>
             <DisplayTemplate>
-                @if ( DisplayDetailRow( context ) )
+                @if ( DisplayDetailRow( context.Item ) )
                 {
                     <Button>
-                        <Icon Name="@(dataGridRef.GetRowInfo( context ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)" />
+                        <Icon Name="@(dataGridRef.GetRowInfo( context.Item ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)" />
                     </Button>
                 }
             </DisplayTemplate>
@@ -22,7 +22,7 @@
     </DataGridColumns>
     <DetailRowTemplate>
         @{
-            var salaries = context.Salaries;
+            var salaries = context.Item?.Salaries;
 
             <DataGrid TItem="Salary"
                       Data="salaries"

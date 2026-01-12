@@ -83,7 +83,7 @@
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" Validator="@ValidateCheck">
                             <DisplayTemplate>
-                                <Check TValue="bool" Value="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.Item.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
