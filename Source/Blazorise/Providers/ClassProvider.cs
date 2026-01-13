@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 #endregion
@@ -569,11 +569,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CardTitle( bool insideHeader );
 
-    public abstract string CardTitleSize( bool insideHeader, CardTitleSize? size );
+    public abstract string CardTitleSize( bool insideHeader, HeadingSize? size );
 
     public abstract string CardSubtitle( bool insideHeader );
 
-    public abstract string CardSubtitleSize( bool insideHeader, int size );
+    public abstract string CardSubtitleSize( bool insideHeader, HeadingSize? size );
 
     public abstract string CardText();
 
@@ -2188,20 +2188,6 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.TableCaptionSide.Top => "top",
             Blazorise.TableCaptionSide.Bottom => "bottom",
             _ => null
-        };
-    }
-
-    public virtual string ToCardTitleSize( CardTitleSize cardTitleSize )
-    {
-        return cardTitleSize switch
-        {
-            Blazorise.CardTitleSize.Is1 => "1",
-            Blazorise.CardTitleSize.Is2 => "2",
-            Blazorise.CardTitleSize.Is3 => "3",
-            Blazorise.CardTitleSize.Is4 => "4",
-            Blazorise.CardTitleSize.Is5 => "5",
-            Blazorise.CardTitleSize.Is6 => "6",
-            _ => null,
         };
     }
 

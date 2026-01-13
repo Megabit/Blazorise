@@ -611,11 +611,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => insideHeader ? "card-header-title" : "title";
 
-    public override string CardTitleSize( bool insideHeader, CardTitleSize? size ) => size is null ? null : $"is-{ToCardTitleSize( size.Value )}";
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => size is null ? null : $"is-{ToHeadingSize( size.Value )}";
 
     public override string CardSubtitle( bool insideHeader ) => insideHeader ? "card-header-subtitle" : "subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => $"is-{size}";
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => size is null ? null : $"is-{ToHeadingSize( size.Value )}";
 
     public override string CardText() => "card-text";
 
