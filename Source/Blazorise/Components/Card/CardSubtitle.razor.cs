@@ -37,7 +37,7 @@ public partial class CardSubtitle : BaseTypographyComponent
     protected bool InsideHeader => ParentCardHeader is not null;
 
     /// <summary>
-    /// Defines the subtitle size where the smaller number means larger text.
+    /// Defines the subtitle size where the smaller number means larger text. Defaults to <see cref="HeadingSize.Is6"/>.
     /// </summary>
     [Parameter]
     public HeadingSize? Size
@@ -45,6 +45,9 @@ public partial class CardSubtitle : BaseTypographyComponent
         get => size;
         set
         {
+            if ( size == value )
+                return;
+
             size = value;
 
             DirtyClasses();
