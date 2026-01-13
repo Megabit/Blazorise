@@ -12,7 +12,7 @@ public partial class CardTitle : BaseTypographyComponent
 {
     #region Members
 
-    private CardTitleSize? size;
+    private HeadingSize? size;
 
     #endregion
 
@@ -41,12 +41,12 @@ public partial class CardTitle : BaseTypographyComponent
     /// </summary>
     protected string SizeNumber => Size switch
     {
-        CardTitleSize.Is1 => "1",
-        CardTitleSize.Is2 => "2",
-        CardTitleSize.Is3 => "3",
-        CardTitleSize.Is4 => "4",
-        CardTitleSize.Is5 => "5",
-        CardTitleSize.Is6 => "6",
+        HeadingSize.Is1 => "1",
+        HeadingSize.Is2 => "2",
+        HeadingSize.Is3 => "3",
+        HeadingSize.Is4 => "4",
+        HeadingSize.Is5 => "5",
+        HeadingSize.Is6 => "6",
         _ => "6",
     };
 
@@ -54,7 +54,7 @@ public partial class CardTitle : BaseTypographyComponent
     /// Defines the title size where the smaller number means larger text.
     /// </summary>
     [Parameter]
-    public CardTitleSize? Size
+    public HeadingSize? Size
     {
         get => size;
         set

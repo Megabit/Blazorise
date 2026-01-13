@@ -12,7 +12,7 @@ public partial class CardSubtitle : BaseTypographyComponent
 {
     #region Members
 
-    private int size = 6;
+    private HeadingSize size = HeadingSize.Is6;
 
     #endregion
 
@@ -32,18 +32,15 @@ public partial class CardSubtitle : BaseTypographyComponent
     #region Properties
 
     /// <summary>
-    /// Indicates if the subtitle is placed inside if card header.
+    /// Indicates if the subtitle is placed inside a card header.
     /// </summary>
     protected bool InsideHeader => ParentCardHeader is not null;
 
     /// <summary>
-    /// Number from 1 to 6 that defines the subtitle size where the smaller number means larger text.
+    /// Defines the subtitle size where the smaller number means larger text.
     /// </summary>
-    /// <remarks>
-    /// todo: change to enum
-    /// </remarks>
     [Parameter]
-    public int Size
+    public HeadingSize Size
     {
         get => size;
         set

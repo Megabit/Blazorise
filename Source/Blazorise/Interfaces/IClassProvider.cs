@@ -568,11 +568,11 @@ public interface IClassProvider
 
     string CardTitle( bool insideHeader );
 
-    string CardTitleSize( bool insideHeader, CardTitleSize? size );
+    string CardTitleSize( bool insideHeader, HeadingSize? size );
 
     string CardSubtitle( bool insideHeader );
 
-    string CardSubtitleSize( bool insideHeader, int size );
+    string CardSubtitleSize( bool insideHeader, HeadingSize size );
 
     string CardText();
 
@@ -1446,8 +1446,6 @@ public interface IClassProvider
     string ToSkeletonAnimation( SkeletonAnimation animation );
 
     string ToTableCaptionSide( TableCaptionSide side );
-
-    string ToCardTitleSize( CardTitleSize size );
 
     #endregion
 

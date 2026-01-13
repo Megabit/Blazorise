@@ -614,11 +614,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => insideHeader ? "ant-card-head-title" : "ant-card-meta-title";
 
-    public override string CardTitleSize( bool insideHeader, CardTitleSize? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => insideHeader ? "ant-card-head-subtitle" : "ant-card-meta-description";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize size ) => null;
 
     public override string CardText() => "ant-card-text";
 
