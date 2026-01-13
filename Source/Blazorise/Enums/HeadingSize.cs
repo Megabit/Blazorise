@@ -1,7 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise;
+﻿namespace Blazorise;
 
 /// <summary>
 /// Defines the heading size.
