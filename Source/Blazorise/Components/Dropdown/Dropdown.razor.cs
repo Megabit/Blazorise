@@ -402,6 +402,11 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     public string SelectedDropdownElementId { get; set; }
 
     /// <summary>
+    /// Gets the element id of the first dropdown menu.
+    /// </summary>
+    internal string DropdownMenuElementId => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSDropdownModule"/> instance.
     /// </summary>
     [Inject] public IJSDropdownModule JSModule { get; set; }
