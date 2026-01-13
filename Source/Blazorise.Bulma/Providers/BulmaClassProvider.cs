@@ -615,7 +615,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CardSubtitle( bool insideHeader ) => insideHeader ? "card-header-subtitle" : "subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, HeadingSize size ) => $"is-{ToHeadingSize( size )}";
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => size is null ? null : $"is-{ToHeadingSize( size.Value )}";
 
     public override string CardText() => "card-text";
 

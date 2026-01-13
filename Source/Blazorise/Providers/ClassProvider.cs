@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 #endregion
@@ -573,7 +573,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CardSubtitle( bool insideHeader );
 
-    public abstract string CardSubtitleSize( bool insideHeader, HeadingSize size );
+    public abstract string CardSubtitleSize( bool insideHeader, HeadingSize? size );
 
     public abstract string CardText();
 

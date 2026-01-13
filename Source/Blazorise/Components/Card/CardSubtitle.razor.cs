@@ -12,7 +12,7 @@ public partial class CardSubtitle : BaseTypographyComponent
 {
     #region Members
 
-    private HeadingSize size = HeadingSize.Is6;
+    private HeadingSize? size = HeadingSize.Is6;
 
     #endregion
 
@@ -40,7 +40,7 @@ public partial class CardSubtitle : BaseTypographyComponent
     /// Defines the subtitle size where the smaller number means larger text.
     /// </summary>
     [Parameter]
-    public HeadingSize Size
+    public HeadingSize? Size
     {
         get => size;
         set

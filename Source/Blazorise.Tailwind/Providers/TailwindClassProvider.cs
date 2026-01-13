@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -868,7 +868,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardSubtitle( bool insideHeader ) => "b-card-subtitle text-inherit";
 
-    public override string CardSubtitleSize( bool insideHeader, HeadingSize size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "b-card-text mb-3 font-normal text-inherit";
 

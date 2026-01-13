@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -638,7 +638,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, HeadingSize size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "fui-CardText";
 

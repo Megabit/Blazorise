@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 #endregion
 
@@ -575,7 +575,7 @@ class EmptyClassProvider : IClassProvider
 
     public string CardSubtitle( bool insideHeader ) => null;
 
-    public string CardSubtitleSize( bool insideHeader, HeadingSize size ) => null;
+    public string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public string CardText() => null;
 
