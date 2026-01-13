@@ -29,6 +29,7 @@ export function initialize(element, elementId, options) {
         zIndex: options.zIndex || 9999,
         appendTo: appendTo,
         delay: [options.delay.show, options.delay.hide],
+        aria: { content: "describedby" },
     };
 
     const alwaysActiveOptions = options.alwaysActive
