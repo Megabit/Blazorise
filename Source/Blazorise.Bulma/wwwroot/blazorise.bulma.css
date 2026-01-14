@@ -230,6 +230,12 @@
   margin-inline-end: 0;
 }
 
+.buttons.has-addons > .button,
+.buttons.has-addons > .label.button {
+  display: inline-flex;
+  margin-bottom: 0;
+}
+
 .card {
   overflow: initial;
 }

@@ -229,3 +229,11 @@
         margin-inline-end: 0;
     }
 }
+
+.buttons.has-addons {
+    > .button,
+    > .label.button {
+        display: inline-flex;
+        margin-bottom: 0;
+    }
+}
