@@ -71,10 +71,7 @@ public class BulmaThemeGenerator : ThemeGenerator
             var hue = Math.Round( hsl.Hue );
             var saturation = Math.Round( hsl.Saturation );
             var luminosity = Math.Round( hsl.Luminosity );
-            var invert = Contrast( theme, baseColor );
-            var invertHex = ToHex( invert );
-            var invertHsl = HexStringToHslColor( invertHex );
-            var invertLuminosity = Math.Round( invertHsl.Luminosity );
+            var invertLuminosity = GetBulmaInvertLightness( baseColor );
 
             sb.AppendLine( $"--bulma-{name}: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
             sb.AppendLine( $"--bulma-{name}-base: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
@@ -82,11 +79,111 @@ public class BulmaThemeGenerator : ThemeGenerator
             sb.AppendLine( $"--bulma-{name}-h: {hue.ToString( CultureInfo.InvariantCulture )}deg;" );
             sb.AppendLine( $"--bulma-{name}-s: {saturation.ToString( CultureInfo.InvariantCulture )}%;" );
             sb.AppendLine( $"--bulma-{name}-l: {luminosity.ToString( CultureInfo.InvariantCulture )}%;" );
-            sb.AppendLine( $"--bulma-{name}-invert: {invertHex};" );
+            sb.AppendLine( $"--bulma-{name}-invert: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-invert-l), 1);" );
             sb.AppendLine( $"--bulma-{name}-invert-l: {invertLuminosity.ToString( CultureInfo.InvariantCulture )}%;" );
         }
 
         return sb.ToString();
+    }
+
+    private static int GetBulmaInvertLightness( System.Drawing.Color baseColor )
+    {
+        var baseHex = ToHex( baseColor );
+        var baseHsl = HexStringToHslColor( baseHex );
+        var hue = (int)Math.Round( baseHsl.Hue );
+        var saturation = (int)Math.Round( baseHsl.Saturation );
+        var lightness = (int)Math.Round( baseHsl.Luminosity );
+
+        var lBase = lightness % 10;
+        var l0 = 0;
+        var l5 = 5;
+
+        if ( lBase < 3 )
+        {
+            l0 = lBase;
+            l5 = lBase + 5;
+        }
+        else if ( lBase < 8 )
+        {
+            l0 = lBase - 5;
+            l5 = lBase;
+        }
+        else
+        {
+            l0 = lBase - 10;
+            l5 = lBase - 5;
+        }
+
+        var shades = new List<(string Digits, int Lightness)>();
+
+        for ( int i = 0; i <= 9; i++ )
+        {
+            var colorL0 = Math.Max( l0 + ( i * 10 ), 0 );
+            var colorL5 = l5 + ( i * 10 );
+            var digits0 = $"{i}0";
+            var digits5 = $"{i}5";
+
+            shades.Add( (digits0, colorL0) );
+            shades.Add( (digits5, colorL5) );
+
+        }
+
+        var lightness100 = Math.Min( l0 + 100, 100 );
+        shades.Add( ("100", lightness100) );
+
+        var baseLum = BulmaColorLuminance( baseColor );
+        var baseIsLight = baseLum > 0.55;
+        var selectedDigits = baseIsLight ? "10" : "100";
+        var found = false;
+
+        foreach ( var shade in shades )
+        {
+            var shadeHsl = new HslColor( hue, saturation, shade.Lightness );
+            var shadeColor = shadeHsl.ToColor();
+            var shadeLum = BulmaColorLuminance( shadeColor );
+            var isLightForeground = shade.Lightness > lightness;
+
+            var ratio = isLightForeground
+                ? ( shadeLum + 0.05 ) / ( baseLum + 0.05 )
+                : ( baseLum + 0.05 ) / ( shadeLum + 0.05 );
+
+            if ( ratio > 7 )
+            {
+                if ( isLightForeground )
+                {
+                    if ( !found )
+                    {
+                        selectedDigits = shade.Digits;
+                        found = true;
+                    }
+                }
+                else
+                {
+                    selectedDigits = shade.Digits;
+                }
+            }
+        }
+
+        foreach ( var shade in shades )
+        {
+            if ( shade.Digits == selectedDigits )
+                return shade.Lightness;
+        }
+
+        return baseIsLight ? 10 : 100;
+    }
+
+    private static double BulmaColorLuminance( System.Drawing.Color color )
+    {
+        double r = color.R / 255d;
+        double g = color.G / 255d;
+        double b = color.B / 255d;
+
+        r = r < 0.03928 ? r / 12.92 : Math.Pow( ( r + 0.055 ) / 1.055, 2 );
+        g = g < 0.03928 ? g / 12.92 : Math.Pow( ( g + 0.055 ) / 1.055, 2 );
+        b = b < 0.03928 ? b / 12.92 : Math.Pow( ( b + 0.055 ) / 1.055, 2 );
+
+        return ( r * 0.2126 ) + ( g * 0.7152 ) + ( b * 0.0722 );
     }
 
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
