@@ -188,6 +188,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         sb.Append( $".has-background-{variant}" ).Append( "{" )
             .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
             .AppendLine( "}" );
@@ -200,6 +203,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         sb.Append( $".has-border-{variant}" ).Append( "{" )
             .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
             .AppendLine( "}" );
@@ -522,6 +528,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
 
         if ( backgroundColor.IsEmpty )
@@ -657,6 +666,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
         var borderColor = ParseColor( inBorderColor );
         var textColor = ParseColor( inColor );
@@ -841,6 +853,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var textColor = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.TextColor )
             ? ParseColor( theme.BodyOptions.TextColor )
             : ParseColor( inTextColor );
@@ -855,6 +870,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var color = ToHex( ParseColor( inColor ) );
 
         sb.Append( $".input.is-{variant}" )
