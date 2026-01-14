@@ -165,6 +165,71 @@
   font-size: 2rem;
 }
 
+.field.has-addons {
+  gap: 0;
+}
+.field.has-addons > .control > .button:hover, .field.has-addons > .control > .button.is-hovered,
+.field.has-addons > .dropdown-trigger > .control > .button:hover,
+.field.has-addons > .dropdown-trigger > .control > .button.is-hovered,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button:hover,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-hovered {
+  z-index: 2;
+}
+.field.has-addons > .control > .button:focus, .field.has-addons > .control > .button.is-focused, .field.has-addons > .control > .button:active, .field.has-addons > .control > .button.is-active, .field.has-addons > .control > .button.is-selected,
+.field.has-addons > .dropdown-trigger > .control > .button:focus,
+.field.has-addons > .dropdown-trigger > .control > .button.is-focused,
+.field.has-addons > .dropdown-trigger > .control > .button:active,
+.field.has-addons > .dropdown-trigger > .control > .button.is-active,
+.field.has-addons > .dropdown-trigger > .control > .button.is-selected,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button:focus,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-focused,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button:active,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-active,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-selected {
+  z-index: 3;
+}
+.field.has-addons > .control > .button:focus:hover, .field.has-addons > .control > .button.is-focused:hover, .field.has-addons > .control > .button:active:hover, .field.has-addons > .control > .button.is-active:hover, .field.has-addons > .control > .button.is-selected:hover,
+.field.has-addons > .dropdown-trigger > .control > .button:focus:hover,
+.field.has-addons > .dropdown-trigger > .control > .button.is-focused:hover,
+.field.has-addons > .dropdown-trigger > .control > .button:active:hover,
+.field.has-addons > .dropdown-trigger > .control > .button.is-active:hover,
+.field.has-addons > .dropdown-trigger > .control > .button.is-selected:hover,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button:focus:hover,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-focused:hover,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button:active:hover,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-active:hover,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-selected:hover {
+  z-index: 4;
+}
+.field.has-addons > .control > .button.is-expanded,
+.field.has-addons > .dropdown-trigger > .control > .button.is-expanded,
+.field.has-addons > .dropdown > .dropdown-trigger > .control > .button.is-expanded {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.field.has-addons > .control:not(:first-child) > .button,
+.field.has-addons > .dropdown-trigger:not(:first-child) > .control > .button,
+.field.has-addons > .dropdown:not(:first-child) > .dropdown-trigger > .control > .button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.field.has-addons > .control:not(:last-child) > .button,
+.field.has-addons > .dropdown-trigger:not(:last-child) > .control > .button.button,
+.field.has-addons > .dropdown:not(:last-child) > .dropdown-trigger > .control > .button.button {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  margin-inline-end: -1px;
+}
+.field.has-addons.dropdown > .dropdown-trigger:not(:last-child) > .control > .button,
+.field.has-addons > .dropdown:last-child > .dropdown-trigger > .control > .button {
+  border-bottom-right-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  border-right-style: solid;
+  border-right-width: var(--bulma-button-border-width, 1px);
+  border-right-color: var(--bulma-button-border-color, hsl(221, 14%, 86%));
+  margin-inline-end: 0;
+}
+
 .card {
   overflow: initial;
 }
@@ -1569,7 +1634,6 @@
 
 .dropdown .button.dropdown-trigger:not(.is-outlined) {
   box-shadow: none;
-  border: none;
 }
 .dropdown.is-disabled.b-is-autocomplete {
   background-color: var(--b-theme-light, #f5f5f5);
