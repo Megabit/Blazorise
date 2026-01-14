@@ -3,23 +3,23 @@
 }
 
 .has-border {
-    border: $border-width solid $border-color !important;
+    border: $border-width solid $border !important;
 }
 
 .has-border-top {
-    border-top: $border-width solid $border-color !important;
+    border-top: $border-width solid $border !important;
 }
 
 .has-border-right {
-    border-right: $border-width solid $border-color !important;
+    border-right: $border-width solid $border !important;
 }
 
 .has-border-bottom {
-    border-bottom: $border-width solid $border-color !important;
+    border-bottom: $border-width solid $border !important;
 }
 
 .has-border-left {
-    border-left: $border-width solid $border-color !important;
+    border-left: $border-width solid $border !important;
 }
 
 .has-border-0 {
@@ -104,7 +104,7 @@ $border-sizes: (1, 2, 3, 4, 5);
 
 @each $size in $border-sizes {
     .has-border-#{$size} {
-        border: #{$size}px solid $border-color !important;
+        border: #{$size}px solid $border !important;
     }
 
     @each $color-name, $color-value in $theme-colors {
@@ -115,7 +115,7 @@ $border-sizes: (1, 2, 3, 4, 5);
 
     @each $side in $border-sides {
         .has-border-#{$side}-#{$size} {
-            border-#{$side}: #{$size}px solid $border-color !important;
+            border-#{$side}: #{$size}px solid $border !important;
         }
 
         @each $color-name, $color-value in $theme-colors {
