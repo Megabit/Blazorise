@@ -512,5 +512,15 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public string DropdownMenuTargetId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the aria-invalid attribute value.
+    /// </summary>
+    [Parameter] public string AriaInvalid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-describedby attribute value.
+    /// </summary>
+    [Parameter] public string AriaDescribedBy { get; set; }
+
     #endregion
 }

@@ -5,7 +5,7 @@
 @typeparam TItem
 @typeparam TValue
 
-<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy">
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled" AriaInvalid="@AriaInvalid" AriaDescribedBy="@AriaDescribedBy" Attributes="@Attributes">
     @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
     {
         @foreach ( var selectedText in SelectedTexts )
