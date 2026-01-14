@@ -523,27 +523,39 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
     private Dictionary<string, object> GetEditorAttributes()
     {
-        if ( Attributes == null || Attributes.Count == 0 )
-            return null;
-
         Dictionary<string, object> editorAttributes = null;
 
-        foreach ( KeyValuePair<string, object> attribute in Attributes )
+        if ( Attributes is not null && Attributes.Count > 0 )
         {
-            if ( attribute.Key == null )
-                continue;
-
-            if ( attribute.Key.Equals( "class", StringComparison.OrdinalIgnoreCase )
-                || attribute.Key.Equals( "style", StringComparison.OrdinalIgnoreCase )
-                || attribute.Key.Equals( "id", StringComparison.OrdinalIgnoreCase )
-                || attribute.Key.Equals( "readonly", StringComparison.OrdinalIgnoreCase )
-                || attribute.Key.Equals( "disabled", StringComparison.OrdinalIgnoreCase ) )
+            foreach ( KeyValuePair<string, object> attribute in Attributes )
             {
-                continue;
-            }
+                if ( attribute.Key == null )
+                    continue;
 
+                if ( attribute.Key.Equals( "class", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "style", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "id", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "readonly", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "disabled", StringComparison.OrdinalIgnoreCase ) )
+                {
+                    continue;
+                }
+
+                editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+                editorAttributes[attribute.Key] = attribute.Value;
+            }
+        }
+
+        if ( AriaInvalidAttribute is not null )
+        {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
-            editorAttributes[attribute.Key] = attribute.Value;
+            editorAttributes["aria-invalid"] = AriaInvalidAttribute;
+        }
+
+        if ( AriaDescribedByAttribute is not null )
+        {
+            editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+            editorAttributes["aria-describedby"] = AriaDescribedByAttribute;
         }
 
         return editorAttributes;

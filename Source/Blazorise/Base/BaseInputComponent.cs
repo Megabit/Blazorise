@@ -54,6 +54,21 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private bool hasInitializedParameters;
 
     /// <summary>
+    /// Holds the aria-invalid attribute value.
+    /// </summary>
+    private string ariaInvalid;
+
+    /// <summary>
+    /// Holds the aria-describedby attribute value.
+    /// </summary>
+    private string ariaDescribedBy;
+
+    /// <summary>
+    /// Tracks the previous field reference for event subscription.
+    /// </summary>
+    private Field previousParentField;
+
+    /// <summary>
     /// Defines if need to generate field names for the input components.
     /// </summary>
     protected bool shouldGenerateFieldNames;
@@ -154,6 +169,19 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
                 ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
             }
         }
+
+        if ( ParentField != previousParentField )
+        {
+            if ( previousParentField is not null )
+                previousParentField.HelpTextChanged -= OnHelpTextChanged;
+
+            if ( ParentField is not null )
+                ParentField.HelpTextChanged += OnHelpTextChanged;
+
+            previousParentField = ParentField;
+        }
+
+        UpdateAriaAttributes();
     }
 
     /// <inheritdoc/>
@@ -210,6 +238,13 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
             ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+            ParentValidation.ValidationMessageChanged -= OnValidationMessageChanged;
+        }
+
+        if ( previousParentField is not null )
+        {
+            previousParentField.HelpTextChanged -= OnHelpTextChanged;
+            previousParentField = null;
         }
 
         ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
@@ -246,6 +281,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         await ParentValidation.InitializeInput( this );
 
         ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
+        ParentValidation.ValidationMessageChanged += OnValidationMessageChanged;
 
         validationInitialized = true;
     }
@@ -419,10 +455,69 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <param name="eventArgs">Information about the validation status.</param>
     protected virtual async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
     {
+        UpdateAriaAttributes();
+
         DirtyStyles();
         DirtyClasses();
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Handler for validation message element id changes.
+    /// </summary>
+    private async void OnValidationMessageChanged()
+    {
+        UpdateAriaAttributes();
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Handler for field help changes.
+    /// </summary>
+    private async void OnHelpTextChanged()
+    {
+        UpdateAriaAttributes();
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Updates aria attributes based on validation and help text state.
+    /// </summary>
+    private void UpdateAriaAttributes()
+    {
+        UpdateAriaInvalidAttribute();
+        UpdateAriaDescribedByAttribute();
+    }
+
+    private void UpdateAriaInvalidAttribute()
+    {
+        ariaInvalid = ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
+    }
+
+    private void UpdateAriaDescribedByAttribute()
+    {
+        ariaDescribedBy = BuildAriaDescribedBy();
+    }
+
+    private string BuildAriaDescribedBy()
+    {
+        var helpTextId = ParentField?.HelpTextElementId;
+        var errorTextId = ParentValidation?.Status == ValidationStatus.Error
+            ? ParentValidation?.ValidationMessageElementId
+            : null;
+
+        if ( string.IsNullOrEmpty( helpTextId ) )
+            return string.IsNullOrEmpty( errorTextId ) ? null : errorTextId;
+
+        if ( string.IsNullOrEmpty( errorTextId ) )
+            return helpTextId;
+
+        return string.Equals( helpTextId, errorTextId, StringComparison.Ordinal )
+            ? helpTextId
+            : $"{helpTextId} {errorTextId}";
     }
 
     /// <summary>
@@ -527,6 +622,18 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets the <see cref="ReadOnly"/> value represented as a string.
     /// </summary>
     protected string ReadOnlyAsString => ReadOnly ? "true" : "false";
+
+    /// <summary>
+    /// Gets the aria-invalid attribute value.
+    /// </summary>
+    protected string AriaInvalidAttribute
+        => Attributes is not null && Attributes.ContainsKey( "aria-invalid" ) ? null : ariaInvalid;
+
+    /// <summary>
+    /// Gets the aria-describedby attribute value.
+    /// </summary>
+    protected string AriaDescribedByAttribute
+        => Attributes is not null && Attributes.ContainsKey( "aria-describedby" ) ? null : ariaDescribedBy;
 
     /// <summary>
     /// Gets the size based on the theme settings.
@@ -685,6 +792,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Parent validation container.
     /// </summary>
     [CascadingParameter] protected Validation ParentValidation { get; set; }
+
+    /// <summary>
+    /// Parent field container.
+    /// </summary>
+    [CascadingParameter] protected Field ParentField { get; set; }
 
     /// <summary>
     /// Parent field body.

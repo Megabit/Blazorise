@@ -65,6 +65,16 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     public event EventHandler<ValidationStatusChangedEventArgs> ValidationStatusChanged;
 
     /// <summary>
+    /// Raises every time the validation message element id changes.
+    /// </summary>
+    internal event Action ValidationMessageChanged;
+
+    /// <summary>
+    /// Holds the current validation message component.
+    /// </summary>
+    private BaseValidationResult validationMessageComponent;
+
+    /// <summary>
     /// Define the cancellation token.
     /// </summary>
     private CancellationTokenSource cancellationTokenSource;
@@ -396,6 +406,35 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         }
     }
 
+    /// <summary>
+    /// Registers the element id of a validation message container.
+    /// </summary>
+    /// <param name="elementId">Element id.</param>
+    internal void NotifyValidationMessageInitialized( BaseValidationResult validationMessage )
+    {
+        if ( validationMessage is null )
+            return;
+
+        if ( ReferenceEquals( validationMessageComponent, validationMessage ) )
+            return;
+
+        validationMessageComponent = validationMessage;
+        ValidationMessageChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Removes the element id of a validation message container.
+    /// </summary>
+    /// <param name="elementId">Element id.</param>
+    internal void NotifyValidationMessageRemoved( BaseValidationResult validationMessage )
+    {
+        if ( !ReferenceEquals( validationMessageComponent, validationMessage ) )
+            return;
+
+        validationMessageComponent = null;
+        ValidationMessageChanged?.Invoke();
+    }
+
     #endregion
 
     #region Properties
@@ -412,6 +451,11 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
 
     /// <inheritdoc/>
     public IEnumerable<string> Messages { get; private set; }
+
+    /// <summary>
+    /// Gets the element id of the validation message container.
+    /// </summary>
+    internal string ValidationMessageElementId => validationMessageComponent?.ElementId;
 
     /// <inheritdoc/>
     public FieldIdentifier FieldIdentifier => fieldIdentifier;

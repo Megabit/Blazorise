@@ -1,6 +1,6 @@
 ﻿@inherits BaseInputComponent<string, MarkdownClasses, MarkdownStyles>
 <CascadingValue Value="@this" IsFixed>
-    <textarea @ref="@ElementRef" id="@ElementId" class="@TextAreaElementClassNames" style="@TextAreaElementStyleNames">
+    <textarea @ref="@ElementRef" id="@ElementId" class="@TextAreaElementClassNames" style="@TextAreaElementStyleNames" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" @attributes="@Attributes">
         @if ( Toolbar is not null )
         {
             @Toolbar
