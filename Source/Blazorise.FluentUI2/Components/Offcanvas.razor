@@ -5,7 +5,7 @@
         {
             <_OffcanvasBackdrop Animated="@Animated" AnimationDuration="@AnimationDuration" />
         }
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" aria-modal="true" tabindex="-1" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" aria-modal="@AriaModal" aria-labelledby="@AriaLabelledBy" aria-describedby="@AriaDescribedBy" tabindex="-1" @attributes="@Attributes">
             @ChildContent
         </div>
     </CascadingValue>

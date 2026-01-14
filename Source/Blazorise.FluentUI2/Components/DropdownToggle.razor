@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.DropdownToggle
 @if ( ParentDropdown?.IsDropdownSubmenu == true )
 {
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
         <span class="fui-MenuItem__content">
             @ChildContent
         </span>
@@ -13,7 +13,7 @@
 }
 else
 {
-    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-boundary="@DataBoundary" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
+    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-boundary="@DataBoundary" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
         <span class="fui-MenuButton__menuIcon">
             <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M15.85 7.65c.2.2.2.5 0 .7l-5.46 5.49a.55.55 0 0 1-.78 0L4.15 8.35a.5.5 0 1 1 .7-.7L10 12.8l5.15-5.16c.2-.2.5-.2.7 0Z" fill="currentColor"></path></svg>

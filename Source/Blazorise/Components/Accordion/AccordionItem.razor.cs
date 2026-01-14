@@ -169,12 +169,12 @@ public partial class AccordionItem : BaseComponent, IDisposable
     /// <summary>
     /// Gets the element id of the accordion body.
     /// </summary>
-    internal string BodyElementId => accordionBody?.ElementId ?? generatedBodyElementId;
+    public string BodyElementId => accordionBody?.ElementId ?? generatedBodyElementId;
 
     /// <summary>
     /// Gets the element id of the accordion toggle.
     /// </summary>
-    internal string ToggleElementId => accordionToggle?.ElementId ?? generatedToggleElementId;
+    public string ToggleElementId => accordionToggle?.ElementId ?? generatedToggleElementId;
 
     /// <summary>
     /// Gets or sets the accordion item visibility state.

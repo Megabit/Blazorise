@@ -29,7 +29,7 @@
             else
             {
                 <span class="ant-select-selection-search">
-                    <input @ref="@ElementRef" id="@InputElementId" name="@NameAttributeValue" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="@InputAriaExpanded" autocomplete="off" aria-autocomplete="list" unselectable="on">
+                    <input @ref="@ElementRef" id="@InputElementId" name="@NameAttributeValue" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="@InputAriaExpanded" autocomplete="off" aria-autocomplete="list" unselectable="on">
                 </span>
                 <span class="ant-select-selection-item">
                     @SelectedItem

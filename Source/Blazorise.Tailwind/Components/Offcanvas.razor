@@ -2,7 +2,7 @@
 @using System.Text;
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="-1" role="dialog" aria-modal="@AriaModalString" aria-hidden="@AriaHiddenString" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="-1" role="dialog" aria-modal="@AriaModalString" aria-hidden="@AriaHiddenString" aria-labelledby="@AriaLabelledBy" aria-describedby="@AriaDescribedBy" @attributes="@Attributes">
             @ChildContent
         </div>
         @if ( ShowBackdrop && BackdropVisible )

@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.FileInput
 <Control Role="ControlRole.File">
     <Label Type="LabelType.File" For="@ElementId">
-        <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" webkitdirectory="@Directory" accept="@Filter" tabindex="@TabIndex" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" webkitdirectory="@Directory" accept="@Filter" tabindex="@TabIndex" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         @ChildContent
         <span class="file-cta">
             <span class="file-label">

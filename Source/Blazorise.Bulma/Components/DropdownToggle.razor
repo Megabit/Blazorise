@@ -3,7 +3,7 @@
     @if (IsGroup)
     {
         <div class="control">
-            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
+            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
                 @if (ChildContent != null)
                 {
                     <span>@ChildContent</span>
@@ -16,7 +16,7 @@
     {
         @if (ParentDropdown?.IsDropdownSubmenu == true)
         {
-            <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
+            <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
                 @if (ChildContent != null)
                 {
                     <span>@ChildContent</span>
@@ -26,7 +26,7 @@
         }
         else
         {
-            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" @onclick="@ClickHandler" @attributes="@Attributes">
+            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
                 @if (ChildContent != null)
                 {
                     <span>@ChildContent</span>

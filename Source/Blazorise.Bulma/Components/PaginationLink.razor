@@ -1,9 +1,9 @@
 ﻿@inherits Blazorise.PaginationLink
 @if ( ParentPaginationItemState.Disabled )
 {
-    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled @onclick="@ClickHandler" @attributes="@Attributes">@ChildContent</a>
+    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-current="@AriaCurrent" disabled @onclick="@ClickHandler" @attributes="@Attributes">@ChildContent</a>
 }
 else
 {
-    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">@ChildContent</a>
+    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-current="@AriaCurrent" @onclick="@ClickHandler" @attributes="@Attributes">@ChildContent</a>
 }
