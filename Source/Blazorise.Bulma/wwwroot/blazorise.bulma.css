@@ -1760,6 +1760,18 @@ label.radio.button input[type=radio] {
   font-size: 0.75rem;
 }
 
+.input.is-small, .field.has-addons.are-small > .control > .input.button {
+  font-size: 0.75rem;
+}
+
+.select.is-small, .field.has-addons.are-small > .control > .select.button {
+  font-size: 0.75rem;
+}
+
+.textarea.is-small, .field.has-addons.are-small > .control > .textarea.button {
+  font-size: 0.75rem;
+}
+
 .has-addons.is-medium > .control > .button, .field.has-addons.are-medium > .control > .has-addons.button > .control > .button,
 .has-addons.is-medium > .control > .control > .button,
 .field.has-addons.are-medium > .control > .has-addons.button > .control > .control > .button,
@@ -1770,6 +1782,18 @@ label.radio.button input[type=radio] {
   font-size: 1.25rem;
 }
 
+.input.is-medium, .field.has-addons.are-medium > .control > .input.button {
+  font-size: 1.25rem;
+}
+
+.select.is-medium, .field.has-addons.are-medium > .control > .select.button {
+  font-size: 1.25rem;
+}
+
+.textarea.is-medium, .field.has-addons.are-medium > .control > .textarea.button {
+  font-size: 1.25rem;
+}
+
 .has-addons.is-large > .control > .button, .field.has-addons.are-large > .control > .has-addons.button > .control > .button,
 .has-addons.is-large > .control > .control > .button,
 .field.has-addons.are-large > .control > .has-addons.button > .control > .control > .button,
@@ -1777,6 +1801,18 @@ label.radio.button input[type=radio] {
 .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .input,
 .has-addons.is-large > .control > .field > .control > .select,
 .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .select {
+  font-size: 1.5rem;
+}
+
+.input.is-large, .field.has-addons.are-large > .control > .input.button {
+  font-size: 1.5rem;
+}
+
+.select.is-large, .field.has-addons.are-large > .control > .select.button {
+  font-size: 1.5rem;
+}
+
+.textarea.is-large, .field.has-addons.are-large > .control > .textarea.button {
   font-size: 1.5rem;
 }
 
