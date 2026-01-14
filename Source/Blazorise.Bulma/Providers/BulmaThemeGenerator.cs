@@ -1,5 +1,6 @@
-﻿#region Using directives
+#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using Blazorise.Extensions;
@@ -9,6 +10,22 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaThemeGenerator : ThemeGenerator
 {
+    #region Members
+
+    private static readonly HashSet<string> BulmaThemeColors = new( StringComparer.OrdinalIgnoreCase )
+    {
+        "primary",
+        "link",
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "light",
+        "dark",
+    };
+
+    #endregion
+
     #region Constructors
 
     public BulmaThemeGenerator( IThemeCache themeCache )
@@ -19,6 +36,47 @@ public class BulmaThemeGenerator : ThemeGenerator
     #endregion
 
     #region Methods
+
+    public override string GenerateVariables( Theme theme )
+    {
+        if ( ThemeCache.TryGetVariablesFromCache( theme, out var cachedVariables ) )
+            return cachedVariables;
+
+        var baseVariables = base.GenerateVariables( theme );
+        var bulmaVariables = GenerateBulmaVariables( theme );
+        var generatedVariables = string.Concat( baseVariables, bulmaVariables );
+
+        ThemeCache.CacheVariables( theme, generatedVariables );
+
+        return generatedVariables;
+    }
+
+    private static string GenerateBulmaVariables( Theme theme )
+    {
+        var sb = new StringBuilder();
+
+        foreach ( var (name, color) in theme.ValidColors )
+        {
+            if ( !BulmaThemeColors.Contains( name ) )
+                continue;
+
+            var parsed = ParseColor( color );
+
+            if ( parsed.IsEmpty )
+                continue;
+
+            var hsl = HexStringToHslColor( ToHex( parsed ) );
+            var hue = Math.Round( hsl.Hue );
+            var saturation = Math.Round( hsl.Saturation );
+            var luminosity = Math.Round( hsl.Luminosity );
+
+            sb.AppendLine( $"--bulma-{name}-h: {hue.ToString( CultureInfo.InvariantCulture )};" );
+            sb.AppendLine( $"--bulma-{name}-s: {saturation.ToString( CultureInfo.InvariantCulture )}%;" );
+            sb.AppendLine( $"--bulma-{name}-l: {luminosity.ToString( CultureInfo.InvariantCulture )}%;" );
+        }
+
+        return sb.ToString();
+    }
 
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {

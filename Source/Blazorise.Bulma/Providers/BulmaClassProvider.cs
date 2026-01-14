@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -1367,13 +1367,12 @@ public class BulmaClassProvider : ClassProvider
 
     #region Layout
 
-    // TODO: Bulma by default doesn't have spacing utilities. Try to fix this!
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
-        if ( breakpoint != Blazorise.Breakpoint.None )
+        if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
             return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
-        return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+        return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
@@ -1384,7 +1383,12 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Gap( GapSize gapSize, GapSide gapSide )
     {
-        return $"is-gap-{ToGapSize( gapSize )}";
+        return gapSide switch
+        {
+            GapSide.X => $"is-column-gap-{ToGapSize( gapSize )}",
+            GapSide.Y => $"is-row-gap-{ToGapSize( gapSize )}",
+            _ => $"is-gap-{ToGapSize( gapSize )}",
+        };
     }
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
@@ -1441,7 +1445,7 @@ public class BulmaClassProvider : ClassProvider
         => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     public override string BorderRadius( BorderRadius borderRadius )
-        => $"has-{ToBorderRadius( borderRadius )}";
+        => ToBorderRadius( borderRadius );
 
     #endregion
 
@@ -1590,7 +1594,7 @@ public class BulmaClassProvider : ClassProvider
     #region Overflow
 
     public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
-        ? $"is-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+        ? $"is-overflow-x-{ToOverflowType( overflowType )} is-overflow-y-{ToOverflowType( secondOverflowType )}"
         : $"is-overflow-{ToOverflowType( overflowType )}";
 
     #endregion
@@ -1846,14 +1850,14 @@ public class BulmaClassProvider : ClassProvider
     {
         return borderRadius switch
         {
-            Blazorise.BorderRadius.Rounded => "rounded-border",
-            Blazorise.BorderRadius.RoundedTop => "rounded-border-top",
-            Blazorise.BorderRadius.RoundedEnd => "rounded-border-right",
-            Blazorise.BorderRadius.RoundedBottom => "rounded-border-bottom",
-            Blazorise.BorderRadius.RoundedStart => "rounded-border-left",
-            Blazorise.BorderRadius.RoundedCircle => "rounded-border-circle",
-            Blazorise.BorderRadius.RoundedPill => "rounded-border-pill",
-            Blazorise.BorderRadius.RoundedZero => "rounded-border-0",
+            Blazorise.BorderRadius.Rounded => "has-radius-normal",
+            Blazorise.BorderRadius.RoundedTop => "has-rounded-border-top",
+            Blazorise.BorderRadius.RoundedEnd => "has-rounded-border-right",
+            Blazorise.BorderRadius.RoundedBottom => "has-rounded-border-bottom",
+            Blazorise.BorderRadius.RoundedStart => "has-rounded-border-left",
+            Blazorise.BorderRadius.RoundedCircle => "has-rounded-border-circle",
+            Blazorise.BorderRadius.RoundedPill => "has-radius-rounded",
+            Blazorise.BorderRadius.RoundedZero => "is-radiusless",
             _ => null,
         };
     }

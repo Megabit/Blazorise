@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --b-bar-horizontal-height: 60px;
 }
 
@@ -185,8 +185,8 @@ $steps-completed-color: $success !default;
 $steps-active-color: $primary !default;
 $steps-divider-height: .2em !default;
 
-$sizes: () !default;
-$sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+$sizes-percentages: () !default;
+$sizes-percentages: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes-percentages );
 
 $box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow: 0 .5rem 1rem rgba($black, .15) !default;

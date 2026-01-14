@@ -1,4 +1,4 @@
-﻿.is-borderless {
+.is-borderless {
     border: 0 !important;
 }
 
@@ -54,10 +54,6 @@
     border-color: white !important;
 }
 
-.has-rounded-border {
-    border-radius: $radius !important;
-}
-
 .has-rounded-border-top {
     border-top-left-radius: $radius !important;
     border-top-right-radius: $radius !important;
@@ -82,13 +78,6 @@
     border-radius: 50% !important;
 }
 
-.has-rounded-border-pill {
-    border-radius: $radius-pill !important;
-}
-
-.has-rounded-border-0 {
-    border-radius: 0 !important;
-}
 
 $border-sides: ("top", "right", "bottom", "left");
 $border-sizes: (1, 2, 3, 4, 5);

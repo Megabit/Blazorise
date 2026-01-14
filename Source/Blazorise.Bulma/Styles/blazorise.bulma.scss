@@ -1,4 +1,10 @@
-﻿@import "variables";
+@import "_vendors/bulma/sass/utilities/initial-variables";
+@import "_vendors/bulma/sass/utilities/functions";
+@import "_vendors/bulma/sass/utilities/derived-variables";
+@import "_vendors/bulma/sass/utilities/mixins";
+@import "_vendors/bulma/sass/utilities/controls";
+
+@import "variables";
 @import "functions";
 @import "mixins";
 
@@ -36,7 +42,6 @@
 @import "utilities/flex";
 @import "utilities/grid";
 @import "utilities/object-fit";
-@import "utilities/overflow";
 @import "utilities/position";
 @import "utilities/shadow";
 @import "utilities/sizing";
