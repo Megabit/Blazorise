@@ -54,14 +54,14 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private bool hasInitializedParameters;
 
     /// <summary>
-    /// Holds the aria-invalid attribute value.
+    /// Holds the resolved aria-invalid attribute value.
     /// </summary>
-    private string ariaInvalid;
+    private string ariaInvalidAttribute;
 
     /// <summary>
-    /// Holds the aria-describedby attribute value.
+    /// Holds the resolved aria-describedby attribute value.
     /// </summary>
-    private string ariaDescribedBy;
+    private string ariaDescribedByAttribute;
 
     /// <summary>
     /// Tracks the previous field reference for event subscription.
@@ -494,12 +494,12 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
 
     private void UpdateAriaInvalidAttribute()
     {
-        ariaInvalid = ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
+        ariaInvalidAttribute = ResolveAriaAttribute( "aria-invalid", ParentValidation?.Status == ValidationStatus.Error ? "true" : null );
     }
 
     private void UpdateAriaDescribedByAttribute()
     {
-        ariaDescribedBy = BuildAriaDescribedBy();
+        ariaDescribedByAttribute = ResolveAriaAttribute( "aria-describedby", BuildAriaDescribedBy() );
     }
 
     private string BuildAriaDescribedBy()
@@ -518,6 +518,14 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         return string.Equals( helpTextId, errorTextId, StringComparison.Ordinal )
             ? helpTextId
             : $"{helpTextId} {errorTextId}";
+    }
+
+    private string ResolveAriaAttribute( string attributeName, string fallbackValue )
+    {
+        if ( Attributes is not null && Attributes.ContainsKey( attributeName ) )
+            return null;
+
+        return fallbackValue;
     }
 
     /// <summary>
@@ -627,13 +635,13 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets the aria-invalid attribute value.
     /// </summary>
     protected string AriaInvalidAttribute
-        => Attributes is not null && Attributes.ContainsKey( "aria-invalid" ) ? null : ariaInvalid;
+        => ariaInvalidAttribute;
 
     /// <summary>
     /// Gets the aria-describedby attribute value.
     /// </summary>
     protected string AriaDescribedByAttribute
-        => Attributes is not null && Attributes.ContainsKey( "aria-describedby" ) ? null : ariaDescribedBy;
+        => ariaDescribedByAttribute;
 
     /// <summary>
     /// Gets the size based on the theme settings.
