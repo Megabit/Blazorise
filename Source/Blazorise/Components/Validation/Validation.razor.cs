@@ -407,9 +407,9 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     }
 
     /// <summary>
-    /// Registers the element id of a validation message container.
+    /// Registers the validation message component reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="validationMessage">Validation message component.</param>
     internal void NotifyValidationMessageInitialized( BaseValidationResult validationMessage )
     {
         if ( validationMessage is null )
@@ -423,9 +423,9 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     }
 
     /// <summary>
-    /// Removes the element id of a validation message container.
+    /// Removes the validation message component reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="validationMessage">Validation message component.</param>
     internal void NotifyValidationMessageRemoved( BaseValidationResult validationMessage )
     {
         if ( !ReferenceEquals( validationMessageComponent, validationMessage ) )

@@ -74,9 +74,9 @@ public partial class AccordionItem : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Registers the element id for the accordion body.
+    /// Registers the accordion body reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="body">Accordion body component.</param>
     internal void NotifyAccordionBodyInitialized( AccordionBody body )
     {
         if ( body is null )
@@ -90,9 +90,9 @@ public partial class AccordionItem : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Removes the element id for the accordion body.
+    /// Removes the accordion body reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="body">Accordion body component.</param>
     internal void NotifyAccordionBodyRemoved( AccordionBody body )
     {
         if ( !ReferenceEquals( accordionBody, body ) )
@@ -103,9 +103,9 @@ public partial class AccordionItem : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Registers the element id for the accordion toggle.
+    /// Registers the accordion toggle reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="toggle">Accordion toggle component.</param>
     internal void NotifyAccordionToggleInitialized( AccordionToggle toggle )
     {
         if ( toggle is null )
@@ -119,9 +119,9 @@ public partial class AccordionItem : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Removes the element id for the accordion toggle.
+    /// Removes the accordion toggle reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="toggle">Accordion toggle component.</param>
     internal void NotifyAccordionToggleRemoved( AccordionToggle toggle )
     {
         if ( !ReferenceEquals( accordionToggle, toggle ) )

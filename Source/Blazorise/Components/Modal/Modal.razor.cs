@@ -390,9 +390,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     }
 
     /// <summary>
-    /// Registers the element id of the modal header.
+    /// Registers the modal header reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="modalHeader">Modal header component.</param>
     internal void NotifyModalHeaderInitialized( ModalHeader modalHeader )
     {
         if ( modalHeader is null )
@@ -406,9 +406,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     }
 
     /// <summary>
-    /// Removes the element id of the modal header.
+    /// Removes the modal header reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="modalHeader">Modal header component.</param>
     internal void NotifyModalHeaderRemoved( ModalHeader modalHeader )
     {
         if ( !ReferenceEquals( header, modalHeader ) )
@@ -419,9 +419,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     }
 
     /// <summary>
-    /// Registers the element id of the modal body.
+    /// Registers the modal body reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="modalBody">Modal body component.</param>
     internal void NotifyModalBodyInitialized( ModalBody modalBody )
     {
         if ( modalBody is null )
@@ -435,9 +435,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     }
 
     /// <summary>
-    /// Removes the element id of the modal body.
+    /// Removes the modal body reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="modalBody">Modal body component.</param>
     internal void NotifyModalBodyRemoved( ModalBody modalBody )
     {
         if ( !ReferenceEquals( body, modalBody ) )
@@ -448,9 +448,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     }
 
     /// <summary>
-    /// Registers the element id of the modal title.
+    /// Registers the modal title reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="modalTitle">Modal title component.</param>
     internal void NotifyModalTitleInitialized( ModalTitle modalTitle )
     {
         if ( modalTitle is null )
@@ -464,9 +464,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     }
 
     /// <summary>
-    /// Removes the element id of the modal title.
+    /// Removes the modal title reference.
     /// </summary>
-    /// <param name="elementId">Element id.</param>
+    /// <param name="modalTitle">Modal title component.</param>
     internal void NotifyModalTitleRemoved( ModalTitle modalTitle )
     {
         if ( !ReferenceEquals( title, modalTitle ) )
