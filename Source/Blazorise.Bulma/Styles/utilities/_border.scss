@@ -54,6 +54,26 @@
     border-color: white !important;
 }
 
+.has-radius-small {
+    border-radius: $radius-small !important;
+}
+
+.has-radius-normal {
+    border-radius: $radius !important;
+}
+
+.has-radius-large {
+    border-radius: $radius-large !important;
+}
+
+.has-radius-rounded {
+    border-radius: $radius-rounded !important;
+}
+
+.is-radiusless {
+    border-radius: 0 !important;
+}
+
 .has-rounded-border-top {
     border-top-left-radius: $radius !important;
     border-top-right-radius: $radius !important;

@@ -5,53 +5,53 @@
 
             @each $prop, $abbrev in (margin: m, padding: p) {
                 @each $size, $length in $spacers {
-                    .is-#{$abbrev}#{$infix}-#{$size} {
+                    .#{$abbrev}#{$infix}-#{$size} {
                         #{$prop}: $length !important;
                     }
 
-                    .is-#{$abbrev}t#{$infix}-#{$size},
-                    .is-#{$abbrev}y#{$infix}-#{$size} {
+                    .#{$abbrev}t#{$infix}-#{$size},
+                    .#{$abbrev}y#{$infix}-#{$size} {
                         #{$prop}-top: $length !important;
                     }
 
-                    .is-#{$abbrev}r#{$infix}-#{$size},
-                    .is-#{$abbrev}x#{$infix}-#{$size} {
+                    .#{$abbrev}r#{$infix}-#{$size},
+                    .#{$abbrev}x#{$infix}-#{$size} {
                         #{$prop}-right: $length !important;
                     }
 
-                    .is-#{$abbrev}b#{$infix}-#{$size},
-                    .is-#{$abbrev}y#{$infix}-#{$size} {
+                    .#{$abbrev}b#{$infix}-#{$size},
+                    .#{$abbrev}y#{$infix}-#{$size} {
                         #{$prop}-bottom: $length !important;
                     }
 
-                    .is-#{$abbrev}l#{$infix}-#{$size},
-                    .is-#{$abbrev}x#{$infix}-#{$size} {
+                    .#{$abbrev}l#{$infix}-#{$size},
+                    .#{$abbrev}x#{$infix}-#{$size} {
                         #{$prop}-left: $length !important;
                     }
                 }
             }
 
-            .is-m#{$infix}-auto {
+            .m#{$infix}-auto {
                 margin: auto !important;
             }
 
-            .is-mt#{$infix}-auto,
-            .is-my#{$infix}-auto {
+            .mt#{$infix}-auto,
+            .my#{$infix}-auto {
                 margin-top: auto !important;
             }
 
-            .is-mr#{$infix}-auto,
-            .is-mx#{$infix}-auto {
+            .mr#{$infix}-auto,
+            .mx#{$infix}-auto {
                 margin-right: auto !important;
             }
 
-            .is-mb#{$infix}-auto,
-            .is-my#{$infix}-auto {
+            .mb#{$infix}-auto,
+            .my#{$infix}-auto {
                 margin-bottom: auto !important;
             }
 
-            .is-ml#{$infix}-auto,
-            .is-mx#{$infix}-auto {
+            .ml#{$infix}-auto,
+            .mx#{$infix}-auto {
                 margin-left: auto !important;
             }
         }

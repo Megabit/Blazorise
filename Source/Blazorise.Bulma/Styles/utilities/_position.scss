@@ -1,3 +1,9 @@
+@each $position in (static, relative, absolute, fixed, sticky) {
+    .is-position-#{$position} {
+        position: $position !important;
+    }
+}
+
 @each $name, $value in $position-values {
     .is-top-#{$name} {
         top: #{$value} !important;
