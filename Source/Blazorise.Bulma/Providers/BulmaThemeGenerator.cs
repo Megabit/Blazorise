@@ -73,6 +73,8 @@ public class BulmaThemeGenerator : ThemeGenerator
             var luminosity = Math.Round( hsl.Luminosity );
             var invert = Contrast( theme, baseColor );
             var invertHex = ToHex( invert );
+            var invertHsl = HexStringToHslColor( invertHex );
+            var invertLuminosity = Math.Round( invertHsl.Luminosity );
 
             sb.AppendLine( $"--bulma-{name}: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
             sb.AppendLine( $"--bulma-{name}-base: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
@@ -81,6 +83,7 @@ public class BulmaThemeGenerator : ThemeGenerator
             sb.AppendLine( $"--bulma-{name}-s: {saturation.ToString( CultureInfo.InvariantCulture )}%;" );
             sb.AppendLine( $"--bulma-{name}-l: {luminosity.ToString( CultureInfo.InvariantCulture )}%;" );
             sb.AppendLine( $"--bulma-{name}-invert: {invertHex};" );
+            sb.AppendLine( $"--bulma-{name}-invert-l: {invertLuminosity.ToString( CultureInfo.InvariantCulture )}%;" );
         }
 
         return sb.ToString();
@@ -107,6 +110,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
@@ -170,6 +176,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
         var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
         //var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
