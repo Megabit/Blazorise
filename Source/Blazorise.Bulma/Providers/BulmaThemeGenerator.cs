@@ -65,14 +65,22 @@ public class BulmaThemeGenerator : ThemeGenerator
             if ( parsed.IsEmpty )
                 continue;
 
-            var hsl = HexStringToHslColor( ToHex( parsed ) );
+            var baseColor = parsed.A < 255 ? Rgba2Rgb( System.Drawing.Color.White, parsed ) : parsed;
+            var baseHex = ToHex( baseColor );
+            var hsl = HexStringToHslColor( baseHex );
             var hue = Math.Round( hsl.Hue );
             var saturation = Math.Round( hsl.Saturation );
             var luminosity = Math.Round( hsl.Luminosity );
+            var invert = Contrast( theme, baseColor );
+            var invertHex = ToHex( invert );
 
-            sb.AppendLine( $"--bulma-{name}-h: {hue.ToString( CultureInfo.InvariantCulture )};" );
+            sb.AppendLine( $"--bulma-{name}: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
+            sb.AppendLine( $"--bulma-{name}-base: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
+            sb.AppendLine( $"--bulma-{name}-rgb: {baseColor.R.ToString( CultureInfo.InvariantCulture )}, {baseColor.G.ToString( CultureInfo.InvariantCulture )}, {baseColor.B.ToString( CultureInfo.InvariantCulture )};" );
+            sb.AppendLine( $"--bulma-{name}-h: {hue.ToString( CultureInfo.InvariantCulture )}deg;" );
             sb.AppendLine( $"--bulma-{name}-s: {saturation.ToString( CultureInfo.InvariantCulture )}%;" );
             sb.AppendLine( $"--bulma-{name}-l: {luminosity.ToString( CultureInfo.InvariantCulture )}%;" );
+            sb.AppendLine( $"--bulma-{name}-invert: {invertHex};" );
         }
 
         return sb.ToString();
@@ -808,27 +816,27 @@ public class BulmaThemeGenerator : ThemeGenerator
                     var length = lenghtFunc.Invoke();
 
                     sb
-                        .Append( $".is-{abbrev}{infix}-{size}" )
+                        .Append( $".{abbrev}{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}t{infix}-{size}," )
-                        .Append( $".is-{abbrev}y{infix}-{size}" )
+                        .Append( $".{abbrev}t{infix}-{size}," )
+                        .Append( $".{abbrev}y{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-top: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}r{infix}-{size}," )
-                        .Append( $".is-{abbrev}x{infix}-{size}" )
+                        .Append( $".{abbrev}r{infix}-{size}," )
+                        .Append( $".{abbrev}x{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-right: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}b{infix}-{size}," )
-                        .Append( $".is-{abbrev}y{infix}-{size}" )
+                        .Append( $".{abbrev}b{infix}-{size}," )
+                        .Append( $".{abbrev}y{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-bottom: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}l{infix}-{size}," )
-                        .Append( $".is-{abbrev}x{infix}-{size}" )
+                        .Append( $".{abbrev}l{infix}-{size}," )
+                        .Append( $".{abbrev}x{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-left: {length} !important;" ).Append( "}" );
                 }
             }
@@ -841,27 +849,27 @@ public class BulmaThemeGenerator : ThemeGenerator
                 var length = lenghtFunc.Invoke();
 
                 sb
-                    .Append( $".is-m{infix}-n{size}" )
+                    .Append( $".m{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-mt{infix}-n{size}," )
-                    .Append( $".is-my{infix}-n{size}" )
+                    .Append( $".mt{infix}-n{size}," )
+                    .Append( $".my{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-top: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-mr{infix}-n{size}," )
-                    .Append( $".is-mx{infix}-n{size}" )
+                    .Append( $".mr{infix}-n{size}," )
+                    .Append( $".mx{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-right: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-mb{infix}-n{size}," )
-                    .Append( $".is-my{infix}-n{size}" )
+                    .Append( $".mb{infix}-n{size}," )
+                    .Append( $".my{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-bottom: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-ml{infix}-n{size}," )
-                    .Append( $".is-mx{infix}-n{size}" )
+                    .Append( $".ml{infix}-n{size}," )
+                    .Append( $".mx{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-left: -{length} !important;" ).Append( "}" );
             }
 
