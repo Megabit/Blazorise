@@ -1,11 +1,11 @@
-﻿@using Blazorise.Extensions
+@using Blazorise.Extensions
 @using Blazorise
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @inherits BaseInputComponent<TValue, AutocompleteClasses<TItem, TValue>, AutocompleteStyles<TItem, TValue>>
 @typeparam TItem
 @typeparam TValue
 
-<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute">
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy">
     @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
     {
         @foreach ( var selectedText in SelectedTexts )

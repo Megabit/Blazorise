@@ -1,4 +1,4 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.DateInput<TValue>
 @if ( ParentIsFieldBody )
 {
@@ -14,7 +14,7 @@ else
     private RenderFragment InputElement => __builder =>
     {
         <div class="control">
-            <input @ref="@ElementRef" id="@ElementId" type="@Mode" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="@Mode" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
             @ChildContent
         </div>
         @Feedback

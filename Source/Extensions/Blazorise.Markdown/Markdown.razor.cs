@@ -546,16 +546,16 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
             }
         }
 
-        if ( AriaInvalidAttribute is not null )
+        if ( AriaInvalid is not null )
         {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
-            editorAttributes["aria-invalid"] = AriaInvalidAttribute;
+            editorAttributes["aria-invalid"] = AriaInvalid;
         }
 
-        if ( AriaDescribedByAttribute is not null )
+        if ( AriaDescribedBy is not null )
         {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
-            editorAttributes["aria-describedby"] = AriaDescribedByAttribute;
+            editorAttributes["aria-describedby"] = AriaDescribedBy;
         }
 
         return editorAttributes;

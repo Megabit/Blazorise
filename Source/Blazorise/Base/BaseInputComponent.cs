@@ -54,14 +54,14 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private bool hasInitializedParameters;
 
     /// <summary>
-    /// Holds the resolved aria-invalid attribute value.
+    /// Holds the aria-invalid attribute value.
     /// </summary>
-    private string ariaInvalidAttribute;
+    private string ariaInvalid;
 
     /// <summary>
-    /// Holds the resolved aria-describedby attribute value.
+    /// Holds the aria-describedby attribute value.
     /// </summary>
-    private string ariaDescribedByAttribute;
+    private string ariaDescribedBy;
 
     /// <summary>
     /// Tracks the previous field reference for event subscription.
@@ -93,6 +93,16 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     protected ComponentParameterInfo<bool> paramAutofocus;
 
+    /// <summary>
+    /// Contains metadata about the parameter representing aria-invalid for the component.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramAriaInvalid;
+
+    /// <summary>
+    /// Contains metadata about the parameter representing aria-describedby for the component.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramAriaDescribedBy;
+
     #endregion
 
     #region Methods
@@ -111,6 +121,8 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
 
         parameters.TryGetParameter( nameof( ValueExpression ), ValueExpression, out paramValueExpression );
         parameters.TryGetParameter( nameof( Autofocus ), Autofocus, out paramAutofocus );
+        parameters.TryGetParameter( nameof( AriaInvalid ), ariaInvalid, out paramAriaInvalid );
+        parameters.TryGetParameter( nameof( AriaDescribedBy ), ariaDescribedBy, out paramAriaDescribedBy );
     }
 
     /// <summary>
@@ -488,18 +500,22 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     private void UpdateAriaAttributes()
     {
-        UpdateAriaInvalidAttribute();
-        UpdateAriaDescribedByAttribute();
+        UpdateAriaInvalid();
+        UpdateAriaDescribedBy();
     }
 
-    private void UpdateAriaInvalidAttribute()
+    private void UpdateAriaInvalid()
     {
-        ariaInvalidAttribute = ResolveAriaAttribute( "aria-invalid", ParentValidation?.Status == ValidationStatus.Error ? "true" : null );
+        ariaInvalid = paramAriaInvalid.Defined
+            ? paramAriaInvalid.Value
+            : ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
     }
 
-    private void UpdateAriaDescribedByAttribute()
+    private void UpdateAriaDescribedBy()
     {
-        ariaDescribedByAttribute = ResolveAriaAttribute( "aria-describedby", BuildAriaDescribedBy() );
+        ariaDescribedBy = paramAriaDescribedBy.Defined
+            ? paramAriaDescribedBy.Value
+            : BuildAriaDescribedBy();
     }
 
     private string BuildAriaDescribedBy()
@@ -518,14 +534,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         return string.Equals( helpTextId, errorTextId, StringComparison.Ordinal )
             ? helpTextId
             : $"{helpTextId} {errorTextId}";
-    }
-
-    private string ResolveAriaAttribute( string attributeName, string fallbackValue )
-    {
-        if ( Attributes is not null && Attributes.ContainsKey( attributeName ) )
-            return null;
-
-        return fallbackValue;
     }
 
     /// <summary>
@@ -632,16 +640,24 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     protected string ReadOnlyAsString => ReadOnly ? "true" : "false";
 
     /// <summary>
-    /// Gets the aria-invalid attribute value.
+    /// Gets or sets the aria-invalid attribute value.
     /// </summary>
-    protected string AriaInvalidAttribute
-        => ariaInvalidAttribute;
+    [Parameter]
+    public string AriaInvalid
+    {
+        get => ariaInvalid;
+        set => ariaInvalid = value;
+    }
 
     /// <summary>
-    /// Gets the aria-describedby attribute value.
+    /// Gets or sets the aria-describedby attribute value.
     /// </summary>
-    protected string AriaDescribedByAttribute
-        => ariaDescribedByAttribute;
+    [Parameter]
+    public string AriaDescribedBy
+    {
+        get => ariaDescribedBy;
+        set => ariaDescribedBy = value;
+    }
 
     /// <summary>
     /// Gets the size based on the theme settings.

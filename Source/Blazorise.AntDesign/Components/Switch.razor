@@ -1,6 +1,6 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.Switch<TValue>
-<button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" role="switch" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-checked="@CurrentValueAsString?.ToLowerInvariant()" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" ant-click-animating="true" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
+<button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" role="switch" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-checked="@CurrentValueAsString?.ToLowerInvariant()" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" ant-click-animating="true" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
     <div class="ant-switch-handle"></div>
     <span class="ant-switch-inner">@ChildContent</span>
     <div class="ant-click-animating-node"></div>

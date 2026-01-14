@@ -1,4 +1,4 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.Select<TValue>
 <CascadingValue Value="@this" IsFixed>
     @if ( ParentIsFieldBody )
@@ -6,7 +6,7 @@
         <div class="field">
             <div class="control">
                 <div class="@ClassNames" style="@StyleNames">
-                    <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" tabindex="@TabIndex" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @attributes="@Attributes">
+                    <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @attributes="@Attributes">
                         @ChildContent
                     </select>
                 </div>
@@ -18,7 +18,7 @@
     {
         <div class="control">
             <div class="@ClassNames" style="@StyleNames">
-                <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" tabindex="@TabIndex" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @attributes="@Attributes">
+                <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @attributes="@Attributes">
                     @ChildContent
                 </select>
             </div>

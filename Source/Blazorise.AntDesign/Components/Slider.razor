@@ -1,10 +1,10 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.Slider<TValue>
 <div @ref="@ElementRef" id="@ElementId" class="ant-slider" tabindex="@TabIndex" @onmousedown="@OnSliderMouseDown" @onmouseup="@OnSliderMouseUp" @onmousemove="@OnSliderMouseMove">
     <div class="ant-slider-rail"></div>
     <div class="ant-slider-track" style="@TrackStyle"></div>
     <div class="ant-slider-step"></div>
-    <div tabindex="0" class="ant-slider-handle" role="slider" aria-valuemin="@MinString" aria-valuemax="@MaxString" aria-valuenow="@Value" aria-disabled="@IsDisabled" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" style="@HandleStyle"></div>
+    <div tabindex="0" class="ant-slider-handle" role="slider" aria-valuemin="@MinString" aria-valuemax="@MaxString" aria-valuenow="@Value" aria-disabled="@IsDisabled" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" style="@HandleStyle"></div>
     <div class="ant-slider-mark"></div>
 </div>
 @ChildContent

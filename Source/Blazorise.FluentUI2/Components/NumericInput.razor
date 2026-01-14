@@ -1,4 +1,4 @@
-﻿@using System.Text
+@using System.Text
 @typeparam TValue
 @inherits Blazorise.NumericInput<TValue>
 @if ( ParentIsAddons )
@@ -20,11 +20,11 @@ else
     {
         @if ( IsImmediate && IsDebounce )
         {
-            <input @ref="@ElementRef" id="@ElementId" type="number" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" min="@MinValue" max="@MaxValue" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" value="@CurrentValueAsString" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="number" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" min="@MinValue" max="@MaxValue" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" value="@CurrentValueAsString" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         }
         else
         {
-            <input @ref="@ElementRef" id="@ElementId" type="number" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" min="@MinValue" max="@MaxValue" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalidAttribute" aria-describedby="@AriaDescribedByAttribute" @bind-value="@CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="number" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" min="@MinValue" max="@MaxValue" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @bind-value="@CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         }
     };
 }
