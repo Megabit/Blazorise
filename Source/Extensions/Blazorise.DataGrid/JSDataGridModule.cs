@@ -49,6 +49,13 @@ public class JSDataGridModule : BaseJSModule
         await moduleInstance.InvokeVoidAsync( "initializeTableCellNavigation", elementRef, elementId );
     }
 
+    public virtual async ValueTask BlurActiveCellEditor( ElementReference elementRef, string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "blurActiveCellEditor", elementRef, elementId );
+    }
+
 
     public virtual async ValueTask<int> ScrollTo( ElementReference elementRef, string classname )
     {

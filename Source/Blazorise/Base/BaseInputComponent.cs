@@ -262,7 +262,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         if ( string.IsNullOrEmpty( value ) )
         {
             empty = true;
-            CurrentValue = DefaultValue;
+            await SetCurrentValueAsync( DefaultValue );
         }
 
         if ( !empty )
@@ -271,7 +271,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
 
             if ( result.Success )
             {
-                CurrentValue = result.ParsedValue;
+                await SetCurrentValueAsync( result.ParsedValue );
             }
         }
         // send the value to the validation for processing
@@ -323,6 +323,19 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     protected virtual Task OnInternalValueChanged( TValue value )
     {
         return ValueChanged.InvokeAsync( value );
+    }
+
+    /// <summary>
+    /// Sets the internal value and notifies subscribers about the change.
+    /// </summary>
+    /// <param name="value">New value to assign.</param>
+    protected virtual async Task SetCurrentValueAsync( TValue value )
+    {
+        if ( !IsSameAsInternalValue( value ) )
+        {
+            Value = value;
+            await InvokeAsync( () => OnInternalValueChanged( value ) );
+        }
     }
 
     /// <inheritdoc/>
@@ -503,11 +516,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         get => Value;
         set
         {
-            if ( !IsSameAsInternalValue( value ) )
-            {
-                Value = value;
-                InvokeAsync( () => OnInternalValueChanged( value ) );
-            }
+            _ = SetCurrentValueAsync( value );
         }
     }
 
