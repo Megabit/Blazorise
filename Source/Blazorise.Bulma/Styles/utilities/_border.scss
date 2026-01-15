@@ -73,11 +73,11 @@ $border-sizes: (1, 2, 3, 4, 5);
     $color: $value;
 
     .has-border-#{$name} {
-        border-color: $color !important;
+        border-color: var(--bulma-#{$name}, $color) !important;
     }
 
     .has-border-#{$name}-subtle {
-        border-color: var(--b-theme-border-#{$name}-subtle, $border) !important;
+        border-color: var(--bulma-#{$name}-soft, $color) !important;
     }
 }
 
