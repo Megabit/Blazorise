@@ -50,8 +50,6 @@ $switch-focus: 1px dotted rgba(0,0,0,.125) !default;
 $speed-slow: 150ms !default;
 $speed-slower: 250ms !default;
 
-$border-width: 1px;
-
 $caret-width: .3em !default;
 $caret-vertical-align: $caret-width * .85 !default;
 $caret-spacing: $caret-width * .85 !default;
@@ -83,37 +81,37 @@ $dropdown-padding-y: .5rem !default;
 $dropdown-item-padding-y: .375rem !default;
 $dropdown-item-padding-x: 1rem !default;
 
-$dropdown-header-color: $grey-light !default;
+$dropdown-header-color: $text-weak !default;
 $dropdown-header-padding: $dropdown-padding-y $dropdown-item-padding-x !default;
 
 // List group
 
 $list-group-color: null !default;
-$list-group-bg: $white !default;
-$list-group-border-color: rgba($black, .125) !default;
-$list-group-border-width: $border-width !default;
+$list-group-bg: $scheme-main !default;
+$list-group-border-color: $border !default;
+$list-group-border-width: $control-border-width !default;
 $list-group-border-radius: $radius !default;
 
 $list-group-item-padding-y: .75rem !default;
 $list-group-item-padding-x: 1.25rem !default;
 
-$list-group-hover-bg: $white-ter !default;
-$list-group-active-color: $white !default;
+$list-group-hover-bg: $background !default;
+$list-group-active-color: $scheme-invert !default;
 $list-group-active-bg: $primary !default;
 $list-group-active-border-color: $list-group-active-bg !default;
 
-$list-group-disabled-color: $grey !default;
+$list-group-disabled-color: $text-weak !default;
 $list-group-disabled-bg: $list-group-bg !default;
 
-$list-group-action-color: $grey-dark !default;
-$list-group-action-hover-color: $list-group-action-color !default;
+$list-group-action-color: $text !default;
+$list-group-action-hover-color: $text-strong !default;
 
-$list-group-action-active-color: $text !default;
-$list-group-action-active-bg: $grey-lightest !default;
+$list-group-action-active-color: $text-strong !default;
+$list-group-action-active-bg: $background !default;
 
 // Blockquote
 
-$blockquote-small-color: $grey !default;
+$blockquote-small-color: $text-weak !default;
 $blockquote-small-font-size: $size-small !default;
 $blockquote-font-size: $size-normal * 1.25 !default;
 
