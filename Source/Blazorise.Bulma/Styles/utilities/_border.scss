@@ -42,16 +42,51 @@
     border-left: 0 !important;
 }
 
+$border-sides: ("top", "right", "bottom", "left");
+$border-sizes: (1, 2, 3, 4, 5);
+
+@each $size in $border-sizes {
+    .has-border-#{$size} {
+        border: #{$size}px solid $border !important;
+    }
+
+    @each $color-name, $color-value in $theme-colors {
+        .has-border-#{$color-name}-#{$size} {
+            border: #{$size}px solid $color-value !important;
+        }
+    }
+
+    @each $side in $border-sides {
+        .has-border-#{$side}-#{$size} {
+            border-#{$side}: #{$size}px solid $border !important;
+        }
+
+        @each $color-name, $color-value in $theme-colors {
+            .has-border-#{$color-name}-#{$side}-#{$size} {
+                border-#{$side}: #{$size}px solid $color-value !important;
+            }
+        }
+    }
+}
+
 @each $name, $value in $theme-colors {
     $color: $value;
 
     .has-border-#{$name} {
         border-color: $color !important;
     }
+
+    .has-border-#{$name}-subtle {
+        border-color: var(--b-theme-border-#{$name}-subtle, $border) !important;
+    }
 }
 
 .has-border-white {
     border-color: white !important;
+}
+
+.has-border-white-subtle {
+    border-color: rgba($white, 0.5) !important;
 }
 
 .has-radius-small {
@@ -96,32 +131,4 @@
 
 .has-rounded-border-circle {
     border-radius: 50% !important;
-}
-
-
-$border-sides: ("top", "right", "bottom", "left");
-$border-sizes: (1, 2, 3, 4, 5);
-
-@each $size in $border-sizes {
-    .has-border-#{$size} {
-        border: #{$size}px solid $border !important;
-    }
-
-    @each $color-name, $color-value in $theme-colors {
-        .has-border-#{$color-name}-#{$size} {
-            border: #{$size}px solid $color-value !important;
-        }
-    }
-
-    @each $side in $border-sides {
-        .has-border-#{$side}-#{$size} {
-            border-#{$side}: #{$size}px solid $border !important;
-        }
-
-        @each $color-name, $color-value in $theme-colors {
-            .has-border-#{$color-name}-#{$side}-#{$size} {
-                border-#{$side}: #{$size}px solid $color-value !important;
-            }
-        }
-    }
 }
