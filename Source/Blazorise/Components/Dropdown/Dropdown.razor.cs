@@ -402,6 +402,11 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     public string SelectedDropdownElementId { get; set; }
 
     /// <summary>
+    /// Gets the element id of the first dropdown menu.
+    /// </summary>
+    internal string DropdownMenuElementId => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSDropdownModule"/> instance.
     /// </summary>
     [Inject] public IJSDropdownModule JSModule { get; set; }
@@ -506,6 +511,22 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <para>This is useful when you want the dropdown menu to be anchored from a different element than the toggle.</para>
     /// </summary>
     [Parameter] public string DropdownMenuTargetId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-invalid attribute value for the dropdown root element.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is on the dropdown root element.
+    /// </remarks>
+    [Parameter] public string AriaInvalid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-describedby attribute value for the dropdown root element.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is on the dropdown root element.
+    /// </remarks>
+    [Parameter] public string AriaDescribedBy { get; set; }
 
     #endregion
 }

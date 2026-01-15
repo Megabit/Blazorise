@@ -2,7 +2,7 @@
 @inherits Blazorise.Toast
 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <div class="ant-notification-notice-content">
-        <div role="alert">
+        <div role="alert" aria-live="assertive">
             <CascadingValue Value="@this" IsFixed>
                 <CascadingValue Value="@State">
                     @ChildContent

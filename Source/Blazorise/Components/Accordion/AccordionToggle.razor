@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+<button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
     @ChildContent
 </button>

@@ -12,7 +12,7 @@
         else
         {
             <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                <div class="@InnerClassNames" style="@ProgressBarStyleNames">@ChildContent</div>
+                <div class="@InnerClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max">@ChildContent</div>
             </div>
         }
     </CascadingValue>

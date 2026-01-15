@@ -32,6 +32,16 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
     private CloseReason closeReason = CloseReason.None;
 
     ///<summary>
+    /// Holds the Offcanvas header component.
+    ///</summary>
+    private OffcanvasHeader header;
+
+    ///<summary>
+    /// Holds the Offcanvas body component.
+    ///</summary>
+    private OffcanvasBody body;
+
+    ///<summary>
     /// Indicates whether the Offcanvas has been registered with JavaScript.
     ///</summary>
     private bool jsRegistered;
@@ -407,14 +417,26 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
         return InvokeAsync( StateHasChanged );
     }
 
-    internal void NotifyOffcanvasHeaderInitialized()
+    internal void NotifyOffcanvasHeaderInitialized( OffcanvasHeader offcanvasHeader )
     {
         HasOffcanvasHeader = true;
+
+        if ( offcanvasHeader is not null && !ReferenceEquals( header, offcanvasHeader ) )
+        {
+            header = offcanvasHeader;
+            NotifyAriaChanged();
+        }
     }
 
-    internal void NotifyOffcanvasHeaderRemoved()
+    internal void NotifyOffcanvasHeaderRemoved( OffcanvasHeader offcanvasHeader )
     {
         HasOffcanvasHeader = false;
+
+        if ( ReferenceEquals( header, offcanvasHeader ) )
+        {
+            header = null;
+            NotifyAriaChanged();
+        }
     }
 
     internal void NotifyOffcanvasFooterInitialized()
@@ -427,14 +449,31 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
         HasOffcanvasFooter = false;
     }
 
-    internal void NotifyOffcanvasBodyInitialized()
+    internal void NotifyOffcanvasBodyInitialized( OffcanvasBody offcanvasBody )
     {
         HasOffcanvasBody = true;
+
+        if ( offcanvasBody is not null && !ReferenceEquals( body, offcanvasBody ) )
+        {
+            body = offcanvasBody;
+            NotifyAriaChanged();
+        }
     }
 
-    internal void NotifyOffcanvasBodyRemoved()
+    internal void NotifyOffcanvasBodyRemoved( OffcanvasBody offcanvasBody )
     {
         HasOffcanvasBody = false;
+
+        if ( ReferenceEquals( body, offcanvasBody ) )
+        {
+            body = null;
+            NotifyAriaChanged();
+        }
+    }
+
+    private void NotifyAriaChanged()
+    {
+        InvokeAsync( StateHasChanged );
     }
 
     #endregion
@@ -460,6 +499,21 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
     /// Gets a value indicating whether the Offcanvas is visible.
     /// </summary>
     protected internal bool IsVisible => state.Visible;
+
+    /// <summary>
+    /// Gets the aria-modal attribute value.
+    /// </summary>
+    protected string AriaModal => IsVisible ? "true" : null;
+
+    /// <summary>
+    /// Gets the aria-labelledby attribute value.
+    /// </summary>
+    protected string AriaLabelledBy => header?.ElementId;
+
+    /// <summary>
+    /// Gets the aria-describedby attribute value.
+    /// </summary>
+    protected string AriaDescribedBy => body?.ElementId;
 
     /// <summary>
     /// Gets the reference to state object for this Offcanvas.

@@ -1,4 +1,4 @@
-﻿@inherits Blazorise.TextInput
+@inherits Blazorise.TextInput
 @if ( Plaintext )
 {
     <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
@@ -11,11 +11,11 @@ else
 {
     @if ( IsImmediate && IsDebounce )
     {
-        <input @ref="@ElementRef" id="@ElementId" type="@Type" name="@NameAttributeValue" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" value="@CurrentValue" tabindex="@TabIndex" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="@Type" name="@NameAttributeValue" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" value="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     }
     else
     {
-        <input @ref="@ElementRef" id="@ElementId" type="@Type" name="@NameAttributeValue" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="@Type" name="@NameAttributeValue" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     }
     @ChildContent
     @Feedback

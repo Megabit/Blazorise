@@ -52,6 +52,21 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     private CloseReason closeReason = CloseReason.None;
 
     /// <summary>
+    /// Holds the modal header component.
+    /// </summary>
+    private ModalHeader header;
+
+    /// <summary>
+    /// Holds the modal body component.
+    /// </summary>
+    private ModalBody body;
+
+    /// <summary>
+    /// Holds the modal title component.
+    /// </summary>
+    private ModalTitle title;
+
+    /// <summary>
     /// Tells us that modal is tracked by the JS interop.
     /// </summary>
     private bool jsRegistered;
@@ -375,6 +390,98 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     }
 
     /// <summary>
+    /// Registers the modal header reference.
+    /// </summary>
+    /// <param name="modalHeader">Modal header component.</param>
+    internal void NotifyModalHeaderInitialized( ModalHeader modalHeader )
+    {
+        if ( modalHeader is null )
+            return;
+
+        if ( ReferenceEquals( header, modalHeader ) )
+            return;
+
+        header = modalHeader;
+        NotifyAriaChanged();
+    }
+
+    /// <summary>
+    /// Removes the modal header reference.
+    /// </summary>
+    /// <param name="modalHeader">Modal header component.</param>
+    internal void NotifyModalHeaderRemoved( ModalHeader modalHeader )
+    {
+        if ( !ReferenceEquals( header, modalHeader ) )
+            return;
+
+        header = null;
+        NotifyAriaChanged();
+    }
+
+    /// <summary>
+    /// Registers the modal body reference.
+    /// </summary>
+    /// <param name="modalBody">Modal body component.</param>
+    internal void NotifyModalBodyInitialized( ModalBody modalBody )
+    {
+        if ( modalBody is null )
+            return;
+
+        if ( ReferenceEquals( body, modalBody ) )
+            return;
+
+        body = modalBody;
+        NotifyAriaChanged();
+    }
+
+    /// <summary>
+    /// Removes the modal body reference.
+    /// </summary>
+    /// <param name="modalBody">Modal body component.</param>
+    internal void NotifyModalBodyRemoved( ModalBody modalBody )
+    {
+        if ( !ReferenceEquals( body, modalBody ) )
+            return;
+
+        body = null;
+        NotifyAriaChanged();
+    }
+
+    /// <summary>
+    /// Registers the modal title reference.
+    /// </summary>
+    /// <param name="modalTitle">Modal title component.</param>
+    internal void NotifyModalTitleInitialized( ModalTitle modalTitle )
+    {
+        if ( modalTitle is null )
+            return;
+
+        if ( ReferenceEquals( title, modalTitle ) )
+            return;
+
+        title = modalTitle;
+        NotifyAriaChanged();
+    }
+
+    /// <summary>
+    /// Removes the modal title reference.
+    /// </summary>
+    /// <param name="modalTitle">Modal title component.</param>
+    internal void NotifyModalTitleRemoved( ModalTitle modalTitle )
+    {
+        if ( !ReferenceEquals( title, modalTitle ) )
+            return;
+
+        title = null;
+        NotifyAriaChanged();
+    }
+
+    private void NotifyAriaChanged()
+    {
+        InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
     /// Registers a new element that can close the modal.
     /// </summary>
     /// <param name="elementId">Element id.</param>
@@ -469,6 +576,21 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     /// Returns true if the modal should be visible.
     /// </summary>
     protected internal bool IsVisible => State.Visible == true;
+
+    /// <summary>
+    /// Gets the aria-modal attribute value.
+    /// </summary>
+    protected string AriaModal => IsVisible ? "true" : null;
+
+    /// <summary>
+    /// Gets the aria-labelledby attribute value.
+    /// </summary>
+    protected string AriaLabelledBy => title?.ElementId ?? header?.ElementId;
+
+    /// <summary>
+    /// Gets the aria-describedby attribute value.
+    /// </summary>
+    protected string AriaDescribedBy => body?.ElementId;
 
     /// <summary>
     /// Returns the opened index of modal.

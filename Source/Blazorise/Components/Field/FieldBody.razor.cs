@@ -10,10 +10,6 @@ namespace Blazorise;
 /// </summary>
 public partial class FieldBody : BaseSizableFieldComponent<FieldBodyClasses, FieldBodyStyles>
 {
-    #region Members
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc/>
@@ -23,10 +19,6 @@ public partial class FieldBody : BaseSizableFieldComponent<FieldBodyClasses, Fie
 
         base.BuildClasses( builder );
     }
-
-    #endregion
-
-    #region Properties
 
     #endregion
 }

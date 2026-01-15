@@ -18,7 +18,7 @@ public partial class OffcanvasBody : BaseComponent, IDisposable
     {
         base.OnInitialized();
 
-        ParentOffcanvas?.NotifyOffcanvasBodyInitialized();
+        ParentOffcanvas?.NotifyOffcanvasBodyInitialized( this );
     }
 
     /// <inheritdoc/>
@@ -26,7 +26,7 @@ public partial class OffcanvasBody : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            ParentOffcanvas?.NotifyOffcanvasBodyRemoved();
+            ParentOffcanvas?.NotifyOffcanvasBodyRemoved( this );
         }
 
         base.Dispose( disposing );
@@ -44,13 +44,16 @@ public partial class OffcanvasBody : BaseComponent, IDisposable
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
     /// Gets or sets the cascaded parent offcanvas-content component.
     /// </summary>
     [CascadingParameter] protected Offcanvas ParentOffcanvas { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="OffcanvasBody"/>.
+    /// Specifies the content to be rendered inside this <see cref="OffcanvasBody"/> .
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
