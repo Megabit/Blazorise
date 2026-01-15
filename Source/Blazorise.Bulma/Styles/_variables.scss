@@ -1,86 +1,21 @@
-﻿:root {
+:root {
     --b-bar-horizontal-height: 60px;
 }
 
-$white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black: #000 !default;
-
-$text-light: #fff !default;
-$text-dark: #212529 !default;
-
 $theme-color-interval: 8% !default;
 
-$yiq-text-light: $text-light !default;
-$yiq-text-dark: $text-dark !default;
+$yiq-text-light: $white !default;
+$yiq-text-dark: $black !default;
 
 // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
 $yiq-contrasted-threshold: 150 !default;
 
-// Colors
+$secondary: $grey !default;
 
-$black: hsl(0, 0%, 4%) !default;
-$black-bis: hsl(0, 0%, 7%) !default;
-$black-ter: hsl(0, 0%, 14%) !default;
-
-$grey-darker: hsl(0, 0%, 21%) !default;
-$grey-dark: hsl(0, 0%, 29%) !default;
-$grey: hsl(0, 0%, 48%) !default;
-$grey-light: hsl(0, 0%, 71%) !default;
-$grey-lighter: hsl(0, 0%, 86%) !default;
-$grey-lightest: hsl(0, 0%, 93%) !default;
-
-$white-ter: hsl(0, 0%, 96%) !default;
-$white-bis: hsl(0, 0%, 98%) !default;
-$white: hsl(0, 0%, 100%) !default;
-
-// Body
-
-$body-bg: $white !default;
-$body-color: $gray-900 !default;
-
-// Text colors
-
-$text: $grey-dark !default;
-$text-invert: findColorInvert($text) !default;
-$text-light: $grey !default;
-$text-strong: $grey-darker !default;
-
-$orange: hsl(14, 100%, 53%) !default;
-$yellow: hsl(48, 100%, 67%) !default;
-$green: hsl(141, 53%, 53%) !default;
-$turquoise: hsl(171, 100%, 41%) !default;
-$cyan: hsl(204, 71%, 53%) !default;
-$blue: hsl(217, 71%, 53%) !default;
-$purple: hsl(271, 100%, 71%) !default;
-$red: hsl(348, 86%, 61%) !default;
-
-$primary: #00d1b2 !default;
-$secondary: #6c757d !default;
-$success: #48c774 !default;
-$info: #238cd1 !default;
-$warning: #ffd83d !default;
-$danger: #ef2e55 !default;
-$light: #f5f5f5 !default;
-$dark: #363636 !default;
-$link: #3273dc !default;
-
-$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
+$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link": $link );
 
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
-$mobile: 576px;
-$tablet: 1023px;
-$desktop: 1215px;
-$widescreen: 1407px;
-$fullhd: 1907px;
+$mobile: 0;
 $quadhd: 2560px;
 
 $spacer: 1rem !default;
@@ -97,37 +32,10 @@ $grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop,
 
 $dimensions: 256 512 !default;
 
-// TODO: add these to theme generator
-$control-height: 2.5em !default;
-$control-line-height: 1.5 !default;
-
-$size-1: 3rem !default;
-$size-2: 2.5rem !default;
-$size-3: 2rem !default;
-$size-4: 1.5rem !default;
-$size-5: 1.25rem !default;
-$size-6: 1rem !default;
-$size-7: 0.75rem !default;
 $size-8: 0.65rem !default;
 
 $size-extra-small: $size-8 !default;
-$size-small: $size-7 !default;
-$size-normal: $size-6 !default;
-$size-medium: $size-5 !default;
-$size-large: $size-4 !default;
 $size-extra-large: $size-3 !default;
-
-$font-sizes: ( xs: $size-extra-small, sm: $size-small, md: $size-medium, lg: $size-large, xl: $size-extra-large, 1: $size-1, 2: $size-2, 3: $size-2, 4: $size-4, 5: $size-5, 6: $size-6 ) !default;
-
-$weight-light: 300 !default;
-$weight-normal: 400 !default;
-$weight-medium: 500 !default;
-$weight-semibold: 600 !default;
-$weight-bold: 700 !default;
-
-// Spacing
-
-$block-spacing: 1.5rem !default;
 
 $switch-background: rgba(0,0,0,.125) !default;
 $switch-border: .1rem solid transparent !default;
@@ -139,35 +47,12 @@ $switch-paddle-offset: 0.25rem !default;
 $switch-paddle-transition: all 0.25s ease-out !default;
 $switch-focus: 1px dotted rgba(0,0,0,.125) !default;
 
-$easing: ease-out !default;
-$radius-small: 2px !default;
-$radius: 4px !default;
-$radius-large: 6px !default;
-$radius-rounded: 290486px !default;
-$radius-pill: 50rem !default;
-$speed: 86ms !default;
 $speed-slow: 150ms !default;
 $speed-slower: 250ms !default;
-
-$border-width: 1px;
-$border-color: #adb5bd;
-
-$border: $grey-lighter !default;
-$border-hover: $grey-light !default;
-$border-light: $grey-lightest !default;
-$border-light-hover: $grey-light !default;
 
 $caret-width: .3em !default;
 $caret-vertical-align: $caret-width * .85 !default;
 $caret-spacing: $caret-width * .85 !default;
-// Components
-
-$border-radius: .25rem !default;
-$border-radius-lg: .3rem !default;
-$border-radius-sm: .2rem !default;
-
-$component-active-color: $white !default;
-$component-active-bg: theme-color("primary") !default;
 
 // Cards
 
@@ -185,8 +70,8 @@ $steps-completed-color: $success !default;
 $steps-active-color: $primary !default;
 $steps-divider-height: .2em !default;
 
-$sizes: () !default;
-$sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+$sizes-percentages: () !default;
+$sizes-percentages: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes-percentages );
 
 $box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
@@ -196,42 +81,40 @@ $dropdown-padding-y: .5rem !default;
 $dropdown-item-padding-y: .375rem !default;
 $dropdown-item-padding-x: 1rem !default;
 
-$dropdown-header-color: $grey-light !default;
+$dropdown-header-color: $text-weak !default;
 $dropdown-header-padding: $dropdown-padding-y $dropdown-item-padding-x !default;
 
 // List group
 
 $list-group-color: null !default;
-$list-group-bg: $white !default;
-$list-group-border-color: rgba($black, .125) !default;
-$list-group-border-width: $border-width !default;
-$list-group-border-radius: $border-radius !default;
+$list-group-bg: $scheme-main !default;
+$list-group-border-color: $border !default;
+$list-group-border-width: $control-border-width !default;
+$list-group-border-radius: $radius !default;
 
 $list-group-item-padding-y: .75rem !default;
 $list-group-item-padding-x: 1.25rem !default;
 
-$list-group-hover-bg: $gray-100 !default;
-$list-group-active-color: $component-active-color !default;
-$list-group-active-bg: $component-active-bg !default;
+$list-group-hover-bg: $background !default;
+$list-group-active-color: $scheme-invert !default;
+$list-group-active-bg: $primary !default;
 $list-group-active-border-color: $list-group-active-bg !default;
 
-$list-group-disabled-color: $gray-600 !default;
+$list-group-disabled-color: $text-weak !default;
 $list-group-disabled-bg: $list-group-bg !default;
 
-$list-group-action-color: $gray-700 !default;
-$list-group-action-hover-color: $list-group-action-color !default;
+$list-group-action-color: $text !default;
+$list-group-action-hover-color: $text-strong !default;
 
-$list-group-action-active-color: $body-color !default;
-$list-group-action-active-bg: $gray-200 !default;
+$list-group-action-active-color: $text-strong !default;
+$list-group-action-active-bg: $background !default;
 
 // Blockquote
 
-$blockquote-small-color: $gray-600 !default;
+$blockquote-small-color: $text-weak !default;
 $blockquote-small-font-size: $size-small !default;
 $blockquote-font-size: $size-normal * 1.25 !default;
 
 // Position
 
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
-
-$overflows: auto, hidden, visible, scroll !default;

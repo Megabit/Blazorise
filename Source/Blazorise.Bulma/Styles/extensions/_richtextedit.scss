@@ -2,8 +2,8 @@
     > .b-richtextedit-toolbar.ql-bubble,
     > .b-richtextedit-editor.ql-bubble {
         border-style: solid;
-        border-width: $border-width;
-        border-color: $border-color;
+        border-width: $control-border-width;
+        border-color: $border;
     }
 
     > .b-richtextedit-toolbar + .b-richtextedit-content + .b-richtextedit-editor,

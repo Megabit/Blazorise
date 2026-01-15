@@ -1,4 +1,4 @@
-﻿@each $dimension in $dimensions {
+@each $dimension in $dimensions {
     .is-#{$dimension}x#{$dimension} {
         height: $dimension * 1px;
         width: $dimension * 1px;
@@ -11,7 +11,7 @@
 
         @include media-breakpoint-up($breakpoint, $breakpoints) {
             @each $prop, $abbrev in (width: width, height: height) {
-                @each $size, $length in $sizes {
+                @each $size, $length in $sizes-percentages {
                     .is-#{$abbrev}#{$infix}-#{$size} {
                         #{$prop}: $length !important;
                     }

@@ -67,6 +67,18 @@ label.radio.button {
     font-size: $size-small;
 }
 
+.input.is-small {
+    font-size: $size-small;
+}
+
+.select.is-small {
+    font-size: $size-small;
+}
+
+.textarea.is-small {
+    font-size: $size-small;
+}
+
 .has-addons.is-medium > .control > .button,
 .has-addons.is-medium > .control > .control > .button,
 .has-addons.is-medium > .control > .field > .control > .input,
@@ -74,10 +86,34 @@ label.radio.button {
     font-size: $size-medium;
 }
 
+.input.is-medium {
+    font-size: $size-medium;
+}
+
+.select.is-medium {
+    font-size: $size-medium;
+}
+
+.textarea.is-medium {
+    font-size: $size-medium;
+}
+
 .has-addons.is-large > .control > .button,
 .has-addons.is-large > .control > .control > .button,
 .has-addons.is-large > .control > .field > .control > .input,
 .has-addons.is-large > .control > .field > .control > .select {
+    font-size: $size-large;
+}
+
+.input.is-large {
+    font-size: $size-large;
+}
+
+.select.is-large {
+    font-size: $size-large;
+}
+
+.textarea.is-large {
     font-size: $size-large;
 }
 

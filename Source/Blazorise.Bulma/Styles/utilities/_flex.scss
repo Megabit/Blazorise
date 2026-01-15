@@ -1,160 +1,161 @@
-﻿
 @each $breakpoint in map-keys($grid-breakpoints) {
-    @include media-breakpoint-up($breakpoint) {
-        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @if ($breakpoint != xs and $breakpoint != mobile) {
+        @include media-breakpoint-up($breakpoint) {
+            $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-        .is-flex-direction#{$infix}-row {
-            flex-direction: row !important;
-        }
-
-        .is-flex-direction#{$infix}-column {
-            flex-direction: column !important;
-        }
-
-        .is-flex-direction#{$infix}-row-reverse {
-            flex-direction: row-reverse !important;
-        }
-
-        .is-flex-direction#{$infix}-column-reverse {
-            flex-direction: column-reverse !important;
-        }
-
-        .is-flex-wrap#{$infix}-wrap {
-            flex-wrap: wrap !important;
-        }
-
-        .is-flex-wrap#{$infix}-nowrap {
-            flex-wrap: nowrap !important;
-        }
-
-        .is-flex-wrap#{$infix}-wrap-reverse {
-            flex-wrap: wrap-reverse !important;
-        }
-
-        .is-flex#{$infix}-fill {
-            flex: 1 1 auto !important;
-        }
-
-        .is-flex#{$infix}-grow-0 {
-            flex-grow: 0 !important;
-        }
-
-        .is-flex#{$infix}-grow-1 {
-            flex-grow: 1 !important;
-        }
-
-        .is-flex#{$infix}-shrink-0 {
-            flex-shrink: 0 !important;
-        }
-
-        .is-flex#{$infix}-shrink-1 {
-            flex-shrink: 1 !important;
-        }
-
-        .is-justify-content#{$infix}-flex-start {
-            justify-content: flex-start !important;
-        }
-
-        .is-justify-content#{$infix}-flex-end {
-            justify-content: flex-end !important;
-        }
-
-        .is-justify-content#{$infix}-center {
-            justify-content: center !important;
-        }
-
-        .is-justify-content#{$infix}-space-between {
-            justify-content: space-between !important;
-        }
-
-        .is-justify-content#{$infix}-space-around {
-            justify-content: space-around !important;
-        }
-
-        .is-align-items#{$infix}-flex-start {
-            align-items: flex-start !important;
-        }
-
-        .is-align-items#{$infix}-flex-end {
-            align-items: flex-end !important;
-        }
-
-        .is-align-items#{$infix}-center {
-            align-items: center !important;
-        }
-
-        .is-align-items#{$infix}-baseline {
-            align-items: baseline !important;
-        }
-
-        .is-align-items#{$infix}-stretch {
-            align-items: stretch !important;
-        }
-
-        .is-align-self#{$infix}-auto {
-            align-self: auto !important;
-        }
-
-        .is-align-self#{$infix}-flex-start {
-            align-self: flex-start !important;
-        }
-
-        .is-align-self#{$infix}-flex-end {
-            align-self: flex-end !important;
-        }
-
-        .is-align-self#{$infix}-center {
-            align-self: center !important;
-        }
-
-        .is-align-self#{$infix}-baseline {
-            align-self: baseline !important;
-        }
-
-        .is-align-self#{$infix}-stretch {
-            align-self: stretch !important;
-        }
-
-        .is-align-content#{$infix}-flex-start {
-            align-content: flex-start !important;
-        }
-
-        .is-align-content#{$infix}-flex-end {
-            align-content: flex-end !important;
-        }
-
-        .is-align-content#{$infix}-center {
-            align-content: center !important;
-        }
-
-        .is-align-content#{$infix}-space-between {
-            align-content: space-between !important;
-        }
-
-        .is-align-content#{$infix}-space-around {
-            align-content: space-around !important;
-        }
-
-        .is-align-content#{$infix}-stretch {
-            align-content: stretch !important;
-        }
-
-        @for $i from 0 through 12 {
-            .is-flex-order#{$infix}-#{$i} {
-                order: $i;
+            .is-flex-direction#{$infix}-row {
+                flex-direction: row !important;
             }
-        }
 
-        .is-flex#{$infix}-basis-0 {
-            flex-basis: 0 !important;
-        }
+            .is-flex-direction#{$infix}-column {
+                flex-direction: column !important;
+            }
 
-        .is-flex#{$infix}-basis-auto {
-            flex-basis: auto !important;
-        }
+            .is-flex-direction#{$infix}-row-reverse {
+                flex-direction: row-reverse !important;
+            }
 
-        .is-flex#{$infix}-basis-full {
-            flex-basis: 100% !important;
+            .is-flex-direction#{$infix}-column-reverse {
+                flex-direction: column-reverse !important;
+            }
+
+            .is-flex-wrap#{$infix}-wrap {
+                flex-wrap: wrap !important;
+            }
+
+            .is-flex-wrap#{$infix}-nowrap {
+                flex-wrap: nowrap !important;
+            }
+
+            .is-flex-wrap#{$infix}-wrap-reverse {
+                flex-wrap: wrap-reverse !important;
+            }
+
+            .is-flex#{$infix}-fill {
+                flex: 1 1 auto !important;
+            }
+
+            .is-flex#{$infix}-grow-0 {
+                flex-grow: 0 !important;
+            }
+
+            .is-flex#{$infix}-grow-1 {
+                flex-grow: 1 !important;
+            }
+
+            .is-flex#{$infix}-shrink-0 {
+                flex-shrink: 0 !important;
+            }
+
+            .is-flex#{$infix}-shrink-1 {
+                flex-shrink: 1 !important;
+            }
+
+            .is-justify-content#{$infix}-flex-start {
+                justify-content: flex-start !important;
+            }
+
+            .is-justify-content#{$infix}-flex-end {
+                justify-content: flex-end !important;
+            }
+
+            .is-justify-content#{$infix}-center {
+                justify-content: center !important;
+            }
+
+            .is-justify-content#{$infix}-space-between {
+                justify-content: space-between !important;
+            }
+
+            .is-justify-content#{$infix}-space-around {
+                justify-content: space-around !important;
+            }
+
+            .is-align-items#{$infix}-flex-start {
+                align-items: flex-start !important;
+            }
+
+            .is-align-items#{$infix}-flex-end {
+                align-items: flex-end !important;
+            }
+
+            .is-align-items#{$infix}-center {
+                align-items: center !important;
+            }
+
+            .is-align-items#{$infix}-baseline {
+                align-items: baseline !important;
+            }
+
+            .is-align-items#{$infix}-stretch {
+                align-items: stretch !important;
+            }
+
+            .is-align-self#{$infix}-auto {
+                align-self: auto !important;
+            }
+
+            .is-align-self#{$infix}-flex-start {
+                align-self: flex-start !important;
+            }
+
+            .is-align-self#{$infix}-flex-end {
+                align-self: flex-end !important;
+            }
+
+            .is-align-self#{$infix}-center {
+                align-self: center !important;
+            }
+
+            .is-align-self#{$infix}-baseline {
+                align-self: baseline !important;
+            }
+
+            .is-align-self#{$infix}-stretch {
+                align-self: stretch !important;
+            }
+
+            .is-align-content#{$infix}-flex-start {
+                align-content: flex-start !important;
+            }
+
+            .is-align-content#{$infix}-flex-end {
+                align-content: flex-end !important;
+            }
+
+            .is-align-content#{$infix}-center {
+                align-content: center !important;
+            }
+
+            .is-align-content#{$infix}-space-between {
+                align-content: space-between !important;
+            }
+
+            .is-align-content#{$infix}-space-around {
+                align-content: space-around !important;
+            }
+
+            .is-align-content#{$infix}-stretch {
+                align-content: stretch !important;
+            }
+
+            @for $i from 0 through 12 {
+                .is-flex-order#{$infix}-#{$i} {
+                    order: $i;
+                }
+            }
+
+            .is-flex#{$infix}-basis-0 {
+                flex-basis: 0 !important;
+            }
+
+            .is-flex#{$infix}-basis-auto {
+                flex-basis: auto !important;
+            }
+
+            .is-flex#{$infix}-basis-full {
+                flex-basis: 100% !important;
+            }
         }
     }
 }

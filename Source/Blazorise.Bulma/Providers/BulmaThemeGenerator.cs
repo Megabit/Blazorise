@@ -1,5 +1,6 @@
-﻿#region Using directives
+#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using Blazorise.Extensions;
@@ -9,6 +10,22 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaThemeGenerator : ThemeGenerator
 {
+    #region Members
+
+    private static readonly HashSet<string> BulmaThemeColors = new( StringComparer.OrdinalIgnoreCase )
+    {
+        "primary",
+        "link",
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "light",
+        "dark",
+    };
+
+    #endregion
+
     #region Constructors
 
     public BulmaThemeGenerator( IThemeCache themeCache )
@@ -20,8 +37,196 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    public override string GenerateVariables( Theme theme )
+    {
+        if ( ThemeCache.TryGetVariablesFromCache( theme, out var cachedVariables ) )
+            return cachedVariables;
+
+        var baseVariables = base.GenerateVariables( theme );
+        var bulmaVariables = GenerateBulmaVariables( theme );
+        var generatedVariables = string.Concat( baseVariables, bulmaVariables );
+
+        ThemeCache.CacheVariables( theme, generatedVariables );
+
+        return generatedVariables;
+    }
+
+    private static string GenerateBulmaVariables( Theme theme )
+    {
+        var sb = new StringBuilder();
+
+        foreach ( var (name, color) in theme.ValidColors )
+        {
+            if ( !BulmaThemeColors.Contains( name ) )
+                continue;
+
+            var parsed = ParseColor( color );
+
+            if ( parsed.IsEmpty )
+                continue;
+
+            var baseColor = parsed.A < 255 ? Rgba2Rgb( System.Drawing.Color.White, parsed ) : parsed;
+            var baseHex = ToHex( baseColor );
+            var hsl = HexStringToHslColor( baseHex );
+            var hue = Math.Round( hsl.Hue );
+            var saturation = Math.Round( hsl.Saturation );
+            var luminosity = Math.Round( hsl.Luminosity );
+            var invertLuminosity = GetBulmaInvertLightness( baseColor );
+
+            sb.AppendLine( $"--bulma-{name}: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
+            sb.AppendLine( $"--bulma-{name}-base: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-l), 1);" );
+            sb.AppendLine( $"--bulma-{name}-rgb: {baseColor.R.ToString( CultureInfo.InvariantCulture )}, {baseColor.G.ToString( CultureInfo.InvariantCulture )}, {baseColor.B.ToString( CultureInfo.InvariantCulture )};" );
+            sb.AppendLine( $"--bulma-{name}-h: {hue.ToString( CultureInfo.InvariantCulture )}deg;" );
+            sb.AppendLine( $"--bulma-{name}-s: {saturation.ToString( CultureInfo.InvariantCulture )}%;" );
+            sb.AppendLine( $"--bulma-{name}-l: {luminosity.ToString( CultureInfo.InvariantCulture )}%;" );
+            sb.AppendLine( $"--bulma-{name}-invert: hsla(var(--bulma-{name}-h), var(--bulma-{name}-s), var(--bulma-{name}-invert-l), 1);" );
+            sb.AppendLine( $"--bulma-{name}-invert-l: {invertLuminosity.ToString( CultureInfo.InvariantCulture )}%;" );
+        }
+
+        return sb.ToString();
+    }
+
+    private static int GetBulmaInvertLightness( System.Drawing.Color baseColor )
+    {
+        var baseHex = ToHex( baseColor );
+        var baseHsl = HexStringToHslColor( baseHex );
+        var hue = (int)Math.Round( baseHsl.Hue );
+        var saturation = (int)Math.Round( baseHsl.Saturation );
+        var lightness = (int)Math.Round( baseHsl.Luminosity );
+
+        var lBase = lightness % 10;
+        var l0 = 0;
+        var l5 = 5;
+
+        if ( lBase < 3 )
+        {
+            l0 = lBase;
+            l5 = lBase + 5;
+        }
+        else if ( lBase < 8 )
+        {
+            l0 = lBase - 5;
+            l5 = lBase;
+        }
+        else
+        {
+            l0 = lBase - 10;
+            l5 = lBase - 5;
+        }
+
+        var shades = new List<(string Digits, int Lightness)>();
+
+        for ( int i = 0; i <= 9; i++ )
+        {
+            var colorL0 = Math.Max( l0 + ( i * 10 ), 0 );
+            var colorL5 = l5 + ( i * 10 );
+            var digits0 = $"{i}0";
+            var digits5 = $"{i}5";
+
+            shades.Add( (digits0, colorL0) );
+            shades.Add( (digits5, colorL5) );
+
+        }
+
+        var lightness100 = Math.Min( l0 + 100, 100 );
+        shades.Add( ("100", lightness100) );
+
+        var baseLum = BulmaColorLuminance( baseColor );
+        var baseIsLight = baseLum > 0.55;
+        var selectedDigits = baseIsLight ? "10" : "100";
+        var found = false;
+
+        foreach ( var shade in shades )
+        {
+            var shadeHsl = new HslColor( hue, saturation, shade.Lightness );
+            var shadeColor = shadeHsl.ToColor();
+            var shadeLum = BulmaColorLuminance( shadeColor );
+            var isLightForeground = shade.Lightness > lightness;
+
+            var ratio = isLightForeground
+                ? ( shadeLum + 0.05 ) / ( baseLum + 0.05 )
+                : ( baseLum + 0.05 ) / ( shadeLum + 0.05 );
+
+            if ( ratio > 7 )
+            {
+                if ( isLightForeground )
+                {
+                    if ( !found )
+                    {
+                        selectedDigits = shade.Digits;
+                        found = true;
+                    }
+                }
+                else
+                {
+                    selectedDigits = shade.Digits;
+                }
+            }
+        }
+
+        foreach ( var shade in shades )
+        {
+            if ( shade.Digits == selectedDigits )
+                return shade.Lightness;
+        }
+
+        return baseIsLight ? 10 : 100;
+    }
+
+    private static int GetBulmaOnSchemeLightness( System.Drawing.Color baseColor, System.Drawing.Color schemeMain )
+    {
+        if ( schemeMain.IsEmpty )
+            schemeMain = System.Drawing.Color.White;
+
+        var onSchemeColor = baseColor;
+        var fgLum = BulmaColorLuminance( onSchemeColor );
+        var bgLum = BulmaColorLuminance( schemeMain );
+
+        for ( int i = 0; i <= 20; i++ )
+        {
+            var ratio = fgLum > bgLum
+                ? ( fgLum + 0.05 ) / ( bgLum + 0.05 )
+                : ( bgLum + 0.05 ) / ( fgLum + 0.05 );
+
+            if ( ratio > 5 )
+                break;
+
+            var delta = fgLum > bgLum ? 5 : -5;
+            onSchemeColor = AdjustHslLightness( onSchemeColor, delta );
+            fgLum = BulmaColorLuminance( onSchemeColor );
+        }
+
+        var onSchemeHsl = HexStringToHslColor( ToHex( onSchemeColor ) );
+        return (int)Math.Round( onSchemeHsl.Luminosity );
+    }
+
+    private static System.Drawing.Color AdjustHslLightness( System.Drawing.Color baseColor, double delta )
+    {
+        var baseHsl = HexStringToHslColor( ToHex( baseColor ) );
+        var lightness = Math.Max( 0, Math.Min( 100, baseHsl.Luminosity + delta ) );
+        baseHsl.Luminosity = lightness;
+
+        return baseHsl.ToColor();
+    }
+
+    private static double BulmaColorLuminance( System.Drawing.Color color )
+    {
+        double r = color.R / 255d;
+        double g = color.G / 255d;
+        double b = color.B / 255d;
+
+        r = r < 0.03928 ? r / 12.92 : Math.Pow( ( r + 0.055 ) / 1.055, 2 );
+        g = g < 0.03928 ? g / 12.92 : Math.Pow( ( g + 0.055 ) / 1.055, 2 );
+        b = b < 0.03928 ? b / 12.92 : Math.Pow( ( b + 0.055 ) / 1.055, 2 );
+
+        return ( r * 0.2126 ) + ( g * 0.7152 ) + ( b * 0.0722 );
+    }
+
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         sb.Append( $".has-background-{variant}" ).Append( "{" )
             .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
             .AppendLine( "}" );
@@ -34,6 +239,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         sb.Append( $".has-border-{variant}" ).Append( "{" )
             .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
             .AppendLine( "}" );
@@ -41,6 +249,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
@@ -104,6 +315,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
         var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
         //var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
@@ -350,6 +564,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
 
         if ( backgroundColor.IsEmpty )
@@ -485,6 +702,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var backgroundColor = ParseColor( inBackgroundColor );
         var borderColor = ParseColor( inBorderColor );
         var textColor = ParseColor( inColor );
@@ -572,14 +792,6 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
     {
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb
-                .Append( ".tabs.is-toggle li.is-active a" )
-                .Append( "{" )
-                .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-        }
     }
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
@@ -612,6 +824,23 @@ public class BulmaThemeGenerator : ThemeGenerator
                 .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                 .AppendLine( "}" );
         }
+
+        if ( FirstNotEmpty( out var breadcrumbColor, options?.Color, theme.ColorOptions?.Primary ) )
+        {
+            var baseColor = ParseColor( breadcrumbColor );
+
+            if ( !baseColor.IsEmpty )
+            {
+                var schemeMain = ParseColor( theme.BodyOptions?.BackgroundColor ?? theme.White );
+                var onSchemeLightness = GetBulmaOnSchemeLightness( baseColor, schemeMain );
+                var activeColor = AdjustHslLightness( baseColor, onSchemeLightness - 10 );
+                var activeHex = ToHex( activeColor );
+
+                sb.Append( ".breadcrumb li.is-active a" ).Append( "{" )
+                    .Append( $"color: {activeHex};" )
+                    .AppendLine( "}" );
+            }
+        }
     }
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
@@ -639,14 +868,6 @@ public class BulmaThemeGenerator : ThemeGenerator
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
                 .AppendLine( "}" );
         }
-
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb.Append( ".pagination-link.is-current,.pagination-previous.is-current,.pagination-next.is-current" ).Append( "{" )
-                .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-        }
     }
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
@@ -656,7 +877,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
         foreach ( var (variant, _) in theme?.ValidBackgroundColors )
         {
-            var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
+            var yiqColor = BulmaThemeColors.Contains( variant )
+                ? $"var(--bulma-{variant}-invert)"
+                : Var( ThemeVariables.BackgroundYiqColor( variant ) );
 
             if ( string.IsNullOrEmpty( yiqColor ) )
                 continue;
@@ -669,6 +892,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var textColor = variant == "body" && !string.IsNullOrEmpty( theme.BodyOptions?.TextColor )
             ? ParseColor( theme.BodyOptions.TextColor )
             : ParseColor( inTextColor );
@@ -683,6 +909,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
+        if ( BulmaThemeColors.Contains( variant ) )
+            return;
+
         var color = ToHex( ParseColor( inColor ) );
 
         sb.Append( $".input.is-{variant}" )
@@ -750,27 +979,27 @@ public class BulmaThemeGenerator : ThemeGenerator
                     var length = lenghtFunc.Invoke();
 
                     sb
-                        .Append( $".is-{abbrev}{infix}-{size}" )
+                        .Append( $".{abbrev}{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}t{infix}-{size}," )
-                        .Append( $".is-{abbrev}y{infix}-{size}" )
+                        .Append( $".{abbrev}t{infix}-{size}," )
+                        .Append( $".{abbrev}y{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-top: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}r{infix}-{size}," )
-                        .Append( $".is-{abbrev}x{infix}-{size}" )
+                        .Append( $".{abbrev}r{infix}-{size}," )
+                        .Append( $".{abbrev}x{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-right: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}b{infix}-{size}," )
-                        .Append( $".is-{abbrev}y{infix}-{size}" )
+                        .Append( $".{abbrev}b{infix}-{size}," )
+                        .Append( $".{abbrev}y{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-bottom: {length} !important;" ).Append( "}" );
 
                     sb
-                        .Append( $".is-{abbrev}l{infix}-{size}," )
-                        .Append( $".is-{abbrev}x{infix}-{size}" )
+                        .Append( $".{abbrev}l{infix}-{size}," )
+                        .Append( $".{abbrev}x{infix}-{size}" )
                         .Append( "{" ).Append( $"{prop}-left: {length} !important;" ).Append( "}" );
                 }
             }
@@ -783,27 +1012,27 @@ public class BulmaThemeGenerator : ThemeGenerator
                 var length = lenghtFunc.Invoke();
 
                 sb
-                    .Append( $".is-m{infix}-n{size}" )
+                    .Append( $".m{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-mt{infix}-n{size}," )
-                    .Append( $".is-my{infix}-n{size}" )
+                    .Append( $".mt{infix}-n{size}," )
+                    .Append( $".my{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-top: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-mr{infix}-n{size}," )
-                    .Append( $".is-mx{infix}-n{size}" )
+                    .Append( $".mr{infix}-n{size}," )
+                    .Append( $".mx{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-right: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-mb{infix}-n{size}," )
-                    .Append( $".is-my{infix}-n{size}" )
+                    .Append( $".mb{infix}-n{size}," )
+                    .Append( $".my{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-bottom: -{length} !important;" ).Append( "}" );
 
                 sb
-                    .Append( $".is-ml{infix}-n{size}," )
-                    .Append( $".is-mx{infix}-n{size}" )
+                    .Append( $".ml{infix}-n{size}," )
+                    .Append( $".mx{infix}-n{size}" )
                     .Append( "{" ).Append( $"margin-left: -{length} !important;" ).Append( "}" );
             }
 

@@ -1,23 +1,6 @@
-﻿.is-position {
-    &-static {
-        position: static !important;
-    }
-
-    &-relative {
-        position: relative !important;
-    }
-
-    &-absolute {
-        position: absolute !important;
-    }
-
-    &-fixed {
-        position: fixed !important;
-    }
-
-    &-sticky {
-        position: -webkit-sticky !important;
-        position: sticky !important;
+@each $position in (static, relative, absolute, fixed, sticky) {
+    .is-position-#{$position} {
+        position: $position !important;
     }
 }
 
