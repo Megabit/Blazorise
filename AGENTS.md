@@ -9,6 +9,7 @@
 - `Documentation/`: docs site source, generator, and server (`Documentation/Blazorise.Docs.Server`).
 - `NuGet/`: local packaging helpers/scripts (not the source of truth for versions).
 - Docs snippets (`Documentation/Blazorise.Docs/Models/Snippets*.cs`) are generated artifacts: do not touch any snippet files during AI work (do not create new ones like `Snippets.*.cs`), and avoid incidental diffs from running the docs build.
+- `Documentation/Blazorise.Docs/ApiDocs/Blazorise.ApiDocs.cs` is generated: do not edit or touch this file with AI/Codex.
 
 ## Build, Test, and Development Commands
 
