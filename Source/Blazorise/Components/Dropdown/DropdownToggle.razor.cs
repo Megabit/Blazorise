@@ -243,6 +243,17 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
         => null;
 
     /// <summary>
+    /// Gets the aria-expanded attribute value.
+    /// </summary>
+    protected string AriaExpanded
+        => ParentDropdownState is null ? null : ParentDropdownState.Visible.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the aria-controls attribute value.
+    /// </summary>
+    protected string AriaControls => ParentDropdown?.DropdownMenuElementId;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }

@@ -1521,6 +1521,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return;
 
+        await BlurActiveCellEditorAsync();
+
         if ( !await ValidateAll() )
         {
             return;
@@ -2067,6 +2069,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask ScrollToRow( int row )
         => tableRef.ScrollToRow( row );
+
+    /// <summary>
+    /// Forces the active cell editor to blur so pending change events are dispatched.
+    /// </summary>
+    private async Task BlurActiveCellEditorAsync()
+    {
+        if ( tableRef is null )
+            return;
+
+        await JSModule.BlurActiveCellEditor( tableRef.ElementRef, ElementId );
+
+        await Task.Yield();
+    }
 
     #endregion
 

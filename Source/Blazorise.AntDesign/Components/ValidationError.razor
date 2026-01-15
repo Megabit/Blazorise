@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.ValidationError
 @if ( ParentValidation?.Status == ValidationStatus.Error )
 {
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="alert" aria-live="assertive" @attributes="@Attributes">
         <div class="ant-form-item-explain-error">
             @if ( ChildContent is not null )
             {

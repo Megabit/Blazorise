@@ -25,6 +25,13 @@ public partial class Field : BaseColumnComponent, IDisposable
 
     private ValidationStatus previousValidationStatus;
 
+    private FieldHelp helpText;
+
+    /// <summary>
+    /// Raises when the help text reference changes.
+    /// </summary>
+    internal event Action HelpTextChanged;
+
     #endregion
 
     #region Methods
@@ -119,6 +126,35 @@ public partial class Field : BaseColumnComponent, IDisposable
         hookables?.Remove( component );
     }
 
+    /// <summary>
+    /// Registers the help text component inside this field.
+    /// </summary>
+    /// <param name="fieldHelp">Help text component.</param>
+    internal void NotifyFieldHelpInitialized( FieldHelp fieldHelp )
+    {
+        if ( fieldHelp is null )
+            return;
+
+        if ( ReferenceEquals( helpText, fieldHelp ) )
+            return;
+
+        helpText = fieldHelp;
+        HelpTextChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Removes the help text component inside this field.
+    /// </summary>
+    /// <param name="fieldHelp">Help text component.</param>
+    internal void NotifyFieldHelpRemoved( FieldHelp fieldHelp )
+    {
+        if ( !ReferenceEquals( helpText, fieldHelp ) )
+            return;
+
+        helpText = null;
+        HelpTextChanged?.Invoke();
+    }
+
     #endregion
 
     #region Properties
@@ -127,6 +163,11 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// Determines if the field is inside of <see cref="Fields"/> component.
     /// </summary>
     protected bool IsFields => ParentFields is not null;
+
+    /// <summary>
+    /// Gets the element id of the field help text.
+    /// </summary>
+    internal string HelpTextElementId => helpText?.ElementId;
 
     /// <summary>
     /// Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.

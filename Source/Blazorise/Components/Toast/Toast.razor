@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent<ToastClasses, ToastStyles>
-<div @ref="@ElementRef" id="@ElementId" role="alert" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" role="alert" aria-live="assertive" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <CascadingValue Value="@this" IsFixed>
         <CascadingValue Value="@State">
             @ChildContent

@@ -217,6 +217,13 @@ function resizeCanvas(sigpad, canvas) {
         return null;
     }
 
+    const offsetWidth = canvas.offsetWidth;
+    const offsetHeight = canvas.offsetHeight;
+
+    if (!offsetWidth || !offsetHeight) {
+        return null;
+    }
+
     // When zoomed out to less than 100%, for some very strange reason,
     // some browsers report devicePixelRatio as less than 1
     // and only part of the canvas is cleared then.
@@ -227,8 +234,8 @@ function resizeCanvas(sigpad, canvas) {
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height, { colorSpace: 'srgb' });
 
     // This part causes the canvas to be cleared
-    canvas.width = canvas.offsetWidth * ratio;
-    canvas.height = canvas.offsetHeight * ratio;
+    canvas.width = offsetWidth * ratio;
+    canvas.height = offsetHeight * ratio;
     context.scale(ratio, ratio);
 
     sigpad.clear();

@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper for accordion content.
 /// </summary>
-public partial class AccordionBody : BaseComponent<AccordionBodyClasses, AccordionBodyStyles>
+public partial class AccordionBody : BaseComponent<AccordionBodyClasses, AccordionBodyStyles>, IDisposable
 {
     #region Members
 
@@ -29,6 +30,28 @@ public partial class AccordionBody : BaseComponent<AccordionBodyClasses, Accordi
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ElementId is null && ParentAccordionItem?.BodyElementId is not null )
+            ElementId = ParentAccordionItem.BodyElementId;
+
+        base.OnInitialized();
+
+        ParentAccordionItem?.NotifyAccordionBodyInitialized( this );
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentAccordionItem?.NotifyAccordionBodyRemoved( this );
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -60,10 +83,18 @@ public partial class AccordionBody : BaseComponent<AccordionBodyClasses, Accordi
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
     /// Body container class builder.
     /// </summary>
     protected ClassBuilder ContentClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the aria-labelledby attribute value.
+    /// </summary>
+    protected string AriaLabelledBy => ParentAccordionItem?.ToggleElementId;
 
     /// <summary>
     /// Gets body container class-names.

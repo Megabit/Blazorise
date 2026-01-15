@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@AriaDisabled" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @attributes="@Attributes">
     @Core
 </a>
 

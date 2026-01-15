@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent<AccordionBodyClasses, AccordionBodyStyles>
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="region" aria-labelledby="@AriaLabelledBy" @attributes="@Attributes">
         <div class="@ContentClassNames" style="@Styles?.Content">
             @ChildContent
         </div>
