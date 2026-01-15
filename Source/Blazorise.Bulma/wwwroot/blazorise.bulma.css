@@ -2343,6 +2343,9 @@ li.list-group-item-action {
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
+.modal .modal-card-foot {
+  gap: 0.75rem;
+}
 
 .offcanvas {
   position: fixed;
