@@ -173,6 +173,42 @@ public class BulmaThemeGenerator : ThemeGenerator
         return baseIsLight ? 10 : 100;
     }
 
+    private static int GetBulmaOnSchemeLightness( System.Drawing.Color baseColor, System.Drawing.Color schemeMain )
+    {
+        if ( schemeMain.IsEmpty )
+            schemeMain = System.Drawing.Color.White;
+
+        var onSchemeColor = baseColor;
+        var fgLum = BulmaColorLuminance( onSchemeColor );
+        var bgLum = BulmaColorLuminance( schemeMain );
+
+        for ( int i = 0; i <= 20; i++ )
+        {
+            var ratio = fgLum > bgLum
+                ? ( fgLum + 0.05 ) / ( bgLum + 0.05 )
+                : ( bgLum + 0.05 ) / ( fgLum + 0.05 );
+
+            if ( ratio > 5 )
+                break;
+
+            var delta = fgLum > bgLum ? 5 : -5;
+            onSchemeColor = AdjustHslLightness( onSchemeColor, delta );
+            fgLum = BulmaColorLuminance( onSchemeColor );
+        }
+
+        var onSchemeHsl = HexStringToHslColor( ToHex( onSchemeColor ) );
+        return (int)Math.Round( onSchemeHsl.Luminosity );
+    }
+
+    private static System.Drawing.Color AdjustHslLightness( System.Drawing.Color baseColor, double delta )
+    {
+        var baseHsl = HexStringToHslColor( ToHex( baseColor ) );
+        var lightness = Math.Max( 0, Math.Min( 100, baseHsl.Luminosity + delta ) );
+        baseHsl.Luminosity = lightness;
+
+        return baseHsl.ToColor();
+    }
+
     private static double BulmaColorLuminance( System.Drawing.Color color )
     {
         double r = color.R / 255d;
@@ -756,14 +792,6 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
     {
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb
-                .Append( ".tabs.is-toggle li.is-active a" )
-                .Append( "{" )
-                .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-        }
     }
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
@@ -796,6 +824,23 @@ public class BulmaThemeGenerator : ThemeGenerator
                 .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                 .AppendLine( "}" );
         }
+
+        if ( FirstNotEmpty( out var breadcrumbColor, options?.Color, theme.ColorOptions?.Primary ) )
+        {
+            var baseColor = ParseColor( breadcrumbColor );
+
+            if ( !baseColor.IsEmpty )
+            {
+                var schemeMain = ParseColor( theme.BodyOptions?.BackgroundColor ?? theme.White );
+                var onSchemeLightness = GetBulmaOnSchemeLightness( baseColor, schemeMain );
+                var activeColor = AdjustHslLightness( baseColor, onSchemeLightness - 10 );
+                var activeHex = ToHex( activeColor );
+
+                sb.Append( ".breadcrumb li.is-active a" ).Append( "{" )
+                    .Append( $"color: {activeHex};" )
+                    .AppendLine( "}" );
+            }
+        }
     }
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
@@ -823,14 +868,6 @@ public class BulmaThemeGenerator : ThemeGenerator
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
                 .AppendLine( "}" );
         }
-
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb.Append( ".pagination-link.is-current,.pagination-previous.is-current,.pagination-next.is-current" ).Append( "{" )
-                .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-        }
     }
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
@@ -840,7 +877,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
         foreach ( var (variant, _) in theme?.ValidBackgroundColors )
         {
-            var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
+            var yiqColor = BulmaThemeColors.Contains( variant )
+                ? $"var(--bulma-{variant}-invert)"
+                : Var( ThemeVariables.BackgroundYiqColor( variant ) );
 
             if ( string.IsNullOrEmpty( yiqColor ) )
                 continue;
