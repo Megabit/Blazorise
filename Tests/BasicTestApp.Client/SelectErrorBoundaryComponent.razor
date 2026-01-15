@@ -1,0 +1,21 @@
+@using System.ComponentModel
+
+<ErrorBoundary>
+    <ChildContent>
+        <Select TValue="int" ValueChanged="OnValueChanged">
+            <SelectItem Value="1">One</SelectItem>
+            <SelectItem Value="2">Two</SelectItem>
+        </Select>
+    </ChildContent>
+    <ErrorContent Context="ex">
+        <p id="select-error-boundary-error">@ex.GetType().Name</p>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    private async Task OnValueChanged( int value )
+    {
+        await Task.Yield();
+        throw new InvalidEnumArgumentException();
+    }
+}

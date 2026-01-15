@@ -140,6 +140,24 @@ export function destroy(element, elementId) {
         });
     }
 }
+
+export function blurActiveCellEditor(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element) {
+        return;
+    }
+
+    const activeElement = document.activeElement;
+    if (!activeElement || !element.contains(activeElement)) {
+        return;
+    }
+
+    if (typeof activeElement.blur === "function") {
+        activeElement.blur();
+    }
+}
+
 function preventSubmitOnEnter(e) {
     if (e.keyCode == 13) {
         e.preventDefault();
@@ -181,6 +199,7 @@ function clickCellNavigation(e) {
         }
     }
 }
+
 function KeyDownCellNavigation(e) {
 
     let element = findAncestorByTagName(e.target, TAG_NAME_TABLE);

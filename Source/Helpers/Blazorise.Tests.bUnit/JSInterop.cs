@@ -160,6 +160,7 @@ public static class JSInterop
         var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "scrollTo", _ => true ).SetVoidResult();
+        module.SetupVoid( "blurActiveCellEditor", _ => true ).SetVoidResult();
 
         return jsInterop;
     }
