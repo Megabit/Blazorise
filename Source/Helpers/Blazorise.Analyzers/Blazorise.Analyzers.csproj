@@ -9,7 +9,7 @@
     <AssemblyName>Blazorise.Analyzers</AssemblyName>
     <RootNamespace>Blazorise.Analyzers</RootNamespace>
     <PackageId>Blazorise.Analyzers</PackageId>
-    <Version>2.0.0</Version>
+    <Version>2.0.0-preview1</Version>
     <Authors>Blazorise</Authors>
     <Company>Blazorise</Company>
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
