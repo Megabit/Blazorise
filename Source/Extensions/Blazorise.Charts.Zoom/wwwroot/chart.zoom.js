@@ -1,7 +1,7 @@
-import { getChart } from "../Blazorise.Charts/charts.js?v=1.8.8.0";
+import { getChart } from "../Blazorise.Charts/charts.js?v=1.8.9.0";
 
-import "./vendors/hammerjs.js?v=1.8.8.0";
-import "./vendors/chartjs-plugin-zoom.js?v=1.8.8.0";
+import "./vendors/hammerjs.js?v=1.8.9.0";
+import "./vendors/chartjs-plugin-zoom.js?v=1.8.9.0";
 
 export function initialize(dotNetAdapter, canvasId, pluginOptions) {
     const chart = getChart(canvasId);

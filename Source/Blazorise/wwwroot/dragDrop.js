@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=1.8.8.0";
+import { getRequiredElement } from "./utilities.js?v=1.8.9.0";
 
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
