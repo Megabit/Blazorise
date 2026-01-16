@@ -1,8 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Blazorise.Version.props" />
   <Import Project="Blazorise.Pack.props" />
 	<PropertyGroup>
-		<Version>2.0.0-preview1</Version>
-		<PackageVersion>2.0.0-preview1</PackageVersion>
+		<Version>$(BlazoriseVersion)</Version>
+		<PackageVersion>$(BlazoriseVersion)</PackageVersion>
 
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>

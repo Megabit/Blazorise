@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\..\Build\Blazorise.Version.props" />
   <Import Project="..\..\..\Build\Blazorise.Pack.props" />
   <PropertyGroup>
-    <Version>2.0.0-preview1</Version>
-    <PackageVersion>2.0.0-preview1</PackageVersion>
+    <Version>$(BlazoriseVersion)</Version>
+    <PackageVersion>$(BlazoriseVersion)</PackageVersion>
 
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>

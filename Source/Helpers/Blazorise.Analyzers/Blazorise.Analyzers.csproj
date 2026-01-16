@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\..\Build\Blazorise.Version.props" />
   <Import Project="..\..\..\Build\Blazorise.Pack.props" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,7 +10,7 @@
     <AssemblyName>Blazorise.Analyzers</AssemblyName>
     <RootNamespace>Blazorise.Analyzers</RootNamespace>
     <PackageId>Blazorise.Analyzers</PackageId>
-    <Version>2.0.0-preview1</Version>
+    <Version>$(BlazoriseVersion)</Version>
     <Authors>Blazorise</Authors>
     <Company>Blazorise</Company>
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
