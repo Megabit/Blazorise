@@ -1,5 +1,5 @@
-import { getRequiredElement } from "./utilities.js?v=1.8.8.0";
-import { removeAllFileEntries } from "./io.js?v=1.8.8.0";
+import { getRequiredElement } from "./utilities.js?v=1.8.9.0";
+import { removeAllFileEntries } from "./io.js?v=1.8.9.0";
 
 const _instances = [];
 let nextFileId = 0;
