@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="Blazorise.Pack.props" />
 	<PropertyGroup>
 		<Version>2.0.0-preview1</Version>
@@ -66,33 +66,33 @@
         <![CDATA[  
 				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : [{SourceFiles.Count()}] files ------");
 				
-				var matchExpression = @"\?v=([\d.]*-?\w+-?\d*)";
-				var expectedVersion = string.Empty;;
+				var matchExpression = @"\?v=[A-Za-z0-9_.-]+";
+				var expectedVersion = string.Empty;
 				try {
-					string[] versionGroups = Version.Split('.');
-					if (versionGroups.Length < 4)
+					var versionMatch = Regex.Match(Version ?? string.Empty, @"^\d+(\.\d+){0,3}");
+					if (!versionMatch.Success)
 					{
-						expectedVersion = string.Empty;
-						for (int i = 0; i < 4; i++)
-						{
-							if (i>0)
-							{
-								expectedVersion += ".";
-							}
-						
-							if (versionGroups.Length > i)
-							{
-								expectedVersion += $"{versionGroups[i]}";
-							}
-							else
-							{
-								expectedVersion += $"0";
-							}
-						}
+						Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Unable to resolve version : [{Version}] ------");
+						return false;
 					}
-					else
+
+					string[] versionGroups = versionMatch.Value.Split('.');
+					expectedVersion = string.Empty;
+					for (int i = 0; i < 4; i++)
 					{
-						expectedVersion = Version;
+						if (i > 0)
+						{
+							expectedVersion += ".";
+						}
+					
+						if (versionGroups.Length > i)
+						{
+							expectedVersion += versionGroups[i];
+						}
+						else
+						{
+							expectedVersion += "0";
+						}
 					}
 				}
 				catch (Exception ex)
