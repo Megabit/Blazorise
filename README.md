@@ -124,11 +124,11 @@ Add the following to `index.html` (Blazor WebAssembly), `_Host.cshtml` (Blazor S
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
 
-<link href="_content/Blazorise/blazorise.css?v=1.8.9.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.8.9.0" rel="stylesheet" />
+<link href="_content/Blazorise/blazorise.css?v=2.0.0.0" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.0.0" rel="stylesheet" />
 ```
 
-The `?v=1.8.9.0` query string matches the current Blazorise package version (1.8.8) and is used for cache busting. Update it whenever you upgrade Blazorise packages. If you use a different provider, swap the Bootstrap CSS and provider-specific Blazorise CSS file accordingly.
+The `?v=2.0.0.0` query string matches the current Blazorise package version (1.8.8) and is used for cache busting. Update it whenever you upgrade Blazorise packages. If you use a different provider, swap the Bootstrap CSS and provider-specific Blazorise CSS file accordingly.
 
 #### 2.1 JavaScript resources
 
