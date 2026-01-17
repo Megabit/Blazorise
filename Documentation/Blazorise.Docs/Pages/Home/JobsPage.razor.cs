@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
 using Blazorise.Docs.Services;
+using Markdig;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 
@@ -14,6 +15,11 @@ namespace Blazorise.Docs.Pages.Home;
 public partial class JobsPage
 {
     private const string AllFilterOption = "All";
+
+    private static readonly MarkdownPipeline MarkdownPipeline = new MarkdownPipelineBuilder()
+        .UseAdvancedExtensions()
+        .DisableHtml()
+        .Build();
 
     private IReadOnlyList<JobPost> jobs = new List<JobPost>();
     private IReadOnlyList<string> employmentTypeOptions = new List<string> { AllFilterOption };
@@ -30,6 +36,7 @@ public partial class JobsPage
     private JobsOptions jobsOptions = new JobsOptions();
     private JobPost selectedJob;
     private bool detailsVisible;
+    private MarkupString descriptionMarkup;
 
     [Inject] public IJobsService JobsService { get; set; }
     [Inject] public IOptions<JobsOptions> JobsOptions { get; set; }
@@ -38,6 +45,7 @@ public partial class JobsPage
     private IReadOnlyList<string> SeniorityOptions => seniorityOptions;
     private string SubmitJobUrl => jobsOptions.SubmitJobUrl;
     private string DetailsTitle => selectedJob?.Title ?? "Job details";
+    private MarkupString DescriptionMarkup => descriptionMarkup;
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,12 +92,15 @@ public partial class JobsPage
             return;
 
         selectedJob = job;
+        descriptionMarkup = BuildDescriptionMarkup( job );
         detailsVisible = true;
     }
 
     private void HideDetails()
     {
         detailsVisible = false;
+        selectedJob = null;
+        descriptionMarkup = default;
     }
 
     private IReadOnlyList<JobPost> GetFilteredJobs()
@@ -258,36 +269,28 @@ public partial class JobsPage
         return date.Value.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture );
     }
 
-    private static IReadOnlyList<string> GetDescriptionLines( JobPost job )
-    {
-        if ( job is null || string.IsNullOrWhiteSpace( job.Description ) )
-            return new List<string> { "No description provided." };
-
-        string normalized = job.Description.Replace( "\r\n", "\n" ).Replace( '\r', '\n' );
-        string[] parts = normalized.Split( '\n', StringSplitOptions.RemoveEmptyEntries );
-        List<string> lines = new List<string>();
-
-        foreach ( string part in parts )
-        {
-            string trimmed = part.Trim();
-            if ( trimmed.Length == 0 )
-                continue;
-
-            lines.Add( trimmed );
-        }
-
-        if ( lines.Count == 0 )
-            lines.Add( job.Description.Trim() );
-
-        return lines;
-    }
-
     private static string GetOptionalText( string value )
     {
         if ( string.IsNullOrWhiteSpace( value ) )
             return "Not specified";
 
         return value;
+    }
+
+    private static MarkupString BuildDescriptionMarkup( JobPost job )
+    {
+        if ( job is null || string.IsNullOrWhiteSpace( job.Description ) )
+            return new MarkupString( "<p>No description provided.</p>" );
+
+        string markdown = job.Description.Trim();
+        if ( markdown.Length == 0 )
+            return new MarkupString( "<p>No description provided.</p>" );
+
+        string html = Markdig.Markdown.ToHtml( markdown, MarkdownPipeline );
+        if ( string.IsNullOrWhiteSpace( html ) )
+            return new MarkupString( "<p>No description provided.</p>" );
+
+        return new MarkupString( html );
     }
 
     private static bool IsAllFilter( string value )

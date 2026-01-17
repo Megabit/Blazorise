@@ -144,7 +144,7 @@
                                 <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Margin="Margin.Is2.FromTop">
                                     <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@FormatUpdatedText( job )</Span>
                                     <Div Flex="Flex.Row" Gap="Gap.Is2">
-                                        <Button Color="Color.Secondary" Outline Clicked="@(() => ShowDetails( job ))">Details</Button>
+                                        <Button Color="Color.Secondary" Clicked="@(() => ShowDetails( job ))">Details</Button>
                                         <Button Color="Color.Primary" Type="ButtonType.Link" To="@job.ApplyUrl" Target="Target.Blank">Apply</Button>
                                     </Div>
                                 </Div>
@@ -241,15 +241,13 @@
                 <Divider Margin="Margin.Is4.OnY" />
 
                 <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">Role description</Heading>
-
-                @foreach ( string line in GetDescriptionLines( selectedJob ) )
-                {
-                    <Paragraph Margin="Margin.Is2.FromBottom">@line</Paragraph>
-                }
+                <Div Height="Height.Rem( 15 ).Max( 15 )" Overflow="Overflow.Auto">
+                    @DescriptionMarkup
+                </Div>
             }
         </ModalBody>
         <ModalFooter>
-            <Button Color="Color.Secondary" Outline Clicked="@HideDetails">
+            <Button Color="Color.Secondary" Clicked="@HideDetails">
                 Close
             </Button>
             @if ( selectedJob is not null && !string.IsNullOrWhiteSpace( selectedJob.ApplyUrl ) )
