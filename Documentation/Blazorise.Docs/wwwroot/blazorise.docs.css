@@ -841,34 +841,6 @@ div.developers-picker button:hover {
   width: 100%;
 }
 
-.jobs-page .jobs-filter-card {
-  /*border-radius: 18px;*/
-  background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(72, 173, 219, 0.08));
-}
-.jobs-page .jobs-results-summary {
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  padding-top: 0.75rem;
-}
-.jobs-page .jobs-state {
-  border-radius: 16px;
-}
-.jobs-page .job-card {
-  height: 100%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.jobs-page .job-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12);
-}
-.jobs-page .job-meta {
-  font-size: 0.95rem;
-}
-.jobs-page .job-tags .job-tag {
-  border-radius: 999px;
-  font-size: 0.75rem;
-  padding: 0.2rem 0.55rem;
-}
-
 a.toc-link {
   text-decoration: none;
 }
