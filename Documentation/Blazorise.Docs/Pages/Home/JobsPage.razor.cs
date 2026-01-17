@@ -28,6 +28,8 @@ public partial class JobsPage
     private JobsSortOption selectedSort = JobsSortOption.MostRecent;
 
     private JobsOptions jobsOptions = new JobsOptions();
+    private JobPost selectedJob;
+    private bool detailsVisible;
 
     [Inject] public IJobsService JobsService { get; set; }
     [Inject] public IOptions<JobsOptions> JobsOptions { get; set; }
@@ -35,6 +37,7 @@ public partial class JobsPage
     private IReadOnlyList<string> EmploymentTypeOptions => employmentTypeOptions;
     private IReadOnlyList<string> SeniorityOptions => seniorityOptions;
     private string SubmitJobUrl => jobsOptions.SubmitJobUrl;
+    private string DetailsTitle => selectedJob?.Title ?? "Job details";
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,6 +76,20 @@ public partial class JobsPage
         {
             isLoading = false;
         }
+    }
+
+    private void ShowDetails( JobPost job )
+    {
+        if ( job is null )
+            return;
+
+        selectedJob = job;
+        detailsVisible = true;
+    }
+
+    private void HideDetails()
+    {
+        detailsVisible = false;
     }
 
     private IReadOnlyList<JobPost> GetFilteredJobs()
@@ -188,6 +205,29 @@ public partial class JobsPage
         return job.Location;
     }
 
+    private static string GetRemoteText( JobPost job )
+    {
+        if ( job is null )
+            return "Not specified";
+
+        return job.Remote ? "Yes" : "No";
+    }
+
+    private static string GetEmploymentText( JobPost job )
+    {
+        return GetOptionalText( job?.EmploymentType );
+    }
+
+    private static string GetSeniorityText( JobPost job )
+    {
+        return GetOptionalText( job?.Seniority );
+    }
+
+    private static string GetSalaryText( JobPost job )
+    {
+        return GetOptionalText( job?.SalaryRange );
+    }
+
     private static string FormatUpdatedText( JobPost job )
     {
         if ( job is null )
@@ -200,6 +240,54 @@ public partial class JobsPage
             return $"Posted {job.CreatedAt.Value.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture )}";
 
         return "Date not specified";
+    }
+
+    private static string FormatDate( DateTimeOffset? date )
+    {
+        if ( !date.HasValue )
+            return "Not specified";
+
+        return date.Value.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture );
+    }
+
+    private static string FormatDate( DateTime? date )
+    {
+        if ( !date.HasValue )
+            return "Not specified";
+
+        return date.Value.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture );
+    }
+
+    private static IReadOnlyList<string> GetDescriptionLines( JobPost job )
+    {
+        if ( job is null || string.IsNullOrWhiteSpace( job.Description ) )
+            return new List<string> { "No description provided." };
+
+        string normalized = job.Description.Replace( "\r\n", "\n" ).Replace( '\r', '\n' );
+        string[] parts = normalized.Split( '\n', StringSplitOptions.RemoveEmptyEntries );
+        List<string> lines = new List<string>();
+
+        foreach ( string part in parts )
+        {
+            string trimmed = part.Trim();
+            if ( trimmed.Length == 0 )
+                continue;
+
+            lines.Add( trimmed );
+        }
+
+        if ( lines.Count == 0 )
+            lines.Add( job.Description.Trim() );
+
+        return lines;
+    }
+
+    private static string GetOptionalText( string value )
+    {
+        if ( string.IsNullOrWhiteSpace( value ) )
+            return "Not specified";
+
+        return value;
     }
 
     private static bool IsAllFilter( string value )
