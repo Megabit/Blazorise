@@ -2841,16 +2841,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     protected override void OnInitialized()
     {
-        timer = new Timer(IntervalDelay);
+        timer = new Timer( IntervalDelay );
         timer.Elapsed += OnTimerElapsed;
         timer.AutoReset = true;
         timer.Start();
     }
 
-    private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    private void OnTimerElapsed( object sender, ElapsedEventArgs e )
     {
         Value = Value < 42 ? Value + IntervalIncrement : 0;
-        InvokeAsync(StateHasChanged);
+        InvokeAsync( StateHasChanged );
     }
 
     public void Dispose()
@@ -3705,7 +3705,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         </TabPanel>
     </Content>
 </Tabs>
-@code{
+@code {
     string selectedTab = ""profile"";
 
     private Task OnSelectedTabChanged( string name )
@@ -3740,8 +3740,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </Items>
     <Content>
         <TabPanel Name=""tab1"">
-            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
-            Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded, 
+            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time.
+            Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded,
             therefore re-calculated.
             <TextInput></TextInput>
         </TabPanel>
@@ -11131,10 +11131,10 @@ builder.Services
             <ListGroupItem>
                 <Strong>Node: @contextMenuNode?.Text</Strong>
             </ListGroupItem>
-            <ListGroupItem Clicked=""@(()=>OnContextItemEditClicked(contextMenuNode))"" Style=""cursor: pointer;"">
+            <ListGroupItem Clicked=""@(() => OnContextItemEditClicked( contextMenuNode ))"" Style=""cursor: pointer;"">
                 <Icon Name=""IconName.Edit"" TextColor=""TextColor.Secondary"" /> Edit
             </ListGroupItem>
-            <ListGroupItem Clicked=""@(()=>OnContextItemDeleteClicked(contextMenuNode))"" Style=""cursor: pointer;"">
+            <ListGroupItem Clicked=""@(() => OnContextItemDeleteClicked( contextMenuNode ))"" Style=""cursor: pointer;"">
                 <Icon Name=""IconName.Delete"" TextColor=""TextColor.Danger"" /> Delete
             </ListGroupItem>
         </ListGroup>
@@ -11219,7 +11219,7 @@ builder.Services
     </NodeContent>
 </TreeView>
 
-@code{
+@code {
     public class Item
     {
         public string Text { get; set; }
@@ -11257,8 +11257,8 @@ builder.Services
     Item selectedNode;
 }";
 
-        public const string TreeViewExpandExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>treeViewRef.ExpandAll())"">Expand all</Button>
-<Button Color=""Color.Secondary"" Clicked=""@(()=>treeViewRef.CollapseAll())"">Collapse all</Button>
+        public const string TreeViewExpandExample = @"<Button Color=""Color.Primary"" Clicked=""@(() => treeViewRef.ExpandAll())"">Expand all</Button>
+<Button Color=""Color.Secondary"" Clicked=""@(() => treeViewRef.CollapseAll())"">Collapse all</Button>
 
 <TreeView @ref=""@treeViewRef"" Nodes=""Items"" GetChildNodes=""@(item => item.Children)"" HasChildNodes=""@(item => item.Children?.Any() == true)"">
     <NodeContent>
