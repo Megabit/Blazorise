@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Internal;
 using Blazorise.DataGrid.Utils;
 using Blazorise.DeepCloner;
 using Blazorise.Extensions;

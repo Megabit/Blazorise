@@ -5,7 +5,7 @@ using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
 /// <summary>
 /// Internal component for editing the row item cell value.

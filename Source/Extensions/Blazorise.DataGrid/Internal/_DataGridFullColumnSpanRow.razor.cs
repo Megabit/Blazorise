@@ -4,17 +4,20 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
-public abstract class _BaseDataGridDetailRow<TItem> : BaseDataGridComponent
+public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridComponent
 {
     #region Properties
+
+    protected override bool ShouldRender()
+        => RenderUpdates;
 
     protected bool HasCommandColumn
         => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
     protected int ColumnSpan
-        => Columns.Where( x => x.Displayable ).Count() - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
+        => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
     /// <summary>
     /// Item associated with the data set.
@@ -32,6 +35,8 @@ public abstract class _BaseDataGridDetailRow<TItem> : BaseDataGridComponent
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public bool RenderUpdates { get; set; }
 
     #endregion
 }

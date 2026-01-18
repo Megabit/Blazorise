@@ -5,7 +5,7 @@ using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
 public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
 {
