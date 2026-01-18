@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
 public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 {

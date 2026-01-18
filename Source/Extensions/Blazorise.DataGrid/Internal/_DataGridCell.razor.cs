@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
 public abstract class _BaseDataGridCell<TItem> : ComponentBase
 {

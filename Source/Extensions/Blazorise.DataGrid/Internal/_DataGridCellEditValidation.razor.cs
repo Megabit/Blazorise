@@ -6,7 +6,7 @@ using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
 public partial class _DataGridCellEditValidation<TItem> : _DataGridCellEdit<TItem>
 {

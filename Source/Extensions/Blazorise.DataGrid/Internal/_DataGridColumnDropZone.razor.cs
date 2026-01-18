@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
 public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
 {

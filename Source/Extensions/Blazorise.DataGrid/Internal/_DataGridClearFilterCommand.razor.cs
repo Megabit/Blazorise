@@ -4,9 +4,9 @@ using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.DataGrid;
+namespace Blazorise.DataGrid.Internal;
 
-public abstract class _BaseDataGridNewCommand<TItem> : ComponentBase, IDisposable
+public abstract class _BaseDataGridClearFilterCommand<TItem> : ComponentBase, IDisposable
 {
     protected override void OnInitialized()
     {
@@ -25,6 +25,9 @@ public abstract class _BaseDataGridNewCommand<TItem> : ComponentBase, IDisposabl
         await InvokeAsync( StateHasChanged );
     }
 
+    protected EventCallback ClearFilter
+        => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
+
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
@@ -33,6 +36,4 @@ public abstract class _BaseDataGridNewCommand<TItem> : ComponentBase, IDisposabl
     /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
-
-    [Parameter] public EventCallback New { get; set; }
 }
