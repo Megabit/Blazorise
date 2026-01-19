@@ -11,8 +11,32 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    It inspects your solution or project, reports the required changes, and can automatically apply them when you are ready.
+    It analyzes your solution or project, reports the required changes, and can automatically apply them when you are ready.
     You stay in control at every step.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    When should I use this?
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use the Blazorise Migrator when upgrading an existing application from Blazorise 1.x to 2.0.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        You are updating package references to Blazorise 2.0.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Your project uses components, parameters, or APIs that changed in 2.0.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        You want a guided, reviewable upgrade process with minimal manual changes.
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageParagraph>
+    The migrator is <Strong>not required</Strong> for new projects created with Blazorise 2.0 templates.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -67,7 +91,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Inspect your solution">
-        Analyze a solution or project to determine required Blazorise 2.0 changes.
+        Analyze a solution or project to determine required Blazorise 2.0 migration changes.
     </DocsPageSectionHeader>
 
     <DocsPageSectionContent>
@@ -90,7 +114,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Apply changes">
-        Apply Blazorise 2.0 migration changes to eligible projects.
+        Apply required Blazorise 2.0 migration changes to eligible projects.
     </DocsPageSectionHeader>
 
     <DocsPageSectionContent>
@@ -101,6 +125,10 @@
 
         <Paragraph>
             If <Code>--path</Code> is omitted, the current directory is used.
+        </Paragraph>
+
+        <Paragraph>
+            No files are modified unless the <Code>migrate</Code> command is executed without <Code>--dry-run</Code>.
         </Paragraph>
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="MigrationMigrateCommandExample" />
