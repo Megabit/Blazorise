@@ -1,0 +1,150 @@
+﻿@page "/docs/migration"
+
+<Seo Canonical="/docs/migration" Title="Blazorise 2.0 Migration CLI" Description="Use the Blazorise Migrator CLI to analyze and migrate to Blazorise 2.0." />
+
+<DocsPageTitle Path="Migration">
+    Blazorise 2.0 Migration CLI
+</DocsPageTitle>
+
+<DocsPageLead>
+    Blazorise.Migrator is a command-line tool that scans your solution or project and helps you move to Blazorise 2.0.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Use <Code>analyze</Code> to generate a report in dry-run mode, then use <Code>migrate</Code> to apply changes when you are ready.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Install
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Install the global tool from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DocsPageSectionSource Code="MigrationInstallExample" />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Minimal smoke test">
+        Confirm the tool is available on your path.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DocsPageSectionSource Code="MigrationSmokeTestExample" />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Commands
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Analyze">
+        Analyze a solution or project for Blazorise 2.0 migration. This command always runs in dry-run mode.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <Paragraph>
+            When <Code>--path</Code> is omitted, the current directory is used. You can pass a folder, <Code>.sln</Code>, <Code>.slnx</Code>, or <Code>.csproj</Code>.
+        </Paragraph>
+    </DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <DocsPageSectionSource Code="MigrationAnalyzeCommandExample" />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Migrate">
+        Apply Blazorise 2.0 migration changes to projects that reference Blazorise packages.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <Paragraph>
+            When <Code>--path</Code> is omitted, the current directory is used. Use <Code>--dry-run</Code> to preview changes and <Code>--backup</Code> to keep <Code>.bak</Code> files.
+        </Paragraph>
+    </DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <DocsPageSectionSource Code="MigrationMigrateCommandExample" />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Options
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Analyze options" Ordered="false">
+    <DocsAttributesItem Name="--path &lt;path&gt;" Type="string" Default="current directory">
+        <Paragraph>
+            Accepts a folder, <Code>.sln</Code>, <Code>.slnx</Code>, or <Code>.csproj</Code>.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--json &lt;file&gt;" Type="string" Default="none">
+        <Paragraph>
+            Write the analysis report to the specified file path.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--all-projects" Type="bool" Default="false">
+        <Paragraph>
+            Ignore solution files and scan all projects under the path, even if they do not reference Blazorise packages.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--verbose" Type="bool" Default="false">
+        <Paragraph>
+            Emit detailed diagnostics while scanning.
+        </Paragraph>
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Migrate options" Ordered="false">
+    <DocsAttributesItem Name="--path &lt;path&gt;" Type="string" Default="current directory">
+        <Paragraph>
+            Accepts a folder, <Code>.sln</Code>, <Code>.slnx</Code>, or <Code>.csproj</Code>.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--dry-run" Type="bool" Default="false">
+        <Paragraph>
+            Preview changes without writing files.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--backup" Type="bool" Default="false">
+        <Paragraph>
+            Create <Code>.bak</Code> files before modifying.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--all-projects" Type="bool" Default="false">
+        <Paragraph>
+            Ignore solution files and scan all projects under the path, even if they do not reference Blazorise packages.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--verbose" Type="bool" Default="false">
+        <Paragraph>
+            Emit detailed diagnostics while scanning.
+        </Paragraph>
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Global options" Ordered="false" ShowDefaults="false">
+    <DocsAttributesItem Name="--help" Type="flag">
+        <Paragraph>
+            Show command help.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="--version" Type="flag">
+        <Paragraph>
+            Print the tool version.
+        </Paragraph>
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Common workflows for analyzing and migrating projects.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DocsPageSectionSource Code="MigrationExamplesExample" />
+    </DocsPageSectionContent>
+</DocsPageSection>

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Docs.Models;
 
@@ -12,6 +12,7 @@ public static class ManualPageEntries
     new( "docs/start", "Start" ),
     new( "docs/usage", "Usage" ),
     new( "docs/theming", "Theming" ),
+    new( "docs/migration", "Migration", "Use the Blazorise Migrator CLI to analyze and migrate to Blazorise 2.0." ),
     new( "docs/pwa", "PWA" ),
     new( "docs/components/accordion", "Accordion", "Build vertically collapsing accordions in combination with our Collapse component." ),
     new( "docs/components/addon", "Addon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
