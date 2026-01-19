@@ -4699,6 +4699,23 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.0.0"" type=""module""></script>
 <script src=""_content/Blazorise.Material/tooltip.js?v=2.0.0.0"" type=""module""></script>";
 
+        public const string MigrationAnalyzeCommandExample = @"blazorise-migrate analyze [--path <path>] [--json <file>] [--all-projects] [--verbose]";
+
+        public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.slnx
+blazorise-migrate analyze --json C:\temp\blazorise-report.json
+blazorise-migrate analyze
+blazorise-migrate analyze --path C:\src\WebApps --all-projects
+blazorise-migrate migrate --path C:\src\MyApp\MyApp.csproj --backup
+blazorise-migrate migrate
+blazorise-migrate migrate --path C:\src\MyApp.sln --dry-run --verbose
+blazorise-migrate migrate --path C:\src\WebApps --all-projects";
+
+        public const string MigrationInstallExample = @"dotnet tool install -g Blazorise.Migrator --prerelease";
+
+        public const string MigrationMigrateCommandExample = @"blazorise-migrate migrate [--path <path>] [--dry-run] [--backup] [--all-projects] [--verbose]";
+
+        public const string MigrationSmokeTestExample = @"blazorise-migrate --version";
+
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.0.0"" type=""module""></script>";
 
         public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.0.0.0"" type=""module""></script>
