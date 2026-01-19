@@ -69,12 +69,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <summary>
     /// Captured DisabledDates parameter snapshot.
     /// </summary>
-    protected ComponentParameterInfo<IEnumerable<TValue>> paramDisabledDates;
+    protected ComponentParameterInfo<IEnumerable> paramDisabledDates;
 
     /// <summary>
     /// Captured EnabledDates parameter snapshot.
     /// </summary>
-    protected ComponentParameterInfo<IEnumerable<TValue>> paramEnabledDates;
+    protected ComponentParameterInfo<IEnumerable> paramEnabledDates;
 
     /// <summary>
     /// Captured DisabledDays parameter snapshot.
@@ -241,8 +241,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                     Max = new JSOptionChange<string>( maxChanged, paramMax.Value?.ToString( DateFormat ) ),
                     Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
                     ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value ),
-                    DisabledDates = new JSOptionChange<IEnumerable<string>>( disabledDatesChanged, paramDisabledDates.Value?.Select( x => FormatValueAsString( x ) ) ),
-                    EnabledDates = new JSOptionChange<IEnumerable<string>>( enabledDatesChanged, paramEnabledDates.Value?.Select( x => FormatValueAsString( x ) ) ),
+                    DisabledDates = new JSOptionChange<IEnumerable<string>>( disabledDatesChanged, FormatDatesAsStrings( paramDisabledDates.Value ) ),
+                    EnabledDates = new JSOptionChange<IEnumerable<string>>( enabledDatesChanged, FormatDatesAsStrings( paramEnabledDates.Value ) ),
                     DisabledDays = new JSOptionChange<IEnumerable<int>>( disabledDaysChanged, paramDisabledDays.Value?.Select( x => (int)x ) ),
                     SelectionMode = new JSOptionChange<DateInputSelectionMode>( selectionModeChanged, paramSelectionMode.Value ),
                     Inline = new JSOptionChange<bool>( inlineChanged, paramInline.Value ),
@@ -288,8 +288,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             Max = Max?.ToString( DateFormat ),
             Disabled = Disabled,
             ReadOnly = ReadOnly,
-            DisabledDates = DisabledDates?.Select( x => FormatValueAsString( x ) ),
-            EnabledDates = EnabledDates?.Select( x => FormatValueAsString( x ) ),
+            DisabledDates = FormatDatesAsStrings( DisabledDates ),
+            EnabledDates = FormatDatesAsStrings( EnabledDates ),
             DisabledDays = DisabledDays?.Select( x => (int)x ),
             Localization = GetLocalizationObject(),
             Inline = Inline,
@@ -384,6 +384,21 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
 
         return Formaters.FormatDateValueAsString( value, DateFormat );
+    }
+
+    private IEnumerable<string> FormatDatesAsStrings( IEnumerable values )
+    {
+        if ( values is null )
+            return null;
+
+        List<string> result = new List<string>();
+
+        foreach ( object value in values )
+        {
+            result.Add( Formaters.FormatDateValueAsString( value, DateFormat ) );
+        }
+
+        return result;
     }
 
     /// <inheritdoc/>
@@ -689,12 +704,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <summary>
     /// List of disabled dates that the user should not be able to pick.
     /// </summary>
-    [Parameter] public IEnumerable<TValue> DisabledDates { get; set; }
+    [Parameter] public IEnumerable DisabledDates { get; set; }
 
     /// <summary>
     /// List of enabled dates that the user should be able to pick.
     /// </summary>
-    [Parameter] public IEnumerable<TValue> EnabledDates { get; set; }
+    [Parameter] public IEnumerable EnabledDates { get; set; }
     /// <summary>
     /// List of disabled days in a week that the user should not be able to pick.
     /// </summary>
