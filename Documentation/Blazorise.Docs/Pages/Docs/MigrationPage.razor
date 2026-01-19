@@ -7,11 +7,11 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Blazorise.Migrator is a command-line tool that scans your solution or project and helps you move to Blazorise 2.0.
+    Blazorise.Migrator is a command-line tool that inspects your solution or project and guides you through moving to Blazorise 2.0.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Use <Code>analyze</Code> to generate a report in dry-run mode, then use <Code>migrate</Code> to apply changes when you are ready.
+    Start with <Code>analyze</Code> to understand what will change. When you are comfortable with the report, use <Code>migrate</Code> to apply the updates.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -37,8 +37,25 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Commands
+    Recommended workflow
 </DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Follow this sequence for a safe, reviewable migration.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <OrderedList>
+            <OrderedListItem>Analyze the solution or project to see what will change.</OrderedListItem>
+            <OrderedListItem>Use <Code>--json</Code> if you want to keep a report for review.</OrderedListItem>
+            <OrderedListItem>Run <Code>migrate</Code> with <Code>--dry-run</Code> to preview file edits.</OrderedListItem>
+            <OrderedListItem>Run <Code>migrate</Code> again with <Code>--backup</Code> to apply changes and keep <Code>.bak</Code> files.</OrderedListItem>
+        </OrderedList>
+    </DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <DocsPageSectionSource Code="MigrationExamplesExample" />
+    </DocsPageSectionContent>
+</DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Analyze">
@@ -54,8 +71,12 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Migrate
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Migrate">
+    <DocsPageSectionHeader Title="Apply changes">
         Apply Blazorise 2.0 migration changes to projects that reference Blazorise packages.
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
@@ -135,16 +156,3 @@
         </Paragraph>
     </DocsAttributesItem>
 </DocsAttributes>
-
-<DocsPageSubtitle>
-    Examples
-</DocsPageSubtitle>
-
-<DocsPageSection>
-    <DocsPageSectionHeader>
-        Common workflows for analyzing and migrating projects.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent>
-        <DocsPageSectionSource Code="MigrationExamplesExample" />
-    </DocsPageSectionContent>
-</DocsPageSection>
