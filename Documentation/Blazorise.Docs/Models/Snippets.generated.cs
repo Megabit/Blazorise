@@ -4701,14 +4701,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string MigrationAnalyzeCommandExample = @"blazorise-migrate analyze [--path <path>] [--json <file>] [--all-projects] [--verbose]";
 
-        public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.slnx
+        public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.sln
 blazorise-migrate analyze --json C:\temp\blazorise-report.json
-blazorise-migrate analyze
-blazorise-migrate analyze --path C:\src\WebApps --all-projects
-blazorise-migrate migrate --path C:\src\MyApp\MyApp.csproj --backup
-blazorise-migrate migrate
-blazorise-migrate migrate --path C:\src\MyApp.sln --dry-run --verbose
-blazorise-migrate migrate --path C:\src\WebApps --all-projects";
+blazorise-migrate migrate --path C:\src\MyApp.sln --dry-run
+blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string MigrationInstallExample = @"dotnet tool install -g Blazorise.Migrator --prerelease";
 
