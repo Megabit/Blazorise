@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\..\Build\Blazorise.Version.props" />
   <Import Project="..\..\..\Build\Blazorise.Pack.props" />
   <PropertyGroup>
@@ -11,13 +11,8 @@
     <RootNamespace>Blazorise.Analyzers</RootNamespace>
     <PackageId>Blazorise.Analyzers</PackageId>
     <Version>$(BlazoriseVersion)</Version>
-    <Authors>Blazorise</Authors>
-    <Company>Blazorise</Company>
-    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <Description>Roslyn analyzers and migration helpers for Blazorise 2.0.</Description>
     <PackageTags>Blazorise;Blazor;Analyzer;Roslyn;Migration</PackageTags>
-    <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IsPackable>true</IsPackable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>

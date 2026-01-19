@@ -6,15 +6,6 @@
     <Version>$(BlazoriseVersion)</Version>
     <PackageVersion>$(BlazoriseVersion)</PackageVersion>
 
-    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-
-    <Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
-    <Authors>Megabit</Authors>
-    <Company>Megabit</Company>
-    <Copyright>Copyright 2018-2025 Megabit</Copyright>
-
     <TargetFramework>netstandard2.0</TargetFramework>
 
     <LangVersion>latest</LangVersion>

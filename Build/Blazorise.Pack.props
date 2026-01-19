@@ -1,8 +1,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
+    <Authors>Megabit</Authors>
+    <Company>Megabit</Company>
+    <Copyright>Copyright 2018-2026 Megabit</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
