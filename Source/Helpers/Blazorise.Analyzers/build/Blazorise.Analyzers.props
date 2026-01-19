@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
-    <Analyzer Include="$(MSBuildThisPackageRoot)analyzers/dotnet/cs/Blazorise.Analyzers.dll" />
+    <Analyzer Include="$(MSBuildThisFileDirectory)..\analyzers\dotnet\cs\Blazorise.Analyzers.dll" Condition="Exists('$(MSBuildThisFileDirectory)..\analyzers\dotnet\cs\Blazorise.Analyzers.dll')" />
 
     <!-- Host files checked by migration analyzers -->
     <AdditionalFiles Include="$(MSBuildProjectDirectory)\wwwroot\index.html" Condition="Exists('$(MSBuildProjectDirectory)\wwwroot\index.html')" />
