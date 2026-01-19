@@ -4699,6 +4699,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.0.0"" type=""module""></script>
 <script src=""_content/Blazorise.Material/tooltip.js?v=2.0.0.0"" type=""module""></script>";
 
+        public const string MigrationAnalyzeCommandExample = @"blazorise-migrate analyze [--path <path>] [--json <file>] [--all-projects] [--verbose]";
+
+        public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.sln
+blazorise-migrate analyze --json C:\temp\blazorise-report.json
+blazorise-migrate migrate --path C:\src\MyApp.sln --dry-run
+blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
+
+        public const string MigrationInstallExample = @"dotnet tool install -g Blazorise.Migrator --prerelease";
+
+        public const string MigrationMigrateCommandExample = @"blazorise-migrate migrate [--path <path>] [--dry-run] [--backup] [--all-projects] [--verbose]";
+
+        public const string MigrationSmokeTestExample = @"blazorise-migrate --version";
+
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.0.0"" type=""module""></script>";
 
         public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.0.0.0"" type=""module""></script>
