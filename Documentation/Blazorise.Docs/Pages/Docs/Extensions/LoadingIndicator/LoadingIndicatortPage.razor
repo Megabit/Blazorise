@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/loadingindicator"
+@page "/docs/extensions/loadingindicator"
 
 <Seo Canonical="/docs/extensions/loadingindicator" Title="Blazorise LoadingIndicator component" Description="Learn how to use the Blazorise LoadingIndicator component to show loading states for child content." />
 
@@ -50,13 +50,23 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Two-way Binding Example">
+    <DocsPageSectionHeader Title="Two-way Binding">
         Having a more declarative approach to control the indicator is also supported. To make it work, you just need to bind a variable to the <Code>Visible</Code> parameter, and it will work.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <LoadingIndicatorTwoWayBindingExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorTwoWayBindingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Status text">
+        Display progress text by providing <Code>IndicatorTemplate</Code>. The template receives a <Code>LoadingIndicatorContext</Code> with <Code>Text</Code> and <Code>Progress</Code> updated via <Code>SetStatus</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LoadingIndicatorStatusExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorStatusExample" />
 </DocsPageSection>
 
 <DocsPageSection>

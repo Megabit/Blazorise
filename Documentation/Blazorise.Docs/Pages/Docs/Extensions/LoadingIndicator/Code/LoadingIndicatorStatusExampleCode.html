@@ -1,0 +1,46 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LoadingIndicator</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">loadingIndicator</span><span class="quot">&quot;</span> <span class="htmlAttributeName">FullScreen</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ShowIndicator</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show indicator<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">IndicatorTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Column.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SpinKit</span> <span class="htmlAttributeName">Type</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SpinKitType</span><span class="enumValue">.Chase</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraLarge</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="atSign">&#64;</span>if ( !string.IsNullOrWhiteSpace( context.Text ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Text<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( context.Progress.HasValue )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>($&quot;{context.Progress.Value}%&quot;)<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">IndicatorTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LoadingIndicator</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code
+{
+    LoadingIndicator loadingIndicator;
+
+    <span class="keyword">async</span> Task ShowIndicator()
+    {
+        <span class="keyword">await</span> loadingIndicator.SetStatus( text: <span class="string">&quot;Loading files&quot;</span>, progress: <span class="number">30</span> );
+        <span class="keyword">await</span> loadingIndicator.Show();
+
+        <span class="keyword">await</span> Task.Delay( <span class="number">1000</span> );
+
+        <span class="keyword">await</span> loadingIndicator.SetStatus( text: <span class="string">&quot;Loading other data&quot;</span>, progress: <span class="number">60</span> );
+
+        <span class="keyword">await</span> Task.Delay( <span class="number">1000</span> );
+
+        <span class="keyword">await</span> loadingIndicator.SetStatus( text: <span class="string">&quot;Finalizing&quot;</span>, progress: <span class="number">90</span> );
+
+        <span class="keyword">await</span> Task.Delay( <span class="number">1000</span> );
+
+        <span class="keyword">await</span> loadingIndicator.Hide();
+    }
+}
+</pre></div>
+</div>

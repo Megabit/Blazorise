@@ -9847,6 +9847,47 @@ Install-Package Blazorise.Icons.Material";
 
         public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
 
+        public const string LoadingIndicatorStatusExample = @"<LoadingIndicator @ref=""loadingIndicator"" FullScreen>
+    <ChildContent>
+        <Button Clicked=""ShowIndicator"" Color=""Color.Primary"">Show indicator</Button>
+    </ChildContent>
+    <IndicatorTemplate>
+        <Div Flex=""Flex.Column.AlignItems.Center"" Gap=""Gap.Is2"">
+            <SpinKit Type=""SpinKitType.Chase"" Size=""Size.ExtraLarge"" Color=""Color.Primary"" />
+            @if ( !string.IsNullOrWhiteSpace( context.Text ) )
+            {
+                <Span>@context.Text</Span>
+            }
+            @if ( context.Progress.HasValue )
+            {
+                <Span>@($""{context.Progress.Value}%"")</Span>
+            }
+        </Div>
+    </IndicatorTemplate>
+</LoadingIndicator>
+@code
+{
+    LoadingIndicator loadingIndicator;
+
+    async Task ShowIndicator()
+    {
+        await loadingIndicator.SetStatus( text: ""Loading files"", progress: 30 );
+        await loadingIndicator.Show();
+
+        await Task.Delay( 1000 );
+
+        await loadingIndicator.SetStatus( text: ""Loading other data"", progress: 60 );
+
+        await Task.Delay( 1000 );
+
+        await loadingIndicator.SetStatus( text: ""Finalizing"", progress: 90 );
+
+        await Task.Delay( 1000 );
+
+        await loadingIndicator.Hide();
+    }
+}";
+
         public const string LoadingIndicatorTwoWayBindingExample = @"<LoadingIndicator @bind-Visible=""@visible"">
     <LineChart TItem=""double"" Data=""lineChartData"" />
 </LoadingIndicator>
