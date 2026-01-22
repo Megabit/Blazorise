@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,7 +30,7 @@ public class ApplicationLoadingIndicator : LoadingIndicator
 
     #region Properties
 
-    private RenderFragment BlazoriseSpinner => ( builder ) =>
+    private RenderFragment<LoadingIndicatorContext> BlazoriseSpinner => ( _ ) => ( builder ) =>
     {
         builder.OpenRegion( 0 );
         builder.AddMarkupContent( 1, @$"

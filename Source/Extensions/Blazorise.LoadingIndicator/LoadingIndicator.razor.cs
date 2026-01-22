@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -22,6 +22,10 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
 
     private bool? visible;
     private bool visibleParameter;
+
+    private LoadingIndicatorStatus status = LoadingIndicatorStatus.Empty;
+
+    private LoadingIndicatorContext context = LoadingIndicatorContext.Empty;
 
     #endregion
 
@@ -151,6 +155,31 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
         }
     }
 
+    /// <summary>
+    /// Set component status state.
+    /// </summary>
+    /// <param name="text">Optional status text.</param>
+    /// <param name="progress">Optional progress value.</param>
+    public Task SetStatus( string text = null, int? progress = null )
+        => SetStatus( new LoadingIndicatorStatus( text, progress ) );
+
+    /// <summary>
+    /// Set component status state.
+    /// </summary>
+    /// <param name="value">Status data.</param>
+    public async Task SetStatus( LoadingIndicatorStatus value )
+    {
+        LoadingIndicatorStatus nextStatus = value ?? LoadingIndicatorStatus.Empty;
+
+        if ( status != nextStatus )
+        {
+            status = nextStatus;
+            context = new LoadingIndicatorContext( status.Text, status.Progress );
+
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
     private IFluentFlex LoadingIndicatorPlacementToFluentFlex()
     {
         var flex = IndicatorHorizontalPlacement switch
@@ -219,6 +248,15 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
                 </svg>" );
         builder.CloseRegion();
     };
+    /// <summary>
+    /// Indicates the current status data.
+    /// </summary>
+    public LoadingIndicatorStatus Status => status ?? LoadingIndicatorStatus.Empty;
+
+    /// <summary>
+    /// Gets the current loading indicator context, or an empty context if none is set.
+    /// </summary>
+    private LoadingIndicatorContext IndicatorContext => context ?? LoadingIndicatorContext.Empty;
 
     /// <summary>
     /// Service used to control this instance.
@@ -276,9 +314,9 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Busy indicator template.
+    /// Busy indicator template with context data.
     /// </summary>
-    [Parameter] public RenderFragment IndicatorTemplate { get; set; }
+    [Parameter] public RenderFragment<LoadingIndicatorContext> IndicatorTemplate { get; set; }
 
     /// <summary>
     /// Loading state template.
