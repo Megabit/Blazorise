@@ -77,9 +77,9 @@ public class LoadingIndicatorService : ILoadingIndicatorService
     }
 
     /// <summary>
-    /// Subscribe indicator to change events and save reference
+    /// Subscribes an indicator to shared state updates and tracks it internally.
     /// </summary>
-    /// <param name="indicator"></param>
+    /// <param name="indicator">The indicator to subscribe.</param>
     void ILoadingIndicatorService.Subscribe( LoadingIndicator indicator )
     {
         lock ( hashLock )
@@ -98,9 +98,9 @@ public class LoadingIndicatorService : ILoadingIndicatorService
     }
 
     /// <summary>
-    /// Unsubscribe indicator from change events and remove reference
+    /// Unsubscribes an indicator from shared state updates and removes it from tracking.
     /// </summary>
-    /// <param name="indicator"></param>
+    /// <param name="indicator">The indicator to unsubscribe.</param>
     void ILoadingIndicatorService.Unsubscribe( LoadingIndicator indicator )
     {
         lock ( hashLock )

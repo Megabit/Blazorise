@@ -4,10 +4,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.LoadingIndicator;
 
+/// <summary>
+/// A fullscreen loading indicator intended for application-wide busy state.
+/// </summary>
 public class ApplicationLoadingIndicator : LoadingIndicator
 {
     #region Methods
 
+    /// <summary>
+    /// Initializes the application loading indicator with default fullscreen settings.
+    /// </summary>
     public ApplicationLoadingIndicator()
     {
         SpinnerHeight = "128px";
@@ -16,6 +22,7 @@ public class ApplicationLoadingIndicator : LoadingIndicator
         IndicatorTemplate = BlazoriseSpinner;
     }
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         if ( Service == null )
