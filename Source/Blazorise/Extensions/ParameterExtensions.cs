@@ -24,19 +24,6 @@ public static class ParameterViewExtensions
     /// <param name="parameterName">The name of the parameter.</param>
     public static bool TryGetParameter<T>( this ParameterView parameters, T currentValue, out ComponentParameterInfo<T> result, [CallerArgumentExpression( "currentValue" )] string parameterName = null )
     {
-        return TryGetParameter( parameters, parameterName, currentValue, out result );
-    }
-
-    /// <summary>
-    /// Gets the value of the parameter with the specified name.
-    /// </summary>
-    /// <typeparam name="T">The type of the value.</typeparam>
-    /// <param name="parameters">Dictionary of all component paremeters.</param>
-    /// <param name="currentValue">Last known parameter value.</param>
-    /// <param name="result">Receives the result, if any.</param>
-    /// <param name="parameterName">The name of the parameter.</param>
-    public static bool TryGetParameter<T>( this ParameterView parameters, string parameterName, T currentValue, out ComponentParameterInfo<T> result )
-    {
         if ( parameters.TryGetValue<T>( parameterName, out var paramNewValue ) )
         {
             var changed = currentValue is IEnumerable<T> array && paramNewValue is IEnumerable<T> array2
@@ -61,20 +48,6 @@ public static class ParameterViewExtensions
     /// <param name="result">Receives the result, if any.</param>
     /// <param name="parameterName">The name of the parameter.</param>
     public static bool TryGetParameter<T>( this ParameterView parameters, T currentValue, Func<T, bool> comparer, out ComponentParameterInfo<T> result, [CallerArgumentExpression( "currentValue" )] string parameterName = null )
-    {
-        return TryGetParameter( parameters, parameterName, currentValue, comparer, out result );
-    }
-
-    /// <summary>
-    /// Gets the value of the parameter with the specified name.
-    /// </summary>
-    /// <typeparam name="T">The type of the value.</typeparam>
-    /// <param name="parameters">Dictionary of all component paremeters.</param>
-    /// <param name="comparer">The custom comparer function.</param>
-    /// <param name="currentValue">Last known parameter value.</param>
-    /// <param name="result">Receives the result, if any.</param>
-    /// <param name="parameterName">The name of the parameter.</param>
-    public static bool TryGetParameter<T>( this ParameterView parameters, string parameterName, T currentValue, Func<T, bool> comparer, out ComponentParameterInfo<T> result )
     {
         if ( parameters.TryGetValue<T>( parameterName, out var paramNewValue ) )
         {
