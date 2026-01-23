@@ -145,27 +145,27 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( Min ), Min, out paramMin );
-        parameters.TryGetParameter( nameof( Max ), Max, out paramMax );
-        parameters.TryGetParameter( nameof( FirstDayOfWeek ), FirstDayOfWeek, out paramFirstDayOfWeek );
-        parameters.TryGetParameter( nameof( DisplayFormat ), DisplayFormat, out paramDisplayFormat );
-        parameters.TryGetParameter( nameof( InputFormat ), InputFormat, out paramInputFormat );
-        parameters.TryGetParameter( nameof( TimeAs24hr ), TimeAs24hr, out paramTimeAs24hr );
-        parameters.TryGetParameter( nameof( Disabled ), Disabled, out paramDisabled );
-        parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out paramReadOnly );
-        parameters.TryGetParameter( nameof( DisabledDates ), DisabledDates, out paramDisabledDates );
-        parameters.TryGetParameter( nameof( EnabledDates ), EnabledDates, out paramEnabledDates );
-        parameters.TryGetParameter( nameof( DisabledDays ), DisabledDays, out paramDisabledDays );
-        parameters.TryGetParameter( nameof( SelectionMode ), SelectionMode, out paramSelectionMode );
-        parameters.TryGetParameter( nameof( Inline ), Inline, out paramInline );
-        parameters.TryGetParameter( nameof( DisableMobile ), DisableMobile, out paramDisableMobile );
-        parameters.TryGetParameter( nameof( Placeholder ), Placeholder, out paramPlaceholder );
-        parameters.TryGetParameter( nameof( StaticPicker ), StaticPicker, out paramStaticPicker );
-        parameters.TryGetParameter( nameof( ShowWeekNumbers ), ShowWeekNumbers, out paramShowWeekNumbers );
-        parameters.TryGetParameter( nameof( ShowTodayButton ), ShowTodayButton, out paramShowTodayButton );
-        parameters.TryGetParameter( nameof( ShowClearButton ), ShowClearButton, out paramShowClearButton );
-        parameters.TryGetParameter( nameof( DefaultHour ), DefaultHour, out paramDefaultHour );
-        parameters.TryGetParameter( nameof( DefaultMinute ), DefaultMinute, out paramDefaultMinute );
+        parameters.TryGetParameter( Min, out paramMin );
+        parameters.TryGetParameter( Max, out paramMax );
+        parameters.TryGetParameter( FirstDayOfWeek, out paramFirstDayOfWeek );
+        parameters.TryGetParameter( DisplayFormat, out paramDisplayFormat );
+        parameters.TryGetParameter( InputFormat, out paramInputFormat );
+        parameters.TryGetParameter( TimeAs24hr, out paramTimeAs24hr );
+        parameters.TryGetParameter( Disabled, out paramDisabled );
+        parameters.TryGetParameter( ReadOnly, out paramReadOnly );
+        parameters.TryGetParameter( DisabledDates, out paramDisabledDates );
+        parameters.TryGetParameter( EnabledDates, out paramEnabledDates );
+        parameters.TryGetParameter( DisabledDays, out paramDisabledDays );
+        parameters.TryGetParameter( SelectionMode, out paramSelectionMode );
+        parameters.TryGetParameter( Inline, out paramInline );
+        parameters.TryGetParameter( DisableMobile, out paramDisableMobile );
+        parameters.TryGetParameter( Placeholder, out paramPlaceholder );
+        parameters.TryGetParameter( StaticPicker, out paramStaticPicker );
+        parameters.TryGetParameter( ShowWeekNumbers, out paramShowWeekNumbers );
+        parameters.TryGetParameter( ShowTodayButton, out paramShowTodayButton );
+        parameters.TryGetParameter( ShowClearButton, out paramShowClearButton );
+        parameters.TryGetParameter( DefaultHour, out paramDefaultHour );
+        parameters.TryGetParameter( DefaultMinute, out paramDefaultMinute );
     }
 
     /// <inheritdoc/>

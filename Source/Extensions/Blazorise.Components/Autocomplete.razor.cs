@@ -144,15 +144,15 @@ public partial class Autocomplete<TItem, TValue>
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( SelectionMode ), SelectionMode, out paramSelectionMode );
-        parameters.TryGetParameter( nameof( Search ), Search, out paramSearch );
-        parameters.TryGetParameter( nameof( SelectedValue ), SelectedValue, out paramSelectedValue );
-        parameters.TryGetParameter( nameof( SelectedText ), SelectedText, out paramSelectedText );
-        parameters.TryGetParameter( nameof( SelectedValues ), SelectedValues, value => selectedValuesParam.AreEqualOrdered( value ), out paramSelectedValues );
-        parameters.TryGetParameter( nameof( SelectedTexts ), SelectedTexts, value => selectedTextsParam.AreEqualOrdered( value ), out paramSelectedTexts );
-        parameters.TryGetParameter( nameof( Data ), Data, value => data.IsEqual( value ), out paramData );
-        parameters.TryGetParameter( nameof( SelectedValueExpression ), SelectedValueExpression, out paramSelectedValueExpression );
-        parameters.TryGetParameter( nameof( SelectedValuesExpression ), SelectedValuesExpression, out paramSelectedValuesExpression );
+        parameters.TryGetParameter( SelectionMode, out paramSelectionMode );
+        parameters.TryGetParameter( Search, out paramSearch );
+        parameters.TryGetParameter( SelectedValue, out paramSelectedValue );
+        parameters.TryGetParameter( SelectedText, out paramSelectedText );
+        parameters.TryGetParameter( SelectedValues, value => selectedValuesParam.AreEqualOrdered( value ), out paramSelectedValues );
+        parameters.TryGetParameter( SelectedTexts, value => selectedTextsParam.AreEqualOrdered( value ), out paramSelectedTexts );
+        parameters.TryGetParameter( Data, value => data.IsEqual( value ), out paramData );
+        parameters.TryGetParameter( SelectedValueExpression, out paramSelectedValueExpression );
+        parameters.TryGetParameter( SelectedValuesExpression, out paramSelectedValuesExpression );
     }
 
     /// <inheritdoc/>

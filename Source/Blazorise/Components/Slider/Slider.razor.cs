@@ -36,8 +36,8 @@ public partial class Slider<TValue> : BaseInputComponent<TValue, SliderClasses, 
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( Min ), Min, out paramMin );
-        parameters.TryGetParameter( nameof( Max ), Max, out paramMax );
+        parameters.TryGetParameter( Min, out paramMin );
+        parameters.TryGetParameter( Max, out paramMax );
     }
 
     /// <inheritdoc/>

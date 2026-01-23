@@ -115,14 +115,14 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     {
         // Capture synchronously since ParameterView is not safe after awaits.
         if ( Rendered )
-            parameters.TryGetParameter( nameof( Value ), Value, IsSameAsInternalValue, out paramValue );
+            parameters.TryGetParameter( Value, IsSameAsInternalValue, out paramValue );
         else
             paramValue = new ComponentParameterInfo<TValue>( default );
 
-        parameters.TryGetParameter( nameof( ValueExpression ), ValueExpression, out paramValueExpression );
-        parameters.TryGetParameter( nameof( Autofocus ), Autofocus, out paramAutofocus );
-        parameters.TryGetParameter( nameof( AriaInvalid ), ariaInvalid, out paramAriaInvalid );
-        parameters.TryGetParameter( nameof( AriaDescribedBy ), ariaDescribedBy, out paramAriaDescribedBy );
+        parameters.TryGetParameter( ValueExpression, out paramValueExpression );
+        parameters.TryGetParameter( Autofocus, out paramAutofocus );
+        parameters.TryGetParameter( AriaInvalid, out paramAriaInvalid );
+        parameters.TryGetParameter( AriaDescribedBy, out paramAriaDescribedBy );
     }
 
     /// <summary>
