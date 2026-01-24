@@ -4699,6 +4699,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.0.0"" type=""module""></script>
 <script src=""_content/Blazorise.Material/tooltip.js?v=2.0.0.0"" type=""module""></script>";
 
+        public const string McpClientConfigExample = @"{
+  ""servers"": {
+    ""blazorise-docs"": {
+      ""type"": ""http"",
+      ""url"": ""https://mcp.blazorise.com/mcp/sse""
+    }
+  }
+}";
+
         public const string MigrationAnalyzeCommandExample = @"blazorise-migrate analyze [--path <path>] [--json <file>] [--all-projects] [--verbose]";
 
         public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.sln

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-01-24T17:29:27.7876335Z",
+  "generatedUtc": "2026-01-24T21:26:57.5777844Z",
   "pages": [
     {
       "route": "/docs",
@@ -6599,6 +6599,22 @@
           "content": "<CardDeck>\r\n    <Card UtilityTarget=\"UtilityTarget.Wrapper\" Padding=\"Padding.Is2\">\r\n        <CardBody>\r\n            <CardTitle Size=\"HeadingSize.Is4\">\r\n                Example 1\r\n            </CardTitle>\r\n            <CardText>\r\n                Utility spacing targets the wrapper element.\r\n            </CardText>\r\n        </CardBody>\r\n    </Card>\r\n    <Card Margin=\"Margin.Is3.OnWrapper\">\r\n        <CardBody>\r\n            <CardTitle Size=\"HeadingSize.Is4\">\r\n                Example 2\r\n            </CardTitle>\r\n            <CardText>\r\n                Or make it more specific by targeting only the wrapper element for margin utilities.\r\n            </CardText>\r\n        </CardBody>\r\n    </Card>\r\n</CardDeck>",
           "title": "UtilityTarget example",
           "description": "Apply utility spacing to a wrapper while keeping the card root styled with Class and Style ."
+        }
+      ]
+    },
+    {
+      "route": "/docs/mcp",
+      "title": "Blazorise MCP Server",
+      "description": "Connect your AI tools to the Blazorise MCP server to answer UI questions using official Blazorise docs and real code examples.",
+      "pagePath": "Pages/Docs/McpPage.razor",
+      "examples": [
+        {
+          "code": "McpClientConfigExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/McpClientConfigExample.snippet",
+          "content": "{\n  \"servers\": {\n    \"blazorise-docs\": {\n      \"type\": \"http\",\n      \"url\": \"https://mcp.blazorise.com/mcp/sse\"\n    }\n  }\n}",
+          "title": "Example MCP client entry",
+          "description": "Update the url value to point to the MCP server you want to connect to."
         }
       ]
     },
