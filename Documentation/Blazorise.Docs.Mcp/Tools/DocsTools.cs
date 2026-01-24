@@ -51,7 +51,11 @@ internal sealed class DocsTools
                 .ToList()
             : new List<DocsExampleSummary>();
 
-        return new DocsPageDetails( page.Route, page.Title, page.Description, page.PagePath, examples, exampleDetails );
+        List<DocsApiRef> apiRefs = page.ApiRefs is not null
+            ? page.ApiRefs.ToList()
+            : new List<DocsApiRef>();
+
+        return new DocsPageDetails( page.Route, page.Title, page.Description, page.PagePath, examples, exampleDetails, apiRefs );
     }
 
     [McpServerTool]
@@ -72,6 +76,92 @@ internal sealed class DocsTools
             throw new InvalidOperationException( $"No example found for code '{code}'." );
 
         return new DocsExampleDetails( example.Code, example.Kind, example.SourcePath, example.Content, example.Title, example.Description );
+    }
+
+    [McpServerTool]
+    [Description( "Get component API docs by component type name." )]
+    public DocsApiComponent GetComponentApi(
+        [Description( "Component type name, for example Button." )] string typeName )
+    {
+        if ( string.IsNullOrWhiteSpace( typeName ) )
+            throw new ArgumentException( "Component type name is required.", nameof( typeName ) );
+
+        DocsApiIndex apiIndex = DocsApiIndexProvider.GetIndex();
+        if ( apiIndex.Components is null || apiIndex.Components.Count == 0 )
+            throw new InvalidOperationException( "No component API docs are available." );
+
+        string normalized = NormalizeComponentTypeName( typeName );
+
+        DocsApiComponent component = apiIndex.Components
+            .FirstOrDefault( item => string.Equals( item.TypeName, normalized, StringComparison.OrdinalIgnoreCase )
+                                     || string.Equals( item.Type, typeName, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( component is null )
+            throw new InvalidOperationException( $"No component API found for type '{typeName}'." );
+
+        return component;
+    }
+
+    [McpServerTool]
+    [Description( "Get component API docs referenced by a docs page route." )]
+    public List<DocsApiComponent> GetDocsPageApi(
+        [Description( "Docs route, for example /docs/components/button." )] string route )
+    {
+        if ( string.IsNullOrWhiteSpace( route ) )
+            throw new ArgumentException( "Route is required.", nameof( route ) );
+
+        DocsIndex docsIndex = DocsIndexProvider.GetIndex();
+        string normalized = NormalizeRoute( route );
+
+        DocsPage page = docsIndex.Pages.FirstOrDefault( p => string.Equals( p.Route, normalized, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( page is null )
+            throw new InvalidOperationException( $"No docs page found for route '{normalized}'." );
+
+        if ( page.ApiRefs is null || page.ApiRefs.Count == 0 )
+            return new List<DocsApiComponent>();
+
+        DocsApiIndex apiIndex = DocsApiIndexProvider.GetIndex();
+        if ( apiIndex.Components is null || apiIndex.Components.Count == 0 )
+            return new List<DocsApiComponent>();
+
+        Dictionary<string, DocsApiComponent> componentsByTypeName = apiIndex.Components
+            .Where( component => !string.IsNullOrWhiteSpace( component.TypeName ) )
+            .ToDictionary( component => component.TypeName, StringComparer.OrdinalIgnoreCase );
+
+        List<DocsApiComponent> results = new List<DocsApiComponent>();
+        HashSet<string> seen = new HashSet<string>( StringComparer.OrdinalIgnoreCase );
+
+        foreach ( DocsApiRef apiRef in page.ApiRefs )
+        {
+            if ( string.Equals( apiRef.Kind, "type", StringComparison.OrdinalIgnoreCase ) )
+            {
+                string apiTypeName = NormalizeComponentTypeName( apiRef.Name );
+                if ( string.IsNullOrWhiteSpace( apiTypeName ) )
+                    continue;
+
+                if ( componentsByTypeName.TryGetValue( apiTypeName, out DocsApiComponent component )
+                     && seen.Add( component.TypeName ) )
+                {
+                    results.Add( component );
+                }
+            }
+            else if ( string.Equals( apiRef.Kind, "category", StringComparison.OrdinalIgnoreCase ) )
+            {
+                List<DocsApiComponent> categoryComponents = apiIndex.Components
+                    .Where( component => MatchesCategory( component, apiRef.Name, apiRef.Subcategory ) )
+                    .OrderBy( component => component.TypeName, StringComparer.OrdinalIgnoreCase )
+                    .ToList();
+
+                foreach ( DocsApiComponent component in categoryComponents )
+                {
+                    if ( seen.Add( component.TypeName ) )
+                        results.Add( component );
+                }
+            }
+        }
+
+        return results;
     }
 
     [McpServerTool]
@@ -123,6 +213,44 @@ internal sealed class DocsTools
 
         return value.IndexOf( query, StringComparison.OrdinalIgnoreCase ) >= 0;
     }
+
+    private static bool MatchesCategory( DocsApiComponent component, string category, string subcategory )
+    {
+        if ( component is null )
+            return false;
+
+        if ( string.IsNullOrWhiteSpace( category ) )
+            return false;
+
+        if ( !string.Equals( component.Category, category, StringComparison.OrdinalIgnoreCase ) )
+            return false;
+
+        if ( string.IsNullOrWhiteSpace( subcategory ) )
+            return true;
+
+        return string.Equals( component.Subcategory, subcategory, StringComparison.OrdinalIgnoreCase );
+    }
+
+    private static string NormalizeComponentTypeName( string typeName )
+    {
+        if ( string.IsNullOrWhiteSpace( typeName ) )
+            return null;
+
+        string trimmed = typeName.Trim();
+
+        if ( trimmed.StartsWith( "global::", StringComparison.Ordinal ) )
+            trimmed = trimmed.Substring( "global::".Length );
+
+        int lastDot = trimmed.LastIndexOf( '.' );
+        if ( lastDot >= 0 && lastDot + 1 < trimmed.Length )
+            trimmed = trimmed.Substring( lastDot + 1 );
+
+        int genericIndex = trimmed.IndexOf( '<' );
+        if ( genericIndex >= 0 )
+            trimmed = trimmed.Substring( 0, genericIndex );
+
+        return trimmed.Trim();
+    }
 }
 
 internal sealed class DocsPageSummary
@@ -147,7 +275,8 @@ internal sealed class DocsPageDetails
         string description,
         string pagePath,
         List<string> examples,
-        List<DocsExampleSummary> exampleDetails )
+        List<DocsExampleSummary> exampleDetails,
+        List<DocsApiRef> apiRefs )
     {
         Route = route;
         Title = title;
@@ -155,6 +284,7 @@ internal sealed class DocsPageDetails
         PagePath = pagePath;
         Examples = examples;
         ExampleDetails = exampleDetails;
+        ApiRefs = apiRefs;
     }
 
     public string Route { get; }
@@ -163,6 +293,7 @@ internal sealed class DocsPageDetails
     public string PagePath { get; }
     public List<string> Examples { get; }
     public List<DocsExampleSummary> ExampleDetails { get; }
+    public List<DocsApiRef> ApiRefs { get; }
 }
 
 internal sealed class DocsExampleSummary

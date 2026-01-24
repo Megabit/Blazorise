@@ -38,6 +38,7 @@ public static class Paths
     public static string SnippetsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Snippets.generated.cs" );
 
     public static string DocsIndexFilePath() => Path.Join( DirPath(), "Resources", "docs-index.json" );
+    public static string DocsApiIndexFilePath() => Path.Join( DirPath(), "Resources", "docs-api-index.json" );
 
     public static string NewFilesToBuildPath() => Path.Join( DirPath(), NewFilesToBuild );
 }

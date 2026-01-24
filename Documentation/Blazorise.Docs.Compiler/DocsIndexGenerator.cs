@@ -19,6 +19,8 @@ internal sealed class DocsIndexGenerator
     private static readonly Regex SeoRegex = new( @"<Seo\b[^>]*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
     private static readonly Regex SeoAttributeRegex = new( @"(?<name>\w+)\s*=\s*""(?<value>[^""]*)""", RegexOptions.Compiled | RegexOptions.IgnoreCase );
     private static readonly Regex ExampleCodeRegex = new( @"<DocsPageSectionSource\b[^>]*\bCode\s*=\s*""(?<code>[^""]+)""[^>]*>", RegexOptions.Compiled | RegexOptions.Singleline );
+    private static readonly Regex ComponentApiDocsRegex = new( @"<ComponentApiDocs\b(?<attrs>(?:[^>""]|""[^""]*"")*)>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
+    private static readonly Regex ComponentTypeofRegex = new( @"typeof\s*\(\s*(?<type>[^)]+)\s*\)", RegexOptions.Compiled | RegexOptions.IgnoreCase );
     private static readonly Regex DocsSectionRegex = new( @"<DocsPageSection\b[^>]*>(?<content>.*?)</DocsPageSection>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
     private static readonly Regex SectionHeaderRegex = new( @"<DocsPageSectionHeader\b(?<attrs>[^>]*)>(?<content>.*?)</DocsPageSectionHeader>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
     private static readonly Regex SectionHeaderSelfClosingRegex = new( @"<DocsPageSectionHeader\b(?<attrs>[^>]*)/>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
@@ -75,6 +77,7 @@ internal sealed class DocsIndexGenerator
                 List<string> exampleCodes = ExtractExampleCodes( content );
                 Dictionary<string, ExampleMetadata> exampleMetadata = ExtractExampleMetadata( content );
                 List<DocsExample> examples = BuildExamples( pageFile, exampleCodes, exampleIndex, docsRoot, exampleMetadata );
+                List<DocsApiRef> apiRefs = ExtractApiRefs( content );
                 string pagePath = NormalizePath( Path.GetRelativePath( docsRoot, pageFile ) );
 
                 foreach ( string route in docsRoutes )
@@ -95,7 +98,8 @@ internal sealed class DocsIndexGenerator
                         Title = title,
                         Description = description,
                         PagePath = pagePath,
-                        Examples = examples
+                        Examples = examples,
+                        ApiRefs = apiRefs.Count > 0 ? apiRefs : null
                     };
 
                     pages.Add( page );
@@ -318,6 +322,110 @@ internal sealed class DocsIndexGenerator
         }
 
         return metadata;
+    }
+
+    private static List<DocsApiRef> ExtractApiRefs( string content )
+    {
+        List<DocsApiRef> apiRefs = new List<DocsApiRef>();
+        HashSet<string> seen = new HashSet<string>( StringComparer.OrdinalIgnoreCase );
+        MatchCollection matches = ComponentApiDocsRegex.Matches( content );
+
+        foreach ( Match match in matches )
+        {
+            string attributes = match.Groups["attrs"].Value;
+            string componentTypesValue = ExtractAttributeValue( attributes, "ComponentTypes" );
+
+            if ( !IsDynamicValue( componentTypesValue ) )
+            {
+                foreach ( string typeName in ExtractComponentTypes( componentTypesValue ) )
+                {
+                    if ( string.IsNullOrWhiteSpace( typeName ) )
+                        continue;
+
+                    DocsApiRef apiRef = new DocsApiRef
+                    {
+                        Kind = "type",
+                        Name = typeName
+                    };
+
+                    if ( seen.Add( BuildApiRefKey( apiRef ) ) )
+                    {
+                        apiRefs.Add( apiRef );
+                    }
+                }
+            }
+
+            string category = ExtractAttributeValue( attributes, "Category" );
+
+            if ( !IsDynamicValue( category ) )
+            {
+                string subcategory = ExtractAttributeValue( attributes, "Subcategory" );
+
+                if ( IsDynamicValue( subcategory ) )
+                    subcategory = null;
+
+                DocsApiRef apiRef = new DocsApiRef
+                {
+                    Kind = "category",
+                    Name = category,
+                    Subcategory = subcategory
+                };
+
+                if ( seen.Add( BuildApiRefKey( apiRef ) ) )
+                {
+                    apiRefs.Add( apiRef );
+                }
+            }
+        }
+
+        return apiRefs;
+    }
+
+    private static IEnumerable<string> ExtractComponentTypes( string componentTypesValue )
+    {
+        if ( string.IsNullOrWhiteSpace( componentTypesValue ) )
+            yield break;
+
+        MatchCollection matches = ComponentTypeofRegex.Matches( componentTypesValue );
+
+        foreach ( Match match in matches )
+        {
+            string rawType = match.Groups["type"].Value;
+            string normalized = NormalizeComponentTypeName( rawType );
+
+            if ( !string.IsNullOrWhiteSpace( normalized ) )
+            {
+                yield return normalized;
+            }
+        }
+    }
+
+    private static string NormalizeComponentTypeName( string rawType )
+    {
+        if ( string.IsNullOrWhiteSpace( rawType ) )
+            return null;
+
+        string trimmed = rawType.Trim();
+
+        if ( trimmed.StartsWith( "global::", StringComparison.Ordinal ) )
+            trimmed = trimmed.Substring( "global::".Length );
+
+        int lastDot = trimmed.LastIndexOf( '.' );
+        if ( lastDot >= 0 && lastDot + 1 < trimmed.Length )
+            trimmed = trimmed.Substring( lastDot + 1 );
+
+        int genericIndex = trimmed.IndexOf( '<' );
+        if ( genericIndex >= 0 )
+            trimmed = trimmed.Substring( 0, genericIndex );
+
+        return trimmed.Trim();
+    }
+
+    private static string BuildApiRefKey( DocsApiRef apiRef )
+    {
+        string name = apiRef.Name ?? string.Empty;
+        string subcategory = apiRef.Subcategory ?? string.Empty;
+        return $"{apiRef.Kind}|{name}|{subcategory}";
     }
 
     private static ExampleMetadata ExtractSectionMetadata( string sectionContent )
@@ -546,6 +654,7 @@ internal sealed class DocsIndexGenerator
         public string Description { get; set; }
         public string PagePath { get; set; }
         public List<DocsExample> Examples { get; set; }
+        public List<DocsApiRef> ApiRefs { get; set; }
     }
 
     private sealed class DocsExample
@@ -556,6 +665,13 @@ internal sealed class DocsIndexGenerator
         public string Content { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+    }
+
+    private sealed class DocsApiRef
+    {
+        public string Kind { get; set; }
+        public string Name { get; set; }
+        public string Subcategory { get; set; }
     }
 
     private sealed class ExampleMetadata

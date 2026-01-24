@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-01-24T21:26:57.5777844Z",
+  "generatedUtc": "2026-01-24T23:18:49.7356593Z",
   "pages": [
     {
       "route": "/docs",
@@ -28,6 +28,28 @@
           "content": "<Accordion>\r\n    <AccordionItem @bind-Visible=\"@accordionItem1Visible\">\r\n        <AccordionHeader>\r\n            <Heading Size=\"HeadingSize.Is5\">\r\n                <AccordionToggle>What is Blazorise?</AccordionToggle>\r\n            </Heading>\r\n        </AccordionHeader>\r\n        <AccordionBody>\r\n            Blazorise is a component library built on top of Blazor, which is a framework from Microsoft for building interactive client-side web UIs using .NET. Blazorise provides a rich set of components that are easy to use and customizable, helping developers to build responsive and modern web applications more efficiently.\r\n        </AccordionBody>\r\n    </AccordionItem>\r\n    <AccordionItem @bind-Visible=\"@accordionItem2Visible\">\r\n        <AccordionHeader>\r\n            <Heading Size=\"HeadingSize.Is5\">\r\n                <AccordionToggle>What CSS  frameworks does Blazorise support?</AccordionToggle>\r\n            </Heading>\r\n        </AccordionHeader>\r\n        <AccordionBody>\r\n            Blazorise supports several CSS frameworks, including Bootstrap (known for responsive design elements), Bulma (valued for simplicity and Flexbox base), Material (inspired by Google's Material Design), Ant Design (geared towards enterprise-level products and adapting React components' design principles), and Tailwind CSS (famous for its utility-first approach and versatility). These frameworks provide distinct styles and philosophies, offering developers a range of options to best suit their project's requirements.\r\n        </AccordionBody>\r\n    </AccordionItem>\r\n    <AccordionItem @bind-Visible=\"@accordionItem3Visible\">\r\n        <AccordionHeader>\r\n            <Heading Size=\"HeadingSize.Is5\">\r\n                <AccordionToggle>What are the benefits of Blazorise commercial license?</AccordionToggle>\r\n            </Heading>\r\n        </AccordionHeader>\r\n        <AccordionBody>\r\n            A Blazorise commercial license typically includes access to advanced components, priority support, options for dedicated consultations, frequent updates and bug fixes, a license for unrestricted commercial use, potential access to the source code, and opportunities for training and workshops. This package enhances functionality, offers better support, and provides operational security for commercial projects.\r\n        </AccordionBody>\r\n    </AccordionItem>\r\n</Accordion>\r\n@code {\r\n    bool accordionItem1Visible = true;\r\n    bool accordionItem2Visible = false;\r\n    bool accordionItem3Visible = false;\r\n}",
           "title": "Default accordion",
           "description": "Use the @@bind-Visible parameter to properly keep previously opened accordion elements unchanged."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Accordion"
+        },
+        {
+          "kind": "type",
+          "name": "AccordionToggle"
+        },
+        {
+          "kind": "type",
+          "name": "AccordionItem"
+        },
+        {
+          "kind": "type",
+          "name": "AccordionHeader"
+        },
+        {
+          "kind": "type",
+          "name": "AccordionBody"
         }
       ]
     },
@@ -77,6 +99,16 @@
           "title": "Addon with validation",
           "description": "When incorporating input validation within an Addon component, the user interface may become disrupted. This issue arises due to the Addon's distinct HTML and CSS structure, which is designed to accommodate specific elements. Displaying validation error messages within an Addon is one such instance that can cause complications. In the following example, we will demonstrate a solution to this issue, ensuring that the input validation process within an Addon component functions smoothly without disrupting the user interface. This example will provide a better understanding of how to effectively handle validation errors inside of an Addon."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Addons"
+        },
+        {
+          "kind": "type",
+          "name": "Addon"
+        }
       ]
     },
     {
@@ -122,6 +154,12 @@
           "sourcePath": "Pages/Docs/Components/Alerts/Examples/AlertUseProgrammaticallyExample.razor",
           "content": "<Alert @ref=\"myAlert\" Color=\"Color.Success\">\r\n    <AlertMessage>\r\n        Alert test.\r\n    </AlertMessage>\r\n</Alert>\r\n\r\n<Button Clicked=\"@OnButtonClick\" Color=\"Color.Primary\">Show alert</Button>\r\n\r\n@code{\r\n    Alert myAlert;\r\n\r\n    Task OnButtonClick()\r\n    {\r\n        return myAlert.Show();\r\n    }\r\n}",
           "title": "Programmatically"
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Alert"
         }
       ]
     },
@@ -178,6 +216,12 @@
           "content": "<Badge Color=\"Color.Primary\" CloseClicked=\"@(()=>Console.WriteLine(\"closed\"))\">Primary</Badge>",
           "title": "Interactive Badges with Close Button",
           "description": "To make a badge dismissible, simply handle the CloseClicked event. Once defined, Blazorise automatically renders a close icon, enabling the user to remove the badge dynamically."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Badge"
         }
       ]
     },
@@ -240,6 +284,16 @@
           "title": "Nested Dropdowns",
           "description": "To create nested BarDropdowns , you can simply add a BarDropdown component inside the structure of an existing BarDropdownMenu ."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Bar"
+        },
+        {
+          "kind": "type",
+          "name": "BarLink"
+        }
       ]
     },
     {
@@ -263,6 +317,20 @@
           "content": "<Breadcrumb Mode=\"BreadcrumbMode.Auto\">\r\n    <BreadcrumbItem>\r\n        <BreadcrumbLink To=\"#\">Home</BreadcrumbLink>\r\n    </BreadcrumbItem>\r\n    <BreadcrumbItem>\r\n        <BreadcrumbLink To=\"#\">Account</BreadcrumbLink>\r\n    </BreadcrumbItem>\r\n    <BreadcrumbItem>\r\n        <BreadcrumbLink To=\"#\">Settings</BreadcrumbLink>\r\n    </BreadcrumbItem>\r\n</Breadcrumb>",
           "title": "Auto mode",
           "description": "In this mode breadcrumb items will respond to navigation changes and will be activates automatically."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Breadcrumb"
+        },
+        {
+          "kind": "type",
+          "name": "BreadcrumbItem"
+        },
+        {
+          "kind": "type",
+          "name": "BreadcrumbLink"
         }
       ]
     },
@@ -395,6 +463,16 @@
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsHalf\">\r\n        <FieldLabel>First name</FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Value=\"John\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsHalf\">\r\n        <FieldLabel>Last name</FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Value=\"Smith\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull\">\r\n        <FieldLabel>Email address</FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Value=\"john.smith@example.com\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field Flex=\"Flex.JustifyContent.Between\">\r\n        <Button Color=\"Color.Danger\">Delete</Button>\r\n        <Div>\r\n            <Button Color=\"Color.Secondary\">Cancel</Button>\r\n            <Button Color=\"Color.Primary\">Create account</Button>\r\n        </Div>\r\n    </Field>\r\n</Fields>",
           "description": "Buttons should be placed at the bottom of the dialog . Buttons should be aligned right . Primary action last , preceded by other actions. Dangerous actions should be aligned left, to avoid accidental clicks, especially if no confirmation step is included."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Button"
+        },
+        {
+          "kind": "type",
+          "name": "Buttons"
+        }
       ]
     },
     {
@@ -451,6 +529,32 @@
           "title": "Background color",
           "description": "If you want to make the card standout you can set its background color. Please note, depending on the used background color you might need to adjust the text color. This can be done by setting the WhiteText parameters."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Card"
+        },
+        {
+          "kind": "type",
+          "name": "CardText"
+        },
+        {
+          "kind": "type",
+          "name": "CardTitle"
+        },
+        {
+          "kind": "type",
+          "name": "CardSubtitle"
+        },
+        {
+          "kind": "type",
+          "name": "CardLink"
+        },
+        {
+          "kind": "type",
+          "name": "CardImage"
+        }
       ]
     },
     {
@@ -466,6 +570,12 @@
           "content": "<Carousel @bind-SelectedSlide=\"@selectedSlide\">\r\n    <CarouselSlide Name=\"1\">\r\n        <Image Source=\"img/gallery/1.jpg\" Text=\"Lights image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"2\">\r\n        <Image Source=\"img/gallery/2.jpg\" Text=\"Keyboard image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"3\">\r\n        <Image Source=\"img/gallery/3.jpg\" Text=\"Road image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n</Carousel>\r\n@code{\r\n    private string selectedSlide = \"2\";\r\n}",
           "title": "Basic",
           "description": "A basic example of a Blazorise Carousel component includes multiple CarouselSlide components, each containing individual content. This Carousel displays one slide at a time, allowing users to navigate between the slides manually or automatically. Despite its simplicity, CarouselSlide components can house a variety of content, such as images, videos, or complex HTML structures."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Carousel"
         }
       ]
     },
@@ -505,6 +615,12 @@
           "content": "<Check TValue=\"bool\" Value=\"@rememberMe\" ValueChanged=\"@OnRememberMeChanged\">Remember Me</Check>\r\n\r\n@code{\r\n    bool rememberMe;\r\n\r\n    void OnRememberMeChanged( bool value )\r\n    {\r\n        rememberMe = value;\r\n    }\r\n}",
           "title": "With event"
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Check"
+        }
       ]
     },
     {
@@ -534,6 +650,12 @@
           "content": "@if ( visible )\r\n{\r\n    <Div>\r\n        Now you see me...\r\n        <CloseButton Clicked=\"@OnClicked\" />\r\n    </Div>\r\n}\r\n@code {\r\n    bool visible = true;\r\n\r\n    Task OnClicked()\r\n    {\r\n        visible = false;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "With other components"
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "CloseButton"
+        }
       ]
     },
     {
@@ -557,6 +679,20 @@
           "content": "<Collapse @ref=\"@collapseRef\">\r\n    <CollapseHeader>\r\n        <Button Color=\"Color.Primary\" Clicked=\"@collapseRef.Toggle\">\r\n            Toggle collapse\r\n        </Button>\r\n    </CollapseHeader>\r\n    <CollapseBody>\r\n        <Card>\r\n            <CardBody>\r\n                This is some collapsible content. It can be shown or hidden by clicking the button.\r\n            </CardBody>\r\n        </Card>\r\n    </CollapseBody>\r\n</Collapse>\r\n@code {\r\n    Collapse collapseRef;\r\n}",
           "title": "Programmatic Example",
           "description": "This example demonstrates programmatic control of the collapse state using a button in the header to toggle visibility."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Collapse"
+        },
+        {
+          "kind": "type",
+          "name": "CollapseHeader"
+        },
+        {
+          "kind": "type",
+          "name": "CollapseBody"
         }
       ]
     },
@@ -590,6 +726,12 @@
           "title": "Disabled",
           "description": "In this Blazorise example, the ColorInput component is demonstrated with the Disabled attribute. The addition of the Disabled attribute renders the ColorInput component non-interactive, meaning the user will not be able to change the color value presented. This is useful in scenarios where you want to display a color but prevent any user interaction, such as in view-only forms or to maintain consistency in certain UI states."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ColorInput"
+        }
       ]
     },
     {
@@ -622,6 +764,12 @@
           "title": "Disabled",
           "description": "In this Blazorise example, the ColorInput component is demonstrated with the Disabled attribute. The addition of the Disabled attribute renders the ColorInput component non-interactive, meaning the user will not be able to change the color value presented. This is useful in scenarios where you want to display a color but prevent any user interaction, such as in view-only forms or to maintain consistency in certain UI states."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ColorInput"
+        }
       ]
     },
     {
@@ -645,6 +793,12 @@
           "content": "<ColorPicker @bind-Value=\"@colorValue\" ShowHueSlider />\r\n\r\n@code {\r\n    string colorValue = \"#ff00ff\";\r\n}",
           "title": "Show Hue Slider",
           "description": "In this Blazorise example, the ColorPicker component is enhanced with a hue slider, as indicated by the ShowHueSlider attribute."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ColorPicker"
         }
       ]
     },
@@ -693,6 +847,12 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "DateInput"
+        }
       ]
     },
     {
@@ -739,6 +899,12 @@
           "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => dateInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <DateInput @ref=\"@dateInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    DateInput<DateTime> dateInputRef;\r\n}",
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "DateInput"
         }
       ]
     },
@@ -858,6 +1024,12 @@
           "content": "<Field>\r\n    <FieldLabel>Start date</FieldLabel>\r\n    <FieldBody>\r\n        <DatePicker TValue=\"DateTime?\" Placeholder=\"DD/MM/YYYY\" />\r\n    </FieldBody>\r\n    <FieldHelp>Format: DD/MM/YYYY</FieldHelp>\r\n</Field>",
           "description": "Use a placeholder or helper to show how the input should be formatted. For example, \"12/6/2020\" represents different dates for Americans and Europeans. Helpers are preferable to placeholders, as they are always visible. Fields with placeholders are also less noticeable than empty fields, so they are susceptible to being skipped. Use placeholders when space is limited, for example when Date Picker is used as a filter in a data grid header."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "DatePicker"
+        }
       ]
     },
     {
@@ -898,6 +1070,12 @@
           "title": "Text Content",
           "description": "Use DividerType.TextContent custom property to show text in the middle of a divider."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Divider"
+        }
       ]
     },
     {
@@ -921,6 +1099,16 @@
           "content": "<DropContainer TItem=\"DropItem\" Items=\"@items\" ItemsFilter=\"@((item, dropZone) => item.Group == dropZone)\" ItemDropped=\"@ItemDropped\" Flex=\"Flex.Wrap.Grow.Is1\">\r\n    <ChildContent>\r\n        @for ( int i = 1; i < 4; i++ )\r\n        {\r\n            var dropzone = i.ToString();\r\n\r\n            <DropZone TItem=\"DropItem\" Name=\"@dropzone\" AllowReorder Reordered=\"@Reordered\" Padding=\"Padding.Is3\" Margin=\"Margin.Is3\" Flex=\"Flex.Grow.Is1\">\r\n                <Heading Size=\"HeadingSize.Is4\" Margin=\"Margin.Is3.FromBottom\">Drop Zone @dropzone</Heading>\r\n            </DropZone>\r\n        }\r\n    </ChildContent>\r\n    <ItemTemplate>\r\n        <Card Shadow=\"Shadow.Default\" Margin=\"Margin.Is3.OnY\">\r\n            <CardBody>\r\n                @context.Name\r\n            </CardBody>\r\n        </Card>\r\n    </ItemTemplate>\r\n</DropContainer>\r\n\r\n<Div >\r\n    @reorderStatus\r\n</Div>\r\n@code {\r\n    public class DropItem\r\n    {\r\n        public string Name { get; init; }\r\n\r\n        public string Group { get; set; }\r\n    }\r\n\r\n    private List<DropItem> items = new()\r\n    {\r\n        new DropItem() { Name = \"Item 1\", Group = \"1\" },\r\n        new DropItem() { Name = \"Item 2\", Group = \"1\" },\r\n        new DropItem() { Name = \"Item 3\", Group = \"1\" },\r\n        new DropItem() { Name = \"Item 4\", Group = \"2\" },\r\n        new DropItem() { Name = \"Item 5\", Group = \"2\" },\r\n    };\r\n\r\n    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )\r\n    {\r\n        dropItem.Item.Group = dropItem.DropZoneName;\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    string reorderStatus = \"\";\r\n    \r\n    private Task Reordered( DropZoneOrder<DropItem> order )\r\n    {\r\n        reorderStatus = $\"Order in dropzone {order.DestinationDropZoneName}: {string.Join( \", \", order.OrderedItems.OrderBy( x => x.Order ).Select( x => x.Item.Name ) )}\";\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Reorder items",
           "description": "Items can be reordered inside each dropzone with the AllowReorder bool set to true on the dropzone. The Reordered function triggers each time the order changes or items are added or removed from the dropzone, providing the current order in a dictionary."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "DropContainer"
+        },
+        {
+          "kind": "type",
+          "name": "DropZone"
         }
       ]
     },
@@ -984,6 +1172,24 @@
           "content": "<Dropdown>\r\n    <DropdownToggle Color=\"Color.Primary\">Level 1</DropdownToggle>\r\n    <DropdownMenu>\r\n        <DropdownItem>Item 1.1</DropdownItem>\r\n        <Dropdown Direction=\"Direction.Up\">\r\n            <DropdownToggle>Level 2</DropdownToggle>\r\n            <DropdownMenu>\r\n                <DropdownItem>Item 2.1</DropdownItem>\r\n                <DropdownItem>Item 2.2</DropdownItem>\r\n                <Dropdown Direction=\"Direction.Down\">\r\n                    <DropdownToggle>Level 3</DropdownToggle>\r\n                    <DropdownMenu>\r\n                        <DropdownItem>Item 3.1</DropdownItem>\r\n                        <DropdownItem>Item 3.2</DropdownItem>\r\n                        <Dropdown Direction=\"Direction.Start\">\r\n                            <DropdownToggle>Level 4</DropdownToggle>\r\n                            <DropdownMenu>\r\n                                <DropdownItem>Item 4.1</DropdownItem>\r\n                                <DropdownItem>Item 4.2</DropdownItem>\r\n                            </DropdownMenu>\r\n                        </Dropdown>\r\n                    </DropdownMenu>\r\n                </Dropdown>\r\n            </DropdownMenu>\r\n        </Dropdown>\r\n    </DropdownMenu>\r\n</Dropdown>",
           "title": "Nested submenus with direction",
           "description": "Nested dropdowns with the manual Direction is also supported."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Dropdown"
+        },
+        {
+          "kind": "type",
+          "name": "DropdownMenu"
+        },
+        {
+          "kind": "type",
+          "name": "DropdownItem"
+        },
+        {
+          "kind": "type",
+          "name": "DropdownToggle"
         }
       ]
     },
@@ -1073,6 +1279,20 @@
           "title": "Validation Indicator",
           "description": "In Blazorise, you can use the RequiredIndicator feature to automatically display an indicator (such as an asterisk) next to labels of required fields. This helps users quickly understand which inputs are mandatory and improves overall form usability."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Field"
+        },
+        {
+          "kind": "type",
+          "name": "FieldLabel"
+        },
+        {
+          "kind": "type",
+          "name": "Fields"
+        }
       ]
     },
     {
@@ -1096,6 +1316,16 @@
           "content": "<Figure Size=\"FigureSize.Is256x256\">\r\n    <FigureImage Source=\"img/empty-256x256.png\" AlternateText=\"empty-256x256\" Rounded />\r\n    <FigureCaption>A caption for the above image.</FigureCaption>\r\n</Figure>",
           "title": "Rounded",
           "description": "Making the figure rounded is easy with the Rounded attribute."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Figure"
+        },
+        {
+          "kind": "type",
+          "name": "FigureImage"
         }
       ]
     },
@@ -1169,6 +1399,12 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the file input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "FileInput"
+        }
       ]
     },
     {
@@ -1209,6 +1445,12 @@
           "title": "Custom",
           "description": "An example customizing the FilePicker."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "FilePicker"
+        }
       ]
     },
     {
@@ -1223,6 +1465,12 @@
           "sourcePath": "Pages/Docs/Components/FocusTraps/Examples/BasicFocusTrapExample.razor",
           "content": "<Card>\r\n    <CardBody>\r\n        <Switch TValue=\"bool\" @bind-Value=\"@focusTrapActive\">Active</Switch>\r\n    </CardBody>\r\n    <CardBody>\r\n        <FocusTrap Active=\"@focusTrapActive\">\r\n            <Field Horizontal>\r\n                <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is2.OnDesktop\">First Name</FieldLabel>\r\n                <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is10.OnDesktop\">\r\n                    <TextInput Autofocus />\r\n                </FieldBody>\r\n            </Field>\r\n            <Field Horizontal>\r\n                <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is2.OnDesktop\">Last Name</FieldLabel>\r\n                <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is10.OnDesktop\">\r\n                    <TextInput />\r\n                </FieldBody>\r\n            </Field>\r\n            <Field Horizontal>\r\n                <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is2.OnDesktop\">Address</FieldLabel>\r\n                <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is10.OnDesktop\">\r\n                    <TextInput />\r\n                </FieldBody>\r\n            </Field>\r\n        </FocusTrap>\r\n    </CardBody>\r\n</Card>\r\n\r\n@code {\r\n    bool focusTrapActive = false;\r\n}",
           "description": "By default, the component moves the focus to its descendants as soon as it activated."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "FocusTrap"
         }
       ]
     },
@@ -1311,6 +1559,12 @@
           "title": "Boundaries",
           "description": "If you wish to highlight the text until the next regex boundary occurs, set the UntilNextBoundary property to true, or the CaseSensitive property to true if you want a case-sensitive highlight."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Highlighter"
+        }
       ]
     },
     {
@@ -1351,6 +1605,12 @@
           "title": "SEO friendly",
           "description": "The parameter Text gives alternate ( alt ) text for an image, which is good for SEO optimizations. If you inspect the image with devtools you will be able to see alt assigned."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Image"
+        }
       ]
     },
     {
@@ -1383,6 +1643,12 @@
           "title": "With Placeholder",
           "description": "You can control the placeholder that will be used for the mask. The Placeholder will be used when the mask is not defined. And the MaskPlaceholder will be used when the mask is defined for extra information to the user about the valid input format."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "InputMask"
+        }
       ]
     },
     {
@@ -1398,6 +1664,12 @@
           "content": "<Jumbotron Background=\"Background.Light\" Margin=\"Margin.Is4.FromBottom\">\r\n    <JumbotronTitle Size=\"JumbotronTitleSize.Is4\">Hello, world!</JumbotronTitle>\r\n    <JumbotronSubtitle>\r\n        This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.\r\n    </JumbotronSubtitle>\r\n    <Divider></Divider>\r\n    <Paragraph>\r\n        It uses utility classes for typography and spacing to space content out within the larger container.\r\n    </Paragraph>\r\n</Jumbotron>",
           "title": "Basic",
           "description": "Jumbotron is a full width card that is usually displayed at the top of the page, sometimes also referred to as a \"Hero component\". The jumbotron color should be only slightly off the background of the page to make your design feel \"light\"."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Jumbotron"
         }
       ]
     },
@@ -1429,6 +1701,20 @@
           "content": "<Layout Sider>\r\n    <LayoutSider>\r\n        <LayoutSiderContent>\r\n            Sider\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n    <Layout>\r\n        <LayoutHeader Fixed>\r\n            Header\r\n        </LayoutHeader>\r\n        <LayoutContent>\r\n            Content\r\n        </LayoutContent>\r\n    </Layout>\r\n</Layout>",
           "title": "With Sider",
           "description": "When placed to the side, the LayoutHeader is often seen as a view header, housing the view's title, and actions and secondary navigation that relate only to the current view."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Layout"
+        },
+        {
+          "kind": "type",
+          "name": "LayoutHeader"
+        },
+        {
+          "kind": "type",
+          "name": "LayoutFooter"
         }
       ]
     },
@@ -1485,6 +1771,12 @@
           "content": "<Paragraph>\r\n    This is an example of a <Link To=\"#\" Disabled>disabled link</Link>.\r\n</Paragraph>",
           "title": "Disabled link",
           "description": "Make links look inactive by adding the Disabled boolean attribute to any Link element. The disabled class uses pointer-events: none to try to disable the link functionality of a s, but that CSS property is not yet standardized. In addition, even in browsers that do support pointer-events: none , keyboard navigation remains unaffected, meaning that sighted keyboard users and users of assistive technologies will still be able to activate these links. So to be safe, add a tabindex=\"-1\" attribute on these links (to prevent them from receiving keyboard focus) and use custom JavaScript to disable their functionality."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Link"
         }
       ]
     },
@@ -1550,6 +1842,16 @@
           "title": "Custom content",
           "description": "Add nearly any HTML within, even for linked list groups like the one below, with the help of flexbox utilities."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ListGroup"
+        },
+        {
+          "kind": "type",
+          "name": "ListGroupItem"
+        }
       ]
     },
     {
@@ -1612,6 +1914,12 @@
           "content": "public void ConfigureServices( IServiceCollection services )\r\n{\r\n  services\r\n    .AddBlazorise( options =>\r\n    {\r\n      options.Debounce = true;\r\n      options.DebounceInterval = 300;\r\n    } );\r\n}",
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "MemoInput"
         }
       ]
     },
@@ -1676,6 +1984,12 @@
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "MemoInput"
+        }
       ]
     },
     {
@@ -1724,6 +2038,24 @@
           "title": "Fullscreen",
           "description": "If the built-in sizes are not enough you can show the modal in fullscreen."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Modal"
+        },
+        {
+          "kind": "type",
+          "name": "ModalContent"
+        },
+        {
+          "kind": "type",
+          "name": "ModalBody"
+        },
+        {
+          "kind": "type",
+          "name": "ModalTitle"
+        }
       ]
     },
     {
@@ -1747,6 +2079,12 @@
           "title": "Generic type",
           "description": "Since NumericInput is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the Value attribute, but if not you will just use the TValue attribute and define the type manually eg."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "NumericInput"
+        }
       ]
     },
     {
@@ -1769,6 +2107,12 @@
           "content": "<NumericInput TValue=\"decimal?\" @bind-Value=\"@value\" />\r\n@code {\r\n    decimal? value = 123;\r\n}",
           "title": "Generic type",
           "description": "Since NumericInput is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the Value attribute, but if not you will just use the TValue attribute and define the type manually eg."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "NumericInput"
         }
       ]
     },
@@ -1841,6 +2185,12 @@
           "title": "Modify Value With Mouse Wheel",
           "description": "Sometime you want to be able to change the value by scrolling with the mouse wheel when it is focused over the input. To enable it just use the ModifyValueOnWheel parameter."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "NumericPicker"
+        }
       ]
     },
     {
@@ -1905,6 +2255,24 @@
           "title": "Footer",
           "description": "To show a footer in the Offcanvas just add an OffcanvasFooter component."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Offcanvas"
+        },
+        {
+          "kind": "type",
+          "name": "OffcanvasHeader"
+        },
+        {
+          "kind": "type",
+          "name": "OffcanvasBody"
+        },
+        {
+          "kind": "type",
+          "name": "OffcanvasFooter"
+        }
       ]
     },
     {
@@ -1926,6 +2294,20 @@
           "sourcePath": "Pages/Docs/Components/Paginations/Examples/DynamicPaginationExample.razor",
           "content": "<Pagination>\r\n    <PaginationItem Disabled=\"@IsPageNavigationDisabled(PREVIOUS)\" @onclick=\"Previous\">\r\n        <PaginationLink>\r\n            <span aria-hidden=\"true\">«</span>\r\n        </PaginationLink>\r\n    </PaginationItem>\r\n    @{\r\n        for (var i = 1; i <= pageItems; i++)\r\n        {\r\n            var pageNumberAsString = i.ToString();\r\n            <PaginationItem @key=\"pageNumberAsString\" Active=\"@IsActive(pageNumberAsString)\">\r\n                <PaginationLink Page=\"@pageNumberAsString\" Clicked=\"SetActive\">\r\n                    @pageNumberAsString\r\n                </PaginationLink>\r\n            </PaginationItem>\r\n        } \r\n    }\r\n    <PaginationItem Disabled=\"@IsPageNavigationDisabled(NEXT)\" @onclick=\"Next\">\r\n        <PaginationLink>\r\n            <span aria-hidden=\"true\">»</span>\r\n        </PaginationLink>\r\n    </PaginationItem>\r\n</Pagination>\r\n\r\n@code\r\n{\r\n    private const string PREVIOUS = \"previous\";\r\n    private const string NEXT = \"next\";\r\n    private string currentPage = \"2\";\r\n    private int pageItems = 5;\r\n\r\n    private bool IsActive(string page)\r\n        => currentPage == page;\r\n\r\n    private bool IsPageNavigationDisabled(string navigation )\r\n    {\r\n        if (navigation.Equals(PREVIOUS))\r\n        {\r\n            return currentPage.Equals(\"1\");\r\n        }\r\n        else if (navigation.Equals(NEXT))\r\n        {\r\n            return currentPage.Equals(pageItems.ToString());\r\n        }\r\n        return false;\r\n    }\r\n\r\n    private void Previous()\r\n    {\r\n        var currentPageAsInt = int.Parse(currentPage);\r\n        if (currentPageAsInt > 1 )\r\n        {\r\n            currentPage = (currentPageAsInt - 1).ToString();\r\n        }\r\n    }\r\n\r\n    private void Next()\r\n    {\r\n        var currentPageAsInt = int.Parse(currentPage);\r\n        if (currentPageAsInt < pageItems )\r\n        {\r\n            currentPage = (currentPageAsInt + 1).ToString();\r\n        }\r\n    }\r\n\r\n    private void SetActive(string page)\r\n        => currentPage = page;\r\n}",
           "title": "Dynamic"
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Pagination"
+        },
+        {
+          "kind": "type",
+          "name": "PaginationItem"
+        },
+        {
+          "kind": "type",
+          "name": "PaginationLink"
         }
       ]
     },
@@ -1991,6 +2373,20 @@
           "title": "Indeterminate",
           "description": "To make an indeterminate progress bar, simply remove Value or make it a null ."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Progress"
+        },
+        {
+          "kind": "type",
+          "name": "ProgressBar"
+        },
+        {
+          "kind": "type",
+          "name": "PageProgress"
+        }
       ]
     },
     {
@@ -2037,6 +2433,16 @@
           "content": "<RadioGroup TValue=\"string\" Name=\"colors\" Value=\"@checkedValue\" ValueChanged=\"@OnValueChanged\">\r\n    <Radio Value=\"@(\"red\")\">Red</Radio>\r\n    <Radio Value=\"@(\"green\")\">Green</Radio>\r\n    <Radio Value=\"@(\"blue\")\">Blue</Radio>\r\n</RadioGroup>\r\n\r\n@code{\r\n    string checkedValue = \"green\";\r\n\r\n    Task OnValueChanged(string value)\r\n    {\r\n        checkedValue = value;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Manual event binding"
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "RadioGroup"
+        },
+        {
+          "kind": "type",
+          "name": "Radio"
+        }
       ]
     },
     {
@@ -2069,6 +2475,12 @@
           "title": "Show Tooltips",
           "description": "By defining the GetTooltip callback you can show the extra information to the user. Along with the tooltip Text , it is also possible to control tooltip arrow visibility, multiline mode, and placement."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Rating"
+        }
       ]
     },
     {
@@ -2083,6 +2495,12 @@
           "sourcePath": "Pages/Docs/Components/Repeaters/Examples/BasicRepeaterExample.razor",
           "content": "<UnorderedList>\r\n    <Repeater Items=\"@items\" CollectionChanged=\"@OnCollectionChanged\">\r\n        <UnorderedListItem style=\"@GetColor( context )\">@context</UnorderedListItem>\r\n    </Repeater>\r\n</UnorderedList>\r\n\r\n@code{\r\n    System.Collections.ObjectModel.ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );\r\n\r\n    Task OnCollectionChanged( System.Collections.Specialized.NotifyCollectionChangedEventArgs eventArgs )\r\n    {\r\n        // do something\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private static string GetColor( int number )\r\n    {\r\n        const string letters = \"0123456789ABCDEF\";\r\n\r\n        var color = \"\";\r\n\r\n        for ( var i = 0; i < 6; i++ )\r\n        {\r\n            color += letters[( 3 * number + i ) % letters.Length];\r\n        }\r\n\r\n        return $\"color: #{color}\";\r\n    }\r\n}",
           "title": "Basic"
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Repeater"
         }
       ]
     },
@@ -2131,6 +2549,20 @@
           "title": "Manual event binding",
           "description": "When using the event ValueChanged , you also must define the Value attribute."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Select"
+        },
+        {
+          "kind": "type",
+          "name": "SelectItem"
+        },
+        {
+          "kind": "type",
+          "name": "SelectGroup"
+        }
       ]
     },
     {
@@ -2171,6 +2603,20 @@
           "title": "Table",
           "description": "SkeletonTable allows you to scaffold a basic table structure by utilizing the Rows and Columns parameters to define the size of the table."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Skeleton"
+        },
+        {
+          "kind": "type",
+          "name": "SkeletonItem"
+        },
+        {
+          "kind": "type",
+          "name": "SkeletonTable"
+        }
       ]
     },
     {
@@ -2178,7 +2624,21 @@
       "title": "Blazorise Skeleton API",
       "description": "Explore the API reference for the Blazorise Skeleton component, detailing available attributes and methods.",
       "pagePath": "Pages/Docs/Components/Skeletons/SkeletonApiPage.razor",
-      "examples": []
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Skeleton"
+        },
+        {
+          "kind": "type",
+          "name": "SkeletonItem"
+        },
+        {
+          "kind": "type",
+          "name": "SkeletonTable"
+        }
+      ]
     },
     {
       "route": "/docs/components/slider",
@@ -2208,6 +2668,12 @@
           "content": "<Paragraph>\r\n    Current value: @value\r\n</Paragraph>\r\n\r\n<Field>\r\n    <Slider @bind-Value=\"@value\" Step=\"5\" Max=\"100\" />\r\n</Field>\r\n\r\n@code {\r\n    int value = 40;\r\n}",
           "title": "Steps",
           "description": "You can change the default step increment."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Slider"
         }
       ]
     },
@@ -2248,6 +2714,24 @@
           "title": "Lazy Reload",
           "description": "You are able to set the Steps component to lazy load your steps everytime."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Steps"
+        },
+        {
+          "kind": "type",
+          "name": "Step"
+        },
+        {
+          "kind": "type",
+          "name": "StepsContent"
+        },
+        {
+          "kind": "type",
+          "name": "StepPanel"
+        }
       ]
     },
     {
@@ -2276,6 +2760,12 @@
           "sourcePath": "Pages/Docs/Components/Switches/Examples/SwitchWithEventExample.razor",
           "content": "<Switch TValue=\"bool\" Value=\"@rememberMe\" ValueChanged=\"@OnRememberMeChanged\">Remember Me</Switch>\r\n\r\n@code{\r\n    bool rememberMe;\r\n\r\n    Task OnRememberMeChanged( bool value )\r\n    {\r\n        rememberMe = value;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Manual event binding"
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Switch"
         }
       ]
     },
@@ -2307,6 +2797,24 @@
           "content": "<Tabs RenderMode=\"TabsRenderMode.LazyReload\" SelectedTab=\"tab1\">\r\n    <Items>\r\n        <Tab Name=\"tab1\">Tab 1</Tab>\r\n        <Tab Name=\"tab2\">Tab 2</Tab>\r\n    </Items>\r\n    <Content>\r\n        <TabPanel Name=\"tab1\">\r\n            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time.\r\n            Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded,\r\n            therefore re-calculated.\r\n            <TextInput></TextInput>\r\n        </TabPanel>\r\n        <TabPanel Name=\"tab2\">\r\n            <TextInput></TextInput>\r\n        </TabPanel>\r\n    </Content>\r\n</Tabs>",
           "title": "Lazy Reload",
           "description": "You are able to set the Tabs component to lazy load your tabs everytime."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Tabs"
+        },
+        {
+          "kind": "type",
+          "name": "Tab"
+        },
+        {
+          "kind": "type",
+          "name": "TabsContent"
+        },
+        {
+          "kind": "type",
+          "name": "TabPanel"
         }
       ]
     },
@@ -2426,6 +2934,48 @@
           "title": "Caption",
           "description": "The TableCaption component is used to provide a caption or title for the table. It is typically placed at the top of the table and can be styled to match the overall design of the table. The TableCaption component is a child of the Table component and should be placed before the TableHeader and TableBody components."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Table"
+        },
+        {
+          "kind": "type",
+          "name": "TableBody"
+        },
+        {
+          "kind": "type",
+          "name": "TableCaption"
+        },
+        {
+          "kind": "type",
+          "name": "TableRow"
+        },
+        {
+          "kind": "type",
+          "name": "TableRowCell"
+        },
+        {
+          "kind": "type",
+          "name": "TableRowGroup"
+        },
+        {
+          "kind": "type",
+          "name": "TableRowHeader"
+        },
+        {
+          "kind": "type",
+          "name": "TableHeader"
+        },
+        {
+          "kind": "type",
+          "name": "TableHeaderCell"
+        },
+        {
+          "kind": "type",
+          "name": "TableFooter"
+        }
       ]
     },
     {
@@ -2541,6 +3091,12 @@
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "TextInput"
+        }
       ]
     },
     {
@@ -2651,6 +3207,12 @@
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "TextInput"
+        }
       ]
     },
     {
@@ -2691,6 +3253,12 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "TimeInput"
+        }
       ]
     },
     {
@@ -2730,6 +3298,12 @@
           "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => timeInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <TimeInput @ref=\"@timeInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    TimeInput<DateTime> timeInputRef;\r\n}",
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "TimeInput"
         }
       ]
     },
@@ -2803,6 +3377,12 @@
           "title": "Enable Seconds",
           "description": "By default, the time picker does not include seconds in the selection. This simplifies the input for use cases where precision to the second is not required. If you want to enable seconds in the time picker, you should assign the value true to the Seconds parameter."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "TimePicker"
+        }
       ]
     },
     {
@@ -2834,6 +3414,16 @@
           "content": "<Div Position=\"Position.Relative\" Width=\"Width.Is100\" Height=\"Height.Rem(20)\">\r\n    @ToastRenderFragment( ToasterPlacement.TopStart )\r\n\r\n    @ToastRenderFragment( ToasterPlacement.TopEnd )\r\n\r\n    @ToastRenderFragment( ToasterPlacement.BottomStart )\r\n\r\n    @ToastRenderFragment( ToasterPlacement.BottomEnd )\r\n</Div>\r\n@code {\r\n    private RenderFragment ToastRenderFragment( ToasterPlacement placement ) => __builder =>\r\n    {\r\n        <Toaster Placement=\"@placement\" PlacementStrategy=\"ToasterPlacementStrategy.Absolute\">\r\n            <Toast Visible Autohide=\"false\">\r\n                <ToastHeader>\r\n                    <Strong Margin=\"Margin.IsAuto.FromEnd\">Blazorise</Strong>\r\n                    <Small>11 mins ago</Small>\r\n                    <CloseButton />\r\n                </ToastHeader>\r\n                <ToastBody>\r\n                    Hello, world! This is a toast message.\r\n                </ToastBody>\r\n            </Toast>\r\n        </Toaster>\r\n    };\r\n}",
           "title": "Placements",
           "description": "You can use one of the following modifiers to change placements of the toast."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Toaster"
+        },
+        {
+          "kind": "type",
+          "name": "Toast"
         }
       ]
     },
@@ -2890,6 +3480,12 @@
           "content": "<Tooltip Text=\"I'm a Blazorise Tooltip!\" ShowDelay=\"1000\" HideDelay=\"500\">\r\n    <Button Color=\"Color.Primary\">Delay: (1000, 500)</Button>\r\n</Tooltip>",
           "title": "Delay",
           "description": "Control how quickly the tooltip shows and hides after the trigger event (in milliseconds)."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Tooltip"
         }
       ]
     },
@@ -3003,6 +3599,44 @@
           "title": "Text Decoration",
           "description": "Blazorise allows you to style text with various decorations. You can use underline to place a line beneath the text, line-through to strike through it, or overline to add a line above. To remove any decorations, use the none option. These styles help enhance and highlight text as needed."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Text"
+        },
+        {
+          "kind": "type",
+          "name": "Paragraph"
+        },
+        {
+          "kind": "type",
+          "name": "Lead"
+        },
+        {
+          "kind": "type",
+          "name": "Heading"
+        },
+        {
+          "kind": "type",
+          "name": "DisplayHeading"
+        },
+        {
+          "kind": "type",
+          "name": "UnorderedList"
+        },
+        {
+          "kind": "type",
+          "name": "UnorderedListItem"
+        },
+        {
+          "kind": "type",
+          "name": "OrderedList"
+        },
+        {
+          "kind": "type",
+          "name": "OrderedListItem"
+        }
       ]
     },
     {
@@ -3106,6 +3740,20 @@
           "title": "IValidatableObject",
           "description": "This example demonstrates how to implement validation in a Blazor component using the IValidatableObject interface for custom logic. The form contains several fields bound to a CompanyInfo model, which is validated automatically using data annotations and custom validation logic."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Validations"
+        },
+        {
+          "kind": "type",
+          "name": "Validation"
+        },
+        {
+          "kind": "type",
+          "name": "ValidationError"
+        }
       ]
     },
     {
@@ -3156,6 +3804,12 @@
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateExample.razor",
           "content": "<Field>\r\n    <Select TValue=\"string\" ValueChanged=\"@OnSelectedAnimationChanged\">\r\n        @foreach ( var availableAnimation in Animations.GetNames() )\r\n        {\r\n            <SelectItem Value=\"@availableAnimation\">@availableAnimation</SelectItem>\r\n        }\r\n    </Select>\r\n</Field>\r\n\r\n@if ( showAnimate )\r\n{\r\n    <Div ElementId=\"#b-animate\">\r\n        <Animate Anchor=\"#b-animate\" Auto Animation=\"selectedAnimation\" DelayMilliseconds=\"500\">\r\n            <Card Margin=\"Margin.Is4.OnY\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is5\">Animation Example</CardTitle>\r\n                    <CardText>\r\n                        Some content.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n    </Div>\r\n}\r\n<Button Color=\"Color.Primary\" Clicked=\"@Animate\">\r\n    @buttonText\r\n</Button>\r\n@code {\r\n    private IAnimation selectedAnimation = Animations.FadeIn;\r\n    private bool showAnimate = false;\r\n    private string buttonText = \"Animate!\";\r\n\r\n    private Task OnSelectedAnimationChanged( string selectedAnimationName )\r\n    {\r\n        showAnimate = false;\r\n\r\n        if ( Animations.TryParse( selectedAnimationName, out var animation ) )\r\n            selectedAnimation = animation;\r\n        else\r\n            selectedAnimation = null;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private async Task Animate()\r\n    {\r\n        if ( !showAnimate )\r\n        {\r\n            showAnimate = true;\r\n            await InvokeAsync( StateHasChanged );\r\n            buttonText = \"Restart!\";\r\n        }\r\n        else\r\n        {\r\n            showAnimate = false;\r\n            buttonText = \"Animate!\";\r\n        }\r\n\r\n        await InvokeAsync( StateHasChanged );\r\n    }\r\n}",
           "title": "Example"
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Animate"
         }
       ]
     },
@@ -3267,6 +3921,12 @@
           "title": "Virtualize with ReadData",
           "description": "Blazorise Autocomplete's Virtualize and ReadData features work together to handle large datasets efficiently. The ReadData event allows you to load only the data needed for the current interaction, without loading the entire dataset into memory. Meanwhile, the Virtualize property ensures that only the visible items are rendered in the DOM, significantly improving performance when working with large lists. In the provided example, the dataset is represented using IEnumerable for simplicity, but in real-world scenarios, you would typically use IQueryable . This allows for true deferred execution, ensuring only the required data is fetched and processed. To enable Virtualize with ReadData , you must also set the TotalItems property. The TotalItems value represents the total count of items in your dataset and is required for proper virtualization."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Autocomplete"
+        }
       ]
     },
     {
@@ -3322,6 +3982,12 @@
           "content": "@using Microsoft.Extensions.Options\r\n@using System.Text.Json\r\n\r\n<Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n    <Captcha @ref=\"@captcha\" Solved=\"@Solved\" Validate=\"@Validate\" Expired=\"Expired\" />\r\n\r\n    <Button Background=\"Background.Primary\" Clicked=\"@Reset\">\r\n        Reset\r\n    </Button>\r\n</Div>\r\n\r\n@code {\r\n    [Inject] IOptions<AppSettings> AppSettings { get; set; }\r\n\r\n    [Inject] IHttpClientFactory HttpClientFactory { get; set; }\r\n\r\n    private Captcha captcha;\r\n\r\n    private void Solved( CaptchaState state )\r\n    {\r\n        Console.WriteLine( $\"Captcha Success: {state.Valid}\" );\r\n    }\r\n\r\n    private void Expired()\r\n    {\r\n        Console.WriteLine( \"Captcha Expired\" );\r\n    }\r\n\r\n    private async Task<bool> Validate( CaptchaState state )\r\n    {\r\n        Console.WriteLine( \"Captcha Validate\" );\r\n\r\n        //Perform server side validation\r\n        //You should make sure to implement server side validation\r\n        //https://developers.google.com/recaptcha/docs/verify\r\n        //Here's a simple example:\r\n        var content = new FormUrlEncodedContent( new[]\r\n        {\r\n            new KeyValuePair<string, string>(\"secret\", AppSettings.Value.ReCaptchaServerKey),\r\n            new KeyValuePair<string, string>(\"response\", state.Response),\r\n         } );\r\n\r\n        var httpClient = HttpClientFactory.CreateClient();\r\n        var response = await httpClient.PostAsync( \"https://www.google.com/recaptcha/api/siteverify\", content );\r\n\r\n        var result = await response.Content.ReadAsStringAsync();\r\n        var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()\r\n            {\r\n                PropertyNamingPolicy = JsonNamingPolicy.CamelCase\r\n            } );\r\n\r\n        return googleResponse.Success;\r\n    }\r\n\r\n    private async Task Reset()\r\n    {\r\n        await captcha.Reset();\r\n    }\r\n\r\n    public class GoogleResponse\r\n    {\r\n        public bool Success { get; set; }\r\n        public double Score { get; set; } //V3 only - The score for this request (0.0 - 1.0)\r\n        public string Action { get; set; } //v3 only - An identifier\r\n        public string Challenge_ts { get; set; }\r\n        public string Hostname { get; set; }\r\n        public string ErrorCodes { get; set; }\r\n    }\r\n}",
           "title": "ReCaptcha Checkbox",
           "description": "The following example demonstrates how to use the ReCaptcha integration. You can use the ReCaptchaOptions to configure the widget according to your needs."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Captcha"
         }
       ]
     },
@@ -3379,6 +4045,12 @@
           "title": "Horizontal Bar Chart",
           "description": "By adjusting the BarChartOptions and changing the IndexAxis you can make the horizontal Bar Chart."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Chart"
+        }
       ]
     },
     {
@@ -3410,6 +4082,12 @@
           "content": "<LineChart @ref=\"lineChartWithBoxes\" TItem=\"int\" Options=\"@lineChartWithBoxesOptions\">\r\n    <ChartAnnotation TItem=\"int\" Options=\"@boxAnnotationOptions\" />\r\n</LineChart>\r\n\r\n@code {\r\n    private LineChart<int> lineChartWithBoxes;\r\n\r\n    LineChartOptions lineChartWithBoxesOptions = new()\r\n    {\r\n        AspectRatio = 5d / 3d,\r\n        Layout = new()\r\n        {\r\n            Padding = new()\r\n            {\r\n                Top = 32,\r\n                Right = 16,\r\n                Bottom = 16,\r\n                Left = 8\r\n            }\r\n        },\r\n        Elements = new()\r\n        {\r\n            Line = new()\r\n            {\r\n                Fill = false,\r\n                Tension = 0.4,\r\n            }\r\n        },\r\n        Scales = new()\r\n        {\r\n            Y = new()\r\n            {\r\n                BeginAtZero = true,\r\n                Min = 0,\r\n                Max = 120,\r\n            }\r\n        },\r\n        Plugins = new()\r\n        {\r\n            Legend = new()\r\n            {\r\n                Display = false\r\n            }\r\n        }\r\n    };\r\n\r\n    Dictionary<string, ChartAnnotationOptions> boxAnnotationOptions = new()\r\n    {\r\n        { \"box1\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(255, 245, 157, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMax = 2.5,\r\n                XMin = -0.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"First quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        },\r\n        { \"box2\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(188, 170, 164, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMax = 5.5,\r\n                XMin = 2.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"Second quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        },\r\n        { \"box3\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(165, 214, 167, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMax = 8.5,\r\n                XMin = 5.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"Third quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        },\r\n        { \"box4\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(159, 168, 218, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMin = 8.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"Fourth quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        }\r\n    };\r\n\r\n    private static string[] Labels = new string[] { \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\", \"11\", \"12\" };\r\n    private static string[] BackgroundColors = new string[] { \"#4bc0c0\", \"#36a2eb\", \"#ff3d88\" };\r\n    private static string[] BorderColors = new string[] { \"#4bc0c0\", \"#36a2eb\", \"#ff3d88\" };\r\n    private Random random = new( DateTime.Now.Millisecond );\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await lineChartWithBoxes.Clear();\r\n            await lineChartWithBoxes.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( 1 ) );\r\n        }\r\n    }\r\n\r\n    private LineChartDataset<int> GetLineChartDataset( int colorIndex )\r\n    {\r\n        return new()\r\n        {\r\n            Label = \"# of randoms\",\r\n            Data = RandomizeData( 2, 110 ),\r\n            BackgroundColor = BackgroundColors[colorIndex],\r\n            BorderColor = BorderColors[colorIndex],\r\n        };\r\n    }\r\n\r\n    List<int> RandomizeData( int min, int max )\r\n    {\r\n        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();\r\n    }\r\n}",
           "title": "Box Annotations",
           "description": "Box annotations are used to draw rectangles on the chart area. This can be useful for highlighting different areas of a chart."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ChartAnnotation"
         }
       ]
     },
@@ -3443,6 +4121,12 @@
           "title": "Scriptable Options",
           "description": "The ChartDataLabelsOptions object values also support functions as a callback. This feature allows you to change values dynamically based on the current state of data or dataset. Please note that whatever function expression you have will be transpiled to JavaScript, and it will be executed in JavaScript."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ChartDataLabels"
+        }
       ]
     },
     {
@@ -3474,6 +4158,12 @@
           "title": "Pause/Play",
           "description": "Making the stream pause and play is very simple. You only need to add a @@ref to the ChartStreaming and the call .Pause() or .Play() methods."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ChartStreaming"
+        }
       ]
     },
     {
@@ -3497,6 +4187,12 @@
           "content": "@using Blazorise.Charts\r\n@using Blazorise.Charts.Trendline\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"@OnButtonClicked\">Toggle trendline and redraw</Button>\r\n\r\n<Chart @ref=\"chart\" TItem=\"double?\" Type=\"ChartType.Line\">\r\n    <ChartTrendline @ref=\"chartTrendline\" TItem=\"double?\" />\r\n</Chart>\r\n\r\n@code {\r\n    Chart<double?> chart;\r\n    ChartTrendline<double?> chartTrendline;\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await HandleRedraw();\r\n        }\r\n    }\r\n\r\n    bool trendlinesOn = true;\r\n    async Task OnButtonClicked()\r\n    {\r\n        trendlinesOn = !trendlinesOn;\r\n\r\n        await HandleRedraw();\r\n    }\r\n\r\n    async Task HandleRedraw()\r\n    {\r\n        await chart.Clear();\r\n\r\n        await chart.AddLabels( Labels );\r\n        await chart.AddDataSet( GetLineChartDataset() );\r\n        await chart.AddDataSet( GetLineChartDataset() );\r\n\r\n        await chart.Update();\r\n\r\n        // Add the trendline(s) after you have added the datasets and called await chart.Update();\r\n        if ( trendlinesOn )\r\n        {\r\n            // This will add a trendline to the second dataset.\r\n            // If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)\r\n            var trendlineData = new List<ChartTrendlineData>\r\n            {\r\n                new ChartTrendlineData\r\n                {\r\n                    DatasetIndex = 1,\r\n                    Width = 10,\r\n                    Color = ChartColor.FromRgba( 54, 162, 235, .6f )\r\n                }\r\n            };\r\n\r\n            await chartTrendline.AddTrendLineOptions( trendlineData );\r\n        }\r\n    }\r\n\r\n    LineChartDataset<double?> GetLineChartDataset()\r\n    {\r\n        return new LineChartDataset<double?>\r\n        {\r\n            Label = \"# of randoms\",\r\n            Data = RandomizeData(),\r\n            BackgroundColor = BackgroundColors,\r\n            BorderColor = BorderColors,\r\n            Fill = true,\r\n            PointRadius = 2,\r\n            BorderDash = new List<int> { }\r\n        };\r\n    }\r\n\r\n    private static string[] Labels = { \"A\", \"B\", \"C\", \"D\", \"E\", \"F\" };\r\n\r\n    private static List<string> BackgroundColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue\r\n    };\r\n\r\n    private static List<string> BorderColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue\r\n    };\r\n\r\n    List<double?> RandomizeData()\r\n    {\r\n        var r = new Random( DateTime.Now.Millisecond );\r\n\r\n        return new List<double?> { r.Next( 3, 20 ) * r.NextDouble(), r.Next( 3, 30 ) * r.NextDouble(), r.Next( 3, 40 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 60 ) * r.NextDouble(), r.Next( 3, 70 ) * r.NextDouble() };\r\n    }\r\n}",
           "title": "Example"
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ChartTrendline"
+        }
       ]
     },
     {
@@ -3519,6 +4215,12 @@
           "sourcePath": "Pages/Docs/Extensions/ChartsZoom/Examples/ChartZoomExample.razor",
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@(async () => await HandleRedraw())\">Redraw</Button>\r\n\r\n<LineChart @ref=\"lineChart\" TItem=\"double\">\r\n    <ChartZoom TItem=\"double\" Options=\"@lineChartZoomOptions\" />\r\n</LineChart>\r\n\r\n@code {\r\n    LineChart<double> lineChart;\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await HandleRedraw();\r\n        }\r\n    }\r\n\r\n    async Task HandleRedraw()\r\n    {\r\n        await lineChart.Clear();\r\n\r\n        await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );\r\n    }\r\n\r\n    LineChartDataset<double> GetLineChartDataset()\r\n    {\r\n        return new LineChartDataset<double>\r\n        {\r\n            Label = \"# of randoms\",\r\n            Data = RandomizeData(),\r\n            BackgroundColor = BackgroundColors,\r\n            BorderColor = BorderColors,\r\n            Fill = true,\r\n            PointRadius = 3,\r\n            CubicInterpolationMode = \"monotone\",\r\n        };\r\n    }\r\n\r\n    private static string[] Labels = { \"A\", \"B\", \"C\", \"D\", \"E\", \"F\" };\r\n\r\n    private static List<string> BackgroundColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue\r\n    };\r\n\r\n    private static List<string> BorderColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue\r\n    };\r\n\r\n    List<double> RandomizeData()\r\n    {\r\n        var r = new Random( DateTime.Now.Millisecond );\r\n\r\n        return new List<double> {\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble() };\r\n    }\r\n\r\n    private ChartZoomPluginOptions lineChartZoomOptions = new()\r\n    {\r\n        Zoom = new()\r\n        {\r\n            Mode = \"y\",\r\n            Wheel = new()\r\n            {\r\n                Enabled = true,\r\n            },\r\n            Pinch = new()\r\n            {\r\n                Enabled = true\r\n            },\r\n            Drag = new()\r\n            {\r\n                Enabled = true\r\n            }\r\n        },\r\n        Limits = new()\r\n        {\r\n            Y = new()\r\n            {\r\n                Min = 0,\r\n                Max = 50,\r\n                MinRange = 25\r\n            }\r\n        },\r\n        Transition = new ChartZoomTransitionOptions()\r\n        {\r\n            Animation = new ChartAnimation()\r\n            {\r\n                Duration = 1000,\r\n                Easing = \"easeOutCubic\"\r\n            }\r\n        }\r\n    };\r\n}",
           "title": "Basic"
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ChartZoom"
         }
       ]
     },
@@ -3567,6 +4269,20 @@
           "content": "<Row>\r\n    <Column>\r\n        <FieldLabel>\r\n            Image Cropper\r\n        </FieldLabel>\r\n        <FieldBody>\r\n            <Cropper Source=\"img/gallery/3.jpg\" CropperState=\"@cropperState\" />\r\n        </FieldBody>\r\n    </Column>\r\n    <Column>\r\n        <FieldLabel>\r\n            Preview\r\n        </FieldLabel>\r\n        <FieldBody>\r\n            <CropperViewer CropperState=\"@cropperState\" Margin=\"Margin.Is2.FromBottom\" Style=\"width: 150px; height: 150px;\" />\r\n            <CropperViewer CropperState=\"@cropperState\" Margin=\"Margin.Is2.FromBottom\" Style=\"width: 100px; height: 100px;\" />\r\n            <CropperViewer CropperState=\"@cropperState\" Margin=\"Margin.Is2.FromBottom\" Style=\"width: 50px; height: 50px;\" />\r\n        </FieldBody>\r\n    </Column>\r\n</Row>\r\n\r\n@code {\r\n    private CropperState cropperState = new();\r\n}",
           "title": "Viewer",
           "description": "To add preview support, use a CropperViewer component. Once added you need to connect it to a Cropper by assigning the CropperState parameter. This parameter is used as a synchronization context between the cropper and a viewer."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Cropper"
+        },
+        {
+          "kind": "type",
+          "name": "CropperViewer"
+        },
+        {
+          "kind": "type",
+          "name": "CropperCropOptions"
         }
       ]
     },
@@ -4497,6 +5213,12 @@
           "title": "With Search",
           "description": "The DropdownList component in Blazorise allows users to search for items in the dropdown list. By enabling Filterable property, a search box is displayed at the top of the dropdown list. Users can type in the search box to filter the list and quickly locate the desired item. This feature enhances user experience by providing a more efficient way of selecting items from a dropdown list."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "DropdownList"
+        }
       ]
     },
     {
@@ -4648,6 +5370,12 @@
           "title": "Global options",
           "description": "Defining styles on each icon can become very tedious with time. That's why we give you an option to specify them globally. This way, you will have consistent styling across the application, and you can still override them on the icon if you need to."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Icon"
+        }
       ]
     },
     {
@@ -4709,6 +5437,12 @@
           "content": "@using System.Linq\r\n\r\n<ListView TItem=\"Country\"\r\n          Data=\"Countries\"\r\n          TextField=\"(item) => item.Name\"\r\n          ValueField=\"(item) => item.Iso\"\r\n          Mode=\"ListGroupMode.Selectable\"\r\n          MaxHeight=\"300px\"\r\n          ItemTextColor=\"((item) => Countries.IndexOf( item ) % 2 == 0 ? TextColor.Danger : TextColor.Success)\"\r\n          ItemBackground=\"(item) => Background.Default\"\r\n          ItemPadding=\"(item) => Padding.Is4\"\r\n          ItemClass=\"@((item) => $\"country-{item.Iso}\")\"\r\n          ItemStyle=\"@((item) => \"border: 1px solid red\")\"\r\n          @bind-SelectedItem=\"@selectedListViewItem\">\r\n</ListView>\r\n\r\n<Field Horizontal>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is12\">\r\n        Selected Item: @selectedListViewItem?.Name\r\n    </FieldBody>\r\n</Field>\r\n\r\n\r\n@code {\r\n    [Inject]\r\n    public CountryData CountryData { get; set; }\r\n    public List<Country> Countries;\r\n\r\n    private Country selectedListViewItem;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        Countries = (await CountryData.GetDataAsync()).ToList();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Styling Individual Items",
           "description": "Customize the look of each item by using the right callbacks."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ListView"
         }
       ]
     },
@@ -4838,6 +5572,12 @@
           "title": "Using animation",
           "description": "Loading indicator can animate its visibility state by fading into view. This is on by default for ApplicationLoadingIndicator . You can also use the Animate component to add a visual effect."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "LoadingIndicator"
+        }
       ]
     },
     {
@@ -4869,6 +5609,12 @@
           "content": "<LottieAnimation Path=\"https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json\" />",
           "title": "Basic",
           "description": "To embed an animation you just need to define the Path of the animation."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "LottieAnimation"
         }
       ]
     },
@@ -4940,6 +5686,12 @@
           "content": "<Markdown Value=\"@markdownValue\" ValueChanged=\"@OnMarkdownValueChanged\" PreviewRender=\"@PreviewRender\" />\r\n\r\n@code {\r\n    string markdownValue = \"# EasyMDE \\n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`.\";\r\n\r\n    Task OnMarkdownValueChanged( string value )\r\n    {\r\n        markdownValue = value;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    protected Task<string> PreviewRender( string plainText )\r\n    {\r\n        return Task.FromResult( Markdig.Markdown.ToHtml( markdownValue ?? string.Empty ) );\r\n    }\r\n}",
           "title": "Custom Preview Render",
           "description": "Sometimes you don't want to render preview with the built-in parser. In those situations you can make use of PreviewRender callback to override the preview HTML."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Markdown"
         }
       ]
     },
@@ -5067,6 +5819,12 @@
           "content": "<Div Padding=\"Padding.Is2\" Border=\"Border.Rounded\" Flex=\"Flex.InlineFlex.Column.AlignItems.Center\" Background=\"Background.Dark\" TextColor=\"TextColor.Light\">\r\n    <QRCode Value=\"https://blazorise.com\" Alt=\"QRCode image\" />\r\n    <Div Flex=\"Flex.JustifyContent.Center.AlignItems.Center\">\r\n        <Span>\r\n            SCAN ME\r\n        </Span>\r\n    </Div>\r\n</Div>",
           "title": "With Text",
           "description": "QRCode doesn't have a built-in way to add text below the QR code. However, you can use Blazorise utilities to achieve this. The example below shows how to use the Flex component to center the QR code and text."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "QRCode"
         }
       ]
     },
@@ -5342,6 +6100,12 @@
           "title": "With Multiple Selections",
           "description": "Just like with a regular Select component, add the Multiple parameter to allow more than one option to be selected. Also, bind the Value parameter."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SelectList"
+        }
       ]
     },
     {
@@ -5502,6 +6266,12 @@
           "title": "Undo",
           "description": "The Undo() method in the SignaturePad component removes the last stroke drawn on the signature pad. Each action, or stroke, is independent, and calling Undo() will only affect the most recent one. It's an effective way to correct errors without clearing the entire pad. This function doesn't revert changes to SignaturePad's configuration, such as pen color or width, and has no effect if no strokes have been made."
         }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SignaturePad"
+        }
       ]
     },
     {
@@ -5557,6 +6327,12 @@
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@(()=>snackbarStack.PushAsync(\"Current time is: \" + DateTime.Now, SnackbarColor.Info))\">Primary</Button>\r\n\r\n<Button Color=\"Color.Info\" Clicked=\"@(()=>snackbarStack.PushAsync(\"Some info message! Timeout: \" + intervalBeforeMsgClose, SnackbarColor.Info, options => {  options.IntervalBeforeClose = intervalBeforeMsgClose; } ))\">Show Info</Button>\r\n\r\n<SnackbarStack @ref=\"snackbarStack\" Location=\"SnackbarStackLocation.BottomEnd\" />\r\n\r\n@code{\r\n    SnackbarStack snackbarStack;\r\n    double intervalBeforeMsgClose = 2000;\r\n}",
           "title": "Stacked snackbars",
           "description": "When you want to show multiple snackbars stacked on top of each other you can use a wrapper component SnackbarStack . You can specify Action&lt;SnackbarOptions&gt; options when calling PushAsync() in order to specify the Snackbar parameters available below."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Snackbar"
         }
       ]
     },
@@ -5621,6 +6397,12 @@
           "content": "<SpinKit Type=\"SpinKitType.Plane\" Size=\"Size.Small\" />",
           "title": "Size",
           "description": "Size can be changed using predefined size variants."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SpinKit"
         }
       ]
     },
@@ -5691,6 +6473,16 @@
           "content": "<Splitter Style=\"height: 100px;\" GutterSize=\"32\" GutterBackgroundImage=\"_content/Blazorise.Docs/assets/img/icons/resize-horizontal-30.png\">\r\n    <SplitterSection>\r\n        <div>Hello!</div>\r\n    </SplitterSection>\r\n    <SplitterSection>\r\n        <div>World!</div>\r\n    </SplitterSection>\r\n</Splitter>",
           "title": "Background Image",
           "description": "Using GutterBackgroundImage can help to enhance the visual appeal of your application, or provide additional context or functionality. For instance, a background image might be used to represent the direction of resizing, or simply to better match the overall design theme of your application. This parameter accepts either a Base64 encoded string that represents an image, or a URL that points to an image resource. Remember to choose an image that will look good when stretched or repeated across the width of the gutter, and that will not distract from the usability of the splitter."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Splitter"
+        },
+        {
+          "kind": "type",
+          "name": "SplitterSection"
         }
       ]
     },
@@ -5771,6 +6563,12 @@
           "content": "<TransferList TItem=\"string\"\r\n              Items=\"@list\"\r\n              SelectionMode=\"ListGroupSelectionMode.Single\"\r\n              Mode=\"ListGroupMode.Selectable\"\r\n              Scrollable\r\n              ShowMoveAll=false\r\n              ValueField=\"item => item\"\r\n              TextField=\"item => item\">\r\n    <ItemStartTemplate>\r\n        @(transferListItemContent( context ))\r\n    </ItemStartTemplate>\r\n    <ItemEndTemplate>\r\n        @(transferListItemContent( context ))\r\n    </ItemEndTemplate>\r\n</TransferList>\r\n\r\n@code {\r\n    private List<string> list = new List<string> { \"Apple\", \"Bananas\", \"Lemon\", \"Broccoli\", \"Strawberry\", \"Cherry\", \"Cabbage\" };\r\n    private List<string> listStart = new List<string>() { \"Cabbage\", \"Broccoli\" };\r\n\r\n    private RenderFragment<Blazorise.Components.ListView.ItemContext<string>> transferListItemContent => item => __builder =>\r\n    {\r\n        <Card Background=Background.Info Shadow=\"Shadow.Default\">\r\n            <CardBody>\r\n                @{\r\n                    var imageSource = $\"img/fruit/{item.Value.ToLower()}.png\";\r\n                }\r\n                <Image Source=\"@imageSource\" Style=\"width:24px;height:24px;\" Text=\"Small image\" />\r\n                @item.Value\r\n            </CardBody>\r\n        </Card>\r\n    };\r\n}",
           "title": "Customize",
           "description": "You may customize the look of each of the transfer list by utilizing the ItemStartTemplate and ItemEndTemplate parameters."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "TransferList"
         }
       ]
     },
@@ -5857,6 +6655,12 @@
           "content": "<TreeView Nodes=\"Items\"\r\n          GetChildNodes=\"@(item => item.Children)\"\r\n          HasChildNodes=\"@(item => item.Children?.Any() == true)\"\r\n          @bind-SelectedNode=\"selectedNode\"\r\n          @bind-ExpandedNodes=\"expandedNodes\"\r\n          Virtualize>\r\n    <NodeContent>\r\n        <Icon Name=\"IconName.Folder\" />\r\n        @context.Text\r\n    </NodeContent>\r\n</TreeView>\r\n\r\n@code {\r\n    public class Item\r\n    {\r\n        public string Text { get; set; }\r\n        public IEnumerable<Item> Children { get; set; }\r\n    }\r\n\r\n    protected override void OnInitialized()\r\n    {\r\n        Items = Enumerable.Range( 1, 4 ).Select( rootIndex => new Item\r\n        {\r\n            Text = $\"Root Node {rootIndex}\",\r\n            Children = Enumerable.Range( 1, 100 ).Select( childIndex => new Item\r\n            {\r\n                Text = $\"Root {rootIndex} - Child {childIndex}\",\r\n                Children = Enumerable.Empty<Item>() // No children for the child nodes in this example\r\n            } )\r\n        } ).ToList();\r\n\r\n        base.OnInitialized();\r\n    }\r\n\r\n    IEnumerable<Item> Items;\r\n\r\n    IList<Item> expandedNodes = new List<Item>();\r\n    Item selectedNode;\r\n}",
           "title": "Virtualization",
           "description": "This example demonstrates how to use virtualization in a Blazorise TreeView component to efficiently render large hierarchical data sets. Virtualization improves performance by only rendering the visible nodes in the viewport, rather than all nodes in the tree. This is particularly useful when dealing with large numbers of nodes, as it reduces the DOM size and enhances responsiveness. For virtualization to function correctly, it is essential to specify both the Height and Overflow properties Height : Defines the fixed height of the TreeView component. Without a specified height, the tree would expand indefinitely, defeating the purpose of virtualization since all nodes would be rendered at once. Overflow : Ensures that the tree's content is scrollable. This scrollable area allows for dynamic loading of nodes as the user scrolls, effectively utilizing virtualization to render only the nodes currently in view. By default, when Virtualize is enabled, we will define Height and Overflow for you, if they are not already explicitly defined."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "TreeView"
         }
       ]
     },
@@ -7427,28 +8231,55 @@
       "title": "Blazorise Theme API",
       "description": "Explore the Blazorise Theme API, which provides classes for customizing themes, colors, typography, and other styling aspects of your Blazor applications.",
       "pagePath": "Pages/Docs/Components/Theming/ThemingApiPage.razor",
-      "examples": []
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "category",
+          "name": "Theme"
+        }
+      ]
     },
     {
       "route": "/docs/theming/api/colors",
       "title": "Blazorise Colors API",
       "description": "The Blazorise Colors API provides developers with a comprehensive set of classes and structures to define and manage color schemes within Blazor applications.",
       "pagePath": "Pages/Docs/Components/Theming/ThemingApiColorsPage.razor",
-      "examples": []
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "category",
+          "name": "Theme",
+          "subcategory": "Colors"
+        }
+      ]
     },
     {
       "route": "/docs/theming/api/options",
       "title": "Blazorise Theming Options API",
       "description": "Learn how to configure and customize the appearance of Blazorise components using the Theming Options API.",
       "pagePath": "Pages/Docs/Components/Theming/ThemingApiOptionsPage.razor",
-      "examples": []
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "category",
+          "name": "Theme",
+          "subcategory": "Options"
+        }
+      ]
     },
     {
       "route": "/docs/theming/api/palettes",
       "title": "Blazorise Palettes API",
       "description": "Explore the Blazorise Palettes API to customize and manage color schemes for your Blazor applications.",
       "pagePath": "Pages/Docs/Components/Theming/ThemingApiPalettesPage.razor",
-      "examples": []
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "category",
+          "name": "Theme",
+          "subcategory": "Palettes"
+        }
+      ]
     },
     {
       "route": "/docs/usage",

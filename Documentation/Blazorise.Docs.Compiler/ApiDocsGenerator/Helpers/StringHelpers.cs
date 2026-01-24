@@ -118,30 +118,36 @@ public class StringHelpers
         // Mapping for built-in C# types
 
 
-        // Handle nullable types
-        if ( typeSymbol.NullableAnnotation == NullableAnnotation.Annotated && typeSymbol is INamedTypeSymbol namedType )
+        // Handle nullable value types (Nullable<T>)
+        if ( typeSymbol is INamedTypeSymbol nullableType
+             && nullableType.IsGenericType
+             && nullableType.Name == "Nullable"
+             && nullableType.TypeArguments.Length == 1 )
         {
-            return $"{GetSimplifiedTypeName( namedType.TypeArguments[0] )}?";
+            return $"{GetSimplifiedTypeName( nullableType.TypeArguments[0] )}?";
         }
+
+        string nullabilitySuffix = typeSymbol.NullableAnnotation == NullableAnnotation.Annotated ? "?" : string.Empty;
 
         // Handle generic types
         if ( typeSymbol is INamedTypeSymbol genericType && genericType.IsGenericType )
         {
             var baseName = typeMap.ContainsKey( genericType.Name ) ? typeMap[genericType.Name] : genericType.Name;
             if ( withoutGenerics || genericType.Name.Contains( "ValueTuple" ) )
-                return baseName;
+                return baseName + nullabilitySuffix;
             var typeArguments = string.Join( ", ", genericType.TypeArguments.Select( x => GetSimplifiedTypeName( x ) ) );
-            return $"{baseName}<{typeArguments}>";
+            return $"{baseName}<{typeArguments}>{nullabilitySuffix}";
         }
 
         // Handle arrays
         if ( typeSymbol is IArrayTypeSymbol arrayType )
         {
-            return $"{GetSimplifiedTypeName( arrayType.ElementType )}[]";
+            return $"{GetSimplifiedTypeName( arrayType.ElementType )}[]{nullabilitySuffix}";
         }
 
         // Use the mapped name if available, otherwise fallback to the simple name
-        return typeMap.TryGetValue( typeSymbol.Name, out var simplifiedName ) ? simplifiedName : typeSymbol.Name;
+        string simpleName = typeMap.TryGetValue( typeSymbol.Name, out var simplifiedName ) ? simplifiedName : typeSymbol.Name;
+        return simpleName + nullabilitySuffix;
     }
 
     static readonly Dictionary<string, string> typeMap = new()

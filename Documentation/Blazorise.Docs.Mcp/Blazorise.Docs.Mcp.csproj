@@ -45,4 +45,12 @@
              PackagePath="/" />
   </ItemGroup>
 
+  <ItemGroup Condition="Exists('..\Blazorise.Docs\Resources\docs-api-index.json')">
+    <Content Include="..\Blazorise.Docs\Resources\docs-api-index.json"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest"
+             Pack="true"
+             PackagePath="/" />
+  </ItemGroup>
+
 </Project>
