@@ -2,7 +2,9 @@ param(
     [string]$BaseUrl = "http://localhost:5000",
     [string]$RoutePrefix = "/docs",
     [int]$TimeoutSeconds = 20,
-    [string]$ProtocolVersion = "2024-11-05"
+    [string]$ProtocolVersion = "2024-11-05",
+    [string]$ExampleCode = "ButtonExample",
+    [switch]$ListDocsPages
 )
 
 Set-StrictMode -Version Latest
@@ -28,7 +30,14 @@ $client.Timeout = [System.Threading.Timeout]::InfiniteTimeSpan
 [System.Collections.Generic.HashSet[int]] $pendingIds = New-Object "System.Collections.Generic.HashSet[int]"
 $pendingIds.Add( 1 ) | Out-Null
 $pendingIds.Add( 2 ) | Out-Null
-$pendingIds.Add( 3 ) | Out-Null
+if ( ![string]::IsNullOrWhiteSpace( $ExampleCode ) )
+{
+    $pendingIds.Add( 4 ) | Out-Null
+}
+if ( $ListDocsPages )
+{
+    $pendingIds.Add( 3 ) | Out-Null
+}
 
 [bool] $sent = $false
 [bool] $initialized = $false
@@ -165,23 +174,35 @@ function Process-JsonRpcPayload
             [int] $responseId = [int]$idValue
             if ( $pendingIds.Contains( $responseId ) )
             {
-                $pendingIds.Remove( $responseId ) | Out-Null
-            }
+                        $pendingIds.Remove( $responseId ) | Out-Null
+                    }
 
-            if ( $responseId -eq 1 -and !$initialized )
-            {
-                Send-JsonRpcNotification -Method "initialized" -Params @{}
-                Send-JsonRpcRequest -Id 2 -Method "tools/list" -Params @{}
-                Send-JsonRpcRequest -Id 3 -Method "tools/call" -Params @{
-                    name = "list_docs_pages"
-                    arguments = @{
-                        startsWith = $RoutePrefix
+                    if ( $responseId -eq 1 -and !$initialized )
+                    {
+                        Send-JsonRpcNotification -Method "initialized" -Params @{}
+                        Send-JsonRpcRequest -Id 2 -Method "tools/list" -Params @{}
+                        if ( $ListDocsPages )
+                        {
+                            Send-JsonRpcRequest -Id 3 -Method "tools/call" -Params @{
+                                name = "list_docs_pages"
+                                arguments = @{
+                                    startsWith = $RoutePrefix
+                                }
+                            }
+                        }
+                        if ( ![string]::IsNullOrWhiteSpace( $ExampleCode ) )
+                        {
+                            Send-JsonRpcRequest -Id 4 -Method "tools/call" -Params @{
+                                name = "get_example_code"
+                                arguments = @{
+                                    code = $ExampleCode
+                                }
+                            }
+                        }
+                        $initialized = $true
+                        $sent = $true
                     }
                 }
-                $initialized = $true
-                $sent = $true
-            }
-        }
 
         if ( $pendingIds.Count -eq 0 )
         {
