@@ -19,6 +19,12 @@ internal sealed class DocsIndexGenerator
     private static readonly Regex SeoRegex = new( @"<Seo\b[^>]*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
     private static readonly Regex SeoAttributeRegex = new( @"(?<name>\w+)\s*=\s*""(?<value>[^""]*)""", RegexOptions.Compiled | RegexOptions.IgnoreCase );
     private static readonly Regex ExampleCodeRegex = new( @"<DocsPageSectionSource\b[^>]*\bCode\s*=\s*""(?<code>[^""]+)""[^>]*>", RegexOptions.Compiled | RegexOptions.Singleline );
+    private static readonly Regex DocsSectionRegex = new( @"<DocsPageSection\b[^>]*>(?<content>.*?)</DocsPageSection>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
+    private static readonly Regex SectionHeaderRegex = new( @"<DocsPageSectionHeader\b(?<attrs>[^>]*)>(?<content>.*?)</DocsPageSectionHeader>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
+    private static readonly Regex SectionHeaderSelfClosingRegex = new( @"<DocsPageSectionHeader\b(?<attrs>[^>]*)/>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
+    private static readonly Regex HtmlTagRegex = new( @"<[^>]+>", RegexOptions.Compiled | RegexOptions.Singleline );
+    private static readonly Regex RazorCommentRegex = new( @"@\*.*?\*@", RegexOptions.Compiled | RegexOptions.Singleline );
+    private static readonly Regex WhitespaceRegex = new( @"\s+", RegexOptions.Compiled );
     private static readonly Regex ManualEntryRegex = new( @"new\(\s*""(?<url>[^""]+)""\s*,\s*""(?<name>[^""]+)""(?:\s*,\s*""(?<description>(?:[^""\\]|\\.)*)"")?\s*\)", RegexOptions.Compiled );
     private static readonly Regex RazorDirectiveRegex = new( @"@(namespace|layout|page)\s+.+?\r?\n", RegexOptions.Compiled );
 
@@ -67,7 +73,8 @@ internal sealed class DocsIndexGenerator
 
                 SeoInfo seo = ExtractSeoInfo( content );
                 List<string> exampleCodes = ExtractExampleCodes( content );
-                List<DocsExample> examples = BuildExamples( pageFile, exampleCodes, exampleIndex, docsRoot );
+                Dictionary<string, ExampleMetadata> exampleMetadata = ExtractExampleMetadata( content );
+                List<DocsExample> examples = BuildExamples( pageFile, exampleCodes, exampleIndex, docsRoot, exampleMetadata );
                 string pagePath = NormalizePath( Path.GetRelativePath( docsRoot, pageFile ) );
 
                 foreach ( string route in docsRoutes )
@@ -284,20 +291,130 @@ internal sealed class DocsIndexGenerator
         return codes;
     }
 
-    private static List<DocsExample> BuildExamples( string pageFilePath, List<string> exampleCodes, Dictionary<string, List<string>> exampleIndex, string docsRoot )
+    private static Dictionary<string, ExampleMetadata> ExtractExampleMetadata( string content )
+    {
+        Dictionary<string, ExampleMetadata> metadata = new Dictionary<string, ExampleMetadata>( StringComparer.OrdinalIgnoreCase );
+        MatchCollection sectionMatches = DocsSectionRegex.Matches( content );
+
+        foreach ( Match sectionMatch in sectionMatches )
+        {
+            string sectionContent = sectionMatch.Groups["content"].Value;
+            ExampleMetadata sectionMetadata = ExtractSectionMetadata( sectionContent );
+
+            List<string> codes = ExtractExampleCodes( sectionContent );
+            if ( codes.Count == 0 )
+                continue;
+
+            if ( sectionMetadata is null )
+                continue;
+
+            foreach ( string code in codes )
+            {
+                if ( !metadata.ContainsKey( code ) )
+                {
+                    metadata[code] = sectionMetadata;
+                }
+            }
+        }
+
+        return metadata;
+    }
+
+    private static ExampleMetadata ExtractSectionMetadata( string sectionContent )
+    {
+        string title = null;
+        string description = null;
+
+        Match headerMatch = SectionHeaderRegex.Match( sectionContent );
+        if ( headerMatch.Success )
+        {
+            string attributes = headerMatch.Groups["attrs"].Value;
+            title = ExtractAttributeValue( attributes, "Title" );
+            description = NormalizeHeaderText( headerMatch.Groups["content"].Value );
+        }
+        else
+        {
+            Match selfClosingMatch = SectionHeaderSelfClosingRegex.Match( sectionContent );
+            if ( selfClosingMatch.Success )
+            {
+                string attributes = selfClosingMatch.Groups["attrs"].Value;
+                title = ExtractAttributeValue( attributes, "Title" );
+            }
+        }
+
+        if ( IsDynamicValue( title ) )
+            title = null;
+
+        if ( string.IsNullOrWhiteSpace( description ) )
+            description = null;
+
+        if ( string.IsNullOrWhiteSpace( title ) && string.IsNullOrWhiteSpace( description ) )
+            return null;
+
+        return new ExampleMetadata( title, description );
+    }
+
+    private static string ExtractAttributeValue( string attributes, string attributeName )
+    {
+        if ( string.IsNullOrWhiteSpace( attributes ) )
+            return null;
+
+        MatchCollection matches = SeoAttributeRegex.Matches( attributes );
+
+        foreach ( Match match in matches )
+        {
+            string name = match.Groups["name"].Value;
+
+            if ( string.Equals( name, attributeName, StringComparison.OrdinalIgnoreCase ) )
+            {
+                string value = match.Groups["value"].Value;
+                return UnescapeCSharpString( value );
+            }
+        }
+
+        return null;
+    }
+
+    private static string NormalizeHeaderText( string content )
+    {
+        if ( string.IsNullOrWhiteSpace( content ) )
+            return null;
+
+        string cleaned = RazorCommentRegex.Replace( content, " " );
+        cleaned = HtmlTagRegex.Replace( cleaned, " " );
+        cleaned = cleaned.Replace( "\r", " " ).Replace( "\n", " " );
+        cleaned = WhitespaceRegex.Replace( cleaned, " " ).Trim();
+
+        return string.IsNullOrWhiteSpace( cleaned ) ? null : cleaned;
+    }
+
+    private static List<DocsExample> BuildExamples(
+        string pageFilePath,
+        List<string> exampleCodes,
+        Dictionary<string, List<string>> exampleIndex,
+        string docsRoot,
+        Dictionary<string, ExampleMetadata> exampleMetadata )
     {
         List<DocsExample> examples = new List<DocsExample>();
 
         foreach ( string code in exampleCodes )
         {
             ExampleSource source = FindExampleSource( pageFilePath, code, exampleIndex );
+            ExampleMetadata metadata = null;
+
+            if ( exampleMetadata is not null )
+            {
+                exampleMetadata.TryGetValue( code, out metadata );
+            }
 
             DocsExample example = new DocsExample
             {
                 Code = code,
                 Kind = source?.Kind,
                 SourcePath = source is not null ? NormalizePath( Path.GetRelativePath( docsRoot, source.Path ) ) : null,
-                Content = source is not null ? ReadExampleContent( source.Path ) : null
+                Content = source is not null ? ReadExampleContent( source.Path ) : null,
+                Title = metadata?.Title,
+                Description = metadata?.Description
             };
 
             examples.Add( example );
@@ -437,6 +554,20 @@ internal sealed class DocsIndexGenerator
         public string Kind { get; set; }
         public string SourcePath { get; set; }
         public string Content { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+
+    private sealed class ExampleMetadata
+    {
+        public ExampleMetadata( string title, string description )
+        {
+            Title = title;
+            Description = description;
+        }
+
+        public string Title { get; }
+        public string Description { get; }
     }
 
     private sealed class ManualEntry

@@ -45,7 +45,13 @@ internal sealed class DocsTools
             ? page.Examples.Select( example => example.Code ).ToList()
             : new List<string>();
 
-        return new DocsPageDetails( page.Route, page.Title, page.Description, page.PagePath, examples );
+        List<DocsExampleSummary> exampleDetails = page.Examples is not null
+            ? page.Examples
+                .Select( example => new DocsExampleSummary( example.Code, example.Title, example.Description, example.Kind, example.SourcePath ) )
+                .ToList()
+            : new List<DocsExampleSummary>();
+
+        return new DocsPageDetails( page.Route, page.Title, page.Description, page.PagePath, examples, exampleDetails );
     }
 
     [McpServerTool]
@@ -65,7 +71,7 @@ internal sealed class DocsTools
         if ( example is null )
             throw new InvalidOperationException( $"No example found for code '{code}'." );
 
-        return new DocsExampleDetails( example.Code, example.Kind, example.SourcePath, example.Content );
+        return new DocsExampleDetails( example.Code, example.Kind, example.SourcePath, example.Content, example.Title, example.Description );
     }
 
     [McpServerTool]
@@ -135,13 +141,20 @@ internal sealed class DocsPageSummary
 
 internal sealed class DocsPageDetails
 {
-    public DocsPageDetails( string route, string title, string description, string pagePath, List<string> examples )
+    public DocsPageDetails(
+        string route,
+        string title,
+        string description,
+        string pagePath,
+        List<string> examples,
+        List<DocsExampleSummary> exampleDetails )
     {
         Route = route;
         Title = title;
         Description = description;
         PagePath = pagePath;
         Examples = examples;
+        ExampleDetails = exampleDetails;
     }
 
     public string Route { get; }
@@ -149,20 +162,43 @@ internal sealed class DocsPageDetails
     public string Description { get; }
     public string PagePath { get; }
     public List<string> Examples { get; }
+    public List<DocsExampleSummary> ExampleDetails { get; }
+}
+
+internal sealed class DocsExampleSummary
+{
+    public DocsExampleSummary( string code, string title, string description, string kind, string sourcePath )
+    {
+        Code = code;
+        Title = title;
+        Description = description;
+        Kind = kind;
+        SourcePath = sourcePath;
+    }
+
+    public string Code { get; }
+    public string Title { get; }
+    public string Description { get; }
+    public string Kind { get; }
+    public string SourcePath { get; }
 }
 
 internal sealed class DocsExampleDetails
 {
-    public DocsExampleDetails( string code, string kind, string sourcePath, string content )
+    public DocsExampleDetails( string code, string kind, string sourcePath, string content, string title, string description )
     {
         Code = code;
         Kind = kind;
         SourcePath = sourcePath;
         Content = content;
+        Title = title;
+        Description = description;
     }
 
     public string Code { get; }
     public string Kind { get; }
     public string SourcePath { get; }
     public string Content { get; }
+    public string Title { get; }
+    public string Description { get; }
 }

@@ -23,4 +23,6 @@ internal sealed class DocsExample
     public string Kind { get; set; }
     public string SourcePath { get; set; }
     public string Content { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
 }
