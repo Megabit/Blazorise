@@ -1,17 +1,155 @@
+using System;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Blazorise.Docs.Mcp;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using ModelContextProtocol;
+using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
 
-var builder = Host.CreateApplicationBuilder( args );
+WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
 // Configure all logs to go to stderr (stdout is used for the MCP protocol messages).
+builder.Logging.ClearProviders();
 builder.Logging.AddConsole( o => o.LogToStandardErrorThreshold = LogLevel.Trace );
 
-// Add the MCP services: the transport to use (stdio) and the tools to register.
-builder.Services
+IMcpServerBuilder mcpBuilder = builder.Services
     .AddMcpServer()
-    .WithStdioServerTransport()
     .WithTools<DocsTools>();
 
-await builder.Build().RunAsync();
+bool? enableStdioOverride = builder.Configuration.GetValue<bool?>( "Mcp:EnableStdio" );
+bool enableStdio = enableStdioOverride ?? Environment.UserInteractive;
+
+if ( enableStdio )
+{
+    mcpBuilder.WithStdioServerTransport();
+}
+
+builder.Services.AddSingleton<McpHttpSessionStore>();
+
+WebApplication app = builder.Build();
+
+app.MapGet( "/mcp/sse", HandleSseAsync );
+app.MapPost( "/mcp/message", HandleMessageAsync );
+
+await app.RunAsync();
+
+static async Task HandleSseAsync(
+    HttpContext context,
+    McpHttpSessionStore sessionStore,
+    IOptions<McpServerOptions> serverOptions,
+    ILoggerFactory loggerFactory,
+    IServiceProvider serviceProvider )
+{
+    context.Response.StatusCode = StatusCodes.Status200OK;
+    context.Response.ContentType = "text/event-stream";
+    context.Response.Headers["Cache-Control"] = "no-cache";
+    context.Response.Headers["Connection"] = "keep-alive";
+    context.Response.Headers["X-Accel-Buffering"] = "no";
+
+    string sessionId = Guid.NewGuid().ToString( "N" );
+    string messageEndpoint = BuildMessageEndpoint( context.Request.PathBase );
+
+    IServiceScope scope = serviceProvider.CreateScope();
+    McpServerOptions options = serverOptions.Value;
+
+    SseResponseStreamTransport transport = new SseResponseStreamTransport( context.Response.Body, messageEndpoint, sessionId );
+    McpServer server = McpServer.Create( transport, options, loggerFactory, scope.ServiceProvider );
+    McpHttpSession session = new McpHttpSession( sessionId, transport, server, scope );
+
+    if ( !sessionStore.TryAdd( session ) )
+    {
+        await session.DisposeAsync();
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        return;
+    }
+
+    await context.Response.Body.FlushAsync( context.RequestAborted );
+
+    Task transportTask = transport.RunAsync( context.RequestAborted );
+    Task serverTask = server.RunAsync( context.RequestAborted );
+
+    try
+    {
+        await Task.WhenAny( transportTask, serverTask );
+    }
+    finally
+    {
+        sessionStore.TryRemove( sessionId, out McpHttpSession removedSession );
+        await session.DisposeAsync();
+    }
+}
+
+static async Task HandleMessageAsync( HttpContext context, McpHttpSessionStore sessionStore )
+{
+    string sessionId = GetSessionId( context.Request );
+
+    if ( string.IsNullOrWhiteSpace( sessionId ) )
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        return;
+    }
+
+    if ( !sessionStore.TryGet( sessionId, out McpHttpSession session ) )
+    {
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+        return;
+    }
+
+    JsonRpcMessage message = await JsonSerializer.DeserializeAsync<JsonRpcMessage>(
+        context.Request.Body,
+        McpJsonUtilities.DefaultOptions,
+        context.RequestAborted );
+
+    if ( message is null )
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        return;
+    }
+
+    if ( message.Context is null )
+    {
+        message.Context = new JsonRpcMessageContext();
+    }
+
+    message.Context.User = context.User;
+
+    await session.Transport.OnMessageReceivedAsync( message, context.RequestAborted );
+
+    context.Response.StatusCode = StatusCodes.Status202Accepted;
+}
+
+static string GetSessionId( HttpRequest request )
+{
+    string sessionId = request.Headers["mcp-session-id"].ToString();
+
+    if ( !string.IsNullOrWhiteSpace( sessionId ) )
+        return sessionId;
+
+    sessionId = request.Headers["Mcp-Session-Id"].ToString();
+
+    if ( !string.IsNullOrWhiteSpace( sessionId ) )
+        return sessionId;
+
+    sessionId = request.Query["sessionId"].ToString();
+
+    if ( !string.IsNullOrWhiteSpace( sessionId ) )
+        return sessionId;
+
+    sessionId = request.Query["session_id"].ToString();
+
+    return sessionId;
+}
+
+static string BuildMessageEndpoint( PathString pathBase )
+{
+    if ( pathBase.HasValue )
+        return $"{pathBase.Value}/mcp/message";
+
+    return "/mcp/message";
+}
