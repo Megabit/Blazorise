@@ -26,9 +26,9 @@ public static class Paths
     }
 
 
-    public static string BlazoriseLibRoot => Path.Combine( RootDirPath, "..", "Source", "Blazorise" ); 
-    public static string BlazoriseExtensionsRoot => Path.Combine( RootDirPath, "..", "Source", "Extensions" ); 
-    public static string  ApiDocsPath => Path.Join( DirPath(), "ApiDocs" );
+    public static string BlazoriseLibRoot => Path.Combine( RootDirPath, "..", "Source", "Blazorise" );
+    public static string BlazoriseExtensionsRoot => Path.Combine( RootDirPath, "..", "Source", "Extensions" );
+    public static string ApiDocsPath => Path.Join( DirPath(), "ApiDocs" );
     public static string DirPath() => Directory.EnumerateDirectories( RootDirPath, $"Blazorise.Docs" ).FirstOrDefault();
 
     public static string DocsStringSnippetsDirPath() => Path.Join( DirPath(), "Models" );
@@ -36,6 +36,8 @@ public static class Paths
     public static string DocStringsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Strings.generated.cs" );
 
     public static string SnippetsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Snippets.generated.cs" );
+
+    public static string DocsIndexFilePath() => Path.Join( DirPath(), "Resources", "docs-index.json" );
 
     public static string NewFilesToBuildPath() => Path.Join( DirPath(), NewFilesToBuild );
 }

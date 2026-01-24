@@ -1,3 +1,4 @@
+using Blazorise.Docs.Mcp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,6 @@ builder.Logging.AddConsole( o => o.LogToStandardErrorThreshold = LogLevel.Trace 
 builder.Services
     .AddMcpServer()
     .WithStdioServerTransport()
-    .WithTools<RandomNumberTools>();
+    .WithTools<DocsTools>();
 
 await builder.Build().RunAsync();

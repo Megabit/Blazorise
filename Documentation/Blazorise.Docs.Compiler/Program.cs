@@ -8,13 +8,14 @@ class Program
 {
     static int Main()
     {
-        var stopWatch = Stopwatch.StartNew();
+        Stopwatch stopWatch = Stopwatch.StartNew();
 
-        var codeSnippetResult = new CodeSnippets().Execute();
-        var codeExamplesResult = new CodeExamplesMarkup().Execute();
-        var apiDocsGenerator = new ComponentsApiDocsGenerator().Execute();
+        bool codeSnippetResult = new CodeSnippets().Execute();
+        bool codeExamplesResult = new CodeExamplesMarkup().Execute();
+        bool apiDocsGenerator = new ComponentsApiDocsGenerator().Execute();
+        bool docsIndexGenerator = new DocsIndexGenerator().Execute();
 
         Console.WriteLine( $"Blazorise.Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} milliseconds." );
-        return codeSnippetResult && codeExamplesResult && apiDocsGenerator ? 0 : 1;
+        return codeSnippetResult && codeExamplesResult && apiDocsGenerator && docsIndexGenerator ? 0 : 1;
     }
 }
