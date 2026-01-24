@@ -31,7 +31,7 @@ public partial class Check<TValue> : BaseCheckComponent<TValue, CheckClasses, Ch
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( Indeterminate ), Indeterminate, out paramIndeterminate );
+        parameters.TryGetParameter( Indeterminate, out paramIndeterminate );
     }
 
     /// <inheritdoc/>

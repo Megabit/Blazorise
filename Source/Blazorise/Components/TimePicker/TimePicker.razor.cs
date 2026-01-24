@@ -104,21 +104,21 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( Min ), Min, out paramMin );
-        parameters.TryGetParameter( nameof( Max ), Max, out paramMax );
-        parameters.TryGetParameter( nameof( DisplayFormat ), DisplayFormat, out paramDisplayFormat );
-        parameters.TryGetParameter( nameof( TimeAs24hr ), TimeAs24hr, out paramTimeAs24hr );
-        parameters.TryGetParameter( nameof( Disabled ), Disabled, out paramDisabled );
-        parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out paramReadOnly );
-        parameters.TryGetParameter( nameof( Inline ), Inline, out paramInline );
-        parameters.TryGetParameter( nameof( DisableMobile ), DisableMobile, out paramDisableMobile );
-        parameters.TryGetParameter( nameof( Placeholder ), Placeholder, out paramPlaceholder );
-        parameters.TryGetParameter( nameof( StaticPicker ), StaticPicker, out paramStaticPicker );
-        parameters.TryGetParameter( nameof( Seconds ), Seconds, out paramSeconds );
-        parameters.TryGetParameter( nameof( HourIncrement ), HourIncrement, out paramHourIncrement );
-        parameters.TryGetParameter( nameof( MinuteIncrement ), MinuteIncrement, out paramMinuteIncrement );
-        parameters.TryGetParameter( nameof( DefaultHour ), DefaultHour, out paramDefaultHour );
-        parameters.TryGetParameter( nameof( DefaultMinute ), DefaultMinute, out paramDefaultMinute );
+        parameters.TryGetParameter( Min, out paramMin );
+        parameters.TryGetParameter( Max, out paramMax );
+        parameters.TryGetParameter( DisplayFormat, out paramDisplayFormat );
+        parameters.TryGetParameter( TimeAs24hr, out paramTimeAs24hr );
+        parameters.TryGetParameter( Disabled, out paramDisabled );
+        parameters.TryGetParameter( ReadOnly, out paramReadOnly );
+        parameters.TryGetParameter( Inline, out paramInline );
+        parameters.TryGetParameter( DisableMobile, out paramDisableMobile );
+        parameters.TryGetParameter( Placeholder, out paramPlaceholder );
+        parameters.TryGetParameter( StaticPicker, out paramStaticPicker );
+        parameters.TryGetParameter( Seconds, out paramSeconds );
+        parameters.TryGetParameter( HourIncrement, out paramHourIncrement );
+        parameters.TryGetParameter( MinuteIncrement, out paramMinuteIncrement );
+        parameters.TryGetParameter( DefaultHour, out paramDefaultHour );
+        parameters.TryGetParameter( DefaultMinute, out paramDefaultMinute );
     }
 
     /// <inheritdoc/>

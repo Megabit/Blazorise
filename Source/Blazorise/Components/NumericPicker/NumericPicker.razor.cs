@@ -148,22 +148,22 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( Decimals ), Decimals, out paramDecimals );
-        parameters.TryGetParameter( nameof( DecimalSeparator ), DecimalSeparator, out paramDecimalSeparator );
-        parameters.TryGetParameter( nameof( AlternativeDecimalSeparator ), AlternativeDecimalSeparator, out paramAlternativeDecimalSeparator );
-        parameters.TryGetParameter( nameof( GroupSeparator ), GroupSeparator, out paramGroupSeparator );
-        parameters.TryGetParameter( nameof( GroupSpacing ), GroupSpacing, out paramGroupSpacing );
-        parameters.TryGetParameter( nameof( CurrencySymbol ), CurrencySymbol, out paramCurrencySymbol );
-        parameters.TryGetParameter( nameof( CurrencySymbolPlacement ), CurrencySymbolPlacement, out paramCurrencySymbolPlacement );
-        parameters.TryGetParameter( nameof( RoundingMethod ), RoundingMethod, out paramRoundingMethod );
-        parameters.TryGetParameter( nameof( Min ), Min, out paramMin );
-        parameters.TryGetParameter( nameof( Max ), Max, out paramMax );
-        parameters.TryGetParameter( nameof( MinMaxLimitsOverride ), MinMaxLimitsOverride, out paramMinMaxLimitsOverride );
-        parameters.TryGetParameter( nameof( SelectAllOnFocus ), SelectAllOnFocus, out paramSelectAllOnFocus );
-        parameters.TryGetParameter( nameof( AllowDecimalPadding ), AllowDecimalPadding, out paramAllowDecimalPadding );
-        parameters.TryGetParameter( nameof( AlwaysAllowDecimalSeparator ), AlwaysAllowDecimalSeparator, out paramAlwaysAllowDecimalSeparator );
-        parameters.TryGetParameter( nameof( ModifyValueOnWheel ), ModifyValueOnWheel, out paramModifyValueOnWheel );
-        parameters.TryGetParameter( nameof( WheelOn ), WheelOn, out paramWheelOn );
+        parameters.TryGetParameter( Decimals, out paramDecimals );
+        parameters.TryGetParameter( DecimalSeparator, out paramDecimalSeparator );
+        parameters.TryGetParameter( AlternativeDecimalSeparator, out paramAlternativeDecimalSeparator );
+        parameters.TryGetParameter( GroupSeparator, out paramGroupSeparator );
+        parameters.TryGetParameter( GroupSpacing, out paramGroupSpacing );
+        parameters.TryGetParameter( CurrencySymbol, out paramCurrencySymbol );
+        parameters.TryGetParameter( CurrencySymbolPlacement, out paramCurrencySymbolPlacement );
+        parameters.TryGetParameter( RoundingMethod, out paramRoundingMethod );
+        parameters.TryGetParameter( Min, out paramMin );
+        parameters.TryGetParameter( Max, out paramMax );
+        parameters.TryGetParameter( MinMaxLimitsOverride, out paramMinMaxLimitsOverride );
+        parameters.TryGetParameter( SelectAllOnFocus, out paramSelectAllOnFocus );
+        parameters.TryGetParameter( AllowDecimalPadding, out paramAllowDecimalPadding );
+        parameters.TryGetParameter( AlwaysAllowDecimalSeparator, out paramAlwaysAllowDecimalSeparator );
+        parameters.TryGetParameter( ModifyValueOnWheel, out paramModifyValueOnWheel );
+        parameters.TryGetParameter( WheelOn, out paramWheelOn );
     }
 
     /// <inheritdoc/>

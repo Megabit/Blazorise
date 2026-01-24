@@ -57,11 +57,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( Palette ), Palette, out paramPalette );
-        parameters.TryGetParameter( nameof( ShowPalette ), ShowPalette, out paramShowPalette );
-        parameters.TryGetParameter( nameof( HideAfterPaletteSelect ), HideAfterPaletteSelect, out paramHideAfterPaletteSelect );
-        parameters.TryGetParameter( nameof( Disabled ), Disabled, out paramDisabled );
-        parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out paramReadOnly );
+        parameters.TryGetParameter( Palette, out paramPalette );
+        parameters.TryGetParameter( ShowPalette, out paramShowPalette );
+        parameters.TryGetParameter( HideAfterPaletteSelect, out paramHideAfterPaletteSelect );
+        parameters.TryGetParameter( Disabled, out paramDisabled );
+        parameters.TryGetParameter( ReadOnly, out paramReadOnly );
     }
 
     /// <inheritdoc/>

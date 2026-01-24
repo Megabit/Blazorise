@@ -35,7 +35,7 @@ public abstract class BaseTextInput<TValue, TClasses, TStyles> : BaseInputCompon
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( Pattern ), Pattern, out paramPattern );
+        parameters.TryGetParameter( Pattern, out paramPattern );
     }
 
     /// <inheritdoc/>

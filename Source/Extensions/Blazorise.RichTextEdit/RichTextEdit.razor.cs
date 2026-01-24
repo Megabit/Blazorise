@@ -39,8 +39,8 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
 
         if ( Rendered )
         {
-            if ( ( parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
-                || ( parameters.TryGetParameter( nameof( Disabled ), Disabled, out var disabledParameter ) && disabledParameter.Changed ) )
+            if ( ( parameters.TryGetParameter( ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
+                || ( parameters.TryGetParameter( Disabled, out var disabledParameter ) && disabledParameter.Changed ) )
             {
                 shouldUpdateReadOnly = true;
             }

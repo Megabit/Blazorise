@@ -174,13 +174,13 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
         if ( Rendered )
         {
-            if ( ( parameters.TryGetParameter( nameof( ReadOnly ), ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
-                || ( parameters.TryGetParameter( nameof( Disabled ), Disabled, out var disabledParameter ) && disabledParameter.Changed )
-                || ( parameters.TryGetParameter( nameof( Class ), Class, out var classParameter ) && classParameter.Changed )
-                || ( parameters.TryGetParameter( nameof( Classes ), Classes, newClasses => ReferenceEquals( newClasses, Classes ), out var classesParameter ) && classesParameter.Changed )
-                || ( parameters.TryGetParameter( nameof( Styles ), Styles, newStyles => ReferenceEquals( newStyles, Styles ), out var stylesParameter ) && stylesParameter.Changed )
-                || ( parameters.TryGetParameter( nameof( Style ), Style, out var styleParameter ) && styleParameter.Changed )
-                || ( parameters.TryGetParameter( nameof( Attributes ), Attributes, newAttributes => ReferenceEquals( newAttributes, Attributes ), out var attributesParameter ) && attributesParameter.Changed ) )
+            if ( ( parameters.TryGetParameter( ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
+                || ( parameters.TryGetParameter( Disabled, out var disabledParameter ) && disabledParameter.Changed )
+                || ( parameters.TryGetParameter( Class, out var classParameter ) && classParameter.Changed )
+                || ( parameters.TryGetParameter( Classes, newClasses => ReferenceEquals( newClasses, Classes ), out var classesParameter ) && classesParameter.Changed )
+                || ( parameters.TryGetParameter( Styles, newStyles => ReferenceEquals( newStyles, Styles ), out var stylesParameter ) && stylesParameter.Changed )
+                || ( parameters.TryGetParameter( Style, out var styleParameter ) && styleParameter.Changed )
+                || ( parameters.TryGetParameter( Attributes, newAttributes => ReferenceEquals( newAttributes, Attributes ), out var attributesParameter ) && attributesParameter.Changed ) )
             {
                 shouldUpdateBaseInputOptions = true;
             }

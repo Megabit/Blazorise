@@ -46,10 +46,10 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( nameof( ReplaceTab ), ReplaceTab, out paramReplaceTab );
-        parameters.TryGetParameter( nameof( TabSize ), TabSize, out paramTabSize );
-        parameters.TryGetParameter( nameof( SoftTabs ), SoftTabs, out paramSoftTabs );
-        parameters.TryGetParameter( nameof( AutoSize ), AutoSize, out paramAutoSize );
+        parameters.TryGetParameter( ReplaceTab, out paramReplaceTab );
+        parameters.TryGetParameter( TabSize, out paramTabSize );
+        parameters.TryGetParameter( SoftTabs, out paramSoftTabs );
+        parameters.TryGetParameter( AutoSize, out paramAutoSize );
     }
 
     /// <inheritdoc/>
