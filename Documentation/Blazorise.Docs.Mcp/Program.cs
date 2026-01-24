@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Blazorise.Docs.Mcp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -49,11 +50,16 @@ static async Task HandleSseAsync(
     ILoggerFactory loggerFactory,
     IServiceProvider serviceProvider )
 {
+    ILogger logger = loggerFactory.CreateLogger( "McpHttp" );
+
     context.Response.StatusCode = StatusCodes.Status200OK;
     context.Response.ContentType = "text/event-stream";
     context.Response.Headers["Cache-Control"] = "no-cache";
     context.Response.Headers["Connection"] = "keep-alive";
     context.Response.Headers["X-Accel-Buffering"] = "no";
+
+    IHttpResponseBodyFeature bodyFeature = context.Features.Get<IHttpResponseBodyFeature>();
+    bodyFeature?.DisableBuffering();
 
     string sessionId = Guid.NewGuid().ToString( "N" );
     string messageEndpoint = BuildMessageEndpoint( context.Request.PathBase );
@@ -72,15 +78,18 @@ static async Task HandleSseAsync(
         return;
     }
 
+    Task transportTask = transport.RunAsync( context.RequestAborted );
+
     await WriteSseHandshakeAsync( context.Response, sessionId, messageEndpoint, context.RequestAborted );
     await context.Response.Body.FlushAsync( context.RequestAborted );
 
-    Task transportTask = transport.RunAsync( context.RequestAborted );
     Task serverTask = server.RunAsync( context.RequestAborted );
 
     try
     {
         await Task.WhenAny( transportTask, serverTask );
+        LogTaskFailure( transportTask, logger, "transport", sessionId );
+        LogTaskFailure( serverTask, logger, "server", sessionId );
     }
     finally
     {
@@ -176,4 +185,13 @@ static async Task WriteSseHandshakeAsync(
 
     byte[] bytes = Encoding.UTF8.GetBytes( sse );
     await response.Body.WriteAsync( bytes, 0, bytes.Length, cancellationToken );
+}
+
+static void LogTaskFailure( Task task, ILogger logger, string taskName, string sessionId )
+{
+    if ( task is null || !task.IsFaulted || task.Exception is null )
+        return;
+
+    Exception exception = task.Exception.GetBaseException();
+    logger.LogError( exception, "MCP {TaskName} faulted for session {SessionId}.", taskName, sessionId );
 }
