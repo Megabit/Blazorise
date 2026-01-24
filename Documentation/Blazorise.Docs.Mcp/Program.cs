@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Docs.Mcp;
 using Microsoft.AspNetCore.Builder;
@@ -69,6 +72,7 @@ static async Task HandleSseAsync(
         return;
     }
 
+    await WriteSseHandshakeAsync( context.Response, sessionId, messageEndpoint, context.RequestAborted );
     await context.Response.Body.FlushAsync( context.RequestAborted );
 
     Task transportTask = transport.RunAsync( context.RequestAborted );
@@ -152,4 +156,24 @@ static string BuildMessageEndpoint( PathString pathBase )
         return $"{pathBase.Value}/mcp/message";
 
     return "/mcp/message";
+}
+
+static async Task WriteSseHandshakeAsync(
+    HttpResponse response,
+    string sessionId,
+    string messageEndpoint,
+    CancellationToken cancellationToken )
+{
+    Dictionary<string, string> payload = new Dictionary<string, string>( StringComparer.Ordinal )
+    {
+        ["sessionId"] = sessionId,
+        ["endpoint"] = messageEndpoint
+    };
+
+    string json = JsonSerializer.Serialize( payload );
+    string sse = $"event: endpoint\n" +
+                 $"data: {json}\n\n";
+
+    byte[] bytes = Encoding.UTF8.GetBytes( sse );
+    await response.Body.WriteAsync( bytes, 0, bytes.Length, cancellationToken );
 }
