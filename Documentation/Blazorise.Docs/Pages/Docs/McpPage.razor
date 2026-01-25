@@ -30,14 +30,16 @@
     To use the Blazorise MCP server, add its SSE endpoint to your MCP client configuration. Most MCP clients accept a JSON configuration similar to the example below.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    MCP client configuration is typically stored in a JSON file named <Code>.mcp.json</Code> located in your project root or user configuration directory, depending on the client you are using.
+</DocsPageParagraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Example MCP client entry">
-        Update the <Code>url</Code> value to point to the MCP server you want to connect to.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent>
         <Paragraph>
-            Use this entry in your MCP client configuration.
+            Add this entry to your <Code>.mcp.json</Code> file and update the <Code>url</Code> if needed.
         </Paragraph>
-    </DocsPageSectionContent>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent />
     <DocsPageSectionSource Code="McpClientConfigExample" />
 </DocsPageSection>
