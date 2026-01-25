@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-01-24T23:18:49.7356593Z",
+  "generatedUtc": "2026-01-25T13:43:07.4060186Z",
   "pages": [
     {
       "route": "/docs",
@@ -7416,9 +7416,9 @@
           "code": "McpClientConfigExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/McpClientConfigExample.snippet",
-          "content": "{\n  \"servers\": {\n    \"blazorise-docs\": {\n      \"type\": \"http\",\n      \"url\": \"https://mcp.blazorise.com/mcp/sse\"\n    }\n  }\n}",
+          "content": "{\r\n  \"servers\": {\r\n    \"blazorise-docs\": {\r\n      \"type\": \"http\",\r\n      \"url\": \"https://mcp.blazorise.com/mcp/sse\"\r\n    }\r\n  }\r\n}",
           "title": "Example MCP client entry",
-          "description": "Update the url value to point to the MCP server you want to connect to."
+          "description": "Add this entry to your .mcp.json file and update the url if needed."
         }
       ]
     },

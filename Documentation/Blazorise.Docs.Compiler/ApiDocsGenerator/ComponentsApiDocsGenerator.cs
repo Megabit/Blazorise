@@ -43,13 +43,15 @@ public class ComponentsApiDocsGenerator
     readonly string[] skipMethods = ["Dispose", "DisposeAsync", "Equals", "GetHashCode", "GetType", "MemberwiseClone", "ToString", "GetEnumerator"];
 
     readonly SearchHelper searchHelper;
+    private readonly string apiDocsOutputPath;
 
     #endregion
 
     #region Constructors
 
-    public ComponentsApiDocsGenerator()
+    public ComponentsApiDocsGenerator( string apiDocsOutputPath = null )
     {
+        this.apiDocsOutputPath = apiDocsOutputPath;
         searchHelper = new SearchHelper();
         var aspnetCoreAssemblyName = typeof( Microsoft.AspNetCore.Components.ParameterAttribute ).Assembly.GetName().Name;
         aspNetCoreComponentsAssembly = AppDomain.CurrentDomain
@@ -96,6 +98,15 @@ public class ComponentsApiDocsGenerator
             return false;
         }
 
+        string outputRoot = GetApiDocsOutputPath();
+        if ( string.IsNullOrWhiteSpace( outputRoot ) )
+        {
+            Console.WriteLine( "Error generating ApiDocs. Output path is not set." );
+            return false;
+        }
+
+        PrepareApiDocsOutput( outputRoot );
+
         List<ApiDocsForComponent> allComponentsData = new List<ApiDocsForComponent>();
 
         //directories where to load the source code from one by one
@@ -119,10 +130,7 @@ public class ComponentsApiDocsGenerator
             allComponentsData.AddRange( componentsData );
             string sourceText = GenerateComponentsApiSource( componentsData, assemblyName );
 
-            if ( !Directory.Exists( Paths.ApiDocsPath ) ) // BlazoriseDocs.ApiDocs
-                Directory.CreateDirectory( Paths.ApiDocsPath );
-
-            string outputPath = Path.Join( Paths.ApiDocsPath, $"{assemblyName}.ApiDocs.cs" );
+            string outputPath = Path.Join( outputRoot, $"{assemblyName}.ApiDocs.cs" );
 
             File.WriteAllText( outputPath, sourceText );
             Console.WriteLine( $"API Docs generated for {assemblyName} at {outputPath}. {sourceText.Length} characters." );
@@ -688,6 +696,33 @@ public class ComponentsApiDocsGenerator
             trimmed = trimmed.Substring( 0, genericIndex );
 
         return trimmed is "EventCallback" or "Action" or "Func";
+    }
+
+    private string GetApiDocsOutputPath()
+    {
+        string outputPath = string.IsNullOrWhiteSpace( apiDocsOutputPath )
+            ? Paths.ApiDocsPath
+            : apiDocsOutputPath;
+
+        if ( string.IsNullOrWhiteSpace( outputPath ) )
+            return null;
+
+        return Path.GetFullPath( outputPath );
+    }
+
+    private static void PrepareApiDocsOutput( string outputPath )
+    {
+        if ( string.IsNullOrWhiteSpace( outputPath ) )
+            return;
+
+        if ( Directory.Exists( outputPath ) )
+        {
+            string[] existingFiles = Directory.GetFiles( outputPath, "*.ApiDocs.cs", SearchOption.TopDirectoryOnly );
+            foreach ( string file in existingFiles )
+                File.Delete( file );
+        }
+
+        Directory.CreateDirectory( outputPath );
     }
 
     #endregion
