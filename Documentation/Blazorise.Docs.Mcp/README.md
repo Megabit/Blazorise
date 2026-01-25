@@ -88,6 +88,25 @@ Fetch API docs for a docs page route:
 powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "https://mcp.blazorise.com" -DocsRoute "/docs/components/button"
 ```
 
+## Script Commands
+
+Docs + examples:
+```powershell
+powershell -File .\Test-Mcp.ps1 -BaseUrl "http://localhost:12791" -ExampleCode "ButtonExample"
+powershell -File .\Test-Mcp.ps1 -BaseUrl "https://mcp.blazorise.com" -ExampleCode "ButtonExample"
+powershell -File .\Test-Mcp.ps1 -BaseUrl "https://mcp.blazorise.com" -ListDocsPages -RoutePrefix "/docs/components/button"
+powershell -File .\Test-Mcp.ps1 -BaseUrl "http://localhost:12791" -ListDocsPages -RoutePrefix "/docs"
+powershell -File .\Test-Mcp.ps1 -BaseUrl "http://localhost:12791" -TimeoutSeconds 60 -ProtocolVersion "2024-11-05"
+```
+
+Component API:
+```powershell
+powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -ComponentTypeName "Button"
+powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "https://mcp.blazorise.com" -DocsRoute "/docs/components/button"
+powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -ComponentTypeName "TextInput" -DocsRoute "/docs/components/text-input"
+powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -TimeoutSeconds 60 -ProtocolVersion "2024-11-05"
+```
+
 ## Hosting on IIS
 
 - Publish as a folder deployment (single-file is not supported by IIS).
