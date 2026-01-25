@@ -20,6 +20,7 @@
   <Folder Name="/Documentation/">
     <Project Path="Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" />
     <Project Path="Documentation/Blazorise.Docs.Generator/Blazorise.Docs.Generator.csproj" />
+    <Project Path="Documentation/Blazorise.Docs.Mcp/Blazorise.Docs.Mcp.csproj" Id="b7afdecb-b63d-4228-85fa-6a2e1919db75" />
     <Project Path="Documentation/Blazorise.Docs.Server/Blazorise.Docs.Server.csproj" />
     <Project Path="Documentation/Blazorise.Docs/Blazorise.Docs.csproj" />
   </Folder>
@@ -91,8 +92,8 @@
   <Folder Name="/Tests/">
     <Project Path="Tests/BasicTestApp.Client/BasicTestApp.Client.csproj" />
     <Project Path="Tests/BasicTestApp.Server/BasicTestApp.Server.csproj" />
-    <Project Path="Tests/Blazorise.Benchmark/Blazorise.Benchmark.csproj" />
     <Project Path="Tests/Blazorise.Analyzers.Tests/Blazorise.Analyzers.Tests.csproj" />
+    <Project Path="Tests/Blazorise.Benchmark/Blazorise.Benchmark.csproj" />
     <Project Path="Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj" />
     <Project Path="Tests/Blazorise.Tests/Blazorise.Tests.csproj" />
   </Folder>

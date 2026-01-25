@@ -20,6 +20,7 @@ public class ApiDocsForComponentProperty : IApiDocsRecord
     public Type Type { get; set; }
     public string TypeName { get; set; }
     public string DefaultValueString { get; set; }
+    public string DefaultValue { get; set; }
     public string Summary { get; set; }
     public string Remarks { get; set; }
 
