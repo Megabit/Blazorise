@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <BlazoriseVersion Condition="'$(BlazoriseVersion)' == ''">2.0.0-preview1</BlazoriseVersion>
+    <BlazoriseVersion Condition="'$(BlazoriseVersion)' == ''">2.0.0-preview2</BlazoriseVersion>
   </PropertyGroup>
 </Project>
