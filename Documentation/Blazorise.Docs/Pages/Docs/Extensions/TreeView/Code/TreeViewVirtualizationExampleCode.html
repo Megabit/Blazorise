@@ -1,29 +1,26 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TreeView</span> <span class="htmlAttributeName">Nodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Items</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedNode</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Virtualize</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+          <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedNode</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Virtualize</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Folder</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="atSign">&#64;</span>context.Text
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TreeView</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-        <span class="keyword">public</span> <span class="keyword">class</span> Item
+    <span class="keyword">public</span> <span class="keyword">class</span> Item
     {
         <span class="keyword">public</span> <span class="keyword">string</span> Text { <span class="keyword">get</span>; <span class="keyword">set</span>; }
         <span class="keyword">public</span> IEnumerable&lt;Item&gt; Children { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
     {
         Items = Enumerable.Range( <span class="number">1</span>, <span class="number">4</span> ).Select( rootIndex =&gt; <span class="keyword">new</span> Item
         {
@@ -43,6 +40,5 @@
     IList&lt;Item&gt; expandedNodes = <span class="keyword">new</span> List&lt;Item&gt;();
     Item selectedNode;
 }
-</pre>
-    </div>
+</pre></div>
 </div>

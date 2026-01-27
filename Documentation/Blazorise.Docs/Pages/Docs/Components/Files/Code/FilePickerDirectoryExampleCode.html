@@ -1,23 +1,20 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="atSign">&#64;</span>using System.IO
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FilePicker</span> <span class="htmlAttributeName">Directory</span> <span class="htmlAttributeName">Multiple</span> <span class="htmlAttributeName">Upload</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnFileUpload</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">FilePickerShowMode</span><span class="enumValue">.List</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FilePicker</span> <span class="htmlAttributeName">Directory</span> <span class="htmlAttributeName">Multiple</span> <span class="htmlAttributeName">Upload</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnFileUpload</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">FilePickerShowMode</span><span class="enumValue">.List</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-        <span class="keyword">async</span> Task OnFileUpload( FileUploadEventArgs e )
+    <span class="keyword">async</span> Task OnFileUpload( FileUploadEventArgs e )
     {
         <span class="keyword">try</span>
         {
-        <span class="keyword">using</span> ( MemoryStream result = <span class="keyword">new</span> MemoryStream() )
+            <span class="keyword">using</span> ( MemoryStream result = <span class="keyword">new</span> MemoryStream() )
             {
-        <span class="keyword">await</span> e.File.OpenReadStream( <span class="keyword">long</span>.MaxValue ).CopyToAsync( result );
+                <span class="keyword">await</span> e.File.OpenReadStream( <span class="keyword">long</span>.MaxValue ).CopyToAsync( result );
             }
         }
         <span class="keyword">catch</span> ( Exception exc )
@@ -26,10 +23,9 @@
         }
         <span class="keyword">finally</span>
         {
-        <span class="keyword">this</span>.StateHasChanged();
+            <span class="keyword">this</span>.StateHasChanged();
         }
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

@@ -1,22 +1,18 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="atSign">&#64;</span>inject ILoadingIndicatorService ApplicationLoadingIndicatorService
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code 
 {
-        <span class="keyword">async</span> Task DoWork()
+    <span class="keyword">async</span> Task DoWork()
     {
         <span class="keyword">await</span> ApplicationLoadingIndicatorService.Show();
-        
+
         <span class="comment">// do work ...</span>
-        
+
         <span class="keyword">await</span> ApplicationLoadingIndicatorService.Hide();
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

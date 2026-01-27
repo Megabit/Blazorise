@@ -1,45 +1,41 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ScrollToRow</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Scroll To Row<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ScrollToPixels</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Scroll To Pixels<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Table</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>tableRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName">FixedHeader</span> <span class="htmlAttributeName">FixedHeaderTableHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">300px</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeader</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeader</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRow</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>#<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>First Name<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>Last Name<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>Username<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>#<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>First Name<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>Last Name<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>Username<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeaderCell</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRow</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeader</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableHeader</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableBody</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="atSign">&#64;</span>for ( int i = 1; i &lt;= 10; ++i )
         {
             var index = i.ToString();
 
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRow</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>key</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>index</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowHeader</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>index<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowHeader</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>Column content<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>Column content<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>Column content<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRow</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRow</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>key</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>index</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowHeader</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>index<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowHeader</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>Column content<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>Column content<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>Column content<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRowCell</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableRow</span><span class="htmlTagDelimiter">&gt;</span>
         }
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TableBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Table</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     Table tableRef;
 
-        <span class="keyword">private</span> Task ScrollToRow()
+    <span class="keyword">private</span> Task ScrollToRow()
         =&gt; tableRef.ScrollToRow( <span class="number">1</span> ).AsTask();
 
-        <span class="keyword">private</span> Task ScrollToPixels()
+    <span class="keyword">private</span> Task ScrollToPixels()
         =&gt; tableRef.ScrollToPixels( <span class="number">250</span> ).AsTask();
 }
-</pre>
-    </div>
+</pre></div>
 </div>

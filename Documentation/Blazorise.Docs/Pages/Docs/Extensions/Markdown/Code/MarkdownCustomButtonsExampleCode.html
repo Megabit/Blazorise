@@ -1,21 +1,18 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Markdown</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>markdownValue</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CustomButtonClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCustomButtonClicked</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Toolbar</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Toolbar</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MarkdownToolbarButton</span> <span class="htmlAttributeName">Action</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">MarkdownAction</span><span class="enumValue">.Bold</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Icon</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">fa fa-bolt</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Bold</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MarkdownToolbarButton</span> <span class="htmlAttributeName">Separator</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Custom button</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(&quot;hello&quot;)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Icon</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">fa fa-star</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">A Custom Button</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">My Custom Button</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MarkdownToolbarButton</span> <span class="htmlAttributeName">Separator</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">https://github.com/Ionaru/easy-markdown-editor</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Icon</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">fa fab fa-github</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">A Custom Link</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Toolbar</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Toolbar</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Markdown</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] <span class="keyword">private</span> INotificationService NotificationService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">string</span> markdownValue = <span class="string">&quot;## Custom Toolbar\nCustom functions, icons and buttons can be defined for the toolbar.&quot;</span>;
+    <span class="keyword">string</span> markdownValue = <span class="string">&quot;## Custom Toolbar\nCustom functions, icons and buttons can be defined for the toolbar.&quot;</span>;
 
     Task OnCustomButtonClicked( MarkdownButtonEventArgs eventArgs )
     {
@@ -24,6 +21,5 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

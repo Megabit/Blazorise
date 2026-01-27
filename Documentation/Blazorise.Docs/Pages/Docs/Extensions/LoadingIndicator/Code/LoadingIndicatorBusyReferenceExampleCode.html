@@ -1,29 +1,25 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LoadingIndicator</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">loadingIndicator</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">loadingIndicator.Visible</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DoWork</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">loadingIndicator.Visible</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DoWork</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LoadingIndicator</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code
 {
     LoadingIndicator loadingIndicator;
 
-        <span class="keyword">async</span> Task DoWork()
+    <span class="keyword">async</span> Task DoWork()
     {
         <span class="keyword">if</span> ( !loadingIndicator.Visible )
         {
-        <span class="keyword">await</span> loadingIndicator.Show();
-            
-        <span class="comment">// do work...</span>
-            
-        <span class="keyword">await</span> loadingIndicator.Hide();
+            <span class="keyword">await</span> loadingIndicator.Show();
+
+            <span class="comment">// do work...</span>
+
+            <span class="keyword">await</span> loadingIndicator.Hide();
         }
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

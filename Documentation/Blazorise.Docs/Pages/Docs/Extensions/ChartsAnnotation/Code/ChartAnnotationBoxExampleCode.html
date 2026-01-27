@@ -1,15 +1,12 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LineChart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">lineChartWithBoxes</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>lineChartWithBoxesOptions</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChartAnnotation</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>boxAnnotationOptions</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChartAnnotation</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>boxAnnotationOptions</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LineChart</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-        <span class="keyword">private</span> LineChart&lt;<span class="keyword">int</span>&gt; lineChartWithBoxes;
+    <span class="keyword">private</span> LineChart&lt;<span class="keyword">int</span>&gt; lineChartWithBoxes;
 
     LineChartOptions lineChartWithBoxesOptions = <span class="keyword">new</span>()
     {
@@ -117,21 +114,21 @@
         }
     };
 
-        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] Labels = <span class="keyword">new</span> <span class="keyword">string</span>[] { <span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>, <span class="string">&quot;3&quot;</span>, <span class="string">&quot;4&quot;</span>, <span class="string">&quot;5&quot;</span>, <span class="string">&quot;6&quot;</span>, <span class="string">&quot;7&quot;</span>, <span class="string">&quot;8&quot;</span>, <span class="string">&quot;9&quot;</span>, <span class="string">&quot;10&quot;</span>, <span class="string">&quot;11&quot;</span>, <span class="string">&quot;12&quot;</span> };
-        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] BackgroundColors = <span class="keyword">new</span> <span class="keyword">string</span>[] { <span class="string">&quot;#4bc0c0&quot;</span>, <span class="string">&quot;#36a2eb&quot;</span>, <span class="string">&quot;#ff3d88&quot;</span> };
-        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] BorderColors = <span class="keyword">new</span> <span class="keyword">string</span>[] { <span class="string">&quot;#4bc0c0&quot;</span>, <span class="string">&quot;#36a2eb&quot;</span>, <span class="string">&quot;#ff3d88&quot;</span> };
-        <span class="keyword">private</span> Random random = <span class="keyword">new</span>( DateTime.Now.Millisecond );
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] Labels = <span class="keyword">new</span> <span class="keyword">string</span>[] { <span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>, <span class="string">&quot;3&quot;</span>, <span class="string">&quot;4&quot;</span>, <span class="string">&quot;5&quot;</span>, <span class="string">&quot;6&quot;</span>, <span class="string">&quot;7&quot;</span>, <span class="string">&quot;8&quot;</span>, <span class="string">&quot;9&quot;</span>, <span class="string">&quot;10&quot;</span>, <span class="string">&quot;11&quot;</span>, <span class="string">&quot;12&quot;</span> };
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] BackgroundColors = <span class="keyword">new</span> <span class="keyword">string</span>[] { <span class="string">&quot;#4bc0c0&quot;</span>, <span class="string">&quot;#36a2eb&quot;</span>, <span class="string">&quot;#ff3d88&quot;</span> };
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] BorderColors = <span class="keyword">new</span> <span class="keyword">string</span>[] { <span class="string">&quot;#4bc0c0&quot;</span>, <span class="string">&quot;#36a2eb&quot;</span>, <span class="string">&quot;#ff3d88&quot;</span> };
+    <span class="keyword">private</span> Random random = <span class="keyword">new</span>( DateTime.Now.Millisecond );
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
     {
         <span class="keyword">if</span> ( firstRender )
         {
-        <span class="keyword">await</span> lineChartWithBoxes.Clear();
-        <span class="keyword">await</span> lineChartWithBoxes.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( <span class="number">1</span> ) );
+            <span class="keyword">await</span> lineChartWithBoxes.Clear();
+            <span class="keyword">await</span> lineChartWithBoxes.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( <span class="number">1</span> ) );
         }
     }
 
-        <span class="keyword">private</span> LineChartDataset&lt;<span class="keyword">int</span>&gt; GetLineChartDataset( <span class="keyword">int</span> colorIndex )
+    <span class="keyword">private</span> LineChartDataset&lt;<span class="keyword">int</span>&gt; GetLineChartDataset( <span class="keyword">int</span> colorIndex )
     {
         <span class="keyword">return</span> <span class="keyword">new</span>()
         {
@@ -147,6 +144,5 @@
         <span class="keyword">return</span> Enumerable.Range( <span class="number">0</span>, Labels.Count() ).Select( x =&gt; random.Next( min, max ) ).ToList();
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

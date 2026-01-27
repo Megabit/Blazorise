@@ -1,38 +1,35 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="atSign">&#64;</span>using Microsoft.Extensions.Options
 <span class="atSign">&#64;</span>using System.Text.Json
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Captcha</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>captcha</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Solved</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Solved</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Validate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Validate</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Expired</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Expired</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Captcha</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>captcha</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Solved</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Solved</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Validate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Validate</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Expired</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Expired</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Reset</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Reset</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         Reset
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] IOptions&lt;AppSettings&gt; AppSettings { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
     [Inject] IHttpClientFactory HttpClientFactory { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">private</span> Captcha captcha;
+    <span class="keyword">private</span> Captcha captcha;
 
-        <span class="keyword">private</span> <span class="keyword">void</span> Solved( CaptchaState state )
+    <span class="keyword">private</span> <span class="keyword">void</span> Solved( CaptchaState state )
     {
         Console.WriteLine( $<span class="string">&quot;Captcha Success: {state.Valid}&quot;</span> );
     }
 
-        <span class="keyword">private</span> <span class="keyword">void</span> Expired()
+    <span class="keyword">private</span> <span class="keyword">void</span> Expired()
     {
         Console.WriteLine( <span class="string">&quot;Captcha Expired&quot;</span> );
     }
 
-        <span class="keyword">private</span> <span class="keyword">async</span> Task&lt;<span class="keyword">bool</span>&gt; Validate( CaptchaState state )
+    <span class="keyword">private</span> <span class="keyword">async</span> Task&lt;<span class="keyword">bool</span>&gt; Validate( CaptchaState state )
     {
         Console.WriteLine( <span class="string">&quot;Captcha Validate&quot;</span> );
 
@@ -42,8 +39,8 @@
         <span class="comment">//Here&#39;s a simple example:</span>
         <span class="keyword">var</span> content = <span class="keyword">new</span> FormUrlEncodedContent( <span class="keyword">new</span>[]
         {
-        <span class="keyword">new</span> KeyValuePair&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;(<span class="string">&quot;secret&quot;</span>, AppSettings.Value.ReCaptchaServerKey),
-        <span class="keyword">new</span> KeyValuePair&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;(<span class="string">&quot;response&quot;</span>, state.Response),
+            <span class="keyword">new</span> KeyValuePair&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;(<span class="string">&quot;secret&quot;</span>, AppSettings.Value.ReCaptchaServerKey),
+            <span class="keyword">new</span> KeyValuePair&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;(<span class="string">&quot;response&quot;</span>, state.Response),
          } );
 
         <span class="keyword">var</span> httpClient = HttpClientFactory.CreateClient();
@@ -58,12 +55,12 @@
         <span class="keyword">return</span> googleResponse.Success;
     }
 
-        <span class="keyword">private</span> <span class="keyword">async</span> Task Reset()
+    <span class="keyword">private</span> <span class="keyword">async</span> Task Reset()
     {
         <span class="keyword">await</span> captcha.Reset();
     }
 
-        <span class="keyword">public</span> <span class="keyword">class</span> GoogleResponse
+    <span class="keyword">public</span> <span class="keyword">class</span> GoogleResponse
     {
         <span class="keyword">public</span> <span class="keyword">bool</span> Success { <span class="keyword">get</span>; <span class="keyword">set</span>; }
         <span class="keyword">public</span> <span class="keyword">double</span> Score { <span class="keyword">get</span>; <span class="keyword">set</span>; } <span class="comment">//V3 only - The score for this request (0.0 - 1.0)</span>
@@ -73,6 +70,5 @@
         <span class="keyword">public</span> <span class="keyword">string</span> ErrorCodes { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

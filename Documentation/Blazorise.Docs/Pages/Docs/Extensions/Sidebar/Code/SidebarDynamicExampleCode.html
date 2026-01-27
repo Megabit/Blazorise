@@ -1,11 +1,8 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Sidebar</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>sidebarInfo</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
     SidebarInfo sidebarInfo = <span class="keyword">new</span> SidebarInfo
     {
@@ -15,28 +12,27 @@
         },
         Items = <span class="keyword">new</span> List&lt;SidebarItemInfo&gt;
     {
-        <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#&quot;</span>, Text = <span class="string">&quot;Dashboard&quot;</span> },
-        <span class="keyword">new</span> SidebarItemInfo
+            <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#&quot;</span>, Text = <span class="string">&quot;Dashboard&quot;</span> },
+            <span class="keyword">new</span> SidebarItemInfo
             {
                 Text = <span class="string">&quot;Email&quot;</span>,
                 Icon = IconName.Mail,
                 SubItems = <span class="keyword">new</span> List&lt;SidebarItemInfo&gt;
             {
-        <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#email/inbox&quot;</span>, Text = <span class="string">&quot;Inbox&quot;</span> },
-        <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#email/compose&quot;</span>, Text = <span class="string">&quot;Compose Email&quot;</span> },
+                    <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#email/inbox&quot;</span>, Text = <span class="string">&quot;Inbox&quot;</span> },
+                    <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#email/compose&quot;</span>, Text = <span class="string">&quot;Compose Email&quot;</span> },
                 }
             },
-        <span class="keyword">new</span> SidebarItemInfo
+            <span class="keyword">new</span> SidebarItemInfo
             {
                 Text = <span class="string">&quot;Applications&quot;</span>,
                 SubItems = <span class="keyword">new</span> List&lt;SidebarItemInfo&gt;
             {
-        <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#apps/todo&quot;</span>, Text = <span class="string">&quot;Todo List&quot;</span> }
+                    <span class="keyword">new</span> SidebarItemInfo { To = <span class="string">&quot;#apps/todo&quot;</span>, Text = <span class="string">&quot;Todo List&quot;</span> }
                 }
             },
         }
     };
 }
-</pre>
-    </div>
+</pre></div>
 </div>

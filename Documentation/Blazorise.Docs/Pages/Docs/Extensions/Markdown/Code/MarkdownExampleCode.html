@@ -1,17 +1,14 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Markdown</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>markdownValue</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnMarkdownValueChanged</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-        <span class="keyword">string</span> markdownValue = <span class="string">&quot;# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`.&quot;</span>;
+    <span class="keyword">string</span> markdownValue = <span class="string">&quot;# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`.&quot;</span>;
 
-        <span class="keyword">string</span> markdownHtml;
+    <span class="keyword">string</span> markdownHtml;
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
     {
         markdownHtml = Markdig.Markdown.ToHtml( markdownValue ?? <span class="keyword">string</span>.Empty );
 
@@ -27,6 +24,5 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

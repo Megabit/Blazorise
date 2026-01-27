@@ -1,36 +1,33 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Autocomplete</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Country</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Countries</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Name)</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Iso)</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Search...</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">SelectionMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">AutocompleteSelectionMode</span><span class="enumValue">.Checkbox</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName">CloseOnSelection</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValues</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">multipleSelectionData</span><span class="quot">&quot;</span>
-        <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedTexts</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">multipleSelectionTexts</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+              <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Countries</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Name)</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Iso)</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Search...</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">SelectionMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">AutocompleteSelectionMode</span><span class="enumValue">.Checkbox</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">CloseOnSelection</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValues</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">multipleSelectionData</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedTexts</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">multipleSelectionTexts</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Autocomplete</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span> <span class="htmlAttributeName">Horizontal</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         Selected Values: <span class="atSign">&#64;</span>string.Join(&#39;,&#39;, multipleSelectionData)
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         Selected Texts: <span class="atSign">&#64;</span>(multipleSelectionTexts == null ? null : string.Join(&#39;,&#39;, multipleSelectionTexts))
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject]
-        <span class="keyword">public</span> CountryData CountryData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">public</span> IEnumerable&lt;Country&gt; Countries;
+    <span class="keyword">public</span> CountryData CountryData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> IEnumerable&lt;Country&gt; Countries;
 
-        <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
     {
         Countries = <span class="keyword">await</span> CountryData.GetDataAsync();
         multipleSelectionData = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;() { Countries.ElementAt( <span class="number">1</span> ).Iso, Countries.ElementAt( <span class="number">3</span> ).Iso };
@@ -40,6 +37,5 @@
     List&lt;<span class="keyword">string</span>&gt; multipleSelectionData;
     List&lt;<span class="keyword">string</span>&gt; multipleSelectionTexts;
 }
-</pre>
-    </div>
+</pre></div>
 </div>
