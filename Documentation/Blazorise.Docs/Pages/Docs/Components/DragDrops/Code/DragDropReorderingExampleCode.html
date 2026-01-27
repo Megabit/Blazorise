@@ -1,42 +1,39 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropContainer</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DropItem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>items</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ItemsFilter</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item, dropZone) =&gt; item.Group == dropZone)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ItemDropped</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ItemDropped</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Wrap.Grow.Is1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="atSign">&#64;</span>for ( int i = 1; i &lt; 4; i++ )
         {
             var dropzone = i.ToString();
 
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropZone</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DropItem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>dropzone</span><span class="quot">&quot;</span> <span class="htmlAttributeName">AllowReorder</span> <span class="htmlAttributeName">Reordered</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Reordered</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Margin</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Grow.Is1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">HeadingSize</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Drop Zone <span class="atSign">&#64;</span>dropzone<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropZone</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropZone</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DropItem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>dropzone</span><span class="quot">&quot;</span> <span class="htmlAttributeName">AllowReorder</span> <span class="htmlAttributeName">Reordered</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Reordered</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Margin</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Grow.Is1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">HeadingSize</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Drop Zone <span class="atSign">&#64;</span>dropzone<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropZone</span><span class="htmlTagDelimiter">&gt;</span>
         }
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ItemTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ItemTemplate</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span> <span class="htmlAttributeName">Shadow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Shadow</span><span class="enumValue">.Default</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.OnY</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="atSign">&#64;</span>context.Name
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="atSign">&#64;</span>context.Name
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ItemTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ItemTemplate</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropContainer</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlTagDelimiter">&gt;</span>
-        <span class="atSign">&#64;</span>reorderStatus
+    <span class="atSign">&#64;</span>reorderStatus
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-        <span class="keyword">public</span> <span class="keyword">class</span> DropItem
+    <span class="keyword">public</span> <span class="keyword">class</span> DropItem
     {
         <span class="keyword">public</span> <span class="keyword">string</span> Name { <span class="keyword">get</span>; init; }
 
         <span class="keyword">public</span> <span class="keyword">string</span> Group { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 
-        <span class="keyword">private</span> List&lt;DropItem&gt; items = <span class="keyword">new</span>()
+    <span class="keyword">private</span> List&lt;DropItem&gt; items = <span class="keyword">new</span>()
     {
         <span class="keyword">new</span> DropItem() { Name = <span class="string">&quot;Item 1&quot;</span>, Group = <span class="string">&quot;1&quot;</span> },
         <span class="keyword">new</span> DropItem() { Name = <span class="string">&quot;Item 2&quot;</span>, Group = <span class="string">&quot;1&quot;</span> },
@@ -45,20 +42,19 @@
         <span class="keyword">new</span> DropItem() { Name = <span class="string">&quot;Item 5&quot;</span>, Group = <span class="string">&quot;2&quot;</span> },
     };
 
-        <span class="keyword">private</span> Task ItemDropped( DraggableDroppedEventArgs&lt;DropItem&gt; dropItem )
+    <span class="keyword">private</span> Task ItemDropped( DraggableDroppedEventArgs&lt;DropItem&gt; dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-        <span class="keyword">string</span> reorderStatus = <span class="string">&quot;&quot;</span>;
-    
-        <span class="keyword">private</span> Task Reordered( DropZoneOrder&lt;DropItem&gt; order )
+    <span class="keyword">string</span> reorderStatus = <span class="string">&quot;&quot;</span>;
+
+    <span class="keyword">private</span> Task Reordered( DropZoneOrder&lt;DropItem&gt; order )
     {
         reorderStatus = $<span class="string">&quot;Order in dropzone {order.DestinationDropZoneName}: {string.Join( &quot;</span>, <span class="string">&quot;, order.OrderedItems.OrderBy( x =&gt; x.Order ).Select( x =&gt; x.Item.Name ) )}&quot;</span>;
         <span class="keyword">return</span> Task.CompletedTask;
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

@@ -96,14 +96,15 @@ body:not([data-bs-theme=dark]) {
   --b-blockquote-background-color: #f5f8fd;
 }
 body[data-bs-theme=dark] {
-  --b-link-color: inherit;
-  --b-code-color: #b6afff;
-  --b-code-background-color: #4a4a4a;
-  --b-codeblock-color: inherit;
-  --b-codeblock-background-color: #262d38;
-  --b-codeblock-enum-value-color: #be95ff;
-  --b-blockquote-color: #ced4da;
-  --b-blockquote-background-color: #262d38;
+  --b-link-color: #c7b5ff;
+  --b-code-color: #d7ccff;
+  --b-code-background-color: var(--bs-secondary-bg);
+  --b-codeblock-color: var(--bs-body-color);
+  --b-codeblock-background-color: var(--bs-tertiary-bg);
+  --b-codeblock-enum-value-color: #c4b5fd;
+  --b-blockquote-color: var(--bs-body-color);
+  --b-blockquote-background-color: var(--bs-tertiary-bg);
+  --b-scrollbar-thumb-background: #6b7280;
 }
 
 a {
@@ -119,6 +120,10 @@ a {
 .b-top-bar .navbar-nav .nav-link:hover {
   background-color: hsla(201, 50%, 98%, 0.5);
   border-radius: 7px;
+}
+
+body[data-bs-theme=dark] .b-top-bar .navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 ::-webkit-scrollbar {
@@ -189,6 +194,20 @@ html, body * {
 
 body[data-bs-theme=dark] .page-header {
   background-image: linear-gradient(180deg, rgba(17, 24, 39, 0.85), rgba(var(--bs-body-bg-rgb), 1) 90%), radial-gradient(ellipse at top left, rgba(147, 51, 234, 0.5), transparent 60%), radial-gradient(ellipse at top right, rgba(99, 102, 241, 0.4), transparent 60%), radial-gradient(ellipse at center right, rgba(59, 130, 246, 0.35), transparent 60%), radial-gradient(ellipse at center left, rgba(236, 72, 153, 0.3), transparent 65%), radial-gradient(ellipse at bottom left, rgba(244, 114, 182, 0.25), transparent 70%), radial-gradient(ellipse at bottom right, rgba(251, 191, 36, 0.1), transparent 75%);
+}
+body[data-bs-theme=dark] .home-features a:not(.home-feature-info-image),
+body[data-bs-theme=dark] .home-popular-components a,
+body[data-bs-theme=dark] .home-testimonials a {
+  color: var(--bs-body-color);
+}
+body[data-bs-theme=dark] .home-case-studies .color-cards .card-details p {
+  color: var(--bs-secondary-color);
+}
+body[data-bs-theme=dark] .home-customer-feedback-customer-cards {
+  background: var(--bs-tertiary-bg);
+}
+body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
+  background: var(--bs-secondary-bg);
 }
 
 .home-community-readmore-link {
@@ -560,6 +579,59 @@ body[data-bs-theme=dark] .page-header {
   scrollbar-color: var(--b-scrollbar-thumb-background) var(--bs-body-bg);
 }
 
+body[data-bs-theme=dark] .b-docs-page .b-docs-page-subtitle {
+  border-bottom-color: var(--bs-border-color);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-page-section-content.b-docs-page-section-content-outlined {
+  border-color: var(--bs-border-color);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-page-section-source .btn {
+  color: var(--bs-secondary-color);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr td:nth-child(2) code {
+  color: #6ee7b7;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr .b-attribute-token.boolean code {
+  color: #fca5a5;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr .b-attribute-token.keyword code {
+  color: #93c5fd;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr .b-attribute-token.string code {
+  color: #6ee7b7;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr td:nth-child(2) code {
+  color: #6ee7b7;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr .b-method-token.boolean code {
+  color: #fca5a5;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr .b-method-token.keyword code {
+  color: #93c5fd;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr .b-method-token.string code {
+  color: #6ee7b7;
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-example {
+  border-color: var(--bs-border-color);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-example-border-utils [class*=border] {
+  background-color: var(--bs-tertiary-bg);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-example-border-utils [class*=rounded] {
+  background-color: #2f3742;
+  color: var(--bs-body-color);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-example-border-utils-0 [class*=border] {
+  border-color: var(--bs-border-color);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-example-position-utils > div {
+  background-color: var(--bs-tertiary-bg);
+}
+body[data-bs-theme=dark] .b-docs-page .b-docs-example-position-utils > div > div {
+  background-color: var(--bs-body-color);
+}
+
 .blazorise-codeblock {
   height: 100%;
   background-color: var(--b-codeblock-background-color);
@@ -662,6 +734,80 @@ code {
   color: var(--b-code-color);
   padding: 0.25em 0.375em;
   background-color: var(--b-code-background-color);
+}
+
+body[data-bs-theme=dark] .blazorise-codeblock {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .htmlTagDelimiter {
+  color: #94a3b8;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .htmlElementName {
+  color: #7dd3fc;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .htmlAttributeName {
+  color: #fda4af;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .htmlOperator, body[data-bs-theme=dark] .blazorise-codeblock .html .quot {
+  color: #cbd5e1;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .htmlAttributeValue {
+  color: #6ee7b7;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .htmlLink {
+  color: #93c5fd;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .enum {
+  color: #6ee7b7;
+  background-color: rgba(148, 163, 184, 0.16);
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .enumValue, body[data-bs-theme=dark] .blazorise-codeblock .html .sharpVariable {
+  background-color: rgba(148, 163, 184, 0.16);
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .keyword {
+  color: #93c5fd;
+  background-color: rgba(148, 163, 184, 0.16);
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .atSign {
+  color: #e2e8f0;
+  background-color: rgba(148, 163, 184, 0.2);
+}
+body[data-bs-theme=dark] .blazorise-codeblock .html .comment {
+  color: #7bc77b;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .atSign {
+  color: #e2e8f0;
+  background-color: rgba(148, 163, 184, 0.2);
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .keyword {
+  color: #c4b5fd;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .string {
+  color: #f2c18d;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .function {
+  color: #7dd3fc;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .class {
+  color: #fda4af;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .localVar {
+  color: #fcd34d;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .interface {
+  color: #a7f3d0;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .number {
+  color: #a7f3d0;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .enum {
+  color: #6ee7b7;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .csharp .comment {
+  color: #7bc77b;
+}
+body[data-bs-theme=dark] .blazorise-codeblock .powershell .comment {
+  color: #7bc77b;
 }
 
 .b-blog .b-blog-content {
@@ -776,6 +922,19 @@ code {
   color: #576b85;
 }
 
+body[data-bs-theme=dark] .b-blog .b-blog-content h2 {
+  border-bottom-color: var(--bs-border-color);
+}
+body[data-bs-theme=dark] .b-blog .b-blog-content h3 {
+  border-bottom-color: var(--bs-border-color);
+}
+body[data-bs-theme=dark] .b-blog .b-blog-content p > code, body[data-bs-theme=dark] .b-blog .b-blog-content a > code, body[data-bs-theme=dark] .b-blog .b-blog-content li > code, body[data-bs-theme=dark] .b-blog .b-blog-content td > code {
+  background: var(--bs-secondary-bg);
+}
+body[data-bs-theme=dark] .blog-page-section-source .btn {
+  color: var(--bs-secondary-color);
+}
+
 .nav.pricing-tabs > .nav-item > .nav-link {
   padding: 1.25rem;
 }
@@ -839,6 +998,10 @@ div.developers-picker button:hover {
 
 .license-options .form-check-label {
   width: 100%;
+}
+
+body[data-bs-theme=dark] .text-price-color-community {
+  color: var(--bs-secondary-color);
 }
 
 a.toc-link {

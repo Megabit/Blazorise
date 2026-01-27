@@ -1,15 +1,12 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">InstantiateModal</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] <span class="keyword">public</span> IModalService ModalService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">public</span> Task InstantiateModal()
+    <span class="keyword">public</span> Task InstantiateModal()
     {
         <span class="keyword">return</span> ModalService.Show&lt;ModalServiceOptionsExample&gt;( <span class="string">&quot;Override Options Example&quot;</span>, <span class="keyword">new</span> ModalInstanceOptions()
         {
@@ -19,6 +16,5 @@
         } );
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

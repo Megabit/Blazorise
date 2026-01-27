@@ -1,30 +1,26 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalHeader</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalTitle</span><span class="htmlTagDelimiter">&gt;</span>My Custom Structure<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalTitle</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CloseButton</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalTitle</span><span class="htmlTagDelimiter">&gt;</span>My Custom Structure<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalTitle</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CloseButton</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalHeader</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalBody</span> <span class="htmlAttributeName">MaxHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">70</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     Welcome <span class="atSign">&#64;</span>UserName!
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalFooter</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Confirm</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Cheers!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Confirm</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Cheers!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalFooter</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] <span class="keyword">public</span> IModalService ModalService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
     [Parameter] <span class="keyword">public</span> <span class="keyword">string</span> UserName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">private</span> <span class="keyword">async</span> Task Confirm()
+    <span class="keyword">private</span> <span class="keyword">async</span> Task Confirm()
     {
         <span class="keyword">await</span> ModalService.Hide();
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>

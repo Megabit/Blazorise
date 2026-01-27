@@ -1,11 +1,8 @@
 <div class="blazorise-codeblock">
-    <div class="html">
-        <pre>
+<div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowToast</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show toast message!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-</pre>
-    </div>
-    <div class="csharp">
-        <pre>
+</pre></div>
+<div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] IToastService ToastService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
@@ -14,7 +11,7 @@
         <span class="keyword">return</span> ToastService.Info( <span class="string">&quot;This is a simple toast message!&quot;</span>, <span class="string">&quot;Hello&quot;</span>, BuildToastInstanceOptions );
     }
 
-        <span class="keyword">private</span> <span class="keyword">void</span> BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
+    <span class="keyword">private</span> <span class="keyword">void</span> BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
     {
         toastInstanceOptions.Animated = <span class="keyword">true</span>;
         toastInstanceOptions.AnimationDuration = <span class="number">300</span>;
@@ -24,6 +21,5 @@
         toastInstanceOptions.Opening = ( e ) =&gt; { Console.WriteLine(<span class="string">&quot;Opening&quot;</span>); <span class="keyword">return</span> Task.CompletedTask; };
     }
 }
-</pre>
-    </div>
+</pre></div>
 </div>
