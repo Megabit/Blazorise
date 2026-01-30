@@ -59,13 +59,25 @@ export function destroyTableFixedHeader(element, elementId) {
 }
 
 export function fixedHeaderScrollTableToPixels(element, elementId, pixels) {
-    if (element && element.parentElement) {
+    element = getRequiredElement(element, elementId);
 
-        element.parentElement.scroll({
-            top: pixels,
-            behavior: "smooth"
-        });
-    }
+    if (!element)
+        return;
+
+    const container = element.parentElement;
+
+    if (!container)
+        return;
+
+    const header = element.querySelector("thead");
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    const maxScrollTop = Math.max(0, container.scrollHeight - container.clientHeight);
+    const target = Math.min(Math.max(0, pixels - headerHeight), maxScrollTop);
+
+    container.scroll({
+        top: target,
+        behavior: "smooth"
+    });
 }
 
 export function fixedHeaderScrollTableToRow(element, elementId, row) {
@@ -73,9 +85,11 @@ export function fixedHeaderScrollTableToRow(element, elementId, row) {
 
     if (element) {
         let rows = element.querySelectorAll("tbody tr");
+
         if (rows.length === 0) {
             rows = element.querySelectorAll("tr");
         }
+
         let rowsLength = rows.length;
 
         if (rowsLength > 0 && row >= 0 && row < rowsLength) {
