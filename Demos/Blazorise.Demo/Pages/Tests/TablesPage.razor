@@ -487,14 +487,14 @@
                 <Table Bordered FixedColumns>
                     <TableHeader>
                         <TableRow>
-                            <TableHeaderCell Width="@Width.Px(50)" FixedPosition="TableColumnFixedPosition.Start">#</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(850)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(330)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(400)" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 50 )" FixedPosition="TableColumnFixedPosition.Start">#</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 200 )">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 150 )" FixedPosition="TableColumnFixedPosition.Start">Fixed heading</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 200 )">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 850 )">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 330 )">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 420 )" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
+                            <TableHeaderCell Width="Width.Px( 400 )" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -503,14 +503,14 @@
                             var index = i.ToString();
 
                             <TableRow @key="@index">
-                                <TableRowHeader Width="@Width.Px(50)" FixedPosition="TableColumnFixedPosition.Start">@index</TableRowHeader>
-                                <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed column</TableRowCell>
-                                <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(850)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(330)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(400)" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
+                                <TableRowHeader Width="Width.Px( 50 )" FixedPosition="TableColumnFixedPosition.Start">@index</TableRowHeader>
+                                <TableRowCell Width="Width.Px( 200 )">Column content</TableRowCell>
+                                <TableRowCell Width="Width.Px( 150 )" FixedPosition="TableColumnFixedPosition.Start">Fixed column</TableRowCell>
+                                <TableRowCell Width="Width.Px( 200 )">Column content</TableRowCell>
+                                <TableRowCell Width="Width.Px( 850 )">Column content</TableRowCell>
+                                <TableRowCell Width="Width.Px( 330 )">Column content</TableRowCell>
+                                <TableRowCell Width="Width.Px( 420 )" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
+                                <TableRowCell Width="Width.Px( 400 )" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
                             </TableRow>
                         }
                     </TableBody>
@@ -596,7 +596,7 @@
                         <Field>
                             <Row>
                                 <Column>
-                                    <Switch @bind-Checked="@fixedHeader">Fixed header</Switch>
+                                    <Switch @bind-Value="@fixedHeader">Fixed header</Switch>
                                 </Column>
                             </Row>
                             <Row>
@@ -606,7 +606,7 @@
                                         <Column>
                                             <Addons>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <NumericEdit TValue="int" @bind-Value="scrollToValue" />
+                                                    <NumericInput TValue="int" @bind-Value="scrollToValue" />
                                                 </Addon>
                                                 <Addon AddonType="AddonType.End">
                                                     <Button Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
@@ -618,29 +618,29 @@
                             </Row>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@stripped">Stripped</Switch>
+                            <Switch @bind-Value="@stripped">Stripped</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@bordered">Bordered</Switch>
+                            <Switch @bind-Value="@bordered">Bordered</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@borderless">Borderless</Switch>
+                            <Switch @bind-Value="@borderless">Borderless</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@hoverable">Hoverable</Switch>
+                            <Switch @bind-Value="@hoverable">Hoverable</Switch>
                         </Field>
                         <Field>
-                            <Switch @bind-Checked="@small">Narrow rows</Switch>
+                            <Switch @bind-Value="@small">Narrow rows</Switch>
                         </Field>
                         <Field>
                             <Row>
                                 <Column>
-                                    <Switch @bind-Checked="@resizable">Resizable</Switch>
+                                    <Switch @bind-Value="@resizable">Resizable</Switch>
                                 </Column>
                                 @if ( resizable )
                                 {
                                     <Column>
-                                        <Select @bind-SelectedValue="@resizeMode">
+                                        <Select @bind-Value="@resizeMode">
                                             <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
                                             <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
                                         </Select>
@@ -649,7 +649,7 @@
                             </Row>
                         </Field>
                         <Field>
-                            <Select @bind-SelectedValue="@responsiveMode">
+                            <Select @bind-Value="@responsiveMode">
                                 <SelectItem Value="TableResponsiveMode.Default">Default</SelectItem>
                                 <SelectItem Value="TableResponsiveMode.Mobile">Mobile</SelectItem>
                             </Select>

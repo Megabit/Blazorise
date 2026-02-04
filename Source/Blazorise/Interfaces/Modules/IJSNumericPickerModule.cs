@@ -13,12 +13,12 @@ public interface IJSNumericPickerModule : IBaseJSModule,
     IJSDestroyableModule
 {
     /// <summary>
-    /// Initializes the new <see cref="TextEdit"/> within the JS module.
+    /// Initializes the new <see cref="TextInput"/> within the JS module.
     /// </summary>
     /// <param name="dotNetObjectRef">Reference to the numeric adapter.</param>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
-    /// <param name="options">Options for numeric edit.</param>
+    /// <param name="options">Options for numeric input.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask Initialize( DotNetObjectReference<NumericPickerAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, NumericPickerJSOptions options );
 
@@ -27,7 +27,7 @@ public interface IJSNumericPickerModule : IBaseJSModule,
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
-    /// <param name="options">Options for numeric edit.</param>
+    /// <param name="options">Options for numeric input.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask UpdateOptions( ElementReference elementRef, string elementId, NumericPickerUpdateJSOptions options );
 

@@ -1,5 +1,5 @@
-import "./vendors/flatpickr.js?v=1.8.10.0";
-import * as utilities from "./utilities.js?v=1.8.10.0";
+import "./vendors/flatpickr.js?v=2.0.0.0";
+import * as utilities from "./utilities.js?v=2.0.0.0";
 
 const _pickers = [];
 
@@ -43,10 +43,10 @@ export function initialize(element, elementId, options) {
     const picker = flatpickr(element, {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "H:i",
+        dateFormat: options.seconds ? "H:i:S" : "H:i",
         allowInput: true,
         altInput: true,
-        altFormat: options.displayFormat ? options.displayFormat : "H:i",
+        altFormat: options.displayFormat ? options.displayFormat : (options.seconds ? "H:i:S" : "H:i"),
         defaultValue: options.default,
         defaultHour: utilities.coalesce(options.defaultHour, 12),
         defaultMinute: utilities.coalesce(options.defaultMinute, 0),
@@ -58,6 +58,7 @@ export function initialize(element, elementId, options) {
         inline: utilities.coalesce(options.inline, false),
         disableMobile: utilities.coalesce(options.disableMobile, true),
         static: options.staticPicker,
+        enableSeconds: options.seconds,
         hourIncrement: options.hourIncrement,
         minuteIncrement: options.minuteIncrement,
         onReady: (selectedDates, dateStr, instance) => {
@@ -155,6 +156,12 @@ export function updateOptions(element, elementId, options) {
 
         if (options.staticPicker.changed) {
             picker.set("static", options.staticPicker.value);
+        }
+
+        if (options.seconds.changed) {
+            picker.set("enableSeconds", options.seconds.value);
+            picker.set("dateFormat", options.seconds.value ? "H:i:S" : "H:i");
+            picker.set("altFormat", options.displayFormat ? options.displayFormat : (options.seconds.value ? "H:i:S" : "H:i"));
         }
 
         if (options.hourIncrement.changed) {

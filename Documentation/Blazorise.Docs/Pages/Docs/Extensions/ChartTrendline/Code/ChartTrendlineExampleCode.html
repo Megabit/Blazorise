@@ -62,20 +62,38 @@
     LineChartDataset&lt;<span class="keyword">double</span>?&gt; GetLineChartDataset()
     {
         <span class="keyword">return</span> <span class="keyword">new</span> LineChartDataset&lt;<span class="keyword">double</span>?&gt;
-            {
-                Label = <span class="string">&quot;# of randoms&quot;</span>,
-                Data = RandomizeData(),
-                BackgroundColor = backgroundColors,
-                BorderColor = borderColors,
-                Fill = <span class="keyword">true</span>,
-                PointRadius = <span class="number">2</span>,
-                BorderDash = <span class="keyword">new</span> List&lt;<span class="keyword">int</span>&gt; { }
-            };
+        {
+            Label = <span class="string">&quot;# of randoms&quot;</span>,
+            Data = RandomizeData(),
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
+            Fill = <span class="keyword">true</span>,
+            PointRadius = <span class="number">2</span>,
+            BorderDash = <span class="keyword">new</span> List&lt;<span class="keyword">int</span>&gt; { }
+        };
     }
 
-    <span class="keyword">string</span>[] Labels = { <span class="string">&quot;0&quot;</span>, <span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>, <span class="string">&quot;3&quot;</span>, <span class="string">&quot;4&quot;</span>, <span class="string">&quot;5&quot;</span> };
-    List&lt;<span class="keyword">string</span>&gt; backgroundColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, <span class="number">0</span>.2f ) };
-    List&lt;<span class="keyword">string</span>&gt; borderColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, 1f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, 1f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, 1f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, 1f ) };
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span>[] Labels = { <span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>, <span class="string">&quot;F&quot;</span> };
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BackgroundColors = <span class="keyword">new</span>()
+    {
+        ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, <span class="number">0</span>.25f ),   <span class="comment">// Indigo</span>
+        ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, <span class="number">0</span>.25f ),   <span class="comment">// Teal</span>
+        ChartColor.FromRgba( <span class="number">245</span>, <span class="number">159</span>, <span class="number">0</span>, <span class="number">0</span>.25f ),    <span class="comment">// Amber</span>
+        ChartColor.FromRgba( <span class="number">240</span>, <span class="number">62</span>, <span class="number">62</span>, <span class="number">0</span>.25f ),    <span class="comment">// Red</span>
+        ChartColor.FromRgba( <span class="number">132</span>, <span class="number">94</span>, <span class="number">247</span>, <span class="number">0</span>.25f ),   <span class="comment">// Purple</span>
+        ChartColor.FromRgba( <span class="number">34</span>, <span class="number">139</span>, <span class="number">230</span>, <span class="number">0</span>.25f )    <span class="comment">// Blue</span>
+    };
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;<span class="keyword">string</span>&gt; BorderColors = <span class="keyword">new</span>()
+    {
+        ChartColor.FromRgba( <span class="number">76</span>, <span class="number">110</span>, <span class="number">245</span>, 1f ),      <span class="comment">// Indigo</span>
+        ChartColor.FromRgba( <span class="number">18</span>, <span class="number">184</span>, <span class="number">134</span>, 1f ),      <span class="comment">// Teal</span>
+        ChartColor.FromRgba( <span class="number">245</span>, <span class="number">159</span>, <span class="number">0</span>, 1f ),       <span class="comment">// Amber</span>
+        ChartColor.FromRgba( <span class="number">240</span>, <span class="number">62</span>, <span class="number">62</span>, 1f ),       <span class="comment">// Red</span>
+        ChartColor.FromRgba( <span class="number">132</span>, <span class="number">94</span>, <span class="number">247</span>, 1f ),      <span class="comment">// Purple</span>
+        ChartColor.FromRgba( <span class="number">34</span>, <span class="number">139</span>, <span class="number">230</span>, 1f )       <span class="comment">// Blue</span>
+    };
 
     List&lt;<span class="keyword">double</span>?&gt; RandomizeData()
     {

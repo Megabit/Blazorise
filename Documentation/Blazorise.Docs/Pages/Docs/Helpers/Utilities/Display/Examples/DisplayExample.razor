@@ -1,0 +1,30 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Paragraph Display="Display.None.Block.OnDesktop" Margin="Margin.Is2.FromBottom">
+    Hidden on mobile and tablet, visible on desktop and larger screens.
+</Paragraph>
+
+<Div Display="Display.Flex.Column.OnMobile.Flex.Row.OnDesktop"
+     Padding="Padding.Is3"
+     Background="Background.Light"
+     Border="Border.Is1.Secondary.Subtle">
+    <Div Padding="Padding.Is2"
+         Margin="Margin.Is2.FromBottom.Is3.FromEnd.OnDesktop"
+         Background="Background.Primary.Subtle"
+         Border="Border.Is1.Primary">
+        Sidebar
+    </Div>
+    <Div Padding="Padding.Is2"
+         Background="Background.Info.Subtle"
+         Border="Border.Is1.Info">
+        Main content
+    </Div>
+</Div>
+
+<Div Display="Display.None.Block.OnTablet"
+     Padding="Padding.Is2"
+     Margin="Margin.Is3.FromTop"
+     Background="Background.Warning.Subtle"
+     Border="Border.Is1.Warning">
+    Visible from tablet up to highlight supporting information without crowding mobile layouts.
+</Div>

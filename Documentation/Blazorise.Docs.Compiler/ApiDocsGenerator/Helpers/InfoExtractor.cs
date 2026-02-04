@@ -42,6 +42,7 @@ public class InfoExtractor
                                                                                              """
                                                                                              """";
         propertyDetails.DefaultValueString = defaultValueAsString;
+        propertyDetails.DefaultValue = BuildDefaultValueDisplay( defaultValue, propertyDetails.Type );
         return propertyDetails;
     }
 
@@ -68,5 +69,16 @@ public class InfoExtractor
         };
 
         return apiMethod;
+    }
+
+    private static string BuildDefaultValueDisplay( object defaultValue, string propertyType )
+    {
+        string normalized = defaultValue is null
+            ? "null"
+            : defaultValue is string stringValue
+                ? stringValue
+                : StringHelpers.FormatProperly( defaultValue );
+
+        return StringHelpers.TypeToStringDetails( normalized, propertyType );
     }
 }

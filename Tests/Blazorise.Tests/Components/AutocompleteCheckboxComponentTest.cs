@@ -15,7 +15,7 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseTextEdit()
+            .AddBlazoriseTextInput()
             .AddBlazoriseUtilities()
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();

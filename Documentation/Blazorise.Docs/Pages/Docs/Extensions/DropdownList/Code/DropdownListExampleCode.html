@@ -2,9 +2,9 @@
 <div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownList</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Country</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
               <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Countries</span><span class="quot">&quot;</span>
-              <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.Name)</span><span class="quot">&quot;</span>
-              <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item)=&gt;item.Iso)</span><span class="quot">&quot;</span>
-              <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDropValue</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Name)</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Iso)</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDropValue</span><span class="quot">&quot;</span>
               <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span>
               <span class="htmlAttributeName">MaxMenuHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">200px</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     Select item
@@ -15,12 +15,12 @@
         Selected item: <span class="atSign">&#64;</span>selectedDropValue
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        Selected text: <span class="atSign">&#64;</span>Countries?.FirstOrDefault(x=&gt; x.Iso == <span class="atSign">&#64;</span>selectedDropValue)?.Name
+        Selected text: <span class="atSign">&#64;</span>Countries?.FirstOrDefault( x =&gt; x.Iso == <span class="atSign">&#64;</span>selectedDropValue )?.Name
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
-<span class="atSign">&#64;</span>code{
+<span class="atSign">&#64;</span>code {
     [Inject]
     <span class="keyword">public</span> CountryData CountryData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     <span class="keyword">public</span> IEnumerable&lt;Country&gt; Countries;
@@ -32,7 +32,6 @@
     }
 
     <span class="keyword">string</span> selectedDropValue { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="string">&quot;CN&quot;</span>;
-
 }
 </pre></div>
 </div>

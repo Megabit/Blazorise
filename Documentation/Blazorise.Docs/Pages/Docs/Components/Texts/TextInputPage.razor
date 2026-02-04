@@ -1,0 +1,179 @@
+﻿@page "/docs/components/text-edit"
+@page "/docs/components/text-input"
+
+<Seo Canonical="/docs/components/text-input" Title="Blazorise TextInput component" Description="Learn to use and work with the Blazorise TextInput components, which is used for collecting user provided information." />
+
+<DocsPageTitle Path="Components/Text Input">
+    Blazorise TextInput component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>TextInput</Code> allows the user to input and edit text.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    <Code Tag>TextInput</Code> fields components are used for collecting user provided information.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic" />
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Placeholder" />
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputPlaceholderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputPlaceholderExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static text">
+        Static text removes the background, border, shadow, and horizontal padding, while maintaining the
+        vertical spacing so you can easily align the input in any context, like a horizontal form.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputPlaintextExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputPlaintextExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Disabled">
+        A disabled input element is unusable and un-clickable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputDisabledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputDisabledExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ReadOnly">
+        If you use the read-only attribute, the input text will look similar to a normal one, but is not editable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputReadonlyExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputReadonlyExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Sizing">
+        Sets the heights of input elements.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputSizingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputSizingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Pattern">
+        Use pattern attribute to specify regular expression that will be used while validating the input text value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputPatternExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputPatternExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="EditMask">
+        Edit masks are used to prevent user from entering an invalid values and when entered string must match
+        a specific format. For example you can limit input to only accept numeric string, date string or if you
+        want full control you can use RegEx format.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputMaskExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputMaskExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Roles">
+        Use Role to define type of text value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputRoleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputRoleExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Binding
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-way binding">
+        By using <Code>bind-*</Code> attribute the text will be automatically assigned to the member variable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputWithBindExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputWithBindExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual event binding">
+        When using the event <Code>ValueChanged</Code>, you also must define the <Code>Value</Code> value attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TextInputWithEventExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextInputWithEventExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Settings
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text Changed mode">
+        By default the <Code>ValueChanged</Code> event will be raised on every keypress.
+        To override default behavior of <Code>ValueChanged</Code> event and to disable the change on every
+        keypress you must set the <Code>Immediate</Code> to <Code>false</Code> on application start.
+        After setting it to <Code>false</Code> the event will be raised only after the input loses focus.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TextInputTextChangedModeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text Delay mode">
+        Because of some limitations in Blazor, sometimes there can be problems when <Code>Immediate</Code> is enabled.
+        Basically if you try to type too fast into the text field the caret can jump randomly from current selection
+        to the end of the text. To prevent that behaviour you need to enable <Code>Debounce</Code>. Once enabled it will
+        slightly delay every value entered into the field to allow the Blazor engine to do it's thing.
+        By default this option is disabled.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TextInputTextDelayModeExample" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> All of the options above can also be defined on each <Code>TextInput</Code> individually.
+        Defining them on <Code>TextInput</Code> will override any global settings.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Prevent autocomplete
+</Heading>
+
+<DocsPageParagraph>
+    When working with email and password fields, in some cases browsers might automatically autofill them with the values from user system. To prevent it you can define an <Code>autocomplete</Code> attribute, eg. <Code>autocomplete="new-password"</Code> on an input field.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(TextInput)]" />

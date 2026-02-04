@@ -728,7 +728,7 @@ public static class FontAwesomeIcons
     public const string EnvelopesBulk = "fa-envelopes-bulk";
     public const string EnvelopeSquare = "fa-square-envelope";
     public const string Envira = "fab fa-envira";
-    public const string Equals = "fa-equals";
+    public new const string Equals = "fa-equals";
     public const string Eraser = "fa-eraser";
     public const string Erlang = "fab fa-erlang";
     public const string Ethereum = "fab fa-ethereum";

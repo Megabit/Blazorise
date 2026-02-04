@@ -6,12 +6,6 @@
     }
 }
 
-.tabs.is-justified li {
-    flex-basis: 0;
-    flex-grow: 1;
-    text-align: center;
-}
-
 .tabs {
     &.is-vertical ul {
         -webkit-flex-direction: column;

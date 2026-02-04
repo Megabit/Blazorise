@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/autocomplete"
 
-<Seo Canonical="/docs/extensions/autocomplete" Title="Blazorise Autocomplete component" Description="Learn to use and work with the Blazorise Autocomplete component, which provides suggestions while you type into the field." />
+<Seo Canonical="/docs/extensions/autocomplete" Title="Blazorise Autocomplete component" Description="Learn how to use the Blazorise Autocomplete component to provide type-ahead suggestions with data binding and templates." />
 
 <DocsPageTitle Path="Extensions/Autocomplete">
     Blazorise Autocomplete component
@@ -9,6 +9,10 @@
 <DocsPageLead>
     The <Code>Autocomplete</Code> component offers simple and flexible type-ahead functionality.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    See <Anchor To="docs/specifications/autocomplete">Autocomplete specifications</Anchor> for behavior details and edge cases.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     <LicenseLimitationAlert LimitText="@($"{Licensing.BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS} items")" />
@@ -20,8 +24,12 @@
     You may also enable <Code>FreeTyping</Code> and <Code>Autocomplete</Code> can be used to just provide suggestions based on user input.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    To use the <Code>Autocomplete</Code> component, install the <Code>Blazorise.Components</Code> package first.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
-    Quick Installation
+    Installation
 </DocsPageSubtitle>
 
 <Alert Color="Color.Info" Visible>
@@ -31,17 +39,17 @@
 </Alert>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 1: Download from NuGet">
-        Install extension from NuGet:
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 2. Define Usings">
+    <DocsPageSectionHeader Title="Imports">
         In your main <Code>_Imports.razor</Code> add:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ComponentsImportExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="ComponentsImportExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -64,6 +72,36 @@
         <AutocompleteMultipleExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="AutocompleteMultipleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation (single)">
+        Wrap the Autocomplete in a <Code>Validation</Code> container to integrate with the standard validation system.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteValidationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation (multiple)">
+        When using <Code>AutocompleteSelectionMode.Multiple</Code>, validate the <Code>SelectedValues</Code> list to enforce at least one selection.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteMultipleValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteMultipleValidationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation (data annotations)">
+        Use <Code>ValidationMode.Auto</Code> with a model decorated with data annotations to validate single and multiple selections.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteDataAnnotationValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteDataAnnotationValidationExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -94,7 +132,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Suggesting already selected items && Checkbox support">
-        You can use <Code>SuggestSelectedItems</Code> to suggest already selected items, and optionally use <Code>SuggestMultipleCheckbox</Code> to additionally add checkbox selection.
+        Enabling `<Code>AutocompleteSelectionMode.Checkbox</Code>` adds checkboxes to all items in the autocomplete menu, while also keeping previously selected items visible.
         <Strong>Note: </Strong> Make sure to set <Code>CloseOnSelection</Code> to false if you want to keep the dropdown open whenever an item is selected.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>

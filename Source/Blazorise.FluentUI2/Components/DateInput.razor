@@ -1,0 +1,23 @@
+@using System.Text
+@typeparam TValue
+@inherits Blazorise.DateInput<TValue>
+@if ( ParentIsAddons )
+{
+    <span class="@AddonClassNames" style="@WrapperStyleNames">
+        @InputElement
+    </span>
+}
+else
+{
+    <span class="@InputClassNames" style="@WrapperStyleNames">
+        @InputElement
+    </span>
+}
+@ChildContent
+@Feedback
+@code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="@Mode" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" step="@Step" value="@CurrentValueAsString" @onchange="@OnChangeHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    };
+}

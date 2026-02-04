@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Small and adaptive tag for adding context to just about any content.
 /// </summary>
-public partial class Badge : BaseComponent
+public partial class Badge : BaseComponent<BadgeClasses, BadgeStyles>
 {
     #region Members
 
@@ -32,7 +32,7 @@ public partial class Badge : BaseComponent
     /// </summary>
     public Badge()
     {
-        CloseClassBuilder = new( BuildCloseClasses );
+        CloseClassBuilder = new( BuildCloseClasses, builder => builder.Append( Classes?.Close ) );
     }
 
     #endregion
@@ -130,6 +130,16 @@ public partial class Badge : BaseComponent
 
             DirtyClasses();
         }
+    }
+
+    /// <summary>
+    /// Specifies the contextual intent applied to the badge's background and text.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
     }
 
     /// <summary>

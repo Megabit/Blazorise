@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseSizableFieldComponent
+@inherits BaseSizableFieldComponent<FieldLabelClasses, FieldLabelStyles>
 <label @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@For" @attributes="@Attributes">
     @ChildContent
 </label>

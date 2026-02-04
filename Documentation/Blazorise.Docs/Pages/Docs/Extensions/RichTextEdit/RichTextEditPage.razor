@@ -1,24 +1,25 @@
-﻿@page "/docs/extensions/richtextedit"
+@page "/docs/extensions/richtextedit"
 
-<Seo Canonical="/docs/extensions/richtextedit" Title="Blazorise RichTextEdit component" Description="Learn to use and work with the Blazorise RichTextEdit component, which allows you to add and use a ‘WYSIWYG’ rich text editor." />
+<Seo Canonical="/docs/extensions/richtextedit" Title="Blazorise RichTextEdit component" Description="Learn how to use the Blazorise RichTextEdit component to add a WYSIWYG rich text editor." />
 
 <DocsPageTitle Path="Extensions/RichTextEdit">
     Blazorise RichTextEdit component
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>RichTextEdit</Code> component allows you to add and use a ‘WYSIWYG’ rich text editor.
+    The <Code>RichTextEdit</Code> component allows you to add a WYSIWYG rich text editor.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Blazorise RichTextEdit is based on the <Blazorise.Link To="https://quilljs.com/" Target="Target.Blank">QuillJS</Blazorise.Link> JavaScript library.
+    The Blazorise RichTextEdit is based on the <Anchor To="https://quilljs.com/" Target="Target.Blank">QuillJS</Anchor> JavaScript library.
 </DocsPageParagraph>
 
 <UnorderedList>
     <UnorderedListItem>
         <Code>RichTextEdit</Code> the root editor component
         <UnorderedList>
-            <UnorderedListItem><Code>Editor</Code> (Optional) the editor part with displayed html content</UnorderedListItem>
+            <UnorderedListItem><Code>Value</Code> (Optional) the bound HTML content</UnorderedListItem>
+            <UnorderedListItem><Code>Editor</Code> (Optional) initial editor content when <Code>Value</Code> is not set</UnorderedListItem>
             <UnorderedListItem>
                 <Code>Toolbar</Code> (Optional) the editor toolbar definition
                 <UnorderedList>
@@ -41,6 +42,10 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<DocsPageParagraph>
+    To use the <Code>RichTextEdit</Code> component, install the <Code>Blazorise.RichTextEdit</Code> package first.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
@@ -61,7 +66,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Configuration">
-        In your Blazor <Code>StartUp</Code> add the following statement
+        In your startup configuration (Program.cs or Startup.cs), add the following statement.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RichTextEditStartupExample"></DocsPageSectionSource>
 </DocsPageSection>
@@ -71,7 +76,7 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="UseShowTheme" Type="bool" Default="true">
+    <DocsAttributesItem Name="UseSnowTheme" Type="bool" Default="true">
         Load the QuillJS snow theme related resources.
     </DocsAttributesItem>
     <DocsAttributesItem Name="UseBubbleTheme" Type="bool" Default="false">
@@ -99,6 +104,17 @@
         <RichTextEditExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="RichTextEditExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation">
+        <Paragraph>
+            Use <Code>Validation</Code> with <Code>RichTextEdit</Code> to validate the editor's content.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RichTextEditValidationExample />
+    </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
@@ -154,7 +170,7 @@
         The <Code>RichTextEdit</Code> comes default with 2 themes <Code>Snow</Code> and <Code>Bubble</Code>. The <Code>Snow</Code> theme is a simple flat toolbar theme and the <Code>Bubble</Code> theme is a tooltip based theme where the toolbar will be displayed in the tooltip.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        See <Blazorise.Link To="https://quilljs.com/docs/themes/" Target="Target.Blank">QuillJS Themes</Blazorise.Link> for more information.
+        See <Anchor To="https://quilljs.com/docs/themes/" Target="Target.Blank">QuillJS Themes</Anchor> for more information.
     </DocsPageSectionContent>
 </DocsPageSection>
 
@@ -163,15 +179,15 @@
         The <Code>RichTextEdit</Code> toolbar can be completely customized. QuillJS defines a number of default actions that can be used through the <Code>RichTextEditToolbarButton</Code> and <Code>RichTextEditToolbarSelect</Code> components
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        See <Blazorise.Link To="https://quilljs.com/docs/modules/toolbar/" Target="Target.Blank">QuillJS Toolbar module</Blazorise.Link> for more information.
+        See <Anchor To="https://quilljs.com/docs/modules/toolbar/" Target="Target.Blank">QuillJS Toolbar module</Anchor> for more information.
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="QuillJS Configuration">
-        The <Code>RichTextEdit</Code> has the option to inject additional QuillJS configuration logic or load additional <Blazorise.Link To="https://github.com/quilljs/awesome-quill" Target="Target.Blank">modules</Blazorise.Link>. Use the <Code>ConfigureQuillJSMethod</Code> property to indicate which javascript method needs to be called during initialization.
+        The <Code>RichTextEdit</Code> has the option to inject additional QuillJS configuration logic or load additional <Anchor To="https://github.com/quilljs/awesome-quill" Target="Target.Blank">modules</Anchor>. Use the <Code>ConfigureQuillJSMethod</Code> property to indicate which JavaScript method needs to be called during initialization.
 
-        If you for example want to change the way how links are sanitized you can use the following logic. Default all user typed url’s are relative to your pages base url. So when a user types <Code>google.com</Code> this will result in something like <Code>https://baseurl/google.com</Code>, but if you would probably like <Code>https://google.com</Code> then use the following configuration routine.
+        If you for example want to change the way how links are sanitized you can use the following logic. Default all user typed url's are relative to your pages base url. So when a user types <Code>google.com</Code> this will result in something like <Code>https://baseurl/google.com</Code>, but if you would probably like <Code>https://google.com</Code> then use the following configuration routine.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <RichTextEditConfigurationExample />

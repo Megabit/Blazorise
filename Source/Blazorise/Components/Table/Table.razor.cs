@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -13,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// The <see cref="Table"/> component is used for displaying tabular data.
 /// </summary>
-public partial class Table : BaseDraggableComponent, IAsyncDisposable
+public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, IAsyncDisposable
 {
     #region Members
 
@@ -52,8 +52,8 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
     /// </summary>
     public Table()
     {
-        ContainerClassBuilder = new( BuildContainerClasses );
-        ContainerStyleBuilder = new( BuildContainerStyles );
+        ContainerClassBuilder = new( BuildContainerClasses, builder => builder.Append( Classes?.Container ) );
+        ContainerStyleBuilder = new( BuildContainerStyles, builder => builder.Append( Styles?.Container ) );
     }
 
     #endregion
@@ -111,6 +111,8 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
         builder.Append( ClassProvider.TableResponsive( Responsive ) );
         builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
         builder.Append( ClassProvider.TableFixedColumns( FixedColumns ) );
+
+        AppendWrapperUtilities( builder );
     }
 
     /// <summary>
@@ -127,6 +129,8 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
             if ( !string.IsNullOrEmpty( FixedHeaderTableMaxHeight ) )
                 builder.Append( $"max-height: {FixedHeaderTableMaxHeight};" );
         }
+
+        AppendWrapperUtilities( builder );
     }
 
     /// <inheritdoc/>
@@ -184,7 +188,7 @@ public partial class Table : BaseDraggableComponent, IAsyncDisposable
     }
 
     /// <inheritdoc/>
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         ContainerStyleBuilder.Dirty();
 

@@ -1,4 +1,4 @@
-﻿.button {
+.button {
     &.is-secondary {
         background-color: #6c757d;
         border-color: transparent;
@@ -172,5 +172,68 @@
                 @extend .is-extra-large;
             }
         }
+    }
+}
+
+.field.has-addons {
+    gap: 0;
+
+    > .control > .button,
+    > .dropdown-trigger > .control > .button,
+    > .dropdown > .dropdown-trigger > .control > .button {
+        &:hover,
+        &.is-hovered {
+            z-index: 2;
+        }
+
+        &:focus,
+        &.is-focused,
+        &:active,
+        &.is-active,
+        &.is-selected {
+            z-index: 3;
+
+            &:hover {
+                z-index: 4;
+            }
+        }
+
+        &.is-expanded {
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+    }
+
+    > .control:not(:first-child) > .button,
+    > .dropdown-trigger:not(:first-child) > .control > .button,
+    > .dropdown:not(:first-child) > .dropdown-trigger > .control > .button {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+    }
+
+    > .control:not(:last-child) > .button,
+    > .dropdown-trigger:not(:last-child) > .control > .button.button,
+    > .dropdown:not(:last-child) > .dropdown-trigger > .control > .button.button {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        margin-inline-end: -1px;
+    }
+
+    &.dropdown > .dropdown-trigger:not(:last-child) > .control > .button,
+    > .dropdown:last-child > .dropdown-trigger > .control > .button {
+        border-bottom-right-radius: $radius;
+        border-top-right-radius: $radius;
+        border-right-style: solid;
+        border-right-width: var(--bulma-button-border-width, 1px);
+        border-right-color: var(--bulma-button-border-color, $grey-lighter);
+        margin-inline-end: 0;
+    }
+}
+
+.buttons.has-addons {
+    > .button,
+    > .label.button {
+        display: inline-flex;
+        margin-bottom: 0;
     }
 }

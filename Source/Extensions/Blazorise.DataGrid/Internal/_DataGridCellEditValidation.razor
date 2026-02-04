@@ -1,0 +1,267 @@
+﻿@using Blazorise.Modules
+@typeparam TItem
+@inherits _DataGridCellEdit<TItem>
+@if ( ValueType == typeof( string ) )
+{
+    <TextInput ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ValueExpression="@stringExpression" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TextInput>
+}
+else if ( ValueType == typeof( decimal ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@decimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( decimal? ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="decimal?" Value="@((decimal?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDecimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( double ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="double" Value="@((double)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@doubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( double? ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="double?" Value="@((double?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDoubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( float ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="float" Value="@((float)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@floatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( float? ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="float?" Value="@((float?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableFloatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( int ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="int" Value="@((int)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@intExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( int? ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="int?" Value="@((int?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableIntExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( long ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="long" Value="@((long)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@longExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( long? ) )
+{
+    <NumericPicker ElementId="@elementId" TValue="long?" Value="@((long?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableLongExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" GroupSeparator="@GroupSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </NumericPicker>
+}
+else if ( ValueType == typeof( bool ) )
+{
+    <Check ElementId="@elementId" TValue="bool" Value="@((bool)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@boolExpression" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </Check>
+}
+else if ( ValueType == typeof( bool? ) )
+{
+    <Check ElementId="@elementId" TValue="bool?" Value="@((bool?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableBoolExpression" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </Check>
+}
+else if ( ValueType == typeof( DateTime ) )
+{
+    <DateInput ElementId="@elementId" TValue="DateTime" Value="@((DateTime)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@dateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </DateInput>
+}
+else if ( ValueType == typeof( DateTime? ) )
+{
+    <DateInput ElementId="@elementId" TValue="DateTime?" Value="@((DateTime?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </DateInput>
+}
+else if ( ValueType == typeof( DateOnly ) )
+{
+    <DateInput ElementId="@elementId" TValue="DateOnly" Value="@((DateOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@dateOnlyExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </DateInput>
+}
+else if ( ValueType == typeof( DateOnly? ) )
+{
+    <DateInput ElementId="@elementId" TValue="DateOnly?" Value="@((DateOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDateOnlyExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </DateInput>
+}
+else if ( ValueType == typeof( DateTimeOffset ) )
+{
+    <DateInput ElementId="@elementId" TValue="DateTimeOffset" Value="@((DateTimeOffset)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@dateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </DateInput>
+}
+else if ( ValueType == typeof( DateTimeOffset? ) )
+{
+    <DateInput ElementId="@elementId" TValue="DateTimeOffset?" Value="@((DateTimeOffset?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </DateInput>
+}
+else if ( ValueType == typeof( TimeSpan ) )
+{
+    <TimeInput ElementId="@elementId" TValue="TimeSpan" Value="@((TimeSpan)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@timeSpanExpression" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TimeInput>
+}
+else if ( ValueType == typeof( TimeSpan? ) )
+{
+    <TimeInput ElementId="@elementId" TValue="TimeSpan?" Value="@((TimeSpan?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableTimeSpanExpression" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TimeInput>
+}
+else if ( ValueType == typeof( TimeOnly ) )
+{
+    <TimeInput ElementId="@elementId" TValue="TimeOnly" Value="@((TimeOnly)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@timeOnlyExpression" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TimeInput>
+}
+else if ( ValueType == typeof( TimeOnly? ) )
+{
+    <TimeInput ElementId="@elementId" TValue="TimeOnly?" Value="@((TimeOnly?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableTimeOnlyExpression" ReadOnly="@Readonly">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TimeInput>
+}
+else
+{
+    <TextInput ElementId="@elementId" Value="@CellEditContext.CellValue?.ToString()" ValueChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </TextInput>
+}

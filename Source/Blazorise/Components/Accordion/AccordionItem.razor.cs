@@ -16,6 +16,14 @@ public partial class AccordionItem : BaseComponent, IDisposable
 
     private bool visible;
 
+    private AccordionBody accordionBody;
+
+    private AccordionToggle accordionToggle;
+
+    private string generatedBodyElementId;
+
+    private string generatedToggleElementId;
+
     #endregion
 
     #region Methods
@@ -23,9 +31,15 @@ public partial class AccordionItem : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+
         ParentAccordion?.NotifyAccordionItemInitialized( this );
 
-        base.OnInitialized();
+        if ( generatedBodyElementId is null && !string.IsNullOrEmpty( ElementId ) )
+            generatedBodyElementId = $"{ElementId}-body";
+
+        if ( generatedToggleElementId is null && !string.IsNullOrEmpty( ElementId ) )
+            generatedToggleElementId = $"{ElementId}-toggle";
     }
 
     /// <inheritdoc/>
@@ -60,6 +74,64 @@ public partial class AccordionItem : BaseComponent, IDisposable
     }
 
     /// <summary>
+    /// Registers the accordion body reference.
+    /// </summary>
+    /// <param name="body">Accordion body component.</param>
+    internal void NotifyAccordionBodyInitialized( AccordionBody body )
+    {
+        if ( body is null )
+            return;
+
+        if ( ReferenceEquals( accordionBody, body ) )
+            return;
+
+        accordionBody = body;
+        InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Removes the accordion body reference.
+    /// </summary>
+    /// <param name="body">Accordion body component.</param>
+    internal void NotifyAccordionBodyRemoved( AccordionBody body )
+    {
+        if ( !ReferenceEquals( accordionBody, body ) )
+            return;
+
+        accordionBody = null;
+        InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Registers the accordion toggle reference.
+    /// </summary>
+    /// <param name="toggle">Accordion toggle component.</param>
+    internal void NotifyAccordionToggleInitialized( AccordionToggle toggle )
+    {
+        if ( toggle is null )
+            return;
+
+        if ( ReferenceEquals( accordionToggle, toggle ) )
+            return;
+
+        accordionToggle = toggle;
+        InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Removes the accordion toggle reference.
+    /// </summary>
+    /// <param name="toggle">Accordion toggle component.</param>
+    internal void NotifyAccordionToggleRemoved( AccordionToggle toggle )
+    {
+        if ( !ReferenceEquals( accordionToggle, toggle ) )
+            return;
+
+        accordionToggle = null;
+        InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
     /// Sets the visibility state of this <see cref="AccordionItem"/> component.
     /// </summary>
     /// <param name="visible">True if <see cref="AccordionItem"/> is visible.</param>
@@ -90,6 +162,19 @@ public partial class AccordionItem : BaseComponent, IDisposable
     /// Determines if the accordion item is placed inside of accordion component as the last item.
     /// </summary>
     public bool LastInAccordion => ParentAccordion?.IsLastInAccordion( this ) == true;
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the element id of the accordion body.
+    /// </summary>
+    public string BodyElementId => accordionBody?.ElementId ?? generatedBodyElementId;
+
+    /// <summary>
+    /// Gets the element id of the accordion toggle.
+    /// </summary>
+    public string ToggleElementId => accordionToggle?.ElementId ?? generatedToggleElementId;
 
     /// <summary>
     /// Gets or sets the accordion item visibility state.

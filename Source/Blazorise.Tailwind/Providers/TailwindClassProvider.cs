@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,103 +11,103 @@ namespace Blazorise.Tailwind.Providers;
 
 public class TailwindClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext
+    public override string TextInput( bool plaintext ) => plaintext
         ? "text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
         : "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
 
-    public override string TextEditSize( Size size )
+    public override string TextInputSize( Size size )
     {
         return size switch
         {
             Size.ExtraSmall => "p-1.5 sm:text-xs",
             Size.Small => "p-2 sm:text-xs",
-            Size.Medium => "p-3 text-md",
-            Size.Large => "p-4 sm:text-md",
+            Size.Medium => "p-3 text-base",
+            Size.Large => "p-4 sm:text-base",
             Size.ExtraLarge => "p-4 sm:text-lg",
             _ => "p-2.5 text-sm"
         };
     }
 
-    public override string TextEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public override string MemoEdit( bool plaintext ) => plaintext
+    public override string MemoInput( bool plaintext ) => plaintext
         ? "block w-full text-gray-900 border-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         : "block w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
-    public override string MemoEditSize( Size size ) => TextEditSize( size );
+    public override string MemoInputSize( Size size ) => TextInputSize( size );
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
     #region Select
 
-    public override string Select() => TextEdit( false );
+    public override string Select() => TextInput( false );
 
     public override string SelectMultiple( bool multiple ) => null;
 
-    public override string SelectSize( Size size ) => TextEditSize( size );
+    public override string SelectSize( Size size ) => TextInputSize( size );
 
     public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => TextEdit( plaintext );
+    public override string NumericInput( bool plaintext ) => TextInput( plaintext );
 
-    public override string NumericEditSize( Size size ) => TextEditSize( size );
+    public override string NumericInputSize( Size size ) => TextInputSize( size );
 
-    public override string NumericEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
-
-    #endregion
-
-    #region DateEdit
-
-    public override string DateEdit( bool plaintext ) => TextEdit( plaintext );
-
-    public override string DateEditSize( Size size ) => TextEditSize( size );
-
-    public override string DateEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
-
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public override string TimeEdit( bool plaintext ) => TextEdit( plaintext );
+    public override string DateInput( bool plaintext ) => TextInput( plaintext );
 
-    public override string TimeEditSize( Size size ) => TextEditSize( size );
+    public override string DateInputSize( Size size ) => TextInputSize( size );
 
-    public override string TimeEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public override string ColorEdit() => TextEdit( false );
+    public override string TimeInput( bool plaintext ) => TextInput( plaintext );
 
-    public override string ColorEditSize( Size size )
+    public override string TimeInputSize( Size size ) => TextInputSize( size );
+
+    public override string TimeInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
+    #region ColorInput
+
+    public override string ColorInput() => TextInput( false );
+
+    public override string ColorInputSize( Size size )
     {
         return size switch
         {
             Size.ExtraSmall => "p-1.5 sm:text-xs h-6",
             Size.Small => "p-2 sm:text-xs h-8",
-            Size.Medium => "p-3 text-md h-12",
-            Size.Large => "p-4 sm:text-md h-14",
+            Size.Medium => "p-3 text-base h-12",
+            Size.Large => "p-4 sm:text-base h-14",
             Size.ExtraLarge => "p-4 sm:text h-16",
             _ => "p-2 text-sm h-10"
         };
@@ -117,9 +117,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => TextEdit( plaintext );
+    public override string DatePicker( bool plaintext ) => TextInput( plaintext );
 
-    public override string DatePickerSize( Size size ) => TextEditSize( size );
+    public override string DatePickerSize( Size size ) => TextInputSize( size );
 
     public override string DatePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -129,9 +129,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => TextEdit( plaintext );
+    public override string TimePicker( bool plaintext ) => TextInput( plaintext );
 
-    public override string TimePickerSize( Size size ) => TextEditSize( size );
+    public override string TimePickerSize( Size size ) => TextInputSize( size );
 
     public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -141,7 +141,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => TextEdit( false );
+    public override string ColorPicker() => TextInput( false );
 
     public override string ColorPickerSize( Size size )
     {
@@ -149,8 +149,8 @@ public class TailwindClassProvider : ClassProvider
         {
             Size.ExtraSmall => "pl-8 py-1.2 sm:text-xs",
             Size.Small => "pl-8 py-2 sm:text-xs",
-            Size.Medium => "pl-8 py-3 text-md",
-            Size.Large => "pl-8 py-4 sm:text-md",
+            Size.Medium => "pl-8 py-3 text-base",
+            Size.Large => "pl-8 py-4 sm:text-base",
             Size.ExtraLarge => "pl-8 py-4 sm:text-lg",
             _ => "pl-8 py-2.5 text-sm"
         };
@@ -160,9 +160,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => TextEdit( plaintext );
+    public override string NumericPicker( bool plaintext ) => TextInput( plaintext );
 
-    public override string NumericPickerSize( Size size ) => TextEditSize( size );
+    public override string NumericPickerSize( Size size ) => TextInputSize( size );
 
     public override string NumericPickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -172,9 +172,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => TextEdit( plaintext );
+    public override string InputMask( bool plaintext ) => TextInput( plaintext );
 
-    public override string InputMaskSize( Size size ) => TextEditSize( size );
+    public override string InputMaskSize( Size size ) => TextInputSize( size );
 
     public override string InputMaskColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
@@ -184,7 +184,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Check
 
-    public override string Check() => "text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+    public override string Check() => "text-primary-600 bg-gray-100 rounded-sm border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
     public override string CheckSize( Size size )
     {
@@ -270,13 +270,13 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
+    public override string FileInput() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-hidden dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
 
-    public override string FileEditSize( Size size ) => TextEditSize( size );
+    public override string FileInputSize( Size size ) => TextInputSize( size );
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -445,8 +445,8 @@ public class TailwindClassProvider : ClassProvider
         {
             Size.ExtraSmall => "sm:text-xs",
             Size.Small => "sm:text-xs",
-            Size.Medium => "text-md",
-            Size.Large => "sm:text-md",
+            Size.Medium => "text-base",
+            Size.Large => "sm:text-base",
             Size.ExtraLarge => "sm:text-lg",
             _ => "text-sm"
         };
@@ -465,8 +465,8 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "b-button inline-flex items-center border focus:ring-4 focus:outline-none font-medium text-center"
-        : "b-button inline-flex items-center focus:ring-4 font-medium focus:outline-none";
+        ? "b-button inline-flex items-center border focus:ring-4 focus:outline-hidden font-medium text-center"
+        : "b-button inline-flex items-center focus:ring-4 font-medium focus:outline-hidden";
 
     public override string ButtonColor( Color color, bool outline )
     {
@@ -578,7 +578,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownHeader() => "b-dropdown-header py-3 px-4 text-sm text-gray-900 dark:text-white";
 
-    public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
+    public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded-sm divide-y divide-gray-100 shadow-sm dark:bg-gray-700";
 
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
         => $"max-w-max top-0 left-0 {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute" )}";
@@ -594,13 +594,13 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown-menu-show block"
         : "b-dropdown-menu-hide hidden";
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "b-dropdown-menu-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "b-dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
     {
         var sb = new StringBuilder( isDropdownSubmenu
             ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center" );
+            : "b-button b-dropdown-toggle focus:outline-hidden font-medium text-sm text-center inline-flex items-center" );
 
         if ( outline )
         {
@@ -864,11 +864,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => "b-card-title mb-2 text-2xl font-bold tracking-tight text-inherit text-gray-900 dark:text-white";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "b-card-subtitle text-inherit";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "b-card-text mb-3 font-normal text-inherit";
 
@@ -900,7 +900,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItem() => "b-listgroup-item py-3 px-4 w-full border-b last:border-b-0";
 
-    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "b-listgroup-item-selectable cursor-pointer focus:outline-none" : null;
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "b-listgroup-item-selectable cursor-pointer focus:outline-hidden" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? "b-listgroup-item-active" : null;
 
@@ -1038,7 +1038,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-link block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+        ? "b-bar-link block px-4 py-2 text-gray-700 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
         : "b-bar-link";
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
@@ -1048,10 +1048,10 @@ public class TailwindClassProvider : ClassProvider
         : "b-bar-brand";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-toggler navbar-toggler inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
+        ? "b-bar-toggler navbar-toggler inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-hidden focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
         : togglerMode == BarTogglerMode.Popout
             ? "b-bar-toggler-popout"
-            : "b-bar-toggler-inline inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600";
+            : "b-bar-toggler-inline inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-hidden focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600";
 
     public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => isShow || mode != Blazorise.BarMode.Horizontal ? null : "collapsed";
 
@@ -1096,7 +1096,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarDropdownDivider( BarMode mode ) => "b-bar-dropdown-divider";
 
     public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-max dark:bg-gray-700 dark:divide-gray-600"
+        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded-sm shadow-sm w-max dark:bg-gray-700 dark:divide-gray-600"
         : "b-bar-dropdown-menu";
 
     public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible
@@ -1146,20 +1146,18 @@ public class TailwindClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "b-collapse";
+    public override string Collapse() => "b-collapse";
 
-    public override string CollapseActive( bool accordion, bool active ) => "b-collapse-active";
+    public override string CollapseActive( bool active ) => "b-collapse-active";
 
-    public override string CollapseHeader( bool accordion ) => "b-collapse-header";
+    public override string CollapseHeader() => "b-collapse-header";
 
-    public override string CollapseBody( bool accordion ) => "b-collapse-body";
+    public override string CollapseBody() => "b-collapse-body";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? null : "hidden";
+    public override string CollapseBodyActive( bool active ) => active ? null : "hidden";
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion )
-        => lastInAccordion
-        ? "p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900"
-        : "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
+    public override string CollapseBodyContent()
+        => "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
 
     #endregion
 
@@ -1174,8 +1172,6 @@ public class TailwindClassProvider : ClassProvider
 
         return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
     }
-
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "mx-0 no-gutters" : null;
 
     #endregion
 
@@ -1318,13 +1314,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalCentered( bool centered ) => null;
 
-    public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
+    public override string ModalBackdrop() => "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40";
 
     public override string ModalBackdropFade() => "b-modal-fade";
 
     public override string ModalBackdropVisible( bool visible ) => null;
 
-    public override string ModalContent( bool dialog ) => "relative flex flex-col w-full bg-white rounded-lg shadow dark:bg-gray-700";
+    public override string ModalContent( bool dialog ) => "relative flex flex-col w-full bg-white rounded-lg shadow-sm dark:bg-gray-700";
 
     public override string ModalContentSize( ModalSize modalSize )
     {
@@ -1391,7 +1387,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasBody() => "flex grow text-sm text-gray-500 dark:text-gray-400 p-4";
 
-    public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
+    public override string OffcanvasBackdrop() => "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30";
 
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => "fade";
 
@@ -1401,7 +1397,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Toast
 
-    public override string Toast() => "b-toast p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
+    public override string Toast() => "b-toast p-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
 
     public override string ToastAnimated( bool animated ) => null;
 
@@ -1738,7 +1734,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Badge
 
-    public override string Badge() => "b-badge inline-flex items-center text-[0.75em] leading-[1em] font-semibold px-2.5 py-1 rounded";
+    public override string Badge() => "b-badge inline-flex items-center text-[0.75em] leading-[1em] font-semibold px-2.5 py-1 rounded-sm";
 
     public override string BadgeColor( Color color, bool subtle )
     {
@@ -2094,6 +2090,51 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Gutter
+
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
+    {
+        var fullSize = ToGutterSize( gutterSize );
+        if ( string.IsNullOrEmpty( fullSize ) || gutterSide == GutterSide.None )
+            return null;
+
+        var halfSize = fullSize;
+
+        if ( int.TryParse( fullSize, NumberStyles.Integer, CultureInfo.InvariantCulture, out var fullInt ) )
+        {
+            float halfFloat = fullInt > 0 ? fullInt / 2f : 0f;
+
+            halfSize = halfFloat.ToString( "0.##", CultureInfo.InvariantCulture );
+        }
+
+        var breakpointPart = breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+            ? $"{ToBreakpoint( breakpoint )}:"
+            : null;
+
+        var classes = new List<string>();
+
+        if ( gutterSide == GutterSide.All || gutterSide == GutterSide.X )
+        {
+            classes.Add( $"{breakpointPart}-mx-{halfSize}" );
+            classes.Add( $"{breakpointPart}[&>*]:px-{halfSize}" );
+        }
+
+        if ( gutterSide == GutterSide.All || gutterSide == GutterSide.Y )
+        {
+            classes.Add( $"{breakpointPart}-mt-{fullSize}" );
+            classes.Add( $"{breakpointPart}[&>*]:mt-{fullSize}" );
+        }
+
+        return classes.Count > 0
+            ? string.Join( " ", classes )
+            : null;
+    }
+
+    public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x.Item1, x.Item2 ) ) );
+
+    #endregion
+
     #region Borders
 
     public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
@@ -2251,13 +2292,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Shadow
 
-    public override string Shadow( Shadow shadow )
-    {
-        if ( shadow == Blazorise.Shadow.Default )
-            return "shadow";
-
-        return $"shadow-{ToShadow( shadow )}";
-    }
+    public override string Shadow( Shadow shadow )=> shadow switch
+        {
+            Blazorise.Shadow.None    => "shadow-none",
+            Blazorise.Shadow.Remove  => "shadow-none",
+            Blazorise.Shadow.Default => "shadow-sm",
+            Blazorise.Shadow.Small   => "shadow-xs",
+            Blazorise.Shadow.Large   => "shadow-lg",
+            _                        => throw new ArgumentOutOfRangeException( nameof( shadow ), shadow, null )
+        };
 
     #endregion
 
@@ -2417,11 +2460,11 @@ public class TailwindClassProvider : ClassProvider
     {
         return borderRadius switch
         {
-            Blazorise.BorderRadius.Rounded => "rounded",
-            Blazorise.BorderRadius.RoundedTop => "rounded-t",
-            Blazorise.BorderRadius.RoundedEnd => "rounded-r",
-            Blazorise.BorderRadius.RoundedBottom => "rounded-b",
-            Blazorise.BorderRadius.RoundedStart => "rounded-l",
+            Blazorise.BorderRadius.Rounded => "rounded-sm",
+            Blazorise.BorderRadius.RoundedTop => "rounded-t-sm",
+            Blazorise.BorderRadius.RoundedEnd => "rounded-r-sm",
+            Blazorise.BorderRadius.RoundedBottom => "rounded-b-sm",
+            Blazorise.BorderRadius.RoundedStart => "rounded-l-sm",
             Blazorise.BorderRadius.RoundedCircle => "rounded-full",
             Blazorise.BorderRadius.RoundedPill => "rounded-full",
             Blazorise.BorderRadius.RoundedZero => "rounded-none",

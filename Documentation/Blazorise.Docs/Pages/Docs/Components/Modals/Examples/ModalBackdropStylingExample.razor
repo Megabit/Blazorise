@@ -1,0 +1,32 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="@ShowModal">Show Styled Backdrop</Button>
+
+<Modal @ref="modalRef" Centered ShowBackdrop Styles='@(new ModalStyles { Backdrop = "background-color: rgba(11, 114, 133, 0.4);" })'>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Backdrop styling</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            This modal uses <Code>ModalStyles</Code> to customize the backdrop color.
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private Modal modalRef;
+
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+}

@@ -1,7 +1,7 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// 
+/// Defines the context for the step navigation.
 /// </summary>
 public class StepNavigationContext
 {
@@ -16,12 +16,12 @@ public class StepNavigationContext
     public int CurrentStepIndex { get; init; }
 
     /// <summary>
-    /// Gets the name of the next step.
+    /// Gets the name of the requested step.
     /// </summary>
     public string NextStepName { get; init; }
 
     /// <summary>
-    /// Gets the one-based index of next step.
+    /// Gets the one-based index of the requested step.
     /// </summary>
     public int NextStepIndex { get; init; }
 }

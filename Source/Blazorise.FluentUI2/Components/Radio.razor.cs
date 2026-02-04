@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -10,8 +10,10 @@ public partial class Radio<TValue>
 
     public Radio()
     {
-        InputClassBuilder = new ClassBuilder( BuildInputClasses );
-        LabelButonClassBuilder = new ClassBuilder( BuildLabelButonClasses );
+        InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
+        LabelButonClassBuilder = new ClassBuilder( BuildLabelButonClasses, builder => builder.Append( Classes?.LabelButton ) );
+        AddonClassBuilder = new ClassBuilder( BuildAddonClasses );
+        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
 
     #endregion
@@ -29,7 +31,16 @@ public partial class Radio<TValue>
             InputClassBuilder.Dirty();
         }
 
+        AddonClassBuilder.Dirty();
+
         base.DirtyClasses();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        WrapperStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     private void BuildInputClasses( ClassBuilder builder )
@@ -49,14 +60,28 @@ public partial class Radio<TValue>
         {
             builder.Append( "disabled" );
         }
+
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildAddonClasses( ClassBuilder builder )
+    {
+        builder.Append( "fui-Input__content" );
+        builder.Append( Classes?.Wrapper );
+        AppendWrapperUtilities( builder );
     }
 
     private void BuildLabelButonClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Button( false ) );
         builder.Append( ClassProvider.ButtonColor( ButtonColor, false ) );
-        builder.Append( ClassProvider.ButtonActive( false, Checked ) );
+        builder.Append( ClassProvider.ButtonActive( false, IsActive ) );
         builder.Append( ClassProvider.ButtonDisabled( false, Disabled ) );
+    }
+
+    private void BuildWrapperStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
     }
 
     #endregion
@@ -67,11 +92,17 @@ public partial class Radio<TValue>
 
     protected ClassBuilder LabelButonClassBuilder { get; private set; }
 
+    protected ClassBuilder AddonClassBuilder { get; private set; }
+
+    protected StyleBuilder WrapperStyleBuilder { get; private set; }
+
     protected string InputClassNames => InputClassBuilder.Class;
 
     protected string LabelButonClassNames => LabelButonClassBuilder.Class;
 
-    protected string AddonClassNames => "fui-Input__content";
+    protected string AddonClassNames => AddonClassBuilder.Class;
+
+    protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
 
     #endregion
 }

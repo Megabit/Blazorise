@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -425,6 +426,138 @@ public static class Converters
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Converts a delimited string to an IReadOnlyList of the specified element type at runtime.
+    /// </summary>
+    /// <param name="csv">The input string to be parsed and converted.</param>
+    /// <param name="delimiter">The delimiter used to split the string into individual elements.</param>
+    /// <returns>
+    /// An object that can be cast to an IReadOnlyList of the appropriate type, based on the provided targetType.
+    /// </returns>
+    /// <remarks>
+    /// This method uses reflection to dynamically handle conversion to generic types at runtime.
+    /// </remarks>
+    /// <exception cref="ArgumentException">Thrown if the targetType is not a generic IReadOnlyList.</exception>
+    public static TValue ConvertCsvToReadOnlyList<TValue>( string csv, string delimiter )
+    {
+        var targetType = typeof( TValue );
+
+        Type elementType;
+        bool isArray = false;
+
+        if ( targetType.IsArray )
+        {
+            isArray = true;
+            elementType = targetType.GetElementType();
+        }
+        else if ( targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof( IReadOnlyList<> ) )
+        {
+            elementType = targetType.GetGenericArguments().Single();
+        }
+        else
+        {
+            throw new ArgumentException( "The target type must be either an array or a generic IReadOnlyList.", nameof( targetType ) );
+        }
+
+        var multipleValues = csv.Split( delimiter, StringSplitOptions.None )
+                                  .Select( val =>
+                                  {
+                                      if ( TryChangeType( val, elementType, out var newValue ) )
+                                          return newValue;
+
+                                      // Return default value (e.g., 0 for int) if conversion fails
+                                      return Activator.CreateInstance( elementType );
+                                  } ).ToList();
+
+        if ( isArray )
+        {
+            var array = Array.CreateInstance( elementType, multipleValues.Count );
+            for ( int i = 0; i < multipleValues.Count; i++ )
+            {
+                array.SetValue( multipleValues[i], i );
+            }
+
+            return (TValue)(object)array;
+        }
+        else
+        {
+            var castedValues = typeof( Enumerable )
+                .GetMethod( "Cast" )
+                .MakeGenericMethod( elementType )
+                .Invoke( null, new object[] { multipleValues } );
+
+            var typedList = typeof( Enumerable )
+                .GetMethod( "ToList" )
+                .MakeGenericMethod( elementType )
+                .Invoke( null, new object[] { castedValues } );
+
+            var readOnlyListType = typeof( ReadOnlyCollection<> ).MakeGenericType( elementType );
+            var readOnlyList = Activator.CreateInstance( readOnlyListType, typedList );
+
+            return (TValue)readOnlyList;
+        }
+    }
+
+    /// <summary>
+    /// Converts a list of objects into a specified type of array or <see cref="IReadOnlyList{T}"/>.
+    /// </summary>
+    /// <typeparam name="TValue">The target type, which must be either an array or a generic <see cref="IReadOnlyList{T}"/>.</typeparam>
+    /// <param name="multipleValues">The list of objects to be converted.</param>
+    /// <returns>
+    /// A converted instance of the specified type (<typeparamref name="TValue"/>), either an array or a <see cref="IReadOnlyList{T}"/> populated with the elements from <paramref name="multipleValues"/>.
+    /// </returns>
+    /// <exception cref="ArgumentException">Thrown if the target type is not an array or a generic <see cref="IReadOnlyList{T}"/>.</exception>
+    /// <exception cref="InvalidCastException">Thrown if an element in <paramref name="multipleValues"/> cannot be cast to the target element type.</exception>
+    public static TValue ConvertListToReadOnlyList<TValue>( List<object> multipleValues )
+    {
+        var targetType = typeof( TValue );
+
+        Type elementType;
+        bool isArray = false;
+
+        if ( targetType.IsArray )
+        {
+            isArray = true;
+            elementType = targetType.GetElementType();
+        }
+        else if ( targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof( IReadOnlyList<> ) )
+        {
+            elementType = targetType.GetGenericArguments().Single();
+        }
+        else
+        {
+            throw new ArgumentException( "The target type must be either an array or a generic IReadOnlyList.", nameof( targetType ) );
+        }
+
+        if ( isArray )
+        {
+            var array = Array.CreateInstance( elementType, multipleValues.Count );
+            for ( int i = 0; i < multipleValues.Count; i++ )
+            {
+                array.SetValue( multipleValues[i], i );
+            }
+
+            return (TValue)(object)array;
+        }
+        else
+        {
+            var castedValues = typeof( Enumerable )
+                .GetMethod( "Cast" )
+                .MakeGenericMethod( elementType )
+                .Invoke( null, new object[] { multipleValues } );
+
+            var typedList = typeof( Enumerable )
+                .GetMethod( "ToList" )
+                .MakeGenericMethod( elementType )
+                .Invoke( null, new object[] { castedValues } );
+
+            var readOnlyListType = typeof( ReadOnlyCollection<> ).MakeGenericType( elementType );
+            var readOnlyList = Activator.CreateInstance( readOnlyListType, typedList );
+
+            return (TValue)readOnlyList;
+        }
     }
 
     #endregion

@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid"
+@page "/tests/datagrid"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -19,7 +19,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@editable">Editable</Check>
+                                    <Check @bind-Value="@editable">Editable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -29,7 +29,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue="bool" @bind-Checked="@fixedHeader">Fixed Header</Check>
+                                    <Check TValue="bool" @bind-Value="@fixedHeader">Fixed Header</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -39,7 +39,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue="bool" Checked="@virtualize" CheckedChanged="@OnVirtualizeChanged">Virtualize</Check>
+                                    <Check TValue="bool" Value="@virtualize" ValueChanged="@OnVirtualizeChanged">Virtualize</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -49,7 +49,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@resizable">Resizable</Check>
+                                    <Check @bind-Value="@resizable">Resizable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -59,7 +59,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@sortable">Sortable</Check>
+                                    <Check @bind-Value="@sortable">Sortable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -69,7 +69,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@filterable">Filterable</Check>
+                                    <Check @bind-Value="@filterable">Filterable</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -79,7 +79,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showPager">Show Pager</Check>
+                                    <Check @bind-Value="@showPager">Show Pager</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -89,7 +89,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                                    <Check @bind-Value="@showPageSizes">Show Page sizes</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -99,7 +99,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                                    <Check @bind-Value="@showButtonRow">Show Button Row</Check>
                                 </FieldBody>
                             </Field>
                             <Field>
@@ -109,7 +109,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check TValue=bool Checked="@readDataMode" CheckedChanged="OnReadDataModeChanged">Large Data</Check>
+                                    <Check TValue=bool Value="@readDataMode" ValueChanged="OnReadDataModeChanged">Large Data</Check>
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -123,7 +123,7 @@
                                     Selection mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@selectionMode">
+                                    <Select @bind-Value="@selectionMode">
                                         <SelectItem Value="@DataGridSelectionMode.Single">Single</SelectItem>
                                         <SelectItem Value="@DataGridSelectionMode.Multiple">Multiple</SelectItem>
                                     </Select>
@@ -134,7 +134,7 @@
                                     Edit Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@editMode">
+                                    <Select @bind-Value="@editMode">
                                         <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                         <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                                         <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
@@ -146,7 +146,7 @@
                                     Resizable Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@resizableMode">
+                                    <Select @bind-Value="@resizableMode">
                                         <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
                                         <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
                                     </Select>
@@ -157,7 +157,7 @@
                                     Command Mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@commandsMode">
+                                    <Select @bind-Value="@commandsMode">
                                         <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
                                         <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
                                         <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
@@ -175,7 +175,7 @@
                                     Sort mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@sortMode">
+                                    <Select @bind-Value="@sortMode">
                                         <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
                                         <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
                                     </Select>
@@ -186,7 +186,7 @@
                                     Filter mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@filterMode">
+                                    <Select @bind-Value="@filterMode">
                                         <SelectItem Value="@DataGridFilterMode.Default">Default</SelectItem>
                                         <SelectItem Value="@DataGridFilterMode.Menu">Menu</SelectItem>
                                     </Select>
@@ -197,7 +197,7 @@
                                     Responsive mode
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-SelectedValue="@responsiveMode">
+                                    <Select @bind-Value="@responsiveMode">
                                         <SelectItem Value="@TableResponsiveMode.Default">Default</SelectItem>
                                         <SelectItem Value="@TableResponsiveMode.Mobile">Mobile</SelectItem>
                                     </Select>
@@ -208,7 +208,7 @@
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
-                                    <TextEdit Text="@customFilterValue" TextChanged="@OnCustomFilterValueChanged" />
+                                    <TextInput Value="@customFilterValue" ValueChanged="@OnCustomFilterValueChanged" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -254,9 +254,8 @@
                           Responsive
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
-                          @bind-PageSize="pageSize"
-                          CurrentPage="currentPage"
-                          PageChanged="(e) => currentPage = e.Page"
+                          @bind-PageSize="currentPageSize"
+                          @bind-Page="currentPage"
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation
                           SortChanged="@OnSortChanged"
@@ -283,14 +282,14 @@
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
                     </DataGridAggregates>
                     <DataGridColumns>
-                        <DataGridMultiSelectColumn Width="30px">
+                        <DataGridMultiSelectColumn Width="Width.Px( 30 )">
                             <FilterTemplate>
                                 <Button Clicked="@Reset" title="Reload">
                                     <Icon Name="IconName.Sync" />
                                 </Button>
                             </FilterTemplate>
                             <MultiSelectTemplate>
-                                <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
+                                <Check TValue="bool" Value="@context.IsSelected" ValueExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" ValueChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                             <AggregateTemplate>
                                 <Span TextWeight="TextWeight.Bold">@(selectedEmployees?.Count ?? 0)</Span>
@@ -319,18 +318,18 @@
                                 <Span TextWeight="TextWeight.Bold">Totals:</Span>
                             </AggregateTemplate>
                         </DataGridCommandColumn>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" PreventRowClick />
+                        <DataGridColumn TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="Width.Px( 60 )" PreventRowClick />
                         <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable>
                             <FilterTemplate>
-                                <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />
+                                <TextInput Placeholder="Search name" Value="@context.SearchValue?.ToString()" ValueChanged="@(v => context.TriggerFilterChange( v ))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable EditFieldColumnSize="ColumnSize.IsFull.OnDesktop" >
+                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable EditFieldColumnSize="ColumnSize.IsFull.OnDesktop">
                             <AggregateTemplate>
                                 <Icon Name="@IconName.Mail"></Icon> @($"{context.Value}")
                             </AggregateTemplate>
-                            </DataGridColumn>
+                        </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.City )" Caption="City" Editable>
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -338,7 +337,7 @@
                             <FilterTemplate>
                                 @{
                                     selectedCityFilter = @context.SearchValue?.ToString() ?? "";
-                                    <Select TValue="string" SelectedValue="@selectedCityFilter" SelectedValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
+                                    <Select TValue="string" Value="@selectedCityFilter" ValueChanged="@(e => { selectedCityFilter = e; context.TriggerFilterChange( selectedCityFilter ); })">
                                         <SelectItem Value="@("")">All</SelectItem>
                                         @foreach ( var item in dataModels )
                                         {
@@ -350,32 +349,32 @@
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable HelpText="Please provide a Zip in the format = 'xxxxx-xxxx'">
                             <SortDirectionTemplate>
-                                <Icon Name="@( context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp )" />
+                                <Icon Name="@(context.SortDirection == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp)" />
                             </SortDirectionTemplate>
                         </DataGridColumn>
                         <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
-                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable/>
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" 
-                                                CustomFilter="@OnGenderCustomFilter"
-                                                Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender"
+                                              CustomFilter="@OnGenderCustomFilter"
+                                              Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
                             <EditTemplate>
-                                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+                                <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@(v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" HelpText="Whether this employee is active." />
+                        <DataGridCheckColumn Field="@nameof( Employee.IsActive )" Caption="Active" Editable Filterable="false" HelpText="Whether this employee is active." />
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = ( context as Employee ).Salaries;
+                            var salaries = context.Item?.Salaries;
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"
                                       Sortable="false"
                                       ShowCaptions="false">
                                 <DataGridCommandColumn />
-                                <DataGridDateColumn Field="@nameof(Salary.Date)" Caption="Date" />
-                                <DataGridNumericColumn Field="@nameof(Salary.Total)" Caption="Total" />
+                                <DataGridDateColumn Field="@nameof( Salary.Date )" Caption="Date" />
+                                <DataGridNumericColumn Field="@nameof( Salary.Total )" Caption="Total" />
                             </DataGrid>
                         }
                     </DetailRowTemplate>
@@ -420,24 +419,24 @@
                     <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedEmployee?.FirstName"></TextEdit>
+                            <TextInput ReadOnly Value="@selectedEmployee?.FirstName"></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit ReadOnly Text="@selectedEmployee?.LastName"></TextEdit>
+                        <TextInput ReadOnly Value="@selectedEmployee?.LastName"></TextInput>
                     </Field>
                 </Fields>
                 <Fields>
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@selectedEmployee?.Email"></TextEdit>
+                            <TextInput ReadOnly Value="@selectedEmployee?.Email"></TextInput>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit ReadOnly Text="@selectedEmployee?.City"></TextEdit>
+                        <TextInput ReadOnly Value="@selectedEmployee?.City"></TextInput>
                     </Field>
                 </Fields>
             </CardBody>
@@ -463,24 +462,24 @@
                                 <Field>
                                     <FieldLabel>First Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Text="@employee?.FirstName"></TextEdit>
+                                        <TextInput ReadOnly Value="@employee?.FirstName"></TextInput>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>Last Name</FieldLabel>
-                                    <TextEdit ReadOnly Text="@employee?.LastName"></TextEdit>
+                                    <TextInput ReadOnly Value="@employee?.LastName"></TextInput>
                                 </Field>
                             </Fields>
                             <Fields>
                                 <Field>
                                     <FieldLabel>Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit ReadOnly Text="@employee?.Email"></TextEdit>
+                                        <TextInput ReadOnly Value="@employee?.Email"></TextInput>
                                     </FieldBody>
                                 </Field>
                                 <Field>
                                     <FieldLabel>City</FieldLabel>
-                                    <TextEdit ReadOnly Text="@employee?.City"></TextEdit>
+                                    <TextInput ReadOnly Value="@employee?.City"></TextInput>
                                 </Field>
                             </Fields>
                         </CardBody>
@@ -502,7 +501,7 @@
                             <Field>
                                 <FieldLabel>Quantity</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit ReadOnly Text="@selectedEmployees.Count.ToString()"></TextEdit>
+                                    <TextInput ReadOnly Value="@selectedEmployees.Count.ToString()"></TextInput>
                                 </FieldBody>
                             </Field>
                         </Fields>

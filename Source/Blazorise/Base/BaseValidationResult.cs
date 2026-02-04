@@ -75,6 +75,9 @@ public abstract class BaseValidationResult : BaseComponent, IDisposable
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
     /// Gets or sets the reference to the parent validation.
     /// </summary>

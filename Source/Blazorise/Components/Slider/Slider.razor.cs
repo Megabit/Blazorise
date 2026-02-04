@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -13,50 +12,32 @@ namespace Blazorise;
 /// <summary>
 /// A slider to select a value from a given range.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
-public partial class Slider<TValue> : BaseInputComponent<TValue>
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue, TClasses, TStyles}.Value"/> property.</typeparam>
+public partial class Slider<TValue> : BaseInputComponent<TValue, SliderClasses, SliderStyles>
 {
     #region Members
 
     /// <summary>
-    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// Captured Min parameter snapshot.
     /// </summary>
-    private bool minDefined = false;
+    protected ComponentParameterInfo<TValue> paramMin;
 
     /// <summary>
-    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// Captured Max parameter snapshot.
     /// </summary>
-    private bool maxDefined = false;
+    protected ComponentParameterInfo<TValue> paramMax;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override void CaptureParameters( ParameterView parameters )
     {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
+        base.CaptureParameters( parameters );
 
-        // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
-        // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
-        minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
-        maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            await InitializeValidation();
-        }
+        parameters.TryGetParameter( Min, out paramMin );
+        parameters.TryGetParameter( Max, out paramMax );
     }
 
     /// <inheritdoc/>
@@ -66,12 +47,6 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
         builder.Append( ClassProvider.SliderValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return ValueChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -108,26 +83,12 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
         };
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-            : ExpressionFormatter.FormatLambda( ValueExpression );
-    }
-
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Value; set => Value = value; }
 
     /// <summary>
     /// Gets the string representation of the <see cref="Step"/> value.
@@ -147,35 +108,17 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.
     /// </summary>
-    protected bool MinDefined => minDefined;
+    protected bool MinDefined => paramMin.Defined;
 
     /// <summary>
     /// Indicates if <see cref="Max"/> parameter is defined.
     /// </summary>
-    protected bool MaxDefined => maxDefined;
+    protected bool MaxDefined => paramMax.Defined;
 
     /// <summary>
     /// Specifies the interval between valid values.
     /// </summary>
     [Parameter] public TValue Step { get; set; }
-
-    /// <summary>
-    /// Gets or sets the value inside the input field.
-    /// </summary>
-    [Parameter] public TValue Value { get; set; }
-
-    /// <summary>
-    /// Occurs after the value has changed.
-    /// </summary>
-    /// <remarks>
-    /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
-    /// </remarks>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the checked value.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// The minimum value to accept for this input.

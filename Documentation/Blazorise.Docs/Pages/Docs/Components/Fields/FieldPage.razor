@@ -12,7 +12,7 @@
 
 <DocsPageParagraph>
     The <Code Tag>Field</Code> component acts as a lightweight form layout wrapper that groups a label, input control, help text, and validation message into a single, consistent container.
-    It works with common Blazorise form controls such as <Code>TextEdit</Code>, <Code>Select</Code>, <Code>DateEdit</Code>, <Code>Check</Code>, <Code>MemoEdit</Code>, and optionally <Code>Button</Code>.
+    It works with common Blazorise form controls such as <Code>TextInput</Code>, <Code>Select</Code>, <Code>DateInput</Code>, <Code>Check</Code>, <Code>MemoInput</Code>, and optionally <Code>Button</Code>.
     Its structure is intentionally minimal, making it easy to build clear, predictable, and accessible form layouts.
 </DocsPageParagraph>
 
@@ -49,6 +49,10 @@
 <DocsPageParagraph>
     It is recommended to always place input components inside of a <Code>Field</Code>. That way you will keep consistent spacing,
     alignment, and arrangement between input controls across your forms.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    For accessibility, inputs render <Code>aria-invalid</Code> and <Code>aria-describedby</Code> based on validation state and help text by default. You can override them with the <Code>AriaInvalid</Code> and <Code>AriaDescribedBy</Code> parameters when you need custom associations.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -143,9 +147,21 @@
         The <Code Tag>Fields</Code> component is used to group multiple <Code Tag>Field</Code> components. Use it to build rows or columns of related fields that share layout settings and spacing.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicFieldsExample />
+        <FieldsExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicFieldsExample" />
+    <DocsPageSectionSource Code="FieldsExample" />
+</DocsPageSection>
+
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fields with Gutters">
+        You can add gutters (spacing) between individual fields within a <Code Tag>Fields</Code> container by setting the <Code>Gutter</Code> property. This helps improve readability and visual separation between related inputs.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldsGutterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldsGutterExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -196,7 +212,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Related components include <Code Tag>FieldLabel</Code>, <Code Tag>FieldBody</Code>, <Code Tag>FieldHelp</Code>, <Code Tag>TextEdit</Code>, <Code Tag>Select</Code>, and <Code Tag>Check</Code>. Together they help you build accessible and visually consistent forms.
+    Related components include <Code Tag>FieldLabel</Code>, <Code Tag>FieldBody</Code>, <Code Tag>FieldHelp</Code>, <Code Tag>TextInput</Code>, <Code Tag>Select</Code>, and <Code Tag>Check</Code>. Together they help you build accessible and visually consistent forms.
 </DocsPageParagraph>
 
 <DocsPageParagraph>

@@ -13,13 +13,13 @@
           FixedHeaderDataGridMaxHeight="250px"
           PageSize="50">
     <DataGridCommandColumn />
-    <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
-    <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" Editable />
-    <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name" Editable />
-    <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
-    <DataGridColumn Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable>
+    <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
+    <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
+    <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable />
+    <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" Editable>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+            <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@(v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
@@ -38,8 +38,8 @@
     }
 
     private Task ScrollToRow()
-         => dataGridRef.ScrollToRow(30).AsTask();
+         => dataGridRef.ScrollToRow( 30 ).AsTask();
 
     private Task ScrollToPixels()
-        => dataGridRef.ScrollToPixels(500).AsTask();
+        => dataGridRef.ScrollToPixels( 500 ).AsTask();
 }

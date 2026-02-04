@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Helpers\Blazorise.Analyzers\Blazorise.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
     <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
@@ -52,17 +53,31 @@
     <BinDocsCompiler>$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/bin/Debug/net10.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <ApiDocsIntermediatePath>$(IntermediateOutputPath)ApiDocs</ApiDocsIntermediatePath>
+  </PropertyGroup>
+
   <!--Project path for code generator-->
   <PropertyGroup>
-    <ProjectDocsCompiler>dotnet run --configuration release --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
+    <ProjectDocsCompiler>dotnet run --configuration release --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" --</ProjectDocsCompiler>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ApiDocs\**\*.cs" />
+  </ItemGroup>
 
   <!--Execute the code generator-->
   <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
     <!--Command-line for the code generator-->
     <Message Text="Generating Docs and Tests" Importance="high" />
-    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
-    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
+    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot; --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
+    <Exec Command="$(ProjectDocsCompiler) --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" Condition="!Exists('$(BinDocsCompiler)')" />
+  </Target>
+
+  <Target Name="IncludeApiDocs" BeforeTargets="CoreCompile" DependsOnTargets="CompileDocs">
+    <ItemGroup>
+      <Compile Include="$(ApiDocsIntermediatePath)\**\*.ApiDocs.cs" />
+    </ItemGroup>
   </Target>
 
   <!--This file contains any ExampleCode that is new and needs including in the build -->

@@ -134,3 +134,29 @@
         color: #576b85;
     }
 }
+
+body[data-bs-theme="dark"] {
+    .b-blog {
+        .b-blog-content {
+            h2 {
+                border-bottom-color: var(--bs-border-color);
+            }
+
+            h3 {
+                border-bottom-color: var(--bs-border-color);
+            }
+
+            p, a, li, td {
+                > code {
+                    background: var(--bs-secondary-bg);
+                }
+            }
+        }
+    }
+
+    .blog-page-section-source {
+        .btn {
+            color: var(--bs-secondary-color);
+        }
+    }
+}

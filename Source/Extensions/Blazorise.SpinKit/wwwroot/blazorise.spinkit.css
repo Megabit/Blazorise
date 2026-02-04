@@ -1,6 +1,21 @@
 ﻿:root {
+  --b-spinkit-color-primary: var(--b-theme-primary, #2196f3);
+  --b-spinkit-color-secondary: var(--b-theme-secondary, #757575);
+  --b-spinkit-color-success: var(--b-theme-success, #4caf50);
+  --b-spinkit-color-info: var(--b-theme-info, #00bcd4);
+  --b-spinkit-color-warning: var(--b-theme-warning, #ffeb3b);
+  --b-spinkit-color-danger: var(--b-theme-danger, #f44336);
+  --b-spinkit-color-light: var(--b-theme-light, #f5f5f5);
+  --b-spinkit-color-dark: var(--b-theme-dark, #424242);
+  --b-spinkit-color-link: var(--b-theme-link, #2196f3);
+  --b-spinkit-color: var(--b-spinkit-color-primary, currentColor);
+  --b-spinkit-size-xs: 16px;
+  --b-spinkit-size-sm: 24px;
+  --b-spinkit-size-md: 40px;
+  --b-spinkit-size-lg: 60px;
+  --b-spinkit-size-xl: 80px;
   --sk-size: var(--b-spinkit-size, 40px);
-  --sk-color: var(--b-spinkit-color, #333);
+  --sk-color: var(--b-spinkit-color, currentColor);
 }
 
 /* Utility class for centering */

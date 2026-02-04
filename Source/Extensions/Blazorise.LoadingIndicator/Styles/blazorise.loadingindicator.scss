@@ -1,10 +1,11 @@
 @keyframes b-loading-indicator-overlay-fadein {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  } 
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .b-loading-indicator-overlay {
@@ -33,11 +34,11 @@
 }
 
 @keyframes b-loading-indicator-blazorise-flipper {
-  100% {
-    transform: rotateY(360deg);
-  } 
+    100% {
+        transform: rotateY(360deg);
+    }
 }
 
 .b-loading-indicator-blazorise {
-  animation: b-loading-indicator-blazorise-flipper 1200ms linear infinite;
+    animation: b-loading-indicator-blazorise-flipper 1200ms linear infinite;
 }

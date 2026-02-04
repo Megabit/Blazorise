@@ -17,7 +17,7 @@
             <span class="comment">// A stream is going to be the destination stream we&#39;re writing to.</span>
             <span class="keyword">using</span> ( <span class="keyword">var</span> stream = <span class="keyword">new</span> MemoryStream() )
             {
-                <span class="comment">// Here we&#39;re telling the FileEdit where to write the upload result</span>
+                <span class="comment">// Here we&#39;re telling the FileInput where to write the upload result</span>
                 <span class="keyword">await</span> e.File.WriteToStreamAsync( stream );
 
                 <span class="comment">// Once we reach this line it means the file is fully uploaded.</span>

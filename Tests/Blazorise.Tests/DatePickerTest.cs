@@ -14,12 +14,12 @@ public class DatePickerTest
         var edit = new DatePicker<DateTime>();
 
         // test
-        edit.Date = new( 2020, 4, 12 );
+        edit.Value = new( 2020, 4, 12 );
 
         // validate
-        Assert.Equal( 2020, edit.Date.Year );
-        Assert.Equal( 4, edit.Date.Month );
-        Assert.Equal( 12, edit.Date.Day );
+        Assert.Equal( 2020, edit.Value.Year );
+        Assert.Equal( 4, edit.Value.Month );
+        Assert.Equal( 12, edit.Value.Day );
     }
 
     [Fact]
@@ -29,12 +29,12 @@ public class DatePickerTest
         var edit = new DatePicker<DateTimeOffset>();
 
         // test
-        edit.Date = new( new DateTime( 2020, 4, 12 ), new( 0, 0, 0 ) );
+        edit.Value = new( new DateTime( 2020, 4, 12 ), new( 0, 0, 0 ) );
 
         // validate
-        Assert.Equal( 2020, edit.Date.Year );
-        Assert.Equal( 4, edit.Date.Month );
-        Assert.Equal( 12, edit.Date.Day );
+        Assert.Equal( 2020, edit.Value.Year );
+        Assert.Equal( 4, edit.Value.Month );
+        Assert.Equal( 12, edit.Value.Day );
     }
 
     [Fact]
@@ -44,10 +44,10 @@ public class DatePickerTest
         var edit = new DatePicker<DateTime?>();
 
         // test
-        edit.Date = null;
+        edit.Value = null;
 
         // validate
-        Assert.Null( edit.Date );
+        Assert.Null( edit.Value );
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class DatePickerTest
         var edit = new MockDatePicker<int>();
 
         // test
-        edit.Date = 100;
+        edit.Value = 100;
 
         // validate
         Exception ex = Assert.Throws<InvalidOperationException>( () => edit.TextValue );
@@ -75,7 +75,7 @@ public class DatePickerTest
 
         // validate
         Assert.True( result.Success );
-        Assert.Equal( expected, result.ParsedValue[0] );
+        Assert.Equal( expected, result.ParsedValue );
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class DatePickerTest
 
         // validate
         Assert.False( result.Success );
-        Assert.Equal( default, result.ParsedValue[0] );
+        Assert.Equal( default, result.ParsedValue );
     }
 
     [Fact]
@@ -117,7 +117,7 @@ public class DatePickerTest
         edit.OnChange( new() { Value = expected } );
 
         // validate
-        Assert.Equal( expected, edit.Date );
+        Assert.Equal( expected, edit.Value );
     }
 
     [Fact]
@@ -130,7 +130,7 @@ public class DatePickerTest
         edit.OnChange( new() );
 
         // validate
-        Assert.Null( edit.Date );
+        Assert.Null( edit.Value );
     }
 
     [Fact]
@@ -143,7 +143,7 @@ public class DatePickerTest
         edit.OnChange( null );
 
         // validate
-        Assert.Null( edit.Date );
+        Assert.Null( edit.Value );
     }
 
     [Fact]
@@ -157,7 +157,7 @@ public class DatePickerTest
         edit.OnChange( new() { Value = expected } );
 
         // validate
-        Assert.Equal( expected, edit.Date );
+        Assert.Equal( expected, edit.Value );
     }
 
     [Fact]
@@ -170,7 +170,7 @@ public class DatePickerTest
         edit.OnChange( new() );
 
         // validate
-        Assert.Null( edit.Date );
+        Assert.Null( edit.Value );
     }
 
     [Fact]
@@ -183,7 +183,7 @@ public class DatePickerTest
         edit.OnChange( null );
 
         // validate
-        Assert.Null( edit.Date );
+        Assert.Null( edit.Value );
     }
 
     [Fact]
@@ -197,7 +197,7 @@ public class DatePickerTest
         edit.OnChange( new() { Value = expected } );
 
         // validate
-        Assert.Equal( expected, edit.Date );
+        Assert.Equal( expected, edit.Value );
     }
 
     [Fact]
@@ -210,7 +210,7 @@ public class DatePickerTest
         edit.OnChange( new() );
 
         // validate
-        Assert.Null( edit.Date );
+        Assert.Null( edit.Value );
     }
 
     [Fact]
@@ -223,7 +223,7 @@ public class DatePickerTest
         edit.OnChange( null );
 
         // validate
-        Assert.Null( edit.Date );
+        Assert.Null( edit.Value );
     }
 
     [Fact]
@@ -236,10 +236,10 @@ public class DatePickerTest
         // test
         edit.Min = new DateTime( 2020, 3, 1 );
         edit.Max = new DateTime( 2020, 3, 30 );
-        edit.Date = date;
+        edit.Value = date;
 
         // validate
-        Assert.Equal( date, edit.Date );
+        Assert.Equal( date, edit.Value );
     }
 
     /* todo: turn tests back on after bug fixed.

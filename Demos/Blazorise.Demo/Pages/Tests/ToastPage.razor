@@ -14,7 +14,7 @@
                                 Placement
                             </FieldLabel>
                             <FieldBody>
-                                <Select @bind-SelectedValue="@toasterPlacement">
+                                <Select @bind-Value="@toasterPlacement">
                                     <SelectItem Value="ToasterPlacement.Top">Top</SelectItem>
                                     <SelectItem Value="ToasterPlacement.TopStart">TopStart</SelectItem>
                                     <SelectItem Value="ToasterPlacement.TopEnd">TopEnd</SelectItem>
@@ -31,7 +31,7 @@
                                 Animation
                             </FieldLabel>
                             <FieldBody>
-                                <Switch @bind-Checked="@animation">Animation</Switch>
+                                <Switch @bind-Value="@animation">Animation</Switch>
                             </FieldBody>
                         </Field>
                     </Column>
@@ -41,7 +41,7 @@
                                 Animation Duration (ms)
                             </FieldLabel>
                             <FieldBody>
-                                <NumericEdit @bind-Value="animationDuration" />
+                                <NumericInput @bind-Value="animationDuration" />
                             </FieldBody>
                         </Field>
                     </Column>
@@ -51,7 +51,7 @@
                                 Autohide
                             </FieldLabel>
                             <FieldBody>
-                                <Switch @bind-Checked="@autohide">Autohide</Switch>
+                                <Switch @bind-Value="@autohide">Autohide</Switch>
                             </FieldBody>
                         </Field>
                     </Column>
@@ -61,7 +61,7 @@
                                 Autohide Delay (ms)
                             </FieldLabel>
                             <FieldBody>
-                                <NumericEdit @bind-Value="autohideDelay" />
+                                <NumericInput @bind-Value="autohideDelay" />
                             </FieldBody>
                         </Field>
                     </Column>

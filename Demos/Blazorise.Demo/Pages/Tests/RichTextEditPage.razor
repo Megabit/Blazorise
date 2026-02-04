@@ -1,4 +1,4 @@
-﻿@page "/tests/richtextedit"
+@page "/tests/richtextedit"
 
 <Row>
     <Column>
@@ -14,7 +14,7 @@
                                 Options
                             </FieldLabel>
                             <FieldBody>
-                                <Switch @bind-Checked="@readOnly">Read only</Switch>
+                                <Switch @bind-Value="@readOnly">Read only</Switch>
                             </FieldBody>
                         </Field>
                         <Field>
@@ -30,6 +30,7 @@
                 <CardBody Padding="Padding.Is0.OnAll">
                     <RichTextEdit @ref="richTextEditRef"
                                   ConfigureQuillJsMethod="blazoriseDemo.configureQuillJs"
+                                  @bind-Value="contentAsHtml"
                                   ContentChanged="@OnContentChanged"
                                   PlaceHolder="Type your post here..."
                                   ReadOnly="@readOnly"
@@ -39,13 +40,6 @@
                                   EditorFocus="@(() => lastEvent = "Focus" )"
                                   ToolbarPosition="Placement.Bottom"
                                   UseResize>
-                        <Editor>
-                            <p><b>Hello </b><i>world</i>!</p>
-                            <p><br></p>
-                            <p>
-                                based on: <a href="https://quilljs.com/">Quill</a>
-                            </p>
-                        </Editor>
                         <Toolbar>
                             <RichTextEditToolbarGroup>
                                 <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
@@ -136,11 +130,7 @@
                     <AlertMessage>Note:</AlertMessage>
                     <AlertDescription>Start typing and change format by key bindings or by selecting the text</AlertDescription>
                 </Alert>
-                <RichTextEdit @ref="richTextEditRef2" Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" ContentChanged="OnContentChanged2">
-                    <Editor>
-                        @((MarkupString)contentFromCode)
-                    </Editor>
-                </RichTextEdit>
+                <RichTextEdit @ref="richTextEditRef2" Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" @bind-Value="contentFromCode" />
             </CardBody>
             <CardFooter>
                 <Button Clicked="OnUpdateContent">Update content</Button>
@@ -159,8 +149,68 @@
         </Card>
     </Column>
 </Row>
-<Modal @ref="modalRef">
-    <ModalContent Size="ModalSize.Default" Centered>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Validation</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Validate RichTextEdit content using Snow and Bubble themes.</CardText>
+            </CardBody>
+            <CardBody>
+                <Validations @ref="richTextEditValidations" Mode="ValidationMode.Manual">
+                    <Fields>
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                            <Field ColumnSize="ColumnSize.IsHalf">
+                                <FieldLabel RequiredIndicator>Snow message</FieldLabel>
+                                <FieldBody>
+                                    <RichTextEdit Theme="RichTextEditTheme.Snow" @bind-Value="validationSnowContent" PlaceHolder="Type your message here...">
+                                        <Toolbar>
+                                            <RichTextEditToolbarGroup>
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
+                                            </RichTextEditToolbarGroup>
+                                        </Toolbar>
+                                        <Feedback>
+                                            <ValidationError>Please enter a message.</ValidationError>
+                                        </Feedback>
+                                    </RichTextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                            <Field ColumnSize="ColumnSize.IsHalf">
+                                <FieldLabel RequiredIndicator>Bubble message</FieldLabel>
+                                <FieldBody>
+                                    <RichTextEdit Theme="RichTextEditTheme.Bubble" @bind-Value="validationBubbleContent" PlaceHolder="Type your message here...">
+                                        <Toolbar>
+                                            <RichTextEditToolbarGroup>
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
+                                            </RichTextEditToolbarGroup>
+                                        </Toolbar>
+                                        <Feedback>
+                                            <ValidationError>Please enter a message.</ValidationError>
+                                        </Feedback>
+                                    </RichTextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                    </Fields>
+                </Validations>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@ValidateRichTextEdit">Validate</Button>
+                <Button Color="Color.Secondary" Clicked="@ClearRichTextEditValidation">Clear</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Modal @ref="modalRef" Centered Size="ModalSize.Default">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>Saved content</ModalTitle>
             <CloseButton />
@@ -169,7 +219,7 @@
             @((MarkupString)savedContent)
         </ModalBody>
         <ModalFooter>
-            <Button Color="Color.Primary" Clicked="(() => modalRef.Hide())">Ok</Button>
+            <Button Color="Color.Primary" Clicked="( () => modalRef.Hide() )">Ok</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>
@@ -178,13 +228,16 @@
     private Modal modalRef;
     private RichTextEdit richTextEditRef;
     private RichTextEdit richTextEditRef2;
+    private Validations richTextEditValidations;
     private bool readOnly;
-    private string contentAsHtml;
+    private string contentAsHtml = "<p><b>Hello </b><i>world</i>!</p><p><br></p><p>based on: <a href=\"https://quilljs.com/\">Quill</a></p>";
     private string contentAsDeltaJson;
     private string contentAsText;
     private string savedContent;
     private string contentFromCode;
     private string lastEvent;
+    private string validationSnowContent;
+    private string validationBubbleContent;
 
     protected Task OnUpdateContent()
     {
@@ -195,20 +248,27 @@
 
     public async Task OnContentChanged()
     {
-        contentAsHtml = await richTextEditRef.GetHtmlAsync();
         contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
         contentAsText = await richTextEditRef.GetTextAsync();
     }
 
-    public async Task OnContentChanged2()
-    {
-        contentFromCode = await richTextEditRef2.GetHtmlAsync();
-    }
-
     public async Task OnSave()
     {
-        savedContent = await richTextEditRef.GetHtmlAsync();
+        savedContent = contentAsHtml;
         await modalRef.Show();
         await richTextEditRef.ClearAsync();
+    }
+
+    private async Task ValidateRichTextEdit()
+    {
+        await richTextEditValidations.ValidateAll();
+    }
+
+    private async Task ClearRichTextEditValidation()
+    {
+        validationSnowContent = string.Empty;
+        validationBubbleContent = string.Empty;
+
+        await richTextEditValidations.ClearAll();
     }
 }

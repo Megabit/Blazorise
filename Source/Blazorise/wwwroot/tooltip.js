@@ -1,6 +1,6 @@
-import "./vendors/tippy.js?v=1.8.10.0";
-import "./vendors/popper.js?v=1.8.10.0";
-import { getRequiredElement } from "./utilities.js?v=1.8.10.0";
+import "./vendors/tippy.js?v=2.0.0.0";
+import "./vendors/popper.js?v=2.0.0.0";
+import { getRequiredElement } from "./utilities.js?v=2.0.0.0";
 
 const _instances = [];
 
@@ -29,6 +29,7 @@ export function initialize(element, elementId, options) {
         zIndex: options.zIndex || 9999,
         appendTo: appendTo,
         delay: [options.delay.show, options.delay.hide],
+        aria: { content: "describedby" },
     };
 
     const alwaysActiveOptions = options.alwaysActive

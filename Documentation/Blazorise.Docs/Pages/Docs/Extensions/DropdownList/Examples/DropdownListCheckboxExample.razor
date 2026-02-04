@@ -1,10 +1,10 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<DropdownList TItem="Country" TValue="string"
+<DropdownList TItem="Country" TValue="IReadOnlyList<string>"
               Data="@Countries"
-              TextField="@((item)=>item.Name)"
-              ValueField="@((item)=>item.Iso)"
-              @bind-SelectedValues="@selectedDropValues"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              @bind-Value="@selectedDropValues"
               SelectionMode="DropdownListSelectionMode.Checkbox"
               Color="Color.Primary"
               MaxMenuHeight="200px">
@@ -16,13 +16,13 @@
         Selected values: @(selectedDropValues is not null ? string.Join( ',', selectedDropValues ) : "");
     </FieldBody>
     <FieldBody ColumnSize="ColumnSize.Is12">
-        Selected texts: @(selectedDropValues is not null 
-                        ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty )) 
-                        : string.Empty )
+        Selected texts: @(selectedDropValues is not null
+            ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty ))
+            : string.Empty )
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -34,5 +34,4 @@
     }
 
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { "AM", "AF" };
-
 }

@@ -11,7 +11,7 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseTextEdit()
+            .AddBlazoriseTextInput()
             .AddBlazoriseUtilities()
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();
@@ -73,14 +73,14 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public Task MinLength_0_ShouldShowOptions_OnFocus()
+    public Task MinSearchLength_0_ShouldShowOptions_OnFocus()
     {
-        return TestMinLen0ShowsOptions<AutocompleteReadDataComponent>();
+        return TestMinSearchLength0ShowsOptions<AutocompleteReadDataComponent>();
     }
 
     [Fact]
-    public Task MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
+    public Task MinSearchLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
     {
-        return TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteReadDataComponent>();
+        return TestMinSearchLengthBiggerThen0DoesNotShowOptions<AutocompleteReadDataComponent>();
     }
 }

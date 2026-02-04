@@ -63,6 +63,8 @@ div.developers-picker button:hover {
     width: 100%;
 }
 
-.EasyMDEContainer.is-invalid ~ .invalid-feedback {
-    display: block;
+body[data-bs-theme="dark"] {
+    .text-price-color-community {
+        color: var(--bs-secondary-color);
+    }
 }

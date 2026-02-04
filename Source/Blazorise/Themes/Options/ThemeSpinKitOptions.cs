@@ -6,9 +6,9 @@
 public record ThemeSpinKitOptions
 {
     /// <summary>
-    /// SpinKit color.
+    /// SpinKit color variant.
     /// </summary>
-    public string Color { get; set; }
+    public Color Color { get; set; } = Blazorise.Color.Default;
 
     /// <summary>
     /// SpinKit size.

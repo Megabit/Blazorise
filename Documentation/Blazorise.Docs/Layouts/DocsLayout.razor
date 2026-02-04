@@ -29,9 +29,9 @@
                                           Filter="AutocompleteFilter.Contains"
                                           CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0)"
                                           SelectedValueChanged="@ComponentSearchSelectedValueChanged">
-                                <NotFoundContent>
+                                <NotFoundTemplate>
                                     Sorry... @context was not found! :(
-                                </NotFoundContent>
+                                </NotFoundTemplate>
                             </Autocomplete>
                         </BarItem>
                         <BarItem>
@@ -73,6 +73,11 @@
                             </BarLink>
                         </BarItem>
                         <BarItem>
+                            <BarLink To="docs/migration">
+                                <BarIcon IconName="IconName.Sync" /> Migration
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
                             <BarLink To="docs/usage/licensing/register-product-token">
                                 <BarIcon IconName="IconName.Key" /> Licensing
                             </BarLink>
@@ -100,16 +105,16 @@
                                     <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/collapse">Collapse</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/color-edit">Color Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/color-input">Color Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/color-picker">Color Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/date-edit">Date Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/date-input">Date Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/date-picker">Date Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/divider">Divider</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/drag-drop">Drag Drop</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/dropdown">Dropdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/field">Field</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/figure">Figure</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/file-edit">File Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/file-input">File Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/file-picker">File Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/focus-trap">FocusTrap</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/highlighter">Highlighter</BarDropdownItem>
@@ -119,10 +124,10 @@
                                     <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/list-group">List Group</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/input-mask">Input Mask</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/memo-edit">Memo Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/memo-input">Memo Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/offcanvas">Offcanvas</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/numeric-edit">Numeric Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/numeric-input">Numeric Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric-picker">Numeric Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/progress">Progress</BarDropdownItem>
@@ -130,21 +135,17 @@
                                     <BarDropdownItem To="docs/components/rating">Rating</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/repeater">Repeater</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/select">Select</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/skeleton" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>Skeleton</DocsNewFeatureBadge>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/skeleton">Skeleton</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/slider">Slider</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/step">Step</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/switch">Switch</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/tab">Tab</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/table">Table</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/time-edit">Time Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/time-input">Time Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/time-picker">Time Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/toast" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>Toast</DocsNewFeatureBadge>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/toast">Toast</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/tooltip">Tooltip</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/text-edit">Text Edit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/text-input">Text Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/typography">Typography</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/validation">Validation</BarDropdownItem>
                                 </BarDropdownMenu>
@@ -261,13 +262,9 @@
                                     <BarDropdownItem To="docs/extensions/lottie-animation">LottieAnimation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/pdfviewer" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>PdfViewer</DocsNewFeatureBadge>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pdfviewer">PdfViewer</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/routertabs" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>RouterTabs</DocsNewFeatureBadge>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/routertabs">RouterTabs</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/scheduler" Flex="Flex.JustifyContent.Between">
                                         <DocsNewFeatureBadge>Scheduler</DocsNewFeatureBadge>
                                     </BarDropdownItem>
@@ -296,9 +293,7 @@
                                         <DocsNewFeatureBadge>Offcanvas Provider</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/services/page-progress-provider">PageProgress Provider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/toast-provider" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>Toast Provider</DocsNewFeatureBadge>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/toast-provider">Toast Providers</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -309,11 +304,13 @@
                                     Helpers
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/css-grid" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>CSS Grid</DocsNewFeatureBadge>
+                                    <BarDropdownItem To="docs/helpers/utilities/border">Border</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/css-grid">
+                                        CSS Grid
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/column-size">Column Size</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/display">Display</BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Enums</BarDropdownToggle>
                                         <BarDropdownMenu>
@@ -336,13 +333,23 @@
                                             <BarDropdownItem To="docs/helpers/enums/validation">Validation</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/helpers/localization">Localization</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/object-fit" Flex="Flex.JustifyContent.Between">
-                                        <DocsNewFeatureBadge>Object Fit</DocsNewFeatureBadge>
+                                    <BarDropdownItem To="docs/helpers/utilities/flex">Flex</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/gutters" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Gutters</DocsNewFeatureBadge>
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/localization">Localization</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/object-fit">
+                                        Object Fit
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/overflow">Overflow</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/position">Position</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/sizes">Sizes</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities">Utilities</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/sizing">Sizing</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/spacing">Spacing</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/styling" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Styling</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -354,19 +361,24 @@
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/specifications">Introduction</BarDropdownItem>
                                     <BarDropdownItem To="docs/specifications/autocomplete">Autocomplete</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/datagrid">DataGrid</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/treeview">TreeView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/charts">Charts</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/scheduler">Scheduler</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarMetaMenuVisible">
                                 <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.QuestionCircle" /> Meta
-                                </BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
-                                    <BarDropdownItem To="license">License</BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
+                                <BarIcon IconName="IconName.QuestionCircle" /> Meta
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="docs/mcp">MCP Server</BarDropdownItem>
+                                <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
+                                <BarDropdownItem To="license">License</BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
                         </BarItem>
                     </BarStart>
                 </BarMenu>

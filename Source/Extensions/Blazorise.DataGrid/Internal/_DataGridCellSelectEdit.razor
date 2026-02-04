@@ -1,0 +1,76 @@
+@typeparam TItem
+@inherits ComponentBase
+@if ( Column.Multiple )
+{
+    <Select TValue="object[]" ElementId="@elementId" Value="@GetSelectedValues()" ValueChanged="@OnSelectedValuesChanged" ValueExpression="@(() => CellValue as string[] )"
+            Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Multiple Attributes="@Column.Attributes">
+        <ChildContent>
+            @{
+                var defaultText = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemText : Column.DefaultItemText;
+                var defaultValue = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemValue : Column.DefaultItemValue;
+                var defaultDisabled = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemDisabled : Column.DefaultItemDisabled;
+                var defaultHidden = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemHidden : Column.DefaultItemHidden;
+            }
+
+            @if ( defaultText is not null )
+            {
+                <SelectItem @key="@defaultValue" Value="@defaultValue" Disabled="@defaultDisabled" Hidden="@defaultHidden">
+                    @defaultText
+                </SelectItem>
+            }
+            @if ( Column.Data is not null && selectItems is not null )
+            {
+                @foreach ( var selectItem in selectItems )
+                {
+                    @itemFragment( selectItem )
+                }
+            }
+        </ChildContent>
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </Select>
+}
+else
+{
+    <Select TValue="object" ElementId="@elementId" Value="@CellValue" ValueChanged="@OnSelectedValueChanged" ValueExpression="@(() => CellValue )"
+            Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Attributes="@Column.Attributes">
+        <ChildContent>
+            @{
+                var defaultText = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemText : Column.DefaultItemText;
+                var defaultValue = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemValue : Column.DefaultItemValue;
+                var defaultDisabled = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemDisabled : Column.DefaultItemDisabled;
+                var defaultHidden = CellSection == DataGridCellSection.Filter ? Column.FilterDefaultItemHidden : Column.DefaultItemHidden;
+            }
+
+            @if ( defaultText is not null )
+            {
+                <SelectItem @key="@defaultValue" Value="@defaultValue" Disabled="@defaultDisabled" Hidden="@defaultHidden">
+                    @defaultText
+                </SelectItem>
+            }
+            @if ( Column.Data is not null && selectItems is not null )
+            {
+                @foreach ( var selectItem in selectItems )
+                {
+                    @itemFragment( selectItem )
+                }
+            }
+        </ChildContent>
+        <Feedback>
+            @if ( ShowValidationFeedback )
+            {
+                <ValidationError />
+            }
+        </Feedback>
+    </Select>
+}
+@code {
+    private RenderFragment<SelectItem> itemFragment => item => __builder =>
+    {
+        <SelectItem @key="@item.Value" Value="@item.Value" Disabled="@item.Disabled">@item.Text</SelectItem>
+    };
+}

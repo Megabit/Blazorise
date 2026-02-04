@@ -11,13 +11,13 @@ public class PaginationContext<TItem>
 {
     #region Members
 
-    private event CurrentPageChangedEventHandler CurrentPageChanged;
+    private event PageChangedEventHandler PageChanged;
 
-    public delegate void CurrentPageChangedEventHandler( int value );
+    public delegate void PageChangedEventHandler( int value );
 
-    private event CurrentPageSizeChangedEventHandler CurrentPageSizeChanged;
+    private event PageSizeChangedEventHandler PageSizeChanged;
 
-    public delegate void CurrentPageSizeChangedEventHandler( int value );
+    public delegate void PageSizeChangedEventHandler( int value );
 
     private event TotalItemsChangedEventHandler TotalItemsChanged;
 
@@ -27,9 +27,9 @@ public class PaginationContext<TItem>
 
     private int lastVisiblePage;
 
-    private int currentPage = 1;
+    private int page = 1;
 
-    private int currentPageSize = 10;
+    private int pageSize = 10;
 
     private int? totalItems;
 
@@ -48,34 +48,34 @@ public class PaginationContext<TItem>
 
     #region Methods
 
-    public void SubscribeOnPageChanged( CurrentPageChangedEventHandler listener )
+    public void SubscribeOnPageChanged( PageChangedEventHandler listener )
     {
-        CurrentPageChanged += listener;
+        PageChanged += listener;
     }
 
-    public void UnsubscribeOnPageChanged( CurrentPageChangedEventHandler listener )
+    public void UnsubscribeOnPageChanged( PageChangedEventHandler listener )
     {
-        CurrentPageChanged -= listener;
+        PageChanged -= listener;
     }
 
-    public void TriggerCurrentPageChange( int value )
+    public void TriggerPageChange( int value )
     {
-        CurrentPageChanged?.Invoke( value );
+        PageChanged?.Invoke( value );
     }
 
-    public void SubscribeOnPageSizeChanged( CurrentPageSizeChangedEventHandler listener )
+    public void SubscribeOnPageSizeChanged( PageSizeChangedEventHandler listener )
     {
-        CurrentPageSizeChanged += listener;
+        PageSizeChanged += listener;
     }
 
-    public void UnsubscribeOnPageSizeChanged( CurrentPageSizeChangedEventHandler listener )
+    public void UnsubscribeOnPageSizeChanged( PageSizeChangedEventHandler listener )
     {
-        CurrentPageSizeChanged -= listener;
+        PageSizeChanged -= listener;
     }
 
-    public void TriggerCurrentPageSizeChange( int value )
+    public void TriggerPageSizeChange( int value )
     {
-        CurrentPageSizeChanged?.Invoke( value );
+        PageSizeChanged?.Invoke( value );
     }
 
     public void SubscribeOnTotalItemsChanged( TotalItemsChangedEventHandler listener )
@@ -100,8 +100,8 @@ public class PaginationContext<TItem>
     {
         var step = (int)Math.Floor( MaxPaginationLinks / 2d );
 
-        var leftButton = CurrentPage - step;
-        var rightButton = CurrentPage + step;
+        var leftButton = Page - step;
+        var rightButton = Page + step;
 
         if ( leftButton <= 1 )
         {
@@ -132,15 +132,15 @@ public class PaginationContext<TItem>
     /// <summary>
     /// Gets or sets the current page
     /// </summary>
-    public int CurrentPage
+    public int Page
     {
-        get => currentPage;
+        get => page;
         set
         {
-            if ( currentPage != value )
+            if ( page != value )
             {
-                currentPage = value;
-                TriggerCurrentPageChange( value );
+                page = value;
+                TriggerPageChange( value );
             }
         }
     }
@@ -152,10 +152,10 @@ public class PaginationContext<TItem>
     {
         get
         {
-            var lastPage = Math.Max( (int)Math.Ceiling( ( TotalItems ?? 0 ) / (double)currentPageSize ), 1 );
+            var lastPage = Math.Max( (int)Math.Ceiling( ( TotalItems ?? 0 ) / (double)pageSize ), 1 );
 
-            if ( CurrentPage > lastPage )
-                CurrentPage = lastPage;
+            if ( Page > lastPage )
+                Page = lastPage;
 
             return lastPage;
         }
@@ -190,15 +190,15 @@ public class PaginationContext<TItem>
     /// <summary>
     /// Gets or sets the current page size
     /// </summary>
-    public int CurrentPageSize
+    public int PageSize
     {
-        get => currentPageSize;
+        get => pageSize;
         set
         {
-            if ( currentPageSize != value )
+            if ( pageSize != value )
             {
-                currentPageSize = value;
-                TriggerCurrentPageSizeChange( value );
+                pageSize = value;
+                TriggerPageSizeChange( value );
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid/fixed-header"
+@page "/tests/datagrid/fixed-header"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -17,7 +17,7 @@
                           FixedHeader
                           FixedHeaderDataGridHeight="250px">
                     <DataGridColumns>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="Width.Px( 60 )" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable />
@@ -30,12 +30,12 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof( Employee.IsActive )" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                <Check TValue="bool" Value="context.Item.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>

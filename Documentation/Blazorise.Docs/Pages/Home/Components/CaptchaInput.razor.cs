@@ -138,19 +138,9 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
     #region Properties
 
-    /// <inheritdoc/>
-    protected override bool InternalValue { get => Value; set => Value = value; }
-
     [Inject] IOptions<AppSettings> AppSettings { get; set; }
+
     [Inject] IHttpClientFactory HttpClientFactory { get; set; }
-
-    [Parameter] public bool Value { get; set; }
-    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the captcha valid value.
-    /// </summary>
-    [Parameter] public Expression<Func<bool>> ValueExpression { get; set; }
 
     #endregion
 }

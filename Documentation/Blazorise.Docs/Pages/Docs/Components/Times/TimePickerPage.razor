@@ -15,8 +15,8 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    <Code>TimePicker</Code> is based on a <Blazorise.Link To="https://flatpickr.js.org/">flatpickr</Blazorise.Link> time picker
-    and as such is not a native time input element. That means that unlike <Code>TimeEdit</Code> which will render <Code>type="time"</Code>,
+    <Code>TimePicker</Code> is based on a <Anchor To="https://flatpickr.js.org/">flatpickr</Anchor> time picker
+    and as such is not a native time input element. That means that unlike <Code>TimeInput</Code> which will render <Code>type="time"</Code>,
     <Code>TimePicker</Code> will render <Code>type="text"</Code> in the DOM.
 </DocsPageParagraph>
 
@@ -29,13 +29,13 @@
         In the following example, the Blazorise TimePicker is easily set up and bound to a value by setting the <Code>@@bind-</Code> directive.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicTimePickerExample />
+        <TimePickerBasicExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicTimePickerExample" />
+    <DocsPageSectionSource Code="TimePickerBasicExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="DateTime example">
+    <DocsPageSectionHeader Title="With DateTime">
         In the following example, the Blazorise TimePicker component is easily configured to bind with a <Code>DateTime?</Code> type, demonstrating its versatility.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -45,7 +45,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Add icon">
+    <DocsPageSectionHeader Title="Add Icon">
         To add icon you can combine <Code>TimePicker</Code> with an <Code>Addon</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -59,13 +59,13 @@
         To always show the time menu you just need to set <Code>Inline</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <InlineTimePickerExample />
+        <TimePickerInlineExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="InlineTimePickerExample" />
+    <DocsPageSectionSource Code="TimePickerInlineExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Non Static example">
+    <DocsPageSectionHeader Title="Non Static Menu">
         <Paragraph>
             By default, the time menu will position statically. This means that it will also keep its position relative to the page when you scroll.
         </Paragraph>
@@ -101,6 +101,21 @@
         <TimePickerDefaultTimesExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TimePickerDefaultTimesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Enable Seconds">
+        <Paragraph>
+            By default, the time picker does not include seconds in the selection. This simplifies the input for use cases where precision to the second is not required.
+        </Paragraph>
+        <Paragraph>
+            If you want to enable seconds in the time picker, you should assign the value <Code>true</Code> to the <Code>Seconds</Code> parameter.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerSecondsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerSecondsExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(TimePicker<>)]" />

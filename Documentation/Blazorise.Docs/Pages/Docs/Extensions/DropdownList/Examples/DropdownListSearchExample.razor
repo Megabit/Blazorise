@@ -1,0 +1,35 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DropdownList TItem="Country" TValue="string"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              @bind-Value="@selectedDropValue"
+              Color="Color.Primary"
+              MaxMenuHeight="200px"
+              Filterable>
+    Select item
+</DropdownList>
+
+<Field Horizontal>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected item: @selectedDropValue
+    </FieldBody>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected text: @Countries?.FirstOrDefault( x => x.Iso == @selectedDropValue )?.Name
+    </FieldBody>
+</Field>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    string selectedDropValue { get; set; } = "CN";
+}

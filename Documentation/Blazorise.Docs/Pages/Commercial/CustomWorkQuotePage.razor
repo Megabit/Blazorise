@@ -24,11 +24,11 @@
                                 <Field ColumnSize="ColumnSize.Is12">
                                     <FieldLabel>Company</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.Company">
+                                        <TextInput @bind-Value="@InputModel.Company">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -39,11 +39,11 @@
                                 <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                                     <FieldLabel>Full Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.FullName">
+                                        <TextInput @bind-Value="@InputModel.FullName">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -51,11 +51,11 @@
                                 <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                                     <FieldLabel>Work Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit Role="TextRole.Email" @bind-Text="@InputModel.Email">
+                                        <TextInput Role="TextRole.Email" @bind-Value="@InputModel.Email">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -66,7 +66,7 @@
                                 <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                                     <FieldLabel>Engagement</FieldLabel>
                                     <FieldBody>
-                                        <Select TValue="string" @bind-SelectedValue="@InputModel.Engagement">
+                                        <Select TValue="string" @bind-Value="@InputModel.Engagement">
                                             <ChildContent>
                                                 @foreach ( var option in EngagementOptions )
                                                 {
@@ -84,7 +84,7 @@
                             <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                                 <FieldLabel>Budget Range (optional)</FieldLabel>
                                 <FieldBody>
-                                    <Select TValue="string" @bind-SelectedValue="@InputModel.BudgetRange">
+                                    <Select TValue="string" @bind-Value="@InputModel.BudgetRange">
                                         <ChildContent>
                                             @foreach ( var option in BudgetOptions )
                                             {
@@ -101,11 +101,11 @@
                                 <Field ColumnSize="ColumnSize.Is8.OnDesktop">
                                     <FieldLabel>Request Title</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.Title" Placeholder="Short description (e.g., DataGrid grouping export improvements)">
+                                        <TextInput @bind-Value="@InputModel.Title" Placeholder="Short description (e.g., DataGrid grouping export improvements)">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -113,11 +113,11 @@
                                 <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                     <FieldLabel>Target Timeline</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.Timeline" Placeholder="e.g., 2–4 weeks / by 15 Jan">
+                                        <TextInput @bind-Value="@InputModel.Timeline" Placeholder="e.g., 2–4 weeks / by 15 Jan">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -127,7 +127,7 @@
                             <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                                 <FieldLabel>Upstream preference (optional)</FieldLabel>
                                 <FieldBody>
-                                    <Select TValue="string" @bind-SelectedValue="@InputModel.UpstreamPreference">
+                                    <Select TValue="string" @bind-Value="@InputModel.UpstreamPreference">
                                         <ChildContent>
                                             @foreach ( var option in UpstreamOptions )
                                             {
@@ -159,22 +159,20 @@
                             <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                 <FieldLabel>Blazorise version (optional)</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@InputModel.BlazoriseVersion" Placeholder="e.g., 2.x">
-                                    </TextEdit>
+                                    <TextInput @bind-Value="@InputModel.BlazoriseVersion" Placeholder="e.g., 2.x">
+                                    </TextInput>
                                 </FieldBody>
                             </Field>
                             <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                 <FieldLabel>.NET version (optional)</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@InputModel.DotNetVersion" Placeholder="e.g., .NET 8">
-                                    </TextEdit>
+                                    <TextInput @bind-Value="@InputModel.DotNetVersion" Placeholder="e.g., .NET 8" />
                                 </FieldBody>
                             </Field>
                             <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                 <FieldLabel>CSS providers (optional)</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@InputModel.CssProviders" Placeholder="e.g., Bootstrap 5, Tailwind">
-                                    </TextEdit>
+                                    <TextInput @bind-Value="@InputModel.CssProviders" Placeholder="e.g., Bootstrap 5, Tailwind" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -183,8 +181,7 @@
                             <Field ColumnSize="ColumnSize.Is12">
                                 <FieldLabel>Dependencies (optional)</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@InputModel.Dependencies" Placeholder="APIs/libraries, browser constraints, or links to sample code/contracts">
-                                    </TextEdit>
+                                    <TextInput @bind-Value="@InputModel.Dependencies" Placeholder="APIs/libraries, browser constraints, or links to sample code/contracts" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -194,11 +191,11 @@
                                 <Field ColumnSize="ColumnSize.Is12">
                                     <FieldLabel>Details</FieldLabel>
                                     <FieldBody>
-                                        <MarkdownInput @bind-Value="@InputModel.Details" MinHeight="280px">
+                                        <Markdown @bind-Value="@InputModel.Details" MinHeight="280px" UploadImage="false">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </MarkdownInput>
+                                        </Markdown>
                                     </FieldBody>
                                 </Field>
                             </Validation>

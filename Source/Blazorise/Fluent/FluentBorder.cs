@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent border builders.
 /// </summary>
-public interface IFluentBorder
+public interface IFluentBorder : IFluentUtilityTarget<IFluentBorder>
 {
     /// <summary>
     /// Builds the classnames based on border rules.
@@ -227,7 +227,6 @@ public interface IFluentBorderWithAll :
 /// <summary>
 /// Represents a single border rule definition used by the fluent border builder.
 /// </summary>
-/// <remarks>
 public record BorderDefinition
 {
     /// <summary>
@@ -257,7 +256,8 @@ public class FluentBorder :
     IFluentBorderColor,
     IFluentBorderColorWithSide,
     IFluentBorderRadius,
-    IFluentBorderWithAll
+    IFluentBorderWithAll,
+    IUtilityTargeted
 {
     #region Members
 
@@ -329,6 +329,12 @@ public class FluentBorder :
     private void Dirty()
     {
         dirty = true;
+    }
+
+    private IFluentBorder WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
     }
 
     /// <summary>
@@ -460,6 +466,21 @@ public class FluentBorder :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentBorder OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentBorder OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentBorderWithAll Is0 => WithSize( BorderSize.Is0 );

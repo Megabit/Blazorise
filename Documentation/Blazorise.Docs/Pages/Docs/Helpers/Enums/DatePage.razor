@@ -1,14 +1,44 @@
-﻿@page "/docs/helpers/enums/date"
+@page "/docs/helpers/enums/date"
 
-<Seo Canonical="/docs/helpers/enums/date" Title="Enums: Date" Description="Learn to use and work with the Blazorise Date enums that help you to modify the dates appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/date" Title="Blazorise Date Enums - Date Input Modes" Description="Date enums define how date inputs behave. Learn DateInputMode values for date, datetime, and month entry." />
 
 <DocsPageTitle>
     Enums: Date
 </DocsPageTitle>
 
+<DocsPageLead>
+    Control date input behavior with explicit modes.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Date enums help you guide user input by selecting the most appropriate mode for your date fields.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Set <Code>DateInputMode</Code> on date inputs to hint the expected input format to browsers and device keyboards.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>DateInputMode.Date</Code> for date-only fields like birthdays.</UnorderedListItem>
+    <UnorderedListItem><Code>DateInputMode.DateTime</Code> for scheduling date and time together.</UnorderedListItem>
+    <UnorderedListItem><Code>DateInputMode.Month</Code> for month-based reporting filters.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="DateInputMode">
-        <Paragraph>Hints at the type of data that might be entered by the user while editing the</Paragraph>
+        <Paragraph>Hints at the type of data that might be entered by the user while editing the date input.</Paragraph>
         <UnorderedList>
             <UnorderedListItem><Code>DateInputMode.Date</Code> Only date is allowed to be entered.</UnorderedListItem>
             <UnorderedListItem><Code>DateInputMode.DateTime</Code> Both date and time are allowed to be entered.</UnorderedListItem>

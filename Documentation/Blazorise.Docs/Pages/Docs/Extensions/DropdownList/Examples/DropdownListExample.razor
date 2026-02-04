@@ -2,9 +2,9 @@
 
 <DropdownList TItem="Country" TValue="string"
               Data="@Countries"
-              TextField="@((item)=>item.Name)"
-              ValueField="@((item)=>item.Iso)"
-              @bind-SelectedValue="@selectedDropValue"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              @bind-Value="@selectedDropValue"
               Color="Color.Primary"
               MaxMenuHeight="200px">
     Select item
@@ -15,11 +15,11 @@
         Selected item: @selectedDropValue
     </FieldBody>
     <FieldBody ColumnSize="ColumnSize.Is12">
-        Selected text: @Countries?.FirstOrDefault(x=> x.Iso == @selectedDropValue)?.Name
+        Selected text: @Countries?.FirstOrDefault( x => x.Iso == @selectedDropValue )?.Name
     </FieldBody>
 </Field>
 
-@code{
+@code {
     [Inject]
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
@@ -31,5 +31,4 @@
     }
 
     string selectedDropValue { get; set; } = "CN";
-
 }

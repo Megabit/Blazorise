@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,25 +9,25 @@ namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2ClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string TextInput( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TextInputValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "fui-Textarea__input-plaintext" : "fui-Textarea__input";
+    public override string MemoInput( bool plaintext ) => plaintext ? "fui-Textarea__input-plaintext" : "fui-Textarea__input";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
+    public override string MemoInputSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Textarea__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Textarea__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -43,47 +43,47 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "fui-NumericInput fui-Input__input-plaintext" : "fui-NumericInput fui-Input__input";
+    public override string NumericInput( bool plaintext ) => plaintext ? "fui-NumericInput fui-Input__input-plaintext" : "fui-NumericInput fui-Input__input";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string NumericInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
-
-    #endregion
-
-    #region DateEdit
-
-    public override string DateEdit( bool plaintext ) => plaintext ? "fui-DateInput fui-Input__input-plaintext" : "fui-DateInput fui-Input__input";
-
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
-
-    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
-
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "fui-TimeInput fui-Input__input-plaintext" : "fui-TimeInput fui-Input__input";
+    public override string DateInput( bool plaintext ) => plaintext ? "fui-DateInput fui-Input__input-plaintext" : "fui-DateInput fui-Input__input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string DateInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public override string ColorEdit() => "fui-ColorInput fui-Input__input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "fui-TimeInput fui-Input__input-plaintext" : "fui-TimeInput fui-Input__input";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+
+    #endregion
+
+    #region ColorInput
+
+    public override string ColorInput() => "fui-ColorInput fui-Input__input";
+
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     #endregion
 
@@ -209,13 +209,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => "fui-Input__input";
+    public override string FileInput() => "fui-Input__input";
 
-    public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
+    public override string FileInputSize( Size size ) => size != Size.Default ? $"{FileInput()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -470,7 +470,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "fui-MenuPopover-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "fui-MenuPopover-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
         ? "fui-MenuItem"
@@ -500,73 +500,6 @@ public class FluentUI2ClassProvider : ClassProvider
     };
 
     #endregion
-
-    //#region Dropdown
-
-    //public override string Dropdown( bool isDropdownSubmenu ) => "fui-Dropdown";
-
-    //public override string DropdownDisabled() => "fui-Dropdown-disabled";
-
-    //public override string DropdownGroup() => "btn-group";
-
-    //public override string DropdownObserverShow() => DropdownShow();
-
-    //public override string DropdownShow() => "fui-Dropdown-show";
-
-    //public override string DropdownRight() => null;
-
-    //public override string DropdownItem() => "fui-Option";
-
-    //public override string DropdownItemActive( bool active ) => active ? "fui-Option-active" : null;
-
-    //public override string DropdownItemDisabled( bool disabled ) => disabled ? "fui-Option-disabled" : null;
-
-    //public override string DropdownDivider() => "fui-Option__divider";
-
-    //public override string DropdownHeader() => "fui-OptionGroup__label";
-
-    //public override string DropdownMenu() => "fui-Listbox fui-Dropdown__listbox";
-
-    //public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
-    //    => $"fui-Dropdown__listbox-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fui-Dropdown__listbox-position-strategy-fixed" : "fui-Dropdown__listbox-position-strategy-absolute" )}";
-
-    //public override string DropdownFixedHeaderVisible( bool visible )
-    //    => visible ? "dropdown-table-fixed-header-visible" : null;
-
-    //public override string DropdownMenuSelector() => "dropdown-menu";
-
-    //public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
-
-    ////public override string DropdownMenuBody() => null;
-
-    //public override string DropdownMenuVisible( bool visible ) => visible ? "fui-Dropdown__listbox-show" : null;
-
-    //public override string DropdownMenuRight() => "dropdown-menu-right";
-
-    //public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "fui-Dropdown__button";
-
-    //public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "fui-Dropdown__button";
-
-    //public override string DropdownToggleColor( Color color, bool outline ) => outline
-    //    ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
-    //    : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
-
-    //public override string DropdownToggleSize( Size size, bool outline )
-    //    => size != Size.Default ? $"btn-{ToSize( size )}" : null;
-
-    //public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
-
-    //public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
-
-    //public override string DropdownDirection( Direction direction ) => direction switch
-    //{
-    //    Direction.Up => "dropup",
-    //    Direction.End => "dropright",
-    //    Direction.Start => "dropleft",
-    //    _ => null,
-    //};
-
-    //#endregion
 
     #region Tabs
 
@@ -701,11 +634,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => "fui-CardHeader__header";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "fui-CardText";
 
@@ -913,17 +846,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "fui-AccordionItem";
+    public override string Collapse() => "fui-AccordionItem";
 
-    public override string CollapseActive( bool accordion, bool active ) => active ? "fui-AccordionItem-active" : null;
+    public override string CollapseActive( bool active ) => active ? "fui-AccordionItem-active" : null;
 
-    public override string CollapseHeader( bool accordion ) => "fui-AccordionHeader";
+    public override string CollapseHeader() => "fui-AccordionHeader";
 
-    public override string CollapseBody( bool accordion ) => "fui-AccordionPanel";
+    public override string CollapseBody() => "fui-AccordionPanel";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? "fui-AccordionPanel-show" : null;
+    public override string CollapseBodyActive( bool active ) => active ? "fui-AccordionPanel-show" : null;
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-body";
+    public override string CollapseBodyContent() => "card-body";
 
     #endregion
 
@@ -938,8 +871,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
         return $"fui-RowColumns-{ToRowColumnsSize( rowColumnsSize )}";
     }
-
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "fui-NoGutters" : null;
 
     #endregion
 
@@ -1530,6 +1461,28 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
         => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
+
+    #endregion
+
+    #region Gutter
+
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
+    {
+        var sb = new StringBuilder( "fui-Gutter" );
+
+        if ( gutterSide != GutterSide.None && gutterSide != GutterSide.All )
+            sb.Append( '-' ).Append( ToGutterSide( gutterSide ) );
+
+        if ( breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile )
+            sb.Append( '-' ).Append( ToBreakpoint( breakpoint ) );
+
+        sb.Append( '-' ).Append( ToGutterSize( gutterSize ) );
+
+        return sb.ToString();
+    }
+
+    public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x.Item1, x.Item2 ) ) );
 
     #endregion
 

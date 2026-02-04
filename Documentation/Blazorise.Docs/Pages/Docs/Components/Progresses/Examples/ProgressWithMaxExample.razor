@@ -20,16 +20,16 @@
 
     protected override void OnInitialized()
     {
-        timer = new Timer(IntervalDelay);
+        timer = new Timer( IntervalDelay );
         timer.Elapsed += OnTimerElapsed;
         timer.AutoReset = true;
         timer.Start();
     }
 
-    private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    private void OnTimerElapsed( object sender, ElapsedEventArgs e )
     {
         Value = Value < 42 ? Value + IntervalIncrement : 0;
-        InvokeAsync(StateHasChanged);
+        InvokeAsync( StateHasChanged );
     }
 
     public void Dispose()

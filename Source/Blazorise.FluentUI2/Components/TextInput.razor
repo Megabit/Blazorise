@@ -1,0 +1,29 @@
+@using System.Text
+@inherits Blazorise.TextInput
+@if ( ParentIsAddons )
+{
+    <span class="@AddonClassNames" style="@WrapperStyleNames">
+        @InputElement
+    </span>
+}
+else
+{
+    <div class="@InputClassNames" style="@WrapperStyleNames">
+        @InputElement
+    </div>
+}
+@ChildContent
+@Feedback
+@code {
+    private RenderFragment InputElement => __builder =>
+    {
+        @if ( IsImmediate && IsDebounce )
+        {
+            <input @ref="@ElementRef" id="@ElementId" type="@Type" name="@NameAttributeValue" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" aria-readonly="@ReadOnlyAsString" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" value="@CurrentValue" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        }
+        else
+        {
+            <input @ref="@ElementRef" id="@ElementId" type="@Type" name="@NameAttributeValue" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" aria-readonly="@ReadOnlyAsString" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        }
+    };
+}

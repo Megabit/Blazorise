@@ -33,8 +33,6 @@ public partial class DocsLayout
 
     private bool sideBarMetaMenuVisible;
 
-    private bool disposed;
-
     public string selectedSearchText { get; set; }
 
     private bool isRouterTabsExample;
@@ -78,12 +76,9 @@ public partial class DocsLayout
 
     protected override void Dispose( bool disposing )
     {
-        if ( !disposed )
+        if ( disposing )
         {
-            if ( disposing )
-            {
-                NavigationManager.LocationChanged -= OnLocationChanged;
-            }
+            NavigationManager.LocationChanged -= OnLocationChanged;
         }
 
         base.Dispose( disposing );

@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/dropdownlist"
 
-<Seo Canonical="/docs/extensions/dropdownlist" Title="Blazorise DropdownList component" Description="Learn to use and work with the Blazorise DropdownList component, which allows you to select a value from a list of predefined items." />
+<Seo Canonical="/docs/extensions/dropdownlist" Title="Blazorise DropdownList component" Description="Learn how to use the Blazorise DropdownList component to select values from a list of predefined items." />
 
 <DocsPageTitle Path="Extensions/DropdownList">
     Blazorise DropdownList component
@@ -11,7 +11,7 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    To be able to use <Code>DropdownList</Code> component you first need to install it.
+    To use the <Code>DropdownList</Code> component, install the <Code>Blazorise.Components</Code> package first.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -28,7 +28,14 @@
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Code>_Imports.razor</Code> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsImportExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -48,6 +55,21 @@
         <DropdownListCheckboxExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DropdownListCheckboxExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Search">
+        <Paragraph>
+            The DropdownList component in Blazorise allows users to search for items in the dropdown list.
+        </Paragraph>
+        <Paragraph>
+            By enabling <Code>Filterable</Code> property, a search box is displayed at the top of the dropdown list. Users can type in the search box to filter the list and quickly locate the desired item. This feature enhances user experience by providing a more efficient way of selecting items from a dropdown list.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DropdownListSearchExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DropdownListSearchExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(DropdownList<,>)]" />

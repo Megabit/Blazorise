@@ -344,9 +344,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( HeaderCellStyle ) )
             sb.Append( HeaderCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
     }
 
@@ -356,9 +353,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( FilterCellStyle ) )
             sb.Append( FilterCellStyle );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -370,20 +364,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( AggregateCellStyle ) )
             sb.Append( AggregateCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
-    }
-
-    internal IFluentSizing BuildCellFluentSizing()
-    {
-        if ( Width is not null && FixedPosition != TableColumnFixedPosition.None )
-        {
-            return Blazorise.Width.Px( int.Parse( Width.Replace( "px", string.Empty ) ) );
-        }
-
-        return null;
     }
 
     internal string BuildCellStyle( TItem item )
@@ -394,9 +375,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width}" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -806,7 +784,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Gets or sets the column's display sort direction template.
     /// </summary>
-    [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
+    [Parameter] public RenderFragment<SortDirectionContext<TItem>> SortDirectionTemplate { get; set; }
 
     /// <summary>
     /// Defines the alignment for the table cell.
@@ -981,7 +959,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// The width of the column.
     /// </summary>
-    [Parameter] public string Width { get; set; }
+    [Parameter] public IFluentSizing Width { get; set; }
 
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
@@ -1012,18 +990,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Custom style for filter cell.
     /// </summary>
     [Parameter] public string FilterCellStyle { get; set; }
-
-    /// <summary>
-    /// Custom classname for the aggregate cell.
-    /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellClass parameter is deprecated, please use the AggregateCellClass parameter instead." )]
-    [Parameter] public string GroupCellClass { get => AggregateCellClass; set => AggregateCellClass = value; }
-
-    /// <summary>
-    /// Custom style for the aggregate cell.
-    /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellStyle parameter is deprecated, please use the AggregateCellStyle parameter instead." )]
-    [Parameter] public string GroupCellStyle { get => AggregateCellStyle; set => AggregateCellStyle = value; }
 
     /// <summary>
     /// Custom classname for the aggregate cell.
@@ -1093,18 +1059,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Template for custom cell display formatting.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
+    [Parameter] public RenderFragment<CellDisplayContext<TItem>> DisplayTemplate { get; set; }
 
     /// <summary>
     /// Template for custom column filter rendering.
     /// </summary>
     [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
-
-    /// <summary>
-    /// Defines the size of field for popup modal.
-    /// </summary>
-    [Obsolete( "DataGridColumn: PopupFieldColumnSize is deprecated and will be removed in the future version. Please use the EditFieldColumnSize instead." )]
-    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; }
 
     /// <summary>
     /// Defines the size of an edit field for popup modal and edit form.

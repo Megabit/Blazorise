@@ -74,6 +74,10 @@
     }
 }
 
+@function theme-color($key: primary) {
+    @return map-get($theme-colors, $key);
+}
+
 @function opaque($background, $foreground) {
     @return mix(rgba($foreground, 1), $background, opacity($foreground) * 100%);
 }

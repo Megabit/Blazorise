@@ -38,7 +38,7 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 4, result.Count );
+        Assert.Equal( ["integer", "integerWithDefault", "nullableInteger", "stringValue"], result.Keys.OrderBy( x => x ) );
         Assert.Equal( 42, result["integer"] );
         Assert.Equal( 0, result["integerWithDefault"] );
         Assert.Equal( 43, result["nullableInteger"] );
@@ -63,7 +63,7 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 3, result.Count );
+        Assert.Equal( ["integer", "integerWithDefaultOk", "nullableInteger"], result.Keys.OrderBy( x => x ) );
         Assert.Equal( 42, result["integer"] );
         Assert.Equal( 0, result["integerWithDefaultOk"] );
         Assert.Equal( 43, result["nullableInteger"] );
@@ -88,7 +88,7 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 3, result.Count );
+        Assert.Equal( ["integer", "integerWithDefaultOk", "nestedTest"], result.Keys.OrderBy( x => x ) );
         Assert.Equal( 42, result["integer"] );
         Assert.Equal( 0, result["integerWithDefaultOk"] );
 
@@ -104,7 +104,7 @@ public class ConvertersTests
         var test = new Test
         {
             Integer = 42,
-            SimpleArray = new[] { 1, 2, 3 }
+            SimpleArray = [1, 2, 3]
         };
 
         // Act
@@ -112,14 +112,13 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 3, result.Count );
+        Assert.Equal( ["integer", "integerWithDefaultOk", "simpleArray"], result.Keys.OrderBy( x => x ) );
         Assert.Equal( 42, result["integer"] );
         Assert.Equal( 0, result["integerWithDefaultOk"] );
 
         var simpleArray = result["simpleArray"] as object[];
         Assert.NotNull( simpleArray );
-        Assert.Equal( 3, simpleArray.Length );
-        Assert.Equal( new object[] { 1, 2, 3 }, simpleArray );
+        Assert.Equal( [1, 2, 3], simpleArray );
     }
 
     [Fact]
@@ -129,7 +128,7 @@ public class ConvertersTests
         var test = new Test
         {
             Integer = 42,
-            SimpleList = new() { 1, 2, 3 }
+            SimpleList = [1, 2, 3]
         };
 
         // Act
@@ -137,14 +136,13 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 3, result.Count );
+        Assert.Equal( ["integer", "integerWithDefaultOk", "simpleList"], result.Keys.OrderBy( x => x ) );
         Assert.Equal( 42, result["integer"] );
         Assert.Equal( 0, result["integerWithDefaultOk"] );
 
         var simpleList = result["simpleList"] as List<object>;
         Assert.NotNull( simpleList );
-        Assert.Equal( 3, simpleList.Count );
-        Assert.Equal( new() { 1, 2, 3 }, simpleList.Cast<int>().ToList() );
+        Assert.Equal( [1, 2, 3], simpleList.Cast<int>().ToList() );
     }
 
     [Fact]
@@ -154,12 +152,12 @@ public class ConvertersTests
         var test = new Test
         {
             Integer = 42,
-            ComplexArray = new[]
-            {
+            ComplexArray =
+            [
                 new NestedTest { Boolean = true, StringValue = "test1" },
                 new NestedTest { Boolean = true, StringValue = null },
                 new NestedTest { Boolean = false, StringValue = "test3" }
-            }
+            ]
         };
 
         // Act
@@ -167,16 +165,16 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 3, result.Count );
+        Assert.Equal( ["complexArray", "integer", "integerWithDefaultOk"], result.Keys.OrderBy( x => x ) );
         Assert.Equal( 42, result["integer"] );
         Assert.Equal( 0, result["integerWithDefaultOk"] );
 
         var nestedArray = result["complexArray"] as object[];
         Assert.NotNull( nestedArray );
-        Assert.Equal( 3, nestedArray.Length );
+        Assert.Collection( nestedArray, _ => { }, _ => { }, _ => { } );
 
         var arrayItem1 = (Dictionary<string, object>)nestedArray[0];
-        Assert.Equal( 2, arrayItem1.Count );
+        Assert.Equal( ["boolean", "stringValue"], arrayItem1.Keys.OrderBy( x => x ) );
         Assert.Equal( true, arrayItem1["boolean"] );
         Assert.Equal( "test1", arrayItem1["stringValue"] );
 
@@ -196,12 +194,12 @@ public class ConvertersTests
         var test = new Test
         {
             Integer = 42,
-            ComplexList = new()
-            {
+            ComplexList =
+            [
                 new() { Boolean = true, StringValue = "test1" },
                 new() { Boolean = true, StringValue = null },
                 new() { Boolean = false, StringValue = "test3" }
-            }
+            ]
         };
 
         // Act
@@ -209,16 +207,16 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 3, result.Count );
+        Assert.Equal( ["complexList", "integer", "integerWithDefaultOk"], result.Keys.OrderBy( x => x ) );
         Assert.Equal( 42, result["integer"] );
         Assert.Equal( 0, result["integerWithDefaultOk"] );
 
         var complexList = result["complexList"] as List<object>;
         Assert.NotNull( complexList );
-        Assert.Equal( 3, complexList.Count );
+        Assert.Collection( complexList, _ => { }, _ => { }, _ => { } );
 
         var item1 = (Dictionary<string, object>)complexList[0];
-        Assert.Equal( 2, item1.Count );
+        Assert.Equal( ["boolean", "stringValue"], item1.Keys.OrderBy( x => x ) );
         Assert.Equal( true, item1["boolean"] );
         Assert.Equal( "test1", item1["stringValue"] );
 
@@ -245,8 +243,9 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 1, result.Count );
-        Assert.Equal( "abc", result["foobar"] );
+        var entry = Assert.Single( result );
+        Assert.Equal( "foobar", entry.Key );
+        Assert.Equal( "abc", entry.Value );
     }
 
     [Fact]
@@ -263,8 +262,9 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 1, result.Count );
-        Assert.Equal( "abc", result["Foobar"] );
+        var entry = Assert.Single( result );
+        Assert.Equal( "Foobar", entry.Key );
+        Assert.Equal( "abc", entry.Value );
     }
 
     [Fact]
@@ -281,8 +281,9 @@ public class ConvertersTests
 
         // Assert
         Assert.NotNull( result );
-        Assert.Equal( 1, result.Count );
-        Assert.Equal( "abc", result["Foo"] );
+        var entry = Assert.Single( result );
+        Assert.Equal( "Foo", entry.Key );
+        Assert.Equal( "abc", entry.Value );
     }
 
     [Fact]

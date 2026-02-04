@@ -57,7 +57,7 @@ public class DataGridNumericColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public bool? EnableStep { get; set; }
 
     /// <summary>
-    /// Renders the native based input <see cref="NumericEdit{TValue}"/> instead of the <see cref="NumericPicker{TValue}"/>.
+    /// Renders the native based input <see cref="NumericInput{TValue}"/> instead of the <see cref="NumericPicker{TValue}"/>.
     /// </summary>
     [Parameter] public bool NativeInputMode { get; set; }
 }

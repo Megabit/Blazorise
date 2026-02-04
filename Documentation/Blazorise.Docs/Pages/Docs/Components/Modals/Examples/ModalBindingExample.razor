@@ -4,8 +4,8 @@
 
 <Span Margin="Margin.Is3.FromStart">Modal is visible: @modalVisible</Span>
 
-<Modal @bind-Visible="@modalVisible">
-    <ModalContent Centered>
+<Modal @bind-Visible="@modalVisible" Centered>
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
             <CloseButton />
@@ -13,11 +13,11 @@
         <ModalBody>
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Placeholder="Enter name..." />
+                <TextInput Placeholder="Enter name..." />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextEdit Placeholder="Enter surname..." />
+                <TextInput Placeholder="Enter surname..." />
             </Field>
         </ModalBody>
         <ModalFooter>

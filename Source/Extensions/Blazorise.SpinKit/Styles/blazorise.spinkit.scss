@@ -1,6 +1,21 @@
 :root {
+    --b-spinkit-color-primary: var(--b-theme-primary, #2196f3);
+    --b-spinkit-color-secondary: var(--b-theme-secondary, #757575);
+    --b-spinkit-color-success: var(--b-theme-success, #4caf50);
+    --b-spinkit-color-info: var(--b-theme-info, #00bcd4);
+    --b-spinkit-color-warning: var(--b-theme-warning, #ffeb3b);
+    --b-spinkit-color-danger: var(--b-theme-danger, #f44336);
+    --b-spinkit-color-light: var(--b-theme-light, #f5f5f5);
+    --b-spinkit-color-dark: var(--b-theme-dark, #424242);
+    --b-spinkit-color-link: var(--b-theme-link, #2196f3);
+    --b-spinkit-color: var(--b-spinkit-color-primary, currentColor);
+    --b-spinkit-size-xs: 16px;
+    --b-spinkit-size-sm: 24px;
+    --b-spinkit-size-md: 40px;
+    --b-spinkit-size-lg: 60px;
+    --b-spinkit-size-xl: 80px;
     --sk-size: var(--b-spinkit-size, 40px);
-    --sk-color: var(--b-spinkit-color, #333);
+    --sk-color: var(--b-spinkit-color, currentColor);
 }
 
 
@@ -50,63 +65,63 @@
     animation: sk-chase-dot 2.0s infinite ease-in-out both;
 }
 
-    .sk-chase-dot:before {
-        content: '';
-        display: block;
-        width: 25%;
-        height: 25%;
-        background-color: var(--sk-color);
-        border-radius: 100%;
-        animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
-    }
+.sk-chase-dot:before {
+    content: '';
+    display: block;
+    width: 25%;
+    height: 25%;
+    background-color: var(--sk-color);
+    border-radius: 100%;
+    animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
+}
 
-    .sk-chase-dot:nth-child(1) {
-        animation-delay: -1.1s;
-    }
+.sk-chase-dot:nth-child(1) {
+    animation-delay: -1.1s;
+}
 
-    .sk-chase-dot:nth-child(2) {
-        animation-delay: -1.0s;
-    }
+.sk-chase-dot:nth-child(2) {
+    animation-delay: -1.0s;
+}
 
-    .sk-chase-dot:nth-child(3) {
-        animation-delay: -0.9s;
-    }
+.sk-chase-dot:nth-child(3) {
+    animation-delay: -0.9s;
+}
 
-    .sk-chase-dot:nth-child(4) {
-        animation-delay: -0.8s;
-    }
+.sk-chase-dot:nth-child(4) {
+    animation-delay: -0.8s;
+}
 
-    .sk-chase-dot:nth-child(5) {
-        animation-delay: -0.7s;
-    }
+.sk-chase-dot:nth-child(5) {
+    animation-delay: -0.7s;
+}
 
-    .sk-chase-dot:nth-child(6) {
-        animation-delay: -0.6s;
-    }
+.sk-chase-dot:nth-child(6) {
+    animation-delay: -0.6s;
+}
 
-    .sk-chase-dot:nth-child(1):before {
-        animation-delay: -1.1s;
-    }
+.sk-chase-dot:nth-child(1):before {
+    animation-delay: -1.1s;
+}
 
-    .sk-chase-dot:nth-child(2):before {
-        animation-delay: -1.0s;
-    }
+.sk-chase-dot:nth-child(2):before {
+    animation-delay: -1.0s;
+}
 
-    .sk-chase-dot:nth-child(3):before {
-        animation-delay: -0.9s;
-    }
+.sk-chase-dot:nth-child(3):before {
+    animation-delay: -0.9s;
+}
 
-    .sk-chase-dot:nth-child(4):before {
-        animation-delay: -0.8s;
-    }
+.sk-chase-dot:nth-child(4):before {
+    animation-delay: -0.8s;
+}
 
-    .sk-chase-dot:nth-child(5):before {
-        animation-delay: -0.7s;
-    }
+.sk-chase-dot:nth-child(5):before {
+    animation-delay: -0.7s;
+}
 
-    .sk-chase-dot:nth-child(6):before {
-        animation-delay: -0.6s;
-    }
+.sk-chase-dot:nth-child(6):before {
+    animation-delay: -0.6s;
+}
 
 @keyframes sk-chase {
     100% {
@@ -150,9 +165,9 @@
     animation: sk-bounce 2s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 
-    .sk-bounce-dot:nth-child(2) {
-        animation-delay: -1.0s;
-    }
+.sk-bounce-dot:nth-child(2) {
+    animation-delay: -1.0s;
+}
 
 @keyframes sk-bounce {
     0%, 100% {
@@ -180,25 +195,25 @@
     animation: sk-wave 1.2s infinite ease-in-out;
 }
 
-    .sk-wave-rect:nth-child(1) {
-        animation-delay: -1.2s;
-    }
+.sk-wave-rect:nth-child(1) {
+    animation-delay: -1.2s;
+}
 
-    .sk-wave-rect:nth-child(2) {
-        animation-delay: -1.1s;
-    }
+.sk-wave-rect:nth-child(2) {
+    animation-delay: -1.1s;
+}
 
-    .sk-wave-rect:nth-child(3) {
-        animation-delay: -1.0s;
-    }
+.sk-wave-rect:nth-child(3) {
+    animation-delay: -1.0s;
+}
 
-    .sk-wave-rect:nth-child(4) {
-        animation-delay: -0.9s;
-    }
+.sk-wave-rect:nth-child(4) {
+    animation-delay: -0.9s;
+}
 
-    .sk-wave-rect:nth-child(5) {
-        animation-delay: -0.8s;
-    }
+.sk-wave-rect:nth-child(5) {
+    animation-delay: -0.8s;
+}
 
 @keyframes sk-wave {
     0%, 40%, 100% {
@@ -248,13 +263,13 @@
     animation: sk-flow 1.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s infinite both;
 }
 
-    .sk-flow-dot:nth-child(1) {
-        animation-delay: -0.30s;
-    }
+.sk-flow-dot:nth-child(1) {
+    animation-delay: -0.30s;
+}
 
-    .sk-flow-dot:nth-child(2) {
-        animation-delay: -0.15s;
-    }
+.sk-flow-dot:nth-child(2) {
+    animation-delay: -0.15s;
+}
 
 @keyframes sk-flow {
     0%, 80%, 100% {
@@ -288,11 +303,11 @@
     animation: sk-swing-dot 2s infinite ease-in-out;
 }
 
-    .sk-swing-dot:nth-child(2) {
-        top: auto;
-        bottom: 0;
-        animation-delay: -1s;
-    }
+.sk-swing-dot:nth-child(2) {
+    top: auto;
+    bottom: 0;
+    animation-delay: -1s;
+}
 
 @keyframes sk-swing {
     100% {
@@ -326,103 +341,103 @@
     top: 0;
 }
 
-    .sk-circle-dot:before {
-        content: '';
-        display: block;
-        width: 15%;
-        height: 15%;
-        background-color: var(--sk-color);
-        border-radius: 100%;
-        animation: sk-circle 1.2s infinite ease-in-out both;
-    }
+.sk-circle-dot:before {
+    content: '';
+    display: block;
+    width: 15%;
+    height: 15%;
+    background-color: var(--sk-color);
+    border-radius: 100%;
+    animation: sk-circle 1.2s infinite ease-in-out both;
+}
 
-    .sk-circle-dot:nth-child(1) {
-        transform: rotate(30deg);
-    }
+.sk-circle-dot:nth-child(1) {
+    transform: rotate(30deg);
+}
 
-    .sk-circle-dot:nth-child(2) {
-        transform: rotate(60deg);
-    }
+.sk-circle-dot:nth-child(2) {
+    transform: rotate(60deg);
+}
 
-    .sk-circle-dot:nth-child(3) {
-        transform: rotate(90deg);
-    }
+.sk-circle-dot:nth-child(3) {
+    transform: rotate(90deg);
+}
 
-    .sk-circle-dot:nth-child(4) {
-        transform: rotate(120deg);
-    }
+.sk-circle-dot:nth-child(4) {
+    transform: rotate(120deg);
+}
 
-    .sk-circle-dot:nth-child(5) {
-        transform: rotate(150deg);
-    }
+.sk-circle-dot:nth-child(5) {
+    transform: rotate(150deg);
+}
 
-    .sk-circle-dot:nth-child(6) {
-        transform: rotate(180deg);
-    }
+.sk-circle-dot:nth-child(6) {
+    transform: rotate(180deg);
+}
 
-    .sk-circle-dot:nth-child(7) {
-        transform: rotate(210deg);
-    }
+.sk-circle-dot:nth-child(7) {
+    transform: rotate(210deg);
+}
 
-    .sk-circle-dot:nth-child(8) {
-        transform: rotate(240deg);
-    }
+.sk-circle-dot:nth-child(8) {
+    transform: rotate(240deg);
+}
 
-    .sk-circle-dot:nth-child(9) {
-        transform: rotate(270deg);
-    }
+.sk-circle-dot:nth-child(9) {
+    transform: rotate(270deg);
+}
 
-    .sk-circle-dot:nth-child(10) {
-        transform: rotate(300deg);
-    }
+.sk-circle-dot:nth-child(10) {
+    transform: rotate(300deg);
+}
 
-    .sk-circle-dot:nth-child(11) {
-        transform: rotate(330deg);
-    }
+.sk-circle-dot:nth-child(11) {
+    transform: rotate(330deg);
+}
 
-    .sk-circle-dot:nth-child(1):before {
-        animation-delay: -1.1s;
-    }
+.sk-circle-dot:nth-child(1):before {
+    animation-delay: -1.1s;
+}
 
-    .sk-circle-dot:nth-child(2):before {
-        animation-delay: -1s;
-    }
+.sk-circle-dot:nth-child(2):before {
+    animation-delay: -1s;
+}
 
-    .sk-circle-dot:nth-child(3):before {
-        animation-delay: -0.9s;
-    }
+.sk-circle-dot:nth-child(3):before {
+    animation-delay: -0.9s;
+}
 
-    .sk-circle-dot:nth-child(4):before {
-        animation-delay: -0.8s;
-    }
+.sk-circle-dot:nth-child(4):before {
+    animation-delay: -0.8s;
+}
 
-    .sk-circle-dot:nth-child(5):before {
-        animation-delay: -0.7s;
-    }
+.sk-circle-dot:nth-child(5):before {
+    animation-delay: -0.7s;
+}
 
-    .sk-circle-dot:nth-child(6):before {
-        animation-delay: -0.6s;
-    }
+.sk-circle-dot:nth-child(6):before {
+    animation-delay: -0.6s;
+}
 
-    .sk-circle-dot:nth-child(7):before {
-        animation-delay: -0.5s;
-    }
+.sk-circle-dot:nth-child(7):before {
+    animation-delay: -0.5s;
+}
 
-    .sk-circle-dot:nth-child(8):before {
-        animation-delay: -0.4s;
-    }
+.sk-circle-dot:nth-child(8):before {
+    animation-delay: -0.4s;
+}
 
-    .sk-circle-dot:nth-child(9):before {
-        animation-delay: -0.3s;
-    }
+.sk-circle-dot:nth-child(9):before {
+    animation-delay: -0.3s;
+}
 
-    .sk-circle-dot:nth-child(10):before {
-        animation-delay: -0.2s;
-    }
+.sk-circle-dot:nth-child(10):before {
+    animation-delay: -0.2s;
+}
 
-    .sk-circle-dot:nth-child(11):before {
-        animation-delay: -0.1s;
-    }
+.sk-circle-dot:nth-child(11):before {
+    animation-delay: -0.1s;
+}
 
 @keyframes sk-circle {
     0%, 80%, 100% {
@@ -450,103 +465,103 @@
     top: 0;
 }
 
-    .sk-circle-fade-dot:before {
-        content: '';
-        display: block;
-        width: 15%;
-        height: 15%;
-        background-color: var(--sk-color);
-        border-radius: 100%;
-        animation: sk-circle-fade 1.2s infinite ease-in-out both;
-    }
+.sk-circle-fade-dot:before {
+    content: '';
+    display: block;
+    width: 15%;
+    height: 15%;
+    background-color: var(--sk-color);
+    border-radius: 100%;
+    animation: sk-circle-fade 1.2s infinite ease-in-out both;
+}
 
-    .sk-circle-fade-dot:nth-child(1) {
-        transform: rotate(30deg);
-    }
+.sk-circle-fade-dot:nth-child(1) {
+    transform: rotate(30deg);
+}
 
-    .sk-circle-fade-dot:nth-child(2) {
-        transform: rotate(60deg);
-    }
+.sk-circle-fade-dot:nth-child(2) {
+    transform: rotate(60deg);
+}
 
-    .sk-circle-fade-dot:nth-child(3) {
-        transform: rotate(90deg);
-    }
+.sk-circle-fade-dot:nth-child(3) {
+    transform: rotate(90deg);
+}
 
-    .sk-circle-fade-dot:nth-child(4) {
-        transform: rotate(120deg);
-    }
+.sk-circle-fade-dot:nth-child(4) {
+    transform: rotate(120deg);
+}
 
-    .sk-circle-fade-dot:nth-child(5) {
-        transform: rotate(150deg);
-    }
+.sk-circle-fade-dot:nth-child(5) {
+    transform: rotate(150deg);
+}
 
-    .sk-circle-fade-dot:nth-child(6) {
-        transform: rotate(180deg);
-    }
+.sk-circle-fade-dot:nth-child(6) {
+    transform: rotate(180deg);
+}
 
-    .sk-circle-fade-dot:nth-child(7) {
-        transform: rotate(210deg);
-    }
+.sk-circle-fade-dot:nth-child(7) {
+    transform: rotate(210deg);
+}
 
-    .sk-circle-fade-dot:nth-child(8) {
-        transform: rotate(240deg);
-    }
+.sk-circle-fade-dot:nth-child(8) {
+    transform: rotate(240deg);
+}
 
-    .sk-circle-fade-dot:nth-child(9) {
-        transform: rotate(270deg);
-    }
+.sk-circle-fade-dot:nth-child(9) {
+    transform: rotate(270deg);
+}
 
-    .sk-circle-fade-dot:nth-child(10) {
-        transform: rotate(300deg);
-    }
+.sk-circle-fade-dot:nth-child(10) {
+    transform: rotate(300deg);
+}
 
-    .sk-circle-fade-dot:nth-child(11) {
-        transform: rotate(330deg);
-    }
+.sk-circle-fade-dot:nth-child(11) {
+    transform: rotate(330deg);
+}
 
-    .sk-circle-fade-dot:nth-child(1):before {
-        animation-delay: -1.1s;
-    }
+.sk-circle-fade-dot:nth-child(1):before {
+    animation-delay: -1.1s;
+}
 
-    .sk-circle-fade-dot:nth-child(2):before {
-        animation-delay: -1.0s;
-    }
+.sk-circle-fade-dot:nth-child(2):before {
+    animation-delay: -1.0s;
+}
 
-    .sk-circle-fade-dot:nth-child(3):before {
-        animation-delay: -0.9s;
-    }
+.sk-circle-fade-dot:nth-child(3):before {
+    animation-delay: -0.9s;
+}
 
-    .sk-circle-fade-dot:nth-child(4):before {
-        animation-delay: -0.8s;
-    }
+.sk-circle-fade-dot:nth-child(4):before {
+    animation-delay: -0.8s;
+}
 
-    .sk-circle-fade-dot:nth-child(5):before {
-        animation-delay: -0.7s;
-    }
+.sk-circle-fade-dot:nth-child(5):before {
+    animation-delay: -0.7s;
+}
 
-    .sk-circle-fade-dot:nth-child(6):before {
-        animation-delay: -0.6s;
-    }
+.sk-circle-fade-dot:nth-child(6):before {
+    animation-delay: -0.6s;
+}
 
-    .sk-circle-fade-dot:nth-child(7):before {
-        animation-delay: -0.5s;
-    }
+.sk-circle-fade-dot:nth-child(7):before {
+    animation-delay: -0.5s;
+}
 
-    .sk-circle-fade-dot:nth-child(8):before {
-        animation-delay: -0.4s;
-    }
+.sk-circle-fade-dot:nth-child(8):before {
+    animation-delay: -0.4s;
+}
 
-    .sk-circle-fade-dot:nth-child(9):before {
-        animation-delay: -0.3s;
-    }
+.sk-circle-fade-dot:nth-child(9):before {
+    animation-delay: -0.3s;
+}
 
-    .sk-circle-fade-dot:nth-child(10):before {
-        animation-delay: -0.2s;
-    }
+.sk-circle-fade-dot:nth-child(10):before {
+    animation-delay: -0.2s;
+}
 
-    .sk-circle-fade-dot:nth-child(11):before {
-        animation-delay: -0.1s;
-    }
+.sk-circle-fade-dot:nth-child(11):before {
+    animation-delay: -0.1s;
+}
 
 @keyframes sk-circle-fade {
     0%, 39%, 100% {
@@ -580,41 +595,41 @@
     animation: sk-grid 1.3s infinite ease-in-out;
 }
 
-    .sk-grid-cube:nth-child(1) {
-        animation-delay: 0.2s;
-    }
+.sk-grid-cube:nth-child(1) {
+    animation-delay: 0.2s;
+}
 
-    .sk-grid-cube:nth-child(2) {
-        animation-delay: 0.3s;
-    }
+.sk-grid-cube:nth-child(2) {
+    animation-delay: 0.3s;
+}
 
-    .sk-grid-cube:nth-child(3) {
-        animation-delay: 0.4s;
-    }
+.sk-grid-cube:nth-child(3) {
+    animation-delay: 0.4s;
+}
 
-    .sk-grid-cube:nth-child(4) {
-        animation-delay: 0.1s;
-    }
+.sk-grid-cube:nth-child(4) {
+    animation-delay: 0.1s;
+}
 
-    .sk-grid-cube:nth-child(5) {
-        animation-delay: 0.2s;
-    }
+.sk-grid-cube:nth-child(5) {
+    animation-delay: 0.2s;
+}
 
-    .sk-grid-cube:nth-child(6) {
-        animation-delay: 0.3s;
-    }
+.sk-grid-cube:nth-child(6) {
+    animation-delay: 0.3s;
+}
 
-    .sk-grid-cube:nth-child(7) {
-        animation-delay: 0.0s;
-    }
+.sk-grid-cube:nth-child(7) {
+    animation-delay: 0.0s;
+}
 
-    .sk-grid-cube:nth-child(8) {
-        animation-delay: 0.1s;
-    }
+.sk-grid-cube:nth-child(8) {
+    animation-delay: 0.1s;
+}
 
-    .sk-grid-cube:nth-child(9) {
-        animation-delay: 0.2s;
-    }
+.sk-grid-cube:nth-child(9) {
+    animation-delay: 0.2s;
+}
 
 @keyframes sk-grid {
     0%, 70%, 100% {
@@ -643,41 +658,41 @@
     transform: scale(1.1);
 }
 
-    .sk-fold-cube:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--sk-color);
-        animation: sk-fold 2.4s infinite linear both;
-        transform-origin: 100% 100%;
-    }
+.sk-fold-cube:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--sk-color);
+    animation: sk-fold 2.4s infinite linear both;
+    transform-origin: 100% 100%;
+}
 
-    .sk-fold-cube:nth-child(2) {
-        transform: scale(1.1) rotateZ(90deg);
-    }
+.sk-fold-cube:nth-child(2) {
+    transform: scale(1.1) rotateZ(90deg);
+}
 
-    .sk-fold-cube:nth-child(4) {
-        transform: scale(1.1) rotateZ(180deg);
-    }
+.sk-fold-cube:nth-child(4) {
+    transform: scale(1.1) rotateZ(180deg);
+}
 
-    .sk-fold-cube:nth-child(3) {
-        transform: scale(1.1) rotateZ(270deg);
-    }
+.sk-fold-cube:nth-child(3) {
+    transform: scale(1.1) rotateZ(270deg);
+}
 
-    .sk-fold-cube:nth-child(2):before {
-        animation-delay: 0.3s;
-    }
+.sk-fold-cube:nth-child(2):before {
+    animation-delay: 0.3s;
+}
 
-    .sk-fold-cube:nth-child(4):before {
-        animation-delay: 0.6s;
-    }
+.sk-fold-cube:nth-child(4):before {
+    animation-delay: 0.6s;
+}
 
-    .sk-fold-cube:nth-child(3):before {
-        animation-delay: 0.9s;
-    }
+.sk-fold-cube:nth-child(3):before {
+    animation-delay: 0.9s;
+}
 
 @keyframes sk-fold {
     0%, 10% {
@@ -715,13 +730,13 @@
     animation: sk-wander 2.0s ease-in-out -2.0s infinite both;
 }
 
-    .sk-wander-cube:nth-child(2) {
-        animation-delay: -0.5s;
-    }
+.sk-wander-cube:nth-child(2) {
+    animation-delay: -0.5s;
+}
 
-    .sk-wander-cube:nth-child(3) {
-        animation-delay: -1.0s;
-    }
+.sk-wander-cube:nth-child(3) {
+    animation-delay: -1.0s;
+}
 
 @keyframes sk-wander {
     0% {

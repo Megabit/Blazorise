@@ -1,59 +1,58 @@
-﻿@using Blazorise.Extensions
-@inherits BaseAfterRenderComponent
+@using Blazorise.Extensions
+@using Blazorise
 @using Microsoft.AspNetCore.Components.Web.Virtualization
+@inherits BaseInputComponent<TValue, AutocompleteClasses<TItem, TValue>, AutocompleteStyles<TItem, TValue>>
 @typeparam TItem
 @typeparam TValue
 
-<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled">
-    <Validation @ref=validationRef Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
-
-        @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled" AriaInvalid="@AriaInvalid" AriaDescribedBy="@AriaDescribedBy" Attributes="@Attributes">
+    @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
+    {
+        @foreach ( var selectedText in SelectedTexts )
         {
-            @foreach ( var selectedText in SelectedTexts )
+            @if ( TagTemplate is null )
             {
-                @if ( TagTemplate is null )
-                {
-                    <Badge Color="@GetMultipleBadgeColor()" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
-                }
-                else
-                {
-                    var item = GetItemByText( selectedText );
-                    var value = GetItemValue( selectedText );
-                    var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
-                    @TagTemplate( new( item, value, selectedText, removeCallback ) )
-                }
+                <Badge Color="@GetMultipleBadgeColor()" Margin="Blazorise.Margin.Is2.FromStart" Class="@Classes?.Tag" Style="@Styles?.Tag" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+            }
+            else
+            {
+                var item = GetItemByText( selectedText );
+                var value = GetItemValue( selectedText );
+                var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
+                @TagTemplate( new( item, value, selectedText, removeCallback ) )
             }
         }
+    }
 
-        <TextEdit @ref="@textEditRef"
-                  ElementId="@InputElementId"
-                  Role="TextRole.Search"
-                  Text="@Search"
-                  TextChanged="@OnTextChangedHandler"
-                  Placeholder="@Placeholder"
-                  Size="@Size"
-                  MaxLength="@MaxEntryLength"
-                  Disabled="@Disabled"
-                  TabIndex="@TabIndex"
-                  KeyDown="@OnTextKeyDownHandler"
-                  OnFocus="OnTextFocusHandler"
-                  Blur="OnTextBlurHandler"
-                  Immediate="@Immediate"
-                  Debounce="@Debounce"
-                  DebounceInterval="@DebounceInterval"
-                  CustomValidationValue="@GetValidationValue"
-                  Background="@SearchBackground"
-                  TextColor="@SearchTextColor"
-                  Class="@SearchClass"
-                  Style="@SearchStyle">
-            <Feedback>
-                <ValidationError />
-                <ValidationSuccess />
-                <ValidationNone />
-            </Feedback>
-        </TextEdit>
-    </Validation>
-    <DropdownMenu>
+    <CascadingValue Value="(Validation)null">
+        <TextInput @ref="@textInputRef"
+                   ElementId="@InputElementId"
+                   Role="TextRole.Search"
+                   Value="@Search"
+                   ValueChanged="@OnTextChangedHandler"
+                   Placeholder="@Placeholder"
+                   Size="@Size"
+                   MaxLength="@MaxEntryLength"
+                   Disabled="@Disabled"
+                   ReadOnly="@ReadOnly"
+                   TabIndex="@TabIndex"
+                   KeyDown="@OnTextKeyDownHandler"
+                   KeyPress="@OnTextKeyPressHandler"
+                   KeyUp="@OnTextKeyUpHandler"
+                   OnFocus="OnTextFocusHandler"
+                   FocusIn="@OnTextFocusInHandler"
+                   FocusOut="@OnTextFocusOutHandler"
+                   Blur="OnTextBlurHandler"
+                   Immediate="@Immediate"
+                   Debounce="@Debounce"
+                   DebounceInterval="@DebounceInterval"
+                   Background="@SearchBackground"
+                   TextColor="@SearchTextColor"
+                   Class="@SearchClassNames"
+                   Style="@SearchStyleNames">
+        </TextInput>
+    </CascadingValue>
+    <DropdownMenu Class="@Classes?.Menu" Style="@Styles?.Menu">
         @if ( DropdownVisible )
         {
             @if ( VirtualizeManualReadMode )
@@ -78,18 +77,23 @@
         }
         else if ( NotFoundVisible )
         {
-            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns">
-                @NotFoundContent( Search )
+            var notFoundContext = GetNotFoundItemContext();
+
+            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
+                @NotFoundTemplate( Search )
             </DropdownItem>
         }
         else if ( FreeTypingNotFoundVisible )
         {
-            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns">
+            var notFoundContext = GetNotFoundItemContext();
+
+            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
                 @FreeTypingNotFoundTemplate( Search )
             </DropdownItem>
         }
     </DropdownMenu>
 </Dropdown>
+@Feedback
 @code {
     protected RenderFragment<TItem> itemFragment => item => __builder =>
     {
@@ -102,8 +106,9 @@
 
         var text = GetItemText( item );
         var value = GetItemValue( item );
+        var itemContext = CreateItemContext( item, value, text, itemIndex, isActiveItem, isFocusedItem, disabled );
 
-        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames( itemIndex )" Value="@value"
+        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames( itemContext )" Style="@DropdownItemStyleNames( itemContext )" Value="@value"
                       Disabled="@disabled"
                       CloseParentDropdowns="@CloseParentDropdowns"
                       @onmousedown="@(() => clickFromCheck = true)"
@@ -112,7 +117,7 @@
                       CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
             @if ( ItemContent is not null )
             {
-                @ItemContent( new( item, value, text ) )
+                @ItemContent( itemContext )
             }
             else
             {

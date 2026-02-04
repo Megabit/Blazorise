@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,25 +10,25 @@ namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TextInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string MemoInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string MemoInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -44,47 +44,47 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string NumericInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string NumericInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
-
-    #endregion
-
-    #region DateEdit
-
-    public override string DateEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
-
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
-
-    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
-
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DateInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string DateInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public override string ColorEdit() => "form-control";
+    public override string TimeInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
+    #region ColorInput
+
+    public override string ColorInput() => "form-control";
+
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
     #endregion
 
@@ -210,13 +210,13 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+    public override string FileInput() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
 
-    public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
+    public override string FileInputSize( Size size ) => size != Size.Default ? $"{FileInput()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -471,7 +471,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
-    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "dropdown-menu-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
@@ -622,11 +622,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => "card-title";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "card-text";
 
@@ -773,17 +773,17 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "card";
+    public override string Collapse() => "card";
 
-    public override string CollapseActive( bool accordion, bool active ) => null;
+    public override string CollapseActive( bool active ) => null;
 
-    public override string CollapseHeader( bool accordion ) => "card-header";
+    public override string CollapseHeader() => "card-header";
 
-    public override string CollapseBody( bool accordion ) => "collapse";
+    public override string CollapseBody() => "collapse";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
+    public override string CollapseBodyActive( bool active ) => active ? Show() : null;
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-body";
+    public override string CollapseBodyContent() => "card-body";
 
     #endregion
 
@@ -798,8 +798,6 @@ public class BootstrapClassProvider : ClassProvider
 
         return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
     }
-
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "no-gutters" : null;
 
     #endregion
 
@@ -1388,6 +1386,28 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
         => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
+
+    #endregion
+
+    #region Gutter
+
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
+    {
+        var sb = new StringBuilder( "g" );
+
+        if ( gutterSide != GutterSide.None && gutterSide != GutterSide.All )
+            sb.Append( ToGutterSide( gutterSide ) );
+
+        if ( breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile )
+            sb.Append( '-' ).Append( ToBreakpoint( breakpoint ) );
+
+        sb.Append( '-' ).Append( ToGutterSize( gutterSize ) );
+
+        return sb.ToString();
+    }
+
+    public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x.Item1, x.Item2 ) ) );
 
     #endregion
 

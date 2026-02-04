@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Internal;
 using Blazorise.DataGrid.Utils;
 using Blazorise.DeepCloner;
 using Blazorise.Extensions;
@@ -171,6 +171,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool applyingState;
 
+    private ClassBuilder classBuilder;
+    private StyleBuilder styleBuilder;
+    private string classValue;
+    private string styleValue;
+    private DataGridClasses classesValue;
+    private DataGridStyles stylesValue;
+
     #endregion
 
     #region Constructors
@@ -181,6 +188,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         paginationTemplates = new();
         paginationContext = new( this );
+
+        classBuilder = new( BuildClasses );
+        styleBuilder = new( BuildStyles );
     }
 
     #endregion
@@ -215,7 +225,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SetLoading( true );
 
             PageSize = dataGridState.PageSize;
-            CurrentPage = dataGridState.CurrentPage;
+            Page = dataGridState.Page;
 
             // Column displaying + order
             if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
@@ -310,7 +320,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         var dataGridState = new DataGridState<TItem>()
         {
-            CurrentPage = CurrentPage,
+            Page = Page,
             PageSize = PageSize,
             EditState = EditState,
             EditItem = editState == DataGridEditState.None ? default : editItem,
@@ -915,19 +925,30 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( GroupBy is null )
         {
             var firstGroupableColumn = groupableColumns[0];
-            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
-                                                                             .OrderBy( x => x.Key )
-                                                                             .ToList();
-            RecursiveGroup( 1, groupedData, newGroupedData );
+
+            var query = DisplayData
+                .GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) );
+
+            var newGroupedData = ( firstGroupableColumn.CurrentSortDirection switch
+            {
+                SortDirection.Ascending => query.OrderBy( context => context.Key ),
+                SortDirection.Descending => query.OrderByDescending( context => context.Key ),
+                _ => query
+            } )
+            .ToList();
+
+            GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
         else
         {
-            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
-                                     .Select( x => new GroupContext<TItem>( x ) )
-                                     .OrderBy( x => x.Key )
-                                     .ToList();
+            var newGroupedData = DisplayData
+                .GroupBy( x => GroupBy.Invoke( x ) )
+                .Select( x => new GroupContext<TItem>( x ) )
+                .OrderBy( x => x.Key )
+                .ToList();
+
             GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
@@ -1144,6 +1165,44 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
     }
 
+    protected void DirtyClasses()
+    {
+        classBuilder?.Dirty();
+    }
+
+    protected void DirtyStyles()
+    {
+        styleBuilder?.Dirty();
+    }
+
+    private void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-datagrid" );
+
+        if ( !string.IsNullOrWhiteSpace( Class ) )
+        {
+            builder.Append( Class );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( Classes?.Self ) )
+        {
+            builder.Append( Classes.Self );
+        }
+    }
+
+    private void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrWhiteSpace( Styles?.Self ) )
+        {
+            builder.Append( Styles.Self.Trim().TrimEnd( ';' ) );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( Style ) )
+        {
+            builder.Append( Style.Trim().TrimEnd( ';' ) );
+        }
+    }
+
     #endregion
 
     #region Events
@@ -1192,7 +1251,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         ResetPaginationCts();
 
-        await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
+        await InvokeAsync( () => PageChanged.InvokeAsync( currentPage ) );
 
         await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
@@ -1327,9 +1386,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         // When deleting and the page becomes empty and we aren't the first page:
         // go to the previous page
-        if ( ManualReadMode && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
+        if ( ManualReadMode && ShowPager && Page > paginationContext.FirstVisiblePage && !Data.Any() )
         {
-            await Paginate( ( CurrentPage - 1 ).ToString() );
+            await Paginate( ( Page - 1 ).ToString() );
         }
 
         await InvokeAsync( StateHasChanged );
@@ -1437,9 +1496,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 // When deleting and the page becomes empty and we aren't the first page:
                 // go to the previous page
-                if ( deletedItem && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
+                if ( deletedItem && ShowPager && Page > paginationContext.FirstVisiblePage && !Data.Any() )
                 {
-                    await Paginate( ( CurrentPage - 1 ).ToString() );
+                    await Paginate( ( Page - 1 ).ToString() );
                 }
                 else if ( newItem )
                 {
@@ -1825,31 +1884,31 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( int.TryParse( paginationCommandOrNumber, out var pageNumber ) )
         {
-            CurrentPage = pageNumber;
+            Page = pageNumber;
         }
         else
         {
             if ( paginationCommandOrNumber == "prev" )
             {
-                CurrentPage--;
+                Page--;
 
-                if ( CurrentPage < 1 )
-                    CurrentPage = 1;
+                if ( Page < 1 )
+                    Page = 1;
             }
             else if ( paginationCommandOrNumber == "next" )
             {
-                CurrentPage++;
+                Page++;
 
-                if ( CurrentPage > paginationContext.LastPage )
-                    CurrentPage = paginationContext.LastPage;
+                if ( Page > paginationContext.LastPage )
+                    Page = paginationContext.LastPage;
             }
             else if ( paginationCommandOrNumber == "first" )
             {
-                CurrentPage = 1;
+                Page = 1;
             }
             else if ( paginationCommandOrNumber == "last" )
             {
-                CurrentPage = paginationContext.LastPage;
+                Page = paginationContext.LastPage;
             }
         }
 
@@ -2160,8 +2219,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return index;
     }
 
-    internal async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
+    internal async Task OnMultiSelectCommand( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
+        if ( MultiSelectColumn is null )
+            return;
+
         SelectedAllRows = false;
         UnSelectAllRows = false;
 
@@ -2172,17 +2234,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Add( eventArgs.Item );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
         }
         else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
-            if ( SelectedRows.Contains( eventArgs.Item ) )
-            {
-                SelectedRows.Remove( eventArgs.Item );
+            SelectedRows.Remove( eventArgs.Item );
+            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
 
-                if ( SelectedRow.IsEqual( eventArgs.Item ) )
-                {
-                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
-                }
+            if ( SelectedRow.IsEqual( eventArgs.Item ) )
+            {
+                await SelectedRowChanged.InvokeAsync( default );
             }
         }
 
@@ -2190,7 +2251,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await Refresh();
     }
 
-    private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
+    private async Task HandleShiftClick( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
         if ( eventArgs.ShiftKey )
         {
@@ -2385,7 +2446,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await Task.Yield();
 
             if ( !cancellationToken.IsCancellationRequested )
-                await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
+                await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, Page, PageSize, 0, 0, cancellationToken ) );
         }
         finally
         {
@@ -2499,31 +2560,31 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( int.TryParse( pageName, out var pageNumber ) )
         {
-            CurrentPage = pageNumber;
+            Page = pageNumber;
         }
         else
         {
             if ( pageName == "prev" )
             {
-                CurrentPage--;
+                Page--;
 
-                if ( CurrentPage < 1 )
-                    CurrentPage = 1;
+                if ( Page < 1 )
+                    Page = 1;
             }
             else if ( pageName == "next" )
             {
-                CurrentPage++;
+                Page++;
 
-                if ( CurrentPage > paginationContext.LastPage )
-                    CurrentPage = paginationContext.LastPage;
+                if ( Page > paginationContext.LastPage )
+                    Page = paginationContext.LastPage;
             }
             else if ( pageName == "first" )
             {
-                CurrentPage = 1;
+                Page = 1;
             }
             else if ( pageName == "last" )
             {
-                CurrentPage = paginationContext.LastPage;
+                Page = paginationContext.LastPage;
             }
         }
 
@@ -2990,11 +3051,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         // only use pagination if the custom data loading is not used
         if ( !ManualReadMode && !Virtualize )
         {
-            var skipElements = ( CurrentPage - 1 ) * PageSize;
+            var skipElements = ( Page - 1 ) * PageSize;
             if ( skipElements > filteredData.Count )
             {
-                CurrentPage = paginationContext.LastPage;
-                skipElements = ( CurrentPage - 1 ) * PageSize;
+                Page = paginationContext.LastPage;
+                skipElements = ( Page - 1 ) * PageSize;
             }
 
             return filteredData.Skip( skipElements ).Take( PageSize );
@@ -3092,9 +3153,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Whether the Datagrid is Row Navigable.
     /// </summary>
     internal bool IsRowNavigable
-#pragma warning disable CS0618 // Type or member is obsolete
-        => ( Navigable && NavigationMode == DataGridNavigationMode.Default ) || NavigationMode == DataGridNavigationMode.Row;
-#pragma warning restore CS0618 // Type or member is obsolete
+        => NavigationMode == DataGridNavigationMode.Row;
 
     /// <summary>
     /// Whether the TIem is a dynamic item.
@@ -3138,19 +3197,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets the DataGrid standard class and other existing Class
     /// </summary>
     protected string ClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder();
+        => classBuilder.Class;
 
-            sb.Append( "b-datagrid" );
-
-            if ( Class != null )
-                sb.Append( $" {Class}" );
-
-            return sb.ToString();
-        }
-    }
+    /// <summary>
+    /// Gets the DataGrid standard styles and other existing Style.
+    /// </summary>
+    protected string StyleNames
+        => styleBuilder.Styles;
 
     /// <summary>
     /// Gets the data to show on grid based on the filter and current page.
@@ -3478,6 +3531,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal bool HasValidationsSummary => ShowValidationsSummary && ValidationsSummaryErrors?.Length > 0;
 
     /// <summary>
+    /// Gets the pagination context.
+    /// </summary>
+    protected PaginationContext<TItem> PaginationContext => paginationContext;
+
+    /// <summary>
+    /// Gets the pagination templates.
+    /// </summary>
+    protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
+
+    /// <summary>
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
@@ -3666,11 +3729,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets the current page number.
     /// </summary>
-    [Parameter] public int CurrentPage { get => paginationContext.CurrentPage; set => paginationContext.CurrentPage = value; }
+    [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
 
-    protected PaginationContext<TItem> PaginationContext => paginationContext;
-
-    protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
+    /// <summary>
+    /// Occurs after the selected page has changed.
+    /// </summary>
+    [Parameter] public EventCallback<int> PageChanged { get; set; }
 
     /// <summary>
     /// Gets or sets content of table body for empty DisplayData.
@@ -3685,7 +3749,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets content of cell body for empty DisplayData.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> EmptyCellTemplate { get; set; }
+    [Parameter] public RenderFragment<CellDisplayContext<TItem>> EmptyCellTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets content of table body for handle ReadData.
@@ -3755,7 +3819,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets the maximum number of items for each page.
     /// </summary>
-    [Parameter] public int PageSize { get => paginationContext.CurrentPageSize; set => paginationContext.CurrentPageSize = value; }
+    [Parameter] public int PageSize { get => paginationContext.PageSize; set => paginationContext.PageSize = value; }
 
     /// <summary>
     /// Occurs after the <see cref="PageSize"/> has changed.
@@ -3858,11 +3922,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool RowContextMenuPreventDefault { get; set; }
 
     /// <summary>
-    /// Occurs after the selected page has changed.
-    /// </summary>
-    [Parameter] public EventCallback<DataGridPageChangedEventArgs> PageChanged { get; set; }
-
-    /// <summary>
     /// Event handler used to load data manually based on the current page and filter data settings.
     /// </summary>
     [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
@@ -3902,7 +3961,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Template for displaying detail or nested row.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
+    [Parameter] public RenderFragment<DetailRowContext<TItem>> DetailRowTemplate { get; set; }
 
     /// <summary>
     /// Function, that is called, when a new item is created for inserting new entry.
@@ -3967,12 +4026,74 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Custom css classname.
     /// </summary>
-    [Parameter] public string Class { get; set; }
+    [Parameter]
+    public string Class
+    {
+        get => classValue;
+        set
+        {
+            if ( classValue.IsEqual( value ) )
+                return;
+
+            classValue = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Custom html style.
     /// </summary>
-    [Parameter] public string Style { get; set; }
+    [Parameter]
+    public string Style
+    {
+        get => styleValue;
+        set
+        {
+            if ( styleValue.IsEqual( value ) )
+                return;
+
+            styleValue = value;
+
+            DirtyStyles();
+        }
+    }
+
+    /// <summary>
+    /// Supplies additional CSS classes for DataGrid elements.
+    /// </summary>
+    [Parameter]
+    public DataGridClasses Classes
+    {
+        get => classesValue;
+        set
+        {
+            if ( classesValue.IsEqual( value ) )
+                return;
+
+            classesValue = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Supplies additional CSS styles for DataGrid elements.
+    /// </summary>
+    [Parameter]
+    public DataGridStyles Styles
+    {
+        get => stylesValue;
+        set
+        {
+            if ( stylesValue.IsEqual( value ) )
+                return;
+
+            stylesValue = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Defines the element margin spacing.
@@ -4013,12 +4134,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Custom styles for filter row.
     /// </summary>
     [Parameter] public DataGridRowStyling FilterRowStyling { get; set; }
-
-    /// <summary>
-    /// Custom styles for aggregate row.
-    /// </summary>
-    [Obsolete( "DataGrid: The GroupRowStyling parameter is deprecated, please use the AggregateRowStyling parameter instead." )]
-    [Parameter] public DataGridRowStyling GroupRowStyling { get => AggregateRowStyling; set => AggregateRowStyling = value; }
 
     /// <summary>
     /// Custom styles for aggregate row.
@@ -4133,9 +4248,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
     /// </summary>
 
-    [Obsolete( "DataGrid: The Navigable parameter is deprecated, please replace with NavigationMode.Row" )]
-    [Parameter] public bool Navigable { get; set; }
-
     /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
     /// </summary>
@@ -4149,7 +4261,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 ? selectedRowDataIdx
                 : ( selectedRowDataIdx == -1 )
                     ? -1
-                    : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
+                    : selectedRowDataIdx + ( Page - 1 ) * PageSize;
         }
     }
 

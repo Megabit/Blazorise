@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent spacing builders.
 /// </summary>
-public interface IFluentSpacing
+public interface IFluentSpacing : IFluentUtilityTarget<IFluentSpacing>
 {
     /// <summary>
     /// Builds the classnames based on spacing rules.
@@ -171,7 +171,7 @@ public interface IFluentSpacingWithSize :
 /// <summary>
 /// Default implementation of <see cref="IFluentSpacing"/>.
 /// </summary>
-public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IFluentSpacingOnBreakpoint, IFluentSpacingFromSide, IFluentSpacingOnBreakpointWithSide, IFluentSpacingOnBreakpointWithSideAndSize
+public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IFluentSpacingOnBreakpoint, IFluentSpacingFromSide, IFluentSpacingOnBreakpointWithSide, IFluentSpacingOnBreakpointWithSideAndSize, IUtilityTargeted
 {
     #region Members
 
@@ -243,6 +243,12 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
         dirty = true;
     }
 
+    private IFluentSpacing WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
+    }
+
     /// <summary>
     /// Appends the new spacing size rule.
     /// </summary>
@@ -309,6 +315,21 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentSpacing OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentSpacing OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// Gets the spacing type.

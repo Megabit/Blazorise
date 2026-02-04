@@ -17,25 +17,25 @@
             </CardBody>
             <CardBody>
                 <Button Clicked="() => lineChartIndicator.Show()" Color="Color.Primary" Margin="Margin.Is2.OnX">Set Visible</Button>
-                <Check TValue="bool" @bind-Checked="lineChartBusy" Inline>Visible</Check>
-                <Check TValue="bool" @bind-Checked="lineChartInitializing" Inline>Initializing</Check>
+                <Check TValue="bool" @bind-Value="lineChartBusy" Inline>Visible</Check>
+                <Check TValue="bool" @bind-Value="lineChartInitializing" Inline>Initializing</Check>
             </CardBody>
             <CardBody>
                 Width (null, 1% .. 100%) <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
                 Height (null, 1% .. 100%)<Slider Min="0" Max="100" @bind-Value="spinnerHeight" />
                 Horizontal Placement
-                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerHorizontal">
+                <Select TValue="LoadingIndicatorPlacement" @bind-Value="spinnerHorizontal">
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Start">Start</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.End">End</SelectItem>
                 </Select>
                 Vertical Placement
-                <Select TValue="LoadingIndicatorPlacement" @bind-SelectedValue="spinnerVertical">
+                <Select TValue="LoadingIndicatorPlacement" @bind-Value="spinnerVertical">
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Top">Top</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
                     <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Bottom">Bottom</SelectItem>
                 </Select>
-                <Check TValue="bool" @bind-Checked="usePadding" Inline>Use IndicatorPadding</Check>
+                <Check TValue="bool" @bind-Value="usePadding" Inline>Use IndicatorPadding</Check>
                 @if ( usePadding )
                 {
                     <style>
@@ -45,7 +45,7 @@
                         }
                     </style>
                 }
-                <Check TValue="bool" @bind-Checked="showBorder" Inline>Show border</Check>
+                <Check TValue="bool" @bind-Value="showBorder" Inline>Show border</Check>
                 @if ( showBorder )
                 {
                     <style>
@@ -64,10 +64,10 @@
             </CardHeader>
             <CardBody>
                 Message
-                <LoadingIndicator @ref="textEditIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
-                    <TextEdit Disabled="textEditIndicator.Visible" Text="disabled when busy" />
+                <LoadingIndicator @ref="textInputIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
+                    <TextInput Disabled="textInputIndicator.Visible" Value="disabled when busy" />
                 </LoadingIndicator>
-                <Button Color="Color.Primary" Disabled="@(textEditIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send</Button>
+                <Button Color="Color.Primary" Disabled="@(textInputIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send</Button>
             </CardBody>
         </Card>
         <Card Margin="Margin.Is4.OnY">
@@ -92,7 +92,7 @@
                 <LoadingIndicator @ref="customIndicator" FullScreen Inline>
                     <IndicatorTemplate>
                         <Div Display="Display.Flex" Style="flex-direction:column">
-                            <SpinKit Type="SpinKitType.Circle" Size="100px" />
+                            <SpinKit Type="SpinKitType.Circle" Size="Size.ExtraLarge" />
                             <Button Margin="Margin.Is5.OnY" Clicked="() => customIndicator.Hide()" Color="Color.Primary">Stop</Button>
                         </Div>
                     </IndicatorTemplate>
@@ -114,9 +114,9 @@
                         </LoadingIndicator>
                     </Column>
                     <Column ColumnSize="ColumnSize.IsHalf">
-                        Spinner color<ColorPicker @bind-Color="spinnerColor" />
-                        Spinner background color<ColorPicker @bind-Color="spinnerBackground" />
-                        Screen color<ColorPicker @bind-Color="screenColor" />
+                        Spinner color<ColorPicker @bind-Value="@spinnerColor" />
+                        Spinner background color<ColorPicker @bind-Value="spinnerBackground" />
+                        Screen color<ColorPicker @bind-Value="@screenColor" />
                     </Column>
                 </Row>
             </CardBody>
@@ -148,7 +148,7 @@
 
     private LoadingIndicatorService sharedLoadingIndicatorService = new();
 
-    private LoadingIndicator textEditIndicator;
+    private LoadingIndicator textInputIndicator;
     private LoadingIndicator customBasicIndicator;
     private LoadingIndicator customIndicator;
 
@@ -186,9 +186,9 @@
 
     async Task ShowInlineBusy()
     {
-        await textEditIndicator.Show();
+        await textInputIndicator.Show();
         await Task.Delay( 3000 );
-        await textEditIndicator.Hide();
+        await textInputIndicator.Hide();
     }
 
     async Task ShowMultipleIndicators()

@@ -14,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// Format input text content when you are typing.
 /// </summary>
-public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
+public partial class InputMask : BaseBufferedTextInput<string>, IAsyncDisposable
 {
     #region Members
 
@@ -26,38 +26,6 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     #endregion
 
     #region Methods
-
-    /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
-            {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<string>( nameof( Value ), out var paramValue )
-                    ? paramValue
-                    : InternalValue;
-
-                await ParentValidation.InitializeInputPattern( pattern, value );
-            }
-
-            await InitializeValidation();
-        }
-    }
 
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
@@ -123,12 +91,6 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     }
 
     /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( string value )
-    {
-        return ValueChanged.InvokeAsync( value );
-    }
-
-    /// <inheritdoc/>
     protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
     {
         return Task.FromResult( new ParseValue<string>( true, value, null ) );
@@ -183,17 +145,6 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
         return Cleared.InvokeAsync();
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( ValueExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
-            : ExpressionFormatter.FormatLambda( ValueExpression );
-    }
-
     #endregion
 
     #region Properties
@@ -201,28 +152,10 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    /// <inheritdoc/>
-    protected override string InternalValue { get => Value; set => Value = value; }
-
     /// <summary>
     /// Gets or sets the <see cref="IJSInputMaskModule"/> instance.
     /// </summary>
     [Inject] public IJSInputMaskModule JSModule { get; set; }
-
-    /// <summary>
-    /// Gets or sets the input time value.
-    /// </summary>
-    [Parameter] public string Value { get; set; }
-
-    /// <summary>
-    /// Occurs when the time has changed.
-    /// </summary>
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the time field.
-    /// </summary>
-    [Parameter] public Expression<Func<string>> ValueExpression { get; set; }
 
     /// <summary>
     /// The mask to use for the input.
@@ -252,7 +185,7 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     [Parameter] public string InputFormat { get; set; }
 
     /// <summary>
-    /// Defines the output format of the <see cref="Value"/> when the <see cref="Alias"/> is used.
+    /// Defines the output format of the <see cref="BaseInputComponent{TValue, TClasses, TStyles}.Value"/> when the <see cref="Alias"/> is used.
     /// </summary>
     [Parameter] public string OutputFormat { get; set; }
 

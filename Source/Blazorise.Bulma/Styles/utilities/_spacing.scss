@@ -1,84 +1,101 @@
-﻿@each $breakpoint in map-keys($grid-breakpoints) {
-    @include media-breakpoint-up($breakpoint) {
-        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @if ($breakpoint != xs and $breakpoint != mobile) {
+        @include media-breakpoint-up($breakpoint) {
+            $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-        @each $prop, $abbrev in (margin: m, padding: p) {
-            @each $size, $length in $spacers {
+            @each $prop, $abbrev in (margin: m, padding: p) {
+                @each $size, $length in $spacers {
+                    .#{$abbrev}#{$infix}-#{$size} {
+                        #{$prop}: $length !important;
+                    }
 
-                .is-#{$abbrev}#{$infix}-#{$size} {
-                    #{$prop}: $length !important;
-                }
+                    .#{$abbrev}t#{$infix}-#{$size},
+                    .#{$abbrev}y#{$infix}-#{$size} {
+                        #{$prop}-top: $length !important;
+                    }
 
-                .is-#{$abbrev}t#{$infix}-#{$size},
-                .is-#{$abbrev}y#{$infix}-#{$size} {
-                    #{$prop}-top: $length !important;
-                }
+                    .#{$abbrev}r#{$infix}-#{$size},
+                    .#{$abbrev}x#{$infix}-#{$size} {
+                        #{$prop}-right: $length !important;
+                    }
 
-                .is-#{$abbrev}r#{$infix}-#{$size},
-                .is-#{$abbrev}x#{$infix}-#{$size} {
-                    #{$prop}-right: $length !important;
-                }
+                    .#{$abbrev}b#{$infix}-#{$size},
+                    .#{$abbrev}y#{$infix}-#{$size} {
+                        #{$prop}-bottom: $length !important;
+                    }
 
-                .is-#{$abbrev}b#{$infix}-#{$size},
-                .is-#{$abbrev}y#{$infix}-#{$size} {
-                    #{$prop}-bottom: $length !important;
-                }
-
-                .is-#{$abbrev}l#{$infix}-#{$size},
-                .is-#{$abbrev}x#{$infix}-#{$size} {
-                    #{$prop}-left: $length !important;
+                    .#{$abbrev}l#{$infix}-#{$size},
+                    .#{$abbrev}x#{$infix}-#{$size} {
+                        #{$prop}-left: $length !important;
+                    }
                 }
             }
-        }
-        // Some special margin utils
-        .is-m#{$infix}-auto {
-            margin: auto !important;
-        }
 
-        .is-mt#{$infix}-auto,
-        .is-my#{$infix}-auto {
-            margin-top: auto !important;
-        }
+            .m#{$infix}-auto {
+                margin: auto !important;
+            }
 
-        .is-mr#{$infix}-auto,
-        .is-mx#{$infix}-auto {
-            margin-right: auto !important;
-        }
+            .mt#{$infix}-auto,
+            .my#{$infix}-auto {
+                margin-top: auto !important;
+            }
 
-        .is-mb#{$infix}-auto,
-        .is-my#{$infix}-auto {
-            margin-bottom: auto !important;
-        }
+            .mr#{$infix}-auto,
+            .mx#{$infix}-auto {
+                margin-right: auto !important;
+            }
 
-        .is-ml#{$infix}-auto,
-        .is-mx#{$infix}-auto {
-            margin-left: auto !important;
-        }
+            .mb#{$infix}-auto,
+            .my#{$infix}-auto {
+                margin-bottom: auto !important;
+            }
 
-        .is-table#{$infix} {
-            display: table !important;
-        }
-
-        .is-table-row#{$infix} {
-            display: table-row !important;
-        }
-
-        .is-table-cell#{$infix} {
-            display: table-cell !important;
+            .ml#{$infix}-auto,
+            .mx#{$infix}-auto {
+                margin-left: auto !important;
+            }
         }
     }
 }
 
-@each $size, $length in $spacers {
-    .is-gap-#{$size} {
-        gap: $length !important;
-    }
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    .is-gap-y-#{$size} {
-        row-gap: $length !important;
-    }
+    @include media-breakpoint-up($breakpoint) {
+        @each $size, $gutter in $gutters {
+            .columns.is-gutter#{$infix}-#{$size} {
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
+                margin-top: calc(-1 * #{$gutter});
 
-    .is-gap-x-#{$size} {
-        column-gap: $length !important;
+                > * {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
+                    margin-top: #{$gutter};
+                }
+            }
+
+            .columns.is-gutter-x#{$infix}-#{$size} {
+                margin-right: calc(#{$gutter} * -.5);
+                margin-left: calc(#{$gutter} * -.5);
+
+                > * {
+                    padding-right: calc(#{$gutter} * .5);
+                    padding-left: calc(#{$gutter} * .5);
+                }
+            }
+
+            .columns.is-gutter-y#{$infix}-#{$size} {
+                margin-top: calc(-1 * #{$gutter});
+
+                > * {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    margin-top: #{$gutter};
+                }
+            }
+        }
     }
 }

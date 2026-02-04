@@ -1,6 +1,6 @@
 ﻿@using System.Text
 @inherits Blazorise.Toast
-<div @ref="@ElementRef" id="@ElementId" role="alert" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" role="alert" aria-live="assertive" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <div class="text-sm font-normal">
         <CascadingValue Value="@this" IsFixed>
             <CascadingValue Value="@State">

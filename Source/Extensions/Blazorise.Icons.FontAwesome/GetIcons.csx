@@ -72,7 +72,12 @@ async Task ExtractFontAwesomeNames()
 
     // Generate the constant lines
     var constants = result
-        .Select( x => $"    public const string {x.DisplayName} = \"{x.Key}\";" );
+        .Select( x =>
+        {
+            var prefix = x.DisplayName == "Equals" ? "    public new const string " : "    public const string ";
+            return $"{prefix}{x.DisplayName} = \"{x.Key}\";";
+        } );
+
 
     // Write everything to file
     File.WriteAllLines( outputFile, [header, .. constants, "}"] );

@@ -13,8 +13,8 @@ namespace Blazorise;
 /// <summary>
 /// Radio buttons allow the user to select one option from a set.
 /// </summary>
-/// <typeparam name="TValue">Checked value type.</typeparam>
-public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
+/// <typeparam name="TValue">Radio option value type.</typeparam>
+public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, RadioStyles>, IDisposable
 {
     #region Members
 
@@ -33,37 +33,11 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( Rendered )
-        {
-            if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
-            {
-                ExecuteAfterRender( Revalidate );
-            }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        // Individual Radio can have validation ONLY of it's not placed inside
-        // of a RadioGroup
-        if ( ParentValidation is not null && ParentRadioGroup is null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            await InitializeValidation();
-        }
-    }
-
-    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         if ( ParentRadioGroup is not null )
         {
-            Checked = ParentRadioGroup.CheckedValue.IsEqual( Value );
-
-            // TODO: possibly memory leak in Blazor server-side with prerendering mode!
+            ParentRadioGroup.RadioCheckedChanged -= OnRadioChanged;
             ParentRadioGroup.RadioCheckedChanged += OnRadioChanged;
 
             // Parent group name have higher priority!
@@ -120,19 +94,16 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     /// <param name="eventArgs">Information about the currently checked radio.</param>
     private async void OnRadioChanged( object sender, RadioCheckedChangedEventArgs<TValue> eventArgs )
     {
-        await CurrentValueHandler( eventArgs?.Value?.ToString() );
-
         // Some providers like AntDesign need additional changes on classes or styles.
         DirtyClasses();
         DirtyStyles();
+
+        await InvokeAsync( StateHasChanged );
     }
 
     #endregion
 
     #region Properties
-
-    /// <inheritdoc/>
-    protected override string TrueValueName => Value?.ToString();
 
     /// <inheritdoc/>
     protected override bool IsDisabled => ParentRadioGroup?.Disabled == true || base.IsDisabled;
@@ -151,6 +122,13 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     /// Determines the color of the radio button.
     /// </summary>
     protected Color ButtonColor => Color ?? ParentRadioGroup?.Color ?? Color.Secondary;
+
+    /// <summary>
+    /// Determines if the radio button is in active state.
+    /// </summary>
+    protected bool IsActive => ParentRadioGroup is not null
+        ? ParentRadioGroup.Value.IsEqual( Value )
+        : CurrentValue.IsEqual( Value );
 
     /// <summary>
     /// Sets the radio group name.
@@ -183,9 +161,14 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the radio value.
+    /// Defines the intent of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
     /// </summary>
-    [Parameter] public TValue Value { get; set; }
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
 
     /// <summary>
     /// Radio group in which this radio is placed.

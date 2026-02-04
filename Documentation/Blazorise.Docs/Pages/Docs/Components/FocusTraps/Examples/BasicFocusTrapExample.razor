@@ -2,26 +2,26 @@
 
 <Card>
     <CardBody>
-        <Switch TValue="bool" @bind-Checked="@focusTrapActive">Active</Switch>
+        <Switch TValue="bool" @bind-Value="@focusTrapActive">Active</Switch>
     </CardBody>
     <CardBody>
         <FocusTrap Active="@focusTrapActive">
             <Field Horizontal>
                 <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">First Name</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                    <TextEdit Autofocus />
+                    <TextInput Autofocus />
                 </FieldBody>
             </Field>
             <Field Horizontal>
                 <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Last Name</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                    <TextEdit />
+                    <TextInput />
                 </FieldBody>
             </Field>
             <Field Horizontal>
                 <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Address</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                    <TextEdit />
+                    <TextInput />
                 </FieldBody>
             </Field>
         </FocusTrap>

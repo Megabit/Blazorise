@@ -1,0 +1,14 @@
+﻿@typeparam TItem
+@inherits _BaseDataGridMultiSelectAll<TItem>
+@if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
+{
+    <Label @onclick:stopPropagation>
+        @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new( EventCallback.Factory.Create( this, new Func<bool, Task>( IsCheckedChanged ) ), IsChecked, IsIndeterminate ) )
+    </Label>
+}
+else
+{
+    <Label @onclick:stopPropagation>
+        <Check TValue="bool" Indeterminate="IsIndeterminate" Value="IsChecked" ValueChanged="IsCheckedChanged" ValueExpression="()=> IsChecked" @onclick:stopPropagation></Check>
+    </Label>
+}

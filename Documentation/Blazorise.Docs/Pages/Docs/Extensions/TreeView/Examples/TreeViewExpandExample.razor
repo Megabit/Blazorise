@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Button Color="Color.Primary" Clicked="@(()=>treeViewRef.ExpandAll())">Expand all</Button>
-<Button Color="Color.Secondary" Clicked="@(()=>treeViewRef.CollapseAll())">Collapse all</Button>
+<Button Color="Color.Primary" Clicked="@(() => treeViewRef.ExpandAll())">Expand all</Button>
+<Button Color="Color.Secondary" Clicked="@(() => treeViewRef.CollapseAll())">Collapse all</Button>
 
 <TreeView @ref="@treeViewRef" Nodes="Items" GetChildNodes="@(item => item.Children)" HasChildNodes="@(item => item.Children?.Any() == true)">
     <NodeContent>

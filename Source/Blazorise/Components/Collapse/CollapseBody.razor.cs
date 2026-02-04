@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper for collapse content.
 /// </summary>
-public partial class CollapseBody : BaseComponent
+public partial class CollapseBody : BaseComponent<CollapseBodyClasses, CollapseBodyStyles>
 {
     #region Members
 
@@ -23,7 +23,7 @@ public partial class CollapseBody : BaseComponent
     /// </summary>
     public CollapseBody()
     {
-        ContentClassBuilder = new( BuildBodyClasses );
+        ContentClassBuilder = new( BuildBodyClasses, builder => builder.Append( Classes?.Content ) );
     }
 
     #endregion
@@ -33,8 +33,7 @@ public partial class CollapseBody : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CollapseBody( ParentCollapse?.InsideAccordion == true ) );
-        builder.Append( ClassProvider.CollapseBodyActive( ParentCollapse?.InsideAccordion == true, Visible ) );
+        builder.Append( ClassProvider.CollapseBodyActive( Visible ) );
 
         base.BuildClasses( builder );
     }
@@ -45,7 +44,7 @@ public partial class CollapseBody : BaseComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     private void BuildBodyClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CollapseBodyContent( ParentCollapse?.InsideAccordion == true, ParentCollapse?.FirstInAccordion == true, ParentCollapse?.LastInAccordion == true ) );
+        builder.Append( ClassProvider.CollapseBodyContent() );
     }
 
     /// <inheritdoc/>

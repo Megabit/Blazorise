@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=1.8.10.0";
+import { getRequiredElement } from "./utilities.js?v=2.0.0.0";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -59,77 +59,27 @@ export function destroyTableFixedHeader(element, elementId) {
 }
 
 export function fixedHeaderScrollTableToPixels(element, elementId, pixels) {
-    element = getRequiredElement(element, elementId);
+    if (element && element.parentElement) {
 
-    if (!element)
-        return;
-
-    const container = element.parentElement;
-
-    if (!container)
-        return;
-
-    const header = element.querySelector("thead");
-    const headerHeight = header ? header.getBoundingClientRect().height : 0;
-    const maxScrollTop = Math.max(0, container.scrollHeight - container.clientHeight);
-    const target = Math.min(Math.max(0, pixels - headerHeight), maxScrollTop);
-
-    container.scroll({
-        top: target,
-        behavior: "smooth"
-    });
+        element.parentElement.scroll({
+            top: pixels,
+            behavior: "smooth"
+        });
+    }
 }
 
 export function fixedHeaderScrollTableToRow(element, elementId, row) {
     element = getRequiredElement(element, elementId);
 
     if (element) {
-        let rows = element.querySelectorAll("tbody tr");
-
-        if (rows.length === 0) {
-            rows = element.querySelectorAll("tr");
-        }
-
+        let rows = element.querySelectorAll("tr");
         let rowsLength = rows.length;
 
         if (rowsLength > 0 && row >= 0 && row < rowsLength) {
-            const targetRow = rows[row];
-            const container = element.parentElement;
-
-            if (container) {
-                const header = element.querySelector("thead");
-                const headerHeight = header ? header.getBoundingClientRect().height : 0;
-                const containerRect = container.getBoundingClientRect();
-                const rowRect = targetRow.getBoundingClientRect();
-
-                const rowTop = rowRect.top - containerRect.top + container.scrollTop;
-                const rowBottom = rowTop + rowRect.height;
-                const visibleTop = container.scrollTop + headerHeight;
-                const visibleBottom = container.scrollTop + container.clientHeight;
-
-                let nextScrollTop = null;
-
-                if (rowTop < visibleTop) {
-                    nextScrollTop = rowTop - headerHeight;
-                } else if (rowBottom > visibleBottom) {
-                    nextScrollTop = rowBottom - container.clientHeight;
-                }
-
-                if (nextScrollTop !== null) {
-                    const maxScrollTop = Math.max(0, container.scrollHeight - container.clientHeight);
-                    const clampedScrollTop = Math.min(Math.max(0, nextScrollTop), maxScrollTop);
-
-                    container.scroll({
-                        top: clampedScrollTop,
-                        behavior: "smooth"
-                    });
-                }
-            } else {
-                targetRow.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest"
-                });
-            }
+            rows[row].scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
         }
     }
 }

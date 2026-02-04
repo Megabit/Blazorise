@@ -37,18 +37,11 @@ public partial class SelectList<TItem, TValue> : ComponentBase
         base.OnInitialized();
     }
 
-    protected Task HandleSelectedValueChanged( TValue value )
+    protected Task OnValueChanged( TValue value )
     {
-        SelectedValue = value;
+        Value = value;
 
-        return SelectedValueChanged.InvokeAsync( value );
-    }
-
-    protected Task HandleSelectedValuesChanged( IReadOnlyList<TValue> value )
-    {
-        SelectedValues = value;
-
-        return SelectedValuesChanged.InvokeAsync( value );
+        return ValueChanged.InvokeAsync( value );
     }
 
     /// <summary>
@@ -93,7 +86,7 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     /// <summary>
     /// Method used to get the value field from the supplied data source.
     /// </summary>
-    [Parameter] public Func<TItem, TValue> ValueField { get; set; }
+    [Parameter] public Func<TItem, object> ValueField { get; set; }
 
     /// <summary>
     /// Method used to determine if an item should be disabled.
@@ -103,32 +96,17 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     /// <summary>
     /// Currently selected item value.
     /// </summary>
-    [Parameter] public TValue SelectedValue { get; set; }
-
-    /// <summary>
-    /// Gets or sets the multiple selected item values.
-    /// </summary>
-    [Parameter] public IReadOnlyList<TValue> SelectedValues { get; set; }
+    [Parameter] public TValue Value { get; set; }
 
     /// <summary>
     /// Occurs after the selected value has changed.
     /// </summary>
-    [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
-
-    /// <summary>
-    /// Occurs when the selected items value has changed (only when <see cref="Multiple"/>==true).
-    /// </summary>
-    [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
     /// <summary>
     /// Gets or sets an expression that identifies the selected value.
     /// </summary>
-    [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the selected value.
-    /// </summary>
-    [Parameter] public Expression<Func<IReadOnlyList<TValue>>> SelectedValuesExpression { get; set; }
+    [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
     /// Display text of the default select item.
@@ -138,7 +116,7 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     /// <summary>
     /// Value of the default select item.
     /// </summary>
-    [Parameter] public TValue DefaultItemValue { get; set; }
+    [Parameter] public object DefaultItemValue { get; set; }
 
     /// <summary>
     /// If true, disables the default item.

@@ -2,8 +2,6 @@
 @inherits BaseRowComponent
 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <CascadingValue Value="@this" IsFixed>
-        <CascadingValue Value="@GutterState">
-            @ChildContent
-        </CascadingValue>
+        @ChildContent
     </CascadingValue>
 </div>

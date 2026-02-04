@@ -1,8 +1,9 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.Check<TValue>
-<label class="@WrapperClassNames">
+@using Blazorise.Utilities
+<label class="@WrapperClassNames" style="@WrapperStyleNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@Name" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@Name" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         <span class="@InnerClassNames"></span>
     </span>
     <span>
@@ -11,20 +12,53 @@
     </span>
 </label>
 @code{
-    string WrapperClassNames
+    private ClassBuilder wrapperClassBuilder;
+    private StyleBuilder wrapperStyleBuilder;
+
+    protected override void OnInitialized()
     {
-        get
-        {
-            var sb = new System.Text.StringBuilder( "ant-checkbox-wrapper" );
+        wrapperClassBuilder = new( BuildWrapperClasses );
+        wrapperStyleBuilder = new( BuildWrapperStyles );
 
-            if ( Checked?.ToString() == bool.TrueString )
-            {
-                sb.Append( " ant-checkbox-wrapper-pointer" );
-            }
-
-            return sb.ToString();
-        }
+        base.OnInitialized();
     }
+
+    protected internal override void DirtyClasses()
+    {
+        wrapperClassBuilder?.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        wrapperStyleBuilder?.Dirty();
+
+        base.DirtyStyles();
+    }
+
+    private void BuildWrapperClasses( ClassBuilder builder )
+    {
+        builder.Append( "ant-checkbox-wrapper" );
+
+        if ( Value?.ToString() == bool.TrueString )
+        {
+            builder.Append( "ant-checkbox-wrapper-pointer" );
+        }
+
+        builder.Append( Classes?.Wrapper );
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildWrapperStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+        builder.Append( Styles?.Wrapper );
+    }
+
+    string WrapperClassNames => wrapperClassBuilder.Class;
+
+    string WrapperStyleNames => wrapperStyleBuilder.Styles;
 
     string CheckboxClassNames
     {
@@ -32,7 +66,7 @@
         {
             var sb = new System.Text.StringBuilder( "ant-checkbox" );
 
-            if ( Checked?.ToString() == bool.TrueString )
+            if ( Value?.ToString() == bool.TrueString )
             {
                 sb.Append( " ant-checkbox-checked" );
             }

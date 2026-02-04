@@ -1,0 +1,318 @@
+﻿@page "/docs/helpers/utilities/styling"
+@using Blazorise.Docs.Services
+
+<Seo Canonical="/docs/helpers/utilities/styling" Title="Blazorise Styling" Description="Style Blazorise components with Class/Style for the root element, and use typed *Classes/*Styles maps to target inner elements when needed." />
+
+<DocsPageTitle Path="Helpers/Utilities/Styling" AddedVersion="Added in v2.0">
+    Styling
+</DocsPageTitle>
+
+<DocsPageLead>
+    Use the typed <Code>Classes</Code> and <Code>Styles</Code> maps to target specific parts of its markup.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Recommended approach
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The preferred way to style components is still the simple <Code>Class</Code> and <Code>Style</Code> parameters. They apply to the primary element rendered by the component and behave consistently across CSS providers.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Class and Style">
+        <Paragraph>
+            Use <Code>Class</Code> and <Code>Style</Code> for quick, predictable styling on the component root.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ComponentStylingPrimaryExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ComponentStylingPrimaryExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Advanced customization
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Some components render multiple HTML elements (wrappers, containers, inputs, etc.). For those components, Blazorise exposes typed <Code>Classes</Code> and <Code>Styles</Code> parameters so you can style individual parts without relying on fragile CSS selectors.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Typed <Code>Classes</Code> and <Code>Styles</Code> maps are resilient to provider markup differences and are self-documenting and discoverable, making them safer than fragile selectors.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Each component that supports this exposes its own <Code>*Classes</Code> and <Code>*Styles</Code> record types. The common <Code>Self</Code> property targets the main element rendered by the component, while additional properties map to the component structure (for example <Code>Wrapper</Code>, <Code>Content</Code>, or <Code>Input</Code>).
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Example class map for a card: <Code>new CardClasses { Self = "card-root", Wrapper = "card-col" }</Code>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code>Classes</Code> and <Code>Styles</Code> only when you need to reach elements that <Code>Class</Code> and <Code>Style</Code> cannot. If a component does not expose <Code>Classes</Code> or <Code>Styles</Code>, it renders a single element and should be styled with <Code>Class</Code> and <Code>Style</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Example scenario: when a <Code>Table</Code> is responsive, use <Code>TableClasses</Code> or <Code>TableStyles</Code> to style the container wrapper while keeping <Code>Class</Code>/<Code>Style</Code> for the table itself.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Classes and Styles">
+        <Paragraph>
+            Use the typed maps to style secondary elements rendered by complex components.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ComponentStylingAdvancedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ComponentStylingAdvancedExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Utility Targets
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Utility helpers like <Code>Margin</Code>, <Code>Padding</Code>, <Code>Width</Code>, and <Code>Height</Code> target the component element by default. Use <Code>UtilityTarget</Code> to move those utilities to a wrapper element <Strong>when the provider renders</Strong> extra markup.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="UtilityTarget example">
+        <Paragraph>
+            Apply utility spacing to a wrapper while keeping the card root styled with <Code>Class</Code> and <Code>Style</Code>.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ComponentStylingUtilityTargetExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ComponentStylingUtilityTargetExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Supported keys overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Quick reference for common components and their extra keys. This list is not exhaustive, check each component's <Code>*Classes</Code> and <Code>*Styles</Code> type for the complete set of supported properties.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Some keys apply only for specific CSS providers or only when a configuration option causes extra markup to render.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If a key has no effect, the element might not be rendered by that provider or configuration, and any unsupported keys are ignored.
+</DocsPageParagraph>
+
+<Table Responsive>
+    <TableHeader ThemeContrast="@ThemeContrast">
+        <TableRow>
+            <TableHeaderCell>Component</TableHeaderCell>
+            <TableHeaderCell>Keys</TableHeaderCell>
+            <TableHeaderCell>Provider notes</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Card</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Wrapper</Code></TableRowCell>
+            <TableRowCell><Code>Wrapper</Code> is rendered in Bootstrap 5 when the card is inside <Code>CardDeck</Code>.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Modal</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Backdrop</Code></TableRowCell>
+            <TableRowCell><Code>Backdrop</Code> is rendered when <Code>ShowBackdrop</Code> is true.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Offcanvas</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Backdrop</Code></TableRowCell>
+            <TableRowCell><Code>Backdrop</Code> is rendered when <Code>ShowBackdrop</Code> is true.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>NumericPicker</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Wrapper</Code>, <Code>Buttons</Code>, <Code>ButtonUp</Code>, <Code>ButtonDown</Code></TableRowCell>
+            <TableRowCell>Bootstrap providers render all button keys, FluentUI2 renders <Code>ButtonUp</Code>/<Code>ButtonDown</Code> without a buttons wrapper.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Table</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Container</Code></TableRowCell>
+            <TableRowCell><Code>Container</Code> is rendered when <Code>Responsive</Code>, <Code>FixedHeader</Code>, <Code>Resizable</Code>, or <Code>FixedColumns</Code> is enabled. Providers may add additional wrappers.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Tabs</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Content</Code></TableRowCell>
+            <TableRowCell><Code>Content</Code> targets the panel container across providers.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Tab</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Link</Code></TableRowCell>
+            <TableRowCell><Code>Link</Code> targets the clickable tab header across providers.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Badge</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Close</Code></TableRowCell>
+            <TableRowCell><Code>Close</Code> is rendered when <Code>Closable</Code> is true.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>ValidationSummary</Code></TableRowCell>
+            <TableRowCell><Code>Self</Code>, <Code>Error</Code></TableRowCell>
+            <TableRowCell><Code>Error</Code> targets the list items rendered for validation messages.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageSubtitle>
+    Provider support matrix
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The matrix below applies to both <Code>Classes</Code> and <Code>Styles</Code>. A green check means the provider renders the element, while a red times means the key has no effect.
+</DocsPageParagraph>
+
+<Table Responsive>
+    <TableHeader ThemeContrast="@ThemeContrast">
+        <TableRow>
+            <TableHeaderCell Style="width: 15%;">Component</TableHeaderCell>
+            <TableHeaderCell Style="width: 15%;">Key</TableHeaderCell>
+            <TableHeaderCell Style="width: 10%;">Bootstrap</TableHeaderCell>
+            <TableHeaderCell Style="width: 10%;">Bootstrap5</TableHeaderCell>
+            <TableHeaderCell Style="width: 10%;">Bulma</TableHeaderCell>
+            <TableHeaderCell Style="width: 10%;">AntDesign</TableHeaderCell>
+            <TableHeaderCell Style="width: 10%;">Material</TableHeaderCell>
+            <TableHeaderCell Style="width: 10%;">FluentUI2</TableHeaderCell>
+            <TableHeaderCell Style="width: 10%;">Tailwind</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @foreach ( ProviderSupportRow row in ProviderSupportMatrix )
+        {
+            <TableRow>
+                <TableRowCell><Code>@row.Component</Code></TableRowCell>
+                <TableRowCell>
+                    @if ( !string.IsNullOrEmpty( row.KeyNote ) )
+                    {
+                        <Tooltip Text="@row.KeyNote" Multiline>
+                            <Code>
+                                <Span>@row.Key</Span>
+                                <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is1.FromStart" />
+                            </Code>
+                        </Tooltip>
+                    }
+                    else
+                    {
+                        <Code>@row.Key</Code>
+                    }
+                </TableRowCell>
+                <TableRowCell>@SupportIcon( row.Bootstrap )</TableRowCell>
+                <TableRowCell>@SupportIcon( row.Bootstrap5 )</TableRowCell>
+                <TableRowCell>@SupportIcon( row.Bulma )</TableRowCell>
+                <TableRowCell>@SupportIcon( row.AntDesign )</TableRowCell>
+                <TableRowCell>@SupportIcon( row.Material )</TableRowCell>
+                <TableRowCell>@SupportIcon( row.FluentUI2 )</TableRowCell>
+                <TableRowCell>@SupportIcon( row.Tailwind )</TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        Not every CSS provider renders every optional element. If a key has no effect, the element may not be rendered for the current provider or configuration. Any unsupported properties are ignored.
+    </AlertDescription>
+</Alert>
+
+@code {
+    private sealed class ProviderSupportRow
+    {
+        public string Component { get; init; }
+        public string Key { get; init; }
+        public string KeyNote { get; init; }
+        public bool Bootstrap { get; init; }
+        public bool Bootstrap5 { get; init; }
+        public bool Bulma { get; init; }
+        public bool AntDesign { get; init; }
+        public bool Material { get; init; }
+        public bool FluentUI2 { get; init; }
+        public bool Tailwind { get; init; }
+    }
+
+    private static readonly IReadOnlyList<ProviderSupportRow> ProviderSupportMatrix = new ProviderSupportRow[]
+    {
+        new ProviderSupportRow { Component = "AccordionBody", Key = "Content", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Autocomplete", Key = "Input", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Autocomplete", Key = "Menu", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Autocomplete", Key = "Item", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Autocomplete", Key = "Tag", KeyNote = "Multiple selection (default tag template only)", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Badge", Key = "Close", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "BarDropdownMenu", Key = "Container", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Card", Key = "Wrapper", KeyNote = "CardDeck only", Bootstrap = false, Bootstrap5 = true, Bulma = false, AntDesign = false, Material = false, FluentUI2 = false, Tailwind = false },
+        new ProviderSupportRow { Component = "Carousel", Key = "Indicators", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Carousel", Key = "Slides", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "CarouselSlide", Key = "Indicator", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Check", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = true, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "CollapseBody", Key = "Content", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "ColorInput", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "ColorPicker", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "DateInput", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "DatePicker", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "DataGrid", Key = "Form", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "DataGrid", Key = "Pagination", KeyNote = "Pager enabled", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "DataGrid", Key = "ColumnDropZone", KeyNote = "Grouping enabled", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "DropZone", Key = "Placeholder", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "FieldBody", Key = "Container", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = true, Material = false, FluentUI2 = false, Tailwind = false },
+        new ProviderSupportRow { Component = "FieldLabel", Key = "Container", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = true, Material = false, FluentUI2 = false, Tailwind = false },
+        new ProviderSupportRow { Component = "FileInput", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Layout", Key = "Loading", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "MemoInput", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Modal", Key = "Backdrop", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "ModalContent", Key = "Dialog", Bootstrap = true, Bootstrap5 = true, Bulma = false, AntDesign = true, Material = false, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "NumericInput", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "NumericPicker", Key = "Wrapper", Bootstrap = true, Bootstrap5 = true, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "NumericPicker", Key = "Buttons", Bootstrap = true, Bootstrap5 = true, Bulma = false, AntDesign = false, Material = false, FluentUI2 = false, Tailwind = false },
+        new ProviderSupportRow { Component = "NumericPicker", Key = "ButtonUp", Bootstrap = true, Bootstrap5 = true, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "NumericPicker", Key = "ButtonDown", Bootstrap = true, Bootstrap5 = true, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Offcanvas", Key = "Backdrop", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "PageProgress", Key = "Indicator", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Progress", Key = "Bar", Bootstrap = true, Bootstrap5 = true, Bulma = false, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Radio", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = true, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Radio", Key = "LabelButton", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Select", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Slider", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Step", Key = "Container", Bootstrap = true, Bootstrap5 = true, Bulma = false, AntDesign = true, Material = false, FluentUI2 = false, Tailwind = true },
+        new ProviderSupportRow { Component = "Step", Key = "Marker", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Step", Key = "Description", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Steps", Key = "Content", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Switch", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Tab", Key = "Link", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Table", Key = "Container", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TableRowGroup", Key = "RowCell", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TableRowGroup", Key = "RowIndentCell", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "Tabs", Key = "Content", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TextInput", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "TimeInput", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "TimePicker", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "Toast", Key = "Wrapper", Bootstrap = false, Bootstrap5 = false, Bulma = false, AntDesign = false, Material = false, FluentUI2 = true, Tailwind = false },
+        new ProviderSupportRow { Component = "TreeView", Key = "Nodes", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TreeView", Key = "Node", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TreeView", Key = "NodeIcon", KeyNote = "Nodes with children only", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TreeView", Key = "NodeTitle", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TreeView", Key = "NodeCheck", KeyNote = "Multiple selection only", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "TreeView", Key = "NodeContent", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+        new ProviderSupportRow { Component = "ValidationSummary", Key = "Error", Bootstrap = true, Bootstrap5 = true, Bulma = true, AntDesign = true, Material = true, FluentUI2 = true, Tailwind = true },
+    };
+
+    private static RenderFragment SupportIcon( bool supported ) => __builder =>
+    {
+        __builder.OpenComponent<Icon>( 0 );
+        __builder.AddAttribute( 1, "Name", supported ? IconName.Check : IconName.Times );
+        __builder.AddAttribute( 2, "TextColor", supported ? TextColor.Success : TextColor.Danger );
+        __builder.CloseComponent();
+    };
+
+    private ThemeContrast ThemeContrast => ThemeService.ShouldDark ? ThemeContrast.Dark : ThemeContrast.Light;
+
+    [Inject] private ThemeService ThemeService { get; set; }
+}

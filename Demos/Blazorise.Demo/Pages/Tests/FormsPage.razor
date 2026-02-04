@@ -12,63 +12,63 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Placeholder="Some text value..." />
+                        <TextInput Placeholder="Some text value..." />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Role="TextRole.Email" Placeholder="email" />
+                        <TextInput Role="TextRole.Email" Placeholder="email" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Role="TextRole.Password" Text="password" />
+                        <TextInput Role="TextRole.Password" Value="password" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Placeholder</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Placeholder="placeholder" />
+                        <TextInput Placeholder="placeholder" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Text area</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <MemoEdit Rows="5" />
+                        <MemoInput Rows="5" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Readonly</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="Readonly value" ReadOnly />
+                        <TextInput Value="Readonly value" ReadOnly />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Disabled</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="Disabled value" Disabled />
+                        <TextInput Value="Disabled value" Disabled />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Static control</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="email@example.com" Plaintext />
+                        <TextInput Value="email@example.com" Plaintext />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Helping text</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Placeholder="Helping text">
+                        <TextInput Placeholder="Helping text">
                             <FieldHelp>A block of help text that breaks onto a new line and may extend beyond one line.</FieldHelp>
-                        </TextEdit>
+                        </TextInput>
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Select SelectedValue="3">
+                        <Select Value="3">
                             <SelectItem Value="1">One</SelectItem>
                             <SelectItem Value="2">Two</SelectItem>
                             <SelectItem Value="3">Three</SelectItem>
@@ -79,7 +79,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Multiple Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Select TValue="int" Multiple>
+                        <Select TValue="int[]" Multiple>
                             <SelectItem Value="1">One</SelectItem>
                             <SelectItem Value="2">Two</SelectItem>
                             <SelectItem Value="3">Three</SelectItem>
@@ -90,7 +90,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select With Group</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Select SelectedValue="3">
+                        <Select Value="3">
                             <SelectGroup Label="first group">
                                 <SelectItem Value="1">One</SelectItem>
                                 <SelectItem Value="2">Two</SelectItem>
@@ -105,37 +105,37 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Default file input</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <FileEdit Placeholder="Please select the file..." />
+                        <FileInput Placeholder="Please select the file..." />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <DateEdit TValue="DateTime?" />
+                        <DateInput TValue="DateTime?" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date and Time</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <DateEdit TValue="DateTime?" InputMode="DateInputMode.DateTime" />
+                        <DateInput TValue="DateTime?" InputMode="DateInputMode.DateTime" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Time</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TimeEdit TValue="TimeSpan?" TimeChanged="@((v)=>Console.WriteLine(v))" />
+                        <TimeInput TValue="TimeSpan?" ValueChanged="@((v)=>Console.WriteLine(v))" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Number</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <NumericEdit TValue="decimal?" />
+                        <NumericInput TValue="decimal?" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Url</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Role="TextRole.Url" />
+                        <TextInput Role="TextRole.Url" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -147,7 +147,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radios</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors" CheckedValue="@("blue")">
+                        <RadioGroup TValue="string" Name="colors" Value="@("blue")">
                             <Radio Value="@("red")">Red</Radio>
                             <Radio Value="@("green")">Green</Radio>
                             <Radio Value="@("blue")">Blue</Radio>
@@ -157,7 +157,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radio buttons</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors2" Buttons CheckedValue="@("green")">
+                        <RadioGroup TValue="string" Name="colors2" Buttons Value="@("green")">
                             <Radio Value="@("red")">Red</Radio>
                             <Radio Value="@("green")">Green</Radio>
                             <Radio Value="@("blue")">Blue</Radio>
@@ -167,7 +167,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Color</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <ColorEdit ColorChanged="@(c=>Console.WriteLine(c))" />
+                        <ColorInput ValueChanged="@(c=>Console.WriteLine(c))" />
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -187,19 +187,19 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Small</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Size="Size.Small" Placeholder=".small" />
+                        <TextInput Size="Size.Small" Placeholder=".small" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Normal</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Placeholder="Normal" />
+                        <TextInput Placeholder="Normal" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Large</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Size="Size.Large" Placeholder=".large" />
+                        <TextInput Size="Size.Large" Placeholder=".large" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -210,7 +210,7 @@
                                 <AddonLabel>@@</AddonLabel>
                             </Addon>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit Placeholder="Username" />
+                                <TextInput Placeholder="Username" />
                             </Addon>
                         </Addons>
                     </FieldBody>
@@ -223,7 +223,7 @@
                                 <AddonLabel>Start</AddonLabel>
                             </Addon>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit Placeholder="Placeholder" />
+                                <TextInput Placeholder="Placeholder" />
                             </Addon>
                             <Addon AddonType="AddonType.End">
                                 <AddonLabel>End</AddonLabel>
@@ -239,10 +239,10 @@
                                 <AddonLabel>Start</AddonLabel>
                             </Addon>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit Placeholder="Placeholder" />
+                                <TextInput Placeholder="Placeholder" />
                             </Addon>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit Placeholder="Placeholder 2" />
+                                <TextInput Placeholder="Placeholder 2" />
                             </Addon>
                             <Addon AddonType="AddonType.End">
                                 <AddonLabel>End</AddonLabel>
@@ -267,7 +267,7 @@
                                 </Dropdown>
                             </Addon>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit />
+                                <TextInput />
                             </Addon>
                         </Addons>
                     </FieldBody>
@@ -277,7 +277,7 @@
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <Addons>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit Placeholder="Recipient's username" />
+                                <TextInput Placeholder="Recipient's username" />
                             </Addon>
                             <Addon AddonType="AddonType.End">
                                 <Button Color="Color.Secondary">Button</Button>
@@ -298,12 +298,12 @@
             <CardBody>
                 <Field>
                     <FieldLabel>Email address</FieldLabel>
-                    <TextEdit Placeholder="Enter email" />
+                    <TextInput Placeholder="Enter email" />
                     <FieldHelp>We'll never share your email with anyone else.</FieldHelp>
                 </Field>
                 <Field>
                     <FieldLabel>Password</FieldLabel>
-                    <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                    <TextInput Role="TextRole.Password" Placeholder="Password" />
                 </Field>
                 <Field>
                     <Check TValue="bool">Check me out</Check>
@@ -321,19 +321,19 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Email address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <TextEdit Placeholder="Email" />
+                        <TextInput Placeholder="Email" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                        <TextInput Role="TextRole.Password" Placeholder="Password" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Re Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
-                        <TextEdit Role="TextRole.Password" Placeholder="Retype password" />
+                        <TextInput Role="TextRole.Password" Placeholder="Retype password" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal JustifyContent="JustifyContent.End">
@@ -367,7 +367,7 @@
                                 <FieldLabel>email@example.com</FieldLabel>
                             </Field>
                             <Field Margin="Margin.Is3.OnX.OnTablet">
-                                <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                                <TextInput Role="TextRole.Password" Placeholder="Password" />
                             </Field>
                             <Field>
                                 <Button Color="Color.Primary">Confirm identity</Button>
@@ -380,7 +380,7 @@
                         <Fields Label="Auto-sizing">
                             <Column ColumnSize="ColumnSize.IsAuto">
                                 <FieldLabel Screenreader="Screenreader.Only">Name</FieldLabel>
-                                <TextEdit Placeholder="Jane Doe" />
+                                <TextInput Placeholder="Jane Doe" />
                             </Column>
                             <Column ColumnSize="ColumnSize.IsAuto">
                                 <FieldLabel Screenreader="Screenreader.Only">Username</FieldLabel>
@@ -389,7 +389,7 @@
                                         <AddonLabel>@@</AddonLabel>
                                     </Addon>
                                     <Addon AddonType="AddonType.Body">
-                                        <TextEdit Placeholder="Username" />
+                                        <TextInput Placeholder="Username" />
                                     </Addon>
                                 </Addons>
                             </Column>
@@ -416,25 +416,25 @@
                 <Fields>
                     <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                         <FieldLabel>Email</FieldLabel>
-                        <TextEdit Role="TextRole.Email" Placeholder="Email" />
+                        <TextInput Role="TextRole.Email" Placeholder="Email" />
                     </Field>
                     <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                         <FieldLabel>Password</FieldLabel>
-                        <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                        <TextInput Role="TextRole.Password" Placeholder="Password" />
                     </Field>
                 </Fields>
                 <Field>
                     <FieldLabel>Address</FieldLabel>
-                    <TextEdit Placeholder="1234 Main St" />
+                    <TextInput Placeholder="1234 Main St" />
                 </Field>
                 <Field>
                     <FieldLabel>Address 2</FieldLabel>
-                    <TextEdit Placeholder="Appartment, studio, or floor" />
+                    <TextInput Placeholder="Appartment, studio, or floor" />
                 </Field>
                 <Fields>
                     <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit />
+                        <TextInput />
                     </Field>
                     <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                         <FieldLabel>State</FieldLabel>
@@ -443,7 +443,7 @@
                     </Field>
                     <Field ColumnSize="ColumnSize.Is2.OnDesktop">
                         <FieldLabel>Zip</FieldLabel>
-                        <TextEdit />
+                        <TextInput />
                     </Field>
                 </Fields>
                 <Field>

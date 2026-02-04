@@ -1,0 +1,15 @@
+@using Blazorise.Utilities
+@typeparam TItem
+@inherits ComponentBase
+
+@if ( valueType.IsNumeric() )
+{
+    if ( Column.NativeInputMode )
+    {
+        @NumericInputFragment
+    }
+    else
+    {
+        @NumericPickerFragment
+    }
+}

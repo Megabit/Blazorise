@@ -1,6 +1,6 @@
-﻿@namespace Blazorise
-@inherits BaseInputComponent<string>
-<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+@namespace Blazorise
+@inherits BaseInputComponent<string, ColorPickerClasses, ColorPickerStyles>
+<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
     <div class="b-input-color-picker-preview">
         <span class="b-input-color-picker-curent-color"></span>
     </div>

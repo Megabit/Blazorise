@@ -75,4 +75,9 @@ public interface IValidation
     /// Runs the asynchronous validation process based on the last available value.
     /// </summary>
     public Task<ValidationStatus> ValidateAsync();
+
+    /// <summary>
+    /// Retriggers the asynchronous validation process using the most recent value.
+    /// </summary>
+    Task<ValidationStatus> RetriggerValidation();
 }

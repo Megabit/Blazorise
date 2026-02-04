@@ -1,17 +1,21 @@
 ﻿@page "/docs/extensions/icons"
 
-<Seo Canonical="/docs/extensions/icons" Title="Blazorise Icons" Description="Learn to use and work with the Blazorise Icon component, symbols that can be used to represent various options within an application." />
+<Seo Canonical="/docs/extensions/icons" Title="Blazorise Icons component" Description="Learn how to use the Blazorise Icons component and icon providers to represent actions and states." />
 
 <DocsPageTitle Path="Extensions/Icons">
-    Blazorise Icons
+    Blazorise Icons component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Icons are symbols that can be used to represent various options within an application.
+    Icons are visual symbols that represent actions, states, or navigation options.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Blazorise comes with over 300 icons. These icons are part of the default icon library. If you prefer, you can register custom icon libraries as well.
+    Blazorise ships with multiple icon providers and supports registering custom icon libraries.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>Icon</Code> component, install one of the <Code>Blazorise.Icons.*</Code> packages first.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -19,14 +23,14 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    The very first thing you need to do is to install the Blazorise Icons extension. This can be done in several ways:
+    Install an icon provider package from NuGet.
 </DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="IconsNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="IconsNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageParagraph>
@@ -34,36 +38,36 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="1. Bootstrap Icons CSS">
-        Note: If instead of FontAwesome icons you want to use Bootstrap icons you will need to define static <Code>bootstrap-icons.min.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
+    <DocsPageSectionHeader Title="Bootstrap Icons CSS">
+        Note: If you use Bootstrap icons, define <Code>bootstrap-icons.min.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="BootstrapIconsCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="2. Fluent Icons CSS">
-        Note: If instead of Fluent icons you want to use Bootstrap icons you will need to define static <Code>FluentSystemIcons-Resizable.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
+    <DocsPageSectionHeader Title="Fluent Icons CSS">
+        Note: If you use Fluent icons, define <Code>FluentSystemIcons-Resizable.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FluentIconsCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="3. Font Awesome Icons CSS">
-        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    <DocsPageSectionHeader Title="Font Awesome Icons CSS">
+        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FontAwesomeCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="4. Material Icons CSS">
-        Note: If instead of FontAwesome icons you want to use Material icons you will need to define static <Code>blazorise.icons.material.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
+    <DocsPageSectionHeader Title="Material Icons CSS">
+        Note: If you use Material icons, define <Code>blazorise.icons.material.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="MaterialCSSExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Registrations" />
-    <DocsPageSectionSource Code="RegistrationsExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="RegistrationsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -88,7 +92,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Icon Names">
-        Preferred way to define icon is to use an enum <Code>IconName</Code>. That way every icon will be applied automatically based on the icon package that you’re using.
+        Preferred way to define icon is to use an enum <Code>IconName</Code>. That way every icon will be applied automatically based on the icon package that you're using.
 
         In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for font-awesome you would use <Code>FontAwesomeIcons</Code>, while for material that would be <Code>MaterialIcons</Code>.
     </DocsPageSectionHeader>

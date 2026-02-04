@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 #endregion
 
@@ -6,25 +6,25 @@ namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public interface IClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    string TextEdit( bool plaintext );
+    string TextInput( bool plaintext );
 
-    string TextEditSize( Size size );
+    string TextInputSize( Size size );
 
-    string TextEditColor( Color color );
+    string TextInputColor( Color color );
 
-    string TextEditValidation( ValidationStatus validationStatus );
+    string TextInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    string MemoEdit( bool plaintext );
+    string MemoInput( bool plaintext );
 
-    string MemoEditSize( Size size );
+    string MemoInputSize( Size size );
 
-    string MemoEditValidation( ValidationStatus validationStatus );
+    string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
@@ -40,47 +40,47 @@ public interface IClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    string NumericEdit( bool plaintext );
+    string NumericInput( bool plaintext );
 
-    string NumericEditSize( Size size );
+    string NumericInputSize( Size size );
 
-    string NumericEditColor( Color color );
+    string NumericInputColor( Color color );
 
-    string NumericEditValidation( ValidationStatus validationStatus );
-
-    #endregion
-
-    #region DateEdit
-
-    string DateEdit( bool plaintext );
-
-    string DateEditSize( Size size );
-
-    string DateEditColor( Color color );
-
-    string DateEditValidation( ValidationStatus validationStatus );
+    string NumericInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    string TimeEdit( bool plaintext );
+    string DateInput( bool plaintext );
 
-    string TimeEditSize( Size size );
+    string DateInputSize( Size size );
 
-    string TimeEditColor( Color color );
+    string DateInputColor( Color color );
 
-    string TimeEditValidation( ValidationStatus validationStatus );
+    string DateInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    string ColorEdit();
+    string TimeInput( bool plaintext );
 
-    string ColorEditSize( Size size );
+    string TimeInputSize( Size size );
+
+    string TimeInputColor( Color color );
+
+    string TimeInputValidation( ValidationStatus validationStatus );
+
+    #endregion
+
+    #region ColorInput
+
+    string ColorInput();
+
+    string ColorInputSize( Size size );
 
     #endregion
 
@@ -194,13 +194,13 @@ public interface IClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    string FileEdit();
+    string FileInput();
 
-    string FileEditSize( Size size );
+    string FileInputSize( Size size );
 
-    string FileEditValidation( ValidationStatus validationStatus );
+    string FileInputValidation( ValidationStatus validationStatus );
 
     #endregion
 
@@ -426,7 +426,7 @@ public interface IClassProvider
 
     string DropdownMenuVisible( bool visible );
 
-    string DropdownMenuRight( bool rightAligned );
+    string DropdownMenuEnd( bool endAligned );
 
     string DropdownToggle( bool isDropdownSubmenu, bool outline );
 
@@ -568,11 +568,11 @@ public interface IClassProvider
 
     string CardTitle( bool insideHeader );
 
-    string CardTitleSize( bool insideHeader, int? size );
+    string CardTitleSize( bool insideHeader, HeadingSize? size );
 
     string CardSubtitle( bool insideHeader );
 
-    string CardSubtitleSize( bool insideHeader, int size );
+    string CardSubtitleSize( bool insideHeader, HeadingSize? size );
 
     string CardText();
 
@@ -732,17 +732,17 @@ public interface IClassProvider
 
     #region Collapse
 
-    string Collapse( bool accordion );
+    string Collapse();
 
-    string CollapseActive( bool accordion, bool active );
+    string CollapseActive( bool active );
 
-    string CollapseHeader( bool accordion );
+    string CollapseHeader();
 
-    string CollapseBody( bool accordion );
+    string CollapseBody();
 
-    string CollapseBodyActive( bool accordion, bool active );
+    string CollapseBodyActive( bool active );
 
-    string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion );
+    string CollapseBodyContent();
 
     #endregion
 
@@ -751,8 +751,6 @@ public interface IClassProvider
     string Row();
 
     string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
-
-    string RowNoGutters( bool noGutters );
 
     #endregion
 
@@ -1224,6 +1222,14 @@ public interface IClassProvider
 
     #endregion
 
+    #region Gutter
+
+    string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint );
+
+    string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules );
+
+    #endregion
+
     #region Borders
 
     string Border( BorderSize borderSize, BorderDefinition borderDefinition );
@@ -1326,7 +1332,7 @@ public interface IClassProvider
 
     #region Enums
 
-    /* 
+    /*
      * These methods are named with "To" prefix to indicate they're used only to convert en enum to the equivalent
      * keyword in the implementation class provider.
      */
@@ -1374,6 +1380,8 @@ public interface IClassProvider
     string ToSpacingSize( SpacingSize spacingSize );
 
     string ToGapSize( GapSize gapSize );
+
+    string ToGutterSize( GutterSize gutterSize );
 
     string ToJustifyContent( JustifyContent justifyContent );
 

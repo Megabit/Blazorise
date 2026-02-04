@@ -77,7 +77,7 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     /// </summary>
     private void OnValidateStartDate( ValidatorEventArgs e )
     {
-        var startValue = ( e.Value as DateOnly[] )?[0];
+        var startValue = e.Value as DateOnly?;
 
         var start = AllDay
             ? new DateTime( startValue.Value.Year, startValue.Value.Month, startValue.Value.Day )
@@ -103,7 +103,7 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     /// </summary>
     private void OnValidateEndDate( ValidatorEventArgs e )
     {
-        var endValue = ( e.Value as DateOnly[] )?[0];
+        var endValue = e.Value as DateOnly?;
 
         var start = AllDay
             ? new DateTime( StartDate.Year, StartDate.Month, StartDate.Day )

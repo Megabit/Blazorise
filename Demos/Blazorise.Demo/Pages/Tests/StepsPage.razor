@@ -60,7 +60,6 @@
                     <Step Name="6" Color="Color.Info">Info</Step>
                     <Step Name="7" Color="Color.Light">Light</Step>
                     <Step Name="8" Color="Color.Dark">Dark</Step>
-                    <Step Name="9" Color="Color.Link">Link</Step>
                 </Steps>
             </CardBody>
         </Card>
@@ -77,7 +76,7 @@
                 <CardText>To control the navigation based on the user input you can use <Code>NavigationAllowed</Code> function.</CardText>
             </CardBody>
             <CardBody>
-                <Steps @ref="stepsRef" @bind-SelectedStep="selectedStep" NavigationAllowed="NavigationAllowed">
+                <Steps @ref="stepsRef" @bind-SelectedStep="@selectedStep" NavigationAllowed="NavigationAllowed">
                     <Items>
                         <Step Name="1">Step 1</Step>
                         <Step Name="2">Step 2</Step>
@@ -91,9 +90,9 @@
                         <StepPanel Name="2">
                             <Field>
                                 <FieldLabel>Email address</FieldLabel>
-                                <TextEdit @bind-Text="email" Placeholder="Enter email">
+                                <TextInput @bind-Value="email" Placeholder="Enter email">
                                     <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
-                                </TextEdit>
+                                </TextInput>
                             </Field>
                         </StepPanel>
                         <StepPanel Name="3">
@@ -121,13 +120,13 @@
     private string email;
     private string selectedStep = "2";
 
-    private bool NavigationAllowed( StepNavigationContext context )
+    private Task<bool> NavigationAllowed( StepNavigationContext context )
     {
         if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
         {
-            return false;
+            return Task.FromResult( false );
         }
 
-        return true;
+        return Task.FromResult( true );
     }
 }

@@ -14,7 +14,7 @@
                                 Animation
                             </FieldLabel>
                             <FieldBody>
-                                <Switch @bind-Checked="@animation">Animation</Switch>
+                                <Switch @bind-Value="@animation">Animation</Switch>
                             </FieldBody>
                         </Field>
                     </Column>
@@ -24,7 +24,7 @@
                                 Animation Duration (ms)
                             </FieldLabel>
                             <FieldBody>
-                                <NumericEdit TValue="int" @bind-Value="animationDuration" />
+                                <NumericInput TValue="int" @bind-Value="animationDuration" />
                             </FieldBody>
                         </Field>
                     </Column>

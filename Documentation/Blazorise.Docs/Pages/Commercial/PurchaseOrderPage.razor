@@ -25,7 +25,7 @@
                                 <Field ColumnSize="ColumnSize.Is8.OnDesktop">
                                     <FieldLabel>Product</FieldLabel>
                                     <FieldBody>
-                                        <Select TValue="string" @bind-SelectedValue="@InputModel.Product">
+                                        <Select TValue="string" @bind-Value="@InputModel.Product">
                                             <ChildContent>
                                                 <SelectItem TValue="string" Value="null"></SelectItem>
                                                 @foreach ( var productName in SupportedProductNames )
@@ -65,11 +65,11 @@
                                 <Field ColumnSize="ColumnSize.Is12">
                                     <FieldLabel>Full Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.FullName">
+                                        <TextInput @bind-Value="@InputModel.FullName">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -79,22 +79,22 @@
                                 <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                                     <FieldLabel>Work Email</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit Role="TextRole.Email" @bind-Text="@InputModel.Email">
+                                        <TextInput Role="TextRole.Email" @bind-Value="@InputModel.Email">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
                             <Field ColumnSize="ColumnSize.Is6.OnDesktop">
                                 <FieldLabel>Phone</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@InputModel.PhoneNumber" Placeholder="(xx) xxx xxx xxx">
+                                    <TextInput @bind-Value="@InputModel.PhoneNumber" Placeholder="(xx) xxx xxx xxx">
                                         <Feedback>
                                             <ValidationError />
                                         </Feedback>
-                                    </TextEdit>
+                                    </TextInput>
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -103,11 +103,11 @@
                                 <Field ColumnSize="ColumnSize.Is8.OnDesktop">
                                     <FieldLabel>Company Name</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.Company">
+                                        <TextInput @bind-Value="@InputModel.Company">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -115,11 +115,11 @@
                                 <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                     <FieldLabel>VAT / TAX Number</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.VAT">
+                                        <TextInput @bind-Value="@InputModel.VAT">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -129,11 +129,11 @@
                                 <Field ColumnSize="ColumnSize.Is12">
                                     <FieldLabel>Address</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.Address">
+                                        <TextInput @bind-Value="@InputModel.Address">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -142,7 +142,7 @@
                             <Field ColumnSize="ColumnSize.Is12">
                                 <FieldLabel>Address 2</FieldLabel>
                                 <FieldBody>
-                                    <TextEdit @bind-Text="@InputModel.Address2" />
+                                    <TextInput @bind-Value="@InputModel.Address2" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -151,11 +151,11 @@
                                 <Field ColumnSize="ColumnSize.Is12">
                                     <FieldLabel>Country</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.Country">
+                                        <TextInput @bind-Value="@InputModel.Country">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -165,11 +165,11 @@
                                 <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                     <FieldLabel>Town / City</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.City">
+                                        <TextInput @bind-Value="@InputModel.City">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -177,11 +177,11 @@
                                 <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                     <FieldLabel>State / Region</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.State">
+                                        <TextInput @bind-Value="@InputModel.State">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -189,11 +189,11 @@
                                 <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                                     <FieldLabel>Zip / Postal Code</FieldLabel>
                                     <FieldBody>
-                                        <TextEdit @bind-Text="@InputModel.Zip">
+                                        <TextInput @bind-Value="@InputModel.Zip">
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </TextEdit>
+                                        </TextInput>
                                     </FieldBody>
                                 </Field>
                             </Validation>
@@ -203,7 +203,7 @@
                             <Field ColumnSize="ColumnSize.Is12">
                                 <FieldLabel>Preferred Payment Type</FieldLabel>
                                 <FieldBody>
-                                    <Select TValue="string" @bind-SelectedValue="@InputModel.PaymentType">
+                                    <Select TValue="string" @bind-Value="@InputModel.PaymentType">
                                         <SelectItem TValue="string" Value="null"></SelectItem>
                                         @foreach ( var paymantType in SupportedPaymentTypes )
                                         {
@@ -218,7 +218,7 @@
                             <Field ColumnSize="ColumnSize.Is12">
                                 <FieldLabel>Additional Notes</FieldLabel>
                                 <FieldBody>
-                                    <MemoEdit @bind-Text="@InputModel.Note" Rows="3" />
+                                    <MemoInput @bind-Value="@InputModel.Note" Rows="3" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -238,9 +238,9 @@
                  <Column ColumnSize="ColumnSize.Is12">
                      <Paragraph TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
                          By clicking "Submit Order" you agree to our
-                         <Blazorise.Link To="terms">Terms of Service</Blazorise.Link>
+                        <Anchor To="terms">Terms of Service</Anchor>
                          and
-                         <Blazorise.Link To="privacy">Privacy Policy</Blazorise.Link>.
+                        <Anchor To="privacy">Privacy Policy</Anchor>.
                      </Paragraph>
                  </Column>
              </Row>

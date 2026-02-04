@@ -1,0 +1,22 @@
+@typeparam TValue
+@inherits Blazorise.DateInput<TValue>
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        @InputElement
+    </div>
+}
+else
+{
+    @InputElement
+}
+@code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <div class="control">
+            <input @ref="@ElementRef" id="@ElementId" type="@Mode" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" placeholder="@Placeholder" min="@Min?.ToString(DateFormat)" max="@Max?.ToString(DateFormat)" step="@Step" @attributes="@Attributes" />
+            @ChildContent
+        </div>
+        @Feedback
+    };
+}

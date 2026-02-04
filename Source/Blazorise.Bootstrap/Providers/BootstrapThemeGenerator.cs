@@ -365,6 +365,88 @@ public class BootstrapThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
         }
 
+        var validationShadowSize = theme.ButtonOptions?.BoxShadowSize ?? ".2rem";
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            var validationSuccessShadow = ToHexRGBA( Transparency( validationSuccessColor, 64 ) );
+            var validationSuccessTextColor = ToHex( Contrast( theme, validationSuccessColor ) );
+
+            sb.Append( ".form-control.is-valid," )
+                .Append( ".custom-select.is-valid," )
+                .Append( ".custom-file-input.is-valid" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".form-control.is-valid:focus," )
+                .Append( ".custom-select.is-valid:focus," )
+                .Append( ".custom-file-input.is-valid:focus" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 {validationShadowSize} {validationSuccessShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".valid-feedback" ).Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".valid-tooltip" ).Append( "{" )
+                .Append( $"color: {validationSuccessTextColor};" )
+                .Append( $"background-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-valid" ).Append( "{" )
+                .Append( $"outline-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-valid.focus" ).Append( "{" )
+                .Append( $"outline-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 {validationShadowSize} {validationSuccessShadow};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            var validationDangerShadow = ToHexRGBA( Transparency( validationDangerColor, 64 ) );
+            var validationDangerTextColor = ToHex( Contrast( theme, validationDangerColor ) );
+
+            sb.Append( ".form-control.is-invalid," )
+                .Append( ".custom-select.is-invalid," )
+                .Append( ".custom-file-input.is-invalid" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".form-control.is-invalid:focus," )
+                .Append( ".custom-select.is-invalid:focus," )
+                .Append( ".custom-file-input.is-invalid:focus" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 {validationShadowSize} {validationDangerShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".invalid-feedback" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".invalid-tooltip" ).Append( "{" )
+                .Append( $"color: {validationDangerTextColor};" )
+                .Append( $"background-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-invalid" ).Append( "{" )
+                .Append( $"outline-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.is-invalid.focus" ).Append( "{" )
+                .Append( $"outline-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 {validationShadowSize} {validationDangerShadow};" )
+                .AppendLine( "}" );
+        }
+
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             sb

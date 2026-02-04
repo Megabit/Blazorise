@@ -1,0 +1,6 @@
+@namespace Blazorise
+@typeparam TValue
+@inherits BaseTextInput<TValue, TimeInputClasses, TimeInputStyles>
+<input @ref="@ElementRef" id="@ElementId" type="time" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" step="@Step" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+@ChildContent
+@Feedback

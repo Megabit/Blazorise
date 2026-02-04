@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6;</TargetFrameworks>
+    <TargetFrameworks>net8;</TargetFrameworks>
     <BuildBlazoriseWeaverDll>true</BuildBlazoriseWeaverDll>
   </PropertyGroup>
 

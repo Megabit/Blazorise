@@ -1,14 +1,14 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.NumericPicker<TValue>
 @if ( IsShowStepButtons )
 {
-    <div class="@NumericWrapperClassNames">
+    <div class="@NumericWrapperClassNames" style="@NumericWrapperStyleNames">
         @InputTemplate
-        <div class="b-numeric-handler-wrap">
-            <Blazorise.Button Clicked="@OnSpinUpClicked" Class="b-numeric-handler b-numeric-handler-up" TabIndex="-1">
+        <div class="@ButtonsClassNames" style="@Styles?.Buttons">
+            <Blazorise.Button Clicked="@OnSpinUpClicked" Class="@ButtonUpClassNames" Style="@Styles?.ButtonUp" TabIndex="-1">
                 <Icon Name="IconName.SortUp" />
             </Blazorise.Button>
-            <Blazorise.Button Clicked="@OnSpinDownClicked" Class="b-numeric-handler b-numeric-handler-down" TabIndex="-1">
+            <Blazorise.Button Clicked="@OnSpinDownClicked" Class="@ButtonDownClassNames" Style="@Styles?.ButtonDown" TabIndex="-1">
                 <Icon Name="IconName.SortDown" />
             </Blazorise.Button>
         </div>
@@ -24,6 +24,6 @@ else
 {
     protected RenderFragment InputTemplate => __builder =>
     {
-        <input @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     };
 }

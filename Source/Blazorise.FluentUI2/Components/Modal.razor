@@ -6,7 +6,7 @@
         {
             <_ModalBackdrop Animated="@Animated" AnimationDuration="@AnimationDuration" />
         }
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" tabindex="-1" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" tabindex="-1" aria-modal="@AriaModal" aria-labelledby="@AriaLabelledBy" aria-describedby="@AriaDescribedBy" @attributes="@Attributes">
             @if ( ShouldRenderContent )
             {
                 @ChildContent

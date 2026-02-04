@@ -164,8 +164,13 @@
         cursor: text;
         min-height: calc(1.5em + .75rem + 2px);
         height: auto;
-        border: 1px solid var(--btw-color-gray-300);
+        border-width: 1px;
+        border-style: solid;
         border-radius: 0.5rem;
+
+        &:not(.border-green-500):not(.border-red-500) {
+            border-color: var(--btw-color-gray-300);
+        }
 
         > input:not(.border-green-500, .border-red-500) {
             border: none;
@@ -192,7 +197,7 @@
             top: 100%;
         }
 
-        &.focus {
+        &.focus:not(.border-green-500):not(.border-red-500) {
             --tw-ring-inset: var(--tw-empty, /*!*/ /*!*/ );
             --tw-ring-offset-width: 0px;
             --tw-ring-offset-color: #fff;
@@ -203,6 +208,16 @@
             box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow);
             outline: 2px solid transparent;
             outline-offset: 2px;
+        }
+    }
+
+    &.border-red-500,
+    &.border-green-500 {
+        border-radius: 0.5rem;
+
+        > input {
+            border-color: transparent;
+            box-shadow: none;
         }
     }
 }

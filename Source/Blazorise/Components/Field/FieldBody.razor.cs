@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// Container for input components when <see cref="Field"/> has <see cref="Field.Horizontal"/> set to true.
 /// </summary>
-public partial class FieldBody : BaseSizableFieldComponent
+public partial class FieldBody : BaseSizableFieldComponent<FieldBodyClasses, FieldBodyStyles>
 {
     #region Methods
 

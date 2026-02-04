@@ -1,17 +1,17 @@
-﻿@using System.Text
+@using System.Text
 @typeparam TValue
 @inherits Blazorise.Select<TValue>
 @attribute [CascadingTypeParameter( nameof( TValue ) )]
 <CascadingValue Value="@this" IsFixed>
     @if ( ParentIsAddons )
     {
-        <span class="@AddonClassNames">
+        <span class="@AddonClassNames" style="@WrapperStyleNames">
             @InputElement
         </span>
     }
     else
     {
-        <span class="@InputClassNames">
+        <span class="@InputClassNames" style="@WrapperStyleNames">
             @InputElement
         </span>
     }
@@ -20,7 +20,7 @@
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        <select @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
             @ChildContent
         </select>
         @if ( !Multiple )

@@ -115,7 +115,7 @@ public class AutocompleteBaseComponentTest : TestContext
             var firstSuggestion = comp.WaitForElement( ".b-is-autocomplete-suggestion", TestExtensions.WaitTime );
             if ( firstSuggestion.TextContent.Contains( expectedText ) )
             {
-                firstSuggestion.MouseUp();
+                firstSuggestion.Click();
                 break;
             }
             Thread.Sleep( 100 );
@@ -204,7 +204,7 @@ public class AutocompleteBaseComponentTest : TestContext
     {
         var comp = RenderComponent<TComponent>( parameters =>
         {
-            parameters.TryAdd( "MinLength", 1 );
+            parameters.TryAdd( "MinSearchLength", 1 );
             parameters.TryAdd( "AutoPreSelect", true );
         } );
 
@@ -222,7 +222,7 @@ public class AutocompleteBaseComponentTest : TestContext
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
         {
-            parameters.TryAdd( "MinLength", 1 );
+            parameters.TryAdd( "MinSearchLength", 1 );
             parameters.TryAdd( "AutoPreSelect", false );
         } );
 
@@ -237,29 +237,27 @@ public class AutocompleteBaseComponentTest : TestContext
         Assert.Empty( preSelected );
     }
 
-    public async Task TestMinLen0ShowsOptions<TComponent>() where TComponent : IComponent
+    public async Task TestMinSearchLength0ShowsOptions<TComponent>() where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
-            parameters.TryAdd( "MinLength", 0 ) );
+            parameters.TryAdd( "MinSearchLength", 0 ) );
 
         // test
-        var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        await autoComplete.InputAsync( "" );
+        var autoComplete = comp.WaitForElement( ".b-is-autocomplete input", TestExtensions.WaitTime );
         await autoComplete.FocusAsync( new() );
 
         comp.WaitForAssertion( () => Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) ), TestExtensions.WaitTime );
     }
 
-    public async Task TestMinLenBiggerThen0DoesNotShowOptions<TComponent>() where TComponent : IComponent
+    public async Task TestMinSearchLengthBiggerThen0DoesNotShowOptions<TComponent>() where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
-            parameters.TryAdd( "MinLength", 1 ) );
+            parameters.TryAdd( "MinSearchLength", 1 ) );
 
         // test
-        var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        await autoComplete.InputAsync( "" );
+        var autoComplete = comp.WaitForElement( ".b-is-autocomplete input", TestExtensions.WaitTime );
         await autoComplete.FocusAsync( new() );
 
         var options = comp.FindAll( ".b-is-autocomplete-suggestion" );
@@ -306,7 +304,7 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         var comp = RenderComponent<TComponent>( parameters =>
         {
             parameters.TryAdd( "SelectedValues", new List<string> { "PT", "HR" } );
-            parameters.TryAdd( "MinLength", 0 );
+            parameters.TryAdd( "MinSearchLength", 0 );
         } );
 
         await comp.InvokeAsync( async () => await clear( comp ) );

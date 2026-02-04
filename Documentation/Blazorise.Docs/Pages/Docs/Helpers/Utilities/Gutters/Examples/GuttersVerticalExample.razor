@@ -1,0 +1,16 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Container Overflow="Overflow.Hidden" TextAlignment="TextAlignment.Center">
+    <Row Gutter="Gutter.Is5.OnY">
+        @for ( int i = 1; i <= 4; i++ )
+        {
+            <Column ColumnSize="ColumnSize.Is6">
+                <Div Padding="Padding.Is3"
+                     Background="Background.Primary.Subtle"
+                     Border="Border.Primary">
+                    Custom column padding
+                </Div>
+            </Column>
+        }
+    </Row>
+</Container>

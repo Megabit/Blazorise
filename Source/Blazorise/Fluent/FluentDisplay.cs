@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent display builders.
 /// </summary>
-public interface IFluentDisplay
+public interface IFluentDisplay : IFluentUtilityTarget<IFluentDisplay>
 {
     /// <summary>
     /// Builds the classnames based on display rules.
@@ -189,7 +189,8 @@ public class FluentDisplay :
     IFluentDisplayWithDisplayOnBreakpointWithDirection,
     IFluentDisplayOnBreakpoint,
     IFluentDisplayWithDisplayFlexWithDirection,
-    IFluentDisplayWithDisplay
+    IFluentDisplayWithDisplay,
+    IUtilityTargeted
 {
     #region Members
 
@@ -244,6 +245,12 @@ public class FluentDisplay :
     private void Dirty()
     {
         dirty = true;
+    }
+
+    private IFluentDisplay WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
     }
 
     /// <summary>
@@ -324,6 +331,21 @@ public class FluentDisplay :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentDisplay OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentDisplay OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// Valid on all devices. (extra small)

@@ -1,0 +1,86 @@
+﻿<h2>Without bind or event</h2>
+<p id="validate-numeric-initially-blank">
+    Initially blank:
+    <Validation Validator="@IsValidInteger">
+        <NumericInput TValue="int?">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </NumericInput>
+    </Validation>
+</p>
+<p id="validate-numeric-initially-populated">
+    Initially populated:
+    <Validation Validator="@IsValidInteger">
+        <NumericInput Value="1">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </NumericInput>
+    </Validation>
+</p>
+
+<h2>With bind</h2>
+<p id="validate-numeric-with-bind-initially-blank">
+    Initially blank:
+    <Validation Validator="@IsValidInteger">
+        <NumericInput @bind-Value="@intWithBindInitiallyBlank">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </NumericInput>
+    </Validation>
+</p>
+<p id="validate-numeric-with-bind-initially-populated">
+    Initially populated:
+    <Validation Validator="@IsValidInteger">
+        <NumericInput @bind-Value="@intWithBindInitiallyPopulated">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </NumericInput>
+    </Validation>
+</p>
+
+<h2>With event</h2>
+<p id="validate-numeric-with-event-initially-blank">
+    Initially blank:
+    <Validation Validator="@IsValidInteger">
+        <NumericInput TValue="int" Value="@intWithEventInitiallyBlank" ValueChanged="@(( v ) => { intWithEventInitiallyBlank = v; })">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </NumericInput>
+    </Validation>
+</p>
+<p id="validate-numeric-with-event-initially-populated">
+    Initially populated:
+    <Validation Validator="@IsValidInteger">
+        <NumericInput TValue="int" Value="@intWithEventInitiallyPopulated" ValueChanged="@(( v ) => { intWithEventInitiallyPopulated = v; })">
+            <Feedback>
+                <ValidationError>error</ValidationError>
+            </Feedback>
+        </NumericInput>
+    </Validation>
+</p>
+@code{
+    int intWithBindInitiallyBlank;
+    int intWithBindInitiallyPopulated = 1;
+
+    int intWithEventInitiallyBlank;
+    int intWithEventInitiallyPopulated = 1;
+
+    static void IsValidInteger( ValidatorEventArgs e )
+    {
+        if ( Blazorise.Utilities.Converters.TryChangeType<int>( e.Value, out var result ) )
+        {
+            if ( result > 0 )
+            {
+                e.Status = ValidationStatus.Success;
+                return;
+            }
+        }
+
+        e.Status = ValidationStatus.Error;
+    }
+}

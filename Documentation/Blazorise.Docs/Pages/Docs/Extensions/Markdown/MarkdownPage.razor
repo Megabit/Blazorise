@@ -1,17 +1,21 @@
 ﻿@page "/docs/extensions/markdown"
 
-<Seo Canonical="/docs/extensions/markdown" Title="Blazorise Markdown component" Description="Learn to use and work with the Blazorise Markdown component, which allows you to edit markdown based strings." />
+<Seo Canonical="/docs/extensions/markdown" Title="Blazorise Markdown component" Description="Learn how to use the Blazorise Markdown component to edit Markdown strings." />
 
 <DocsPageTitle Path="Extensions/Markdown">
     Blazorise Markdown component
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>Markdown</Code> component allows you to edit markdown strings.
+    The <Code>Markdown</Code> component allows you to edit Markdown strings.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Blazorise <Code>Markdown</Code> is based on the <Blazorise.Link To="https://github.com/Ionaru/easy-markdown-editor" Target="Target.Blank">Easy MarkDown Editor</Blazorise.Link> JavaScript library.
+    The Blazorise <Code>Markdown</Code> component is based on the <Anchor To="https://github.com/Ionaru/easy-markdown-editor" Target="Target.Blank">EasyMDE</Anchor> JavaScript library.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>Markdown</Code> component, install the <Code>Blazorise.Markdown</Code> package first.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -40,9 +44,20 @@
     <DocsPageSectionSource Code="MarkdownExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation">
+        Use <Code>Markdown</Code> inside a <Code>Validation</Code> or <Code>Validations</Code> container just like any other form input.
+        Validation messages and styling update automatically when you validate or submit the form.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MarkdownValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MarkdownValidationExample" />
+</DocsPageSection>
+
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        For transforming markdown value into HTML we used an excellent <Blazorise.Link To="https://github.com/xoofx/markdig" Target="Target.Blank">Markdig</Blazorise.Link> library.
+        For transforming markdown value into HTML we used an excellent <Anchor To="https://github.com/xoofx/markdig" Target="Target.Blank">Markdig</Anchor> library.
     </AlertDescription>
 </Alert>
 
@@ -58,7 +73,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Upload image">
-        Uploading an image has a similar API to our <Code>FileEdit</Code> component and is fairly simple to use.
+        Uploading an image has a similar API to our <Code>FileInput</Code> component and is fairly simple to use.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <MarkdownUploadImageExample />

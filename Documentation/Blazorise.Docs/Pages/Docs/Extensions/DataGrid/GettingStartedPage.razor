@@ -1,22 +1,26 @@
 ﻿@page "/docs/extensions/datagrid"
 @page "/docs/extensions/datagrid/getting-started"
 
-<Seo Canonical="/docs/extensions/datagrid/getting-started" Title="Blazorise DataGrid component" Description="Learn to use and work with the Blazorise DataGrid extension components to build an advanced CRUD based data-tables." />
+<Seo Canonical="/docs/extensions/datagrid/getting-started" Title="Blazorise DataGrid component" Description="Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables." />
 
 <DocsPageTitle Path="Extensions/DataGrid">
     Blazorise DataGrid: Getting Started
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>DataGrid</Code> component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection.
+    The <Code>DataGrid</Code> component is used for displaying tabular data. Features include sorting, filtering, paging, inline editing, and row selection.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    See <Anchor To="docs/specifications/datagrid">DataGrid specifications</Anchor> for behavior details and edge cases.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     <LicenseLimitationAlert LimitText="@($"{Licensing.BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS} items")" />
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    To create a basic grid in Blazorise you need to set the Column that will define the grid structure and behavior.
+    To create a basic grid in Blazorise, define the columns that describe the grid structure and behavior.
 </DocsPageParagraph>
 
 <UnorderedList>
@@ -44,6 +48,10 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<DocsPageParagraph>
+    To use the <Code>DataGrid</Code> component, install the <Code>Blazorise.DataGrid</Code> package first.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
@@ -52,14 +60,14 @@
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="DataGridNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="DataGridNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Imports">
         In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="DataGridImportsExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="DataGridImportsExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -82,7 +90,7 @@
         </UnorderedList>
         <Alert Color="Color.Warning" Visible>
             <AlertDescription>
-                Throughout our examples you may see the usage of <Blazorise.Link To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof" Target="Target.Blank"><Code>nameof</Code></Blazorise.Link> when defining the <Code>Field</Code> Parameter.
+                Throughout our examples you may see the usage of <Anchor To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof" Target="Target.Blank"><Code>nameof</Code></Anchor> when defining the <Code>Field</Code> Parameter.
                 Note that <Code>nameof</Code> produces only the name of the variable, type or member as the string constant. It is used as a way to strongly type the string that represents our field.
                 Please note, that this is not mandatory. And you may provide a regular string that represents the path to the field you want to be binding.
             </AlertDescription>
@@ -118,4 +126,4 @@
     </AlertDescription>
 </Alert>
 
-<DataGridApi></DataGridApi>
+<DataGridApi />

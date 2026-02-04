@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
+@inherits BaseComponent<ModalContentClasses, ModalContentStyles>
 <CascadingValue Value="@this" IsFixed>
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         <FocusTrap @ref="@FocusTrapRef" Active="@IsFocusTrap">

@@ -1,4 +1,4 @@
-﻿.form-check > .form-check-input.form-check-input-pointer,
+.form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .form-switch > .form-check-input.form-check-input-pointer,
 .form-switch > .form-check-label.form-check-label-pointer {
@@ -460,7 +460,7 @@ input[readonly="readonly"][type=range] {
 
     &:not(.row) {
         .btn-group.btn-group-toggle {
-           display: flex;
+            display: flex;
             flex-wrap: wrap;
             align-items: flex-start;
             justify-content: flex-start;

@@ -1,6 +1,8 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise;
+using Blazorise.Components;
 using Blazorise.Shared.Models;
 using Bunit;
 using Xunit;
@@ -14,10 +16,32 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseTextEdit()
+            .AddBlazoriseTextInput()
             .AddBlazoriseUtilities()
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();
+    }
+
+    [Fact]
+    public void AriaAttributes_AreAppliedToDropdown()
+    {
+        // setup
+        var comp = RenderComponent<Autocomplete<string, string>>( parameters => parameters
+            .Add( p => p.Data, new List<string> { "Alpha" } )
+            .Add( p => p.TextField, item => item )
+            .Add( p => p.ValueField, item => item )
+            .Add( p => p.AriaInvalid, "true" )
+            .Add( p => p.AriaDescribedBy, "help-id" ) );
+
+        // test
+        var dropdown = comp.Find( ".b-is-autocomplete" );
+        var input = comp.Find( ".b-is-autocomplete input" );
+
+        // validate
+        Assert.Equal( "true", dropdown.GetAttribute( "aria-invalid" ) );
+        Assert.Equal( "help-id", dropdown.GetAttribute( "aria-describedby" ) );
+        Assert.Null( input.GetAttribute( "aria-invalid" ) );
+        Assert.Null( input.GetAttribute( "aria-describedby" ) );
     }
 
     [Fact]
@@ -471,15 +495,15 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public Task MinLength_0_ShouldShowOptions_OnFocus()
+    public Task MinSearchLength_0_ShouldShowOptions_OnFocus()
     {
-        return TestMinLen0ShowsOptions<AutocompleteComponent>();
+        return TestMinSearchLength0ShowsOptions<AutocompleteComponent>();
     }
 
     [Fact]
-    public Task MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
+    public Task MinSearchLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
     {
-        return TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
+        return TestMinSearchLengthBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
     }
 
     [Theory]

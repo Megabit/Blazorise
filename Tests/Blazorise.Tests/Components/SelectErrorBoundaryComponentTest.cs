@@ -14,7 +14,7 @@ public class SelectErrorBoundaryComponentTest : TestContext
     }
 
     [Fact]
-    public async Task SelectedValueChanged_Exception_TriggersErrorBoundary()
+    public async Task ValueChanged_Exception_TriggersErrorBoundary()
     {
         var comp = RenderComponent<SelectErrorBoundaryComponent>();
         var select = comp.Find( "select" );

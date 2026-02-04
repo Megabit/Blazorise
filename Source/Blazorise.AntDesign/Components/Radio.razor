@@ -1,8 +1,9 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.Radio<TValue>
-<label class="@WrapperClassNames">
+@using Blazorise.Utilities
+<label class="@WrapperClassNames" style="@WrapperStyleNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
         <span class="@InnerClassNames"></span>
     </span>
     <span>
@@ -11,15 +12,57 @@
     </span>
 </label>
 @code{
+    private ClassBuilder wrapperClassBuilder;
+    private StyleBuilder wrapperStyleBuilder;
+
+    protected override void OnInitialized()
+    {
+        wrapperClassBuilder = new( BuildWrapperClasses );
+        wrapperStyleBuilder = new( BuildWrapperStyles );
+
+        base.OnInitialized();
+    }
+
+    protected internal override void DirtyClasses()
+    {
+        wrapperClassBuilder?.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        wrapperStyleBuilder?.Dirty();
+
+        base.DirtyStyles();
+    }
+
     // Ant design doesn't have appearance for custom radio button colors.
     // So for now I will skip support for it until I find a good way.
-    string WrapperClassNames => AsButton == true
-        ? $"ant-radio-button-wrapper{( Checked ? " ant-radio-button-wrapper-checked" : "" )}"
-        : $"ant-radio-wrapper{( Checked ? " ant-radio-wrapper-checked" : "" )}";
+    private void BuildWrapperClasses( ClassBuilder builder )
+    {
+        string baseClasses = AsButton == true
+            ? $"ant-radio-button-wrapper{( IsActive ? " ant-radio-button-wrapper-checked" : "" )}"
+            : $"ant-radio-wrapper{( IsActive ? " ant-radio-wrapper-checked" : "" )}";
+
+        builder.Append( baseClasses );
+        builder.Append( Classes?.Wrapper );
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildWrapperStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+        builder.Append( Styles?.Wrapper );
+    }
+
+    string WrapperClassNames => wrapperClassBuilder.Class;
+
+    string WrapperStyleNames => wrapperStyleBuilder.Styles;
 
     string CheckboxClassNames => AsButton == true
-        ? $"ant-radio-button{( Checked ? " ant-radio-button-checked" : "" )}"
-        : $"ant-radio{( Checked ? " ant-radio-checked" : "" )}";
+        ? $"ant-radio-button{( IsActive ? " ant-radio-button-checked" : "" )}"
+        : $"ant-radio{( IsActive ? " ant-radio-checked" : "" )}";
 
     string InnerClassNames => AsButton == true
         ? "ant-radio-button-inner"

@@ -61,21 +61,21 @@ public partial class DropdownItem : BaseComponent
     /// <returns></returns>
     protected async Task ClickHandler()
     {
-        if ( !Disabled )
+        if ( Disabled )
+            return;
+
+        if ( ParentDropdown is not null )
         {
-            if ( ParentDropdown is not null )
-            {
-                if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
-                    await ParentDropdown.Hide( CloseParentDropdowns );
-            }
-
-            if ( ShowCheckbox )
-            {
-                await CheckedChangedHandler( !@checked );
-            }
-
-            await Clicked.InvokeAsync( Value );
+            if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
+                await ParentDropdown.Hide( CloseParentDropdowns );
         }
+
+        if ( ShowCheckbox )
+        {
+            await CheckedChangedHandler( !@checked );
+        }
+
+        await Clicked.InvokeAsync( Value );
     }
 
     /// <summary>
@@ -95,6 +95,11 @@ public partial class DropdownItem : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the aria-disabled attribute value.
+    /// </summary>
+    protected string AriaDisabled => Disabled.ToString().ToLowerInvariant();
 
     /// <summary>
     /// Holds the item value.

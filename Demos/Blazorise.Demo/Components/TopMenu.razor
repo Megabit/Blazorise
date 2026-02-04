@@ -121,17 +121,17 @@
                         <Row>
                             <Column Margin="Margin.Is2.FromBottom">
                                 <Field>
-                                    <Switch TValue="bool" Checked="@(Theme?.Enabled == true)" CheckedChanged="@ThemeEnabledChanged">Theme enabled</Switch>
+                                    <Switch TValue="bool" Value="@(Theme?.Enabled == true)" ValueChanged="@ThemeEnabledChanged">Theme enabled</Switch>
                                 </Field>
                             </Column>
                         </Row>
                         <Row>
                             <Column Margin="Margin.Is2.FromBottom">
                                 <Field>
-                                    <Check TValue="bool" Checked="@(Theme?.IsGradient == true)" CheckedChanged="@ThemeGradientChanged">Gradient colors</Check>
+                                    <Check TValue="bool" Value="@(Theme?.IsGradient == true)" ValueChanged="@ThemeGradientChanged">Gradient colors</Check>
                                 </Field>
                                 <Field>
-                                    <Check TValue="bool" Checked="@(Theme?.IsRounded == true)" CheckedChanged="@ThemeRoundedChanged">Rounded elements</Check>
+                                    <Check TValue="bool" Value="@(Theme?.IsRounded == true)" ValueChanged="@ThemeRoundedChanged">Rounded elements</Check>
                                 </Field>
                             </Column>
                         </Row>

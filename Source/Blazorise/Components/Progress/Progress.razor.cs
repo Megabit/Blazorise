@@ -1,6 +1,7 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -11,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// Main component for stacked progress bars.
 /// </summary>
-public partial class Progress : BaseComponent, IDisposable
+public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, IDisposable
 {
     #region Members
 
@@ -39,8 +40,8 @@ public partial class Progress : BaseComponent, IDisposable
     /// </summary>
     public Progress()
     {
-        ProgressBarClassBuilder = new( BuildProgressBarClasses );
-        ProgressBarStyleBuilder = new( BuildProgressBarStyles );
+        ProgressBarClassBuilder = new( BuildProgressBarClasses, builder => builder.Append( Classes?.Bar ) );
+        ProgressBarStyleBuilder = new( BuildProgressBarStyles, builder => builder.Append( Styles?.Bar ) );
     }
 
     #endregion
@@ -123,7 +124,7 @@ public partial class Progress : BaseComponent, IDisposable
     }
 
     /// <inheritdoc/>
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         ProgressBarStyleBuilder.Dirty();
 
@@ -217,6 +218,16 @@ public partial class Progress : BaseComponent, IDisposable
 
             DirtyClasses();
         }
+    }
+
+    /// <summary>
+    /// Defines the progress bar intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
     }
 
     /// <summary>

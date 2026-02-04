@@ -13,7 +13,7 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseTextEdit()
+            .AddBlazoriseTextInput()
             .AddBlazoriseUtilities()
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();
@@ -61,7 +61,7 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
     public async Task RemovePreviousSelection_WhenLastReadDataDoesNotContainIt_ShouldKeepRemainingSelection()
     {
         var comp = RenderComponent<AutocompleteMultipleReadDataComponent>( parameters =>
-            parameters.Add( p => p.MinLength, 0 ) );
+            parameters.Add( p => p.MinSearchLength, 0 ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
 

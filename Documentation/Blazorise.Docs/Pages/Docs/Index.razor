@@ -24,7 +24,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Quickly get a project started with any of our examples. This <Blazorise.Link To="docs/start">quick start</Blazorise.Link> guide will take you through the downloading and
+    Quickly get a project started with any of our examples. This <Anchor To="docs/start">quick start</Anchor> guide will take you through the downloading and
     getting started with the Blazorise.
 </DocsPageParagraph>
 
@@ -32,12 +32,24 @@
     The best way to round up the whole story is to see the Blazorise in action.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Use an AI assistant? Connect it to the <Anchor To="docs/mcp" Title="Link to MCP server guide">MCP server guide</Anchor> to pull Blazorise docs and examples on demand.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Templates
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Another way to quickly get started is to use our provided Templates. Please visit our <Blazorise.Link To="docs/templates">templates guide</Blazorise.Link> for more information about downloading and quickly getting started with a Blazorise Template.
+    Another way to quickly get started is to use our provided Templates. Please visit our <Anchor To="docs/templates">templates guide</Anchor> for more information about downloading and quickly getting started with a Blazorise Template.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Migration
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Moving an existing app to Blazorise 2.0? Use the <Anchor To="docs/migration">migration CLI guide</Anchor> to analyze your solution and apply the required changes.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -64,7 +76,7 @@
                 <Card Shadow="Shadow.Small" Border="Border.Is0">
                     <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{providerData.ImageFileName}")" Alt="@providerData.ImageAltText" Style="height:200px;" />
                     <CardBody>
-                        <CardTitle Size="5">@providerData.TitleDemo</CardTitle>
+                        <CardTitle Size="HeadingSize.Is5">@providerData.TitleDemo</CardTitle>
                     </CardBody>
                 </Card>
             </Anchor>

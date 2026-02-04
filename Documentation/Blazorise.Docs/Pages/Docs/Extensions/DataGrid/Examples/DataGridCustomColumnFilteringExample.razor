@@ -7,10 +7,10 @@
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name Length" Editable="false" CustomFilter="@OnNameLengthFilter">
         <DisplayTemplate>
-            @context.FirstName.Length chars
+            @context.Item.FirstName.Length chars
         </DisplayTemplate>
         <FilterTemplate>
-            <Select TValue="NameLengthFilter" SelectedValueChanged="@(e => { context.TriggerFilterChange( e ); })">
+            <Select TValue="NameLengthFilter" ValueChanged="@(e => { context.TriggerFilterChange( e ); })">
                 @foreach ( var filter in Enum.GetValues<NameLengthFilter>() )
                 {
                     <SelectItem Value="@(filter)">
@@ -21,7 +21,7 @@
                             NameLengthFilter.FourToSix => "5 to 7",
                             NameLengthFilter.SixAndMore => "7 and more",
                             _ => filter.ToString()
-                        })
+                        } )
                     </SelectItem>
                 }
             </Select>

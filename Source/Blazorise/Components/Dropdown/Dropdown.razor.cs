@@ -72,7 +72,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
                 options: new()
                 {
                     Direction = GetDropdownDirection().ToString( "g" ),
-                    RightAligned = RightAligned,
+                    EndAligned = EndAligned,
                     DropdownToggleClassNames = ClassProvider.DropdownToggleSelector( IsDropdownSubmenu ),
                     DropdownMenuClassNames = ClassProvider.DropdownMenuSelector(),
                     DropdownShowClassName = ClassProvider.DropdownObserverShow(),
@@ -99,7 +99,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.Dropdown( IsDropdownSubmenu ) );
         builder.Append( ClassProvider.DropdownGroup( IsGroup ) );
         builder.Append( ClassProvider.DropdownShow( Visible ) );
-        builder.Append( ClassProvider.DropdownRight( RightAligned ) );
+        builder.Append( ClassProvider.DropdownRight( EndAligned ) );
         builder.Append( ClassProvider.DropdownDisabled( Disabled ) );
         builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ) );
 
@@ -402,6 +402,11 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     public string SelectedDropdownElementId { get; set; }
 
     /// <summary>
+    /// Gets the element id of the first dropdown menu.
+    /// </summary>
+    internal string DropdownMenuElementId => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSDropdownModule"/> instance.
     /// </summary>
     [Inject] public IJSDropdownModule JSModule { get; set; }
@@ -427,15 +432,15 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// If true, a dropdown menu will be right aligned.
+    /// If true, a dropdown menu will be aligned to the end.
     /// </summary>
     [Parameter]
-    public bool RightAligned
+    public bool EndAligned
     {
-        get => state.RightAligned;
+        get => state.EndAligned;
         set
         {
-            state = state with { RightAligned = value };
+            state = state with { EndAligned = value };
 
             DirtyClasses();
         }
@@ -506,6 +511,22 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <para>This is useful when you want the dropdown menu to be anchored from a different element than the toggle.</para>
     /// </summary>
     [Parameter] public string DropdownMenuTargetId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-invalid attribute value for the dropdown root element.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is on the dropdown root element.
+    /// </remarks>
+    [Parameter] public string AriaInvalid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-describedby attribute value for the dropdown root element.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is on the dropdown root element.
+    /// </remarks>
+    [Parameter] public string AriaDescribedBy { get; set; }
 
     #endregion
 }

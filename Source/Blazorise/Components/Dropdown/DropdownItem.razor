@@ -1,16 +1,30 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
-    @if ( ShowCheckbox )
-    {
-        <Div Display="Blazorise.Display.InlineBlock" @onclick:stopPropagation @onmouseup:stopPropagation>
-            <Check Cursor="Cursor.Pointer" TValue="bool" Checked="@(@checked)" CheckedExpression="@checkedExpression" CheckedChanged="@CheckedChangedHandler" Disabled="@Disabled" @onclick:stopPropagation>
-                @ChildContent
-            </Check>
-        </Div>
-    }
-    else
-    {
-        @ChildContent
-    }
+
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@AriaDisabled" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @attributes="@Attributes">
+    @Core
 </a>
+
+@code {
+    private protected RenderFragment Core =>
+        @<text>
+            @if ( ShowCheckbox )
+            {
+                <Div Display="Blazorise.Display.InlineBlock">
+                    <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled">
+                        @*The <div> blocks clicks to the checkbox label (where the ChildContent gets).
+                        Clicking the label normally redirects the event to checkbox, and in the meantime the textbox looses focus (which is something we trying to prevent).
+                        This is done specially for Autocomplete.CloseOnSelection = false;
+                        *@
+                        <div @onclick:preventDefault @onclick="@EventCallback.Empty">
+                            @ChildContent
+                        </div>
+                    </Check>
+                </Div>
+            }
+            else
+            {
+                @ChildContent
+            }
+        </text>;
+}

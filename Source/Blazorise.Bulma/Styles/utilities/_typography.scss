@@ -1,19 +1,7 @@
-﻿.lead {
+.lead {
     font-size: 1.25rem;
     font-weight: 300;
     margin-bottom: 1rem;
-}
-
-@each $breakpoint in map-keys($grid-breakpoints) {
-    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
-
-    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-        @each $name, $fs in $font-sizes {
-            .is-size-#{$name}#{$infix} {
-                font-size: $fs !important;
-            }
-        }
-    }
 }
 
 .has-text-decoration {

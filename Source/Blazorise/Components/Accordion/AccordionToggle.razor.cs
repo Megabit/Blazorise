@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Button component used to toggle accordion collapse state.
 /// </summary>
-public partial class AccordionToggle : BaseComponent
+public partial class AccordionToggle : BaseComponent, IDisposable
 {
     #region Members
 
@@ -21,6 +22,28 @@ public partial class AccordionToggle : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ElementId is null && ParentAccordionItem?.ToggleElementId is not null )
+            ElementId = ParentAccordionItem.ToggleElementId;
+
+        base.OnInitialized();
+
+        ParentAccordionItem?.NotifyAccordionToggleInitialized( this );
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentAccordionItem?.NotifyAccordionToggleRemoved( this );
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -38,11 +61,7 @@ public partial class AccordionToggle : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
-        if ( ParentCollapse is not null )
-        {
-            await ParentCollapse.Toggle();
-        }
-        else if ( ParentAccordionItem is not null )
+        if ( ParentAccordionItem is not null )
         {
             await ParentAccordionItem.Toggle();
         }
@@ -54,15 +73,24 @@ public partial class AccordionToggle : BaseComponent
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the aria-expanded attribute value.
+    /// </summary>
+    protected string AriaExpanded
+        => ( ParentAccordionItem is not null ? AccordionItemVisible : CollapseVisible ).ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the aria-controls attribute value.
+    /// </summary>
+    protected string AriaControls => ParentAccordionItem?.BodyElementId;
+
     /// <summary>
     /// Gets or sets the cascaded parent accordion component.
     /// </summary>
     [CascadingParameter] protected Accordion ParentAccordion { get; set; }
-
-    /// <summary>
-    /// Gets or sets the cascaded parent collapse component.
-    /// </summary>
-    [CascadingParameter] protected Collapse ParentCollapse { get; set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent accordion item component.

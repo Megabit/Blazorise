@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// A container for placing content in a carousel slide.
 /// </summary>
-public partial class CarouselSlide : BaseComponent, IDisposable
+public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, CarouselSlideStyles>, IDisposable
 {
     #region Members
 
@@ -35,7 +35,8 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     /// </summary>
     public CarouselSlide()
     {
-        IndicatorClassBuilder = new( BuildIndicatorClasses );
+        IndicatorClassBuilder = new( BuildIndicatorClasses, builder => builder.Append( Classes?.Indicator ) );
+        IndicatorStyleBuilder = new( BuildIndicatorStyles, builder => builder.Append( Styles?.Indicator ) );
     }
 
     #endregion
@@ -87,6 +88,14 @@ public partial class CarouselSlide : BaseComponent, IDisposable
         base.DirtyClasses();
     }
 
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        IndicatorStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
+
     /// <summary>
     /// Builds a list of classnames for the indicator element.
     /// </summary>
@@ -95,6 +104,14 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     {
         builder.Append( ClassProvider.CarouselIndicator() );
         builder.Append( ClassProvider.CarouselIndicatorActive( IndicatorActive ) );
+    }
+
+    /// <summary>
+    /// Builds a list of styles for the indicator element.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildIndicatorStyles( StyleBuilder builder )
+    {
     }
 
     /// <summary>
@@ -134,8 +151,7 @@ public partial class CarouselSlide : BaseComponent, IDisposable
             var selectedSlideIndex = ParentCarousel.SelectedSlideIndex;
 
             return selectedSlideIndex >= 0 && selectedSlideIndex < ParentCarousel.NumberOfSlides
-                ? ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this )
-                : false;
+                && ( ParentCarousel.carouselSlides[ParentCarousel.SelectedSlideIndex] == this );
         }
     }
 
@@ -216,6 +232,11 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     protected ClassBuilder IndicatorClassBuilder { get; private set; }
 
     /// <summary>
+    /// Gets or sets the style builder for the indicator element.
+    /// </summary>
+    protected StyleBuilder IndicatorStyleBuilder { get; private set; }
+
+    /// <summary>
     /// Gets the indicator element classnames.
     /// </summary>
     public string IndicatorClassNames => IndicatorClassBuilder.Class;
@@ -223,7 +244,7 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     /// <summary>
     /// Gets the indicator element styles.
     /// </summary>
-    public string IndicatorStyleNames => null;
+    public string IndicatorStyleNames => IndicatorStyleBuilder.Styles;
 
     /// <summary>
     /// Defines the slide name.

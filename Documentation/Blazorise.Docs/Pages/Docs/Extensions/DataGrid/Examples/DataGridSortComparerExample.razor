@@ -10,13 +10,13 @@
     <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
     <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="Full Name" Filterable="false" SortComparer="new EmployeeNameComparer()">
         <DisplayTemplate>
-            @($"{context.FirstName} {context.LastName}")
+            @($"{context.Item.FirstName} {context.Item.LastName}")
         </DisplayTemplate>
     </DataGridNumericColumn>
     <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
     <DataGridColumn Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable>
         <EditTemplate>
-            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+            <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>

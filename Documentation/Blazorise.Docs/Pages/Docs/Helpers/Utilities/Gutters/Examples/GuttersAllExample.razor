@@ -1,0 +1,29 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Container TextAlignment="TextAlignment.Center">
+    <Row Gutter="Gutter.Is2">
+        @for ( int i = 1; i <= 4; i++ )
+        {
+            <Column ColumnSize="ColumnSize.Is6">
+                <Div Padding="Padding.Is3"
+                     Background="Background.Primary.Subtle"
+                     Border="Border.Primary">
+                    Custom column padding
+                </Div>
+            </Column>
+        }
+    </Row>
+
+    <Row Gutter="Gutter.Is1.OnY.Is3.OnX" Margin="Margin.Is3.FromTop">
+        @for ( int i = 1; i <= 4; i++ )
+        {
+            <Column ColumnSize="ColumnSize.Is6">
+                <Div Padding="Padding.Is3"
+                     Background="Background.Success.Subtle"
+                     Border="Border.Success">
+                    Horizontal and vertical gutters
+                </Div>
+            </Column>
+        }
+    </Row>
+</Container>

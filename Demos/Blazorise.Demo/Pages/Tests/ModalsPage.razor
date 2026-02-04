@@ -8,10 +8,10 @@
             <CardBody>
                 <Row>
                     <Column>
-                        <Switch @bind-Checked="@animation">Animation</Switch>
+                        <Switch @bind-Value="@animation">Animation</Switch>
                     </Column>
                     <Column>
-                        <NumericEdit TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericEdit>
+                        <NumericInput TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericInput>
                     </Column>
                 </Row>
             </CardBody>
@@ -101,8 +101,8 @@
     </Column>
 </Row>
 
-<Modal @ref="modalRef" Animated="animation" AnimationDuration="animationDuration">
-    <ModalContent Size="@modalSize" Centered="@centered">
+<Modal @ref="modalRef" Animated="animation" AnimationDuration="animationDuration" Centered="@centered" Size="@modalSize">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>
                 <Icon Name="IconName.Edit" />
@@ -113,15 +113,15 @@
         <ModalBody MaxHeight="@maxHeight">
             <Field>
                 <FieldLabel>Name</FieldLabel>
-                <TextEdit Autofocus Placeholder="Enter name..." />
+                <TextInput Autofocus Placeholder="Enter name..." />
             </Field>
             <Field>
                 <FieldLabel>Surname</FieldLabel>
-                <TextEdit Placeholder="Enter surname..." />
+                <TextInput Placeholder="Enter surname..." />
             </Field>
             <Field>
                 <FieldLabel>Date of birth</FieldLabel>
-                <DateEdit TValue="DateTime?" Placeholder="Pick a date" />
+                <DateInput TValue="DateTime?" Placeholder="Pick a date" />
             </Field>
             <Field>
                 <Button Color="Color.Primary" Clicked="@ShowModal2">Show second modal</Button>
@@ -133,8 +133,8 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
-<Modal @ref="modalRef2" Animated="animation" AnimationDuration="animationDuration">
-    <ModalContent Size="ModalSize.Small" Centered>
+<Modal @ref="modalRef2" Animated="animation" AnimationDuration="animationDuration" Centered Size="ModalSize.Small">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>
                 Hello
@@ -150,8 +150,8 @@
     </ModalContent>
 </Modal>
 
-<Modal @ref="defaultModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.Default">
-    <ModalContent Size="ModalSize.Small" Centered>
+<Modal @ref="defaultModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.Default" Centered Size="ModalSize.Small">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>
                 Default Load
@@ -172,8 +172,8 @@
 </Modal>
 
 
-<Modal @ref="lazyModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyLoad">
-    <ModalContent Size="ModalSize.Small" Centered>
+<Modal @ref="lazyModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyLoad" Centered Size="ModalSize.Small">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>
                 Lazy Load
@@ -196,8 +196,8 @@
 </Modal>
 
 
-<Modal @ref="lazyReloadModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyReload">
-    <ModalContent Size="ModalSize.Small" Centered>
+<Modal @ref="lazyReloadModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyReload" Centered Size="ModalSize.Small">
+    <ModalContent>
         <ModalHeader>
             <ModalTitle>
                 Lazy Reload

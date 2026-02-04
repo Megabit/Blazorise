@@ -1,4 +1,4 @@
-import { computePosition, autoUpdate, flip, shift, limitShift, hide } from './vendors/floating-ui.js?v=1.8.10.0';
+import { computePosition, autoUpdate, flip, shift, limitShift, hide } from './vendors/floating-ui.js?v=2.0.0.0';
 
 const DIRECTION_DEFAULT = 'Default'
 const DIRECTION_DOWN = 'Down'
@@ -10,7 +10,7 @@ export function createFloatingUiAutoUpdate(targetElement, menuElement, options) 
     //https://floating-ui.com/docs/autoUpdate
     return autoUpdate(targetElement, menuElement, () => {
         computePosition(targetElement, menuElement, { //https://floating-ui.com/docs/computePosition#anchoring
-            placement: getPlacementDirection(options.direction, options.rightAligned), //https://floating-ui.com/docs/computePosition#placement
+            placement: getPlacementDirection(options.direction, options.endAligned), //https://floating-ui.com/docs/computePosition#placement
             strategy: options.strategy, //https://floating-ui.com/docs/computePosition#strategy
             middleware: [flip(), shift({ padding: 0, limiter: limitShift() }), hide()] //https://floating-ui.com/docs/computePosition#middleware
         }).then(({ x, y, middlewareData }) => {
@@ -24,8 +24,8 @@ export function createFloatingUiAutoUpdate(targetElement, menuElement, options) 
     });
 }
 
-function getPlacementDirection(direction, rightAligned) {
-    let suffixAlignment = rightAligned ? "end" : "start";
+function getPlacementDirection(direction, endAligned) {
+    let suffixAlignment = endAligned ? "end" : "start";
 
     if (direction === DIRECTION_DEFAULT || direction === DIRECTION_DOWN)
         return 'bottom-' + suffixAlignment;

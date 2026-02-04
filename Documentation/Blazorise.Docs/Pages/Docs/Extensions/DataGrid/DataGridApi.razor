@@ -26,7 +26,7 @@
         Defines the resize mode of the data grid columns.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Sortable" Type="bool" Default="true">
-        Whether end-users can sort data by the column’s values.
+        Whether end-users can sort data by the column's values.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ShowCaptions" Type="bool" Default="true">
         Gets or sets whether user can see a column captions.
@@ -373,7 +373,7 @@
     <DocsAttributesItem Name="DataGridAggregates" Type="RenderFragment">
         Template for holding the datagrid aggregate columns.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment">
+    <DocsAttributesItem Name="EmptyCellTemplate" Type="RenderFragment<CellDisplayContext<TItem>>">
         Define the display template for empty data cell.
     </DocsAttributesItem>
     <DocsAttributesItem Name="EmptyTemplate" Type="RenderFragment">
@@ -412,7 +412,7 @@
     <DocsAttributesItem Name="TotalItemsTemplate" Type="RenderFragment<PaginationContext<TItem>>">
         Gets or sets content of total items grid.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DetailRowTemplate" Type="RenderFragment<TItem>">
+    <DocsAttributesItem Name="DetailRowTemplate" Type="RenderFragment<DetailRowContext<TItem>>">
         Gets or sets content of total items grid.
     </DocsAttributesItem>
     <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
@@ -489,7 +489,7 @@
         The name of the field that will be used to sort data, overriding the <Code>Field</Code> name.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Caption" Type="string">
-        Column’s display caption. It will be displayed, if ColumnTemplate is not set.
+        Column's display caption. It will be displayed, if ColumnTemplate is not set.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Filter" Type="FilterContext">
         Filter value for this column.
@@ -586,13 +586,13 @@
         Where column will be displayed on a grid.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Sortable" Type="bool" Default="true">
-        Whether end-users can sort data by the column’s values.
+        Whether end-users can sort data by the column's values.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Readonly" Type="bool" Default="false">
-        Whether end-users are prevented from editing the column’s cell values.
+        Whether end-users are prevented from editing the column's cell values.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ShowCaption" Type="bool" Default="true">
-        Whether the column’s caption is displayed within the column header.
+        Whether the column's caption is displayed within the column header.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Filterable" Type="bool" Default="true">
         Whether users can filter rows by its cell values.
@@ -633,7 +633,7 @@
     <DocsAttributesItem Name="AggregateTemplate" Type="RenderFragment<AggregateContext<TItem>>">
         Template for aggregate values.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DisplayTemplate" Type="RenderFragment<TItem>">
+    <DocsAttributesItem Name="DisplayTemplate" Type="RenderFragment<CellDisplayContext<TItem>>">
         Template for custom cell display formating.
     </DocsAttributesItem>
     <DocsAttributesItem Name="EditTemplate" Type="RenderFragment<CellEditContext>">
@@ -648,7 +648,7 @@
     <DocsAttributesItem Name="CaptionTemplate" Type="RenderFragment<DataGridColumn<TItem>>">
         Template for custom caption. CaptionTemplate will block caption template.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SortDirectionTemplate" Type="RenderFragment<SortDirection>">
+    <DocsAttributesItem Name="SortDirectionTemplate" Type="RenderFragment<SortDirectionContext<TItem>>">
         Template for custom sort direction icon.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Validator" Type="Action<ValidatorEventArgs>">

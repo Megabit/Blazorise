@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,25 +9,25 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaClassProvider : ClassProvider
 {
-    #region TextEdit
+    #region TextInput
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
+    public override string TextInput( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string TextInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
     #endregion
 
-    #region MemoEdit
+    #region MemoInput
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
+    public override string MemoInput( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string MemoInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -43,47 +43,47 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region NumericEdit
+    #region NumericInput
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
+    public override string NumericInput( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string NumericInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
-
-    #endregion
-
-    #region DateEdit
-
-    public override string DateEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
-
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
-
-    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
-
-    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region TimeEdit
+    #region DateInput
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
+    public override string DateInput( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string DateInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
-    #region ColorEdit
+    #region TimeInput
 
-    public override string ColorEdit() => "input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
+    #region ColorInput
+
+    public override string ColorInput() => "input";
+
+    public override string ColorInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     #endregion
 
@@ -198,13 +198,13 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region FileEdit
+    #region FileInput
 
-    public override string FileEdit() => "file-input";
+    public override string FileInput() => "file-input";
 
-    public override string FileEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+    public override string FileInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -460,7 +460,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenuVisible( bool visible ) => null;
 
-    public override string DropdownMenuRight( bool rightAligned ) => null;
+    public override string DropdownMenuEnd( bool endAligned ) => null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
@@ -611,11 +611,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => insideHeader ? "card-header-title" : "title";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => size != null ? $"is-{size}" : null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => size is null ? null : $"is-{ToHeadingSize( size.Value )}";
 
     public override string CardSubtitle( bool insideHeader ) => insideHeader ? "card-header-subtitle" : "subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => $"is-{size}";
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => size is null ? null : $"is-{ToHeadingSize( size.Value )}";
 
     public override string CardText() => "card-text";
 
@@ -737,7 +737,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarLabel( BarMode mode ) => "b-bar-label";
 
-
     #endregion
 
     #region Accordion
@@ -764,17 +763,17 @@ public class BulmaClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "card";
+    public override string Collapse() => "card";
 
-    public override string CollapseActive( bool accordion, bool active ) => null;
+    public override string CollapseActive( bool active ) => null;
 
-    public override string CollapseHeader( bool accordion ) => "card-header";
+    public override string CollapseHeader() => "card-header";
 
-    public override string CollapseBody( bool accordion ) => "collapse";
+    public override string CollapseBody() => "collapse";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
+    public override string CollapseBodyActive( bool active ) => active ? Show() : null;
 
-    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-content";
+    public override string CollapseBodyContent() => "card-content";
 
     #endregion
 
@@ -789,8 +788,6 @@ public class BulmaClassProvider : ClassProvider
 
         return $"are-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
-
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "is-gapless" : null;
 
     #endregion
 
@@ -824,7 +821,7 @@ public class BulmaClassProvider : ClassProvider
     }
 
     public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
-       => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+        => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
 
     #endregion
 
@@ -1370,13 +1367,12 @@ public class BulmaClassProvider : ClassProvider
 
     #region Layout
 
-    // TODO: Bulma by default doesn't have spacing utilities. Try to fix this!
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
-        if ( breakpoint != Blazorise.Breakpoint.None )
-            return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
+        if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
+            return $"{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
-        return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+        return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
@@ -1387,11 +1383,38 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Gap( GapSize gapSize, GapSide gapSide )
     {
-        return $"is-gap-{ToGapSize( gapSize )}";
+        return gapSide switch
+        {
+            GapSide.X => $"is-column-gap-{ToGapSize( gapSize )}",
+            GapSide.Y => $"is-row-gap-{ToGapSize( gapSize )}",
+            _ => $"is-gap-{ToGapSize( gapSize )}",
+        };
     }
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
         => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
+
+    #endregion
+
+    #region Gutter
+
+    public override string Gutter( GutterSize gutterSize, GutterSide gutterSide, Breakpoint breakpoint )
+    {
+        var sb = new StringBuilder( "is-gutter" );
+
+        if ( gutterSide != GutterSide.None && gutterSide != GutterSide.All )
+            sb.Append( '-' ).Append( ToGutterSide( gutterSide ) );
+
+        if ( breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile )
+            sb.Append( '-' ).Append( ToBreakpoint( breakpoint ) );
+
+        sb.Append( '-' ).Append( ToGutterSize( gutterSize ) );
+
+        return sb.ToString();
+    }
+
+    public override string Gutter( GutterSize gutterSize, IEnumerable<(GutterSide, Breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Gutter( gutterSize, x.Item1, x.Item2 ) ) );
 
     #endregion
 
@@ -1422,7 +1445,7 @@ public class BulmaClassProvider : ClassProvider
         => string.Join( " ", rules.Select( x => Border( borderSize, x ) ) );
 
     public override string BorderRadius( BorderRadius borderRadius )
-        => $"has-{ToBorderRadius( borderRadius )}";
+        => ToBorderRadius( borderRadius );
 
     #endregion
 
@@ -1571,7 +1594,7 @@ public class BulmaClassProvider : ClassProvider
     #region Overflow
 
     public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
-        ? $"is-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+        ? $"is-overflow-x-{ToOverflowType( overflowType )} is-overflow-y-{ToOverflowType( secondOverflowType )}"
         : $"is-overflow-{ToOverflowType( overflowType )}";
 
     #endregion
@@ -1827,14 +1850,14 @@ public class BulmaClassProvider : ClassProvider
     {
         return borderRadius switch
         {
-            Blazorise.BorderRadius.Rounded => "rounded-border",
-            Blazorise.BorderRadius.RoundedTop => "rounded-border-top",
-            Blazorise.BorderRadius.RoundedEnd => "rounded-border-right",
-            Blazorise.BorderRadius.RoundedBottom => "rounded-border-bottom",
-            Blazorise.BorderRadius.RoundedStart => "rounded-border-left",
-            Blazorise.BorderRadius.RoundedCircle => "rounded-border-circle",
-            Blazorise.BorderRadius.RoundedPill => "rounded-border-pill",
-            Blazorise.BorderRadius.RoundedZero => "rounded-border-0",
+            Blazorise.BorderRadius.Rounded => "has-radius-normal",
+            Blazorise.BorderRadius.RoundedTop => "has-rounded-border-top",
+            Blazorise.BorderRadius.RoundedEnd => "has-rounded-border-right",
+            Blazorise.BorderRadius.RoundedBottom => "has-rounded-border-bottom",
+            Blazorise.BorderRadius.RoundedStart => "has-rounded-border-left",
+            Blazorise.BorderRadius.RoundedCircle => "has-rounded-border-circle",
+            Blazorise.BorderRadius.RoundedPill => "has-radius-rounded",
+            Blazorise.BorderRadius.RoundedZero => "is-radiusless",
             _ => null,
         };
     }

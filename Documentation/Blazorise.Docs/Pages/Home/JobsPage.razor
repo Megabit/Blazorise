@@ -1,0 +1,264 @@
+@page "/jobs"
+@using Blazorise.Docs.Models
+
+<Seo Canonical="/jobs" Title="Blazorise Jobs" Description="Community-posted roles for Blazor and .NET teams, from startups to enterprises, with filters for location, seniority, and remote roles." />
+
+<PageHeader>
+    <Title>
+        Blazorise Jobs
+    </Title>
+    <Description>
+        Community-posted roles for Blazor and .NET teams.
+    </Description>
+    <Actions>
+        <Button Class="btn-primary-gradient" Color="Color.Primary" Size="Size.Large" Type="ButtonType.Link" To="@SubmitJobUrl" Target="Target.Blank">
+            Submit a job
+        </Button>
+    </Actions>
+</PageHeader>
+
+<Container Padding="Padding.Is4.OnX.Is5.OnY">
+    @{
+        IReadOnlyList<JobPost> filteredJobs = GetFilteredJobs();
+        string resultsSummary = BuildResultsSummary( filteredJobs );
+    }
+
+    <Card Shadow="Shadow.Default" Border="Border.Is0">
+        <CardBody>
+            <Fields>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop">
+                    <FieldLabel>Search</FieldLabel>
+                    <FieldBody>
+                        <TextInput Placeholder="Title, company, tags, location" @bind-Value="@searchText" />
+                    </FieldBody>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                    <FieldLabel>Remote</FieldLabel>
+                    <FieldBody>
+                        <Switch TValue="bool" @bind-Value="@remoteOnly">Remote only</Switch>
+                    </FieldBody>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                    <FieldLabel>Employment type</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="string" @bind-Value="@selectedEmploymentType">
+                            @foreach ( string option in EmploymentTypeOptions )
+                            {
+                                <SelectItem TValue="string" Value="@option">@option</SelectItem>
+                            }
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is2.OnDesktop">
+                    <FieldLabel>Seniority</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="string" @bind-Value="@selectedSeniority">
+                            @foreach ( string option in SeniorityOptions )
+                            {
+                                <SelectItem TValue="string" Value="@option">@option</SelectItem>
+                            }
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                    <FieldLabel>Sort</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="JobsSortOption" @bind-Value="@selectedSort">
+                            <SelectItem TValue="JobsSortOption" Value="@JobsSortOption.MostRecent">Most recent</SelectItem>
+                            <SelectItem TValue="JobsSortOption" Value="@JobsSortOption.CompanyAscending">Company A-Z</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Fields>
+            <Div Border="Border.Is1.OnTop" Padding="Padding.Is3.FromTop" Margin="Margin.Is3.FromTop">
+                <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@resultsSummary</Span>
+            </Div>
+        </CardBody>
+    </Card>
+
+    @if ( isLoading )
+    {
+        <Div Border="Border.Is1" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+            <SpinKit Type="SpinKitType.Wave" Color="Color.Primary" Size="Size.ExtraLarge" />
+            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop">Loading jobs...</Paragraph>
+        </Div>
+    }
+    else if ( loadError is not null )
+    {
+        <Alert Color="Color.Danger" Margin="Margin.Is4.FromTop">
+            <Div Flex="Flex.Column.Row.OnDesktop.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2">
+                <Span>@loadError</Span>
+                <Button Color="Color.Primary" Clicked="@ReloadAsync">Retry</Button>
+            </Div>
+        </Alert>
+    }
+    else if ( filteredJobs.Count == 0 )
+    {
+        <Alert Color="Color.Light" Margin="Margin.Is4.FromTop">
+            No jobs match your filters. Try clearing a filter or search term.
+        </Alert>
+    }
+    else
+    {
+        <Row RowColumns="RowColumns.Are1.Are2.OnDesktop.Are3.OnWidescreen" Margin="Margin.Is4.FromTop">
+            @foreach ( JobPost job in filteredJobs )
+            {
+                <Column @key="@job.Id">
+                    <Card Height="Height.Is100" Shadow="Shadow.Default" Border="Border.Is0.Rounded">
+                        <CardBody>
+                            <Div Flex="Flex.Column" Gap="Gap.Is2">
+                                <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Gap="Gap.Is2">
+                                    <Div>
+                                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is0">@job.Title</Heading>
+                                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@job.Company</Paragraph>
+                                    </Div>
+                                    @if ( job.Remote )
+                                    {
+                                        <Badge Color="Color.Primary" Subtle Pill>Remote</Badge>
+                                    }
+                                </Div>
+                                <Div TextColor="TextColor.Muted" TextSize="TextSize.Small">
+                                    <Span>@GetLocationText( job )</Span>
+                                </Div>
+                                <Div Flex="Flex.Wrap" Gap="Gap.Is1">
+                                    @if ( !string.IsNullOrWhiteSpace( job.EmploymentType ) )
+                                    {
+                                        <Badge Color="Color.Success" Subtle Pill>@job.EmploymentType</Badge>
+                                    }
+                                    @if ( !string.IsNullOrWhiteSpace( job.Seniority ) )
+                                    {
+                                        <Badge Color="Color.Dark" Subtle Pill>@job.Seniority</Badge>
+                                    }
+                                </Div>
+                                @if ( job.Tags is not null && job.Tags.Count > 0 )
+                                {
+                                    <Div Flex="Flex.Wrap" Gap="Gap.Is1">
+                                        @foreach ( string tag in job.Tags )
+                                        {
+                                            if ( string.IsNullOrWhiteSpace( tag ) )
+                                                continue;
+                                            <Badge Color="Color.Info" Subtle Pill>@tag</Badge>
+                                        }
+                                    </Div>
+                                }
+                                <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Margin="Margin.Is2.FromTop">
+                                    <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@FormatUpdatedText( job )</Span>
+                                    <Div Flex="Flex.Row" Gap="Gap.Is2">
+                                        <Button Color="Color.Secondary" Clicked="@(() => ShowDetails( job ))">Details</Button>
+                                        <Button Color="Color.Primary" Type="ButtonType.Link" To="@job.ApplyUrl" Target="Target.Blank">Apply</Button>
+                                    </Div>
+                                </Div>
+                            </Div>
+                        </CardBody>
+                    </Card>
+                </Column>
+            }
+        </Row>
+    }
+</Container>
+
+<Modal @bind-Visible="@detailsVisible" Size="ModalSize.Large" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>@DetailsTitle</ModalTitle>
+            <CloseButton Clicked="@HideDetails" />
+        </ModalHeader>
+        <ModalBody>
+            @if ( selectedJob is null )
+            {
+                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">No job selected.</Paragraph>
+            }
+            else
+            {
+                <Paragraph TextColor="TextColor.Muted" TextWeight="TextWeight.SemiBold">
+                    @selectedJob.Company
+                </Paragraph>
+
+                <Fields>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Location</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetLocationText( selectedJob )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is2.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Remote</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetRemoteText( selectedJob )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Employment</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetEmploymentText( selectedJob )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Seniority</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetSeniorityText( selectedJob )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Salary</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetSalaryText( selectedJob )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Posted</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@FormatDate( selectedJob.CreatedAt )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Updated</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@FormatDate( selectedJob.UpdatedAt )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Expires</FieldLabel>
+                        <FieldBody>
+                            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@FormatDate( selectedJob.ExpiryDate )</Paragraph>
+                        </FieldBody>
+                    </Field>
+                </Fields>
+
+                @if ( selectedJob.Tags is not null && selectedJob.Tags.Count > 0 )
+                {
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is1">
+                        @foreach ( string tag in selectedJob.Tags )
+                        {
+                            if ( string.IsNullOrWhiteSpace( tag ) )
+                                continue;
+
+                            <Badge Color="Color.Info" Subtle Pill>@tag</Badge>
+                        }
+                    </Div>
+                }
+
+                <Divider Margin="Margin.Is4.OnY" />
+
+                <Heading Size="HeadingSize.Is6">
+                    Role description
+                </Heading>
+
+                <Div Height="Height.Rem( 15 ).Max( 15 )" Overflow="Overflow.Auto">
+                    @DescriptionMarkup
+                </Div>
+            }
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideDetails">
+                Close
+            </Button>
+            @if ( selectedJob is not null && !string.IsNullOrWhiteSpace( selectedJob.ApplyUrl ) )
+            {
+                <Button Color="Color.Primary" Type="ButtonType.Link" To="@selectedJob.ApplyUrl" Target="Target.Blank">
+                    Apply for this Job
+                </Button>
+            }
+        </ModalFooter>
+    </ModalContent>
+</Modal>

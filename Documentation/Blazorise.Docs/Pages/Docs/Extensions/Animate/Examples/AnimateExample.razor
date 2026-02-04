@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Field>
-    <Select TValue="string" SelectedValueChanged="@OnSelectedAnimationChanged">
+    <Select TValue="string" ValueChanged="@OnSelectedAnimationChanged">
         @foreach ( var availableAnimation in Animations.GetNames() )
         {
             <SelectItem Value="@availableAnimation">@availableAnimation</SelectItem>
@@ -15,7 +15,7 @@
         <Animate Anchor="#b-animate" Auto Animation="selectedAnimation" DelayMilliseconds="500">
             <Card Margin="Margin.Is4.OnY">
                 <CardBody>
-                    <CardTitle Size="5">Animation Example</CardTitle>
+                    <CardTitle Size="HeadingSize.Is5">Animation Example</CardTitle>
                     <CardText>
                         Some content.
                     </CardText>

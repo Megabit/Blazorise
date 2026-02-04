@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
@@ -17,32 +16,135 @@ namespace Blazorise;
 /// An editor that displays a time value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimePicker{TValue}"/> property.</typeparam>
-public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposable
+public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasses, TimePickerStyles>, IAsyncDisposable
 {
+    #region Members
+
+    /// <summary>
+    /// Captured Min parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<TimeSpan?> paramMin;
+
+    /// <summary>
+    /// Captured Max parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<TimeSpan?> paramMax;
+
+    /// <summary>
+    /// Captured DisplayFormat parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramDisplayFormat;
+
+    /// <summary>
+    /// Captured TimeAs24hr parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramTimeAs24hr;
+
+    /// <summary>
+    /// Captured Disabled parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramDisabled;
+
+    /// <summary>
+    /// Captured ReadOnly parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramReadOnly;
+
+    /// <summary>
+    /// Captured Inline parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramInline;
+
+    /// <summary>
+    /// Captured DisableMobile parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramDisableMobile;
+
+    /// <summary>
+    /// Captured Placeholder parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramPlaceholder;
+
+    /// <summary>
+    /// Captured StaticPicker parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramStaticPicker;
+
+    /// <summary>
+    /// Captured Seconds parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramSeconds;
+
+    /// <summary>
+    /// Captured HourIncrement parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<int> paramHourIncrement;
+
+    /// <summary>
+    /// Captured MinuteIncrement parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<int> paramMinuteIncrement;
+
+    /// <summary>
+    /// Captured DefaultHour parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<int> paramDefaultHour;
+
+    /// <summary>
+    /// Captured DefaultMinute parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<int> paramDefaultMinute;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override void CaptureParameters( ParameterView parameters )
     {
-        var timeChanged = parameters.TryGetValue( nameof( Time ), out TValue time ) && !Time.IsEqual( time );
-        var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
-        var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
-        var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
-        var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
-        var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
-        var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
-        var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
-        var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
-        var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
-        var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramStaticPicker ) && StaticPicker != paramStaticPicker;
-        var hourIncrementChanged = parameters.TryGetValue( nameof( HourIncrement ), out int paramHourIncrement ) && HourIncrement != paramHourIncrement;
-        var minuteIncrementChanged = parameters.TryGetValue( nameof( MinuteIncrement ), out int paramMinuteIncrement ) && MinuteIncrement != paramMinuteIncrement;
-        var defaultHourChanged = parameters.TryGetValue( nameof( DefaultHour ), out int paramDefaultHour ) && DefaultHour != paramDefaultHour;
-        var defaultMinuteChanged = parameters.TryGetValue( nameof( DefaultMinute ), out int paramDefaultMinute ) && DefaultMinute != paramDefaultMinute;
+        base.CaptureParameters( parameters );
 
-        if ( timeChanged )
+        parameters.TryGetParameter( Min, out paramMin );
+        parameters.TryGetParameter( Max, out paramMax );
+        parameters.TryGetParameter( DisplayFormat, out paramDisplayFormat );
+        parameters.TryGetParameter( TimeAs24hr, out paramTimeAs24hr );
+        parameters.TryGetParameter( Disabled, out paramDisabled );
+        parameters.TryGetParameter( ReadOnly, out paramReadOnly );
+        parameters.TryGetParameter( Inline, out paramInline );
+        parameters.TryGetParameter( DisableMobile, out paramDisableMobile );
+        parameters.TryGetParameter( Placeholder, out paramPlaceholder );
+        parameters.TryGetParameter( StaticPicker, out paramStaticPicker );
+        parameters.TryGetParameter( Seconds, out paramSeconds );
+        parameters.TryGetParameter( HourIncrement, out paramHourIncrement );
+        parameters.TryGetParameter( MinuteIncrement, out paramMinuteIncrement );
+        parameters.TryGetParameter( DefaultHour, out paramDefaultHour );
+        parameters.TryGetParameter( DefaultMinute, out paramDefaultMinute );
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
+    {
+        await base.OnBeforeSetParametersAsync( parameters );
+
+        var minChanged = paramMin.Defined && paramMin.Changed;
+        var maxChanged = paramMax.Defined && paramMax.Changed;
+        var displayFormatChanged = paramDisplayFormat.Defined && paramDisplayFormat.Changed;
+        var timeAs24hrChanged = paramTimeAs24hr.Defined && paramTimeAs24hr.Changed;
+        var disabledChanged = paramDisabled.Defined && paramDisabled.Changed;
+        var readOnlyChanged = paramReadOnly.Defined && paramReadOnly.Changed;
+        var inlineChanged = paramInline.Defined && paramInline.Changed;
+        var disableMobileChanged = paramDisableMobile.Defined && paramDisableMobile.Changed;
+        var placeholderChanged = paramPlaceholder.Defined && paramPlaceholder.Changed;
+        var staticPickerChanged = paramStaticPicker.Defined && paramStaticPicker.Changed;
+        var secondsChanged = paramSeconds.Defined && paramSeconds.Changed;
+        var hourIncrementChanged = paramHourIncrement.Defined && paramHourIncrement.Changed;
+        var minuteIncrementChanged = paramMinuteIncrement.Defined && paramMinuteIncrement.Changed;
+        var defaultHourChanged = paramDefaultHour.Defined && paramDefaultHour.Changed;
+        var defaultMinuteChanged = paramDefaultMinute.Defined && paramDefaultMinute.Changed;
+
+        if ( paramValue.Changed )
         {
-            var timeString = FormatValueAsString( time );
+            var timeString = FormatValueAsString( paramValue.Value );
 
             await CurrentValueHandler( timeString );
 
@@ -62,6 +164,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || disableMobileChanged
                            || placeholderChanged
                            || staticPickerChanged
+                           || secondsChanged
                            || hourIncrementChanged
                            || minuteIncrementChanged
                            || defaultHourChanged
@@ -69,42 +172,22 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new TimePickerUpdateJSOptions
             {
-                DisplayFormat = new JSOptionChange<string>( displayFormatChanged, DisplayFormatConverter.Convert( displayFormat ) ),
-                TimeAs24hr = new JSOptionChange<bool>( timeAs24hrChanged, timeAs24hr ),
-                Min = new JSOptionChange<string>( minChanged, min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
-                Max = new JSOptionChange<string>( maxChanged, max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
-                Disabled = new JSOptionChange<bool>( disabledChanged, disabled ),
-                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, readOnly ),
-                Inline = new JSOptionChange<bool>( inlineChanged, paramInline ),
-                DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile ),
-                Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder ),
-                StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker ),
-                HourIncrement = new JSOptionChange<int>( hourIncrementChanged, paramHourIncrement ),
-                MinuteIncrement = new JSOptionChange<int>( minuteIncrementChanged, paramMinuteIncrement ),
-                DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour ),
-                DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute ),
+                DisplayFormat = new JSOptionChange<string>( displayFormatChanged, DisplayFormatConverter.Convert( paramDisplayFormat.Value ) ),
+                TimeAs24hr = new JSOptionChange<bool>( timeAs24hrChanged, paramTimeAs24hr.Value ),
+                Min = new JSOptionChange<string>( minChanged, paramMin.Value?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
+                Max = new JSOptionChange<string>( maxChanged, paramMax.Value?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
+                Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
+                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value ),
+                Inline = new JSOptionChange<bool>( inlineChanged, paramInline.Value ),
+                DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile.Value ),
+                Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder.Value ),
+                StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker.Value ),
+                Seconds = new JSOptionChange<bool>( secondsChanged, paramSeconds.Value ),
+                HourIncrement = new JSOptionChange<int>( hourIncrementChanged, paramHourIncrement.Value ),
+                MinuteIncrement = new JSOptionChange<int>( minuteIncrementChanged, paramMinuteIncrement.Value ),
+                DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour.Value ),
+                DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute.Value ),
             } ) );
-        }
-
-        // Let blazor do its thing!
-        await base.SetParametersAsync( parameters );
-
-        if ( ParentValidation is not null )
-        {
-            if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
-
-            if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
-            {
-                // make sure we get the newest value
-                var value = parameters.TryGetValue<TValue>( nameof( Time ), out var inTime )
-                    ? inTime
-                    : InternalValue;
-
-                await ParentValidation.InitializeInputPattern( pattern, value );
-            }
-
-            await InitializeValidation();
         }
     }
 
@@ -123,7 +206,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         {
             DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
             TimeAs24hr = TimeAs24hr,
-            Default = FormatValueAsString( Time ),
+            Default = FormatValueAsString( Value ),
             DefaultHour = DefaultHour,
             DefaultMinute = DefaultMinute,
             Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
@@ -135,6 +218,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             DisableMobile = DisableMobile,
             Placeholder = Placeholder,
             StaticPicker = StaticPicker,
+            Seconds = Seconds,
             HourIncrement = HourIncrement,
             MinuteIncrement = MinuteIncrement,
         } );
@@ -183,12 +267,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             return;
 
         await JSModule.Activate( ElementRef, ElementId, Parsers.InternalTimeFormat );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnInternalValueChanged( TValue value )
-    {
-        return TimeChanged.InvokeAsync( value );
     }
 
     /// <inheritdoc/>
@@ -292,26 +370,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         };
     }
 
-    /// <inheritdoc/>
-    protected override string GetFormatedValueExpression()
-    {
-        if ( TimeExpression is null )
-            return null;
-
-        return HtmlFieldPrefix is not null
-            ? HtmlFieldPrefix.GetFieldName( TimeExpression )
-            : ExpressionFormatter.FormatLambda( TimeExpression );
-    }
-
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
-
-    /// <inheritdoc/>
-    protected override TValue InternalValue { get => Time; set => Time = value; }
 
     /// <summary>
     /// Gets or sets the <see cref="IJSTimePickerModule"/> instance.
@@ -332,21 +396,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// Converts the supplied time format into the internal time format.
     /// </summary>
     [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
-
-    /// <summary>
-    /// Gets or sets the input time value.
-    /// </summary>
-    [Parameter] public TValue Time { get; set; }
-
-    /// <summary>
-    /// Occurs when the time has changed.
-    /// </summary>
-    [Parameter] public EventCallback<TValue> TimeChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets an expression that identifies the time field.
-    /// </summary>
-    [Parameter] public Expression<Func<TValue>> TimeExpression { get; set; }
 
     /// <summary>
     /// The earliest time to accept.
@@ -382,6 +431,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
+
+    /// <summary>
+    /// If enabled, the time picker will include seconds in the selection.
+    /// </summary>
+    [Parameter] public bool Seconds { get; set; }
 
     /// <summary>
     /// Adjusts the step for the hour input.

@@ -29,6 +29,9 @@ public static class Config
         serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.BulmaJSTooltipModule>();
 
+        Enumeration<Background>.SetNameBuilder( new BulmaEnumerationNameBuilder<Background>() );
+        Enumeration<TextColor>.SetNameBuilder( new BulmaEnumerationNameBuilder<TextColor>() );
+
         return serviceCollection;
     }
 
@@ -48,7 +51,7 @@ public static class Config
         { typeof( Blazorise.Carousel ), typeof( Components.Carousel ) },
         { typeof( Blazorise.CarouselSlide ), typeof( Components.CarouselSlide ) },
         { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
-        { typeof( Blazorise.DateEdit<> ), typeof( Components.DateEdit<> ) },
+        { typeof( Blazorise.DateInput<> ), typeof( Components.DateInput<> ) },
         { typeof( Blazorise.DropdownDivider ), typeof( Components.DropdownDivider ) },
         { typeof( Blazorise.Dropdown ), typeof( Components.Dropdown ) },
         { typeof( Blazorise.DropdownMenu ), typeof( Components.DropdownMenu ) },
@@ -58,7 +61,7 @@ public static class Config
         { typeof( Blazorise.FieldHelp ), typeof( Components.FieldHelp ) },
         { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
         { typeof( Blazorise.Fields ), typeof( Components.Fields ) },
-        { typeof( Blazorise.FileEdit ), typeof( Components.FileEdit ) },
+        { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },
         { typeof( Blazorise.Heading ), typeof( Components.Heading ) },
         { typeof( Blazorise.Jumbotron ), typeof( Components.Jumbotron ) },
         { typeof( Blazorise.JumbotronSubtitle ), typeof( Components.JumbotronSubtitle ) },
@@ -69,9 +72,9 @@ public static class Config
         { typeof( Blazorise.Button ), typeof( Components.Button ) },
         { typeof( Blazorise.Table ), typeof( Components.Table ) },
         { typeof( Blazorise.Tabs ), typeof( Components.Tabs ) },
-        { typeof( Blazorise.TextEdit ), typeof( Components.TextEdit ) },
-        { typeof( Blazorise.TimeEdit<> ), typeof( Components.TimeEdit<> ) },
-        { typeof( Blazorise.NumericEdit<> ), typeof( Components.NumericEdit<> ) },
+        { typeof( Blazorise.TextInput ), typeof( Components.TextInput ) },
+        { typeof( Blazorise.TimeInput<> ), typeof( Components.TimeInput<> ) },
+        { typeof( Blazorise.NumericInput<> ), typeof( Components.NumericInput<> ) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },
         { typeof( Blazorise.Pagination ), typeof( Components.Pagination ) },
         { typeof( Blazorise.PaginationLink ), typeof( Components.PaginationLink ) },

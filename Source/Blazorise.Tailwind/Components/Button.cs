@@ -10,11 +10,6 @@ namespace Blazorise.Tailwind.Components;
 
 public class Button : Blazorise.Button
 {
-    #region Members
-
-    bool collapseVisible;
-
-    #endregion
 
     #region Methods
 
@@ -23,18 +18,6 @@ public class Button : Blazorise.Button
         if ( ParentButtons != null )
         {
             builder.Append( "rounded-none first:rounded-l-lg last:rounded-r-lg" );
-        }
-        else if ( ParentCollapseHeader?.ParentCollapse != null )
-        {
-            // TODO v2: Obsolete, remove this in v2! We have introduced AccordionToggle instead of using regular Button for toggle of collapse in the accordion.
-            if ( ParentCollapseHeader.ParentCollapse.InsideAccordion )
-            {
-                builder.Append( ClassProvider.AccordionToggle() );
-            }
-
-            builder.Append( ClassProvider.AccordionToggleCollapsed( CollapseVisible ) );
-
-            return;
         }
         else
         {
@@ -71,11 +54,6 @@ public class Button : Blazorise.Button
             }
         }
 
-        if ( ParentCollapseHeader?.ParentCollapse != null )
-        {
-            builder.AriaExpanded( ParentCollapseHeader.ParentCollapse.Visible.ToString().ToLowerInvariant() );
-        }
-
         builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
         builder.OnClickPreventDefault( Type == ButtonType.Link && To != null && To.StartsWith( "#" ) );
 
@@ -89,30 +67,6 @@ public class Button : Blazorise.Button
         else
         {
             builder.Content( ChildContent );
-        }
-
-        if ( ParentCollapseHeader?.ParentCollapse != null )
-        {
-            builder.OpenElement( "svg" );
-
-            builder.Data( "accordion-icon", null );
-
-            builder.Class( CollapseVisible
-                ? "w-6 h-6 shrink-0 rotate-180"
-                : "w-6 h-6 shrink-0" );
-
-            builder.Attribute( "fill", "currentColor" );
-            builder.Attribute( "viewBox", "0 0 20 20" );
-            builder.Attribute( "xmlns", "http://www.w3.org/2000/svg" );
-
-            builder
-                .OpenElement( "path" )
-                .Attribute( "fill-rule", "evenodd" )
-                .Attribute( "d", "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" )
-                .Attribute( "clip-rule", "evenodd" );
-            builder.CloseElement();
-
-            builder.CloseElement();
         }
 
         builder.CloseElement();
@@ -164,30 +118,6 @@ public class Button : Blazorise.Button
             _ => "fill-gray-200"
         };
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the content visibility.
-    /// </summary>
-    [CascadingParameter( Name = "CollapseVisible" )]
-    public bool CollapseVisible
-    {
-        get => collapseVisible;
-        set
-        {
-            collapseVisible = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the cascaded parent collapse header component.
-    /// </summary>
-    [CascadingParameter] protected CollapseHeader ParentCollapseHeader { get; set; }
 
     #endregion
 }

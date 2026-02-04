@@ -2,7 +2,7 @@
 
 <Seo Canonical="/docs/helpers/utilities" Title="Blazorise Utilities – Helper Classes for Layout, Spacing, and Styling" Description="Master Blazorise utility helpers to quickly configure layout, spacing, borders, display, flex, and overflow properties. Learn how to efficiently style and align elements using fluent builder patterns in Blazorise." />
 
-<DocsPageTitle>
+<DocsPageTitle Path="Helpers/Utilities">
     Blazorise Utilities
 </DocsPageTitle>
 
@@ -12,132 +12,48 @@
 
 <DocsPageParagraph>
     Blazorise Utilities offer a set of helper methods and classes designed to streamline your front-end development.
-    With a focus on flexibility and responsiveness, these utilities let you easily define spacing, flex behavior, overflow handling, and more-all through C# fluent builders that adapt to various breakpoints.
+    With a focus on flexibility and responsiveness, these utilities let you easily define spacing, flex behavior, overflow handling, and more, all through C# fluent builders that adapt to various breakpoints.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
     Whether you're fine-tuning the layout of a single component or building complex responsive interfaces, Blazorise Utilities help you maintain a clean and consistent design system.
 </DocsPageParagraph>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Spacing">
-        <Paragraph>
-            The Blazorise utility helpers include a fluent builder pattern for defining spacing between components.
-            This approach allows you to easily combine multiple margin and padding settings across different breakpoints.
-        </Paragraph>
-        <Paragraph>
-            For example, the following snippet sets custom margins for mobile (<Code>xs</Code>) and desktop (<Code>md</Code>) screen sizes:
-        </Paragraph>
-    </DocsPageSectionHeader>
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
 
-    <Alert Color="Color.Info" Visible>
-        <AlertDescription>
-            <Strong>Tip:</Strong> The same fluent pattern also applies to paddings.
-        </AlertDescription>
-    </Alert>
+<DocsPageParagraph>
+    Utilities are exposed through fluent builders like <Code>Margin</Code>, <Code>Display</Code>, <Code>Flex</Code>, and <Code>Border</Code>.
+    You can chain sizes, sides, and breakpoints to keep responsive layout rules close to the components that use them.
+</DocsPageParagraph>
 
-    <DocsPageSectionContent Outlined FullWidth>
-        <SpacingExample />
-    </DocsPageSectionContent>
+<DocsPageSubtitle>
+    Utility pages
+</DocsPageSubtitle>
 
-    <DocsPageSectionSource Code="SpacingExample" />
-</DocsPageSection>
+<UnorderedList>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/spacing">Spacing</Anchor> - Margin and padding builders with breakpoints.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/display">Display</Anchor> - Responsive visibility and display modes.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/column-size">Column Size</Anchor> - Responsive column widths for grid columns.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/flex">Flex</Anchor> - Direction, alignment, wrapping, and ordering helpers.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/border">Border</Anchor> - Border sizes, colors, and radius.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/overflow">Overflow</Anchor> - Scroll and clip behavior.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/position">Position</Anchor> - Relative and absolute placement helpers.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/grid">Grid</Anchor> - Flexbox grid system and containers.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/css-grid">CSS Grid</Anchor> - Two-dimensional layouts with grid utilities.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/gutters">Gutters</Anchor> - Horizontal and vertical spacing between columns.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/object-fit">Object Fit</Anchor> - Image and media fitting.</UnorderedListItem>
+    <UnorderedListItem><Anchor To="docs/helpers/utilities/sizing">Sizing</Anchor> - Width and height builders with classes or styles.</UnorderedListItem>
+</UnorderedList>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Display">
-        <Paragraph>
-            Use display utilities to quickly and responsively toggle the visibility and display behavior of components.
-            These helpers make it simple to switch between display values like <Code>block</Code>, <Code>inline</Code>, or <Code>flex</Code> based on device size.
-        </Paragraph>
-    </DocsPageSectionHeader>
+<DocsPageParagraph>
+    Each utility page includes usage details and examples tailored to that helper.
+</DocsPageParagraph>
 
-    <DocsPageSectionContent Outlined FullWidth>
-        <DisplayExample />
-    </DocsPageSectionContent>
-
-    <DocsPageSectionSource Code="DisplayExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Column Size">
-        <Paragraph>
-            Similar to the spacing builder, you can define responsive column sizes using a fluent pattern.
-            This makes it straightforward to control grid layouts across multiple breakpoints.
-        </Paragraph>
-    </DocsPageSectionHeader>
-
-    <DocsPageSectionContent Outlined FullWidth>
-        <ColumnSizeExample />
-    </DocsPageSectionContent>
-
-    <DocsPageSectionSource Code="ColumnSizeExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Flex">
-        <Paragraph>
-            Manage layout, alignment, and sizing with ease using Blazorise flexbox utilities.
-            These helpers let you create responsive grid layouts, control component alignment, and fine-tune spacing without writing custom CSS.
-        </Paragraph>
-        <Paragraph>
-            For advanced or complex use cases, you can always extend with custom CSS rules.
-        </Paragraph>
-    </DocsPageSectionHeader>
-
-    <DocsPageSectionContent Outlined FullWidth>
-        <FlexAlignItemsExample />
-    </DocsPageSectionContent>
-
-    <DocsPageSectionSource Code="FlexAlignItemsExample" />
-
-    <DocsPageSectionContent Outlined FullWidth>
-        <FlexJustifyContentExample />
-    </DocsPageSectionContent>
-
-    <DocsPageSectionSource Code="FlexJustifyContentExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Border">
-        <Paragraph>
-            Border utilities allow you to quickly style an element's border and border-radius-ideal for images, buttons, or any bordered UI element.
-            You can easily combine these with background and color utilities for custom appearances.
-        </Paragraph>
-    </DocsPageSectionHeader>
-
-    <Alert Color="Color.Info" Visible>
-        <AlertDescription>
-            <Strong>Note:</Strong> If your element doesn't already have visible styles, such as a background color,
-            applying borders may not be visually noticeable. Consider adding custom CSS, like <Code>background-color</Code>,
-            to make borders stand out.
-        </AlertDescription>
-    </Alert>
-
-    <DocsPageSectionContent Outlined FullWidth>
-        <BorderExample />
-    </DocsPageSectionContent>
-
-    <DocsPageSectionSource Code="BorderExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Overflow">
-        <Paragraph>
-            Use overflow utilities to control how content behaves when it exceeds its container boundaries.
-            These helpers make it simple to manage scrollable areas and hidden overflows without writing custom CSS.
-        </Paragraph>
-    </DocsPageSectionHeader>
-
-    <DocsPageSectionContent Outlined FullWidth>
-        <OverflowExample />
-    </DocsPageSectionContent>
-
-    <DocsPageSectionSource Code="OverflowExample" />
-</DocsPageSection>
-
-<Heading Size="HeadingSize.Is3">
-    Breakpoints by Framework
-</Heading>
+<DocsPageSubtitle>
+    Breakpoints by framework
+</DocsPageSubtitle>
 
 <DocsPageParagraph>
     Different CSS frameworks use their own naming conventions for responsive breakpoints. While the behavior (e.g., mobile, tablet, desktop) is conceptually similar across all frameworks, the specific identifiers can vary.

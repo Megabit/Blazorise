@@ -11,7 +11,7 @@
             Want to learn more about our products and services?
         </Paragraph>
         <Paragraph>
-            We’d love to chat.
+            We'd love to chat.
         </Paragraph>
     </Description>
 </PageHeader>
@@ -35,7 +35,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
+                                                    <TextInput @bind-Value="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
                                                 </Addon>
                                             </Addons>
                                         </FieldBody>
@@ -52,7 +52,7 @@
                                                     </AddonLabel>
                                                 </Addon>
                                                 <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
+                                                    <TextInput @bind-Value="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
                                                 </Addon>
                                             </Addons>
                                         </FieldBody>
@@ -69,7 +69,7 @@
                                                     <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Envelope" />
                                                 </AddonLabel>
                                             </Addon>
-                                            <TextEdit @bind-Text="@User.Email" name="email" Role="TextRole.Email" Placeholder="Email Here..." aria-label="Last Name..." />
+                                            <TextInput @bind-Value="@User.Email" name="email" Role="TextRole.Email" Placeholder="Email Here..." aria-label="Last Name..." />
                                         </Addons>
                                     </FieldBody>
                                 </Field>
@@ -85,7 +85,7 @@
                                                 </AddonLabel>
                                             </Addon>
                                             <Addon AddonType="AddonType.Body">
-                                                <Select @bind-SelectedValue="@MessageSubject">
+                                                <Select @bind-Value="@MessageSubject">
                                                     @foreach ( var subject in Subjects )
                                                     {
                                                         <SelectItem TValue="string" Value="@subject">@subject</SelectItem>
@@ -100,7 +100,7 @@
                                 <Field>
                                     <FieldLabel RequiredIndicator>What would you like to discuss?</FieldLabel>
                                     <FieldBody>
-                                        <MarkdownInput @bind-Value="@MessageBody" MinHeight="220px" />
+                                        <Markdown @bind-Value="@MessageBody" MinHeight="220px" UploadImage="false" />
                                     </FieldBody>
                                 </Field>
                             </Validation>

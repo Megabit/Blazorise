@@ -109,6 +109,8 @@ $spacers: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $spacers: map-merge( ( 0: 0, 1: $spacer-xs, 2: $spacer-sm, 3: $spacer, 4: $spacer-lg, 5: $spacer-xl ), $spacers );
 
+$gutters: $spacers !default;
+
 // Transition
 //
 $transition-scale: 0.87 !default;

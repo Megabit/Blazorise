@@ -1,0 +1,2 @@
+// Diagnostics handled by RenderTreeMigrationAnalyzer.
+

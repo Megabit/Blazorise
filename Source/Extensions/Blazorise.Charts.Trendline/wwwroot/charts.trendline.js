@@ -1,4 +1,6 @@
-import { getChart } from "../Blazorise.Charts/charts.js?v=1.8.10.0";
+import { getChart } from "../Blazorise.Charts/charts.js?v=2.0.0.0";
+
+import "./vendors/chartjs-plugin-trendline.js?v=2.0.0.0";
 
 export function addTrendlines(canvasId, trendlines) {
     const chart = getChart(canvasId);

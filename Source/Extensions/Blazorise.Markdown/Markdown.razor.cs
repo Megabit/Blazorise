@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Markdown.Providers;
 using Blazorise.Modules;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -16,10 +17,9 @@ namespace Blazorise.Markdown;
 /// <summary>
 /// Component for acts as a wrapper around the EasyMDE, a markdown editor.
 /// </summary>
-public partial class Markdown : BaseComponent,
+public partial class Markdown : BaseInputComponent<string, MarkdownClasses, MarkdownStyles>,
     IFileEntryOwner,
     IFileEntryNotifier,
-    IFocusableComponent,
     IAsyncDisposable
 {
     #region Members
@@ -28,54 +28,51 @@ public partial class Markdown : BaseComponent,
 
     private List<MarkdownToolbarButton> toolbarButtons;
 
-    /// <summary>
-    /// Internal value for autofocus flag.
-    /// </summary>
-    private bool autofocus;
+    private bool hasPendingValue;
+
+    private bool jsInitialized;
+
+    private string pendingValue;
+
+    private readonly ClassBuilder textAreaElementClassBuilder;
+
+    private bool baseInputOptionsDirty;
+
+    private bool baseInputOptionsUpdateScheduled;
 
     #endregion
 
     #region Methods
 
+    public Markdown()
+    {
+        textAreaElementClassBuilder = new( BuildTextAreaElementClasses, builder => builder.Append( Classes?.TextArea ) );
+    }
+
     protected override void OnInitialized()
     {
-        if ( JSModule == null )
-        {
-            JSModule = new JSMarkdownModule( JSRuntime, VersionProvider, BlazoriseOptions );
-        }
+        JSModule ??= new JSMarkdownModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
         base.OnInitialized();
     }
 
     /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
     {
-        if ( Rendered && parameters.TryGetValue<string>( nameof( Value ), out var newValue ) && newValue != Value )
+        await base.OnAfterSetParametersAsync( parameters );
+
+        if ( Rendered && paramValue.Defined && paramValue.Changed )
         {
-            ExecuteAfterRender( () => SetValueAsync( newValue ) );
-        }
+            var newValue = paramValue.Value ?? string.Empty;
 
-        await base.SetParametersAsync( parameters );
-
-        // For modals we need to make sure that autofocus is applied every time the modal is opened.
-        if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) && this.autofocus != autofocus )
-        {
-            this.autofocus = autofocus;
-
-            if ( autofocus )
+            if ( jsInitialized )
             {
-                if ( ParentFocusableContainer != null )
-                {
-                    ParentFocusableContainer.NotifyFocusableComponentInitialized( this );
-                }
-                else
-                {
-                    ExecuteAfterRender( () => Focus() );
-                }
+                ExecuteAfterRender( async () => await JSModule.SetValue( ElementId, newValue ) );
             }
             else
             {
-                ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
+                pendingValue = newValue;
+                hasPendingValue = true;
             }
         }
     }
@@ -87,7 +84,12 @@ public partial class Markdown : BaseComponent,
 
         await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
-            Value = Value,
+            ReadOnly = ReadOnly,
+            Disabled = Disabled,
+            ClassNames = ClassNames,
+            StyleNames = StyleNames,
+            Attributes = GetEditorAttributes(),
+            Value = Value ?? string.Empty,
             AutoDownloadFontAwesome = AutoDownloadFontAwesome,
             HideIcons = HideIcons,
             ShowIcons = ShowIcons,
@@ -146,8 +148,48 @@ public partial class Markdown : BaseComponent,
             UsePreviewRender = PreviewRender != null
         } );
 
+        jsInitialized = true;
+
+        baseInputOptionsDirty = false;
+        baseInputOptionsUpdateScheduled = false;
+
+        await ApplyBaseInputOptions();
+
+        if ( hasPendingValue )
+        {
+            hasPendingValue = false;
+
+            await JSModule.SetValue( ElementId, pendingValue ?? string.Empty );
+
+            pendingValue = null;
+        }
 
         await base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool shouldUpdateBaseInputOptions = false;
+
+        if ( Rendered )
+        {
+            if ( ( parameters.TryGetParameter( ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
+                || ( parameters.TryGetParameter( Disabled, out var disabledParameter ) && disabledParameter.Changed )
+                || ( parameters.TryGetParameter( Class, out var classParameter ) && classParameter.Changed )
+                || ( parameters.TryGetParameter( Classes, newClasses => ReferenceEquals( newClasses, Classes ), out var classesParameter ) && classesParameter.Changed )
+                || ( parameters.TryGetParameter( Styles, newStyles => ReferenceEquals( newStyles, Styles ), out var stylesParameter ) && stylesParameter.Changed )
+                || ( parameters.TryGetParameter( Style, out var styleParameter ) && styleParameter.Changed )
+                || ( parameters.TryGetParameter( Attributes, newAttributes => ReferenceEquals( newAttributes, Attributes ), out var attributesParameter ) && attributesParameter.Changed ) )
+            {
+                shouldUpdateBaseInputOptions = true;
+            }
+        }
+
+        await base.SetParametersAsync( parameters );
+
+        if ( Rendered && shouldUpdateBaseInputOptions )
+            RequestBaseInputOptionsUpdate();
     }
 
     /// <inheritdoc/>
@@ -215,14 +257,19 @@ public partial class Markdown : BaseComponent,
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetValueAsync( string value )
     {
-        if ( Rendered )
+        value ??= string.Empty;
+
+        if ( !value.IsEqual( Value ) )
+            await CurrentValueHandler( value );
+
+        if ( Rendered && jsInitialized )
         {
             await JSModule.SetValue( ElementId, value );
-
             return;
         }
 
-        await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetValue( ElementId, value ) ) );
+        pendingValue = value;
+        hasPendingValue = true;
     }
 
     /// <summary>
@@ -233,9 +280,12 @@ public partial class Markdown : BaseComponent,
     [JSInvokable]
     public Task UpdateInternalValue( string value )
     {
-        Value = value;
+        value ??= string.Empty;
 
-        return ValueChanged.InvokeAsync( Value );
+        if ( value.IsEqual( Value ) )
+            return Task.CompletedTask;
+
+        return InvokeAsync( () => CurrentValueHandler( value ) );
     }
 
     /// <summary>
@@ -244,7 +294,7 @@ public partial class Markdown : BaseComponent,
     /// <param name="toolbarButton">Button instance.</param>
     internal protected void AddMarkdownToolbarButton( MarkdownToolbarButton toolbarButton )
     {
-        toolbarButtons ??= new();
+        toolbarButtons ??= [];
         toolbarButtons.Add( toolbarButton );
     }
 
@@ -320,7 +370,6 @@ public partial class Markdown : BaseComponent,
     /// <inheritdoc/>
     public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
     {
-#pragma warning disable CS4014 // We want to let execution complete but wait for TaskCompletionSource on the background.
         InvokeAsync( async () =>
         {
             if ( fileEntry.FileUploadEndedCallback is not null )
@@ -337,7 +386,6 @@ public partial class Markdown : BaseComponent,
 
             await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
         } );
-#pragma warning restore CS4014
 
         return Task.CompletedTask;
     }
@@ -376,14 +424,14 @@ public partial class Markdown : BaseComponent,
     }
 
     /// <inheritdoc/>
-    public Task WriteToStreamAsync( FileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
+    public Task WriteToStreamAsync( IFileEntry fileEntry, Stream stream, CancellationToken cancellationToken = default )
     {
         return new RemoteFileEntryStreamReader( JSFileModule, ElementRef, fileEntry, this, MaxUploadImageChunkSize, ImageMaxSize )
             .WriteToStreamAsync( stream, cancellationToken );
     }
 
     /// <inheritdoc/>
-    public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken = default )
+    public Stream OpenReadStream( IFileEntry fileEntry, CancellationToken cancellationToken = default )
     {
         return new RemoteFileEntryStream( JSFileModule, ElementRef, fileEntry, this, ImageMaxSize, cancellationToken );
     }
@@ -409,9 +457,14 @@ public partial class Markdown : BaseComponent,
     }
 
     /// <inheritdoc/>
-    public virtual async Task Focus( bool scrollToElement = true )
+    public override Task Focus( bool scrollToElement = true )
     {
-        await JSModule.Focus( ElementId, scrollToElement );
+        if ( jsInitialized )
+            return JSModule.Focus( ElementId, scrollToElement ).AsTask();
+
+        ExecuteAfterRender( () => JSModule.Focus( ElementId, scrollToElement ).AsTask() );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -426,6 +479,134 @@ public partial class Markdown : BaseComponent,
             return PreviewRender.Invoke( plainText );
 
         return Task.FromResult<string>( null );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        ValidationStatus validationStatus = ParentValidation?.Status ?? ValidationStatus.None;
+
+        if ( validationStatus == ValidationStatus.Error )
+        {
+            builder.Append( "b-markdown-invalid" );
+        }
+        else if ( validationStatus == ValidationStatus.Success )
+        {
+            builder.Append( "b-markdown-valid" );
+        }
+
+        builder.Append( ClassProvider.MemoInputValidation( validationStatus ) );
+
+        base.BuildClasses( builder );
+    }
+
+    protected virtual void BuildTextAreaElementClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+    }
+
+    internal protected override void DirtyClasses()
+    {
+        textAreaElementClassBuilder.Dirty();
+
+        base.DirtyClasses();
+
+        RequestBaseInputOptionsUpdate();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        base.DirtyStyles();
+
+        RequestBaseInputOptionsUpdate();
+    }
+
+    private Dictionary<string, object> GetEditorAttributes()
+    {
+        Dictionary<string, object> editorAttributes = null;
+
+        if ( Attributes is not null && Attributes.Count > 0 )
+        {
+            foreach ( KeyValuePair<string, object> attribute in Attributes )
+            {
+                if ( attribute.Key == null )
+                    continue;
+
+                if ( attribute.Key.Equals( "class", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "style", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "id", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "readonly", StringComparison.OrdinalIgnoreCase )
+                    || attribute.Key.Equals( "disabled", StringComparison.OrdinalIgnoreCase ) )
+                {
+                    continue;
+                }
+
+                editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+                editorAttributes[attribute.Key] = attribute.Value;
+            }
+        }
+
+        if ( AriaInvalid is not null )
+        {
+            editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+            editorAttributes["aria-invalid"] = AriaInvalid;
+        }
+
+        if ( AriaDescribedBy is not null )
+        {
+            editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+            editorAttributes["aria-describedby"] = AriaDescribedBy;
+        }
+
+        return editorAttributes;
+    }
+
+    private void RequestBaseInputOptionsUpdate()
+    {
+        baseInputOptionsDirty = true;
+
+        if ( baseInputOptionsUpdateScheduled )
+            return;
+
+        baseInputOptionsUpdateScheduled = true;
+
+        ExecuteAfterRender( ApplyBaseInputOptionsIfDirty );
+    }
+
+    private async Task ApplyBaseInputOptionsIfDirty()
+    {
+        baseInputOptionsUpdateScheduled = false;
+
+        if ( !baseInputOptionsDirty )
+            return;
+
+        if ( !jsInitialized )
+            return;
+
+        baseInputOptionsDirty = false;
+
+        await ApplyBaseInputOptions();
+    }
+
+    private async Task ApplyBaseInputOptions()
+    {
+        if ( !jsInitialized )
+            return;
+
+        await JSModule.UpdateBaseInputOptions( ElementId, new MarkdownBaseInputJSOptions
+        {
+            ReadOnly = ReadOnly,
+            Disabled = Disabled,
+            ClassNames = ClassNames,
+            StyleNames = StyleNames,
+            Attributes = GetEditorAttributes()
+        } );
+    }
+
+    /// <inheritdoc/>
+    protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+    {
+        return Task.FromResult( new ParseValue<string>( true, value, null ) );
     }
 
     #endregion
@@ -447,13 +628,17 @@ public partial class Markdown : BaseComponent,
     /// </summary>
     protected double Progress;
 
-    /// <inheritdoc/>
-    protected override bool ShouldAutoGenerateId => true;
-
     /// <summary>
     /// Gets or sets the <see cref="JSMarkdownModule"/> instance.
     /// </summary>
     protected JSMarkdownModule JSModule { get; private set; }
+
+    /// <summary>
+    /// Gets the CSS class names applied to the underlying textarea element.
+    /// </summary>
+    protected string TextAreaElementClassNames => textAreaElementClassBuilder.Class;
+
+    protected string TextAreaElementStyleNames => Styles?.TextArea;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSFileModule"/> instance.
@@ -474,16 +659,6 @@ public partial class Markdown : BaseComponent,
     /// Gets or sets the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
-
-    /// <summary>
-    /// Gets or sets the markdown value.
-    /// </summary>
-    [Parameter] public string Value { get; set; }
-
-    /// <summary>
-    /// An event that occurs after the markdown value has changed.
-    /// </summary>
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
     /// <summary>
     /// If set to true, force downloads Font Awesome (used for icons). If set to false, prevents downloading.
@@ -536,13 +711,13 @@ public partial class Markdown : BaseComponent,
     /// An array of icon names to hide. Can be used to hide specific icons shown by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] HideIcons { get; set; } = new[] { "side-by-side", "fullscreen" };
+    [Parameter] public string[] HideIcons { get; set; } = ["side-by-side", "fullscreen"];
 
     /// <summary>
     /// An array of icon names to show. Can be used to show specific icons hidden by default without
     /// completely customizing the toolbar.
     /// </summary>
-    [Parameter] public string[] ShowIcons { get; set; } = new[] { "code", "table" };
+    [Parameter] public string[] ShowIcons { get; set; } = ["code", "table"];
 
     /// <summary>
     /// [Optional] Gets or sets the content of the toolbar.
@@ -573,7 +748,7 @@ public partial class Markdown : BaseComponent,
 
     /// <summary>
     /// Gets or sets the max chunk size when uploading the file.
-    /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
+    /// Take note that if you're using <see cref="OpenReadStream(IFileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
     /// </summary>
     /// <remarks>
     /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
@@ -657,11 +832,6 @@ public partial class Markdown : BaseComponent,
     /// A callback function used to define how to display an error message. Defaults to (errorMessage) => alert(errorMessage).
     /// </summary>
     [Parameter] public Func<string, Task> ErrorCallback { get; set; }
-
-    /// <summary>
-    /// If set to true, focuses the editor automatically. Defaults to false.
-    /// </summary>
-    [Parameter] public bool Autofocus { get; set; }
 
     /// <summary>
     /// Useful, when initializing the editor in a hidden DOM node. If set to { delay: 300 },
@@ -791,11 +961,6 @@ public partial class Markdown : BaseComponent,
     [Parameter] public string UnorderedListStyle { get; set; } = "*";
 
     /// <summary>
-    /// Parent focusable container.
-    /// </summary>
-    [CascadingParameter] protected IFocusableContainerComponent ParentFocusableContainer { get; set; }
-
-    /// <summary>
     /// Gets or sets whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
     /// <para>This setting can speed up file transfer considerably.</para>
     /// </summary>
@@ -805,6 +970,9 @@ public partial class Markdown : BaseComponent,
     /// Custom function for parsing the plaintext Markdown and returning HTML. Used when user previews.
     /// </summary>
     [Parameter] public Func<string, Task<string>> PreviewRender { get; set; }
+
+    /// <inheritdoc/>
+    protected override string DefaultValue => string.Empty;
 
     #endregion
 }
