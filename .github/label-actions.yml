@@ -8,3 +8,12 @@
     For your convenience, you can use our pre-configured [Bug Report Template repositories](https://github.com/Blazorise/BugReportTemplate) to quickly set up a reproducible environment.
 
     Once you've provided a minimal reproduction, we can proceed with the investigation. Thank you for helping us improve Blazorise!
+
+"Status: Expecting Answer":
+  comment: >
+    Hello @{issue-author},
+    thank you for your submission. The issue was labeled "Status: Expecting Answer" because more details are needed before we can investigate.
+
+    Please update the issue with steps to reproduce, expected vs actual behavior, and your version or commit. A minimal repro is ideal.
+
+    If we do not hear back within 5 days, we will close the issue. You can reopen it once the details are available.

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-01-27T22:17:58.1648322Z",
+  "generatedUtc": "2026-02-04T09:52:44.2326244Z",
   "pages": [
     {
       "route": "/docs",
@@ -8614,7 +8614,7 @@
           "code": "TailwindGuideSourceFiles3Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideSourceFiles3Example.snippet",
-          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\n\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.0.0\" rel=\"stylesheet\" />\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
