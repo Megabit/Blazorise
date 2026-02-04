@@ -1,4 +1,4 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.9.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.10.0";
 
 const QUERYSELECTOR_ALL_COLUMNS = "tbody tr td";
 const QUERYSELECTOR_ALL_TABLE_HEAD_INPUT = "tbody tr td";
