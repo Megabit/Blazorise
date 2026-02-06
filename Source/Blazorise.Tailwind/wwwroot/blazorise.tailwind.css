@@ -8779,10 +8779,18 @@ p {
 .b-richtextedit > .b-richtextedit-editor + .b-richtextedit-content + .b-richtextedit-toolbar, .b-richtextedit > .b-richtextedit-editor + .b-richtextedit-toolbar {
   border-top: 0;
 }
-.b-richtextedit.border-green-500 > .b-richtextedit-editor.ql-container, .b-richtextedit.border-green-500 > .b-richtextedit-toolbar.ql-toolbar {
+.b-richtextedit.border-green-500 > .b-richtextedit-editor.ql-bubble, .b-richtextedit.border-green-500 > .b-richtextedit-toolbar.ql-bubble, .b-richtextedit.border-green-500 > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+}
+.b-richtextedit.border-green-500 > .b-richtextedit-editor.ql-container, .b-richtextedit.border-green-500 > .b-richtextedit-toolbar.ql-toolbar, .b-richtextedit.border-green-500 > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-success, #22c55e);
 }
-.b-richtextedit.border-red-500 > .b-richtextedit-editor.ql-container, .b-richtextedit.border-red-500 > .b-richtextedit-toolbar.ql-toolbar {
+.b-richtextedit.border-red-500 > .b-richtextedit-editor.ql-bubble, .b-richtextedit.border-red-500 > .b-richtextedit-toolbar.ql-bubble, .b-richtextedit.border-red-500 > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+}
+.b-richtextedit.border-red-500 > .b-richtextedit-editor.ql-container, .b-richtextedit.border-red-500 > .b-richtextedit-toolbar.ql-toolbar, .b-richtextedit.border-red-500 > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-danger, #ef4444);
 }
 .no-gutters > .pl-2.pr-2, .no-gutters > [class*=column-] {

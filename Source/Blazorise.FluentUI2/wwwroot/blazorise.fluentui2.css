@@ -19092,8 +19092,15 @@ span.flatpickr-weekday {
   border-top: 0;
 }
 
+.b-richtextedit.fui-Textarea__input-error > .b-richtextedit-editor.ql-bubble,
+.b-richtextedit.fui-Textarea__input-error > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit.fui-Textarea__input-error > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: var(--strokeWidthThin);
+}
 .b-richtextedit.fui-Textarea__input-error > .b-richtextedit-editor.ql-container,
-.b-richtextedit.fui-Textarea__input-error > .b-richtextedit-toolbar.ql-toolbar {
+.b-richtextedit.fui-Textarea__input-error > .b-richtextedit-toolbar.ql-toolbar,
+.b-richtextedit.fui-Textarea__input-error > .ql-toolbar.ql-bubble {
   border-color: var(--colorPaletteRedBorder2);
 }
 
@@ -19104,8 +19111,15 @@ span.flatpickr-weekday {
   color: var(--colorPaletteRedForeground1);
 }
 
+.b-richtextedit.fui-Textarea__input-success > .b-richtextedit-editor.ql-bubble,
+.b-richtextedit.fui-Textarea__input-success > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit.fui-Textarea__input-success > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: var(--strokeWidthThin);
+}
 .b-richtextedit.fui-Textarea__input-success > .b-richtextedit-editor.ql-container,
-.b-richtextedit.fui-Textarea__input-success > .b-richtextedit-toolbar.ql-toolbar {
+.b-richtextedit.fui-Textarea__input-success > .b-richtextedit-toolbar.ql-toolbar,
+.b-richtextedit.fui-Textarea__input-success > .ql-toolbar.ql-bubble {
   border-color: var(--colorPaletteGreenForeground1);
 }
 
