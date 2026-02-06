@@ -1,6 +1,5 @@
 ﻿namespace Blazorise.E2E.Tests.Tests.Components.Select;
 
-
 [Parallelizable( ParallelScope.Self )]
 [TestFixture]
 public class ValidateSelectTests : BlazorisePageTest
@@ -44,7 +43,6 @@ public class ValidateSelectTests : BlazorisePageTest
     [Test]
     public async Task CanValidateStringWithEvent_InitiallyBlank()
     {
-
         await SelectTestComponent<ValidateSelectComponent>();
 
         var sut = Page.Locator( "#validate-string-with-event-initially-blank" );
@@ -57,7 +55,6 @@ public class ValidateSelectTests : BlazorisePageTest
     [Test]
     public async Task CanValidateStringWithEvent_InitiallySelected()
     {
-
         await SelectTestComponent<ValidateSelectComponent>();
 
         var sut = Page.Locator( "#validate-string-with-event-initially-selected" );
@@ -149,23 +146,25 @@ public class ValidateSelectTests : BlazorisePageTest
         var validationFeedback = sut.GetByText( "error" );
 
         var options = await select.Locator( "option" ).AllAsync();
+        var toggleModifier = OperatingSystem.IsMacOS() ? KeyboardModifier.Meta : KeyboardModifier.Control;
 
-
+        await ClearMultiSelectAsync( select );
         await Expect( validationFeedback ).ToHaveClassAsync( "invalid-feedback" );
         await select.SelectOptionAsync( new SelectOptionValue[] { new() { Index = 1 }, new() { Index = 2 } } );
         await Expect( validationFeedback ).ToBeHiddenAsync();
 
-        await options[1].ClickAsync( new() { Modifiers = new KeyboardModifier[] { KeyboardModifier.Control } } );
+        await options[1].ClickAsync( new() { Modifiers = new KeyboardModifier[] { toggleModifier } } );
         await Expect( validationFeedback ).ToBeHiddenAsync();
 
-        await options[2].ClickAsync( new() { Modifiers = new KeyboardModifier[] { KeyboardModifier.Control } } );
+        await options[2].ClickAsync( new() { Modifiers = new KeyboardModifier[] { toggleModifier } } );
         await Expect( validationFeedback ).ToHaveClassAsync( "invalid-feedback" );
 
         await select.SelectOptionAsync( new SelectOptionValue() { Index = 0 } );
         await Expect( validationFeedback ).ToBeHiddenAsync();
     }
 
-    private async Task ExpectTo_StartInvalid_ValidUponFill_InvalidUponClear( ILocator select, ILocator validationFeedback )
+    private async Task ExpectTo_StartInvalid_ValidUponFill_InvalidUponClear( ILocator select,
+        ILocator validationFeedback )
     {
         await Expect( validationFeedback ).ToHaveClassAsync( "invalid-feedback" );
 
@@ -176,7 +175,8 @@ public class ValidateSelectTests : BlazorisePageTest
         await Expect( validationFeedback ).ToHaveClassAsync( "invalid-feedback" );
     }
 
-    private async Task ExpectTo_StartValid_InvalidUponClear_ValidUponFill( ILocator select, ILocator validationFeedback )
+    private async Task ExpectTo_StartValid_InvalidUponClear_ValidUponFill( ILocator select,
+        ILocator validationFeedback )
     {
         await Expect( validationFeedback ).ToBeHiddenAsync();
 
@@ -187,4 +187,9 @@ public class ValidateSelectTests : BlazorisePageTest
         await Expect( validationFeedback ).ToBeHiddenAsync();
     }
 
+    private Task ClearMultiSelectAsync( ILocator select )
+    {
+        return select.EvaluateAsync(
+            "el => { for (const opt of el.options) opt.selected = false; el.dispatchEvent(new Event('change', { bubbles: true })); }" );
+    }
 }
