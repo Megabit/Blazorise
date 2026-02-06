@@ -3862,13 +3862,27 @@ td:focus {
   border-top: 0;
 }
 
+.b-richtextedit.ant-input-status-success > .b-richtextedit-editor.ql-bubble,
+.b-richtextedit.ant-input-status-success > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit.ant-input-status-success > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+}
 .b-richtextedit.ant-input-status-success > .b-richtextedit-editor.ql-container,
-.b-richtextedit.ant-input-status-success > .b-richtextedit-toolbar.ql-toolbar {
+.b-richtextedit.ant-input-status-success > .b-richtextedit-toolbar.ql-toolbar,
+.b-richtextedit.ant-input-status-success > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-success, #35c613);
 }
 
+.b-richtextedit.ant-input-status-error > .b-richtextedit-editor.ql-bubble,
+.b-richtextedit.ant-input-status-error > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit.ant-input-status-error > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+}
 .b-richtextedit.ant-input-status-error > .b-richtextedit-editor.ql-container,
-.b-richtextedit.ant-input-status-error > .b-richtextedit-toolbar.ql-toolbar {
+.b-richtextedit.ant-input-status-error > .b-richtextedit-toolbar.ql-toolbar,
+.b-richtextedit.ant-input-status-error > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-danger, #ff4d4f);
 }
 

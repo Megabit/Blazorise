@@ -18,15 +18,31 @@
 }
 
 .b-richtextedit.is-success {
+    > .b-richtextedit-editor.ql-bubble,
+    > .b-richtextedit-toolbar.ql-bubble,
+    > .ql-toolbar.ql-bubble {
+        border-style: solid;
+        border-width: $control-border-width;
+    }
+
     > .b-richtextedit-editor.ql-container,
-    > .b-richtextedit-toolbar.ql-toolbar {
+    > .b-richtextedit-toolbar.ql-toolbar,
+    > .ql-toolbar.ql-bubble {
         border-color: var(--b-theme-success, $success);
     }
 }
 
 .b-richtextedit.is-danger {
+    > .b-richtextedit-editor.ql-bubble,
+    > .b-richtextedit-toolbar.ql-bubble,
+    > .ql-toolbar.ql-bubble {
+        border-style: solid;
+        border-width: $control-border-width;
+    }
+
     > .b-richtextedit-editor.ql-container,
-    > .b-richtextedit-toolbar.ql-toolbar {
+    > .b-richtextedit-toolbar.ql-toolbar,
+    > .ql-toolbar.ql-bubble {
         border-color: var(--b-theme-danger, $danger);
     }
 }
