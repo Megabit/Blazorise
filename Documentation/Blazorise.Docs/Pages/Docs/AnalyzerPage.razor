@@ -1,0 +1,223 @@
+@page "/docs/analyzer"
+
+<Seo Canonical="/docs/analyzer" Title="Blazorise Analyzer" Description="Install and use Blazorise.Analyzers to detect migration issues, renamed APIs, and breaking changes while upgrading to Blazorise 2.0."/>
+
+<DocsPageTitle Path="Analyzer">
+    Blazorise Analyzer
+</DocsPageTitle>
+
+<DocsPageLead>
+    Blazorise Analyzer helps you catch Blazorise 2.0 migration issues directly in your editor and build output.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The analyzer runs as part of normal Roslyn analysis and reports actionable diagnostics for renamed or removed
+    components, parameters, members, types, and host-file script references.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    When should I use this?
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use Blazorise Analyzer when upgrading an existing app, validating shared component libraries, or preventing
+    migration regressions during active development.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        You are migrating from Blazorise 1.x to 2.0.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Your solution has many projects and you need consistent migration checks.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        You want diagnostics in IDE and CI instead of finding issues only at runtime.
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Benefits
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Detect renamed components, tags, parameters, members, and types.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Catch removed APIs and parameter type changes early in the build.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Validate <Code>TValue</Code> shape mismatches before runtime.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Identify unsupported static Chart.js references in host files.
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Stable package install">
+        Use the stable analyzer package for regular production migration work.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionSource Code="AnalyzerInstallStableExample"/>
+
+    <Paragraph Margin="Margin.Is3.FromTop">
+        This is the default choice when upgrading to a released Blazorise version.
+    </Paragraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Prerelease package install">
+        Use prerelease only when validating preview Blazorise changes.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionSource Code="AnalyzerInstallPrereleaseExample"/>
+
+    <Paragraph Margin="Margin.Is3.FromTop">
+        Prerelease can include diagnostics for upcoming changes before they are shipped in a stable package.
+    </Paragraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Project file reference">
+        If you prefer editing the project file directly, add the package reference in the target <Code>.csproj</Code>.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionSource Code="AnalyzerPackageReferenceExample"/>
+
+    <Paragraph Margin="Margin.Is3.FromTop">
+        This has the same effect as <Code>dotnet add package Blazorise.Analyzers</Code>.
+        Keep <Code>PrivateAssets="all"</Code> so the analyzer does not flow transitively to downstream consumers.
+    </Paragraph>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Recommended workflow
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Follow this workflow for predictable, reviewable upgrades.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <OrderedList>
+        <OrderedListItem>
+            Install <Code>Blazorise.Analyzers</Code> into migration-target projects.
+        </OrderedListItem>
+        <OrderedListItem>
+            Build the solution and review <Code>BLZ*</Code> diagnostics.
+        </OrderedListItem>
+        <OrderedListItem>
+            Apply fixes incrementally and commit by logical change groups.
+        </OrderedListItem>
+        <OrderedListItem>
+            Use the
+            <Anchor To="docs/migration">migration CLI</Anchor>
+            for bulk refactoring, then re-run analyzer diagnostics.
+        </OrderedListItem>
+    </OrderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Rule IDs
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Migration diagnostics" Ordered="false" ShowDefaults="false">
+    <DocsAttributesItem Name="BLZC001" Type="error">
+        <Paragraph>
+            Blazorise component renamed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZR001" Type="error">
+        <Paragraph>
+            Blazorise Razor tag renamed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZP001" Type="error">
+        <Paragraph>
+            Blazorise parameter renamed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZP002" Type="error">
+        <Paragraph>
+            Blazorise parameter type changed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZP003" Type="error">
+        <Paragraph>
+            Blazorise parameter removed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZP004" Type="warning">
+        <Paragraph>
+            <Code>Color.Link</Code> usage is restricted to button and alert components.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZT001" Type="error">
+        <Paragraph>
+            Blazorise <Code>TValue</Code> shape is invalid.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZS001" Type="error">
+        <Paragraph>
+            Blazorise member renamed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZS002" Type="error">
+        <Paragraph>
+            Blazorise member removed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZTYP001" Type="error">
+        <Paragraph>
+            Blazorise type renamed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZTYP002" Type="error">
+        <Paragraph>
+            Blazorise type removed.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="BLZJS001" Type="error">
+        <Paragraph>
+            Static Chart.js script reference is unsupported and must be removed from host files.
+        </Paragraph>
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubtitle>
+    Host file checks
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Host-file diagnostics scan <Code>wwwroot/index.html</Code>, <Code>Pages/_Host.cshtml</Code>, <Code>App.razor</Code>,
+    and <Code>Components/App.razor</Code> to catch unsupported static Chart.js references during migration.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Severity in CI
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Promote selected diagnostics">
+        Configure severity in <Code>.editorconfig</Code> when you want stricter CI gating.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionSource Code="AnalyzerSeverityExample"/>
+</DocsPageSection>
