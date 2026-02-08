@@ -13,6 +13,7 @@ public static class ManualPageEntries
     new( "docs/usage", "Usage" ),
     new( "docs/theming", "Theming" ),
     new( "docs/migration", "Migration", "Use the Blazorise Migrator CLI to analyze and migrate to Blazorise 2.0." ),
+    new( "docs/analyzer", "Analyzer", "Install Blazorise.Analyzers to detect migration issues and API changes while upgrading to Blazorise 2.0." ),
     new( "docs/mcp", "MCP Server", "Connect AI clients to Blazorise documentation and examples through the MCP server." ),
     new( "docs/pwa", "PWA" ),
     new( "docs/components/accordion", "Accordion", "Build vertically collapsing accordions in combination with our Collapse component." ),

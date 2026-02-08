@@ -4643,6 +4643,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 	.AddBootstrapProviders()
 	.AddEmptyIconProvider();";
 
+        public const string AnalyzerInstallPrereleaseExample = @"dotnet add package Blazorise.Analyzers --prerelease";
+
+        public const string AnalyzerInstallStableExample = @"dotnet add package Blazorise.Analyzers";
+
+        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.0.0"" PrivateAssets=""all"" />";
+
+        public const string AnalyzerSeverityExample = @"dotnet_diagnostic.BLZP004.severity = error";
+
         public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=2.0.0.0"" type=""module""></script>
 <script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.0.0.0"" type=""module""></script>";
 
