@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-04T09:52:44.2326244Z",
+  "generatedUtc": "2026-02-08T15:21:00.1154102Z",
   "pages": [
     {
       "route": "/docs",
@@ -7,6 +7,46 @@
       "description": "On this pages you can find everything you need to create a rich UI Blazor single page application with the help of Blazorise components.",
       "pagePath": "Pages/Docs/Index.razor",
       "examples": []
+    },
+    {
+      "route": "/docs/analyzer",
+      "title": "Blazorise Analyzer",
+      "description": "Install and use Blazorise.Analyzers to detect migration issues, renamed APIs, and breaking changes while upgrading to Blazorise 2.0.",
+      "pagePath": "Pages/Docs/AnalyzerPage.razor",
+      "examples": [
+        {
+          "code": "AnalyzerInstallStableExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/AnalyzerInstallStableExample.snippet",
+          "content": "dotnet add package Blazorise.Analyzers",
+          "title": "Stable package install",
+          "description": "Use the stable analyzer package for regular production migration work."
+        },
+        {
+          "code": "AnalyzerInstallPrereleaseExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/AnalyzerInstallPrereleaseExample.snippet",
+          "content": "dotnet add package Blazorise.Analyzers --prerelease",
+          "title": "Prerelease package install",
+          "description": "Use prerelease only when validating preview Blazorise changes."
+        },
+        {
+          "code": "AnalyzerPackageReferenceExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/AnalyzerPackageReferenceExample.snippet",
+          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.0.0\" PrivateAssets=\"all\" />",
+          "title": "Project file reference",
+          "description": "If you prefer editing the project file directly, add the package reference in the target .csproj ."
+        },
+        {
+          "code": "AnalyzerSeverityExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/AnalyzerSeverityExample.snippet",
+          "content": "dotnet_diagnostic.BLZP004.severity = error",
+          "title": "Promote selected diagnostics",
+          "description": "Configure severity in .editorconfig when you want stricter CI gating."
+        }
+      ]
     },
     {
       "route": "/docs/components",
@@ -4554,13 +4594,25 @@
           "code": "DataGridColumnChooserExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridColumnChooserExample.razor",
-          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\"\r\n          ShowPager\r\n          ShowPageSizes\r\n          ColumnDisplayingChanged=\"@ColumnDisplayChanged\">\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    protected void ColumnDisplayChanged( ColumnDisplayChangedEventArgs<Employee> args )\r\n    {\r\n        Console.WriteLine( $\"Column: {args.Column.Field} | Display: {args.Display}\" );\r\n    }\r\n}"
+          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\"\r\n          ShowPager\r\n          ShowPageSizes\r\n          ColumnDisplayingChanged=\"@ColumnDisplayChanged\">\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    protected void ColumnDisplayChanged( ColumnDisplayChangedEventArgs<Employee> args )\r\n    {\r\n        Console.WriteLine( $\"Column: {args.Column.Field} | Display: {args.Display}\" );\r\n    }\r\n}",
+          "title": "Basic",
+          "description": "The column chooser will display a list of all columns in the DataGrid, allowing users to toggle their visibility. You can also handle the ColumnDisplayingChanged event to perform custom actions when a column's display state changes."
+        },
+        {
+          "code": "DataGridColumnChooserDisplayableExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridColumnChooserDisplayableExample.razor",
+          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"Data\"\r\n          ShowColumnChooser>\r\n    <DataGridColumns>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Name )\" Caption=\"Name\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" Displaying=\"false\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    public IEnumerable<Employee> Data { get; set; } = new List<Employee>()\r\n    {\r\n        new() { Name = \"John\", Salary = 1000m },\r\n        new() { Name = \"Sarah\", Salary = 2000m },\r\n    };\r\n\r\n    public class Employee\r\n    {\r\n        public string Name { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n    }\r\n}",
+          "title": "Hidden Columns",
+          "description": "To change the default visibility of a column, set the Displaying property to false. This will hide the column by default, but it will still be available in the column chooser for users to show if they wish."
         },
         {
           "code": "DataGridColumnChooserPositionExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridColumnChooserPositionExample.razor",
-          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\"\r\n          PagerOptions=\"new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }\">\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n}"
+          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\"\r\n          PagerOptions=\"new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }\">\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "title": "Positioning",
+          "description": "By default, the column chooser is positioned in the top right corner of the DataGrid. You can change its position by setting the ColumnChooserPosition property to one of the following values:"
         }
       ]
     },

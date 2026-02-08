@@ -1,0 +1,28 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Data</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ShowColumnChooser</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Name )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Name</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Employee.Salary )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Displaying</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">public</span> IEnumerable&lt;Employee&gt; Data { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">new</span> List&lt;Employee&gt;()
+    {
+        <span class="keyword">new</span>() { Name = <span class="string">&quot;John&quot;</span>, Salary = 1000m },
+        <span class="keyword">new</span>() { Name = <span class="string">&quot;Sarah&quot;</span>, Salary = 2000m },
+    };
+
+    <span class="keyword">public</span> <span class="keyword">class</span> Employee
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Name { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Salary { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

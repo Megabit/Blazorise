@@ -19,27 +19,38 @@
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
-    Example
+    Examples
 </DocsPageSubtitle>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        The column chooser will display a list of all columns in the DataGrid, allowing users to toggle their visibility. You can also handle the <Code>ColumnDisplayingChanged</Code> event to perform custom actions when a column's display state changes.
+    </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
         <DataGridColumnChooserExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridColumnChooserExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    Positioning example
-</DocsPageSubtitle>
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Hidden Columns">
+        To change the default visibility of a column, set the <Code>Displaying</Code> property to false. This will hide the column by default, but it will still be available in the column chooser for users to show if they wish.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridColumnChooserDisplayableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridColumnChooserDisplayableExample" />
+</DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Positioning">
+        By default, the column chooser is positioned in the top right corner of the DataGrid. You can change its position by setting the <Code>ColumnChooserPosition</Code> property to one of the following values:
+    </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
         <DataGridColumnChooserPositionExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridColumnChooserPositionExample" />
 </DocsPageSection>
-
 
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
