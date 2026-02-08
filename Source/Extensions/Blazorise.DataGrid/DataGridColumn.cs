@@ -458,7 +458,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets whether column is displaying.
+    /// Gets or sets the default visibility of the column.
+    /// This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.
     /// </summary>
     [Parameter] public bool Displaying { get; set; } = true;
 
