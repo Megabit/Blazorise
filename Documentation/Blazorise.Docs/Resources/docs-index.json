@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-08T15:21:00.1154102Z",
+  "generatedUtc": "2026-02-08T15:26:33.8902513Z",
   "pages": [
     {
       "route": "/docs",
@@ -4612,7 +4612,7 @@
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridColumnChooserPositionExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\"\r\n          PagerOptions=\"new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }\">\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Positioning",
-          "description": "By default, the column chooser is positioned in the top right corner of the DataGrid. You can change its position by setting the ColumnChooserPosition property to one of the following values:"
+          "description": "By default, the column chooser is positioned in the top right corner of the DataGrid. You can change its position by setting the ColumnChooserPosition property."
         }
       ]
     },
