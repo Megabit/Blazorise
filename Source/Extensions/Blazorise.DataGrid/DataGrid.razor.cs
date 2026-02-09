@@ -1824,7 +1824,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         foreach ( var column in Columns )
         {
-            await column.SetDisplaying( column.Displayable );
+            await column.SetDisplaying( column.GetDefaultDisplaying() );
         }
     }
 

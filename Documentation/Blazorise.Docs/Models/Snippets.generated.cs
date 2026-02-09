@@ -7040,6 +7040,30 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
+        public const string DataGridColumnChooserDisplayableExample = @"<DataGrid TItem=""Employee""
+          Data=""Data""
+          ShowColumnChooser>
+    <DataGridColumns>
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Name )"" Caption=""Name"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Displaying=""false"" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    public IEnumerable<Employee> Data { get; set; } = new List<Employee>()
+    {
+        new() { Name = ""John"", Salary = 1000m },
+        new() { Name = ""Sarah"", Salary = 2000m },
+    };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        public decimal Salary { get; set; }
+    }
+}";
+
         public const string DataGridColumnChooserExample = @"<DataGrid TItem=""Employee""
           Data=""inMemoryData""
           Responsive

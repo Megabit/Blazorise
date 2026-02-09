@@ -31,6 +31,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     private DataGridColumnFilterMethod? currentFilterMethod;
 
+    private bool displayingInitialized;
+
+    private bool? defaultDisplaying;
+
+    private bool DefaultDisplaying
+        => Displayable && ( defaultDisplaying ?? true );
+
     #endregion
 
     #region Constructors
@@ -111,7 +118,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     private void InitializeDefaults()
     {
-        Displaying = Displayable;
+        Displaying = GetDefaultDisplaying();
+        displayingInitialized = true;
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
         currentFilterMethod = FilterMethod;
@@ -139,13 +147,40 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        var wasDisplayingInitialized = displayingInitialized;
+        var currentDisplaying = Displaying;
         var displayableChanged = parameters.TryGetValue<bool>( nameof( Displayable ), out var paramDisplayable ) && Displayable != paramDisplayable;
+
+        var displayingParameterProvided = parameters.TryGetValue<bool>( nameof( Displaying ), out var paramDisplaying );
+        var displayingParameterChanged = displayingParameterProvided && defaultDisplaying != paramDisplaying;
+
+        if ( displayingParameterProvided && !displayingInitialized )
+        {
+            defaultDisplaying = paramDisplaying;
+        }
+        else if ( !displayingParameterProvided )
+        {
+            defaultDisplaying = null;
+        }
 
         await base.SetParametersAsync( parameters );
 
+        if ( wasDisplayingInitialized && displayingParameterProvided )
+        {
+            if ( displayingParameterChanged )
+            {
+                defaultDisplaying = paramDisplaying;
+
+                await SetDisplaying( GetDefaultDisplaying() );
+                return;
+            }
+
+            Displaying = currentDisplaying;
+        }
+
         if ( displayableChanged )
         {
-            await SetDisplaying( Displayable );
+            await SetDisplaying( GetDefaultDisplaying() );
         }
     }
 
@@ -311,6 +346,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns>The display order of the column.</returns>
     public int GetDisplayOrder() => InternalDisplayOrder ?? DisplayOrder;
 
+    internal bool GetDefaultDisplaying()
+        => DefaultDisplaying;
+
     internal string BuildHeaderCellClass()
     {
         var sb = new StringBuilder();
@@ -420,9 +458,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets whether column is displaying.
+    /// Gets or sets the default visibility of the column.
+    /// This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.
     /// </summary>
-    public bool Displaying { get; private set; }
+    [Parameter] public bool Displaying { get; set; } = true;
 
     /// <summary>
     /// Whether the cell is currently being edited.

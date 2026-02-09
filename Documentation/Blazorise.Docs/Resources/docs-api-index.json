@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-04T09:52:43.8068247Z",
+  "generatedUtc": "2026-02-08T15:26:33.5864748Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -85439,6 +85439,14 @@
       "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
       "parameters": [
         {
+          "name": "Displaying",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets the default visibility of the column.     This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Caption",
           "type": "string",
           "typeName": "string",
@@ -86251,6 +86259,14 @@
       "typeName": "DataGridColumn",
       "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
       "parameters": [
+        {
+          "name": "Displaying",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets the default visibility of the column.     This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "Caption",
           "type": "string",
@@ -87193,6 +87209,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Displaying",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets the default visibility of the column.     This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Caption",
           "type": "string",
           "typeName": "string",
@@ -88102,6 +88126,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Displaying",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets the default visibility of the column.     This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Caption",
           "type": "string",
           "typeName": "string",
@@ -88920,6 +88952,14 @@
           "typeName": "RenderFragment<MultiSelectContext<TItem>>",
           "defaultValue": "null",
           "summary": "Template to customize multi select checkbox.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Displaying",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets the default visibility of the column.     This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.",
           "isBlazoriseEnum": false
         },
         {
@@ -89806,6 +89846,14 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Renders the native based input <strong>NumericInput</strong> instead of the <strong>NumericPicker</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Displaying",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets the default visibility of the column.     This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.",
           "isBlazoriseEnum": false
         },
         {
@@ -90755,6 +90803,14 @@
           "typeName": "Dictionary<string, object>",
           "defaultValue": "null",
           "summary": "Captures all the custom attribute that are not part of Blazorise component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Displaying",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets the default visibility of the column.     This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.",
           "isBlazoriseEnum": false
         },
         {
