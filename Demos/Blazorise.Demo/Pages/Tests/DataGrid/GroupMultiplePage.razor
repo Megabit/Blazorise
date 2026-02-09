@@ -23,7 +23,7 @@
                 <Paragraph>
                     <Field>
                         <FieldLabel>
-                            <SelectList Data="@dataGridRef.DisplayGroupedData"
+                            <SelectList Data="@dataGridRef?.DisplayGroupedData"
                                         TItem="GroupContext<Employee>" TValue="string"
                                         TextField="x=> x.Key" ValueField="x=> x.Key"
                                         @bind-Value="_selectedGroupKey"></SelectList>
@@ -38,7 +38,7 @@
                 <Paragraph>
                     <Field>
                         <FieldLabel>
-                            <SelectList Data="@dataGridRef.DisplayGroupedData?.SelectMany(x=> x.NestedGroup)?.GroupBy(x=> x.Key)?.Select(x=> x.First())"
+                            <SelectList Data="@dataGridRef?.DisplayGroupedData?.SelectMany( x => x.NestedGroup ?? Enumerable.Empty<GroupContext<Employee>>() )?.GroupBy( x => x.Key )?.Select( x => x.First() )"
                                         TItem="GroupContext<Employee>" TValue="string"
                                         TextField="x=> x.Key" ValueField="x=> x.Key"
                                         @bind-Value="_selectedNestedGroupKey"></SelectList>
