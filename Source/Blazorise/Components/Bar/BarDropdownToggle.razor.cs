@@ -46,6 +46,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     {
         builder.Append( ClassProvider.BarDropdownToggle( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true ) );
         builder.Append( ClassProvider.BarDropdownToggleDisabled( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true, IsDisabled ) );
+        builder.Append( ClassProvider.BarDropdownToggleIcon( IsToggleIconVisible ) );
 
         base.BuildClasses( builder );
     }
@@ -178,6 +179,11 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     protected internal bool IsDisabled => ( Disabled ?? ParentBarItem?.Disabled ) == true;
 
     /// <summary>
+    /// Should the toggle icon be drawn
+    /// </summary>
+    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
@@ -204,6 +210,15 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
+    /// </value>
+    /// <remarks>Default: True</remarks>
+    [Parameter] public bool? ToggleIconVisible { get; set; }
 
     /// <summary>
     /// Occurs when the toggle button is clicked.
@@ -263,6 +278,11 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
             DirtyStyles();
         }
     }
+
+    /// <summary>
+    /// The applied theme.
+    /// </summary>
+    [CascadingParameter] protected Theme Theme { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="BarDropdownToggle"/>.

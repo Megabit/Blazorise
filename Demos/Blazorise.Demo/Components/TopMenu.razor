@@ -96,7 +96,7 @@
             }
             <BarItem>
                 <BarDropdown RightAligned>
-                    <BarDropdownToggle><Icon Name="IconName.Language" /></BarDropdownToggle>
+                    <BarDropdownToggle ToggleIconVisible="false"><Icon Name="IconName.Language" /></BarDropdownToggle>
                     <BarDropdownMenu>
                         @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
                         {
@@ -147,6 +147,19 @@
             </BarItem>
             <BarItem>
                 <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown RightAligned>
+                    <BarDropdownToggle ToggleIconVisible="false">
+                        <Image Border="Border.RoundedCircle" Source="_content/Blazorise.Demo/img/placeholders/profile.jpg" Width="Width.Px(24)" Height="Height.Px(24)" />
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem>Account info</BarDropdownItem>
+                        <BarDropdownItem>Settings</BarDropdownItem>
+                        <BarDropdownDivider />
+                        <BarDropdownItem>Log out</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
             </BarItem>
         </BarEnd>
     </BarMenu>

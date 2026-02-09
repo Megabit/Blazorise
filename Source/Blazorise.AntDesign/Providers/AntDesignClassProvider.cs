@@ -1,6 +1,5 @@
 #region Using directives
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
@@ -707,6 +706,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled ? "ant-menu-submenu-disabled" : null;
+
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
 
     public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 

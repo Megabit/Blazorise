@@ -691,6 +691,8 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => null;
 
+    public string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
+
     public string BarDropdownItem( BarMode mode ) => null;
 
     public string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;

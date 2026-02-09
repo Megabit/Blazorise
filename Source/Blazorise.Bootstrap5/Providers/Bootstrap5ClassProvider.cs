@@ -722,6 +722,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
         => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
 
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => isToggleIconVisible ? null : "dropdown-toggle-hidden";
+
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
     public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
