@@ -1,0 +1,40 @@
+<DataGrid TItem="Employee"
+          Data="@Data"
+          Groupable
+          ShowGrouping
+          GroupingChanged="GroupingChanged">
+    <DataGridColumns>
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name"
+                        Groupable />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Department )"
+                        Caption="Department"
+                        Groupable />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.City )"
+                        Caption="City" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    [Parameter] public EventCallback<DataGridGroupingChangedEventArgs<Employee>> GroupingChanged { get; set; }
+
+    [Parameter]
+    public IEnumerable<Employee> Data { get; set; } = new List<Employee>()
+    {
+        new() { Name = "John", Department = "Engineering", City = "Zagreb" },
+        new() { Name = "Sarah", Department = "Sales", City = "Rijeka" },
+        new() { Name = "Ana", Department = "Engineering", City = "Split" },
+    };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        public string Department { get; set; }
+
+        public string City { get; set; }
+    }
+}

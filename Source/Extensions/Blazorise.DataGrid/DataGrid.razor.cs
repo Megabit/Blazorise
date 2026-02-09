@@ -171,6 +171,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool applyingState;
 
+    /// <summary>
+    /// Indicates whether grouping changed notifications should be suppressed.
+    /// </summary>
+    private bool suppressGroupingChangedNotifications;
+
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
     private string classValue;
@@ -282,6 +287,35 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 FilterData();
             }
 
+            // Grouping
+            var previousSuppressGroupingChangedNotifications = suppressGroupingChangedNotifications;
+            suppressGroupingChangedNotifications = true;
+
+            try
+            {
+                if ( GroupBy is null )
+                {
+                    ResetGrouping();
+
+                    if ( !dataGridState.ColumnGroupingStates.IsNullOrEmpty() )
+                    {
+                        foreach ( var groupingState in dataGridState.ColumnGroupingStates )
+                        {
+                            var column = Columns?.Find( x => x.Field == groupingState.FieldName );
+
+                            if ( column is not null )
+                            {
+                                AddGroupColumn( column, true );
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                suppressGroupingChangedNotifications = previousSuppressGroupingChangedNotifications;
+            }
+
             // Selection (defer event callbacks until after ReloadInternal)
             SelectedRow = dataGridState.SelectedRow;
             SelectedRows = dataGridState.SelectedRows;
@@ -339,6 +373,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.GetDisplayOrder() ) ).ToList();
+
+        if ( GroupBy is null && !groupableColumns.IsNullOrEmpty() )
+        {
+            dataGridState.ColumnGroupingStates = groupableColumns.Select( x => new DataGridColumnGroupingState<TItem>( x.Field ) ).ToList();
+        }
 
         return Task.FromResult( dataGridState );
     }
@@ -408,7 +447,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         Columns.Add( column );
 
         if ( column.Grouping )
-            AddGroupColumn( column );
+            AddGroupColumn( column, true );
 
         if ( column.CurrentSortDirection != SortDirection.Default )
             HandleSortColumn( column, false, null, suppressSortChangedEvent );
@@ -484,6 +523,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <param name="column">Column to be grouped by.</param>
     public void AddGroupColumn( DataGridColumn<TItem> column )
+        => AddGroupColumn( column, false );
+
+    /// <summary>
+    /// Adds a new column to grouping.
+    /// </summary>
+    /// <param name="column">Column to be grouped by.</param>
+    /// <param name="suppressGroupingChangedEvent">If <c>true</c> method will suppress the <see cref="GroupingChanged"/> event.</param>
+    internal void AddGroupColumn( DataGridColumn<TItem> column, bool suppressGroupingChangedEvent )
     {
         if ( column.Groupable )
         {
@@ -491,9 +538,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             if ( !groupableColumns.Contains( column ) )
             {
+                var previousGroupedColumns = groupableColumns.ToList();
                 groupableColumns.Add( column );
 
                 SetDirty();
+                NotifyGroupingChanged( previousGroupedColumns, DataGridGroupingChangeType.Added, addedColumn: column, suppressGroupingChangedEvent: suppressGroupingChangedEvent );
             }
         }
     }
@@ -503,12 +552,54 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <param name="column">Column that is used for grouping.</param>
     public void RemoveGroupColumn( DataGridColumn<TItem> column )
+        => RemoveGroupColumn( column, false );
+
+    /// <summary>
+    /// Removes a column from grouping.
+    /// </summary>
+    /// <param name="column">Column that is used for grouping.</param>
+    /// <param name="suppressGroupingChangedEvent">If <c>true</c> method will suppress the <see cref="GroupingChanged"/> event.</param>
+    internal void RemoveGroupColumn( DataGridColumn<TItem> column, bool suppressGroupingChangedEvent )
     {
         if ( column.Groupable )
         {
-            if ( groupableColumns.Remove( column ) )
-                SetDirty();
+            if ( groupableColumns is not null && groupableColumns.Contains( column ) )
+            {
+                var previousGroupedColumns = groupableColumns.ToList();
+
+                if ( groupableColumns.Remove( column ) )
+                {
+                    SetDirty();
+                    NotifyGroupingChanged( previousGroupedColumns, DataGridGroupingChangeType.Removed, removedColumn: column, suppressGroupingChangedEvent: suppressGroupingChangedEvent );
+                }
+            }
         }
+    }
+
+    /// <summary>
+    /// Raises the <see cref="GroupingChanged"/> event.
+    /// </summary>
+    /// <param name="previousGroupedColumns">List of columns grouped before the change.</param>
+    /// <param name="changeType">Type of grouping change.</param>
+    /// <param name="addedColumn">Added grouped column, if any.</param>
+    /// <param name="removedColumn">Removed grouped column, if any.</param>
+    /// <param name="suppressGroupingChangedEvent">Whether the grouping changed event should be suppressed.</param>
+    private void NotifyGroupingChanged( IReadOnlyList<DataGridColumn<TItem>> previousGroupedColumns, DataGridGroupingChangeType changeType, DataGridColumn<TItem> addedColumn = null, DataGridColumn<TItem> removedColumn = null, bool suppressGroupingChangedEvent = false )
+    {
+        if ( suppressGroupingChangedEvent || suppressGroupingChangedNotifications || !GroupingChanged.HasDelegate )
+        {
+            return;
+        }
+
+        var groupedColumns = ( groupableColumns ?? new() ).ToList();
+
+        _ = InvokeAsync( async () =>
+            await GroupingChanged.InvokeAsync( new DataGridGroupingChangedEventArgs<TItem>(
+                groupedColumns,
+                previousGroupedColumns ?? Array.Empty<DataGridColumn<TItem>>(),
+                changeType,
+                addedColumn,
+                removedColumn ) ) );
     }
 
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -1854,6 +1945,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         SortByColumns.Clear();
+    }
+
+    private void ResetGrouping()
+    {
+        groupableColumns?.Clear();
     }
 
     private void ResetFiltering()
@@ -3930,6 +4026,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Occurs after the sort direction of a single column has changed.
     /// </summary>
     [Parameter] public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
+
+    /// <summary>
+    /// Occurs after grouped columns have changed.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridGroupingChangedEventArgs<TItem>> GroupingChanged { get; set; }
 
     /// <summary>
     /// Specifies the grid editing modes.
