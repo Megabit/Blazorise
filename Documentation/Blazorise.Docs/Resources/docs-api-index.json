@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-08T15:26:33.5864748Z",
+  "generatedUtc": "2026-02-09T08:27:01.2715771Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -84668,6 +84668,14 @@
           "typeName": "EventCallback<DataGridSortChangedEventArgs>",
           "defaultValue": "null",
           "summary": "Occurs after the sort direction of a single column has changed.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "GroupingChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DataGridGroupingChangedEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Occurs after grouped columns have changed.",
           "isBlazoriseEnum": false
         },
         {
