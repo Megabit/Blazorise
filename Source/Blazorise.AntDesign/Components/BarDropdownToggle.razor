@@ -4,14 +4,20 @@
 {
     <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
         @ChildContent
-        <i class="ant-menu-submenu-arrow"></i>
+        @if ( IsToggleIconVisible )
+        {
+            <i class="ant-menu-submenu-arrow"></i>
+        }
     </li>
 }
 else
 {
     <div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
         <span>@ChildContent</span>
-        <i class="ant-menu-submenu-arrow"></i>
+        @if ( IsToggleIconVisible )
+        {
+            <i class="ant-menu-submenu-arrow"></i>
+        }
     </div>
 }
 @code {

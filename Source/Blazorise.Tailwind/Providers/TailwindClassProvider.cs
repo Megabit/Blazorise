@@ -1085,6 +1085,8 @@ public class TailwindClassProvider : ClassProvider
         ? "disabled"
         : null;
 
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
+
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-dropdown-item block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         : "b-bar-dropdown-item";
@@ -2292,15 +2294,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Shadow
 
-    public override string Shadow( Shadow shadow )=> shadow switch
-        {
-            Blazorise.Shadow.None    => "shadow-none",
-            Blazorise.Shadow.Remove  => "shadow-none",
-            Blazorise.Shadow.Default => "shadow-sm",
-            Blazorise.Shadow.Small   => "shadow-xs",
-            Blazorise.Shadow.Large   => "shadow-lg",
-            _                        => throw new ArgumentOutOfRangeException( nameof( shadow ), shadow, null )
-        };
+    public override string Shadow( Shadow shadow ) => shadow switch
+    {
+        Blazorise.Shadow.None => "shadow-none",
+        Blazorise.Shadow.Remove => "shadow-none",
+        Blazorise.Shadow.Default => "shadow-sm",
+        Blazorise.Shadow.Small => "shadow-xs",
+        Blazorise.Shadow.Large => "shadow-lg",
+        _ => throw new ArgumentOutOfRangeException( nameof( shadow ), shadow, null )
+    };
 
     #endregion
 

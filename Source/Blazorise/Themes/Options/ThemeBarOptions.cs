@@ -39,4 +39,9 @@ public record ThemeBarOptions
     /// Gets or sets the theme settings for the <see cref="Bar"/> light color scheme.
     /// </summary>
     public ThemeBarColorOptions LightColors { get; set; }
+
+    /// <summary>
+    /// Gets or sets the theme settings for the <see cref="BarDropdown"/> component.
+    /// </summary>
+    public ThemeBarDropdownOptions Dropdown { get; set; }
 }

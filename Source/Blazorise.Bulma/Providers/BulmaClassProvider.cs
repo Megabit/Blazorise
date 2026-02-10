@@ -717,6 +717,9 @@ public class BulmaClassProvider : ClassProvider
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
         => mode == Blazorise.BarMode.Horizontal && disabled ? "navbar-link-disabled" : null;
 
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible )
+        => isToggleIconVisible ? null : "is-arrowless";
+
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-dropdown-item";
 
     public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;

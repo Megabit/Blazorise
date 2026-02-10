@@ -686,6 +686,8 @@ public interface IClassProvider
 
     string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
 
+    string BarDropdownToggleIcon( bool isToggleIconVisible );
+
     string BarDropdownItem( BarMode mode );
 
     string BarDropdownItemDisabled( BarMode mode, bool disabled );
