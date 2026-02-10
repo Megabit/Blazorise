@@ -102,6 +102,10 @@
   margin-right: 0.1rem;
 }
 
+.b-bar-dropdown-toggle-hidden::after {
+  content: none !important;
+}
+
 .btn-group > .b-tooltip:not(:last-child) > .btn {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;

@@ -181,7 +181,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// <summary>
     /// Should the toggle icon be drawn
     /// </summary>
-    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
+    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.Dropdown?.ToggleIconVisible ?? true );
 
     /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.

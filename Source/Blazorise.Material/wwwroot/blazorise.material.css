@@ -95,6 +95,10 @@
   margin-right: 0.1rem;
 }
 
+.b-bar-dropdown-toggle-hidden::after {
+  content: none !important;
+}
+
 .btn-xs, .btn-group-xs > .btn {
   font-size: 0.75rem;
   height: 1.5rem;
