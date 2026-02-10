@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-09T08:27:01.2715771Z",
+  "generatedUtc": "2026-02-10T20:24:29.9221199Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -8943,6 +8943,15 @@
           "typeName": "bool?",
           "defaultValue": "null",
           "summary": "Makes the toggle element look inactive.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ToggleIconVisible",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether the dropdown toggle icon is visible.",
+          "remarks": "Default: True",
           "isBlazoriseEnum": false
         },
         {
@@ -68479,6 +68488,26 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.ThemeBarDropdownOptions",
+      "typeName": "ThemeBarDropdownOptions",
+      "summary": "$\"\"\"\r\n       Defines the theme options for the <strong>BarDropdown</strong> component.\r\n       \"\"\"",
+      "category": "Theme",
+      "subcategory": "Options",
+      "searchUrl": "docs/theming/api/options",
+      "parameters": [
+        {
+          "name": "ToggleIconVisible",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "true",
+          "summary": "Defines the visibility of bar dropdown toggle icon.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.ThemeBarItemColorOptions",
       "typeName": "ThemeBarItemColorOptions",
       "summary": "$\"\"\"\r\n       Defines the color options for the <strong>BarDropdownItem</strong> component.\r\n       \"\"\"",
@@ -68584,6 +68613,14 @@
           "typeName": "ThemeBarColorOptions",
           "defaultValue": "null",
           "summary": "Gets or sets the theme settings for the <strong>Bar</strong> light color scheme.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Dropdown",
+          "type": "global::Blazorise.ThemeBarDropdownOptions",
+          "typeName": "ThemeBarDropdownOptions",
+          "defaultValue": "null",
+          "summary": "Gets or sets the theme settings for the <strong>BarDropdown</strong> component.",
           "isBlazoriseEnum": false
         }
       ],
