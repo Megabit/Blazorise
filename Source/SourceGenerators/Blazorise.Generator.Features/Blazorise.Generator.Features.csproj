@@ -8,7 +8,7 @@
 
     <TargetFramework>netstandard2.0</TargetFramework>
 
-    <LangVersion>latest</LangVersion>
+    <LangVersion>14.0</LangVersion>
   </PropertyGroup>
 
 </Project>

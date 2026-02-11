@@ -4,7 +4,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
-		<LangVersion>12.0</LangVersion>
+		<LangVersion>14.0</LangVersion>
     	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
