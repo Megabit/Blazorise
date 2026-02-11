@@ -7,7 +7,7 @@
 [![Discord](https://img.shields.io/discord/761589226965696552?color=%237289da&label=Discord&logo=discord&logoColor=%237289da&style=flat-square)](https://discord.gg/cVmq8xBSnG)
 [![License](https://img.shields.io/badge/License-Dual%20License-blue.svg)](LICENSE.md)
 
-Blazorise is an open-source Blazor UI component library for building modern .NET web apps in C#. It provides a consistent component API across popular CSS frameworks, so you can build with Bootstrap 5, Tailwind CSS, Bulma, Material, AntDesign, or Fluent UI 2 without rewriting your app. Blazorise works with Blazor WebAssembly and Blazor Server, and supports theming, layouts, forms, and rich UI components.
+Blazorise is a source-available Blazor UI component library for building modern .NET web applications in C#. It provides a consistent, strongly-typed component API across popular CSS frameworks, allowing you to build with Bootstrap 5, Tailwind CSS, Bulma, Material, AntDesign, or Fluent UI 2 without rewriting your application.
 
 ## Highlights
 
@@ -32,7 +32,7 @@ Commercial subscriptions include:
 
 ## Supporting Blazorise
 
-Blazorise is an open source project with its ongoing development made possible entirely by the support of these awesome backers.
+Blazorise is a source-available project, and its ongoing development is made possible through the support of its partners, subscribers, and community contributors.
 
 ### Special Partners
 
