@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -452,7 +451,7 @@ public class ComponentsApiDocsGenerator
         if ( !Directory.Exists( outputDirectory ) )
             Directory.CreateDirectory( outputDirectory );
 
-        File.WriteAllText( outputPath, json, Encoding.UTF8 );
+        GeneratedJsonFileWriter.WriteIfChangedIgnoringGeneratedUtc( outputPath, json );
     }
 
     private static bool ShouldIncludeInDocsApiIndex( ApiDocsForComponent component )

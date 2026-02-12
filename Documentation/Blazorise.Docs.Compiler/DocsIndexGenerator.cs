@@ -131,7 +131,7 @@ internal sealed class DocsIndexGenerator
                 Directory.CreateDirectory( outputDirectory );
             }
 
-            File.WriteAllText( outputPath, json, Encoding.UTF8 );
+            GeneratedJsonFileWriter.WriteIfChangedIgnoringGeneratedUtc( outputPath, json );
         }
         catch ( Exception e )
         {
