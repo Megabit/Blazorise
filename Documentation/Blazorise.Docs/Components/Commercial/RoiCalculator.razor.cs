@@ -53,7 +53,7 @@ public partial class RoiCalculator
     private int riskComplexityPercent = 12;
     private LicenseTier selectedLicenseTier = LicenseTier.Enterprise;
 
-    private RoiCalculationResult? roiResult;
+    private RoiCalculationResult roiResult;
 
     private decimal SelectedLicensePrice
         => selectedLicenseTier == LicenseTier.Professional
