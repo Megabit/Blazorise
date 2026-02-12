@@ -1,10 +1,11 @@
 ﻿<Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-    Save up to <Span Class="gradient-commercial">17%</Span> on your next project
+    Replace <Span Class="gradient-commercial">1,200+ hours</Span> of UI engineering
 </Heading>
 
 <Paragraph>
-    Explore the Blazorise Benefits Grid to see how our Blazor UI components save you <Strong>time and costs</Strong>.
-    Quickly estimate hours and expenses saved per component to streamline delivery without compromising quality.
+    Explore the Blazorise Benefits Grid to see how our Blazor UI components eliminate
+    <Strong>significant development time and cost</Strong>.
+    Quickly estimate the engineering effort avoided per component and accelerate delivery without compromising quality.
 </Paragraph>
 
 <Div>
@@ -13,7 +14,7 @@
             <TableRow>
                 <TableHeaderCell Style="width: 65%;" TextAlignment="TextAlignment.Start">Component / Work</TableHeaderCell>
                 <TableHeaderCell Style="width: 20%;">Development Hours</TableHeaderCell>
-                <TableHeaderCell Style="width: 15%;" TextAlignment="TextAlignment.End">Total Savings</TableHeaderCell>
+                <TableHeaderCell Style="width: 15%;" TextAlignment="TextAlignment.End">Replacement Cost</TableHeaderCell>
             </TableRow>
         </TableHeader>
 
@@ -39,11 +40,12 @@
 </Div>
 
 <Paragraph TextColor="TextColor.Muted">
-    <Span>*</Span> Savings are calculated using an hourly rate of <Strong>€50/hour</Strong> for an average enterprise-level application.
+    <Span>*</Span> Replacement cost is calculated using an average enterprise development rate of <Strong>€85/hour</Strong>.
+    Actual costs may vary depending on requirements, testing, accessibility standards, and long-term maintenance.
 </Paragraph>
 
 @code {
-    const decimal HourlyRate = 50m;
+    const decimal HourlyRate = 85m;
 
     sealed class WorkInfo
     {
@@ -60,6 +62,7 @@
         new WorkInfo { Name = "Navigation bar and sidebar", HoursWorked = 90 },
         new WorkInfo { Name = "Charting components", HoursWorked = 160 },
         new WorkInfo { Name = "Notifications and messaging system", HoursWorked = 60 },
+        new WorkInfo { Name = "Scheduler component with recurrence, drag & drop, and multiple views", HoursWorked = 260 },
     };
 
     int TotalHours => Works.Sum( x => x.HoursWorked );
