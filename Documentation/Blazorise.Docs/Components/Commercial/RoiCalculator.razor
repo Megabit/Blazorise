@@ -1,0 +1,301 @@
+<Paragraph Margin="Margin.Is0.FromBottom.Is4.FromBottom" TextColor="TextColor.Muted">
+    Estimate the cost of building internal UI capabilities versus licensing Blazorise over your selected time horizon.
+</Paragraph>
+
+<Row Gutter="Gutter.Is4">
+    <Column ColumnSize="ColumnSize.Is7.OnDesktop.Is12.OnMobile">
+        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+            <CardBody>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                    1. Build Effort
+                </Heading>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        How many UI components do you need?
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        (e.g., data grid, forms, charts, scheduler)
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@ComponentCountMin</Badge>
+                        <Badge Color="Color.Primary" Pill>@ComponentCount</Badge>
+                        <Badge Color="Color.Light" Pill>@ComponentCountMax</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@ComponentCount" Min="@ComponentCountMin" Max="@ComponentCountMax" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        How many developers will work on this?
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@DeveloperCountMin</Badge>
+                        <Badge Color="Color.Primary" Pill>@DeveloperCount</Badge>
+                        <Badge Color="Color.Light" Pill>@DeveloperCountMax</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@DeveloperCount" Min="@DeveloperCountMin" Max="@DeveloperCountMax" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Average hours to build one component
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        (design, development, testing, production-ready quality)
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@HoursPerComponentMin</Badge>
+                        <Badge Color="Color.Primary" Pill>@HoursPerComponent</Badge>
+                        <Badge Color="Color.Light" Pill>@HoursPerComponentMax</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@HoursPerComponent" Min="@HoursPerComponentMin" Max="@HoursPerComponentMax" Step="4" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Developer cost per hour (&euro;)
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        (fully loaded cost including overhead)
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@FormatCompactCurrency( DeveloperRateMin )</Badge>
+                        <Badge Color="Color.Primary" Pill>@FormatCurrency( DeveloperCostPerHour )</Badge>
+                        <Badge Color="Color.Light" Pill>@FormatCompactCurrency( DeveloperRateMax )</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@DeveloperCostPerHour" Min="@DeveloperRateMin" Max="@DeveloperRateMax" Step="5" />
+                </Div>
+
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                    2. Delivery &amp; Business Impact
+                </Heading>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Months saved by using prebuilt components
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@MonthsSavedMin</Badge>
+                        <Badge Color="Color.Primary" Pill>@MonthsSaved</Badge>
+                        <Badge Color="Color.Light" Pill>@MonthsSavedMax</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@MonthsSaved" Min="@MonthsSavedMin" Max="@MonthsSavedMax" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Estimated financial impact of launching one month earlier (&euro;)
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        (revenue, cost savings, or strategic advantage)
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@FormatCompactCurrency( BusinessValuePerMonthMin )</Badge>
+                        <Badge Color="Color.Primary" Pill>@FormatCurrency( BusinessValuePerMonth )</Badge>
+                        <Badge Color="Color.Light" Pill>@FormatCompactCurrency( BusinessValuePerMonthMax )</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@BusinessValuePerMonth" Min="@BusinessValuePerMonthMin" Max="@BusinessValuePerMonthMax" Step="5000" />
+                </Div>
+
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                    3. Long-Term Ownership &amp; Risk
+                </Heading>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Annual maintenance effort (% of build cost)
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        (bug fixes, upgrades, improvements)
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@($"{MaintenancePercentMin:n0}%")</Badge>
+                        <Badge Color="Color.Primary" Pill>@($"{AnnualMaintenancePercent:n0}%")</Badge>
+                        <Badge Color="Color.Light" Pill>@($"{MaintenancePercentMax:n0}%")</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@AnnualMaintenancePercent" Min="@MaintenancePercentMin" Max="@MaintenancePercentMax" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Number of years for comparison
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@PlanningYearsMin</Badge>
+                        <Badge Color="Color.Primary" Pill>@PlanningYears</Badge>
+                        <Badge Color="Color.Light" Pill>@PlanningYearsMax</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@PlanningYears" Min="@PlanningYearsMin" Max="@PlanningYearsMax" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Additional effort for testing &amp; hardening (%)
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@($"{HardeningPercentMin:n0}%")</Badge>
+                        <Badge Color="Color.Primary" Pill>@($"{TestingHardeningPercent:n0}%")</Badge>
+                        <Badge Color="Color.Light" Pill>@($"{HardeningPercentMax:n0}%")</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@TestingHardeningPercent" Min="@HardeningPercentMin" Max="@HardeningPercentMax" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Risk &amp; complexity adjustment (%)
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        (unexpected scope, edge cases, rework)
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@($"{RiskPercentMin:n0}%")</Badge>
+                        <Badge Color="Color.Primary" Pill>@($"{RiskComplexityPercent:n0}%")</Badge>
+                        <Badge Color="Color.Light" Pill>@($"{RiskPercentMax:n0}%")</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@RiskComplexityPercent" Min="@RiskPercentMin" Max="@RiskPercentMax" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextWeight="TextWeight.SemiBold">
+                        Blazorise license tier used for comparison
+                    </Paragraph>
+                    <Select TValue="LicenseTier" @bind-Value="@SelectedLicenseTier">
+                        <SelectItem TValue="LicenseTier" Value="@LicenseTier.Professional">Professional (&euro;590 / developer / year)</SelectItem>
+                        <SelectItem TValue="LicenseTier" Value="@LicenseTier.Enterprise">Enterprise (&euro;990 / developer / year)</SelectItem>
+                    </Select>
+                    <Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom" TextColor="TextColor.Muted">
+                        Selected license price: <Strong>@FormatCurrency( SelectedLicensePrice )</Strong> per developer/year.
+                    </Paragraph>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is5.OnDesktop.Is12.OnMobile">
+        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+            <CardBody>
+                @if ( roiResult is null )
+                {
+                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        Results
+                    </Heading>
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">
+                        Adjust assumptions to compare internal build cost with Blazorise.
+                    </Paragraph>
+                }
+                else
+                {
+                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        Results
+                    </Heading>
+
+                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                            <CardBody>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">Total Cost to Build Internally</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@FormatCurrency( roiResult.TotalCostToBuildInternally )</Heading>
+                            </CardBody>
+                        </Card>
+                    </Div>
+
+                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                            <CardBody>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">@($"{PlanningYears}-Year Total Cost of Ownership")</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@FormatCurrency( roiResult.TotalCostOfOwnership )</Heading>
+                            </CardBody>
+                        </Card>
+                    </Div>
+
+                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                            <CardBody>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">@($"Blazorise License Cost ({PlanningYears} Years)")</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@FormatCurrency( roiResult.LicenseCostForHorizon )</Heading>
+                            </CardBody>
+                        </Card>
+                    </Div>
+
+                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                            <CardBody>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">Estimated Savings vs In-House</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextColor="@(roiResult.EstimatedSavings >= 0m ? TextColor.Success : TextColor.Danger)">
+                                    @FormatSignedCurrency( roiResult.EstimatedSavings )
+                                </Heading>
+                            </CardBody>
+                        </Card>
+                    </Div>
+
+                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                            <CardBody>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">Time-to-Market Advantage</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@FormatCurrency( roiResult.TimeToMarketAdvantage )</Heading>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">
+                                    @MonthsSaved months x @FormatCurrency( BusinessValuePerMonth ) per month
+                                </Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Div>
+
+                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+                        Your Cost Breakdown
+                    </Heading>
+
+                    <Table Responsive Bordered>
+                        <TableBody>
+                            <TableRow>
+                                <TableRowCell>Your build effort (in-house)</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatBreakdownHours( roiResult.InternalBuildHours )</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>Your implementation effort (with Blazorise)</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatBreakdownHours( roiResult.BlazoriseBuildHours )</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>Your annual maintenance (in-house)</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.InternalAnnualMaintenanceCost )</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>Your annual maintenance (with Blazorise)</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.BlazoriseAnnualMaintenanceCost )</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>Developer license seats</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.EstimatedLicenseSeats:n0}")</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>@($"License cost ({PlanningYears} years)")</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.LicenseCostForHorizon )</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>Planning horizon</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{PlanningYears:n0} years")</Span>
+                                </TableRowCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+
+                    <Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom" TextColor="TextColor.Muted">
+                        All values represent your estimated spend and savings for this scope.
+                    </Paragraph>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

@@ -1,0 +1,32 @@
+@page "/roi-calculator"
+
+<Seo Canonical="/roi-calculator" Title="Blazorise ROI Calculator" Description="Estimate internal build cost, TCO, and Blazorise cost comparison for enterprise UI delivery." />
+
+<PageHeader>
+    <Title>
+        Development Cost <Span TextColor="TextColor.Primary">ROI Calculator</Span>
+    </Title>
+    <Subtitle>
+        Compare internal component build investment against Blazorise licensing across your selected ownership horizon.
+    </Subtitle>
+    <Description>
+        Enter build effort, delivery impact, and ownership risk assumptions to estimate internal cost, TCO, Blazorise license spend, savings, and time-to-market advantage.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
+            View Pricing
+        </Button>
+    </Actions>
+</PageHeader>
+
+<Container Padding="Padding.Is3.OnX.Is5.OnY">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is10.OnDesktop.Is12.OnMobile" Margin="Margin.IsAuto.OnX">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                <CardBody Padding="Padding.Is4">
+                    <RoiCalculator />
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+</Container>
