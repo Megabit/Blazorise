@@ -205,18 +205,23 @@ public partial class RoiCalculator
 
         decimal estimatedSavings = totalCostOfOwnership - costOfUsingBlazorise;
         decimal timeToMarketAdvantage = MonthsSaved * BusinessValuePerMonth;
+        decimal totalBenefit = estimatedSavings + timeToMarketAdvantage;
 
         roiResult = new RoiCalculationResult(
             totalCostToBuildInternally,
             totalCostOfOwnership,
+            costOfUsingBlazorise,
             estimatedSavings,
             timeToMarketAdvantage,
+            totalBenefit,
             estimatedLicenseSeats,
             licenseCostForHorizon,
             adjustedBuildHours,
             blazoriseBuildHours,
             annualMaintenanceCostInternal,
-            blazoriseAnnualMaintenanceCost );
+            blazoriseAnnualMaintenanceCost,
+            internalCoordinationPercent,
+            blazoriseCoordinationPercent );
     }
 
     private void RecalculateIfNeeded()
@@ -269,12 +274,16 @@ public partial class RoiCalculator
     private sealed record RoiCalculationResult(
         decimal TotalCostToBuildInternally,
         decimal TotalCostOfOwnership,
+        decimal CostOfUsingBlazorise,
         decimal EstimatedSavings,
         decimal TimeToMarketAdvantage,
+        decimal TotalBenefit,
         int EstimatedLicenseSeats,
         decimal LicenseCostForHorizon,
         decimal InternalBuildHours,
         decimal BlazoriseBuildHours,
         decimal InternalAnnualMaintenanceCost,
-        decimal BlazoriseAnnualMaintenanceCost );
+        decimal BlazoriseAnnualMaintenanceCost,
+        decimal InternalCoordinationPercent,
+        decimal BlazoriseCoordinationPercent );
 }

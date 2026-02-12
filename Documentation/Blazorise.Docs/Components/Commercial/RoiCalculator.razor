@@ -29,6 +29,9 @@
                     <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
                         How many developers will work on this?
                     </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        Used to estimate coordination overhead and license seats.
+                    </Paragraph>
                     <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
                         <Badge Color="Color.Light" Pill>@DeveloperCountMin</Badge>
                         <Badge Color="Color.Primary" Pill>@DeveloperCount</Badge>
@@ -211,8 +214,8 @@
                     <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
                         <Card Border="Border.Rounded" Shadow="Shadow.Small">
                             <CardBody>
-                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">@($"Blazorise License Cost ({PlanningYears} Years)")</Paragraph>
-                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@FormatCurrency( roiResult.LicenseCostForHorizon )</Heading>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">Total Cost with Blazorise (incl. license)</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@FormatCurrency( roiResult.CostOfUsingBlazorise )</Heading>
                             </CardBody>
                         </Card>
                     </Div>
@@ -220,7 +223,19 @@
                     <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
                         <Card Border="Border.Rounded" Shadow="Shadow.Small">
                             <CardBody>
-                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">Estimated Savings vs In-House</Paragraph>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">@($"Blazorise License Cost ({PlanningYears} Years)")</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@FormatCurrency( roiResult.LicenseCostForHorizon )</Heading>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">
+                                    @roiResult.EstimatedLicenseSeats seats &times; @FormatCurrency( SelectedLicensePrice ) &times; @PlanningYears years
+                                </Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Div>
+
+                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                            <CardBody>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">Cost Difference (In-House &minus; Blazorise)</Paragraph>
                                 <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextColor="@(roiResult.EstimatedSavings >= 0m ? TextColor.Success : TextColor.Danger)">
                                     @FormatSignedCurrency( roiResult.EstimatedSavings )
                                 </Heading>
@@ -240,6 +255,17 @@
                         </Card>
                     </Div>
 
+                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                            <CardBody>
+                                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">Total Benefit (Savings + Faster Delivery)</Paragraph>
+                                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextColor="@(roiResult.TotalBenefit >= 0m ? TextColor.Success : TextColor.Danger)">
+                                    @FormatSignedCurrency( roiResult.TotalBenefit )
+                                </Heading>
+                            </CardBody>
+                        </Card>
+                    </Div>
+
                     <Heading Size="HeadingSize.Is6" Margin="Margin.Is4.FromTop.Is2.FromBottom">
                         Your Cost Breakdown
                     </Heading>
@@ -253,9 +279,21 @@
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
+                                <TableRowCell>Coordination overhead (in-house)</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.InternalCoordinationPercent:n0}%")</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
                                 <TableRowCell>Your implementation effort (with Blazorise)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatBreakdownHours( roiResult.BlazoriseBuildHours )</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>Coordination overhead (with Blazorise)</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.BlazoriseCoordinationPercent:n0}%")</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
@@ -280,6 +318,12 @@
                                 <TableRowCell>@($"License cost ({PlanningYears} years)")</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.LicenseCostForHorizon )</Span>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell>Total cost with Blazorise (incl. license)</TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.CostOfUsingBlazorise )</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
