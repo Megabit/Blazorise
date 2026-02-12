@@ -273,61 +273,61 @@
                     <Table Responsive Bordered>
                         <TableBody>
                             <TableRow>
-                                <TableRowCell>Your build effort (in-house)</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Your build effort (in-house)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatBreakdownHours( roiResult.InternalBuildHours )</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Coordination overhead (in-house)</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Coordination overhead (in-house)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.InternalCoordinationPercent:n0}%")</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Your implementation effort (with Blazorise)</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Your implementation effort (with Blazorise)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatBreakdownHours( roiResult.BlazoriseBuildHours )</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Coordination overhead (with Blazorise)</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Coordination overhead (with Blazorise)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.BlazoriseCoordinationPercent:n0}%")</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Your annual maintenance (in-house)</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Your annual maintenance (in-house)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.InternalAnnualMaintenanceCost )</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Your annual maintenance (with Blazorise)</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Your annual maintenance (with Blazorise)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.BlazoriseAnnualMaintenanceCost )</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Developer license seats</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Developer license seats</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.EstimatedLicenseSeats:n0}")</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>@($"License cost ({PlanningYears} years)")</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">@($"License cost ({PlanningYears} years)")</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.LicenseCostForHorizon )</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Total cost with Blazorise (incl. license)</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Total cost with Blazorise (incl. license)</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.CostOfUsingBlazorise )</Span>
                                 </TableRowCell>
                             </TableRow>
                             <TableRow>
-                                <TableRowCell>Planning horizon</TableRowCell>
+                                <TableRowCell TextSize="TextSize.Small">Planning horizon</TableRowCell>
                                 <TableRowCell TextAlignment="TextAlignment.End">
                                     <Span TextOverflow="TextOverflow.NoWrap">@($"{PlanningYears:n0} years")</Span>
                                 </TableRowCell>
