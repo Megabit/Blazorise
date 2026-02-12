@@ -8,8 +8,8 @@ using Blazorise.Docs.Mcp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModelContextProtocol;
@@ -54,8 +54,8 @@ static async Task HandleSseAsync(
 
     context.Response.StatusCode = StatusCodes.Status200OK;
     context.Response.ContentType = "text/event-stream";
-    context.Response.Headers["Cache-Control"] = "no-cache";
-    context.Response.Headers["Connection"] = "keep-alive";
+    context.Response.Headers.CacheControl = "no-cache";
+    context.Response.Headers.Connection = "keep-alive";
     context.Response.Headers["X-Accel-Buffering"] = "no";
 
     IHttpResponseBodyFeature bodyFeature = context.Features.Get<IHttpResponseBodyFeature>();
@@ -67,9 +67,9 @@ static async Task HandleSseAsync(
     IServiceScope scope = serviceProvider.CreateScope();
     McpServerOptions options = serverOptions.Value;
 
-    SseResponseStreamTransport transport = new SseResponseStreamTransport( context.Response.Body, messageEndpoint, sessionId );
-    McpServer server = McpServer.Create( transport, options, loggerFactory, scope.ServiceProvider );
-    McpHttpSession session = new McpHttpSession( sessionId, transport, server, scope );
+    var transport = new SseResponseStreamTransport( context.Response.Body, messageEndpoint, sessionId );
+    var server = McpServer.Create( transport, options, loggerFactory, scope.ServiceProvider );
+    var session = new McpHttpSession( sessionId, transport, server, scope );
 
     if ( !sessionStore.TryAdd( session ) )
     {
@@ -125,10 +125,7 @@ static async Task HandleMessageAsync( HttpContext context, McpHttpSessionStore s
         return;
     }
 
-    if ( message.Context is null )
-    {
-        message.Context = new JsonRpcMessageContext();
-    }
+    message.Context ??= new JsonRpcMessageContext();
 
     message.Context.User = context.User;
 
@@ -173,7 +170,7 @@ static async Task WriteSseHandshakeAsync(
     string messageEndpoint,
     CancellationToken cancellationToken )
 {
-    Dictionary<string, string> payload = new Dictionary<string, string>( StringComparer.Ordinal )
+    var payload = new Dictionary<string, string>( StringComparer.Ordinal )
     {
         ["sessionId"] = sessionId,
         ["endpoint"] = messageEndpoint
@@ -184,7 +181,7 @@ static async Task WriteSseHandshakeAsync(
                  $"data: {json}\n\n";
 
     byte[] bytes = Encoding.UTF8.GetBytes( sse );
-    await response.Body.WriteAsync( bytes, 0, bytes.Length, cancellationToken );
+    await response.Body.WriteAsync( bytes, cancellationToken );
 }
 
 static void LogTaskFailure( Task task, ILogger logger, string taskName, string sessionId )
