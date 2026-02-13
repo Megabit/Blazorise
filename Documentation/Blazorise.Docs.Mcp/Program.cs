@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Docs.Mcp;
 using Microsoft.AspNetCore.Builder;
@@ -62,7 +59,7 @@ static async Task HandleSseAsync(
     bodyFeature?.DisableBuffering();
 
     string sessionId = Guid.NewGuid().ToString( "N" );
-    string messageEndpoint = BuildMessageEndpoint( context.Request.PathBase );
+    string messageEndpoint = BuildMessageEndpoint( context.Request.PathBase, sessionId );
 
     IServiceScope scope = serviceProvider.CreateScope();
     McpServerOptions options = serverOptions.Value;
@@ -79,9 +76,6 @@ static async Task HandleSseAsync(
     }
 
     Task transportTask = transport.RunAsync( context.RequestAborted );
-
-    await WriteSseHandshakeAsync( context.Response, sessionId, messageEndpoint, context.RequestAborted );
-    await context.Response.Body.FlushAsync( context.RequestAborted );
 
     Task serverTask = server.RunAsync( context.RequestAborted );
 
@@ -156,32 +150,14 @@ static string GetSessionId( HttpRequest request )
     return sessionId;
 }
 
-static string BuildMessageEndpoint( PathString pathBase )
+static string BuildMessageEndpoint( PathString pathBase, string sessionId )
 {
+    string encodedSessionId = Uri.EscapeDataString( sessionId );
+
     if ( pathBase.HasValue )
-        return $"{pathBase.Value}/mcp/message";
+        return $"{pathBase.Value}/mcp/message?sessionId={encodedSessionId}";
 
-    return "/mcp/message";
-}
-
-static async Task WriteSseHandshakeAsync(
-    HttpResponse response,
-    string sessionId,
-    string messageEndpoint,
-    CancellationToken cancellationToken )
-{
-    var payload = new Dictionary<string, string>( StringComparer.Ordinal )
-    {
-        ["sessionId"] = sessionId,
-        ["endpoint"] = messageEndpoint
-    };
-
-    string json = JsonSerializer.Serialize( payload );
-    string sse = $"event: endpoint\n" +
-                 $"data: {json}\n\n";
-
-    byte[] bytes = Encoding.UTF8.GetBytes( sse );
-    await response.Body.WriteAsync( bytes, cancellationToken );
+    return $"/mcp/message?sessionId={encodedSessionId}";
 }
 
 static void LogTaskFailure( Task task, ILogger logger, string taskName, string sessionId )
