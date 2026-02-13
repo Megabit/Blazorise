@@ -16,7 +16,6 @@ public static class ManualPageEntries
     new( "docs/analyzer", "Analyzer", "Install Blazorise.Analyzers to detect migration issues and API changes while upgrading to Blazorise 2.0." ),
     new( "docs/mcp", "MCP Server", "Connect AI clients to Blazorise documentation and examples through the MCP server." ),
     new( "docs/pwa", "PWA" ),
-    new( "roi-calculator", "ROI Calculator", "Estimate implementation effort, cost, and ROI for selected UI capabilities with Blazorise." ),
     new( "docs/components/accordion", "Accordion", "Build vertically collapsing accordions in combination with our Collapse component." ),
     new( "docs/components/addon", "Addon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
     new( "docs/components/alert", "Alert", "Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages." ),
