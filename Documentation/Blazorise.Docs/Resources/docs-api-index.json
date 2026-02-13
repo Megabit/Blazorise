@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-10T20:24:29.9221199Z",
+  "generatedUtc": "2026-02-12T18:13:22.4426820Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -8952,6 +8952,14 @@
           "defaultValue": "null",
           "summary": "Gets or sets a value indicating whether the dropdown toggle icon is visible.",
           "remarks": "Default: True",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "To",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specifies the URL of the page the toggle content goes to.",
           "isBlazoriseEnum": false
         },
         {

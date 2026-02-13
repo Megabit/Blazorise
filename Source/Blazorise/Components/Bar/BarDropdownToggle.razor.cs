@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -48,6 +49,12 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         builder.Append( ClassProvider.BarDropdownToggleDisabled( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true, IsDisabled ) );
         builder.Append( ClassProvider.BarDropdownToggleIcon( IsToggleIconVisible ) );
 
+        if ( To != null )
+        {
+            builder.Append( ClassProvider.BarLink( ParentBarDropdownState.Mode ) );
+            builder.Append( ClassProvider.LinkActive( NavigationManager.IsMatch( To, Match.All, null ) ) );
+        }
+
         base.BuildClasses( builder );
     }
 
@@ -78,7 +85,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
                 catch when ( task.IsCanceled )
                 {
                 }
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                catch ( JSDisconnectedException )
                 {
                 }
             }
@@ -189,6 +196,11 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
+    /// Gets or sets the navigation manager instance.
+    /// </summary>
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    /// <summary>
     /// Determines how much left padding will be applied to the dropdown toggle. (in rem unit)
     /// </summary>
     [Parameter] public double Indentation { get; set; } = 1.5d;
@@ -219,6 +231,11 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// </value>
     /// <remarks>Default: True</remarks>
     [Parameter] public bool? ToggleIconVisible { get; set; }
+
+    /// <summary>
+    /// Specifies the URL of the page the toggle content goes to.
+    /// </summary>
+    [Parameter] public string To { get; set; }
 
     /// <summary>
     /// Occurs when the toggle button is clicked.
