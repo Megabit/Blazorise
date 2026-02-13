@@ -27,21 +27,6 @@
 
                 <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
                     <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
-                        How many developers will work on this?
-                    </Paragraph>
-                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
-                        Used to estimate coordination overhead and license seats.
-                    </Paragraph>
-                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
-                        <Badge Color="Color.Light" Pill>@DeveloperCountMin</Badge>
-                        <Badge Color="Color.Primary" Pill>@DeveloperCount</Badge>
-                        <Badge Color="Color.Light" Pill>@DeveloperCountMax</Badge>
-                    </Div>
-                    <Slider TValue="int" @bind-Value="@DeveloperCount" Min="@DeveloperCountMin" Max="@DeveloperCountMax" />
-                </Div>
-
-                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
-                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
                         Average hours to build one component
                     </Paragraph>
                     <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
@@ -53,6 +38,21 @@
                         <Badge Color="Color.Light" Pill>@HoursPerComponentMax</Badge>
                     </Div>
                     <Slider TValue="int" @bind-Value="@HoursPerComponent" Min="@HoursPerComponentMin" Max="@HoursPerComponentMax" Step="4" />
+                </Div>
+
+                <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+                    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+                        How many developers will work on this?
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+                        Used to estimate coordination overhead and license seats.
+                    </Paragraph>
+                    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+                        <Badge Color="Color.Light" Pill>@DeveloperCountMin</Badge>
+                        <Badge Color="Color.Primary" Pill>@DeveloperCount</Badge>
+                        <Badge Color="Color.Light" Pill>@DeveloperCountMax</Badge>
+                    </Div>
+                    <Slider TValue="int" @bind-Value="@DeveloperCount" Min="@DeveloperCountMin" Max="@DeveloperCountMax" />
                 </Div>
 
                 <Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
