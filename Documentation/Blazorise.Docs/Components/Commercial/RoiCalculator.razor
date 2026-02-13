@@ -220,7 +220,7 @@
                         </Card>
                     </Div>
 
-                    <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                    @* <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
                         <Card Border="Border.Rounded" Shadow="Shadow.Small">
                             <CardBody>
                                 <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Muted">@($"Blazorise License Cost ({PlanningYears} Years)")</Paragraph>
@@ -230,7 +230,7 @@
                                 </Paragraph>
                             </CardBody>
                         </Card>
-                    </Div>
+                    </Div> *@
 
                     <Div Margin="Margin.Is0.FromBottom.Is3.FromBottom">
                         <Card Border="Border.Rounded" Shadow="Shadow.Small">
@@ -266,7 +266,13 @@
                         </Card>
                     </Div>
 
-                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is4.FromTop.Is3.FromBottom">
+                    <Div Margin="Margin.Is4.FromTop.Is0.FromBottom">
+                        <Button Color="Color.Primary" Size="Size.Large" Block Clicked="@ShowSendResultModal">
+                            Get Result
+                        </Button>
+                    </Div>
+
+                    @* <Heading Size="HeadingSize.Is6" Margin="Margin.Is4.FromTop.Is3.FromBottom">
                         Your Cost Breakdown
                     </Heading>
 
@@ -315,9 +321,62 @@
 
                     <Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom" TextColor="TextColor.Muted">
                         All values represent your estimated spend and savings for this scope.
-                    </Paragraph>
+                    </Paragraph> *@
                 }
             </CardBody>
         </Card>
     </Column>
 </Row>
+
+<Modal @bind-Visible="@sendResultModalVisible" Size="ModalSize.Large" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Get ROI Result</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph Margin="Margin.Is0.FromBottom.Is3.FromBottom" TextColor="TextColor.Muted">
+                Enter your name and business email and we will send your ROI summary.
+            </Paragraph>
+
+            <Validations @ref="@sendResultValidationsRef" Mode="ValidationMode.Manual">
+                <Validation Validator="ValidationRule.IsNotEmpty">
+                    <Field Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <FieldLabel RequiredIndicator>Name</FieldLabel>
+                        <FieldBody>
+                            <TextInput @bind-Value="@resultRecipientName" Placeholder="Your name">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextInput>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+
+                <Validation Validator="ValidationRule.IsEmail">
+                    <Field Margin="Margin.Is0.FromBottom.Is3.FromBottom">
+                        <FieldLabel RequiredIndicator>Business Email</FieldLabel>
+                        <FieldBody>
+                            <TextInput Role="TextRole.Email" @bind-Value="@resultRecipientEmail" Placeholder="name@company.com">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextInput>
+                        </FieldBody>
+                    </Field>
+                </Validation>
+
+                <Button Color="Color.Primary" Disabled="@isSendingResultEmail" Clicked="@SendResultEmail">
+                    @(isSendingResultEmail ? "Sending..." : "Get Result")
+                </Button>
+            </Validations>
+
+            <Paragraph Margin="Margin.Is3.FromTop.Is0.FromBottom" TextColor="TextColor.Muted">
+                By proceeding, you agree to our
+                <Anchor To="terms" Title="Link to Terms of Service">Terms of Service</Anchor>
+                and
+                <Anchor To="privacy" Title="Link to Privacy Policy">Privacy Policy</Anchor>.
+            </Paragraph>
+        </ModalBody>
+    </ModalContent>
+</Modal>
