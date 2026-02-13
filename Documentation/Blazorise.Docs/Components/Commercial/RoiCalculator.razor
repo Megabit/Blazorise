@@ -266,74 +266,52 @@
                         </Card>
                     </Div>
 
-                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is4.FromTop.Is3.FromBottom">
                         Your Cost Breakdown
                     </Heading>
 
-                    <Table Responsive Bordered>
-                        <TableBody>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Your build effort (in-house)</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatBreakdownHours( roiResult.InternalBuildHours )</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Coordination overhead (in-house)</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.InternalCoordinationPercent:n0}%")</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Your implementation effort (with Blazorise)</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatBreakdownHours( roiResult.BlazoriseBuildHours )</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Coordination overhead (with Blazorise)</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.BlazoriseCoordinationPercent:n0}%")</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Your annual maintenance (in-house)</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.InternalAnnualMaintenanceCost )</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Your annual maintenance (with Blazorise)</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.BlazoriseAnnualMaintenanceCost )</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Developer license seats</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{roiResult.EstimatedLicenseSeats:n0}")</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">@($"License cost ({PlanningYears} years)")</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.LicenseCostForHorizon )</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Total cost with Blazorise (incl. license)</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@FormatCurrency( roiResult.CostOfUsingBlazorise )</Span>
-                                </TableRowCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableRowCell TextSize="TextSize.Small">Planning horizon</TableRowCell>
-                                <TableRowCell TextAlignment="TextAlignment.End">
-                                    <Span TextOverflow="TextOverflow.NoWrap">@($"{PlanningYears:n0} years")</Span>
-                                </TableRowCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                    <Div Margin="Margin.Is3.FromBottom">
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Your build effort (in-house)</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@FormatBreakdownHours( roiResult.InternalBuildHours )</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Coordination overhead (in-house)</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@($"{roiResult.InternalCoordinationPercent:n0}%")</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Your implementation effort (with Blazorise)</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@FormatBreakdownHours( roiResult.BlazoriseBuildHours )</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Coordination overhead (with Blazorise)</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@($"{roiResult.BlazoriseCoordinationPercent:n0}%")</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Your annual maintenance (in-house)</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@FormatCurrency( roiResult.InternalAnnualMaintenanceCost )</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Your annual maintenance (with Blazorise)</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@FormatCurrency( roiResult.BlazoriseAnnualMaintenanceCost )</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Developer license seats</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@($"{roiResult.EstimatedLicenseSeats:n0}")</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">@($"License cost ({PlanningYears} years)")</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@FormatCurrency( roiResult.LicenseCostForHorizon )</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Total cost with Blazorise (incl. license)</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@FormatCurrency( roiResult.CostOfUsingBlazorise )</Span>
+                        </Paragraph>
+                        <Paragraph Border="Border.Is1.OnBottom" Flex="Flex.JustifyContent.Between">
+                            <Span TextSize="TextSize.Small">Planning horizon</Span>
+                            <Span TextWeight="TextWeight.SemiBold">@($"{PlanningYears:n0} years")</Span>
+                        </Paragraph>
+                    </Div>
 
                     <Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom" TextColor="TextColor.Muted">
                         All values represent your estimated spend and savings for this scope.
