@@ -253,6 +253,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 await HandleMultiSelectClick( eventArgs );
         }
 
+        if ( ParentDataGrid.IsHierarchyEnabled && ParentDataGrid.ExpandOnRowClick )
+            await ParentDataGrid.ToggleRow( Item );
+
         await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
@@ -329,6 +332,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
         return new CellDisplayContext<TItem>( item, column, RowInfo, rowIndex, resolvedValue, displayValue, ParentDataGrid );
     }
+
+    protected Task ToggleRow()
+        => ParentDataGrid.ToggleRow( Item );
 
     #endregion
 

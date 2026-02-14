@@ -176,6 +176,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool suppressGroupingChangedNotifications;
 
+    /// <summary>
+    /// Tracks hierarchy node states keyed by row item equality.
+    /// </summary>
+    private readonly List<DataGridHierarchyNodeState<TItem>> hierarchyNodeStates = new();
+
+    /// <summary>
+    /// Cached hierarchy view metadata for currently rendered rows.
+    /// </summary>
+    private readonly List<DataGridHierarchyItemInfo<TItem>> hierarchyViewInfos = new();
+
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
     private string classValue;
@@ -607,6 +617,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await CheckMultipleSelectionSetEmpty( parameters );
 
         var dataChanged = false;
+        var expandedRowsChanged = parameters.TryGetValue<IList<TItem>>( nameof( ExpandedRows ), out var changedExpandedRows );
 
         if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
         {
@@ -633,7 +644,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
 
         if ( dataChanged )
+        {
+            ResetHierarchyState();
+
             await SyncSelectedItemsWithData();
+        }
+
+        if ( expandedRowsChanged && ApplyExpandedRows( changedExpandedRows ) )
+        {
+            SetDirty();
+        }
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -2152,6 +2172,92 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Expands a row.
+    /// </summary>
+    /// <param name="item">Row item.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandRow( TItem item )
+        => ExpandRowInternal( item, refresh: true, notifyEvents: true );
+
+    /// <summary>
+    /// Collapses a row.
+    /// </summary>
+    /// <param name="item">Row item.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseRow( TItem item )
+        => CollapseRowInternal( item, refresh: true, notifyEvents: true );
+
+    /// <summary>
+    /// Toggles a row.
+    /// </summary>
+    /// <param name="item">Row item.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task ToggleRow( TItem item )
+    {
+        if ( !IsHierarchyEnabled )
+            return;
+
+        if ( IsHierarchyRowExpanded( item ) )
+            await CollapseRowInternal( item, refresh: true, notifyEvents: true );
+        else
+            await ExpandRowInternal( item, refresh: true, notifyEvents: true );
+    }
+
+    /// <summary>
+    /// Expands all rows for the current root view.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task ExpandAllRows()
+    {
+        if ( !IsHierarchyEnabled )
+            return;
+
+        if ( dirtyFilter )
+            FilterData();
+
+        var changed = false;
+
+        foreach ( var rootItem in GetHierarchyRootViewData() )
+        {
+            changed |= await ExpandAllRowsInternal( rootItem, CancellationToken.None, new List<TItem>() );
+        }
+
+        if ( changed )
+        {
+            await NotifyExpandedRowsChanged();
+            SetDirty();
+            await Refresh();
+        }
+    }
+
+    /// <summary>
+    /// Collapses all rows.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task CollapseAllRows()
+    {
+        if ( !IsHierarchyEnabled )
+            return;
+
+        var changed = false;
+
+        foreach ( var state in hierarchyNodeStates.Where( x => x.Expanded ).ToList() )
+        {
+            state.Expanded = false;
+            changed = true;
+
+            await RowCollapsed.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( state.Item ) );
+        }
+
+        if ( changed )
+        {
+            await NotifyExpandedRowsChanged();
+            SetDirty();
+            await Refresh();
+        }
+    }
+
+    /// <summary>
     /// If <see cref="FixedHeader"/> or <see cref="Virtualize"/> is enabled, it will scroll position to the provided pixels.
     /// </summary>
     /// <param name="pixels">Offset in pixels from the top of the DataGrid.</param>
@@ -3144,6 +3250,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( dirtyFilter )
             FilterData();
 
+        IEnumerable<TItem> sourceData;
+
         // only use pagination if the custom data loading is not used
         if ( !ManualReadMode && !Virtualize )
         {
@@ -3154,10 +3262,61 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 skipElements = ( Page - 1 ) * PageSize;
             }
 
-            return filteredData.Skip( skipElements ).Take( PageSize );
+            sourceData = filteredData.Skip( skipElements ).Take( PageSize );
+        }
+        else
+        {
+            sourceData = filteredData;
         }
 
-        return filteredData;
+        if ( !IsHierarchyEnabled )
+        {
+            hierarchyViewInfos.Clear();
+            return sourceData;
+        }
+
+        return BuildHierarchyViewData( sourceData );
+    }
+
+    private IEnumerable<TItem> BuildHierarchyViewData( IEnumerable<TItem> sourceData )
+    {
+        hierarchyViewInfos.Clear();
+
+        if ( sourceData is null )
+            return Enumerable.Empty<TItem>();
+
+        var flatViewData = new List<TItem>();
+
+        foreach ( var rootItem in sourceData )
+        {
+            AppendHierarchyViewData( flatViewData, rootItem, 0, new List<TItem>() );
+        }
+
+        return flatViewData;
+    }
+
+    private void AppendHierarchyViewData( List<TItem> flatViewData, TItem item, int level, List<TItem> parentChain )
+    {
+        var rowState = GetHierarchyNodeState( item );
+        var expandable = ResolveHierarchyRowExpandable( item, rowState );
+
+        hierarchyViewInfos.Add( new DataGridHierarchyItemInfo<TItem>( item, level, expandable, rowState.Expanded ) );
+        flatViewData.Add( item );
+
+        if ( !rowState.Expanded || !expandable || !rowState.ChildrenLoaded || rowState.Children.IsNullOrEmpty() )
+            return;
+
+        parentChain.Add( item );
+
+        foreach ( var child in rowState.Children )
+        {
+            if ( parentChain.Any( x => x.IsEqual( child ) ) )
+                continue;
+
+            AppendHierarchyViewData( flatViewData, child, level + 1, parentChain );
+        }
+
+        parentChain.RemoveAt( parentChain.Count - 1 );
     }
 
     private Task SelectRow( TItem item, bool forceSelect = false )
@@ -3194,6 +3353,314 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     public DataGridRowInfo<TItem> GetRowInfo( TItem item )
         => Rows?.LastOrDefault( x => x.Item.IsEqual( item ) );
+
+    #endregion
+
+    #region Hierarchy
+
+    private async Task NotifyExpandedRowsChanged()
+    {
+        var expandedRows = hierarchyNodeStates.Where( x => x.Expanded ).Select( x => x.Item ).ToList();
+        ExpandedRows = expandedRows;
+
+        if ( ExpandedRowsChanged.HasDelegate )
+            await ExpandedRowsChanged.InvokeAsync( expandedRows );
+    }
+
+    private void ResetHierarchyState()
+    {
+        hierarchyNodeStates.Clear();
+        hierarchyViewInfos.Clear();
+        ExpandedRows = new List<TItem>();
+    }
+
+    private bool ApplyExpandedRows( IList<TItem> expandedRows )
+    {
+        var changed = false;
+        var expandedItems = expandedRows?.ToList() ?? new List<TItem>();
+
+        foreach ( var state in hierarchyNodeStates )
+        {
+            var shouldExpand = expandedItems.Any( x => x.IsEqual( state.Item ) );
+
+            if ( shouldExpand && !ResolveHierarchyRowExpandable( state.Item, state ) )
+                shouldExpand = false;
+
+            if ( state.Expanded != shouldExpand )
+            {
+                state.Expanded = shouldExpand;
+                changed = true;
+            }
+        }
+
+        foreach ( var expandedItem in expandedItems )
+        {
+            var state = GetHierarchyNodeState( expandedItem );
+
+            if ( !ResolveHierarchyRowExpandable( expandedItem, state ) )
+                continue;
+
+            if ( !state.Expanded )
+            {
+                state.Expanded = true;
+                changed = true;
+            }
+        }
+
+        return changed;
+    }
+
+    private async Task<bool> ExpandAllRowsInternal( TItem item, CancellationToken cancellationToken, List<TItem> parentChain )
+    {
+        if ( parentChain.Any( x => x.IsEqual( item ) ) )
+            return false;
+
+        parentChain.Add( item );
+
+        try
+        {
+            var changed = await ExpandRowInternal( item, refresh: false, notifyEvents: true, notifyExpandedRowsChanged: false, cancellationToken );
+            var state = GetHierarchyNodeState( item, false );
+
+            if ( state is null || !state.ChildrenLoaded || state.Children.IsNullOrEmpty() )
+                return changed;
+
+            foreach ( var child in state.Children )
+            {
+                changed |= await ExpandAllRowsInternal( child, cancellationToken, parentChain );
+            }
+
+            return changed;
+        }
+        finally
+        {
+            parentChain.RemoveAt( parentChain.Count - 1 );
+        }
+    }
+
+    private async Task<bool> ExpandRowInternal( TItem item, bool refresh, bool notifyEvents, bool notifyExpandedRowsChanged = true, CancellationToken cancellationToken = default )
+    {
+        if ( !IsHierarchyEnabled )
+            return false;
+
+        var rowState = GetHierarchyNodeState( item );
+
+        if ( !ResolveHierarchyRowExpandable( item, rowState ) )
+            return false;
+
+        await EnsureHierarchyChildrenLoaded( item, rowState, cancellationToken );
+
+        if ( !rowState.Expandable || rowState.Expanded )
+            return false;
+
+        var changed = false;
+
+        if ( ExpandMode == DataGridExpandMode.Single )
+        {
+            foreach ( var expandedState in hierarchyNodeStates.Where( x => x.Expanded && !x.Item.IsEqual( item ) ).ToList() )
+            {
+                expandedState.Expanded = false;
+                changed = true;
+
+                if ( notifyEvents )
+                    await RowCollapsed.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( expandedState.Item ) );
+            }
+        }
+
+        rowState.Expanded = true;
+        changed = true;
+
+        if ( notifyEvents )
+            await RowExpanded.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( item ) );
+
+        if ( changed )
+        {
+            if ( notifyExpandedRowsChanged )
+                await NotifyExpandedRowsChanged();
+
+            SetDirty();
+
+            if ( refresh )
+                await Refresh();
+        }
+
+        return changed;
+    }
+
+    private async Task<bool> CollapseRowInternal( TItem item, bool refresh, bool notifyEvents )
+    {
+        if ( !IsHierarchyEnabled )
+            return false;
+
+        var rowState = GetHierarchyNodeState( item, false );
+
+        if ( rowState is null || !rowState.Expanded )
+            return false;
+
+        rowState.Expanded = false;
+
+        if ( notifyEvents )
+            await RowCollapsed.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( item ) );
+
+        await NotifyExpandedRowsChanged();
+        SetDirty();
+
+        if ( refresh )
+            await Refresh();
+
+        return true;
+    }
+
+    private IEnumerable<TItem> GetHierarchyRootViewData()
+    {
+        if ( !ManualReadMode && !Virtualize )
+        {
+            var skipElements = ( Page - 1 ) * PageSize;
+            if ( skipElements > filteredData.Count )
+            {
+                Page = paginationContext.LastPage;
+                skipElements = ( Page - 1 ) * PageSize;
+            }
+
+            return filteredData.Skip( skipElements ).Take( PageSize ).ToList();
+        }
+
+        return filteredData.ToList();
+    }
+
+    private async Task EnsureHierarchyChildrenLoaded( TItem item, DataGridHierarchyNodeState<TItem> rowState, CancellationToken cancellationToken )
+    {
+        if ( rowState.ChildrenLoaded )
+            return;
+
+        if ( !ReadChildData.HasDelegate )
+        {
+            rowState.Children = new();
+            rowState.ChildrenLoaded = true;
+            rowState.Expandable = false;
+            rowState.ExpandableResolved = true;
+            rowState.Expanded = false;
+            return;
+        }
+
+        var childArgs = new DataGridReadChildDataEventArgs<TItem>( item, cancellationToken );
+        await ReadChildData.InvokeAsync( childArgs );
+
+        rowState.Children = childArgs.Data?.ToList() ?? new();
+        rowState.ChildrenLoaded = true;
+
+        if ( rowState.Children.Count == 0 )
+        {
+            rowState.Expandable = false;
+            rowState.ExpandableResolved = true;
+            rowState.Expanded = false;
+        }
+        else if ( !rowState.ExpandableResolved )
+        {
+            rowState.Expandable = true;
+            rowState.ExpandableResolved = true;
+        }
+    }
+
+    private bool ResolveHierarchyRowExpandable( TItem item, DataGridHierarchyNodeState<TItem> rowState )
+    {
+        if ( rowState.ExpandableResolved )
+            return rowState.Expandable;
+
+        if ( ExpandRowTrigger is not null )
+        {
+            var triggerArgs = new DataGridHierarchyRowTriggerEventArgs<TItem>( item );
+            rowState.Expandable = ExpandRowTrigger( triggerArgs ) && triggerArgs.Expandable;
+        }
+        else
+        {
+            rowState.Expandable = ReadChildData.HasDelegate;
+        }
+
+        rowState.ExpandableResolved = true;
+
+        if ( !rowState.Expandable )
+            rowState.Expanded = false;
+
+        return rowState.Expandable;
+    }
+
+    private DataGridHierarchyNodeState<TItem> GetHierarchyNodeState( TItem item, bool createIfNotExists = true )
+    {
+        var rowState = hierarchyNodeStates.LastOrDefault( x => x.Item.IsEqual( item ) );
+
+        if ( rowState is null && createIfNotExists )
+        {
+            rowState = new( item );
+            hierarchyNodeStates.Add( rowState );
+        }
+
+        return rowState;
+    }
+
+    /// <summary>
+    /// Gets hierarchy nesting level for the row item.
+    /// </summary>
+    /// <param name="item">Row item.</param>
+    /// <returns>Hierarchy level starting from 0.</returns>
+    internal int GetHierarchyRowLevel( TItem item )
+        => hierarchyViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) )?.Level ?? 0;
+
+    /// <summary>
+    /// Gets whether the hierarchy row is expandable.
+    /// </summary>
+    /// <param name="item">Row item.</param>
+    /// <returns>True if the row can be expanded.</returns>
+    internal bool IsHierarchyRowExpandable( TItem item )
+    {
+        var viewInfo = hierarchyViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) );
+        if ( viewInfo is not null )
+            return viewInfo.Expandable;
+
+        var rowState = GetHierarchyNodeState( item, false ) ?? GetHierarchyNodeState( item );
+        return ResolveHierarchyRowExpandable( item, rowState );
+    }
+
+    /// <summary>
+    /// Gets whether the hierarchy row is currently expanded.
+    /// </summary>
+    /// <param name="item">Row item.</param>
+    /// <returns>True if expanded.</returns>
+    internal bool IsHierarchyRowExpanded( TItem item )
+    {
+        var viewInfo = hierarchyViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) );
+        if ( viewInfo is not null )
+            return viewInfo.Expanded;
+
+        return GetHierarchyNodeState( item, false )?.Expanded ?? false;
+    }
+
+    /// <summary>
+    /// Gets a regular display column used for hierarchy indentation and toggle.
+    /// </summary>
+    /// <param name="columns">Row columns.</param>
+    /// <returns>The hierarchy column.</returns>
+    internal DataGridColumn<TItem> GetHierarchyColumn( IEnumerable<DataGridColumn<TItem>> columns )
+    {
+        if ( columns.IsNullOrEmpty() )
+            return null;
+
+        var regularColumns = columns.Where( x => x.IsRegularColumn ).ToList();
+
+        if ( regularColumns.IsNullOrEmpty() )
+            return null;
+
+        var minimumRecommendedWidth = ( HierarchyIndentSize * 4 ) + 16;
+        var preferredColumn = regularColumns.FirstOrDefault( x =>
+        {
+            var fixedWidth = x.Width?.FixedSize;
+            return !fixedWidth.HasValue
+                || fixedWidth.Value <= 0
+                || fixedWidth.Value >= minimumRecommendedWidth;
+        } );
+
+        return preferredColumn ?? regularColumns.OrderByDescending( x => x.Width?.FixedSize ?? 0d ).First();
+    }
 
     #endregion
 
@@ -3270,6 +3737,35 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     internal bool IsGroupEnabled
         => Groupable && ( GroupBy is not null || !groupableColumns.IsNullOrEmpty() );
+
+    /// <summary>
+    /// Makes sure the DataGrid has enough defined conditions to display hierarchy.
+    /// </summary>
+    internal bool IsHierarchyEnabled
+        => !IsGroupEnabled
+           && ( ReadChildData.HasDelegate
+                || ExpandRowTrigger is not null
+                || ExpandedRows is not null
+                || RowExpanded.HasDelegate
+                || RowCollapsed.HasDelegate );
+
+    /// <summary>
+    /// Gets hierarchy indentation size in pixels.
+    /// </summary>
+    internal int HierarchyIndentSize
+        => ExpandOptions?.IndentSize ?? DataGridExpandOptions.DefaultIndentSize;
+
+    /// <summary>
+    /// Gets hierarchy expand icon.
+    /// </summary>
+    internal IconName HierarchyExpandIcon
+        => ExpandOptions?.ExpandIcon ?? DataGridExpandOptions.DefaultExpandIcon;
+
+    /// <summary>
+    /// Gets hierarchy collapse icon.
+    /// </summary>
+    internal IconName HierarchyCollapseIcon
+        => ExpandOptions?.CollapseIcon ?? DataGridExpandOptions.DefaultCollapseIcon;
 
     /// <summary>
     /// Gets the DataGrid columns that are currently marked for Grouping Count.
@@ -4063,6 +4559,51 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Template for displaying detail or nested row.
     /// </summary>
     [Parameter] public RenderFragment<DetailRowContext<TItem>> DetailRowTemplate { get; set; }
+
+    /// <summary>
+    /// A trigger function used to determine whether a row can be expanded in hierarchy mode.
+    /// </summary>
+    [Parameter] public Func<DataGridHierarchyRowTriggerEventArgs<TItem>, bool> ExpandRowTrigger { get; set; }
+
+    /// <summary>
+    /// Event handler used to load children for a hierarchy row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridReadChildDataEventArgs<TItem>> ReadChildData { get; set; }
+
+    /// <summary>
+    /// Event called after a hierarchy row is expanded.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridHierarchyRowEventArgs<TItem>> RowExpanded { get; set; }
+
+    /// <summary>
+    /// Event called after a hierarchy row is collapsed.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridHierarchyRowEventArgs<TItem>> RowCollapsed { get; set; }
+
+    /// <summary>
+    /// Gets or sets the currently expanded hierarchy rows.
+    /// </summary>
+    [Parameter] public IList<TItem> ExpandedRows { get; set; }
+
+    /// <summary>
+    /// Occurs after <see cref="ExpandedRows"/> has changed.
+    /// </summary>
+    [Parameter] public EventCallback<IList<TItem>> ExpandedRowsChanged { get; set; }
+
+    /// <summary>
+    /// Defines row expand mode.
+    /// </summary>
+    [Parameter] public DataGridExpandMode ExpandMode { get; set; } = DataGridExpandMode.Multiple;
+
+    /// <summary>
+    /// Toggles rows when a user clicks a row.
+    /// </summary>
+    [Parameter] public bool ExpandOnRowClick { get; set; } = true;
+
+    /// <summary>
+    /// Defines row expand related behavior options.
+    /// </summary>
+    [Parameter] public DataGridExpandOptions ExpandOptions { get; set; }
 
     /// <summary>
     /// Function, that is called, when a new item is created for inserting new entry.
