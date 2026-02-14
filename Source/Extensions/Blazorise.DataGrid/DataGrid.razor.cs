@@ -3650,7 +3650,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( regularColumns.IsNullOrEmpty() )
             return null;
 
-        var minimumRecommendedWidth = ( HierarchyIndentSize * 4 ) + 16;
+        var minimumRecommendedWidth = ( HierarchyIndentSize * 4 * 16d ) + 16d;
         var preferredColumn = regularColumns.FirstOrDefault( x =>
         {
             var fixedWidth = x.Width?.FixedSize;
@@ -3764,9 +3764,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
            || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
 
     /// <summary>
-    /// Gets hierarchy indentation size in pixels.
+    /// Gets hierarchy indentation size in rem.
     /// </summary>
-    internal int HierarchyIndentSize
+    internal double HierarchyIndentSize
         => ExpandOptions?.IndentSize ?? DataGridExpandOptions.DefaultIndentSize;
 
     /// <summary>

@@ -110,7 +110,7 @@
                                 <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
                                     @if ( hierarchyLevel > 0 )
                                     {
-                                        <Span Display="Display.InlineBlock" Width="@Width.Px( hierarchyLevel * ParentDataGrid.HierarchyIndentSize )"></Span>
+                                        <Span Display="Display.InlineBlock" Width="@Width.Rem( hierarchyLevel * ParentDataGrid.HierarchyIndentSize )"></Span>
                                     }
 
                                     @if ( canExpand )
@@ -132,7 +132,7 @@
                                     }
                                     else
                                     {
-                                        <Span Display="Display.InlineBlock" Width="@Width.Px( ParentDataGrid.HierarchyIndentSize )"></Span>
+                                        <Span Display="Display.InlineBlock" Width="@Width.Rem( ParentDataGrid.HierarchyIndentSize )"></Span>
                                     }
                                 </Span>
                             }

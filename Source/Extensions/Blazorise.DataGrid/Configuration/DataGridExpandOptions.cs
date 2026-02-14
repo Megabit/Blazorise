@@ -6,9 +6,9 @@ namespace Blazorise.DataGrid;
 public class DataGridExpandOptions
 {
     /// <summary>
-    /// Default indentation size in pixels.
+    /// Default indentation size in rem.
     /// </summary>
-    public const int DefaultIndentSize = 16;
+    public const double DefaultIndentSize = 1d;
 
     /// <summary>
     /// Default expand icon.
@@ -21,9 +21,9 @@ public class DataGridExpandOptions
     public const IconName DefaultCollapseIcon = IconName.ChevronDown;
 
     /// <summary>
-    /// Defines indentation size in pixels.
+    /// Defines indentation size in rem.
     /// </summary>
-    public int IndentSize { get; set; } = DefaultIndentSize;
+    public double IndentSize { get; set; } = DefaultIndentSize;
 
     /// <summary>
     /// Defines the expand icon.
