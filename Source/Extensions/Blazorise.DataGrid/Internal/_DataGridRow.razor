@@ -1,3 +1,4 @@
+@using Blazorise.Extensions
 @typeparam TItem
 @inherits _BaseDataGridRow<TItem>
 @{
@@ -41,6 +42,10 @@
                   data-row-index="@ParentDataGrid.ResolveItemIndex( Item )">
 
             @ParentDataGrid.groupIndentationFragment
+
+            @{
+                var hierarchyColumn = ParentDataGrid.GetHierarchyColumn( Columns );
+            }
 
             @foreach ( var column in Columns )
             {
@@ -94,6 +99,54 @@
                                   MobileModeCaption="@column.Caption">
                         @{
                             var currentItem = GetCurrentItem();
+                            var hierarchyColumnActive = ParentDataGrid.IsHierarchyEnabled && column.IsEqual( hierarchyColumn );
+
+                            if ( hierarchyColumnActive )
+                            {
+                                var hierarchyLevel = ParentDataGrid.GetHierarchyRowLevel( currentItem );
+                                var canExpand = ParentDataGrid.IsHierarchyRowExpandable( currentItem );
+                                var expanded = ParentDataGrid.IsHierarchyRowExpanded( currentItem );
+
+                                if ( hierarchyColumn?.ExpandTemplate is not null )
+                                {
+                                    var expandRowContext = BuildExpandRowContext( currentItem, hierarchyLevel, canExpand, expanded );
+
+                                    <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
+                                        @hierarchyColumn.ExpandTemplate( expandRowContext )
+                                    </Span>
+                                }
+                                else
+                                {
+                                    <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
+                                        @if ( hierarchyLevel > 0 )
+                                        {
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( hierarchyLevel * ParentDataGrid.HierarchyIndentSize )"></Span>
+                                        }
+
+                                        @if ( canExpand )
+                                        {
+                                            @if ( ParentDataGrid.IsExpandByToggleClick )
+                                            {
+                                                <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
+                                                    <Span @onclick="ToggleRow" Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                                        <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
+                                                    </Span>
+                                                </Span>
+                                            }
+                                            else
+                                            {
+                                                <Span Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                                    <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
+                                                </Span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( ParentDataGrid.HierarchyIndentSize )"></Span>
+                                        }
+                                    </Span>
+                                }
+                            }
                         }
                         @if ( column.DisplayTemplate != null )
                         {

@@ -1101,6 +1101,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public RenderFragment<CellDisplayContext<TItem>> DisplayTemplate { get; set; }
 
     /// <summary>
+    /// Template used to customize hierarchy expand rendering.
+    /// The first regular column that defines this template becomes the hierarchy host column.
+    /// </summary>
+    [Parameter] public RenderFragment<DataGridExpandRowContext<TItem>> ExpandTemplate { get; set; }
+
+    /// <summary>
     /// Template for custom column filter rendering.
     /// </summary>
     [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
