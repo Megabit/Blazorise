@@ -3750,6 +3750,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 || RowCollapsed.HasDelegate );
 
     /// <summary>
+    /// Gets whether row click should toggle row expansion.
+    /// </summary>
+    internal bool IsExpandByRowClick
+        => ExpandTrigger == DataGridExpandTrigger.RowClick
+           || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
+
+    /// <summary>
+    /// Gets whether toggle icon click should toggle row expansion.
+    /// </summary>
+    internal bool IsExpandByToggleClick
+        => ExpandTrigger == DataGridExpandTrigger.ToggleClick
+           || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
+
+    /// <summary>
     /// Gets hierarchy indentation size in pixels.
     /// </summary>
     internal int HierarchyIndentSize
@@ -4596,9 +4610,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public DataGridExpandMode ExpandMode { get; set; } = DataGridExpandMode.Multiple;
 
     /// <summary>
-    /// Toggles rows when a user clicks a row.
+    /// Defines how a row expansion can be triggered.
     /// </summary>
-    [Parameter] public bool ExpandOnRowClick { get; set; } = true;
+    [Parameter] public DataGridExpandTrigger ExpandTrigger { get; set; } = DataGridExpandTrigger.ToggleClick;
 
     /// <summary>
     /// Defines row expand related behavior options.

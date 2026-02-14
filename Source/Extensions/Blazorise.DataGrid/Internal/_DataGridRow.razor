@@ -115,11 +115,20 @@
 
                                     @if ( canExpand )
                                     {
-                                        <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
-                                            <Span @onclick="ToggleRow" Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                        @if ( ParentDataGrid.IsExpandByToggleClick )
+                                        {
+                                            <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
+                                                <Span @onclick="ToggleRow" Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                                    <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
+                                                </Span>
+                                            </Span>
+                                        }
+                                        else
+                                        {
+                                            <Span Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
                                                 <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
                                             </Span>
-                                        </Span>
+                                        }
                                     }
                                     else
                                     {
