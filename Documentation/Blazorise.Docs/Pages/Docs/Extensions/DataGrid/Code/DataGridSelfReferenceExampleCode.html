@@ -1,0 +1,129 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromEnd</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(!CanToggleSelectedRow)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ExpandSelectedRow</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Expand Selected<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromEnd</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(!CanToggleSelectedRow)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CollapseSelectedRow</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Collapse Selected<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromEnd</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ExpandAllRows</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Expand All<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Warning</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CollapseAllRows</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Collapse All<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">dataGridRef</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">HierarchyEmployee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>rootItems</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ExpandTrigger</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridExpandTrigger</span><span class="enumValue">.RowAndToggleClick</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ExpandRowTrigger</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnExpandRowTrigger</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ReadChildData</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnReadChildData</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedEmployee</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Responsive</span>
+          <span class="htmlAttributeName">ShowPager</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( HierarchyEmployee.FullName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 280 )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( HierarchyEmployee.City )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">City</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( HierarchyEmployee.Salary )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCheckColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( HierarchyEmployee.IsActive )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Active</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    [Inject] <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">private</span> DataGrid&lt;HierarchyEmployee&gt; dataGridRef;
+    <span class="keyword">private</span> HierarchyEmployee selectedEmployee;
+    <span class="keyword">private</span> List&lt;HierarchyEmployee&gt; rootItems = <span class="keyword">new</span>();
+    <span class="keyword">private</span> Dictionary&lt;<span class="keyword">int</span>, List&lt;HierarchyEmployee&gt;&gt; childLookup = <span class="keyword">new</span>();
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> CanToggleSelectedRow
+        =&gt; selectedEmployee <span class="keyword">is</span> not <span class="keyword">null</span>;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    {
+        <span class="keyword">var</span> employees = ( <span class="keyword">await</span> EmployeeData.GetDataAsync().ConfigureAwait( <span class="keyword">false</span> ) ).Take( <span class="number">24</span> ).ToList();
+        BuildHierarchyData( employees );
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> BuildHierarchyData( IReadOnlyList&lt;Employee&gt; employees )
+    {
+        <span class="keyword">var</span> hierarchyEmployees = employees.Select( x =&gt; <span class="keyword">new</span> HierarchyEmployee
+        {
+            Id = x.Id,
+            FullName = $<span class="string">&quot;{x.FirstName} {x.LastName}&quot;</span>,
+            City = x.City,
+            Salary = x.Salary,
+            IsActive = x.IsActive,
+        } ).ToList();
+
+        <span class="keyword">var</span> roots = hierarchyEmployees.Take( <span class="number">3</span> ).ToList();
+        <span class="keyword">var</span> levelOneNodes = <span class="keyword">new</span> List&lt;HierarchyEmployee&gt;();
+        <span class="keyword">var</span> currentIndex = roots.Count;
+
+        <span class="keyword">for</span> ( <span class="keyword">var</span> rootIndex = <span class="number">0</span>; rootIndex &lt; roots.Count &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; rootIndex++ )
+        {
+            <span class="keyword">for</span> ( <span class="keyword">var</span> childIndex = <span class="number">0</span>; childIndex &lt; <span class="number">3</span> &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; childIndex++ )
+            {
+                <span class="keyword">var</span> child = hierarchyEmployees[currentIndex++];
+                child.ParentId = roots[rootIndex].Id;
+                levelOneNodes.Add( child );
+            }
+        }
+
+        <span class="keyword">for</span> ( <span class="keyword">var</span> levelOneIndex = <span class="number">0</span>; levelOneIndex &lt; levelOneNodes.Count &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; levelOneIndex++ )
+        {
+            <span class="keyword">for</span> ( <span class="keyword">var</span> childIndex = <span class="number">0</span>; childIndex &lt; <span class="number">2</span> &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; childIndex++ )
+            {
+                <span class="keyword">var</span> child = hierarchyEmployees[currentIndex++];
+                child.ParentId = levelOneNodes[levelOneIndex].Id;
+            }
+        }
+
+        childLookup = hierarchyEmployees
+            .Where( x =&gt; x.ParentId.HasValue )
+            .GroupBy( x =&gt; x.ParentId!.Value )
+            .ToDictionary( x =&gt; x.Key, x =&gt; x.ToList() );
+
+        rootItems = hierarchyEmployees.Where( x =&gt; !x.ParentId.HasValue ).ToList();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> OnExpandRowTrigger( DataGridHierarchyRowTriggerEventArgs&lt;HierarchyEmployee&gt; args )
+    {
+        args.Expandable = childLookup.ContainsKey( args.Item.Id );
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnReadChildData( DataGridReadChildDataEventArgs&lt;HierarchyEmployee&gt; args )
+    {
+        args.Data = childLookup.TryGetValue( args.Item.Id, <span class="keyword">out</span> <span class="keyword">var</span> children )
+            ? children
+            : Enumerable.Empty&lt;HierarchyEmployee&gt;();
+    }
+
+    <span class="keyword">private</span> Task ExpandSelectedRow()
+        =&gt; selectedEmployee <span class="keyword">is</span> <span class="keyword">null</span>
+            ? Task.CompletedTask
+            : dataGridRef.ExpandRow( selectedEmployee );
+
+    <span class="keyword">private</span> Task CollapseSelectedRow()
+        =&gt; selectedEmployee <span class="keyword">is</span> <span class="keyword">null</span>
+            ? Task.CompletedTask
+            : dataGridRef.CollapseRow( selectedEmployee );
+
+    <span class="keyword">private</span> Task ExpandAllRows()
+        =&gt; dataGridRef.ExpandAllRows();
+
+    <span class="keyword">private</span> Task CollapseAllRows()
+        =&gt; dataGridRef.CollapseAllRows();
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> HierarchyEmployee
+    {
+        <span class="keyword">public</span> <span class="keyword">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">int</span>? ParentId { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> FullName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> City { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Salary { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">bool</span> IsActive { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

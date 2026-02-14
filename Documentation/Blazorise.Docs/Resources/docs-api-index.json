@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-10T20:24:29.9221199Z",
+  "generatedUtc": "2026-02-14T13:46:31.1739436Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -84127,6 +84127,38 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandedRows",
+          "type": "IList<>",
+          "typeName": "IList<TItem>",
+          "defaultValue": "null",
+          "summary": "Gets or sets the currently expanded hierarchy rows.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandMode",
+          "type": "global::Blazorise.DataGrid.DataGridExpandMode",
+          "typeName": "DataGridExpandMode",
+          "defaultValue": "DataGridExpandMode.Multiple",
+          "summary": "Defines row expand mode.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ExpandTrigger",
+          "type": "global::Blazorise.DataGrid.DataGridExpandTrigger",
+          "typeName": "DataGridExpandTrigger",
+          "defaultValue": "DataGridExpandTrigger.ToggleClick",
+          "summary": "Defines how a row expansion can be triggered.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ExpandOptions",
+          "type": "global::Blazorise.DataGrid.DataGridExpandOptions",
+          "typeName": "DataGridExpandOptions",
+          "defaultValue": "null",
+          "summary": "Defines row expand related behavior options.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Striped",
           "type": "bool",
           "typeName": "bool",
@@ -84740,6 +84772,46 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandRowTrigger",
+          "type": "Func<,>",
+          "typeName": "Func<DataGridHierarchyRowTriggerEventArgs<TItem>, bool>",
+          "defaultValue": "null",
+          "summary": "A trigger function used to determine whether a row can be expanded in hierarchy mode.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ReadChildData",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DataGridReadChildDataEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Event handler used to load children for a hierarchy row.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowExpanded",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DataGridHierarchyRowEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Event called after a hierarchy row is expanded.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowCollapsed",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DataGridHierarchyRowEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Event called after a hierarchy row is collapsed.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandedRowsChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<IList<TItem>>",
+          "defaultValue": "null",
+          "summary": "Occurs after <strong>ExpandedRows</strong> has changed.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "NewItemDefaultSetter",
           "type": "Action<>",
           "typeName": "Action<TItem>",
@@ -85244,6 +85316,51 @@
               "typeName": "bool"
             }
           ]
+        },
+        {
+          "name": "ExpandRow",
+          "returnTypeName": "Task",
+          "summary": "Expands a row.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "CollapseRow",
+          "returnTypeName": "Task",
+          "summary": "Collapses a row.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "ToggleRow",
+          "returnTypeName": "Task",
+          "summary": "Toggles a row.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "ExpandAllRows",
+          "returnTypeName": "Task",
+          "summary": "Expands all rows for the current root view.",
+          "parameters": []
+        },
+        {
+          "name": "CollapseAllRows",
+          "returnTypeName": "Task",
+          "summary": "Collapses all rows.",
+          "parameters": []
         },
         {
           "name": "ScrollToPixels",
@@ -91718,6 +91835,39 @@
           "defaultValue": "false",
           "summary": "When the DataGridEditMode is set to <strong>Cell</strong> configures whether the text is selected when the cell enters edit mode.     Defaults to false.",
           "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.DataGrid.DataGridExpandOptions",
+      "typeName": "DataGridExpandOptions",
+      "summary": "$\"\"\"\r\n       Defines row expand rendering options for <strong>DataGrid</strong>.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "IndentSize",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "DefaultIndentSize",
+          "summary": "Defines indentation size in rem.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandIcon",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "DefaultExpandIcon",
+          "summary": "Defines the expand icon.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "CollapseIcon",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "DefaultCollapseIcon",
+          "summary": "Defines the collapse icon.",
+          "isBlazoriseEnum": true
         }
       ],
       "events": [],

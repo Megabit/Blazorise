@@ -1,0 +1,25 @@
+@page "/docs/extensions/datagrid/features/hierarchy"
+
+<Seo Canonical="/docs/extensions/datagrid/features/hierarchy" Title="Blazorise DataGrid Hierarchy" Description="Learn Blazorise by the example. Render hierarchical rows and control expand and collapse actions programmatically through DataGrid self-reference." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Hierarchy">
+    Blazorise DataGrid: Hierarchy
+</DocsPageTitle>
+
+<DocsPageLead>
+    Hierarchy allows a DataGrid row to render child rows. Use a self-reference with <Code>@@ref</Code> to control expansion programmatically.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Self Reference">
+        This example uses <Code>ExpandRowTrigger</Code> and <Code>ReadChildData</Code> for hierarchical rows, and calls <Code>ExpandRow</Code>, <Code>CollapseRow</Code>, <Code>ExpandAllRows</Code>, and <Code>CollapseAllRows</Code> through a DataGrid self-reference.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridSelfReferenceExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSelfReferenceExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>
