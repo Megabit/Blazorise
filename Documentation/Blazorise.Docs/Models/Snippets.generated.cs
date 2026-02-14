@@ -7823,37 +7823,37 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DataGridExpandRowTemplateExample = @"<DataGrid TItem=""HierarchyEmployee""
+        public const string DataGridExpandTemplateExample = @"<DataGrid TItem=""HierarchyEmployee""
           Data=""@rootItems""
           ExpandTrigger=""DataGridExpandTrigger.ToggleClick""
           ExpandRowTrigger=""OnExpandRowTrigger""
           ReadChildData=""OnReadChildData""
           Responsive
           ShowPager>
-    <ExpandRowTemplate Context=""row"">
-        <Span Display=""Display.InlineFlex"" VerticalAlignment=""VerticalAlignment.Middle"" TextOverflow=""TextOverflow.NoWrap"">
-            @if ( row.Level > 0 )
-            {
-                <Span Display=""Display.InlineBlock"" Width=""@Width.Rem( row.Level )""></Span>
-            }
-
-            @if ( row.Expandable )
-            {
-                <Button Size=""Size.ExtraSmall""
-                        Color=""Color.Light""
-                        Margin=""Margin.Is2.FromEnd""
-                        Clicked=""@(() => row.Toggle())"">
-                    <Icon Name=""@(row.Expanded ? IconName.ChevronDown : IconName.ChevronRight)"" />
-                </Button>
-            }
-            else
-            {
-                <Span Display=""Display.InlineBlock"" Width=""@Width.Rem( 1 )"" Margin=""Margin.Is2.FromEnd""></Span>
-            }
-        </Span>
-    </ExpandRowTemplate>
     <DataGridColumns>
         <DataGridColumn Field=""@nameof( HierarchyEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 300 )"">
+            <ExpandTemplate Context=""row"">
+                <Span Display=""Display.InlineFlex"" VerticalAlignment=""VerticalAlignment.Middle"" TextOverflow=""TextOverflow.NoWrap"">
+                    @if ( row.Level > 0 )
+                    {
+                        <Span Display=""Display.InlineBlock"" Width=""@Width.Rem( row.Level )""></Span>
+                    }
+
+                    @if ( row.Expandable )
+                    {
+                        <Button Size=""Size.ExtraSmall""
+                                Color=""Color.Light""
+                                Margin=""Margin.Is2.FromEnd""
+                                Clicked=""@(() => row.Toggle())"">
+                            <Icon Name=""@(row.Expanded ? IconName.ChevronDown : IconName.ChevronRight)"" />
+                        </Button>
+                    }
+                    else
+                    {
+                        <Span Display=""Display.InlineBlock"" Width=""@Width.Rem( 1 )"" Margin=""Margin.Is2.FromEnd""></Span>
+                    }
+                </Span>
+            </ExpandTemplate>
             <DisplayTemplate Context=""cell"">
                 <Span TextWeight=""TextWeight.SemiBold"">@cell.DisplayValue</Span>
             </DisplayTemplate>

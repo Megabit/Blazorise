@@ -107,12 +107,12 @@
                                 var canExpand = ParentDataGrid.IsHierarchyRowExpandable( currentItem );
                                 var expanded = ParentDataGrid.IsHierarchyRowExpanded( currentItem );
 
-                                if ( ParentDataGrid.ExpandRowTemplate is not null )
+                                if ( hierarchyColumn?.ExpandTemplate is not null )
                                 {
                                     var expandRowContext = BuildExpandRowContext( currentItem, hierarchyLevel, canExpand, expanded );
 
                                     <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
-                                        @ParentDataGrid.ExpandRowTemplate( expandRowContext )
+                                        @hierarchyColumn.ExpandTemplate( expandRowContext )
                                     </Span>
                                 }
                                 else

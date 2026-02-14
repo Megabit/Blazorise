@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-14T14:32:20.6396352Z",
+  "generatedUtc": "2026-02-14T15:03:50.2343147Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -84159,14 +84159,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "ExpandRowTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
-          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
-          "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Striped",
           "type": "bool",
           "typeName": "bool",
@@ -86177,6 +86169,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "FilterTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<FilterContext<TItem>>",
@@ -86995,6 +86995,14 @@
           "typeName": "RenderFragment<CellDisplayContext<TItem>>",
           "defaultValue": "null",
           "summary": "Template for custom cell display formatting.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -87947,6 +87955,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "FilterTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<FilterContext<TItem>>",
@@ -88864,6 +88880,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "FilterTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<FilterContext<TItem>>",
@@ -89690,6 +89714,14 @@
           "typeName": "RenderFragment<CellDisplayContext<TItem>>",
           "defaultValue": "null",
           "summary": "Template for custom cell display formatting.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -90584,6 +90616,14 @@
           "typeName": "RenderFragment<CellDisplayContext<TItem>>",
           "defaultValue": "null",
           "summary": "Template for custom cell display formatting.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -91541,6 +91581,14 @@
           "typeName": "RenderFragment<CellDisplayContext<TItem>>",
           "defaultValue": "null",
           "summary": "Template for custom cell display formatting.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
           "isBlazoriseEnum": false
         },
         {

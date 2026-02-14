@@ -3637,6 +3637,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Gets a regular display column used for hierarchy indentation and toggle.
+    /// If a regular column defines <see cref="DataGridColumn{TItem}.ExpandTemplate"/>,
+    /// that column is used as the hierarchy host.
     /// </summary>
     /// <param name="columns">Row columns.</param>
     /// <returns>The hierarchy column.</returns>
@@ -3649,6 +3651,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( regularColumns.IsNullOrEmpty() )
             return null;
+
+        var templateColumn = regularColumns.FirstOrDefault( x => x.ExpandTemplate is not null );
+
+        if ( templateColumn is not null )
+            return templateColumn;
 
         var minimumRecommendedWidth = ( HierarchyIndentSize * 4 * 16d ) + 16d;
         var preferredColumn = regularColumns.FirstOrDefault( x =>
@@ -4618,11 +4625,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Defines row expand related behavior options.
     /// </summary>
     [Parameter] public DataGridExpandOptions ExpandOptions { get; set; }
-
-    /// <summary>
-    /// Template used to customize hierarchy expand rendering.
-    /// </summary>
-    [Parameter] public RenderFragment<DataGridExpandRowContext<TItem>> ExpandRowTemplate { get; set; }
 
     /// <summary>
     /// Function, that is called, when a new item is created for inserting new entry.
