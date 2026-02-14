@@ -4620,6 +4620,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public DataGridExpandOptions ExpandOptions { get; set; }
 
     /// <summary>
+    /// Template used to customize hierarchy expand rendering.
+    /// </summary>
+    [Parameter] public RenderFragment<DataGridExpandRowContext<TItem>> ExpandRowTemplate { get; set; }
+
+    /// <summary>
     /// Function, that is called, when a new item is created for inserting new entry.
     /// </summary>
     [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }

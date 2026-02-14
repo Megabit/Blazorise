@@ -107,34 +107,45 @@
                                 var canExpand = ParentDataGrid.IsHierarchyRowExpandable( currentItem );
                                 var expanded = ParentDataGrid.IsHierarchyRowExpanded( currentItem );
 
-                                <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
-                                    @if ( hierarchyLevel > 0 )
-                                    {
-                                        <Span Display="Display.InlineBlock" Width="@Width.Rem( hierarchyLevel * ParentDataGrid.HierarchyIndentSize )"></Span>
-                                    }
+                                if ( ParentDataGrid.ExpandRowTemplate is not null )
+                                {
+                                    var expandRowContext = BuildExpandRowContext( currentItem, hierarchyLevel, canExpand, expanded );
 
-                                    @if ( canExpand )
-                                    {
-                                        @if ( ParentDataGrid.IsExpandByToggleClick )
+                                    <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
+                                        @ParentDataGrid.ExpandRowTemplate( expandRowContext )
+                                    </Span>
+                                }
+                                else
+                                {
+                                    <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
+                                        @if ( hierarchyLevel > 0 )
                                         {
-                                            <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
-                                                <Span @onclick="ToggleRow" Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( hierarchyLevel * ParentDataGrid.HierarchyIndentSize )"></Span>
+                                        }
+
+                                        @if ( canExpand )
+                                        {
+                                            @if ( ParentDataGrid.IsExpandByToggleClick )
+                                            {
+                                                <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
+                                                    <Span @onclick="ToggleRow" Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                                        <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
+                                                    </Span>
+                                                </Span>
+                                            }
+                                            else
+                                            {
+                                                <Span Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
                                                     <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
                                                 </Span>
-                                            </Span>
+                                            }
                                         }
                                         else
                                         {
-                                            <Span Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
-                                                <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
-                                            </Span>
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( ParentDataGrid.HierarchyIndentSize )"></Span>
                                         }
-                                    }
-                                    else
-                                    {
-                                        <Span Display="Display.InlineBlock" Width="@Width.Rem( ParentDataGrid.HierarchyIndentSize )"></Span>
-                                    }
-                                </Span>
+                                    </Span>
+                                }
                             }
                         }
                         @if ( column.DisplayTemplate != null )

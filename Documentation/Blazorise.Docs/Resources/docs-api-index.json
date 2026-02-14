@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-14T13:46:31.1739436Z",
+  "generatedUtc": "2026-02-14T14:32:20.6396352Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -84156,6 +84156,14 @@
           "typeName": "DataGridExpandOptions",
           "defaultValue": "null",
           "summary": "Defines row expand related behavior options.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandRowTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize hierarchy expand rendering.",
           "isBlazoriseEnum": false
         },
         {

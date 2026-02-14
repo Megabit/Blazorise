@@ -333,6 +333,11 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return new CellDisplayContext<TItem>( item, column, RowInfo, rowIndex, resolvedValue, displayValue, ParentDataGrid );
     }
 
+    protected DataGridExpandRowContext<TItem> BuildExpandRowContext( TItem item, int level, bool expandable, bool expanded )
+    {
+        return new DataGridExpandRowContext<TItem>( item, level, expandable, expanded, () => ParentDataGrid.ToggleRow( item ) );
+    }
+
     protected Task ToggleRow()
         => ParentDataGrid.ToggleRow( Item );
 
