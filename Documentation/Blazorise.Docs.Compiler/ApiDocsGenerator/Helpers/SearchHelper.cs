@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,10 @@ public class SearchHelper
     /// <returns>The resolved documentation search URL, or <c>null</c> if no matching path was found.</returns>
     public string GetSearchUrl( INamedTypeSymbol typeSymbol )
     {
-        foreach ( var syntaxRef in typeSymbol.DeclaringSyntaxReferences )//the symbol can be in multiple files (partial classes), this kinda ignores the case when different location would break the search 
+        IEnumerable<SyntaxReference> orderedSyntaxReferences = typeSymbol.DeclaringSyntaxReferences
+            .OrderBy( syntaxRef => NormalizePathForOrdering( syntaxRef.SyntaxTree.FilePath ), StringComparer.Ordinal );
+
+        foreach ( SyntaxReference syntaxRef in orderedSyntaxReferences )//the symbol can be in multiple files (partial classes), this kinda ignores the case when different location would break the search 
         {
             string filePath = syntaxRef.SyntaxTree.FilePath;
             string normalizedFilePath = Path.GetFullPath( filePath ).Replace( Path.DirectorySeparatorChar, '/' );
@@ -30,7 +34,7 @@ public class SearchHelper
 
             return link.Strategy switch
             {
-                PathResolverStrategy.DirectoryNameToKebabCase => Path.Combine( link.SearchUrlBase, ToKebabCase( Path.GetFileName( Path.GetDirectoryName( normalizedFilePath ) ) ?? "" ) ),
+                PathResolverStrategy.DirectoryNameToKebabCase => CombineUrl( link.SearchUrlBase, ToKebabCase( Path.GetFileName( Path.GetDirectoryName( normalizedFilePath ) ) ?? "" ) ),
                 PathResolverStrategy.Default => link.SearchUrlBase,
                 _ => link.SearchUrlBase
             };
@@ -69,6 +73,28 @@ public class SearchHelper
             ? ( i > 0 ? "-" : "" ) + char.ToLowerInvariant( c )
             : c.ToString()
         ) );
+
+    static string CombineUrl( string baseUrl, string segment )
+    {
+        string left = ( baseUrl ?? string.Empty ).TrimEnd( '/' );
+        string right = ( segment ?? string.Empty ).TrimStart( '/' );
+
+        if ( left.Length == 0 )
+            return right;
+
+        if ( right.Length == 0 )
+            return left;
+
+        return $"{left}/{right}";
+    }
+
+    static string NormalizePathForOrdering( string path )
+    {
+        if ( string.IsNullOrWhiteSpace( path ) )
+            return string.Empty;
+
+        return path.Replace( '\\', '/' );
+    }
 }
 
 public record SearchPathMapping( string Segment, string SearchUrlBase, SearchHelper.PathResolverStrategy Strategy = SearchHelper.PathResolverStrategy.Default );
