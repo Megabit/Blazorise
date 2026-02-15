@@ -610,7 +610,7 @@ public class ComponentsApiDocsGenerator
             Name = property.Name,
             Type = property.Type,
             TypeName = property.TypeName,
-            DefaultValue = property.DefaultValue,
+            DefaultValue = NormalizeLineEndingsToCrLf( property.DefaultValue ),
             Summary = NormalizeDocText( summary ),
             Remarks = NormalizeDocText( remarks ),
             IsBlazoriseEnum = property.IsBlazoriseEnum
