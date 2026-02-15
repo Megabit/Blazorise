@@ -673,7 +673,23 @@ public class ComponentsApiDocsGenerator
         if ( string.IsNullOrWhiteSpace( value ) )
             return null;
 
-        return value.Trim();
+        string trimmed = value.Trim();
+
+        if ( trimmed.Length == 0 )
+            return null;
+
+        return NormalizeLineEndingsToCrLf( trimmed );
+    }
+
+    private static string NormalizeLineEndingsToCrLf( string value )
+    {
+        if ( string.IsNullOrEmpty( value ) )
+            return value;
+
+        string normalized = value.Replace( "\r\n", "\n" )
+            .Replace( '\r', '\n' );
+
+        return normalized.Replace( "\n", "\r\n" );
     }
 
     private static bool IsEventType( string typeName )
