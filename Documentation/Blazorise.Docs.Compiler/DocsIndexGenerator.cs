@@ -570,7 +570,19 @@ internal sealed class DocsIndexGenerator
     {
         string content = File.ReadAllText( filePath, Encoding.UTF8 );
         string cleaned = RazorDirectiveRegex.Replace( content, string.Empty );
-        return cleaned.Trim();
+        string trimmed = cleaned.Trim();
+        return NormalizeLineEndingsToCrLf( trimmed );
+    }
+
+    private static string NormalizeLineEndingsToCrLf( string value )
+    {
+        if ( string.IsNullOrEmpty( value ) )
+            return value;
+
+        string normalized = value.Replace( "\r\n", "\n" )
+            .Replace( '\r', '\n' );
+
+        return normalized.Replace( "\n", "\r\n" );
     }
 
     private static string NormalizePath( string path )
