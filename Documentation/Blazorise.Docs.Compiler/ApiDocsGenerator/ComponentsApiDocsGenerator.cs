@@ -109,7 +109,10 @@ public class ComponentsApiDocsGenerator
         List<ApiDocsForComponent> allComponentsData = new List<ApiDocsForComponent>();
 
         //directories where to load the source code from one by one
-        string[] inputLocations = [Paths.BlazoriseLibRoot, .. Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )];
+        string[] extensionLocations = Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )
+            .OrderBy( path => NormalizePathForOrdering( path ), StringComparer.Ordinal )
+            .ToArray();
+        string[] inputLocations = [Paths.BlazoriseLibRoot, .. extensionLocations];
 
         foreach ( var inputLocation in inputLocations )
         {
@@ -125,7 +128,10 @@ public class ComponentsApiDocsGenerator
                 continue;
 
             ImmutableArray<ComponentInfo> componentInfo = [.. GetComponentsInfo( compilation, namespaceToSearch )];
-            List<ApiDocsForComponent> componentsData = BuildComponentsData( compilation, componentInfo );
+            List<ApiDocsForComponent> componentsData = BuildComponentsData( compilation, componentInfo )
+                .OrderBy( component => component.TypeName, StringComparer.Ordinal )
+                .ThenBy( component => component.Type, StringComparer.Ordinal )
+                .ToList();
             allComponentsData.AddRange( componentsData );
             string sourceText = GenerateComponentsApiSource( componentsData, assemblyName );
 
@@ -152,7 +158,10 @@ public class ComponentsApiDocsGenerator
         if ( namespaceToSearch.ToDisplayString() == namespaceName )
             return namespaceToSearch;
 
-        foreach ( var childNamespace in namespaceToSearch.GetNamespaceMembers() )
+        IEnumerable<INamespaceSymbol> childNamespaces = namespaceToSearch.GetNamespaceMembers()
+            .OrderBy( childNamespace => childNamespace.ToDisplayString(), StringComparer.Ordinal );
+
+        foreach ( INamespaceSymbol childNamespace in childNamespaces )
         {
             var result = FindNamespace( compilation, namespaceName, childNamespace );
 
@@ -165,7 +174,9 @@ public class ComponentsApiDocsGenerator
 
     private CSharpCompilation GetCompilation( string inputLocation, string assemblyName, bool isBlazoriseAssembly = false )
     {
-        var sourceFiles = Directory.GetFiles( inputLocation, "*.cs", SearchOption.AllDirectories );
+        string[] sourceFiles = Directory.GetFiles( inputLocation, "*.cs", SearchOption.AllDirectories )
+            .OrderBy( path => NormalizePathForOrdering( path ), StringComparer.Ordinal )
+            .ToArray();
 
         List<MetadataReference> references =
         [
@@ -175,7 +186,8 @@ public class ComponentsApiDocsGenerator
         if ( !isBlazoriseAssembly ) //get Blazorise assembly as reference (for extensions)
             references.Add( blazoriseCompilation.ToMetadataReference() );
 
-        var syntaxTrees = sourceFiles.Select( file => CSharpSyntaxTree.ParseText( File.ReadAllText( file ), path: file ) );
+        IEnumerable<SyntaxTree> syntaxTrees = sourceFiles
+            .Select( file => CSharpSyntaxTree.ParseText( File.ReadAllText( file ), path: file ) );
 
         var compilation = CSharpCompilation.Create(
         assemblyName,
@@ -190,30 +202,36 @@ public class ComponentsApiDocsGenerator
     {
         var baseComponentSymbol = compilation.GetTypeByMetadataName( "Blazorise.BaseComponent" );
 
-        foreach ( var type in namespaceToSearch.GetTypeMembers().OfType<INamedTypeSymbol>() )
+        IEnumerable<INamedTypeSymbol> types = namespaceToSearch.GetTypeMembers()
+            .OfType<INamedTypeSymbol>()
+            .OrderBy( type => type.ToDisplayString(), StringComparer.Ordinal );
+
+        foreach ( INamedTypeSymbol type in types )
         {
             TypeQualification typeQualification = QualifiesForApiDocs( type, baseComponentSymbol );
             if ( !typeQualification.QualifiesForApiDocs )
                 continue;
 
             // Retrieve properties
-            var parameterProperties = type.GetMembers()
+            IEnumerable<IPropertySymbol> parameterProperties = type.GetMembers()
                 .OfType<IPropertySymbol>()
                 .Where( p =>
                     p.DeclaredAccessibility == Accessibility.Public &&
                     ( typeQualification.SkipParamCheck || p.GetAttributes().Any( attr =>
                         attr.AttributeClass?.ToDisplayString() == "Microsoft.AspNetCore.Components.ParameterAttribute" ) ) &&
-                    p.OverriddenProperty == null );
+                    p.OverriddenProperty == null )
+                .OrderBy( p => p.ToDisplayString( SymbolDisplayFormat.CSharpErrorMessageFormat ), StringComparer.Ordinal );
 
             // Retrieve methods
-            var publicMethods = type.GetMembers()
+            IEnumerable<IMethodSymbol> publicMethods = type.GetMembers()
                 .OfType<IMethodSymbol>()
                 .Where( m => m.DeclaredAccessibility == Accessibility.Public &&
                     !m.IsImplicitlyDeclared &&
                     m.MethodKind == MethodKind.Ordinary &&
                     m.OverriddenMethod == null &&
                     !skipMethods.Contains( m.Name )
-                    );
+                    )
+                .OrderBy( m => m.ToDisplayString( SymbolDisplayFormat.CSharpErrorMessageFormat ), StringComparer.Ordinal );
 
             yield return new ComponentInfo
             (
@@ -283,12 +301,15 @@ public class ComponentsApiDocsGenerator
 
     (string category, string subcategory) GetCategoryAndSubcategory( INamedTypeSymbol typeSymbol )
     {
-        foreach ( var syntaxRef in typeSymbol.DeclaringSyntaxReferences )
+        IEnumerable<SyntaxReference> orderedSyntaxReferences = typeSymbol.DeclaringSyntaxReferences
+            .OrderBy( syntaxRef => NormalizePathForOrdering( syntaxRef.SyntaxTree.FilePath ), StringComparer.Ordinal );
+
+        foreach ( SyntaxReference syntaxRef in orderedSyntaxReferences )
         {
             string filePath = syntaxRef.SyntaxTree.FilePath;
             string normalizedFilePath = Path.GetFullPath( filePath ).Replace( Path.DirectorySeparatorChar, '/' );
 
-            foreach ( var (Segment, Category) in Categories )
+            foreach ( (string Segment, string Category) in Categories )
             {
                 if ( normalizedFilePath.Contains( Segment ) )
                 {
@@ -322,11 +343,14 @@ public class ComponentsApiDocsGenerator
             List<ApiDocsForComponentProperty> propertiesData = component.Properties
                 .Select( property => InfoExtractor.GetPropertyDetails( compilation, property ) )
                 .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) )
+                .OrderBy( x => x.Name, StringComparer.Ordinal )
+                .ThenBy( x => x.TypeName, StringComparer.Ordinal )
                 .ToList();
 
             List<ApiDocsForComponentMethod> methodsData = component.PublicMethods
                 .Select( InfoExtractor.GetMethodDetails )
                 .Where( x => !x.Summary.Contains( ShouldOnlyBeUsedInternally ) )
+                .OrderBy( x => BuildMethodSortKey( x ), StringComparer.Ordinal )
                 .ToList();
 
             ApiDocsForComponent comp = new ApiDocsForComponent( type: componentType, typeName: componentTypeName,
@@ -429,6 +453,8 @@ public class ComponentsApiDocsGenerator
             if ( docsComponent is not null )
                 docsComponents.Add( docsComponent );
         }
+
+        SortDocsApiComponents( docsComponents );
 
         DocsApiIndex index = new DocsApiIndex
         {
@@ -657,6 +683,89 @@ public class ComponentsApiDocsGenerator
         return docsMethod;
     }
 
+    private static void SortDocsApiComponents( List<DocsApiComponent> components )
+    {
+        if ( components is null || components.Count == 0 )
+            return;
+
+        foreach ( DocsApiComponent component in components )
+        {
+            if ( component is null )
+                continue;
+
+            component.Parameters = SortDocsApiProperties( component.Parameters );
+            component.Events = SortDocsApiProperties( component.Events );
+            component.Methods = SortDocsApiMethods( component.Methods );
+        }
+
+        components.Sort( CompareDocsApiComponents );
+    }
+
+    private static int CompareDocsApiComponents( DocsApiComponent left, DocsApiComponent right )
+    {
+        if ( ReferenceEquals( left, right ) )
+            return 0;
+
+        if ( left is null )
+            return -1;
+
+        if ( right is null )
+            return 1;
+
+        int typeNameComparison = StringComparer.Ordinal.Compare( left.TypeName ?? string.Empty, right.TypeName ?? string.Empty );
+
+        if ( typeNameComparison != 0 )
+            return typeNameComparison;
+
+        return StringComparer.Ordinal.Compare( left.Type ?? string.Empty, right.Type ?? string.Empty );
+    }
+
+    private static List<DocsApiProperty> SortDocsApiProperties( List<DocsApiProperty> properties )
+    {
+        if ( properties is null )
+            return null;
+
+        return properties
+            .OrderBy( property => property.Name ?? string.Empty, StringComparer.Ordinal )
+            .ThenBy( property => property.TypeName ?? string.Empty, StringComparer.Ordinal )
+            .ThenBy( property => property.Type ?? string.Empty, StringComparer.Ordinal )
+            .ToList();
+    }
+
+    private static List<DocsApiMethod> SortDocsApiMethods( List<DocsApiMethod> methods )
+    {
+        if ( methods is null )
+            return null;
+
+        return methods
+            .OrderBy( method => BuildMethodSortKey( method ), StringComparer.Ordinal )
+            .ToList();
+    }
+
+    private static string BuildMethodSortKey( ApiDocsForComponentMethod method )
+    {
+        if ( method is null )
+            return string.Empty;
+
+        string parameters = method.Parameters is null
+            ? string.Empty
+            : string.Join( ",", method.Parameters.Select( parameter => $"{parameter.Name}:{parameter.TypeName}" ) );
+
+        return $"{method.Name ?? string.Empty}|{method.ReturnTypeName ?? string.Empty}|{parameters}";
+    }
+
+    private static string BuildMethodSortKey( DocsApiMethod method )
+    {
+        if ( method is null )
+            return string.Empty;
+
+        string parameters = method.Parameters is null
+            ? string.Empty
+            : string.Join( ",", method.Parameters.Select( parameter => $"{parameter.Name}:{parameter.TypeName}" ) );
+
+        return $"{method.Name ?? string.Empty}|{method.ReturnTypeName ?? string.Empty}|{parameters}";
+    }
+
     private static string ReplaceTypeName( string value, string baseTypeName, string derivedTypeName )
     {
         if ( string.IsNullOrWhiteSpace( value ) )
@@ -711,6 +820,14 @@ public class ComponentsApiDocsGenerator
             trimmed = trimmed.Substring( 0, genericIndex );
 
         return trimmed is "EventCallback" or "Action" or "Func";
+    }
+
+    private static string NormalizePathForOrdering( string path )
+    {
+        if ( string.IsNullOrWhiteSpace( path ) )
+            return string.Empty;
+
+        return path.Replace( '\\', '/' );
     }
 
     private string GetApiDocsOutputPath()
