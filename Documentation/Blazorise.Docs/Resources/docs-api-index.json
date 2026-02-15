@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-15T12:25:15.0868310Z",
+  "generatedUtc": "2026-02-15T12:26:03.8051598Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -19899,7 +19899,7 @@
           "name": "Zoom",
           "type": "global::Blazorise.Charts.Zoom.ChartZoomOptions",
           "typeName": "ChartZoomOptions",
-          "defaultValue": "new ChartZoomOptions\n    {\n        Wheel = new ChartZoomWheelOptions()\n        {\n            Enabled = true\n        },\n        Pinch = new ChartZoomPinchOptions()\n        {\n            Enabled = true\n        },\n        Mode = \"xy\",\n    }",
+          "defaultValue": "new ChartZoomOptions\r\n    {\r\n        Wheel = new ChartZoomWheelOptions()\r\n        {\r\n            Enabled = true\r\n        },\r\n        Pinch = new ChartZoomPinchOptions()\r\n        {\r\n            Enabled = true\r\n        },\r\n        Mode = \"xy\",\r\n    }",
           "summary": "Zoom options",
           "isBlazoriseEnum": false
         }
@@ -22538,7 +22538,7 @@
           "name": "Palette",
           "type": "string[]",
           "typeName": "string[]",
-          "defaultValue": "new string[]\n    {\n        \"rgba(244, 67, 54, 1)\",\n        \"rgba(233, 30, 99, 0.95)\",\n        \"rgba(156, 39, 176, 0.9)\",\n        \"rgba(103, 58, 183, 0.85)\",\n        \"rgba(63, 81, 181, 0.8)\",\n        \"rgba(33, 150, 243, 0.75)\",\n        \"rgba(3, 169, 244, 0.7)\",\n        \"rgba(0, 188, 212, 0.7)\",\n        \"rgba(0, 150, 136, 0.75)\",\n        \"rgba(76, 175, 80, 0.8)\",\n        \"rgba(139, 195, 74, 0.85)\",\n        \"rgba(205, 220, 57, 0.9)\",\n        \"rgba(255, 235, 59, 0.95)\",\n        \"rgba(255, 193, 7, 1)\"\n    }",
+          "defaultValue": "new string[]\r\n    {\r\n        \"rgba(244, 67, 54, 1)\",\r\n        \"rgba(233, 30, 99, 0.95)\",\r\n        \"rgba(156, 39, 176, 0.9)\",\r\n        \"rgba(103, 58, 183, 0.85)\",\r\n        \"rgba(63, 81, 181, 0.8)\",\r\n        \"rgba(33, 150, 243, 0.75)\",\r\n        \"rgba(3, 169, 244, 0.7)\",\r\n        \"rgba(0, 188, 212, 0.7)\",\r\n        \"rgba(0, 150, 136, 0.75)\",\r\n        \"rgba(76, 175, 80, 0.8)\",\r\n        \"rgba(139, 195, 74, 0.85)\",\r\n        \"rgba(205, 220, 57, 0.9)\",\r\n        \"rgba(255, 235, 59, 0.95)\",\r\n        \"rgba(255, 193, 7, 1)\"\r\n    }",
           "summary": "List a colors below the colorpicker to make it convenient for users to choose from     frequently or recently used colors.",
           "isBlazoriseEnum": false
         },
