@@ -242,7 +242,7 @@
     }
 
     .b-bar-dropdown {
-        .b-bar-dropdown-toggle {
+/*        .b-bar-dropdown-toggle {
             &:before {
                 @include b-bar-dropdown-arrow;
                 -webkit-transform: rotate(225deg);
@@ -260,7 +260,7 @@
                 }
             }
         }
-
+*/
         .b-bar-dropdown-menu {
             display: none;
             background: inherit;

@@ -1,12 +1,8 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-    @if (To == null)
-    {
-        @ChildContent
-    }
-    else
-    {
-        <a href="@To">@ChildContent</a>
-    }
+
+<a @ref="@ElementRef" id="@ElementId" href="@To" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    @ChildContent
+    <Icon Name="@(ParentBarDropdown.IsVisible ? IconName.AngleUp : IconName.AngleDown)" Margin="Blazorise.Margin.IsAuto.FromStart.Is1.FromEnd" 
+          Clicked="@(async () => await ParentBarDropdown.Toggle(ElementId))" @onclick:stopPropagation />
 </a>

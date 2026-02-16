@@ -7,6 +7,7 @@ using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
@@ -33,6 +34,14 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     protected override Task OnFirstAfterRenderAsync()
@@ -69,29 +78,37 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            // make sure to unregister listener
-            if ( jsRegistered )
+            if ( NavigationManager is not null )
             {
-                jsRegistered = false;
-
-                var task = JSClosableModule.Unregister( this );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-                catch ( JSDisconnectedException )
-                {
-                }
+                NavigationManager.LocationChanged -= OnLocationChanged;
             }
 
-            DisposeDotNetObjectRef( dotNetObjectRef );
-            dotNetObjectRef = null;
+            if ( Rendered )
+            {
+                // make sure to unregister listener
+                if ( jsRegistered )
+                {
+                    jsRegistered = false;
+
+                    var task = JSClosableModule.Unregister( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
+                    catch ( JSDisconnectedException )
+                    {
+                    }
+                }
+
+                DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -173,6 +190,14 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         DirtyStyles();
     }
 
+    private void OnLocationChanged( object sender, LocationChangedEventArgs args )
+    {
+        if ( To != null )
+        {
+            DirtyClasses();
+            InvokeAsync( StateHasChanged );
+        }
+    }
     #endregion
 
     #region Properties

@@ -19,7 +19,7 @@
             </BarItem>
             <BarItem>
                 <BarDropdown @bind-Visible="uiElementsVisible">
-                    <BarDropdownToggle To="">
+                    <BarDropdownToggle>
                         <BarIcon IconName="IconName.Wrench" />
                         UI Elements
                     </BarDropdownToggle>
@@ -57,24 +57,21 @@
             </BarItem>
             <BarItem>
                 <BarDropdown @bind-Visible="@formsVisible">
-                    <BarDropdownToggle>
+                    <BarDropdownToggle To="tests/forms">
                         <BarIcon IconName="IconName.Edit" />
                         Forms
                     </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem To="tests/forms">
-                            Forms
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/focus-trap">
+                        <BarDropdownItem To="tests/forms/focus-trap">
                             Focus Trap
                         </BarDropdownItem>
-                        <BarDropdownItem To="tests/pickers">
+                        <BarDropdownItem To="tests/forms/pickers">
                             Pickers
                         </BarDropdownItem>
-                        <BarDropdownItem To="tests/validations">
+                        <BarDropdownItem To="tests/forms/validations">
                             Validations
                         </BarDropdownItem>
-                        <BarDropdownItem To="tests/misc-forms">
+                        <BarDropdownItem To="tests/forms/misc-forms">
                             Misc
                         </BarDropdownItem>
                         <BarDropdown>
@@ -85,7 +82,7 @@
                                 <BarDropdownItem To="tests/forms">
                                     Nested Forms
                                 </BarDropdownItem>
-                                <BarDropdownItem To="tests/validations">
+                                <BarDropdownItem To="tests/forms/validations">
                                     Nested Validations
                                 </BarDropdownItem>
                             </BarDropdownMenu>
