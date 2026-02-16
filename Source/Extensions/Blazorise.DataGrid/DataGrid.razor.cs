@@ -176,6 +176,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool suppressGroupingChangedNotifications;
 
+    /// <summary>
+    /// The amount of time to suppress a bubbled RowClick detail toggle after a forced manual detail toggle.
+    /// </summary>
+    private static readonly TimeSpan forceDetailRowClickSuppressionWindow = TimeSpan.FromMilliseconds( 300 );
+
+    /// <summary>
+    /// Tracks recent forced detail-row toggles to prevent immediate bubbled RowClick re-toggles.
+    /// </summary>
+    private readonly List<(TItem Item, DateTime Timestamp)> pendingForcedDetailRowToggles = new();
+
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
     private string classValue;
@@ -2111,10 +2121,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="forceDetailRow">Ignores DetailRowTrigger and toggles the DetailRow.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ToggleDetailRow( TItem item, bool forceDetailRow = false )
-        => ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
+    {
+        if ( forceDetailRow )
+        {
+            RegisterPendingForcedDetailRowToggle( item );
+        }
+
+        return ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
+    }
 
     protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
-        => ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
+    {
+        if ( detailRowTriggerType == DetailRowTriggerType.RowClick && ConsumePendingForcedDetailRowToggle( item ) )
+        {
+            return Task.CompletedTask;
+        }
+
+        return ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
+    }
 
     protected internal async Task ToggleDetailRow( DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
     {
@@ -2149,6 +2173,49 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             await Refresh();
         }
+    }
+
+    private void RegisterPendingForcedDetailRowToggle( TItem item )
+    {
+        if ( item is null )
+            return;
+
+        CleanupPendingForcedDetailRowToggles();
+
+        var existingIndex = pendingForcedDetailRowToggles.FindIndex( x => x.Item.IsEqual( item ) );
+
+        if ( existingIndex >= 0 )
+        {
+            pendingForcedDetailRowToggles[existingIndex] = (item, DateTime.UtcNow);
+        }
+        else
+        {
+            pendingForcedDetailRowToggles.Add( (item, DateTime.UtcNow) );
+        }
+    }
+
+    private bool ConsumePendingForcedDetailRowToggle( TItem item )
+    {
+        if ( item is null || pendingForcedDetailRowToggles.Count == 0 )
+            return false;
+
+        CleanupPendingForcedDetailRowToggles();
+
+        var existingIndex = pendingForcedDetailRowToggles.FindIndex( x => x.Item.IsEqual( item ) );
+
+        if ( existingIndex < 0 )
+            return false;
+
+        pendingForcedDetailRowToggles.RemoveAt( existingIndex );
+
+        return true;
+    }
+
+    private void CleanupPendingForcedDetailRowToggles()
+    {
+        var cutoff = DateTime.UtcNow - forceDetailRowClickSuppressionWindow;
+
+        pendingForcedDetailRowToggles.RemoveAll( x => x.Timestamp < cutoff );
     }
 
     /// <summary>
