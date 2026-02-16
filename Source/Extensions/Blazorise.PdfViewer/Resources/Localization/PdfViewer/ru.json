@@ -7,6 +7,13 @@
     "Zoom In": "Увеличить",
     "Print": "Печать",
     "of": "из",
-    "Download": "Скачать"
+    "Download": "Скачать",
+    "Password required": "Требуется пароль",
+    "Enter the password to open this PDF.": "Введите пароль, чтобы открыть этот PDF.",
+    "Incorrect password. Please try again.": "Неверный пароль. Пожалуйста, попробуйте снова.",
+    "Password": "Пароль",
+    "Open": "Открыть",
+    "Cancel": "Отмена",
+    "Password is required.": "Требуется пароль."
   }
 }

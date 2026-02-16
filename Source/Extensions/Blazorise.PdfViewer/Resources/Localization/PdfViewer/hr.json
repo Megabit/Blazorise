@@ -7,6 +7,13 @@
     "Zoom In": "Povećaj",
     "Print": "Ispis",
     "of": "od",
-    "Download": "Preuzmi"
+    "Download": "Preuzmi",
+    "Password required": "Potrebna je lozinka",
+    "Enter the password to open this PDF.": "Unesite lozinku za otvaranje ovog PDF-a.",
+    "Incorrect password. Please try again.": "Netočna lozinka. Pokušajte ponovno.",
+    "Password": "Lozinka",
+    "Open": "Otvori",
+    "Cancel": "Odustani",
+    "Password is required.": "Lozinka je obavezna."
   }
 }
