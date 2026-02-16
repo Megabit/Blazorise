@@ -57,11 +57,14 @@
             </BarItem>
             <BarItem>
                 <BarDropdown @bind-Visible="@formsVisible">
-                    <BarDropdownToggle To="tests/forms">
+                    <BarDropdownToggle To="tests/forms" Match="Match.Prefix">
                         <BarIcon IconName="IconName.Edit" />
                         Forms
                     </BarDropdownToggle>
                     <BarDropdownMenu>
+                        <BarDropdownItem To="tests/forms">
+                            Overview
+                        </BarDropdownItem>
                         <BarDropdownItem To="tests/forms/focus-trap">
                             Focus Trap
                         </BarDropdownItem>

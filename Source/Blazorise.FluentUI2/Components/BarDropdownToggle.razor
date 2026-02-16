@@ -15,7 +15,12 @@
 }
 else
 {
-    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <a @ref="@ElementRef" id="@ElementId" href="@To" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
         <span>@ChildContent</span>
+        @if ( IsToggleIconVisible )
+        {
+            <Icon Name="@(ParentBarDropdown.IsVisible? IconName.ChevronUp: IconName.ChevronDown)" Float="Float.End" IconSize="IconSize.ExtraSmall"
+                  Clicked="@(async () => await ParentBarDropdown.Toggle(ElementId))" @onclick:stopPropagation />
+        }
     </a>
 }

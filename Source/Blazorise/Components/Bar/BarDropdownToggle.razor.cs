@@ -21,15 +21,9 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
 {
     #region Members
 
-    private BarDropdownState parentBarDropdownState;
-
-    private BarItemState parentBarItemState;
-
     private bool jsRegistered;
 
     private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
-
-    private bool? disabled;
 
     #endregion
 
@@ -61,7 +55,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         if ( To != null )
         {
             builder.Append( ClassProvider.BarLink( ParentBarDropdownState.Mode ) );
-            builder.Append( ClassProvider.LinkActive( NavigationManager.IsMatch( To, Match.All, null ) ) );
+            builder.Append( ClassProvider.LinkActive( NavigationManager.IsMatch( To, Match, CustomMatch ) ) );
         }
 
         base.BuildClasses( builder );
@@ -236,13 +230,13 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [Parameter]
     public bool? Disabled
     {
-        get => disabled;
+        get;
         set
         {
-            if ( disabled == value )
+            if ( field == value )
                 return;
 
-            disabled = value;
+            field = value;
 
             DirtyClasses();
         }
@@ -260,7 +254,30 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// <summary>
     /// Specifies the URL of the page the toggle content goes to.
     /// </summary>
-    [Parameter] public string To { get; set; }
+    [Parameter]
+    public string To
+    {
+        get;
+        set
+        {
+            if ( field == value )
+                return;
+
+            field = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// URL matching behavior for a link.
+    /// </summary>
+    [Parameter] public Match Match { get; set; } = Match.All;
+
+    /// <summary>
+    /// A callback function that is used to compare current uri with the user defined uri. If defined, the <see cref="Match"/> parameter will be ignored.
+    /// </summary>
+    [Parameter] public Func<string, bool> CustomMatch { get; set; }
 
     /// <summary>
     /// Occurs when the toggle button is clicked.
@@ -273,15 +290,15 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [CascadingParameter]
     public BarDropdownState ParentBarDropdownState
     {
-        get => parentBarDropdownState;
+        get;
         set
         {
-            if ( parentBarDropdownState == value )
+            if ( field == value )
                 return;
 
-            parentBarDropdownState = value;
+            field = value;
 
-            if ( parentBarDropdownState.Visible && !( parentBarDropdownState.Mode == BarMode.VerticalInline && parentBarDropdownState.BarVisible ) )
+            if ( field.Visible && !( field.Mode == BarMode.VerticalInline && field.BarVisible ) )
             {
                 HandleVisibilityStyles( true );
             }
@@ -308,13 +325,13 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [CascadingParameter]
     public BarItemState ParentBarItemState
     {
-        get => parentBarItemState;
+        get;
         set
         {
-            if ( parentBarItemState == value )
+            if ( field == value )
                 return;
 
-            parentBarItemState = value;
+            field = value;
 
             DirtyClasses();
             DirtyStyles();

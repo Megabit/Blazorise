@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-16T15:41:11.6249372Z",
+  "generatedUtc": "2026-02-16T16:42:57.3816628Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -8963,6 +8963,22 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Target",
+          "type": "global::Blazorise.Target",
+          "typeName": "Target",
+          "defaultValue": "Target.Default",
+          "summary": "The target attribute specifies where to open the linked document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Match",
+          "type": "global::Blazorise.Match",
+          "typeName": "Match",
+          "defaultValue": "Match.All",
+          "summary": "URL matching behavior for a link.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "ChildContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
@@ -9214,6 +9230,14 @@
         }
       ],
       "events": [
+        {
+          "name": "CustomMatch",
+          "type": "Func<,>",
+          "typeName": "Func<string, bool>",
+          "defaultValue": "null",
+          "summary": "A callback function that is used to compare current uri with the user defined uri. If defined, the <strong>Match</strong> parameter will be ignored.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "Clicked",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
