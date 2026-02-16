@@ -177,14 +177,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private bool suppressGroupingChangedNotifications;
 
     /// <summary>
-    /// The amount of time to suppress a bubbled RowClick detail toggle after a forced manual detail toggle.
+    /// Tracks forced detail-row toggles to prevent immediate bubbled RowClick re-toggle.
     /// </summary>
-    private static readonly TimeSpan forceDetailRowClickSuppressionWindow = TimeSpan.FromMilliseconds( 300 );
-
-    /// <summary>
-    /// Tracks recent forced detail-row toggles to prevent immediate bubbled RowClick re-toggles.
-    /// </summary>
-    private readonly List<(TItem Item, DateTime Timestamp)> pendingForcedDetailRowToggles = new();
+    private readonly PendingStateTracker<TItem> pendingForcedDetailRowToggleTracker = new( TimeSpan.FromMilliseconds( 300 ) );
 
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
@@ -2124,7 +2119,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( forceDetailRow )
         {
-            RegisterPendingForcedDetailRowToggle( item );
+            pendingForcedDetailRowToggleTracker.Register( item );
         }
 
         return ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
@@ -2132,7 +2127,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
     {
-        if ( detailRowTriggerType == DetailRowTriggerType.RowClick && ConsumePendingForcedDetailRowToggle( item ) )
+        if ( detailRowTriggerType == DetailRowTriggerType.RowClick && pendingForcedDetailRowToggleTracker.TryConsume( item ) )
         {
             return Task.CompletedTask;
         }
@@ -2173,49 +2168,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             await Refresh();
         }
-    }
-
-    private void RegisterPendingForcedDetailRowToggle( TItem item )
-    {
-        if ( item is null )
-            return;
-
-        CleanupPendingForcedDetailRowToggles();
-
-        var existingIndex = pendingForcedDetailRowToggles.FindIndex( x => x.Item.IsEqual( item ) );
-
-        if ( existingIndex >= 0 )
-        {
-            pendingForcedDetailRowToggles[existingIndex] = (item, DateTime.UtcNow);
-        }
-        else
-        {
-            pendingForcedDetailRowToggles.Add( (item, DateTime.UtcNow) );
-        }
-    }
-
-    private bool ConsumePendingForcedDetailRowToggle( TItem item )
-    {
-        if ( item is null || pendingForcedDetailRowToggles.Count == 0 )
-            return false;
-
-        CleanupPendingForcedDetailRowToggles();
-
-        var existingIndex = pendingForcedDetailRowToggles.FindIndex( x => x.Item.IsEqual( item ) );
-
-        if ( existingIndex < 0 )
-            return false;
-
-        pendingForcedDetailRowToggles.RemoveAt( existingIndex );
-
-        return true;
-    }
-
-    private void CleanupPendingForcedDetailRowToggles()
-    {
-        var cutoff = DateTime.UtcNow - forceDetailRowClickSuppressionWindow;
-
-        pendingForcedDetailRowToggles.RemoveAll( x => x.Timestamp < cutoff );
     }
 
     /// <summary>
