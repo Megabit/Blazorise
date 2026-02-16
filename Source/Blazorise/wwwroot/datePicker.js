@@ -70,6 +70,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         inline: utilities.coalesce(options.inline, false),
         disableMobile: utilities.coalesce(options.disableMobile, true),
         static: options.staticPicker,
+        position: options.staticPicker ? "below" : "auto",
         weekNumbers: options.showWeekNumbers,
         todayButton: options.showTodayButton,
         clearButton: options.showClearButton,
@@ -339,6 +340,7 @@ export function updateOptions(element, elementId, options) {
 
         if (options.staticPicker.changed) {
             picker.set("static", options.staticPicker.value);
+            picker.set("position", options.staticPicker.value ? "below" : "auto");
         }
 
         if (options.showWeekNumbers.changed) {
