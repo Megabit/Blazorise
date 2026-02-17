@@ -2,16 +2,29 @@
 @inherits BaseLinkComponent
 
 <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-    <Span Flex="Blazorise.Flex.AlignItems.Center.JustifyContent.Between" @onclick:stopPropagation="@IsActingAsLink">
-        <Span>
-            @ChildContent
-        </Span>
-        
-        @if ( IsToggleIconVisible && ParentBarDropdownState?.Mode != BarMode.Horizontal )
-        {
-            <Span Padding="Blazorise.Padding.Is2.OnX">
-                <Icon Name="@ToggleIconName" IconSize="@ToggleIconSize" Clicked="@OnToggleIconClicked" @onclick:stopPropagation />
-            </Span>
-        }
-    </Span>
+    @if ( ParentBarDropdownState?.Mode != BarMode.Horizontal )
+    {
+        @VerticalIconTemplate
+    }
+    else
+    {
+        @ChildContent
+    }    
 </a>
+@code {
+    private RenderFragment VerticalIconTemplate => __builder =>
+    {
+        <Span Flex="Blazorise.Flex.AlignItems.Center.JustifyContent.Between" @onclick:stopPropagation="@IsActingAsLink">
+            <Span>
+                @ChildContent
+            </Span>
+
+            @if ( IsToggleIconVisible )
+            {
+                <Span Padding="Blazorise.Padding.Is2.OnX">
+                    <Icon Name="@ToggleIconName" IconSize="@ToggleIconSize" Clicked="@OnToggleIconClicked" @onclick:stopPropagation />
+                </Span>
+            }
+        </Span>
+    };
+}
