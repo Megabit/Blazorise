@@ -51,26 +51,6 @@
     position: relative;
 }
 
-@mixin b-bar-dropdown-arrow-popout {
-    .b-bar-dropdown-toggle {
-        &:before {
-            @include b-bar-dropdown-arrow;
-            -webkit-transform: rotate(135deg);
-            transform: rotate(135deg);
-            right: 0.8rem;
-        }
-    }
-
-    &:not([data-visible=true]) {
-        .b-bar-dropdown-toggle {
-            &:before {
-                -webkit-transform: rotate(315deg);
-                transform: rotate(315deg);
-            }
-        }
-    }
-}
-
 .b-bar-horizontal {
     &[data-collapse=hide] {
         flex-wrap: nowrap;
@@ -242,25 +222,6 @@
     }
 
     .b-bar-dropdown {
-/*        .b-bar-dropdown-toggle {
-            &:before {
-                @include b-bar-dropdown-arrow;
-                -webkit-transform: rotate(225deg);
-                transform: rotate(225deg);
-                top: 0.7rem;
-            }
-        }
-
-        &:not([data-visible=true]) {
-            .b-bar-dropdown-toggle {
-                &:before {
-                    -webkit-transform: rotate(45deg);
-                    transform: rotate(45deg);
-                    top: 0.5rem;
-                }
-            }
-        }
-*/
         .b-bar-dropdown-menu {
             display: none;
             background: inherit;
@@ -444,16 +405,6 @@
         left: var(--b-vertical-bar-small-width, 64px);
     }
 
-    .b-bar-item {
-        > .b-bar-dropdown {
-            > .b-bar-dropdown-toggle {
-                &:before {
-                    display: none;
-                }
-            }
-        }
-    }
-
     .b-bar-dropdown {
         .b-bar-dropdown-menu-container {
             @include b-bar-popout-menu-container;
@@ -475,8 +426,6 @@
                             right: var(--b-vertical-bar-popout-menu-width, 180px);
                         }
                     }
-
-                    @include b-bar-dropdown-arrow-popout;
                 }
             }
         }
@@ -542,8 +491,6 @@
 
 .b-bar-vertical-popout:not([data-collapse]) {
     .b-bar-dropdown {
-        @include b-bar-dropdown-arrow-popout;
-
         .b-bar-dropdown-menu-container {
             @include b-bar-popout-menu-container;
             left: var(--b-vertical-bar-width, 230px);
