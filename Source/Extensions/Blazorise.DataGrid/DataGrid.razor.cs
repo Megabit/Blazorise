@@ -177,6 +177,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private bool suppressGroupingChangedNotifications;
 
     /// <summary>
+    /// Tracks forced detail-row toggles to prevent immediate bubbled RowClick re-toggle.
+    /// </summary>
+    private readonly PendingStateTracker<TItem> pendingForcedDetailRowToggleTracker = new( TimeSpan.FromMilliseconds( 300 ) );
+
+    /// <summary>
     /// Tracks self-reference node states keyed by row item equality.
     /// </summary>
     private readonly List<DataGridExpandNodeState<TItem>> selfReferenceNodeStates = new();
@@ -2131,10 +2136,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="forceDetailRow">Ignores DetailRowTrigger and toggles the DetailRow.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ToggleDetailRow( TItem item, bool forceDetailRow = false )
-        => ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
+    {
+        if ( forceDetailRow )
+        {
+            pendingForcedDetailRowToggleTracker.Register( item );
+        }
+
+        return ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
+    }
 
     protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
-        => ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
+    {
+        if ( detailRowTriggerType == DetailRowTriggerType.RowClick && pendingForcedDetailRowToggleTracker.TryConsume( item ) )
+        {
+            return Task.CompletedTask;
+        }
+
+        return ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
+    }
 
     protected internal async Task ToggleDetailRow( DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
     {
