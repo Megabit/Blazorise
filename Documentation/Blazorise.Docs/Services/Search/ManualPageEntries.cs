@@ -108,7 +108,8 @@ public static class ManualPageEntries
     new( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
     new( "docs/extensions/datagrid/features/state-management", "DataGrid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
     new( "docs/extensions/datagrid/features/mobile-mode", "DataGrid Mobile Mode", "The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other." ),
-
+    new( "docs/extensions/datagrid/features/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
+    new( "docs/extensions/datagrid/features/self-reference", "DataGrid Self Reference", "Render hierarchical rows and load child data on demand with expand/collapse triggers and programmatic row control." ),
 
     new( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
     new( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),
@@ -119,7 +120,7 @@ public static class ManualPageEntries
     new( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
     new( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row", "Easily customize the action buttons shown with the Blazorise DataGrid's button row template feature." ),
     new( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands", "Customize your action commands with the Blazorise DataGrid's commands template feature. Assign custom templates to the command column, such as editing and deleting, or add your own custom actions." ),
-    new( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
+
     new( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display", "Customize how your data is displayed in each cell using the Blazorise DataGrid's display template feature. Assign custom templates to individual columns, allowing for more control over how your data is displayed. " ),
     new( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit", "Assign custom edit templates to individual columns, allowing for more control over how data is edited." ),
     new( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading", "Customize the loading look of the Blazorise DataGrid with the loading template feature." ),

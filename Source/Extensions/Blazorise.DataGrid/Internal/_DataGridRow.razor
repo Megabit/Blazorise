@@ -1,3 +1,4 @@
+@using Blazorise.Extensions
 @typeparam TItem
 @inherits _BaseDataGridRow<TItem>
 @{
@@ -41,6 +42,10 @@
                   data-row-index="@ParentDataGrid.ResolveItemIndex( Item )">
 
             @ParentDataGrid.groupIndentationFragment
+
+            @{
+                var selfReferenceColumn = ParentDataGrid.GetSelfReferenceColumn( Columns );
+            }
 
             @foreach ( var column in Columns )
             {
@@ -94,6 +99,54 @@
                                   MobileModeCaption="@column.Caption">
                         @{
                             var currentItem = GetCurrentItem();
+                            var selfReferenceColumnActive = ParentDataGrid.IsSelfReferenceEnabled && column.IsEqual( selfReferenceColumn );
+
+                            if ( selfReferenceColumnActive )
+                            {
+                                var selfReferenceLevel = ParentDataGrid.GetSelfReferenceRowLevel( currentItem );
+                                var canExpand = ParentDataGrid.IsSelfReferenceRowExpandable( currentItem );
+                                var expanded = ParentDataGrid.IsSelfReferenceRowExpanded( currentItem );
+
+                                if ( selfReferenceColumn?.ExpandTemplate is not null )
+                                {
+                                    var expandRowContext = BuildExpandRowContext( currentItem, selfReferenceLevel, canExpand, expanded );
+
+                                    <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
+                                        @selfReferenceColumn.ExpandTemplate( expandRowContext )
+                                    </Span>
+                                }
+                                else
+                                {
+                                    <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
+                                        @if ( selfReferenceLevel > 0 )
+                                        {
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( selfReferenceLevel * ParentDataGrid.SelfReferenceIndentSize )"></Span>
+                                        }
+
+                                        @if ( canExpand )
+                                        {
+                                            @if ( ParentDataGrid.IsExpandByToggleClick )
+                                            {
+                                                <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
+                                                    <Span @onclick="ToggleRow" Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                                        <Icon Name="@(expanded ? ParentDataGrid.SelfReferenceCollapseIcon : ParentDataGrid.SelfReferenceExpandIcon)" />
+                                                    </Span>
+                                                </Span>
+                                            }
+                                            else
+                                            {
+                                                <Span Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
+                                                    <Icon Name="@(expanded ? ParentDataGrid.SelfReferenceCollapseIcon : ParentDataGrid.SelfReferenceExpandIcon)" />
+                                                </Span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( ParentDataGrid.SelfReferenceIndentSize )"></Span>
+                                        }
+                                    </Span>
+                                }
+                            }
                         }
                         @if ( column.DisplayTemplate != null )
                         {

@@ -18,6 +18,7 @@ public partial class Routes
         LuminanceThreshold = 170,
         BarOptions = new ThemeBarOptions
         {
+            VerticalWidth = "280px",
             HorizontalHeight = "64px",
             VerticalBrandHeight = "64px",
             LightColors = new ThemeBarColorOptions
@@ -80,6 +81,7 @@ public partial class Routes
         },
         BarOptions = new ThemeBarOptions
         {
+            VerticalWidth = "280px",
             HorizontalHeight = "64px",
             VerticalBrandHeight = "64px",
             LightColors = new ThemeBarColorOptions
