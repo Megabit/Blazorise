@@ -6,11 +6,12 @@
         <Span>
             @ChildContent
         </Span>
-        <Span Padding="Blazorise.Padding.Is2.OnX">
-            @if ( IsToggleIconVisible && ParentBarDropdownState?.Mode != BarMode.Horizontal )
-            {
-                <Icon Name="@(ParentBarDropdown.IsVisible ? IconName.ChevronUp : IconName.ChevronDown)" IconSize="IconSize.ExtraSmall" Clicked="@OnToggleIconClicked" @onclick:stopPropagation/>
-            }
-        </Span>
+        
+        @if ( IsToggleIconVisible && ParentBarDropdownState?.Mode != BarMode.Horizontal )
+        {
+            <Span Padding="Blazorise.Padding.Is2.OnX">
+                <Icon Name="@ToggleIconName" IconSize="@ToggleIconSize" Clicked="@OnToggleIconClicked" @onclick:stopPropagation />
+            </Span>
+        }
     </Span>
 </a>

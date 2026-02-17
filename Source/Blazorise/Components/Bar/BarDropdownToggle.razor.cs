@@ -197,7 +197,19 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Should the toggle icon be drawn
     /// </summary>
-    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.Dropdown?.ToggleIconVisible ?? true );
+    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.DropdownOptions?.ToggleIconVisible ?? true );
+
+    /// <summary>
+    /// Gets the icon name that represents the current toggle state of the dropdown.
+    /// </summary>
+    protected IconName ToggleIconName => ParentBarDropdown.IsVisible
+        ? Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp
+        : Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
+
+    /// <summary>
+    /// Gets the size of the toggle icon used in the dropdown options.
+    /// </summary>
+    protected IconSize ToggleIconSize => Theme?.BarOptions?.DropdownOptions?.ToggleIconSIze ?? IconSize.ExtraSmall;
 
     /// <summary>
     /// Indicates whether the current instance is acting as a link to another object.
