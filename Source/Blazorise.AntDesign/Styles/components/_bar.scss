@@ -122,6 +122,36 @@
         height: 100%;
         overflow-y: auto;
 
+        .ant-menu-submenu {
+            > a.ant-menu-submenu-title,
+            > .ant-menu-submenu-title {
+                padding-right: 1rem;
+            }
+
+            > a.ant-menu-submenu-title {
+                color: inherit;
+                text-decoration: none;
+
+                &:hover,
+                &:focus,
+                &.active {
+                    color: inherit;
+                }
+            }
+
+            > .ant-menu-submenu-title {
+                > span:first-child {
+                    width: 100%;
+
+                    > span + span {
+                        margin-left: auto;
+                        padding-left: .5rem;
+                        padding-right: 0;
+                    }
+                }
+            }
+        }
+
         .ant-menu-label {
             background: transparent;
             color: #adb5bd;
@@ -254,8 +284,14 @@
 
             .ant-menu-submenu.ant-menu-submenu-vertical {
                 > .ant-menu-submenu-title {
+                    > .ant-menu-submenu-arrow {
+                        display: none;
+                    }
+
                     > span {
-                        font-size: 0px;
+                        > span:first-child {
+                            font-size: 0px;
+                        }
                     }
                 }
 
@@ -292,8 +328,14 @@
 
                     .ant-menu-submenu.ant-menu-submenu-vertical {
                         > .ant-menu-submenu-title {
+                            > .ant-menu-submenu-arrow {
+                                display: none;
+                            }
+
                             > span {
-                                font-size: inherit;
+                                > span:first-child {
+                                    font-size: inherit;
+                                }
                             }
                         }
 
@@ -375,8 +417,14 @@
 
             .ant-menu-submenu.ant-menu-submenu-vertical {
                 > .ant-menu-submenu-title {
+                    > .ant-menu-submenu-arrow {
+                        display: none;
+                    }
+
                     > span {
-                        font-size: 0px;
+                        > span:first-child {
+                            font-size: 0px;
+                        }
                     }
                 }
 
@@ -413,8 +461,14 @@
 
                     .ant-menu-submenu.ant-menu-submenu-vertical {
                         > .ant-menu-submenu-title {
+                            > .ant-menu-submenu-arrow {
+                                display: none;
+                            }
+
                             > span {
-                                font-size: inherit;
+                                > span:first-child {
+                                    font-size: inherit;
+                                }
                             }
                         }
 
