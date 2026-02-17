@@ -1,0 +1,172 @@
+@page "/tests/datagrid/hierarchy/self-reference"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Datagrid: Self Reference Rows</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    This example shows self-reference rows with lazy child loading by using <code>ExpandRowTrigger</code> and <code>ReadChildData</code>.
+                </Paragraph>
+                <Paragraph>
+                    Expand/collapse can be triggered by clicking rows or by using the API buttons.
+                </Paragraph>
+                <Field>
+                    <Check @bind-Value="@singleExpand">
+                        Single Expand
+                    </Check>
+                </Field>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Disabled="@(!CanToggleSelectedRow)" Clicked="@ExpandSelectedRow">
+                    Expand Selected
+                </Button>
+                <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Disabled="@(!CanToggleSelectedRow)" Clicked="@CollapseSelectedRow">
+                    Collapse Selected
+                </Button>
+                <Button Color="Color.Success" Margin="Margin.Is2.FromEnd" Clicked="@ExpandAllRows">
+                    Expand All
+                </Button>
+                <Button Color="Color.Warning" Clicked="@CollapseAllRows">
+                    Collapse All
+                </Button>
+            </CardBody>
+            <CardBody>
+                <DataGrid TItem="SelfReferenceEmployee"
+                          @ref="dataGridRef"
+                          Data="rootItems"
+                          ExpandMode="@( singleExpand ? DataGridExpandMode.Single : DataGridExpandMode.Multiple )"
+                          ExpandOnRowClick
+                          ExpandOptions="@expandOptions"
+                          ExpandRowTrigger="OnExpandRowTrigger"
+                          ReadChildData="OnReadChildData"
+                          @bind-SelectedRow="@selectedEmployee"
+                          @bind-ExpandedRows="@expandedRows"
+                          Responsive
+                          ShowPager
+                          ShowPageSizes>
+                    <DataGridColumns>
+                        <DataGridColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.FullName )" Caption="Employee" Width="Width.Px( 300 )" />
+                        <DataGridColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.City )" Caption="City" />
+                        <DataGridColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.Salary )" Caption="Salary" DisplayFormat="{0:C}" />
+                        <DataGridCheckColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.IsActive )" Caption="Active" />
+                    </DataGridColumns>
+                </DataGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private DataGrid<SelfReferenceEmployee> dataGridRef;
+    private SelfReferenceEmployee selectedEmployee;
+    private IList<SelfReferenceEmployee> expandedRows = new List<SelfReferenceEmployee>();
+    private List<SelfReferenceEmployee> rootItems = new();
+    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();
+    private readonly DataGridExpandOptions expandOptions = new()
+    {
+        IndentSize = 0.75d,
+    };
+    private bool singleExpand;
+
+    private bool CanToggleSelectedRow
+        => selectedEmployee is not null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();
+        BuildSelfReferenceData( employees );
+        await base.OnInitializedAsync();
+    }
+
+    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )
+    {
+        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee
+        {
+            Id = x.Id,
+            FullName = $"{x.FirstName} {x.LastName}",
+            City = x.City,
+            Salary = x.Salary,
+            IsActive = x.IsActive,
+        } ).ToList();
+
+        var roots = selfReferenceEmployees.Take( 3 ).ToList();
+        var levelOneNodes = new List<SelfReferenceEmployee>();
+        var currentIndex = roots.Count;
+
+        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )
+        {
+            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
+            {
+                var child = selfReferenceEmployees[currentIndex++];
+                child.ParentId = roots[rootIndex].Id;
+                levelOneNodes.Add( child );
+            }
+        }
+
+        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )
+        {
+            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
+            {
+                var child = selfReferenceEmployees[currentIndex++];
+                child.ParentId = levelOneNodes[levelOneIndex].Id;
+            }
+        }
+
+        childLookup = selfReferenceEmployees
+            .Where( x => x.ParentId.HasValue )
+            .GroupBy( x => x.ParentId!.Value )
+            .ToDictionary( x => x.Key, x => x.ToList() );
+
+        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();
+    }
+
+    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )
+    {
+        args.Expandable = childLookup.ContainsKey( args.Item.Id );
+        return true;
+    }
+
+    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )
+    {
+        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )
+            ? children
+            : Enumerable.Empty<SelfReferenceEmployee>();
+    }
+
+    private Task ExpandSelectedRow()
+        => selectedEmployee is null
+            ? Task.CompletedTask
+            : dataGridRef.ExpandRow( selectedEmployee );
+
+    private Task CollapseSelectedRow()
+        => selectedEmployee is null
+            ? Task.CompletedTask
+            : dataGridRef.CollapseRow( selectedEmployee );
+
+    private Task ExpandAllRows()
+        => dataGridRef.ExpandAllRows();
+
+    private Task CollapseAllRows()
+        => dataGridRef.CollapseAllRows();
+
+    private sealed class SelfReferenceEmployee
+    {
+        public int Id { get; set; }
+
+        public int? ParentId { get; set; }
+
+        public string FullName { get; set; }
+
+        public string City { get; set; }
+
+        public decimal Salary { get; set; }
+
+        public bool IsActive { get; set; }
+    }
+}

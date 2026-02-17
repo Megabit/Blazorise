@@ -227,6 +227,16 @@
                                             </BarDropdown>
 
                                             <BarDropdown>
+                                                <BarDropdownToggle>Hierarchy</BarDropdownToggle>
+                                                <BarDropdownMenu>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/detail-row">Detail Row</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/self-reference" Flex="Flex.JustifyContent.Between">
+                                                        <DocsNewFeatureBadge>Self Reference</DocsNewFeatureBadge>
+                                                    </BarDropdownItem>
+                                                </BarDropdownMenu>
+                                            </BarDropdown>
+
+                                            <BarDropdown>
                                                 <BarDropdownToggle>Selection</BarDropdownToggle>
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
@@ -241,7 +251,6 @@
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/display">Display</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/edit">Edit</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/detail-row">Detail Row</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/commands">Commands</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/loading">Loading</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/button-row">Button Row</BarDropdownItem>
@@ -376,14 +385,14 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarMetaMenuVisible">
                                 <BarDropdownToggle>
-                                <BarIcon IconName="IconName.QuestionCircle" /> Meta
-                            </BarDropdownToggle>
-                            <BarDropdownMenu>
-                                <BarDropdownItem To="docs/mcp">MCP Server</BarDropdownItem>
-                                <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
-                                <BarDropdownItem To="license">License</BarDropdownItem>
-                            </BarDropdownMenu>
-                        </BarDropdown>
+                                    <BarIcon IconName="IconName.QuestionCircle" /> Meta
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/mcp">MCP Server</BarDropdownItem>
+                                    <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
+                                    <BarDropdownItem To="license">License</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
                         </BarItem>
                     </BarStart>
                 </BarMenu>
@@ -435,5 +444,5 @@
     </Layout>
 </Layout>
 @code {
-    RenderFragment customIcon =@<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;
+    RenderFragment customIcon = @<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Style="width:32px; height: 32px" />;
 }
