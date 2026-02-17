@@ -8955,7 +8955,7 @@ Install-Package Blazorise.Chart.Zoom";
 <Button Color=""Color.Warning"" Margin=""Margin.Is4.FromEnd"" Clicked=""@CollapseAllRows"">Collapse All</Button>
 
 <DataGrid @ref=""dataGridRef""
-          TItem=""HierarchyEmployee""
+          TItem=""SelfReferenceEmployee""
           Data=""@rootItems""
           ExpandTrigger=""DataGridExpandTrigger.RowAndToggleClick""
           ExpandRowTrigger=""OnExpandRowTrigger""
@@ -8966,10 +8966,10 @@ Install-Package Blazorise.Chart.Zoom";
           Responsive
           ShowPager>
     <DataGridColumns>
-        <DataGridColumn Field=""@nameof( HierarchyEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 280 )"" Editable />
-        <DataGridColumn Field=""@nameof( HierarchyEmployee.City )"" Caption=""City"" Editable />
-        <DataGridNumericColumn Field=""@nameof( HierarchyEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" Editable />
-        <DataGridCheckColumn Field=""@nameof( HierarchyEmployee.IsActive )"" Caption=""Active"" Editable />
+        <DataGridColumn Field=""@nameof( SelfReferenceEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 280 )"" Editable />
+        <DataGridColumn Field=""@nameof( SelfReferenceEmployee.City )"" Caption=""City"" Editable />
+        <DataGridNumericColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" Editable />
+        <DataGridCheckColumn Field=""@nameof( SelfReferenceEmployee.IsActive )"" Caption=""Active"" Editable />
         <DataGridCommandColumn NewCommandAllowed=""false"" DeleteCommandAllowed=""false"" />
     </DataGridColumns>
 </DataGrid>
@@ -8984,21 +8984,21 @@ Install-Package Blazorise.Chart.Zoom";
 @code {
     [Inject] public EmployeeData EmployeeData { get; set; }
 
-    private DataGrid<HierarchyEmployee> dataGridRef;
-    private HierarchyEmployee lastUpdatedEmployee;
-    private List<HierarchyEmployee> rootItems = new();
-    private Dictionary<int, List<HierarchyEmployee>> childLookup = new();
+    private DataGrid<SelfReferenceEmployee> dataGridRef;
+    private SelfReferenceEmployee lastUpdatedEmployee;
+    private List<SelfReferenceEmployee> rootItems = new();
+    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();
 
     protected override async Task OnInitializedAsync()
     {
         var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();
-        BuildHierarchyData( employees );
+        BuildSelfReferenceData( employees );
         await base.OnInitializedAsync();
     }
 
-    private void BuildHierarchyData( IReadOnlyList<Employee> employees )
+    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )
     {
-        var hierarchyEmployees = employees.Select( x => new HierarchyEmployee
+        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee
         {
             Id = x.Id,
             FullName = $""{x.FirstName} {x.LastName}"",
@@ -9007,51 +9007,51 @@ Install-Package Blazorise.Chart.Zoom";
             IsActive = x.IsActive,
         } ).ToList();
 
-        var roots = hierarchyEmployees.Take( 3 ).ToList();
-        var levelOneNodes = new List<HierarchyEmployee>();
+        var roots = selfReferenceEmployees.Take( 3 ).ToList();
+        var levelOneNodes = new List<SelfReferenceEmployee>();
         var currentIndex = roots.Count;
 
-        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < hierarchyEmployees.Count; rootIndex++ )
+        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )
         {
-            for ( var childIndex = 0; childIndex < 3 && currentIndex < hierarchyEmployees.Count; childIndex++ )
+            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
             {
-                var child = hierarchyEmployees[currentIndex++];
+                var child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = roots[rootIndex].Id;
                 levelOneNodes.Add( child );
             }
         }
 
-        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < hierarchyEmployees.Count; levelOneIndex++ )
+        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )
         {
-            for ( var childIndex = 0; childIndex < 2 && currentIndex < hierarchyEmployees.Count; childIndex++ )
+            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
             {
-                var child = hierarchyEmployees[currentIndex++];
+                var child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = levelOneNodes[levelOneIndex].Id;
             }
         }
 
-        childLookup = hierarchyEmployees
+        childLookup = selfReferenceEmployees
             .Where( x => x.ParentId.HasValue )
             .GroupBy( x => x.ParentId!.Value )
             .ToDictionary( x => x.Key, x => x.ToList() );
 
-        rootItems = hierarchyEmployees.Where( x => !x.ParentId.HasValue ).ToList();
+        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();
     }
 
-    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<HierarchyEmployee> args )
+    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         return true;
     }
 
-    private void OnReadChildData( DataGridReadChildDataEventArgs<HierarchyEmployee> args )
+    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )
     {
         args.Data = childLookup.TryGetValue( args.Item.Id, out var children )
             ? children
-            : Enumerable.Empty<HierarchyEmployee>();
+            : Enumerable.Empty<SelfReferenceEmployee>();
     }
 
-    private Task OnRowUpdated( SavedRowItem<HierarchyEmployee, Dictionary<string, object>> args )
+    private Task OnRowUpdated( SavedRowItem<SelfReferenceEmployee, Dictionary<string, object>> args )
     {
         lastUpdatedEmployee = args.NewItem;
         return Task.CompletedTask;
@@ -9063,7 +9063,7 @@ Install-Package Blazorise.Chart.Zoom";
     private Task CollapseAllRows()
         => dataGridRef.CollapseAllRows();
 
-    private sealed class HierarchyEmployee
+    private sealed class SelfReferenceEmployee
     {
         public int Id { get; set; }
 
@@ -9085,7 +9085,7 @@ Install-Package Blazorise.Chart.Zoom";
 <Button Color=""Color.Warning"" Clicked=""@CollapseAllRows"">Collapse All</Button>
 
 <DataGrid @ref=""dataGridRef""
-          TItem=""HierarchyEmployee""
+          TItem=""SelfReferenceEmployee""
           Data=""@rootItems""
           ExpandTrigger=""DataGridExpandTrigger.RowAndToggleClick""
           ExpandRowTrigger=""OnExpandRowTrigger""
@@ -9093,19 +9093,19 @@ Install-Package Blazorise.Chart.Zoom";
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
           ShowPager>
-    <DataGridColumn Field=""@nameof( HierarchyEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 280 )"" />
-    <DataGridColumn Field=""@nameof( HierarchyEmployee.City )"" Caption=""City"" />
-    <DataGridColumn Field=""@nameof( HierarchyEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" />
-    <DataGridCheckColumn Field=""@nameof( HierarchyEmployee.IsActive )"" Caption=""Active"" />
+    <DataGridColumn Field=""@nameof( SelfReferenceEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 280 )"" />
+    <DataGridColumn Field=""@nameof( SelfReferenceEmployee.City )"" Caption=""City"" />
+    <DataGridColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" />
+    <DataGridCheckColumn Field=""@nameof( SelfReferenceEmployee.IsActive )"" Caption=""Active"" />
 </DataGrid>
 
 @code {
     [Inject] public EmployeeData EmployeeData { get; set; }
 
-    private DataGrid<HierarchyEmployee> dataGridRef;
-    private HierarchyEmployee selectedEmployee;
-    private List<HierarchyEmployee> rootItems = new();
-    private Dictionary<int, List<HierarchyEmployee>> childLookup = new();
+    private DataGrid<SelfReferenceEmployee> dataGridRef;
+    private SelfReferenceEmployee selectedEmployee;
+    private List<SelfReferenceEmployee> rootItems = new();
+    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();
 
     private bool CanToggleSelectedRow
         => selectedEmployee is not null;
@@ -9113,13 +9113,13 @@ Install-Package Blazorise.Chart.Zoom";
     protected override async Task OnInitializedAsync()
     {
         var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();
-        BuildHierarchyData( employees );
+        BuildSelfReferenceData( employees );
         await base.OnInitializedAsync();
     }
 
-    private void BuildHierarchyData( IReadOnlyList<Employee> employees )
+    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )
     {
-        var hierarchyEmployees = employees.Select( x => new HierarchyEmployee
+        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee
         {
             Id = x.Id,
             FullName = $""{x.FirstName} {x.LastName}"",
@@ -9128,48 +9128,48 @@ Install-Package Blazorise.Chart.Zoom";
             IsActive = x.IsActive,
         } ).ToList();
 
-        var roots = hierarchyEmployees.Take( 3 ).ToList();
-        var levelOneNodes = new List<HierarchyEmployee>();
+        var roots = selfReferenceEmployees.Take( 3 ).ToList();
+        var levelOneNodes = new List<SelfReferenceEmployee>();
         var currentIndex = roots.Count;
 
-        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < hierarchyEmployees.Count; rootIndex++ )
+        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )
         {
-            for ( var childIndex = 0; childIndex < 3 && currentIndex < hierarchyEmployees.Count; childIndex++ )
+            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
             {
-                var child = hierarchyEmployees[currentIndex++];
+                var child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = roots[rootIndex].Id;
                 levelOneNodes.Add( child );
             }
         }
 
-        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < hierarchyEmployees.Count; levelOneIndex++ )
+        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )
         {
-            for ( var childIndex = 0; childIndex < 2 && currentIndex < hierarchyEmployees.Count; childIndex++ )
+            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
             {
-                var child = hierarchyEmployees[currentIndex++];
+                var child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = levelOneNodes[levelOneIndex].Id;
             }
         }
 
-        childLookup = hierarchyEmployees
+        childLookup = selfReferenceEmployees
             .Where( x => x.ParentId.HasValue )
             .GroupBy( x => x.ParentId!.Value )
             .ToDictionary( x => x.Key, x => x.ToList() );
 
-        rootItems = hierarchyEmployees.Where( x => !x.ParentId.HasValue ).ToList();
+        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();
     }
 
-    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<HierarchyEmployee> args )
+    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         return true;
     }
 
-    private void OnReadChildData( DataGridReadChildDataEventArgs<HierarchyEmployee> args )
+    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )
     {
         args.Data = childLookup.TryGetValue( args.Item.Id, out var children )
             ? children
-            : Enumerable.Empty<HierarchyEmployee>();
+            : Enumerable.Empty<SelfReferenceEmployee>();
     }
 
     private Task ExpandSelectedRow()
@@ -9188,7 +9188,7 @@ Install-Package Blazorise.Chart.Zoom";
     private Task CollapseAllRows()
         => dataGridRef.CollapseAllRows();
 
-    private sealed class HierarchyEmployee
+    private sealed class SelfReferenceEmployee
     {
         public int Id { get; set; }
 
@@ -9204,7 +9204,7 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DataGridSelfReferenceTemplateExample = @"<DataGrid TItem=""HierarchyEmployee""
+        public const string DataGridSelfReferenceTemplateExample = @"<DataGrid TItem=""SelfReferenceEmployee""
           Data=""@rootItems""
           ExpandTrigger=""DataGridExpandTrigger.ToggleClick""
           ExpandRowTrigger=""OnExpandRowTrigger""
@@ -9212,7 +9212,7 @@ Install-Package Blazorise.Chart.Zoom";
           Responsive
           ShowPager>
     <DataGridColumns>
-        <DataGridColumn Field=""@nameof( HierarchyEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 300 )"">
+        <DataGridColumn Field=""@nameof( SelfReferenceEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 300 )"">
             <ExpandTemplate Context=""row"">
                 <Span Display=""Display.InlineFlex"" VerticalAlignment=""VerticalAlignment.Middle"" TextOverflow=""TextOverflow.NoWrap"">
                     @if ( row.Level > 0 )
@@ -9239,27 +9239,27 @@ Install-Package Blazorise.Chart.Zoom";
                 <Span TextWeight=""TextWeight.SemiBold"">@cell.DisplayValue</Span>
             </DisplayTemplate>
         </DataGridColumn>
-        <DataGridColumn Field=""@nameof( HierarchyEmployee.City )"" Caption=""City"" />
-        <DataGridNumericColumn Field=""@nameof( HierarchyEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" />
+        <DataGridColumn Field=""@nameof( SelfReferenceEmployee.City )"" Caption=""City"" />
+        <DataGridNumericColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" />
     </DataGridColumns>
 </DataGrid>
 
 @code {
     [Inject] public EmployeeData EmployeeData { get; set; }
 
-    private List<HierarchyEmployee> rootItems = new();
-    private Dictionary<int, List<HierarchyEmployee>> childLookup = new();
+    private List<SelfReferenceEmployee> rootItems = new();
+    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();
 
     protected override async Task OnInitializedAsync()
     {
         var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();
-        BuildHierarchyData( employees );
+        BuildSelfReferenceData( employees );
         await base.OnInitializedAsync();
     }
 
-    private void BuildHierarchyData( IReadOnlyList<Employee> employees )
+    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )
     {
-        var hierarchyEmployees = employees.Select( x => new HierarchyEmployee
+        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee
         {
             Id = x.Id,
             FullName = $""{x.FirstName} {x.LastName}"",
@@ -9267,51 +9267,51 @@ Install-Package Blazorise.Chart.Zoom";
             Salary = x.Salary,
         } ).ToList();
 
-        var roots = hierarchyEmployees.Take( 3 ).ToList();
-        var levelOneNodes = new List<HierarchyEmployee>();
+        var roots = selfReferenceEmployees.Take( 3 ).ToList();
+        var levelOneNodes = new List<SelfReferenceEmployee>();
         var currentIndex = roots.Count;
 
-        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < hierarchyEmployees.Count; rootIndex++ )
+        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )
         {
-            for ( var childIndex = 0; childIndex < 3 && currentIndex < hierarchyEmployees.Count; childIndex++ )
+            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
             {
-                var child = hierarchyEmployees[currentIndex++];
+                var child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = roots[rootIndex].Id;
                 levelOneNodes.Add( child );
             }
         }
 
-        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < hierarchyEmployees.Count; levelOneIndex++ )
+        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )
         {
-            for ( var childIndex = 0; childIndex < 2 && currentIndex < hierarchyEmployees.Count; childIndex++ )
+            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )
             {
-                var child = hierarchyEmployees[currentIndex++];
+                var child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = levelOneNodes[levelOneIndex].Id;
             }
         }
 
-        childLookup = hierarchyEmployees
+        childLookup = selfReferenceEmployees
             .Where( x => x.ParentId.HasValue )
             .GroupBy( x => x.ParentId!.Value )
             .ToDictionary( x => x.Key, x => x.ToList() );
 
-        rootItems = hierarchyEmployees.Where( x => !x.ParentId.HasValue ).ToList();
+        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();
     }
 
-    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<HierarchyEmployee> args )
+    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         return true;
     }
 
-    private void OnReadChildData( DataGridReadChildDataEventArgs<HierarchyEmployee> args )
+    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )
     {
         args.Data = childLookup.TryGetValue( args.Item.Id, out var children )
             ? children
-            : Enumerable.Empty<HierarchyEmployee>();
+            : Enumerable.Empty<SelfReferenceEmployee>();
     }
 
-    private sealed class HierarchyEmployee
+    private sealed class SelfReferenceEmployee
     {
         public int Id { get; set; }
 

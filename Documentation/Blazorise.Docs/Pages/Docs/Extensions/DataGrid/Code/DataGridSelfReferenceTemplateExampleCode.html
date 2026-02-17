@@ -1,6 +1,6 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">HierarchyEmployee</span><span class="quot">&quot;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">SelfReferenceEmployee</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>rootItems</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">ExpandTrigger</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridExpandTrigger</span><span class="enumValue">.ToggleClick</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">ExpandRowTrigger</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">OnExpandRowTrigger</span><span class="quot">&quot;</span>
@@ -8,7 +8,7 @@
           <span class="htmlAttributeName">Responsive</span>
           <span class="htmlAttributeName">ShowPager</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( HierarchyEmployee.FullName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 300 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( SelfReferenceEmployee.FullName )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 300 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ExpandTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">row</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">Display</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Display</span><span class="enumValue">.InlineFlex</span><span class="quot">&quot;</span> <span class="htmlAttributeName">VerticalAlignment</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">VerticalAlignment</span><span class="enumValue">.Middle</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextOverflow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextOverflow</span><span class="enumValue">.NoWrap</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                     <span class="atSign">&#64;</span>if ( row.Level &gt; 0 )
@@ -35,8 +35,8 @@
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">TextWeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextWeight</span><span class="enumValue">.SemiBold</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>cell.DisplayValue<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( HierarchyEmployee.City )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">City</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridNumericColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( HierarchyEmployee.Salary )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( SelfReferenceEmployee.City )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">City</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridNumericColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( SelfReferenceEmployee.Salary )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Salary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C}</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
@@ -44,19 +44,19 @@
 <span class="atSign">&#64;</span>code {
     [Inject] <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-    <span class="keyword">private</span> List&lt;HierarchyEmployee&gt; rootItems = <span class="keyword">new</span>();
-    <span class="keyword">private</span> Dictionary&lt;<span class="keyword">int</span>, List&lt;HierarchyEmployee&gt;&gt; childLookup = <span class="keyword">new</span>();
+    <span class="keyword">private</span> List&lt;SelfReferenceEmployee&gt; rootItems = <span class="keyword">new</span>();
+    <span class="keyword">private</span> Dictionary&lt;<span class="keyword">int</span>, List&lt;SelfReferenceEmployee&gt;&gt; childLookup = <span class="keyword">new</span>();
 
     <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
     {
         <span class="keyword">var</span> employees = ( <span class="keyword">await</span> EmployeeData.GetDataAsync().ConfigureAwait( <span class="keyword">false</span> ) ).Take( <span class="number">24</span> ).ToList();
-        BuildHierarchyData( employees );
+        BuildSelfReferenceData( employees );
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
     }
 
-    <span class="keyword">private</span> <span class="keyword">void</span> BuildHierarchyData( IReadOnlyList&lt;Employee&gt; employees )
+    <span class="keyword">private</span> <span class="keyword">void</span> BuildSelfReferenceData( IReadOnlyList&lt;Employee&gt; employees )
     {
-        <span class="keyword">var</span> hierarchyEmployees = employees.Select( x =&gt; <span class="keyword">new</span> HierarchyEmployee
+        <span class="keyword">var</span> selfReferenceEmployees = employees.Select( x =&gt; <span class="keyword">new</span> SelfReferenceEmployee
         {
             Id = x.Id,
             FullName = $<span class="string">&quot;{x.FirstName} {x.LastName}&quot;</span>,
@@ -64,51 +64,51 @@
             Salary = x.Salary,
         } ).ToList();
 
-        <span class="keyword">var</span> roots = hierarchyEmployees.Take( <span class="number">3</span> ).ToList();
-        <span class="keyword">var</span> levelOneNodes = <span class="keyword">new</span> List&lt;HierarchyEmployee&gt;();
+        <span class="keyword">var</span> roots = selfReferenceEmployees.Take( <span class="number">3</span> ).ToList();
+        <span class="keyword">var</span> levelOneNodes = <span class="keyword">new</span> List&lt;SelfReferenceEmployee&gt;();
         <span class="keyword">var</span> currentIndex = roots.Count;
 
-        <span class="keyword">for</span> ( <span class="keyword">var</span> rootIndex = <span class="number">0</span>; rootIndex &lt; roots.Count &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; rootIndex++ )
+        <span class="keyword">for</span> ( <span class="keyword">var</span> rootIndex = <span class="number">0</span>; rootIndex &lt; roots.Count &amp;&amp; currentIndex &lt; selfReferenceEmployees.Count; rootIndex++ )
         {
-            <span class="keyword">for</span> ( <span class="keyword">var</span> childIndex = <span class="number">0</span>; childIndex &lt; <span class="number">3</span> &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; childIndex++ )
+            <span class="keyword">for</span> ( <span class="keyword">var</span> childIndex = <span class="number">0</span>; childIndex &lt; <span class="number">3</span> &amp;&amp; currentIndex &lt; selfReferenceEmployees.Count; childIndex++ )
             {
-                <span class="keyword">var</span> child = hierarchyEmployees[currentIndex++];
+                <span class="keyword">var</span> child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = roots[rootIndex].Id;
                 levelOneNodes.Add( child );
             }
         }
 
-        <span class="keyword">for</span> ( <span class="keyword">var</span> levelOneIndex = <span class="number">0</span>; levelOneIndex &lt; levelOneNodes.Count &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; levelOneIndex++ )
+        <span class="keyword">for</span> ( <span class="keyword">var</span> levelOneIndex = <span class="number">0</span>; levelOneIndex &lt; levelOneNodes.Count &amp;&amp; currentIndex &lt; selfReferenceEmployees.Count; levelOneIndex++ )
         {
-            <span class="keyword">for</span> ( <span class="keyword">var</span> childIndex = <span class="number">0</span>; childIndex &lt; <span class="number">2</span> &amp;&amp; currentIndex &lt; hierarchyEmployees.Count; childIndex++ )
+            <span class="keyword">for</span> ( <span class="keyword">var</span> childIndex = <span class="number">0</span>; childIndex &lt; <span class="number">2</span> &amp;&amp; currentIndex &lt; selfReferenceEmployees.Count; childIndex++ )
             {
-                <span class="keyword">var</span> child = hierarchyEmployees[currentIndex++];
+                <span class="keyword">var</span> child = selfReferenceEmployees[currentIndex++];
                 child.ParentId = levelOneNodes[levelOneIndex].Id;
             }
         }
 
-        childLookup = hierarchyEmployees
+        childLookup = selfReferenceEmployees
             .Where( x =&gt; x.ParentId.HasValue )
             .GroupBy( x =&gt; x.ParentId!.Value )
             .ToDictionary( x =&gt; x.Key, x =&gt; x.ToList() );
 
-        rootItems = hierarchyEmployees.Where( x =&gt; !x.ParentId.HasValue ).ToList();
+        rootItems = selfReferenceEmployees.Where( x =&gt; !x.ParentId.HasValue ).ToList();
     }
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs&lt;HierarchyEmployee&gt; args )
+    <span class="keyword">private</span> <span class="keyword">bool</span> OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs&lt;SelfReferenceEmployee&gt; args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         <span class="keyword">return</span> <span class="keyword">true</span>;
     }
 
-    <span class="keyword">private</span> <span class="keyword">void</span> OnReadChildData( DataGridReadChildDataEventArgs&lt;HierarchyEmployee&gt; args )
+    <span class="keyword">private</span> <span class="keyword">void</span> OnReadChildData( DataGridReadChildDataEventArgs&lt;SelfReferenceEmployee&gt; args )
     {
         args.Data = childLookup.TryGetValue( args.Item.Id, <span class="keyword">out</span> <span class="keyword">var</span> children )
             ? children
-            : Enumerable.Empty&lt;HierarchyEmployee&gt;();
+            : Enumerable.Empty&lt;SelfReferenceEmployee&gt;();
     }
 
-    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> HierarchyEmployee
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> SelfReferenceEmployee
     {
         <span class="keyword">public</span> <span class="keyword">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
