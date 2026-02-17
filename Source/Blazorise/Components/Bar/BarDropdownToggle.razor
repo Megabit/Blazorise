@@ -22,7 +22,9 @@
             @if ( IsToggleIconVisible )
             {
                 <Span Padding="Blazorise.Padding.Is2.OnX">
-                    <Icon Name="@ToggleIconName" IconSize="@ToggleIconSize" Clicked="@OnToggleIconClicked" @onclick:stopPropagation />
+                    <span @onclick="@OnToggleIconClicked" @onclick:stopPropagation @onclick:preventDefault="@IsActingAsLink">
+                        <Icon Name="@ToggleIconName" IconSize="@ToggleIconSize" />
+                    </span>
                 </Span>
             }
         </Span>
