@@ -177,14 +177,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private bool suppressGroupingChangedNotifications;
 
     /// <summary>
-    /// Tracks hierarchy node states keyed by row item equality.
+    /// Tracks self-reference node states keyed by row item equality.
     /// </summary>
-    private readonly List<DataGridExpandNodeState<TItem>> hierarchyNodeStates = new();
+    private readonly List<DataGridExpandNodeState<TItem>> selfReferenceNodeStates = new();
 
     /// <summary>
-    /// Cached hierarchy view metadata for currently rendered rows.
+    /// Cached self-reference view metadata for currently rendered rows.
     /// </summary>
-    private readonly List<DataGridExpandItemInfo<TItem>> hierarchyViewInfos = new();
+    private readonly List<DataGridExpandItemInfo<TItem>> selfReferenceViewInfos = new();
 
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
@@ -645,7 +645,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( dataChanged )
         {
-            ResetHierarchyState();
+            ResetSelfReferenceState();
 
             await SyncSelectedItemsWithData();
         }
@@ -2194,10 +2194,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ToggleRow( TItem item )
     {
-        if ( !IsHierarchyEnabled )
+        if ( !IsSelfReferenceEnabled )
             return;
 
-        if ( IsHierarchyRowExpanded( item ) )
+        if ( IsSelfReferenceRowExpanded( item ) )
             await CollapseRowInternal( item, refresh: true, notifyEvents: true );
         else
             await ExpandRowInternal( item, refresh: true, notifyEvents: true );
@@ -2209,7 +2209,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ExpandAllRows()
     {
-        if ( !IsHierarchyEnabled )
+        if ( !IsSelfReferenceEnabled )
             return;
 
         if ( dirtyFilter )
@@ -2217,7 +2217,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         var changed = false;
 
-        foreach ( var rootItem in GetHierarchyRootViewData() )
+        foreach ( var rootItem in GetSelfReferenceRootViewData() )
         {
             changed |= await ExpandAllRowsInternal( rootItem, CancellationToken.None, new List<TItem>() );
         }
@@ -2236,12 +2236,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task CollapseAllRows()
     {
-        if ( !IsHierarchyEnabled )
+        if ( !IsSelfReferenceEnabled )
             return;
 
         var changed = false;
 
-        foreach ( var state in hierarchyNodeStates.Where( x => x.Expanded ).ToList() )
+        foreach ( var state in selfReferenceNodeStates.Where( x => x.Expanded ).ToList() )
         {
             state.Expanded = false;
             changed = true;
@@ -3269,18 +3269,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             sourceData = filteredData;
         }
 
-        if ( !IsHierarchyEnabled )
+        if ( !IsSelfReferenceEnabled )
         {
-            hierarchyViewInfos.Clear();
+            selfReferenceViewInfos.Clear();
             return sourceData;
         }
 
-        return BuildHierarchyViewData( sourceData );
+        return BuildSelfReferenceViewData( sourceData );
     }
 
-    private IEnumerable<TItem> BuildHierarchyViewData( IEnumerable<TItem> sourceData )
+    private IEnumerable<TItem> BuildSelfReferenceViewData( IEnumerable<TItem> sourceData )
     {
-        hierarchyViewInfos.Clear();
+        selfReferenceViewInfos.Clear();
 
         if ( sourceData is null )
             return Enumerable.Empty<TItem>();
@@ -3289,18 +3289,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         foreach ( var rootItem in sourceData )
         {
-            AppendHierarchyViewData( flatViewData, rootItem, 0, new List<TItem>() );
+            AppendSelfReferenceViewData( flatViewData, rootItem, 0, new List<TItem>() );
         }
 
         return flatViewData;
     }
 
-    private void AppendHierarchyViewData( List<TItem> flatViewData, TItem item, int level, List<TItem> parentChain )
+    private void AppendSelfReferenceViewData( List<TItem> flatViewData, TItem item, int level, List<TItem> parentChain )
     {
-        var rowState = GetHierarchyNodeState( item );
-        var expandable = ResolveHierarchyRowExpandable( item, rowState );
+        var rowState = GetSelfReferenceNodeState( item );
+        var expandable = ResolveSelfReferenceRowExpandable( item, rowState );
 
-        hierarchyViewInfos.Add( new DataGridExpandItemInfo<TItem>( item, level, expandable, rowState.Expanded ) );
+        selfReferenceViewInfos.Add( new DataGridExpandItemInfo<TItem>( item, level, expandable, rowState.Expanded ) );
         flatViewData.Add( item );
 
         if ( !rowState.Expanded || !expandable || !rowState.ChildrenLoaded || rowState.Children.IsNullOrEmpty() )
@@ -3313,7 +3313,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( parentChain.Any( x => x.IsEqual( child ) ) )
                 continue;
 
-            AppendHierarchyViewData( flatViewData, child, level + 1, parentChain );
+            AppendSelfReferenceViewData( flatViewData, child, level + 1, parentChain );
         }
 
         parentChain.RemoveAt( parentChain.Count - 1 );
@@ -3356,21 +3356,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #endregion
 
-    #region Hierarchy
+    #region SelfReference
 
     private async Task NotifyExpandedRowsChanged()
     {
-        var expandedRows = hierarchyNodeStates.Where( x => x.Expanded ).Select( x => x.Item ).ToList();
+        var expandedRows = selfReferenceNodeStates.Where( x => x.Expanded ).Select( x => x.Item ).ToList();
         ExpandedRows = expandedRows;
 
         if ( ExpandedRowsChanged.HasDelegate )
             await ExpandedRowsChanged.InvokeAsync( expandedRows );
     }
 
-    private void ResetHierarchyState()
+    private void ResetSelfReferenceState()
     {
-        hierarchyNodeStates.Clear();
-        hierarchyViewInfos.Clear();
+        selfReferenceNodeStates.Clear();
+        selfReferenceViewInfos.Clear();
         ExpandedRows = new List<TItem>();
     }
 
@@ -3379,11 +3379,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         var changed = false;
         var expandedItems = expandedRows?.ToList() ?? new List<TItem>();
 
-        foreach ( var state in hierarchyNodeStates )
+        foreach ( var state in selfReferenceNodeStates )
         {
             var shouldExpand = expandedItems.Any( x => x.IsEqual( state.Item ) );
 
-            if ( shouldExpand && !ResolveHierarchyRowExpandable( state.Item, state ) )
+            if ( shouldExpand && !ResolveSelfReferenceRowExpandable( state.Item, state ) )
                 shouldExpand = false;
 
             if ( state.Expanded != shouldExpand )
@@ -3395,9 +3395,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         foreach ( var expandedItem in expandedItems )
         {
-            var state = GetHierarchyNodeState( expandedItem );
+            var state = GetSelfReferenceNodeState( expandedItem );
 
-            if ( !ResolveHierarchyRowExpandable( expandedItem, state ) )
+            if ( !ResolveSelfReferenceRowExpandable( expandedItem, state ) )
                 continue;
 
             if ( !state.Expanded )
@@ -3420,7 +3420,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         try
         {
             var changed = await ExpandRowInternal( item, refresh: false, notifyEvents: true, notifyExpandedRowsChanged: false, cancellationToken );
-            var state = GetHierarchyNodeState( item, false );
+            var state = GetSelfReferenceNodeState( item, false );
 
             if ( state is null || !state.ChildrenLoaded || state.Children.IsNullOrEmpty() )
                 return changed;
@@ -3440,15 +3440,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private async Task<bool> ExpandRowInternal( TItem item, bool refresh, bool notifyEvents, bool notifyExpandedRowsChanged = true, CancellationToken cancellationToken = default )
     {
-        if ( !IsHierarchyEnabled )
+        if ( !IsSelfReferenceEnabled )
             return false;
 
-        var rowState = GetHierarchyNodeState( item );
+        var rowState = GetSelfReferenceNodeState( item );
 
-        if ( !ResolveHierarchyRowExpandable( item, rowState ) )
+        if ( !ResolveSelfReferenceRowExpandable( item, rowState ) )
             return false;
 
-        await EnsureHierarchyChildrenLoaded( item, rowState, cancellationToken );
+        await EnsureSelfReferenceChildrenLoaded( item, rowState, cancellationToken );
 
         if ( !rowState.Expandable || rowState.Expanded )
             return false;
@@ -3457,7 +3457,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( ExpandMode == DataGridExpandMode.Single )
         {
-            foreach ( var expandedState in hierarchyNodeStates.Where( x => x.Expanded && !x.Item.IsEqual( item ) ).ToList() )
+            foreach ( var expandedState in selfReferenceNodeStates.Where( x => x.Expanded && !x.Item.IsEqual( item ) ).ToList() )
             {
                 expandedState.Expanded = false;
                 changed = true;
@@ -3489,10 +3489,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private async Task<bool> CollapseRowInternal( TItem item, bool refresh, bool notifyEvents )
     {
-        if ( !IsHierarchyEnabled )
+        if ( !IsSelfReferenceEnabled )
             return false;
 
-        var rowState = GetHierarchyNodeState( item, false );
+        var rowState = GetSelfReferenceNodeState( item, false );
 
         if ( rowState is null || !rowState.Expanded )
             return false;
@@ -3511,7 +3511,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
-    private IEnumerable<TItem> GetHierarchyRootViewData()
+    private IEnumerable<TItem> GetSelfReferenceRootViewData()
     {
         if ( !ManualReadMode && !Virtualize )
         {
@@ -3528,7 +3528,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return filteredData.ToList();
     }
 
-    private async Task EnsureHierarchyChildrenLoaded( TItem item, DataGridExpandNodeState<TItem> rowState, CancellationToken cancellationToken )
+    private async Task EnsureSelfReferenceChildrenLoaded( TItem item, DataGridExpandNodeState<TItem> rowState, CancellationToken cancellationToken )
     {
         if ( rowState.ChildrenLoaded )
             return;
@@ -3562,7 +3562,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
-    private bool ResolveHierarchyRowExpandable( TItem item, DataGridExpandNodeState<TItem> rowState )
+    private bool ResolveSelfReferenceRowExpandable( TItem item, DataGridExpandNodeState<TItem> rowState )
     {
         if ( rowState.ExpandableResolved )
             return rowState.Expandable;
@@ -3585,64 +3585,64 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return rowState.Expandable;
     }
 
-    private DataGridExpandNodeState<TItem> GetHierarchyNodeState( TItem item, bool createIfNotExists = true )
+    private DataGridExpandNodeState<TItem> GetSelfReferenceNodeState( TItem item, bool createIfNotExists = true )
     {
-        var rowState = hierarchyNodeStates.LastOrDefault( x => x.Item.IsEqual( item ) );
+        var rowState = selfReferenceNodeStates.LastOrDefault( x => x.Item.IsEqual( item ) );
 
         if ( rowState is null && createIfNotExists )
         {
             rowState = new( item );
-            hierarchyNodeStates.Add( rowState );
+            selfReferenceNodeStates.Add( rowState );
         }
 
         return rowState;
     }
 
     /// <summary>
-    /// Gets hierarchy nesting level for the row item.
+    /// Gets self-reference nesting level for the row item.
     /// </summary>
     /// <param name="item">Row item.</param>
-    /// <returns>Hierarchy level starting from 0.</returns>
-    internal int GetHierarchyRowLevel( TItem item )
-        => hierarchyViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) )?.Level ?? 0;
+    /// <returns>SelfReference level starting from 0.</returns>
+    internal int GetSelfReferenceRowLevel( TItem item )
+        => selfReferenceViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) )?.Level ?? 0;
 
     /// <summary>
-    /// Gets whether the hierarchy row is expandable.
+    /// Gets whether the self-reference row is expandable.
     /// </summary>
     /// <param name="item">Row item.</param>
     /// <returns>True if the row can be expanded.</returns>
-    internal bool IsHierarchyRowExpandable( TItem item )
+    internal bool IsSelfReferenceRowExpandable( TItem item )
     {
-        var viewInfo = hierarchyViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) );
+        var viewInfo = selfReferenceViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) );
         if ( viewInfo is not null )
             return viewInfo.Expandable;
 
-        var rowState = GetHierarchyNodeState( item, false ) ?? GetHierarchyNodeState( item );
-        return ResolveHierarchyRowExpandable( item, rowState );
+        var rowState = GetSelfReferenceNodeState( item, false ) ?? GetSelfReferenceNodeState( item );
+        return ResolveSelfReferenceRowExpandable( item, rowState );
     }
 
     /// <summary>
-    /// Gets whether the hierarchy row is currently expanded.
+    /// Gets whether the self-reference row is currently expanded.
     /// </summary>
     /// <param name="item">Row item.</param>
     /// <returns>True if expanded.</returns>
-    internal bool IsHierarchyRowExpanded( TItem item )
+    internal bool IsSelfReferenceRowExpanded( TItem item )
     {
-        var viewInfo = hierarchyViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) );
+        var viewInfo = selfReferenceViewInfos.LastOrDefault( x => x.Item.IsEqual( item ) );
         if ( viewInfo is not null )
             return viewInfo.Expanded;
 
-        return GetHierarchyNodeState( item, false )?.Expanded ?? false;
+        return GetSelfReferenceNodeState( item, false )?.Expanded ?? false;
     }
 
     /// <summary>
-    /// Gets a regular display column used for hierarchy indentation and toggle.
+    /// Gets a regular display column used for self-reference indentation and toggle.
     /// If a regular column defines <see cref="DataGridColumn{TItem}.ExpandTemplate"/>,
-    /// that column is used as the hierarchy host.
+    /// that column is used as the self-reference host.
     /// </summary>
     /// <param name="columns">Row columns.</param>
-    /// <returns>The hierarchy column.</returns>
-    internal DataGridColumn<TItem> GetHierarchyColumn( IEnumerable<DataGridColumn<TItem>> columns )
+    /// <returns>The self-reference column.</returns>
+    internal DataGridColumn<TItem> GetSelfReferenceColumn( IEnumerable<DataGridColumn<TItem>> columns )
     {
         if ( columns.IsNullOrEmpty() )
             return null;
@@ -3657,7 +3657,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( templateColumn is not null )
             return templateColumn;
 
-        var minimumRecommendedWidth = ( HierarchyIndentSize * 4 * 16d ) + 16d;
+        var minimumRecommendedWidth = ( SelfReferenceIndentSize * 4 * 16d ) + 16d;
         var preferredColumn = regularColumns.FirstOrDefault( x =>
         {
             var fixedWidth = x.Width?.FixedSize;
@@ -3746,9 +3746,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => Groupable && ( GroupBy is not null || !groupableColumns.IsNullOrEmpty() );
 
     /// <summary>
-    /// Makes sure the DataGrid has enough defined conditions to display hierarchy.
+    /// Makes sure the DataGrid has enough defined conditions to display self-reference.
     /// </summary>
-    internal bool IsHierarchyEnabled
+    internal bool IsSelfReferenceEnabled
         => !IsGroupEnabled
            && ( ReadChildData.HasDelegate
                 || ExpandRowTrigger is not null
@@ -3771,21 +3771,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
            || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
 
     /// <summary>
-    /// Gets hierarchy indentation size in rem.
+    /// Gets self-reference indentation size in rem.
     /// </summary>
-    internal double HierarchyIndentSize
+    internal double SelfReferenceIndentSize
         => ExpandOptions?.IndentSize ?? DataGridExpandOptions.DefaultIndentSize;
 
     /// <summary>
-    /// Gets hierarchy expand icon.
+    /// Gets self-reference expand icon.
     /// </summary>
-    internal IconName HierarchyExpandIcon
+    internal IconName SelfReferenceExpandIcon
         => ExpandOptions?.ExpandIcon ?? DataGridExpandOptions.DefaultExpandIcon;
 
     /// <summary>
-    /// Gets hierarchy collapse icon.
+    /// Gets self-reference collapse icon.
     /// </summary>
-    internal IconName HierarchyCollapseIcon
+    internal IconName SelfReferenceCollapseIcon
         => ExpandOptions?.CollapseIcon ?? DataGridExpandOptions.DefaultCollapseIcon;
 
     /// <summary>
@@ -4582,27 +4582,27 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<DetailRowContext<TItem>> DetailRowTemplate { get; set; }
 
     /// <summary>
-    /// A trigger function used to determine whether a row can be expanded in hierarchy mode.
+    /// A trigger function used to determine whether a row can be expanded in self-reference mode.
     /// </summary>
     [Parameter] public Func<DataGridExpandRowTriggerEventArgs<TItem>, bool> ExpandRowTrigger { get; set; }
 
     /// <summary>
-    /// Event handler used to load children for a hierarchy row.
+    /// Event handler used to load children for a self-reference row.
     /// </summary>
     [Parameter] public EventCallback<DataGridReadChildDataEventArgs<TItem>> ReadChildData { get; set; }
 
     /// <summary>
-    /// Event called after a hierarchy row is expanded.
+    /// Event called after a self-reference row is expanded.
     /// </summary>
     [Parameter] public EventCallback<DataGridExpandRowEventArgs<TItem>> RowExpanded { get; set; }
 
     /// <summary>
-    /// Event called after a hierarchy row is collapsed.
+    /// Event called after a self-reference row is collapsed.
     /// </summary>
     [Parameter] public EventCallback<DataGridExpandRowEventArgs<TItem>> RowCollapsed { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently expanded hierarchy rows.
+    /// Gets or sets the currently expanded self-reference rows.
     /// </summary>
     [Parameter] public IList<TItem> ExpandedRows { get; set; }
 

@@ -7,7 +7,7 @@ using System.Threading;
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Provides all the information for loading datagrid hierarchy child data.
+/// Provides all the information for loading datagrid self-reference child data.
 /// </summary>
 /// <typeparam name="TItem">Type of the data model.</typeparam>
 public class DataGridReadChildDataEventArgs<TItem> : EventArgs

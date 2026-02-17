@@ -253,7 +253,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 await HandleMultiSelectClick( eventArgs );
         }
 
-        if ( ParentDataGrid.IsHierarchyEnabled && ParentDataGrid.IsExpandByRowClick )
+        if ( ParentDataGrid.IsSelfReferenceEnabled && ParentDataGrid.IsExpandByRowClick )
             await ParentDataGrid.ToggleRow( Item );
 
         await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );

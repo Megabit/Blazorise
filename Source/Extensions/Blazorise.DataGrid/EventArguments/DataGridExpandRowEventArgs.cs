@@ -5,13 +5,13 @@ using System;
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Provides all the information about hierarchy row expand or collapse events.
+/// Provides all the information about self-reference row expand or collapse events.
 /// </summary>
 /// <typeparam name="TItem">Type of the data model.</typeparam>
 public class DataGridExpandRowEventArgs<TItem> : EventArgs
 {
     /// <summary>
-    /// Initializes a new instance of hierarchy-row event argument.
+    /// Initializes a new instance of self-reference-row event argument.
     /// </summary>
     /// <param name="item">Row item.</param>
     public DataGridExpandRowEventArgs( TItem item )

@@ -5,7 +5,7 @@ using Blazorise;
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Context for customizing the hierarchy expand area in a row.
+/// Context for customizing the self-reference expand area in a row.
 /// </summary>
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 public class DataGridExpandRowContext<TItem> : BaseTemplateContext<TItem>
@@ -16,7 +16,7 @@ public class DataGridExpandRowContext<TItem> : BaseTemplateContext<TItem>
     /// Initializes a new instance of the <see cref="DataGridExpandRowContext{TItem}"/> class.
     /// </summary>
     /// <param name="item">The row item.</param>
-    /// <param name="level">Hierarchy level where 0 is root.</param>
+    /// <param name="level">Self-reference level where 0 is root.</param>
     /// <param name="expandable">Indicates whether the row can be expanded.</param>
     /// <param name="expanded">Indicates whether the row is currently expanded.</param>
     /// <param name="toggle">Callback to toggle the row expand state.</param>
@@ -30,7 +30,7 @@ public class DataGridExpandRowContext<TItem> : BaseTemplateContext<TItem>
     }
 
     /// <summary>
-    /// Gets the hierarchy level where 0 is root.
+    /// Gets the self-reference level where 0 is root.
     /// </summary>
     public int Level { get; }
 

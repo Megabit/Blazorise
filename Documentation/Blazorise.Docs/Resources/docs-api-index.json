@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-15T12:36:46.9092250Z",
+  "generatedUtc": "2026-02-17T09:28:54.9040283Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -25123,7 +25123,7 @@
           "type": "IList<>",
           "typeName": "IList<TItem>",
           "defaultValue": "null",
-          "summary": "Gets or sets the currently expanded hierarchy rows.",
+          "summary": "Gets or sets the currently expanded self-reference rows.",
           "isBlazoriseEnum": false
         },
         {
@@ -25810,7 +25810,7 @@
           "type": "Func<,>",
           "typeName": "Func<DataGridExpandRowTriggerEventArgs<TItem>, bool>",
           "defaultValue": "null",
-          "summary": "A trigger function used to determine whether a row can be expanded in hierarchy mode.",
+          "summary": "A trigger function used to determine whether a row can be expanded in self-reference mode.",
           "isBlazoriseEnum": false
         },
         {
@@ -25890,7 +25890,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<DataGridReadChildDataEventArgs<TItem>>",
           "defaultValue": "null",
-          "summary": "Event handler used to load children for a hierarchy row.",
+          "summary": "Event handler used to load children for a self-reference row.",
           "isBlazoriseEnum": false
         },
         {
@@ -25922,7 +25922,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<DataGridExpandRowEventArgs<TItem>>",
           "defaultValue": "null",
-          "summary": "Event called after a hierarchy row is collapsed.",
+          "summary": "Event called after a self-reference row is collapsed.",
           "isBlazoriseEnum": false
         },
         {
@@ -25946,7 +25946,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<DataGridExpandRowEventArgs<TItem>>",
           "defaultValue": "null",
-          "summary": "Event called after a hierarchy row is expanded.",
+          "summary": "Event called after a self-reference row is expanded.",
           "isBlazoriseEnum": false
         },
         {
@@ -26999,7 +26999,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
           "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -27828,7 +27828,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
           "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -28737,7 +28737,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
           "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -29638,7 +29638,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
           "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -30605,7 +30605,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
           "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -31483,7 +31483,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
           "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -32457,7 +32457,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
           "defaultValue": "null",
-          "summary": "Template used to customize hierarchy expand rendering.     The first regular column that defines this template becomes the hierarchy host column.",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {

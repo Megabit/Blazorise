@@ -1,6 +1,6 @@
 @page "/docs/extensions/datagrid/features/self-reference"
 
-<Seo Canonical="/docs/extensions/datagrid/features/self-reference" Title="Blazorise DataGrid Hierarchy" Description="Learn Blazorise by the example. Render hierarchical rows and control expand and collapse actions programmatically through DataGrid self-reference." />
+<Seo Canonical="/docs/extensions/datagrid/features/self-reference" Title="Blazorise DataGrid Self Reference" Description="Learn Blazorise by the example. Render hierarchical rows and control expand and collapse actions programmatically through DataGrid self-reference." />
 
 <DocsPageTitle Path="Extensions/DataGrid/Features/Self Reference">
     Blazorise DataGrid: Self Reference
@@ -22,7 +22,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Row Editing">
-        This example keeps hierarchy enabled while turning on <Code>Editable</Code> rows with <Code>DataGridEditMode.Inline</Code>. Parent and child rows can both be edited.
+        This example keeps self-reference enabled while turning on <Code>Editable</Code> rows with <Code>DataGridEditMode.Inline</Code>. Parent and child rows can both be edited.
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
         <DataGridSelfReferenceEditingExample />
@@ -32,7 +32,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Custom Expand Template">
-        Use column <Code>ExpandTemplate</Code> when you need full control over hierarchy expand rendering. The first regular column with <Code>ExpandTemplate</Code> becomes the hierarchy host, and the template context exposes <Code>Item</Code>, <Code>Level</Code>, <Code>Expandable</Code>, <Code>Expanded</Code>, and <Code>Toggle()</Code>.
+        Use column <Code>ExpandTemplate</Code> when you need full control over self-reference expand rendering. The first regular column with <Code>ExpandTemplate</Code> becomes the self-reference host, and the template context exposes <Code>Item</Code>, <Code>Level</Code>, <Code>Expandable</Code>, <Code>Expanded</Code>, and <Code>Toggle()</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
         <DataGridSelfReferenceTemplateExample />

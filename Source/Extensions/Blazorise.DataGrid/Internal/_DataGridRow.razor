@@ -44,7 +44,7 @@
             @ParentDataGrid.groupIndentationFragment
 
             @{
-                var hierarchyColumn = ParentDataGrid.GetHierarchyColumn( Columns );
+                var selfReferenceColumn = ParentDataGrid.GetSelfReferenceColumn( Columns );
             }
 
             @foreach ( var column in Columns )
@@ -99,28 +99,28 @@
                                   MobileModeCaption="@column.Caption">
                         @{
                             var currentItem = GetCurrentItem();
-                            var hierarchyColumnActive = ParentDataGrid.IsHierarchyEnabled && column.IsEqual( hierarchyColumn );
+                            var selfReferenceColumnActive = ParentDataGrid.IsSelfReferenceEnabled && column.IsEqual( selfReferenceColumn );
 
-                            if ( hierarchyColumnActive )
+                            if ( selfReferenceColumnActive )
                             {
-                                var hierarchyLevel = ParentDataGrid.GetHierarchyRowLevel( currentItem );
-                                var canExpand = ParentDataGrid.IsHierarchyRowExpandable( currentItem );
-                                var expanded = ParentDataGrid.IsHierarchyRowExpanded( currentItem );
+                                var selfReferenceLevel = ParentDataGrid.GetSelfReferenceRowLevel( currentItem );
+                                var canExpand = ParentDataGrid.IsSelfReferenceRowExpandable( currentItem );
+                                var expanded = ParentDataGrid.IsSelfReferenceRowExpanded( currentItem );
 
-                                if ( hierarchyColumn?.ExpandTemplate is not null )
+                                if ( selfReferenceColumn?.ExpandTemplate is not null )
                                 {
-                                    var expandRowContext = BuildExpandRowContext( currentItem, hierarchyLevel, canExpand, expanded );
+                                    var expandRowContext = BuildExpandRowContext( currentItem, selfReferenceLevel, canExpand, expanded );
 
                                     <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
-                                        @hierarchyColumn.ExpandTemplate( expandRowContext )
+                                        @selfReferenceColumn.ExpandTemplate( expandRowContext )
                                     </Span>
                                 }
                                 else
                                 {
                                     <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
-                                        @if ( hierarchyLevel > 0 )
+                                        @if ( selfReferenceLevel > 0 )
                                         {
-                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( hierarchyLevel * ParentDataGrid.HierarchyIndentSize )"></Span>
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( selfReferenceLevel * ParentDataGrid.SelfReferenceIndentSize )"></Span>
                                         }
 
                                         @if ( canExpand )
@@ -129,20 +129,20 @@
                                             {
                                                 <Span @onclick:stopPropagation="true" Display="Display.InlineBlock">
                                                     <Span @onclick="ToggleRow" Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
-                                                        <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
+                                                        <Icon Name="@(expanded ? ParentDataGrid.SelfReferenceCollapseIcon : ParentDataGrid.SelfReferenceExpandIcon)" />
                                                     </Span>
                                                 </Span>
                                             }
                                             else
                                             {
                                                 <Span Display="Display.InlineFlex" Margin="Margin.Is2.FromEnd">
-                                                    <Icon Name="@(expanded ? ParentDataGrid.HierarchyCollapseIcon : ParentDataGrid.HierarchyExpandIcon)" />
+                                                    <Icon Name="@(expanded ? ParentDataGrid.SelfReferenceCollapseIcon : ParentDataGrid.SelfReferenceExpandIcon)" />
                                                 </Span>
                                             }
                                         }
                                         else
                                         {
-                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( ParentDataGrid.HierarchyIndentSize )"></Span>
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( ParentDataGrid.SelfReferenceIndentSize )"></Span>
                                         }
                                     </Span>
                                 }

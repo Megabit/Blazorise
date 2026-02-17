@@ -5,13 +5,13 @@ using System;
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Holds hierarchy row trigger context configuration.
+/// Holds self-reference row trigger context configuration.
 /// </summary>
 /// <typeparam name="TItem">Type of the data model.</typeparam>
 public class DataGridExpandRowTriggerEventArgs<TItem> : EventArgs
 {
     /// <summary>
-    /// Initializes a new instance of hierarchy-row-trigger event argument.
+    /// Initializes a new instance of self-reference-row-trigger event argument.
     /// </summary>
     /// <param name="item">Row item.</param>
     public DataGridExpandRowTriggerEventArgs( TItem item )
