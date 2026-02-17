@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-17T10:06:35.1660531Z",
+  "generatedUtc": "2026-02-17T10:39:05.9436298Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -8327,7 +8327,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Specifies the content to be rendered inside this <strong>BarDropdownToggle</strong>.",
+          "summary": "Specifies the content to be rendered inside this <strong>Link</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -8348,10 +8348,10 @@
         },
         {
           "name": "Disabled",
-          "type": "bool?",
-          "typeName": "bool?",
-          "defaultValue": "null",
-          "summary": "Makes the toggle element look inactive.",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Makes the link look inactive by adding the disabled boolean attribute.",
           "isBlazoriseEnum": false
         },
         {
@@ -8423,7 +8423,7 @@
           "name": "Match",
           "type": "global::Blazorise.Match",
           "typeName": "Match",
-          "defaultValue": "Match.All",
+          "defaultValue": "Match.Prefix",
           "summary": "URL matching behavior for a link.",
           "isBlazoriseEnum": true
         },
@@ -8468,11 +8468,27 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "Stretched",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Makes any HTML element or component clickable by “stretching” a nested link.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Style",
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Target",
+          "type": "global::Blazorise.Target",
+          "typeName": "Target",
+          "defaultValue": "Target.Default",
+          "summary": "The target attribute specifies where to open the linked document.",
           "isBlazoriseEnum": false
         },
         {
@@ -8532,11 +8548,19 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "Title",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specify extra information about the element.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "To",
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the URL of the page the toggle content goes to.",
+          "summary": "Denotes the target route of the link.",
           "isBlazoriseEnum": false
         },
         {
@@ -8546,6 +8570,14 @@
           "defaultValue": "null",
           "summary": "Gets or sets a value indicating whether the dropdown toggle icon is visible.",
           "remarks": "Default: True",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Unstyled",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Removes default color styles from the link.",
           "isBlazoriseEnum": false
         },
         {
@@ -8587,7 +8619,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<MouseEventArgs>",
           "defaultValue": "null",
-          "summary": "Occurs when the toggle button is clicked.",
+          "summary": "Occurs when the link is clicked.",
           "isBlazoriseEnum": false
         },
         {

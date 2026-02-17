@@ -7,7 +7,6 @@ using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
@@ -17,7 +16,7 @@ namespace Blazorise;
 /// <summary>
 /// Toggles the visibility or collapse of <see cref="Bar"/> component.
 /// </summary>
-public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncDisposable
+public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAsyncDisposable
 {
     #region Members
 
@@ -28,14 +27,6 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     #endregion
 
     #region Methods
-
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        NavigationManager.LocationChanged += OnLocationChanged;
-
-        base.OnInitialized();
-    }
 
     /// <inheritdoc/>
     protected override Task OnFirstAfterRenderAsync()
@@ -55,7 +46,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         if ( To != null )
         {
             builder.Append( ClassProvider.BarLink( ParentBarDropdownState.Mode ) );
-            builder.Append( ClassProvider.LinkActive( NavigationManager.IsMatch( To, Match, CustomMatch ) ) );
+            builder.Append( ClassProvider.LinkActive( Active ) );
         }
 
         base.BuildClasses( builder );
@@ -74,11 +65,6 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     {
         if ( disposing )
         {
-            if ( NavigationManager is not null )
-            {
-                NavigationManager.LocationChanged -= OnLocationChanged;
-            }
-
             if ( Rendered )
             {
                 // make sure to unregister listener
@@ -184,14 +170,6 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         DirtyStyles();
     }
 
-    private void OnLocationChanged( object sender, LocationChangedEventArgs args )
-    {
-        if ( To != null )
-        {
-            DirtyClasses();
-            InvokeAsync( StateHasChanged );
-        }
-    }
     #endregion
 
     #region Properties
@@ -202,7 +180,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// <summary>
     /// Returns true if this BarDropdown should be disabled.
     /// </summary>
-    protected internal bool IsDisabled => ( Disabled ?? ParentBarItem?.Disabled ) == true;
+    protected internal bool IsDisabled => paramDisabled.GetValueOrDefault( ParentBarItem?.Disabled ?? false );
 
     /// <summary>
     /// Should the toggle icon be drawn
@@ -215,32 +193,9 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the navigation manager instance.
-    /// </summary>
-    [Inject] private NavigationManager NavigationManager { get; set; }
-
-    /// <summary>
     /// Determines how much left padding will be applied to the dropdown toggle. (in rem unit)
     /// </summary>
     [Parameter] public double Indentation { get; set; } = 1.5d;
-
-    /// <summary>
-    /// Makes the toggle element look inactive.
-    /// </summary>
-    [Parameter]
-    public bool? Disabled
-    {
-        get;
-        set
-        {
-            if ( field == value )
-                return;
-
-            field = value;
-
-            DirtyClasses();
-        }
-    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
@@ -250,39 +205,6 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// </value>
     /// <remarks>Default: True</remarks>
     [Parameter] public bool? ToggleIconVisible { get; set; }
-
-    /// <summary>
-    /// Specifies the URL of the page the toggle content goes to.
-    /// </summary>
-    [Parameter]
-    public string To
-    {
-        get;
-        set
-        {
-            if ( field == value )
-                return;
-
-            field = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// URL matching behavior for a link.
-    /// </summary>
-    [Parameter] public Match Match { get; set; } = Match.All;
-
-    /// <summary>
-    /// A callback function that is used to compare current uri with the user defined uri. If defined, the <see cref="Match"/> parameter will be ignored.
-    /// </summary>
-    [Parameter] public Func<string, bool> CustomMatch { get; set; }
-
-    /// <summary>
-    /// Occurs when the toggle button is clicked.
-    /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
     /// Gets or sets the parent dropdown state object.
@@ -342,11 +264,6 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// The applied theme.
     /// </summary>
     [CascadingParameter] protected Theme Theme { get; set; }
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BarDropdownToggle"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

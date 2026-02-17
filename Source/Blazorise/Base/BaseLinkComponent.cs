@@ -25,6 +25,21 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
 
     private string anchorTarget;
 
+    /// <summary>
+    /// Captured Disabled parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramDisabled;
+
+    private ComponentParameterInfo<string> paramTo;
+
+    private ComponentParameterInfo<Match> paramMatch;
+
+    private ComponentParameterInfo<Func<string, bool>> paramCustomMatch;
+
+    private ComponentParameterInfo<bool> paramUnstyled;
+
+    private ComponentParameterInfo<bool> paramStretched;
+
     #endregion
 
     #region Methods
@@ -38,32 +53,63 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     }
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        PreventDefault = false;
+        var previousTo = To;
+        var previousParamDisabled = paramDisabled;
+
+        parameters.TryGetParameter( To, out paramTo );
+        parameters.TryGetParameter( Match, out paramMatch );
+        parameters.TryGetParameter( CustomMatch, out paramCustomMatch );
+        parameters.TryGetParameter( Unstyled, out paramUnstyled );
+        parameters.TryGetParameter( Stretched, out paramStretched );
+        parameters.TryGetParameter( Disabled, out paramDisabled );
+
+        await base.SetParametersAsync( parameters );
+
+        UpdateState( previousTo, previousParamDisabled );
+    }
+
+    private void UpdateState( string previousTo, ComponentParameterInfo<bool> previousParamDisabled )
+    {
+        var resolvedTo = To;
 
         // in case the user has specified href instead of To we need to use that instead
         if ( Attributes is not null && Attributes.TryGetValue( "href", out var href ) )
-            To = $"{href}";
+            resolvedTo = $"{href}";
 
-        if ( To is not null && To.StartsWith( "#" ) )
+        if ( !string.Equals( To, resolvedTo, StringComparison.Ordinal ) )
+            To = resolvedTo;
+
+        PreventDefault = false;
+        anchorTarget = null;
+
+        if ( resolvedTo is not null && resolvedTo.StartsWith( "#", StringComparison.Ordinal ) )
         {
             // If the href contains an anchor link we don't want the default click action to occur, but
             // rather take care of the click in our own method.
-            anchorTarget = To[1..];
+            anchorTarget = resolvedTo[1..];
             PreventDefault = true;
         }
 
-        var shouldBeActiveNow = NavigationManager.IsMatch( To, Match, CustomMatch );
+        var shouldBeActiveNow = NavigationManager.IsMatch( resolvedTo, Match, CustomMatch );
 
-        if ( shouldBeActiveNow != active )
+        var classDependentParameterChanged =
+            paramTo.Changed
+            || paramMatch.Changed
+            || paramCustomMatch.Changed
+            || paramUnstyled.Changed
+            || paramStretched.Changed
+            || paramDisabled.Changed
+            || !string.Equals( previousTo, resolvedTo, StringComparison.Ordinal )
+            || previousParamDisabled.Defined != paramDisabled.Defined;
+
+        if ( shouldBeActiveNow != active || classDependentParameterChanged )
         {
             active = shouldBeActiveNow;
 
             DirtyClasses();
         }
-
-        base.OnParametersSet();
     }
 
     /// <inheritdoc/>
@@ -72,10 +118,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         if ( disposing )
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-            if ( NavigationManager is not null )
-            {
-                NavigationManager.LocationChanged -= OnLocationChanged;
-            }
+            NavigationManager?.LocationChanged -= OnLocationChanged;
         }
 
         base.Dispose( disposing );
