@@ -26,12 +26,6 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     private ModalInstance passwordPromptModalInstance;
     private TaskCompletionSource<string> passwordPromptCompletionSource;
     private bool passwordPromptCanClose;
-    private string passwordPromptTitle;
-    private string passwordPromptMessage;
-    private string passwordPromptPlaceholder;
-    private string passwordPromptConfirmButtonText;
-    private string passwordPromptCancelButtonText;
-    private string passwordPromptRequiredValidationMessage;
     private string pendingCanceledPasswordReloadSource;
 
     #endregion
@@ -373,7 +367,14 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         if ( !UseModalPasswordPrompt || ModalService?.ModalProvider is null )
             return null;
 
-        SetPasswordPromptValues( args );
+        var title = PasswordPromptOptions?.Title ?? Localizer["Password required"];
+        var message = args.Reason == PdfPasswordRequestReason.Incorrect
+            ? PasswordPromptOptions?.IncorrectPasswordMessage ?? Localizer["Incorrect password. Please try again."]
+            : PasswordPromptOptions?.Message ?? Localizer["Enter the password to open this PDF."];
+        var passwordPlaceholder = PasswordPromptOptions?.PasswordPlaceholder ?? Localizer["Password"];
+        var confirmButtonText = PasswordPromptOptions?.ConfirmButtonText ?? Localizer["Open"];
+        var cancelButtonText = PasswordPromptOptions?.CancelButtonText ?? Localizer["Cancel"];
+        var requiredPasswordValidationMessage = PasswordPromptOptions?.RequiredPasswordValidationMessage ?? Localizer["Password is required."];
 
         passwordPromptCompletionSource = new TaskCompletionSource<string>( TaskCreationOptions.RunContinuationsAsynchronously );
 
@@ -383,14 +384,14 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             {
                 passwordPromptCanClose = false;
 
-                passwordPromptModalInstance = await ModalService.Show<_PdfViewerPasswordPrompt>( passwordPromptTitle, parameters =>
+                passwordPromptModalInstance = await ModalService.Show<_PdfViewerPasswordPrompt>( title, parameters =>
                 {
-                    parameters.Add( x => x.Title, passwordPromptTitle );
-                    parameters.Add( x => x.Message, passwordPromptMessage );
-                    parameters.Add( x => x.PasswordPlaceholder, passwordPromptPlaceholder );
-                    parameters.Add( x => x.ConfirmButtonText, passwordPromptConfirmButtonText );
-                    parameters.Add( x => x.CancelButtonText, passwordPromptCancelButtonText );
-                    parameters.Add( x => x.RequiredPasswordValidationMessage, passwordPromptRequiredValidationMessage );
+                    parameters.Add( x => x.Title, title );
+                    parameters.Add( x => x.Message, message );
+                    parameters.Add( x => x.PasswordPlaceholder, passwordPlaceholder );
+                    parameters.Add( x => x.ConfirmButtonText, confirmButtonText );
+                    parameters.Add( x => x.CancelButtonText, cancelButtonText );
+                    parameters.Add( x => x.RequiredPasswordValidationMessage, requiredPasswordValidationMessage );
                     parameters.Add( x => x.SubmitRequested, EventCallback.Factory.Create<string>( this, OnPasswordPromptSubmitRequested ) );
                     parameters.Add( x => x.CancelRequested, EventCallback.Factory.Create( this, OnPasswordPromptCancelRequested ) );
                 }, BuildPasswordPromptModalOptions( () => passwordPromptCanClose ) );
@@ -406,18 +407,6 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         }
 
         return await passwordPromptCompletionSource.Task;
-    }
-
-    private void SetPasswordPromptValues( PdfPasswordRequestedEventArgs args )
-    {
-        passwordPromptTitle = PasswordPromptOptions?.Title ?? Localizer["Password required"];
-        passwordPromptMessage = args.Reason == PdfPasswordRequestReason.Incorrect
-            ? PasswordPromptOptions?.IncorrectPasswordMessage ?? Localizer["Incorrect password. Please try again."]
-            : PasswordPromptOptions?.Message ?? Localizer["Enter the password to open this PDF."];
-        passwordPromptPlaceholder = PasswordPromptOptions?.PasswordPlaceholder ?? Localizer["Password"];
-        passwordPromptConfirmButtonText = PasswordPromptOptions?.ConfirmButtonText ?? Localizer["Open"];
-        passwordPromptCancelButtonText = PasswordPromptOptions?.CancelButtonText ?? Localizer["Cancel"];
-        passwordPromptRequiredValidationMessage = PasswordPromptOptions?.RequiredPasswordValidationMessage ?? Localizer["Password is required."];
     }
 
     private Task OnPasswordPromptSubmitRequested( string password )
