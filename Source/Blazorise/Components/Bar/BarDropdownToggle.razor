@@ -9,7 +9,7 @@
         <Span Padding="Blazorise.Padding.Is2.OnX">
             @if ( IsToggleIconVisible && ParentBarDropdownState?.Mode != BarMode.Horizontal )
             {
-                <Icon Name="@(ParentBarDropdown.IsVisible ? IconName.ChevronUp : IconName.ChevronDown)" IconSize="IconSize.ExtraSmall" Clicked="@(async () => await ParentBarDropdown.Toggle(ElementId))" @onclick:stopPropagation/>
+                <Icon Name="@(ParentBarDropdown.IsVisible ? IconName.ChevronUp : IconName.ChevronDown)" IconSize="IconSize.ExtraSmall" Clicked="@OnToggleIconClicked" @onclick:stopPropagation/>
             }
         </Span>
     </Span>

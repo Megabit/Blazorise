@@ -111,6 +111,18 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
+    /// Handles the toggle icon click event.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    protected Task OnToggleIconClicked()
+    {
+        if ( ParentBarDropdown is not null )
+            return ParentBarDropdown.Toggle( ElementId );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Handler for @onkeydown event.
     /// </summary>
     /// <param name="eventArgs">Information about the keyboard down event.</param>
