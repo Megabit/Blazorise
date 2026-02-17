@@ -12,12 +12,7 @@
 else
 {
     <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-        @ChildContent
-        @if ( IsToggleIconVisible )
-        {
-            <Icon Name="@(ParentBarDropdown.IsVisible? IconName.ChevronUp: IconName.ChevronDown)" Float="Float.End" IconSize="IconSize.ExtraSmall"
-                  Clicked="@(async () => await ParentBarDropdown.Toggle(ElementId))" @onclick:stopPropagation/>
-        }
+        @VerticalIconTemplate
     </a>
 }
 @code {

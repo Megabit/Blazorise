@@ -9,10 +9,10 @@
     else
     {
         @ChildContent
-    }    
+    }
 </a>
 @code {
-    private RenderFragment VerticalIconTemplate => __builder =>
+    protected RenderFragment VerticalIconTemplate => __builder =>
     {
         <Span Flex="Blazorise.Flex.AlignItems.Center.JustifyContent.Between" @onclick:stopPropagation="@IsActingAsLink">
             <Span>
