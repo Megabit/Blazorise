@@ -7,36 +7,15 @@ All work on Blazorise happens directly on GitHub. All external contributors must
 To get the development and test environment set up on your local machine, you need to do the following:
 
 1. Ensure recent build of Chrome browser installed: https://www.google.com/chrome/.
-2. Install selenium-standalone: https://www.npmjs.com/package/selenium-standalone#install--run
+2. For E2E tests, install Playwright browser dependencies as described in the **Testing** section below.
 
 You are now ready to build and test Blazorise:
 
 ## How to Write a Community Blog?
 
-To write a blog post, you must create a new subfolder under the `Pages/Blog` in the `Blazorise.Docs` project. The subfolder must contain a blog date and name in the format `YYYY-MM-DD_BlogName`, e.g., `2022-06-08_BeginnersGuideToCreateBlazoriseApp`. Note that the blog name must be unique.
+To write a community article, go to the dedicated repository: https://github.com/Blazorise/Blazorise.Articles.
 
-Next create the `Index.md` file under the same folder. The following metadata should always be present at the beginning of the file. Once pasted, adjust them for your blog.
-
-```
----
-title: How to create a Blazorise WASM application: A Beginner's Guide
-description: Learn How to create a Blazorise WASM application: A Beginner's Guide.
-permalink: /blog/how-to-create-a-blazorise-application-beginners-guide
-canonical: /blog/how-to-create-a-blazorise-application-beginners-guide
-image-url: img/blog/2022-06-08/How_to_create_a_Blazorise_application_A_Beginners_Guide.png
-image-title: Blazorise WASM application: A Beginner's Guide
-author-name: Mladen Macanović
-author-image: mladen
-posted-on: June 8th, 2022
-read-time: 5 min
----
-```
-
-Most of the settings should be self-explanatory. The only one that might need some extra work is the `author-image`. The image should be placed in the `wwwroot/img/avatars` under the `Blazorise.Docs.Server` project and in the `*.png` file format. An image should be at least **512x512 px** in size and should be [optimized for minimum size](https://imagecompressor.com/).
-
-After you have written or added a blog content, you can try running the documentation.
-
-> :info: Before you start writing, please look at the **Branch Organization** to learn how we organize our work and publish the new versions.
+All article authoring details, structure, and submission instructions are maintained there.
 
 ## Running the Documentation
 
@@ -46,10 +25,30 @@ After you have written or added a blog content, you can try running the document
 
 ## Testing
 
-1. Start a command prompt and run: selenium-standalone start. Note: this service needs to be running before you start Visual Studio, or test runs may fail.
-2. Open the Blazorise solution at the root folder (Blazorise.sln).
-3. Select Build > Build Solution on main menu. All of the projects should build successfully.
-4. Run all of the unit tests in the solution use Test > Run All Tests on main menu. They should all pass at this point.
+Blazorise uses:
+
+- Unit tests (xUnit + bUnit) in `Tests/Blazorise.Tests`
+- E2E tests (Playwright + NUnit) in `Tests/Blazorise.E2E.Tests`
+
+For Playwright E2E tests:
+
+1. Build `Tests/Blazorise.E2E.Tests` so the Playwright script is generated.
+2. From `Tests/Blazorise.E2E.Tests`, install Playwright dependencies:
+
+```powershell
+powershell .\bin\Debug\net10.0\playwright.ps1 install --with-deps
+```
+
+3. To record and generate test code with Playwright Inspector (target: **.NET C# NUnit**):
+
+```powershell
+powershell .\bin\Debug\net10.0\playwright.ps1 codegen http://localhost:14696
+```
+
+4. Run the `BasicTestApp.Client` demo app when implementing E2E tests, inherit new page tests from `BlazorisePageTest`, and navigate with `RootUri` (or use `SelectTestComponent` when applicable).
+5. For debugging UI behavior, run tests in headed mode (for example `dotnet test -- Playwright.LaunchOptions.Headless=false`), or use `PWDEBUG=1` and `await Page.PauseAsync();` to inspect step-by-step.
+
+For full and up-to-date Playwright guidance, see `Tests\Blazorise.E2E.Tests\ReadMe.md`.
 
 ## Branch Organization
 

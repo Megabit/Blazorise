@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Docs.Mcp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModelContextProtocol;
@@ -54,22 +51,22 @@ static async Task HandleSseAsync(
 
     context.Response.StatusCode = StatusCodes.Status200OK;
     context.Response.ContentType = "text/event-stream";
-    context.Response.Headers["Cache-Control"] = "no-cache";
-    context.Response.Headers["Connection"] = "keep-alive";
+    context.Response.Headers.CacheControl = "no-cache";
+    context.Response.Headers.Connection = "keep-alive";
     context.Response.Headers["X-Accel-Buffering"] = "no";
 
     IHttpResponseBodyFeature bodyFeature = context.Features.Get<IHttpResponseBodyFeature>();
     bodyFeature?.DisableBuffering();
 
     string sessionId = Guid.NewGuid().ToString( "N" );
-    string messageEndpoint = BuildMessageEndpoint( context.Request.PathBase );
+    string messageEndpoint = BuildMessageEndpoint( context.Request.PathBase, sessionId );
 
     IServiceScope scope = serviceProvider.CreateScope();
     McpServerOptions options = serverOptions.Value;
 
-    SseResponseStreamTransport transport = new SseResponseStreamTransport( context.Response.Body, messageEndpoint, sessionId );
-    McpServer server = McpServer.Create( transport, options, loggerFactory, scope.ServiceProvider );
-    McpHttpSession session = new McpHttpSession( sessionId, transport, server, scope );
+    var transport = new SseResponseStreamTransport( context.Response.Body, messageEndpoint, sessionId );
+    var server = McpServer.Create( transport, options, loggerFactory, scope.ServiceProvider );
+    var session = new McpHttpSession( sessionId, transport, server, scope );
 
     if ( !sessionStore.TryAdd( session ) )
     {
@@ -79,9 +76,6 @@ static async Task HandleSseAsync(
     }
 
     Task transportTask = transport.RunAsync( context.RequestAborted );
-
-    await WriteSseHandshakeAsync( context.Response, sessionId, messageEndpoint, context.RequestAborted );
-    await context.Response.Body.FlushAsync( context.RequestAborted );
 
     Task serverTask = server.RunAsync( context.RequestAborted );
 
@@ -125,10 +119,7 @@ static async Task HandleMessageAsync( HttpContext context, McpHttpSessionStore s
         return;
     }
 
-    if ( message.Context is null )
-    {
-        message.Context = new JsonRpcMessageContext();
-    }
+    message.Context ??= new JsonRpcMessageContext();
 
     message.Context.User = context.User;
 
@@ -159,32 +150,14 @@ static string GetSessionId( HttpRequest request )
     return sessionId;
 }
 
-static string BuildMessageEndpoint( PathString pathBase )
+static string BuildMessageEndpoint( PathString pathBase, string sessionId )
 {
+    string encodedSessionId = Uri.EscapeDataString( sessionId );
+
     if ( pathBase.HasValue )
-        return $"{pathBase.Value}/mcp/message";
+        return $"{pathBase.Value}/mcp/message?sessionId={encodedSessionId}";
 
-    return "/mcp/message";
-}
-
-static async Task WriteSseHandshakeAsync(
-    HttpResponse response,
-    string sessionId,
-    string messageEndpoint,
-    CancellationToken cancellationToken )
-{
-    Dictionary<string, string> payload = new Dictionary<string, string>( StringComparer.Ordinal )
-    {
-        ["sessionId"] = sessionId,
-        ["endpoint"] = messageEndpoint
-    };
-
-    string json = JsonSerializer.Serialize( payload );
-    string sse = $"event: endpoint\n" +
-                 $"data: {json}\n\n";
-
-    byte[] bytes = Encoding.UTF8.GetBytes( sse );
-    await response.Body.WriteAsync( bytes, 0, bytes.Length, cancellationToken );
+    return $"/mcp/message?sessionId={encodedSessionId}";
 }
 
 static void LogTaskFailure( Task task, ILogger logger, string taskName, string sessionId )

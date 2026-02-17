@@ -280,3 +280,5 @@ __SOURCEGENERATED__/
 
 # "source generator" for api docs
 Documentation/Blazorise.Docs/ApiDocs
+
+.DS_Store

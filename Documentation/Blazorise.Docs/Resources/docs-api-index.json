@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-17T10:05:12.4179769Z",
+  "generatedUtc": "2026-02-17T10:06:35.1660531Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -25119,6 +25119,38 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandMode",
+          "type": "global::Blazorise.DataGrid.DataGridExpandMode",
+          "typeName": "DataGridExpandMode",
+          "defaultValue": "DataGridExpandMode.Multiple",
+          "summary": "Defines row expand mode.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ExpandOptions",
+          "type": "global::Blazorise.DataGrid.DataGridExpandOptions",
+          "typeName": "DataGridExpandOptions",
+          "defaultValue": "null",
+          "summary": "Defines row expand related behavior options.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTrigger",
+          "type": "global::Blazorise.DataGrid.DataGridExpandTrigger",
+          "typeName": "DataGridExpandTrigger",
+          "defaultValue": "DataGridExpandTrigger.ToggleClick",
+          "summary": "Defines how a row expansion can be triggered.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ExpandedRows",
+          "type": "IList<>",
+          "typeName": "IList<TItem>",
+          "defaultValue": "null",
+          "summary": "Gets or sets the currently expanded self-reference rows.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "FilterMenuTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<FilterColumnContext<TItem>>",
@@ -25798,6 +25830,22 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandRowTrigger",
+          "type": "Func<,>",
+          "typeName": "Func<DataGridExpandRowTriggerEventArgs<TItem>, bool>",
+          "defaultValue": "null",
+          "summary": "A trigger function used to determine whether a row can be expanded in self-reference mode.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandedRowsChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<IList<TItem>>",
+          "defaultValue": "null",
+          "summary": "Occurs after <strong>ExpandedRows</strong> has changed.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "FilteredDataChanged",
           "type": "Action<>",
           "typeName": "Action<DataGridFilteredDataEventArgs<TItem>>",
@@ -25862,6 +25910,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ReadChildData",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DataGridReadChildDataEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Event handler used to load children for a self-reference row.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ReadData",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<DataGridReadDataEventArgs<TItem>>",
@@ -25886,6 +25942,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "RowCollapsed",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DataGridExpandRowEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Event called after a self-reference row is collapsed.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "RowContextMenu",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<DataGridRowMouseEventArgs<TItem>>",
@@ -25899,6 +25963,14 @@
           "typeName": "EventCallback<DataGridRowMouseEventArgs<TItem>>",
           "defaultValue": "null",
           "summary": "Event called after the row is double clicked.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowExpanded",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DataGridExpandRowEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Event called after a self-reference row is expanded.",
           "isBlazoriseEnum": false
         },
         {
@@ -26123,6 +26195,12 @@
           "parameters": []
         },
         {
+          "name": "CollapseAllRows",
+          "returnTypeName": "Task",
+          "summary": "Collapses all rows.",
+          "parameters": []
+        },
+        {
           "name": "CollapseGroups",
           "returnTypeName": "Task",
           "summary": "Collapses the specified groups.     <p>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : \\\"Male\\\"</p><p>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: \\\"{ Childrens = 1, Gender = M }\\\"</p><p>GroupedData : <strong>DisplayGroupedData</strong> | GroupKey: <strong>Key</strong></p>",
@@ -26130,6 +26208,17 @@
             {
               "name": "groupKeys",
               "typeName": "string[]"
+            }
+          ]
+        },
+        {
+          "name": "CollapseRow",
+          "returnTypeName": "Task",
+          "summary": "Collapses a row.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
             }
           ]
         },
@@ -26162,6 +26251,12 @@
           "parameters": []
         },
         {
+          "name": "ExpandAllRows",
+          "returnTypeName": "Task",
+          "summary": "Expands all rows for the current root view.",
+          "parameters": []
+        },
+        {
           "name": "ExpandGroups",
           "returnTypeName": "Task",
           "summary": "Expands the specified groups.     <p>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : \\\"Male\\\"</p><p>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: \\\"{ Childrens = 1, Gender = M }\\\"</p><p>GroupedData : <strong>DisplayGroupedData</strong> | GroupKey: <strong>Key</strong></p>",
@@ -26169,6 +26264,17 @@
             {
               "name": "groupKeys",
               "typeName": "string[]"
+            }
+          ]
+        },
+        {
+          "name": "ExpandRow",
+          "returnTypeName": "Task",
+          "summary": "Expands a row.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
             }
           ]
         },
@@ -26442,6 +26548,17 @@
             {
               "name": "groupKeys",
               "typeName": "string[]"
+            }
+          ]
+        },
+        {
+          "name": "ToggleRow",
+          "returnTypeName": "Task",
+          "summary": "Toggles a row.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
             }
           ]
         },
@@ -26899,6 +27016,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the datagrid element id.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -27720,6 +27845,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the datagrid element id.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -28624,6 +28757,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Field",
           "type": "string",
           "typeName": "string",
@@ -29517,6 +29658,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Field",
           "type": "string",
           "typeName": "string",
@@ -30190,6 +30339,39 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.DataGrid.DataGridExpandOptions",
+      "typeName": "DataGridExpandOptions",
+      "summary": "$\"\"\"\r\n       Defines row expand rendering options for <strong>DataGrid</strong>.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "CollapseIcon",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "DefaultCollapseIcon",
+          "summary": "Defines the collapse icon.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ExpandIcon",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "DefaultExpandIcon",
+          "summary": "Defines the expand icon.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "IndentSize",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "DefaultIndentSize",
+          "summary": "Defines indentation size in rem.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.DataGrid.DataGridMultiSelectColumn<>",
       "typeName": "DataGridMultiSelectColumn",
       "summary": "$\"\"\"\r\n       A multi select column for the <strong>DataGrid</strong>.\r\n       \"\"\"",
@@ -30440,6 +30622,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the datagrid element id.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -31310,6 +31500,14 @@
           "typeName": "bool?",
           "defaultValue": "null",
           "summary": "If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
@@ -32276,6 +32474,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the datagrid element id.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ExpandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<DataGridExpandRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template used to customize self-reference expand rendering.     The first regular column that defines this template becomes the self-reference host column.",
           "isBlazoriseEnum": false
         },
         {
