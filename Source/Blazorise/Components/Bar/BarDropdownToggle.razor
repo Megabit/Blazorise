@@ -2,11 +2,11 @@
 @inherits BaseLinkComponent
 
 <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-    <Span Flex="Blazorise.Flex.AlignItems.Center.JustifyContent.Between">
+    <Span Flex="Blazorise.Flex.AlignItems.Center.JustifyContent.Between" @onclick:stopPropagation="@IsActingAsLink">
         <Span>
             @ChildContent
         </Span>
-        <Span>
+        <Span Padding="Blazorise.Padding.Is2.OnX">
             @if ( IsToggleIconVisible && ParentBarDropdownState?.Mode != BarMode.Horizontal )
             {
                 <Icon Name="@(ParentBarDropdown.IsVisible ? IconName.ChevronUp : IconName.ChevronDown)" IconSize="IconSize.ExtraSmall" Clicked="@(async () => await ParentBarDropdown.Toggle(ElementId))" @onclick:stopPropagation/>

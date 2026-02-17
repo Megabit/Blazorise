@@ -30,7 +30,10 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// </summary>
     protected ComponentParameterInfo<bool> paramDisabled;
 
-    private ComponentParameterInfo<string> paramTo;
+    /// <summary>
+    /// Captured To parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramTo;
 
     private ComponentParameterInfo<Match> paramMatch;
 

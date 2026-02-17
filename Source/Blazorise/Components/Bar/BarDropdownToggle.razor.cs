@@ -188,6 +188,11 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.Dropdown?.ToggleIconVisible ?? true );
 
     /// <summary>
+    /// Indicates whether the current instance is acting as a link to another object.
+    /// </summary>
+    protected bool IsActingAsLink => paramTo.Defined && paramTo.Value is not null;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
