@@ -179,12 +179,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Tracks hierarchy node states keyed by row item equality.
     /// </summary>
-    private readonly List<DataGridHierarchyNodeState<TItem>> hierarchyNodeStates = new();
+    private readonly List<DataGridExpandNodeState<TItem>> hierarchyNodeStates = new();
 
     /// <summary>
     /// Cached hierarchy view metadata for currently rendered rows.
     /// </summary>
-    private readonly List<DataGridHierarchyItemInfo<TItem>> hierarchyViewInfos = new();
+    private readonly List<DataGridExpandItemInfo<TItem>> hierarchyViewInfos = new();
 
     private ClassBuilder classBuilder;
     private StyleBuilder styleBuilder;
@@ -2246,7 +2246,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             state.Expanded = false;
             changed = true;
 
-            await RowCollapsed.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( state.Item ) );
+            await RowCollapsed.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( state.Item ) );
         }
 
         if ( changed )
@@ -3300,7 +3300,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         var rowState = GetHierarchyNodeState( item );
         var expandable = ResolveHierarchyRowExpandable( item, rowState );
 
-        hierarchyViewInfos.Add( new DataGridHierarchyItemInfo<TItem>( item, level, expandable, rowState.Expanded ) );
+        hierarchyViewInfos.Add( new DataGridExpandItemInfo<TItem>( item, level, expandable, rowState.Expanded ) );
         flatViewData.Add( item );
 
         if ( !rowState.Expanded || !expandable || !rowState.ChildrenLoaded || rowState.Children.IsNullOrEmpty() )
@@ -3463,7 +3463,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 changed = true;
 
                 if ( notifyEvents )
-                    await RowCollapsed.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( expandedState.Item ) );
+                    await RowCollapsed.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( expandedState.Item ) );
             }
         }
 
@@ -3471,7 +3471,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         changed = true;
 
         if ( notifyEvents )
-            await RowExpanded.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( item ) );
+            await RowExpanded.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( item ) );
 
         if ( changed )
         {
@@ -3500,7 +3500,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         rowState.Expanded = false;
 
         if ( notifyEvents )
-            await RowCollapsed.InvokeAsync( new DataGridHierarchyRowEventArgs<TItem>( item ) );
+            await RowCollapsed.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( item ) );
 
         await NotifyExpandedRowsChanged();
         SetDirty();
@@ -3528,7 +3528,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return filteredData.ToList();
     }
 
-    private async Task EnsureHierarchyChildrenLoaded( TItem item, DataGridHierarchyNodeState<TItem> rowState, CancellationToken cancellationToken )
+    private async Task EnsureHierarchyChildrenLoaded( TItem item, DataGridExpandNodeState<TItem> rowState, CancellationToken cancellationToken )
     {
         if ( rowState.ChildrenLoaded )
             return;
@@ -3562,14 +3562,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
-    private bool ResolveHierarchyRowExpandable( TItem item, DataGridHierarchyNodeState<TItem> rowState )
+    private bool ResolveHierarchyRowExpandable( TItem item, DataGridExpandNodeState<TItem> rowState )
     {
         if ( rowState.ExpandableResolved )
             return rowState.Expandable;
 
         if ( ExpandRowTrigger is not null )
         {
-            var triggerArgs = new DataGridHierarchyRowTriggerEventArgs<TItem>( item );
+            var triggerArgs = new DataGridExpandRowTriggerEventArgs<TItem>( item );
             rowState.Expandable = ExpandRowTrigger( triggerArgs ) && triggerArgs.Expandable;
         }
         else
@@ -3585,7 +3585,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return rowState.Expandable;
     }
 
-    private DataGridHierarchyNodeState<TItem> GetHierarchyNodeState( TItem item, bool createIfNotExists = true )
+    private DataGridExpandNodeState<TItem> GetHierarchyNodeState( TItem item, bool createIfNotExists = true )
     {
         var rowState = hierarchyNodeStates.LastOrDefault( x => x.Item.IsEqual( item ) );
 
@@ -4584,7 +4584,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// A trigger function used to determine whether a row can be expanded in hierarchy mode.
     /// </summary>
-    [Parameter] public Func<DataGridHierarchyRowTriggerEventArgs<TItem>, bool> ExpandRowTrigger { get; set; }
+    [Parameter] public Func<DataGridExpandRowTriggerEventArgs<TItem>, bool> ExpandRowTrigger { get; set; }
 
     /// <summary>
     /// Event handler used to load children for a hierarchy row.
@@ -4594,12 +4594,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Event called after a hierarchy row is expanded.
     /// </summary>
-    [Parameter] public EventCallback<DataGridHierarchyRowEventArgs<TItem>> RowExpanded { get; set; }
+    [Parameter] public EventCallback<DataGridExpandRowEventArgs<TItem>> RowExpanded { get; set; }
 
     /// <summary>
     /// Event called after a hierarchy row is collapsed.
     /// </summary>
-    [Parameter] public EventCallback<DataGridHierarchyRowEventArgs<TItem>> RowCollapsed { get; set; }
+    [Parameter] public EventCallback<DataGridExpandRowEventArgs<TItem>> RowCollapsed { get; set; }
 
     /// <summary>
     /// Gets or sets the currently expanded hierarchy rows.

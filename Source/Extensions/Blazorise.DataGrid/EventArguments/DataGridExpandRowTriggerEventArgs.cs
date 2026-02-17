@@ -8,13 +8,13 @@ namespace Blazorise.DataGrid;
 /// Holds hierarchy row trigger context configuration.
 /// </summary>
 /// <typeparam name="TItem">Type of the data model.</typeparam>
-public class DataGridHierarchyRowTriggerEventArgs<TItem> : EventArgs
+public class DataGridExpandRowTriggerEventArgs<TItem> : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of hierarchy-row-trigger event argument.
     /// </summary>
     /// <param name="item">Row item.</param>
-    public DataGridHierarchyRowTriggerEventArgs( TItem item )
+    public DataGridExpandRowTriggerEventArgs( TItem item )
     {
         Item = item;
     }

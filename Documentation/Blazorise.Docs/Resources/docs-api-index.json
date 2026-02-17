@@ -25808,7 +25808,7 @@
         {
           "name": "ExpandRowTrigger",
           "type": "Func<,>",
-          "typeName": "Func<DataGridHierarchyRowTriggerEventArgs<TItem>, bool>",
+          "typeName": "Func<DataGridExpandRowTriggerEventArgs<TItem>, bool>",
           "defaultValue": "null",
           "summary": "A trigger function used to determine whether a row can be expanded in hierarchy mode.",
           "isBlazoriseEnum": false
@@ -25920,7 +25920,7 @@
         {
           "name": "RowCollapsed",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<DataGridHierarchyRowEventArgs<TItem>>",
+          "typeName": "EventCallback<DataGridExpandRowEventArgs<TItem>>",
           "defaultValue": "null",
           "summary": "Event called after a hierarchy row is collapsed.",
           "isBlazoriseEnum": false
@@ -25944,7 +25944,7 @@
         {
           "name": "RowExpanded",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<DataGridHierarchyRowEventArgs<TItem>>",
+          "typeName": "EventCallback<DataGridExpandRowEventArgs<TItem>>",
           "defaultValue": "null",
           "summary": "Event called after a hierarchy row is expanded.",
           "isBlazoriseEnum": false

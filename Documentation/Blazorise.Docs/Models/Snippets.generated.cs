@@ -9038,7 +9038,7 @@ Install-Package Blazorise.Chart.Zoom";
         rootItems = hierarchyEmployees.Where( x => !x.ParentId.HasValue ).ToList();
     }
 
-    private bool OnExpandRowTrigger( DataGridHierarchyRowTriggerEventArgs<HierarchyEmployee> args )
+    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<HierarchyEmployee> args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         return true;
@@ -9159,7 +9159,7 @@ Install-Package Blazorise.Chart.Zoom";
         rootItems = hierarchyEmployees.Where( x => !x.ParentId.HasValue ).ToList();
     }
 
-    private bool OnExpandRowTrigger( DataGridHierarchyRowTriggerEventArgs<HierarchyEmployee> args )
+    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<HierarchyEmployee> args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         return true;
@@ -9298,7 +9298,7 @@ Install-Package Blazorise.Chart.Zoom";
         rootItems = hierarchyEmployees.Where( x => !x.ParentId.HasValue ).ToList();
     }
 
-    private bool OnExpandRowTrigger( DataGridHierarchyRowTriggerEventArgs<HierarchyEmployee> args )
+    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<HierarchyEmployee> args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         return true;

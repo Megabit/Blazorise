@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Blazorise.DataGrid;
 
-internal sealed class DataGridHierarchyNodeState<TItem>
+internal sealed class DataGridExpandNodeState<TItem>
 {
-    public DataGridHierarchyNodeState( TItem item )
+    public DataGridExpandNodeState( TItem item )
     {
         Item = item;
     }

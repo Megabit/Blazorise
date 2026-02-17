@@ -1,8 +1,8 @@
 namespace Blazorise.DataGrid;
 
-internal sealed class DataGridHierarchyItemInfo<TItem>
+internal sealed class DataGridExpandItemInfo<TItem>
 {
-    public DataGridHierarchyItemInfo( TItem item, int level, bool expandable, bool expanded )
+    public DataGridExpandItemInfo( TItem item, int level, bool expandable, bool expanded )
     {
         Item = item;
         Level = level;

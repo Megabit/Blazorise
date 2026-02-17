@@ -81,7 +81,7 @@
         rootItems = hierarchyEmployees.Where( x =&gt; !x.ParentId.HasValue ).ToList();
     }
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> OnExpandRowTrigger( DataGridHierarchyRowTriggerEventArgs&lt;HierarchyEmployee&gt; args )
+    <span class="keyword">private</span> <span class="keyword">bool</span> OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs&lt;HierarchyEmployee&gt; args )
     {
         args.Expandable = childLookup.ContainsKey( args.Item.Id );
         <span class="keyword">return</span> <span class="keyword">true</span>;
