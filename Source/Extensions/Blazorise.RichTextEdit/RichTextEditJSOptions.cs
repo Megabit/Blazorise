@@ -35,6 +35,19 @@ internal class RichTextEditJSOptions
     public string ConfigureQuillJsMethod { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether smart paste functionality is enabled.
+    /// </summary>
+    [JsonPropertyName( "useSmartPaste" )]
+    public bool UseSmartPaste { get; set; }
+
+    /// <summary>
+    /// Gets or sets options used to configure smart paste behavior.
+    /// </summary>
+    [JsonPropertyName( "smartPasteOptions" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public RichTextEditSmartPasteOptions SmartPasteOptions { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether tables are enabled in the editor.
     /// </summary>
     [JsonPropertyName( "useTables" )]
@@ -45,4 +58,10 @@ internal class RichTextEditJSOptions
     /// </summary>
     [JsonPropertyName( "useResize" )]
     public bool UseResize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the library version used to compose stylesheet URLs.
+    /// </summary>
+    [JsonPropertyName( "version" )]
+    public string Version { get; set; }
 }

@@ -41,7 +41,7 @@ public class JSRichTextEditModule : BaseJSModule,
     /// <inheritdoc />
     protected override async ValueTask OnModuleLoaded( IJSObjectReference jsObjectReference )
     {
-        List<string> styles = new();
+        List<string> styles = [];
 
         if ( options.UseBubbleTheme )
             styles.Add( "quill.bubble" );
@@ -76,8 +76,11 @@ public class JSRichTextEditModule : BaseJSModule,
             Theme = richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
             SubmitOnEnter = richTextEdit.SubmitOnEnter,
             ConfigureQuillJsMethod = richTextEdit.ConfigureQuillJsMethod,
-            UseTables = options.UseTables,
-            UseResize = options.UseResize && richTextEdit.UseResize,
+            UseSmartPaste = richTextEdit.ShouldUseSmartPaste,
+            SmartPasteOptions = richTextEdit.ShouldUseSmartPasteOptions,
+            UseTables = richTextEdit.ShouldUseTables,
+            UseResize = richTextEdit.ShouldUseResize,
+            Version = VersionProvider.Version,
         } );
 
         return AsyncDisposable.Create( async () =>

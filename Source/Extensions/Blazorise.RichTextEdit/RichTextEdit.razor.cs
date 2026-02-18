@@ -28,9 +28,40 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </summary>
     private string initialContent;
 
+    /// <summary>
+    /// Captured UseSmartPaste parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseSmartPaste;
+
+    /// <summary>
+    /// Captured SmartPasteOptions parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<RichTextEditSmartPasteOptions> paramSmartPasteOptions;
+
+    /// <summary>
+    /// Captured UseTables parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseTables;
+
+    /// <summary>
+    /// Captured UseResize parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseResize;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( UseSmartPaste, out paramUseSmartPaste );
+        parameters.TryGetParameter( SmartPasteOptions, out paramSmartPasteOptions );
+        parameters.TryGetParameter( UseTables, out paramUseTables );
+        parameters.TryGetParameter( UseResize, out paramUseResize );
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -337,6 +368,26 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     protected string InitialContent => initialContent;
 
     /// <summary>
+    /// Gets a value indicating whether the smart paste functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseSmartPaste => paramUseSmartPaste.Defined ? paramUseSmartPaste.Value : GlobalOptions.UseSmartPaste;
+
+    /// <summary>
+    /// Gets options used to configure the smart paste functionality.
+    /// </summary>
+    internal RichTextEditSmartPasteOptions ShouldUseSmartPasteOptions => paramSmartPasteOptions.Defined ? paramSmartPasteOptions.Value : GlobalOptions.SmartPasteOptions;
+
+    /// <summary>
+    /// Gets a value indicating whether the table functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseTables => paramUseTables.Defined ? paramUseTables.Value : GlobalOptions.UseTables;
+
+    /// <summary>
+    /// Gets a value indicating whether the resize functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseResize => paramUseResize.Defined ? paramUseResize.Value : GlobalOptions.UseResize;
+
+    /// <summary>
     /// The toolbar element reference.
     /// </summary>
     public ElementReference ToolbarRef { get; protected set; }
@@ -350,6 +401,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Gets or sets the <see cref="JSRichTextEditModule"/> instance.
     /// </summary>
     [Inject] private JSRichTextEditModule JSModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the options used to configure the behavior and features of the RichTextEdit component.
+    /// </summary>
+    [Inject] private RichTextEditOptions GlobalOptions { get; set; }
 
     /// <summary>
     /// [Optional] Gets or sets the content of the toolbar.
@@ -382,9 +438,36 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public bool SubmitOnEnter { get; set; } = false;
 
     /// <summary>
+    /// Indicates whether table functionality should be enabled.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseTables"/>.
+    /// </remarks>
+    [Parameter] public bool UseTables { get; set; }
+
+    /// <summary>
     /// Indicates whether resizing functionality should be enabled.
     /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseResize"/>.
+    /// </remarks>
     [Parameter] public bool UseResize { get; set; }
+
+    /// <summary>
+    /// Indicates whether smart paste functionality should be enabled.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseSmartPaste"/>.
+    /// </remarks>
+    [Parameter] public bool UseSmartPaste { get; set; }
+
+    /// <summary>
+    /// Options used to configure smart paste functionality.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.SmartPasteOptions"/>.
+    /// </remarks>
+    [Parameter] public RichTextEditSmartPasteOptions SmartPasteOptions { get; set; }
 
     /// <summary>
     /// Occurs when the content within the editor changes.

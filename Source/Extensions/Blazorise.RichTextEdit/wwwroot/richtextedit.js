@@ -1,21 +1,131 @@
 import "./vendors/quill.js?v=2.0.0.0";
-import "./vendors/quill-table-better.js?v=2.0.0.0";
-import "./vendors/quill-resize-module.js?v=2.0.0.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
 
-var rteSheetsLoaded = false;
+var rteLoadedStyleUrls = new Set();
+var rteSmartPasteLoaded = false;
+var rteSmartPasteLoader = null;
+var rteSmartPasteModule = null;
+var rteTableBetterLoaded = false;
+var rteTableBetterLoader = null;
+var rteResizeLoaded = false;
+var rteResizeLoader = null;
 
-export function loadStylesheets(styles, version) {
-    if (rteSheetsLoaded) return;
+async function loadSmartPasteModule() {
+    if (rteSmartPasteLoaded)
+        return rteSmartPasteModule;
 
-    styles.forEach(sheet => {
-        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="_content/Blazorise.RichTextEdit/vendors/${sheet}.css?v=${version}"/>`);
-    });
+    if (!rteSmartPasteLoader) {
+        rteSmartPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.0.0")
+            .then((module) => {
+                rteSmartPasteModule = module;
+                rteSmartPasteLoaded = true;
+                return module;
+            });
+    }
 
-    rteSheetsLoaded = true;
+    try {
+        return await rteSmartPasteLoader;
+    } catch (error) {
+        rteSmartPasteLoader = null;
+        rteSmartPasteModule = null;
+        throw error;
+    }
 }
 
-export function initialize(dotnetAdapter, element, elementId, options) {
+async function loadTableBetterModule() {
+    if (rteTableBetterLoaded)
+        return;
+
+    if (!rteTableBetterLoader) {
+        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.0.0.0")
+            .then(() => {
+                rteTableBetterLoaded = true;
+            });
+    }
+
+    try {
+        await rteTableBetterLoader;
+    } catch (error) {
+        rteTableBetterLoader = null;
+        throw error;
+    }
+}
+
+async function loadResizeModule() {
+    if (rteResizeLoaded)
+        return;
+
+    if (!rteResizeLoader) {
+        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.0.0.0")
+            .then(() => {
+                rteResizeLoaded = true;
+            });
+    }
+
+    try {
+        await rteResizeLoader;
+    } catch (error) {
+        rteResizeLoader = null;
+        throw error;
+    }
+}
+
+function resolveSmartPasteApi(module) {
+    if (module?.registerPasteSmartClipboard)
+        return module;
+
+    if (module?.default?.registerPasteSmartClipboard)
+        return module.default;
+
+    if (window.QuillPasteSmart?.registerPasteSmartClipboard)
+        return window.QuillPasteSmart;
+
+    return undefined;
+}
+
+function applySmartPasteOptions(clipboardOptions, smartPasteOptions) {
+    if (!smartPasteOptions)
+        return;
+
+    if (Array.isArray(smartPasteOptions.allowedTags) || Array.isArray(smartPasteOptions.allowedAttributes)) {
+        clipboardOptions.allowed = {};
+
+        if (Array.isArray(smartPasteOptions.allowedTags))
+            clipboardOptions.allowed.tags = smartPasteOptions.allowedTags;
+
+        if (Array.isArray(smartPasteOptions.allowedAttributes))
+            clipboardOptions.allowed.attributes = smartPasteOptions.allowedAttributes;
+    }
+
+    if (typeof smartPasteOptions.keepSelection === "boolean")
+        clipboardOptions.keepSelection = smartPasteOptions.keepSelection;
+
+    if (typeof smartPasteOptions.substituteBlockElements === "boolean")
+        clipboardOptions.substituteBlockElements = smartPasteOptions.substituteBlockElements;
+
+    if (typeof smartPasteOptions.magicPasteLinks === "boolean")
+        clipboardOptions.magicPasteLinks = smartPasteOptions.magicPasteLinks;
+
+    if (typeof smartPasteOptions.removeConsecutiveSubstitutionTags === "boolean")
+        clipboardOptions.removeConsecutiveSubstitutionTags = smartPasteOptions.removeConsecutiveSubstitutionTags;
+}
+
+export function loadStylesheets(styles, version) {
+    if (!styles?.length)
+        return;
+
+    styles.forEach(sheet => {
+        const href = `_content/Blazorise.RichTextEdit/vendors/${sheet}.css?v=${version}`;
+
+        if (rteLoadedStyleUrls.has(href))
+            return;
+
+        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="${href}"/>`);
+        rteLoadedStyleUrls.add(href);
+    });
+}
+
+export async function initialize(dotnetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -24,6 +134,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     const editorRef = element.getElementsByClassName("b-richtextedit-editor")[0];
     const toolbarRef = element.getElementsByClassName("b-richtextedit-toolbar")[0];
     const contentRef = element.getElementsByClassName("b-richtextedit-content")[0];
+    const richTextEditVersion = options.version || "2.0.0.0";
 
     let quillOptions = {
         modules: {
@@ -36,6 +147,16 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         readOnly: options.readOnly,
         theme: options.theme
     };
+
+    const moduleStyles = [];
+
+    if (options.useTables === true)
+        moduleStyles.push("quill-table-better");
+
+    if (options.useResize === true)
+        moduleStyles.push("quill-resize-module");
+
+    loadStylesheets(moduleStyles, richTextEditVersion);
 
     if (options.submitOnEnter === true) {
         quillOptions.modules.keyboard = {
@@ -56,6 +177,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     }
 
     if (options.useTables === true) {
+        await loadTableBetterModule();
+
         Quill.register({ 'modules/table-better': QuillTableBetter }, true);
 
         quillOptions.modules['table-better'] = {
@@ -67,7 +190,36 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         };
     }
 
+    const clipboardOptions = {
+        enabled: options.useSmartPaste === true
+    };
+
+    if (options.useSmartPaste === true)
+        applySmartPasteOptions(clipboardOptions, options.smartPasteOptions);
+
+    quillOptions.modules.clipboard = clipboardOptions;
+
+    if (options.useSmartPaste === true) {
+        const smartPasteModule = await loadSmartPasteModule();
+        const smartPasteApi = resolveSmartPasteApi(smartPasteModule);
+
+        if (!smartPasteApi?.registerPasteSmartClipboard) {
+            console.error("quill-paste-smart is missing registerPasteSmartClipboard export.");
+        } else {
+            const clipboardModule = Quill.import("modules/clipboard");
+
+            if (!clipboardModule?.__blazoriseSmartPasteWrapper) {
+                const smartClipboardModule = smartPasteApi.registerPasteSmartClipboard(Quill);
+
+                if (smartClipboardModule)
+                    smartClipboardModule.__blazoriseSmartPasteWrapper = true;
+            }
+        }
+    }
+
     if (options.useResize === true) {
+        await loadResizeModule();
+
         Quill.register({ 'modules/resize': QuillResize }, true);
 
         quillOptions.modules.resize = {
