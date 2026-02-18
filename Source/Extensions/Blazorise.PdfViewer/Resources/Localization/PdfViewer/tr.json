@@ -7,6 +7,13 @@
     "Zoom In": "Yakınlaştır",
     "Print": "Yazdır",
     "of": "üzerinden",
-    "Download": "İndir"
+    "Download": "İndir",
+    "Password required": "Parola gerekli",
+    "Enter the password to open this PDF.": "Bu PDF'yi açmak için parolayı girin.",
+    "Incorrect password. Please try again.": "Parola hatalı. Lütfen tekrar deneyin.",
+    "Password": "Parola",
+    "Open": "Aç",
+    "Cancel": "İptal",
+    "Password is required.": "Parola gerekli."
   }
 }

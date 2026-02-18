@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-17T09:37:37.3037933Z",
+  "generatedUtc": "2026-02-17T10:04:29.1880819Z",
   "pages": [
     {
       "route": "/docs",
@@ -5805,7 +5805,7 @@
           "code": "PdfViewerBasicExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/PdfViewer/Examples/PdfViewerBasicExample.razor",
-          "content": "<PdfViewer Source=\"https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf\" />",
+          "content": "<PdfViewer Source=\"_content/Blazorise.Docs/assets/files/basic-text.pdf\" />",
           "title": "Basic",
           "description": "This example demonstrates how to use the PdfViewer component to display a PDF document within your application. The Source attribute is set to the URL of the PDF you want to render."
         },
@@ -5818,10 +5818,18 @@
           "description": "You can also load a PDF document using a base64 string. This example shows how to use the PdfViewer component to display a PDF document from a base64 string."
         },
         {
+          "code": "PdfViewerPasswordProtectedExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PdfViewer/Examples/PdfViewerPasswordProtectedExample.razor",
+          "content": "<Alert Color=\"Color.Info\">\r\n    Password: <Code>test</Code>\r\n</Alert>\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"@OnLoadProtectedPdfClicked\" Margin=\"Blazorise.Margin.Is2.FromBottom\">\r\n    Load protected PDF\r\n</Button>\r\n\r\n<PdfViewer Source=\"@pdfSource\" />\r\n\r\n@code {\r\n    const string ProtectedPdfSource = \"_content/Blazorise.Docs/assets/files/protected.pdf\";\r\n\r\n    string pdfSource;\r\n\r\n    async Task OnLoadProtectedPdfClicked()\r\n    {\r\n        // We force the PDF viewer to reload the source by setting it to null first, otherwise it won't trigger the password prompt again.\r\n        // This is only for demonstration purposes, in a real application you would probably want to have a more elegant way of handling this, like a separate component for the password prompt that would be shown when the PDF viewer encounters a password protected PDF.\r\n        pdfSource = null;\r\n        await Task.Yield();\r\n        pdfSource = ProtectedPdfSource;\r\n    }\r\n}",
+          "title": "Password Protected",
+          "description": "When loading a password-protected PDF, the viewer automatically requests the password through a modal prompt. Use Password: \"samplefiles\""
+        },
+        {
           "code": "PdfViewerPagingExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/PdfViewer/Examples/PdfViewerPagingExample.razor",
-          "content": "<Button Color=\"Color.Primary\" Clicked=\"@OnPreviousPageClicked\">Prev</Button>\r\n<Button Color=\"Color.Primary\" Clicked=\"@OnNextPageClicked\">Next</Button>\r\n\r\n<PdfViewer @ref=\"@pdfViewerRef\" Source=\"https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf\" />\r\n\r\n@code {\r\n    PdfViewer pdfViewerRef;\r\n\r\n    Task OnPreviousPageClicked() => pdfViewerRef.PreviousPage();\r\n    Task OnNextPageClicked() => pdfViewerRef.NextPage();\r\n}",
+          "content": "<Button Color=\"Color.Primary\" Clicked=\"@OnPreviousPageClicked\">Prev</Button>\r\n<Button Color=\"Color.Primary\" Clicked=\"@OnNextPageClicked\">Next</Button>\r\n\r\n<PdfViewer @ref=\"@pdfViewerRef\" Source=\"_content/Blazorise.Docs/assets/files/dev-example.pdf\" />\r\n\r\n@code {\r\n    PdfViewer pdfViewerRef;\r\n\r\n    Task OnPreviousPageClicked() => pdfViewerRef.PreviousPage();\r\n    Task OnNextPageClicked() => pdfViewerRef.NextPage();\r\n}",
           "title": "With Navigation",
           "description": "This example demonstrates how to integrate the PdfViewer component with navigation buttons in a Blazor application. The PdfViewer is set up to display a PDF document, while the buttons allow for page navigation."
         },
@@ -5829,7 +5837,7 @@
           "code": "PdfViewerToolbarExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/PdfViewer/Examples/PdfViewerToolbarExample.razor",
-          "content": "<PdfViewerContainer Height=\"Height.Rem(35)\">\r\n    <PdfViewerToolbar />\r\n    <PdfViewer Source=\"https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf\" />\r\n</PdfViewerContainer>",
+          "content": "<PdfViewerContainer Height=\"Height.Rem(35)\">\r\n    <PdfViewerToolbar />\r\n    <PdfViewer Source=\"_content/Blazorise.Docs/assets/files/compressed.tracemonkey-pldi-09.pdf\" />\r\n</PdfViewerContainer>",
           "title": "With Toolbar",
           "description": "This example illustrates how to use the PdfViewerContainer to integrate both a toolbar and a viewer component for displaying and interacting with a PDF document. PdfViewerContainer : Acts as the main container for both the toolbar and the PDF viewer. It ensures proper layout and scrolling if needed. PdfViewerToolbar : A toolbar component is included within the container. This toolbar typically provides controls for interacting with the PDF, such as navigation and scaling. PdfViewer : The main component for displaying the PDF document. It is configured with the Source attribute to load a sample PDF from the provided URL. Note: The PdfViewer component can function independently of the PdfViewerToolbar if needed, directly rendering the specified PDF document. However, when used together in this setup, they offer a complete solution for PDF viewing and interaction."
         }

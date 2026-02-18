@@ -7,6 +7,13 @@
     "Zoom In": "Aumentar zoom",
     "Print": "Imprimir",
     "of": "de",
-    "Download": "Baixar"
+    "Download": "Baixar",
+    "Password required": "Senha necessária",
+    "Enter the password to open this PDF.": "Digite a senha para abrir este PDF.",
+    "Incorrect password. Please try again.": "Senha incorreta. Tente novamente.",
+    "Password": "Senha",
+    "Open": "Abrir",
+    "Cancel": "Cancelar",
+    "Password is required.": "A senha é obrigatória."
   }
 }

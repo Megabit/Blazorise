@@ -7,6 +7,13 @@
     "Zoom In": "Acercar",
     "Print": "Imprimir",
     "of": "de",
-    "Download": "Descargar"
+    "Download": "Descargar",
+    "Password required": "Se requiere contraseña",
+    "Enter the password to open this PDF.": "Introduzca la contraseña para abrir este PDF.",
+    "Incorrect password. Please try again.": "Contraseña incorrecta. Inténtelo de nuevo.",
+    "Password": "Contraseña",
+    "Open": "Abrir",
+    "Cancel": "Cancelar",
+    "Password is required.": "Se requiere contraseña."
   }
 }

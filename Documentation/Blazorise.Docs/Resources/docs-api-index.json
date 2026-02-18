@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-17T13:04:03.6101638Z",
+  "generatedUtc": "2026-02-18T21:13:44.9421921Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -67749,6 +67749,79 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.PdfViewer.PdfPasswordPromptOptions",
+      "typeName": "PdfPasswordPromptOptions",
+      "summary": "$\"\"\"\r\n       Provides configuration options for the default password prompt shown by <strong>PdfViewer</strong>.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "CancelButtonText",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the text of the cancel button.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ConfirmButtonText",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the text of the confirm button.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "IncorrectPasswordMessage",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the message text displayed when the entered password is incorrect.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Message",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the message text displayed when a password is required.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ModalOptions",
+          "type": "global::Blazorise.ModalInstanceOptions",
+          "typeName": "ModalInstanceOptions",
+          "defaultValue": "null",
+          "summary": "Gets or sets modal customization options for the prompt.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PasswordPlaceholder",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the placeholder text for the password input.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RequiredPasswordValidationMessage",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the validation message shown when the password is not entered.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Title",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the title text displayed in the prompt.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.PdfViewer.PdfViewer",
       "typeName": "PdfViewer",
       "summary": "$\"\"\"\r\n       Represents a component for viewing PDF documents within the application.\r\n       \"\"\"",
@@ -67909,6 +67982,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "PasswordPromptOptions",
+          "type": "global::Blazorise.PdfViewer.PdfPasswordPromptOptions",
+          "typeName": "PdfPasswordPromptOptions",
+          "defaultValue": "new()",
+          "summary": "Gets or sets options for customizing the default modal password prompt.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Position",
           "type": "global::Blazorise.IFluentPosition",
           "typeName": "IFluentPosition",
@@ -68005,6 +68086,14 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "UseModalPasswordPrompt",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether the default modal prompt should be used when <strong>PasswordRequested</strong> is not provided.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "UtilityTarget",
           "type": "global::Blazorise.UtilityTarget",
           "typeName": "UtilityTarget",
@@ -68060,6 +68149,22 @@
           "typeName": "EventCallback<int>",
           "defaultValue": "null",
           "summary": "Gets or sets the callback event that is triggered when the page number changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PasswordCanceled",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
+          "typeName": "EventCallback",
+          "defaultValue": "null",
+          "summary": "Gets or sets the callback event that is triggered when the password request is canceled.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PasswordRequested",
+          "type": "Func<,>",
+          "typeName": "Func<PdfPasswordRequestedEventArgs, Task<string>>",
+          "defaultValue": "null",
+          "summary": "Occurs when a password is required to open a protected PDF document.     If not set, a default modal prompt is shown when <strong>UseModalPasswordPrompt</strong> is enabled.",
           "isBlazoriseEnum": false
         },
         {
@@ -68136,6 +68241,17 @@
           "returnTypeName": "Task",
           "summary": "Prints the currently loaded PDF document.",
           "parameters": []
+        },
+        {
+          "name": "RequestPdfPassword",
+          "returnTypeName": "Task<string>",
+          "summary": "Requests the password needed to open a protected PDF document.",
+          "parameters": [
+            {
+              "name": "model",
+              "typeName": "PdfPasswordRequestModel"
+            }
+          ]
         },
         {
           "name": "SetScale",
@@ -95084,10 +95200,34 @@
       "searchUrl": "docs/theming/api/options",
       "parameters": [
         {
+          "name": "ToggleCollapseIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "IconName.ChevronUp",
+          "summary": "Defines the icon name for the collapse state of the dropdown.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ToggleExpandIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "IconName.ChevronDown",
+          "summary": "Defines the icon name for the expand state of the dropdown.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ToggleIconSIze",
+          "type": "global::Blazorise.IconSize",
+          "typeName": "IconSize",
+          "defaultValue": "IconSize.ExtraSmall",
+          "summary": "Defines the size of the toggle icon for the dropdown.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "ToggleIconVisible",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "true",
+          "defaultValue": "null",
           "summary": "Defines the visibility of bar dropdown toggle icon.",
           "isBlazoriseEnum": false
         }
@@ -95156,7 +95296,7 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Dropdown",
+          "name": "DropdownOptions",
           "type": "global::Blazorise.ThemeBarDropdownOptions",
           "typeName": "ThemeBarDropdownOptions",
           "defaultValue": "null",

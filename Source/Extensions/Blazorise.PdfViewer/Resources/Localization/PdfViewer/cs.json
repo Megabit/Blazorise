@@ -7,6 +7,13 @@
     "Zoom In": "Přiblížit",
     "Print": "Tisk",
     "of": "z",
-    "Download": "Stáhnout"
+    "Download": "Stáhnout",
+    "Password required": "Vyžadováno heslo",
+    "Enter the password to open this PDF.": "Zadejte heslo pro otevření tohoto PDF.",
+    "Incorrect password. Please try again.": "Nesprávné heslo. Zkuste to prosím znovu.",
+    "Password": "Heslo",
+    "Open": "Otevřít",
+    "Cancel": "Zrušit",
+    "Password is required.": "Je vyžadováno heslo."
   }
 }
