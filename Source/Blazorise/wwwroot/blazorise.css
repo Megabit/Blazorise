@@ -380,6 +380,44 @@ hr.divider.divider-text::before {
   line-height: inherit;
 }
 
+.b-bar-dropdown-toggle-icon-container {
+  position: relative;
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.b-bar-dropdown-toggle-icon-layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform-origin: center;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.b-bar-dropdown-toggle-icon-layer-visible {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.b-bar-dropdown-toggle-icon-layer-hidden-expand {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.b-bar-dropdown-toggle-icon-layer-hidden-collapse {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
 .b-bar-horizontal[data-collapse=hide] {
   flex-wrap: nowrap;
 }

@@ -123,17 +123,24 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
-    /// Returns the style used for a single icon animation layer.
+    /// Returns the class used for a single icon animation layer.
     /// </summary>
     /// <param name="expandedStateLayer">True for expanded-state icon layer; otherwise collapsed-state icon layer.</param>
-    /// <returns>Inline style string.</returns>
-    protected string GetToggleIconLayerStyle( bool expandedStateLayer )
+    /// <returns>Class string.</returns>
+    protected string GetToggleIconLayerClass( bool expandedStateLayer )
     {
         var isExpanded = ParentBarDropdown?.IsVisible == true;
-        var isVisibleLayer = expandedStateLayer ? isExpanded : !isExpanded;
-        var hiddenRotation = expandedStateLayer ? "-90deg" : "90deg";
 
-        return $"opacity: {( isVisibleLayer ? "1" : "0" )}; transform: rotate({( isVisibleLayer ? "0deg" : hiddenRotation )}); transform-origin: center; transition: opacity 180ms ease, transform 180ms ease; pointer-events: none;";
+        if ( expandedStateLayer )
+        {
+            return isExpanded
+                ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible"
+                : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-expand";
+        }
+
+        return isExpanded
+            ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-collapse"
+            : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible";
     }
 
     /// <summary>
