@@ -31,6 +31,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         pageRendering: false,
         pageNumberPending: null,
         password: null,
+        documentTitle: null,
         loadingTask: null,
         loadingVersion: 0,
     };
@@ -105,6 +106,7 @@ function loadDocument(instance, source) {
     instance.loadingVersion++;
     const currentLoadingVersion = instance.loadingVersion;
     instance.password = null;
+    instance.documentTitle = null;
 
     if (instance.loadingTask) {
         try {
@@ -161,7 +163,17 @@ function loadDocument(instance, source) {
         }
     };
 
-    loadingTask.promise.then(function (pdf) {
+    loadingTask.promise.then(async function (pdf) {
+        if (currentLoadingVersion !== instance.loadingVersion) {
+            if (pdf) {
+                pdf.destroy();
+            }
+
+            return;
+        }
+
+        instance.documentTitle = await getDocumentTitle(pdf);
+
         if (currentLoadingVersion !== instance.loadingVersion) {
             if (pdf) {
                 pdf.destroy();
@@ -205,6 +217,32 @@ async function requestPasswordFromDotNet(instance, reason, attempt) {
         attempt: attempt,
         source: instance.source,
     });
+}
+
+async function getDocumentTitle(pdf) {
+    if (!pdf || typeof pdf.getMetadata !== "function") {
+        return null;
+    }
+
+    try {
+        const metadata = await pdf.getMetadata();
+        const infoTitle = metadata?.info?.Title;
+
+        if (typeof infoTitle === "string" && infoTitle.trim().length > 0) {
+            return infoTitle.trim();
+        }
+
+        const metadataTitle = metadata?.metadata?.get?.("dc:title")
+            ?? metadata?.metadata?.get?.("title");
+
+        if (typeof metadataTitle === "string" && metadataTitle.trim().length > 0) {
+            return metadataTitle.trim();
+        }
+    }
+    catch {
+    }
+
+    return null;
 }
 
 function getDocumentSource(instance, source, includePassword) {
@@ -328,36 +366,27 @@ export async function print(element, elementId, source) {
     }
 }
 
-export async function download(element, elementId, source) {
+export async function download(element, elementId, source, fileName) {
     const instance = _instances[elementId];
-    const documentSource = getDocumentSource(instance, source, true);
+    const src = source?.url || source || instance?.source;
+    const resolvedFileName = resolveDownloadFileName(fileName, instance?.documentTitle, src);
 
     try {
-        const loadingTask = pdfjsLib.getDocument(documentSource);
-        const pdf = await loadingTask.promise;
-
-        if (!pdf || !pdf._transport || !pdf._transport._params) {
-            console.error("Unable to access raw PDF data.");
-            return;
-        }
-
-        const src = source?.url || source || instance?.source;
-
         // Case 1: source is a URL
         if (typeof src === 'string' && !src.startsWith('data:')) {
             // Simply trigger a download link
             const link = document.createElement('a');
             link.href = src;
-            link.download = getFileNameFromUrl(src);
+            link.download = resolvedFileName;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
         // Case 2: source is base64 data
-        else if (src.startsWith('data:application/pdf;base64,')) {
+        else if (typeof src === 'string' && src.startsWith('data:application/pdf;base64,')) {
             const link = document.createElement('a');
             link.href = src;
-            link.download = 'document.pdf';
+            link.download = resolvedFileName;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -449,6 +478,8 @@ function NotifyPdfInitialized(instance) {
     instance.dotNetAdapter.invokeMethodAsync('NotifyPdfInitialized', {
         pageNumber: instance.pageNumber,
         totalPages: instance.totalPages,
+        scale: instance.scale,
+        title: instance.documentTitle,
     });
 }
 
@@ -457,13 +488,76 @@ function NotifyPdfChanged(instance) {
         pageNumber: instance.pageNumber,
         totalPages: instance.totalPages,
         scale: instance.scale,
+        title: instance.documentTitle,
     });
+}
+
+function resolveDownloadFileName(fileName, documentTitle, source) {
+    const explicitFileName = normalizeDownloadFileName(fileName);
+
+    if (explicitFileName) {
+        return explicitFileName;
+    }
+
+    const metadataFileName = normalizeDownloadFileName(documentTitle);
+
+    if (metadataFileName) {
+        return metadataFileName;
+    }
+
+    if (typeof source === "string" && !source.startsWith("data:")) {
+        const sourceFileName = normalizeDownloadFileName(getFileNameFromUrl(source));
+
+        if (sourceFileName) {
+            return sourceFileName;
+        }
+    }
+
+    return "document.pdf";
+}
+
+function normalizeDownloadFileName(fileName) {
+    if (typeof fileName !== "string") {
+        return null;
+    }
+
+    let normalizedFileName = fileName.trim();
+
+    if (!normalizedFileName) {
+        return null;
+    }
+
+    const slashIndex = Math.max(normalizedFileName.lastIndexOf("/"), normalizedFileName.lastIndexOf("\\"));
+    if (slashIndex >= 0) {
+        normalizedFileName = normalizedFileName.substring(slashIndex + 1);
+    }
+
+    normalizedFileName = normalizedFileName.replace(/[<>:"/\\|?*\u0000-\u001F]/g, "_").trim();
+    normalizedFileName = normalizedFileName.replace(/[. ]+$/, "");
+
+    if (!normalizedFileName) {
+        return null;
+    }
+
+    if (!normalizedFileName.toLowerCase().endsWith(".pdf")) {
+        normalizedFileName = `${normalizedFileName}.pdf`;
+    }
+
+    return normalizedFileName;
 }
 
 function getFileNameFromUrl(url) {
     try {
-        return url.split('/').pop().split('?')[0] || 'document.pdf';
+        const [withoutFragment] = url.split("#");
+        const [withoutQuery] = withoutFragment.split("?");
+        const rawFileName = withoutQuery.split("/").pop();
+
+        if (!rawFileName) {
+            return null;
+        }
+
+        return decodeURIComponent(rawFileName);
     } catch {
-        return 'document.pdf';
+        return null;
     }
 }

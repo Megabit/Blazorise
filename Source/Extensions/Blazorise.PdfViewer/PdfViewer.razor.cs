@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Infrastructure;
@@ -27,6 +28,9 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     private TaskCompletionSource<string> passwordPromptCompletionSource;
     private bool passwordPromptCanClose;
     private string pendingCanceledPasswordReloadSource;
+    private ModalInstance downloadFileNamePromptModalInstance;
+    private TaskCompletionSource<string> downloadFileNamePromptCompletionSource;
+    private bool downloadFileNamePromptCanClose;
 
     #endregion
 
@@ -85,11 +89,13 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             if ( sourceChanged )
             {
                 pendingCanceledPasswordReloadSource = null;
+                DocumentTitle = null;
             }
 
             if ( sourceChanged )
             {
                 await ClosePasswordPrompt( completePendingRequest: true );
+                await CloseDownloadFileNamePrompt( completePendingRequest: true );
             }
 
             if ( sourceChanged
@@ -156,6 +162,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         if ( disposing && Rendered )
         {
             await ClosePasswordPrompt( completePendingRequest: true );
+            await CloseDownloadFileNamePrompt( completePendingRequest: true );
 
             nextPageSubscriber?.Dispose();
             prevPageSubscriber?.Dispose();
@@ -261,9 +268,18 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
 
         await DownloadRequested.InvokeAsync();
 
+        var source = ResolveSource( Source );
+        var fileName = await ResolveDownloadFileName( source );
+
+        if ( fileName is null )
+        {
+            await DownloadCanceled.InvokeAsync();
+            return;
+        }
+
         if ( JSModule is not null )
         {
-            await JSModule.Download( ElementRef, ElementId, ResolveSource( Source ) );
+            await JSModule.Download( ElementRef, ElementId, source, fileName );
         }
     }
 
@@ -288,13 +304,15 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             return;
 
         await ClosePasswordPrompt();
+        await CloseDownloadFileNamePrompt();
 
         PageNumber = model.PageNumber;
         TotalPages = model.TotalPages;
+        DocumentTitle = model.Title;
 
         await InvokeAsync( StateHasChanged );
 
-        await Loaded.InvokeAsync( new PdfLoadedEventArgs( PageNumber, TotalPages ) );
+        await Loaded.InvokeAsync( new PdfLoadedEventArgs( PageNumber, TotalPages, DocumentTitle ) );
 
         if ( ViewerState?.PdfInitialized is not null )
         {
@@ -319,6 +337,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         PageNumber = model.PageNumber;
         TotalPages = model.TotalPages;
         Scale = model.Scale;
+        DocumentTitle = model.Title;
 
         if ( pageNumberChanged )
         {
@@ -409,6 +428,83 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         return await passwordPromptCompletionSource.Task;
     }
 
+    private async Task<string> ResolveDownloadFileName( string source )
+    {
+        var suggestedFileName = BuildSuggestedDownloadFileName( source );
+        var args = new PdfDownloadFileNameRequestedEventArgs( source, DocumentTitle, suggestedFileName );
+
+        var fileName = DownloadFileNameRequested is not null
+            ? await DownloadFileNameRequested.Invoke( args )
+            : await RequestDownloadFileNameFromDefaultPrompt( args );
+
+        if ( fileName is null )
+            return null;
+
+        var normalizedFileName = string.IsNullOrWhiteSpace( fileName )
+            ? suggestedFileName
+            : fileName;
+
+        return NormalizeDownloadFileName( normalizedFileName, suggestedFileName );
+    }
+
+    private async Task<string> RequestDownloadFileNameFromDefaultPrompt( PdfDownloadFileNameRequestedEventArgs args )
+    {
+        if ( UseModalDownloadFileNamePrompt )
+        {
+            if ( ModalService?.ModalProvider is null )
+                return args.SuggestedFileName;
+
+            var title = DownloadFileNamePromptOptions?.Title ?? Localizer["Save PDF"];
+            var message = DownloadFileNamePromptOptions?.Message ?? Localizer["Enter a filename for this download."];
+            var fileNamePlaceholder = DownloadFileNamePromptOptions?.FileNamePlaceholder ?? Localizer["Filename"];
+            var confirmButtonText = DownloadFileNamePromptOptions?.ConfirmButtonText ?? Localizer["Download"];
+            var cancelButtonText = DownloadFileNamePromptOptions?.CancelButtonText ?? Localizer["Cancel"];
+            var requiredFileNameValidationMessage = DownloadFileNamePromptOptions?.RequiredFileNameValidationMessage ?? Localizer["Filename is required."];
+
+            downloadFileNamePromptCompletionSource = new TaskCompletionSource<string>( TaskCreationOptions.RunContinuationsAsynchronously );
+
+            try
+            {
+                downloadFileNamePromptCanClose = false;
+
+                downloadFileNamePromptModalInstance = await ModalService.Show<_PdfViewerDownloadPrompt>( title, parameters =>
+                {
+                    parameters.Add( x => x.Title, title );
+                    parameters.Add( x => x.Message, message );
+                    parameters.Add( x => x.FileName, args.SuggestedFileName );
+                    parameters.Add( x => x.FileNamePlaceholder, fileNamePlaceholder );
+                    parameters.Add( x => x.ConfirmButtonText, confirmButtonText );
+                    parameters.Add( x => x.CancelButtonText, cancelButtonText );
+                    parameters.Add( x => x.RequiredFileNameValidationMessage, requiredFileNameValidationMessage );
+                    parameters.Add( x => x.SubmitRequested, EventCallback.Factory.Create<string>( this, OnDownloadFileNamePromptSubmitRequested ) );
+                    parameters.Add( x => x.CancelRequested, EventCallback.Factory.Create( this, OnDownloadFileNamePromptCancelRequested ) );
+                }, BuildDownloadFileNamePromptModalOptions( () => downloadFileNamePromptCanClose ) );
+            }
+            catch
+            {
+                downloadFileNamePromptCompletionSource?.TrySetResult( null );
+            }
+
+            return await downloadFileNamePromptCompletionSource.Task;
+        }
+
+        return args.SuggestedFileName;
+    }
+
+    private async Task OnDownloadFileNamePromptSubmitRequested( string fileName )
+    {
+        downloadFileNamePromptCompletionSource?.TrySetResult( fileName );
+
+        await CloseDownloadFileNamePrompt();
+    }
+
+    private async Task OnDownloadFileNamePromptCancelRequested()
+    {
+        downloadFileNamePromptCompletionSource?.TrySetResult( null );
+
+        await CloseDownloadFileNamePrompt();
+    }
+
     private Task OnPasswordPromptSubmitRequested( string password )
     {
         passwordPromptCompletionSource?.TrySetResult( password );
@@ -446,15 +542,46 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         passwordPromptCompletionSource = null;
     }
 
+    private async Task CloseDownloadFileNamePrompt( bool completePendingRequest = false )
+    {
+        if ( completePendingRequest )
+        {
+            downloadFileNamePromptCompletionSource?.TrySetResult( null );
+        }
+
+        if ( downloadFileNamePromptModalInstance is not null )
+        {
+            downloadFileNamePromptCanClose = true;
+
+            if ( ModalService?.ModalProvider is not null )
+            {
+                await ModalService.Hide( downloadFileNamePromptModalInstance );
+            }
+
+            downloadFileNamePromptModalInstance = null;
+        }
+
+        downloadFileNamePromptCanClose = false;
+        downloadFileNamePromptCompletionSource = null;
+    }
+
     private ModalInstanceOptions BuildPasswordPromptModalOptions( Func<bool> canClose )
     {
-        var customModalOptions = PasswordPromptOptions?.ModalOptions;
+        return BuildPromptModalOptions( PasswordPromptOptions?.ModalOptions, canClose );
+    }
 
+    private ModalInstanceOptions BuildDownloadFileNamePromptModalOptions( Func<bool> canClose )
+    {
+        return BuildPromptModalOptions( DownloadFileNamePromptOptions?.ModalOptions, canClose );
+    }
+
+    private ModalInstanceOptions BuildPromptModalOptions( ModalInstanceOptions customModalOptions, Func<bool> canClose )
+    {
         return new ModalInstanceOptions
         {
             UseModalStructure = false,
             Centered = customModalOptions?.Centered ?? true,
-            Size = customModalOptions?.Size ?? ModalSize.Small,
+            Size = customModalOptions?.Size ?? ModalSize.Default,
             ShowBackdrop = customModalOptions?.ShowBackdrop,
             Animated = customModalOptions?.Animated,
             AnimationDuration = customModalOptions?.AnimationDuration,
@@ -510,6 +637,107 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         };
     }
 
+    private string BuildSuggestedDownloadFileName( string source )
+    {
+        var explicitDownloadFileName = NormalizeDownloadFileName( DownloadFileName, null );
+
+        if ( !string.IsNullOrWhiteSpace( explicitDownloadFileName ) )
+            return explicitDownloadFileName;
+
+        var metadataDownloadFileName = NormalizeDownloadFileName( DocumentTitle, null );
+
+        if ( !string.IsNullOrWhiteSpace( metadataDownloadFileName ) )
+            return metadataDownloadFileName;
+
+        if ( TryGetFileNameFromSource( source, out var sourceFileName ) )
+            return NormalizeDownloadFileName( sourceFileName, "document.pdf" );
+
+        return "document.pdf";
+    }
+
+    private string NormalizeDownloadFileName( string fileName, string fallbackFileName )
+    {
+        var normalizedFileName = fileName;
+
+        if ( string.IsNullOrWhiteSpace( normalizedFileName ) )
+            normalizedFileName = fallbackFileName;
+
+        if ( string.IsNullOrWhiteSpace( normalizedFileName ) )
+            return null;
+
+        normalizedFileName = Path.GetFileName( normalizedFileName.Trim() );
+
+        if ( string.IsNullOrWhiteSpace( normalizedFileName ) )
+            normalizedFileName = fallbackFileName;
+
+        if ( string.IsNullOrWhiteSpace( normalizedFileName ) )
+            return null;
+
+        foreach ( var invalidFileNameChar in Path.GetInvalidFileNameChars() )
+        {
+            normalizedFileName = normalizedFileName.Replace( invalidFileNameChar, '_' );
+        }
+
+        normalizedFileName = normalizedFileName.Trim();
+
+        if ( string.IsNullOrWhiteSpace( normalizedFileName ) )
+            normalizedFileName = fallbackFileName;
+
+        if ( string.IsNullOrWhiteSpace( normalizedFileName ) )
+            return null;
+
+        if ( !normalizedFileName.EndsWith( ".pdf", StringComparison.OrdinalIgnoreCase ) )
+        {
+            normalizedFileName = $"{normalizedFileName}.pdf";
+        }
+
+        return normalizedFileName;
+    }
+
+    private bool TryGetFileNameFromSource( string source, out string fileName )
+    {
+        fileName = null;
+
+        if ( string.IsNullOrWhiteSpace( source )
+             || source.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
+        {
+            return false;
+        }
+
+        if ( Uri.TryCreate( source, UriKind.Absolute, out var absoluteUri ) )
+        {
+            fileName = DecodeFileName( Path.GetFileName( absoluteUri.LocalPath ) );
+            return !string.IsNullOrWhiteSpace( fileName );
+        }
+
+        var sourceWithoutQuery = source;
+        var querySeparatorIndex = sourceWithoutQuery.IndexOfAny( new[] { '?', '#' } );
+
+        if ( querySeparatorIndex >= 0 )
+        {
+            sourceWithoutQuery = sourceWithoutQuery.Substring( 0, querySeparatorIndex );
+        }
+
+        fileName = DecodeFileName( Path.GetFileName( sourceWithoutQuery ) );
+
+        return !string.IsNullOrWhiteSpace( fileName );
+    }
+
+    private string DecodeFileName( string fileName )
+    {
+        if ( string.IsNullOrWhiteSpace( fileName ) )
+            return fileName;
+
+        try
+        {
+            return Uri.UnescapeDataString( fileName );
+        }
+        catch
+        {
+            return fileName;
+        }
+    }
+
     private string ResolveSource( string source )
     {
         if ( string.IsNullOrWhiteSpace( source ) )
@@ -549,6 +777,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// The total number of pages available in the currently loaded PDF document.
     /// </value>
     public int TotalPages { get; private set; }
+
+    /// <summary>
+    /// Gets the title metadata of the currently loaded PDF document.
+    /// </summary>
+    public string DocumentTitle { get; private set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IJSRuntime"/>.
@@ -615,6 +848,33 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// Gets or sets the callback event that is triggered when the PDF document is requested to be downloaded.
     /// </summary>
     [Parameter] public EventCallback DownloadRequested { get; set; }
+
+    /// <summary>
+    /// Gets or sets an explicit filename used when downloading the PDF document.
+    /// If not provided, the filename is resolved from PDF metadata title or source.
+    /// </summary>
+    [Parameter] public string DownloadFileName { get; set; }
+
+    /// <summary>
+    /// Occurs when a download filename is requested.
+    /// If not set, the default modal prompt is used when <see cref="UseModalDownloadFileNamePrompt"/> is enabled.
+    /// </summary>
+    [Parameter] public Func<PdfDownloadFileNameRequestedEventArgs, Task<string>> DownloadFileNameRequested { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the default modal prompt should be used when <see cref="DownloadFileNameRequested"/> is not provided.
+    /// </summary>
+    [Parameter] public bool UseModalDownloadFileNamePrompt { get; set; }
+
+    /// <summary>
+    /// Gets or sets options for customizing the default modal download filename prompt.
+    /// </summary>
+    [Parameter] public PdfDownloadFileNamePromptOptions DownloadFileNamePromptOptions { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the callback event that is triggered when the download filename request is canceled.
+    /// </summary>
+    [Parameter] public EventCallback DownloadCanceled { get; set; }
 
     /// <summary>
     /// Occurs when a password is required to open a protected PDF document.

@@ -87,11 +87,11 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "print", elementRef, elementId, source );
     }
 
-    public virtual async ValueTask Download( ElementReference elementRef, string elementId, string source )
+    public virtual async ValueTask Download( ElementReference elementRef, string elementId, string source, string fileName )
     {
         var moduleInstance = await Module;
 
-        await moduleInstance.InvokeVoidAsync( "download", elementRef, elementId, source );
+        await moduleInstance.InvokeVoidAsync( "download", elementRef, elementId, source, fileName );
     }
 
     #endregion

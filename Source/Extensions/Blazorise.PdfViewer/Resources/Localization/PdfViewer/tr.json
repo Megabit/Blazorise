@@ -14,6 +14,10 @@
     "Password": "Parola",
     "Open": "Aç",
     "Cancel": "İptal",
-    "Password is required.": "Parola gerekli."
+    "Password is required.": "Parola gerekli.",
+    "Save PDF": "PDF Kaydet",
+    "Enter a filename for this download.": "Bu indirme için bir dosya adı girin.",
+    "Filename": "Dosya adı",
+    "Filename is required.": "Dosya adı gerekli."
   }
 }
