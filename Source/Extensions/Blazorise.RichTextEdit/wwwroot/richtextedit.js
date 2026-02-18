@@ -5,6 +5,42 @@ import "./vendors/quill-resize-module.js?v=2.0.0.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
 
 var rteSheetsLoaded = false;
+var rteMergedClipboardLoaded = false;
+
+function registerMergedClipboardModule() {
+    if (rteMergedClipboardLoaded)
+        return;
+
+    const clipboardModule = Quill.import("modules/clipboard");
+
+    if (!clipboardModule)
+        return;
+
+    class RichTextEditClipboard extends clipboardModule {
+        onCapturePaste(event) {
+            if (event?.defaultPrevented || !this.quill?.isEnabled?.())
+                return;
+
+            const range = this.quill.getSelection();
+            const tableBetter = this.quill.getModule("table-better");
+
+            if (range && tableBetter?.isTable?.(range)) {
+                event.preventDefault();
+
+                const text = event.clipboardData?.getData("text/plain") ?? "";
+                const html = event.clipboardData?.getData("text/html") ?? undefined;
+
+                this.onPaste(range, { text, html });
+                return;
+            }
+
+            return super.onCapturePaste(event);
+        }
+    }
+
+    Quill.register("modules/clipboard", RichTextEditClipboard, true);
+    rteMergedClipboardLoaded = true;
+}
 
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
@@ -58,6 +94,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     if (options.useTables === true) {
         Quill.register({ 'modules/table-better': QuillTableBetter }, true);
+        registerMergedClipboardModule();
 
         quillOptions.modules['table-better'] = {
             toolbarTable: true
