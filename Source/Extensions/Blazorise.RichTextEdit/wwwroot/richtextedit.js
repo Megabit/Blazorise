@@ -1,11 +1,71 @@
 import "./vendors/quill.js?v=2.0.0.0";
-import "./vendors/quill-paste-smart.js?v=2.0.0.0";
-import "./vendors/quill-table-better.js?v=2.0.0.0";
-import "./vendors/quill-resize-module.js?v=2.0.0.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
 
 var rteSheetsLoaded = false;
+var rteSmartPasteLoaded = false;
+var rteSmartPasteLoader = null;
+var rteTableBetterLoaded = false;
+var rteTableBetterLoader = null;
+var rteResizeLoaded = false;
+var rteResizeLoader = null;
 var rteMergedClipboardLoaded = false;
+
+async function loadSmartPasteModule() {
+    if (rteSmartPasteLoaded)
+        return;
+
+    if (!rteSmartPasteLoader) {
+        rteSmartPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.0.0")
+            .then(() => {
+                rteSmartPasteLoaded = true;
+            });
+    }
+
+    try {
+        await rteSmartPasteLoader;
+    } catch (error) {
+        rteSmartPasteLoader = null;
+        throw error;
+    }
+}
+
+async function loadTableBetterModule() {
+    if (rteTableBetterLoaded)
+        return;
+
+    if (!rteTableBetterLoader) {
+        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.0.0.0")
+            .then(() => {
+                rteTableBetterLoaded = true;
+            });
+    }
+
+    try {
+        await rteTableBetterLoader;
+    } catch (error) {
+        rteTableBetterLoader = null;
+        throw error;
+    }
+}
+
+async function loadResizeModule() {
+    if (rteResizeLoaded)
+        return;
+
+    if (!rteResizeLoader) {
+        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.0.0.0")
+            .then(() => {
+                rteResizeLoaded = true;
+            });
+    }
+
+    try {
+        await rteResizeLoader;
+    } catch (error) {
+        rteResizeLoader = null;
+        throw error;
+    }
+}
 
 function registerMergedClipboardModule() {
     if (rteMergedClipboardLoaded)
@@ -52,7 +112,7 @@ export function loadStylesheets(styles, version) {
     rteSheetsLoaded = true;
 }
 
-export function initialize(dotnetAdapter, element, elementId, options) {
+export async function initialize(dotnetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -92,9 +152,17 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         };
     }
 
+    if (options.useSmartPaste === true) {
+        await loadSmartPasteModule();
+    }
+
     if (options.useTables === true) {
+        await loadTableBetterModule();
+
         Quill.register({ 'modules/table-better': QuillTableBetter }, true);
-        registerMergedClipboardModule();
+
+        if (options.useSmartPaste === true)
+            registerMergedClipboardModule();
 
         quillOptions.modules['table-better'] = {
             toolbarTable: true
@@ -106,6 +174,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     }
 
     if (options.useResize === true) {
+        await loadResizeModule();
+
         Quill.register({ 'modules/resize': QuillResize }, true);
 
         quillOptions.modules.resize = {

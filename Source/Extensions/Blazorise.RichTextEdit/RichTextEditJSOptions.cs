@@ -35,6 +35,12 @@ internal class RichTextEditJSOptions
     public string ConfigureQuillJsMethod { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether smart paste functionality is enabled.
+    /// </summary>
+    [JsonPropertyName( "useSmartPaste" )]
+    public bool UseSmartPaste { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether tables are enabled in the editor.
     /// </summary>
     [JsonPropertyName( "useTables" )]
