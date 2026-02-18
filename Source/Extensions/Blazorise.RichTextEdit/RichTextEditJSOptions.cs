@@ -41,6 +41,13 @@ internal class RichTextEditJSOptions
     public bool UseSmartPaste { get; set; }
 
     /// <summary>
+    /// Gets or sets options used to configure smart paste behavior.
+    /// </summary>
+    [JsonPropertyName( "smartPasteOptions" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public RichTextEditSmartPasteOptions SmartPasteOptions { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether tables are enabled in the editor.
     /// </summary>
     [JsonPropertyName( "useTables" )]

@@ -31,6 +31,11 @@ public sealed class RichTextEditOptions
     public bool UseSmartPaste { get; set; }
 
     /// <summary>
+    /// Options used to configure the quill-paste-smart clipboard module.
+    /// </summary>
+    public RichTextEditSmartPasteOptions SmartPasteOptions { get; set; } = new();
+
+    /// <summary>
     /// If true enables the QuillJs image resize module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.
     /// </summary>
     public bool UseResize { get; set; }

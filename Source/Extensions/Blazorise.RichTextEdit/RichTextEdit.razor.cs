@@ -34,6 +34,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     internal ComponentParameterInfo<bool> paramUseSmartPaste;
 
     /// <summary>
+    /// Captured SmartPasteOptions parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<RichTextEditSmartPasteOptions> paramSmartPasteOptions;
+
+    /// <summary>
     /// Captured UseTables parameter snapshot.
     /// </summary>
     internal ComponentParameterInfo<bool> paramUseTables;
@@ -53,6 +58,7 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         base.CaptureParameters( parameters );
 
         parameters.TryGetParameter( UseSmartPaste, out paramUseSmartPaste );
+        parameters.TryGetParameter( SmartPasteOptions, out paramSmartPasteOptions );
         parameters.TryGetParameter( UseTables, out paramUseTables );
         parameters.TryGetParameter( UseResize, out paramUseResize );
     }
@@ -367,6 +373,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     internal bool ShouldUseSmartPaste => paramUseSmartPaste.Defined ? paramUseSmartPaste.Value : GlobalOptions.UseSmartPaste;
 
     /// <summary>
+    /// Gets options used to configure the smart paste functionality.
+    /// </summary>
+    internal RichTextEditSmartPasteOptions ShouldUseSmartPasteOptions => paramSmartPasteOptions.Defined ? paramSmartPasteOptions.Value : GlobalOptions.SmartPasteOptions;
+
+    /// <summary>
     /// Gets a value indicating whether the table functionality should be enabled.
     /// </summary>
     internal bool ShouldUseTables => paramUseTables.Defined ? paramUseTables.Value : GlobalOptions.UseTables;
@@ -449,6 +460,14 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseSmartPaste"/>.
     /// </remarks>
     [Parameter] public bool UseSmartPaste { get; set; }
+
+    /// <summary>
+    /// Options used to configure smart paste functionality.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.SmartPasteOptions"/>.
+    /// </remarks>
+    [Parameter] public RichTextEditSmartPasteOptions SmartPasteOptions { get; set; }
 
     /// <summary>
     /// Occurs when the content within the editor changes.

@@ -83,6 +83,33 @@ function resolveSmartPasteApi(module) {
     return undefined;
 }
 
+function applySmartPasteOptions(clipboardOptions, smartPasteOptions) {
+    if (!smartPasteOptions)
+        return;
+
+    if (Array.isArray(smartPasteOptions.allowedTags) || Array.isArray(smartPasteOptions.allowedAttributes)) {
+        clipboardOptions.allowed = {};
+
+        if (Array.isArray(smartPasteOptions.allowedTags))
+            clipboardOptions.allowed.tags = smartPasteOptions.allowedTags;
+
+        if (Array.isArray(smartPasteOptions.allowedAttributes))
+            clipboardOptions.allowed.attributes = smartPasteOptions.allowedAttributes;
+    }
+
+    if (typeof smartPasteOptions.keepSelection === "boolean")
+        clipboardOptions.keepSelection = smartPasteOptions.keepSelection;
+
+    if (typeof smartPasteOptions.substituteBlockElements === "boolean")
+        clipboardOptions.substituteBlockElements = smartPasteOptions.substituteBlockElements;
+
+    if (typeof smartPasteOptions.magicPasteLinks === "boolean")
+        clipboardOptions.magicPasteLinks = smartPasteOptions.magicPasteLinks;
+
+    if (typeof smartPasteOptions.removeConsecutiveSubstitutionTags === "boolean")
+        clipboardOptions.removeConsecutiveSubstitutionTags = smartPasteOptions.removeConsecutiveSubstitutionTags;
+}
+
 export function loadStylesheets(styles, version) {
     if (!styles?.length)
         return;
@@ -163,9 +190,14 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
         };
     }
 
-    quillOptions.modules.clipboard = {
+    const clipboardOptions = {
         enabled: options.useSmartPaste === true
     };
+
+    if (options.useSmartPaste === true)
+        applySmartPasteOptions(clipboardOptions, options.smartPasteOptions);
+
+    quillOptions.modules.clipboard = clipboardOptions;
 
     if (options.useSmartPaste === true) {
         const smartPasteModule = await loadSmartPasteModule();
