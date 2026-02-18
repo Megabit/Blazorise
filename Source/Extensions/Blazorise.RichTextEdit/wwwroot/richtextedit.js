@@ -1,7 +1,7 @@
 import "./vendors/quill.js?v=2.0.0.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
 
-var rteLoadedSheets = new Set();
+var rteLoadedStyleUrls = new Set();
 var rteSmartPasteLoaded = false;
 var rteSmartPasteLoader = null;
 var rteSmartPasteModule = null;
@@ -88,11 +88,13 @@ export function loadStylesheets(styles, version) {
         return;
 
     styles.forEach(sheet => {
-        if (rteLoadedSheets.has(sheet))
+        const href = `_content/Blazorise.RichTextEdit/vendors/${sheet}.css?v=${version}`;
+
+        if (rteLoadedStyleUrls.has(href))
             return;
 
-        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="_content/Blazorise.RichTextEdit/vendors/${sheet}.css?v=${version}"/>`);
-        rteLoadedSheets.add(sheet);
+        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="${href}"/>`);
+        rteLoadedStyleUrls.add(href);
     });
 }
 
