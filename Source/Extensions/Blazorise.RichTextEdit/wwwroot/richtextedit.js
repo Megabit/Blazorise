@@ -4,27 +4,30 @@ import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
 var rteSheetsLoaded = false;
 var rteSmartPasteLoaded = false;
 var rteSmartPasteLoader = null;
+var rteSmartPasteModule = null;
 var rteTableBetterLoaded = false;
 var rteTableBetterLoader = null;
 var rteResizeLoaded = false;
 var rteResizeLoader = null;
-var rteMergedClipboardLoaded = false;
 
 async function loadSmartPasteModule() {
     if (rteSmartPasteLoaded)
-        return;
+        return rteSmartPasteModule;
 
     if (!rteSmartPasteLoader) {
         rteSmartPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.0.0")
-            .then(() => {
+            .then((module) => {
+                rteSmartPasteModule = module;
                 rteSmartPasteLoaded = true;
+                return module;
             });
     }
 
     try {
-        await rteSmartPasteLoader;
+        return await rteSmartPasteLoader;
     } catch (error) {
         rteSmartPasteLoader = null;
+        rteSmartPasteModule = null;
         throw error;
     }
 }
@@ -67,39 +70,17 @@ async function loadResizeModule() {
     }
 }
 
-function registerMergedClipboardModule() {
-    if (rteMergedClipboardLoaded)
-        return;
+function resolveSmartPasteApi(module) {
+    if (module?.registerPasteSmartClipboard)
+        return module;
 
-    const clipboardModule = Quill.import("modules/clipboard");
+    if (module?.default?.registerPasteSmartClipboard)
+        return module.default;
 
-    if (!clipboardModule)
-        return;
+    if (window.QuillPasteSmart?.registerPasteSmartClipboard)
+        return window.QuillPasteSmart;
 
-    class RichTextEditClipboard extends clipboardModule {
-        onCapturePaste(event) {
-            if (event?.defaultPrevented || !this.quill?.isEnabled?.())
-                return;
-
-            const range = this.quill.getSelection();
-            const tableBetter = this.quill.getModule("table-better");
-
-            if (range && tableBetter?.isTable?.(range)) {
-                event.preventDefault();
-
-                const text = event.clipboardData?.getData("text/plain") ?? "";
-                const html = event.clipboardData?.getData("text/html") ?? undefined;
-
-                this.onPaste(range, { text, html });
-                return;
-            }
-
-            return super.onCapturePaste(event);
-        }
-    }
-
-    Quill.register("modules/clipboard", RichTextEditClipboard, true);
-    rteMergedClipboardLoaded = true;
+    return undefined;
 }
 
 export function loadStylesheets(styles, version) {
@@ -152,17 +133,10 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
         };
     }
 
-    if (options.useSmartPaste === true) {
-        await loadSmartPasteModule();
-    }
-
     if (options.useTables === true) {
         await loadTableBetterModule();
 
         Quill.register({ 'modules/table-better': QuillTableBetter }, true);
-
-        if (options.useSmartPaste === true)
-            registerMergedClipboardModule();
 
         quillOptions.modules['table-better'] = {
             toolbarTable: true
@@ -171,6 +145,28 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
         quillOptions.modules.keyboard = {
             bindings: QuillTableBetter.keyboardBindings
         };
+    }
+
+    quillOptions.modules.clipboard = {
+        enabled: options.useSmartPaste === true
+    };
+
+    if (options.useSmartPaste === true) {
+        const smartPasteModule = await loadSmartPasteModule();
+        const smartPasteApi = resolveSmartPasteApi(smartPasteModule);
+
+        if (!smartPasteApi?.registerPasteSmartClipboard) {
+            console.error("quill-paste-smart is missing registerPasteSmartClipboard export.");
+        } else {
+            const clipboardModule = Quill.import("modules/clipboard");
+
+            if (!clipboardModule?.__blazoriseSmartPasteWrapper) {
+                const smartClipboardModule = smartPasteApi.registerPasteSmartClipboard(Quill);
+
+                if (smartClipboardModule)
+                    smartClipboardModule.__blazoriseSmartPasteWrapper = true;
+            }
+        }
     }
 
     if (options.useResize === true) {

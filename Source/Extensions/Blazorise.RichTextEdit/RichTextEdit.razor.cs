@@ -387,6 +387,14 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public bool UseResize { get; set; }
 
     /// <summary>
+    /// Indicates whether smart paste functionality should be enabled.
+    /// </summary>
+    /// <remarks>
+    /// When defined, this value has priority over globally configured <see cref="RichTextEditOptions.UseSmartPaste"/>.
+    /// </remarks>
+    [Parameter] public bool? UseSmartPaste { get; set; }
+
+    /// <summary>
     /// Occurs when the content within the editor changes.
     /// </summary>
     [Parameter] public EventCallback ContentChanged { get; set; }

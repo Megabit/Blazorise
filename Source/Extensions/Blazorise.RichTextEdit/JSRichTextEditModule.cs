@@ -76,7 +76,7 @@ public class JSRichTextEditModule : BaseJSModule,
             Theme = richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
             SubmitOnEnter = richTextEdit.SubmitOnEnter,
             ConfigureQuillJsMethod = richTextEdit.ConfigureQuillJsMethod,
-            UseSmartPaste = options.UseSmartPaste,
+            UseSmartPaste = richTextEdit.UseSmartPaste ?? options.UseSmartPaste,
             UseTables = options.UseTables,
             UseResize = options.UseResize && richTextEdit.UseResize,
         } );
