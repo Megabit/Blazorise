@@ -123,6 +123,20 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
+    /// Returns the style used for a single icon animation layer.
+    /// </summary>
+    /// <param name="expandedStateLayer">True for expanded-state icon layer; otherwise collapsed-state icon layer.</param>
+    /// <returns>Inline style string.</returns>
+    protected string GetToggleIconLayerStyle( bool expandedStateLayer )
+    {
+        var isExpanded = ParentBarDropdown?.IsVisible == true;
+        var isVisibleLayer = expandedStateLayer ? isExpanded : !isExpanded;
+        var hiddenRotation = expandedStateLayer ? "-90deg" : "90deg";
+
+        return $"opacity: {( isVisibleLayer ? "1" : "0" )}; transform: rotate({( isVisibleLayer ? "0deg" : hiddenRotation )}); transform-origin: center; transition: opacity 180ms ease, transform 180ms ease; pointer-events: none;";
+    }
+
+    /// <summary>
     /// Handler for @onkeydown event.
     /// </summary>
     /// <param name="eventArgs">Information about the keyboard down event.</param>
@@ -200,11 +214,14 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.DropdownOptions?.ToggleIconVisible ?? true );
 
     /// <summary>
-    /// Gets the icon name that represents the current toggle state of the dropdown.
+    /// Gets the icon name for the expanded state of the dropdown.
     /// </summary>
-    protected IconName ToggleIconName => ParentBarDropdown.IsVisible
-        ? Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp
-        : Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
+    protected IconName ExpandedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp;
+
+    /// <summary>
+    /// Gets the icon name for the collapsed state of the dropdown.
+    /// </summary>
+    protected IconName CollapsedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
 
     /// <summary>
     /// Gets the size of the toggle icon used in the dropdown options.

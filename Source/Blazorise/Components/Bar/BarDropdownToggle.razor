@@ -23,7 +23,14 @@
             {
                 <Span Padding="Blazorise.Padding.Is2.OnX">
                     <span @onclick="@OnToggleIconClicked" @onclick:stopPropagation @onclick:preventDefault="@IsActingAsLink">
-                        <Icon Name="@ToggleIconName" IconSize="@ToggleIconSize" />
+                        <Span Position="Blazorise.Position.Relative" Display="Blazorise.Display.InlineFlex" Width="Blazorise.Width.Rem( 1 )" Height="Blazorise.Height.Rem( 1 )" Flex="Blazorise.Flex.InlineFlex.AlignItems.Center.JustifyContent.Center">
+                            <Span Position="Blazorise.Position.Absolute.Top.Is0.Start.Is0" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Is100" Flex="Blazorise.Flex.InlineFlex.AlignItems.Center.JustifyContent.Center" Style="@GetToggleIconLayerStyle( true )">
+                                <Icon Name="@ExpandedToggleIconName" IconSize="@ToggleIconSize" />
+                            </Span>
+                            <Span Position="Blazorise.Position.Absolute.Top.Is0.Start.Is0" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Is100" Flex="Blazorise.Flex.InlineFlex.AlignItems.Center.JustifyContent.Center" Style="@GetToggleIconLayerStyle( false )">
+                                <Icon Name="@CollapsedToggleIconName" IconSize="@ToggleIconSize" />
+                            </Span>
+                        </Span>
                     </span>
                 </Span>
             }
