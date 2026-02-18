@@ -41,7 +41,7 @@ public class JSRichTextEditModule : BaseJSModule,
     /// <inheritdoc />
     protected override async ValueTask OnModuleLoaded( IJSObjectReference jsObjectReference )
     {
-        List<string> styles = new();
+        List<string> styles = [];
 
         if ( options.UseBubbleTheme )
             styles.Add( "quill.bubble" );
