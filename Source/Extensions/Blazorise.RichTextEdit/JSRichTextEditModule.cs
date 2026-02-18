@@ -77,8 +77,9 @@ public class JSRichTextEditModule : BaseJSModule,
             SubmitOnEnter = richTextEdit.SubmitOnEnter,
             ConfigureQuillJsMethod = richTextEdit.ConfigureQuillJsMethod,
             UseSmartPaste = richTextEdit.ShouldUseSmartPaste,
-            UseTables = options.UseTables,
-            UseResize = options.UseResize && richTextEdit.UseResize,
+            UseTables = richTextEdit.ShouldUseTables,
+            UseResize = richTextEdit.ShouldUseResize,
+            Version = VersionProvider.Version,
         } );
 
         return AsyncDisposable.Create( async () =>

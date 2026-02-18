@@ -51,4 +51,10 @@ internal class RichTextEditJSOptions
     /// </summary>
     [JsonPropertyName( "useResize" )]
     public bool UseResize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the library version used to compose stylesheet URLs.
+    /// </summary>
+    [JsonPropertyName( "version" )]
+    public string Version { get; set; }
 }

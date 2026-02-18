@@ -33,6 +33,16 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </summary>
     internal ComponentParameterInfo<bool> paramUseSmartPaste;
 
+    /// <summary>
+    /// Captured UseTables parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseTables;
+
+    /// <summary>
+    /// Captured UseResize parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseResize;
+
     #endregion
 
     #region Methods
@@ -43,6 +53,8 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         base.CaptureParameters( parameters );
 
         parameters.TryGetParameter( UseSmartPaste, out paramUseSmartPaste );
+        parameters.TryGetParameter( UseTables, out paramUseTables );
+        parameters.TryGetParameter( UseResize, out paramUseResize );
     }
 
     /// <inheritdoc/>
@@ -355,6 +367,16 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     internal bool ShouldUseSmartPaste => paramUseSmartPaste.Defined ? paramUseSmartPaste.Value : GlobalOptions.UseSmartPaste;
 
     /// <summary>
+    /// Gets a value indicating whether the table functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseTables => paramUseTables.Defined ? paramUseTables.Value : GlobalOptions.UseTables;
+
+    /// <summary>
+    /// Gets a value indicating whether the resize functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseResize => paramUseResize.Defined ? paramUseResize.Value : GlobalOptions.UseResize;
+
+    /// <summary>
     /// The toolbar element reference.
     /// </summary>
     public ElementReference ToolbarRef { get; protected set; }
@@ -405,8 +427,19 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public bool SubmitOnEnter { get; set; } = false;
 
     /// <summary>
+    /// Indicates whether table functionality should be enabled.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseTables"/>.
+    /// </remarks>
+    [Parameter] public bool UseTables { get; set; }
+
+    /// <summary>
     /// Indicates whether resizing functionality should be enabled.
     /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseResize"/>.
+    /// </remarks>
     [Parameter] public bool UseResize { get; set; }
 
     /// <summary>

@@ -1,7 +1,7 @@
 import "./vendors/quill.js?v=2.0.0.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
 
-var rteSheetsLoaded = false;
+var rteLoadedSheets = new Set();
 var rteSmartPasteLoaded = false;
 var rteSmartPasteLoader = null;
 var rteSmartPasteModule = null;
@@ -84,13 +84,16 @@ function resolveSmartPasteApi(module) {
 }
 
 export function loadStylesheets(styles, version) {
-    if (rteSheetsLoaded) return;
+    if (!styles?.length)
+        return;
 
     styles.forEach(sheet => {
-        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="_content/Blazorise.RichTextEdit/vendors/${sheet}.css?v=${version}"/>`);
-    });
+        if (rteLoadedSheets.has(sheet))
+            return;
 
-    rteSheetsLoaded = true;
+        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="_content/Blazorise.RichTextEdit/vendors/${sheet}.css?v=${version}"/>`);
+        rteLoadedSheets.add(sheet);
+    });
 }
 
 export async function initialize(dotnetAdapter, element, elementId, options) {
@@ -102,6 +105,7 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
     const editorRef = element.getElementsByClassName("b-richtextedit-editor")[0];
     const toolbarRef = element.getElementsByClassName("b-richtextedit-toolbar")[0];
     const contentRef = element.getElementsByClassName("b-richtextedit-content")[0];
+    const richTextEditVersion = options.version || "2.0.0.0";
 
     let quillOptions = {
         modules: {
@@ -114,6 +118,16 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
         readOnly: options.readOnly,
         theme: options.theme
     };
+
+    const moduleStyles = [];
+
+    if (options.useTables === true)
+        moduleStyles.push("quill-table-better");
+
+    if (options.useResize === true)
+        moduleStyles.push("quill-resize-module");
+
+    loadStylesheets(moduleStyles, richTextEditVersion);
 
     if (options.submitOnEnter === true) {
         quillOptions.modules.keyboard = {
