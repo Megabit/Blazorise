@@ -7,6 +7,13 @@
     "Zoom In": "Inzoomen",
     "Print": "Afdrukken",
     "of": "van",
-    "Download": "Downloaden"
+    "Download": "Downloaden",
+    "Password required": "Wachtwoord vereist",
+    "Enter the password to open this PDF.": "Voer het wachtwoord in om deze PDF te openen.",
+    "Incorrect password. Please try again.": "Onjuist wachtwoord. Probeer het opnieuw.",
+    "Password": "Wachtwoord",
+    "Open": "Openen",
+    "Cancel": "Annuleren",
+    "Password is required.": "Wachtwoord is vereist."
   }
 }

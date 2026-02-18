@@ -7,6 +7,13 @@
     "Zoom In": "放大",
     "Print": "打印",
     "of": "共",
-    "Download": "下载"
+    "Download": "下载",
+    "Password required": "需要密码",
+    "Enter the password to open this PDF.": "输入密码以打开此 PDF。",
+    "Incorrect password. Please try again.": "密码错误。请重试。",
+    "Password": "密码",
+    "Open": "打开",
+    "Cancel": "取消",
+    "Password is required.": "需要密码。"
   }
 }

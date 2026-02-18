@@ -7,6 +7,13 @@
     "Zoom In": "Auka aðdrátt",
     "Print": "Prenta",
     "of": "af",
-    "Download": "Sækja"
+    "Download": "Sækja",
+    "Password required": "Lykilorð krafist",
+    "Enter the password to open this PDF.": "Sláðu inn lykilorðið til að opna þetta PDF.",
+    "Incorrect password. Please try again.": "Rangt lykilorð. Vinsamlegast reyndu aftur.",
+    "Password": "Lykilorð",
+    "Open": "Opna",
+    "Cancel": "Hætta við",
+    "Password is required.": "Lykilorð er krafist."
   }
 }
