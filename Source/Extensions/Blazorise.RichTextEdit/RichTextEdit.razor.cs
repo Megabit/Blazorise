@@ -28,9 +28,22 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </summary>
     private string initialContent;
 
+    /// <summary>
+    /// Captured UseSmartPaste parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseSmartPaste;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( UseSmartPaste, out paramUseSmartPaste );
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -337,6 +350,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     protected string InitialContent => initialContent;
 
     /// <summary>
+    /// Gets a value indicating whether the smart paste functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseSmartPaste => paramUseSmartPaste.Defined ? paramUseSmartPaste.Value : GlobalOptions.UseSmartPaste;
+
+    /// <summary>
     /// The toolbar element reference.
     /// </summary>
     public ElementReference ToolbarRef { get; protected set; }
@@ -350,6 +368,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Gets or sets the <see cref="JSRichTextEditModule"/> instance.
     /// </summary>
     [Inject] private JSRichTextEditModule JSModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the options used to configure the behavior and features of the RichTextEdit component.
+    /// </summary>
+    [Inject] private RichTextEditOptions GlobalOptions { get; set; }
 
     /// <summary>
     /// [Optional] Gets or sets the content of the toolbar.
@@ -390,9 +413,9 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Indicates whether smart paste functionality should be enabled.
     /// </summary>
     /// <remarks>
-    /// When defined, this value has priority over globally configured <see cref="RichTextEditOptions.UseSmartPaste"/>.
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseSmartPaste"/>.
     /// </remarks>
-    [Parameter] public bool? UseSmartPaste { get; set; }
+    [Parameter] public bool UseSmartPaste { get; set; }
 
     /// <summary>
     /// Occurs when the content within the editor changes.
