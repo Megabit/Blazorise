@@ -27,3 +27,9 @@ output: {
 5. run `yarn run build`
 
 Now go to the `dist` folder and you will find the `resize.js` file that you copy into the Blazorise project and name it `quill-resize-module.js`.
+
+### quill-paste-smart
+
+GitHub (fork): https://github.com/Megabit/quill-paste-smart
+
+Blazorise uses a forked version of `quill-paste-smart`. It is customized to work on a per-component basis in `RichTextEdit`, instead of hooking into Quill's global clipboard module behavior.
