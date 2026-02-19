@@ -1,0 +1,20 @@
+{
+  "culture": "is",
+  "translations": {
+    "Password Strength": "Styrkleiki lykilorðs",
+    "Enter password": "Sláðu inn lykilorð",
+    "Strength": "Styrkleiki",
+    "Weak": "Veikt",
+    "Fair": "Sæmilegt",
+    "Good": "Gott",
+    "Strong": "Sterkt",
+    "At least {0} characters": "Að minnsta kosti {0} stafir",
+    "One uppercase letter": "Einn hástafur",
+    "One lowercase letter": "Einn lágstafur",
+    "One number": "Ein tala",
+    "One special character": "Einn sértákn",
+    "Not a common or breached password": "Ekki algengt eða brotið lykilorð",
+    "Show password": "Sýna lykilorð",
+    "Hide password": "Fela lykilorð"
+  }
+}

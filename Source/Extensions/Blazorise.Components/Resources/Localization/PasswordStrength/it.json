@@ -1,0 +1,20 @@
+{
+  "culture": "it",
+  "translations": {
+    "Password Strength": "Sicurezza della password",
+    "Enter password": "Inserisci la password",
+    "Strength": "Sicurezza",
+    "Weak": "Debole",
+    "Fair": "Discreta",
+    "Good": "Buona",
+    "Strong": "Forte",
+    "At least {0} characters": "Almeno {0} caratteri",
+    "One uppercase letter": "Una lettera maiuscola",
+    "One lowercase letter": "Una lettera minuscola",
+    "One number": "Un numero",
+    "One special character": "Un carattere speciale",
+    "Not a common or breached password": "Non è una password comune o compromessa",
+    "Show password": "Mostra password",
+    "Hide password": "Nascondi password"
+  }
+}
