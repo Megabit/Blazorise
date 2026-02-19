@@ -31,7 +31,7 @@
             </CardBody>
             <CardBody>
                 <Div Height="Height.Rem( 50 )" Overflow="Overflow.Auto">
-                    <PdfViewer @ref="@standalonePdfViewerRef" Source="@source" @bind-PageNumber="@pageNumber" @bind-Scale="@scale" />
+                    <PdfViewer @ref="@standalonePdfViewerRef" Source="@source" @bind-PageNumber="@pageNumber" @bind-Scale="@scale" UseModalDownloadFileNamePrompt />
                 </Div>
             </CardBody>
         </Card>

@@ -14,6 +14,10 @@
     "Password": "Adgangskode",
     "Open": "Åbn",
     "Cancel": "Annuller",
-    "Password is required.": "Adgangskode er påkrævet."
+    "Password is required.": "Adgangskode er påkrævet.",
+    "Save PDF": "Gem PDF",
+    "Enter a filename for this download.": "Indtast et filnavn til denne download.",
+    "Filename": "Filnavn",
+    "Filename is required.": "Filnavn er påkrævet."
   }
 }

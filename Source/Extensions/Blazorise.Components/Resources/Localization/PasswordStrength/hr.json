@@ -1,0 +1,20 @@
+{
+  "culture": "hr",
+  "translations": {
+    "Password Strength": "Jačina lozinke",
+    "Enter password": "Unesite lozinku",
+    "Strength": "Jačina",
+    "Weak": "Slaba",
+    "Fair": "Osrednja",
+    "Good": "Dobra",
+    "Strong": "Jaka",
+    "At least {0} characters": "Najmanje {0} znakova",
+    "One uppercase letter": "Jedno veliko slovo",
+    "One lowercase letter": "Jedno malo slovo",
+    "One number": "Jedan broj",
+    "One special character": "Jedan posebni znak",
+    "Not a common or breached password": "Nije uobičajena ni kompromitirana lozinka",
+    "Show password": "Prikaži lozinku",
+    "Hide password": "Sakrij lozinku"
+  }
+}
