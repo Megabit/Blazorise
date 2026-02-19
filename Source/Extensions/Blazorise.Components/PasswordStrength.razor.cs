@@ -372,6 +372,34 @@ public partial class PasswordStrength : BaseTextInput<string>
         return $"{validationClass} {inputClass.Trim()}";
     }
 
+    private string BuildAddonsClassNames()
+    {
+        string validationClass = ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None );
+        string hasValidationClass = ParentValidation is not null ? "has-validation" : null;
+        string addonsClass = PasswordStrengthClasses?.Addons;
+
+        if ( string.IsNullOrWhiteSpace( validationClass ) )
+        {
+            if ( string.IsNullOrWhiteSpace( hasValidationClass ) )
+                return string.IsNullOrWhiteSpace( addonsClass ) ? null : addonsClass.Trim();
+
+            return string.IsNullOrWhiteSpace( addonsClass )
+                ? hasValidationClass
+                : $"{hasValidationClass} {addonsClass.Trim()}";
+        }
+
+        if ( string.IsNullOrWhiteSpace( hasValidationClass ) )
+        {
+            return string.IsNullOrWhiteSpace( addonsClass )
+                ? validationClass
+                : $"{validationClass} {addonsClass.Trim()}";
+        }
+
+        return string.IsNullOrWhiteSpace( addonsClass )
+            ? $"{validationClass} {hasValidationClass}"
+            : $"{validationClass} {hasValidationClass} {addonsClass.Trim()}";
+    }
+
     #endregion
 
     #region Properties
@@ -429,7 +457,7 @@ public partial class PasswordStrength : BaseTextInput<string>
 
     protected string ContainerStyleNames => StyleNames;
 
-    protected string AddonsClassNames => PasswordStrengthClasses?.Addons;
+    protected string AddonsClassNames => BuildAddonsClassNames();
 
     protected string AddonsStyleNames => PasswordStrengthStyles?.Addons;
 
