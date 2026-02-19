@@ -389,7 +389,7 @@ public partial class PasswordStrength : BaseTextInput<string>
 
     protected string InputClassNames => ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None );
 
-    protected string CardClassNames => string.IsNullOrWhiteSpace( Class )
+    protected string ContainerClassNames => string.IsNullOrWhiteSpace( Class )
         ? "b-password-strength"
         : $"b-password-strength {Class}";
 
