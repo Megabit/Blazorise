@@ -499,6 +499,11 @@ public partial class PasswordStrength : BaseTextInput<string>
     [Parameter] public bool ShowPasswordToggle { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets the color for the password visibility toggle button.
+    /// </summary>
+    [Parameter] public Color ShowPasswordButtonColor { get; set; } = Color.Light;
+
+    /// <summary>
     /// If true, the entered value will be updated after each key press.
     /// </summary>
     [Parameter] public bool? Immediate { get; set; } = true;
