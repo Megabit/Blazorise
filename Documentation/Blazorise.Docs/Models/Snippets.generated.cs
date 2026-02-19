@@ -10490,6 +10490,149 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string PasswordStrengthBasicExample = @"<PasswordStrength @bind-Value=""@password""
+                  Title=""Password Strength""
+                  Placeholder=""Use a long passphrase""
+                  StrengthChanged=""@OnStrengthChanged"" />
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Current score:</Span> @score%
+</Div>
+
+@code {
+    private string password;
+    private int score;
+
+    private void OnStrengthChanged( PasswordStrengthChangedEventArgs eventArgs )
+    {
+        score = eventArgs.Score;
+    }
+}";
+
+        public const string PasswordStrengthLocalizationExample = @"@using System.Collections.Generic
+@using System.Globalization
+
+<PasswordStrength @bind-Value=""@password""
+                  MinimumLength=""10""
+                  RequireNumber
+                  PasswordStrengthLocalizer=""@Localize"" />
+
+@code {
+    private static readonly Dictionary<string, string> customLocalization = new()
+    {
+        [""Password Strength""] = ""Password quality"",
+        [""Enter password""] = ""Enter your password"",
+        [""Strength""] = ""Strength"",
+        [""Strong""] = ""Excellent"",
+        [""Good""] = ""Good"",
+        [""Fair""] = ""Average"",
+        [""Weak""] = ""Weak"",
+        [""Show password""] = ""Show password"",
+        [""Hide password""] = ""Hide password"",
+        [""At least {0} characters""] = ""Use at least {0} characters"",
+        [""One number""] = ""Include one number"",
+        [""Not a common or breached password""] = ""Avoid common or breached passwords"",
+    };
+
+    private string password;
+
+    private string Localize( string name, params object[] arguments )
+    {
+        string template = customLocalization.TryGetValue( name, out string localizedText )
+            ? localizedText
+            : name;
+
+        return arguments?.Length > 0
+            ? string.Format( CultureInfo.CurrentCulture, template, arguments )
+            : template;
+    }
+}";
+
+        public const string PasswordStrengthPolicyExample = @"<PasswordStrength @bind-Value=""@password""
+                  Title=""Enterprise password policy""
+                  MinimumLength=""12""
+                  RequireUppercase
+                  RequireLowercase
+                  RequireNumber
+                  RequireSpecialCharacter
+                  RequireNotCompromisedPassword
+                  BlockedPasswords=""@blockedPasswords"" />
+
+@code {
+    private static readonly string[] blockedPasswords =
+    [
+        ""P@ssw0rd"",
+        ""Password123!"",
+        ""Welcome123!""
+    ];
+
+    private string password;
+}";
+
+        public const string PasswordStrengthValidationExample = @"@using System
+@using System.Linq
+
+<Validations @ref=""@validations"" Mode=""ValidationMode.Manual"">
+    <Validation Validator=""@ValidatePasswordPolicy"">
+        <Field>
+            <FieldLabel RequiredIndicator>Password</FieldLabel>
+            <FieldBody>
+                <PasswordStrength @bind-Value=""@password""
+                                  MinimumLength=""12""
+                                  RequireUppercase
+                                  RequireLowercase
+                                  RequireNumber
+                                  RequireSpecialCharacter>
+                    <Feedback>
+                        <ValidationError>Please enter a password that satisfies all active policy rules.</ValidationError>
+                    </Feedback>
+                </PasswordStrength>
+            </FieldBody>
+        </Field>
+    </Validation>
+
+    <Button Color=""Color.Primary"" Clicked=""@ValidateAll"">
+        Validate
+    </Button>
+</Validations>
+
+@code {
+    private Validations validations;
+    private string password;
+
+    private void ValidatePasswordPolicy( ValidatorEventArgs eventArgs )
+    {
+        string currentPassword = Convert.ToString( eventArgs.Value );
+
+        if ( string.IsNullOrWhiteSpace( currentPassword ) )
+        {
+            eventArgs.Status = ValidationStatus.Error;
+            return;
+        }
+
+        bool hasMinimumLength = currentPassword.Length >= 12;
+        bool hasUppercase = currentPassword.Any( char.IsUpper );
+        bool hasLowercase = currentPassword.Any( char.IsLower );
+        bool hasNumber = currentPassword.Any( char.IsDigit );
+        bool hasSpecialCharacter = currentPassword.Any( c => char.IsPunctuation( c ) || char.IsSymbol( c ) );
+
+        bool isValid = hasMinimumLength
+            && hasUppercase
+            && hasLowercase
+            && hasNumber
+            && hasSpecialCharacter;
+
+        eventArgs.Status = isValid
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+    }
+
+    private Task ValidateAll()
+    {
+        return validations.ValidateAll();
+    }
+}";
+
         public const string ImportPdfViewerExample = @"@using Blazorise.PdfViewer";
 
         public const string PdfViewerBase64Example = @"<PdfViewer Source=""@($""data:application/pdf;base64,{base64String}"")"" />

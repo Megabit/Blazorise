@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-17T10:04:29.1880819Z",
+  "generatedUtc": "2026-02-19T09:42:14.1133941Z",
   "pages": [
     {
       "route": "/docs",
@@ -5776,6 +5776,68 @@
         {
           "kind": "type",
           "name": "Markdown"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/passwordstrength",
+      "title": "Blazorise PasswordStrength component",
+      "description": "Learn how to use the Blazorise PasswordStrength component to evaluate password strength with configurable rules, localization, and validation support.",
+      "pagePath": "Pages/Docs/Extensions/PasswordStrength/PasswordStrengthPage.razor",
+      "examples": [
+        {
+          "code": "ComponentsNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.Components",
+          "title": "NuGet",
+          "description": "Install extension from NuGet."
+        },
+        {
+          "code": "ComponentsImportExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/ComponentsImportExample.snippet",
+          "content": "@using Blazorise.Components",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
+          "code": "PasswordStrengthBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PasswordStrength/Examples/PasswordStrengthBasicExample.razor",
+          "content": "<PasswordStrength @bind-Value=\"@password\"\r\n                  Title=\"Password Strength\"\r\n                  Placeholder=\"Use a long passphrase\"\r\n                  StrengthChanged=\"@OnStrengthChanged\" />\r\n\r\n<Div Margin=\"Margin.Is3.FromTop\">\r\n    <Span TextWeight=\"TextWeight.SemiBold\">Current score:</Span> @score%\r\n</Div>\r\n\r\n@code {\r\n    private string password;\r\n    private int score;\r\n\r\n    private void OnStrengthChanged( PasswordStrengthChangedEventArgs eventArgs )\r\n    {\r\n        score = eventArgs.Score;\r\n    }\r\n}",
+          "title": "Basic",
+          "description": "Start with the default passphrase-first configuration."
+        },
+        {
+          "code": "PasswordStrengthPolicyExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PasswordStrength/Examples/PasswordStrengthPolicyExample.razor",
+          "content": "<PasswordStrength @bind-Value=\"@password\"\r\n                  Title=\"Enterprise password policy\"\r\n                  MinimumLength=\"12\"\r\n                  RequireUppercase\r\n                  RequireLowercase\r\n                  RequireNumber\r\n                  RequireSpecialCharacter\r\n                  RequireNotCompromisedPassword\r\n                  BlockedPasswords=\"@blockedPasswords\" />\r\n\r\n@code {\r\n    private static readonly string[] blockedPasswords =\r\n    [\r\n        \"P@ssw0rd\",\r\n        \"Password123!\",\r\n        \"Welcome123!\"\r\n    ];\r\n\r\n    private string password;\r\n}",
+          "title": "Custom policy",
+          "description": "Configure a stricter policy with composition requirements and a custom blocked-password list."
+        },
+        {
+          "code": "PasswordStrengthValidationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PasswordStrength/Examples/PasswordStrengthValidationExample.razor",
+          "content": "@using System\r\n@using System.Linq\r\n\r\n<Validations @ref=\"@validations\" Mode=\"ValidationMode.Manual\">\r\n    <Validation Validator=\"@ValidatePasswordPolicy\">\r\n        <Field>\r\n            <FieldLabel RequiredIndicator>Password</FieldLabel>\r\n            <FieldBody>\r\n                <PasswordStrength @bind-Value=\"@password\"\r\n                                  MinimumLength=\"12\"\r\n                                  RequireUppercase\r\n                                  RequireLowercase\r\n                                  RequireNumber\r\n                                  RequireSpecialCharacter>\r\n                    <Feedback>\r\n                        <ValidationError>Please enter a password that satisfies all active policy rules.</ValidationError>\r\n                    </Feedback>\r\n                </PasswordStrength>\r\n            </FieldBody>\r\n        </Field>\r\n    </Validation>\r\n\r\n    <Button Color=\"Color.Primary\" Clicked=\"@ValidateAll\">\r\n        Validate\r\n    </Button>\r\n</Validations>\r\n\r\n@code {\r\n    private Validations validations;\r\n    private string password;\r\n\r\n    private void ValidatePasswordPolicy( ValidatorEventArgs eventArgs )\r\n    {\r\n        string currentPassword = Convert.ToString( eventArgs.Value );\r\n\r\n        if ( string.IsNullOrWhiteSpace( currentPassword ) )\r\n        {\r\n            eventArgs.Status = ValidationStatus.Error;\r\n            return;\r\n        }\r\n\r\n        bool hasMinimumLength = currentPassword.Length >= 12;\r\n        bool hasUppercase = currentPassword.Any( char.IsUpper );\r\n        bool hasLowercase = currentPassword.Any( char.IsLower );\r\n        bool hasNumber = currentPassword.Any( char.IsDigit );\r\n        bool hasSpecialCharacter = currentPassword.Any( c => char.IsPunctuation( c ) || char.IsSymbol( c ) );\r\n\r\n        bool isValid = hasMinimumLength\r\n            && hasUppercase\r\n            && hasLowercase\r\n            && hasNumber\r\n            && hasSpecialCharacter;\r\n\r\n        eventArgs.Status = isValid\r\n            ? ValidationStatus.Success\r\n            : ValidationStatus.Error;\r\n    }\r\n\r\n    private Task ValidateAll()\r\n    {\r\n        return validations.ValidateAll();\r\n    }\r\n}",
+          "title": "Validation",
+          "description": "Use PasswordStrength inside Validation and Validations just like any other text input."
+        },
+        {
+          "code": "PasswordStrengthLocalizationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PasswordStrength/Examples/PasswordStrengthLocalizationExample.razor",
+          "content": "@using System.Collections.Generic\r\n@using System.Globalization\r\n\r\n<PasswordStrength @bind-Value=\"@password\"\r\n                  MinimumLength=\"10\"\r\n                  RequireNumber\r\n                  PasswordStrengthLocalizer=\"@Localize\" />\r\n\r\n@code {\r\n    private static readonly Dictionary<string, string> customLocalization = new()\r\n    {\r\n        [\"Password Strength\"] = \"Password quality\",\r\n        [\"Enter password\"] = \"Enter your password\",\r\n        [\"Strength\"] = \"Strength\",\r\n        [\"Strong\"] = \"Excellent\",\r\n        [\"Good\"] = \"Good\",\r\n        [\"Fair\"] = \"Average\",\r\n        [\"Weak\"] = \"Weak\",\r\n        [\"Show password\"] = \"Show password\",\r\n        [\"Hide password\"] = \"Hide password\",\r\n        [\"At least {0} characters\"] = \"Use at least {0} characters\",\r\n        [\"One number\"] = \"Include one number\",\r\n        [\"Not a common or breached password\"] = \"Avoid common or breached passwords\",\r\n    };\r\n\r\n    private string password;\r\n\r\n    private string Localize( string name, params object[] arguments )\r\n    {\r\n        string template = customLocalization.TryGetValue( name, out string localizedText )\r\n            ? localizedText\r\n            : name;\r\n\r\n        return arguments?.Length > 0\r\n            ? string.Format( CultureInfo.CurrentCulture, template, arguments )\r\n            : template;\r\n    }\r\n}",
+          "title": "Custom localization",
+          "description": "Override localized texts with the PasswordStrengthLocalizer parameter."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "PasswordStrength"
         }
       ]
     },
