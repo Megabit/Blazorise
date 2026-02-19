@@ -1,0 +1,20 @@
+{
+  "culture": "ro",
+  "translations": {
+    "Password Strength": "Puterea parolei",
+    "Enter password": "Introduceți parola",
+    "Strength": "Putere",
+    "Weak": "Slabă",
+    "Fair": "Acceptabilă",
+    "Good": "Bună",
+    "Strong": "Puternică",
+    "At least {0} characters": "Cel puțin {0} caractere",
+    "One uppercase letter": "O literă mare",
+    "One lowercase letter": "O literă mică",
+    "One number": "Un număr",
+    "One special character": "Un caracter special",
+    "Not a common or breached password": "Nu este o parolă comună sau compromisă",
+    "Show password": "Afișează parola",
+    "Hide password": "Ascunde parola"
+  }
+}

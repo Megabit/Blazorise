@@ -345,6 +345,8 @@ class EmptyClassProvider : IClassProvider
 
     public string AddonsHasButton( bool hasButton ) => null;
 
+    public string AddonsValidation( ValidationStatus validationStatus ) => null;
+
     public string Addon( AddonType addonType ) => null;
 
     public string AddonSize( Size size ) => null;

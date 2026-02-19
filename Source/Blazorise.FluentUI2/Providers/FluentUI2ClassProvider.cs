@@ -365,6 +365,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => null;
+
     public override string Addon( AddonType addonType )
     {
         return addonType switch
