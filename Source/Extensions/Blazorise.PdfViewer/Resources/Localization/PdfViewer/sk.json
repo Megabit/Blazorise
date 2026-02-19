@@ -14,6 +14,10 @@
     "Password": "Heslo",
     "Open": "Otvoriť",
     "Cancel": "Zrušiť",
-    "Password is required.": "Heslo je povinné."
+    "Password is required.": "Heslo je povinné.",
+    "Save PDF": "Uložiť PDF",
+    "Enter a filename for this download.": "Zadajte názov súboru pre toto stiahnutie.",
+    "Filename": "Názov súboru",
+    "Filename is required.": "Názov súboru je povinný."
   }
 }

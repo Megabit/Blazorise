@@ -14,6 +14,10 @@
     "Password": "Passwort",
     "Open": "Öffnen",
     "Cancel": "Abbrechen",
-    "Password is required.": "Passwort ist erforderlich."
+    "Password is required.": "Passwort ist erforderlich.",
+    "Save PDF": "PDF speichern",
+    "Enter a filename for this download.": "Geben Sie einen Dateinamen für diesen Download ein.",
+    "Filename": "Dateiname",
+    "Filename is required.": "Dateiname ist erforderlich."
   }
 }

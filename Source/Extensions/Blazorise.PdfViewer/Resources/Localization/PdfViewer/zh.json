@@ -14,6 +14,10 @@
     "Password": "密码",
     "Open": "打开",
     "Cancel": "取消",
-    "Password is required.": "需要密码。"
+    "Password is required.": "需要密码。",
+    "Save PDF": "保存 PDF",
+    "Enter a filename for this download.": "请输入此下载的文件名。",
+    "Filename": "文件名",
+    "Filename is required.": "文件名为必填项。"
   }
 }

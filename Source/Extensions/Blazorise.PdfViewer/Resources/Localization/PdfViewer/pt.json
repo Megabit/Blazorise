@@ -14,6 +14,10 @@
     "Password": "Senha",
     "Open": "Abrir",
     "Cancel": "Cancelar",
-    "Password is required.": "A senha é obrigatória."
+    "Password is required.": "A senha é obrigatória.",
+    "Save PDF": "Guardar PDF",
+    "Enter a filename for this download.": "Introduza um nome de ficheiro para esta transferência.",
+    "Filename": "Nome do ficheiro",
+    "Filename is required.": "O nome do ficheiro é obrigatório."
   }
 }

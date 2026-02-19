@@ -14,6 +14,10 @@
     "Password": "Lozinka",
     "Open": "Otvori",
     "Cancel": "Odustani",
-    "Password is required.": "Lozinka je obavezna."
+    "Password is required.": "Lozinka je obavezna.",
+    "Save PDF": "Spremi PDF",
+    "Enter a filename for this download.": "Unesite naziv datoteke za ovo preuzimanje.",
+    "Filename": "Naziv datoteke",
+    "Filename is required.": "Naziv datoteke je obavezan."
   }
 }
