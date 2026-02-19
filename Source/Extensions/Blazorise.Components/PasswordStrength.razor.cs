@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Localization;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -61,6 +62,10 @@ public partial class PasswordStrength : BaseTextInput<string>
 
     private int? rulesSignature;
 
+    private PasswordStrengthClasses passwordStrengthClasses;
+
+    private PasswordStrengthStyles passwordStrengthStyles;
+
     #endregion
 
     #region Methods
@@ -92,6 +97,25 @@ public partial class PasswordStrength : BaseTextInput<string>
         rulesSignature = currentRulesSignature;
 
         base.OnParametersSet();
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-password-strength" );
+        builder.Append( PasswordStrengthClasses?.Self );
+        builder.Append( PasswordStrengthClasses?.Container );
+
+        base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( PasswordStrengthStyles?.Self );
+        builder.Append( PasswordStrengthStyles?.Container );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -334,6 +358,20 @@ public partial class PasswordStrength : BaseTextInput<string>
         return textInputRef.Focus( scrollToElement );
     }
 
+    private string BuildInputClassNames()
+    {
+        string validationClass = ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None );
+        string inputClass = PasswordStrengthClasses?.Input;
+
+        if ( string.IsNullOrWhiteSpace( validationClass ) )
+            return string.IsNullOrWhiteSpace( inputClass ) ? null : inputClass.Trim();
+
+        if ( string.IsNullOrWhiteSpace( inputClass ) )
+            return validationClass;
+
+        return $"{validationClass} {inputClass.Trim()}";
+    }
+
     #endregion
 
     #region Properties
@@ -383,11 +421,57 @@ public partial class PasswordStrength : BaseTextInput<string>
         ? GetLocalizedString( "Hide password" )
         : GetLocalizedString( "Show password" );
 
-    protected string InputClassNames => ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None );
+    protected string InputClassNames => BuildInputClassNames();
 
-    protected string ContainerClassNames => string.IsNullOrWhiteSpace( Class )
-        ? "b-password-strength"
-        : $"b-password-strength {Class}";
+    protected string InputStyleNames => PasswordStrengthStyles?.Input;
+
+    protected string ContainerClassNames => ClassNames;
+
+    protected string ContainerStyleNames => StyleNames;
+
+    protected string AddonsClassNames => PasswordStrengthClasses?.Addons;
+
+    protected string AddonsStyleNames => PasswordStrengthStyles?.Addons;
+
+    protected string ToggleButtonClassNames => PasswordStrengthClasses?.ToggleButton;
+
+    protected string ToggleButtonStyleNames => PasswordStrengthStyles?.ToggleButton;
+
+    protected string StrengthContainerClassNames => PasswordStrengthClasses?.StrengthContainer;
+
+    protected string StrengthContainerStyleNames => PasswordStrengthStyles?.StrengthContainer;
+
+    protected string StrengthCaptionClassNames => PasswordStrengthClasses?.StrengthCaption;
+
+    protected string StrengthCaptionStyleNames => PasswordStrengthStyles?.StrengthCaption;
+
+    protected string StrengthValueClassNames => PasswordStrengthClasses?.StrengthValue;
+
+    protected string StrengthValueStyleNames => PasswordStrengthStyles?.StrengthValue;
+
+    protected string ProgressContainerClassNames => PasswordStrengthClasses?.ProgressContainer;
+
+    protected string ProgressContainerStyleNames => PasswordStrengthStyles?.ProgressContainer;
+
+    protected string ProgressClassNames => PasswordStrengthClasses?.Progress;
+
+    protected string ProgressStyleNames => PasswordStrengthStyles?.Progress;
+
+    protected string RulesContainerClassNames => PasswordStrengthClasses?.RulesContainer;
+
+    protected string RulesContainerStyleNames => PasswordStrengthStyles?.RulesContainer;
+
+    protected string RuleItemClassNames => PasswordStrengthClasses?.RuleItem;
+
+    protected string RuleItemStyleNames => PasswordStrengthStyles?.RuleItem;
+
+    protected string RuleIconClassNames => PasswordStrengthClasses?.RuleIcon;
+
+    protected string RuleIconStyleNames => PasswordStrengthStyles?.RuleIcon;
+
+    protected string RuleTextClassNames => PasswordStrengthClasses?.RuleText;
+
+    protected string RuleTextStyleNames => PasswordStrengthStyles?.RuleText;
 
     /// <summary>
     /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
@@ -490,6 +574,42 @@ public partial class PasswordStrength : BaseTextInput<string>
     /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
     /// </summary>
     [Parameter] public TextLocalizerHandler PasswordStrengthLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom CSS class names for PasswordStrength component elements.
+    /// </summary>
+    [Parameter]
+    public PasswordStrengthClasses PasswordStrengthClasses
+    {
+        get => passwordStrengthClasses;
+        set
+        {
+            if ( passwordStrengthClasses == value )
+                return;
+
+            passwordStrengthClasses = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Custom inline styles for PasswordStrength component elements.
+    /// </summary>
+    [Parameter]
+    public PasswordStrengthStyles PasswordStrengthStyles
+    {
+        get => passwordStrengthStyles;
+        set
+        {
+            if ( passwordStrengthStyles == value )
+                return;
+
+            passwordStrengthStyles = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Captures all the custom attributes that should be forwarded to the internal password input element.
