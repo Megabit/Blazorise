@@ -368,6 +368,13 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => validationStatus switch
+    {
+        ValidationStatus.Success => "is-valid has-validation",
+        ValidationStatus.Error => "is-invalid has-validation",
+        _ => "has-validation",
+    };
+
     public override string Addon( AddonType addonType ) => null;
 
     public override string AddonSize( Size size ) => null;
