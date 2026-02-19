@@ -69,6 +69,7 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 
 - Follow `.editorconfig`: 4-space indentation, CRLF endings, braces preferred, and explicit types (avoid `var` unless it improves clarity).
 - Do not add a trailing newline at EOF; keep file endings without an extra line.
+- In Razor markup, prefer Blazorise components (for example `Div`, `Span`) and Blazorise utility parameters (for example `Flex`, `Gap`, `Margin`, `Padding`) instead of raw HTML layout tags and inline styles whenever possible.
 - Naming: PascalCase for types/members; interfaces start with `I`.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
 
