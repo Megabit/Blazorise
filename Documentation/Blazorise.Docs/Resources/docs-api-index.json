@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-19T09:40:25.3692383Z",
+  "generatedUtc": "2026-02-19T10:14:09.6693922Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -68537,14 +68537,6 @@
           "defaultValue": "TextWeight.Default",
           "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
           "isBlazoriseEnum": true
-        },
-        {
-          "name": "Title",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Gets or sets the component title.",
-          "isBlazoriseEnum": false
         },
         {
           "name": "UseDefaultBlockedPasswordList",

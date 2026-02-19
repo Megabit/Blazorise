@@ -371,10 +371,6 @@ public partial class PasswordStrength : BaseTextInput<string>
         _ => string.Empty,
     };
 
-    protected string TitleText => string.IsNullOrWhiteSpace( Title )
-        ? GetLocalizedString( "Password Strength" )
-        : Title;
-
     protected string InputPlaceholder => string.IsNullOrWhiteSpace( Placeholder )
         ? GetLocalizedString( "Enter password" )
         : Placeholder;
@@ -402,11 +398,6 @@ public partial class PasswordStrength : BaseTextInput<string>
     /// Gets or sets the DI registered <see cref="ITextLocalizer{PasswordStrength}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<PasswordStrength> Localizer { get; set; }
-
-    /// <summary>
-    /// Gets or sets the component title.
-    /// </summary>
-    [Parameter] public string Title { get; set; }
 
     /// <summary>
     /// Gets or sets whether to display password strength details.

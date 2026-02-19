@@ -10491,7 +10491,6 @@ Install-Package Blazorise.Icons.Material";
 }";
 
         public const string PasswordStrengthBasicExample = @"<PasswordStrength @bind-Value=""@password""
-                  Title=""Password Strength""
                   Placeholder=""Use a long passphrase""
                   StrengthChanged=""@OnStrengthChanged"" />
 
@@ -10520,7 +10519,6 @@ Install-Package Blazorise.Icons.Material";
 @code {
     private static readonly Dictionary<string, string> customLocalization = new()
     {
-        [""Password Strength""] = ""Password quality"",
         [""Enter password""] = ""Enter your password"",
         [""Strength""] = ""Strength"",
         [""Strong""] = ""Excellent"",
@@ -10549,7 +10547,6 @@ Install-Package Blazorise.Icons.Material";
 }";
 
         public const string PasswordStrengthPolicyExample = @"<PasswordStrength @bind-Value=""@password""
-                  Title=""Enterprise password policy""
                   MinimumLength=""12""
                   RequireUppercase
                   RequireLowercase
