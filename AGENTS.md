@@ -10,6 +10,7 @@
 - `NuGet/`: local packaging helpers/scripts (not the source of truth for versions).
 - Docs snippets (`Documentation/Blazorise.Docs/Models/Snippets*.cs`) are generated artifacts: do not touch any snippet files during AI work (do not create new ones like `Snippets.*.cs`), and avoid incidental diffs from running the docs build.
 - `Documentation/Blazorise.Docs/ApiDocs/Blazorise.ApiDocs.cs` is generated: do not edit or touch this file with AI/Codex.
+- `Documentation/Blazorise.Docs/Models/Snippets.generated.cs`, `Documentation/Blazorise.Docs/Resources/docs-index.json`, and `Documentation/Blazorise.Docs/Resources/docs-api-index.json` are generated automatically by docs tooling; incidental changes to these files are expected and should be ignored by AI agents unless explicitly requested otherwise.
 
 ## Build, Test, and Development Commands
 
