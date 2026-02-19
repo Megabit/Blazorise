@@ -344,10 +344,10 @@ public partial class PasswordStrength : BaseTextInput<string>
         => ruleState.IsSatisfied ? IconName.Check : IconName.Times;
 
     private TextColor GetRuleIconColor( PasswordRuleState ruleState )
-        => ruleState.IsSatisfied ? TextColor.Success : TextColor.Secondary;
+        => ruleState.IsSatisfied ? RuleSatisfiedColor : RuleUnsatisfiedColor;
 
     private TextColor GetRuleTextColor( PasswordRuleState ruleState )
-        => ruleState.IsSatisfied ? TextColor.Success : TextColor.Secondary;
+        => ruleState.IsSatisfied ? RuleSatisfiedColor : RuleUnsatisfiedColor;
 
     /// <inheritdoc />
     public override Task Focus( bool scrollToElement = true )
@@ -502,6 +502,16 @@ public partial class PasswordStrength : BaseTextInput<string>
     /// Gets or sets the color for the password visibility toggle button.
     /// </summary>
     [Parameter] public Color ShowPasswordButtonColor { get; set; } = Color.Light;
+
+    /// <summary>
+    /// Gets or sets the color used for satisfied password rules.
+    /// </summary>
+    [Parameter] public TextColor RuleSatisfiedColor { get; set; } = TextColor.Success;
+
+    /// <summary>
+    /// Gets or sets the color used for unsatisfied password rules.
+    /// </summary>
+    [Parameter] public TextColor RuleUnsatisfiedColor { get; set; } = TextColor.Default;
 
     /// <summary>
     /// If true, the entered value will be updated after each key press.

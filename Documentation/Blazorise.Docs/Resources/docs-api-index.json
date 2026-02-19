@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-19T10:14:09.6693922Z",
+  "generatedUtc": "2026-02-19T11:45:39.7874793Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -68331,11 +68331,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "PasswordStrengthClasses",
+          "type": "global::Blazorise.Components.PasswordStrengthClasses",
+          "typeName": "PasswordStrengthClasses",
+          "defaultValue": "null",
+          "summary": "Custom CSS class names for PasswordStrength component elements.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "PasswordStrengthLocalizer",
           "type": "global::Blazorise.Localization.TextLocalizerHandler",
           "typeName": "TextLocalizerHandler",
           "defaultValue": "null",
           "summary": "Function used to handle custom localization that will override a default <strong>ITextLocalizer</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PasswordStrengthStyles",
+          "type": "global::Blazorise.Components.PasswordStrengthStyles",
+          "typeName": "PasswordStrengthStyles",
+          "defaultValue": "null",
+          "summary": "Custom inline styles for PasswordStrength component elements.",
           "isBlazoriseEnum": false
         },
         {
@@ -68419,12 +68435,36 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "RuleSatisfiedColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "Success",
+          "summary": "Gets or sets the color used for satisfied password rules.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RuleUnsatisfiedColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "Default",
+          "summary": "Gets or sets the color used for unsatisfied password rules.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Shadow",
           "type": "global::Blazorise.Shadow",
           "typeName": "Shadow",
           "defaultValue": "Shadow.None",
           "summary": "Configures the shadow effect of the component.",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "ShowPasswordButtonColor",
+          "type": "global::Blazorise.Color",
+          "typeName": "Color",
+          "defaultValue": "Light",
+          "summary": "Gets or sets the color for the password visibility toggle button.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "ShowPasswordToggle",
