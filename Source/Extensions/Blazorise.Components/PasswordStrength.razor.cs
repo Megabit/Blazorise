@@ -13,7 +13,7 @@ namespace Blazorise.Components;
 /// <summary>
 /// Provides a password input with configurable validation rules, progress indicator, and localized rule texts.
 /// </summary>
-public partial class PasswordStrength : BaseInputComponent<string>
+public partial class PasswordStrength : BaseTextInput<string>
 {
     #region Members
 
@@ -255,11 +255,6 @@ public partial class PasswordStrength : BaseInputComponent<string>
         return 25;
     }
 
-    private async Task OnPasswordValueChanged( string value )
-    {
-        await CurrentValueHandler( value ?? string.Empty );
-    }
-
     private PasswordStrengthChangedEventArgs CreateStrengthChangedEventArgs()
     {
         return new PasswordStrengthChangedEventArgs(
@@ -412,11 +407,6 @@ public partial class PasswordStrength : BaseInputComponent<string>
     /// Gets or sets the component title.
     /// </summary>
     [Parameter] public string Title { get; set; }
-
-    /// <summary>
-    /// Gets or sets the password input placeholder.
-    /// </summary>
-    [Parameter] public string Placeholder { get; set; }
 
     /// <summary>
     /// Gets or sets whether to display password strength details.
