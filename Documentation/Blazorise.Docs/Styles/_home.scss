@@ -23,6 +23,32 @@ body[data-bs-theme="dark"] {
     .page-header {
         background-image: linear-gradient(180deg, rgba(17, 24, 39, 0.85), rgba(var(--bs-body-bg-rgb), 1) 90%), radial-gradient(ellipse at top left, rgba(147, 51, 234, 0.50), transparent 60%), radial-gradient(ellipse at top right, rgba(99, 102, 241, 0.40), transparent 60%), radial-gradient(ellipse at center right, rgba(59, 130, 246, 0.35), transparent 60%), radial-gradient(ellipse at center left, rgba(236, 72, 153, 0.30), transparent 65%), radial-gradient(ellipse at bottom left, rgba(244, 114, 182, 0.25), transparent 70%), radial-gradient(ellipse at bottom right, rgba(251, 191, 36, 0.10), transparent 75%);
     }
+
+    .home-features a:not(.home-feature-info-image),
+    .home-popular-components a,
+    .home-testimonials a {
+        color: var(--bs-body-color);
+    }
+
+    .home-case-studies {
+        .color-cards {
+            .card-details {
+                p {
+                    color: var(--bs-secondary-color);
+                }
+            }
+        }
+    }
+
+    .home-customer-feedback {
+        &-customer-cards {
+            background: var(--bs-tertiary-bg);
+
+            &:hover {
+                background: var(--bs-secondary-bg);
+            }
+        }
+    }
 }
 
 .home-community {

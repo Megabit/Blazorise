@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Main container for a <see cref="BarDropdown"/> menu that can contain or or more <see cref="BarDropdownItem"/>'s.
 /// </summary>
-public partial class BarDropdownMenu : BaseComponent
+public partial class BarDropdownMenu : BaseComponent<BarDropdownMenuClasses, BarDropdownMenuStyles>
 {
     #region Members
 
@@ -24,7 +24,8 @@ public partial class BarDropdownMenu : BaseComponent
     /// </summary>
     public BarDropdownMenu()
     {
-        ContainerClassBuilder = new( BuildContainerClasses );
+        ContainerClassBuilder = new( BuildContainerClasses, builder => builder.Append( Classes?.Container ) );
+        ContainerStyleBuilder = new( BuildContainerStyles, builder => builder.Append( Styles?.Container ) );
     }
 
     #endregion
@@ -49,6 +50,16 @@ public partial class BarDropdownMenu : BaseComponent
     {
         builder.Append( ClassProvider.BarDropdownMenuContainer( ParentDropdownState.Mode ) );
         builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode, ParentDropdownState.RightAligned ) );
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <summary>
+    /// Builds the styles for a menu container.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildContainerStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
     }
 
     /// <inheritdoc/>
@@ -57,6 +68,14 @@ public partial class BarDropdownMenu : BaseComponent
         ContainerClassBuilder.Dirty();
 
         base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        ContainerStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     #endregion
@@ -72,6 +91,16 @@ public partial class BarDropdownMenu : BaseComponent
     /// Dropdown-menu container class builder.
     /// </summary>
     protected ClassBuilder ContainerClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Dropdown-menu container style builder.
+    /// </summary>
+    protected StyleBuilder ContainerStyleBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the styles for a dropdown-menu container.
+    /// </summary>
+    protected string ContainerStyleNames => ContainerStyleBuilder.Styles;
 
     /// <summary>
     /// Gets the string representation of visibility flag.

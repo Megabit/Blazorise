@@ -1,18 +1,18 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
+@inherits BaseComponent<TabsClasses, TabsStyles>
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         @if ( TabPosition == TabPosition.Top )
         {
             @if ( Items is not null )
             {
-                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" @attributes="@Attributes">
                     @Items
                 </ul>
             }
             @if ( Content is not null )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
+                <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                     @Content
                 </div>
             }
@@ -21,13 +21,13 @@
         {
             @if ( Content is not null )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
+                <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                     @Content
                 </div>
             }
             @if ( Items is not null )
             {
-                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" @attributes="@Attributes">
                     @Items
                 </ul>
             }
@@ -38,7 +38,7 @@
                 <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items is not null )
                     {
-                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" @attributes="@Attributes">
                             @Items
                         </ul>
                     }
@@ -46,7 +46,7 @@
                 <Column>
                     @if ( Content is not null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                        <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }
@@ -59,7 +59,7 @@
                 <Column>
                     @if ( Content is not null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                    <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }
@@ -67,7 +67,7 @@
                 <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items is not null )
                     {
-                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" @attributes="@Attributes">
                             @Items
                         </ul>
                     }

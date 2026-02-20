@@ -27,20 +27,38 @@
     LineChartDataset<double> GetLineChartDataset()
     {
         return new LineChartDataset<double>
-            {
-                Label = "# of randoms",
-                Data = RandomizeData(),
-                BackgroundColor = backgroundColors,
-                BorderColor = borderColors,
-                Fill = true,
-                PointRadius = 3,
-                CubicInterpolationMode = "monotone",
-            };
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = BackgroundColors,
+            BorderColor = BorderColors,
+            Fill = true,
+            PointRadius = 3,
+            CubicInterpolationMode = "monotone",
+        };
     }
 
-    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    private static string[] Labels = { "A", "B", "C", "D", "E", "F" };
+
+    private static List<string> BackgroundColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal
+        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber
+        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red
+        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple
+        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue
+    };
+
+    private static List<string> BorderColors = new()
+    {
+        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo
+        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal
+        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber
+        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red
+        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple
+        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue
+    };
 
     List<double> RandomizeData()
     {
@@ -56,39 +74,39 @@
     }
 
     private ChartZoomPluginOptions lineChartZoomOptions = new()
+    {
+        Zoom = new()
         {
-            Zoom = new()
+            Mode = "y",
+            Wheel = new()
             {
-                Mode = "y",
-                Wheel = new()
-                {
-                    Enabled = true,
-                },
-                Pinch = new()
-                {
-                    Enabled = true
-                },
-                Drag = new()
-                {
-                    Enabled = true
-                }
+                Enabled = true,
             },
-            Limits = new()
+            Pinch = new()
             {
-                Y = new()
-                {
-                    Min = 0,
-                    Max = 50,
-                    MinRange = 25
-                }
+                Enabled = true
             },
-            Transition = new ChartZoomTransitionOptions()
+            Drag = new()
             {
-                Animation = new ChartAnimation()
-                {
-                    Duration = 1000,
-                    Easing = "easeOutCubic"
-                }
+                Enabled = true
             }
-        };
+        },
+        Limits = new()
+        {
+            Y = new()
+            {
+                Min = 0,
+                Max = 50,
+                MinRange = 25
+            }
+        },
+        Transition = new ChartZoomTransitionOptions()
+        {
+            Animation = new ChartAnimation()
+            {
+                Duration = 1000,
+                Easing = "easeOutCubic"
+            }
+        }
+    };
 }

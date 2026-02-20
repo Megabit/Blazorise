@@ -1,8 +1,8 @@
-import "./vendors/flatpickr.js?v=1.8.6.0";
-import "./vendors/flatpickr-monthselect.js?v=1.8.6.0";
-import * as utilities from "./utilities.js?v=1.8.6.0";
-import * as inputmask from "./inputMask.js?v=1.8.6.0";
-import { ClassWatcher } from "./observer.js?v=1.8.6.0";
+import "./vendors/flatpickr.js?v=2.0.0.0";
+import "./vendors/flatpickr-monthselect.js?v=2.0.0.0";
+import * as utilities from "./utilities.js?v=2.0.0.0";
+import * as inputmask from "./inputMask.js?v=2.0.0.0";
+import { ClassWatcher } from "./observer.js?v=2.0.0.0";
 
 const _pickers = [];
 
@@ -70,6 +70,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         inline: utilities.coalesce(options.inline, false),
         disableMobile: utilities.coalesce(options.disableMobile, true),
         static: options.staticPicker,
+        position: options.staticPicker ? "below" : "auto",
         weekNumbers: options.showWeekNumbers,
         todayButton: options.showTodayButton,
         clearButton: options.showClearButton,
@@ -339,6 +340,7 @@ export function updateOptions(element, elementId, options) {
 
         if (options.staticPicker.changed) {
             picker.set("static", options.staticPicker.value);
+            picker.set("position", options.staticPicker.value ? "below" : "auto");
         }
 
         if (options.showWeekNumbers.changed) {

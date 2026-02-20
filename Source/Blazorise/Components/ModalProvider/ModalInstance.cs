@@ -209,10 +209,6 @@ public class ModalInstance
     /// </summary>
     public bool? FocusTrap => ModalInstanceOptions?.FocusTrap ?? ModalProvider.FocusTrap;
 
-    #endregion
-
-    #region ModalContent
-
     /// <inheritdoc/>
     public bool Centered => ModalInstanceOptions?.Centered ?? ModalProvider.Centered;
 

@@ -5,23 +5,23 @@
         {
             @if ( Marker != null )
             {
-                <div class="@MarkerClassNames">
+                <div class="@MarkerClassNames" style="@Styles?.Marker">
                     @Marker
                 </div>
             }
             @if ( Caption != null )
             {
-                <span class="@DescriptionClassNames">
+                <span class="@DescriptionClassNames" style="@Styles?.Description">
                     @Caption
                 </span>
             }
         }
         else
         {
-            <div class="@MarkerClassNames">
+            <div class="@MarkerClassNames" style="@Styles?.Marker">
                 @CalculatedIndex
             </div>
-            <span class="@DescriptionClassNames">
+            <span class="@DescriptionClassNames" style="@Styles?.Description">
                 @ChildContent
             </span>
         }

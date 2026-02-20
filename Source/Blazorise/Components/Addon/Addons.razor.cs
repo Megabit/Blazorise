@@ -19,13 +19,36 @@ public partial class Addons : BaseComponent, IDisposable
 
     private List<Button> registeredButtons;
 
+    private Validation previousParentValidation;
+
+    private ValidationStatus previousValidationStatus;
+
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        if ( ParentValidation != previousParentValidation )
+        {
+            DetachValidationStatusChangedListener();
+
+            if ( ParentValidation is not null )
+                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
+
+            previousParentValidation = ParentValidation;
+            previousValidationStatus = ParentValidation?.Status ?? ValidationStatus.None;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
+        previousValidationStatus = ParentValidation?.Status ?? ValidationStatus.None;
+
         await base.OnInitializedAsync();
 
         if ( Theme is not null )
@@ -52,6 +75,13 @@ public partial class Addons : BaseComponent, IDisposable
     {
         if ( disposing )
         {
+            DetachValidationStatusChangedListener();
+
+            if ( ParentValidation is not null )
+            {
+                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+            }
+
             if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
@@ -67,8 +97,37 @@ public partial class Addons : BaseComponent, IDisposable
         builder.Append( ClassProvider.Addons() );
         builder.Append( ClassProvider.AddonsSize( ThemeSize ) );
         builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
+        builder.Append( ClassProvider.AddonsValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation is not null );
 
         base.BuildClasses( builder );
+    }
+
+    /// <summary>
+    /// Unsubscribe from <see cref="Validation.StatusChanged"/> event.
+    /// </summary>
+    private void DetachValidationStatusChangedListener()
+    {
+        if ( previousParentValidation is not null )
+        {
+            previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+        }
+    }
+
+    /// <summary>
+    /// Handles the <see cref="Validation.StatusChanged"/> event.
+    /// </summary>
+    /// <param name="sender">Object that raised the event.</param>
+    /// <param name="eventArgs">Data about the <see cref="Validation"/> status change event.</param>
+    protected void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+    {
+        if ( previousValidationStatus != eventArgs.Status )
+        {
+            previousValidationStatus = eventArgs.Status;
+
+            DirtyClasses();
+
+            InvokeAsync( StateHasChanged );
+        }
     }
 
     /// <summary>
@@ -159,6 +218,11 @@ public partial class Addons : BaseComponent, IDisposable
     /// Cascaded theme settings.
     /// </summary>
     [CascadingParameter] public Theme Theme { get; set; }
+
+    /// <summary>
+    /// A reference to the parent <see cref="Validation"/> component in which this component is nested.
+    /// </summary>
+    [CascadingParameter] protected Validation ParentValidation { get; set; }
 
     #endregion
 }

@@ -627,11 +627,11 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string CardTitle( bool insideHeader ) => "mui-card-title";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "mui-card-subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "mui-card-text";
 
@@ -801,8 +801,6 @@ public class MaterialClassProvider : BootstrapClassProvider
 
         return $"mui-row-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
-
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "mui-nogutters" : null;
 
     #endregion
 

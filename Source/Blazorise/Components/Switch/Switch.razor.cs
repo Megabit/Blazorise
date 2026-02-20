@@ -13,7 +13,7 @@ namespace Blazorise;
 /// Switches toggle the state of a single setting on or off.
 /// </summary>
 /// <typeparam name="TValue">Checked value type.</typeparam>
-public partial class Switch<TValue> : BaseCheckComponent<TValue>
+public partial class Switch<TValue> : BaseCheckComponent<TValue, SwitchClasses, SwitchStyles>
 {
     #region Members
 
@@ -79,6 +79,16 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
             color = value;
             DirtyClasses();
         }
+    }
+
+    /// <summary>
+    /// Defines the switch named intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
     }
 
     #endregion

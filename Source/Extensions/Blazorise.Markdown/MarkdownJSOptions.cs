@@ -8,6 +8,31 @@ namespace Blazorise.Markdown;
 public class MarkdownJSOptions
 {
     /// <summary>
+    /// Gets or sets a value indicating whether the editor should be read-only.
+    /// </summary>
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the editor should be disabled.
+    /// </summary>
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value representing the computed classnames for the markdown editor.
+    /// </summary>
+    public string ClassNames { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value representing the computed styles for the markdown editor.
+    /// </summary>
+    public string StyleNames { get; set; }
+
+    /// <summary>
+    /// Gets or sets the additional HTML attributes that will be applied to the markdown editor.
+    /// </summary>
+    public Dictionary<string, object> Attributes { get; set; }
+
+    /// <summary>
     /// Gets or sets the initial markdown content value in the editor.
     /// </summary>
     public string Value { get; set; }

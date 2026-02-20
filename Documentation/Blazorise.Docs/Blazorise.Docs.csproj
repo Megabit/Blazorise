@@ -3,7 +3,7 @@
   <Import Project="..\..\Build\Blazorise.Docs.props" />
 
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>14.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Helpers\Blazorise.Analyzers\Blazorise.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
     <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
@@ -41,28 +42,36 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
-    <PackageReference Include="MailKit" Version="4.8.0" />
-    <PackageReference Include="MimeKit" Version="4.8.0" />
-    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-    <PackageReference Include="ColorCode.HTML" Version="2.0.15" />
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="MimeKit" />
+    <PackageReference Include="Blazored.LocalStorage" />
+    <PackageReference Include="ColorCode.HTML" />
   </ItemGroup>
 
-  <!--Binary path for the code generator-->
   <PropertyGroup>
-    <BinDocsCompiler>$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/bin/Debug/net10.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+    <ApiDocsIntermediatePath>$(IntermediateOutputPath)ApiDocs</ApiDocsIntermediatePath>
   </PropertyGroup>
 
   <!--Project path for code generator-->
   <PropertyGroup>
-    <ProjectDocsCompiler>dotnet run --configuration release --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj"</ProjectDocsCompiler>
+    <ProjectDocsCompiler>dotnet run --configuration $(Configuration) --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" --</ProjectDocsCompiler>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ApiDocs\**\*.cs" />
+  </ItemGroup>
 
   <!--Execute the code generator-->
   <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
     <!--Command-line for the code generator-->
     <Message Text="Generating Docs and Tests" Importance="high" />
-    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
-    <Exec Command="$(ProjectDocsCompiler)" Condition="!Exists('$(BinDocsCompiler)')" />
+    <Exec Command="$(ProjectDocsCompiler) --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" />
+  </Target>
+
+  <Target Name="IncludeApiDocs" BeforeTargets="CoreCompile" DependsOnTargets="CompileDocs">
+    <ItemGroup>
+      <Compile Include="$(ApiDocsIntermediatePath)\**\*.ApiDocs.cs" />
+    </ItemGroup>
   </Target>
 
   <!--This file contains any ExampleCode that is new and needs including in the build -->
@@ -80,7 +89,7 @@
     <EmbeddedResource Include="Pages\**\*.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.43.0" />
+    <PackageReference Include="Markdig" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

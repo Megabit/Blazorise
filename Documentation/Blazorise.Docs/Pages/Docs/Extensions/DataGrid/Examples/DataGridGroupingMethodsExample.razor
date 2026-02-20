@@ -11,12 +11,12 @@
             <SelectList Data="@dataGridRef?.DisplayGroupedData"
                         TItem="GroupContext<Employee>" TValue="string"
                         TextField="x=> x.Key" ValueField="x=> x.Key"
-                        @bind-SelectedValue="selectedGroupKey"></SelectList>
+                        @bind-Value="selectedGroupKey"></SelectList>
         </FieldLabel>
         <FieldBody>
-            <Button Color="Color.Primary" Clicked="@(() => dataGridRef.ExpandGroups(selectedGroupKey))">Expand Selected Group</Button>
-            <Button Color="Color.Secondary" Clicked="@(() => dataGridRef.CollapseGroups(selectedGroupKey))">Collapse Selected Group</Button>
-            <Button Color="Color.Light" Clicked="@(() => dataGridRef.ToggleGroups(selectedGroupKey))">Toggle Selected Group</Button>
+            <Button Color="Color.Primary" Clicked="@(() => dataGridRef.ExpandGroups( selectedGroupKey ))">Expand Selected Group</Button>
+            <Button Color="Color.Secondary" Clicked="@(() => dataGridRef.CollapseGroups( selectedGroupKey ))">Collapse Selected Group</Button>
+            <Button Color="Color.Light" Clicked="@(() => dataGridRef.ToggleGroups( selectedGroupKey ))">Toggle Selected Group</Button>
         </FieldBody>
     </Field>
 </Paragraph>
@@ -29,16 +29,16 @@
           Groupable
           GroupBy="(x=> new { x.Childrens, x.Gender} )">
     <DataGridCommandColumn />
-    <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
-    <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" Editable />
-    <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name" Editable />
-    <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
-    <DataGridColumn Field="@nameof(Employee.Gender)" Caption="Gender" Editable />
-    <DataGridColumn Field="@nameof(Employee.Childrens)" Caption="Children" Editable />
-    <DataGridColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable />
+    <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
+    <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
+    <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable />
+    <DataGridColumn Field="@nameof( Employee.Gender )" Caption="Gender" Editable />
+    <DataGridColumn Field="@nameof( Employee.Childrens )" Caption="Children" Editable />
+    <DataGridColumn Field="@nameof( Employee.IsActive )" Caption="Active" Editable />
 </DataGrid>
 
-@code{
+@code {
     [Inject] public EmployeeData EmployeeData { get; set; }
 
     private string selectedGroupKey = "{ Childrens = 1, Gender = F }";

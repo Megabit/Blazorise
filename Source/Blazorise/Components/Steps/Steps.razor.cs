@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// Steps is a navigation bar that guides users through the steps of a task.
 /// </summary>
-public partial class Steps : BaseComponent
+public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
 {
     #region Members
 
@@ -31,7 +31,7 @@ public partial class Steps : BaseComponent
     /// </summary>
     public Steps()
     {
-        ContentClassBuilder = new( BuildContentClasses );
+        ContentClassBuilder = new( BuildContentClasses, builder => builder.Append( Classes?.Content ) );
     }
 
     #endregion
@@ -64,6 +64,14 @@ public partial class Steps : BaseComponent
     private void BuildContentClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.StepsContent() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        ContentClassBuilder.Dirty();
+
+        base.DirtyClasses();
     }
 
     internal void NotifyStepInitialized( string name )

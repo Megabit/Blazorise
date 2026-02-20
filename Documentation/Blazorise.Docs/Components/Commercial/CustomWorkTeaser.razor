@@ -1,0 +1,20 @@
+<Row Margin="Margin.Is5.FromTop.Is4.FromBottom" TextAlignment="TextAlignment.Center">
+    <Column>
+        <Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.OnY">
+            Need a feature <Span Class="gradient-commercial">sooner</Span>?
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Licenses primarily provide support and response-time commitments. For paid delivery options (Feature Sponsorship, Custom Development, and the Priority Development Queue), see our custom work page.
+        </Lead>
+        <Button Type="ButtonType.Link" To="@To" Color="Color.Primary" Size="Size.Large">
+            View custom work options
+        </Button>
+        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop">
+            Enterprise customers can recommend features, but recommendations are not a promise of implementation.
+        </Paragraph>
+    </Column>
+</Row>
+
+@code {
+    [Parameter] public string To { get; set; } = "custom-work";
+}

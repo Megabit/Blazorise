@@ -62,3 +62,9 @@ div.developers-picker button:hover {
 .license-options .form-check-label {
     width: 100%;
 }
+
+body[data-bs-theme="dark"] {
+    .text-price-color-community {
+        color: var(--bs-secondary-color);
+    }
+}

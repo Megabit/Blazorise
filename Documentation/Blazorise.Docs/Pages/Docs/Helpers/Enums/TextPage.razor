@@ -1,10 +1,40 @@
-﻿@page "/docs/helpers/enums/text"
+@page "/docs/helpers/enums/text"
 
-<Seo Canonical="/docs/helpers/enums/text" Title="Enums: Text" Description="Learn to use and work with the Blazorise Text any typography enums that help you to modify the elements appearance." />
+<Seo Canonical="/docs/helpers/enums/text" Title="Blazorise Text Enums - Alignment, Color, and Typography" Description="Text enums control alignment, color, size, weight, overflow, and input behavior. Learn the typography enums used across Blazorise text components." />
 
 <DocsPageTitle>
     Enums: Text
 </DocsPageTitle>
+
+<DocsPageLead>
+    Control text alignment, color, size, and input behavior with enums.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Text enums provide a consistent way to style text, manage overflow, and choose input roles without custom CSS.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Apply the relevant enum to the component parameter you need, such as <Code>TextAlignment</Code> for layout, <Code>TextColor</Code> for color, and <Code>TextSize</Code> for scale.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>TextAlignment.Center</Code> to center-align headings.</UnorderedListItem>
+    <UnorderedListItem><Code>TextColor.Success</Code> to highlight positive status messages.</UnorderedListItem>
+    <UnorderedListItem><Code>TextOverflow.Truncate</Code> to trim long labels with ellipses.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="TextAlignment">
@@ -25,7 +55,7 @@
     <DocsPageSectionHeader Title="TextColor">
         <Paragraph>Predefined set of contextual text colors.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>TextColor.None</Code> No color will be applied to an element.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Default</Code> No color will be applied to an element.</UnorderedListItem>
             <UnorderedListItem><Code>TextColor.Primary</Code> Primary color.</UnorderedListItem>
             <UnorderedListItem><Code>TextColor.Secondary</Code> Secondary color.</UnorderedListItem>
             <UnorderedListItem><Code>TextColor.Success</Code> Success color.</UnorderedListItem>
@@ -113,7 +143,7 @@
     <DocsPageSectionHeader Title="TextSize">
         <Paragraph>Defines the font size.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>TextSize.Default</Code> No particular size rule will be applied, meaning a default size will be used..</UnorderedListItem>
+            <UnorderedListItem><Code>TextSize.Default</Code> No particular size rule will be applied, meaning a default size will be used.</UnorderedListItem>
             <UnorderedListItem><Code>TextSize.ExtraSmall</Code> Makes an element text extra small size.</UnorderedListItem>
             <UnorderedListItem><Code>TextSize.Small</Code> Makes an element text small size.</UnorderedListItem>
             <UnorderedListItem><Code>TextSize.Medium</Code> Makes an element text medium size.</UnorderedListItem>
@@ -135,7 +165,7 @@
         <UnorderedList>
             <UnorderedListItem><Code>Screenreader.Always</Code> Default.</UnorderedListItem>
             <UnorderedListItem><Code>Screenreader.Only</Code> Hide an element to all devices except screen readers.</UnorderedListItem>
-            <UnorderedListItem><Code>Screenreader.OnlyFocusable</Code> Show the element again when it’s focused.</UnorderedListItem>
+            <UnorderedListItem><Code>Screenreader.OnlyFocusable</Code> Show the element again when it's focused.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>

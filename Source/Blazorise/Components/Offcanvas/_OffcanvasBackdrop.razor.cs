@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -14,6 +15,10 @@ public partial class _OffcanvasBackdrop : BaseComponent
     #region Members
 
     private OffcanvasState parentOffcanvasState;
+
+    private string backdropClass;
+
+    private string backdropStyle;
 
     #endregion
 
@@ -31,11 +36,34 @@ public partial class _OffcanvasBackdrop : BaseComponent
     }
 
     /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        var nextBackdropClass = ParentOffcanvas?.Classes?.Backdrop;
+
+        if ( !nextBackdropClass.IsEqual( backdropClass ) )
+        {
+            backdropClass = nextBackdropClass;
+            DirtyClasses();
+        }
+
+        var nextBackdropStyle = ParentOffcanvas?.Styles?.Backdrop;
+
+        if ( !nextBackdropStyle.IsEqual( backdropStyle ) )
+        {
+            backdropStyle = nextBackdropStyle;
+            DirtyStyles();
+        }
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.OffcanvasBackdrop() );
         builder.Append( ClassProvider.OffcanvasBackdropFade( parentOffcanvasState.Showing, parentOffcanvasState.Hiding ) );
         builder.Append( ClassProvider.OffcanvasBackdropVisible( parentOffcanvasState.Visible ) );
+        builder.Append( ParentOffcanvas?.Classes?.Backdrop );
 
         base.BuildClasses( builder );
     }
@@ -44,6 +72,7 @@ public partial class _OffcanvasBackdrop : BaseComponent
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( StyleProvider.OffcanvasAnimationDuration( Animated, AnimationDuration ) );
+        builder.Append( ParentOffcanvas?.Styles?.Backdrop );
 
         base.BuildStyles( builder );
     }

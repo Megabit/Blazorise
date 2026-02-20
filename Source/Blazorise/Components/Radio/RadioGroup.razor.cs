@@ -156,5 +156,15 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
         }
     }
 
+    /// <summary>
+    /// Defines the intent of radio buttons(only when <see cref="Buttons"/> is true).
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
     #endregion
 }

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent position builders.
 /// </summary>
-public interface IFluentPosition
+public interface IFluentPosition : IFluentUtilityTarget<IFluentPosition>
 {
     /// <summary>
     /// Builds the classnames based on position rules.
@@ -174,7 +174,8 @@ public class FluentPosition :
     IFluentPositionTranslate,
     IFluentPositionTranslateType,
     IFluentPositionWithAll,
-    IFluentPositionWithEdgeTypeAndTranslateType
+    IFluentPositionWithEdgeTypeAndTranslateType,
+    IUtilityTargeted
 {
     #region Members
 
@@ -248,6 +249,12 @@ public class FluentPosition :
         dirty = true;
     }
 
+    private IFluentPosition WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
+    }
+
     /// <summary>
     /// Starts the new position rule.
     /// </summary>
@@ -312,6 +319,21 @@ public class FluentPosition :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentPosition OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentPosition OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentPositionWithEdgeTypeAndTranslateType Static => WithPosition( PositionType.Static );

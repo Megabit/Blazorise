@@ -1,6 +1,6 @@
 ﻿@page "/docs/components/validation"
 
-<Seo Canonical="/docs/components/validation" Title="Blazorise Validation Component" Description="Learn to use and work with the Blazorise Validation components, which are used to provide simple form validation for Blazorise input components." />
+<Seo Canonical="/docs/components/validation" Title="Blazorise Validation Component" Description="Learn to use and work with the Blazorise validation components to add simple form validation to Blazorise input components." />
 
 <DocsPageTitle Path="Components/Validation">
     Blazorise Validation component
@@ -15,38 +15,38 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The basic structure for validation component is:
+    The basic structure for validation components is:
 </DocsPageParagraph>
 
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Code Tag>Validations</Code> container for all validations, it can contain multiple <Code>Validation</Code> components.
+            <Code Tag>Validations</Code> is the container for all validations and can contain multiple <Code>Validation</Code> components.
         </Paragraph>
         <UnorderedList>
             <UnorderedListItem>
                 <Paragraph>
-                    <Code Tag>Validation</Code> component that contains the validation logic.
+                    <Code Tag>Validation</Code> contains the validation logic.
                 </Paragraph>
                 <UnorderedList>
                     <UnorderedListItem>
                         <Paragraph>
-                            <Code Tag>Feedback</Code> component that displays the validation message.
+                            <Code Tag>Feedback</Code> displays the validation message.
                         </Paragraph>
                         <UnorderedList>
                             <UnorderedListItem>
                                 <Paragraph>
-                                    <Code Tag>ValidationSuccess</Code> success message.
+                                    <Code Tag>ValidationSuccess</Code> displays the success message.
                                 </Paragraph>
                             </UnorderedListItem>
                             <UnorderedListItem>
                                 <Paragraph>
-                                    <Code Tag>ValidationError</Code> error message.
+                                    <Code Tag>ValidationError</Code> displays the error message.
                                 </Paragraph>
                             </UnorderedListItem>
                             <UnorderedListItem>
                                 <Paragraph>
-                                    <Code Tag>ValidationNone</Code> message when nothing has happened.
+                                    <Code Tag>ValidationNone</Code> displays a message when nothing has happened.
                                 </Paragraph>
                             </UnorderedListItem>
                         </UnorderedList>
@@ -55,7 +55,7 @@
             </UnorderedListItem>
             <UnorderedListItem>
                 <Paragraph>
-                    <Code Tag>ValidationSummary</Code> lists all error messages
+                    <Code Tag>ValidationSummary</Code> lists all error messages.
                 </Paragraph>
             </UnorderedListItem>
         </UnorderedList>
@@ -63,23 +63,33 @@
 </UnorderedList>
 
 <DocsPageParagraph>
-    For the most part you will need to use just the <Code Tag>Validation</Code> component along
-    with <Code Tag>ValidationSuccess</Code> and <Code Tag>ValidationError</Code>. By default every validation
-    will run automatically when input value changes. You must set the <Code>Validator</Code> event handler where you can
-    define the validation rules and return the validation result.
+    In most cases, you only need the <Code Tag>Validation</Code> component together
+    with <Code Tag>ValidationSuccess</Code> and <Code Tag>ValidationError</Code>. By default, validation runs
+    automatically when an input value changes. Set the <Code>Validator</Code> handler to define the rules and return the
+    validation result.
 </DocsPageParagraph>
+
+<Paragraph>
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong>
+            Inputs that are <Code>Disabled</Code> are skipped during validation (same as native HTML forms).
+            If you need to prevent user edits while submitting, prefer <Code>ReadOnly</Code> (when supported) or disable only the submit button.
+        </AlertDescription>
+    </Alert>
+</Paragraph>
 
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Validating using Methods handlers">
+    <DocsPageSectionHeader Title="Validating using method handlers">
         <Paragraph>
-            Method handlers are the easiest and quickest way to validate fields. Therefore, we give you a set of predefined validation handlers that can be accessed through the  <Code>ValidationRule</Code> helpers class and assigned to the <Code>Validator</Code> parameter.
+            Method handlers are the easiest way to validate fields. Blazorise provides a set of predefined handlers through the <Code>ValidationRule</Code> helper class that you can assign to the <Code>Validator</Code> parameter.
         </Paragraph>
         <Paragraph>
-            Apart from using the pre-built handler methods, you can also create your own. For example, you can see the custom <Code>ValidateEmail</Code> handler in the following code-snippet.
+            In addition to the built-in handler methods, you can also create your own. For example, the following code snippet shows a custom <Code>ValidateEmail</Code> handler.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -90,28 +100,28 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        The same structure is for all <Code>Edit</Code> components(check, radio, select, etc). Note that for some components
-        there are some special rules when defining the validation structure. For example for <Code>Check</Code> you must use
-        <Code>ChildContent</Code> tag along with the <Code>Feedback</Code> tag. This is a limitation in Blazor, hopefully it
-        will be fixed in the future.
+        The same structure applies to all <Code>Edit</Code> components (check, radio, select, etc.). Note that some components
+        have special rules when defining the validation structure. For example, for <Code>Check</Code> you must use the
+        <Code>ChildContent</Code> tag along with the <Code>Feedback</Code> tag. This is a limitation in Blazor and may be
+        addressed in the future.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ValidationFeedbackExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validating using Data Annotations">
-        To use data annotations with Blazorise you must combine both <Code>Validation</Code> and the <Code>Validations</Code>
-        components. The <Code>Validations</Code> component will act as a group for a fields used inside of <Code>Validation</Code>
-        component. To make it all work you must meet two requirements:
+        To use data annotations with Blazorise, you must combine both <Code>Validation</Code> and <Code>Validations</Code>
+        components. The <Code>Validations</Code> component groups the fields used inside a <Code>Validation</Code>
+        component. To make this work, you must meet two requirements:
         <OrderedList>
             <OrderedListItem>
-                <Code>Validations</Code> component must contain reference to the validated POCO through the <Code>Model</Code> parameter.
+                <Code>Validations</Code> component must reference the validated POCO through the <Code>Model</Code> parameter.
             </OrderedListItem>
             <OrderedListItem>
-                Input component must bind to the model field through the <Code>@@bind-{Value}</Code>(i.e. <Code>@@bind-Value</Code>)
+                Input component must bind to the model field through <Code>@@bind-{Value}</Code> (e.g. <Code>@@bind-Text</Code>).
             </OrderedListItem>
         </OrderedList>
-        After those two requirements are met the Blazorise will have enough information to know how to use data annotations.
+        After these requirements are met, Blazorise has enough information to apply data annotations.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <DataAnnotationValidationExample />
@@ -121,9 +131,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validating using Pattern">
-        If you want to validate input by using regular expression instead of <Code>Validator</Code> handlers you can
-        use <Code>Pattern</Code> patameter. Components that supports pattern attribute are
-        <Code>TextInput</Code>, <Code>NumericInput</Code> and <Code>DateInput</Code>.
+        If you want to validate input using a regular expression instead of <Code>Validator</Code> handlers, use the
+        <Code>Pattern</Code> parameter. Components that support the pattern attribute include <Code>TextInput</Code>,
+        <Code>NumericInput</Code> and <Code>DateInput</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <PatternValidationExample />
@@ -133,9 +143,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Async validation">
-        In case you need to run validation using the external source or rest API, we also support async validation.
-        The process is similar to regular validator. You just need to define awaitable handler using
-        the <Code>AsyncValidator</Code> parameter.
+        If you need to run validation using an external source or a REST API, Blazorise also supports async validation.
+        The process is similar to a regular validator. You just need to define an awaitable handler using the
+        <Code>AsyncValidator</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AsyncValidationExample />
@@ -145,13 +155,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Manual validation">
-        Sometimes you don't want to do validation on every input change. In that case you use <Code Tag>Validations</Code> component
-        to group multiple validations and then run the validation manually.
+        Sometimes you don't want to validate on every input change. In that case, use the <Code Tag>Validations</Code> component
+        to group multiple validations and then run validation manually.
         <br />
         <br />
-        In this example you can see how the <Code Tag>Validations</Code>component is used to enclose multiple validation
-        components and the <Code>Mode</Code> attribute is set to <Code>Manual</Code>. Validation is executed only when
-        clicked on submit button.
+        In this example, the <Code Tag>Validations</Code> component encloses multiple validation components and the
+        <Code>Mode</Code> attribute is set to <Code>Manual</Code>. Validation is executed only when you click the submit button.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ManualValidationExample />
@@ -164,14 +173,13 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    If you want to localize your validation messages, we got you covered. Blazorise will provide you with an API
-    and all the required information needed for you to make localization. This is done through the <Code>MessageLocalizer</Code> API.
-    But before you use it we need to break it down a little so you can understand it better how it works.
+    If you want to localize your validation messages, Blazorise provides an API and the required information needed for localization.
+    This is done through the <Code>MessageLocalizer</Code> API. Before you use it, here's a quick breakdown of how it works.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    A <Code>MessageLocalizer</Code> is fairly straight forward. It accepts two parameters and returns a string. It's
-    signature is as following <Code>string Localize(string message, IEnumerable&lt;string&gt; arguments)</Code>.
+    A <Code>MessageLocalizer</Code> is straightforward. It accepts two parameters and returns a string. Its signature is:
+    <Code>string Localize(string message, IEnumerable&lt;string&gt; arguments)</Code>.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -180,23 +188,22 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code>format</Code> raw validation message
+        <Code>format</Code> raw validation message (format string)
     </UnorderedListItem>
     <UnorderedListItem>
-        <Code>arguments</Code> list of arguments or values for populating the message
+        <Code>arguments</Code> values used to populate the message
     </UnorderedListItem>
 </UnorderedList>
 
 <DocsPageParagraph>
-    So now that you know what the API consist of, we need to talk what is the content of the API. And the most important
-    is the <Code>message</Code> parameter. Each message value will be represented as a raw message in the form before
-    the actual message was formatted.
+    Now that you know what the API consists of, let's talk about the values it provides. The most important is the
+    <Code>message</Code> parameter. Each message value is represented as a raw message in the form, before it is formatted.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    For example if you have a <Code>[Required]</Code> attribute set on your model field, this message will be
-    <Code>"The {0} field is required."</Code>. And the <Code>arguments</Code> will contain all the
-    values needed to populate the placeholders inside of the message.
+    For example, if you have a <Code>[Required]</Code> attribute set on your model field, this message will be
+    <Code>"The {0} field is required."</Code>, and the <Code>arguments</Code> will contain the values needed to populate
+    the placeholders inside of the message.
 </DocsPageParagraph>
 
 <DocsPageSection>
@@ -208,9 +215,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Global Options">
-        Setting the <Code>MessageLocalizer</Code> on each <Code>Validation</Code> is a good for approach if you want
-        to control every part of your application. But a more practical way is to define it globally. If you remember
-        from the Start Guide, we already have <Code>Validation</Code> defined in our application startup so we just need
+        Setting the <Code>MessageLocalizer</Code> on each <Code>Validation</Code> is a good approach if you want
+        per-component control. But a more practical way is to define it globally. If you remember
+        from the Start Guide, we already have <Code>Validation</Code> defined in our application startup, so we just need
         to modify it a little.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="GlobalLocalizationExample" />
@@ -220,7 +227,7 @@
     <DocsPageSectionHeader Title="Validation summary">
         <Paragraph>
             Sometimes you don't want to show error messages under each field. In those situations you can
-            use <Code>ValidationSummary</Code> component. Once placed inside of Validations it will show
+            use the <Code>ValidationSummary</Code> component. Once placed inside of Validations it will show
             all error messages as a bullet list.
         </Paragraph>
         <Paragraph>
@@ -235,8 +242,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Auto Validation">
-        By default form is auto-validated on page load. In case you want to disable it and validate
-        only when user starts entering fields, now you can. Just set <Code>ValidateOnLoad</Code> to false.
+        By default, the form is auto-validated on page load. To validate only after the user starts entering fields,
+        set <Code>ValidateOnLoad</Code> to false.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AutoValidationExample />
@@ -246,7 +253,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validation rules">
-        In Blazorise you can use some of the predefined validation rules. eg
+        Blazorise includes some predefined validation rules, e.g.:
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ValidationRulesExample />

@@ -1,38 +1,65 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace Blazorise.LoadingIndicator;
 
 /// <summary>
-/// A service to control LoadingIndicator components
+/// Provides shared control over registered <see cref="LoadingIndicator"/> components.
 /// </summary>
 public interface ILoadingIndicatorService
 {
     /// <summary>
-    /// Returns indicator Visible state shared by all indicator instances or null if the state is not the same for all indicators.
+    /// Gets the shared Visible state for all subscribed indicators, or null when they differ.
     /// </summary>
     bool? Visible { get; }
 
     /// <summary>
-    /// Returns Initializing state shared by all indicator instances or null if the state is not the same for all indicators.
+    /// Gets the shared Initializing state for all subscribed indicators, or null when they differ.
     /// </summary>
     bool? Initializing { get; }
 
     /// <summary>
-    /// Show loading indicator
+    /// Gets the shared status for all subscribed indicators, or null when they differ.
+    /// </summary>
+    LoadingIndicatorStatus Status { get; }
+
+    /// <summary>
+    /// Shows all subscribed loading indicators.
     /// </summary>
     Task Show();
 
     /// <summary>
-    /// Hide loading indicator
+    /// Hides all subscribed loading indicators.
     /// </summary>
     Task Hide();
 
     /// <summary>
-    /// Set Initializing state
+    /// Sets the Initializing state for all subscribed indicators.
     /// </summary>
-    /// <param name="value">true or false</param>
+    /// <param name="value">True to show initializing state; otherwise false.</param>
     Task SetInitializing( bool value );
 
+    /// <summary>
+    /// Sets the status for all subscribed indicators.
+    /// </summary>
+    /// <param name="status">Status data.</param>
+    Task SetStatus( LoadingIndicatorStatus status );
+
+    /// <summary>
+    /// Sets the status for all subscribed indicators.
+    /// </summary>
+    /// <param name="text">Optional status text.</param>
+    /// <param name="progress">Optional progress value.</param>
+    Task SetStatus( string text = null, int? progress = null );
+
+    /// <summary>
+    /// Subscribes a <see cref="LoadingIndicator"/> to shared state updates.
+    /// </summary>
+    /// <param name="indicator">The indicator to subscribe.</param>
     public void Subscribe( LoadingIndicator indicator );
+
+    /// <summary>
+    /// Unsubscribes a <see cref="LoadingIndicator"/> from shared state updates.
+    /// </summary>
+    /// <param name="indicator">The indicator to unsubscribe.</param>
     public void Unsubscribe( LoadingIndicator indicator );
 }

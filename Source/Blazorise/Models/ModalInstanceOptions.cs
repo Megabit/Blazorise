@@ -158,10 +158,8 @@ public class ModalInstanceOptions
 
     #endregion
 
-    #region ModalContent
-
     /// <summary>
-    /// Centers the modal content vertically.
+    /// Centers the modal vertically.
     /// </summary>
     /// <remarks>
     /// Only considered if <see cref="UseModalStructure"/> is set.
@@ -177,14 +175,12 @@ public class ModalInstanceOptions
     public bool? Scrollable { get; set; }
 
     /// <summary>
-    /// Changes the size of the modal content.
+    /// Changes the size of the modal.
     /// </summary>
     /// <remarks>
     /// Only considered if <see cref="UseModalStructure"/> is set.
     /// </remarks>
     public ModalSize? Size { get; set; }
-
-    #endregion
 
     #endregion
 }

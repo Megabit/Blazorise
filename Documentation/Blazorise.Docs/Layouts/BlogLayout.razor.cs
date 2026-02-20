@@ -14,8 +14,6 @@ public partial class BlogLayout
 
     private bool topBarVisible;
 
-    private bool disposed;
-
     #endregion
 
     #region Methods
@@ -34,12 +32,9 @@ public partial class BlogLayout
 
     protected override void Dispose( bool disposing )
     {
-        if ( !disposed )
+        if ( disposing )
         {
-            if ( disposing )
-            {
-                NavigationManager.LocationChanged -= OnLocationChanged;
-            }
+            NavigationManager.LocationChanged -= OnLocationChanged;
         }
 
         base.Dispose( disposing );

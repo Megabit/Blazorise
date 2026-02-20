@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using System.Text;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -8,9 +8,57 @@ namespace Blazorise.SpinKit;
 /// <summary>
 /// Simple loading spinner animated with CSS. 
 /// </summary>
-public partial class SpinKit : ComponentBase
+public partial class SpinKit : BaseComponent
 {
+    #region Members
+
+    private SpinKitType type = SpinKitType.Plane;
+
+    private Color color = Color.Default;
+
+    private string hexColor;
+
+    private Size size = Size.Default;
+
+    private bool centered;
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( $"sk-{ToSpinKitName( Type )}" );
+
+        if ( Centered )
+            builder.Append( "sk-center" );
+
+        base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrEmpty( HexColor ) )
+        {
+            builder.Append( $"--sk-color: {HexColor};" );
+        }
+        else if ( Color is not null && Color != Blazorise.Color.Default )
+        {
+            builder.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
+        }
+
+        if ( Size != Blazorise.Size.Default )
+        {
+            var sizeName = ToSpinKitSizeName( Size );
+
+            if ( !string.IsNullOrEmpty( sizeName ) )
+                builder.Append( $"--sk-size: var(--b-spinkit-size-{sizeName});" );
+        }
+
+        base.BuildStyles( builder );
+    }
 
     private static string ToSpinKitName( SpinKitType spinKitType )
     {
@@ -60,44 +108,22 @@ public partial class SpinKit : ComponentBase
         };
     }
 
+    private static string ToSpinKitSizeName( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "xs",
+            Size.Small => "sm",
+            Size.Medium => "md",
+            Size.Large => "lg",
+            Size.ExtraLarge => "xl",
+            _ => null,
+        };
+    }
+
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Gets the outer spinner classnames.
-    /// </summary>
-    protected string WrapperClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder( $"sk-{ToSpinKitName( Type )}" );
-
-            if ( Centered )
-                sb.Append( " sk-center" );
-
-            return sb.ToString();
-        }
-    }
-
-    /// <summary>
-    /// Gets the outer spinner styles.
-    /// </summary>
-    protected string WrapperStyleNames
-    {
-        get
-        {
-            var sb = new StringBuilder();
-
-            if ( !string.IsNullOrEmpty( Color ) )
-                sb.Append( $"--sk-color: {Color};" );
-
-            if ( !string.IsNullOrEmpty( Size ) )
-                sb.Append( $"--sk-size: {Size};" );
-
-            return sb.ToString();
-        }
-    }
 
     /// <summary>
     /// Gets the inner spinner classnames.
@@ -118,22 +144,92 @@ public partial class SpinKit : ComponentBase
     /// <summary>
     /// Gets or sets the spinner type.
     /// </summary>
-    [Parameter] public SpinKitType Type { get; set; } = SpinKitType.Plane;
+    [Parameter]
+    public SpinKitType Type
+    {
+        get => type;
+        set
+        {
+            if ( type == value )
+                return;
+
+            type = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
-    /// Gets or sets the spinner color.
+    /// Gets or sets the spinner color variant.
     /// </summary>
-    [Parameter] public string Color { get; set; }
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
+        {
+            if ( color == value )
+                return;
+
+            color = value;
+
+            DirtyStyles();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the spinner custom hex color that overrides the color variant.
+    /// </summary>
+    [Parameter]
+    public string HexColor
+    {
+        get => hexColor;
+        set
+        {
+            if ( hexColor == value )
+                return;
+
+            hexColor = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the spinner size.
     /// </summary>
-    [Parameter] public string Size { get; set; }
+    [Parameter]
+    public Size Size
+    {
+        get => size;
+        set
+        {
+            if ( size == value )
+                return;
+
+            size = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Position the spinner to the center of it's container.
     /// </summary>
-    [Parameter] public bool Centered { get; set; }
+    [Parameter]
+    public bool Centered
+    {
+        get => centered;
+        set
+        {
+            if ( centered == value )
+                return;
+
+            centered = value;
+
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }

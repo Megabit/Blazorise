@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -242,6 +243,17 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
         => null;
 
     /// <summary>
+    /// Gets the aria-expanded attribute value.
+    /// </summary>
+    protected string AriaExpanded
+        => ParentDropdownState is null ? null : ParentDropdownState.Visible.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the aria-controls attribute value.
+    /// </summary>
+    protected string AriaControls => ParentDropdown?.DropdownMenuElementId;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
@@ -255,6 +267,16 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// Gets or sets the dropdown color.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Default;
+
+    /// <summary>
+    /// Gets or sets the dropdown intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
 
     /// <summary>
     /// Gets or sets the dropdown size.

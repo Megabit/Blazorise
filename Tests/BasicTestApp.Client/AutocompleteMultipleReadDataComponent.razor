@@ -9,9 +9,9 @@
               @bind-SelectedTexts="SelectedTexts"
               Placeholder="Search..."
               FreeTyping
-              MinLength="MinLength"
+              MinSearchLength="@MinSearchLength"
               SelectionMode="AutocompleteSelectionMode.Multiple">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 
 @code {
@@ -32,7 +32,7 @@
     }
 
     [Parameter]
-    public int MinLength { get; set; } = 1;
+    public int MinSearchLength { get; set; } = 1;
 
     [Parameter]
     public List<string> SelectedValues { get; set; }

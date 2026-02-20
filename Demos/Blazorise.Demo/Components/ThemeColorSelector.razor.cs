@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Demo.Components;
+
 public partial class ThemeColorSelector
 {
     [Parameter]

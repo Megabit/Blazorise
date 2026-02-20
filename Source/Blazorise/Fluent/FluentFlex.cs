@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Base interface for all fluent flex builders.
 /// </summary>
-public interface IFluentFlex
+public interface IFluentFlex : IFluentUtilityTarget<IFluentFlex>
 {
     /// <summary>
     /// Builds the classnames based on flex rules.
@@ -683,7 +683,8 @@ public class FluentFlex :
     IFluentFlexOrder,
     IFluentFlexOrderNumber,
     IFluentFlexCondition,
-    IFluentFlexAll
+    IFluentFlexAll,
+    IUtilityTargeted
 {
     #region Members
 
@@ -763,6 +764,12 @@ public class FluentFlex :
     private void Dirty()
     {
         dirty = true;
+    }
+
+    private IFluentFlex WithUtilityTarget( UtilityTarget target )
+    {
+        UtilityTarget = target;
+        return this;
     }
 
     /// <summary>
@@ -1104,6 +1111,21 @@ public class FluentFlex :
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public IFluentFlex OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public IFluentFlex OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <inheritdoc/>
     public IFluentFlexAll OnMobile => WithBreakpoint( Breakpoint.Mobile );

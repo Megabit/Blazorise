@@ -84,6 +84,14 @@ public partial class TabPanel : BaseComponent, IDisposable
     protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
 
     /// <summary>
+    /// Gets the aria-hidden attribute value for this panel.
+    /// </summary>
+    protected string AriaHidden
+        => ( ParentTabsState is null && ParentTabsContentState is null )
+            ? null
+            : ( !Active ).ToString().ToLowerInvariant();
+
+    /// <summary>
     /// Gets the current render mode.
     /// </summary>
     protected TabsRenderMode RenderMode => ParentTabsState?.RenderMode ?? ParentTabsContentState?.RenderMode ?? TabsRenderMode.Default;

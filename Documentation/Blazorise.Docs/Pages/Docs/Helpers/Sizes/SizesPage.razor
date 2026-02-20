@@ -1,16 +1,77 @@
-﻿@page "/docs/helpers/sizes"
+@page "/docs/helpers/sizes"
 
-<Seo Canonical="/docs/helpers/sizes" Title="Blazorise Sizes" Description="Learn to use and work with the Blazorise size utilities to easily make an element as wide or as tall with our width and height utilities." />
+<Seo Canonical="/docs/helpers/sizes" Title="Blazorise Size Helpers - Component, Modal, and Figure Sizes" Description="Apply consistent size tokens across Blazorise components. Learn how Size, ModalSize, and FigureSize values scale buttons, inputs, modals, and figures." />
 
 <DocsPageTitle>
-    Sizes
+    Blazorise Sizes
 </DocsPageTitle>
+
+<DocsPageLead>
+    Apply consistent size tokens to buttons, inputs, modals, and figures without custom CSS.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Size enums provide a shared vocabulary for scaling UI elements across providers, so a small button or large modal feels consistent no matter which CSS framework you use.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use <Code>Size</Code> to scale components such as <Code Tag>Button</Code>, <Code Tag>TextInput</Code>, and <Code Tag>Badge</Code>.
+    Use <Code>ModalSize</Code> for modals and <Code>FigureSize</Code> for figures when you need predictable, token-based sizing without custom CSS.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Component sizing">
+        <Paragraph>
+            Mix and match <Code>Size</Code> values on common controls to keep touch targets and input fields aligned across layouts.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SizeControlsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SizeControlsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Modal sizes">
+        <Paragraph>
+            Use <Code>ModalSize</Code> to pick the right width for focused tasks versus data-heavy dialogs.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Figure sizes">
+        <Paragraph>
+            Figure sizing keeps avatars and media blocks consistent without manual pixel sizing.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FigureSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FigureSizeExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Size">
         <Paragraph>Defines an element size.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> Don’t resize an element.</UnorderedListItem>
+            <UnorderedListItem><Code>Default</Code> No particular size rule will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>ExtraSmall</Code> Makes an element extra small size.</UnorderedListItem>
             <UnorderedListItem><Code>Small</Code> Makes an element small size.</UnorderedListItem>
             <UnorderedListItem><Code>Medium</Code> Makes an element medium size.</UnorderedListItem>
@@ -19,22 +80,22 @@
         </UnorderedList>
     </DocsPageSectionHeader>
     <Alert Color="Color.Info" Visible>
-        <AlertDescription>Keep in mind: All elements have a size <Code>None</Code> specified by default.</AlertDescription>
+        <AlertDescription>Keep in mind: all elements default to <Code>Size.Default</Code> unless specified.</AlertDescription>
     </Alert>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="ButtonSize">
-        <Paragraph>Defines a button size.</Paragraph>
+    <DocsPageSectionHeader Title="Button size">
+        <Paragraph>Buttons use the <Code>Size</Code> enum for consistent scaling.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> No sizing will be applied to the button.</UnorderedListItem>
-            <UnorderedListItem><Code>Small</Code> Makes a button to appear smaller.</UnorderedListItem>
-            <UnorderedListItem><Code>Large</Code> Makes a button to appear larger.</UnorderedListItem>
+            <UnorderedListItem><Code>Default</Code> Default button size for the current provider.</UnorderedListItem>
+            <UnorderedListItem><Code>ExtraSmall</Code> Makes a button extra small.</UnorderedListItem>
+            <UnorderedListItem><Code>Small</Code> Makes a button appear smaller.</UnorderedListItem>
+            <UnorderedListItem><Code>Medium</Code> Makes a button medium size.</UnorderedListItem>
+            <UnorderedListItem><Code>Large</Code> Makes a button appear larger.</UnorderedListItem>
+            <UnorderedListItem><Code>ExtraLarge</Code> Makes a button extra large.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
-    <Alert Color="Color.Info" Visible>
-        <AlertDescription>Keep in mind: All elements have a size <Code>None</Code> specified by default.</AlertDescription>
-    </Alert>
 </DocsPageSection>
 
 <DocsPageSection>
@@ -45,6 +106,7 @@
             <UnorderedListItem><Code>Small</Code> Small modal.</UnorderedListItem>
             <UnorderedListItem><Code>Large</Code> Large modal.</UnorderedListItem>
             <UnorderedListItem><Code>ExtraLarge</Code> Extra large modal.</UnorderedListItem>
+            <UnorderedListItem><Code>Fullscreen</Code> Covers the entire viewport.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
@@ -53,7 +115,7 @@
     <DocsPageSectionHeader Title="FigureSize">
         <Paragraph>Defines the size of the figure component.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>None</Code> No sizing applied.</UnorderedListItem>
+            <UnorderedListItem><Code>Default</Code> No sizing applied.</UnorderedListItem>
             <UnorderedListItem><Code>Is16x16</Code> 16x16 px</UnorderedListItem>
             <UnorderedListItem><Code>Is24x24</Code> 24x24 px</UnorderedListItem>
             <UnorderedListItem><Code>Is32x32</Code> 32x32 px</UnorderedListItem>

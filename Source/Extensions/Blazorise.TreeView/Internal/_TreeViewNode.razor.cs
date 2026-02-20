@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.TreeView;
 using Blazorise.TreeView.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -20,6 +21,27 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     private bool checkChildrenLoaded;
 
     internal NotifyCollectionChangedEventHandler PreviousNotifyCollectionChangedEventHandler;
+
+    private int? expandedNodesHash;
+
+    private ClassBuilder nodeClassBuilder;
+    private StyleBuilder nodeStyleBuilder;
+    private ClassBuilder nodeIconClassBuilder;
+    private StyleBuilder nodeIconStyleBuilder;
+    private TreeViewNodeContext<TNode> nodeContext;
+
+    #endregion
+
+    #region Constructors
+
+    public _TreeViewNode()
+    {
+        nodeClassBuilder = new( BuildNodeClasses );
+        nodeStyleBuilder = new( BuildNodeStyles );
+        nodeIconClassBuilder = new( BuildNodeIconClasses );
+        nodeIconStyleBuilder = new( BuildNodeIconStyles );
+    }
+
     #endregion
 
     #region Methods
@@ -53,6 +75,13 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     protected override async Task OnParametersSetAsync()
     {
+        var expandedNodesHashChanged = SyncExpandedNodesHash();
+
+        if ( expandedNodesHashChanged )
+        {
+            await SynchronizeExpandedNodes();
+        }
+
         // Check if expanded is true but children is empty to load child nodes if needed, happens after Reload,
         // we use the bool flag to ensure we don't do this multiple times during render.
         if ( checkChildrenLoaded )
@@ -68,6 +97,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
             checkChildrenLoaded = false;
         }
+
+        DirtyClasses();
+        DirtyStyles();
     }
 
     protected override void BuildClasses( ClassBuilder builder )
@@ -76,6 +108,40 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         builder.Append( "b-tree-view-node-collapsed", !Expanded );
 
         base.BuildClasses( builder );
+    }
+
+    protected override void BuildCustomClasses( ClassBuilder builder )
+    {
+        string nodesClass = ParentTreeView?.Classes?.Nodes;
+        if ( !string.IsNullOrWhiteSpace( nodesClass ) )
+        {
+            builder.Append( nodesClass );
+        }
+    }
+
+    protected override void BuildCustomStyles( StyleBuilder builder )
+    {
+        string nodesStyle = ParentTreeView?.Styles?.Nodes;
+        if ( !string.IsNullOrWhiteSpace( nodesStyle ) )
+        {
+            builder.Append( nodesStyle.Trim().TrimEnd( ';' ) );
+        }
+    }
+
+    protected override void DirtyClasses()
+    {
+        nodeClassBuilder?.Dirty();
+        nodeIconClassBuilder?.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    protected override void DirtyStyles()
+    {
+        nodeStyleBuilder?.Dirty();
+        nodeIconStyleBuilder?.Dirty();
+
+        base.DirtyStyles();
     }
 
     private async Task AutoExpandNodes()
@@ -190,6 +256,49 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         StateHasChanged();
     }
 
+    private bool SyncExpandedNodesHash()
+    {
+        var newExpandedNodesHash = ExpandedNodes?.GetListHash();
+
+        if ( expandedNodesHash == newExpandedNodesHash )
+            return false;
+
+        expandedNodesHash = newExpandedNodesHash;
+
+        return true;
+    }
+
+    private async Task SynchronizeExpandedNodes()
+    {
+        if ( NodeStates is null )
+            return;
+
+        await SynchronizeExpandedNodes( NodeStates );
+    }
+
+    private async Task SynchronizeExpandedNodes( IEnumerable<TreeViewNodeState<TNode>> nodeStates )
+    {
+        foreach ( var nodeState in nodeStates )
+        {
+            var shouldBeExpanded = ExpandedNodes?.Contains( nodeState.Node ) == true;
+
+            if ( nodeState.Expanded != shouldBeExpanded )
+            {
+                nodeState.Expanded = shouldBeExpanded;
+
+                if ( shouldBeExpanded && nodeState.HasChildren )
+                {
+                    await LoadChildNodes( nodeState );
+                }
+            }
+
+            if ( nodeState.Children?.Count > 0 )
+            {
+                await SynchronizeExpandedNodes( nodeState.Children );
+            }
+        }
+    }
+
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
@@ -260,6 +369,95 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     protected virtual Task OnContextMenuHandler( TreeViewNodeState<TNode> nodeState, MouseEventArgs eventArgs )
     {
         return ContextMenu.InvokeAsync( new TreeViewNodeMouseEventArgs<TNode>( nodeState.Node, eventArgs ) );
+    }
+
+    protected string NodeClassNames( TreeViewNodeState<TNode> nodeState )
+    {
+        NodeContext = BuildNodeContext( nodeState );
+        return nodeClassBuilder.Class;
+    }
+
+    protected string NodeStyleNames( TreeViewNodeState<TNode> nodeState )
+    {
+        NodeContext = BuildNodeContext( nodeState );
+        return nodeStyleBuilder.Styles;
+    }
+
+    protected string NodeIconClassNames
+        => nodeIconClassBuilder.Class;
+
+    protected string NodeIconStyleNames
+        => nodeIconStyleBuilder.Styles;
+
+    private void BuildNodeClasses( ClassBuilder builder )
+    {
+        string nodeClass = ParentTreeView?.Classes?.Node?.Invoke( nodeContext );
+        builder.Append( nodeClass );
+    }
+
+    private void BuildNodeStyles( StyleBuilder builder )
+    {
+        string nodeStyle = ParentTreeView?.Styles?.Node?.Invoke( nodeContext );
+        if ( !string.IsNullOrWhiteSpace( nodeStyle ) )
+            builder.Append( nodeStyle.Trim().TrimEnd( ';' ) );
+    }
+
+    private TreeViewNodeContext<TNode> BuildNodeContext( TreeViewNodeState<TNode> nodeState )
+    {
+        if ( nodeState is null )
+            return null;
+
+        bool isSelected = SelectionMode == TreeViewSelectionMode.Single
+            && ParentTreeViewState.SelectedNode is not null
+            && ParentTreeViewState.SelectedNode.Equals( nodeState.Node );
+
+        bool isChecked = SelectionMode == TreeViewSelectionMode.Multiple
+            && ParentTreeViewState.SelectedNodes is not null
+            && ParentTreeViewState.SelectedNodes.Contains( nodeState.Node );
+
+        return new TreeViewNodeContext<TNode>(
+            nodeState.Node,
+            nodeState.HasChildren,
+            nodeState.Expanded,
+            nodeState.Disabled,
+            nodeState.AutoExpanded,
+            isSelected,
+            isChecked,
+            SelectionMode );
+    }
+
+    private TreeViewNodeContext<TNode> NodeContext
+    {
+        get => nodeContext;
+        set
+        {
+            if ( nodeContext.IsEqual( value ) )
+                return;
+
+            nodeContext = value;
+            nodeClassBuilder.Dirty();
+            nodeStyleBuilder.Dirty();
+        }
+    }
+
+    private void BuildNodeIconClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-tree-view-node-icon" );
+
+        string nodeIconClass = ParentTreeView?.Classes?.NodeIcon;
+        if ( !string.IsNullOrWhiteSpace( nodeIconClass ) )
+        {
+            builder.Append( nodeIconClass );
+        }
+    }
+
+    private void BuildNodeIconStyles( StyleBuilder builder )
+    {
+        string nodeIconStyle = ParentTreeView?.Styles?.NodeIcon;
+        if ( !string.IsNullOrWhiteSpace( nodeIconStyle ) )
+        {
+            builder.Append( nodeIconStyle.Trim().TrimEnd( ';' ) );
+        }
     }
 
     #endregion
@@ -376,6 +574,10 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     /// A reference to the parent node component.
     /// </summary>
     [CascadingParameter] public _TreeViewNode<TNode> ParentNode { get; set; }
+
+    [CascadingParameter] public TreeView<TNode> ParentTreeView { get; set; }
+
+    [CascadingParameter] protected TreeViewState<TNode> ParentTreeViewState { get; set; }
 
     #endregion
 }

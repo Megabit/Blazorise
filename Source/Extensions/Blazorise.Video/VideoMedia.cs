@@ -101,13 +101,6 @@ public record VideoMedia
     public string Type { get; set; }
 
     /// <summary>
-    /// Gets or sets the media size, eg. 720 or 1080.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    [Obsolete( "Size property is deprecated and will be removed, please use the Height property instead." )]
-    public int? Size { get => Height; set => Height = value; }
-
-    /// <summary>
     /// Gets or sets the media width.
     /// </summary>
     [JsonPropertyName( "width" )]

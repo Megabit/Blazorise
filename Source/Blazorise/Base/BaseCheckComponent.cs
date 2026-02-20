@@ -13,7 +13,11 @@ namespace Blazorise;
 /// Base class for all check-able components.
 /// </summary>
 /// <typeparam name="TValue">Checked value type.</typeparam>
-public abstract class BaseCheckComponent<TValue> : BaseInputComponent<TValue>
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseCheckComponent<TValue, TClasses, TStyles> : BaseInputComponent<TValue, TClasses, TStyles>
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
 {
     #region Members
 
@@ -90,4 +94,12 @@ public abstract class BaseCheckComponent<TValue> : BaseInputComponent<TValue>
     }
 
     #endregion
+}
+
+/// <summary>
+/// Base class for all check-able components.
+/// </summary>
+/// <typeparam name="TValue">Checked value type.</typeparam>
+public abstract class BaseCheckComponent<TValue> : BaseCheckComponent<TValue, ComponentClasses, ComponentStyles>
+{
 }

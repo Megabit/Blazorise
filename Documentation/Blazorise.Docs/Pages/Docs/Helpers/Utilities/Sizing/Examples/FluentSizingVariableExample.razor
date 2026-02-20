@@ -1,0 +1,28 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Style="--tile-width: 16rem; --tile-height: 8rem;" Width="Width.Px().Max( 520 )" Background="Background.Light" Border="Border.Is1.Secondary.Subtle" Padding="Padding.Is3">
+    <Div Width="@Width.Var( TileWidthVariable )"
+         Height="@Height.Var( TileHeightVariable )"
+         Padding="Padding.Is2"
+         Margin="Margin.Is2.FromBottom"
+         Background="Background.Success.Subtle"
+         Border="Border.Is1.Success"
+         TextColor="TextColor.Success.Emphasis">
+        Width.Var("--tile-width") / Height.Var("--tile-height")
+    </Div>
+    <Div Width="Width.Px().Min( 180 ).Max( 320 )"
+         Height="Height.Vh().Max(25)"
+         Padding="Padding.Is2"
+         Background="Background.Danger.Subtle"
+         Border="Border.Is1.Danger"
+         TextColor="TextColor.Danger.Emphasis">
+        Width.Px().Min(180).Max(320)
+        <br />
+        Height.Vh().Max(25)
+    </Div>
+</Div>
+
+@code {
+    private const string TileWidthVariable = "--tile-width";
+    private const string TileHeightVariable = "--tile-height";
+}

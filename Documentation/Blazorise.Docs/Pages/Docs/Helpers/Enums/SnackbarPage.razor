@@ -1,20 +1,48 @@
-﻿@page "/docs/helpers/enums/snackbar"
+@page "/docs/helpers/enums/snackbar"
 
-<Seo Canonical="/docs/helpers/enums/snackbar" Title="Enums: Snackbar" Description="Learn to use and work with the Blazorise Snackbar enums that help you to modify the snackbar appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/snackbar" Title="Blazorise Snackbar Enums - Placement" Description="Snackbar enums define where snackbars appear on screen. Learn SnackbarLocation values for top, bottom, and edge placement." />
 
 <DocsPageTitle>
     Enums: Snackbar
 </DocsPageTitle>
 
+<DocsPageLead>
+    Control snackbar placement across the viewport.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Snackbar enums let you choose consistent notification placement so feedback appears where users expect it.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Set <Code>SnackbarLocation</Code> to position snackbars at the top, bottom, or edges of the screen.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>SnackbarLocation.BottomEnd</Code> for unobtrusive alerts.</UnorderedListItem>
+    <UnorderedListItem><Code>SnackbarLocation.TopStart</Code> for prominent banners.</UnorderedListItem>
+    <UnorderedListItem><Code>SnackbarLocation.Bottom</Code> for centered bottom messages.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="SnackbarLocation">
         <UnorderedList>
-            <UnorderedListItem><Code>Default</Code> Default behavior (obsolete, use <Code>Bottom</Code> instead).</UnorderedListItem>
+            <UnorderedListItem><Code>Default</Code> Default behavior, same as <Code>Bottom</Code>.</UnorderedListItem>
             <UnorderedListItem><Code>Bottom</Code> Show the snackbar on the bottom side of the screen.</UnorderedListItem>
             <UnorderedListItem><Code>BottomStart</Code> Show the snackbar on the bottom-start side of the screen.</UnorderedListItem>
             <UnorderedListItem><Code>BottomEnd</Code> Show the snackbar on the bottom-end side of the screen.</UnorderedListItem>
-            <UnorderedListItem><Code>Start</Code> Show the snackbar on the start side of the screen (obsolete, use <Code>BottomStart</Code> instead).</UnorderedListItem>
-            <UnorderedListItem><Code>End</Code> Show the snackbar on the end side of the screen (obsolete, use <Code>BottomEnd</Code> instead).</UnorderedListItem>
             <UnorderedListItem><Code>Top</Code> Show the snackbar on the top side of the screen.</UnorderedListItem>
             <UnorderedListItem><Code>TopStart</Code> Show the snackbar on the top-start side of the screen.</UnorderedListItem>
             <UnorderedListItem><Code>TopEnd</Code> Show the snackbar on the top-end side of the screen.</UnorderedListItem>

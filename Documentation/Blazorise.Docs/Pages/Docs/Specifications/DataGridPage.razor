@@ -1,0 +1,75 @@
+@page "/docs/specifications/datagrid"
+
+<Seo Canonical="/docs/specifications/datagrid" Title="Blazorise Specifications: DataGrid" Description="Learn about Blazorise DataGrid component and how it works and behaves under the certain scenarios, according to the defined parameters." />
+
+<DocsPageTitle Path="Specifications/DataGrid">
+    Blazorise Specifications: DataGrid
+</DocsPageTitle>
+
+<DocsPageLead>
+    Learn how the DataGrid behaves when data loading, selection, and editing options interact.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    ReadData and Virtualize
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    When <Code>ReadData</Code> is supplied, the grid switches to manual data mode. Sorting, filtering, and paging update column state and raise events, but the grid does not apply them to <Code>Data</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>ReadData</Code> receives <Code>DataGridReadDataMode.Paging</Code> with <Code>Page</Code>/<Code>PageSize</Code>, or <Code>DataGridReadDataMode.Virtualize</Code> with <Code>virtualizeOffset</Code>/<Code>virtualizeCount</Code>.
+    When using <Code>Virtualize</Code> with <Code>ReadData</Code>, <Code>TotalItems</Code> must be set for correct virtualization.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Virtualize vs Paging
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    When <Code>Virtualize</Code> is enabled, internal paging is bypassed even if <Code>ShowPager</Code> is true. <Code>DisplayData</Code> contains the full filtered set, and virtualization only controls what is rendered.
+    <Code>Page</Code>/<Code>PageSize</Code> only affect <Code>ReadData</Code> paging mode; virtualized reads use the virtualization request counts instead.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Filter changes in virtualize mode reset the scroll position to the top before the next data request.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Selection Modes
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <Code>SelectionMode.Single</Code> uses <Code>SelectedRow</Code>, while <Code>SelectionMode.Multiple</Code> uses <Code>SelectedRows</Code>.
+    Switching modes syncs selection: <Code>SelectedRow</Code> is added to <Code>SelectedRows</Code> when switching to multiple, <Code>SelectedRows</Code> is cleared when switching to single, and clearing <Code>SelectedRows</Code> in multiple resets <Code>SelectedRow</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Single selection supports Ctrl-click to unselect the current row (Cmd-click on macOS). Multiple selection supports Shift-click range selection based on the current <Code>DisplayData</Code> order.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Select All and RowSelectable
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The multi-select "select all" checkbox operates on <Code>DisplayData</Code> (current filter and paging state).
+    If <Code>RowSelectable</Code> is supplied, only rows that pass <Code>RowSelectable</Code> with <Code>DataGridSelectReason.MultiSelectAll</Code> are included.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Selection While Editing
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    While a row is being edited, selection changes are ignored unless the grid forces selection (for example when entering cell edit). This prevents losing edit context when clicking other rows.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Detail Row Trigger
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    When <Code>DetailRowTrigger</Code> returns <Code>Single</Code>, opening one detail row closes any other open detail rows. Use <Code>ToggleDetailRow</Code> with <Code>forceDetailRow</Code> to bypass the trigger when needed.
+</DocsPageParagraph>

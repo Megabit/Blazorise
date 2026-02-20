@@ -32,7 +32,8 @@ class FullyQualifiedNameRewriter( SemanticModel semanticModel ) : CSharpSyntaxRe
     {
         // Visit the expression and name components
         var newExpression = (ExpressionSyntax)Visit( node.Expression );
-        var newName = (SimpleNameSyntax)Visit( node.Name );
+        var visitedName = Visit( node.Name );
+        var newName = visitedName as SimpleNameSyntax ?? node.Name;
 
         // Get the symbol for the member access expression
         var symbol = semanticModel.GetSymbolInfo( node ).Symbol;
@@ -60,6 +61,9 @@ class FullyQualifiedNameRewriter( SemanticModel semanticModel ) : CSharpSyntaxRe
 
     public override SyntaxNode VisitIdentifierName( IdentifierNameSyntax node )
     {
+        if ( node.Parent is MemberAccessExpressionSyntax memberAccess && memberAccess.Name == node )
+            return node;
+
         var symbol = semanticModel.GetSymbolInfo( node ).Symbol;
 
         if ( symbol is INamedTypeSymbol typeSymbol )

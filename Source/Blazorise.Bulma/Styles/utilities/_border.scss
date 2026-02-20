@@ -1,25 +1,25 @@
-﻿.is-borderless {
+.is-borderless {
     border: 0 !important;
 }
 
 .has-border {
-    border: $border-width solid $border-color !important;
+    border: $control-border-width solid $border !important;
 }
 
 .has-border-top {
-    border-top: $border-width solid $border-color !important;
+    border-top: $control-border-width solid $border !important;
 }
 
 .has-border-right {
-    border-right: $border-width solid $border-color !important;
+    border-right: $control-border-width solid $border !important;
 }
 
 .has-border-bottom {
-    border-bottom: $border-width solid $border-color !important;
+    border-bottom: $control-border-width solid $border !important;
 }
 
 .has-border-left {
-    border-left: $border-width solid $border-color !important;
+    border-left: $control-border-width solid $border !important;
 }
 
 .has-border-0 {
@@ -42,11 +42,42 @@
     border-left: 0 !important;
 }
 
+$border-sides: ("top", "right", "bottom", "left");
+$border-sizes: (1, 2, 3, 4, 5);
+
+@each $size in $border-sizes {
+    .has-border-#{$size} {
+        border: #{$size}px solid $border !important;
+    }
+
+    @each $color-name, $color-value in $theme-colors {
+        .has-border-#{$color-name}-#{$size} {
+            border: #{$size}px solid $color-value !important;
+        }
+    }
+
+    @each $side in $border-sides {
+        .has-border-#{$side}-#{$size} {
+            border-#{$side}: #{$size}px solid $border !important;
+        }
+
+        @each $color-name, $color-value in $theme-colors {
+            .has-border-#{$color-name}-#{$side}-#{$size} {
+                border-#{$side}: #{$size}px solid $color-value !important;
+            }
+        }
+    }
+}
+
 @each $name, $value in $theme-colors {
     $color: $value;
 
     .has-border-#{$name} {
-        border-color: $color !important;
+        border-color: var(--bulma-#{$name}, $color) !important;
+    }
+
+    .has-border-#{$name}-subtle {
+        border-color: var(--bulma-#{$name}-soft, $color) !important;
     }
 }
 
@@ -54,8 +85,28 @@
     border-color: white !important;
 }
 
-.has-rounded-border {
+.has-border-white-subtle {
+    border-color: rgba($white, 0.5) !important;
+}
+
+.has-radius-small {
+    border-radius: $radius-small !important;
+}
+
+.has-radius-normal {
     border-radius: $radius !important;
+}
+
+.has-radius-large {
+    border-radius: $radius-large !important;
+}
+
+.has-radius-rounded {
+    border-radius: $radius-rounded !important;
+}
+
+.is-radiusless {
+    border-radius: 0 !important;
 }
 
 .has-rounded-border-top {
@@ -80,39 +131,4 @@
 
 .has-rounded-border-circle {
     border-radius: 50% !important;
-}
-
-.has-rounded-border-pill {
-    border-radius: $radius-pill !important;
-}
-
-.has-rounded-border-0 {
-    border-radius: 0 !important;
-}
-
-$border-sides: ("top", "right", "bottom", "left");
-$border-sizes: (1, 2, 3, 4, 5);
-
-@each $size in $border-sizes {
-    .has-border-#{$size} {
-        border: #{$size}px solid $border-color !important;
-    }
-
-    @each $color-name, $color-value in $theme-colors {
-        .has-border-#{$color-name}-#{$size} {
-            border: #{$size}px solid $color-value !important;
-        }
-    }
-
-    @each $side in $border-sides {
-        .has-border-#{$side}-#{$size} {
-            border-#{$side}: #{$size}px solid $border-color !important;
-        }
-
-        @each $color-name, $color-value in $theme-colors {
-            .has-border-#{$color-name}-#{$side}-#{$size} {
-                border-#{$side}: #{$size}px solid $color-value !important;
-            }
-        }
-    }
 }

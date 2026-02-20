@@ -90,6 +90,38 @@
     @include form-control-focus
 }
 
+.b-is-autocomplete {
+    &.is-valid,
+    &.is-invalid {
+        border: $input-border-width solid transparent;
+        border-radius: $input-border-radius;
+    }
+
+    &.is-valid {
+        border-color: $form-feedback-valid-color;
+    }
+
+    &.is-invalid {
+        border-color: $form-feedback-invalid-color;
+    }
+
+    &.is-valid.focus {
+        border-color: $form-feedback-valid-color;
+        box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-valid-color, .25);
+    }
+
+    &.is-invalid.focus {
+        border-color: $form-feedback-invalid-color;
+        box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
+    }
+
+    &.is-valid > input.form-control,
+    &.is-invalid > input.form-control {
+        border-color: transparent;
+        box-shadow: none;
+    }
+}
+
 .dropdown.btn-group {
     > .btn.dropdown-toggle-split + .dropdown-menu.show {
         top: 100%;

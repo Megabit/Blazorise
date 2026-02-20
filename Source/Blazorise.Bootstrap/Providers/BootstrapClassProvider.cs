@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -366,6 +366,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
     public override string Addon( AddonType addonType )
     {
         return addonType switch
@@ -622,11 +624,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => "card-title";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "card-text";
 
@@ -726,6 +728,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
         => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
+
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => isToggleIconVisible ? null : "b-bar-dropdown-toggle-hidden";
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 

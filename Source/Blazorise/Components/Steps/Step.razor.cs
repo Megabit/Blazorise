@@ -1,6 +1,7 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -12,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// Clickable item in a <see cref="Steps"/> component.
 /// </summary>
-public partial class Step : BaseComponent, IDisposable
+public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
 {
     #region Members
 
@@ -31,8 +32,8 @@ public partial class Step : BaseComponent, IDisposable
     /// </summary>
     public Step()
     {
-        MarkerClassBuilder = new( BuildMarkerClasses );
-        DescriptionClassBuilder = new( BuildDescriptionClasses );
+        MarkerClassBuilder = new( BuildMarkerClasses, builder => builder.Append( Classes?.Marker ) );
+        DescriptionClassBuilder = new( BuildDescriptionClasses, builder => builder.Append( Classes?.Description ) );
     }
 
     #endregion
@@ -184,6 +185,16 @@ public partial class Step : BaseComponent, IDisposable
 
             DirtyClasses();
         }
+    }
+
+    /// <summary>
+    /// Overrides the step intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
     }
 
     /// <summary>

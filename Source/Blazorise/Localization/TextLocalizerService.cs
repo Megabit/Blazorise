@@ -24,6 +24,8 @@ public class TextLocalizerService : ITextLocalizerService
 
     private readonly ConcurrentDictionary<string, CultureInfo> availableCultures = new();
 
+    private static readonly bool invariantGlobalization = IsInvariantGlobalization();
+
     #endregion
 
     #region Constructors
@@ -33,6 +35,13 @@ public class TextLocalizerService : ITextLocalizerService
     /// </summary>
     public TextLocalizerService()
     {
+        if ( invariantGlobalization )
+        {
+            availableCultures.TryAdd( CultureInfo.InvariantCulture.Name, CultureInfo.InvariantCulture );
+            SelectedCulture = CultureInfo.InvariantCulture;
+            return;
+        }
+
         ReadResource();
     }
 
@@ -45,6 +54,9 @@ public class TextLocalizerService : ITextLocalizerService
     /// </summary>
     public void ReadResource()
     {
+        if ( invariantGlobalization )
+            return;
+
         var assembly = typeof( ITextLocalizerService ).Assembly;
 
         var cultureNames =
@@ -62,6 +74,9 @@ public class TextLocalizerService : ITextLocalizerService
     /// <inheritdoc/>
     public void AddLanguageResource( string cultureName )
     {
+        if ( invariantGlobalization )
+            return;
+
         if ( !availableCultures.ContainsKey( cultureName ) )
         {
             availableCultures.TryAdd( cultureName, new( cultureName ) );
@@ -83,6 +98,24 @@ public class TextLocalizerService : ITextLocalizerService
     /// <inheritdoc/>
     public void ChangeLanguage( string cultureName, bool changeThreadCulture = true )
     {
+        if ( invariantGlobalization )
+        {
+            SelectedCulture = CultureInfo.InvariantCulture;
+
+            if ( changeThreadCulture )
+            {
+                CultureInfo.DefaultThreadCurrentCulture = SelectedCulture;
+                CultureInfo.DefaultThreadCurrentUICulture = SelectedCulture;
+
+                CultureInfo.CurrentCulture = SelectedCulture;
+                CultureInfo.CurrentUICulture = SelectedCulture;
+            }
+
+            LocalizationChanged?.Invoke( this, EventArgs.Empty );
+
+            return;
+        }
+
         if ( string.IsNullOrEmpty( cultureName ) )
             throw new ArgumentNullException( nameof( cultureName ) );
 
@@ -101,6 +134,11 @@ public class TextLocalizerService : ITextLocalizerService
         }
 
         LocalizationChanged?.Invoke( this, EventArgs.Empty );
+    }
+
+    private static bool IsInvariantGlobalization()
+    {
+        return AppContext.TryGetSwitch( "System.Globalization.Invariant", out var isInvariant ) && isInvariant;
     }
 
     #endregion

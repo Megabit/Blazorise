@@ -1,0 +1,57 @@
+﻿@typeparam TItem
+@inherits BaseDataGridComponent
+<TableRow Class="@Class" Style="@Style" Background="@Background" Color="@Color">
+
+    @ParentDataGrid.groupIndentationFragment
+
+    @foreach ( var column in Columns )
+    {
+        @if ( column.ColumnType == DataGridColumnType.Command )
+        {
+            <TableRowCell Class="@column.AggregateCellClass" Style="@column.BuildAggregateCellStyle()" TextAlignment="@column.AggregateCellTextAlignment" TextTransform="@column.AggregateCellTextTransform" TextDecoration="@column.AggregateCellTextDecoration" TextWeight="@column.AggregateCellTextWeight" TextOverflow="@column.AggregateCellTextOverflow" TextSize="@column.AggregateCellTextSize" VerticalAlignment="@column.AggregateCellVerticalAlignment" Display="@column.AggregateCellDisplay" Flex="@column.AggregateCellFlex" Gap="@column.AggregateCellGap" FixedPosition="@column.FixedPosition" Width="@column.Width">
+                @if ( column.AggregateTemplate is not null )
+                {
+                    @column.AggregateTemplate( new( column.Field, null ) )
+                }
+            </TableRowCell>
+        }
+        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+        {
+            @if ( ParentDataGrid.MultiSelect )
+            {
+                <TableRowCell Class="@column.AggregateCellClass" Style="@column.BuildAggregateCellStyle()" TextAlignment="@column.AggregateCellTextAlignment" TextTransform="@column.AggregateCellTextTransform" TextDecoration="@column.AggregateCellTextDecoration" TextWeight="@column.AggregateCellTextWeight" TextOverflow="@column.AggregateCellTextOverflow" TextSize="@column.AggregateCellTextSize" VerticalAlignment="@column.AggregateCellVerticalAlignment" Display="@column.AggregateCellDisplay" Flex="@column.AggregateCellFlex" Gap="@column.AggregateCellGap" FixedPosition="@column.FixedPosition" Width="@column.Width">
+                    @if ( column.AggregateTemplate is not null )
+                    {
+                        @column.AggregateTemplate( new( column.Field, null ) )
+                    }
+                </TableRowCell>
+            }
+        }
+        else
+        {
+            <TableRowCell Class="@column.AggregateCellClass" Style="@column.BuildAggregateCellStyle()" TextAlignment="@column.AggregateCellTextAlignment" TextTransform="@column.AggregateCellTextTransform" TextDecoration="@column.AggregateCellTextDecoration" TextWeight="@column.AggregateCellTextWeight" TextOverflow="@column.AggregateCellTextOverflow" TextSize="@column.AggregateCellTextSize" VerticalAlignment="@column.AggregateCellVerticalAlignment" Display="@column.AggregateCellDisplay" Flex="@column.AggregateCellFlex" Gap="@column.AggregateCellGap" FixedPosition="@column.FixedPosition" Width="@column.Width">
+                @{
+                    var aggregateColumn = Aggregates.FirstOrDefault( x => x.Field == column.Field );
+
+                    if ( aggregateColumn != null )
+                    {
+                        var aggregateValue = Calculate( aggregateColumn, column );
+
+                        @if ( column.AggregateTemplate is not null )
+                        {
+                            @column.AggregateTemplate( new( column.Field, aggregateValue ) )
+                        }
+                        else if ( aggregateColumn.DisplayTemplate != null )
+                        {
+                            @aggregateColumn.DisplayTemplate( new( column.Field, aggregateValue ) )
+                        }
+                        else
+                        {
+                            @aggregateColumn.FormatDisplayValue( aggregateValue )
+                        }
+                    }
+                }
+            </TableRowCell>
+        }
+    }
+</TableRow>

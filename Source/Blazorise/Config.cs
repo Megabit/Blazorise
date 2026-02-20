@@ -93,6 +93,7 @@ public static class Config
         { typeof( IPageProgressService ), typeof( PageProgressService ) },
         { typeof( IModalService ), typeof( ModalService ) },
         { typeof( IToastService ), typeof( ToastService ) },
+        { typeof(IOffcanvasService), typeof(OffcanvasService)}
     };
 
     /// <summary>

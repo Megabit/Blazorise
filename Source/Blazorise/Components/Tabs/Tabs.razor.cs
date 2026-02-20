@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Tabs organize content across different screens, data sets, and other interactions.
 /// </summary>
-public partial class Tabs : BaseComponent
+public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
 {
     #region Members
 
@@ -42,7 +42,7 @@ public partial class Tabs : BaseComponent
     /// </summary>
     public Tabs()
     {
-        ContentClassBuilder = new( BuildContentClasses );
+        ContentClassBuilder = new( BuildContentClasses, builder => builder.Append( Classes?.Content ) );
     }
 
     #endregion
@@ -68,6 +68,14 @@ public partial class Tabs : BaseComponent
     protected virtual void BuildContentClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TabsContent() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        ContentClassBuilder.Dirty();
+
+        base.DirtyClasses();
     }
 
     /// <summary>

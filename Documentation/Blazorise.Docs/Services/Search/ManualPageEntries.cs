@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Docs.Models;
 
@@ -12,6 +12,9 @@ public static class ManualPageEntries
     new( "docs/start", "Start" ),
     new( "docs/usage", "Usage" ),
     new( "docs/theming", "Theming" ),
+    new( "docs/migration", "Migration", "Use the Blazorise Migrator CLI to analyze and migrate to Blazorise 2.0." ),
+    new( "docs/analyzer", "Analyzer", "Install Blazorise.Analyzers to detect migration issues and API changes while upgrading to Blazorise 2.0." ),
+    new( "docs/mcp", "MCP Server", "Connect AI clients to Blazorise documentation and examples through the MCP server." ),
     new( "docs/pwa", "PWA" ),
     new( "docs/components/accordion", "Accordion", "Build vertically collapsing accordions in combination with our Collapse component." ),
     new( "docs/components/addon", "Addon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
@@ -105,7 +108,8 @@ public static class ManualPageEntries
     new( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
     new( "docs/extensions/datagrid/features/state-management", "DataGrid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
     new( "docs/extensions/datagrid/features/mobile-mode", "DataGrid Mobile Mode", "The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other." ),
-
+    new( "docs/extensions/datagrid/features/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
+    new( "docs/extensions/datagrid/features/self-reference", "DataGrid Self Reference", "Render hierarchical rows and load child data on demand with expand/collapse triggers and programmatic row control." ),
 
     new( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
     new( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),
@@ -116,7 +120,7 @@ public static class ManualPageEntries
     new( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
     new( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row", "Easily customize the action buttons shown with the Blazorise DataGrid's button row template feature." ),
     new( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands", "Customize your action commands with the Blazorise DataGrid's commands template feature. Assign custom templates to the command column, such as editing and deleting, or add your own custom actions." ),
-    new( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
+
     new( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display", "Customize how your data is displayed in each cell using the Blazorise DataGrid's display template feature. Assign custom templates to individual columns, allowing for more control over how your data is displayed. " ),
     new( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit", "Assign custom edit templates to individual columns, allowing for more control over how data is edited." ),
     new( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading", "Customize the loading look of the Blazorise DataGrid with the loading template feature." ),
@@ -131,8 +135,9 @@ public static class ManualPageEntries
     new( "docs/extensions/cropper", "Cropper", "A component used to crop images." ),
     new( "docs/extensions/loadingindicator", "LoadingIndicator", "A wrapper component used to add loading indocators UI to other components." ),
     new( "docs/extensions/markdown", "Markdown", "The Markdown component allows you to edit markdown strings." ),
+    new( "docs/extensions/passwordstrength", "PasswordStrength", "The PasswordStrength component helps users create stronger passwords with configurable policies, validation integration, and localized feedback." ),
     new( "docs/extensions/pdfviewer", "PdfViewer", "A PdfViewer component used to display a regular PDF document." ),
-    new( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a ‘WYSIWYG’ rich text editor." ),
+    new( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a 'WYSIWYG' rich text editor." ),
     new( "docs/extensions/routertabs", "RouterTabs", "Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation." ),
     new( "docs/extensions/selectlist", "SelectList", "The SelectList component allows you to select a value from a list of predefined items." ),
     new( "docs/extensions/sidebar", "Sidebar", "The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage." ),
@@ -150,6 +155,7 @@ public static class ManualPageEntries
     new( "docs/usage/bulma", "Bulma Usage" ),
     new( "docs/usage/material", "Material Usage" ),
     new( "docs/helpers/colors", "Color Utilities" ),
+    new( "docs/helpers/utilities/styling", "Styling", "Use Class and Style for the main element and Classes and Styles for advanced customization." ),
     new( "docs/helpers/enums/bar", "Enums: Bar" ),
     new( "docs/helpers/enums/button", "Enums: Button" ),
     new( "docs/helpers/enums/chart", "Enums: Button" ),
@@ -169,14 +175,24 @@ public static class ManualPageEntries
     new( "docs/helpers/enums/tooltip", "Enums: Tooltip" ),
     new( "docs/helpers/enums/validation", "Enums: Validation" ),
     new( "docs/helpers/localization", "Localization" ),
-    new( "docs/helpers/sizes", "Sizes" ),
+    new( "docs/helpers/sizes", "Sizes", "Scale buttons, inputs, modals, and figures with shared size enums for consistent UI sizing." ),
+    new( "docs/helpers/utilities/spacing", "Spacing", "Apply margin and padding responsively with fluent spacing utilities." ),
+    new( "docs/helpers/utilities/display", "Display", "Toggle visibility and display modes at breakpoints." ),
+    new( "docs/helpers/utilities/column-size", "Column Size", "Define responsive column widths with the ColumnSize builder." ),
+    new( "docs/helpers/utilities/flex", "Flex", "Control flex direction, alignment, and wrapping with fluent utilities." ),
+    new( "docs/helpers/utilities/border", "Border", "Style borders, sides, colors, and radius with fluent utilities." ),
+    new( "docs/helpers/utilities/overflow", "Overflow", "Manage scroll and clipping behavior for overflow content." ),
+    new( "docs/helpers/utilities/position", "Position", "Place elements using relative and absolute positioning with edge helpers." ),
+    new( "docs/helpers/utilities/grid", "Grid", "Responsive flexbox grid system with rows, columns, and containers." ),
+    new( "docs/helpers/utilities/css-grid", "CSS Grid", "Two-dimensional CSS Grid utilities for layout." ),
     new( "docs/helpers/utilities/gutters", "Gutters", "Control horizontal and vertical spacing between grid columns and rows using Blazorise gutter utilities." ),
     new( "docs/helpers/utilities/object-fit", "Object Fit", "Use the object fit utilities to modify how the content of a replaced element, such as an <img> or <video>, should be resized to fit its container." ),
-    new( "docs/helpers/utilities/position", "Position" ),
+    new( "docs/helpers/utilities/sizing", "Sizing", "Define width and height with sizing utilities, including predefined sizes, viewport units, CSS variables, and min/max constraints." ),
     new( "docs/helpers/utilities", "Utilities" ),
 
     new( "docs/services/message-provider", "Message Provider", "Message service is used for quick user confirmation actions." ),
     new( "docs/services/modal-provider", "Modal Provider", "Programatically instantiate modals with custom content." ),
+    new( "docs/services/offcanvas-provider", "Offcanvas Provider", "Programatically instantiate offcanvases with custom content." ),
     new( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
     new( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
     new( "docs/services/toast-provider", "Toast Provider", "Programatically instantiate toasts with custom messages." ),

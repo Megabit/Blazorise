@@ -243,6 +243,49 @@ public class TailwindThemeGenerator : ThemeGenerator
         //        .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
         //        .AppendLine( "}" );
         //}
+
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            sb.Append( ".b-is-autocomplete.border-green-500" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.focus.border-green-500" ).Append( "{" )
+                .Append( "--tw-ring-inset: var(--tw-empty, /*!*/ /*!*/ );" )
+                .Append( "--tw-ring-offset-width: 0px;" )
+                .Append( "--tw-ring-offset-color: #fff;" )
+                .Append( $"--tw-ring-color: {validationSuccessColor};" )
+                .Append( "--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);" )
+                .Append( "--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( "box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow);" )
+                .Append( "outline: 2px solid transparent;" )
+                .Append( "outline-offset: 2px;" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            sb.Append( ".b-is-autocomplete.border-red-500" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.focus.border-red-500" ).Append( "{" )
+                .Append( "--tw-ring-inset: var(--tw-empty, /*!*/ /*!*/ );" )
+                .Append( "--tw-ring-offset-width: 0px;" )
+                .Append( "--tw-ring-offset-color: #fff;" )
+                .Append( $"--tw-ring-color: {validationDangerColor};" )
+                .Append( "--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);" )
+                .Append( "--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( "box-shadow: var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow);" )
+                .Append( "outline: 2px solid transparent;" )
+                .Append( "outline-offset: 2px;" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -560,6 +603,157 @@ public class TailwindThemeGenerator : ThemeGenerator
         //        .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
         //        .AppendLine( "}" );
         //}
+
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            var validationSuccessBackground = ToHexRGBA( Transparency( validationSuccessColor, 16 ) );
+
+            sb.Append( "input.bg-green-50," )
+                .Append( "textarea.bg-green-50," )
+                .Append( "select.bg-green-50" )
+                .Append( "{" )
+                .Append( $"background-color: {validationSuccessBackground};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.border-green-500," )
+                .Append( "textarea.border-green-500," )
+                .Append( "select.border-green-500" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.text-green-900," )
+                .Append( "textarea.text-green-900," )
+                .Append( "select.text-green-900" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.placeholder-green-700::placeholder," )
+                .Append( "textarea.placeholder-green-700::placeholder" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.focus\\:border-green-500:focus," )
+                .Append( "textarea.focus\\:border-green-500:focus," )
+                .Append( "select.focus\\:border-green-500:focus" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.focus\\:ring-green-500:focus," )
+                .Append( "textarea.focus\\:ring-green-500:focus," )
+                .Append( "select.focus\\:ring-green-500:focus" )
+                .Append( "{" )
+                .Append( $"--tw-ring-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark input.dark\\:text-green-400," )
+                .Append( ".dark textarea.dark\\:text-green-400," )
+                .Append( ".dark select.dark\\:text-green-400" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark input.dark\\:placeholder-green-500::placeholder," )
+                .Append( ".dark textarea.dark\\:placeholder-green-500::placeholder" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark input.dark\\:border-green-500," )
+                .Append( ".dark textarea.dark\\:border-green-500," )
+                .Append( ".dark select.dark\\:border-green-500" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".text-success-600" ).Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark .dark\\:text-success-500" ).Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            var validationDangerBackground = ToHexRGBA( Transparency( validationDangerColor, 16 ) );
+
+            sb.Append( "input.bg-red-50," )
+                .Append( "textarea.bg-red-50," )
+                .Append( "select.bg-red-50" )
+                .Append( "{" )
+                .Append( $"background-color: {validationDangerBackground};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.border-red-500," )
+                .Append( "textarea.border-red-500," )
+                .Append( "select.border-red-500" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.text-red-900," )
+                .Append( "textarea.text-red-900," )
+                .Append( "select.text-red-900" )
+                .Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.placeholder-red-700::placeholder," )
+                .Append( "textarea.placeholder-red-700::placeholder" )
+                .Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.focus\\:border-red-500:focus," )
+                .Append( "textarea.focus\\:border-red-500:focus," )
+                .Append( "select.focus\\:border-red-500:focus" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( "input.focus\\:ring-red-500:focus," )
+                .Append( "textarea.focus\\:ring-red-500:focus," )
+                .Append( "select.focus\\:ring-red-500:focus" )
+                .Append( "{" )
+                .Append( $"--tw-ring-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark input.dark\\:text-red-500," )
+                .Append( ".dark textarea.dark\\:text-red-500," )
+                .Append( ".dark select.dark\\:text-red-500" )
+                .Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark input.dark\\:placeholder-red-500::placeholder," )
+                .Append( ".dark textarea.dark\\:placeholder-red-500::placeholder" )
+                .Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark input.dark\\:border-red-500," )
+                .Append( ".dark textarea.dark\\:border-red-500," )
+                .Append( ".dark select.dark\\:border-red-500" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".text-danger-600" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".dark .dark\\:text-danger-500" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )

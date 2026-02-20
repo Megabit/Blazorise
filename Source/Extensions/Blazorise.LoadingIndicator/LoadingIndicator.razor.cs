@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -11,7 +11,7 @@ namespace Blazorise.LoadingIndicator;
 /// A wrapper component that adds a loading spinner or shows a loading message.
 /// Fully templatable, supports two-way binding, direct use via @ref
 /// </summary>
-public partial class LoadingIndicator : BaseComponent, IDisposable
+public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, LoadingIndicatorStyles>, IDisposable
 {
     #region Members
 
@@ -23,14 +23,18 @@ public partial class LoadingIndicator : BaseComponent, IDisposable
     private bool? visible;
     private bool visibleParameter;
 
+    private LoadingIndicatorStatus status = LoadingIndicatorStatus.Empty;
+
+    private LoadingIndicatorContext context = LoadingIndicatorContext.Empty;
+
     #endregion
 
     #region Constructors
 
     public LoadingIndicator()
     {
-        IndicatorClassBuilder = new( BuildIndicatorClasses );
-        IndicatorStyleBuilder = new( BuildIndicatorStyles );
+        IndicatorClassBuilder = new( BuildIndicatorClasses, builder => builder.Append( Classes?.Indicator ) );
+        IndicatorStyleBuilder = new( BuildIndicatorStyles, builder => builder.Append( Styles?.Indicator ) );
     }
 
     #endregion
@@ -110,19 +114,19 @@ public partial class LoadingIndicator : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Show loading indicator
+    /// Shows the loading indicator overlay.
     /// </summary>
     public Task Show() => SetVisible( true );
 
     /// <summary>
-    /// Hide loading indicator
+    /// Hides the loading indicator overlay.
     /// </summary>
     public Task Hide() => SetVisible( false );
 
     /// <summary>
-    /// Set component Busy state
+    /// Sets the Visible state and notifies subscribers.
     /// </summary>
-    /// <param name="value">true or false</param>
+    /// <param name="value">True to show the indicator; otherwise false.</param>
     internal async Task SetVisible( bool value )
     {
         if ( Visible != value )
@@ -138,15 +142,40 @@ public partial class LoadingIndicator : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Set component Loaded state
+    /// Sets the Initializing state and notifies subscribers.
     /// </summary>
-    /// <param name="value">true or false</param>
+    /// <param name="value">True to show initializing state; otherwise false.</param>
     public async Task SetInitializing( bool value )
     {
         if ( Initializing != value )
         {
             initializing = value;
             await InitializingChanged.InvokeAsync( value );
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    /// <summary>
+    /// Updates the status payload for this indicator.
+    /// </summary>
+    /// <param name="text">Optional status text.</param>
+    /// <param name="progress">Optional progress value.</param>
+    public Task SetStatus( string text = null, int? progress = null )
+        => SetStatus( new LoadingIndicatorStatus( text, progress ) );
+
+    /// <summary>
+    /// Updates the status payload for this indicator.
+    /// </summary>
+    /// <param name="value">Status data.</param>
+    public async Task SetStatus( LoadingIndicatorStatus value )
+    {
+        LoadingIndicatorStatus nextStatus = value ?? LoadingIndicatorStatus.Empty;
+
+        if ( status != nextStatus )
+        {
+            status = nextStatus;
+            context = new LoadingIndicatorContext( status.Text, status.Progress );
+
             await InvokeAsync( StateHasChanged );
         }
     }
@@ -221,6 +250,16 @@ public partial class LoadingIndicator : BaseComponent, IDisposable
     };
 
     /// <summary>
+    /// Gets the current status payload for this indicator.
+    /// </summary>
+    public LoadingIndicatorStatus Status => status ?? LoadingIndicatorStatus.Empty;
+
+    /// <summary>
+    /// Gets the current loading indicator context, or an empty context if none is set.
+    /// </summary>
+    private LoadingIndicatorContext IndicatorContext => context ?? LoadingIndicatorContext.Empty;
+
+    /// <summary>
     /// Service used to control this instance.
     /// </summary>
     [Parameter]
@@ -231,17 +270,11 @@ public partial class LoadingIndicator : BaseComponent, IDisposable
         {
             if ( value != service )
             {
-                if ( service != null )
-                {
-                    service.Unsubscribe( this );
-                }
+                service?.Unsubscribe( this );
 
                 service = value;
 
-                if ( service != null )
-                {
-                    service.Subscribe( this );
-                }
+                service?.Subscribe( this );
             }
         }
     }
@@ -282,9 +315,9 @@ public partial class LoadingIndicator : BaseComponent, IDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Busy indicator template.
+    /// Busy indicator template that receives a <see cref="LoadingIndicatorContext"/> derived from the current status.
     /// </summary>
-    [Parameter] public RenderFragment IndicatorTemplate { get; set; }
+    [Parameter] public RenderFragment<LoadingIndicatorContext> IndicatorTemplate { get; set; }
 
     /// <summary>
     /// Loading state template.

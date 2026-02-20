@@ -1,14 +1,40 @@
-﻿@page "/docs/helpers/enums/tabs"
+@page "/docs/helpers/enums/tabs"
 
-<Seo Canonical="/docs/helpers/enums/tabs" Title="Enums: Tabs" Description="Learn to use and work with the Blazorise Tab enums that help you to modify the tabs appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/tabs" Title="Blazorise Tabs Enums - Position and Render Modes" Description="Tabs enums control tab placement and rendering behavior. Learn TabPosition and TabsRenderMode values for responsive layouts." />
 
 <DocsPageTitle>
     Enums: Tabs
 </DocsPageTitle>
 
+<DocsPageLead>
+    Configure tab placement and rendering behavior with enums.
+</DocsPageLead>
+
 <DocsPageParagraph>
-    Use these tab helpers for quickly configuring the position or rendering of the elements.
+    Tabs enums help you place tab headers around the content and decide when tab panels are rendered.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use <Code>TabPosition</Code> to place tabs, and use <Code>TabsRenderMode</Code> to control whether panels render immediately or on demand.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>TabPosition.Start</Code> for vertical tabs aligned to the left.</UnorderedListItem>
+    <UnorderedListItem><Code>TabsRenderMode.LazyLoad</Code> to render panels on first visit.</UnorderedListItem>
+    <UnorderedListItem><Code>TabsRenderMode.LazyReload</Code> to render only the active panel.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="TabPosition">

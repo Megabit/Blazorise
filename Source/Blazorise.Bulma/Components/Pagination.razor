@@ -1,6 +1,6 @@
 @inherits Blazorise.Pagination
 <CascadingValue Value="@this" IsFixed>
-    <nav class=@("pagination " + ClassProvider.PaginationSize(ThemeSize))>
+    <nav class=@("pagination " + ClassProvider.PaginationSize(ThemeSize)) aria-label="@AriaLabelAttribute">
         <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </ul>

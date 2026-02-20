@@ -5,13 +5,13 @@
         {
             @if ( Marker != null )
             {
-                <div class="@MarkerClassNames">
+                <div class="@MarkerClassNames" style="@Styles?.Marker">
                     @Marker
                 </div>
             }
             @if ( Caption != null )
             {
-                <div class="@DescriptionClassNames">
+                <div class="@DescriptionClassNames" style="@Styles?.Description">
                     <p class="step-title">
                         @Caption
                     </p>
@@ -20,10 +20,10 @@
         }
         else
         {
-            <div class="@MarkerClassNames">
+            <div class="@MarkerClassNames" style="@Styles?.Marker">
                 @CalculatedIndex
             </div>
-            <div class="@DescriptionClassNames">
+            <div class="@DescriptionClassNames" style="@Styles?.Description">
                 <p class="step-title">
                     @ChildContent
                 </p>

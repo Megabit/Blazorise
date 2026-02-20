@@ -147,7 +147,7 @@
 <p id="validate-multi-string-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateMultiStringSelect">
-        <Select @ref="selectMultipleStrings" TValue="string[]" Multiple>
+        <Select @ref="selectMultipleStrings" TValue="string[]" Multiple @bind-Value="@multiStringInitiallyBlank">
             <ChildContent>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
                 <SelectItem Value="@("Harry")">Harry</SelectItem>
@@ -241,6 +241,8 @@
 
     string stringWithEventInitiallyBlank = string.Empty;
     string stringWithEventInitiallySelected = "Oliver";
+
+    string[] multiStringInitiallyBlank = Array.Empty<string>();
 
     int intWithBindInitiallyBlank;
     int intWithBindInitiallySelected = 1;

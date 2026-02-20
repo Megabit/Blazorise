@@ -22,16 +22,16 @@
 
     <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
     {
-        timer = <span class="keyword">new</span> Timer(IntervalDelay);
+        timer = <span class="keyword">new</span> Timer( IntervalDelay );
         timer.Elapsed += OnTimerElapsed;
         timer.AutoReset = <span class="keyword">true</span>;
         timer.Start();
     }
 
-    <span class="keyword">private</span> <span class="keyword">void</span> OnTimerElapsed(<span class="keyword">object</span> sender, ElapsedEventArgs e)
+    <span class="keyword">private</span> <span class="keyword">void</span> OnTimerElapsed( <span class="keyword">object</span> sender, ElapsedEventArgs e )
     {
         Value = Value &lt; <span class="number">42</span> ? Value + IntervalIncrement : <span class="number">0</span>;
-        InvokeAsync(StateHasChanged);
+        InvokeAsync( StateHasChanged );
     }
 
     <span class="keyword">public</span> <span class="keyword">void</span> Dispose()

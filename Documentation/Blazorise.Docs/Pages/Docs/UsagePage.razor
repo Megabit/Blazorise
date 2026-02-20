@@ -27,6 +27,10 @@
     It includes all of the commonly used components that a website requires, such as buttons, dropdowns, navigation bars, modals, but also some more advanced interactive elements such as datepickers.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    If you rely on an AI client, connect it to the <Anchor To="docs/mcp" Title="Link to MCP server guide">MCP server guide</Anchor> so it can pull Blazorise docs and examples when you ask.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Supported CSS Providers
 </DocsPageSubtitle>
@@ -43,7 +47,7 @@
                 <Card Shadow="Shadow.Small" Border="Border.Is0">
                     <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{providerData.ImageFileName}")" Alt="@providerData.ImageAltText" Style="height:200px;" />
                     <CardBody>
-                        <CardTitle Size="5">@providerData.Title</CardTitle>
+                        <CardTitle Size="HeadingSize.Is5">@providerData.Title</CardTitle>
                     </CardBody>
                 </Card>
             </Anchor>
@@ -56,7 +60,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Blazorise follows the ASP.NET Core Razor naming convention for components. See: <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/">ASP.NET Core Razor components</Blazorise.Link>
+    Blazorise follows the ASP.NET Core Razor naming convention for components. See: <Anchor To="https://docs.microsoft.com/en-us/aspnet/core/blazor/components/">ASP.NET Core Razor components</Anchor>
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -96,7 +100,7 @@
     <Code>ctx.Services.AddBlazorise().Replace(ServiceDescriptor.Transient&lt;IComponentActivator, ComponentActivator&gt;());</Code>
 
     Other than that it should pretty much work out of the box. Let us know if you're having any difficulties.
-    For some testing examples, you can look at some of our <Blazorise.Link To="https://github.com/Megabit/Blazorise/tree/master/Tests/Blazorise.Tests" Target="Target.Blank">tests</Blazorise.Link>.
+    For some testing examples, you can look at some of our <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Tests/Blazorise.Tests" Target="Target.Blank">tests</Anchor>.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -112,10 +116,10 @@
 
 <UnorderedList>
     <UnorderedListItem>
-        <Blazorise.Link To="https://github.com/Megabit/Blazorise/issues/3122" Target="Target.Blank">#3122</Blazorise.Link>
+        <Anchor To="https://github.com/Megabit/Blazorise/issues/3122" Target="Target.Blank">#3122</Anchor>
     </UnorderedListItem>
     <UnorderedListItem>
-        <Blazorise.Link To="https://github.com/Megabit/Blazorise/issues/3150" Target="Target.Blank">#3150</Blazorise.Link>
+        <Anchor To="https://github.com/Megabit/Blazorise/issues/3150" Target="Target.Blank">#3150</Anchor>
     </UnorderedListItem>
 </UnorderedList>
 
@@ -124,5 +128,5 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    For information about PWAs & offline support, please take a look at our <Blazorise.Link To="docs/pwa">PWA docs.</Blazorise.Link>
+    For information about PWAs & offline support, please take a look at our <Anchor To="docs/pwa">PWA docs.</Anchor>
 </DocsPageParagraph>

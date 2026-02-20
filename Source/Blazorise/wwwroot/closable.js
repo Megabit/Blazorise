@@ -80,6 +80,19 @@ function hasParentInTree(element, parentElementId) {
     return hasParentInTree(element.parentElement, parentElementId);
 }
 
+function isElementInClosableLightComponent(element) {
+    if (!element) return false;
+
+    for (let index = 0; index < closableLightComponents.length; ++index) {
+        const closableLightId = closableLightComponents[index].elementId;
+
+        if (element.id === closableLightId || hasParentInTree(element, closableLightId))
+            return true;
+    }
+
+    return false;
+}
+
 function hasScroll(element) {
     return element.scrollHeight > element.clientHeight;
 }
@@ -128,7 +141,7 @@ document.addEventListener('mousedown', function handler(evt) {
 });
 
 document.addEventListener('mouseup', function handler(evt) {
-    if (isClosableLightComponent(evt.target.id))
+    if (isElementInClosableLightComponent(evt.target))
         return;
 
     if (evt.button === 0 && evt.target === lastClickedDocumentElement && closableComponents && closableComponents.length > 0) {
@@ -143,7 +156,7 @@ document.addEventListener('mouseup', function handler(evt) {
 
 
 document.addEventListener('keyup', function handler(evt) {
-    if (isClosableLightComponent(evt.target.id))
+    if (isElementInClosableLightComponent(evt.target))
         return;
 
     if (evt.keyCode === 27 && closableComponents && closableComponents.length > 0) {

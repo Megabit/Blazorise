@@ -1,0 +1,45 @@
+@page "/docs/mcp"
+
+<Seo Canonical="/docs/mcp" Title="Blazorise MCP Server" Description="Connect your AI tools to the Blazorise MCP server to answer UI questions using official Blazorise docs and real code examples." />
+
+<DocsPageTitle Path="MCP Server">
+    Blazorise MCP Server
+</DocsPageTitle>
+
+<DocsPageLead>
+    Connect your AI tools to Blazorise documentation and code examples using the Model Context Protocol (MCP).
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The Blazorise MCP server lets MCP-compatible AI clients query official Blazorise documentation directly instead of relying on generic or outdated training data.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    When you ask a question, your AI client can fetch the exact documentation page, section, or code example it needs and use that content to generate accurate answers.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Supported operations include browsing documentation routes, opening specific pages, retrieving individual example snippets, and searching documentation content by keyword.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Client configuration
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    To use the Blazorise MCP server, add its SSE endpoint to your MCP client configuration. Most MCP clients accept a JSON configuration similar to the example below.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    MCP client configuration is typically stored in a JSON file named <Code>.mcp.json</Code> located in your project root or user configuration directory, depending on the client you are using.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Example MCP client entry">
+        <Paragraph>
+            Add this entry to your <Code>.mcp.json</Code> file and update the <Code>url</Code> if needed.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent />
+    <DocsPageSectionSource Code="McpClientConfigExample" />
+</DocsPageSection>

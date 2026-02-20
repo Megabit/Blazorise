@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @typeparam TItem
-@inherits BaseComponent
+@inherits BaseComponent<DropZoneClasses, DropZoneStyles>
 <CascadingValue Value="@this" IsFixed>
     <div @key="@ElementId" @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @ondragenter="@OnDragEnterHandler" @ondragleave="@OnDragLeaveHandler" @ondrop="@OnDropHandler" @attributes="@Attributes">
         @ChildContent
@@ -30,13 +30,13 @@
     {
         if ( !items.Any() )
         {
-            <div @key="@($"{ElementId}_item_preview_placeholder")" class="@PlaceholderClassBuilder.Class"></div>
+            <div @key="@($"{ElementId}_item_preview_placeholder")" class="@PlaceholderClassBuilder.Class" style="@Styles?.Placeholder"></div>
         }
         else
         {
             if ( transactionIndex == -1 )
             {
-                <div @key="@($"{ElementId}_item_preview_placeholder")" class="@PlaceholderClassBuilder.Class"></div>
+                <div @key="@($"{ElementId}_item_preview_placeholder")" class="@PlaceholderClassBuilder.Class" style="@Styles?.Placeholder"></div>
             }
 
             <_Draggable @key="@($"{ElementId}_item_preview")" TItem="TItem" Item="default" ZoneName="@Name" Disabled="true" HideContent="false" Class="draggable-preview-start" />
@@ -62,7 +62,7 @@
 
         if ( transactionIndex == index && !IsOrigin( index ) )
         {
-            <div @key="@($"{ElementId}_item_placeholder")" class="@PlaceholderClassBuilder.Class"></div>
+            <div @key="@($"{ElementId}_item_placeholder")" class="@PlaceholderClassBuilder.Class" style="@Styles?.Placeholder"></div>
         }
     };
 }

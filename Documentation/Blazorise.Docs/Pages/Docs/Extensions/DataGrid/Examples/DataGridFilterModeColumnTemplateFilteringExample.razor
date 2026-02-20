@@ -9,13 +9,13 @@
     <DataGridColumns>
         <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="false" FilterMethod="DataGridColumnFilterMethod.StartsWith"></DataGridColumn>
         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="false"></DataGridColumn>
-        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-        <DataGridNumericColumn Field="@nameof(Employee.Childrens)" Caption="Children" Editable />
+        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" />
+        <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Children" Editable />
     </DataGridColumns>
     <FilterMenuTemplate>
         <Row>
             <Column ColumnSize="ColumnSize.Is4">
-                <Select TValue="DataGridColumnFilterMethod" Value="@context.GetFilterMethod()" ValueChanged="e => { context.FilterMethodChanged.InvokeAsync(e); }">
+                <Select TValue="DataGridColumnFilterMethod" Value="@context.GetFilterMethod()" ValueChanged="e => { context.FilterMethodChanged.InvokeAsync( e ); }">
                     @{
                         var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
                     }
@@ -43,12 +43,12 @@
                 <Field @key=context.GetFilterMethod()>
                     @if ( context.GetFilterMethod() == DataGridColumnFilterMethod.Between )
                     {
-                        <TextInput Value="@GetFilterValue1(context)" ValueChanged="@((newValue) => SetFilterValue1(context.Column.Filter, newValue))" />
-                        <TextInput Value="@GetFilterValue2(context)" ValueChanged="@((newValue) => SetFilterValue2(context.Column.Filter, newValue))" />
+                        <TextInput Value="@GetFilterValue1( context )" ValueChanged="@(( newValue ) => SetFilterValue1( context.Column.Filter, newValue ))" />
+                        <TextInput Value="@GetFilterValue2( context )" ValueChanged="@(( newValue ) => SetFilterValue2( context.Column.Filter, newValue ))" />
                     }
                     else
                     {
-                        <TextInput Value="@context.GetSearchValue()?.ToString()" ValueChanged="@((newValue) => context.Column.Filter.SearchValue = newValue)" />
+                        <TextInput Value="@context.GetSearchValue()?.ToString()" ValueChanged="@(( newValue ) => context.Column.Filter.SearchValue = newValue)" />
                     }
                 </Field>
             </Column>

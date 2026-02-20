@@ -3,7 +3,7 @@
 /// <summary>
 /// Predefined set of contextual background colors.
 /// </summary>
-public record Background : Enumeration<Background>
+public record Background : Enumeration<Background>, IUtilityTargeted, IFluentUtilityTarget<Background>
 {
     #region Constructors
 
@@ -32,7 +32,31 @@ public record Background : Enumeration<Background>
 
     #endregion
 
+    #region Methods
+
+    private Background WithUtilityTarget( UtilityTarget target )
+    {
+        return this with { UtilityTarget = target };
+    }
+
+    #endregion
+
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public Background OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public Background OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.
@@ -99,7 +123,7 @@ public record Background : Enumeration<Background>
     /// Subtle variant of the current background (e.g., "success subtle"). 
     /// Returning <see cref="BackgroundVariant"/> prevents chaining like ".Subtle.Success".
     /// </summary>
-    public BackgroundVariant Subtle => new( new Background( this, "subtle" ) );
+    public BackgroundVariant Subtle => new( new Background( this, "subtle" ) { UtilityTarget = this.UtilityTarget } );
 
     #endregion
 }
@@ -113,6 +137,16 @@ public readonly struct BackgroundVariant
     internal BackgroundVariant( Background background ) => Value = background;
 
     internal Background Value { get; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public Background OnSelf => Value.OnSelf;
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public Background OnWrapper => Value.OnWrapper;
 
     /// <summary>
     /// Implicitly converts a <see cref="BackgroundVariant"/> to its corresponding <see cref="Background"/> value.

@@ -1,13 +1,12 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
 <span class="atSign">&#64;</span>using System.ComponentModel.DataAnnotations
-
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validations</span> <span class="htmlAttributeName">Model</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Company</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ValidationMode</span><span class="enumValue">.Auto</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validations</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>validationsRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Model</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Company</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ValidationMode</span><span class="enumValue">.Auto</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Name<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.Name</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.Name</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
                         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span> <span class="htmlTagDelimiter">/&gt;</span>
                     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
@@ -19,7 +18,7 @@
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Description<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.Description</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.Description</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
                         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span> <span class="htmlTagDelimiter">/&gt;</span>
                     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
@@ -28,14 +27,14 @@
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Switch</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.UseAlphaCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Use AlphaCode<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Switch</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Switch</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">bool</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.UseAlphaCode</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnUseAlphaCodeChanged</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueExpression</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(() =&gt; Company.UseAlphaCode)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Use AlphaCode<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Switch</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Fields</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>AlphaCode<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.AlphaCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.AlphaCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
                             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span> <span class="htmlTagDelimiter">/&gt;</span>
                         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
@@ -47,7 +46,7 @@
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>BetaCode<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.BetaCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Company.BetaCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
                             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span> <span class="htmlTagDelimiter">/&gt;</span>
                         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
@@ -60,6 +59,21 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
+    <span class="keyword">async</span> Task OnUseAlphaCodeChanged( <span class="keyword">bool</span> value )
+    {
+        Company.UseAlphaCode = value;
+
+        <span class="keyword">if</span> ( validationsRef != <span class="keyword">null</span> )
+        {
+            <span class="comment">// retrigger validation for dependent properties</span>
+            <span class="keyword">await</span> validationsRef.RetriggerValidation(
+                () =&gt; Company.AlphaCode,
+                () =&gt; Company.BetaCode );
+        }
+    }
+
+    Validations validationsRef;
+
     CompanyInfo Company = <span class="keyword">new</span> CompanyInfo()
     {
         UseAlphaCode = <span class="keyword">true</span>,

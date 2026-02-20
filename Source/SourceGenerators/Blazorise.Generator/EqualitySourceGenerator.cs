@@ -111,7 +111,7 @@ namespace {namespaceName}
     public partial record {className}
     {{
         /// <inheritdoc/>
-        public virtual bool Equals({className}? obj)
+        public virtual bool Equals({className} obj)
         {{
             {returnEquals}
         }}

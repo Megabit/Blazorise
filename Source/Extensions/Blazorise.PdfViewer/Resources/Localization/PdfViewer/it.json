@@ -7,6 +7,17 @@
     "Zoom In": "Ingrandisci",
     "Print": "Stampa",
     "of": "di",
-    "Download": "Scarica"
+    "Download": "Scarica",
+    "Password required": "Password richiesta",
+    "Enter the password to open this PDF.": "Inserisci la password per aprire questo PDF.",
+    "Incorrect password. Please try again.": "Password non corretta. Riprova.",
+    "Password": "Password",
+    "Open": "Apri",
+    "Cancel": "Annulla",
+    "Password is required.": "La password è obbligatoria.",
+    "Save PDF": "Salva PDF",
+    "Enter a filename for this download.": "Inserisci un nome file per questo download.",
+    "Filename": "Nome file",
+    "Filename is required.": "Il nome file è obbligatorio."
   }
 }

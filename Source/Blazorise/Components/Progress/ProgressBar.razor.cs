@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -101,6 +102,16 @@ public partial class ProgressBar : BaseComponent
 
             DirtyClasses();
         }
+    }
+
+    /// <summary>
+    /// Defines the progress bar intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
     }
 
     /// <summary>

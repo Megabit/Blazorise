@@ -3,21 +3,21 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           Responsive>
-    <DataGridNumericColumn Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable>
-    <DisplayTemplate>
-        @{
-            var date = ( context as Employee )?.DateOfBirth;
+    <DataGridNumericColumn Field="@nameof( Employee.DateOfBirth )" Caption="Date Of Birth" Editable>
+        <DisplayTemplate>
+            @{
+                var date = context.Item?.DateOfBirth;
 
-            if ( date != null )
-            {
-                @($"{date.Value.ToShortDateString()} | Age: {( DateTime.Now.Year - date.Value.Year )}")
+                if ( date != null )
+                {
+                    @($"{date.Value.ToShortDateString()} | Age: {( DateTime.Now.Year - date.Value.Year )}")
+                }
             }
-        }
-    </DisplayTemplate>
-</DataGridNumericColumn>
+        </DisplayTemplate>
+    </DataGridNumericColumn>
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;

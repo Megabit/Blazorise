@@ -218,6 +218,16 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     }
 
     /// <summary>
+    /// Gets or sets the cell variant intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
+    /// <summary>
     /// Number of rows a cell should span.
     /// </summary>
     [Parameter] public int? RowSpan { get; set; }

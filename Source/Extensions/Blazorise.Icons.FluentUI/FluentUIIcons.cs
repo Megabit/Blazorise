@@ -31,6 +31,8 @@ public static class FluentUIIcons
     public const string AddSubtractCircle = "icon-ic_fluent_add_subtract_circle_20_regular";
     public const string AddSubtractCircleFilled = "icon-ic_fluent_add_subtract_circle_20_filled";
     public const string Agents = "icon-ic_fluent_agents_20_regular";
+    public const string AgentsAdd = "icon-ic_fluent_agents_add_20_regular";
+    public const string AgentsAddFilled = "icon-ic_fluent_agents_add_20_filled";
     public const string AgentsFilled = "icon-ic_fluent_agents_20_filled";
     public const string Airplane = "icon-ic_fluent_airplane_20_regular";
     public const string AirplaneFilled = "icon-ic_fluent_airplane_20_filled";
@@ -133,6 +135,8 @@ public static class FluentUIIcons
     public const string Archive = "icon-ic_fluent_archive_20_regular";
     public const string ArchiveArrowBack = "icon-ic_fluent_archive_arrow_back_20_regular";
     public const string ArchiveArrowBackFilled = "icon-ic_fluent_archive_arrow_back_20_filled";
+    public const string ArchiveClock = "icon-ic_fluent_archive_clock_20_regular";
+    public const string ArchiveClockFilled = "icon-ic_fluent_archive_clock_20_filled";
     public const string ArchiveFilled = "icon-ic_fluent_archive_20_filled";
     public const string ArchiveMultiple = "icon-ic_fluent_archive_multiple_20_regular";
     public const string ArchiveMultipleFilled = "icon-ic_fluent_archive_multiple_20_filled";
@@ -274,10 +278,14 @@ public static class FluentUIIcons
     public const string ArrowLeftFilled = "icon-ic_fluent_arrow_left_20_filled";
     public const string ArrowMaximize = "icon-ic_fluent_arrow_maximize_20_regular";
     public const string ArrowMaximizeFilled = "icon-ic_fluent_arrow_maximize_20_filled";
+    public const string ArrowMaximizeTopLeftBottomRight = "icon-ic_fluent_arrow_maximize_top_left_bottom_right_20_regular";
+    public const string ArrowMaximizeTopLeftBottomRightFilled = "icon-ic_fluent_arrow_maximize_top_left_bottom_right_20_filled";
     public const string ArrowMaximizeVertical = "icon-ic_fluent_arrow_maximize_vertical_20_regular";
     public const string ArrowMaximizeVerticalFilled = "icon-ic_fluent_arrow_maximize_vertical_20_filled";
     public const string ArrowMinimize = "icon-ic_fluent_arrow_minimize_20_regular";
     public const string ArrowMinimizeFilled = "icon-ic_fluent_arrow_minimize_20_filled";
+    public const string ArrowMinimizeTopLeftBottomRight = "icon-ic_fluent_arrow_minimize_top_left_bottom_right_20_regular";
+    public const string ArrowMinimizeTopLeftBottomRightFilled = "icon-ic_fluent_arrow_minimize_top_left_bottom_right_20_filled";
     public const string ArrowMinimizeVertical = "icon-ic_fluent_arrow_minimize_vertical_20_regular";
     public const string ArrowMinimizeVerticalFilled = "icon-ic_fluent_arrow_minimize_vertical_20_filled";
     public const string ArrowMove = "icon-ic_fluent_arrow_move_20_regular";
@@ -485,6 +493,28 @@ public static class FluentUIIcons
     public const string Battery9 = "icon-ic_fluent_battery_9_20_regular";
     public const string Battery9Filled = "icon-ic_fluent_battery_9_20_filled";
     public const string BatteryCharge = "icon-ic_fluent_battery_charge_20_regular";
+    public const string BatteryCharge0 = "icon-ic_fluent_battery_charge_0_20_regular";
+    public const string BatteryCharge0Filled = "icon-ic_fluent_battery_charge_0_20_filled";
+    public const string BatteryCharge1 = "icon-ic_fluent_battery_charge_1_20_regular";
+    public const string BatteryCharge10 = "icon-ic_fluent_battery_charge_10_20_regular";
+    public const string BatteryCharge10Filled = "icon-ic_fluent_battery_charge_10_20_filled";
+    public const string BatteryCharge1Filled = "icon-ic_fluent_battery_charge_1_20_filled";
+    public const string BatteryCharge2 = "icon-ic_fluent_battery_charge_2_20_regular";
+    public const string BatteryCharge2Filled = "icon-ic_fluent_battery_charge_2_20_filled";
+    public const string BatteryCharge3 = "icon-ic_fluent_battery_charge_3_20_regular";
+    public const string BatteryCharge3Filled = "icon-ic_fluent_battery_charge_3_20_filled";
+    public const string BatteryCharge4 = "icon-ic_fluent_battery_charge_4_20_regular";
+    public const string BatteryCharge4Filled = "icon-ic_fluent_battery_charge_4_20_filled";
+    public const string BatteryCharge5 = "icon-ic_fluent_battery_charge_5_20_regular";
+    public const string BatteryCharge5Filled = "icon-ic_fluent_battery_charge_5_20_filled";
+    public const string BatteryCharge6 = "icon-ic_fluent_battery_charge_6_20_regular";
+    public const string BatteryCharge6Filled = "icon-ic_fluent_battery_charge_6_20_filled";
+    public const string BatteryCharge7 = "icon-ic_fluent_battery_charge_7_20_regular";
+    public const string BatteryCharge7Filled = "icon-ic_fluent_battery_charge_7_20_filled";
+    public const string BatteryCharge8 = "icon-ic_fluent_battery_charge_8_20_regular";
+    public const string BatteryCharge8Filled = "icon-ic_fluent_battery_charge_8_20_filled";
+    public const string BatteryCharge9 = "icon-ic_fluent_battery_charge_9_20_regular";
+    public const string BatteryCharge9Filled = "icon-ic_fluent_battery_charge_9_20_filled";
     public const string BatteryChargeFilled = "icon-ic_fluent_battery_charge_20_filled";
     public const string BatteryCheckmark = "icon-ic_fluent_battery_checkmark_20_regular";
     public const string BatteryCheckmarkFilled = "icon-ic_fluent_battery_checkmark_20_filled";
@@ -799,7 +829,11 @@ public static class FluentUIIcons
     public const string CalendarChat = "icon-ic_fluent_calendar_chat_20_regular";
     public const string CalendarChatFilled = "icon-ic_fluent_calendar_chat_20_filled";
     public const string CalendarCheckmark = "icon-ic_fluent_calendar_checkmark_20_regular";
+    public const string CalendarCheckmarkCenter = "icon-ic_fluent_calendar_checkmark_center_20_regular";
+    public const string CalendarCheckmarkCenterFilled = "icon-ic_fluent_calendar_checkmark_center_20_filled";
     public const string CalendarCheckmarkFilled = "icon-ic_fluent_calendar_checkmark_20_filled";
+    public const string CalendarCheckmarkSparkle = "icon-ic_fluent_calendar_checkmark_sparkle_20_regular";
+    public const string CalendarCheckmarkSparkleFilled = "icon-ic_fluent_calendar_checkmark_sparkle_20_filled";
     public const string CalendarClock = "icon-ic_fluent_calendar_clock_20_regular";
     public const string CalendarClockFilled = "icon-ic_fluent_calendar_clock_20_filled";
     public const string CalendarDataBar = "icon-ic_fluent_calendar_data_bar_20_regular";
@@ -1021,6 +1055,8 @@ public static class FluentUIIcons
     public const string ChatFilled = "icon-ic_fluent_chat_20_filled";
     public const string ChatHelp = "icon-ic_fluent_chat_help_20_regular";
     public const string ChatHelpFilled = "icon-ic_fluent_chat_help_20_filled";
+    public const string ChatHintHalf = "icon-ic_fluent_chat_hint_half_20_regular";
+    public const string ChatHintHalfFilled = "icon-ic_fluent_chat_hint_half_20_filled";
     public const string ChatHistory = "icon-ic_fluent_chat_history_20_regular";
     public const string ChatHistoryFilled = "icon-ic_fluent_chat_history_20_filled";
     public const string ChatLock = "icon-ic_fluent_chat_lock_20_regular";
@@ -1068,6 +1104,8 @@ public static class FluentUIIcons
     public const string Checkmark = "icon-ic_fluent_checkmark_20_regular";
     public const string CheckmarkCircle = "icon-ic_fluent_checkmark_circle_20_regular";
     public const string CheckmarkCircleFilled = "icon-ic_fluent_checkmark_circle_20_filled";
+    public const string CheckmarkCircleHint = "icon-ic_fluent_checkmark_circle_hint_20_regular";
+    public const string CheckmarkCircleHintFilled = "icon-ic_fluent_checkmark_circle_hint_20_filled";
     public const string CheckmarkCircleSquare = "icon-ic_fluent_checkmark_circle_square_20_regular";
     public const string CheckmarkCircleSquareFilled = "icon-ic_fluent_checkmark_circle_square_20_filled";
     public const string CheckmarkCircleWarning = "icon-ic_fluent_checkmark_circle_warning_20_regular";
@@ -1243,6 +1281,8 @@ public static class FluentUIIcons
     public const string ClockSparkleFilled = "icon-ic_fluent_clock_sparkle_20_filled";
     public const string ClockToolbox = "icon-ic_fluent_clock_toolbox_20_regular";
     public const string ClockToolboxFilled = "icon-ic_fluent_clock_toolbox_20_filled";
+    public const string ClockWarning = "icon-ic_fluent_clock_warning_20_regular";
+    public const string ClockWarningFilled = "icon-ic_fluent_clock_warning_20_filled";
     public const string ClosedCaption = "icon-ic_fluent_closed_caption_20_regular";
     public const string ClosedCaptionFilled = "icon-ic_fluent_closed_caption_20_filled";
     public const string ClosedCaptionOff = "icon-ic_fluent_closed_caption_off_20_regular";
@@ -1390,6 +1430,8 @@ public static class FluentUIIcons
     public const string CommunicationShieldFilled = "icon-ic_fluent_communication_shield_20_filled";
     public const string CompassNorthwest = "icon-ic_fluent_compass_northwest_20_regular";
     public const string CompassNorthwestFilled = "icon-ic_fluent_compass_northwest_20_filled";
+    public const string CompassTrueNorth = "icon-ic_fluent_compass_true_north_20_regular";
+    public const string CompassTrueNorthFilled = "icon-ic_fluent_compass_true_north_20_filled";
     public const string Compose = "icon-ic_fluent_compose_20_regular";
     public const string ComposeFilled = "icon-ic_fluent_compose_20_filled";
     public const string ConferenceRoom = "icon-ic_fluent_conference_room_20_regular";
@@ -1400,6 +1442,8 @@ public static class FluentUIIcons
     public const string ConnectorFilled = "icon-ic_fluent_connector_20_filled";
     public const string ContactCard = "icon-ic_fluent_contact_card_20_regular";
     public const string ContactCardFilled = "icon-ic_fluent_contact_card_20_filled";
+    public const string ContactCardGeneric = "icon-ic_fluent_contact_card_generic_20_regular";
+    public const string ContactCardGenericFilled = "icon-ic_fluent_contact_card_generic_20_filled";
     public const string ContactCardGroup = "icon-ic_fluent_contact_card_group_20_regular";
     public const string ContactCardGroupFilled = "icon-ic_fluent_contact_card_group_20_filled";
     public const string ContactCardLink = "icon-ic_fluent_contact_card_link_20_regular";
@@ -1434,6 +1478,8 @@ public static class FluentUIIcons
     public const string CopySelectFilled = "icon-ic_fluent_copy_select_20_filled";
     public const string Couch = "icon-ic_fluent_couch_20_regular";
     public const string CouchFilled = "icon-ic_fluent_couch_20_filled";
+    public const string Counter = "icon-ic_fluent_counter_20_regular";
+    public const string CounterFilled = "icon-ic_fluent_counter_20_filled";
     public const string CreditCardClock = "icon-ic_fluent_credit_card_clock_20_regular";
     public const string CreditCardClockFilled = "icon-ic_fluent_credit_card_clock_20_filled";
     public const string CreditCardPerson = "icon-ic_fluent_credit_card_person_20_regular";
@@ -1588,6 +1634,8 @@ public static class FluentUIIcons
     public const string DeskFilled = "icon-ic_fluent_desk_20_filled";
     public const string DeskMultiple = "icon-ic_fluent_desk_multiple_20_regular";
     public const string DeskMultipleFilled = "icon-ic_fluent_desk_multiple_20_filled";
+    public const string DeskSparkle = "icon-ic_fluent_desk_sparkle_20_regular";
+    public const string DeskSparkleFilled = "icon-ic_fluent_desk_sparkle_20_filled";
     public const string Desktop = "icon-ic_fluent_desktop_20_regular";
     public const string DesktopArrowDown = "icon-ic_fluent_desktop_arrow_down_20_regular";
     public const string DesktopArrowDownFilled = "icon-ic_fluent_desktop_arrow_down_20_filled";
@@ -1635,6 +1683,8 @@ public static class FluentUIIcons
     public const string DeviceEq = "icon-ic_fluent_device_eq_20_regular";
     public const string DeviceEqFilled = "icon-ic_fluent_device_eq_20_filled";
     public const string DeviceMeetingRoom = "icon-ic_fluent_device_meeting_room_20_regular";
+    public const string DeviceMeetingRoomBar = "icon-ic_fluent_device_meeting_room_bar_20_regular";
+    public const string DeviceMeetingRoomBarFilled = "icon-ic_fluent_device_meeting_room_bar_20_filled";
     public const string DeviceMeetingRoomFilled = "icon-ic_fluent_device_meeting_room_20_filled";
     public const string DeviceMeetingRoomRemote = "icon-ic_fluent_device_meeting_room_remote_20_regular";
     public const string DeviceMeetingRoomRemoteFilled = "icon-ic_fluent_device_meeting_room_remote_20_filled";
@@ -1650,6 +1700,8 @@ public static class FluentUIIcons
     public const string DiamondDismiss = "icon-ic_fluent_diamond_dismiss_20_regular";
     public const string DiamondDismissFilled = "icon-ic_fluent_diamond_dismiss_20_filled";
     public const string DiamondFilled = "icon-ic_fluent_diamond_20_filled";
+    public const string DiamondLink = "icon-ic_fluent_diamond_link_20_regular";
+    public const string DiamondLinkFilled = "icon-ic_fluent_diamond_link_20_filled";
     public const string Directions = "icon-ic_fluent_directions_20_regular";
     public const string DirectionsFilled = "icon-ic_fluent_directions_20_filled";
     public const string Dishwasher = "icon-ic_fluent_dishwasher_20_regular";
@@ -1860,6 +1912,8 @@ public static class FluentUIIcons
     public const string DocumentSplitHintFilled = "icon-ic_fluent_document_split_hint_20_filled";
     public const string DocumentSplitHintOff = "icon-ic_fluent_document_split_hint_off_20_regular";
     public const string DocumentSplitHintOffFilled = "icon-ic_fluent_document_split_hint_off_20_filled";
+    public const string DocumentSquare = "icon-ic_fluent_document_square_20_regular";
+    public const string DocumentSquareFilled = "icon-ic_fluent_document_square_20_filled";
     public const string DocumentSync = "icon-ic_fluent_document_sync_20_regular";
     public const string DocumentSyncFilled = "icon-ic_fluent_document_sync_20_filled";
     public const string DocumentTable = "icon-ic_fluent_document_table_20_regular";
@@ -2073,6 +2127,8 @@ public static class FluentUIIcons
     public const string ExtendedDock = "icon-ic_fluent_extended_dock_20_regular";
     public const string ExtendedDockFilled = "icon-ic_fluent_extended_dock_20_filled";
     public const string Eye = "icon-ic_fluent_eye_20_regular";
+    public const string EyeCircle = "icon-ic_fluent_eye_circle_20_regular";
+    public const string EyeCircleFilled = "icon-ic_fluent_eye_circle_20_filled";
     public const string Eyedropper = "icon-ic_fluent_eyedropper_20_regular";
     public const string EyedropperFilled = "icon-ic_fluent_eyedropper_20_filled";
     public const string EyedropperOff = "icon-ic_fluent_eyedropper_off_20_regular";
@@ -2161,6 +2217,8 @@ public static class FluentUIIcons
     public const string FlowchartCircle = "icon-ic_fluent_flowchart_circle_20_regular";
     public const string FlowchartCircleFilled = "icon-ic_fluent_flowchart_circle_20_filled";
     public const string FlowchartFilled = "icon-ic_fluent_flowchart_20_filled";
+    public const string FlowDot = "icon-ic_fluent_flow_dot_20_regular";
+    public const string FlowDotFilled = "icon-ic_fluent_flow_dot_20_filled";
     public const string FlowFilled = "icon-ic_fluent_flow_20_filled";
     public const string FlowSparkle = "icon-ic_fluent_flow_sparkle_20_regular";
     public const string FlowSparkleFilled = "icon-ic_fluent_flow_sparkle_20_filled";
@@ -2192,6 +2250,8 @@ public static class FluentUIIcons
     public const string FolderListFilled = "icon-ic_fluent_folder_list_20_filled";
     public const string FolderMail = "icon-ic_fluent_folder_mail_20_regular";
     public const string FolderMailFilled = "icon-ic_fluent_folder_mail_20_filled";
+    public const string FolderMultiple = "icon-ic_fluent_folder_multiple_20_regular";
+    public const string FolderMultipleFilled = "icon-ic_fluent_folder_multiple_20_filled";
     public const string FolderOpen = "icon-ic_fluent_folder_open_20_regular";
     public const string FolderOpenDown = "icon-ic_fluent_folder_open_down_20_regular";
     public const string FolderOpenDownFilled = "icon-ic_fluent_folder_open_down_20_filled";
@@ -2243,6 +2303,8 @@ public static class FluentUIIcons
     public const string Form = "icon-ic_fluent_form_20_regular";
     public const string FormFilled = "icon-ic_fluent_form_20_filled";
     public const string FormMultiple = "icon-ic_fluent_form_multiple_20_regular";
+    public const string FormMultipleCollection = "icon-ic_fluent_form_multiple_collection_20_regular";
+    public const string FormMultipleCollectionFilled = "icon-ic_fluent_form_multiple_collection_20_filled";
     public const string FormMultipleFilled = "icon-ic_fluent_form_multiple_20_filled";
     public const string FormNew = "icon-ic_fluent_form_new_20_regular";
     public const string FormNewFilled = "icon-ic_fluent_form_new_20_filled";
@@ -2562,6 +2624,8 @@ public static class FluentUIIcons
     public const string IotAlert = "icon-ic_fluent_iot_alert_20_regular";
     public const string IotAlertFilled = "icon-ic_fluent_iot_alert_20_filled";
     public const string IotFilled = "icon-ic_fluent_iot_20_filled";
+    public const string ItemCompare = "icon-ic_fluent_item_compare_20_regular";
+    public const string ItemCompareFilled = "icon-ic_fluent_item_compare_20_filled";
     public const string Javascript = "icon-ic_fluent_javascript_20_regular";
     public const string JavascriptFilled = "icon-ic_fluent_javascript_20_filled";
     public const string Joystick = "icon-ic_fluent_joystick_20_regular";
@@ -2622,6 +2686,10 @@ public static class FluentUIIcons
     public const string LayerDiagonalSparkle = "icon-ic_fluent_layer_diagonal_sparkle_20_regular";
     public const string LayerDiagonalSparkleFilled = "icon-ic_fluent_layer_diagonal_sparkle_20_filled";
     public const string LayerFilled = "icon-ic_fluent_layer_20_filled";
+    public const string LayoutAddAbove = "icon-ic_fluent_layout_add_above_20_regular";
+    public const string LayoutAddAboveFilled = "icon-ic_fluent_layout_add_above_20_filled";
+    public const string LayoutAddBelow = "icon-ic_fluent_layout_add_below_20_regular";
+    public const string LayoutAddBelowFilled = "icon-ic_fluent_layout_add_below_20_filled";
     public const string LayoutCellFour = "icon-ic_fluent_layout_cell_four_20_regular";
     public const string LayoutCellFourFilled = "icon-ic_fluent_layout_cell_four_20_filled";
     public const string LayoutCellFourFocusBottomLeftFilled = "icon-ic_fluent_layout_cell_four_focus_bottom_left_20_filled";
@@ -2646,6 +2714,8 @@ public static class FluentUIIcons
     public const string LayoutColumnThreeFocusLeftFilled = "icon-ic_fluent_layout_column_three_focus_left_20_filled";
     public const string LayoutColumnThreeFocusRightFilled = "icon-ic_fluent_layout_column_three_focus_right_20_filled";
     public const string LayoutColumnTwo = "icon-ic_fluent_layout_column_two_20_regular";
+    public const string LayoutColumnTwoEdit = "icon-ic_fluent_layout_column_two_edit_20_regular";
+    public const string LayoutColumnTwoEditFilled = "icon-ic_fluent_layout_column_two_edit_20_filled";
     public const string LayoutColumnTwoFilled = "icon-ic_fluent_layout_column_two_20_filled";
     public const string LayoutColumnTwoFocusLeftFilled = "icon-ic_fluent_layout_column_two_focus_left_20_filled";
     public const string LayoutColumnTwoFocusRightFilled = "icon-ic_fluent_layout_column_two_focus_right_20_filled";
@@ -2659,6 +2729,8 @@ public static class FluentUIIcons
     public const string LayoutColumnTwoSplitRightFocusBottomRightFilled = "icon-ic_fluent_layout_column_two_split_right_focus_bottom_right_20_filled";
     public const string LayoutColumnTwoSplitRightFocusLeftFilled = "icon-ic_fluent_layout_column_two_split_right_focus_left_20_filled";
     public const string LayoutColumnTwoSplitRightFocusTopRightFilled = "icon-ic_fluent_layout_column_two_split_right_focus_top_right_20_filled";
+    public const string LayoutDynamic = "icon-ic_fluent_layout_dynamic_20_regular";
+    public const string LayoutDynamicFilled = "icon-ic_fluent_layout_dynamic_20_filled";
     public const string LayoutRowFour = "icon-ic_fluent_layout_row_four_20_regular";
     public const string LayoutRowFourFilled = "icon-ic_fluent_layout_row_four_20_filled";
     public const string LayoutRowFourFocusBottomFilled = "icon-ic_fluent_layout_row_four_focus_bottom_20_filled";
@@ -3217,6 +3289,8 @@ public static class FluentUIIcons
     public const string PanelTopGallery = "icon-ic_fluent_panel_top_gallery_20_regular";
     public const string PanelTopGalleryFilled = "icon-ic_fluent_panel_top_gallery_20_filled";
     public const string Password = "icon-ic_fluent_password_20_regular";
+    public const string PasswordClock = "icon-ic_fluent_password_clock_20_regular";
+    public const string PasswordClockFilled = "icon-ic_fluent_password_clock_20_filled";
     public const string PasswordFilled = "icon-ic_fluent_password_20_filled";
     public const string Patch = "icon-ic_fluent_patch_20_regular";
     public const string PatchFilled = "icon-ic_fluent_patch_20_filled";
@@ -3259,6 +3333,8 @@ public static class FluentUIIcons
     public const string PeopleChatFilled = "icon-ic_fluent_people_chat_20_filled";
     public const string PeopleCheckmark = "icon-ic_fluent_people_checkmark_20_regular";
     public const string PeopleCheckmarkFilled = "icon-ic_fluent_people_checkmark_20_filled";
+    public const string PeopleCommunication = "icon-ic_fluent_people_communication_20_regular";
+    public const string PeopleCommunicationFilled = "icon-ic_fluent_people_communication_20_filled";
     public const string PeopleCommunity = "icon-ic_fluent_people_community_20_regular";
     public const string PeopleCommunityAdd = "icon-ic_fluent_people_community_add_20_regular";
     public const string PeopleCommunityAddFilled = "icon-ic_fluent_people_community_add_20_filled";
@@ -3270,6 +3346,8 @@ public static class FluentUIIcons
     public const string PeopleEye = "icon-ic_fluent_people_eye_20_regular";
     public const string PeopleEyeFilled = "icon-ic_fluent_people_eye_20_filled";
     public const string PeopleFilled = "icon-ic_fluent_people_20_filled";
+    public const string PeopleInterwoven = "icon-ic_fluent_people_interwoven_20_regular";
+    public const string PeopleInterwovenFilled = "icon-ic_fluent_people_interwoven_20_filled";
     public const string PeopleLink = "icon-ic_fluent_people_link_20_regular";
     public const string PeopleLinkFilled = "icon-ic_fluent_people_link_20_filled";
     public const string PeopleList = "icon-ic_fluent_people_list_20_regular";
@@ -3350,6 +3428,8 @@ public static class FluentUIIcons
     public const string PersonFeedback = "icon-ic_fluent_person_feedback_20_regular";
     public const string PersonFeedbackFilled = "icon-ic_fluent_person_feedback_20_filled";
     public const string PersonFilled = "icon-ic_fluent_person_20_filled";
+    public const string PersonGuest = "icon-ic_fluent_person_guest_20_regular";
+    public const string PersonGuestFilled = "icon-ic_fluent_person_guest_20_filled";
     public const string PersonHeadHint = "icon-ic_fluent_person_head_hint_20_regular";
     public const string PersonHeadHintFilled = "icon-ic_fluent_person_head_hint_20_filled";
     public const string PersonHeart = "icon-ic_fluent_person_heart_20_regular";
@@ -3390,6 +3470,8 @@ public static class FluentUIIcons
     public const string PersonSearchFilled = "icon-ic_fluent_person_search_20_filled";
     public const string PersonSettings = "icon-ic_fluent_person_settings_20_regular";
     public const string PersonSettingsFilled = "icon-ic_fluent_person_settings_20_filled";
+    public const string PersonShield = "icon-ic_fluent_person_shield_20_regular";
+    public const string PersonShieldFilled = "icon-ic_fluent_person_shield_20_filled";
     public const string PersonSoundSpatial = "icon-ic_fluent_person_sound_spatial_20_regular";
     public const string PersonSoundSpatialFilled = "icon-ic_fluent_person_sound_spatial_20_filled";
     public const string PersonSquare = "icon-ic_fluent_person_square_20_regular";
@@ -3705,6 +3787,8 @@ public static class FluentUIIcons
     public const string Remote = "icon-ic_fluent_remote_20_regular";
     public const string RemoteFilled = "icon-ic_fluent_remote_20_filled";
     public const string Rename = "icon-ic_fluent_rename_20_regular";
+    public const string RenameA = "icon-ic_fluent_rename_a_20_regular";
+    public const string RenameAFilled = "icon-ic_fluent_rename_a_20_filled";
     public const string RenameFilled = "icon-ic_fluent_rename_20_filled";
     public const string Reorder = "icon-ic_fluent_reorder_20_regular";
     public const string ReOrder = "icon-ic_fluent_re_order_20_regular";
@@ -4030,6 +4114,8 @@ public static class FluentUIIcons
     public const string SlideAddFilled = "icon-ic_fluent_slide_add_20_filled";
     public const string SlideArrowRight = "icon-ic_fluent_slide_arrow_right_20_regular";
     public const string SlideArrowRightFilled = "icon-ic_fluent_slide_arrow_right_20_filled";
+    public const string SlideContent = "icon-ic_fluent_slide_content_20_regular";
+    public const string SlideContentFilled = "icon-ic_fluent_slide_content_20_filled";
     public const string SlideEraser = "icon-ic_fluent_slide_eraser_20_regular";
     public const string SlideEraserFilled = "icon-ic_fluent_slide_eraser_20_filled";
     public const string SlideGrid = "icon-ic_fluent_slide_grid_20_regular";
@@ -4080,6 +4166,8 @@ public static class FluentUIIcons
     public const string SlideTextTitleEdit = "icon-ic_fluent_slide_text_title_edit_20_regular";
     public const string SlideTextTitleEditFilled = "icon-ic_fluent_slide_text_title_edit_20_filled";
     public const string SlideTextTitleFilled = "icon-ic_fluent_slide_text_title_20_filled";
+    public const string SlideTopicAdd = "icon-ic_fluent_slide_topic_add_20_regular";
+    public const string SlideTopicAddFilled = "icon-ic_fluent_slide_topic_add_20_filled";
     public const string SlideTransition = "icon-ic_fluent_slide_transition_20_regular";
     public const string SlideTransitionFilled = "icon-ic_fluent_slide_transition_20_filled";
     public const string Smartwatch = "icon-ic_fluent_smartwatch_20_regular";
@@ -4091,9 +4179,13 @@ public static class FluentUIIcons
     public const string SoundSource = "icon-ic_fluent_sound_source_20_regular";
     public const string SoundSourceFilled = "icon-ic_fluent_sound_source_20_filled";
     public const string SoundWaveCircle = "icon-ic_fluent_sound_wave_circle_20_regular";
+    public const string SoundWaveCircleAdd = "icon-ic_fluent_sound_wave_circle_add_20_regular";
+    public const string SoundWaveCircleAddFilled = "icon-ic_fluent_sound_wave_circle_add_20_filled";
     public const string SoundWaveCircleFilled = "icon-ic_fluent_sound_wave_circle_20_filled";
     public const string SoundWaveCircleSparkle = "icon-ic_fluent_sound_wave_circle_sparkle_20_regular";
     public const string SoundWaveCircleSparkleFilled = "icon-ic_fluent_sound_wave_circle_sparkle_20_filled";
+    public const string SoundWaveCircleSubtract = "icon-ic_fluent_sound_wave_circle_subtract_20_regular";
+    public const string SoundWaveCircleSubtractFilled = "icon-ic_fluent_sound_wave_circle_subtract_20_filled";
     public const string Space3D = "icon-ic_fluent_space_3d_20_regular";
     public const string Space3DFilled = "icon-ic_fluent_space_3d_20_filled";
     public const string Spacebar = "icon-ic_fluent_spacebar_20_regular";
@@ -4143,6 +4235,10 @@ public static class FluentUIIcons
     public const string SportBaseballFilled = "icon-ic_fluent_sport_baseball_20_filled";
     public const string SportBasketball = "icon-ic_fluent_sport_basketball_20_regular";
     public const string SportBasketballFilled = "icon-ic_fluent_sport_basketball_20_filled";
+    public const string SportCricketBall = "icon-ic_fluent_sport_cricket_ball_20_regular";
+    public const string SportCricketBallFilled = "icon-ic_fluent_sport_cricket_ball_20_filled";
+    public const string SportCricketBat = "icon-ic_fluent_sport_cricket_bat_20_regular";
+    public const string SportCricketBatFilled = "icon-ic_fluent_sport_cricket_bat_20_filled";
     public const string SportFilled = "icon-ic_fluent_sport_20_filled";
     public const string SportHockey = "icon-ic_fluent_sport_hockey_20_regular";
     public const string SportHockeyFilled = "icon-ic_fluent_sport_hockey_20_filled";
@@ -4388,9 +4484,15 @@ public static class FluentUIIcons
     public const string TableFilled = "icon-ic_fluent_table_20_filled";
     public const string TableFreezeColumn = "icon-ic_fluent_table_freeze_column_20_regular";
     public const string TableFreezeColumnAndRow = "icon-ic_fluent_table_freeze_column_and_row_20_regular";
+    public const string TableFreezeColumnAndRowDismiss = "icon-ic_fluent_table_freeze_column_and_row_dismiss_20_regular";
+    public const string TableFreezeColumnAndRowDismissFilled = "icon-ic_fluent_table_freeze_column_and_row_dismiss_20_filled";
     public const string TableFreezeColumnAndRowFilled = "icon-ic_fluent_table_freeze_column_and_row_20_filled";
+    public const string TableFreezeColumnDismiss = "icon-ic_fluent_table_freeze_column_dismiss_20_regular";
+    public const string TableFreezeColumnDismissFilled = "icon-ic_fluent_table_freeze_column_dismiss_20_filled";
     public const string TableFreezeColumnFilled = "icon-ic_fluent_table_freeze_column_20_filled";
     public const string TableFreezeRow = "icon-ic_fluent_table_freeze_row_20_regular";
+    public const string TableFreezeRowDismiss = "icon-ic_fluent_table_freeze_row_dismiss_20_regular";
+    public const string TableFreezeRowDismissFilled = "icon-ic_fluent_table_freeze_row_dismiss_20_filled";
     public const string TableFreezeRowFilled = "icon-ic_fluent_table_freeze_row_20_filled";
     public const string TableImage = "icon-ic_fluent_table_image_20_regular";
     public const string TableImageFilled = "icon-ic_fluent_table_image_20_filled";
@@ -4507,6 +4609,8 @@ public static class FluentUIIcons
     public const string TargetEdit = "icon-ic_fluent_target_edit_20_regular";
     public const string TargetEditFilled = "icon-ic_fluent_target_edit_20_filled";
     public const string TargetFilled = "icon-ic_fluent_target_20_filled";
+    public const string TargetSparkle = "icon-ic_fluent_target_sparkle_20_regular";
+    public const string TargetSparkleFilled = "icon-ic_fluent_target_sparkle_20_filled";
     public const string TaskListAdd = "icon-ic_fluent_task_list_add_20_regular";
     public const string TaskListAddFilled = "icon-ic_fluent_task_list_add_20_filled";
     public const string TaskListLtr = "icon-ic_fluent_task_list_ltr_20_regular";
@@ -4916,6 +5020,8 @@ public static class FluentUIIcons
     public const string TextProofingToolsFilled = "icon-ic_fluent_text_proofing_tools_20_filled";
     public const string TextQuote = "icon-ic_fluent_text_quote_20_regular";
     public const string TextQuoteFilled = "icon-ic_fluent_text_quote_20_filled";
+    public const string TextQuoteOpening = "icon-ic_fluent_text_quote_opening_20_regular";
+    public const string TextQuoteOpeningFilled = "icon-ic_fluent_text_quote_opening_20_filled";
     public const string TextSortAscending = "icon-ic_fluent_text_sort_ascending_20_regular";
     public const string TextSortAscendingFilled = "icon-ic_fluent_text_sort_ascending_20_filled";
     public const string TextSortDescending = "icon-ic_fluent_text_sort_descending_20_regular";
@@ -5234,6 +5340,8 @@ public static class FluentUIIcons
     public const string WeatherThunderstormFilled = "icon-ic_fluent_weather_thunderstorm_20_filled";
     public const string WebAsset = "icon-ic_fluent_web_asset_20_regular";
     public const string WebAssetFilled = "icon-ic_fluent_web_asset_20_filled";
+    public const string WheelchairAccess = "icon-ic_fluent_wheelchair_access_20_regular";
+    public const string WheelchairAccessFilled = "icon-ic_fluent_wheelchair_access_20_filled";
     public const string Whiteboard = "icon-ic_fluent_whiteboard_20_regular";
     public const string WhiteboardFilled = "icon-ic_fluent_whiteboard_20_filled";
     public const string WhiteboardOff = "icon-ic_fluent_whiteboard_off_20_regular";

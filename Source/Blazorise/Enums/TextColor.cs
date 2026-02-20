@@ -3,7 +3,7 @@
 /// <summary>
 /// Predefined set of contextual text colors.
 /// </summary>
-public record TextColor : Enumeration<TextColor>
+public record TextColor : Enumeration<TextColor>, IUtilityTargeted, IFluentUtilityTarget<TextColor>
 {
     #region Members
 
@@ -36,7 +36,31 @@ public record TextColor : Enumeration<TextColor>
 
     #endregion
 
+    #region Methods
+
+    private TextColor WithUtilityTarget( UtilityTarget target )
+    {
+        return this with { UtilityTarget = target };
+    }
+
+    #endregion
+
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the utility target override.
+    /// </summary>
+    public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public TextColor OnSelf => WithUtilityTarget( Blazorise.UtilityTarget.Self );
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public TextColor OnWrapper => WithUtilityTarget( Blazorise.UtilityTarget.Wrapper );
 
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.
@@ -111,7 +135,7 @@ public record TextColor : Enumeration<TextColor>
     /// <summary>
     /// Emphasized text color, used to emphasize certain parts of the text.
     /// </summary>
-    public TextColor Emphasis => new( new TextColor( this, "emphasis" ) );
+    public TextColor Emphasis => new( new TextColor( this, "emphasis" ) { UtilityTarget = this.UtilityTarget } );
 
     #endregion
 }
@@ -125,6 +149,16 @@ public readonly struct TextColorVariant
     internal TextColorVariant( TextColor textColor ) => Value = textColor;
 
     internal TextColor Value { get; }
+
+    /// <summary>
+    /// Targets the utility output to the component element.
+    /// </summary>
+    public TextColor OnSelf => Value.OnSelf;
+
+    /// <summary>
+    /// Targets the utility output to a wrapper element.
+    /// </summary>
+    public TextColor OnWrapper => Value.OnWrapper;
 
     /// <summary>
     /// Implicitly converts the <see cref="TextColorVariant"/> back to <see cref="TextColor"/>.

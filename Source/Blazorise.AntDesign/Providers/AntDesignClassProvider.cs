@@ -1,6 +1,5 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
@@ -355,6 +354,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => null;
+
     public override string Addon( AddonType addonType )
     {
         switch ( addonType )
@@ -614,11 +615,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => insideHeader ? "ant-card-head-title" : "ant-card-meta-title";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => insideHeader ? "ant-card-head-subtitle" : "ant-card-meta-description";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "ant-card-text";
 
@@ -707,6 +708,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled ? "ant-menu-submenu-disabled" : null;
+
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
 
     public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 

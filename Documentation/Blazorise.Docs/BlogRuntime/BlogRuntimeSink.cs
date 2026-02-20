@@ -413,7 +413,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
         var t = info.Split( new[] { ' ', '|', '\t' }, StringSplitOptions.RemoveEmptyEntries )
                     .FirstOrDefault()?.ToLowerInvariant() ?? "";
 
-        // Match your MarkupBuilder’s cases
+        // Match your MarkupBuilder's cases
         return t switch
         {
             "csharp" or "cs" => "cs",

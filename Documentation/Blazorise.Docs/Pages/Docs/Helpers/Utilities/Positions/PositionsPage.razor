@@ -1,21 +1,47 @@
 ﻿@page "/docs/helpers/utilities/position"
 
-<Seo Canonical="/docs/helpers/utilities/position" Title="Blazorise Position" Description="Learn to use and work with the Blazorise helpers for quickly configuring the position of an element." />
+<Seo Canonical="/docs/helpers/utilities/position" Title="Blazorise Position Utilities" Description="Use Blazorise position utilities to quickly place elements with relative and absolute positioning, edge helpers, and translate utilities." />
 
-<DocsPageTitle>
-    Position
+<DocsPageTitle Path="Helpers/Utilities/Position">
+    Blazorise Position Utilities
 </DocsPageTitle>
 
+<DocsPageLead>
+    Place elements quickly with Position and edge utilities without writing custom CSS.
+</DocsPageLead>
+
 <DocsPageParagraph>
-    Use these shorthand utilities for quickly configuring the position of an element.
+    Position utilities help you layer badges, overlay controls, and align elements inside containers while keeping layout logic with your components.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Set the <Code>Position</Code> parameter to values like <Code>Position.Relative</Code>, <Code>Position.Absolute</Code>, <Code>Position.Fixed</Code>, or <Code>Position.Sticky</Code>.
+    Use edge helpers like <Code>Top.Is0</Code>, <Code>Start.Is0</Code>, and <Code>Bottom.Is100</Code> to place elements inside a relative parent, and combine them with
+    <Code>Translate.Middle</Code>, <Code>Translate.MiddleX</Code>, or <Code>Translate.MiddleY</Code> to center content precisely.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Position utilities are not responsive, so pair them with other utilities when you need breakpoint-specific layout adjustments.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Position values">
         <Paragraph>
-            Quick positioning classes are available, though they are not responsive.
+            Use the position helpers to switch between static, relative, absolute, fixed, and sticky placement without custom CSS.
+            This makes it easy to set up a positioned container that can host overlays or badges.
         </Paragraph>
     </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicPositionExample />
+    </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicPositionExample" />
 </DocsPageSection>
 
@@ -29,9 +55,9 @@
         </Paragraph>
         <UnorderedList>
             <UnorderedListItem><Code>Top</Code> - for the vertical <Code>top</Code> position</UnorderedListItem>
-            <UnorderedListItem><Code>Left</Code> - for the horizontal <Code>left</Code> position</UnorderedListItem>
+            <UnorderedListItem><Code>Start</Code> - for the horizontal <Code>left</Code> position</UnorderedListItem>
             <UnorderedListItem><Code>Bottom</Code> - for the vertical <Code>bottom</Code> position</UnorderedListItem>
-            <UnorderedListItem><Code>Right</Code> - for the horizontal <Code>right</Code> position</UnorderedListItem>
+            <UnorderedListItem><Code>End</Code> - for the horizontal <Code>right</Code> position</UnorderedListItem>
         </UnorderedList>
         <Paragraph>
             Where position is one of:
@@ -41,6 +67,9 @@
             <UnorderedListItem><Code>50</Code> - for the <Code>50%</Code> position</UnorderedListItem>
             <UnorderedListItem><Code>100</Code> - for the <Code>100%</Code> position</UnorderedListItem>
         </UnorderedList>
+        <Paragraph>
+            This is useful for placing icons, badges, or controls at the edges of a card or button without extra wrappers.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth>
         <Div Class="b-docs-example b-docs-example-position-utils">
@@ -54,6 +83,9 @@
     <DocsPageSectionHeader Title="Center elements">
         <Paragraph>
             In addition, you can also center the elements with the transform utility class <Code>Translate.Middle</Code>.
+        </Paragraph>
+        <Paragraph>
+            This is helpful for overlay content like loaders or centered actions that should stay aligned regardless of container size.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth>
@@ -75,9 +107,9 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Examples">
+    <DocsPageSectionHeader Title="Real-world example">
         <Paragraph>
-            Here are some real life examples of these classes:
+            Position utilities are ideal for badges and counters that sit on top of buttons without affecting layout, including top and bottom placements.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth>

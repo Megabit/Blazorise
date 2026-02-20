@@ -49,7 +49,7 @@
     }
 
     <span class="keyword">string</span> reorderStatus = <span class="string">&quot;&quot;</span>;
-    
+
     <span class="keyword">private</span> Task Reordered( DropZoneOrder&lt;DropItem&gt; order )
     {
         reorderStatus = $<span class="string">&quot;Order in dropzone {order.DestinationDropZoneName}: {string.Join( &quot;</span>, <span class="string">&quot;, order.OrderedItems.OrderBy( x =&gt; x.Order ).Select( x =&gt; x.Item.Name ) )}&quot;</span>;

@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Localization\Scheduler\*.json" />
   </ItemGroup>
 

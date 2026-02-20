@@ -1,6 +1,6 @@
 ﻿@page "/docs/helpers/utilities/css-grid"
 
-<Seo Canonical="/docs/helpers/utilities/css-grid" Title="Blazorise CSS Grid Utilities" Description="Learn to use and work with the Blazorise CSS Grid that’s built on CSS Grid, but with a Blazorise twist." />
+<Seo Canonical="/docs/helpers/utilities/css-grid" Title="Blazorise CSS Grid Utilities" Description="Learn to use and work with the Blazorise CSS Grid that's built on CSS Grid, but with a Blazorise twist." />
 
 <DocsPageTitle Path="Helpers/Utilities/CSS Grid">
     Blazorise CSS Grid Utilities
@@ -11,11 +11,16 @@
 </DocsPageLead>
 
 <DocsPageSubtitle>
-    Overview
+    How it works
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    With Blazorise, we’ve added the option to enable a separate grid system that’s built on CSS Grid, but with a Blazorise twist.
+    With Blazorise, we've added the option to enable a separate grid system that's built on CSS Grid, but with a Blazorise twist.
+    Use the <Code>Grid</Code> component with <Code>GridColumns</Code> and <Code>GridRows</Code> helpers to define layout directly in C# while staying aligned with your provider.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    CSS Grid utilities are ideal for two-dimensional layouts where you want precise control over both rows and columns without custom CSS.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -26,6 +31,7 @@
     <DocsPageSectionHeader Title="Three columns">
         <Paragraph>
             Three equal-width columns across all viewports and devices can be created by using the <Code>GridColumns.Are3</Code> utilities.
+            This is a quick way to establish a balanced card or feature layout.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -37,7 +43,8 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Wrapping">
         <Paragraph>
-            Grid items automatically wrap to the next line when there’s no more room horizontally. Note that the gap applies to horizontal and vertical gaps between grid items.
+            Grid items automatically wrap to the next line when there's no more room horizontally. Note that the gap applies to horizontal and vertical gaps between grid items.
+            This helps you keep consistent spacing as cards reflow on smaller screens.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -50,6 +57,7 @@
     <DocsPageSectionHeader Title="Auto columns">
         <Paragraph>
             When there are no classes on the grid items (the immediate children of a <code>Grid</code>), each grid item will automatically be sized to one column.
+            This is useful when you want a simple, evenly spaced layout without defining sizes on each item.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -59,9 +67,10 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader>
+    <DocsPageSectionHeader Title="Mixing auto and fixed columns">
         <Paragraph>
-            This behavior can be mixed with grid column classes.
+            Combine auto-sized items with explicit column classes to keep key content aligned while letting supporting items flow naturally.
+            The second grid uses a smaller fixed span to keep a compact item aligned while the rest stay auto-sized.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>

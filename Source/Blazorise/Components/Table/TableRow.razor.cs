@@ -411,6 +411,16 @@ public partial class TableRow : BaseDraggableComponent
     }
 
     /// <summary>
+    /// Gets or sets the row variant intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
+    /// <summary>
     /// Sets a table row as selected by appending "selected" modifier on a tr element.
     /// </summary>
     [Parameter]

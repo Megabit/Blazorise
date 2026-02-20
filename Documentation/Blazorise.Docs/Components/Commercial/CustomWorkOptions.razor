@@ -1,0 +1,427 @@
+@if ( ShowHeader )
+{
+    <Row Margin="Margin.Is5.FromTop.Is4.FromBottom" TextAlignment="TextAlignment.Center">
+        <Column>
+            <Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.OnY">
+                Custom work &amp; <Span Class="gradient-commercial">sponsored features</Span>
+            </Heading>
+            <Lead TextColor="TextColor.Muted">
+                When you need a feature sooner (or something company-specific), choose an engagement that cleanly separates licensing (support) from delivery (custom work).
+            </Lead>
+        </Column>
+    </Row>
+}
+
+<Alert Color="Color.Light" Visible>
+    <AlertDescription>
+        <UnorderedList Unstyled>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Strong>Licenses buy support.</Strong> Professional and Enterprise are primarily for support access, stability, and response times.
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Strong>Feature recommendations are welcome, but not a promise.</Strong> Enterprise customers can recommend features, but we do not guarantee any specific feature will be implemented.
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Strong>Custom work buys delivery.</Strong> Any customer can request a quote. Delivery terms (scope, assumptions, acceptance criteria, timeline, and payment milestones) are defined per signed proposal/Statement of Work via Feature Sponsorship or Time &amp; Materials.
+                </Paragraph>
+            </UnorderedListItem>
+        </UnorderedList>
+    </AlertDescription>
+</Alert>
+
+<Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+    Pricing summary
+</Heading>
+
+<Table Responsive Bordered Striped>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.Start">Offering</TableHeaderCell>
+            <TableHeaderCell Style="width: 35%;" TextAlignment="TextAlignment.Start">Best for</TableHeaderCell>
+            <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.Start">Commercial model</TableHeaderCell>
+            <TableHeaderCell Style="width: 25%;" TextAlignment="TextAlignment.End">Price guidance (EUR)</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Feature Sponsorship</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Generalizable features intended to go upstream</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Fixed price</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">3.500-45.000+</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Custom Development</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Company-specific work, integrations, and bespoke needs</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Time &amp; materials</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">95–120 / hour</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Priority Development Queue</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Faster triage, voting, and roadmap transparency (no delivery)</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Annual add-on</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">4.900 / year</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted">
+    Quotes are provided in EUR (typically excluding VAT unless stated). Final pricing depends on scope, acceptance criteria, and required provider support.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    Feature Sponsorship (fixed price)
+</Heading>
+
+<Paragraph>
+    Fixed-price delivery for features that are <Strong>generally useful</Strong> and can typically be merged upstream into Blazorise. You get <Strong>prioritized scheduling</Strong>, <Strong>early access</Strong>, and <Strong>influence on scope</Strong>. Sponsored work is <Strong>not exclusive by default</Strong>.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Deliverable:</Strong> working implementation delivered as a PR/branch, including tests and documentation; upstream merge and release follow the normal Blazorise review/release process.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Scope control:</Strong> acceptance criteria in the proposal; anything outside is handled via change request.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Upstream default:</Strong> implementation is designed and generalized for broader use (multi-provider, a11y, docs).
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<Heading Size="HeadingSize.Is5" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+    Pricing guidance
+</Heading>
+
+<Paragraph>
+    Sponsorship pricing is typically <Strong>~2x–3x internal dev cost</Strong> to cover product design, generalization, documentation, testing, review, and long-term maintenance. We quote a fixed price after a short discovery call.
+</Paragraph>
+
+<Table Responsive Bordered Striped>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell Style="width: 15%;" TextAlignment="TextAlignment.Start">Tier</TableHeaderCell>
+            <TableHeaderCell Style="width: 40%;" TextAlignment="TextAlignment.Start">Typical scope</TableHeaderCell>
+            <TableHeaderCell Style="width: 25%;" TextAlignment="TextAlignment.Center">Typical timeline</TableHeaderCell>
+            <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.End">Example range (EUR)</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Small</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Single enhancement or focused feature (e.g., new option, provider parity, small DataGrid feature)</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">1–3 weeks</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">3.500-7.500</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Medium</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">New component or multi-part enhancement with docs/tests/a11y across providers</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">3–8 weeks</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">8.000-18.000</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Large</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Complex component, larger refactor, or feature set touching multiple subsystems</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">2–4 months</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">18.000-45.000</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted">
+    Ranges are guidance for procurement. Final pricing depends on acceptance criteria, dependencies, and required provider support.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    Custom Development (Time &amp; Materials)
+</Heading>
+
+<Paragraph>
+    Hourly or prepaid blocks for <Strong>company-specific</Strong> work (integrations, bespoke components, theming, internal tooling, migration help) that may not be suitable for upstream. Best when scope is evolving or tightly coupled to your environment.
+</Paragraph>
+
+<Table Responsive Bordered Striped>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell TextAlignment="TextAlignment.Start">Rate card</TableHeaderCell>
+            <TableHeaderCell TextAlignment="TextAlignment.Center">EUR / hour</TableHeaderCell>
+            <TableHeaderCell TextAlignment="TextAlignment.Start">Notes</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Professional customers</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">95</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Remote, scheduled, billed in 15-minute increments</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Enterprise customers</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">115–120</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Includes tighter coordination and priority staffing where possible</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Minimum engagement:</Strong> 16–24 hours to start (enough for onboarding, environment setup, and a first deliverable).
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Prepaid blocks (examples):</Strong> 20h (Professional: 1.900 EUR; Enterprise: 2.300-2.400 EUR) and 40h (Professional: 3.800 EUR; Enterprise: 4.600-4.800 EUR).
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Upstreaming:</Strong> optional; when requested, we'll quote the extra work needed for generalization, docs, and tests.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    Priority Development Queue (Enterprise add-on, annual)
+</Heading>
+
+<Paragraph>
+    An annual add-on for enterprise customers who want <Strong>structured request handling</Strong> (faster triage, clearer decisions, and improved roadmap visibility) without turning requests into delivery commitments.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Price guidance:</Strong> 4.900 EUR/year per organization (add-on to an active Enterprise subscription).
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Includes:</Strong> prioritized intake, voting/weighting, private roadmap notes, and up to 12 request assessments per year with written feasibility and a rough effort range.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Does not include delivery.</Strong> It improves responsiveness and transparency, but it is <Strong>not</Strong> a development contract.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    Exclusivity (optional)
+</Heading>
+
+<Paragraph>
+    If you need temporary exclusivity for a sponsored feature, we can offer a limited exclusive period before the feature is released upstream.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Pricing guidance:</Strong> <Strong>~3x–5x</Strong> the normal Feature Sponsorship cost (reflects opportunity cost and delayed upstream value).
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Default duration:</Strong> 6 months (custom durations available).
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Post-exclusivity:</Strong> We may merge and release upstream; you keep the delivered version and internal usage rights as agreed in the proposal.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+@if ( !Compact )
+{
+    <Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+        FAQ &amp; proposal details
+    </Heading>
+
+    <Accordion>
+        <AccordionItem @bind-Visible="@faqLicenseDeliveryVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Does a license include delivery of new features?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    No. Licenses primarily provide support access and response-time commitments. Delivery is only contracted via Feature Sponsorship or Custom Development. The Priority Development Queue improves request handling, but does not include delivery.
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@faqSponsorshipVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>What do I get with Feature Sponsorship?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    A fixed-price proposal/Statement of Work with defined scope and acceptance criteria, prioritized scheduling, and delivery. Sponsorships are designed to go upstream by default and are not exclusive unless agreed.
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@faqUpstreamVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Is upstream inclusion guaranteed?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Upstream inclusion is the default intent for sponsorships, but it depends on generalization, compatibility, and quality. If upstream inclusion isn't feasible, we deliver the agreed private implementation as defined in the proposal.
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@faqPrivacyVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Can we keep the feature private or exclusive?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Yes. Use Time &amp; Materials for company-specific work, or request temporary exclusivity for a sponsored feature (priced and time-boxed).
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@faqScopeVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>How do scope changes work?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is0.OnY">
+                    Fixed-price sponsorships use change requests for out-of-scope work; Time &amp; Materials is billed for time spent.
+                </Paragraph>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@qualificationChecklistVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>How we qualify and estimate requests</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <UnorderedList>
+                    <UnorderedListItem><Strong>Generalizability:</Strong> is it broadly useful (Sponsorship) or company-specific (Time &amp; Materials)?</UnorderedListItem>
+                    <UnorderedListItem><Strong>Compatibility:</Strong> API surface, breaking-change risk, and supported .NET/Blazorise versions</UnorderedListItem>
+                    <UnorderedListItem><Strong>Provider scope:</Strong> which CSS providers are included and what provider parity means for this feature</UnorderedListItem>
+                    <UnorderedListItem><Strong>Quality requirements:</Strong> accessibility, testing depth, docs/examples, and performance expectations</UnorderedListItem>
+                    <UnorderedListItem><Strong>Dependencies and unknowns:</Strong> third-party APIs, browser constraints, and any research/prototyping needed</UnorderedListItem>
+                </UnorderedList>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@requestInfoVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>What we need to quote quickly?</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <UnorderedList>
+                    <UnorderedListItem><Strong>Goal and use case:</Strong> what users need and why it matters</UnorderedListItem>
+                    <UnorderedListItem><Strong>Target setup:</Strong> Blazorise version, .NET version, and required CSS providers</UnorderedListItem>
+                    <UnorderedListItem><Strong>Expected behavior:</Strong> acceptance criteria, UX notes, and edge cases</UnorderedListItem>
+                    <UnorderedListItem><Strong>Dependencies:</Strong> third-party APIs/libraries, browser constraints, data contracts</UnorderedListItem>
+                    <UnorderedListItem><Strong>Upstream preference:</Strong> upstream by default, private delivery, or temporary exclusivity</UnorderedListItem>
+                    <UnorderedListItem><Strong>Constraints:</Strong> accessibility, performance, security, and target timeline</UnorderedListItem>
+                </UnorderedList>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@proposalTemplateVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Sponsored Feature Proposal template (1 page)</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph Margin="Margin.Is2.FromBottom">
+                    Delivery guarantees, acceptance criteria, timelines, and milestones are defined only in a signed proposal/Statement of Work. This is the structure we typically use:
+                </Paragraph>
+                <OrderedList>
+                    <OrderedListItem><Strong>Overview:</Strong> sponsor, goal, users impacted, target versions/providers</OrderedListItem>
+                    <OrderedListItem><Strong>Scope:</Strong> in-scope items, out-of-scope items, and assumptions</OrderedListItem>
+                    <OrderedListItem><Strong>Deliverables:</Strong> implementation (PR/branch), tests, documentation, examples, and release notes</OrderedListItem>
+                    <OrderedListItem><Strong>Acceptance criteria:</Strong> measurable behaviors and supported configurations</OrderedListItem>
+                    <OrderedListItem><Strong>Timeline:</Strong> milestones, review windows, and target delivery date</OrderedListItem>
+                    <OrderedListItem><Strong>Payment milestones:</Strong> fixed price (EUR), invoicing schedule, and validity period</OrderedListItem>
+                    <OrderedListItem><Strong>Change requests:</Strong> how changes are estimated, approved, and billed</OrderedListItem>
+                    <OrderedListItem><Strong>Upstream/exclusivity:</Strong> upstream intent, any exclusivity terms, and post-exclusivity release plan</OrderedListItem>
+                    <OrderedListItem><Strong>Maintenance &amp; support:</Strong> defect warranty window and how support is handled via the active license/support channel</OrderedListItem>
+                </OrderedList>
+            </AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem @bind-Visible="@requestEmailVisible">
+            <AccordionHeader>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
+                    <AccordionToggle>Email template (requesting a quote)</AccordionToggle>
+                </Heading>
+            </AccordionHeader>
+            <AccordionBody>
+                <Paragraph>
+                    <Strong>Subject:</Strong> Blazorise custom work request - [Company] - [Feature/Project]
+                </Paragraph>
+                <Paragraph>
+                    Send the details below to <Anchor To="mailto:sales@blazorise.com" Title="Contact sales">sales@blazorise.com</Anchor>:
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem><Strong>Preferred engagement:</Strong> Feature Sponsorship / Time &amp; Materials (T&amp;M) / Not sure</UnorderedListItem>
+                    <UnorderedListItem><Strong>Target timeline:</Strong> [date] and any fixed deadlines</UnorderedListItem>
+                    <UnorderedListItem><Strong>Scope and acceptance criteria:</Strong> [bullets]</UnorderedListItem>
+                    <UnorderedListItem><Strong>Versions/providers:</Strong> Blazorise version, .NET version, CSS providers</UnorderedListItem>
+                    <UnorderedListItem><Strong>Dependencies:</Strong> APIs, libraries, and sample data/contracts (if applicable)</UnorderedListItem>
+                    <UnorderedListItem><Strong>Upstream/privacy:</Strong> upstream by default / private / request exclusivity</UnorderedListItem>
+                </UnorderedList>
+            </AccordionBody>
+        </AccordionItem>
+    </Accordion>
+}
+
+<Row Margin="Margin.Is4.FromTop">
+    <Column TextAlignment="TextAlignment.Center">
+        <Button Type="ButtonType.Link" To="custom-work/quote" Color="Color.Primary" Size="Size.Large">
+            Request a quote
+        </Button>
+        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromTop">
+            Prefer email? Contact <Anchor To="mailto:sales@blazorise.com" Title="Contact sales">sales@blazorise.com</Anchor> with your requirements and target timeline.
+        </Paragraph>
+    </Column>
+</Row>
+
+@code {
+    [Parameter] public bool Compact { get; set; }
+
+    [Parameter] public bool ShowHeader { get; set; } = true;
+
+    bool faqLicenseDeliveryVisible;
+    bool faqSponsorshipVisible;
+    bool faqUpstreamVisible;
+    bool faqPrivacyVisible;
+    bool faqScopeVisible;
+    bool qualificationChecklistVisible;
+    bool proposalTemplateVisible;
+    bool requestEmailVisible;
+    bool requestInfoVisible;
+}

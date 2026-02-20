@@ -1,4 +1,4 @@
-﻿using Blazorise.Utilities;
+using Blazorise.Utilities;
 
 namespace Blazorise.Tailwind.Components
 {
@@ -8,7 +8,7 @@ namespace Blazorise.Tailwind.Components
 
         public Badge()
         {
-            CloseButtonClassBuilder = new ClassBuilder( BuildCloseButtonClasses );
+            CloseButtonClassBuilder = new ClassBuilder( BuildCloseButtonClasses, builder => builder.Append( Classes?.Close ) );
         }
 
         #endregion

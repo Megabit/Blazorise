@@ -1,0 +1,17 @@
+@using Blazorise.Extensions;
+@typeparam TItem
+
+
+<Div Class="@ClassNames" Style="@StyleNames" Border="BorderIs1Rounded" Padding="PaddingIs3" Flex="FlexGrowIs1" ondragover="event.preventDefault();" @ondrop="OnDrop">
+    @if ( !Columns.IsNullOrEmpty() )
+    {
+        @foreach ( var column in ( Columns ) )
+        {
+            <Badge @key="column.ElementId" Color="Color.Secondary" Padding="PaddingIs2" Margin="MarginIs2FromStart" CloseClicked="() => RemoveColumn( column )">@column.Caption</Badge>
+        }
+    }
+    else
+    {
+        <span>@Localizer.Localize( ParentDataGrid.Localizers?.DragAndDropGroupLocalizer, "Drag a column header here to group by that column" )</span>
+    }
+</Div>

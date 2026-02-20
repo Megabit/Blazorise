@@ -24,7 +24,7 @@ public static class Config
             .AddBlazoriseRichTextEdit( options =>
             {
                 options.UseBubbleTheme = true;
-                options.UseShowTheme = true;
+                options.UseSnowTheme = true;
                 options.UseTables = true;
                 options.UseResize = true;
             } )

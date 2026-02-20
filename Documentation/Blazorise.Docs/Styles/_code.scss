@@ -133,3 +133,107 @@ code {
     padding: 0.25em 0.375em;
     background-color: var(--b-code-background-color);
 }
+
+body[data-bs-theme="dark"] {
+    .blazorise-codeblock {
+        border: 1px solid rgba(148, 163, 184, 0.2);
+
+        .html {
+            .htmlTagDelimiter {
+                color: #94a3b8;
+            }
+
+            .htmlElementName {
+                color: #7dd3fc;
+            }
+
+            .htmlAttributeName {
+                color: #fda4af;
+            }
+
+            .htmlOperator, .quot {
+                color: #cbd5e1;
+            }
+
+            .htmlAttributeValue {
+                color: #6ee7b7;
+            }
+
+            .htmlLink {
+                color: #93c5fd;
+            }
+
+            .enum {
+                color: #6ee7b7;
+                background-color: rgba(148, 163, 184, 0.16);
+            }
+
+            .enumValue, .sharpVariable {
+                background-color: rgba(148, 163, 184, 0.16);
+            }
+
+            .keyword {
+                color: #93c5fd;
+                background-color: rgba(148, 163, 184, 0.16);
+            }
+
+            .atSign {
+                color: #e2e8f0;
+                background-color: rgba(148, 163, 184, 0.2);
+            }
+
+            .comment {
+                color: #7bc77b;
+            }
+        }
+
+        .csharp {
+            .atSign {
+                color: #e2e8f0;
+                background-color: rgba(148, 163, 184, 0.2);
+            }
+
+            .keyword {
+                color: #c4b5fd;
+            }
+
+            .string {
+                color: #f2c18d;
+            }
+
+            .function {
+                color: #7dd3fc;
+            }
+
+            .class {
+                color: #fda4af;
+            }
+
+            .localVar {
+                color: #fcd34d;
+            }
+
+            .interface {
+                color: #a7f3d0;
+            }
+
+            .number {
+                color: #a7f3d0;
+            }
+
+            .enum {
+                color: #6ee7b7;
+            }
+
+            .comment {
+                color: #7bc77b;
+            }
+        }
+
+        .powershell {
+            .comment {
+                color: #7bc77b;
+            }
+        }
+    }
+}

@@ -105,6 +105,28 @@ public class DataGridState<TItem>
     }
 
     /// <summary>
+    /// Adds a new grouping state for the DataGrid column.
+    /// </summary>
+    /// <param name="fieldName">Field name.</param>
+    public void AddGroupingState( string fieldName )
+    {
+        ColumnGroupingStates ??= new();
+        ColumnGroupingStates.Add( new DataGridColumnGroupingState<TItem>( fieldName ) );
+    }
+
+    /// <summary>
+    /// Adds a new grouping state for the DataGrid column.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="fieldGetter">Field getter.</param>
+    public void AddGroupingState<TValue>( Expression<Func<TItem, TValue>> fieldGetter )
+    {
+        var fieldName = ExtractFieldName( fieldGetter );
+        ColumnGroupingStates ??= new();
+        ColumnGroupingStates.Add( new DataGridColumnGroupingState<TItem>( fieldName ) );
+    }
+
+    /// <summary>
     /// Extracts the field name from the expression.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -166,6 +188,11 @@ public class DataGridState<TItem>
     /// If empty, columns are displayed according to DataGrid configuration.
     /// </remarks>
     public List<DataGridColumnDisplayingState<TItem>> ColumnDisplayingStates { get; set; }
+
+    /// <summary>
+    /// Gets or sets the grouping state for the DataGrid columns.
+    /// </summary>
+    public List<DataGridColumnGroupingState<TItem>> ColumnGroupingStates { get; set; }
 
     #endregion
 }

@@ -23,7 +23,7 @@
           CommandMode="DataGridCommandMode.ButtonRow"
           EditMode="editMode">
     <DataGridColumns>
-        <DataGridCommandColumn  NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false"  CancelCommandAllowed >
+        <DataGridCommandColumn NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false" CancelCommandAllowed>
             <SaveCommandTemplate>
                 <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
             </SaveCommandTemplate>
@@ -31,21 +31,21 @@
                 <Button ElementId="btnCancel" Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
             </CancelCommandTemplate>
         </DataGridCommandColumn>
-        <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
-        <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" Editable />
-        <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name" Editable />
-        <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
-        <DataGridNumericColumn Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable />
+        <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
+        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
+        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
+        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable />
+        <DataGridNumericColumn Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" Editable />
     </DataGridColumns>
     <ButtonRowTemplate>
         <Button Color="Color.Success" Clicked="context.NewCommand.Clicked">New</Button>
-        <Button Color="Color.Primary" Disabled="(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
-        <Button Color="Color.Danger" Disabled="(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+        <Button Color="Color.Primary" Disabled="( selectedEmployee is null )" Clicked="context.EditCommand.Clicked">Edit</Button>
+        <Button Color="Color.Danger" Disabled="( selectedEmployee is null )" Clicked="context.DeleteCommand.Clicked">Delete</Button>
         <Button Color="Color.Link" Clicked="context.ClearFilterCommand.Clicked">Clear Filter</Button>
     </ButtonRowTemplate>
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;

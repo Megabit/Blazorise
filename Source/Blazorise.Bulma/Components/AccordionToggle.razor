@@ -1,4 +1,4 @@
 ﻿@inherits Blazorise.AccordionToggle
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
     <span>@ChildContent</span>
 </div>

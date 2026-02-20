@@ -12,7 +12,7 @@ public class Autocomplete_4772Tests : BlazorisePageTest
 
     /// <summary>
     /// Tests whether the autocomplete resets correctly when a value is not found & the component is left, 
-    /// when the component is refocused it should show back the options when MinLength is 0.
+    /// when the component is refocused it should show back the options when MinSearchLength is 0.
     /// </summary>
     /// <returns></returns>
     [Test]

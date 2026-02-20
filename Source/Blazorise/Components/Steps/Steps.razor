@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
+@inherits BaseComponent<StepsClasses, StepsStyles>
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         @if ( Items is not null && Content is not null )
@@ -7,7 +7,7 @@
             <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @Items
             </ul>
-            <div class="@ContentClassNames" @attributes="@Attributes">
+            <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                 @Content
             </div>
         }

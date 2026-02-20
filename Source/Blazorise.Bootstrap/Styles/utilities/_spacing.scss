@@ -101,38 +101,41 @@
     }
 }
 
-@each $breakpoint in map-keys($grid-breakpoints) {
-    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+.row,
+.form-row {
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    @include media-breakpoint-up($breakpoint) {
-        @each $size, $gutter in $gutters {
-            .row.g#{$infix}-#{$size} {
-                margin-right: calc(#{$gutter} * -.5);
-                margin-left: calc(#{$gutter} * -.5);
-                margin-top: calc(-1 * #{$gutter});
+        @include media-breakpoint-up($breakpoint) {
+            @each $size, $gutter in $gutters {
+                &.g#{$infix}-#{$size} {
+                    margin-right: calc(#{$gutter} * -.5);
+                    margin-left: calc(#{$gutter} * -.5);
+                    margin-top: calc(-1 * #{$gutter});
 
-                > * {
-                    padding-right: calc(#{$gutter} * .5);
-                    padding-left: calc(#{$gutter} * .5);
-                    margin-top: #{$gutter};
+                    > * {
+                        padding-right: calc(#{$gutter} * .5);
+                        padding-left: calc(#{$gutter} * .5);
+                        margin-top: #{$gutter};
+                    }
                 }
-            }
 
-            .row.gx#{$infix}-#{$size} {
-                margin-right: calc(#{$gutter} * -.5);
-                margin-left: calc(#{$gutter} * -.5);
+                &.gx#{$infix}-#{$size} {
+                    margin-right: calc(#{$gutter} * -.5);
+                    margin-left: calc(#{$gutter} * -.5);
 
-                > * {
-                    padding-right: calc(#{$gutter} * .5);
-                    padding-left: calc(#{$gutter} * .5);
+                    > * {
+                        padding-right: calc(#{$gutter} * .5);
+                        padding-left: calc(#{$gutter} * .5);
+                    }
                 }
-            }
 
-            .row.gy#{$infix}-#{$size} {
-                margin-top: calc(-1 * #{$gutter});
+                &.gy#{$infix}-#{$size} {
+                    margin-top: calc(-1 * #{$gutter});
 
-                > * {
-                    margin-top: #{$gutter};
+                    > * {
+                        margin-top: #{$gutter};
+                    }
                 }
             }
         }

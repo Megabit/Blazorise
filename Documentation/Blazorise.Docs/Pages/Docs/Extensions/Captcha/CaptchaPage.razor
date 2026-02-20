@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/captcha"
 
-<Seo Canonical="/docs/extensions/captcha" Title="Blazorise Captcha component" Description="Learn to use and work with the Blazorise Captcha extension components, which are used to help prevent fake users or malicious software from taking action on your website." />
+<Seo Canonical="/docs/extensions/captcha" Title="Blazorise Captcha component" Description="Learn how to use the Blazorise Captcha component to protect forms with provider-based captchas like reCAPTCHA." />
 
 <DocsPageTitle Path="Extensions/Captcha" AddedVersion="Added in v1.5">
     Blazorise Captcha component
@@ -14,14 +14,18 @@
     This extension supports multiple captcha providers, enabling the addition of captcha functionality with provider-specific settings.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    To use the <Code>Captcha</Code> component, install the base package and a provider package first.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
-    Supported Captcha providers
+    Supported captcha providers
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
     <UnorderedList>
         <UnorderedListItem>
-            <Strong>Google reCAPTCHA</Strong> Implemented via <Strong>Blazorise.Captcha.ReCaptcha</Strong>
+            <Strong>Google reCAPTCHA</Strong> implemented via <Strong>Blazorise.Captcha.ReCaptcha</Strong>.
         </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
@@ -31,37 +35,37 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="1. General Installation">
+    <DocsPageSectionHeader Title="Base package">
         Install the base captcha extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="CaptchaNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="2. Provider-Specific Installation">
-        Install the ReCaptcha provider extension from NuGet.
+    <DocsPageSectionHeader Title="Provider package">
+        Install the reCAPTCHA provider extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReCaptchaNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="3. Registering Services for reCAPTCHA">
-        Incorporate ReCaptcha services by adding the following code to the relevant sections of <Strong>Program.cs</Strong>.
+    <DocsPageSectionHeader Title="Register services">
+        Incorporate reCAPTCHA services by adding the following code to the relevant sections of <Strong>Program.cs</Strong>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReCaptchaRegisterServicesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="4. Imports">
+    <DocsPageSectionHeader Title="Imports">
         In your main <Strong>_Imports.razor</Strong>, ensure you include:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="CaptchaImportsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="5. Static Files - ReCaptcha">
+    <DocsPageSectionHeader Title="Static files (reCAPTCHA)">
         <Paragraph>
-            Modify your project's HTML template to include the google <Strong>reCAPTCHA</Strong> js files. The files you add depend on whether you're working with a WebAssembly or Server project:
+            Modify your project's HTML template to include the Google <Strong>reCAPTCHA</Strong> JavaScript files. The files you add depend on whether you're working with a WebAssembly or Server project:
         </Paragraph>
 
         <Paragraph>

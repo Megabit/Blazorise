@@ -7,6 +7,17 @@
     "Zoom In": "Mărește",
     "Print": "Printează",
     "of": "din",
-    "Download": "Descarcă"
+    "Download": "Descarcă",
+    "Password required": "Parolă necesară",
+    "Enter the password to open this PDF.": "Introduceți parola pentru a deschide acest PDF.",
+    "Incorrect password. Please try again.": "Parolă incorectă. Încercați din nou.",
+    "Password": "Parolă",
+    "Open": "Deschide",
+    "Cancel": "Anulează",
+    "Password is required.": "Parola este obligatorie.",
+    "Save PDF": "Salvează PDF",
+    "Enter a filename for this download.": "Introduceți un nume de fișier pentru această descărcare.",
+    "Filename": "Nume fișier",
+    "Filename is required.": "Numele fișierului este obligatoriu."
   }
 }

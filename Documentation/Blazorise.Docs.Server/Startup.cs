@@ -74,7 +74,9 @@ public class Startup
         services.AddHostedService<BlogPreheater>();
 
         services.Configure<AppSettings>( options => Configuration.Bind( options ) );
+        services.Configure<JobsOptions>( Configuration.GetSection( JobsOptions.SectionName ) );
         services.AddHttpClient();
+        services.AddHttpClient<IJobsService, ServerJobsService>();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
         services.Configure<BrevoApiOptions>( Configuration.GetSection( BrevoApiOptions.SectionName ) );

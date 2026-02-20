@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// A clickable item for <see cref="Tabs"/> component.
 /// </summary>
-public partial class Tab : BaseComponent
+public partial class Tab : BaseComponent<TabClasses, TabStyles>
 {
     #region Members
 
@@ -34,7 +34,7 @@ public partial class Tab : BaseComponent
     /// </summary>
     public Tab()
     {
-        LinkClassBuilder = new( BuildLinkClasses );
+        LinkClassBuilder = new( BuildLinkClasses, builder => builder.Append( Classes?.Link ) );
     }
 
     #endregion

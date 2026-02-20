@@ -81,6 +81,11 @@ public partial class Pagination : BaseComponent, IDisposable
     protected Size ThemeSize => Size ?? Theme?.PaginationOptions?.Size ?? Blazorise.Size.Default;
 
     /// <summary>
+    /// Gets the aria-label attribute value.
+    /// </summary>
+    protected string AriaLabelAttribute => string.IsNullOrWhiteSpace( AriaLabel ) ? null : AriaLabel;
+
+    /// <summary>
     /// Gets or sets the pagination size.
     /// </summary>
     [Parameter]
@@ -109,6 +114,11 @@ public partial class Pagination : BaseComponent, IDisposable
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Gets or sets the aria-label value for the pagination navigation.
+    /// </summary>
+    [Parameter] public string AriaLabel { get; set; } = "Pagination";
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Pagination"/>.

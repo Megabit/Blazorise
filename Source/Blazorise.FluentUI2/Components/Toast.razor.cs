@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -10,8 +10,8 @@ public partial class Toast
 
     public Toast()
     {
-        WrapperClassBuilder = new ClassBuilder( BuildWrapperClasses );
-        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles );
+        WrapperClassBuilder = new ClassBuilder( BuildWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
+        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
 
     #endregion
@@ -25,7 +25,7 @@ public partial class Toast
         base.DirtyClasses();
     }
 
-    protected override void DirtyStyles()
+    protected internal override void DirtyStyles()
     {
         WrapperStyleBuilder.Dirty();
 
@@ -37,11 +37,13 @@ public partial class Toast
         builder.Append( "fui-ToastContainer" );
         builder.Append( WrapperFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( WrapperVisible( IsVisible ) );
+        AppendWrapperUtilities( builder );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
         builder.Append( StyleProvider.ToastAnimationDuration( Animated, AnimationDuration ) );
+        AppendWrapperUtilities( builder );
     }
 
     private static string WrapperVisible( bool visible ) => visible

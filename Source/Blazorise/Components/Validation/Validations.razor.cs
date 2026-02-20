@@ -1,8 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -25,7 +25,7 @@ public partial class Validations : ComponentBase
     /// <summary>
     /// Event is fired whenever there is a change in validation status.
     /// </summary>
-    internal event ValidationsStatusChangedEventHandler _StatusChanged;
+    internal event ValidationsStatusChangedEventHandler StatusChangedInternal;
 
     /// <summary>
     /// List of validations placed inside of this container.
@@ -120,10 +120,7 @@ public partial class Validations : ComponentBase
     /// <param name="validation">The validation component to remove.</param>
     public void NotifyValidationRemoved( IValidation validation )
     {
-        if ( validations.Contains( validation ) )
-        {
-            validations.Remove( validation );
-        }
+        validations.Remove( validation );
     }
 
     /// <summary>
@@ -166,9 +163,58 @@ public partial class Validations : ComponentBase
     {
         var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
-        _StatusChanged?.Invoke( eventArgs );
+        StatusChangedInternal?.Invoke( eventArgs );
 
         InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
+
+        _ = RaiseFailedValidationsChangedAsync( messages ?? Array.Empty<string>() );
+    }
+
+    private Task RaiseFailedValidationsChangedAsync( IReadOnlyCollection<string> messages )
+    {
+        if ( !FailedValidationsChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        var errorMessages = messages?.ToList() ?? new List<string>();
+
+        return InvokeAsync( () => FailedValidationsChanged.InvokeAsync( new FailedValidationsEventArgs( errorMessages ) ) );
+    }
+
+    /// <summary>
+    /// Retriggers validations that match the given <see cref="FieldIdentifier"/> instances.
+    /// </summary>
+    /// <param name="fieldIdentifiers">Field identifiers for which validations should be retriggered.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task RetriggerValidation( params FieldIdentifier[] fieldIdentifiers )
+    {
+        if ( fieldIdentifiers is null || fieldIdentifiers.Length == 0 )
+            return Task.CompletedTask;
+
+        var matchingValidations = validations?
+            .Where( v => v.FieldIdentifier.Model is not null )
+            .Where( v => fieldIdentifiers.Any( f => f.FieldName == v.FieldIdentifier.FieldName && f.Model == v.FieldIdentifier.Model ) )
+            .ToList();
+
+        return matchingValidations?.Count > 0
+            ? Task.WhenAll( matchingValidations.Select( v => v.RetriggerValidation() ) )
+            : Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Retriggers validations for the specified model fields.
+    /// </summary>
+    /// <param name="expressions">Expressions representing the fields to revalidate.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task RetriggerValidation( params Expression<Func<object>>[] expressions )
+    {
+        if ( expressions is null || expressions.Length == 0 )
+            return Task.CompletedTask;
+
+        var fieldIdentifiers = expressions
+            .Select( FieldIdentifier.Create )
+            .ToArray();
+
+        return RetriggerValidation( fieldIdentifiers );
     }
 
     #endregion
@@ -235,6 +281,11 @@ public partial class Validations : ComponentBase
     [Parameter] public EventCallback<ValidationsStatusChangedEventArgs> StatusChanged { get; set; }
 
     /// <summary>
+    /// Event is fired whenever the failed validation messages change.
+    /// </summary>
+    [Parameter] public EventCallback<FailedValidationsEventArgs> FailedValidationsChanged { get; set; }
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Validations"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -254,7 +305,7 @@ public partial class Validations : ComponentBase
     /// <summary>
     /// Gets the filtered list of failed validations.
     /// </summary>
-    private IReadOnlyCollection<string> FailedValidations
+    public IReadOnlyCollection<string> FailedValidations
     {
         get
         {
@@ -264,7 +315,7 @@ public partial class Validations : ComponentBase
                 .Concat(
                     // In case there are some fields that do not have error message we need to combine them all under one message.
                     validations.Any( v => v.Status == ValidationStatus.Error
-                                          && ( v.Messages is null || v.Messages.Count() == 0 )
+                                          && ( v.Messages is null || !v.Messages.Any() )
                                           && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
                         : Array.Empty<string>() )

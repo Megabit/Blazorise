@@ -1,0 +1,211 @@
+﻿@page "/docs/migration"
+
+<Seo Canonical="/docs/migration" Title="Blazorise 2.0 Migration CLI" Description="Install and use the Blazorise Migrator CLI to analyze your solution, review migration changes, and safely upgrade to Blazorise 2.0." />
+
+<DocsPageTitle Path="Migration">
+    Blazorise 2.0 Migration CLI
+</DocsPageTitle>
+
+<DocsPageLead>
+    The Blazorise Migrator is a command-line tool that helps you safely and predictably upgrade existing projects to Blazorise 2.0.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    It analyzes your solution or project, reports the required changes, and can automatically apply them when you are ready.
+    You stay in control at every step.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    When should I use this?
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use the Blazorise Migrator when upgrading an existing application from Blazorise 1.x to 2.0.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        You are updating package references to Blazorise 2.0.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Your project uses components, parameters, or APIs that changed in 2.0.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        You want a guided, reviewable upgrade process with minimal manual changes.
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageParagraph>
+    The migrator is <Strong>not required</Strong> for new projects created with Blazorise 2.0 templates.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Install the migrator as a global .NET tool from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MigrationInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Verify installation">
+        Confirm that the tool is available on your system path.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MigrationSmokeTestExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Recommended workflow
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Follow this workflow to ensure a safe and reviewable migration.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionContent>
+        <OrderedList>
+            <OrderedListItem>
+                Run <Code>analyze</Code> to understand which projects and files will be affected.
+            </OrderedListItem>
+            <OrderedListItem>
+                Use <Code>--json</Code> to save the analysis report for later review or sharing.
+            </OrderedListItem>
+            <OrderedListItem>
+                Run <Code>migrate</Code> with <Code>--dry-run</Code> to preview all file changes.
+            </OrderedListItem>
+            <OrderedListItem>
+                Re-run <Code>migrate</Code> with <Code>--backup</Code> to apply changes and keep <Code>.bak</Code> copies.
+            </OrderedListItem>
+        </OrderedList>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MigrationExamplesExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Analyze
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Inspect your solution">
+        Analyze a solution or project to determine required Blazorise 2.0 migration changes.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionContent>
+        <Paragraph>
+            The <Code>analyze</Code> command always runs in dry-run mode and never modifies files.
+            It reports all detected migration actions before any changes are applied.
+        </Paragraph>
+
+        <Paragraph>
+            If <Code>--path</Code> is omitted, the current directory is used.
+            You may specify a folder, <Code>.sln</Code>, <Code>.slnx</Code>, or <Code>.csproj</Code>.
+        </Paragraph>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MigrationAnalyzeCommandExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Migrate
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Apply changes">
+        Apply required Blazorise 2.0 migration changes to eligible projects.
+    </DocsPageSectionHeader>
+
+    <DocsPageSectionContent>
+        <Paragraph>
+            The <Code>migrate</Code> command updates projects that reference Blazorise packages.
+            Use <Code>--dry-run</Code> to preview changes and <Code>--backup</Code> to preserve original files.
+        </Paragraph>
+
+        <Paragraph>
+            If <Code>--path</Code> is omitted, the current directory is used.
+        </Paragraph>
+
+        <Paragraph>
+            No files are modified unless the <Code>migrate</Code> command is executed without <Code>--dry-run</Code>.
+        </Paragraph>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MigrationMigrateCommandExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Command options
+</DocsPageSubtitle>
+
+<DocsAttributes Title="Analyze options" Ordered="false">
+    <DocsAttributesItem Name="--path &lt;path&gt;" Type="string" Default="current directory">
+        <Paragraph>
+            Path to a folder, <Code>.sln</Code>, <Code>.slnx</Code>, or <Code>.csproj</Code>.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--json &lt;file&gt;" Type="string" Default="none">
+        <Paragraph>
+            Writes the analysis report to the specified file.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--all-projects" Type="bool" Default="false">
+        <Paragraph>
+            Scan all projects under the path, even if they do not reference Blazorise packages.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--verbose" Type="bool" Default="false">
+        <Paragraph>
+            Output detailed diagnostics during analysis.
+        </Paragraph>
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Migrate options" Ordered="false">
+    <DocsAttributesItem Name="--path &lt;path&gt;" Type="string" Default="current directory">
+        <Paragraph>
+            Path to a folder, <Code>.sln</Code>, <Code>.slnx</Code>, or <Code>.csproj</Code>.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--dry-run" Type="bool" Default="false">
+        <Paragraph>
+            Preview all changes without modifying files.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--backup" Type="bool" Default="false">
+        <Paragraph>
+            Create <Code>.bak</Code> files before applying changes.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--all-projects" Type="bool" Default="false">
+        <Paragraph>
+            Scan all projects under the path, regardless of Blazorise references.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--verbose" Type="bool" Default="false">
+        <Paragraph>
+            Output detailed diagnostics during migration.
+        </Paragraph>
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Global options" Ordered="false" ShowDefaults="false">
+    <DocsAttributesItem Name="--help" Type="flag">
+        <Paragraph>
+            Display command help information.
+        </Paragraph>
+    </DocsAttributesItem>
+
+    <DocsAttributesItem Name="--version" Type="flag">
+        <Paragraph>
+            Display the installed tool version.
+        </Paragraph>
+    </DocsAttributesItem>
+</DocsAttributes>

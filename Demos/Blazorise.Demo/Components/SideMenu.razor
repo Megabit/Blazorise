@@ -221,9 +221,6 @@
                                 <BarDropdownItem To="tests/datagrid/selection/multiple">
                                     Multiple
                                 </BarDropdownItem>
-                                <BarDropdownItem To="tests/datagrid/selection/row-detail">
-                                    Row Detail
-                                </BarDropdownItem>
                                 <BarDropdownItem To="tests/datagrid/selection/row-overlay">
                                     Row Overlay
                                 </BarDropdownItem>
@@ -235,6 +232,20 @@
                                 </BarDropdownItem>
                                 <BarDropdownItem To="tests/datagrid/selection/styling">
                                     Styling
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Hierarchy
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/hierarchy/row-detail">
+                                    Row Detail
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/hierarchy/self-reference">
+                                    Self Reference
                                 </BarDropdownItem>
                             </BarDropdownMenu>
                         </BarDropdown>
@@ -297,11 +308,11 @@
                         <BarDropdownItem To="tests/charts">Charts</BarDropdownItem>
                         <BarDropdownItem To="tests/charts/annotations">Charts Annotations</BarDropdownItem>
                         <BarDropdownItem To="tests/charts/datalabels">Charts Data Labels</BarDropdownItem>
+                        <BarDropdownItem To="tests/charts/streaming">Charts Streaming</BarDropdownItem>
                         <BarDropdownItem To="tests/charts/zoom">Charts Zoom</BarDropdownItem>
                         <BarDropdownItem To="tests/cropper">Cropper</BarDropdownItem>
                         <BarDropdownItem To="tests/dropdownlist">Dropdown List</BarDropdownItem>
                         <BarDropdownItem To="tests/listview">List View</BarDropdownItem>
-                        <BarDropdownItem To="tests/livecharts">Live Charts</BarDropdownItem>
                         <BarDropdownItem To="tests/loadingindicator">Loading Indicator</BarDropdownItem>
                         <BarDropdownItem To="tests/lottie-animation">Lottie Animation</BarDropdownItem>
                         <BarDropdownItem To="tests/markdown">Markdown</BarDropdownItem>
@@ -311,6 +322,7 @@
                         <BarDropdownItem To="tests/richtextedit">RichTextEdit</BarDropdownItem>
                         <BarDropdownItem To="tests/routertabs">Router Tabs</BarDropdownItem>
                         <BarDropdownItem To="tests/scheduler">Scheduler</BarDropdownItem>
+                        <BarDropdownItem To="tests/passwordstrength">Password Strength</BarDropdownItem>
                         <BarDropdownItem To="tests/selectlist">Select List</BarDropdownItem>
                         <BarDropdownItem To="tests/signaturepad">SignaturePad</BarDropdownItem>
                         <BarDropdownItem To="tests/snackbar">Snackbar</BarDropdownItem>
@@ -396,5 +408,5 @@
     private bool formsVisible = false;
     private bool datagridVisible = false;
 
-    RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
+    RenderFragment customIcon = @<img src="/brand-logo.png" style="width:32px; height: 32px" />;
 }

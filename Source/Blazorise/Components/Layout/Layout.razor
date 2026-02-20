@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
+@inherits BaseComponent<LayoutClasses, LayoutStyles>
 <CascadingValue Value="@this" IsFixed>
     <section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @if ( Loading )
@@ -10,7 +10,7 @@
             }
             else
             {
-                <div class="@LoadingClassNames"></div>
+                <div class="@LoadingClassNames" style="@Styles?.Loading"></div>
             }
         }
         @ChildContent

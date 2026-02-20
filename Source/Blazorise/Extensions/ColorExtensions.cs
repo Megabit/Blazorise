@@ -12,7 +12,7 @@ public static class ColorExtensions
     /// <returns>True if color is <c>null</c> or <see cref="Color.Default"/>.</returns>
     public static bool IsNullOrDefault( this Color color )
     {
-        return color is null || color == Color.Default;
+        return color is null || string.IsNullOrWhiteSpace( color.RawName );
     }
 
     /// <summary>
@@ -22,7 +22,7 @@ public static class ColorExtensions
     /// <returns>True if color is not <c>null</c> or <see cref="Color.Default"/>.</returns>
     public static bool IsNotNullOrDefault( this Color color )
     {
-        return color is not null && color != Color.Default;
+        return color is not null && !string.IsNullOrWhiteSpace( color.RawName );
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public static class ColorExtensions
     /// <returns>True if background color is <c>null</c> or <see cref="Background.Default"/>.</returns>
     public static bool IsNullOrDefault( this Background background )
     {
-        return background is null || background == Background.Default;
+        return background is null || string.IsNullOrWhiteSpace( background.RawName );
     }
 
     /// <summary>
@@ -42,6 +42,16 @@ public static class ColorExtensions
     /// <returns>True if background color is not <c>null</c> or <see cref="Background.Default"/>.</returns>
     public static bool IsNotNullOrDefault( this Background background )
     {
-        return background is not null && background != Background.Default;
+        return background is not null && !string.IsNullOrWhiteSpace( background.RawName );
+    }
+
+    /// <summary>
+    /// Determines if the supplied text color is defined, i.e. not null or empty.
+    /// </summary>
+    /// <param name="textColor">Text color value to check.</param>
+    /// <returns>True if text color is not <c>null</c> or <see cref="TextColor.Default"/>.</returns>
+    public static bool IsNotNullOrDefault( this TextColor textColor )
+    {
+        return textColor is not null && !string.IsNullOrWhiteSpace( textColor.RawName );
     }
 }

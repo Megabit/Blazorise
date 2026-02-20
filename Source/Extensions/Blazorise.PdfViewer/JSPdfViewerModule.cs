@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
@@ -80,18 +80,18 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "setScale", elementRef, elementId, scale );
     }
 
-    public virtual async ValueTask Print( string source )
+    public virtual async ValueTask Print( ElementReference elementRef, string elementId, string source )
     {
         var moduleInstance = await Module;
 
-        await moduleInstance.InvokeVoidAsync( "print", source );
+        await moduleInstance.InvokeVoidAsync( "print", elementRef, elementId, source );
     }
 
-    public virtual async ValueTask Download( string source )
+    public virtual async ValueTask Download( ElementReference elementRef, string elementId, string source, string fileName )
     {
         var moduleInstance = await Module;
 
-        await moduleInstance.InvokeVoidAsync( "download", source );
+        await moduleInstance.InvokeVoidAsync( "download", elementRef, elementId, source, fileName );
     }
 
     #endregion

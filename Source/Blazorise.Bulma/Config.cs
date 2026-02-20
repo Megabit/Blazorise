@@ -29,6 +29,9 @@ public static class Config
         serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.BulmaJSTooltipModule>();
 
+        Enumeration<Background>.SetNameBuilder( new BulmaEnumerationNameBuilder<Background>() );
+        Enumeration<TextColor>.SetNameBuilder( new BulmaEnumerationNameBuilder<TextColor>() );
+
         return serviceCollection;
     }
 

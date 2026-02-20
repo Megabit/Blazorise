@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Linq;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Placeholder for the <see cref="Validation"/> error message.
 /// </summary>
-public partial class ValidationError : BaseValidationResult
+public partial class ValidationError : BaseValidationResult, IDisposable
 {
     #region Members
 
@@ -27,6 +28,19 @@ public partial class ValidationError : BaseValidationResult
             : null;
 
         base.OnInitialized();
+
+        ParentValidation?.NotifyValidationMessageInitialized( this );
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentValidation?.NotifyValidationMessageRemoved( this );
+        }
+
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>

@@ -1,7 +1,7 @@
-import "./vendors/quill.js?v=1.8.6.0";
-import "./vendors/quill-table-better.js?v=1.8.6.0";
-import "./vendors/quill-resize-module.js?v=1.8.6.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.6.0";
+import "./vendors/quill.js?v=2.0.0.0";
+import "./vendors/quill-table-better.js?v=2.0.0.0";
+import "./vendors/quill-resize-module.js?v=2.0.0.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
 
 var rteSheetsLoaded = false;
 
@@ -21,9 +21,9 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (!element)
         return;
 
-    const editorRef = element.getElementsByClassName("rte-editor")[0];
-    const toolbarRef = element.getElementsByClassName("rte-toolbar")[0];
-    const contentRef = element.getElementsByClassName("rte-content")[0];
+    const editorRef = element.getElementsByClassName("b-richtextedit-editor")[0];
+    const toolbarRef = element.getElementsByClassName("b-richtextedit-toolbar")[0];
+    const contentRef = element.getElementsByClassName("b-richtextedit-content")[0];
 
     let quillOptions = {
         modules: {
@@ -105,10 +105,27 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const quill = new Quill(editorRef, quillOptions);
 
+    const stopArrowKeyPropagation = (event) => {
+        const arrowKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
+        if (!arrowKeys.includes(event.key))
+            return;
+
+        if (!editorRef.contains(event.target))
+            return;
+
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+    };
+
+    editorRef._stopArrowKeyPropagation = stopArrowKeyPropagation;
+    document.addEventListener("keydown", stopArrowKeyPropagation, true);
+    document.addEventListener("keyup", stopArrowKeyPropagation, true);
+
     quill.on("text-change", function (dx, dy, source) {
         if (source === "user") {
             contentUpdating = true;
-            dotnetAdapter.invokeMethodAsync("OnContentChanged")
+            dotnetAdapter.invokeMethodAsync("OnContentChanged", quill.root.innerHTML, quill.getText())
                 .finally(_ => contentUpdating = false);
         }
     });
@@ -153,10 +170,16 @@ export function destroy(editorRef, editorId) {
     if (!editorRef)
         return false;
 
+    if (editorRef._stopArrowKeyPropagation) {
+        document.removeEventListener("keydown", editorRef._stopArrowKeyPropagation, true);
+        document.removeEventListener("keyup", editorRef._stopArrowKeyPropagation, true);
+    }
+
     if (editorRef.quill.contentObserver)
         editorRef.quill.contentObserver.disconnect();
 
     delete editorRef.quill;
+    delete editorRef._stopArrowKeyPropagation;
     return true;
 }
 

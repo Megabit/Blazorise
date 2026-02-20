@@ -23,10 +23,10 @@
             <ListGroupItem>
                 <Strong>Node: @contextMenuNode?.Text</Strong>
             </ListGroupItem>
-            <ListGroupItem Clicked="@(()=>OnContextItemEditClicked(contextMenuNode))" Style="cursor: pointer;">
+            <ListGroupItem Clicked="@(() => OnContextItemEditClicked( contextMenuNode ))" Style="cursor: pointer;">
                 <Icon Name="IconName.Edit" TextColor="TextColor.Secondary" /> Edit
             </ListGroupItem>
-            <ListGroupItem Clicked="@(()=>OnContextItemDeleteClicked(contextMenuNode))" Style="cursor: pointer;">
+            <ListGroupItem Clicked="@(() => OnContextItemDeleteClicked( contextMenuNode ))" Style="cursor: pointer;">
                 <Icon Name="IconName.Delete" TextColor="TextColor.Danger" /> Delete
             </ListGroupItem>
         </ListGroup>

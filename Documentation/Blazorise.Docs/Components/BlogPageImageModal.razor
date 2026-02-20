@@ -1,8 +1,8 @@
 ﻿<Paragraph>
     <Image Source="@ImageSource" Text="@ImageTitle" @onclick="@OnModalOpenClick" Width="Width.Is50" Margin="Margin.Is3.FromTop.Is4.FromBottom" Shadow="Shadow.Default" />
 </Paragraph>
-<Modal @ref="@modalRef">
-    <ModalContent Size="ModalSize.ExtraLarge">
+<Modal @ref="@modalRef" Size="ModalSize.ExtraLarge">
+    <ModalContent>
         <ModalBody>
             <Image Source="@ImageSource" Text="@ImageTitle" @onclick="@OnModalCloseClick" Width="Width.Is100" />
         </ModalBody>

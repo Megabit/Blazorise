@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -14,6 +15,10 @@ public partial class _ModalBackdrop : BaseComponent
     #region Members
 
     private ModalState parentModalState;
+
+    private string backdropClass;
+
+    private string backdropStyle;
 
     #endregion
 
@@ -31,11 +36,34 @@ public partial class _ModalBackdrop : BaseComponent
     }
 
     /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        var nextBackdropClass = ParentModal?.Classes?.Backdrop;
+
+        if ( !nextBackdropClass.IsEqual( backdropClass ) )
+        {
+            backdropClass = nextBackdropClass;
+            DirtyClasses();
+        }
+
+        var nextBackdropStyle = ParentModal?.Styles?.Backdrop;
+
+        if ( !nextBackdropStyle.IsEqual( backdropStyle ) )
+        {
+            backdropStyle = nextBackdropStyle;
+            DirtyStyles();
+        }
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ModalBackdrop() );
         builder.Append( ClassProvider.ModalBackdropFade() );
         builder.Append( ClassProvider.ModalBackdropVisible( parentModalState.Visible ) );
+        builder.Append( ParentModal?.Classes?.Backdrop );
 
         base.BuildClasses( builder );
     }
@@ -45,6 +73,7 @@ public partial class _ModalBackdrop : BaseComponent
     {
         builder.Append( StyleProvider.ModalBackdropZIndex( parentModalState.OpenIndex ) );
         builder.Append( $"--modal-animation-duration: {( Animated ? AnimationDuration : 0 )}ms" );
+        builder.Append( ParentModal?.Styles?.Backdrop );
 
         base.BuildStyles( builder );
     }

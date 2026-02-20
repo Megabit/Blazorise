@@ -1,0 +1,23 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<OffcanvasHeader>
+    <Heading Size="HeadingSize.Is5">My Custom Structure</Heading>
+    <CloseButton />
+</OffcanvasHeader>
+<OffcanvasBody>
+    Welcome @UserName!
+</OffcanvasBody>
+<OffcanvasFooter>
+    <Button Color="Color.Success" Clicked="Confirm">Cheers!</Button>
+</OffcanvasFooter>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    [Parameter] public string UserName { get; set; }
+
+    private Task Confirm()
+    {
+        return OffcanvasService.Hide();
+    }
+}

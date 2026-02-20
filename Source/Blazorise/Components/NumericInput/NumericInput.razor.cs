@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -14,8 +13,8 @@ namespace Blazorise;
 /// <summary>
 /// An editor that displays a numeric value and allows a user to edit the value.
 /// </summary>
-/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue}.Value"/> property.</typeparam>
-public partial class NumericInput<TValue> : BaseTextInput<TValue>, IAsyncDisposable
+/// <typeparam name="TValue">Data-type to be binded by the <see cref="BaseInputComponent{TValue, TClasses, TStyles}.Value"/> property.</typeparam>
+public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, NumericInputClasses, NumericInputStyles>, IAsyncDisposable
 {
     #region Members
 
@@ -30,14 +29,14 @@ public partial class NumericInput<TValue> : BaseTextInput<TValue>, IAsyncDisposa
     private readonly string inputMode;
 
     /// <summary>
-    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// Captured Min parameter snapshot.
     /// </summary>
-    private bool minDefined = false;
+    protected ComponentParameterInfo<TValue> paramMin;
 
     /// <summary>
-    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// Captured Max parameter snapshot.
     /// </summary>
-    private bool maxDefined = false;
+    protected ComponentParameterInfo<TValue> paramMax;
 
     #endregion
 
@@ -57,14 +56,12 @@ public partial class NumericInput<TValue> : BaseTextInput<TValue>, IAsyncDisposa
     #region Methods
 
     /// <inheritdoc/>
-    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
+    protected override void CaptureParameters( ParameterView parameters )
     {
-        await base.OnBeforeSetParametersAsync( parameters );
+        base.CaptureParameters( parameters );
 
-        // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
-        // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
-        minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
-        maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
+        parameters.TryGetParameter( Min, out paramMin );
+        parameters.TryGetParameter( Max, out paramMax );
     }
 
     /// <inheritdoc/>
@@ -132,11 +129,11 @@ public partial class NumericInput<TValue> : BaseTextInput<TValue>, IAsyncDisposa
     {
         if ( number is IComparable comparableNumber && comparableNumber is not null )
         {
-            if ( maxDefined && Max is IComparable comparableMax && comparableNumber.CompareTo( comparableMax ) >= 0 )
+            if ( MaxDefined && Max is IComparable comparableMax && comparableNumber.CompareTo( comparableMax ) >= 0 )
             {
                 comparableNumber = comparableMax;
             }
-            else if ( minDefined && Min is IComparable comparableMin && comparableNumber.CompareTo( comparableMin ) <= 0 )
+            else if ( MinDefined && Min is IComparable comparableMin && comparableNumber.CompareTo( comparableMin ) <= 0 )
             {
                 comparableNumber = comparableMin;
             }
@@ -156,6 +153,16 @@ public partial class NumericInput<TValue> : BaseTextInput<TValue>, IAsyncDisposa
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// </summary>
+    private bool MinDefined => paramMin.Defined;
+
+    /// <summary>
+    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// </summary>
+    private bool MaxDefined => paramMax.Defined;
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
@@ -178,12 +185,12 @@ public partial class NumericInput<TValue> : BaseTextInput<TValue>, IAsyncDisposa
     /// <summary>
     /// Gets the min value if defined, otherwise null.
     /// </summary>
-    protected object MinValue => minDefined ? Min : null;
+    protected object MinValue => MinDefined ? Min : null;
 
     /// <summary>
     /// Gets the max value if defined, otherwise null.
     /// </summary>
-    protected object MaxValue => maxDefined ? Max : null;
+    protected object MaxValue => MaxDefined ? Max : null;
 
     /// <summary>
     /// Gets the culture info defined on the input field.

@@ -1,0 +1,58 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validations</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">validations</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ValidationMode</span><span class="enumValue">.Manual</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span> <span class="htmlAttributeName">Validator</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ValidateSelection</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Countries<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Autocomplete</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Country</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Countries</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Name)</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(( item ) =&gt; item.Iso)</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">SelectionMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">AutocompleteSelectionMode</span><span class="enumValue">.Multiple</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Select countries</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValues</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedCountries</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>Please select at least one country.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Autocomplete</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Validate</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Validate<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validations</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    [Inject]
+    <span class="keyword">public</span> CountryData CountryData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> IEnumerable&lt;Country&gt; Countries;
+
+    Validations validations;
+
+    List&lt;<span class="keyword">string</span>&gt; selectedCountries = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;();
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    {
+        Countries = <span class="keyword">await</span> CountryData.GetDataAsync();
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+    }
+
+    <span class="keyword">void</span> ValidateSelection( ValidatorEventArgs validationArgs )
+    {
+        List&lt;<span class="keyword">string</span>&gt; values = validationArgs.Value <span class="keyword">as</span> List&lt;<span class="keyword">string</span>&gt;;
+
+        validationArgs.Status = values != <span class="keyword">null</span> &amp;&amp; values.Count &gt; <span class="number">0</span>
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+    }
+
+    <span class="keyword">async</span> Task Validate()
+    {
+        <span class="keyword">await</span> validations.ValidateAll();
+    }
+}
+</pre></div>
+</div>

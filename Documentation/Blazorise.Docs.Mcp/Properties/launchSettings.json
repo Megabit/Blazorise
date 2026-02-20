@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Blazorise.Docs.Mcp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:12790;http://localhost:12791"
+    }
+  }
+}

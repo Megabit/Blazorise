@@ -11,7 +11,7 @@
               Placeholder="Search..."
                     FreeTyping
               SelectionMode="AutocompleteSelectionMode.Multiple">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
     <TagTemplate>
         <Badge Color="Color.Primary" Margin="Margin.Is2.FromStart" CloseClicked="@context.Remove">@context.Text</Badge>
     </TagTemplate>
@@ -30,7 +30,7 @@ else
               Placeholder="Search..."
                     FreeTyping
               SelectionMode="AutocompleteSelectionMode.Multiple">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
     </Autocomplete>
 }
 

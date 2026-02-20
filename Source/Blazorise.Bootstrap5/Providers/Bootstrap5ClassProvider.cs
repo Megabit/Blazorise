@@ -289,7 +289,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Fields
 
-    public override string Fields() => "row gx-3";
+    public override string Fields() => "row";
 
     public override string FieldsBody() => null;
 
@@ -367,6 +367,13 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string AddonsSize( Size size ) => size != Size.Default ? $"input-group-{ToSize( size )}" : null;
 
     public override string AddonsHasButton( bool hasButton ) => null;
+
+    public override string AddonsValidation( ValidationStatus validationStatus ) => validationStatus switch
+    {
+        ValidationStatus.Success => "is-valid has-validation",
+        ValidationStatus.Error => "is-invalid has-validation",
+        _ => "has-validation",
+    };
 
     public override string Addon( AddonType addonType ) => null;
 
@@ -619,11 +626,11 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string CardTitle( bool insideHeader ) => "card-title";
 
-    public override string CardTitleSize( bool insideHeader, int? size ) => null;
+    public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
 
-    public override string CardSubtitleSize( bool insideHeader, int size ) => null;
+    public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
     public override string CardText() => "card-text";
 
@@ -721,6 +728,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
         => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
+
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => isToggleIconVisible ? null : "b-bar-dropdown-toggle-hidden";
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 

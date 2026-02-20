@@ -1,0 +1,48 @@
+@page "/docs/helpers/utilities/spacing"
+
+<Seo Canonical="/docs/helpers/utilities/spacing" Title="Blazorise Spacing Utilities - Margin and Padding" Description="Use Blazorise spacing utilities to apply responsive margin and padding with fluent builders and consistent spacing tokens across your UI." />
+
+<DocsPageTitle Path="Helpers/Utilities/Spacing">
+    Blazorise Spacing Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Control margin and padding with fluent spacing utilities that keep layout rhythm consistent across breakpoints.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Spacing utilities let you apply margin and padding directly from C#, so layout decisions stay alongside your components and do not require hand-written CSS.
+    They map to your CSS provider, keeping spacing tokens consistent with your design system.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use <Code>Margin</Code> or <Code>Padding</Code> on any component and chain sizes like <Code>Is0</Code> through <Code>Is5</Code> with side helpers such as
+    <Code>FromTop</Code>, <Code>FromBottom</Code>, <Code>FromStart</Code>, <Code>FromEnd</Code>, <Code>OnX</Code>, and <Code>OnY</Code>.
+    Add breakpoints like <Code>OnMobile</Code>, <Code>OnTablet</Code>, and <Code>OnDesktop</Code> to adjust spacing responsively without media queries.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Responsive margin">
+        <Paragraph>
+            This example applies a smaller margin on mobile and a larger margin on desktop, keeping the card readable on small screens while giving it more breathing room on larger layouts.
+        </Paragraph>
+        <Paragraph>
+            The second card switches to padding to show how <Code>OnX</Code> and <Code>OnY</Code> keep content readable while preserving layout rhythm.
+        </Paragraph>
+        <Paragraph>
+            The final card uses start-only padding that increases on desktop to keep text aligned with larger layouts.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SpacingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SpacingExample" />
+</DocsPageSection>

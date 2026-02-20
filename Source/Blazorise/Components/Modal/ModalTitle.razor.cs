@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Larger text that can be placed in the <see cref="ModalHeader"/>.
 /// </summary>
-public partial class ModalTitle : BaseComponent
+public partial class ModalTitle : BaseComponent, IDisposable
 {
     #region Members
 
@@ -17,6 +18,25 @@ public partial class ModalTitle : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        ParentModal?.NotifyModalTitleInitialized( this );
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentModal?.NotifyModalTitleRemoved( this );
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -29,6 +49,9 @@ public partial class ModalTitle : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
     /// Gets the title tag name.
@@ -48,6 +71,11 @@ public partial class ModalTitle : BaseComponent
         HeadingSize.Is6 => "6",
         _ => "3",
     };
+
+    /// <summary>
+    /// Gets or sets the cascaded parent modal component.
+    /// </summary>
+    [CascadingParameter] protected Modal ParentModal { get; set; }
 
     /// <summary>
     /// Gets or sets the title size.

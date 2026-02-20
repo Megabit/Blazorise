@@ -1,0 +1,31 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">--tile-width: 16rem; --tile-height: 8rem;</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px().Max( 520 )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Border.Is1.Secondary.Subtle</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Width.Var( TileWidthVariable )</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Height.Var( TileHeightVariable )</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromBottom</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Background.Success.Subtle</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Border.Is1.Success</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TextColor.Success.Emphasis</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        Width.Var(&quot;--tile-width&quot;) / Height.Var(&quot;--tile-height&quot;)
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px().Min( 180 ).Max( 320 )</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Height.Vh().Max(25)</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Background.Danger.Subtle</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Border.Is1.Danger</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TextColor.Danger.Emphasis</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        Width.Px().Min(180).Max(320)
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">br</span> <span class="htmlTagDelimiter">/&gt;</span>
+        Height.Vh().Max(25)
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">string</span> TileWidthVariable = <span class="string">&quot;--tile-width&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">string</span> TileHeightVariable = <span class="string">&quot;--tile-height&quot;</span>;
+}
+</pre></div>
+</div>

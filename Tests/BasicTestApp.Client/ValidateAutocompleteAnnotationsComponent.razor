@@ -1,0 +1,73 @@
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+
+<h2>Autocomplete validation - Data Annotations</h2>
+<div id="auto-validate-autocomplete-single">
+    Initially blank:
+    <Validations Model="@singleModel" ValidateOnLoad>
+        <Validation>
+            <Autocomplete TItem="string"
+                          TValue="string"
+                          Data="@Countries"
+                          TextField="@(( item ) => item)"
+                          ValueField="@(( item ) => item)"
+                          @bind-SelectedValue="@singleModel.Value"
+                          @bind-SelectedText="@singleText"
+                          MinSearchLength="0"
+                          FreeTyping="false">
+                <Feedback>
+                    <ValidationError></ValidationError>
+                </Feedback>
+            </Autocomplete>
+        </Validation>
+    </Validations>
+</div>
+
+<div id="auto-validate-autocomplete-multiple">
+    Initially blank:
+    <Validations Model="@multipleModel" ValidateOnLoad>
+        <Validation>
+            <Autocomplete TItem="string"
+                          TValue="string"
+                          Data="@Countries"
+                          TextField="@(( item ) => item)"
+                          ValueField="@(( item ) => item)"
+                          @bind-SelectedValues="@multipleModel.Values"
+                          @bind-SelectedTexts="@multipleTexts"
+                          SelectionMode="AutocompleteSelectionMode.Multiple"
+                          MinSearchLength="0"
+                          FreeTyping="false">
+                <Feedback>
+                    <ValidationError></ValidationError>
+                </Feedback>
+            </Autocomplete>
+        </Validation>
+    </Validations>
+</div>
+
+@code {
+    private readonly List<string> Countries = new()
+    {
+        "Portugal",
+        "China",
+        "United Kingdom"
+    };
+
+    private readonly SingleModel singleModel = new();
+    private readonly MultipleModel multipleModel = new();
+
+    private string singleText;
+    private List<string> multipleTexts = new();
+
+    public class SingleModel
+    {
+        [Required]
+        public string Value { get; set; }
+    }
+
+    public class MultipleModel
+    {
+        [MinLength( 1, ErrorMessage = "Select at least one." )]
+        public List<string> Values { get; set; } = new();
+    }
+}

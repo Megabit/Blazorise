@@ -1,0 +1,55 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Validations @ref="validations" Mode="ValidationMode.Manual">
+    <Validation Validator="@ValidateSelection">
+        <Field>
+            <FieldLabel>Countries</FieldLabel>
+            <FieldBody>
+                <Autocomplete TItem="Country"
+                              TValue="string"
+                              Data="@Countries"
+                              TextField="@(( item ) => item.Name)"
+                              ValueField="@(( item ) => item.Iso)"
+                              SelectionMode="AutocompleteSelectionMode.Multiple"
+                              Placeholder="Select countries"
+                              @bind-SelectedValues="@selectedCountries">
+                    <Feedback>
+                        <ValidationError>Please select at least one country.</ValidationError>
+                    </Feedback>
+                </Autocomplete>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color="Color.Primary" Clicked="@Validate">Validate</Button>
+</Validations>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+
+    public IEnumerable<Country> Countries;
+
+    Validations validations;
+
+    List<string> selectedCountries = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    void ValidateSelection( ValidatorEventArgs validationArgs )
+    {
+        List<string> values = validationArgs.Value as List<string>;
+
+        validationArgs.Status = values != null && values.Count > 0
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+    }
+
+    async Task Validate()
+    {
+        await validations.ValidateAll();
+    }
+}

@@ -4,7 +4,6 @@
 
   <PropertyGroup>
     <PackageTags>blazorise blazor components chart</PackageTags>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -17,12 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
-    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Lambda2Js" Version="3.1.4" />
+    <PackageReference Include="Lambda2Js" />
   </ItemGroup>
 
 </Project>

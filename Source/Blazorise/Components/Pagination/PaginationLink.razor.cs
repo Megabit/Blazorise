@@ -58,6 +58,11 @@ public partial class PaginationLink : BaseComponent
     [Parameter] public string Page { get; set; }
 
     /// <summary>
+    /// Gets the aria-current attribute value.
+    /// </summary>
+    protected string AriaCurrent => ParentPaginationItemState.Active ? "page" : null;
+
+    /// <summary>
     /// Occurs when the item link is clicked.
     /// </summary>
     [Parameter] public EventCallback<string> Clicked { get; set; }

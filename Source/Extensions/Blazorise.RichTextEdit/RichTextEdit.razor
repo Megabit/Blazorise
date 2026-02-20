@@ -1,23 +1,34 @@
-﻿@inherits BaseRichTextEditComponent
+@inherits BaseRichTextEditComponent
 
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes">
 
     @if ( Toolbar != null && ToolbarPosition != Placement.Bottom )
     {
-        <div @ref="@ToolbarRef" class="rte-toolbar">
+        <div @ref="@ToolbarRef" class="b-richtextedit-toolbar">
             @Toolbar
         </div>
     }
 
-    <span style="display: none" class="rte-content">@Editor</span>
+    <span style="display: none" class="b-richtextedit-content">
+        @if ( Editor is not null && InitialContent is null )
+        {
+            @Editor
+        }
+        else if ( !string.IsNullOrEmpty( InitialContent ) )
+        {
+            @((MarkupString)InitialContent)
+        }
+    </span>
 
-    <div @ref="@EditorRef" class="rte-editor"></div>
+    <div @ref="@EditorRef" class="b-richtextedit-editor"></div>
 
     @if ( Toolbar != null && ToolbarPosition == Placement.Bottom )
     {
-        <div @ref="@ToolbarRef" class="rte-toolbar" style="border-top: 0">
+        <div @ref="@ToolbarRef" class="b-richtextedit-toolbar" style="border-top: 0">
             @Toolbar
         </div>
     }
 
 </div>
+@ChildContent
+@Feedback

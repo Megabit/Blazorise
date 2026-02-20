@@ -7,6 +7,17 @@
     "Zoom In": "Priblížiť",
     "Print": "Tlačiť",
     "of": "z",
-    "Download": "Stiahnuť"
+    "Download": "Stiahnuť",
+    "Password required": "Vyžaduje sa heslo",
+    "Enter the password to open this PDF.": "Zadajte heslo na otvorenie tohto PDF.",
+    "Incorrect password. Please try again.": "Nesprávne heslo. Skúste to znova.",
+    "Password": "Heslo",
+    "Open": "Otvoriť",
+    "Cancel": "Zrušiť",
+    "Password is required.": "Heslo je povinné.",
+    "Save PDF": "Uložiť PDF",
+    "Enter a filename for this download.": "Zadajte názov súboru pre toto stiahnutie.",
+    "Filename": "Názov súboru",
+    "Filename is required.": "Názov súboru je povinný."
   }
 }

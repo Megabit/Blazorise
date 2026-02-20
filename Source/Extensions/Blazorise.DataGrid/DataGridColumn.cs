@@ -31,6 +31,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     private DataGridColumnFilterMethod? currentFilterMethod;
 
+    private bool displayingInitialized;
+
+    private bool? defaultDisplaying;
+
+    private bool DefaultDisplaying
+        => Displayable && ( defaultDisplaying ?? true );
+
     #endregion
 
     #region Constructors
@@ -111,7 +118,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     private void InitializeDefaults()
     {
-        Displaying = Displayable;
+        Displaying = GetDefaultDisplaying();
+        displayingInitialized = true;
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
         currentFilterMethod = FilterMethod;
@@ -139,13 +147,40 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        var wasDisplayingInitialized = displayingInitialized;
+        var currentDisplaying = Displaying;
         var displayableChanged = parameters.TryGetValue<bool>( nameof( Displayable ), out var paramDisplayable ) && Displayable != paramDisplayable;
+
+        var displayingParameterProvided = parameters.TryGetValue<bool>( nameof( Displaying ), out var paramDisplaying );
+        var displayingParameterChanged = displayingParameterProvided && defaultDisplaying != paramDisplaying;
+
+        if ( displayingParameterProvided && !displayingInitialized )
+        {
+            defaultDisplaying = paramDisplaying;
+        }
+        else if ( !displayingParameterProvided )
+        {
+            defaultDisplaying = null;
+        }
 
         await base.SetParametersAsync( parameters );
 
+        if ( wasDisplayingInitialized && displayingParameterProvided )
+        {
+            if ( displayingParameterChanged )
+            {
+                defaultDisplaying = paramDisplaying;
+
+                await SetDisplaying( GetDefaultDisplaying() );
+                return;
+            }
+
+            Displaying = currentDisplaying;
+        }
+
         if ( displayableChanged )
         {
-            await SetDisplaying( Displayable );
+            await SetDisplaying( GetDefaultDisplaying() );
         }
     }
 
@@ -311,6 +346,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns>The display order of the column.</returns>
     public int GetDisplayOrder() => InternalDisplayOrder ?? DisplayOrder;
 
+    internal bool GetDefaultDisplaying()
+        => DefaultDisplaying;
+
     internal string BuildHeaderCellClass()
     {
         var sb = new StringBuilder();
@@ -344,9 +382,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( HeaderCellStyle ) )
             sb.Append( HeaderCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
     }
 
@@ -356,9 +391,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( FilterCellStyle ) )
             sb.Append( FilterCellStyle );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -370,20 +402,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( AggregateCellStyle ) )
             sb.Append( AggregateCellStyle );
 
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width};" );
-
         return sb.ToString().TrimStart( ' ', ';' );
-    }
-
-    internal IFluentSizing BuildCellFluentSizing()
-    {
-        if ( Width is not null && FixedPosition != TableColumnFixedPosition.None )
-        {
-            return Blazorise.Width.Px( int.Parse( Width.Replace( "px", string.Empty ) ) );
-        }
-
-        return null;
     }
 
     internal string BuildCellStyle( TItem item )
@@ -394,9 +413,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
-
-        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
-            sb.Append( $"; width: {Width}" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
@@ -442,9 +458,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets whether column is displaying.
+    /// Gets or sets the default visibility of the column.
+    /// This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.
     /// </summary>
-    public bool Displaying { get; private set; }
+    [Parameter] public bool Displaying { get; set; } = true;
 
     /// <summary>
     /// Whether the cell is currently being edited.
@@ -806,7 +823,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Gets or sets the column's display sort direction template.
     /// </summary>
-    [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
+    [Parameter] public RenderFragment<SortDirectionContext<TItem>> SortDirectionTemplate { get; set; }
 
     /// <summary>
     /// Defines the alignment for the table cell.
@@ -981,7 +998,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// The width of the column.
     /// </summary>
-    [Parameter] public string Width { get; set; }
+    [Parameter] public IFluentSizing Width { get; set; }
 
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
@@ -1012,18 +1029,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Custom style for filter cell.
     /// </summary>
     [Parameter] public string FilterCellStyle { get; set; }
-
-    /// <summary>
-    /// Custom classname for the aggregate cell.
-    /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellClass parameter is deprecated, please use the AggregateCellClass parameter instead." )]
-    [Parameter] public string GroupCellClass { get => AggregateCellClass; set => AggregateCellClass = value; }
-
-    /// <summary>
-    /// Custom style for the aggregate cell.
-    /// </summary>
-    [Obsolete( "DataGridColumn: The GroupCellStyle parameter is deprecated, please use the AggregateCellStyle parameter instead." )]
-    [Parameter] public string GroupCellStyle { get => AggregateCellStyle; set => AggregateCellStyle = value; }
 
     /// <summary>
     /// Custom classname for the aggregate cell.
@@ -1093,18 +1098,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Template for custom cell display formatting.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
+    [Parameter] public RenderFragment<CellDisplayContext<TItem>> DisplayTemplate { get; set; }
+
+    /// <summary>
+    /// Template used to customize self-reference expand rendering.
+    /// The first regular column that defines this template becomes the self-reference host column.
+    /// </summary>
+    [Parameter] public RenderFragment<DataGridExpandRowContext<TItem>> ExpandTemplate { get; set; }
 
     /// <summary>
     /// Template for custom column filter rendering.
     /// </summary>
     [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
-
-    /// <summary>
-    /// Defines the size of field for popup modal.
-    /// </summary>
-    [Obsolete( "DataGridColumn: PopupFieldColumnSize is deprecated and will be removed in the future version. Please use the EditFieldColumnSize instead." )]
-    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; }
 
     /// <summary>
     /// Defines the size of an edit field for popup modal and edit form.

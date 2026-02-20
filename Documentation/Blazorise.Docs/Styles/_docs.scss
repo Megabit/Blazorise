@@ -267,3 +267,102 @@
 .b-is-autocomplete * {
     scrollbar-color: var( --b-scrollbar-thumb-background) var(--bs-body-bg);
 }
+
+body[data-bs-theme="dark"] {
+    .b-docs-page {
+        .b-docs-page-subtitle {
+            border-bottom-color: var(--bs-border-color);
+        }
+
+        .b-docs-page-section-content {
+            &.b-docs-page-section-content-outlined {
+                border-color: var(--bs-border-color);
+            }
+        }
+
+        .b-docs-page-section-source {
+            .btn {
+                color: var(--bs-secondary-color);
+            }
+        }
+
+        .b-docs-attributes {
+            tbody {
+                tr {
+                    td:nth-child(2) code {
+                        color: #6ee7b7;
+                    }
+
+                    .b-attribute-token {
+                        &.boolean code {
+                            color: #fca5a5;
+                        }
+
+                        &.keyword code {
+                            color: #93c5fd;
+                        }
+
+                        &.string code {
+                            color: #6ee7b7;
+                        }
+                    }
+                }
+            }
+        }
+
+        .b-docs-methods {
+            tbody {
+                tr {
+                    td:nth-child(2) code {
+                        color: #6ee7b7;
+                    }
+
+                    .b-method-token {
+                        &.boolean code {
+                            color: #fca5a5;
+                        }
+
+                        &.keyword code {
+                            color: #93c5fd;
+                        }
+
+                        &.string code {
+                            color: #6ee7b7;
+                        }
+                    }
+                }
+            }
+        }
+
+        .b-docs-example {
+            border-color: var(--bs-border-color);
+        }
+
+        .b-docs-example-border-utils {
+            [class*="border"] {
+                background-color: var(--bs-tertiary-bg);
+            }
+
+            [class*="rounded"] {
+                background-color: #2f3742;
+                color: var(--bs-body-color);
+            }
+        }
+
+        .b-docs-example-border-utils-0 {
+            [class*="border"] {
+                border-color: var(--bs-border-color);
+            }
+        }
+
+        .b-docs-example-position-utils {
+            > div {
+                background-color: var(--bs-tertiary-bg);
+
+                > div {
+                    background-color: var(--bs-body-color);
+                }
+            }
+        }
+    }
+}

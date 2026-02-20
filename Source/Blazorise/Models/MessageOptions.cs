@@ -151,7 +151,7 @@ public class MessageOptions
 
     /// <summary>
     /// If defined the message dialog will be closed when the user clicks outside of it.
-    /// Overrides the default behavior of the <see cref="MessageAlert.BackgroundCancel"/> parameter.
+    /// Overrides the default behavior of the <see cref="MessageProvider.BackgroundCancel"/> parameter.
     /// </summary>
     public bool? BackgroundCancel { get; set; }
 

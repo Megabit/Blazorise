@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Blazorise;
 /// Wrapper component that are acting as a drop area for the drop items.
 /// </summary>
 /// <typeparam name="TItem">Type of the draggable item.</typeparam>
-public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
+public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneStyles>, IAsyncDisposable
 {
     #region Members
 
@@ -48,7 +48,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     /// </summary>
     public DropZone()
     {
-        PlaceholderClassBuilder = new( BuildPlaceholderClasses );
+        PlaceholderClassBuilder = new( BuildPlaceholderClasses, builder => builder.Append( Classes?.Placeholder ) );
     }
 
     #endregion

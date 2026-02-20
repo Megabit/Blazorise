@@ -136,8 +136,8 @@
     @return $return;
 }
 
-@mixin border-radius($radius: $border-radius, $fallback-border-radius: false) {
-    border-radius: valid-radius($radius);
+@mixin border-radius($radius-value: $radius, $fallback-border-radius: false) {
+    border-radius: valid-radius($radius-value);
 }
 
 

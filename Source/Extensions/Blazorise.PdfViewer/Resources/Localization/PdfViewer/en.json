@@ -7,6 +7,17 @@
     "Zoom In": "Zoom In",
     "Print": "Print",
     "of": "of",
-    "Download": "Download"
+    "Download": "Download",
+    "Password required": "Password required",
+    "Enter the password to open this PDF.": "Enter the password to open this PDF.",
+    "Incorrect password. Please try again.": "Incorrect password. Please try again.",
+    "Password": "Password",
+    "Open": "Open",
+    "Cancel": "Cancel",
+    "Password is required.": "Password is required.",
+    "Save PDF": "Save PDF",
+    "Enter a filename for this download.": "Enter a filename for this download.",
+    "Filename": "Filename",
+    "Filename is required.": "Filename is required."
   }
 }

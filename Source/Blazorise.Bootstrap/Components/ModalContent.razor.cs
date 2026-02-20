@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 #endregion
 
@@ -14,7 +14,7 @@ public partial class ModalContent : Blazorise.ModalContent
 
     public ModalContent()
     {
-        DialogClassBuilder = new( BuildDialogClasses );
+        DialogClassBuilder = new( BuildDialogClasses, builder => builder.Append( Classes?.Dialog ) );
     }
 
     #endregion

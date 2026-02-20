@@ -1,18 +1,37 @@
-﻿@page "/docs/helpers/enums/common"
+@page "/docs/helpers/enums/common"
 
-<Seo Canonical="/docs/helpers/enums/common" Title="Enums: Common" Description="Learn to use and work with the Blazorise most common enums that help you to modify the elements appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/common" Title="Blazorise Common Enums - Shared UI Options" Description="Common enums define shared UI options like alignment, spacing, sizing, visibility, and more. Learn the core enums used across Blazorise components." />
 
 <DocsPageTitle Path="Helpers/Enums/Common">
     Enums: Common
 </DocsPageTitle>
 
 <DocsPageLead>
-    A value type defined by a series of named constants of the underlying type.
+    Shared enums used across many Blazorise components.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    We use enum type as a strongly typed options to 
+    Common enums provide consistent, strongly typed options for layout, spacing, visibility, sizing, and UI behavior.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Apply the enum that matches the parameter you are setting, such as alignment on layout components or sizing on controls.
+    These values map to the underlying CSS provider while keeping your intent readable in code.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>TextAlignment.Center</Code> to center-align text or content.</UnorderedListItem>
+    <UnorderedListItem><Code>SpacingSize.Is3</Code> for standard margin and padding sizes.</UnorderedListItem>
+    <UnorderedListItem><Code>Visibility.Visible</Code> to ensure an element is shown.</UnorderedListItem>
+</UnorderedList>
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
@@ -23,6 +42,10 @@
         </UnorderedList>
     </AlertDescription>
 </Alert>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="AddonType">
@@ -460,7 +483,7 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="FlexAlignContent">
         <Paragraph>
-            The align-content property aligns a flex container’s lines within the
+            The align-content property aligns a flex container's lines within the
             flex container when there is extra space in the cross-axis.
         </Paragraph>
         <UnorderedList>
@@ -500,7 +523,7 @@
         <Paragraph>Allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.</Paragraph>
         <UnorderedList>
             <UnorderedListItem><Code>FlexAlignSelf.Default</Code> Align-self will not be applied.</UnorderedListItem>
-            <UnorderedListItem><Code>FlexAlignSelf.Auto</Code> Equals to the value specified in the align-items property for the flex container (it’s the default value).</UnorderedListItem>
+            <UnorderedListItem><Code>FlexAlignSelf.Auto</Code> Equals to the value specified in the align-items property for the flex container (it's the default value).</UnorderedListItem>
             <UnorderedListItem>
                 <Code>FlexAlignSelf.Start</Code> Items are placed at the start of the cross axis. The difference between these is subtle,
                 and is about respecting the flex-direction rules or the writing-mode rules.
@@ -982,7 +1005,7 @@
         <UnorderedList>
             <UnorderedListItem><Code>Screenreader.Always</Code> Default.</UnorderedListItem>
             <UnorderedListItem><Code>Screenreader.Only</Code> Hide an element to all devices except screen readers.</UnorderedListItem>
-            <UnorderedListItem><Code>Screenreader.OnlyFocusable</Code> Show the element again when it’s focused.</UnorderedListItem>
+            <UnorderedListItem><Code>Screenreader.OnlyFocusable</Code> Show the element again when it's focused.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
@@ -1334,5 +1357,3 @@
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
-
-

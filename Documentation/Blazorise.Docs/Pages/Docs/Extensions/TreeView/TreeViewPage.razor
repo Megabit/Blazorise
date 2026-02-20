@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/treeview"
 
-<Seo Canonical="/docs/extensions/treeview" Title="Blazorise TreeView component" Description="Learn to use and work with the Blazorise TreeView component, a component used to display hierarchical data." />
+<Seo Canonical="/docs/extensions/treeview" Title="Blazorise TreeView component" Description="Learn how to use the Blazorise TreeView component to display hierarchical data." />
 
 <DocsPageTitle Path="Extensions/TreeView">
     Blazorise TreeView component
@@ -9,6 +9,10 @@
 <DocsPageLead>
     The <Code>TreeView</Code> component is a graphical control element that presents a hierarchical view of information.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    See <Anchor To="docs/specifications/treeview">TreeView specifications</Anchor> for behavior details and edge cases.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     <LicenseLimitationAlert LimitText="@($"{Licensing.BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS} nodes")" />
@@ -45,6 +49,10 @@
     </UnorderedList>
 </Paragraph>
 
+<DocsPageParagraph>
+    To use the <Code>TreeView</Code> component, install the <Code>Blazorise.TreeView</Code> package first.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
@@ -65,7 +73,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Configuration">
+    <DocsPageSectionHeader Title="Imports">
         <Paragraph>
             Once the package is installed, you need to configure your Blazor project to use the TreeView component.
         </Paragraph>
@@ -78,7 +86,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static files">
-        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TreeViewResourcesExample" />
 </DocsPageSection>

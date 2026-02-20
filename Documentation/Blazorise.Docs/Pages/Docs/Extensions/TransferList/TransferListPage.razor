@@ -1,18 +1,46 @@
 ﻿@page "/docs/extensions/transferlist"
 
-<Seo Canonical="/docs/extensions/transferlist" Title="Blazorise Transfer List component" Description="Learn to use and work with the Blazorise Transfer List component, a component for transferring items between two lists in Blazor applications." />
+<Seo Canonical="/docs/extensions/transferlist" Title="Blazorise TransferList component" Description="Learn how to use the Blazorise TransferList component to move items between two lists with selection and templates." />
 
 <DocsPageTitle Path="Extensions/TransferList" AddedVersion="Added in v1.4">
-    Blazorise Transfer List component
+    Blazorise TransferList component
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>TransferList</Code> component is a versatile control element in Blazor that facilitates transferring items between two lists within applications.
+    The <Code>TransferList</Code> component lets users move items between two lists with optional selection and templating.
 </DocsPageLead>
 
 <DocsPageParagraph>
     Transfer List components provide an intuitive way to move items between two lists. These components enhance the user experience and streamline tasks that involve item organization and categorization.
 </DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>TransferList</Code> component, install the <Code>Blazorise.Components</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        The TransferList extension is part of the <Code>Blazorise.Components</Code> NuGet package.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Code>_Imports.razor</Code> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ComponentsImportExample" />
+</DocsPageSection>
 
 <DocsPageSubtitle>
     Examples

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 #endregion
 
@@ -342,6 +342,8 @@ public interface IClassProvider
 
     string AddonsHasButton( bool hasButton );
 
+    string AddonsValidation( ValidationStatus validationStatus );
+
     string Addon( AddonType addonType );
 
     string AddonSize( Size size );
@@ -568,11 +570,11 @@ public interface IClassProvider
 
     string CardTitle( bool insideHeader );
 
-    string CardTitleSize( bool insideHeader, int? size );
+    string CardTitleSize( bool insideHeader, HeadingSize? size );
 
     string CardSubtitle( bool insideHeader );
 
-    string CardSubtitleSize( bool insideHeader, int size );
+    string CardSubtitleSize( bool insideHeader, HeadingSize? size );
 
     string CardText();
 
@@ -685,6 +687,8 @@ public interface IClassProvider
     string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
     string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
+
+    string BarDropdownToggleIcon( bool isToggleIconVisible );
 
     string BarDropdownItem( BarMode mode );
 

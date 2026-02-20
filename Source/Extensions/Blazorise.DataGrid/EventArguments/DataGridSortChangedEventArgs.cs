@@ -15,17 +15,6 @@ public class DataGridSortChangedEventArgs : EventArgs
     /// Default constructors.
     /// </summary>
     /// <param name="fieldName">The column's sort field name.</param>
-    /// <param name="sortDirection">Column sort direction.</param>
-    [Obsolete( message: "Please use the new constructor DataGridSortChangedEventArgs( string fieldName, string columnFieldName, SortDirection sortDirection ).", error: false )]
-    public DataGridSortChangedEventArgs( string fieldName, SortDirection sortDirection )
-        : this( fieldName, fieldName, sortDirection )
-    {
-    }
-
-    /// <summary>
-    /// Default constructors.
-    /// </summary>
-    /// <param name="fieldName">The column's sort field name.</param>
     /// <param name="columnFieldName">The column's field name.</param>
     /// <param name="sortDirection">Column sort direction.</param>
     public DataGridSortChangedEventArgs( string fieldName, string columnFieldName, SortDirection sortDirection )

@@ -11,7 +11,7 @@
               Filter="AutocompleteFilter.StartsWith"
               FreeTyping
               CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
     <ItemContent>
         <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
             <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>

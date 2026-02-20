@@ -18,6 +18,8 @@ public class ClassBuilder
 
     private readonly Action<ClassBuilder> buildClasses;
 
+    private readonly Action<ClassBuilder> buildCustomClass;
+
     private StringBuilder builder = new();
 
     private string classNames;
@@ -32,9 +34,11 @@ public class ClassBuilder
     /// Default class builder constructor that accepts build action.
     /// </summary>
     /// <param name="buildClasses">Action responsible for building the classes.</param>
-    public ClassBuilder( Action<ClassBuilder> buildClasses )
+    /// <param name="buildCustomClass">Optional action that appends additional custom classes.</param>
+    public ClassBuilder( Action<ClassBuilder> buildClasses, Action<ClassBuilder> buildCustomClass = null )
     {
         this.buildClasses = buildClasses;
+        this.buildCustomClass = buildCustomClass;
     }
 
     #endregion
@@ -97,6 +101,9 @@ public class ClassBuilder
                 builder.Clear();
 
                 buildClasses( this );
+
+                if ( buildCustomClass is not null )
+                    buildCustomClass( this );
 
                 classNames = builder.ToString().TrimEnd()?.EmptyToNull();
 

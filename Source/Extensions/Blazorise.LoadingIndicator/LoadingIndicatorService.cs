@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +18,10 @@ public class LoadingIndicatorService : ILoadingIndicatorService
     // avoid locking in single indicator (app busy) scenario
     Func<bool, Task> SetVisibleFunc;
     Func<bool, Task> SetInitializingFunc;
+    Func<LoadingIndicatorStatus, Task> SetStatusFunc;
     Func<bool?> GetVisibleFunc;
     Func<bool?> GetInitializingFunc;
+    Func<LoadingIndicatorStatus> GetStatusFunc;
 
     #endregion
 
@@ -37,8 +39,10 @@ public class LoadingIndicatorService : ILoadingIndicatorService
     {
         SetVisibleFunc = SetVisibleMulti;
         SetInitializingFunc = SetInitializingMulti;
+        SetStatusFunc = SetStatusMulti;
         GetVisibleFunc = GetVisibleMulti;
         GetInitializingFunc = GetInitializingMulti;
+        GetStatusFunc = GetStatusMulti;
     }
 
     // no lock implementation
@@ -46,8 +50,10 @@ public class LoadingIndicatorService : ILoadingIndicatorService
     {
         SetVisibleFunc = indicator.SetVisible;
         SetInitializingFunc = indicator.SetInitializing;
+        SetStatusFunc = indicator.SetStatus;
         GetVisibleFunc = () => indicator.Visible;
         GetInitializingFunc = () => indicator.Initializing;
+        GetStatusFunc = () => indicator.Status;
     }
 
     /// <inheritdoc/>
@@ -59,10 +65,21 @@ public class LoadingIndicatorService : ILoadingIndicatorService
     /// <inheritdoc/>
     public Task SetInitializing( bool value ) => SetInitializingFunc( value );
 
+    /// <inheritdoc/>
+    public Task SetStatus( LoadingIndicatorStatus status ) => SetStatusFunc( status );
+
+    /// <inheritdoc/>
+    public Task SetStatus( string text = null, int? progress = null )
+    {
+        LoadingIndicatorStatus status = new LoadingIndicatorStatus( text, progress );
+
+        return SetStatusFunc( status );
+    }
+
     /// <summary>
-    /// Subscribe indicator to change events and save reference
+    /// Subscribes an indicator to shared state updates and tracks it internally.
     /// </summary>
-    /// <param name="indicator"></param>
+    /// <param name="indicator">The indicator to subscribe.</param>
     void ILoadingIndicatorService.Subscribe( LoadingIndicator indicator )
     {
         lock ( hashLock )
@@ -81,9 +98,9 @@ public class LoadingIndicatorService : ILoadingIndicatorService
     }
 
     /// <summary>
-    /// Unsubscribe indicator from change events and remove reference
+    /// Unsubscribes an indicator from shared state updates and removes it from tracking.
     /// </summary>
-    /// <param name="indicator"></param>
+    /// <param name="indicator">The indicator to unsubscribe.</param>
     void ILoadingIndicatorService.Unsubscribe( LoadingIndicator indicator )
     {
         lock ( hashLock )
@@ -126,6 +143,24 @@ public class LoadingIndicatorService : ILoadingIndicatorService
                 tasks.Add( indicator.SetInitializing( value ) );
             }
         }
+        return Task.WhenAll( tasks );
+    }
+
+    private Task SetStatusMulti( LoadingIndicatorStatus status )
+    {
+        List<Task> tasks;
+        LoadingIndicatorStatus nextStatus = status ?? LoadingIndicatorStatus.Empty;
+
+        lock ( hashLock )
+        {
+            tasks = new( indicators.Count );
+
+            foreach ( var indicator in indicators )
+            {
+                tasks.Add( indicator.SetStatus( nextStatus ) );
+            }
+        }
+
         return Task.WhenAll( tasks );
     }
 
@@ -175,6 +210,31 @@ public class LoadingIndicatorService : ILoadingIndicatorService
         return val;
     }
 
+    private LoadingIndicatorStatus GetStatusMulti()
+    {
+        LoadingIndicatorStatus val = null;
+
+        lock ( hashLock )
+        {
+            foreach ( var indicator in indicators )
+            {
+                if ( val == null )
+                {
+                    val = indicator.Status;
+                }
+                else
+                {
+                    if ( val != indicator.Status )
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        return val;
+    }
+
     #endregion
 
     #region Properties
@@ -184,6 +244,9 @@ public class LoadingIndicatorService : ILoadingIndicatorService
 
     /// <inheritdoc/>
     public bool? Initializing => GetInitializingFunc();
+
+    /// <inheritdoc/>
+    public LoadingIndicatorStatus Status => GetStatusFunc();
 
     #endregion
 }

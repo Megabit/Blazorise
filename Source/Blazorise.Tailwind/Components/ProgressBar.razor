@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.ProgressBar
-<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div class="@ClassNames" style="@StyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
     @if ( ChildContent != null )
     {
         @ChildContent

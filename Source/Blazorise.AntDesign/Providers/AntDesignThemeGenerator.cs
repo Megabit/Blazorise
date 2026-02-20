@@ -250,17 +250,26 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
     {
-        sb.Append( ".ant-btn" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-btn" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".ant-btn-sm" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.SmallBorderRadius ) )
+        {
+            sb.Append( ".ant-btn-sm" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".ant-btn-lg" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
+        {
+            sb.Append( ".ant-btn-lg" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.Padding ) )
             sb.Append( ".ant-btn" ).Append( "{" )
@@ -280,9 +289,12 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
     {
-        sb.Append( ".ant-dropdown-menu" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-dropdown-menu" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -302,35 +314,38 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        sb.Append( ".ant-form-item input" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-form-item input" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-input-group-addon:first-child" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-input-group-addon:first-child" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-input-group-addon:last-child" ).Append( "{" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-input-group-addon:last-child" ).Append( "{" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-select-selector, .ant-select-selector input" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )} !important;" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-select-selector, .ant-select-selector input" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )} !important;" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-checkbox-inner" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-checkbox-inner" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-upload button" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-upload button" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.Color ) )
         {
@@ -355,6 +370,87 @@ public class AntDesignThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( options?.SliderColor ) )
         {
             GenerateInputSliderStyles( sb, theme, options );
+        }
+
+        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
+        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
+
+        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
+        {
+            var validationSuccessShadow = ToHexRGBA( Transparency( validationSuccessColor, 51 ) );
+            var validationSuccessTextColor = ToHex( Contrast( theme, validationSuccessColor ) );
+
+            sb.Append( ".ant-input-status-success," )
+                .Append( ".ant-input-affix-wrapper-status-success" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-input-status-success:focus," )
+                .Append( ".ant-input-affix-wrapper-status-success.ant-input-affix-wrapper-focused" )
+                .Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationSuccessShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".valid-feedback" ).Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".valid-tooltip" ).Append( "{" )
+                .Append( $"color: {validationSuccessTextColor};" )
+                .Append( $"background-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-success" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-success.focus" ).Append( "{" )
+                .Append( $"border-color: {validationSuccessColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationSuccessShadow};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( validationDangerColor ) )
+        {
+            var validationDangerShadow = ToHexRGBA( Transparency( validationDangerColor, 51 ) );
+            var validationDangerTextColor = ToHex( Contrast( theme, validationDangerColor ) );
+
+            sb.Append( ".ant-input-status-error," )
+                .Append( ".ant-input-affix-wrapper-status-error" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-input-status-error:focus," )
+                .Append( ".ant-input-affix-wrapper-status-error.ant-input-affix-wrapper-focused" )
+                .Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationDangerShadow};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-form-item-explain-error" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".invalid-feedback" ).Append( "{" )
+                .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".invalid-tooltip" ).Append( "{" )
+                .Append( $"color: {validationDangerTextColor};" )
+                .Append( $"background-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-error" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( ".b-is-autocomplete.ant-input-status-error.focus" ).Append( "{" )
+                .Append( $"border-color: {validationDangerColor};" )
+                .Append( $"box-shadow: 0 0 0 2px {validationDangerShadow};" )
+                .AppendLine( "}" );
         }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
@@ -408,6 +504,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( string.IsNullOrEmpty( options?.CheckColor ) )
+            return;
+
         sb
             .Append( ".ant-checkbox-checked .ant-checkbox-inner" ).Append( "{" )
             .Append( $"background-color: {options.CheckColor};" )
@@ -436,6 +535,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( string.IsNullOrEmpty( options?.SliderColor ) )
+            return;
+
         sb.Append( ".ant-slider-track" ).Append( "{" )
             .Append( $"background-color: {options.SliderColor};" )
             .AppendLine( "}" );
@@ -520,6 +622,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( ".ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon" ).Append( "{" )
             .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
@@ -539,6 +644,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
+        if ( stepsOptions is null )
+            return;
+
         sb
             .Append( $".ant-steps-item-{variant}.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
@@ -602,6 +710,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
     {
+        if ( ratingOptions is null )
+            return;
+
         sb
             .Append( $".ant-rate .ant-rate-star.ant-rate-star-{variant}" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
@@ -671,19 +782,22 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
     {
-        sb.Append( ".ant-card" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-card" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-card-cover:first-child" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-card-cover:first-child" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-card-cover:last-child" ).Append( "{" )
-            .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-card-cover:last-child" ).Append( "{" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( options?.ImageTopRadius ) )
             sb.Append( ".ant-card-cover" ).Append( "{" )
@@ -694,21 +808,27 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
     {
-        sb.Append( ".modal-content" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".modal-content" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
     {
-        sb.Append( ".ant-tabs .ant-tabs-tab" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-tabs .ant-tabs-tab" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-tabs-pills .ant-tabs-nav .ant-tabs-tab" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-tabs-pills .ant-tabs-nav .ant-tabs-tab" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -738,12 +858,15 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        sb
-            .Append( ".ant-progress-inner," )
-            .Append( ".ant-progress-bg" )
-            .Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb
+                .Append( ".ant-progress-inner," )
+                .Append( ".ant-progress-bg" )
+                .Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -757,17 +880,22 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
     {
-        sb.Append( ".ant-alert" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-alert" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
     {
-        sb.Append( ".ant-breadcrumb" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
-
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-breadcrumb" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
         {
@@ -779,32 +907,41 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
     {
-        sb.Append( ".ant-tag:not(.ant-tag-pill)" ).Append( "{" )
-            .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-tag:not(.ant-tag-pill)" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
     {
-        sb.Append( ".ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
+        {
+            sb.Append( ".ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
-        sb.Append( ".ant-pagination-lg .ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
-            .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
+        {
+            sb.Append( ".ant-pagination-lg .ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
 
-        sb.Append( ".ant-pagination-lg .ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
-            .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-            .AppendLine( "}" );
+            sb.Append( ".ant-pagination-lg .ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+        }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -855,6 +992,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
+        if ( options is null )
+            return;
+
         foreach ( var (variant, _) in theme.ValidBackgroundColors )
         {
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );

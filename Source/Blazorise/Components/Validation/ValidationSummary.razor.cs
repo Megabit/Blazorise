@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +12,13 @@ namespace Blazorise;
 /// <summary>
 /// Placeholder for the list of <see cref="Validation"/> error messages.
 /// </summary>
-public partial class ValidationSummary : BaseComponent, IDisposable
+public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses, ValidationSummaryStyles>, IDisposable
 {
     #region Members
 
     private Validations previousParentValidations;
 
-    private IReadOnlyCollection<string> internalErrorMessages;
+    private string[] internalErrorMessages;
 
     #endregion
 
@@ -29,7 +29,8 @@ public partial class ValidationSummary : BaseComponent, IDisposable
     /// </summary>
     public ValidationSummary()
     {
-        ErrorClassBuilder = new( BuildErrorClasses );
+        ErrorClassBuilder = new( BuildErrorClasses, builder => builder.Append( Classes?.Error ) );
+        ErrorStyleBuilder = new( BuildErrorStyles, builder => builder.Append( Styles?.Error ) );
     }
 
     #endregion
@@ -53,6 +54,30 @@ public partial class ValidationSummary : BaseComponent, IDisposable
         builder.Append( ClassProvider.ValidationSummaryError() );
     }
 
+    /// <summary>
+    /// Builds the styles for a summary placeholder.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    private void BuildErrorStyles( StyleBuilder builder )
+    {
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        ErrorClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        ErrorStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
+
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
@@ -71,7 +96,7 @@ public partial class ValidationSummary : BaseComponent, IDisposable
         {
             DetachAllListener();
 
-            ParentValidations._StatusChanged += OnValidationsStatusChanged;
+            ParentValidations.StatusChangedInternal += OnValidationsStatusChanged;
 
             previousParentValidations = ParentValidations;
         }
@@ -81,7 +106,7 @@ public partial class ValidationSummary : BaseComponent, IDisposable
     {
         if ( previousParentValidations is not null )
         {
-            previousParentValidations._StatusChanged -= OnValidationsStatusChanged;
+            previousParentValidations.StatusChangedInternal -= OnValidationsStatusChanged;
         }
     }
 
@@ -101,21 +126,31 @@ public partial class ValidationSummary : BaseComponent, IDisposable
     protected ClassBuilder ErrorClassBuilder { get; private set; }
 
     /// <summary>
+    /// Summary placeholder style builder.
+    /// </summary>
+    protected StyleBuilder ErrorStyleBuilder { get; private set; }
+
+    /// <summary>
     /// Gets the classnames for the summary placeholder.
     /// </summary>
     protected string ErrorClassNames => ErrorClassBuilder.Class;
 
     /// <summary>
+    /// Gets the styles for the summary placeholder.
+    /// </summary>
+    protected string ErrorStyleNames => ErrorStyleBuilder.Styles;
+
+    /// <summary>
     /// True if any error message has received.
     /// </summary>
     protected bool HasErrorMessages
-        => internalErrorMessages?.Count > 0 || Errors?.Count() > 0;
+        => internalErrorMessages?.Length > 0 || Errors?.Length > 0;
 
     /// <summary>
     /// Gets the list of error messages.
     /// </summary>
     protected IEnumerable<string> ErrorMessages
-        => ( internalErrorMessages ?? Enumerable.Empty<string>().ToList() ).Concat( Errors ?? Enumerable.Empty<string>() );
+        => ( internalErrorMessages ?? [] ).Concat( Errors ?? [] );
 
     /// <summary>
     /// Label showed before the error messages.

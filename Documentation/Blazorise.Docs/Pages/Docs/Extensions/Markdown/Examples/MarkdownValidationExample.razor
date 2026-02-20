@@ -1,0 +1,28 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Validations @ref="validations" Mode="ValidationMode.Manual">
+    <Validation Validator="@ValidationRule.IsNotEmpty">
+        <Field>
+            <FieldLabel>Message</FieldLabel>
+            <FieldBody>
+                <Markdown @bind-Value="@message" MinHeight="160px">
+                    <Feedback>
+                        <ValidationError>Please enter a message.</ValidationError>
+                    </Feedback>
+                </Markdown>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
+</Validations>
+
+@code {
+    Validations validations;
+
+    string message;
+
+    async Task Submit()
+    {
+        await validations.ValidateAll();
+    }
+}

@@ -1,14 +1,43 @@
-﻿@page "/docs/helpers/enums/listgroup"
+@page "/docs/helpers/enums/listgroup"
 
-<Seo Canonical="/docs/helpers/enums/listgroup" Title="Enums: ListGroup" Description="Learn to use and work with the Blazorise ListGroup enums that help you to modify the list groups appearance and their behavior." />
+<Seo Canonical="/docs/helpers/enums/listgroup" Title="Blazorise ListGroup Enums - Interaction Modes" Description="ListGroup enums control how list groups behave. Learn ListGroupMode values for static and selectable lists." />
 
 <DocsPageTitle>
     Enums: ListGroup
 </DocsPageTitle>
 
+<DocsPageLead>
+    Switch list groups between static and selectable behavior.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    ListGroup enums help you define whether a list is purely informational or responds to selection.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Set <Code>ListGroupMode</Code> to control whether list items are passive or selectable.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>ListGroupMode.Static</Code> for read-only lists.</UnorderedListItem>
+    <UnorderedListItem><Code>ListGroupMode.Selectable</Code> for interactive selection.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Reference
+</DocsPageSubtitle>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="ListGroupMode">
-        <Paragraph>Defines the</Paragraph>
+        <Paragraph>Defines the list group interaction mode.</Paragraph>
         <UnorderedList>
             <UnorderedListItem><Code>ListGroupMode.Static</Code> List group will act as a static list.</UnorderedListItem>
             <UnorderedListItem><Code>ListGroupMode.Selectable</Code> List group will act on clicking the items.</UnorderedListItem>

@@ -10,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Main wrapper for the content area of the modal component.
 /// </summary>
-public partial class ModalContent : BaseComponent, IDisposable
+public partial class ModalContent : BaseComponent<ModalContentClasses, ModalContentStyles>, IDisposable
 {
     #region Members
 
@@ -58,6 +58,25 @@ public partial class ModalContent : BaseComponent, IDisposable
         builder.Append( ClassProvider.ModalContentScrollable( Scrollable ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        var parentCentered = ParentModal?.Centered ?? false;
+        var parentScrollable = ParentModal?.Scrollable ?? false;
+        var parentSize = ParentModal?.Size ?? ModalSize.Default;
+
+        if ( centered != parentCentered || scrollable != parentScrollable || modalSize != parentSize )
+        {
+            centered = parentCentered;
+            scrollable = parentScrollable;
+            modalSize = parentSize;
+
+            DirtyClasses();
+        }
+
+        base.OnParametersSet();
     }
 
     internal void NotifyHasModalHeader()
@@ -122,49 +141,19 @@ public partial class ModalContent : BaseComponent, IDisposable
     [Inject] protected BlazoriseOptions Options { get; set; }
 
     /// <summary>
-    /// Centers the modal vertically.
+    /// Gets whether the parent modal is centered.
     /// </summary>
-    [Parameter]
-    public bool Centered
-    {
-        get => centered;
-        set
-        {
-            centered = value;
-
-            DirtyClasses();
-        }
-    }
+    public bool Centered => centered;
 
     /// <summary>
-    /// Scrolls the modal content independent of the page itself.
+    /// Gets whether the parent modal is scrollable.
     /// </summary>
-    [Parameter]
-    public bool Scrollable
-    {
-        get => scrollable;
-        set
-        {
-            scrollable = value;
-
-            DirtyClasses();
-        }
-    }
+    public bool Scrollable => scrollable;
 
     /// <summary>
-    /// Changes the size of the modal.
+    /// Gets the size defined on the parent modal.
     /// </summary>
-    [Parameter]
-    public virtual ModalSize Size
-    {
-        get => modalSize;
-        set
-        {
-            modalSize = value;
-
-            DirtyClasses();
-        }
-    }
+    public virtual ModalSize Size => modalSize;
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="ModalContent"/>.

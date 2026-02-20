@@ -313,6 +313,16 @@ public partial class Button : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Gets or sets the button intent.
+    /// </summary>
+    [Parameter]
+    public Intent Intent
+    {
+        get => Color.ToIntent();
+        set => Color = value.ToColor();
+    }
+
+    /// <summary>
     /// Changes the size of a button.
     /// </summary>
     [Parameter]

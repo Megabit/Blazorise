@@ -1,5 +1,5 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.8.6.0";
-import "./vendors/sigpad.js?v=1.8.6.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
+import "./vendors/sigpad.js?v=2.0.0.0";
 
 const _instances = [];
 
@@ -169,7 +169,8 @@ function registerToEvents(dotNetAdapter, instance) {
     if (instance && instance.sigpad) {
         instance.sigpad.addEventListener("beginStroke", (e) => {
             if (e && e.detail) {
-                dotNetAdapter.invokeMethodAsync("NotifyBeginStroke", e.detail.event.offsetX, e.detail.event.offsetY)
+                const offsets = getStrokeOffsets(e.detail, instance.element);
+                dotNetAdapter.invokeMethodAsync("NotifyBeginStroke", offsets.offsetX, offsets.offsetY)
             }
         });
 
@@ -177,10 +178,40 @@ function registerToEvents(dotNetAdapter, instance) {
             if (e && e.detail) {
                 const dataURL = getImageDataURL(instance.sigpad, instance.options);
 
-                dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL, e.detail.event.offsetX, e.detail.event.offsetY);
+                const offsets = getStrokeOffsets(e.detail, instance.element);
+                dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL, offsets.offsetX, offsets.offsetY);
             }
         });
     }
+}
+
+function getStrokeOffsets(detail, element) {
+    if (!detail || !element) {
+        return { offsetX: 0, offsetY: 0 };
+    }
+
+    const rect = element.getBoundingClientRect();
+
+    if (typeof detail.x === "number" && typeof detail.y === "number") {
+        return {
+            offsetX: detail.x - rect.left,
+            offsetY: detail.y - rect.top
+        };
+    }
+
+    const event = detail.event;
+    if (event && typeof event.offsetX === "number" && typeof event.offsetY === "number") {
+        return { offsetX: event.offsetX, offsetY: event.offsetY };
+    }
+
+    if (event && typeof event.clientX === "number" && typeof event.clientY === "number") {
+        return {
+            offsetX: event.clientX - rect.left,
+            offsetY: event.clientY - rect.top
+        };
+    }
+
+    return { offsetX: 0, offsetY: 0 };
 }
 
 function getImageDataURL(sigpad, options) {
@@ -217,6 +248,13 @@ function resizeCanvas(sigpad, canvas) {
         return null;
     }
 
+    const offsetWidth = canvas.offsetWidth;
+    const offsetHeight = canvas.offsetHeight;
+
+    if (!offsetWidth || !offsetHeight) {
+        return null;
+    }
+
     // When zoomed out to less than 100%, for some very strange reason,
     // some browsers report devicePixelRatio as less than 1
     // and only part of the canvas is cleared then.
@@ -224,15 +262,23 @@ function resizeCanvas(sigpad, canvas) {
 
     const context = canvas.getContext("2d", { willReadFrequently: true });
 
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height, { colorSpace: 'srgb' });
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const canReadPixels = canvasWidth > 0 && canvasHeight > 0;
+    const imageData = canReadPixels
+        ? context.getImageData(0, 0, canvasWidth, canvasHeight, { colorSpace: 'srgb' })
+        : null;
 
     // This part causes the canvas to be cleared
-    canvas.width = canvas.offsetWidth * ratio;
-    canvas.height = canvas.offsetHeight * ratio;
+    canvas.width = offsetWidth * ratio;
+    canvas.height = offsetHeight * ratio;
     context.scale(ratio, ratio);
 
     sigpad.clear();
-    context.putImageData(imageData, 0, 0);
+
+    if (imageData) {
+        context.putImageData(imageData, 0, 0);
+    }
 }
 
 function getRatio() {

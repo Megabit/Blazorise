@@ -29,10 +29,11 @@ public class MarkupBuilder
         {
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
 
-            cb.AddLine(
-                formatter.GetHtmlString( strippedSource, Languages.CSharp )
-                    .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                    .ToLfLineEndings() );
+            string html = formatter.GetHtmlString( strippedSource, Languages.CSharp )
+                .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+            html = PreserveIndentation( html, strippedSource );
+
+            cb.AddLine( html.ToLfLineEndings() );
 
             cb.AddLine( "</div>" );
         }
@@ -40,10 +41,11 @@ public class MarkupBuilder
         {
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
 
-            cb.AddLine(
-                formatter.GetHtmlString( strippedSource, Languages.Css )
-                    .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                    .ToLfLineEndings() );
+            string html = formatter.GetHtmlString( strippedSource, Languages.Css )
+                .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+            html = PreserveIndentation( html, strippedSource );
+
+            cb.AddLine( html.ToLfLineEndings() );
 
             cb.AddLine( "</div>" );
         }
@@ -51,10 +53,11 @@ public class MarkupBuilder
         {
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
 
-            cb.AddLine(
-                formatter.GetHtmlString( strippedSource, Languages.PowerShell )
-                    .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                    .ToLfLineEndings() );
+            string html = formatter.GetHtmlString( strippedSource, Languages.PowerShell )
+                .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+            html = PreserveIndentation( html, strippedSource );
+
+            cb.AddLine( html.ToLfLineEndings() );
 
             cb.AddLine( "</div>" );
         }
@@ -67,18 +70,21 @@ public class MarkupBuilder
                 .Trim();
 
             // Note: the @ creates problems and thus we replace it with an unlikely placeholder and in the markup replace back.
-            var html = formatter.GetHtmlString( blocks0, Languages.Html ).Replace( "PlaceholdeR", "@" );
+            string html = formatter.GetHtmlString( blocks0, Languages.Html ).Replace( "PlaceholdeR", "@" );
             html = AttributePostprocessing( html ).Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+            html = PreserveIndentation( html, blocks0 );
 
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
             cb.AddLine( html.ToLfLineEndings() );
 
             if ( blocks.Length == 2 )
             {
-                cb.AddLine(
-                    formatter.GetHtmlString( "@code" + blocks[1], Languages.CSharp )
-                        .Replace( "@", "<span class=\"atSign\">&#64;</span>" )
-                        .ToLfLineEndings() );
+                string codeSource = "@code" + blocks[1];
+                string codeHtml = formatter.GetHtmlString( codeSource, Languages.CSharp )
+                    .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+                codeHtml = PreserveIndentation( codeHtml, codeSource );
+
+                cb.AddLine( codeHtml.ToLfLineEndings() );
             }
 
             cb.AddLine( "</div>" );
@@ -91,6 +97,71 @@ public class MarkupBuilder
     {
         source = Regex.Replace( source, "@(namespace|layout|page) .+?\n", string.Empty );
         return source.Trim();
+    }
+
+    private static string PreserveIndentation( string formattedHtml, string source )
+    {
+        if ( string.IsNullOrEmpty( formattedHtml ) || string.IsNullOrEmpty( source ) )
+            return formattedHtml;
+
+        string[] htmlLines = formattedHtml.ToLfLineEndings().Split( '\n' );
+        string[] sourceLines = source.ToLfLineEndings().Split( '\n' );
+
+        int preStartIndex = Array.FindIndex( htmlLines, line => line.IndexOf( "<pre>", StringComparison.Ordinal ) >= 0 );
+        if ( preStartIndex < 0 )
+            return formattedHtml;
+
+        int preEndIndex = Array.FindIndex( htmlLines, preStartIndex + 1, line => line.IndexOf( "</pre>", StringComparison.Ordinal ) >= 0 );
+        if ( preEndIndex < 0 )
+            return formattedHtml;
+
+        int codeLineCount = preEndIndex - preStartIndex - 1;
+        int lineCount = Math.Min( codeLineCount, sourceLines.Length );
+
+        for ( int i = 0; i < lineCount; i++ )
+        {
+            int htmlIndex = preStartIndex + 1 + i;
+            string sourceLine = sourceLines[i];
+            int indentSize = GetIndentSize( sourceLine );
+            string trimmedLine = htmlLines[htmlIndex].TrimStart( ' ', '\t' );
+
+            if ( trimmedLine.Length == 0 )
+            {
+                htmlLines[htmlIndex] = string.Empty;
+            }
+            else
+            {
+                htmlLines[htmlIndex] = new string( ' ', indentSize ) + trimmedLine;
+            }
+        }
+
+        return string.Join( "\n", htmlLines );
+    }
+
+    private static int GetIndentSize( string line )
+    {
+        int count = 0;
+
+        for ( int i = 0; i < line.Length; i++ )
+        {
+            char current = line[i];
+
+            if ( current == ' ' )
+            {
+                count++;
+                continue;
+            }
+
+            if ( current == '\t' )
+            {
+                count += 4;
+                continue;
+            }
+
+            break;
+        }
+
+        return count;
     }
 
     public static string AttributePostprocessing( string html )

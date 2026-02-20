@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
 using Blazorise.Utilities;
@@ -16,6 +17,16 @@ namespace Blazorise;
 public abstract class BaseComponent : BaseAfterRenderComponent
 {
     #region Members
+
+    private UtilityTarget utilityTarget = UtilityTarget.Self;
+
+    private ClassBuilder utilityClassBuilder;
+
+    private ClassBuilder wrapperUtilityClassBuilder;
+
+    private StyleBuilder utilityStyleBuilder;
+
+    private StyleBuilder wrapperUtilityStyleBuilder;
 
     private string customClass;
 
@@ -80,8 +91,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// </summary>
     public BaseComponent()
     {
-        ClassBuilder = new( BuildClasses );
-        StyleBuilder = new( BuildStyles );
+        ClassBuilder = new( BuildClasses, BuildCustomClasses );
+        StyleBuilder = new( BuildStyles, BuildCustomStyles );
     }
 
     #endregion
@@ -105,7 +116,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             var parametersDictionary = (Dictionary<string, object>)parameters.ToDictionary();
 
-            Attributes ??= new();
+            Attributes ??= [];
 
             if ( widthAttribute is not null && parametersDictionary.Remove( "width" ) )
             {
@@ -155,6 +166,10 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             ClassBuilder = null;
             StyleBuilder = null;
+            utilityClassBuilder = null;
+            utilityStyleBuilder = null;
+            wrapperUtilityClassBuilder = null;
+            wrapperUtilityStyleBuilder = null;
         }
 
         base.Dispose( disposing );
@@ -167,6 +182,10 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             ClassBuilder = null;
             StyleBuilder = null;
+            utilityClassBuilder = null;
+            utilityStyleBuilder = null;
+            wrapperUtilityClassBuilder = null;
+            wrapperUtilityStyleBuilder = null;
         }
 
         return base.DisposeAsync( disposing );
@@ -181,81 +200,142 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( Class is not null )
             builder.Append( Class );
 
-        if ( Margin is not null )
-            builder.Append( Margin.Class( ClassProvider ) );
+        builder.Append( UtilityClassBuilder.Class );
+    }
 
-        if ( Padding is not null )
-            builder.Append( Padding.Class( ClassProvider ) );
+    /// <summary>
+    /// Builds utility classes that apply to the current element using the specified class builder.
+    /// </summary>
+    /// <param name="builder">The class builder used to construct and collect utility classes for the current element. Cannot be null.</param>
+    private void BuildSelfUtilityClasses( ClassBuilder builder )
+    {
+        BuildUtilityClasses( builder, UtilityTarget.Self );
+    }
 
-        if ( Gap is not null )
-            builder.Append( Gap.Class( ClassProvider ) );
+    /// <summary>
+    /// Builds utility classes that are specific to wrapper functionality and adds them to the provided class builder.
+    /// </summary>
+    /// <param name="builder">The class builder to which the wrapper utility classes will be added. Cannot be null.</param>
+    private void BuildWrapperUtilityClasses( ClassBuilder builder )
+    {
+        BuildUtilityClasses( builder, UtilityTarget.Wrapper );
+    }
 
-        if ( Display is not null )
+    /// <summary>
+    /// Determines whether the specified utility should be applied to the given target.
+    /// </summary>
+    /// <param name="utility">The utility object to evaluate. Can be null.</param>
+    /// <param name="target">The target to which the utility may be applied.</param>
+    /// <returns>true if the utility is not null and its resolved target matches the specified target; otherwise, false.</returns>
+    private bool ShouldApplyUtility( object utility, UtilityTarget target )
+    {
+        if ( utility is null )
+            return false;
+
+        return ResolveUtilityTarget( utility ) == target;
+    }
+
+    /// <summary>
+    /// Determines the effective utility target for the specified utility object.
+    /// </summary>
+    /// <param name="utility">The utility object for which to resolve the target. If the object implements <see cref="IUtilityTargeted"/> and
+    /// specifies a target, that target is used.</param>
+    /// <returns>The resolved <see cref="UtilityTarget"/> for the specified utility object. If the object does not specify a
+    /// target, the default utility target is returned.</returns>
+    private UtilityTarget ResolveUtilityTarget( object utility )
+    {
+        if ( utility is IUtilityTargeted targeted && targeted.UtilityTarget.HasValue )
+            return targeted.UtilityTarget.Value;
+
+        return UtilityTarget;
+    }
+
+    /// <summary>
+    /// Builds a list of utility classnames for this component.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    /// <param name="target">The target where the utility classes should be applied.</param>
+    protected virtual void BuildUtilityClasses( ClassBuilder builder, UtilityTarget target )
+    {
+        UtilityTarget currentTarget = target;
+
+        if ( ShouldApplyUtility( Display, currentTarget ) )
             builder.Append( Display.Class( ClassProvider ) );
 
-        if ( Border is not null )
-            builder.Append( Border.Class( ClassProvider ) );
-
-        if ( Flex is not null )
+        if ( ShouldApplyUtility( Flex, currentTarget ) )
             builder.Append( Flex.Class( ClassProvider ) );
 
-        if ( Position is not null )
+        if ( ShouldApplyUtility( Position, currentTarget ) )
             builder.Append( Position.Class( ClassProvider ) );
 
-        if ( Overflow is not null )
-            builder.Append( Overflow.Class( ClassProvider ) );
+        if ( ShouldApplyUtility( Margin, currentTarget ) )
+            builder.Append( Margin.Class( ClassProvider ) );
 
-        if ( ObjectFit is not null )
-            builder.Append( ObjectFit.Class( ClassProvider ) );
+        if ( ShouldApplyUtility( Padding, currentTarget ) )
+            builder.Append( Padding.Class( ClassProvider ) );
 
-        if ( Float != Float.Default )
-            builder.Append( ClassProvider.Float( Float ) );
-
-        if ( Clearfix )
-            builder.Append( ClassProvider.Clearfix() );
-
-        if ( Visibility != Visibility.Default )
-            builder.Append( ClassProvider.Visibility( Visibility ) );
-
-        if ( VerticalAlignment != VerticalAlignment.Default )
-            builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
-
-        if ( Width is not null )
+        if ( ShouldApplyUtility( Width, currentTarget ) )
             builder.Append( Width.Class( ClassProvider ) );
 
-        if ( Height is not null )
+        if ( ShouldApplyUtility( Height, currentTarget ) )
             builder.Append( Height.Class( ClassProvider ) );
 
-        if ( Casing != CharacterCasing.Normal )
-            builder.Append( ClassProvider.Casing( Casing ) );
+        if ( ShouldApplyUtility( Gap, currentTarget ) )
+            builder.Append( Gap.Class( ClassProvider ) );
 
-        if ( TextColor != TextColor.Default )
-            builder.Append( ClassProvider.TextColor( TextColor ) );
+        if ( ShouldApplyUtility( Overflow, currentTarget ) )
+            builder.Append( Overflow.Class( ClassProvider ) );
 
-        if ( TextAlignment != TextAlignment.Default )
-            builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
+        if ( ShouldApplyUtility( Border, currentTarget ) )
+            builder.Append( Border.Class( ClassProvider ) );
 
-        if ( TextTransform != TextTransform.Default )
-            builder.Append( ClassProvider.TextTransform( TextTransform ) );
+        if ( ShouldApplyUtility( ObjectFit, currentTarget ) )
+            builder.Append( ObjectFit.Class( ClassProvider ) );
 
-        if ( TextDecoration != TextDecoration.Default )
-            builder.Append( ClassProvider.TextDecoration( TextDecoration ) );
-
-        if ( TextWeight != TextWeight.Default )
-            builder.Append( ClassProvider.TextWeight( TextWeight ) );
-
-        if ( TextOverflow != TextOverflow.Default )
-            builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
-
-        if ( TextSize is not null )
+        if ( ShouldApplyUtility( TextSize, currentTarget ) )
             builder.Append( TextSize.Class( ClassProvider ) );
 
-        if ( Background != Background.Default )
+        if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor.IsNotNullOrDefault() )
+            builder.Append( ClassProvider.TextColor( TextColor ) );
+
+        if ( ShouldApplyUtility( Background, currentTarget ) && Background.IsNotNullOrDefault() )
             builder.Append( ClassProvider.BackgroundColor( Background ) );
 
-        if ( Shadow != Shadow.None )
-            builder.Append( ClassProvider.Shadow( Shadow ) );
+        if ( UtilityTarget == currentTarget )
+        {
+            if ( Float != Float.Default )
+                builder.Append( ClassProvider.Float( Float ) );
 
+            if ( Clearfix )
+                builder.Append( ClassProvider.Clearfix() );
+
+            if ( Visibility != Visibility.Default )
+                builder.Append( ClassProvider.Visibility( Visibility ) );
+
+            if ( VerticalAlignment != VerticalAlignment.Default )
+                builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
+
+            if ( Casing != CharacterCasing.Normal )
+                builder.Append( ClassProvider.Casing( Casing ) );
+
+            if ( TextAlignment != TextAlignment.Default )
+                builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
+
+            if ( TextTransform != TextTransform.Default )
+                builder.Append( ClassProvider.TextTransform( TextTransform ) );
+
+            if ( TextDecoration != TextDecoration.Default )
+                builder.Append( ClassProvider.TextDecoration( TextDecoration ) );
+
+            if ( TextWeight != TextWeight.Default )
+                builder.Append( ClassProvider.TextWeight( TextWeight ) );
+
+            if ( TextOverflow != TextOverflow.Default )
+                builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
+
+            if ( Shadow != Shadow.None )
+                builder.Append( ClassProvider.Shadow( Shadow ) );
+        }
     }
 
     /// <summary>
@@ -267,11 +347,57 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( Style is not null )
             builder.Append( Style );
 
-        if ( Width != null )
+        builder.Append( UtilityStyleBuilder.Styles );
+    }
+
+    /// <summary>
+    /// Builds utility styles that apply specifically to the current element.
+    /// </summary>
+    /// <param name="builder">The <see cref="StyleBuilder"/> instance used to construct and register the utility styles.</param>
+    private void BuildSelfUtilityStyles( StyleBuilder builder )
+    {
+        BuildUtilityStyles( builder, UtilityTarget.Self );
+    }
+
+    /// <summary>
+    /// Builds and applies utility styles specific to the wrapper element using the provided style builder.
+    /// </summary>
+    /// <param name="builder">The style builder used to construct and apply utility styles for the wrapper element. Cannot be null.</param>
+    private void BuildWrapperUtilityStyles( StyleBuilder builder )
+    {
+        BuildUtilityStyles( builder, UtilityTarget.Wrapper );
+    }
+
+    /// <summary>
+    /// Builds a list of utility styles for this component.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    /// <param name="target">The target where the utility styles should be applied.</param>
+    protected virtual void BuildUtilityStyles( StyleBuilder builder, UtilityTarget target )
+    {
+        UtilityTarget currentTarget = target;
+
+        if ( ShouldApplyUtility( Width, currentTarget ) )
             builder.Append( Width.Style( StyleProvider ) );
 
-        if ( Height != null )
+        if ( ShouldApplyUtility( Height, currentTarget ) )
             builder.Append( Height.Style( StyleProvider ) );
+    }
+
+    /// <summary>
+    /// Provides component-specific classes appended after the default classes.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    protected virtual void BuildCustomClasses( ClassBuilder builder )
+    {
+    }
+
+    /// <summary>
+    /// Provides component-specific styles appended after the default styles.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildCustomStyles( StyleBuilder builder )
+    {
     }
 
     /// <summary>
@@ -280,14 +406,36 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     internal protected virtual void DirtyClasses()
     {
         ClassBuilder?.Dirty();
+        utilityClassBuilder?.Dirty();
+        wrapperUtilityClassBuilder?.Dirty();
     }
 
     /// <summary>
     /// Clears the styles-names and mark them to be regenerated.
     /// </summary>
-    protected virtual void DirtyStyles()
+    internal protected virtual void DirtyStyles()
     {
         StyleBuilder?.Dirty();
+        utilityStyleBuilder?.Dirty();
+        wrapperUtilityStyleBuilder?.Dirty();
+    }
+
+    /// <summary>
+    /// Appends utility class names that target wrapper elements.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    protected void AppendWrapperUtilities( ClassBuilder builder )
+    {
+        builder.Append( WrapperUtilityClassBuilder.Class );
+    }
+
+    /// <summary>
+    /// Appends utility styles that target wrapper elements.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected void AppendWrapperUtilities( StyleBuilder builder )
+    {
+        builder.Append( WrapperUtilityStyleBuilder.Styles );
     }
 
     /// <summary>
@@ -343,6 +491,30 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     protected ClassBuilder ClassBuilder { get; private set; }
 
     /// <summary>
+    /// Gets the utility class builder.
+    /// </summary>
+    protected ClassBuilder UtilityClassBuilder
+    {
+        get
+        {
+            utilityClassBuilder ??= new( BuildSelfUtilityClasses );
+            return utilityClassBuilder;
+        }
+    }
+
+    /// <summary>
+    /// Gets the utility class builder for wrapper elements.
+    /// </summary>
+    protected ClassBuilder WrapperUtilityClassBuilder
+    {
+        get
+        {
+            wrapperUtilityClassBuilder ??= new( BuildWrapperUtilityClasses );
+            return wrapperUtilityClassBuilder;
+        }
+    }
+
+    /// <summary>
     /// Gets the built class-names based on all the rules set by the component parameters.
     /// </summary>
     public string ClassNames => ClassBuilder.Class;
@@ -351,6 +523,30 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// Gets the style mapper.
     /// </summary>
     protected StyleBuilder StyleBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the utility style builder.
+    /// </summary>
+    protected StyleBuilder UtilityStyleBuilder
+    {
+        get
+        {
+            utilityStyleBuilder ??= new( BuildSelfUtilityStyles );
+            return utilityStyleBuilder;
+        }
+    }
+
+    /// <summary>
+    /// Gets the utility style builder for wrapper elements.
+    /// </summary>
+    protected StyleBuilder WrapperUtilityStyleBuilder
+    {
+        get
+        {
+            wrapperUtilityStyleBuilder ??= new( BuildWrapperUtilityStyles );
+            return wrapperUtilityStyleBuilder;
+        }
+    }
 
     /// <summary>
     /// Gets the built styles based on all the rules set by the component parameters.
@@ -475,6 +671,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
             width = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
@@ -493,6 +690,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
             height = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
@@ -830,6 +1028,25 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
+    /// Specifies the default target where utility classes and styles are applied when no per-utility target is set.
+    /// </summary>
+    [Parameter]
+    public UtilityTarget UtilityTarget
+    {
+        get => utilityTarget;
+        set
+        {
+            if ( utilityTarget == value )
+                return;
+
+            utilityTarget = value;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
+
+    /// <summary>
     /// Captures unmatched HTML attributes for customization.
     /// </summary>
     /// <remarks>
@@ -838,6 +1055,79 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
 
+    #endregion
+}
+
+/// <summary>
+/// Base class for components that expose typed class and style customization.
+/// </summary>
+/// <typeparam name="TClasses">Component-specific classes type.</typeparam>
+/// <typeparam name="TStyles">Component-specific styles type.</typeparam>
+public abstract class BaseComponent<TClasses, TStyles> : BaseComponent
+    where TClasses : ComponentClasses
+    where TStyles : ComponentStyles
+{
+    #region Members
+
+    private TClasses classes;
+
+    private TStyles styles;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildCustomClasses( ClassBuilder builder )
+    {
+        builder.Append( Classes?.Self );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildCustomStyles( StyleBuilder builder )
+    {
+        builder.Append( Styles?.Self );
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Custom CSS class names for component elements.
+    /// </summary>
+    [Parameter]
+    public TClasses Classes
+    {
+        get => classes;
+        set
+        {
+            if ( classes.IsEqual( value ) )
+                return;
+
+            classes = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Custom inline styles for component elements.
+    /// </summary>
+    [Parameter]
+    public TStyles Styles
+    {
+        get => styles;
+        set
+        {
+            if ( styles.IsEqual( value ) )
+                return;
+
+            styles = value;
+
+            DirtyStyles();
+        }
+    }
 
     #endregion
 }

@@ -1,0 +1,46 @@
+@page "/docs/helpers/utilities/border"
+
+<Seo Canonical="/docs/helpers/utilities/border" Title="Blazorise Border Utilities - Borders, Colors, and Radius" Description="Style borders with Blazorise border utilities, including widths, sides, colors, and rounded corners." />
+
+<DocsPageTitle Path="Helpers/Utilities/Border">
+    Blazorise Border Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Style borders, sides, colors, and radius with a fluent builder that stays in sync with your theme.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Border utilities help you highlight surfaces, separate content, and indicate state without writing custom CSS.
+    Because they use the same tokens as your chosen provider, borders stay consistent across the UI.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use the <Code>Border</Code> parameter and chain sizes (<Code>Is1</Code> to <Code>Is5</Code>), sides (<Code>OnTop</Code>, <Code>OnEnd</Code>, <Code>OnBottom</Code>, <Code>OnStart</Code>),
+    colors (<Code>Primary</Code>, <Code>Success</Code>, <Code>Danger</Code>), and radius helpers (<Code>Rounded</Code>, <Code>RoundedPill</Code>).
+    This keeps border styling consistent and works well with other utilities like <Code>Background</Code> and <Code>Padding</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Borders, colors, and radius">
+        <Paragraph>
+            These examples show how to add subtle separation, highlight status, and round corners without custom CSS, keeping component styling consistent across the app.
+            They also demonstrate side-only borders and pill-style rounding for chips or tags.
+        </Paragraph>
+        <Paragraph>
+            The last example uses a bottom-only border to create a compact accent without enclosing the entire surface.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BorderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BorderExample" />
+</DocsPageSection>

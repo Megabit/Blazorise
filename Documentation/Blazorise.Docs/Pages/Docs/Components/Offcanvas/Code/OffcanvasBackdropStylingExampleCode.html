@@ -1,0 +1,30 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Offcanvas</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">offcanvasRef</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowBackdrop</span> <span class="htmlAttributeName">Placement</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Placement</span><span class="enumValue">.End</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Styles</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(new OffcanvasStyles { Backdrop = &quot;background-color: rgba(11, 114, 133, 0.4);&quot; })&#39;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">OffcanvasHeader</span><span class="htmlTagDelimiter">&gt;</span>
+        Styled backdrop
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CloseButton</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>HideOffcanvas</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">OffcanvasHeader</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">OffcanvasBody</span><span class="htmlTagDelimiter">&gt;</span>
+        This example customizes the backdrop color using <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>OffcanvasStyles<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>.
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">OffcanvasBody</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Offcanvas</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowOffcanvas</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show Styled Backdrop<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> Offcanvas offcanvasRef;
+
+    <span class="keyword">private</span> Task ShowOffcanvas()
+    {
+        <span class="keyword">return</span> offcanvasRef.Show();
+    }
+
+    <span class="keyword">private</span> Task HideOffcanvas()
+    {
+        <span class="keyword">return</span> offcanvasRef.Hide();
+    }
+}
+</pre></div>
+</div>

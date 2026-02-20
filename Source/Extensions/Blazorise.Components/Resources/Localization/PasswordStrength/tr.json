@@ -1,0 +1,20 @@
+{
+  "culture": "tr",
+  "translations": {
+    "Password Strength": "Parola Gücü",
+    "Enter password": "Parolayı girin",
+    "Strength": "Güç",
+    "Weak": "Zayıf",
+    "Fair": "Orta",
+    "Good": "İyi",
+    "Strong": "Güçlü",
+    "At least {0} characters": "En az {0} karakter",
+    "One uppercase letter": "Bir büyük harf",
+    "One lowercase letter": "Bir küçük harf",
+    "One number": "Bir sayı",
+    "One special character": "Bir özel karakter",
+    "Not a common or breached password": "Yaygın veya ele geçirilmiş bir parola değil",
+    "Show password": "Parolayı göster",
+    "Hide password": "Parolayı gizle"
+  }
+}

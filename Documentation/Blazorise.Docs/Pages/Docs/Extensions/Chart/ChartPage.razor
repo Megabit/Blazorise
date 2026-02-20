@@ -1,30 +1,34 @@
 ﻿@page "/docs/extensions/chart"
 @using Blazorise.Charts.Trendline
 
-<Seo Canonical="/docs/extensions/chart" Title="Blazorise Chart component" Description="Learn to use and work with the Blazorise Chart extension components, which is used to generate advanced graphs and visualizations." />
+<Seo Canonical="/docs/extensions/chart" Title="Blazorise Chart component" Description="Learn how to use the Blazorise Chart components to build Chart.js-based graphs and visualizations." />
 
 <DocsPageTitle Path="Extensions/Chart">
     Blazorise Chart component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Simple yet flexible charting for designers & developers.
+    Flexible Chart.js-based charting for Blazor applications.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    See <Anchor To="docs/specifications/charts">Charts specifications</Anchor> for behavior details and edge cases.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     <LicenseLimitationAlert LimitText="@($"{Licensing.BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS} points per chart")" />
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The chart extension is defined of several different chart components. Each of the chart type have it’s own dataset and option settings.
+    The chart extension includes several chart components. Each chart type has its own dataset and option settings.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Supported charts types are:
+    Supported chart types are:
 </DocsPageParagraph>
 
 <UnorderedList>
-    <UnorderedListItem><Code>Chart</Code> default chart components, should be used only for testing(see warning)</UnorderedListItem>
+    <UnorderedListItem><Code>Chart</Code> default chart component (testing only; see warning)</UnorderedListItem>
     <UnorderedListItem><Code>LineChart</Code></UnorderedListItem>
     <UnorderedListItem><Code>BarChart</Code></UnorderedListItem>
     <UnorderedListItem><Code>PieChart</Code></UnorderedListItem>
@@ -32,6 +36,10 @@
     <UnorderedListItem><Code>DoughnutChart</Code></UnorderedListItem>
     <UnorderedListItem><Code>RadarChart</Code></UnorderedListItem>
 </UnorderedList>
+
+<DocsPageParagraph>
+    To use the chart components, install the <Code>Blazorise.Charts</Code> package first.
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     Installation
@@ -52,13 +60,6 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static Files">
-        Add <Code>ChartsJS</Code> and <Code>charts.js</Code> to your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ChartResourcesExample" />
-</DocsPageSection>
-
-<DocsPageSection>
     <DocsPageSectionHeader Title="Example">
         You should always define <Code>TItem</Code> data type.
     </DocsPageSectionHeader>
@@ -70,7 +71,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Events">
-        It is possible to use <Code>Clicked</Code> and <Code>Hovered</Code> events to interact with chart. The usage is pretty straightforward. The only thing to keep in mind is the <Code>Model</Code> field that needs to be casted to the right chart-model type. The available model types are:
+        It is possible to use <Code>Clicked</Code> and <Code>Hovered</Code> events to interact with the chart. The usage is straightforward. The only thing to keep in mind is the <Code>Model</Code> field that needs to be cast to the right chart-model type. The available model types are:
         <UnorderedList>
             <UnorderedListItem><Code>LineChartModel</Code></UnorderedListItem>
             <UnorderedListItem><Code>BarChartModel</Code></UnorderedListItem>
@@ -89,7 +90,7 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Complex Data">
         <Paragraph>
-            We also support the usage complex-type as chart data. To represent the complex-type inside of the charts you need to define the <Code>Parsing</Code> options.
+            We also support using complex types as chart data. To represent complex data inside the charts you need to define the <Code>Parsing</Code> options.
         </Paragraph>
         <Alert Color="Color.Info" Visible>
             Please be aware that according to the default <Badge Color="Color.Light">chart.js</Badge> library specifications, the category scale must be a <Code>string</Code> type. But if you still want to change it for example to an <Code>int</Code> type then you can define a <Code>"linear"</Code> scale on X axis.
@@ -176,6 +177,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Y" Type="ChartAxis" Default="null">
         Configuration for the y-axis.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AdditionalAxes" Type="Dictionary<string, ChartAxis>" Default="null">
+        Configuration for custom named axes.
     </DocsAttributesItem>
 </DocsAttributes>
 

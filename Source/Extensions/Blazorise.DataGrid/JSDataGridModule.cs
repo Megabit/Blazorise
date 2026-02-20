@@ -49,12 +49,26 @@ public class JSDataGridModule : BaseJSModule
         await moduleInstance.InvokeVoidAsync( "initializeTableCellNavigation", elementRef, elementId );
     }
 
+    public virtual async ValueTask BlurActiveCellEditor( ElementReference elementRef, string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "blurActiveCellEditor", elementRef, elementId );
+    }
+
 
     public virtual async ValueTask<int> ScrollTo( ElementReference elementRef, string classname )
     {
         var moduleInstance = await Module;
 
         return await moduleInstance.InvokeAsync<int>( "scrollTo", elementRef, classname );
+    }
+
+    public virtual async ValueTask ScrollVirtualizedRowIntoView( ElementReference elementRef, string elementId, int rowIndex )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "scrollVirtualizedRowIntoView", elementRef, elementId, rowIndex );
     }
 
     #endregion

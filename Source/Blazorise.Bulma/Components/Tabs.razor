@@ -6,14 +6,14 @@
             @if ( Items != null )
             {
                 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                    <ul>
+                    <ul role="tablist">
                         @Items
                     </ul>
                 </div>
             }
             @if ( Content != null )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
+                <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                     @Content
                 </div>
             }
@@ -25,7 +25,7 @@
                     @if ( Items != null )
                     {
                         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                            <ul>
+                            <ul role="tablist">
                                 @Items
                             </ul>
                         </div>
@@ -34,7 +34,7 @@
                 <Column>
                     @if ( Content != null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                        <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }
@@ -47,7 +47,7 @@
                 <Column>
                     @if ( Content != null )
                     {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
+                        <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
                             @Content
                         </div>
                     }
@@ -56,7 +56,7 @@
                     @if ( Items != null )
                     {
                         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                            <ul>
+                            <ul role="tablist">
                                 @Items
                             </ul>
                         </div>

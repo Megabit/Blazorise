@@ -728,7 +728,7 @@ public static class FontAwesomeIcons
     public const string EnvelopesBulk = "fa-envelopes-bulk";
     public const string EnvelopeSquare = "fa-square-envelope";
     public const string Envira = "fab fa-envira";
-    public const string Equals = "fa-equals";
+    public new const string Equals = "fa-equals";
     public const string Eraser = "fa-eraser";
     public const string Erlang = "fab fa-erlang";
     public const string Ethereum = "fab fa-ethereum";
@@ -833,7 +833,7 @@ public static class FontAwesomeIcons
     public const string FileContract = "fa-file-contract";
     public const string FileCsv = "fa-file-csv";
     public const string FileDownload = "fa-file-arrow-down";
-    public const string FileInput = "fa-file-pen";
+    public const string FileEdit = "fa-file-pen";
     public const string FileExcel = "fa-file-excel";
     public const string FileExport = "fa-file-export";
     public const string FileImage = "fa-file-image";

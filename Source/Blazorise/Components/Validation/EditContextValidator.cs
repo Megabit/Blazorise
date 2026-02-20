@@ -131,7 +131,8 @@ public class EditContextValidator : IEditContextValidator
                     // Compare both error messages and find the differences. This should later be used
                     // for manual formatting by the library users.
                     var errorMessageArguments = validationMessageLocalizerAttributeFinder.FindAll( errorMessage, errorMessageString )
-                        ?.OrderBy( x => x.Index ) // sort arguments by index in the message eg, {0}, {1}, {2}
+                        ?.OrderBy( x => ParseArgumentIndex( x.Index ) )
+                        ?.ThenBy( x => x.Index ) // keep stable ordering for non-numeric indexes
                         ?.Select( x => x.Argument );
 
                     var localizedErrorMessage = messageLocalizer.Invoke( errorMessageString, errorMessageArguments );
@@ -218,6 +219,30 @@ public class EditContextValidator : IEditContextValidator
         }
 
         return validationPropertyInfo is not null;
+    }
+
+    private static int ParseArgumentIndex( string index )
+    {
+        if ( string.IsNullOrEmpty( index ) )
+            return int.MaxValue;
+
+        var value = 0;
+        var found = false;
+
+        foreach ( var ch in index )
+        {
+            if ( char.IsDigit( ch ) )
+            {
+                found = true;
+                value = ( value * 10 ) + ( ch - '0' );
+            }
+            else if ( found )
+            {
+                break;
+            }
+        }
+
+        return found ? value : int.MaxValue;
     }
 
     #endregion

@@ -1,14 +1,18 @@
-﻿@page "/docs/extensions/loadingindicator"
+@page "/docs/extensions/loadingindicator"
 
-<Seo Canonical="/docs/extensions/loadingindicator" Title="Blazorise LoadingIndicator component" Description="Learn how to use Blazorise LoadingIndicator extension component, a wrapper component that adds a loading indicator to a child content." />
+<Seo Canonical="/docs/extensions/loadingindicator" Title="Blazorise LoadingIndicator component" Description="Learn how to use the Blazorise LoadingIndicator component to show loading states for child content." />
 
-<DocsPageTitle Path="Extensions/LoadingIndicator">
+<DocsPageTitle Path="Extensions/LoadingIndicator" AddedVersion="Added in v1.1">
     Blazorise LoadingIndicator component
 </DocsPageTitle>
 
 <DocsPageLead>
-    A wrapper component that adds a loading indicator to a child content. Default spinner courtesy of <Blazorise.Link To="https://icons8.com/preloaders/en/search/spinner#" Target="Target.Blank">icons8.com</Blazorise.Link>.
+    A wrapper component that adds a loading indicator to child content. Default spinner courtesy of <Anchor To="https://icons8.com/preloaders/en/search/spinner#" Target="Target.Blank">icons8.com</Anchor>.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    To use the <Code>LoadingIndicator</Code> component, install the <Code>Blazorise.LoadingIndicator</Code> package first.
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     Installation
@@ -18,19 +22,19 @@
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="LoadingIndicatorNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="LoadingIndicatorNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Imports">
         In your main <Code>_Imports.razor</Code> add:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="LoadingIndicatorImportsExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="LoadingIndicatorImportsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static files">
-        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="LoadingIndicatorResourcesExample" />
 </DocsPageSection>
@@ -46,13 +50,23 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Two-way Binding Example">
+    <DocsPageSectionHeader Title="Two-way Binding">
         Having a more declarative approach to control the indicator is also supported. To make it work, you just need to bind a variable to the <Code>Visible</Code> parameter, and it will work.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <LoadingIndicatorTwoWayBindingExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LoadingIndicatorTwoWayBindingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Status text">
+        Display progress text by providing <Code>IndicatorTemplate</Code>. The template receives a <Code>LoadingIndicatorContext</Code> with <Code>Text</Code> and <Code>Progress</Code> updated via <Code>SetStatus</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LoadingIndicatorStatusExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingIndicatorStatusExample" />
 </DocsPageSection>
 
 <DocsPageSection>

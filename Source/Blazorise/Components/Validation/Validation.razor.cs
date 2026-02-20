@@ -65,6 +65,16 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     public event EventHandler<ValidationStatusChangedEventArgs> ValidationStatusChanged;
 
     /// <summary>
+    /// Raises every time the validation message element id changes.
+    /// </summary>
+    internal event Action ValidationMessageChanged;
+
+    /// <summary>
+    /// Holds the current validation message component.
+    /// </summary>
+    private BaseValidationResult validationMessageComponent;
+
+    /// <summary>
     /// Define the cancellation token.
     /// </summary>
     private CancellationTokenSource cancellationTokenSource;
@@ -215,7 +225,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
 
         if ( Mode == ValidationMode.Auto )
         {
-            return ValidateAsync( newValidationValue );
+            return TriggerValidation( newValidationValue );
         }
 
         return Task.CompletedTask;
@@ -250,10 +260,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         {
             var validationHandler = GetValidationHandler();
 
-            if ( validationHandler is not null )
-            {
-                validationHandler.Validate( this, newValidationValue );
-            }
+            validationHandler?.Validate( this, newValidationValue );
         }
 
         return Status;
@@ -265,7 +272,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         if ( inputComponent is null )
             throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
 
-        return ValidateAsync( inputComponent.ValidationValue );
+        return TriggerValidation( inputComponent.ValidationValue );
     }
 
     /// <summary>
@@ -273,7 +280,27 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// </summary>
     /// <param name="newValidationValue">New validation value to validate.</param>
     /// <returns>Returns the validation result.</returns>
-    public async Task<ValidationStatus> ValidateAsync( object newValidationValue )
+    public Task<ValidationStatus> ValidateAsync( object newValidationValue )
+        => TriggerValidation( newValidationValue );
+
+    /// <summary>
+    /// Runs the asynchronous validation process using the current input value. Can be used to manually retrigger validation.
+    /// </summary>
+    /// <returns>Returns the validation result.</returns>
+    public Task<ValidationStatus> RetriggerValidation()
+    {
+        if ( inputComponent is null )
+            throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
+
+        return TriggerValidation( inputComponent.ValidationValue );
+    }
+
+    /// <summary>
+    /// Runs the asynchronous validation process.
+    /// </summary>
+    /// <param name="newValidationValue">New validation value to validate.</param>
+    /// <returns>Returns the validation result.</returns>
+    private async Task<ValidationStatus> TriggerValidation( object newValidationValue )
     {
         if ( !inputComponent.Disabled )
         {
@@ -379,6 +406,35 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         }
     }
 
+    /// <summary>
+    /// Registers the validation message component reference.
+    /// </summary>
+    /// <param name="validationMessage">Validation message component.</param>
+    internal void NotifyValidationMessageInitialized( BaseValidationResult validationMessage )
+    {
+        if ( validationMessage is null )
+            return;
+
+        if ( ReferenceEquals( validationMessageComponent, validationMessage ) )
+            return;
+
+        validationMessageComponent = validationMessage;
+        ValidationMessageChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Removes the validation message component reference.
+    /// </summary>
+    /// <param name="validationMessage">Validation message component.</param>
+    internal void NotifyValidationMessageRemoved( BaseValidationResult validationMessage )
+    {
+        if ( !ReferenceEquals( validationMessageComponent, validationMessage ) )
+            return;
+
+        validationMessageComponent = null;
+        ValidationMessageChanged?.Invoke();
+    }
+
     #endregion
 
     #region Properties
@@ -395,6 +451,11 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
 
     /// <inheritdoc/>
     public IEnumerable<string> Messages { get; private set; }
+
+    /// <summary>
+    /// Gets the element id of the validation message container.
+    /// </summary>
+    internal string ValidationMessageElementId => validationMessageComponent?.ElementId;
 
     /// <inheritdoc/>
     public FieldIdentifier FieldIdentifier => fieldIdentifier;

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,7 +10,7 @@ namespace Blazorise.RichTextEdit;
 /// <summary>
 /// Base <see cref="Blazorise.RichTextEdit"/> component
 /// </summary>
-public class BaseRichTextEditComponent : BaseComponent
+public abstract class BaseRichTextEditComponent : BaseInputComponent<string>
 {
     #region Constructors
 

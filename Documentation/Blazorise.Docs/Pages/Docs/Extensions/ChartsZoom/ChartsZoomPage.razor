@@ -1,13 +1,13 @@
 ﻿@page "/docs/extensions/chart-zoom"
 
-<Seo Canonical="/docs/extensions/chart-zoom" Title="Blazorise Chart Zoom component" Description="Learn to use and work with the Blazorise Zoom extension, Chart.js plugin for display labels on data for any type of charts." />
+<Seo Canonical="/docs/extensions/chart-zoom" Title="Blazorise Chart Zoom component" Description="Learn how to use the Blazorise Chart Zoom component to zoom and pan Chart.js charts." />
 
-<DocsPageTitle Path="Extensions/Chart Zoom">
-    Blazorise Chart Zoom
+<DocsPageTitle Path="Extensions/Chart Zoom" AddedVersion="Added in v1.6">
+    Blazorise Chart Zoom component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Zoom and pan the chart with the zoom plugin.
+    Zoom and pan charts with the Chart.js zoom plugin.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -16,6 +16,10 @@
 
 <DocsPageParagraph>
     Zoom is made possible with the help of <Anchor To="https://www.chartjs.org/chartjs-plugin-zoom/latest/" Title="Link to chart Zoom plugin" Target="Target.Blank">chartjs-plugin-zoom</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use Chart Zoom, install the <Code>Blazorise.Charts</Code> and <Code>Blazorise.Charts.Zoom</Code> packages.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -30,28 +34,17 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static Files">
-        Include the necessary files into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    <DocsPageSectionHeader Title="Imports">
+        <Paragraph>
+            In your main <Code>_Imports.razor</Code> add:
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts</Code>
+        </Paragraph>
+        <Paragraph>
+            <Code>@@using Blazorise.Charts.Zoom</Code>
+        </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ChartZoomResourcesExample" />
-    <DocsPageSectionContent FullWidth>
-        <Alert Visible Color="Color.Warning">
-            <AlertMessage>
-                IMPORTANT
-            </AlertMessage>
-            <AlertDescription>
-                chartjs-plugin-zoom must be loaded after the Chart.js library!
-            </AlertDescription>
-        </Alert>
-        <Alert Visible Color="Color.Info">
-            <AlertMessage>
-                Note
-            </AlertMessage>
-            <AlertDescription>
-                <Anchor To="https://hammerjs.github.io/" Title="Link to hammer.js" Target="Target.Blank">Hammer.js is used for gesture recognition</Anchor>.
-            </AlertDescription>
-        </Alert>
-    </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSubtitle>

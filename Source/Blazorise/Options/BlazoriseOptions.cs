@@ -36,16 +36,6 @@ public class BlazoriseOptions
     /// <summary>
     /// Defines the product token issued by the Blazorise licensing system.
     /// </summary>
-    [Obsolete( "LicenseKey property is deprecated, please use the ProductToken property instead." )]
-    public string LicenseKey
-    {
-        get => ProductToken;
-        set => ProductToken = value;
-    }
-
-    /// <summary>
-    /// Defines the product token issued by the Blazorise licensing system.
-    /// </summary>
     public string ProductToken { get; set; }
 
     /// <summary>
