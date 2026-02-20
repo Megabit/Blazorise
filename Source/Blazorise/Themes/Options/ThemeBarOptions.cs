@@ -43,5 +43,5 @@ public record ThemeBarOptions
     /// <summary>
     /// Gets or sets the theme settings for the <see cref="BarDropdown"/> component.
     /// </summary>
-    public ThemeBarDropdownOptions Dropdown { get; set; }
+    public ThemeBarDropdownOptions DropdownOptions { get; set; }
 }

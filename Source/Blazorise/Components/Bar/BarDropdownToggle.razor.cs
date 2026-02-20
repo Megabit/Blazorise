@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -15,19 +16,13 @@ namespace Blazorise;
 /// <summary>
 /// Toggles the visibility or collapse of <see cref="Bar"/> component.
 /// </summary>
-public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncDisposable
+public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAsyncDisposable
 {
     #region Members
-
-    private BarDropdownState parentBarDropdownState;
-
-    private BarItemState parentBarItemState;
 
     private bool jsRegistered;
 
     private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
-
-    private bool? disabled;
 
     #endregion
 
@@ -42,11 +37,26 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     }
 
     /// <inheritdoc/>
+    protected override void OnActiveChanged( bool active )
+    {
+        if ( !IsRouteMatchTriggerEnabled )
+            return;
+
+        _ = InvokeAsync( async () => await HandleRouteMatchTriggerAsync( active ) );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarDropdownToggle( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true ) );
         builder.Append( ClassProvider.BarDropdownToggleDisabled( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true, IsDisabled ) );
         builder.Append( ClassProvider.BarDropdownToggleIcon( IsToggleIconVisible ) );
+
+        if ( To != null )
+        {
+            builder.Append( ClassProvider.BarLink( ParentBarDropdownState.Mode ) );
+            builder.Append( ClassProvider.LinkActive( Active ) );
+        }
 
         base.BuildClasses( builder );
     }
@@ -62,29 +72,32 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            // make sure to unregister listener
-            if ( jsRegistered )
+            if ( Rendered )
             {
-                jsRegistered = false;
+                // make sure to unregister listener
+                if ( jsRegistered )
+                {
+                    jsRegistered = false;
 
-                var task = JSClosableModule.Unregister( this );
+                    var task = JSClosableModule.Unregister( this );
 
-                try
-                {
-                    await task;
+                    try
+                    {
+                        await task;
+                    }
+                    catch when ( task.IsCanceled )
+                    {
+                    }
+                    catch ( JSDisconnectedException )
+                    {
+                    }
                 }
-                catch when ( task.IsCanceled )
-                {
-                }
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
+
+                DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
-
-            DisposeDotNetObjectRef( dotNetObjectRef );
-            dotNetObjectRef = null;
         }
 
         await base.DisposeAsync( disposing );
@@ -100,10 +113,43 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         if ( IsDisabled )
             return;
 
-        if ( ParentBarDropdown is not null )
+        if ( ParentBarDropdown is not null && IsToggleClickTriggerEnabled )
             await ParentBarDropdown.Toggle( ElementId );
 
         await Clicked.InvokeAsync( eventArgs );
+    }
+
+    /// <summary>
+    /// Handles the toggle icon click event.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    protected Task OnToggleIconClicked()
+    {
+        if ( ParentBarDropdown is not null && IsIconClickTriggerEnabled )
+            return ParentBarDropdown.Toggle( ElementId );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Returns the class used for a single icon animation layer.
+    /// </summary>
+    /// <param name="expandedStateLayer">True for expanded-state icon layer; otherwise collapsed-state icon layer.</param>
+    /// <returns>Class string.</returns>
+    protected string GetToggleIconLayerClass( bool expandedStateLayer )
+    {
+        var isExpanded = ParentBarDropdown?.IsVisible == true;
+
+        if ( expandedStateLayer )
+        {
+            return isExpanded
+                ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible"
+                : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-expand";
+        }
+
+        return isExpanded
+            ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-collapse"
+            : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible";
     }
 
     /// <summary>
@@ -116,10 +162,26 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         if ( IsDisabled )
             return Task.CompletedTask;
 
-        if ( ParentBarDropdown is not null && eventArgs.Key == "Enter" )
+        if ( ParentBarDropdown is not null && eventArgs.Key == "Enter" && IsToggleClickTriggerEnabled )
             return ParentBarDropdown.Toggle( ElementId );
 
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Synchronizes dropdown visibility with the current route match status.
+    /// </summary>
+    /// <param name="active">True if current route matches this toggle link.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task HandleRouteMatchTriggerAsync( bool active )
+    {
+        if ( !HasNavigationTarget || ParentBarDropdown is null )
+            return Task.CompletedTask;
+
+        if ( active )
+            return ParentBarDropdown.Show();
+
+        return ParentBarDropdown.Hide();
     }
 
     /// <inheritdoc/>
@@ -176,12 +238,77 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// <summary>
     /// Returns true if this BarDropdown should be disabled.
     /// </summary>
-    protected internal bool IsDisabled => ( Disabled ?? ParentBarItem?.Disabled ) == true;
+    protected internal bool IsDisabled => paramDisabled.GetValueOrDefault( ParentBarItem?.Disabled ?? false );
 
     /// <summary>
     /// Should the toggle icon be drawn
     /// </summary>
-    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.Dropdown?.ToggleIconVisible ?? true );
+    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.DropdownOptions?.ToggleIconVisible ?? true );
+
+    /// <summary>
+    /// Gets the icon name for the expanded state of the dropdown.
+    /// </summary>
+    protected IconName ExpandedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp;
+
+    /// <summary>
+    /// Gets the icon name for the collapsed state of the dropdown.
+    /// </summary>
+    protected IconName CollapsedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
+
+    /// <summary>
+    /// Gets the size of the toggle icon used in the dropdown options.
+    /// </summary>
+    protected IconSize ToggleIconSize => Theme?.BarOptions?.DropdownOptions?.ToggleIconSIze ?? IconSize.ExtraSmall;
+
+    /// <summary>
+    /// Indicates whether the current instance has a navigation target.
+    /// </summary>
+    protected bool HasNavigationTarget => !string.IsNullOrEmpty( To );
+
+    /// <summary>
+    /// Gets a value indicating whether toggle-area click can trigger menu toggle.
+    /// </summary>
+    protected bool IsToggleClickTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.ToggleClick );
+
+    /// <summary>
+    /// Gets a value indicating whether icon click can trigger menu toggle.
+    /// </summary>
+    protected bool IsIconClickTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.IconClick );
+
+    /// <summary>
+    /// Gets a value indicating whether route match can trigger menu toggle state changes.
+    /// </summary>
+    protected bool IsRouteMatchTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.RouteMatch );
+
+    /// <summary>
+    /// Indicates whether toggle-area click should stop event propagation.
+    /// </summary>
+    protected bool ShouldStopToggleAreaPropagation => HasNavigationTarget && !IsToggleClickTriggerEnabled;
+
+    /// <summary>
+    /// Indicates whether icon click should stop event propagation.
+    /// </summary>
+    protected bool ShouldStopIconClickPropagation => IsIconClickTriggerEnabled;
+
+    /// <summary>
+    /// Indicates whether default navigation should be prevented on toggle-area click.
+    /// </summary>
+    protected bool ShouldPreventDefaultOnToggleClick => HasNavigationTarget && IsToggleClickTriggerEnabled;
+
+    /// <summary>
+    /// Indicates whether default navigation should be prevented on icon click.
+    /// </summary>
+    protected bool ShouldPreventDefaultOnIconClick => HasNavigationTarget && IsIconClickTriggerEnabled;
+
+    private BarDropdownToggleTrigger EffectiveTrigger
+        => Trigger == BarDropdownToggleTrigger.Auto
+            ? HasNavigationTarget
+                ? BarDropdownToggleTrigger.IconClick
+                : BarDropdownToggleTrigger.ToggleClick
+            : Trigger;
+
+    private bool HasTrigger( BarDropdownToggleTrigger trigger )
+        => ( EffectiveTrigger & trigger ) == trigger;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
@@ -194,24 +321,6 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [Parameter] public double Indentation { get; set; } = 1.5d;
 
     /// <summary>
-    /// Makes the toggle element look inactive.
-    /// </summary>
-    [Parameter]
-    public bool? Disabled
-    {
-        get => disabled;
-        set
-        {
-            if ( disabled == value )
-                return;
-
-            disabled = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
     /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
     /// </summary>
     /// <value>
@@ -221,9 +330,9 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [Parameter] public bool? ToggleIconVisible { get; set; }
 
     /// <summary>
-    /// Occurs when the toggle button is clicked.
+    /// Defines which interactions can trigger the dropdown toggle.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public BarDropdownToggleTrigger Trigger { get; set; } = BarDropdownToggleTrigger.Auto;
 
     /// <summary>
     /// Gets or sets the parent dropdown state object.
@@ -231,15 +340,15 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [CascadingParameter]
     public BarDropdownState ParentBarDropdownState
     {
-        get => parentBarDropdownState;
+        get;
         set
         {
-            if ( parentBarDropdownState == value )
+            if ( field == value )
                 return;
 
-            parentBarDropdownState = value;
+            field = value;
 
-            if ( parentBarDropdownState.Visible && !( parentBarDropdownState.Mode == BarMode.VerticalInline && parentBarDropdownState.BarVisible ) )
+            if ( field.Visible && !( field.Mode == BarMode.VerticalInline && field.BarVisible ) )
             {
                 HandleVisibilityStyles( true );
             }
@@ -266,13 +375,13 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     [CascadingParameter]
     public BarItemState ParentBarItemState
     {
-        get => parentBarItemState;
+        get;
         set
         {
-            if ( parentBarItemState == value )
+            if ( field == value )
                 return;
 
-            parentBarItemState = value;
+            field = value;
 
             DirtyClasses();
             DirtyStyles();
@@ -283,11 +392,6 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// The applied theme.
     /// </summary>
     [CascadingParameter] protected Theme Theme { get; set; }
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BarDropdownToggle"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }
