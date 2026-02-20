@@ -25,7 +25,7 @@
 }
 else
 {
-    <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onclick:preventDefault="@ShouldPreventDefaultOnToggleClick" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
         @VerticalIconTemplate
     </a>
 }

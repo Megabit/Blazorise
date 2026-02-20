@@ -2,7 +2,7 @@
 @inherits BaseLinkComponent
 @using static Blazorise.BarFluentConstants
 
-<a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+<a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onclick:preventDefault="@ShouldPreventDefaultOnToggleClick" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
     @if ( ParentBarDropdownState?.Mode != BarMode.Horizontal )
     {
         @VerticalIconTemplate
@@ -15,7 +15,7 @@
 @code {
     protected RenderFragment VerticalIconTemplate => __builder =>
     {
-        <Span Flex="FlexAlignItemsCenterJustifyContentBetween" @onclick:stopPropagation="@IsActingAsLink">
+        <Span Flex="FlexAlignItemsCenterJustifyContentBetween" @onclick:stopPropagation="@ShouldStopToggleAreaPropagation">
             <Span>
                 @ChildContent
             </Span>
@@ -23,7 +23,7 @@
             @if ( IsToggleIconVisible )
             {
                 <Span Padding="PaddingIs2OnX">
-                    <span @onclick="@OnToggleIconClicked" @onclick:stopPropagation @onclick:preventDefault="@IsActingAsLink">
+                    <span @onclick="@OnToggleIconClicked" @onclick:stopPropagation="@ShouldStopIconClickPropagation" @onclick:preventDefault="@ShouldPreventDefaultOnIconClick">
                         <Span Class="b-bar-dropdown-toggle-icon-container" Position="PositionRelative" Display="DisplayInlineFlex" Width="WidthRem1" Height="HeightRem1" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter">
                             <Span Class="@GetToggleIconLayerClass( true )" Position="PositionAbsoluteTopIs0StartIs0" Width="WidthIs100" Height="HeightIs100" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter">
                                 <Icon Name="@ExpandedToggleIconName" IconSize="@ToggleIconSize" />

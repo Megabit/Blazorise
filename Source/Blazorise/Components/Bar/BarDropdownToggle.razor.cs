@@ -37,6 +37,15 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <inheritdoc/>
+    protected override void OnActiveChanged( bool active )
+    {
+        if ( !IsRouteMatchTriggerEnabled )
+            return;
+
+        _ = InvokeAsync( async () => await HandleRouteMatchTriggerAsync( active ) );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarDropdownToggle( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true ) );
@@ -104,7 +113,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
         if ( IsDisabled )
             return;
 
-        if ( ParentBarDropdown is not null )
+        if ( ParentBarDropdown is not null && IsToggleClickTriggerEnabled )
             await ParentBarDropdown.Toggle( ElementId );
 
         await Clicked.InvokeAsync( eventArgs );
@@ -116,7 +125,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <returns>Returns the awaitable task.</returns>
     protected Task OnToggleIconClicked()
     {
-        if ( ParentBarDropdown is not null )
+        if ( ParentBarDropdown is not null && IsIconClickTriggerEnabled )
             return ParentBarDropdown.Toggle( ElementId );
 
         return Task.CompletedTask;
@@ -153,10 +162,26 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
         if ( IsDisabled )
             return Task.CompletedTask;
 
-        if ( ParentBarDropdown is not null && eventArgs.Key == "Enter" )
+        if ( ParentBarDropdown is not null && eventArgs.Key == "Enter" && IsToggleClickTriggerEnabled )
             return ParentBarDropdown.Toggle( ElementId );
 
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Synchronizes dropdown visibility with the current route match status.
+    /// </summary>
+    /// <param name="active">True if current route matches this toggle link.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task HandleRouteMatchTriggerAsync( bool active )
+    {
+        if ( !HasNavigationTarget || ParentBarDropdown is null )
+            return Task.CompletedTask;
+
+        if ( active )
+            return ParentBarDropdown.Show();
+
+        return ParentBarDropdown.Hide();
     }
 
     /// <inheritdoc/>
@@ -236,9 +261,54 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     protected IconSize ToggleIconSize => Theme?.BarOptions?.DropdownOptions?.ToggleIconSIze ?? IconSize.ExtraSmall;
 
     /// <summary>
-    /// Indicates whether the current instance is acting as a link to another object.
+    /// Indicates whether the current instance has a navigation target.
     /// </summary>
-    protected bool IsActingAsLink => paramTo.Defined && paramTo.Value is not null;
+    protected bool HasNavigationTarget => !string.IsNullOrEmpty( To );
+
+    /// <summary>
+    /// Gets a value indicating whether toggle-area click can trigger menu toggle.
+    /// </summary>
+    protected bool IsToggleClickTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.ToggleClick );
+
+    /// <summary>
+    /// Gets a value indicating whether icon click can trigger menu toggle.
+    /// </summary>
+    protected bool IsIconClickTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.IconClick );
+
+    /// <summary>
+    /// Gets a value indicating whether route match can trigger menu toggle state changes.
+    /// </summary>
+    protected bool IsRouteMatchTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.RouteMatch );
+
+    /// <summary>
+    /// Indicates whether toggle-area click should stop event propagation.
+    /// </summary>
+    protected bool ShouldStopToggleAreaPropagation => HasNavigationTarget && !IsToggleClickTriggerEnabled;
+
+    /// <summary>
+    /// Indicates whether icon click should stop event propagation.
+    /// </summary>
+    protected bool ShouldStopIconClickPropagation => IsIconClickTriggerEnabled;
+
+    /// <summary>
+    /// Indicates whether default navigation should be prevented on toggle-area click.
+    /// </summary>
+    protected bool ShouldPreventDefaultOnToggleClick => HasNavigationTarget && IsToggleClickTriggerEnabled;
+
+    /// <summary>
+    /// Indicates whether default navigation should be prevented on icon click.
+    /// </summary>
+    protected bool ShouldPreventDefaultOnIconClick => HasNavigationTarget && IsIconClickTriggerEnabled;
+
+    private BarDropdownToggleTrigger EffectiveTrigger
+        => Trigger == BarDropdownToggleTrigger.Auto
+            ? HasNavigationTarget
+                ? BarDropdownToggleTrigger.IconClick
+                : BarDropdownToggleTrigger.ToggleClick
+            : Trigger;
+
+    private bool HasTrigger( BarDropdownToggleTrigger trigger )
+        => ( EffectiveTrigger & trigger ) == trigger;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
@@ -258,6 +328,11 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// </value>
     /// <remarks>Default: True</remarks>
     [Parameter] public bool? ToggleIconVisible { get; set; }
+
+    /// <summary>
+    /// Defines which interactions can trigger the dropdown toggle.
+    /// </summary>
+    [Parameter] public BarDropdownToggleTrigger Trigger { get; set; } = BarDropdownToggleTrigger.Auto;
 
     /// <summary>
     /// Gets or sets the parent dropdown state object.

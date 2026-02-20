@@ -109,7 +109,14 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
 
         if ( shouldBeActiveNow != active || classDependentParameterChanged )
         {
+            bool activeChanged = shouldBeActiveNow != active;
+
             active = shouldBeActiveNow;
+
+            if ( activeChanged )
+            {
+                OnActiveChanged( active );
+            }
 
             DirtyClasses();
         }
@@ -136,6 +143,8 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         if ( shouldBeActiveNow != active )
         {
             active = shouldBeActiveNow;
+
+            OnActiveChanged( active );
 
             DirtyClasses();
 
@@ -171,6 +180,14 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// Returns "noopener noreferrer" if the <see cref="Target"/> is set to <see cref="Target.Blank"/>.
     /// </returns>
     protected string GetRel() => Target == Target.Blank ? "noopener noreferrer" : null;
+
+    /// <summary>
+    /// Called when the link active-state changes.
+    /// </summary>
+    /// <param name="active">True if current route matches this link.</param>
+    protected virtual void OnActiveChanged( bool active )
+    {
+    }
 
     #endregion
 
