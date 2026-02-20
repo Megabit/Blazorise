@@ -44,6 +44,7 @@ public partial class ProgressBar : BaseComponent
         builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
         builder.Append( ClassProvider.ProgressBarStriped( Striped ) );
         builder.Append( ClassProvider.ProgressBarAnimated( Animated ) );
+        builder.Append( ClassProvider.ProgressBarIndeterminate( Indeterminate ) );
 
         if ( ParentProgress?.ThemeSize != Size.Default )
             builder.Append( ClassProvider.ProgressBarSize( ParentProgress.ThemeSize ) );

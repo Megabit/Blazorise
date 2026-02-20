@@ -359,15 +359,16 @@ public class MaterialThemeGenerator : ThemeGenerator
     {
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
-            sb.Append( ".progress" ).Append( "{" )
+            sb.Append( ".mui-progress" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
-            sb.Append( ".progress-bar" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+            sb.Append( ".mui-progress" ).Append( "{" )
+                .Append( $"--mui-progress-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( $"--mui-progress-text-color: {Var( ThemeVariables.ButtonYiqBackground( "primary" ), Var( ThemeVariables.White ) )};" )
                 .AppendLine( "}" );
         }
 

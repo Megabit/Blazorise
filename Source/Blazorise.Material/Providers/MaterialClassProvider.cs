@@ -1039,31 +1039,31 @@ public class MaterialClassProvider : ClassProvider
 
     #region Progress
 
-    public override string Progress() => "progress";
+    public override string Progress() => "mui-progress";
 
-    public override string ProgressSize( Size size ) => size != Size.Default ? $"progress-{ToSize( size )}" : null;
+    public override string ProgressSize( Size size ) => size != Size.Default ? $"mui-progress-{ToSize( size )}" : null;
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped( bool stripped ) => null;
+    public override string ProgressStriped( bool stripped ) => stripped ? "mui-progress-striped" : null;
 
-    public override string ProgressAnimated( bool animated ) => null;
+    public override string ProgressAnimated( bool animated ) => animated ? "mui-progress-animated" : null;
 
-    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "progress-indeterminate" : null;
+    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "mui-progress-indeterminate" : null;
 
     public override string ProgressWidth( int width ) => null;
 
-    public override string ProgressBar() => "progress-bar";
+    public override string ProgressBar() => "mui-progress-bar";
 
-    public override string ProgressBarSize( Size size ) => null;
+    public override string ProgressBarSize( Size size ) => size != Size.Default ? $"mui-progress-bar-{ToSize( size )}" : null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-progress-bar-{ToColor( color )}" : null;
 
-    public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
+    public override string ProgressBarStriped( bool striped ) => striped ? "mui-progress-bar-striped" : null;
 
-    public override string ProgressBarAnimated( bool animated ) => animated ? "progress-bar-animated" : null;
+    public override string ProgressBarAnimated( bool animated ) => animated ? "mui-progress-bar-animated" : null;
 
-    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "progress-bar-indeterminate" : null;
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "mui-progress-bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 
