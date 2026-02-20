@@ -182,7 +182,8 @@ public partial class ChartsDataLabelsPage
                 BackgroundColor = BackgroundColors[2],
                 BorderColor = BorderColors[2],
                 Align = "center",
-                Anchor = "center"
+                Anchor = "center",
+                SoftCodeFormatter = "function(value, context) { return \"$\" + value; }"
             }
         },
     };
