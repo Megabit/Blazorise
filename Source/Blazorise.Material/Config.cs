@@ -35,7 +35,7 @@ public static class Config
         return serviceCollection;
     }
 
-    public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
+    public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
         [typeof( Blazorise.Badge )] = typeof( Components.Badge ),
         [typeof( Blazorise.Check<> )] = typeof( Components.Check<> ),

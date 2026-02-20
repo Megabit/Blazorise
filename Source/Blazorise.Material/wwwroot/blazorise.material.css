@@ -735,6 +735,10 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   color: var(--mui-dark-hover);
 }
 
+.b-bar-dropdown-toggle-hidden::after {
+  content: none !important;
+}
+
 .mui-button {
   --mui-btn-padding: 1rem;
   --mui-btn-size: 2.5rem;

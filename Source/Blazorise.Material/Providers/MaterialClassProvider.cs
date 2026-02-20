@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Blazorise.Bootstrap.Providers;
 using Blazorise.Extensions;
 
 namespace Blazorise.Material.Providers;
 
-public class MaterialClassProvider : BootstrapClassProvider
+public class MaterialClassProvider : ClassProvider
 {
     #region TextInput
 
@@ -729,6 +728,8 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
         => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
+
+    public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => isToggleIconVisible ? null : "b-bar-dropdown-toggle-hidden";
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
@@ -1777,6 +1778,8 @@ public class MaterialClassProvider : BootstrapClassProvider
     }
 
     #endregion
+
+    public override bool UseCustomInputStyles { get; set; } = false;
 
     public override string Provider => "Material";
 }

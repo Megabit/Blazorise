@@ -1,12 +1,11 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Text;
-using Blazorise.Bootstrap.Providers;
 #endregion
 
 namespace Blazorise.Material.Providers;
 
-public class MaterialThemeGenerator : BootstrapThemeGenerator
+public class MaterialThemeGenerator : ThemeGenerator
 {
     #region Constructors
 
@@ -18,6 +17,14 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
     #endregion
 
     #region Methods
+
+    protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
+    {
+    }
+
+    protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+    {
+    }
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
@@ -32,8 +39,6 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
         var yiqActiveBackground = Var( ThemeVariables.ButtonYiqActiveBackground( variant ) );
         var boxShadow = Var( ThemeVariables.ButtonBoxShadow( variant ) );
 
-        // Material provider have some special rules for buttons placed inside of modal dialog. So to keep it 
-        // consistent we need to apply the same styles as in the base generator.
         sb
             .Append( $".modal .btn-{variant}," ).Append( $".modal a.btn-{variant}," )
             .Append( $".modal-footer .btn-{variant}," ).Append( $".modal-footer a.btn-{variant}" )
@@ -87,8 +92,6 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
             .Append( "{" )
             .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow}" )
             .AppendLine( "}" );
-
-        base.GenerateButtonVariantStyles( sb, theme, variant, options );
     }
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -121,12 +124,21 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
             .AppendLine( "}" );
     }
 
+    protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
+    {
+    }
+
+    protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
+    {
+    }
+
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
         if ( options is null )
             return;
 
-        base.GenerateInputStyles( sb, theme, options );
+        if ( !string.IsNullOrEmpty( options.CheckColor ) )
+            GenerateInputCheckEditStyles( sb, theme, options );
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
@@ -178,12 +190,12 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
         }
     }
 
-    protected override void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    protected void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
         if ( options is null )
             return;
 
-        if ( string.IsNullOrEmpty( options?.CheckColor ) )
+        if ( string.IsNullOrEmpty( options.CheckColor ) )
             return;
 
         sb
@@ -240,6 +252,10 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
         return encodedSvg;
     }
 
+    protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )
+    {
+    }
+
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
     {
         if ( options is null )
@@ -250,8 +266,8 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
         if ( backgroundColor.IsEmpty )
             return;
 
-        var boxShadowColor = Lighten( backgroundColor, options?.BoxShadowLightenColor ?? 25 );
-        var disabledBackgroundColor = Lighten( backgroundColor, options?.DisabledLightenColor ?? 50 );
+        var boxShadowColor = Lighten( backgroundColor, options.BoxShadowLightenColor ?? 25 );
+        var disabledBackgroundColor = Lighten( backgroundColor, options.DisabledLightenColor ?? 50 );
 
         var background = ToHex( backgroundColor );
         var boxShadow = ToHex( boxShadowColor );
@@ -275,18 +291,6 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
         sb
             .Append( $".custom-switch .custom-control-input:disabled.custom-control-input-{variant} ~ .custom-control-track" ).Append( "{" )
             .Append( $"background-color: {disabledBackground};" )
-            .AppendLine( "}" );
-    }
-
-    protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
-    {
-        if ( stepsOptions is null )
-            return;
-
-        sb
-            .Append( ".stepper.active .stepper-icon" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
             .AppendLine( "}" );
     }
 
@@ -327,12 +331,36 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
             .AppendLine( "}" );
     }
 
+    protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
+    {
+    }
+
+    protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
+    {
+    }
+
+    protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor )
+    {
+    }
+
+    protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
+    {
+    }
+
+    protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
+    {
+    }
+
+    protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
+    {
+    }
+
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".progress" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
@@ -344,6 +372,62 @@ public class MaterialThemeGenerator : BootstrapThemeGenerator
         }
 
         base.GenerateProgressStyles( sb, theme, options );
+    }
+
+    protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
+    {
+    }
+
+    protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
+    {
+    }
+
+    protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
+    {
+    }
+
+    protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
+    {
+    }
+
+    protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
+    {
+    }
+
+    protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
+    {
+        if ( stepsOptions is null )
+            return;
+
+        sb
+            .Append( ".stepper.active .stepper-icon" ).Append( "{" )
+            .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
+            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+            .AppendLine( "}" );
+    }
+
+    protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
+    {
+    }
+
+    protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
+    {
+    }
+
+    protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+    {
+    }
+
+    protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
+    {
+    }
+
+    protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+    {
+    }
+
+    protected override void GenerateSpacingStyles( StringBuilder sb, Theme theme, ThemeSpacingOptions options )
+    {
     }
 
     #endregion
