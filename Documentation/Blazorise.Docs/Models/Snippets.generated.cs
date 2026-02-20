@@ -217,6 +217,54 @@ namespace Blazorise.Docs.Models
 <Badge Color=""Color.Danger"" Pill>Denied</Badge>
 <Badge Color=""Color.Secondary"" Pill>On hold</Badge>";
 
+        public const string BarDropdownToggleIconClickExample = @"<Bar Mode=""BarMode.VerticalInline""
+     Breakpoint=""Breakpoint.Desktop""
+     Background=""Background.Light""
+     ThemeContrast=""ThemeContrast.Light"">
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle To=""/docs/components/button""
+                                       Trigger=""BarDropdownToggleTrigger.IconClick"">
+                        <BarIcon IconName=""IconName.Dashboard"" />
+                        Components
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""/docs/components/bar"">Bar overview</BarDropdownItem>
+                        <BarDropdownItem To=""/docs/components/button"">Button</BarDropdownItem>
+                        <BarDropdownItem To=""/docs/components/card"">Card</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>";
+
+        public const string BarDropdownToggleRouteMatchExample = @"<Bar Mode=""BarMode.VerticalInline""
+     Breakpoint=""Breakpoint.Desktop""
+     Background=""Background.Light""
+     ThemeContrast=""ThemeContrast.Light"">
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle To=""/docs/components/bar""
+                                       Trigger=""BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch"">
+                        <BarIcon IconName=""IconName.Dashboard"" />
+                        Bar docs
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""/docs/components/bar"">Overview</BarDropdownItem>
+                        <BarDropdownItem To=""/docs/components/button"">Button</BarDropdownItem>
+                        <BarDropdownItem To=""/docs/components/card"">Card</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>";
+
         public const string TopBarExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
      ThemeContrast=""ThemeContrast.Light"">
