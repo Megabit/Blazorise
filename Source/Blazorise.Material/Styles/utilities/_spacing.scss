@@ -1,4 +1,4 @@
-﻿@each $breakpoint in map-keys($grid-breakpoints) {
+@each $breakpoint in map-keys($grid-breakpoints) {
     @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
@@ -85,27 +85,28 @@
 }
 
 @each $size, $length in $spacers {
-    .fui-gap-#{$size} {
+    .mui-gap-#{$size} {
         gap: $length !important;
     }
 
-    .fui-gap-y-#{$size} {
+    .mui-gap-y-#{$size} {
         row-gap: $length !important;
     }
 
-    .fui-gap-x-#{$size} {
+    .mui-gap-x-#{$size} {
         column-gap: $length !important;
     }
 }
 
 .row,
-.form-row {
+.form-row,
+.mui-row {
     @each $breakpoint in map-keys($grid-breakpoints) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
         @include media-breakpoint-up($breakpoint) {
             @each $size, $gutter in $gutters {
-                &.g#{$infix}-#{$size} {
+                &.mui-gutter#{$infix}-#{$size} {
                     margin-right: calc(#{$gutter} * -.5);
                     margin-left: calc(#{$gutter} * -.5);
                     margin-top: calc(-1 * #{$gutter});
@@ -117,7 +118,7 @@
                     }
                 }
 
-                &.gx#{$infix}-#{$size} {
+                &.mui-gutter-x#{$infix}-#{$size} {
                     margin-right: calc(#{$gutter} * -.5);
                     margin-left: calc(#{$gutter} * -.5);
 
@@ -127,7 +128,7 @@
                     }
                 }
 
-                &.gy#{$infix}-#{$size} {
+                &.mui-gutter-y#{$infix}-#{$size} {
                     margin-top: calc(-1 * #{$gutter});
 
                     > * {

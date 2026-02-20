@@ -1,8 +1,48 @@
-﻿$theme-variants: ("primary", "secondary", "tertiary", "error", "success", "warning", "info", "light", "dark") !default;
+$theme-variants: ("primary", "secondary", "tertiary", "error", "success", "warning", "info", "light", "dark") !default;
 
-$spacer: var(--spacingHorizontalM) !default;
+$theme-colors-text-emphasis: () !default;
+$theme-colors-text-emphasis: map-merge((
+    primary: var(--mui-primary),
+    secondary: var(--mui-secondary),
+    tertiary: var(--mui-tertiary),
+    error: var(--mui-error),
+    success: var(--mui-success),
+    warning: var(--mui-warning),
+    info: var(--mui-info),
+    light: var(--mui-light),
+    dark: var(--mui-dark)
+), $theme-colors-text-emphasis);
+
+$theme-colors-bg-subtle: () !default;
+$theme-colors-bg-subtle: map-merge((
+    primary: var(--mui-primary-container),
+    secondary: var(--mui-secondary-container),
+    tertiary: var(--mui-tertiary-container),
+    error: var(--mui-error-container),
+    success: var(--mui-success-container),
+    warning: var(--mui-warning-container),
+    info: var(--mui-info-container),
+    light: var(--mui-light-container),
+    dark: var(--mui-dark-container)
+), $theme-colors-bg-subtle);
+
+$theme-colors-border-subtle: () !default;
+$theme-colors-border-subtle: map-merge((
+    primary: var(--mui-outline-primary-variant),
+    secondary: var(--mui-outline-secondary-variant),
+    tertiary: var(--mui-outline-tertiary-variant),
+    error: var(--mui-outline-error-variant),
+    success: var(--mui-outline-success-variant),
+    warning: var(--mui-outline-warning-variant),
+    info: var(--mui-outline-info-variant),
+    light: var(--mui-outline-light-variant),
+    dark: var(--mui-outline-dark-variant)
+), $theme-colors-border-subtle);
+
+$spacer: var(--mui-spacing) !default;
 $spacers: () !default;
 $spacers: map-merge( ( 0: 0, 1: 0.5rem, 2: 0.75rem, 3: 1rem, 4: 1.5rem, 5: 2rem ), $spacers );
+$gutters: $spacers !default;
 
 $sizes: () !default;
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );

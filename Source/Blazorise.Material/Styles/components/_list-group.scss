@@ -1,4 +1,4 @@
-﻿.mui-list {
+.mui-list {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -25,32 +25,41 @@
             padding: 0;
         }
 
-        > *,
-        a:only-child,
-        details > summary > * {
-            margin: 0;
-        }
-
         > .mui-list {
             padding: 0 0 0 1rem;
         }
-        /*&:hover {
-            background-color: var(--mui-surface-container-low-hover);
+
+        > *,
+        > a:only-child > * {
+            margin: 0;
         }
 
-        &.mui-list-item-selected {
-            background-color: var(--mui-primary-container);
-            color: var(--mui-on-primary-container);
+        > :is(details, .max),
+        > a:only-child > .max,
+        > details > summary > .max {
+            flex: 1;
         }
 
-        &.mui-list-item-disabled {
-            color: var(--mui-on-surface-variant);
-            cursor: not-allowed;
+        &.mui-list-item-action:hover {
+            background-color: color-mix(in srgb, currentColor 10%, transparent);
+        }
 
-            &:hover {
-                background-color: transparent;
-            }
-        }*/
+        &.active {
+            background-color: var(--mui-tertiary-container);
+            color: var(--mui-on-tertiary-container);
+        }
+
+        &.disabled,
+        &:disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    }
+
+    > .mui-list-item:focus-visible,
+    > .mui-list-item > a:only-child:focus-visible {
+        outline: 0.125rem solid var(--mui-primary);
+        outline-offset: -0.25rem;
     }
 
     &-flush {
@@ -61,6 +70,27 @@
             inset: auto 0 0 0;
             block-size: 0.0625rem;
             inline-size: auto;
+        }
+    }
+
+    &-scrollable {
+        overflow-y: auto;
+        max-block-size: var(--mui-list-max-height, 16rem);
+    }
+}
+
+@each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+    .mui-list-item-#{$color} {
+        color: var(--mui-on-#{$color}-container);
+        background-color: var(--mui-#{$color}-container);
+
+        &.mui-list-item-action:hover {
+            background-color: color-mix(in srgb, var(--mui-#{$color}) 15%, var(--mui-#{$color}-container));
+        }
+
+        &.active {
+            color: var(--mui-on-#{$color});
+            background-color: var(--mui-#{$color});
         }
     }
 }

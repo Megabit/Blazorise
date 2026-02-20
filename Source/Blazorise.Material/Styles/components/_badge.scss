@@ -1,4 +1,4 @@
-﻿@mixin make-badge-variant($name, $color) {
+@mixin make-badge-variant($name, $color) {
     &-#{$name} {
         background-color: var(--mui-#{$color}-container);
         color: var(--mui-on-#{$color}-container);
@@ -23,7 +23,6 @@
     align-items: center;
     justify-content: center;
     block-size: var(--mui-chip-size);
-    line-height: var(--mui-chip-size);
     min-inline-size: var(--mui-chip-size);
     font-size: 0.875rem;
     font-weight: 500;
@@ -39,6 +38,7 @@
     gap: 0.5rem;
     letter-spacing: normal;
     vertical-align: baseline;
+    line-height: normal;
 
     &-rounded {
         --mui-chip-round: 2rem;
@@ -56,25 +56,31 @@
     }
 
     .mui-chip-close {
+        color: var(--mui-on-surface-variant);
         cursor: pointer;
+        inline-size: var(--mui-chip-close-size);
+        block-size: var(--mui-chip-close-size);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         > svg {
-            width: var(--mui-chip-close-size);
-            height: var(--mui-chip-close-size);
+            width: 100%;
+            height: 100%;
         }
     }
 
     + .mui-chip {
-        margin-left: 8px;
+        margin-inline-start: 0.5rem;
     }
 }
 
-.badge, .badge-close {
-    @each $color-name, $color-value in $theme-colors-text-emphasis {
-        &.badge-#{$color-name}-subtle {
-            color: #{$color-value};
-            background-color: #{map-get($theme-colors-bg-subtle, $color-name)};
-            border-color: #{map-get($theme-colors-border-subtle, $color-name)};
+@each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+    .mui-chip-close-#{$color} {
+        color: var(--mui-#{$color});
+
+        &:hover {
+            color: var(--mui-#{$color}-hover);
         }
     }
 }

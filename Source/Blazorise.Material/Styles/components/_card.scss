@@ -1,18 +1,19 @@
-﻿.mui-card {
+.mui-card {
     --_padding: 1rem;
     background-color: var(--mui-surface-container-low);
     color: var(--mui-on-surface);
-    padding: 0;
     border-radius: 0.75rem;
-    display: block;
+    display: flex;
+    flex-direction: column;
     transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow), padding var(--mui-duration-slow);
     box-shadow: var(--mui-elevate1);
     border: .0625rem solid var(--mui-outline-variant);
+    overflow: hidden;
 
     .mui-card-header {
         font-size: 1.25rem;
         font-weight: 500;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0;
         padding: var(--_padding);
     }
 
@@ -21,16 +22,90 @@
         line-height: 1.5rem;
         color: var(--mui-on-surface-variant);
         padding: var(--_padding);
+        flex: 1 1 auto;
+    }
+
+    .mui-card-footer,
+    .mui-card-actions {
+        padding: var(--_padding);
+        border-top: .0625rem solid var(--mui-outline-variant);
+    }
+
+    .mui-card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .mui-card-title {
+        margin-bottom: 0.25rem;
+        font-size: 1.125rem;
+        color: var(--mui-on-surface);
+    }
+
+    .mui-card-subtitle {
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--mui-on-surface-variant);
     }
 
     .mui-card-text {
         margin-bottom: var(--_padding);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .mui-card-link {
+        color: var(--mui-primary);
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     .mui-card-img-top {
         display: block;
         width: 100%;
         height: auto;
-        border-radius: inherit;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+}
+
+.mui-card-deck {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    > .mui-card {
+        flex: 1 0 0%;
+    }
+}
+
+.mui-card-group {
+    display: flex;
+    flex-wrap: wrap;
+
+    > .mui-card {
+        flex: 1 0 0%;
+
+        + .mui-card {
+            margin-left: 0;
+            border-left: 0;
+        }
+
+        &:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
     }
 }

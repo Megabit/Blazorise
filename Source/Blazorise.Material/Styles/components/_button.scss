@@ -1,14 +1,16 @@
-﻿.mui-button {
+.mui-button {
     --mui-btn-padding: 1rem;
     --mui-btn-size: 2.5rem;
     --mui-btn-font-size: 0.875rem;
-    --mui-btn-bg: transparent;
-    --mui-btn-color: var(--mui-on-background);
+    --mui-btn-bg: var(--mui-primary);
+    --mui-btn-color: var(--mui-on-primary);
     --mui-btn-border-width: 1px;
     --mui-btn-border-color: transparent;
     --mui-btn-border-style: solid;
-    --mui-btn-border-radius: 2.5rem;
-    box-sizing: border-box;
+    --mui-btn-border-radius: var(--mui-btn-size);
+    box-sizing: content-box;
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -16,18 +18,17 @@
     font-size: var(--mui-btn-font-size);
     font-weight: 500;
     padding: 0 var(--mui-btn-padding);
-    margin: 0 0.5rem;
+    margin: 0;
     transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slower), padding var(--mui-duration-slow);
     user-select: none;
-    line-height: var(--mui-btn-size);
+    line-height: normal;
+    gap: 0.5rem;
     box-shadow: none;
     background-color: var(--mui-btn-bg);
     color: var(--mui-btn-color);
     border: var(--mui-btn-border-width) var(--mui-btn-border-style) var(--mui-btn-border-color);
     border-radius: var(--mui-btn-border-radius);
     background-position: center;
-    background-position-x: center;
-    background-position-y: center;
     background-image: radial-gradient(circle, var(--mui-btn-bg) 1%, transparent 1%);
 
     &:after {
@@ -57,7 +58,6 @@
     &:active,
     &.mui-button-active {
         border-radius: 0.5rem !important;
-        /*box-shadow: var(--mui-elevate1) !important;*/
     }
 
     &-xs {
@@ -100,6 +100,11 @@
         --mui-btn-color: var(--mui-on-secondary);
     }
 
+    &-tertiary {
+        --mui-btn-bg: var(--mui-tertiary);
+        --mui-btn-color: var(--mui-on-tertiary);
+    }
+
     &-info {
         --mui-btn-bg: var(--mui-info);
         --mui-btn-color: var(--mui-on-info);
@@ -137,7 +142,7 @@
     }
 
     &-block {
-        inline-size: -webkit-fill-available;
+        inline-size: 100%;
     }
 
     &-disabled,
@@ -153,53 +158,68 @@
             display: none;
         }
     }
-    /*&-active {
-        background-color: var(--mui-primary-container);
-        color: var(--mui-on-primary-container);
-    }*/
 
     &-outline {
+        --mui-btn-bg: transparent;
+        --mui-btn-color: var(--mui-primary);
+        --mui-btn-border-color: var(--mui-outline-variant);
+
         &-primary {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-primary);
             --mui-btn-border-color: var(--mui-primary);
         }
 
         &-secondary {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-secondary);
             --mui-btn-border-color: var(--mui-secondary);
         }
 
+        &-tertiary {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-tertiary);
+            --mui-btn-border-color: var(--mui-tertiary);
+        }
+
         &-info {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-info);
             --mui-btn-border-color: var(--mui-info);
         }
 
         &-success {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-success);
             --mui-btn-border-color: var(--mui-success);
         }
 
         &-warning {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-warning);
             --mui-btn-border-color: var(--mui-warning);
         }
 
         &-error {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-error);
             --mui-btn-border-color: var(--mui-error);
         }
 
         &-light {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-light);
             --mui-btn-border-color: var(--mui-light);
         }
 
         &-dark {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-dark);
             --mui-btn-border-color: var(--mui-dark);
         }
 
         &-link {
+            --mui-btn-bg: transparent;
             --mui-btn-color: var(--mui-primary);
             text-decoration: underline;
         }
@@ -210,17 +230,6 @@
     margin-top: 0.5rem;
 }
 
-
-
-/*
-.mui-button:hover {
-    background-color: var(--mui-palette-primary-hover);
-}
-
-.mui-button:focus-visible {
-    box-shadow: 0 0 0 3px rgba(var(--mui-palette-primary-rgb), 0.5);
-}
-*/
 .mui-ripple {
     position: absolute;
     border-radius: 50%;

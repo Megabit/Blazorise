@@ -1,4 +1,4 @@
-﻿.mui-check,
+.mui-check,
 .mui-radio,
 .mui-switch {
     --_size: 1.5rem;
@@ -34,6 +34,7 @@
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        position: relative;
 
         > span::before,
         > span > i {
@@ -69,6 +70,7 @@
             align-items: center;
             color: var(--mui-on-surface);
             font-size: 0.875rem;
+            position: relative;
         }
 
         > span::before,
@@ -207,6 +209,8 @@
 }
 
 .mui-switch {
+    direction: ltr;
+
     .mui-switch-label {
         > input {
             inline-size: 3.25rem;
@@ -263,14 +267,6 @@
             transform: translate(-1.75rem, -50%) scale(1);
         }
 
-        > input:checked + span::before,
-        &.icon > input:checked + span > i {
-            content: "check";
-            color: var(--mui-primary);
-            background-color: var(--mui-on-primary);
-            transform: translate(-1.75rem, -50%) scale(1);
-        }
-
         > input:active:not(:disabled) + span::before,
         &.icon > input:active:not(:disabled) + span > i {
             transform: translate(-3rem, -50%) scale(1.2);
@@ -305,4 +301,80 @@
     }
 
     @include make-switch-variant("link", "primary");
+}
+
+.mui-check-inline,
+.mui-radio-inline {
+    display: inline-flex;
+    margin-inline-end: 1rem;
+}
+
+.mui-check.is-valid,
+.mui-radio.is-valid {
+    > .mui-check-label,
+    > .mui-radio-label {
+        > span::before,
+        > span::after,
+        > span > i {
+            color: var(--mui-success);
+        }
+
+        > :focus-visible + span::before {
+            outline-color: var(--mui-success);
+        }
+    }
+}
+
+.mui-check.is-invalid,
+.mui-radio.is-invalid {
+    > .mui-check-label,
+    > .mui-radio-label {
+        > span::before,
+        > span::after,
+        > span > i {
+            color: var(--mui-error);
+        }
+
+        > :focus-visible + span::before {
+            outline-color: var(--mui-error);
+        }
+    }
+}
+
+.mui-switch.is-valid > .mui-switch-label > input:checked + span::after {
+    background-color: var(--mui-success);
+}
+
+.mui-switch.is-invalid > .mui-switch-label > input:checked + span::after {
+    background-color: var(--mui-error);
+}
+
+[dir=rtl] .mui-switch {
+    transform: scale(-1);
+
+    .mui-switch-label {
+        > span::before,
+        &.icon > span > i {
+            transform: translate(-3rem, -50%) scale(-0.6);
+        }
+
+        &.icon > span > i {
+            transform: translate(-3rem, -50%) scale(-1);
+        }
+
+        > input:checked + span::before,
+        &.icon > input:checked + span > i {
+            transform: translate(-1.75rem, -50%) scale(-1);
+        }
+
+        > input:active:not(:disabled) + span::before,
+        &.icon > input:active:not(:disabled) + span > i {
+            transform: translate(-3rem, -50%) scale(-1.2);
+        }
+
+        > input:active:checked:not(:disabled) + span::before,
+        &.icon > input:active:checked:not(:disabled) + span > i {
+            transform: translate(-1.75rem, -50%) scale(-1.2);
+        }
+    }
 }

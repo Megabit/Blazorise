@@ -1,14 +1,8 @@
-﻿.mui-input,
+.mui-input,
 .mui-input-plaintext,
 .mui-select {
-    --mui-input-padding: 1rem;
     --mui-input-size: 2.5rem;
     --mui-input-font-size: 1rem;
-    --mui-input-bg: transparent;
-    --mui-input-color: var(--mui-on-background);
-    --mui-input-border-width: 1px;
-    --mui-input-border-color: transparent;
-    --mui-input-border-style: solid;
     --mui-input-border-radius: 0.5rem;
     all: unset;
     position: relative;
@@ -21,14 +15,12 @@
     font-family: inherit;
     font-size: var(--mui-input-font-size);
     inline-size: 100%;
-    block-size: 100%;
     outline: none;
     z-index: 1;
     background: none;
     resize: none;
     text-align: start;
     cursor: text;
-    padding-inline: 1.4376rem;
 
     &:not(.mui-input-plaintext) {
         border-color: var(--mui-outline);
@@ -36,12 +28,10 @@
 
         &:focus {
             border: 0.125rem solid transparent;
-            padding: 0 0.875rem;
+            padding-inline: 0.875rem;
             border-color: var(--mui-primary);
-            padding-inline: 1.375rem;
         }
     }
-
 
     &:disabled {
         opacity: 0.5;
@@ -58,6 +48,7 @@
         block-size: 100%;
         margin: 0;
         padding: 0;
+        border: 0;
         outline: 0;
         z-index: 2;
     }
@@ -87,28 +78,92 @@
 
     &-md {
         --mui-input-size: 2.75rem;
-        --mui-input-font-size: 1.25rem;
+        --mui-input-font-size: 1.125rem;
     }
 
     &-lg {
         --mui-input-size: 3rem;
-        --mui-input-font-size: 1.5rem;
+        --mui-input-font-size: 1.25rem;
     }
 
     &-xl {
         --mui-input-size: 3.5rem;
-        --mui-input-font-size: 1.75rem;
+        --mui-input-font-size: 1.5rem;
     }
 }
 
-.mui-input,
-.mui-input-plaintext {
+input::-webkit-date-and-time-value {
+    text-align: start;
+}
+
+:is(input.mui-input, input.mui-input-plaintext, textarea.mui-input, select.mui-select):is(:-webkit-autofill, :autofill) {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--mui-on-surface);
+}
+
+:is(input.mui-input, input.mui-input-plaintext) {
     block-size: var(--mui-input-size);
 }
 
+textarea.mui-input {
+    min-block-size: var(--mui-input-size);
+    line-height: 1.5rem;
+    padding-block: 0.75rem;
+    cursor: text;
+    resize: vertical;
+}
+
+textarea.mui-input:not([rows]) {
+    field-sizing: content;
+    max-block-size: 12rem;
+}
+
 .mui-select {
+    user-select: none;
+    cursor: pointer;
+
     &:not([multiple]):not([size]),
     &:not([multiple])[size="1"] {
         block-size: var(--mui-input-size);
     }
+}
+
+:is(.mui-input, .mui-select).is-valid {
+    border-color: var(--mui-success) !important;
+}
+
+:is(.mui-input, .mui-select).is-invalid {
+    border-color: var(--mui-error) !important;
+}
+
+.valid-feedback,
+.invalid-feedback {
+    display: none;
+    font-size: 0.75rem;
+    background: none !important;
+    padding: 0.25rem 1rem;
+    line-height: 1.25rem;
+}
+
+.valid-feedback {
+    color: var(--mui-success);
+}
+
+.invalid-feedback {
+    color: var(--mui-error);
+}
+
+.is-valid ~ .valid-feedback,
+.is-invalid ~ .invalid-feedback,
+.mui-check.is-valid .valid-feedback,
+.mui-check.is-invalid .invalid-feedback,
+.mui-radio.is-valid .valid-feedback,
+.mui-radio.is-invalid .invalid-feedback,
+.mui-switch.is-valid .valid-feedback,
+.mui-switch.is-invalid .invalid-feedback {
+    display: inline-block;
+}
+
+.form-text.text-muted {
+    color: var(--mui-on-surface-variant);
 }

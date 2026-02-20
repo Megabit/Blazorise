@@ -1,24 +1,48 @@
-﻿.mui-button-group {
+.mui-button-group,
+.mui-button-group-vertical {
     position: relative;
     display: inline-flex;
     vertical-align: middle;
     background: none !important;
     gap: .125rem;
+}
 
+.mui-button-group {
     > .mui-button {
         margin: 0;
     }
 
-    .mui-button:not(:first-child) {
-        @include border-start-radius(0.5rem);
+    > .mui-button:not(:first-child),
+    > .mui-button-group:not(:first-child) > .mui-button {
+        @include border-start-radius(0);
     }
 
-    .mui-button:not(:last-child):not(.mui-dropdown-toggle) {
-        @include border-end-radius(0.5rem);
+    > .mui-button:not(:last-child):not(.mui-dropdown-toggle),
+    > .mui-button-group:not(:last-child) > .mui-button {
+        @include border-end-radius(0);
+    }
+}
+
+.mui-button-group-vertical {
+    flex-direction: column;
+    align-items: stretch;
+
+    > .mui-button {
+        margin: 0;
+        inline-size: 100%;
     }
 
-    > .mui-button-group:not(:first-child) > .mui-button,
-    .mui-button-group > .mui-button:not(:first-child) {
-        @include border-start-radius(0.5rem);
+    > .mui-button:not(:first-child) {
+        @include border-top-radius(0);
     }
+
+    > .mui-button:not(:last-child) {
+        @include border-bottom-radius(0);
+    }
+}
+
+.mui-buttons-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }

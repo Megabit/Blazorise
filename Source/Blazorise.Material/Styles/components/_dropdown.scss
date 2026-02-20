@@ -1,31 +1,34 @@
-﻿.mui-dropdown {
+@keyframes mui-dropdown-fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes mui-dropdown-slidein {
+    0% {
+        transform: translate(var(--mui-positioning-slide-distance-x), var(--mui-positioning-slide-distance-y));
+    }
+}
+
+.mui-dropdown {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    @keyframes fadein {
-        0% {
-            opacity: 0;
-        }
-
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @keyframes slidein {
-        0% {
-            transform: translate(var(--mui-positioning-slide-distance-x), var(--mui-positioning-slide-distance-y));
-        }
+    &.mui-dropdown-disabled {
+        pointer-events: none;
+        opacity: 0.5;
     }
 
     &.dropup {
         > .mui-dropdown-menu {
             --mui-positioning-slide-distance-y: 10px;
             --mui-positioning-slide-distance-x: 0px;
-            inset: 0 auto auto 0;
-            inset-block-start: 0;
         }
     }
 
@@ -33,8 +36,6 @@
         > .mui-dropdown-menu {
             --mui-positioning-slide-distance-y: 0px;
             --mui-positioning-slide-distance-x: 10px;
-            inset: auto 0 0 auto;
-            inset-inline-start: 0;
         }
     }
 
@@ -42,15 +43,13 @@
         > .mui-dropdown-menu {
             --mui-positioning-slide-distance-y: 0px;
             --mui-positioning-slide-distance-x: -10px;
-            inset: auto auto 0 0;
-            inset-inline-end: 0;
         }
     }
 
     &-menu {
         --mui-positioning-slide-distance-y: -10px;
         --mui-positioning-slide-distance-x: 0px;
-        animation-name: fadein, slidein;
+        animation-name: mui-dropdown-fadein, mui-dropdown-slidein;
         animation-timing-function: var(--mui-curve-decelerate-mid);
         animation-duration: var(--mui-duration-slower);
         animation-composition: accumulate;
@@ -59,29 +58,30 @@
         display: none;
         box-shadow: var(--mui-elevate2);
         background-color: var(--mui-surface-container);
-        inset: auto auto 0 0;
+        border-radius: 1rem;
         inline-size: max-content;
-        inset-block-end: 0;
-        white-space: nowrap;
-        max-block-size: 50vh;
         max-inline-size: none !important;
+        max-block-size: 50vh;
         overflow-x: hidden;
         overflow-y: auto;
+        white-space: nowrap;
         font-size: 0.875rem;
         font-weight: normal;
         text-transform: none;
         color: var(--mui-on-surface);
         line-height: normal;
         text-align: start;
-        border-radius: 0.25rem;
         justify-content: flex-start;
-        width: max-content;
-        height: max-content;
+        padding: 0.25rem;
+        flex-direction: column;
+        gap: 0.125rem;
+        transition: opacity var(--mui-duration-normal), visibility 0s linear var(--mui-duration-normal);
 
         &-active {
-            display: block;
+            display: flex;
             opacity: 1;
             visibility: visible;
+            transition: opacity var(--mui-duration-normal), visibility 0s;
         }
 
         &-position-strategy {
@@ -96,6 +96,10 @@
             position: fixed;
         }
 
+        &-scrollable {
+            max-block-size: var(--mui-dropdown-menu-max-height, 50vh);
+        }
+
         > .mui-dropdown-item,
         > .mui-dropdown-header {
             all: unset;
@@ -104,19 +108,56 @@
             display: flex;
             align-items: center;
             align-self: normal;
-            text-align: start;
             justify-content: inherit;
+            text-align: start;
             white-space: nowrap;
             gap: 1rem;
             padding: .5rem 1rem;
-            min-block-size: 3rem;
+            min-block-size: 2.75rem;
             flex: 1;
             margin: 0 !important;
             cursor: pointer;
+            border-radius: 0.25rem;
+            transition: border-radius var(--mui-duration-normal), background-color var(--mui-duration-normal);
+        }
+
+        > .mui-dropdown-item:hover {
+            background-color: color-mix(in srgb, currentColor 10%, transparent);
+        }
+
+        > .mui-dropdown-item.active {
+            background-color: var(--mui-tertiary-container);
+            color: var(--mui-on-tertiary-container);
+        }
+
+        > .mui-dropdown-item:is(.active, :active) {
+            border-radius: 0.75rem;
+        }
+
+        > .mui-dropdown-item.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        > .mui-dropdown-item:focus-visible {
+            outline: 0.125rem solid var(--mui-primary);
+            outline-offset: -0.125rem;
         }
 
         > .mui-dropdown-header {
             font-weight: 500;
+            cursor: default;
+        }
+
+        > .mui-dropdown-divider {
+            block-size: 0.0625rem;
+            inline-size: auto;
+            background-color: var(--mui-outline-variant);
+            margin: 0.25rem 0;
         }
     }
+}
+
+.mui-dropdown-toggle-hidden > :last-child {
+    display: none !important;
 }

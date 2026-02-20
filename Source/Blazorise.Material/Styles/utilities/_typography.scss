@@ -1,4 +1,4 @@
-﻿h1,
+h1,
 h2,
 h3,
 h4,
@@ -40,23 +40,23 @@ p {
 
 pre {
     border-radius: 0;
-    background-color: var(--surface-container);
+    background-color: var(--mui-surface-container);
     white-space: pre-wrap;
     padding: 1rem;
-    border-inline-start: 0.25rem solid var(--primary);
+    border-inline-start: 0.25rem solid var(--mui-primary);
     font-family: inherit;
 }
 
 blockquote {
     border-radius: 0;
     padding: 1rem;
-    border-inline-start: 0.25rem solid var(--primary);
+    border-inline-start: 0.25rem solid var(--mui-primary);
     font-family: inherit;
 }
 
 code {
     border-radius: 0;
-    background-color: var(--surface-container);
+    background-color: var(--mui-surface-container);
     white-space: pre-wrap;
     padding: 0.25rem;
 }

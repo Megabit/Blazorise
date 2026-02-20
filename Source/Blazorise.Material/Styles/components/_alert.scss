@@ -1,4 +1,4 @@
-﻿@mixin make-alert-variant($name, $color) {
+@mixin make-alert-variant($name, $color) {
     &-#{$name} {
         background-color: var(--mui-#{$color}-container);
         color: var(--mui-on-#{$color}-container);
@@ -17,16 +17,16 @@
 }
 
 .mui-alert {
+    position: relative;
     display: flex;
-    box-shadow: var(--elevate2);
-    color: var(--inverse-on-surface);
-    background-color: var(--inverse-surface);
+    color: var(--mui-on-surface);
+    background-color: var(--mui-surface-container-high);
     padding: 1rem;
     text-align: start;
     align-items: center;
     border-radius: .75rem;
     gap: 0.5rem;
-    transition: all var(--speed2);
+    transition: all var(--mui-duration-normal);
     border: 1px solid var(--mui-outline);
     box-shadow: var(--mui-elevate1);
 
@@ -34,7 +34,7 @@
         @include make-alert-variant($color, $color);
     }
 
-    &link {
+    &-link {
         color: var(--mui-primary);
         text-decoration: underline;
         cursor: pointer;
@@ -58,6 +58,10 @@
             background-color: transparent;
             border: none;
             font-size: 1.5rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
             &:hover {
                 color: var(--mui-on-surface-variant);

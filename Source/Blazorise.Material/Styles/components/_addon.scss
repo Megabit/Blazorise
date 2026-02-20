@@ -1,16 +1,68 @@
-﻿.mui-addons {
+@mixin make-addon-size($name, $size, $font-size) {
+    .mui-addon-#{$name} > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text) {
+        --mui-input-size: #{$size};
+        --mui-input-font-size: #{$font-size};
+        --mui-btn-size: #{$size};
+        --mui-btn-font-size: #{$font-size};
+        font-size: #{$font-size};
+        min-block-size: #{$size};
+    }
+}
+
+.mui-addons {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
     align-items: stretch;
-    width: 100%;
+    inline-size: 100%;
+
+    > .mui-addon-start,
+    > .mui-addon-end,
+    > .mui-addon-body {
+        display: flex;
+        align-items: stretch;
+    }
+
+    > .mui-addon-body {
+        flex: 1 1 auto;
+        min-inline-size: 0;
+    }
 
     > .mui-input,
-    > .mui-select {
+    > .mui-select,
+    > .mui-addon-body > .mui-input,
+    > .mui-addon-body > .mui-select {
         position: relative;
         flex: 1 1 auto;
-        width: 1%;
-        min-width: 0;
+        inline-size: 1%;
+        min-inline-size: 0;
+    }
+
+    > .mui-addon-start > .mui-addon-text,
+    > .mui-addon-end > .mui-addon-text {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        padding: 0 0.9375rem;
+        border: 0.0625rem solid var(--mui-outline);
+        background-color: var(--mui-surface-container-low);
+        color: var(--mui-on-surface-variant);
+    }
+
+    > .mui-addon-start > :is(.mui-addon-text, .mui-button) {
+        @include border-end-radius(0);
+    }
+
+    > .mui-addon-end > :is(.mui-addon-text, .mui-button) {
+        @include border-start-radius(0);
+    }
+
+    > .mui-addon-body:not(:first-child) > :is(.mui-input, .mui-select, .mui-button) {
+        @include border-start-radius(0);
+    }
+
+    > .mui-addon-body:not(:last-child) > :is(.mui-input, .mui-select, .mui-button) {
+        @include border-end-radius(0);
     }
 
     .mui-button {
@@ -22,3 +74,9 @@
         }
     }
 }
+
+@include make-addon-size(xs, 1.5rem, 0.625rem);
+@include make-addon-size(sm, 2rem, 0.75rem);
+@include make-addon-size(md, 2.75rem, 1.125rem);
+@include make-addon-size(lg, 3rem, 1.25rem);
+@include make-addon-size(xl, 3.5rem, 1.5rem);
